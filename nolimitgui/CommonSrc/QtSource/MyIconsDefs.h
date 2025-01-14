@@ -89,7 +89,6 @@ enum EMyIcons
 	eMyIconWebCamServerIgnored,
 
 	eMyIconFolder,
-	eMyIconFolderDisabled,
 
 	eMyIconMultiSession,
 	eMyIconMultiSessionLocked,
@@ -175,7 +174,6 @@ enum EMyIcons
     eMyIconCancelRecord,
 	eMyIconTrash,
 
-	eMyIconShredderDisabled,
 	eMyIconShredderNormal,
 
 	eMyIconFileDownloadDisabled,
@@ -419,8 +417,6 @@ enum EMyIcons
 
 	eMyIconArrowUpRight,
 	eMyIconBoot,
-	eMyIconStarEmpty,
-	eMyIconStarFull,
 
 	eMyIconChatRoomInfo,
 	eMyIconGroupInfo,

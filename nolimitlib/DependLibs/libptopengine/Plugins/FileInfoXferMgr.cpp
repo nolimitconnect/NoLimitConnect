@@ -1898,7 +1898,7 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID&
 		}
 		else
 		{
-			u64FileLen = VxFileUtil::getFileLen( xferInfo.getLclFileNameAndPath().c_str() );
+			u64FileLen = VxFileUtil::getFileLen( xferInfo.getLclFileNameAndPath().c_str(), false );
 			if( 0 != xferInfo.m_u64FileOffs )
 			{
 				if( u64FileLen < xferInfo.m_u64FileOffs )

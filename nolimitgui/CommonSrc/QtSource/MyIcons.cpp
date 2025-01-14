@@ -407,15 +407,11 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 		return ":/AppRes/Resources/play.svg";
 
 	case eMyIconAcceptNormal:
-		return ":/AppRes/Resources/check-mark.svg";
 	case eMyIconAcceptDisabled:
 		return ":/AppRes/Resources/check-mark.svg";
 
 	case eMyIconCancelNormal:
-		//return ":/AppRes/Resources/x-mark.svg";
-		return ":/AppRes/Resources/x-overlay.svg";
 	case eMyIconCancelDisabled:
-		//return ":/AppRes/Resources/x-mark.svg";
 		return ":/AppRes/Resources/x-overlay.svg";
 
 	case eMyIconCheckMark:
@@ -429,14 +425,10 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 	case eMyIconTrash:
 		return ":/AppRes/Resources/trash.svg";
 
-	case eMyIconShredderDisabled:
-		return ":/AppRes/Resources/shredding-icon.svg";
 	case eMyIconShredderNormal:
 		return ":/AppRes/Resources/shredding-icon.svg";
 
 	case eMyIconFolder:
-		return ":/AppRes/Resources/file-folder-normal.svg";
-	case eMyIconFolderDisabled:
 		return ":/AppRes/Resources/file-folder-normal.svg";
 
 	case eMyIconRecordMovieNormal:
@@ -836,10 +828,6 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 
 	case eMyIconBoot:
 		return ":/AppRes/Resources/boot.svg";
-	case eMyIconStarEmpty:
-		return ":/AppRes/Resources/star-empty.svg";
-	case eMyIconStarFull:
-		return ":/AppRes/Resources/star-full.svg";
 
 	case eMyIconChatRoomInfo:
 		return ":/AppRes/Resources/chat-room-info.svg";

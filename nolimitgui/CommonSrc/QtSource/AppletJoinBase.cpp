@@ -199,7 +199,7 @@ void AppletJoinBase::callbackUserUpdated( GuiUser* guiUser )
 //============================================================================
 void AppletJoinBase::callbackGuiHostedListSearchResult( HostedId& hostedId, GuiHosted* guiHosted, VxGUID& sessionId )
 {
-	if( hostedId.getHostType() == m_HostType && guiHosted )
+	if( hostedId.getHostType() == m_HostType && guiHosted && hostedId.getHostOnlineId() != m_MyApp.getMyOnlineId() )
 	{
 		ui.m_GuiHostedListWidget->updateHostedList( hostedId, guiHosted, sessionId );
 		GroupieId groupieId( m_MyApp.getMyOnlineId(), hostedId );
@@ -297,7 +297,7 @@ void AppletJoinBase::slotJoinButtonClicked( GuiHostedListSession* hostSession, G
 {
 	std::string joinUrl = hostSession->getHostUrl();
 
-	LogModule( eLogHostedUser, LOG_VERBOSE, "AppletJoinBase::slotJoinButtonClicked url %s", joinUrl.c_str() );
+	LogModule( eLogHostedUser, LOG_VERBOSE, "AppletJoinBase::%s url %s", __func__, joinUrl.c_str() );
     VxPtopUrl ptopUrl( joinUrl );
     if( ptopUrl.isValid() )
     {

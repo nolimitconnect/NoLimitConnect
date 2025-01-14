@@ -322,12 +322,12 @@ GuiHostedListItem* GuiHostedListWidget::addOrUpdateHostSession( GuiHostedListSes
         {          
             if( 0 == count() )
             {
-                LogMsg( LOG_INFO, "add host %s user %s",  hostSession->getHostTitle().c_str(), guiUser ? guiUser->getOnlineName().c_str() : "" );
+                LogModule( eLogHostJoin, LOG_INFO, "%s add host %s user %s", __func__, hostSession->getHostTitle().c_str(), guiUser ? guiUser->getOnlineName().c_str() : "" );
                 addItem( hostItem );
             }
             else
             {
-                LogMsg( LOG_INFO, "insert host %s user %s", hostSession->getHostTitle().c_str(), guiUser ? guiUser->getOnlineName().c_str() : "" );
+                LogModule( eLogHostJoin, LOG_INFO, "%s insert host %s user %s", __func__, hostSession->getHostTitle().c_str(), guiUser ? guiUser->getOnlineName().c_str() : "" );
                 insertItem( 0, (QListWidgetItem*)hostItem );
             }
 
@@ -380,14 +380,14 @@ void GuiHostedListWidget::clearHostList( void )
 //============================================================================
 void GuiHostedListWidget::onGuiHostedListItemClicked( GuiHostedListItem* hostItem )
 {
-    LogMsg( LOG_VERBOSE, "onGuiHostedListItemClicked" );
+    LogModule( eLogHostJoin, LOG_VERBOSE, "%s", __func__ );
     onJoinButtonClicked( hostItem );
 }
 
 //============================================================================
 void GuiHostedListWidget::onIconButtonClicked( GuiHostedListItem* hostItem )
 {
-    LogMsg( LOG_VERBOSE, "onIconButtonClicked" );
+    LogModule( eLogHostJoin, LOG_VERBOSE, "%s", __func__ );
     GuiHostedListSession* hostSession = hostItem->getHostSession();
     if( hostSession )
     {
@@ -398,7 +398,7 @@ void GuiHostedListWidget::onIconButtonClicked( GuiHostedListItem* hostItem )
 //============================================================================
 void GuiHostedListWidget::onFriendshipButtonClicked( GuiHostedListItem* hostItem )
 {
-    LogMsg( LOG_VERBOSE, "onFriendshipButtonClicked" );
+    LogModule( eLogHostJoin, LOG_VERBOSE, "%s", __func__ );
     if( hostItem )
     {
         GuiHostedListSession* hostSession = hostItem->getHostSession();
@@ -415,7 +415,7 @@ void GuiHostedListWidget::onFriendshipButtonClicked( GuiHostedListItem* hostItem
 //============================================================================
 void GuiHostedListWidget::onMenuButtonClicked( GuiHostedListItem* hostItem )
 {
-    LogMsg( LOG_VERBOSE, "GuiHostedListWidget::onMenuButtonClicked" );
+    LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
     if( hostItem )
     {
         GuiHostedListSession* hostSession = hostItem->getHostSession();
@@ -433,7 +433,7 @@ void GuiHostedListWidget::onMenuButtonClicked( GuiHostedListItem* hostItem )
 //============================================================================
 void GuiHostedListWidget::onJoinButtonClicked( GuiHostedListItem* hostItem )
 {
-    LogMsg( LOG_VERBOSE, "onJoinButtonClicked" );
+    LogModule( eLogHostJoin, LOG_VERBOSE, "%s", __func__ );
     GuiHostedListSession* hostSession = hostItem->getHostSession();
     if( hostSession )
     {
@@ -444,7 +444,7 @@ void GuiHostedListWidget::onJoinButtonClicked( GuiHostedListItem* hostItem )
 //============================================================================
 void GuiHostedListWidget::onConnectButtonClicked( GuiHostedListItem* hostItem )
 {
-    LogMsg( LOG_VERBOSE, "onConnectButtonClicked" );
+    LogModule( eLogHostJoin, LOG_VERBOSE, "%s", __func__ );
     GuiHostedListSession* hostSession = hostItem->getHostSession();
     if( hostSession )
     {
@@ -455,7 +455,7 @@ void GuiHostedListWidget::onConnectButtonClicked( GuiHostedListItem* hostItem )
 //============================================================================
 void GuiHostedListWidget::onKickButtonClicked( GuiHostedListItem* hostItem )
 {
-    LogMsg( LOG_VERBOSE, "onKickButtonClicked" );
+    LogModule( eLogHostJoin, LOG_VERBOSE, "%s", __func__ );
     GuiHostedListSession* hostSession = hostItem->getHostSession();
     if( hostSession )
     {
@@ -466,7 +466,7 @@ void GuiHostedListWidget::onKickButtonClicked( GuiHostedListItem* hostItem )
 //============================================================================
 void GuiHostedListWidget::onIgnoreButtonClicked( GuiHostedListItem* hostItem )
 {
-    LogMsg( LOG_VERBOSE, "onIgnoreButtonClicked" );
+    LogModule( eLogHostJoin, LOG_VERBOSE, "%s", __func__ );
     GuiHostedListSession* hostSession = hostItem->getHostSession();
     if( hostSession )
     {
@@ -495,16 +495,8 @@ void GuiHostedListWidget::callbackUserUpdated( GuiUser* guiUser )
 //============================================================================
 void GuiHostedListWidget::callbackGuiHostJoinRequested( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
 {
-    LogMsg( LOG_VERBOSE, "GuiHostedListWidget::callbackGuiHostJoinRequested" );
+    LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
     updateHostJoinState( groupieId.getHostedId(), eJoinStateJoinRequested );
-    /*
-    HostedId hostedId = groupieId.getHostedId();
-    GuiHostedListItem* listItem = findListItemWidgetByHostId( hostedId );
-    if( listItem && listItem->getHostSession() )
-    {
-        listItem->setJoinedState( guiHostJoin->getJoinState() );
-    }
-    */
 }
 
 //============================================================================
@@ -512,7 +504,7 @@ void GuiHostedListWidget::callbackGuiHostJoinWasGranted( GroupieId& groupieId, G
 {
     if( getIsHostView() )
     {
-        LogMsg( LOG_VERBOSE, "GuiHostedListWidget::callbackGuiHostJoinWasGranted" );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
         updateHostJoinState( groupieId.getHostedId(), eJoinStateJoinWasGranted );
     }
 }
@@ -522,7 +514,7 @@ void GuiHostedListWidget::callbackGuiHostJoinIsGranted( GroupieId& groupieId, Gu
 {
     if( getIsHostView() )
     {
-        LogMsg( LOG_VERBOSE, "GuiHostedListWidget::callbackGuiHostJoinIsGranted" );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
         updateHostJoinState( groupieId.getHostedId(), eJoinStateJoinIsGranted );
     }
 }
@@ -532,7 +524,7 @@ void GuiHostedListWidget::callbackGuiHostUnJoinGranted( GroupieId& groupieId, Gu
 {
     if( getIsHostView() )
     {
-        LogMsg( LOG_VERBOSE, "GuiHostedListWidget::callbackGuiHostUnJoinGranted" );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
         updateHostJoinState( groupieId.getHostedId(), eJoinStateJoinLeaveHost );
     }
 }
@@ -542,7 +534,7 @@ void GuiHostedListWidget::callbackGuiHostJoinDenied( GroupieId& groupieId, GuiHo
 {
     if( getIsHostView() )
     {
-        LogMsg( LOG_VERBOSE, "GuiHostedListWidget::callbackGuiHostJoinDenied" );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
         updateHostJoinState( groupieId.getHostedId(), eJoinStateJoinDenied );
     }
 }
@@ -552,7 +544,7 @@ void GuiHostedListWidget::callbackGuiHostJoinLeaveHost( GroupieId& groupieId )
 {
     if( getIsHostView() )
     {
-        LogMsg( LOG_VERBOSE, "GuiHostedListWidget::callbackGuiHostJoinLeaveHost" );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
         updateHostJoinState( groupieId.getHostedId(), eJoinStateJoinLeaveHost );
     }
 }
@@ -562,7 +554,7 @@ void GuiHostedListWidget::callbackGuiHostUnJoin( GroupieId& groupieId )
 {
     if( getIsHostView() )
     {
-        LogMsg( LOG_VERBOSE, "GuiHostedListWidget::callbackGuiHostUnJoin" );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
         updateHostJoinState( groupieId.getHostedId(), eJoinStateNone );
     }
 }
@@ -572,7 +564,7 @@ void GuiHostedListWidget::callbackGuiHostJoinRemoved( GroupieId& groupieId )
 {
     if( getIsHostView() )
     {
-        LogMsg( LOG_VERBOSE, "GuiHostedListWidget::callbackGuiHostJoinRemoved" );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
         removeFromList( groupieId.getHostedId() );
     }
 }
@@ -584,7 +576,7 @@ void GuiHostedListWidget::callbackGuiUserJoinRequested( GroupieId& groupieId, Gu
 {
     if( !getIsHostView() )
     {
-        LogMsg( LOG_VERBOSE, "AppletGroupJoin::callbackGuiUserJoinRequested" );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "AppletGroupJoin::%s", __func__ );
         updateUserJoinState( groupieId.getHostedId(), eJoinStateJoinRequested );
     }
 }
@@ -594,7 +586,7 @@ void GuiHostedListWidget::callbackGuiUserJoinWasGranted( GroupieId& groupieId, G
 {
     if( !getIsHostView() )
     {
-        LogMsg( LOG_VERBOSE, "AppletGroupJoin::callbackGuiUserJoinWasGranted" );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "AppletGroupJoin::%s", __func__ );
         updateUserJoinState( groupieId.getHostedId(), eJoinStateJoinWasGranted );
     }
 }
@@ -604,7 +596,7 @@ void GuiHostedListWidget::callbackGuiUserJoinIsGranted( GroupieId& groupieId, Gu
 {
     if( !getIsHostView() )
     {
-        LogMsg( LOG_VERBOSE, "AppletGroupJoin::callbackGuiUserJoinIsGranted" );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "AppletGroupJoin::%s", __func__ );
         updateUserJoinState( groupieId.getHostedId(), eJoinStateJoinIsGranted );
     }
 }
@@ -614,7 +606,7 @@ void GuiHostedListWidget::callbackGuiUserUnJoinGranted( GroupieId& groupieId, Gu
 {
     if( !getIsHostView() )
     {
-        LogMsg( LOG_VERBOSE, "AppletGroupJoin::callbackGuiUserUnJoinGranted" );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "AppletGroupJoin::%s", __func__ );
         updateUserJoinState( groupieId.getHostedId(), eJoinStateJoinLeaveHost );
     }
 }
@@ -624,7 +616,7 @@ void GuiHostedListWidget::callbackGuiUserJoinDenied( GroupieId& groupieId, GuiUs
 {
     if( !getIsHostView() )
     {
-        LogMsg( LOG_VERBOSE, "AppletGroupJoin::callbackGuiUserJoinDenied" );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "AppletGroupJoin::%s", __func__ );
         updateUserJoinState( groupieId.getHostedId(), eJoinStateJoinDenied );
     }
 }
@@ -634,7 +626,7 @@ void GuiHostedListWidget::callbackGuiUserJoinLeaveHost( GroupieId& groupieId )
 {
     if( !getIsHostView() )
     {
-        LogMsg( LOG_VERBOSE, "AppletGroupJoin::callbackGuiUserJoinLeaveHost" );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "AppletGroupJoin::%s", __func__ );
         updateUserJoinState( groupieId.getHostedId(), eJoinStateJoinLeaveHost );
     }
 }
@@ -642,7 +634,7 @@ void GuiHostedListWidget::callbackGuiUserJoinLeaveHost( GroupieId& groupieId )
 //============================================================================
 void GuiHostedListWidget::callbackGuiUserJoinRemoved( GroupieId& groupieId )
 {
-    LogMsg( LOG_VERBOSE, "AppletGroupJoin::callbackGuiUserJoinRemoved" );
+    LogModule( eLogHostJoin, LOG_VERBOSE, "AppletGroupJoin::%s", __func__ );
     if( !getIsHostView() )
     {
         removeFromList( groupieId.getHostedId() );
@@ -699,7 +691,7 @@ void GuiHostedListWidget::removeFromList( HostedId& hostedId )
 //============================================================================
 void GuiHostedListWidget::updateUser( GuiUser* guiUser )
 {
-    LogMsg( LOG_VERBOSE, "GuiHostedListWidget::updateUser %s", guiUser->getOnlineName().c_str() );
+    LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s %s", __func__, guiUser->getOnlineName().c_str() );
 
     int iCnt = count();
     for( int iRow = 0; iRow < iCnt; iRow++ )

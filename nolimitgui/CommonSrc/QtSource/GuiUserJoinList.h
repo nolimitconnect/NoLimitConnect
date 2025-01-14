@@ -30,9 +30,9 @@ public:
 	void						addUserJoin( GuiUserJoin* guiUserJoin );
 
     bool                        removeUserJoin( GuiUserJoin* guiUserJoin );
-    bool						removeUserJoin( VxGUID& thumbId );
+    bool						removeUserJoin( VxGUID& onlineId );
 
-    GuiUserJoin*				findUserJoin( VxGUID& thumbId );
+    GuiUserJoin*				findUserJoin( VxGUID& onlineId );
 
 	// returns false if guid already exists
 	bool						addUserJoinIfDoesntExist( GuiUserJoin* guiUserJoin );

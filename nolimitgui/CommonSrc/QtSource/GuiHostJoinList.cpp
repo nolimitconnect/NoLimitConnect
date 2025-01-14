@@ -52,15 +52,15 @@ bool GuiHostJoinList::addUserJoinIfDoesntExist( GuiHostJoin* GuiHostJoin )
 //============================================================================
 void GuiHostJoinList::addUserJoin( GuiHostJoin* GuiHostJoin )
 {
-    m_UserJoinList.push_back( GuiHostJoin );
+    m_UserJoinList.emplace_back( GuiHostJoin );
 }
 
 //============================================================================
 bool GuiHostJoinList::doesUserJoinExist( GuiHostJoin* GuiHostJoin )
 {
-	for( auto thumb : m_UserJoinList )
+	for( auto hostJoin : m_UserJoinList )
 	{
-		if( GuiHostJoin == thumb )
+		if( GuiHostJoin == hostJoin )
 		{
 			return true;
 		}
@@ -70,11 +70,11 @@ bool GuiHostJoinList::doesUserJoinExist( GuiHostJoin* GuiHostJoin )
 }
 
 //============================================================================
-GuiHostJoin* GuiHostJoinList::findUserJoin( VxGUID& thumbId )
+GuiHostJoin* GuiHostJoinList::findUserJoin( VxGUID& onlineId )
 {
     for( auto iter = m_UserJoinList.begin(); iter != m_UserJoinList.end(); ++iter )
     {
-        if( (*iter)->getUser()->getMyOnlineId() == thumbId )
+        if( (*iter)->getUser()->getMyOnlineId() == onlineId )
         {
             return *iter;
         }
@@ -122,9 +122,8 @@ void GuiHostJoinList::clearList( void )
 void GuiHostJoinList::copyTo( GuiHostJoinList& destUserJoinList )
 {
 	std::vector<GuiHostJoin*>& joinList = destUserJoinList.getUserJoinList();
-	std::vector<GuiHostJoin*>::iterator iter;
-	for( iter = m_UserJoinList.begin(); iter != m_UserJoinList.end(); ++iter )
+	for( auto hostJoin : m_UserJoinList )
 	{
-        joinList.push_back( *iter );
+        joinList.emplace_back( hostJoin );
 	}
 }

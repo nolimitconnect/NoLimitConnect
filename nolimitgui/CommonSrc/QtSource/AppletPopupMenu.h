@@ -23,7 +23,6 @@ enum class EPopupMenuType
 	ePopupMenuHostSession,
 	ePopupMenuGroupieListSession,
 	ePopupMenuHostedListSession,
-	ePopupMenuListOptions1,
 	ePopupMenuOfferFriendship,
 	ePopupMenuUserSession,
 	ePopupMenuDeleteDb,
@@ -59,17 +58,16 @@ public:
 	void						clearMenulList( void );
 	void						addMenuItem( int iItemId, QIcon& oIcon, QString strMenuItemText );
 
-	void						showRefreshMenu();
-
 	void						showTitleBarAppMenu( void );
 	void						showTitleBarUserMenu( void );
 
 	void						showFriendMenu( GuiUser* poSelectedFriend, bool inGroup = false );
+	void						showPersonOfferMenu( GuiUser* poSelectedFriend );
+	void						showUserSessionMenu( EApplet appletType, GuiUserSessionBase* userSession );
+
 	void						showGroupieListSessionMenu( GuiGroupieListSession* hostSession, bool inGroup = false );
 	void						showHostedListSessionMenu( GuiHostedListSession* hostSession );
 	void						showHostSessionMenu( GuiHostSession* hostSession );
-	void						showPersonOfferMenu( GuiUser* poSelectedFriend );
-	void						showUserSessionMenu( EApplet appletType, GuiUserSessionBase* userSession );
 
 	void						showDeleteDbMenu( void );
 
@@ -97,6 +95,11 @@ private slots:
 
 protected:
 	void						initAppletPopupMenu( void );
+
+	void						addChangeFriendshipMenuItem( int menuId );
+	void						addSetUnsetPreferredMenuItem( int menuId, VxGUID onlineId );
+
+	void						launchChangeFriendship( GuiUser* selectedFriend );
 
     //=== vars ===//
     Ui::AppletPopupMenuUi&		ui;

@@ -102,7 +102,7 @@ void HostedPluginWidget::updateWidgetFromInfo( void )
         return;
     }
 
-    GuiUser* hostIdent = hostSession->getUserIdent();
+    GuiUser* hostIdent = hostSession->getGuiUser();
     if( hostIdent )
     {
         updateIdentity( hostIdent );

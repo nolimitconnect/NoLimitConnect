@@ -189,6 +189,12 @@ bool CamLogic::setCamera( const QCameraDevice& cameraDevice )
         m_CamFrameSink = nullptr;
     }
 
+    if( !m_CameraEnabled )
+    {
+        LogModule( eLogWebCam, LOG_VERBOSE, "CamLogic::%s called but cam is disabled", __func__ );
+        return false;
+    }
+
     ProcessQtEvents( 300 ); // give qt time to clean up old capture
 
     m_Camera = new QCamera(cameraDevice);

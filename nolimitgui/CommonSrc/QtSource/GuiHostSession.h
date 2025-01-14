@@ -31,7 +31,7 @@ public:
 
 	GuiHostSession&			    operator =( const GuiHostSession &rhs );
 
-    GuiUser*                    getUserIdent( void )                        { return m_HostIdent; }
+    GuiUser*                    getGuiUser( void )                          { return m_HostIdent; }
     EHostType                   getHostType( void )                         { return m_HostType; }
     std::string                 getHostUrl( void );
 

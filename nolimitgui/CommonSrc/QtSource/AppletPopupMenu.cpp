@@ -128,53 +128,48 @@ void AppletPopupMenu::itemClicked( QListWidgetItem* item )
 	// resignal with id set by user
 	int iItemId = item->data( Qt::UserRole ).toInt();
 
-	if( getMenuType() == EPopupMenuType::ePopupMenuTitleBarAppMenu )
+	switch( getMenuType() )
 	{
+	case EPopupMenuType::ePopupMenuTitleBarAppMenu:
 		onTitleBarAppMenuSelected( iItemId );
-	}
-	else if( getMenuType() == EPopupMenuType::ePopupMenuTitleBarUserMenu )
-	{
+		break;
+	
+	case EPopupMenuType::ePopupMenuTitleBarUserMenu:
 		onTitleBarUserMenuSelected( iItemId );
-	}
-	else if( getMenuType() == EPopupMenuType::ePopupMenuFriend )
-	{
+		break;
+
+	case EPopupMenuType::ePopupMenuFriend:
 		onFriendActionSelected( iItemId );
-	}
-	else if( getMenuType() == EPopupMenuType::ePopupMenuHostSession )
-	{
-		onHostSessionActionSelected( iItemId );
-	}
-	else if( getMenuType() == EPopupMenuType::ePopupMenuOfferFriendship )
-	{
+		break;
+	
+	case EPopupMenuType::ePopupMenuOfferFriendship:
+	case EPopupMenuType::ePopupMenuUserSession:
 		onPersonActionSelected( iItemId );
-	}
-	else if( getMenuType() == EPopupMenuType::ePopupMenuUserSession )
-	{
-		onPersonActionSelected( iItemId );
-	}
-	else if( getMenuType() == EPopupMenuType::ePopupMenuDeleteDb )
-	{
+		break;
+
+	case EPopupMenuType::ePopupMenuDeleteDb:
 		onDeleteDbSelected( iItemId );
-	}
-	else
-	{
+		break;
+
+	case EPopupMenuType::ePopupMenuGroupieListSession:
+		onGroupieSessionActionSelected( iItemId );
+		break;
+
+	case EPopupMenuType::ePopupMenuHostedListSession:
+		onHostListSessionMenu( iItemId );
+		break;
+
+	case EPopupMenuType::ePopupMenuHostSession:
+		onHostSessionActionSelected( iItemId );
+		break;
+
+	default:
+		LogMsg( LOG_ERROR, "AppletPopupMenu::%s Unknown menu type %d", __func__, getMenuType() );
 		emit menuItemClicked( iItemId, this, m_ParentActivity );
+		vx_assert( false );
 	}
 
 	closeApplet();
-}
-
-//============================================================================
-void AppletPopupMenu::showRefreshMenu()
-{
-	setMenuType( EPopupMenuType::ePopupMenuListOptions1 );
-	setTitle( QObject::tr( "Who to show in list" ) );
-	addMenuItem( 0, getMyIcons().getIcon( eMyIconFriend ), QObject::tr( "Everybody" ) );
-	addMenuItem( 1, getMyIcons().getIcon( eMyIconFriend ), QObject::tr( "Friends And Guests" ) );
-	addMenuItem( 2, getMyIcons().getIcon( eMyIconAnonymous ), QObject::tr( "Anonymous" ) );
-	addMenuItem( 3, getMyIcons().getIcon( eMyIconAdministrator ), QObject::tr( "Administrators" ) );
-	addMenuItem( 4, getMyIcons().getIcon( eMyIconIgnored ), QObject::tr( "Ignored" ) );
-	addMenuItem( 5, getMyIcons().getIcon( eMyIconRefresh ), QObject::tr( "Refresh List" ) );
 }
 
 //============================================================================
@@ -207,7 +202,7 @@ void AppletPopupMenu::showFriendMenu( GuiUser* poSelectedFriend, bool inGroup )
 	else if( !isMyself )
 	{
 		addMenuItem( (int)eMaxPluginType + 2, getMyIcons().getIcon( eMyIconIgnored ), QObject::tr( "Block User" ) );
-		addMenuItem( (int)eMaxPluginType + 3, getMyIcons().getIcon( eMyIconFriend ), QObject::tr( "Change Friendship" ) );
+		addChangeFriendshipMenuItem( (int)eMaxPluginType + 3 );
 	}
 
 	if( m_SelectedFriend->isMyAccessAllowedFromHim( ePluginTypeAboutMePageServer, m_InGroup ) )
@@ -273,14 +268,8 @@ void AppletPopupMenu::showFriendMenu( GuiUser* poSelectedFriend, bool inGroup )
 		addMenuItem( (int)ePluginTypeFileShareServer, getMyIcons().getIcon( getMyIcons().getPluginIcon( ePluginTypeFileShareServer, ePluginAccess ) ), strAction );
 	}
 
-	if( m_MyApp.getFavoriteMgr().getIsFavorite( m_SelectedFriend->getMyOnlineId() ) )
-	{
-		addMenuItem( (int)eMaxPluginType + 1, getMyIcons().getIcon( eMyIconApp ), QObject::tr( "Unset Preferred" ) );
-	}
-	else
-	{
-		addMenuItem( (int)eMaxPluginType + 1, getMyIcons().getIcon( eMyIconApp ), QObject::tr( "Set Perferred" ) );
-	}
+	addSetUnsetPreferredMenuItem( (int)eMaxPluginType + 1, m_SelectedFriend->getMyOnlineId() );
+
 #if defined(DEBUG)
 	addMenuItem( (int)eMaxPluginType + 4, getMyIcons().getIcon( eMyIconDebug ), QObject::tr( "Dump User Info" ) );
 	addMenuItem( (int)eMaxPluginType + 5, getMyIcons().getIcon( eMyIconDebug ), QObject::tr( "Delete User From Database" ) );
@@ -373,11 +362,7 @@ void AppletPopupMenu::onFriendActionSelected( int iMenuId )
 	case eMaxPluginType + 2: // change friendship
 	case eMaxPluginType + 3: // block / unblock
 	{
-		AppletPeerChangeFriendship * applet = dynamic_cast<AppletPeerChangeFriendship*>(m_MyApp.launchApplet( eAppletPeerChangeFriendship, getParentPageFrame() ));
-		if( applet )
-		{
-			applet->setFriend( m_SelectedFriend );
-		}
+		launchChangeFriendship(m_SelectedFriend);
 		break;
 	}
 
@@ -391,7 +376,7 @@ void AppletPopupMenu::onFriendActionSelected( int iMenuId )
 		break;
 
 	default:
-		LogMsg( LOG_ERROR, "Unknown Menu id" );
+		LogMsg( LOG_ERROR, "%s Unknown Menu id", __func__ );
 	}
 
 	closeApplet();
@@ -402,7 +387,7 @@ void AppletPopupMenu::showHostSessionMenu( GuiHostSession* hostSession )
 {
 	if( !hostSession )
 	{
-		LogMsg( LOG_ERROR, "AppletPopupMenu::showHostSessionMenu null session" );
+		LogMsg( LOG_ERROR, "AppletPopupMenu::%s null session", __func__ );
 		return;
 	}
 
@@ -410,30 +395,12 @@ void AppletPopupMenu::showHostSessionMenu( GuiHostSession* hostSession )
 	m_HostSession = hostSession;
 
 	setTitle( GuiParams::describeHostType( hostSession->getHostType() ) );
-	if( hostSession->getHostType() == eHostTypeGroup )
-	{
-		addMenuItem( 0, getMyIcons().getIcon( eMyIconServiceHostGroup ), QObject::tr( "Join" ) );
-	}
-	else if( hostSession->getHostType() == eHostTypeChatRoom )
-	{
-		addMenuItem( 0, getMyIcons().getIcon( eMyIconServiceChatRoom ), QObject::tr( "Join" ) );
-	}
-	else if( hostSession->getHostType() == eHostTypeRandomConnect )
-	{
-		addMenuItem( 0, getMyIcons().getIcon( eMyIconServiceRandomConnect ), QObject::tr( "Join" ) );
-	}
 
-	addMenuItem( 1, getMyIcons().getIcon( eMyIconCancelNormal ), QObject::tr( "Unjoin" ) );
-	addMenuItem( 2, getMyIcons().getIcon( eMyIconConnect ), QObject::tr( "Connect To Host" ) );
-	addMenuItem( 3, getMyIcons().getIcon( eMyIconDisconnect ), QObject::tr( "Disconnect From Host" ) );
-
-	if( m_MyApp.getFavoriteMgr().getIsFavorite( hostSession->getOnlineId() ) )
+	addSetUnsetPreferredMenuItem( 0, hostSession->getOnlineId() );
+	
+	if( m_HostSession->getGuiUser() )
 	{
-		addMenuItem( (int)eMaxPluginType + 4, getMyIcons().getIcon( eMyIconApp ), QObject::tr( "Unset Preferred" ) );
-	}
-	else
-	{
-		addMenuItem( (int)eMaxPluginType + 4, getMyIcons().getIcon( eMyIconApp ), QObject::tr( "Set Perferred" ) );
+		addChangeFriendshipMenuItem( 1 );
 	}
 }
 
@@ -442,31 +409,57 @@ void AppletPopupMenu::onHostSessionActionSelected( int iMenuId )
 {
 	switch( iMenuId )
 	{
-	case 0: // friends listing
-		m_MyApp.getAppletMgr().launchApplet( eAppletFriendListClient, getParentPageFrame() );
-		break;
-
-	case 1: // group listing
-		m_MyApp.getAppletMgr().launchApplet( eAppletGroupListClient, getParentPageFrame() );
-		break;
-
-	case 2: // random connect listing
-		//BRJ m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectClient, getParentPageFrame() );
-		QMessageBox::information( this, QObject::tr( "Not Implemented" ), QObject::tr( "Randome Connect Client Not Implemented" ), QMessageBox::Ok );
-		break;
-
-	case 3: // disconnect
-		//BRJ finish me
-		// m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectClient, getParentPageFrame() );
-		QMessageBox::information( this, QObject::tr( "Not Implemented" ), QObject::tr( "Disconnect Not Implemented" ), QMessageBox::Ok );
-		break;
-
-	case 4: // set favorite
+	case 0: 
 		m_MyApp.getFavoriteMgr().toggleIsFavorite( m_HostSession->getOnlineId() );
 		break;
 
+	case 1: // change friendship
+		launchChangeFriendship( m_HostSession->getGuiUser() );
+		break;
+
 	default:
-		LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::onTitleBarUserMenuSelected value %d", iMenuId );
+		LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::%s value %d", __func__, iMenuId );
+	}
+}
+
+//============================================================================
+void AppletPopupMenu::showHostedListSessionMenu( GuiHostedListSession* hostSession )
+{
+	if( !hostSession )
+	{
+		LogMsg( LOG_ERROR, "AppletPopupMenu::%s null session", __func__ );
+		return;
+	}
+
+	setMenuType( EPopupMenuType::ePopupMenuHostedListSession );
+	m_HostedListSession = hostSession;
+
+	setTitle( GuiParams::describeHostType( hostSession->getHostType() ) );
+
+	addSetUnsetPreferredMenuItem( 0, hostSession->getHostOnlineId() );
+
+	if( m_HostedListSession->getGuiUser() )
+	{
+		addChangeFriendshipMenuItem( 1 );
+	}
+}
+
+//============================================================================
+void AppletPopupMenu::onHostListSessionMenu( int iMenuId )
+{
+	switch( iMenuId )
+	{
+
+	case 0: // set favorite
+		m_MyApp.getFavoriteMgr().toggleIsFavorite( m_HostedListSession->getHostOnlineId() );
+		break;
+
+	case 1: // change friendship
+		launchChangeFriendship( m_HostedListSession->getGuiUser() );
+		break;
+
+	default:
+		LogMsg( LOG_ERROR, "AppletPopupMenu::%s Unknown menu id %d", __func__, iMenuId );
 	}
 }
 
@@ -475,7 +468,7 @@ void AppletPopupMenu::showGroupieListSessionMenu( GuiGroupieListSession* groupie
 {
 	if( !groupieSession )
 	{
-		LogMsg( LOG_ERROR, "AppletPopupMenu::showHostSessionMenu null session" );
+		LogMsg( LOG_ERROR, "AppletPopupMenu::%s null session", __func__ );
 		return;
 	}
 
@@ -497,7 +490,7 @@ void AppletPopupMenu::showGroupieListSessionMenu( GuiGroupieListSession* groupie
 
 	if( !menuShown )
 	{
-		LogMsg( LOG_ERROR, "AppletPopupMenu::showHostSessionMenu user not found" );
+		LogMsg( LOG_ERROR, "AppletPopupMenu::%s user not found", __func__ );
 		return;
 	}
 }
@@ -505,108 +498,7 @@ void AppletPopupMenu::showGroupieListSessionMenu( GuiGroupieListSession* groupie
 //============================================================================
 void AppletPopupMenu::onGroupieSessionActionSelected( int iMenuId )
 {
-	switch( iMenuId )
-	{
-	case 0: // friends listing
-		m_MyApp.getAppletMgr().launchApplet( eAppletFriendListClient, getParentPageFrame() );
-		break;
-
-	case 1: // group listing
-		m_MyApp.getAppletMgr().launchApplet( eAppletGroupListClient, getParentPageFrame() );
-		break;
-
-	case 2: // random connect listing
-		//BRJ m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectClient, getParentPageFrame() );
-		QMessageBox::information( this, QObject::tr( "Not Implemented" ), QObject::tr( "Randome Connect Client Not Implemented" ), QMessageBox::Ok );
-		break;
-
-	case 3: // disconnect
-		//BRJ finish me
-		// m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectClient, getParentPageFrame() );
-		QMessageBox::information( this, QObject::tr( "Not Implemented" ), QObject::tr( "Disconnect Not Implemented" ), QMessageBox::Ok );
-		break;
-
-	case 4: // set favorite
-		m_MyApp.getFavoriteMgr().toggleIsFavorite( m_HostSession->getOnlineId() );
-		break;
-	default:
-		LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::onTitleBarUserMenuSelected value %d", iMenuId );
-	}
-
-}
-
-//============================================================================
-void AppletPopupMenu::showHostedListSessionMenu( GuiHostedListSession* hostSession )
-{
-	if( !hostSession )
-	{
-		LogMsg( LOG_ERROR, "AppletPopupMenu::showHostSessionMenu null session" );
-		return;
-	}
-
-	setMenuType( EPopupMenuType::ePopupMenuHostedListSession );
-	m_HostedListSession = hostSession;
-
-	setTitle( GuiParams::describeHostType( hostSession->getHostType() ) );
-	if( hostSession->getHostType() == eHostTypeGroup )
-	{
-		addMenuItem( 0, getMyIcons().getIcon( eMyIconServiceHostGroup ), QObject::tr( "Join" ) );
-	}
-	else if( hostSession->getHostType() == eHostTypeChatRoom )
-	{
-		addMenuItem( 0, getMyIcons().getIcon( eMyIconServiceChatRoom ), QObject::tr( "Join" ) );
-	}
-	else if( hostSession->getHostType() == eHostTypeRandomConnect )
-	{
-		addMenuItem( 0, getMyIcons().getIcon( eMyIconServiceRandomConnect ), QObject::tr( "Join" ) );
-	}
-
-	addMenuItem( 1, getMyIcons().getIcon( eMyIconCancelNormal ), QObject::tr( "Unjoin" ) );
-	addMenuItem( 2, getMyIcons().getIcon( eMyIconConnect ), QObject::tr( "Connect To Host" ) );
-	addMenuItem( 3, getMyIcons().getIcon( eMyIconDisconnect ), QObject::tr( "Disconnect From Host" ) );
-
-	if( m_MyApp.getFavoriteMgr().getIsFavorite( hostSession->getHostOnlineId() ) )
-	{
-		addMenuItem( (int)eMaxPluginType + 4, getMyIcons().getIcon( eMyIconApp ), QObject::tr( "Unset Preferred" ) );
-	}
-	else
-	{
-		addMenuItem( (int)eMaxPluginType + 4, getMyIcons().getIcon( eMyIconApp ), QObject::tr( "Set Perferred" ) );
-	}
-}
-
-//============================================================================
-void AppletPopupMenu::onHostListSessionMenu( int iMenuId )
-{
-	switch( iMenuId )
-	{
-	case 0: // friends listing
-		m_MyApp.getAppletMgr().launchApplet( eAppletFriendListClient, getParentPageFrame() );
-		break;
-
-	case 1: // group listing
-		m_MyApp.getAppletMgr().launchApplet( eAppletGroupListClient, getParentPageFrame() );
-		break;
-
-	case 2: // random connect listing
-		//BRJ m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectClient, getParentPageFrame() );
-		QMessageBox::information( this, QObject::tr( "Not Implemented" ), QObject::tr( "Randome Connect Client Not Implemented" ), QMessageBox::Ok );
-		break;
-
-	case 3: // disconnect
-		//BRJ finish me
-		// m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectClient, getParentPageFrame() );
-		QMessageBox::information( this, QObject::tr( "Not Implemented" ), QObject::tr( "Disconnect Not Implemented" ), QMessageBox::Ok );
-		break;
-
-	case 4: // set favorite
-		m_MyApp.getFavoriteMgr().toggleIsFavorite( m_HostSession->getOnlineId() );
-		break;
-
-	default:
-		LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::onTitleBarUserMenuSelected value %d", iMenuId );
-	}
-
+	LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::%s value %d", __func__, iMenuId );
 }
 
 //============================================================================
@@ -617,14 +509,8 @@ void AppletPopupMenu::showPersonOfferMenu( GuiUser* poSelectedFriend )
 	setTitle( QObject::tr( "Offer Friendship" ) );
 	addMenuItem( 0, getMyIcons().getIcon( eMyIconFriend ), QObject::tr( "Offer Friendship" ) );
 	addMenuItem( 1, getMyIcons().getIcon( eMyIconFriend ), QObject::tr( "Offer Join Group" ) );
-	if( m_MyApp.getFavoriteMgr().getIsFavorite( poSelectedFriend->getMyOnlineId() ) )
-	{
-		addMenuItem( 2, getMyIcons().getIcon( eMyIconApp ), QObject::tr( "Unset Preferred" ) );
-	}
-	else
-	{
-		addMenuItem( 2, getMyIcons().getIcon( eMyIconApp ), QObject::tr( "Set Preferred" ) );
-	}
+
+	addSetUnsetPreferredMenuItem( 2, poSelectedFriend->getMyOnlineId() );
 }
 
 //============================================================================
@@ -647,13 +533,13 @@ void AppletPopupMenu::onPersonActionSelected( int iMenuId )
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::onPersonActionSelected value %d null selected friend", iMenuId );
+			LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::%s value %d null selected friend", __func__, iMenuId );
 		}
 		
 		break;
 
 	default:
-		LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::onPersonActionSelected value %d", iMenuId );
+		LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::%s value %d", __func__, iMenuId );
 	}
 }
 
@@ -662,29 +548,13 @@ void AppletPopupMenu::showUserSessionMenu( EApplet appletType, GuiUserSessionBas
 {
 	if( !userSession )
 	{
-		LogMsg( LOG_ERROR, "AppletPopupMenu::showUserSessionMenu null session" );
+		LogMsg( LOG_ERROR, "AppletPopupMenu::%s null session", __func__ );
 		return;
 	}
 
 	m_AppletType = appletType;
 	m_UserSession = userSession;
 	m_SelectedFriend = userSession->getUserIdent();
-
-	/* TODO expand menu for session specific menu
-	
-	setMenuType( EPopupMenuType::ePopupMenuUserSession );
-	setTitle( QObject::tr( "Offer Friendship" ) );
-	addMenuItem( 0, getMyIcons().getIcon( eMyIconFriend ), QObject::tr( "Offer Friendship" ) );
-	addMenuItem( 1, getMyIcons().getIcon( eMyIconFriend ), QObject::tr( "Offer Join Group" ) );
-	if( m_MyApp.getFavoriteMgr().getIsFavorite( userSession->getMyOnlineId() ) )
-	{
-		addMenuItem( 2, getMyIcons().getIcon( eMyIconApp ), QObject::tr( "Unset Preferred" ) );
-	}
-	else
-	{
-		addMenuItem( 2, getMyIcons().getIcon( eMyIconApp ), QObject::tr( "Set Perferred" ) );
-	}
-	 */
 
 	showFriendMenu( m_SelectedFriend );
 }
@@ -707,7 +577,7 @@ void AppletPopupMenu::onUserSessionActionSelected( int iMenuId )
 		break;
 
 	default:
-		LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::onUserSessionActionSelected value %d", iMenuId );
+		LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::%s value %d", __func__, iMenuId );
 	}
 }
 
@@ -744,7 +614,7 @@ void AppletPopupMenu::onTitleBarUserMenuSelected( int iMenuId )
 		break;
 
 	default:
-		LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::onTitleBarUserMenuSelected value %d", iMenuId );
+		LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::%s value %d", __func__, iMenuId );
 	}
 }
 
@@ -794,6 +664,11 @@ void AppletPopupMenu::showTitleBarAppMenu( void )
 	{
 		addMenuItem( 13, getMyIcons().getIcon(  GetAppletIcon( eAppletChatRoomHostAdmin ) ), DescribeApplet( eAppletChatRoomHostAdmin ) );
 	}
+
+	if( isPluginEnabled( ePluginTypeHostRandomConnect ) )
+	{
+		addMenuItem( 13, getMyIcons().getIcon(  GetAppletIcon( eAppletRandomConnectHostAdmin ) ), DescribeApplet( eAppletRandomConnectHostAdmin ) );
+	}
 }
 
 //============================================================================
@@ -825,16 +700,16 @@ void AppletPopupMenu::onTitleBarAppMenuSelected( int iMenuId )
 		m_MyApp.getAppletMgr().launchApplet( eAppletMultiMessenger, getParentPageFrame() );
 		break;
 
-	case 7: // group host listing
-		m_MyApp.getAppletMgr().launchApplet( eAppletGroupListClient, getParentPageFrame() );
+	case 7: // group host
+		m_MyApp.getAppletMgr().launchApplet( eAppletGroupJoin, getParentPageFrame() );
 		break;
 
-	case 8: // chat room listing
-		//m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomListClient,  getParentPageFrame() );
+	case 8: // chat room
+		m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomJoin,  getParentPageFrame() );
 		break;
 
-	case 9: // random connect listing
-		//m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectListClient, getParentPageFrame() );
+	case 9: // random connect
+		m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectJoin, getParentPageFrame() );
 		break;
 
 	case 10: // downloads
@@ -850,12 +725,15 @@ void AppletPopupMenu::onTitleBarAppMenuSelected( int iMenuId )
 		break;
 
 	case 13: // chat room admin
-		m_MyApp.getAppletMgr().launchApplet( eAppletGroupHostAdmin, getParentPageFrame() );
+		m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomHostAdmin, getParentPageFrame() );
 		break;
 
+	case 14: // random connect admin
+		m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectHostAdmin, getParentPageFrame() );
+		break;
 
 	default:
-		LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::onTitleBarAppMenuSelected value %d", iMenuId );
+		LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::%s value %d", __func__, iMenuId );
 	}
 }
 
@@ -902,4 +780,39 @@ void AppletPopupMenu::onDeleteDbSelected( int menuId )
     {
         okMessageBox( QObject::tr( "Database Delete Failed" ), QObject::tr( "Database ") + GuiParams::describeDatabaseType( databaseType ) + QObject::tr( " could not be deleted") );
     }
+}
+
+//============================================================================
+void AppletPopupMenu::addSetUnsetPreferredMenuItem( int menuId, VxGUID onlineId )
+{
+	if( m_MyApp.getFavoriteMgr().getIsFavorite( onlineId ) )
+	{
+		addMenuItem( menuId, getMyIcons().getIcon( eMyIconApp ), QObject::tr( "Unset Preferred" ) );
+	}
+	else
+	{
+		addMenuItem( menuId, getMyIcons().getIcon( eMyIconApp ), QObject::tr( "Set Preferred" ) );
+	}
+}
+
+//============================================================================
+void AppletPopupMenu::addChangeFriendshipMenuItem( int menuId )
+{
+	addMenuItem( menuId, getMyIcons().getIcon( eMyIconFriend ), QObject::tr( "Change Friendship" ) );
+}
+
+//============================================================================
+void AppletPopupMenu::launchChangeFriendship( GuiUser* selectedFriend )
+{
+	if( !selectedFriend )
+	{
+		LogMsg( LOG_ERROR, "AppletPopupMenu::%s null selectedFriend", __func__ );
+		return;
+	}
+
+	AppletPeerChangeFriendship * applet = dynamic_cast<AppletPeerChangeFriendship*>(m_MyApp.launchApplet( eAppletPeerChangeFriendship, getParentPageFrame() ));
+	if( applet )
+	{
+		applet->setFriend( selectedFriend );
+	}
 }

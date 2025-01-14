@@ -263,7 +263,7 @@ void ConnectIdListMgr::addConnection( VxGUID& sktConnectId, GroupieId& groupieId
 
     ConnectId connectId( sktConnectId, groupieId );
 
-    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::addConnection relayed ? %d ConnectId %s", relayed, connectId.describeConnectId().c_str() );
+    LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::%s relayed ? %d ConnectId %s", __func__, relayed, connectId.describeConnectId().c_str() );
 
     if( relayed )
     {

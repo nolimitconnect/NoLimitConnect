@@ -26,7 +26,7 @@ public:
     AppletHostBase( const char* objName, AppCommon& app, QWidget* parent );
 	virtual ~AppletHostBase();
 
-    void                        setHostType( enum EHostType hostType )           { m_HostType = hostType; }
+    void                        setHostType( enum EHostType hostType )      { m_HostType = hostType; }
     EHostType                   getHostType(  void )                        { return m_HostType; }
 
     void                        setSearchType( ESearchType searchType )     { m_SearchType = searchType; }

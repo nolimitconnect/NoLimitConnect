@@ -70,11 +70,11 @@ bool GuiUserJoinList::doesUserJoinExist( GuiUserJoin* guiUserJoin )
 }
 
 //============================================================================
-GuiUserJoin* GuiUserJoinList::findUserJoin( VxGUID& thumbId )
+GuiUserJoin* GuiUserJoinList::findUserJoin( VxGUID& onlineId )
 {
     for( auto iter = m_UserJoinList.begin(); iter != m_UserJoinList.end(); ++iter )
     {
-        if( (*iter)->getUser()->getMyOnlineId() == thumbId )
+        if( (*iter)->getUser()->getMyOnlineId() == onlineId )
         {
             return *iter;
         }
