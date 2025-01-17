@@ -103,7 +103,7 @@ void NetStatusAccum::onNetStatusChange( void )
             }
             else
             {
-                m_NetAvailStatus = eNetAvailFullOnlineDirectConnect;  // 5 bars green
+                netAvailStatus = eNetAvailFullOnlineDirectConnect;  // 5 bars green
                 if( m_GroupHostAvail )
                 {
                     netAvailStatus = eNetAvailDirectGroupHost; // 7 bars green
