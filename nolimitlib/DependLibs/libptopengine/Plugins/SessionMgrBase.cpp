@@ -44,7 +44,6 @@ bool SessionMgrBase::isPluginSingleSession( void )
 	case ePluginTypeTruthOrDare:
 	case ePluginTypeMessenger:
 	case ePluginTypeCamServer:
-	case ePluginTypeAdmin:
 	case ePluginTypeAboutMePageClient:
 	case ePluginTypeStoryboardClient:
 		isSingleSessionPlugin = true;

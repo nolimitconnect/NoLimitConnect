@@ -12,7 +12,6 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
-#include "MyIcons.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -56,8 +55,7 @@ void AppletAboutApp::setupAboutMe( void )
     ui.m_AvailSpace->setText( GuiHelpers::getAvailableStorageSpaceText() );
     VxNetIdent oMyIdent;
     m_FromGui.fromGuiQueryMyIdent( &oMyIdent );
-    std::string strOnlineIp = oMyIdent.getOnlineIpAddress().toString();
-    QString strText = QString( "Online Name: %1" ).arg( oMyIdent.getOnlineName() );
+
     ui.labelMeLine1->setText( QString( "Online Name: %1" ).arg( oMyIdent.getOnlineName() ) );
     std::string strMyId = oMyIdent.m_DirectConnectId.describeVxGUID();
     ui.labelMeLine2->setText( QString( "Id: %1" ).arg( strMyId.c_str() ) );

@@ -396,6 +396,7 @@ void AppCommon::shutdownAppCommon( void )
         hasBeenShutdown = true;
         VxSetAppIsShuttingDown( true );
         m_CamLogic.shutdownCamLogic();
+		m_SoundMgr.sndMgrShutdown();
         fromGuiCloseEvent( eAppModuleAll );
 		ActivityBase* appPlayer = m_AppletMgr.findAppletDialog( eAppletPlayerNlc );
 		if( appPlayer )
@@ -403,8 +404,6 @@ void AppCommon::shutdownAppCommon( void )
 			// to force media player stop before exit application
 			appPlayer->onActivityFinish();
 		}
-
-		m_SoundMgr.sndMgrShutdown();
 
         QApplication::closeAllWindows();
         getEngine().fromGuiAppShutdown();

@@ -171,6 +171,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletAboutApp.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletAboutMeClient.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletAboutMeServerViewMine.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletAboutUser.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletApplicationInfo.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletAssetPlayerBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletBase.cpp" />
@@ -194,7 +195,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFileOfferSelect.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFileShareClientView.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFileShareServerViewMine.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFriendListClient.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFriendList.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGalleryEmoticon.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGalleryImage.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGalleryThumb.cpp" />
@@ -563,7 +564,6 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostNetworkStatus.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupListLocalView.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPopupMenu.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendListClient.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGroupListClient.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPersonOfferList.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletHostJoinRequestList.h" />
@@ -614,6 +614,8 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppModuleState.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInvites.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTestUpnp.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletAboutUser.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendList.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />
@@ -967,6 +969,7 @@ libopenjpeg.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityYesNo.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletAboutApp.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletAboutMeClient.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletAboutUser.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletApplicationInfo.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletBrowseFiles.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletCamClient.ui" />
@@ -982,7 +985,7 @@ libopenjpeg.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletEditStoryBoard.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletFileOfferSelect.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletFileShareClientView.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\AppletFriendListClient.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletFriendList.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGalleryEmoticon.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGalleryImage.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGalleryThumb.ui" />

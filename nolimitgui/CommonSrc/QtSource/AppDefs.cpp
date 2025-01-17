@@ -30,7 +30,7 @@ EMyIcons GetAppletIcon( EApplet applet )
 
     case eAppletCreateAccount:			    return eMyIconUserIdentity;
 
-    case eAppletFriendListClient:	        return eMyIconFriendJoined;
+    case eAppletFriendList:	        return eMyIconFriendJoined;
     case eAppletGetStarted:                 return eMyIconInformation;
 
     case eAppletGroupClient:                return eMyIconGroupClient;
@@ -202,6 +202,7 @@ QString DescribeApplet( EApplet applet )
     case eAppletSoundSettings:		        return QObject::tr( "Sound Settings" );
     case eAppletAboutMeClient:              return QObject::tr( "View About Me Page" );
     case eAppletAboutMeServerViewMine:      return QObject::tr( "View My About Me Page" );
+    case eAppletAboutUser:                  return QObject::tr( "User Details" );
 
     case eAppletHomePage:				    return QObject::tr( "Home" );
     case eAppletAboutNoLimitConnect:        return QObject::tr( "About No Limit Connect" );
@@ -227,7 +228,7 @@ QString DescribeApplet( EApplet applet )
     case eAppletRandomConnectClient:		return QObject::tr( "Random Person Connect" );
     case eAppletAvatarImageClient:          return QObject::tr( "Get Persons Avatar Image For Contact List" );
     case eAppletCreateAccount:			    return QObject::tr( "Create Account" );
-    case eAppletFriendListClient:	        return QObject::tr( "Friend List" );
+    case eAppletFriendList:	        return QObject::tr( "Friend List" );
     case eAppletGalleryEmoticon:			return QObject::tr( "Emoticon Gallery" );
     case eAppletGalleryImage:			    return QObject::tr( "Image Gallery" );
     case eAppletGalleryThumb:			    return QObject::tr( "Thumbnail Gallery" );

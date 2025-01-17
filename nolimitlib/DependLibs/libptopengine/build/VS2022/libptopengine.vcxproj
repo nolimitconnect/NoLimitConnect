@@ -661,7 +661,6 @@
     <ClCompile Include="..\..\Plugins\PluginMgrSktApi.cpp" />
     <ClCompile Include="..\..\Plugins\PluginNetServices.cpp" />
     <ClCompile Include="..\..\Plugins\PluginNetworkHost.cpp" />
-    <ClCompile Include="..\..\Plugins\PluginNetworkSearchList.cpp" />
     <ClCompile Include="..\..\Plugins\PluginPeerUserClient.cpp" />
     <ClCompile Include="..\..\Plugins\PluginPeerUserHost.cpp" />
     <ClCompile Include="..\..\Plugins\PluginPersonFileXfer.cpp" />
@@ -904,7 +903,6 @@
     <ClInclude Include="..\..\Plugins\PluginMgr.h" />
     <ClInclude Include="..\..\Plugins\PluginNetServices.h" />
     <ClInclude Include="..\..\Plugins\PluginNetworkHost.h" />
-    <ClInclude Include="..\..\Plugins\PluginNetworkSearchList.h" />
     <ClInclude Include="..\..\Plugins\PluginPeerUserClient.h" />
     <ClInclude Include="..\..\Plugins\PluginPeerUserHost.h" />
     <ClInclude Include="..\..\Plugins\PluginPersonFileXfer.h" />

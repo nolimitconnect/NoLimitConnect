@@ -86,7 +86,6 @@ void ActivityInformation::updateInformation( void )
         {
         case ePluginTypeHostChatRoom:
         case ePluginTypeHostGroup:
-        case ePluginTypeNetworkSearchList:
         case ePluginTypeHostNetwork:
         case ePluginTypeHostRandomConnect:
             ui.m_PictureLabel->setResourceImage( ":/AppRes/Resources/NetworkDesign.png", true );
@@ -408,7 +407,6 @@ QString ActivityInformation::getInfoText( void )
         {
         case ePluginTypeHostChatRoom:
         case ePluginTypeHostGroup:
-        case ePluginTypeNetworkSearchList:
         case ePluginTypeHostNetwork:
         case ePluginTypeHostRandomConnect:
             return m_NetworkDesign + m_PluginDefinitions;

@@ -140,17 +140,17 @@ public:
 	void 						setOnlineDescription( const char* pUserDesc );
 	char *						getOnlineDescription( void )                        { return m_OnlineDesc; }
 
-    void						setPrimaryLanguage( uint16_t language )             { m_PrimaryLanguage = language; }
-    uint16_t					getPrimaryLanguage( void )                          { return m_PrimaryLanguage; }
+    void						setPrimaryLanguage( ELanguageType language )        { m_PrimaryLanguage = (uint16_t)language; }
+    ELanguageType			    getPrimaryLanguage( void )                          { return (ELanguageType)m_PrimaryLanguage; }
 
-    void						setPreferredContent( uint8_t contentType )          { m_ContentType = contentType; }
-    uint8_t					    getPreferredContent( void )                         { return m_ContentType; }
+    void						setPreferredContent( EContentRating contentType )   { m_ContentType = (uint8_t)contentType; }
+    EContentRating			    getPreferredContent( void )                         { return  (EContentRating)m_ContentType; }
 
     void						setAgeType( enum EAgeType age )                     { m_u8Age = (uint8_t)age; }
     EAgeType					getAgeType( void )                                  { return (EAgeType)m_u8Age; }
 
-    void						setGender( uint8_t gender )                         { m_u8Gender = gender; }
-    uint8_t					    getGender( void )                                   { return m_u8Gender; }
+    void						setGender( EGenderType gender )                     { m_u8Gender = (uint8_t)gender; }
+    EGenderType					getGender( void )                                   { return (EGenderType)m_u8Gender; }
 
     void						setIsRelayed( bool isRelayed )                      { m_IsRelayed = (uint8_t)isRelayed; }
     bool						isRelayed( void )                                   { return (bool)m_IsRelayed; }

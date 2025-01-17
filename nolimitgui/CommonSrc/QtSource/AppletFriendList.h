@@ -17,19 +17,19 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-    class AppletFriendListClientUi;
+    class AppletFriendListUi;
 }
 QT_END_NAMESPACE
 
 class VxNetIdent;
 class GuiHostSession;
 
-class AppletFriendListClient : public AppletClientBase
+class AppletFriendList : public AppletClientBase
 {
 	Q_OBJECT
 public:
-	AppletFriendListClient(	AppCommon& app, QWidget* parent = nullptr );
-	virtual ~AppletFriendListClient() override;
+	AppletFriendList(	AppCommon& app, QWidget* parent = nullptr );
+	virtual ~AppletFriendList() override;
 
     void                        infoMsg( const char* infoMsg, ... );
     void                        toGuiInfoMsg( char * logMsg );
@@ -70,6 +70,6 @@ protected:
     void                        updateFriendList( EUserViewType listType, std::vector<std::pair<VxGUID, int64_t>> idList );
 
     //=== vars ===//
-    Ui::AppletFriendListClientUi& ui;
+    Ui::AppletFriendListUi& ui;
     EUserViewType               m_FriendListType{ eUserViewTypeFriendsOnline };
 };

@@ -106,6 +106,11 @@ public:
     static QString				describeEXferState( EXferState xferState );
     static QString				describeEXferError( EXferError xferError );
     static QString				describeFileLength( uint64_t fileLen );
+
+    static QString              describeFileType( uint8_t fileTypeFlag ); // same as describeFileTypeMask but ending with :<SP> 
+    static QString              describeFileTypeMask( uint8_t fileTypeMask );
+    static QString              describeFileTypes( uint8_t fileTypeFlags );
+
     static QString				describeOfferState( EOfferState offerState );
     static QString				describeOfferType( EOfferType offerType );
     static QString				describeOrientation( Qt::Orientation qtOrientation );
@@ -123,18 +128,11 @@ public:
     static QString				describeFileFilter( EFileFilterType fileFilterType );
     static EFileFilterType		fileFilterToEnum( QString fileFilterName );
 
-    #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-    static QString              describeCamStatus(QCamera::Status camStatus);
-    static QString              describeCamState(QCamera::State camState);
-    #endif // QT_VERSION < QT_VERSION_CHECK(6,0,0)
-
     static uint8_t              assetTypeToFileType( EAssetType assetType );
     static EAssetType           fileTypeToAssetType( uint8_t fileTypeFlags );
 
-    static QString              describeFileType( uint8_t fileType );
-
-    static QString              describeExpireTime( EExpireTime expireTime );
-    static int                  getExpireTimeSeconds( EExpireTime expireTime );
+    static QString              describeExpireTime( enum EExpireTime expireTime );
+    static int                  getExpireTimeSeconds( enum EExpireTime expireTime );
 
     static int                  getVertScrollBarWidth( void );
 

@@ -35,7 +35,6 @@
 
 #include <Plugins/PluginMessenger.h>
 
-#include <Plugins/PluginNetworkSearchList.h>
 #include <Plugins/PluginNetworkHost.h>
 
 #include <Plugins/PluginPeerUserClient.h>
@@ -113,11 +112,6 @@ void PluginMgr::pluginMgrStartup( void )
     LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create library plugin" );
     m_aoPlugins.emplace_back( &m_Engine.getPluginLibraryServer() );
 
-    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create admin plugin" );
-	poPlugin = new PluginInvalid( m_Engine, *this, &this->m_PktAnn, ePluginTypeAdmin );
-	poPlugin->setPluginType( ePluginTypeAdmin );
-    m_aoPlugins.emplace_back( poPlugin );
-
     LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create file xfer plugin" );
     poPlugin = new PluginPersonFileXfer( m_Engine, *this, &this->m_PktAnn, ePluginTypePersonFileXfer );
     m_aoPlugins.emplace_back( poPlugin );
@@ -167,10 +161,6 @@ void PluginMgr::pluginMgrStartup( void )
 
     LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create host group plugin" );
     poPlugin = new PluginGroupHost( m_Engine, *this, &this->m_PktAnn, ePluginTypeHostGroup );
-    m_aoPlugins.emplace_back( poPlugin );
-
-    LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create host group listing plugin" );
-    poPlugin = new PluginNetworkSearchList( m_Engine, *this, &this->m_PktAnn, ePluginTypeNetworkSearchList );
     m_aoPlugins.emplace_back( poPlugin );
 
     LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create host network plugin" );

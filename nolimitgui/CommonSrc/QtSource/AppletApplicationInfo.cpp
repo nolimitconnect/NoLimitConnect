@@ -123,7 +123,6 @@ void AppletApplicationInfo::slotLogMsg( const QString& text )
 {
     getLogEdit()->appendPlainText( text ); // Adds the message to the widget
     getLogEdit()->verticalScrollBar()->setValue( getLogEdit()->verticalScrollBar()->maximum() ); // Scrolls to the bottom
-    //m_LogFile.write( text ); // Logs to file
 }
 
 //============================================================================
@@ -131,7 +130,6 @@ void AppletApplicationInfo::slotInfoMsg( const QString& text )
 {
     getInfoEdit()->appendPlainText( text ); // Adds the message to the widget
     getInfoEdit()->verticalScrollBar()->setValue( getInfoEdit()->verticalScrollBar()->maximum() ); // Scrolls to the bottom
-    //m_LogFile.write( text ); // Logs to file
 }
 
 //============================================================================

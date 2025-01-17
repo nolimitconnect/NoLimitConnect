@@ -210,10 +210,10 @@ void AppCommon::createAccountForUser( std::string& strUserName, VxNetIdent& user
 
     SafeStrCopy( userAccountIdent.getOnlineName(), strUserName.c_str(), MAX_ONLINE_NAME_LEN );
     SafeStrCopy( userAccountIdent.getOnlineDescription(), moodMsg, MAX_ONLINE_DESC_LEN );
-    userAccountIdent.setGender( gender );
+    userAccountIdent.setGender( (EGenderType)gender );
     userAccountIdent.setAgeType( age );
-    userAccountIdent.setPrimaryLanguage( primaryLanguage );
-    userAccountIdent.setPreferredContent( contentType );
+    userAccountIdent.setPrimaryLanguage( (ELanguageType)primaryLanguage );
+    userAccountIdent.setPreferredContent( (EContentRating)contentType );
 
     userAccountIdent.setPluginPermissionsToDefaultValues();
     setupAccountResources( userAccountIdent );

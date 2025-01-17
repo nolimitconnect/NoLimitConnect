@@ -124,7 +124,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="m_EverybodyLabel">
+          <widget class="VxLabel" name="m_EverybodyLabel">
            <property name="text">
             <string>Everyone</string>
            </property>
@@ -162,7 +162,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="m_FriendsLabel">
+          <widget class="VxLabel" name="m_FriendsLabel">
            <property name="text">
             <string>Friends</string>
            </property>
@@ -200,7 +200,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="m_GroupLabel">
+          <widget class="VxLabel" name="m_GroupLabel">
            <property name="text">
             <string>Group Members</string>
            </property>
@@ -238,7 +238,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="m_ChatRoomLabel">
+          <widget class="VxLabel" name="m_ChatRoomLabel">
            <property name="text">
             <string>Chat Room Members</string>
            </property>
@@ -276,7 +276,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="m_RandomConnectLabel">
+          <widget class="VxLabel" name="m_RandomConnectLabel">
            <property name="text">
             <string>Random Connect Members</string>
            </property>
@@ -285,7 +285,7 @@
          <item>
           <spacer name="horizontalSpacer">
            <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+            <enum>Qt::Orientation::Horizontal</enum>
            </property>
            <property name="sizeHint" stdset="0">
             <size>
@@ -357,10 +357,10 @@
          </sizepolicy>
         </property>
         <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+         <enum>QFrame::Shape::StyledPanel</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <property name="spacing">
@@ -424,10 +424,10 @@
          <string notr="true"/>
         </property>
         <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
+         <enum>QFrame::Shape::NoFrame</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+         <enum>QFrame::Shadow::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <property name="spacing">
@@ -528,13 +528,18 @@
   <customwidget>
    <class>VxPushButton</class>
    <extends>QPushButton</extends>
-   <header>VxPushButton.h</header>
+   <header location="global">VxPushButton.h</header>
   </customwidget>
   <customwidget>
    <class>GuiUserListWidget</class>
    <extends>QWidget</extends>
    <header>GuiUserListWidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VxLabel</class>
+   <extends>QLabel</extends>
+   <header>VxLabel.h</header>
   </customwidget>
   <customwidget>
    <class>IdentOfferWidget</class>

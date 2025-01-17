@@ -94,7 +94,7 @@ void AppletHostGroupStatus::slotUpdateStatusTimeout()
         ui.m_HostingStatusText->setText( QObject::tr( "Group Hosting Conditions Are Met" ) );
     }
 
-    int availGroupsCnt = m_MyApp.getFromGuiInterface().fromGuiGetJoinedListCount( ePluginTypeNetworkSearchList );
+    int availGroupsCnt = m_MyApp.getFromGuiInterface().fromGuiGetJoinedListCount( ePluginTypeHostGroup );
     ui.m_GroupListCountLabel->setText( QString::number( availGroupsCnt ) );
     std::string url;
     m_MyApp.getFromGuiInterface().fromGuiGetNodeUrl( url );

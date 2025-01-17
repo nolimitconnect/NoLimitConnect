@@ -49,6 +49,7 @@
 
 #define OBJNAME_APPLET_ABOUT_APP						"AppletAboutApp"
 #define OBJNAME_APPLET_ABOUT_ME_CLIENT					"AppletAboutMeClient"
+#define OBJNAME_APPLET_ABOUT_USER						"AppletAboutUser"
 #define OBJNAME_APPLET_APPLICATION_INFO				    "AppletApplicationInfo"
 
 #define OBJNAME_APPLET_AVATAR_IMAGE_CLIENT				"AppletAvatarImageClient"
@@ -71,7 +72,7 @@
 #define OBJNAME_APPLET_EDIT_AVATAR_IMAGE				"AppletEditAvatarImage"
 #define OBJNAME_APPLET_EDIT_STORYBOARD				    "AppletEditStoryboard"
 
-#define OBJNAME_APPLET_FRIEND_LIST_CLIENT			    "AppletFriendListClient"
+#define OBJNAME_APPLET_FRIEND_LIST_CLIENT			    "AppletFriendList"
 
 #define OBJNAME_APPLET_FILE_OFFER_SELECT				"AppletFileOfferSelect"
 

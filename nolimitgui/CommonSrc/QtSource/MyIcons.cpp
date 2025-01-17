@@ -908,9 +908,6 @@ EMyIcons MyIcons::getPluginSettingsIcon( enum EPluginType pluginType )
 {
     switch( pluginType )
     {
-    case ePluginTypeAdmin:
-        return eMyIconAdministrator;
-
     case ePluginTypeAboutMePageServer:
         return eMyIconSettingsAboutMe;
 
@@ -941,9 +938,6 @@ EMyIcons MyIcons::getPluginSettingsIcon( enum EPluginType pluginType )
 
     case ePluginTypeHostGroup:
         return eMyIconSettingsHostGroup;
-
-    case ePluginTypeNetworkSearchList:
-        return eMyIconSettingsHostGroupListing;
 
     case ePluginTypeHostNetwork:
         return eMyIconSettingsHostNetwork;
@@ -985,24 +979,6 @@ EMyIcons MyIcons::getPluginIcon( enum EPluginType pluginType, EPluginAccess ePlu
 {
 	switch( pluginType )
 	{
-	case ePluginTypeAdmin:
-		switch( ePluginAccess )
-		{
-		case ePluginAccessOk:
-			return eMyIconAdministrator;
-		case ePluginAccessDisabled:
-		case ePluginAccessInactive:
-		case ePluginAccessRequiresDirectConnect:
-		case ePluginAccessLocked:            
-		case ePluginAccessIgnored:
-		case ePluginAccessBusy:
-		case ePluginAccessRequiresOnline:
-        case ePluginAccessNotSet:
-        case eMaxPluginAccessState:
-			return eMyIconAdministratorDisabled;
-		}
-
-		break;
 
     case ePluginTypeAboutMePageServer:
         switch( ePluginAccess )
@@ -1394,10 +1370,6 @@ EMyIcons MyIcons::getPluginIcon( enum EPluginType pluginType, EPluginAccess ePlu
         return eMyIconServiceHostGroup;
         break;
 
-    case ePluginTypeNetworkSearchList:
-        return eMyIconServiceHostGroupListing;
-        break;
-
     case ePluginTypeHostNetwork:
         return eMyIconServiceHostNetwork;
         break;
@@ -1414,9 +1386,6 @@ EMyIcons MyIcons::getPluginSetupIcon( enum EPluginType pluginType)
 {
     switch( pluginType )
     {
-    case ePluginTypeAdmin:
-        return eMyIconUnknown; // not implemented
-
     case ePluginTypeAboutMePageServer:
 	case ePluginTypeAboutMePageClient:
         return eMyIconSettingsAboutMe;
@@ -1468,14 +1437,12 @@ EMyIcons MyIcons::getPluginSetupIcon( enum EPluginType pluginType)
     case ePluginTypeHostGroup:
         return eMyIconSettingsHostGroup;
 
-    case ePluginTypeNetworkSearchList:
-        return eMyIconSettingsHostGroupListing;
-
     case ePluginTypeHostNetwork:
         return eMyIconSettingsHostNetwork;
 
     default:
-        LogMsg( LOG_ERROR, "MyIcons::getPluginIcon: unrecognized plugin type %d\n", pluginType );
+        LogMsg( LOG_ERROR, "MyIcons::%s: unrecognized plugin type %d", __func__, pluginType );
+		vx_assert( false );
         return eMyIconUnknown;
     }
 
@@ -1588,17 +1555,17 @@ EMyIcons MyIcons::getFileIcon( uint8_t u8FileType )
 {
 	switch( u8FileType )
 	{
-	case	VXFILE_TYPE_PHOTO:	
+	case VXFILE_TYPE_PHOTO:	
 		return eMyIconPhoto;
-	case 	VXFILE_TYPE_AUDIO:	
+	case VXFILE_TYPE_AUDIO:	
 		return eMyIconMusic;
-	case 	VXFILE_TYPE_VIDEO:	
+	case VXFILE_TYPE_VIDEO:	
 		return eMyIconVideo;
-	case 	VXFILE_TYPE_DOC:	
+	case VXFILE_TYPE_DOC:	
 		return eMyIconDocument;
-	case 	VXFILE_TYPE_ARCHIVE_OR_CDIMAGE:	
+	case VXFILE_TYPE_ARCHIVE_OR_CDIMAGE:	
 		return eMyIconArcOrIso;
-	case 	VXFILE_TYPE_DIRECTORY:	
+	case VXFILE_TYPE_DIRECTORY:	
 		return eMyIconFolder;
 	default:
 		return eMyIconOther;

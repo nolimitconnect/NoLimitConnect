@@ -24,6 +24,7 @@
 #include "AppletApplicationInfo.h"
 #include "AppletAboutApp.h"
 #include "AppletAboutMeClient.h"
+#include "AppletAboutUser.h"
 
 #include "AppletBrowseFiles.h"
 
@@ -44,7 +45,7 @@
 #include "AppletEditAvatarImage.h"
 #include "AppletEditStoryboard.h"
 #include "AppletFileOfferSelect.h"
-#include "AppletFriendListClient.h"
+#include "AppletFriendList.h"
 #include "AppletGalleryEmoticon.h"
 #include "AppletGalleryImage.h"
 #include "AppletGalleryThumb.h"
@@ -356,6 +357,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eActivityAppSetup:                 if( launchAppletAllowed( eActivityAppSetup ) ) appletDialog = new ActivityAppSetup( m_MyApp, parent ); break;
     case eAppletAboutMeClient:              if( launchAppletAllowed( eAppletAboutMeClient ) ) appletDialog = new AppletAboutMeClient( m_MyApp, parent ); break;
     case eAppletAboutNoLimitConnect:        if( launchAppletAllowed( eAppletAboutNoLimitConnect ) ) appletDialog = new AppletAboutApp( m_MyApp, parent ); break;
+    case eAppletAboutUser:                  if( launchAppletAllowed( eAppletAboutUser ) ) appletDialog = new AppletAboutUser( m_MyApp, parent ); break;
     case eAppletApplicationInfo:            if( launchAppletAllowed( eAppletApplicationInfo ) ) appletDialog = new AppletApplicationInfo( m_MyApp, parent ); break;
     case eAppletBrowseFiles:                if( launchAppletAllowed( eAppletBrowseFiles ) ) appletDialog = new AppletBrowseFiles( m_MyApp, parent, launchParam ); break;
 
@@ -415,7 +417,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletChatRoomClient:             if( launchAppletAllowed( eAppletChatRoomClient ) ) appletDialog = new AppletChatRoomClient( m_MyApp, parent ); break;
     case eAppletRandomConnectClient:        if( launchAppletAllowed( eAppletRandomConnectClient ) ) appletDialog = new AppletRandomConnectClient( m_MyApp, parent ); break;
 
-    case eAppletFriendListClient:           if( launchAppletAllowed( eAppletFriendListClient ) ) appletDialog = new AppletFriendListClient( m_MyApp, parent ); break;
+    case eAppletFriendList:           if( launchAppletAllowed( eAppletFriendList ) ) appletDialog = new AppletFriendList( m_MyApp, parent ); break;
         
     case eAppletGroupListClient:            if( launchAppletAllowed( eAppletGroupListClient ) ) appletDialog = new AppletGroupListClient( m_MyApp, parent ); break;
 

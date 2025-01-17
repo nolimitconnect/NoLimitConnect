@@ -98,8 +98,10 @@ protected:
 
 	void						addChangeFriendshipMenuItem( int menuId );
 	void						addSetUnsetPreferredMenuItem( int menuId, VxGUID onlineId );
+	void						addUserDetailsMenuItem( int menuId, GuiUser* guiUser );
 
 	void						launchChangeFriendship( GuiUser* selectedFriend );
+	void						launchUserDetails( void );
 
     //=== vars ===//
     Ui::AppletPopupMenuUi&		ui;
@@ -114,4 +116,5 @@ protected:
 	EPopupMenuType				m_MenuType{ EPopupMenuType::ePopupMenuUnknown };
 	EApplet						m_AppletType{ eAppletUnknown };
 	bool						m_InGroup{ false };
+	GuiUser*					m_SelectedUserDetails{ nullptr };
 };

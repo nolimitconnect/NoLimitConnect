@@ -60,9 +60,9 @@ void ActivityCreateAccount::slotButtonLoginClicked( void )
                                       ui.m_GenderComboBox->currentIndex(), (EAgeType)ui.m_AgeComboBox->currentIndex(), ui.m_LanguageComboBox->currentIndex(), ui.m_ContentComboBox->currentIndex() );
         m_MyApp.setAccountUserName( strUserName.c_str() );
         m_UserAccount.setAgeType( (EAgeType)ui.m_AgeComboBox->currentIndex() );
-        m_UserAccount.setGender( ui.m_GenderComboBox->currentIndex() );
-        m_UserAccount.setPrimaryLanguage( ui.m_LanguageComboBox->currentIndex() );
-        m_UserAccount.setPreferredContent( ui.m_ContentComboBox->currentIndex() );
+        m_UserAccount.setGender( (EGenderType)ui.m_GenderComboBox->currentIndex() );
+        m_UserAccount.setPrimaryLanguage( (ELanguageType)ui.m_LanguageComboBox->currentIndex() );
+        m_UserAccount.setPreferredContent( (EContentRating)ui.m_ContentComboBox->currentIndex() );
         m_UserAccount.setOnlineDescription( ( const char* )ui.m_MoodMessageEdit->text().toUtf8().constData() );
 
         m_UserAccount.setPluginPermissionsToDefaultValues();

@@ -184,7 +184,6 @@ void PluginPermission::setPluginPermissionsToDefaultValues( void )
 { 
 	memset( m_au8Permissions, 0, sizeof( m_au8Permissions ) );
 
-	setPluginPermission( ePluginTypeAdmin, eFriendStateAdmin );	
     setPluginPermission( ePluginTypeAboutMePageServer, eFriendStateGuest );
 	setPluginPermission( ePluginTypeStoryboardServer, eFriendStateGuest );
     setPluginPermission( ePluginTypeCamServer, eFriendStateIgnore );
@@ -215,8 +214,6 @@ void PluginPermission::setPluginPermissionsToDefaultValues( void )
 
     setPluginPermission( ePluginTypeClientRandomConnect, eFriendStateGuest );
 	setPluginPermission( ePluginTypeHostRandomConnect, eFriendStateIgnore );
-
-    setPluginPermission( ePluginTypeNetworkSearchList, eFriendStateIgnore );
 } 
 
 //============================================================================

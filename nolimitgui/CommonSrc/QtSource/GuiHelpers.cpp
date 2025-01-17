@@ -646,7 +646,6 @@ bool GuiHelpers::isAppletAClient( EApplet applet )
              || ( eAppletAvatarImageClient == applet )
              || ( eAppletConnectionTestClient == applet )
              || ( eAppletGroupClient == applet )
-             || ( eAppletHostGroupListingClient == applet )
              || ( eAppletRandomConnectClient == applet )
              || ( eAppletClientShareFiles == applet )
              || ( eAppletCamClient == applet )
@@ -665,7 +664,7 @@ EPluginType GuiHelpers::getAppletAssociatedPlugin( EApplet applet )
     case eAppletAvatarImageClient:          return ePluginTypeClientPeerUser;
     case eAppletConnectionTestClient:       return ePluginTypeClientConnectTest;
     case eAppletGroupClient:                return ePluginTypeHostGroup;
-    case eAppletHostGroupListingClient:     return ePluginTypeNetworkSearchList;
+
     case eAppletHostNetworkClient:          return ePluginTypeHostNetwork;
     case eAppletRandomConnectClient:        return ePluginTypeClientRandomConnect;
     case eAppletClientShareFiles:           return ePluginTypeFileShareServer;
@@ -725,7 +724,6 @@ EApplet GuiHelpers::pluginTypeToEditApplet( EPluginType pluginType )
     case ePluginTypeFileShareServer:        return eAppletUnknown;
     case ePluginTypePersonFileXfer:         return eAppletUnknown;
     case ePluginTypeHostGroup:              return eAppletUnknown;
-    case ePluginTypeNetworkSearchList:      return eAppletUnknown;
     case ePluginTypeHostNetwork:            return eAppletUnknown;
     case ePluginTypeClientRandomConnect:    return eAppletUnknown;
     case ePluginTypeHostRandomConnect:      return eAppletUnknown;
@@ -786,7 +784,6 @@ EApplet GuiHelpers::pluginTypeToViewApplet( EPluginType pluginType )
     case ePluginTypeFileShareServer:        return eAppletUnknown;
     case ePluginTypePersonFileXfer:         return eAppletUnknown;
     case ePluginTypeHostGroup:              return eAppletUnknown;
-    case ePluginTypeNetworkSearchList:      return eAppletUnknown;
     case ePluginTypeHostNetwork:            return eAppletUnknown;
     case ePluginTypeClientRandomConnect:    return eAppletUnknown;
     case ePluginTypeHostRandomConnect:      return eAppletUnknown;
@@ -903,7 +900,7 @@ EMyIcons GuiHelpers::pluginTypeToSettingsIcon( EPluginType pluginType )
     case ePluginTypeFileShareServer:        return eMyIconSettingsShareFiles;
     case ePluginTypePersonFileXfer:         return eMyIconSettingsFileXfer;
     case ePluginTypeHostGroup:              return eMyIconSettingsHostGroup;
-    case ePluginTypeNetworkSearchList:      return eMyIconSettingsHostGroupListing;
+
     case ePluginTypeHostNetwork:            return eMyIconSettingsHostNetwork;
     case ePluginTypeMessenger:              return eMyIconSettingsMessenger;
     case ePluginTypeClientRandomConnect:    return eMyIconSettingsRandomConnect;
@@ -934,7 +931,6 @@ bool GuiHelpers::isPluginAPrimaryService( EPluginType pluginType )
     bool isPrimaryPlugin = false;
     switch( pluginType )
     {
-    case ePluginTypeAdmin:
     case ePluginTypeAboutMePageServer:
     case ePluginTypeVoicePhone:
     case ePluginTypeVideoPhone:
@@ -953,7 +949,6 @@ bool GuiHelpers::isPluginAPrimaryService( EPluginType pluginType )
         isPrimaryPlugin = true;
         break;
 
-    case ePluginTypeNetworkSearchList:
     case ePluginTypeClientConnectTest:
     default:
         break;
@@ -969,20 +964,19 @@ bool GuiHelpers::getSecondaryPlugins( EPluginType pluginType, QVector<EPluginTyp
     switch( pluginType )
     {
     case ePluginTypeHostNetwork:
-        secondaryPlugins.push_back( ePluginTypeNetworkSearchList );
-        secondaryPlugins.push_back( ePluginTypeHostConnectTest );
+        secondaryPlugins.emplace_back( ePluginTypeHostConnectTest );
         break;
 
     case ePluginTypeHostChatRoom:
-        secondaryPlugins.push_back( ePluginTypeHostConnectTest );
+        secondaryPlugins.emplace_back( ePluginTypeHostConnectTest );
         break;
 
     case ePluginTypeHostGroup:
-        secondaryPlugins.push_back( ePluginTypeHostConnectTest );
+        secondaryPlugins.emplace_back( ePluginTypeHostConnectTest );
         break;
 
     case ePluginTypeHostRandomConnect:
-        secondaryPlugins.push_back( ePluginTypeHostConnectTest );
+        secondaryPlugins.emplace_back( ePluginTypeHostConnectTest );
         break;
 
     default:
@@ -1796,7 +1790,7 @@ void GuiHelpers::setIdentityFromValues( QWidget* curWidget, VxNetIdent* ident, Q
             genderValue = 0;
         }
 
-        ident->setGender( genderValue );
+        ident->setGender( (EGenderType)genderValue );
 
         int languageValue = languageCombo->currentIndex();
         if( ( 0 > languageValue ) || ( eMaxLanguageType <= genderValue ) )
@@ -1804,7 +1798,7 @@ void GuiHelpers::setIdentityFromValues( QWidget* curWidget, VxNetIdent* ident, Q
             languageValue = 0;
         }
 
-        ident->setPrimaryLanguage( languageValue );
+        ident->setPrimaryLanguage( (ELanguageType)languageValue );
 
         int contentValue = contentCombo->currentIndex();
         if( ( 0 > contentValue ) || ( eMaxContentRating <= genderValue ) )
@@ -1812,7 +1806,7 @@ void GuiHelpers::setIdentityFromValues( QWidget* curWidget, VxNetIdent* ident, Q
             contentValue = 0;
         }
 
-        ident->setPreferredContent( contentValue );
+        ident->setPreferredContent( (EContentRating)contentValue );
     }
 }
 

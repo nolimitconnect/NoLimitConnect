@@ -200,7 +200,7 @@ list(APPEND ptopengine_SOURCES
     Plugins/PluginMessenger.cpp
     Plugins/PluginNetServices.cpp
 	Plugins/PluginNetworkHost.cpp
-	Plugins/PluginNetworkSearchList.cpp
+
     Plugins/PluginPeerUserHost.cpp
     Plugins/PluginPersonFileXfer.cpp
     Plugins/PluginPushToTalk.cpp

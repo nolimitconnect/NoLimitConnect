@@ -58,13 +58,12 @@ void AppletPermissionList::connectSignals( void )
 //============================================================================
 void AppletPermissionList::initializePermissionList( void )
 {
-    for( int i = ePluginTypeAdmin + 1; i < eMaxImplementedPluginType; ++i )
+    for( int i = 1; i < eMaxImplementedPluginType; ++i )
     {
-        if( GuiHelpers::isPluginAPrimaryService( ( EPluginType )i ) )
+        EPluginType pluginType = ( EPluginType )i;
+        if( GuiHelpers::isPluginAPrimaryService( pluginType ) )
         {
-            EPluginType pluginType = ( EPluginType )i;
-
-            m_PluginList.push_back( pluginType );
+            m_PluginList.emplace_back( pluginType );
             createPermissionItem( pluginType );
         }
     }

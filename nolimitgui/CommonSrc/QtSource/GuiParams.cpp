@@ -957,9 +957,6 @@ QString GuiParams::describePluginType( EPluginType pluginType )
     QString strPluginType;
     switch( pluginType )
     {
-    case ePluginTypeAdmin:	
-        strPluginType = QObject::tr( "Admin" );
-        break;
 
     case ePluginTypeAboutMePageClient:
         strPluginType = QObject::tr( "About Me Page Viewer" );
@@ -1006,7 +1003,7 @@ QString GuiParams::describePluginType( EPluginType pluginType )
         break;
 
     case ePluginTypeTruthOrDare:	// Web Cam Truth Or Dare game p2p plugin
-        strPluginType = QObject::tr("Play Truth Or Dare");
+        strPluginType = QObject::tr("Truth Or Dare");
         break;
 
     case ePluginTypeStoryboardServer:	// story board plugin
@@ -1049,10 +1046,6 @@ QString GuiParams::describePluginType( EPluginType pluginType )
         strPluginType = QObject::tr("Host Connect Test");
         break;
 
-    case ePluginTypeNetworkSearchList:	//!< group and chat room list for network search
-        strPluginType = QObject::tr("Network Search");
-        break;
-
     case ePluginTypeFileShareClient:
         strPluginType = QObject::tr( "Shared Files Client" );
         break;
@@ -1080,10 +1073,6 @@ std::string GuiParams::describePlugin( EPluginType pluginType, bool rmtInitiated
 
     switch(pluginType)
     {
-    case ePluginTypeAdmin:
-        strPluginDesc = QObject::tr( "Administration Service" ).toUtf8().constData();
-        break;
-
     case ePluginTypeAboutMePageClient:
         strPluginDesc = QObject::tr( "View About Me Page" ).toUtf8().constData();
         break;
@@ -1162,17 +1151,6 @@ std::string GuiParams::describePlugin( EPluginType pluginType, bool rmtInitiated
         strPluginDesc = QObject::tr( "Connect To Random Person Service" ).toUtf8().constData();
         break;
 
-    case ePluginTypeNetworkSearchList:
-        if( rmtInitiated )
-        {
-            strPluginDesc = QObject::tr( "Host List Search Service" ).toUtf8().constData();
-        }
-        else
-        {
-            strPluginDesc = QObject::tr( "Host List Search Service" ).toUtf8().constData();
-        }
-        break;
-
     case ePluginTypeHostNetwork:
         strPluginDesc = QObject::tr( "Host No Limit Network" ).toUtf8().constData();
         break;
@@ -1201,10 +1179,6 @@ std::string GuiParams::describePlugin( EPluginType pluginType, bool rmtInitiated
         strPluginDesc = QObject::tr( "Phone Call With Voice Only" ).toUtf8().constData();
         break;
 
-    case ePluginTypeCameraService:
-        strPluginDesc = QObject::tr( "Camera Feed Service" ).toUtf8().constData();
-        break;
-
     case ePluginTypeMJPEGReader:
         strPluginDesc = QObject::tr( "MJPEG Movie Reader" ).toUtf8().constData();
         break;
@@ -1219,10 +1193,6 @@ std::string GuiParams::describePlugin( EPluginType pluginType, bool rmtInitiated
 
     case ePluginTypeNetServices:
         strPluginDesc = QObject::tr( "Network Services" ).toUtf8().constData();
-        break;
-
-    case ePluginTypeSearch:
-        strPluginDesc = QObject::tr( "Search Services" ).toUtf8().constData();
         break;
 
     case ePluginTypeSndReader:
@@ -1665,6 +1635,71 @@ QString GuiParams::describeFileLength( uint64_t fileLen )
 }
 
 //============================================================================
+QString GuiParams::describeFileTypeMask( uint8_t fileTypeMask )
+{
+    if( fileTypeMask & VXFILE_TYPE_PHOTO )
+    {
+        return QObject::tr("Photo");
+    }
+    else if( fileTypeMask & VXFILE_TYPE_AUDIO )
+    {
+        return QObject::tr("Audio");
+    }
+    else if( fileTypeMask & VXFILE_TYPE_VIDEO )
+    {
+        return QObject::tr("Video");
+    }
+    else if( fileTypeMask & VXFILE_TYPE_DOC )
+    {
+        return QObject::tr("Document");
+    }
+    else if( fileTypeMask & VXFILE_TYPE_ARCHIVE_OR_CDIMAGE )
+    {
+        return QObject::tr("Archive Or ISO");
+    }
+    else if( fileTypeMask & VXFILE_TYPE_EXECUTABLE )
+    {
+        return QObject::tr("Executable");
+    }
+    else if( fileTypeMask & VXFILE_TYPE_OTHER )
+    {
+        return QObject::tr("Other");
+    }
+    else if( fileTypeMask & VXFILE_TYPE_DIRECTORY )
+    {
+        return QObject::tr("Folder");
+    }
+    else
+    {
+        vx_assert( false );
+        return QObject::tr("Unknown");
+    }
+}
+
+//============================================================================
+QString GuiParams::describeFileTypes( uint8_t fileTypes )
+{
+    QString desc;
+    uint8_t mask = 1;
+    for( int i = 0; i < 8; i++ )
+    {
+        if( fileTypes & mask )
+        {
+            if( !desc.isEmpty() )
+            {
+                desc += ", ";
+            }
+
+            desc += describeFileTypeMask( mask );
+        }
+
+        mask = mask << 1;
+    }
+
+    return desc;
+}
+
+//============================================================================
 QString GuiParams::describeOfferState( EOfferState offerState )
 {
     switch( offerState )
@@ -1956,25 +1991,9 @@ EAssetType GuiParams::fileTypeToAssetType( uint8_t fileTypeFlags )
 //============================================================================
 QString GuiParams::describeFileType( uint8_t fileType )
 {
-    switch( fileType )
-    {
-    case VXFILE_TYPE_PHOTO:
-        return QObject::tr("Photo: ");
-    case VXFILE_TYPE_AUDIO:
-        return QObject::tr("Audio: ");
-    case VXFILE_TYPE_VIDEO:
-        return QObject::tr("Video: ");
-    case VXFILE_TYPE_DOC:
-        return QObject::tr("Documents: ");
-    case VXFILE_TYPE_ARCHIVE_OR_CDIMAGE:
-        return QObject::tr( "Archive Or ISO: " );
-    case VXFILE_TYPE_EXECUTABLE:
-        return QObject::tr( "Executable: " );
-    case VXFILE_TYPE_DIRECTORY:
-        return QObject::tr( "Folder: " );
-    default:
-        return QObject::tr( "Other: " );
-    }
+    QString fileDesc = describeFileTypeMask( fileType );
+    fileDesc += ": ";
+    return fileDesc;
 }
 
 //============================================================================

@@ -72,10 +72,15 @@ GuiUserMultiListWidget::GuiUserMultiListWidget(	QWidget* parent )
     connect( ui.m_EyeSearch,            SIGNAL(clicked()),                      this,   SLOT(slotEyeSearchButtonClicked()) );
 
     connect( ui.m_EverybodyView,		SIGNAL(clicked()),						this,	SLOT(slotEverybodyButtonClicked()) );
+    connect( ui.m_EverybodyLabel,		SIGNAL(clicked()),						this,	SLOT(slotEverybodyButtonClicked()) );
     connect( ui.m_FriendsView,		    SIGNAL(clicked()),						this,	SLOT(slotFriendsButtonClicked()) );
+    connect( ui.m_FriendsLabel,		    SIGNAL(clicked()),						this,	SLOT(slotFriendsButtonClicked()) );
     connect( ui.m_GroupHost,	        SIGNAL(clicked()),						this,	SLOT(slotGroupHostButtonClicked()) );
+    connect( ui.m_GroupLabel,	        SIGNAL(clicked()),						this,	SLOT(slotGroupHostButtonClicked()) );
     connect( ui.m_ChatRoomHost ,        SIGNAL(clicked()),						this,	SLOT(slotChatRoomHostButtonClicked()) );
+    connect( ui.m_ChatRoomLabel ,       SIGNAL(clicked()),						this,	SLOT(slotChatRoomHostButtonClicked()) );
     connect( ui.m_RandomConnectHost,	SIGNAL(clicked()),	                    this,	SLOT(slotRandomConnectHostButtonClicked()) );
+    connect( ui.m_RandomConnectLabel,	SIGNAL(clicked()),	                    this,	SLOT(slotRandomConnectHostButtonClicked()) );
 
 	connect( ui.m_UserListWidget,		SIGNAL(signalUserAvatarClicked(GuiUser*)), this, SLOT(slotUserSelected(GuiUser*)) );
     connect( ui.m_SearchBarWidget,      SIGNAL(signalSearchTextChanged(QString)), this, SLOT(slotSearchTextChanged(QString)) );

@@ -23,7 +23,7 @@ enum EApplet
     // start of home page applets.. shown in order of enumeration
     eAppletGetStarted,
 
-    eAppletFriendListClient,
+    eAppletFriendList,
 
     eAppletGroupJoin,
     eAppletChatRoomJoin,
@@ -123,7 +123,7 @@ enum EApplet
     eAppletAvatarImageClient,	    // get users avatar imaage from other user
 
     eAppletConnectionTestClient,    // network test service for users to test if they have a open port
-    eAppletHostGroupListingClient,  // group listing host service for group hosts. provide search for groups to join, provide ip address etc
+
     eAppletHostNetworkClient,       // network host service for a nolimitconnect network.. requires fixed ip address, group list hosts announce to network host
 
     eAppletGroupClient,	            // client of joined group host. provide search and relay services for group users
@@ -198,6 +198,7 @@ enum EApplet
     eAppletInviteCreate,
 
     eAppletAboutMeClient,
+    eAppletAboutUser,
     eAppletFileShareClientView,
     eAppletStoryboardClient,
 

@@ -8,7 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppletFriendListClient.h"
+#include "AppletFriendList.h"
 
 #include "ActivityInformation.h"
 
@@ -25,7 +25,7 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
-#include "ui_AppletFriendListClient.h"
+#include "ui_AppletFriendList.h"
 
 namespace
 {
@@ -33,11 +33,11 @@ namespace
 }
 
 //============================================================================
-AppletFriendListClient::AppletFriendListClient(	AppCommon& app, QWidget* parent )
+AppletFriendList::AppletFriendList(	AppCommon& app, QWidget* parent )
 : AppletClientBase( OBJNAME_APPLET_FRIEND_LIST_CLIENT, app, parent )
-, ui(*(new Ui::AppletFriendListClientUi))
+, ui(*(new Ui::AppletFriendListUi))
 {
-    setAppletType( eAppletFriendListClient );
+    setAppletType( eAppletFriendList );
     setHostType( eHostTypeGroup );
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
@@ -64,10 +64,13 @@ AppletFriendListClient::AppletFriendListClient(	AppCommon& app, QWidget* parent 
     connect( this,					    SIGNAL(finished(int)),						this, SLOT(slotHomeButtonClicked()) );
 
     connect( ui.m_FriendsButton, SIGNAL(clicked()), this, SLOT(slotFriendsButtonClicked()) );
+    connect( ui.m_OnlineLabel, SIGNAL(clicked()), this, SLOT(slotFriendsButtonClicked()) );
     connect( ui.m_FriendsInfoButton, SIGNAL(clicked()), this, SLOT(slotFriendsInfoButtonClicked()) );
     connect( ui.m_IgnoredButton, SIGNAL(clicked()), this, SLOT(slotIgnoredButtonClicked()) );
+    connect( ui.m_IgnoredLabel, SIGNAL(clicked()), this, SLOT(slotIgnoredButtonClicked()) );
     connect( ui.m_IgnoredInfoButton, SIGNAL(clicked()), this, SLOT(slotIgnoredInfoButtonClicked()) );
     connect( ui.m_OfflineButton, SIGNAL(clicked()), this, SLOT(slotOfflineButtonClicked()) );
+    connect( ui.m_OfflineLabel, SIGNAL(clicked()), this, SLOT(slotOfflineButtonClicked()) );
     connect( ui.m_OfflineInfoButton, SIGNAL(clicked()), this, SLOT(slotOfflineInfoButtonClicked()) );
 
     m_MyApp.activityStateChange( this, true );
@@ -78,33 +81,33 @@ AppletFriendListClient::AppletFriendListClient(	AppCommon& app, QWidget* parent 
 }
 
 //============================================================================
-AppletFriendListClient::~AppletFriendListClient()
+AppletFriendList::~AppletFriendList()
 {
     m_MyApp.activityStateChange( this, false );
 }
 
 //============================================================================
-void AppletFriendListClient::setStatusLabel( QString strMsg )
+void AppletFriendList::setStatusLabel( QString strMsg )
 {
     ui.m_StatusLabel->setText( strMsg );
 }
 
 //============================================================================
-void AppletFriendListClient::showEvent( QShowEvent* ev )
+void AppletFriendList::showEvent( QShowEvent* ev )
 {
     ActivityBase::showEvent( ev );
     wantActivityCallbacks( true );
 }
 
 //============================================================================
-void AppletFriendListClient::hideEvent( QHideEvent* ev )
+void AppletFriendList::hideEvent( QHideEvent* ev )
 {
     wantActivityCallbacks( false );
     ActivityBase::hideEvent( ev );
 }
 
 //============================================================================
-void AppletFriendListClient::toGuiInfoMsg( char * infoMsg )
+void AppletFriendList::toGuiInfoMsg( char * infoMsg )
 {
     QString infoStr( infoMsg );
 #if QT_VERSION > QT_VERSION_CHECK(6,0,0)
@@ -116,7 +119,7 @@ void AppletFriendListClient::toGuiInfoMsg( char * infoMsg )
 }
 
 //============================================================================
-void AppletFriendListClient::infoMsg( const char* errMsg, ... )
+void AppletFriendList::infoMsg( const char* errMsg, ... )
 {
     char as8Buf[ MAX_INFO_MSG_SIZE ];
     va_list argList;
@@ -129,20 +132,20 @@ void AppletFriendListClient::infoMsg( const char* errMsg, ... )
 }
 
 //============================================================================
-void AppletFriendListClient::clearList( void )
+void AppletFriendList::clearList( void )
 {
     ui.m_UserListWidget->clearUserList();
     setStatusLabel( GuiParams::describeUserViewType( m_FriendListType ) + QObject::tr( "List" ) );
 }
 
 //============================================================================
-void AppletFriendListClient::clearStatus( void )
+void AppletFriendList::clearStatus( void )
 {
     setStatusLabel( "" );
 }
 
 //============================================================================
-void AppletFriendListClient::onShowFriendList( void )
+void AppletFriendList::onShowFriendList( void )
 {
     std::vector<std::pair<VxGUID, int64_t>> friendList;
     FriendListMgr& friendMgr = m_Engine.getFriendListMgr();
@@ -155,7 +158,7 @@ void AppletFriendListClient::onShowFriendList( void )
 }
 
 //============================================================================
-void AppletFriendListClient::onShowIgnoreList( void )
+void AppletFriendList::onShowIgnoreList( void )
 {
     std::vector<std::pair<VxGUID, int64_t>> ignoreList;
     IgnoreListMgr& ignoreMgr = m_Engine.getIgnoreListMgr();
@@ -168,7 +171,7 @@ void AppletFriendListClient::onShowIgnoreList( void )
 }
 
 //============================================================================
-void AppletFriendListClient::onShowOfflineList( void )
+void AppletFriendList::onShowOfflineList( void )
 {
     std::vector<std::pair<VxGUID, int64_t>> offlineList;
     m_MyApp.getUserMgr().getOfflineUsers( offlineList );
@@ -177,7 +180,7 @@ void AppletFriendListClient::onShowOfflineList( void )
 }
 
 //============================================================================
-void AppletFriendListClient::onShowFriendTypeChanged( void )
+void AppletFriendList::onShowFriendTypeChanged( void )
 {
     ui.m_FriendsButton->setNotifyType( eNotifyNone );
     ui.m_IgnoredButton->setNotifyType( eNotifyNone );
@@ -205,7 +208,7 @@ void AppletFriendListClient::onShowFriendTypeChanged( void )
 }
 
 //============================================================================
-void AppletFriendListClient::slotFriendsButtonClicked( void )
+void AppletFriendList::slotFriendsButtonClicked( void )
 {
     if( m_FriendListType != eUserViewTypeFriendsOnline )
     {
@@ -215,7 +218,7 @@ void AppletFriendListClient::slotFriendsButtonClicked( void )
 }
 
 //============================================================================
-void AppletFriendListClient::slotIgnoredButtonClicked( void )
+void AppletFriendList::slotIgnoredButtonClicked( void )
 {
     if( m_FriendListType != eUserViewTypeIgnored )
     {
@@ -225,7 +228,7 @@ void AppletFriendListClient::slotIgnoredButtonClicked( void )
 }
 
 //============================================================================
-void AppletFriendListClient::slotOfflineButtonClicked( void )
+void AppletFriendList::slotOfflineButtonClicked( void )
 {
     if( m_FriendListType != eUserViewTypeOffline )
     {
@@ -235,7 +238,7 @@ void AppletFriendListClient::slotOfflineButtonClicked( void )
 }
 
 //============================================================================
-void AppletFriendListClient::slotIgnoredInfoButtonClicked( void )
+void AppletFriendList::slotIgnoredInfoButtonClicked( void )
 {
     ActivityInformation* activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeIgnoredList );
     if( activityInfo )
@@ -245,7 +248,7 @@ void AppletFriendListClient::slotIgnoredInfoButtonClicked( void )
 }
 
 //============================================================================
-void AppletFriendListClient::slotFriendsInfoButtonClicked( void )
+void AppletFriendList::slotFriendsInfoButtonClicked( void )
 {
     ActivityInformation* activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeFriendsList );
     if( activityInfo )
@@ -255,7 +258,7 @@ void AppletFriendListClient::slotFriendsInfoButtonClicked( void )
 }
 
 //============================================================================
-void AppletFriendListClient::slotOfflineInfoButtonClicked( void )
+void AppletFriendList::slotOfflineInfoButtonClicked( void )
 {
     ActivityInformation* activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeOfflineList );
     if( activityInfo )
@@ -265,7 +268,7 @@ void AppletFriendListClient::slotOfflineInfoButtonClicked( void )
 }
 
 //============================================================================
-void AppletFriendListClient::updateUser( EUserViewType listType, VxGUID& onlineId )
+void AppletFriendList::updateUser( EUserViewType listType, VxGUID& onlineId )
 {
     GuiUser* guiUser = m_MyApp.getUserMgr().getOrQueryUser( onlineId );
     if( guiUser )
@@ -275,7 +278,7 @@ void AppletFriendListClient::updateUser( EUserViewType listType, VxGUID& onlineI
 }
 
 //============================================================================
-void AppletFriendListClient::updateUser( GuiUser* guiUser )
+void AppletFriendList::updateUser( GuiUser* guiUser )
 {
     if( guiUser )
     {
@@ -291,7 +294,7 @@ void AppletFriendListClient::updateUser( GuiUser* guiUser )
 }
 
 //============================================================================
-void AppletFriendListClient::updateFriendList( EUserViewType listType, std::vector<std::pair<VxGUID, int64_t>> idList )
+void AppletFriendList::updateFriendList( EUserViewType listType, std::vector<std::pair<VxGUID, int64_t>> idList )
 {
     clearList();
     m_FriendListType = listType;

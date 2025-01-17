@@ -373,16 +373,16 @@ void MultiSessionState::setSessionState( EMSessionState sessionState )
 		switch( m_eMSessionType )
 		{
 		case eMSessionTypePhone:
-			m_AcceptSessionText->setText( tr("Answer Phone" ) );
-			m_RejectSessionText->setText( tr("Reject Phone Call" ) );
+			m_AcceptSessionText->setText( QObject::tr("Answer Phone" ) );
+			m_RejectSessionText->setText( QObject::tr("Reject Phone Call" ) );
 			break;
 		case eMSessionTypeVidChat:
-			m_AcceptSessionText->setText( tr("Accept Video Chat" ) );
-			m_RejectSessionText->setText( tr("Reject Video Chat" ) );
+			m_AcceptSessionText->setText( QObject::tr("Accept Video Chat" ) );
+			m_RejectSessionText->setText( QObject::tr("Reject Video Chat" ) );
 			break;
 		case eMSessionTypeTruthOrDare:
-			m_AcceptSessionText->setText( tr("Play Truth Or Dare" ) );
-			m_RejectSessionText->setText( tr("Reject Truth Or Dare" ) );
+			m_AcceptSessionText->setText( QObject::tr("Play Truth Or Dare" ) );
+			m_RejectSessionText->setText( QObject::tr("Reject Truth Or Dare" ) );
 			break;
 
         case eMaxMSessionType:

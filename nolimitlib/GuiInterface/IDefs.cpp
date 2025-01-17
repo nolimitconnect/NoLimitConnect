@@ -1578,7 +1578,6 @@ const char* GetPluginName( enum EPluginType pluginType )
     switch( pluginType )
     {
     case ePluginTypeInvalid: return "ePluginTypeInvalid";
-    case ePluginTypeAdmin: return "ePluginTypeAdmin";
     case ePluginTypeAboutMePageClient: return "ePluginTypeAboutMePageClient";
     case ePluginTypeAboutMePageServer: return "ePluginTypeAboutMePageServer";
     case ePluginTypeCamServer: return "ePluginTypeCamServer";
@@ -1600,20 +1599,18 @@ const char* GetPluginName( enum EPluginType pluginType )
     case ePluginTypeHostPeerUser: return "ePluginTypeHostPeerUser";
     case ePluginTypeHostRandomConnect: return "ePluginTypeHostRandomConnect";
 
-    case ePluginTypeNetworkSearchList: return "ePluginTypeNetworkSearchList";
-
     case ePluginTypeStoryboardClient: return "ePluginTypeStoryboardClient";
     case ePluginTypeStoryboardServer: return "ePluginTypeStoryboardServer";
     case ePluginTypeTruthOrDare: return "ePluginTypeTruthOrDare";
     case ePluginTypeVideoPhone: return "ePluginTypeVideoPhone";
     case ePluginTypeVoicePhone: return "ePluginTypeVoicePhone";
     case eMaxUserPluginType: return "eMaxUserPluginType";
-    case ePluginTypeCameraService: return "ePluginTypeCameraService";
+
     case ePluginTypeMJPEGReader: return "ePluginTypeMJPEGReader";
     case ePluginTypeMJPEGWriter: return "ePluginTypeMJPEGWriter";
     case ePluginTypePersonalRecorder: return "ePluginTypePersonalRecorder";
     case ePluginTypeNetServices: return "ePluginTypeNetServices";
-    case ePluginTypeSearch: return "ePluginTypeSearch";
+
     case ePluginTypeSndReader: return "ePluginTypeSndReader";
     case ePluginTypeSndWriter: return "ePluginTypeSndWriter";
 
@@ -1852,7 +1849,6 @@ EHostType PluginTypeToHostType( enum EPluginType pluginType )
 
     case ePluginTypeNetServices:
     case ePluginTypeFileShareServer:
-    case ePluginTypeNetworkSearchList:
     case ePluginTypePersonFileXfer:
         return eHostTypeUnknown;
 
@@ -2084,7 +2080,6 @@ bool IsPluginSingleSession( enum EPluginType pluginType )
     case ePluginTypeVideoPhone:
     case ePluginTypeTruthOrDare:
     case ePluginTypeMessenger:
-    case ePluginTypeAdmin:
     case ePluginTypeAboutMePageClient:
     case ePluginTypeStoryboardClient:
     case ePluginTypeFileShareClient:

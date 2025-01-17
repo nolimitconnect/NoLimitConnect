@@ -178,7 +178,6 @@ void ActivityMessageBox::showOfferInfo( OfferBaseInfo& offerInfo )
 	{
 		msg += QObject::tr( "\nFile: " ) + offerInfo.getFileInfo().getFileName().c_str();
 		msg += QObject::tr( "\nFile Length: " ) + GuiParams::describeFileLength( offerInfo.getFileInfo().getFileLength() );
-		msg += QObject::tr( "\nFile Type: " ) + GuiParams::describeFileType( offerInfo.getFileInfo().getFileType() );
+        msg += QObject::tr( "\nFile Type: " ) + GuiParams::describeFileTypeMask( offerInfo.getFileInfo().getFileType() );
 	}
-
 }

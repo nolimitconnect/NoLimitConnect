@@ -137,9 +137,9 @@ void P2PEngine::fromGuiMoodMessageChanged( const char* newMoodMessage )
 void P2PEngine::fromGuiIdentPersonalInfoChanged( int age, int gender, int language, int preferredContent )
 {
     m_PktAnn.setAgeType( (EAgeType)age );
-    m_PktAnn.setGender( gender );
-    m_PktAnn.setPrimaryLanguage( language );
-    m_PktAnn.setPreferredContent( preferredContent );
+    m_PktAnn.setGender( (EGenderType)gender );
+    m_PktAnn.setPrimaryLanguage( (ELanguageType)language );
+    m_PktAnn.setPreferredContent( (EContentRating)preferredContent );
     doPktAnnHasChanged( false );
 }
 
@@ -700,7 +700,6 @@ bool P2PEngine::getIsMyHostServiceEnabled( EHostServiceType hostService )
     switch( hostService )
     {
     case eHostServiceNetworkHost: return m_PktAnn.getPluginPermission( ePluginTypeHostNetwork ) != eFriendStateIgnore;
-    case eHostServiceGroupListing: return m_PktAnn.getPluginPermission( ePluginTypeNetworkSearchList ) != eFriendStateIgnore;
     case eHostServiceGroup: return m_PktAnn.getPluginPermission( ePluginTypeHostGroup ) != eFriendStateIgnore;
     case eHostServiceRelay: return m_PktAnn.getPluginPermission( ePluginTypeHostGroup ) != eFriendStateIgnore;
 	case eHostServiceConnectTest: return m_PktAnn.getPluginPermission( ePluginTypeHostConnectTest ) != eFriendStateIgnore;

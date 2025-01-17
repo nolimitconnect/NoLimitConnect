@@ -503,9 +503,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFileOfferSelect.h">
       <Filter>Header Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendListClient.h">
-      <Filter>Header Files\Applets</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletGalleryEmoticon.h">
       <Filter>Header Files\Applets</Filter>
     </QtMoc>
@@ -1138,6 +1135,12 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiThreadAppLoader.h">
       <Filter>Source Files\GuiLoaderThread</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletAboutUser.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendList.h">
+      <Filter>Header Files\Applets</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -1801,9 +1804,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFileShareServerViewMine.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFriendListClient.cpp">
-      <Filter>Source Files\Applets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGalleryEmoticon.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
@@ -2286,6 +2286,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiThreadSettingsLoader.cpp">
       <Filter>Source Files\GuiLoaderThread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletAboutUser.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFriendList.cpp">
+      <Filter>Source Files\Applets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -3001,9 +3007,6 @@
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletHostSelect.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\AppletFriendListClient.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGalleryEmoticon.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -3140,6 +3143,12 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\FileMediaSelectWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletAboutUser.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletFriendList.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

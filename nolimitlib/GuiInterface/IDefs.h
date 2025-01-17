@@ -415,14 +415,14 @@ enum EHostSearchStatus
 enum EHostServiceType
 {
     eHostServiceInvalid = 0,
+    eHostServiceConnectTest,        // test connection for relay requirement and IP Address  ( normally provided by all Tiers )
     eHostServiceNetworkHost,        // Tier 1 network host service
-    eHostServiceGroupListing,       // Tier 2 group listing service
     eHostServiceGroup,              // Tier 3 host a group service ( group users are considered Tier 4 )
     eHostServiceChatRoom,           // Tier 3 host a chat room service ( chat room users are considered Tier 4 )
-    eHostServiceRelay,              // relay service normally provided by group host ( Tier 3 )
     eHostServiceRandomConnect,      // random connect service normally provided by network host ( Tier 1 )
+    eHostServiceRelay,              // relay service normally provided by group host ( Tier 3 )  
     eHostServiceRandomConnectRelay, // random connection relay service normally provided by network host ( Tier 1 )
-    eHostServiceConnectTest,        // test connection for relay requirement and IP Address  ( normally provided by all Tiers )
+    
 
     eMaxHostServiceType
 };
@@ -507,6 +507,22 @@ enum EInternetStatus
     eMaxInternetStatus
 };
 
+// Can Direct Connect test state
+enum EIsPortOpenStatus
+{
+    eIsPortOpenStatusUnknown						= 0,
+    eIsPortOpenStatusLogMsg							= 1,
+
+    eIsPortOpenStatusOpen							= 2,
+    eIsPortOpenStatusClosed							= 3,
+    eIsPortOpenStatusConnectFail					= 4,
+    eIsPortOpenStatusConnectionDropped				= 5,
+    eIsPortOpenStatusInvalidResponse				= 6,
+    eIsPortOpenStatusTestComplete					= 7,
+
+    eMaxIsPortOpenStatusType
+};
+
 enum EJoinState
 {
     eJoinStateNone     = 0,
@@ -522,6 +538,42 @@ enum EJoinState
     eMaxJoinState	
 };
 
+enum ELanguageType
+{
+    eLangUnspecified = 0,
+    eLangEnglish,       //  (en) English
+    eLangBulgarian,	    //  (bg) Bulgarian
+    eLangChinese,	    //  (ch) Chinese
+    eLangCroatian,      //  (hr) Croatian
+    eLangCzech,         //  (cs) Czech
+    eLangDanish,        //  (da) Danish
+    eLangDutch,         //  (nl) Dutch
+    eLangEstonian,      //  (et) Estonian
+    eLangFinnish,       //  (fi) Finnish
+    eLangFrench,        //	(fr) French
+    eLangGerman,        //	(de) German
+    eLangGreek,         //  (el) Greek
+    eLangHindi,         //  (hi) Hindi
+    eLangHungarian,     //	(hu) Hungarian
+    eLangItalian,       //	(it) Italian
+    eLangJapanese,      //	(jp) Japanese
+    eLangLatvian,       //	(lv) Latvian
+    eLangLithuanian,    //	(lt) Lithuanian
+    eLangPolish,        //	(pl) Polish
+    eLangPortuguese,    //	(pt) Portuguese
+    eLangRomanian,      //	(ro) Romanian
+    eLangRussian,       //	(ru) Russian
+    eLangSerbian,       //  (sr) Serbian
+    eLangSlovak,        //	(sl) Slovak
+    eLangSpanish,       //	(es) Spanish
+    eLangSwedish,       //	(sv) Swedish
+    eLangThai,          //  (th) Thiawanese
+    eLangTurkish,       //  (tr) Turkish
+    eLangUkrainian,     //	(uk) Ukrainian
+
+    eMaxLanguageType
+};
+
 enum EListAction
 {
     eListActionAnnounced,
@@ -529,6 +581,32 @@ enum EListAction
     eListActionJoinedClient,
 
     eMaxListAction
+};
+
+
+//! \public In Text Chat Session Actions
+enum EMSessionAction
+{
+	eMSessionActionNone = 0,
+	eMSessionActionChatSessionReq,
+	eMSessionActionChatSessionAccept,
+	eMSessionActionChatSessionReject,
+	eMSessionActionOffer,
+	eMSessionActionAccept,
+	eMSessionActionReject,
+	eMSessionActionHangup,
+
+	eMaxMSessionAction
+};
+
+//! \public Session Types
+enum EMSessionType
+{
+	eMSessionTypePhone 						= 0,
+	eMSessionTypeVidChat 					= 1,
+	eMSessionTypeTruthOrDare 				= 2,
+
+	eMaxMSessionType
 };
 
 enum EMediaError
@@ -577,6 +655,53 @@ enum EModuleState
     eMaxModuleState // must be last
 };
 
+enum ENetAvailStatus
+{
+    eNetAvailNoInternet = 0,
+    eNetAvailHostAvail,
+    eNetAvailP2PAvail,
+    eNetAvailOnlineButNoRelay,
+    eNetAvailFullOnlineWithRelay,
+    eNetAvailFullOnlineDirectConnect,
+    eNetAvailRelayGroupHost,
+    eNetAvailDirectGroupHost,
+
+    eMaxNetAvailStatus
+};
+
+enum ENetCmdType
+{
+    eNetCmdUnknown						= 0,
+    eNetCmdHostPing						= 1,		
+    eNetCmdHostPong						= 2,		
+    eNetCmdClientPing					= 3,		
+    eNetCmdClientPong					= 4,
+    eNetCmdIsMyPortOpenReq				= 5,		
+    eNetCmdIsMyPortOpenReply			= 6,			
+    eNetCmdQueryHostOnlineIdReq         = 7,
+    eNetCmdQueryHostOnlineIdReply       = 8,
+
+    eMaxNetCmdType
+};
+
+enum ENetCmdError
+{
+    eNetCmdErrorUnknown                 = 0,
+    eNetCmdErrorNone                    = 1,
+    eNetCmdErrorServiceDisabled         = 2,
+    eNetCmdErrorPermissionLevel         = 3,  
+    eNetCmdErrorFailedResolveIpAddr     = 4,
+    eNetCmdErrorInvalidContent          = 5,
+    eNetCmdErrorPortIsClosed            = 6,
+    eNetCmdErrorConnectFailed           = 7,
+    eNetCmdErrorTxFailed                = 8,
+    eNetCmdErrorRxFailed                = 9,
+    eNetCmdErrorBadParameter            = 10,
+    eNetCmdErrorResponseTimedOut        = 11,
+
+    eMaxNetCmdError
+};
+
 enum ENetActionType
 {
     eNetActionUnknown = 0,
@@ -589,6 +714,29 @@ enum ENetActionType
     eNetActionRenewPortForward,
 
     eMaxNetAction
+};
+
+//! \public Network protocol layer
+enum ENetLayerType
+{
+    eNetLayerTypeUndefined = 0,		    //< not specified/initialized
+    eNetLayerTypeInternet,		        //< can communicate with internet
+    eNetLayerTypePtoP,		            //< tcp and extern ip found
+    eNetLayerTypeNetHost,		        //< network host available
+    eNetLayerTypeNetGroup,		        //< network host available
+
+    eMaxNetLayerType		            //< max must be last
+};
+
+enum ENetLayerState
+{
+    eNetLayerStateUndefined = 0,		//< not specified/initialized
+    eNetLayerStateWrongType,		    //< invalid or not relevant net layer type
+    eNetLayerStateTesting,		        //< testing for available 
+    eNetLayerStateFailed,		        //< failed or some issue
+    eNetLayerStateAvailable,		    //< available and ready for use
+
+    eMaxNetLayerState		            //< max must be last
 };
 
 //! Enumeration of Network State Machine states/actions
@@ -821,208 +969,56 @@ enum EPluginType
     //! NOTE: don't handle packets for ePluginTypeInvalid or ePluginTypeWebServer
     ePluginTypeInvalid			    = 0,	//!< unknown or disabled
 
-    ePluginTypeAdmin			    = 1,	//!< Administration ( intended for updates but not currently used )
-    ePluginTypeAboutMePageServer    = 2,	//!< about me web page plugin
-    ePluginTypeStoryboardServer     = 3,	//!< User editable story board web page server
-    ePluginTypeCamServer            = 4,	//!< Web cam broadcast plugin
-    ePluginTypeFileShareServer      = 5,	//!< Shared files server
+    ePluginTypeHostConnectTest      = 1,	//!< Connection Test Service
+    ePluginTypeHostNetwork          = 2,	//!< master network hosting
 
-    ePluginTypePersonFileXfer       = 6,	//!< Offer/accept send a file person to person
-    ePluginTypeMessenger            = 7,	//!< Text, voice and video message texting with voice phone, video chat and truth or dare game available in session
-    ePluginTypeTruthOrDare          = 8,	//!< Video Chat Truth Or Dare game  
-    ePluginTypeVideoPhone           = 9,	//!< Video Chat with motion detect and stream recording
-    ePluginTypeVoicePhone           = 10,	//!< VOIP audio only phone call
+    ePluginTypeHostChatRoom         = 3,	//!< chat room hosting
+    ePluginTypeHostGroup            = 4,    //!< group hosting
+    ePluginTypeHostRandomConnect    = 5,	//!< Random connect to another person hosting
 
-    ePluginTypePushToTalk           = 11,	//!< VOIP audio push to talk
+    ePluginTypeHostPeerUser         = 6,	//!< mainly for avatar image
 
-    ePluginTypeClientGroup          = 12,	//!< group client
-    ePluginTypeClientChatRoom       = 13,	//!< chat room user client plugin
-    ePluginTypeClientRandomConnect  = 14,	//!< Random connect to another person client
-    ePluginTypeClientPeerUser       = 15,	//!< mainly for avatar image
-    ePluginTypeClientNetwork        = 16,	//!< network client
-    ePluginTypeClientConnectTest    = 17,	//!< Connection Test Client
+    ePluginTypeAboutMePageServer    = 7,	//!< about me web page plugin  
+    ePluginTypeMessenger            = 8,	//!< Text, voice and video message texting with voice phone, video chat and truth or dare game available in session
+    ePluginTypePushToTalk           = 9,	//!< VOIP audio push to talk   
+    ePluginTypePersonFileXfer       = 10,	//!< Offer/accept send a file person to person
+    ePluginTypeCamServer            = 11,	//!< Web cam broadcast plugin
+    ePluginTypeFileShareServer      = 12,	//!< Shared files server
+    ePluginTypeStoryboardServer     = 13,	//!< User editable story board web page server
+    ePluginTypeTruthOrDare          = 14,	//!< Video Chat Truth Or Dare game  
+    ePluginTypeVideoPhone           = 15,	//!< Video Chat with motion detect and stream recording
+    ePluginTypeVoicePhone           = 16,	//!< VOIP audio only phone call
 
-    ePluginTypeHostGroup            = 18,   //!< group hosting
-    ePluginTypeHostChatRoom         = 19,	//!< chat room hosting plugin
-    ePluginTypeHostRandomConnect    = 20,	//!< Random connect to another person hosting
-    ePluginTypeHostPeerUser         = 21,	//!< mainly for avatar image
-    ePluginTypeHostNetwork          = 22,	//!< master network hosting
-    ePluginTypeHostConnectTest      = 23,	//!< Connection Test Service
-
-    ePluginTypeNetworkSearchList    = 24,	//!< group and chat room list for network search
-
-    // NOTE: plugin types 25 - 47 not implemented .. reserved for future use
-    eMaxImplementedPluginType	    = 25, 
+    // NOTE: plugin types 17 - 47 not implemented .. reserved for future use
+    eMaxImplementedPluginType	    = 17, 
     // plugins 0-47 are part of PktAnnounce
     // plugins after 47 are system plugins and do not go out in announcement pkt
     eMaxUserPluginType              = 48, // this marks end of announced permission
 
-    ePluginTypeThumbnail            = 49, // not used except in asset database for pluginType
+    ePluginTypeClientConnectTest,	//!< Connection Test Client
+    ePluginTypeClientNetwork,	    //!< network client
 
-    ePluginTypeCameraService,   // 50
-    ePluginTypeMJPEGReader,     // 51
-    ePluginTypeMJPEGWriter,     // 52
-    ePluginTypePersonalRecorder,// 53
-    ePluginTypeNetServices,     // 54
-    ePluginTypeSearch,          // 55
-    ePluginTypeSndReader,       // 56
-    ePluginTypeSndWriter,       // 57
+    ePluginTypeClientChatRoom,	    //!< chat room user client plugin
+    ePluginTypeClientGroup,	        //!< group client   
+    ePluginTypeClientRandomConnect,	//!< Random connect to another person client
+    ePluginTypeClientPeerUser,	    //!< mainly for avatar image
 
-    ePluginTypeAboutMePageClient,	// 58 about me web page plugin client
-    ePluginTypeStoryboardClient,	// 59 storyboard web page plugin client
-    ePluginTypeFileShareClient,     // 60 shared files client
-    ePluginTypeCamClient,           // 61 cam server plugin client
+    ePluginTypeThumbnail,           // not used except in asset database for pluginType
+    ePluginTypeNetServices,         // 
+    ePluginTypeLibraryServer,       // library
+    ePluginTypePersonalRecorder,    //
 
-    ePluginTypeLibraryServer,       // 62 library
+    ePluginTypeAboutMePageClient,	// about me web page plugin client
+    ePluginTypeStoryboardClient,	// storyboard web page plugin client
+    ePluginTypeFileShareClient,     // shared files client
+    ePluginTypeCamClient,           // cam server plugin client 
+   
+    ePluginTypeMJPEGReader, 
+    ePluginTypeMJPEGWriter, 
+    ePluginTypeSndReader,
+    ePluginTypeSndWriter,
 
     eMaxPluginType	
-};
-
-//! \public In Text Chat Session Actions
-enum EMSessionAction
-{
-	eMSessionActionNone = 0,
-	eMSessionActionChatSessionReq,
-	eMSessionActionChatSessionAccept,
-	eMSessionActionChatSessionReject,
-	eMSessionActionOffer,
-	eMSessionActionAccept,
-	eMSessionActionReject,
-	eMSessionActionHangup,
-
-	eMaxMSessionAction
-};
-
-//! \public Session Types
-enum EMSessionType
-{
-	eMSessionTypePhone 						= 0,
-	eMSessionTypeVidChat 					= 1,
-	eMSessionTypeTruthOrDare 				= 2,
-
-	eMaxMSessionType
-};
-
-enum ELanguageType
-{
-    eLangUnspecified = 0,
-    eLangEnglish,       //  (en) English
-    eLangBulgarian,	    //  (bg) Bulgarian
-    eLangChinese,	    //  (ch) Chinese
-    eLangCroatian,      //  (hr) Croatian
-    eLangCzech,         //  (cs) Czech
-    eLangDanish,        //  (da) Danish
-    eLangDutch,         //  (nl) Dutch
-    eLangEstonian,      //  (et) Estonian
-    eLangFinnish,       //  (fi) Finnish
-    eLangFrench,        //	(fr) French
-    eLangGerman,        //	(de) German
-    eLangGreek,         //  (el) Greek
-    eLangHindi,         //  (hi) Hindi
-    eLangHungarian,     //	(hu) Hungarian
-    eLangItalian,       //	(it) Italian
-    eLangJapanese,      //	(jp) Japanese
-    eLangLatvian,       //	(lv) Latvian
-    eLangLithuanian,    //	(lt) Lithuanian
-    eLangPolish,        //	(pl) Polish
-    eLangPortuguese,    //	(pt) Portuguese
-    eLangRomanian,      //	(ro) Romanian
-    eLangRussian,       //	(ru) Russian
-    eLangSerbian,       //  (sr) Serbian
-    eLangSlovak,        //	(sl) Slovak
-    eLangSpanish,       //	(es) Spanish
-    eLangSwedish,       //	(sv) Swedish
-    eLangThai,          //  (th) Thiawanese
-    eLangTurkish,       //  (tr) Turkish
-    eLangUkrainian,     //	(uk) Ukrainian
-
-    eMaxLanguageType
-};
-
-//! \public Network protocol layer
-enum ENetLayerType
-{
-    eNetLayerTypeUndefined = 0,		    //< not specified/initialized
-    eNetLayerTypeInternet,		        //< can communicate with internet
-    eNetLayerTypePtoP,		            //< tcp and extern ip found
-    eNetLayerTypeNetHost,		        //< network host available
-    eNetLayerTypeNetGroup,		        //< network host available
-
-    eMaxNetLayerType		            //< max must be last
-};
-
-enum ENetLayerState
-{
-    eNetLayerStateUndefined = 0,		//< not specified/initialized
-    eNetLayerStateWrongType,		    //< invalid or not relevant net layer type
-    eNetLayerStateTesting,		        //< testing for available 
-    eNetLayerStateFailed,		        //< failed or some issue
-    eNetLayerStateAvailable,		    //< available and ready for use
-
-    eMaxNetLayerState		            //< max must be last
-};
-
-enum ENetAvailStatus
-{
-    eNetAvailNoInternet = 0,
-    eNetAvailHostAvail,
-    eNetAvailP2PAvail,
-    eNetAvailOnlineButNoRelay,
-    eNetAvailFullOnlineWithRelay,
-    eNetAvailFullOnlineDirectConnect,
-    eNetAvailRelayGroupHost,
-    eNetAvailDirectGroupHost,
-
-    eMaxNetAvailStatus
-};
-
-enum ENetCmdType
-{
-    eNetCmdUnknown						= 0,
-    eNetCmdHostPing						= 1,		
-    eNetCmdHostPong						= 2,		
-    eNetCmdClientPing					= 3,		
-    eNetCmdClientPong					= 4,
-    eNetCmdIsMyPortOpenReq				= 5,		
-    eNetCmdIsMyPortOpenReply			= 6,			
-    eNetCmdQueryHostOnlineIdReq         = 7,
-    eNetCmdQueryHostOnlineIdReply       = 8,
-
-    eMaxNetCmdType
-};
-
-enum ENetCmdError
-{
-    eNetCmdErrorUnknown                 = 0,
-    eNetCmdErrorNone                    = 1,
-    eNetCmdErrorServiceDisabled         = 2,
-    eNetCmdErrorPermissionLevel         = 3,  
-    eNetCmdErrorFailedResolveIpAddr     = 4,
-    eNetCmdErrorInvalidContent          = 5,
-    eNetCmdErrorPortIsClosed            = 6,
-    eNetCmdErrorConnectFailed           = 7,
-    eNetCmdErrorTxFailed                = 8,
-    eNetCmdErrorRxFailed                = 9,
-    eNetCmdErrorBadParameter            = 10,
-    eNetCmdErrorResponseTimedOut        = 11,
-
-    eMaxNetCmdError
-};
-
-// Can Direct Connect test state
-enum EIsPortOpenStatus
-{
-    eIsPortOpenStatusUnknown						= 0,
-    eIsPortOpenStatusLogMsg							= 1,
-
-    eIsPortOpenStatusOpen							= 2,
-    eIsPortOpenStatusClosed							= 3,
-    eIsPortOpenStatusConnectFail					= 4,
-    eIsPortOpenStatusConnectionDropped				= 5,
-    eIsPortOpenStatusInvalidResponse				= 6,
-    eIsPortOpenStatusTestComplete					= 7,
-
-    eMaxIsPortOpenStatusType
 };
 
 enum ERelayErr

@@ -66,6 +66,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppSetup.h
     CommonSrc/QtSource/AppletAboutApp.h
     CommonSrc/QtSource/AppletAboutMeClient.h
+    CommonSrc/QtSource/AppletAboutUser.h
     CommonSrc/QtSource/AppletAboutMeServerViewMine.h
     CommonSrc/QtSource/AppletApplicationInfo.h
     CommonSrc/QtSource/AppletAssetPlayerBase.h
@@ -92,7 +93,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletFileOfferSelect.h
     CommonSrc/QtSource/AppletFileShareClientView.h
     CommonSrc/QtSource/AppletFileShareServerViewMine.h
-    CommonSrc/QtSource/AppletFriendListClient.h
+    CommonSrc/QtSource/AppletFriendList.h
     CommonSrc/QtSource/AppletGalleryImage.h
     CommonSrc/QtSource/AppletGalleryEmoticon.h
     CommonSrc/QtSource/AppletGalleryThumb.h
@@ -474,6 +475,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppSetup.cpp
     CommonSrc/QtSource/AppletAboutApp.cpp
     CommonSrc/QtSource/AppletAboutMeClient.cpp
+    CommonSrc/QtSource/AppletAboutUser.cpp
     CommonSrc/QtSource/AppletAboutMeServerViewMine.cpp
     CommonSrc/QtSource/AppletApplicationInfo.cpp
     CommonSrc/QtSource/AppletAssetPlayerBase.cpp
@@ -500,7 +502,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletFileOfferSelect.cpp
     CommonSrc/QtSource/AppletFileShareClientView.cpp
     CommonSrc/QtSource/AppletFileShareServerViewMine.cpp
-    CommonSrc/QtSource/AppletFriendListClient.cpp
+    CommonSrc/QtSource/AppletFriendList.cpp
     CommonSrc/QtSource/AppletGalleryImage.cpp
     CommonSrc/QtSource/AppletGalleryEmoticon.cpp
     CommonSrc/QtSource/AppletGalleryThumb.cpp
@@ -851,6 +853,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/AcceptCancelWidget.ui
     CommonSrc/Forms/AppletAboutApp.ui
     CommonSrc/Forms/AppletAboutMeClient.ui
+    CommonSrc/Forms/AppletAboutUser.ui
     CommonSrc/Forms/AppletApplicationInfo.ui
     CommonSrc/Forms/AppletBrowseFiles.ui
     CommonSrc/Forms/AppletCamClient.ui
@@ -866,7 +869,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/AppletEditStoryBoard.ui
     CommonSrc/Forms/AppletFileOfferSelect.ui
     CommonSrc/Forms/AppletFileShareClientView.ui
-    CommonSrc/Forms/AppletFriendListClient.ui
+    CommonSrc/Forms/AppletFriendList.ui
     CommonSrc/Forms/AppletGalleryImage.ui
     CommonSrc/Forms/AppletGalleryEmoticon.ui
     CommonSrc/Forms/AppletGalleryThumb.ui

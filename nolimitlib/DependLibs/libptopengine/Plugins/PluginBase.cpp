@@ -117,7 +117,6 @@ EHostType PluginBase::getHostType( void )
 
     case ePluginTypeClientNetwork:
     case ePluginTypeHostNetwork:
-    case ePluginTypeNetworkSearchList:
         hostType = eHostTypeNetwork;
         break;
 

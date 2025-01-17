@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AppletFriendListClientUi</class>
- <widget class="QWidget" name="AppletFriendListClientUi">
+ <class>AppletFriendListUi</class>
+ <widget class="QWidget" name="AppletFriendListUi">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -90,7 +90,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="m_OnlineLabel">
+         <widget class="VxLabel" name="m_OnlineLabel">
           <property name="text">
            <string>Online</string>
           </property>
@@ -136,7 +136,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="m_IgnoredLabel">
+         <widget class="VxLabel" name="m_IgnoredLabel">
           <property name="text">
            <string>Blocked</string>
           </property>
@@ -182,7 +182,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="m_OfflineLabel">
+         <widget class="VxLabel" name="m_OfflineLabel">
           <property name="text">
            <string>Offline</string>
           </property>
@@ -242,6 +242,11 @@
    <extends>QWidget</extends>
    <header>GuiUserListWidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VxLabel</class>
+   <extends>QLabel</extends>
+   <header>VxLabel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
