@@ -285,6 +285,7 @@ VFile* VirtStreamMgr::fileOpen( const char* fileNameIn, const char* fileMode )
     std::string fileName( fileNameIn );
 
 	bool virtStream{ false };
+	bool createIfDoesNotExist{ false };
 	if( mode.size() > 0 )
 	{
 		std::size_t foundPos = mode.find_last_of("v");
@@ -298,13 +299,15 @@ VFile* VirtStreamMgr::fileOpen( const char* fileNameIn, const char* fileMode )
 		{
 			return virtFileOpen( fileName, mode );
 		}
+
+		createIfDoesNotExist = mode.find_last_of("+") != std::string::npos;
 	}
 
 	VFile* vFile = (VFile*)malloc( sizeof( VFile ) );
 	vx_assert( vFile );
 	memset( vFile, 0, sizeof( VFile ) );
 
-	vFile->m_FileLen = VxFileUtil::fileExists( fileName.c_str() );
+	vFile->m_FileLen = VxFileUtil::fileExists( fileName.c_str(), !createIfDoesNotExist );
 	FILE* fp = fopen( fileName.c_str(), mode.c_str() );
 	vFile->m_Error = VxGetLastError();
 

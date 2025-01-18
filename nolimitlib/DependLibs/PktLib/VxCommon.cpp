@@ -149,8 +149,8 @@ EFriendState PluginPermission::getPluginPermission( EPluginType pluginType, bool
 //============================================================================
 //! set type of permission user has set for givin plugin
 void PluginPermission::setPluginPermission( EPluginType pluginType, EFriendState eFriendState ) 
-{ 
-	if(( pluginType > 0 ) && ( pluginType < eMaxUserPluginType ) )
+{
+    if(( pluginType > 0 ) && ( pluginType < eMaxPermissionPluginType ) )
 	{
 		int pluginNum = (int)(pluginType - 1);
 		int byteIdx = pluginNum >> 1;
@@ -177,6 +177,11 @@ void PluginPermission::setPluginPermission( EPluginType pluginType, EFriendState
 			LogMsg( LOG_ERROR, "setPluginPermission index out of range %d", byteIdx );
 		}
 	}
+    else
+    {
+        LogMsg( LOG_ERROR, "setPluginPermission invalid plugin %d", pluginType );
+        vx_assert( false );
+    }
 }
 
 //============================================================================

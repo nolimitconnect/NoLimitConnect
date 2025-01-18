@@ -1061,6 +1061,7 @@ QString GuiParams::describePluginType( EPluginType pluginType )
     default:
         strPluginType = QObject::tr("Unknown Plugin");
         LogMsg( LOG_ERROR, "DescribePluginAction: unrecognized plugin %d", pluginType );
+        vx_assert( false );
     }
 
     return strPluginType;

@@ -247,7 +247,7 @@ bool OfferSessionLogic::sendOfferOrResponse()
 		return true;
 	}
 
-	if( m_ePluginType < eMaxUserPluginType )
+    if( m_ePluginType < eMaxNetUsePluginType )
 	{
 		bool sentOk = true;
 		if( m_IsOffer )
@@ -295,6 +295,11 @@ bool OfferSessionLogic::sendOfferOrResponse()
 
 		return sentOk;
 	}
+    else
+    {
+        LogMsg( LOG_ERROR, "OfferSessionLogic::%s invalid plugin %d", __func__, m_ePluginType );
+        vx_assert( false );
+    }
 
 	return true;
 }
@@ -302,7 +307,7 @@ bool OfferSessionLogic::sendOfferOrResponse()
 //============================================================================
 bool OfferSessionLogic::sendOfferReply( EOfferResponse offerResponse )
 {
-	if( m_ePluginType < eMaxUserPluginType )
+    if( m_ePluginType < eMaxNetUsePluginType )
 	{	
 		m_GuiOfferSession->setOfferResponse( offerResponse );
 		bool bSentMsg = m_MyApp.getEngine().fromGuiToPluginOfferReply( getHisIdent()->getMyOnlineId(), getOfferInfo() );
@@ -317,8 +322,12 @@ bool OfferSessionLogic::sendOfferReply( EOfferResponse offerResponse )
 
 		return bSentMsg;
 	}
-	
-	return true;
+    else
+    {
+        LogMsg( LOG_ERROR, "OfferSessionLogic::%s invalid plugin %d", __func__, m_ePluginType );
+        vx_assert( false );
+        return false;
+    }
 }
 
 //============================================================================  
@@ -337,17 +346,22 @@ void OfferSessionLogic::onStop()
 				setIsInSession( false );
 				if( 0 != m_HisIdent )
 				{
-					if( m_ePluginType < eMaxUserPluginType )
+                    if( m_ePluginType < eMaxNetUsePluginType )
 					{
 						m_OfferMgr.fromGuiToPluginOfferReply( m_ePluginType, m_HisIdent, m_OfferInfo, m_OfferSessionId, eOfferResponseEndSession );
 						m_OfferMgr.sentOfferReply( m_ePluginType, m_OfferSessionId, m_HisIdent, eOfferResponseEndSession );
 					}
+                    else
+                    {
+                        LogMsg( LOG_ERROR, "OfferSessionLogic::%s invalid plugin %d", __func__, m_ePluginType );
+                        vx_assert( false );
+                    }
 				}
 			}
 
 			if( 0 != m_HisIdent )
 			{
-				if( m_ePluginType < eMaxUserPluginType )
+                if( m_ePluginType < eMaxNetUsePluginType )
 				{
 					m_MyApp.getEngine().fromGuiStopPluginSession( 	m_ePluginType, 
 																	m_HisIdent->getMyOnlineId(),
@@ -355,6 +369,11 @@ void OfferSessionLogic::onStop()
 																	m_OfferSessionId
 																	);		   
 				}
+                else
+                {
+                    LogMsg( LOG_ERROR, "OfferSessionLogic::%s invalid plugin %d", __func__, m_ePluginType );
+                    vx_assert( false );
+                }
 			}
 		}
 

@@ -463,31 +463,36 @@ namespace
     const char* PluginTypeEnumStrings[] =
     {
         "Unknown Plugin ", // 0
-        "Admin ", // 1
-        "About Me Page Server ", // 2
-        "Story Board Server", // 3
-        "Shared Web Cam ", // 4
-        "Shared Files ", // 5
-        "Send A Person File ", //6    
-        "Messenger ",  // 7
-        "Play Truth Or Dare ", // 8
-        "Video Chat ", // 9
-        "Voice Call ", // 10
-        "Push To Talk ", // 11
-        "Client Group ", // 12
-        "Client Chat Room ", // 13
-        "Client Random Connect ", // 14
-        "Client Peer User ", // 15
-        "Client No Limit Network ", // 16
-        "Client Connect Test ", // 17
-        "Host Group ", // 18
-        "Host Chat Room", // 19
-        "Host Random Connect ", // 20
-        "Host Peer User ", // 21
-        "Host No Limit Network ", // 22
-        "Host Connect Test ", // 23
-        "Network Search ", // 24
-        "Max Public Plugin ", // 25
+        "Host Connect Test ", // 1
+        "Host No Limit Network ", // 2
+
+        "Host Chat Room ", // 3
+        "Host Group ", // 4
+        "Host Random Connect ", // 5
+        "Host Peer User ", // 6
+
+        "About Me Page Server ", // 7
+        "Messenger ",  // 8
+        "Push To Talk ", // 9
+        "Send A Person File ", // 10    
+        "Shared Web Cam ", // 11
+        "Shared Files ", // 12
+        "Story Board Server", // 13
+        
+        "Truth Or Dare ", // 14
+        "Video Chat ", // 15
+        "Voice Call ", // 16
+
+        "Max Announced Plugin ", // 17
+
+        "Plugin Reserved 18 ",
+        "Plugin Reserved 19 ",
+        "Plugin Reserved 20 ",
+        "Plugin Reserved 21 ",
+        "Plugin Reserved 22 ",
+        "Plugin Reserved 23 ",
+        "Plugin Reserved 24 ",
+        "Plugin Reserved 25 ",
         "Plugin Reserved 26 ",
         "Plugin Reserved 27 ",
         "Plugin Reserved 28 ",
@@ -510,22 +515,22 @@ namespace
         "Plugin Reserved 45 ",
         "Plugin Reserved 46 ",
         "Plugin Reserved 47 ",
-        "Max User Plugin Type ",  // 48
+        "Max Announced Plugin Type ",  // 48
+        
+        "Client Connect Test ",     // 49
+        "Client No Limit Network ", // 50
 
-        "Plugin Thumbnail ",        // 49
-        "Plugin Camera Service ",   // 50
-        "Plugin MJPEG Reader ",     // 51
-        "Plugin MJPEG Writer ",     // 52
-        "Plugin Personal Recorder ", // 53
-        "Plugin Net Services ",     // 54
-        "Plugin Search ",           // 55
-        "Plugin Sound Reader ",      // 56
-        "Plugin Sound Writer ",     // 57
-        "About Me Page Client ",    // 58 about me web page plugin client
-        "Storyboard Client ",	    // 59 storyboard web page plugin client
-        "FileShare Client ",        // 60 shared files client
-        "Web Cam Client ",          // 61
-        "Plugin Library Server ",
+        "Client Chat Room ",        // 51
+        "Client Group ",            // 52
+        "Client Random Connect ",   // 53
+        "Client Peer User ",        // 54      
+
+        "About Me Page Client ",    // 55 about me web page plugin client
+        "Web Cam Client ",          // 56
+        "FileShare Client ",        // 57 shared files client
+        "Storyboard Client ",	    // 58 storyboard web page plugin client
+
+        "eMaxNetUsePluginType ",    // 59
     };
 
     const char* PortOpenStatusEnumStrings[] =
@@ -1462,12 +1467,26 @@ const char* DescribePluginAccess( enum EPluginAccess pluginAccess )
 //============================================================================
 const char* DescribePluginType( enum EPluginType pluginType )
 {
-    if( pluginType < 0 || eMaxPluginType <= pluginType )
+    if( pluginType >= 0 && pluginType <= eMaxNetUsePluginType )
     {
-        return ENUM_BAD_PARM;
+        return PluginTypeEnumStrings[pluginType];
     }
 
-    return PluginTypeEnumStrings[pluginType];
+    switch( pluginType )
+    {
+    case ePluginTypeInternalStart: return "ePluginTypeInternalStart ";
+    case ePluginTypeThumbnail: return "Plugin Thumbnail ";
+    case ePluginTypeNetServices: return "Plugin Net Services ";
+    case ePluginTypeLibraryServer: return "Plugin Library Server ";
+    case ePluginTypePersonalRecorder: return "Plugin Personal Recorder ";
+    case ePluginTypeMJPEGReader: return "Plugin MJPEG Reader ";
+    case ePluginTypeMJPEGWriter: return "Plugin MJPEG Writer ";
+    case ePluginTypeSndReader: return "Plugin Sound Reader ";
+    case ePluginTypeSndWriter: return "Plugin Sound Writer ";
+
+    default:
+        return ENUM_BAD_PARM;
+    }
 }
 
 //============================================================================
@@ -1604,7 +1623,6 @@ const char* GetPluginName( enum EPluginType pluginType )
     case ePluginTypeTruthOrDare: return "ePluginTypeTruthOrDare";
     case ePluginTypeVideoPhone: return "ePluginTypeVideoPhone";
     case ePluginTypeVoicePhone: return "ePluginTypeVoicePhone";
-    case eMaxUserPluginType: return "eMaxUserPluginType";
 
     case ePluginTypeMJPEGReader: return "ePluginTypeMJPEGReader";
     case ePluginTypeMJPEGWriter: return "ePluginTypeMJPEGWriter";

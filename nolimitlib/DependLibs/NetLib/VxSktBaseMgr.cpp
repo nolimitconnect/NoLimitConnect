@@ -147,6 +147,11 @@ RCODE VxSktBaseMgr::removeSkt(  std::shared_ptr<VxSktBase>&	sktBase,		// skt to 
 								bool		bDelete )	// if true delete the skt
 {
 	RCODE rc = -1;
+	if( VxIsAppShuttingDown() )
+	{
+		return rc;
+	}
+	
 	if( sktBase.get() )
 	{
 		//LogMsg( LOG_INFO, "Removing Skt ID %d  type %s from VxSktBaseMgr skt list\n", sktBase->getSktNumber(), sktBase->describeSktType().c_str() );
@@ -452,6 +457,11 @@ void VxSktBaseMgr::doSktDeleteCleanup()
 //! move to erase/delete when safe to do so
 void VxSktBaseMgr::moveToEraseList( std::shared_ptr<VxSktBase>& sktBase, bool sktMgrLocked )
 {
+	if( VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
 	bool found{ false };
 	if( sktBase )
 	{

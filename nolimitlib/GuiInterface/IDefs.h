@@ -966,7 +966,7 @@ enum EPluginMsgType
 enum EPluginType 
 {
     // NOTE: *** update DescribePluginType and GuiParams::describePluginType if you change this
-    //! NOTE: don't handle packets for ePluginTypeInvalid or ePluginTypeWebServer
+    //! NOTE: don't handle packets for ePluginTypeInvalid
     ePluginTypeInvalid			    = 0,	//!< unknown or disabled
 
     ePluginTypeHostConnectTest      = 1,	//!< Connection Test Service
@@ -990,28 +990,32 @@ enum EPluginType
     ePluginTypeVoicePhone           = 16,	//!< VOIP audio only phone call
 
     // NOTE: plugin types 17 - 47 not implemented .. reserved for future use
-    eMaxImplementedPluginType	    = 17, 
+    eMaxPermissionPluginType	    = 17, 
     // plugins 0-47 are part of PktAnnounce
-    // plugins after 47 are system plugins and do not go out in announcement pkt
-    eMaxUserPluginType              = 48, // this marks end of announced permission
+    // plugins after 47 do not go out in announcement pkt
+    eMaxAnnouncedPluginType         = 48, // this marks end of announced permissions
 
-    ePluginTypeClientConnectTest,	//!< Connection Test Client
-    ePluginTypeClientNetwork,	    //!< network client
+    ePluginTypeClientConnectTest    = 49,	//!< Connection Test Client
+    ePluginTypeClientNetwork        = 50,	//!< network client
 
-    ePluginTypeClientChatRoom,	    //!< chat room user client plugin
-    ePluginTypeClientGroup,	        //!< group client   
-    ePluginTypeClientRandomConnect,	//!< Random connect to another person client
-    ePluginTypeClientPeerUser,	    //!< mainly for avatar image
+    ePluginTypeClientChatRoom       = 51,	//!< chat room user client plugin
+    ePluginTypeClientGroup          = 52,	//!< group client   
+    ePluginTypeClientRandomConnect  = 53,	//!< Random connect to another person client
+    ePluginTypeClientPeerUser       = 54,	//!< mainly for avatar image
+    
+    ePluginTypeAboutMePageClient    = 55,	//!< about me web page plugin client
+    ePluginTypeCamClient            = 56,   //!< cam server plugin client 
+    ePluginTypeFileShareClient      = 57,   //!< shared files client
+    ePluginTypeStoryboardClient     = 58,	//!< storyboard web page plugin client
+    eMaxNetUsePluginType            = 59,
 
-    ePluginTypeThumbnail,           // not used except in asset database for pluginType
-    ePluginTypeNetServices,         // 
+    // 0 to 255 are possible to send over network so internal plugins should start at 256
+    ePluginTypeInternalStart        = 256,
+
+    ePluginTypeThumbnail            = 257,  // not used except in asset database for pluginType
+    ePluginTypeNetServices,         // internal handle network service requests
     ePluginTypeLibraryServer,       // library
-    ePluginTypePersonalRecorder,    //
-
-    ePluginTypeAboutMePageClient,	// about me web page plugin client
-    ePluginTypeStoryboardClient,	// storyboard web page plugin client
-    ePluginTypeFileShareClient,     // shared files client
-    ePluginTypeCamClient,           // cam server plugin client 
+    ePluginTypePersonalRecorder,    // personal recorder
    
     ePluginTypeMJPEGReader, 
     ePluginTypeMJPEGWriter, 

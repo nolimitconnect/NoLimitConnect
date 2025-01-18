@@ -78,7 +78,6 @@ void AppletAboutUser::setUser( GuiUser* guiUser )
 void AppletAboutUser::fillUserDetails( GuiUser* guiUser )
 {
     ui.m_UrlText->setText( QString( guiUser->getMyOnlineUrl().c_str() ) );
-    infoMsg( "URL: %s", guiUser->getMyOnlineUrl().c_str() );
     VxNetIdent& netIdent = guiUser->getNetIdent();
     ui.m_AgeText->setText( GuiParams::describeAge( netIdent.getAgeType() ) );
     ui.m_GenderText->setText( GuiParams::describeGender( netIdent.getGender() ) );
@@ -88,8 +87,18 @@ void AppletAboutUser::fillUserDetails( GuiUser* guiUser )
     ui.m_UsersFrienshipText->setText( GuiParams::describeFriendship( netIdent.getHisFriendshipToMe() ) );
     ui.m_TruthsText->setText( QString::number( netIdent.getTruthCount() ) );
     ui.m_DaresText->setText( QString::number( netIdent.getDareCount() ) );
+    infoMsg( "URL: %s", guiUser->getMyOnlineUrl().c_str() );
+    if( netIdent.requiresRelay() )
+    {
+        infoMsg( QObject::tr( "Requires Relay" ) );
+    }
+    else
+    {
+        infoMsg( QObject::tr( "Can Direct Connect" ) );
+    }
+
     bool hadDisabledPlugins{ false };
-    for( int i = 1; i < eMaxImplementedPluginType; i++ )
+    for( int i = 1; i < eMaxPermissionPluginType; i++ )
     {
         EPluginType pluginType = (EPluginType)i;
         if( netIdent.getPluginPermission( pluginType ) == eFriendStateIgnore )
@@ -114,12 +123,24 @@ void AppletAboutUser::fillUserDetails( GuiUser* guiUser )
 
             infoMsg( typeText );
         }
+
+        if( ePluginTypeAboutMePageServer == pluginType )
+        {
+            if( netIdent.hasProfilePicture() )
+            {
+                infoMsg( QObject::tr( " -- has profile picture" ) );
+            }
+            else
+            {
+                infoMsg( QObject::tr( " -- no profile picture" ) );
+            }
+        }      
     }
 
     if( hadDisabledPlugins )
     {
         infoMsg( QObject::tr( "=== Disabled Plugins ===" ) );
-        for( int i = 1; i < eMaxImplementedPluginType; i++ )
+        for( int i = 1; i < eMaxPermissionPluginType; i++ )
         {
             EPluginType pluginType = (EPluginType)i;
             if( netIdent.getPluginPermission( pluginType ) != eFriendStateIgnore )

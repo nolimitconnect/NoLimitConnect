@@ -1318,6 +1318,7 @@ EXferError FileInfoXferMgr::beginFileReceive( FileRxSession* rxSession, PktFileS
 	xferInfo.setAssetId( poPkt->getAssetId() );
 	xferInfo.setFileHashId( poPkt->getFileHashId() );
 	xferInfo.setRmtFileName( poPkt->getFileName() );
+	xferInfo.setLclFileName( poPkt->getFileName() );
 	xferInfo.setFileLength( poPkt->getFileLen() );
 	xferInfo.setFileOffset( poPkt->getFileOffset() );
 	xferInfo.setIsStream( rxSession->isStream() );
@@ -1520,7 +1521,7 @@ void FileInfoXferMgr::onFileReceived( FileRxSession* xferSession, std::string& f
 	{
 		if( eXferErrorNone == xferError )
 		{
-			std::string incompleteFile = xferInfo.getLclFileName();
+			std::string incompleteFile = xferInfo.getLclFileNameAndPath();
 			if( getMoveCompletedFilesToDownloadFolder() )
 			{
 				std::string completedFile = xferInfo.getDownloadCompleteFileName();
@@ -1883,10 +1884,13 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID&
 		makeIncompleteFileName( rmtFileName, xferInfo.getLclFileNameAndPath(), sendToId );
 		if( xferInfo.useFileIo() )
 		{
+			xferInfo.setLclFileName( rmtFileName.c_str() ); // just file name. Lcl and Rmt file names are the same
+			// make sure the path exists
 			std::string filePath;
 			std::string justFileName;
 			VxFileUtil::seperatePathAndFile( xferInfo.getLclFileNameAndPath(), filePath, justFileName );
 			VxFileUtil::makeDirectory( filePath );
+			vx_assert( justFileName == rmtFileName );
 		}
 	}
 

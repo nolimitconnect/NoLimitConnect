@@ -58,7 +58,7 @@ void AppletPermissionList::connectSignals( void )
 //============================================================================
 void AppletPermissionList::initializePermissionList( void )
 {
-    for( int i = 1; i < eMaxImplementedPluginType; ++i )
+    for( int i = 1; i < eMaxPermissionPluginType; ++i )
     {
         EPluginType pluginType = ( EPluginType )i;
         if( GuiHelpers::isPluginAPrimaryService( pluginType ) )
