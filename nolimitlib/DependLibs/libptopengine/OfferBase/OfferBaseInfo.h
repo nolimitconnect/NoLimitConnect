@@ -30,6 +30,9 @@ public:
     virtual bool                addToBlob( PktBlobEntry& blob ) override;
     virtual bool                extractFromBlob( PktBlobEntry& blob ) override;
 
+    void						setIsRemoteInitiated( bool bIsRemoteInitiated ) { m_OfferMgr = bIsRemoteInitiated ? eOfferMgrClient : eOfferMgrHost; }
+	bool						getIsRemoteInitiated( void )			{ return m_OfferMgr == eOfferMgrClient; }
+
 	virtual void				setOfferType( EOfferType assetType )	{ setAssetType( (EAssetType)assetType ); }
 	virtual EOfferType			getOfferType( void )					{ return (EOfferType)getAssetType(); }
 
@@ -52,8 +55,11 @@ public:
     virtual EOfferSendState		getOfferSendState( void )               { return (EOfferSendState)getAssetSendState(); }
 
     virtual std::string         getRemoteOfferName( void )              { return getRemoteAssetName(); }
+ 
+    virtual bool                isPhoneTypePlugin( void ); // behaves like phone with ringing
 
     virtual bool                isFileOffer( void )                     { return isFileAsset(); }
+    virtual bool				isExpiredOffer( void );
 
     virtual void				setIsSharedFileOffer( bool isSharedOffer ) { setIsSharedFileAsset( isSharedOffer ); }
     virtual bool				isSharedFileOffer( void )               { return isSharedFileAsset(); }
@@ -76,7 +82,11 @@ public:
 
     virtual void                fillOfferSend( EPluginType pluginType, VxNetIdent& netIdent );
 
-    virtual bool				isExpiredOffer( void );
+    void						setOfferTimestamp( int64_t timems )     { m_OfferTimestamp = timems; }
+	int64_t						getOfferTimestamp( void )               { return m_OfferTimestamp; }
+
+    VxGUID                      getFromOnlineId( void ) { return m_OfferMgr == eOfferMgrHost ? getCreatorId() : getHistoryId(); }
+    VxGUID                      getToOnlineId( void ) { return m_OfferMgr == eOfferMgrHost ? getHistoryId() : getCreatorId(); }
 
 protected:
     EOfferMgrType               m_OfferMgr{ eOfferMgrNotSet };
@@ -84,4 +94,5 @@ protected:
     int64_t                     m_OfferExpireTime{ 0 };
     std::string                 m_OfferMsg;
     EOfferResponse              m_OfferResponse{ eOfferResponseNotSet };
+    int64_t                     m_OfferTimestamp{ 0 };
 };

@@ -40,7 +40,7 @@ public:
     GuiHostJoin *               getMyIdent( void )                          { return m_MyIdent; }  
     VxGUID                      getMyOnlineId( void )                       { return m_MyOnlineId; } 
 
-    int                         getJoinRequestCount( void )                 { return m_HostRequestCount; }
+    int                         getJoinRequestCount( void )                 { return m_JoinRequestCount; }
 
     bool                        isHostJoinInSession( GroupieId& groupieId );
     void                        setHostJoinOffline( GroupieId& groupieId );
@@ -82,7 +82,7 @@ private slots:
 protected:
     GuiHostJoin*                findHostJoin( GroupieId groupieId );
     GuiHostJoin*                updateHostJoin( HostJoinInfo* hostJoinInfo );
-    void                        updateHostRequestCount( bool forceEmit = false );
+    void                        updateJoinRequestCount( bool forceEmit = false );
 
     virtual void				callbackHostJoinRequested( HostJoinInfo* userHostInfo ) override;
     virtual void				callbackHostJoinUpdated( HostJoinInfo* userHostInfo ) override;
@@ -106,7 +106,7 @@ protected:
     std::map<GroupieId, GuiHostJoin*>  m_HostJoinList;
     GuiHostJoin*                m_MyIdent{ nullptr };
     VxGUID                      m_MyOnlineId;
-    int                         m_HostRequestCount{ 0 };
+    int                         m_JoinRequestCount{ 0 };
 
     std::vector<GuiHostJoinCallback*>  m_HostJoinClients;
 };

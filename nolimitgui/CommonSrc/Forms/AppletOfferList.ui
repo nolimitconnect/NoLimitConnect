@@ -81,7 +81,7 @@
         <item>
          <spacer name="horizontalSpacer_3">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -105,7 +105,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="m_ActiveOffersLabel">
+         <widget class="VxLabel" name="m_ActiveOffersLabel">
           <property name="text">
            <string>Active Offers</string>
           </property>
@@ -114,7 +114,7 @@
         <item>
          <spacer name="horizontalSpacer_5">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -138,7 +138,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="m_OfferHistroyLabel">
+         <widget class="VxLabel" name="m_OfferHistoryLabel">
           <property name="text">
            <string>Offer History</string>
           </property>
@@ -147,7 +147,7 @@
         <item>
          <spacer name="horizontalSpacer_4">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -185,6 +185,11 @@
    <extends>QWidget</extends>
    <header>GuiOfferListWidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VxLabel</class>
+   <extends>QLabel</extends>
+   <header>VxLabel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

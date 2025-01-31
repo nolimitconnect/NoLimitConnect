@@ -517,12 +517,11 @@ void PluginSessionMgr::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase,
 		pluginSession = findOrCreateP2PSessionWithOnlineId( srcOnlineId, sktBase, true, lclSessionId );
 	}
 
-	pluginSession->setIsRmtInitiated( true );
 	pluginSession->setSkt( sktBase );
 	pluginSession->setSendToId( srcOnlineId );
 	pluginSession->setLclSessionId( lclSessionId );
 	pluginSession->setRmtSessionId( pktReq->getLclSessionId() );
-	pluginSession->setOfferInfo( offerInfo );
+	pluginSession->setOfferInfo( offerInfo, false );
 
 	IToGui::getIToGui().toGuiRxedPluginOffer( srcOnlineId, offerInfo );
 }
@@ -542,7 +541,7 @@ void PluginSessionMgr::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBas
 		PluginSessionBase* poOffer = findOrCreateP2PSessionWithSessionId( lclSessionId, sktBase, pktReply->getSrcOnlineId(), true);
 		if( poOffer )
 		{
-			poOffer->setOfferInfo( offerInfo );
+			poOffer->setOfferInfo( offerInfo, false );
 
 			poOffer->setLclSessionId( pktReply->getLclSessionId() );
 			poOffer->setRmtSessionId( pktReply->getRmtSessionId() );
@@ -561,7 +560,7 @@ void PluginSessionMgr::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBas
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "PluginSessionMgr::onPktPluginOfferReq: could not extract offer from %s", m_Engine.describeUser( onlineId ).c_str() );
+		LogMsg( LOG_ERROR, "PluginSessionMgr::%s: could not extract offer from %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
 	}
 }
 
@@ -580,11 +579,11 @@ P2PSession* PluginSessionMgr::findP2PSessionBySessionId( VxGUID& sessionId, bool
 	if( false == pluginIsLocked )
 	{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionBySessionId pluginMutex.lock start" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::%s pluginMutex.lock start", __func__ );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 		pluginMutex.lock();
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionBySessionId pluginMutex.lock done" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::%s pluginMutex.lock done", __func__ );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 	}
 
@@ -599,7 +598,7 @@ P2PSession* PluginSessionMgr::findP2PSessionBySessionId( VxGUID& sessionId, bool
 				if( false == pluginIsLocked )
 				{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-					LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionBySessionId pluginMutex.unlock" );
+					LogMsg( LOG_VERBOSE, "PluginSessionMgr::%s pluginMutex.unlock", __func__ );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 					pluginMutex.unlock();
 				}
@@ -612,7 +611,7 @@ P2PSession* PluginSessionMgr::findP2PSessionBySessionId( VxGUID& sessionId, bool
 	if( false == pluginIsLocked )
 	{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionBySessionId pluginMutex.unlock" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::%s pluginMutex.unlock", __func__ );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 		pluginMutex.unlock();
 	}
@@ -628,11 +627,11 @@ P2PSession* PluginSessionMgr::findP2PSessionByOnlineId( VxGUID& onlineId, bool p
 	if( false == pluginIsLocked )
 	{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionByOnlineId pluginMutex.lock start" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::%s pluginMutex.lock start", __func__ );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 		pluginMutex.lock();
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionByOnlineId pluginMutex.lock done" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::%s pluginMutex.lock done", __func__ );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 	}
 
@@ -645,7 +644,7 @@ P2PSession* PluginSessionMgr::findP2PSessionByOnlineId( VxGUID& onlineId, bool p
 			if( false == pluginIsLocked )
 			{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-				LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionByOnlineId pluginMutex.unlock" );
+				LogMsg( LOG_VERBOSE, "PluginSessionMgr::%s pluginMutex.unlock", __func__  );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 				pluginMutex.unlock();
 			}
@@ -657,7 +656,7 @@ P2PSession* PluginSessionMgr::findP2PSessionByOnlineId( VxGUID& onlineId, bool p
 	if( false == pluginIsLocked )
 	{
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_VERBOSE, "PluginSessionMgr::findP2PSessionByOnlineId pluginMutex.unlock" );
+		LogMsg( LOG_VERBOSE, "PluginSessionMgr::%s pluginMutex.unlock", __func__  );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 		pluginMutex.unlock();
 	}

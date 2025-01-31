@@ -51,9 +51,9 @@ enum ELogModule
 	eLogWebCam          = 0x0004, // 3
 	eLogAssets			= 0x0008, // 4
 
-	eLogFileXfer 			= 0x0010, // 5
+	eLogFileXfer 		= 0x0010, // 5
 	eLogConnect			= 0x0020, // 6 
-	eLogAcceptConn		= 0x0040, // 7
+	eLogOffer			= 0x0040, // 7
 	eLogRelay           = 0x0080, // 8
 
 	eLogSkt				= 0x0100, // 9

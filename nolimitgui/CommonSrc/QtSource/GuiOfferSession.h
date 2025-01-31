@@ -32,11 +32,11 @@ class GuiOfferSession : public GuiUserSessionBase
 	Q_OBJECT
 
 public:
-	GuiOfferSession( const GuiOfferInfo& offerInfo, QWidget* parent);
+    GuiOfferSession(QObject* parent = nullptr);
+    virtual ~GuiOfferSession() = default;
+	GuiOfferSession( const GuiOfferInfo& offerInfo );
 	GuiOfferSession( const GuiOfferSession& rhs );
-	GuiOfferSession& operator=(const GuiOfferSession& rhs); 
-
-	virtual ~GuiOfferSession() = default;
+    GuiOfferSession& operator=(const GuiOfferSession& rhs);
 
 	VxGUID&						assuredValidOfferId( void );
 
@@ -44,6 +44,8 @@ public:
 	VxGUID&						getOnlineId( void );
 
 	EPluginType					getPluginType( void )						{ return m_OfferInfo.getPluginType(); }
+
+	EOfferMgrType				getOfferMgr( void )							{ return m_OfferInfo.getOfferMgr(); }
 
 	// offer id might not be unique. Is online id for single session plugins
 	VxGUID&					    getOfferId( void )							{ return m_OfferInfo.getOfferId(); }
@@ -67,9 +69,6 @@ public:
 
 	bool						hasMessages( void )							{ return m_OfferInfo.hasMessages(); }
 	std::string					getMessagesText( void )						{ return m_OfferInfo.getMessagesText(); }
-
-	void						setHasBeenViewed( bool hasBeenViewed )		{ m_OfferInfo.setHasBeenViewed( hasBeenViewed ); emitOfferUpdated(); }
-	bool						getHasBeenViewed( void )					{ return m_OfferInfo.getHasBeenViewed(); }
 
 	void						setRequiresReply( bool requiresReply )		{ m_OfferInfo.setRequiresReply( requiresReply ); emitOfferUpdated(); }
 	bool						getRequiresReply( void )					{ return m_OfferInfo.getRequiresReply(); }
@@ -98,6 +97,9 @@ public:
 	QString						getExpireDate( void );
 
 	void						emitOfferUpdated( void )					{ emit signalOfferUpdated(); };
+
+    void						setOfferTimestamp( int64_t timems )			{ m_OfferInfo.setOfferTimestamp( timems ); }
+	int64_t						getOfferTimestamp( void )					{ return m_OfferInfo.getOfferTimestamp(); }
 
 signals:
 	void						signalOfferUpdated( void );

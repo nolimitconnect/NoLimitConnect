@@ -528,7 +528,7 @@ void FileInfoBaseMgr::callbackSha1GenerateResult( ESha1GenResult sha1GenResult, 
 			if( eSha1GenResultNoError == sha1GenResult )
 			{
 				fileInfo.setFileHashId( sha1Info.getSha1Hash() );
-				fileInfo.setFileTime( GetHighResolutionTimeMs() );
+				fileInfo.setFileTime( GetGmtTimeMs() );
 				m_FileInfoDb.addFile( fileInfo );
 				m_FileInfoList[ fileInfo.getAssetId() ] = fileInfo;
 
@@ -561,7 +561,7 @@ void FileInfoBaseMgr::callbackSha1GenerateResult( ESha1GenResult sha1GenResult, 
             if( assetId == fileInfo.getAssetId() )
             {
                 fileInfo.setFileHashId( sha1Info.getSha1Hash() );
-                fileInfo.setFileTime( GetHighResolutionTimeMs() );
+                fileInfo.setFileTime( GetGmtTimeMs() );
                 break;
             }
         }

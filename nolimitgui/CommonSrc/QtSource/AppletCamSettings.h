@@ -42,8 +42,8 @@ signals:
     void						signalSnapshotImage( QImage snapshotImage );
 
 protected slots:
-    void						slotToGuiRxedOfferReply( GuiOfferSession* offerSession );
-    void						slotToGuiSessionEnded( GuiOfferSession* offerSession );
+    void						slotToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession> offerSession );
+    void						slotToGuiSessionEnded( std::shared_ptr<GuiOfferSession> offerSession );
     void						slotToGuiContactOffline( VxNetIdent* hisIdent );
 
 protected:

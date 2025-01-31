@@ -48,10 +48,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <CoreLib/IsBigEndianCpu.h>
 #include <CoreLib/VirtFileMgr.h>
-#include <CoreLib/VxTimer.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
-
+#include <CoreLib/VxTime.h>
 
 #include <math.h>
 #include <stdlib.h>
@@ -268,8 +267,8 @@ void OpusFileDecoder::enableSpaceAvailCallback( bool enableCallback, bool lockRe
 void OpusFileDecoder::callbackAudioOutSpaceAvail( int freeSpaceLen )
 {
 	static int64_t lastCallMs = 0;
-	int64_t thisCallMs = GetHighResolutionTimeMs();
-	LogMsg( LOG_INFO, "OpusFileDecoder::callbackAudioOutSpaceAvail elapsed %d", (int)(thisCallMs - lastCallMs) );
+	int64_t thisCallMs = GetGmtTimeMs();
+	LogMsg( LOG_INFO, "OpusFileDecoder::%s elapsed %d", __func__, (int)(thisCallMs - lastCallMs) );
 	lastCallMs = thisCallMs;
 	if( m_InputInitialized )
 	{

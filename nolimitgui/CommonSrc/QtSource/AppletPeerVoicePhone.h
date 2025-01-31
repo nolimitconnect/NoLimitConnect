@@ -31,12 +31,10 @@ public:
     virtual void				onInSession( bool isInSession ) override;
 
 protected:
-	// override of ToGuiActivityInterface
-    virtual void				callbackToGuiRxedPluginOffer( GuiOfferSession* offer ) override;
-    virtual void				callbackToGuiRxedOfferReply( GuiOfferSession* offer ) override;
 
-	void						setupActivityVoicePhone( void );
     void						toGuiInstMsg( GuiUser* friendIdent, EPluginType pluginType, QString instMsg ) override;
+
+	void						onOfferWasSet( void ) override;
 
 	//=== vars ===//
 	Ui::AppletPeerVoicePhoneUi&	ui;

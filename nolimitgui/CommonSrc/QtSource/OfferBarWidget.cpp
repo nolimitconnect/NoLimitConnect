@@ -86,37 +86,37 @@ void OfferBarWidget::closeEvent( QCloseEvent * ev )
 //============================================================================
 void OfferBarWidget::initializeOfferBar( void )
 {
-	GuiOfferSession* offerState = m_OfferMgr.getTopGuiOfferSession();
-	fillOfferBar( offerState );
+	std::shared_ptr<GuiOfferSession> offerSession = m_OfferMgr.getTopGuiOfferSession();
+	fillOfferBar( offerSession );
 }
 
 //============================================================================
-void OfferBarWidget::fillOfferBar( GuiOfferSession* offerState )
+void OfferBarWidget::fillOfferBar( std::shared_ptr<GuiOfferSession> offerSession )
 {
-	if( 0 != offerState )
+	if( offerSession.get() )
 	{
 		// this->setVisible( true ); // TODO OfferBarWidget will probably be removed
-		m_OfferSessionId	= offerState->getOfferSessionId();
-		m_HisIdent			= offerState->getUser();
-		m_PluginType		= offerState->getPluginType();
-		updateOfferBar( offerState );
+        m_OfferId	= offerSession->getOfferId();
+		m_HisIdent			= offerSession->getUser();
+		m_PluginType		= offerSession->getPluginType();
+		updateOfferBar( offerSession );
 	}
 	else
 	{
 		//this->setVisible( false );
-		m_OfferSessionId.clearVxGUID();
+        m_OfferId.clearVxGUID();
 		m_HisIdent = nullptr;
 		m_PluginType = ePluginTypeInvalid;
 	}
 }
 
 //============================================================================
-void OfferBarWidget::updateOfferBar( GuiOfferSession* offerState )
+void OfferBarWidget::updateOfferBar( std::shared_ptr<GuiOfferSession> offerSession )
 {
 	ui.m_OfferCntLabel->setText( QString("%1").arg( m_OfferMgr.getActiveOfferCount() ) );
-	if( offerState->getOfferSessionId() == m_OfferSessionId )
+    if( offerSession->getOfferId() == m_OfferId )
 	{
-		switch( offerState->getOfferState() )
+		switch( offerSession->getOfferState() )
 		{
 		case eOfferStateRxedByUser:
 			setIsOfferAvailable( true );
@@ -127,9 +127,9 @@ void OfferBarWidget::updateOfferBar( GuiOfferSession* offerState )
 			break;
 		}
 
-		setOfferOnlineState( offerState->getUser()->isOnline() );
+		setOfferOnlineState( offerSession->getUser()->isOnline() );
 
-		//GuiOfferSession* offerSession = offerState->getGuiOfferSession();
+		//std::shared_ptr<GuiOfferSession> offerSession = offerState->getGuiOfferSession();
 		//QString strMsg		= offerSession->getOfferMsg().c_str();
 		//QString strFileName = offerSession->getFileName().c_str();
 		//QString strName;
@@ -196,14 +196,14 @@ bool OfferBarWidget::getIsOfferAvailable( void )
 //============================================================================
 void OfferBarWidget::slotAcceptOfferButtonClicked( void )
 {
-	m_OfferMgr.acceptOfferButtonClicked( m_PluginType, m_OfferSessionId, m_HisIdent );
+    m_OfferMgr.acceptOfferButtonClicked( m_PluginType, m_OfferId, m_HisIdent );
 }
 
 //============================================================================
 void OfferBarWidget::slotRejectOfferButtonClicked( void )
 {
 
-	m_OfferMgr.rejectOfferButtonClicked( m_PluginType, m_OfferSessionId, m_HisIdent );
+    m_OfferMgr.rejectOfferButtonClicked( m_PluginType, m_OfferId, m_HisIdent );
 }
 
 //============================================================================
@@ -215,7 +215,7 @@ void OfferBarWidget::slotOfferInfoButtonClicked( void )
 }
 
 //============================================================================
-void OfferBarWidget::callbackGuiUpdatePluginOffer( GuiOfferSession* offerState )
+void OfferBarWidget::callbackGuiUpdatePluginOffer( std::shared_ptr<GuiOfferSession> offerState )
 {
 	if( ( 0 == parentWidget() ) || parentWidget()->isVisible() )
 	{
@@ -224,9 +224,9 @@ void OfferBarWidget::callbackGuiUpdatePluginOffer( GuiOfferSession* offerState )
 }
 
 //============================================================================
-void OfferBarWidget::callbackGuiOfferRemoved( GuiOfferSession* offerState )
+void OfferBarWidget::callbackGuiOfferRemoved( std::shared_ptr<GuiOfferSession> offerState )
 {
-	if( this->isVisible() && ( offerState->getOfferSessionId() == m_OfferSessionId ) )
+    if( this->isVisible() && ( offerState->getOfferId() == m_OfferId ) )
 	{
 		initializeOfferBar();
 	}

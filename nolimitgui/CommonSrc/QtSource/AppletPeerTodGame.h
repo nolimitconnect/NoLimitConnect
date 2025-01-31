@@ -29,21 +29,17 @@ public:
 	AppletPeerTodGame( AppCommon& app, QWidget* parent = nullptr );
 	virtual ~AppletPeerTodGame() override = default;
 
-	virtual bool				offerSession( GuiUser* guiUser, GuiOfferSession* offerSession ) override;
+    bool                        setOfferSession( std::shared_ptr<GuiOfferSession> offerSession ) override;
 	//! called by base class with in session state
     virtual void				onInSession( bool isInSession ) override;
-	//! called after session end or dialog exit
-	virtual void				onEndSession( void );
 
 protected:
-	// override of ToGuiActivityInterface
-    virtual void				callbackToGuiRxedPluginOffer( GuiOfferSession* offer ) override;
-    virtual void				callbackToGuiRxedOfferReply( GuiOfferSession* offer ) override;
 
     void						toGuiInstMsg( GuiUser* friendIdent, EPluginType pluginType, QString instMsg ) override;
+
+	void						onOfferWasSet( void ) override;
 
 	//=== vars ===//
 	Ui::AppletPeerTodGameUi&	ui;
 	TodGameLogic				m_TodGameLogic;
-	
 };

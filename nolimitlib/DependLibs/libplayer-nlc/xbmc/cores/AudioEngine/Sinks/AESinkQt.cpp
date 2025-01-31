@@ -177,7 +177,7 @@ extern bool movieStarted;
 unsigned int CAESinkQt::AddPackets( uint8_t **data, unsigned int frames, unsigned int offset )
 {
     int totalBytes = frames * m_AvailableFormat.m_frameSize;
-    // LogModule( eLogAudioIo, LOG_VERBOSE, "CAESinkQt::AddPackets %d bytes", totalBytes );
+    // if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "CAESinkQt::AddPackets %d bytes", totalBytes );
 
     unsigned char* audioBuffer = (unsigned char*)data[ 0 ] + offset * m_AvailableFormat.m_frameSize;
 
@@ -279,7 +279,7 @@ unsigned int CAESinkQt::AddPackets( uint8_t **data, unsigned int frames, unsigne
     }
 #endif
 
-    // LogModule( eLogAudioIo, LOG_VERBOSE, "CAESinkQt toGuiPlayerNlcAudio %d bytes", totalBytes );
+    // if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "CAESinkQt toGuiPlayerNlcAudio %d bytes", totalBytes );
 
     int wrote = IAudioRequests::getIAudioRequests().toGuiPlayerNlcAudio( eAppModulePlayerNlc, (float *)audioBuffer, totalBytes );
     if( wrote < 0 )

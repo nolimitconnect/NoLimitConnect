@@ -26,7 +26,7 @@ public:
 							QWidget*			parent = nullptr );
 
 	ActivitySessionOptions(	AppCommon&				app,
-							GuiOfferSession*		poOffer, 
+							std::shared_ptr<GuiOfferSession>		poOffer, 
 							QWidget*				parent = nullptr );
 	virtual ~ActivitySessionOptions() override = default;
 

@@ -114,6 +114,7 @@ bool VxConnectId::setIpAddress( std::string ipAddr, bool* retIpHasChanged  )
 
 	m_OnlineIp.fromString( ipAddr.c_str() );
 	bool valid = m_OnlineIp.isValid();
+	setIpAddressType( addrType );
 
 	vx_assert( valid );
     return valid;

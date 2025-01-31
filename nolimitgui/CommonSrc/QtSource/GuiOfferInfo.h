@@ -22,11 +22,10 @@ class GuiUser;
 class GuiOfferInfo : public OfferBaseInfo
 {
 public:
-	GuiOfferInfo() = delete;
+	GuiOfferInfo() = default;
+	~GuiOfferInfo() override = default;
 	GuiOfferInfo( const GuiOfferInfo& rhs );
     GuiOfferInfo( const OfferBaseInfo& rhs );
-
-	~GuiOfferInfo() = default;
 
     GuiOfferInfo& operator=( const GuiOfferInfo& rhs );
 
@@ -38,9 +37,6 @@ public:
 	void 						setOfferState( EOfferState offerState ) { m_OfferState = offerState; }
 	EOfferState					getOfferState()							{ return m_OfferState; }
 
-	void						setIsRemoteInitiated( bool bIsRemoteInitiated ) { m_RmtInitiated = bIsRemoteInitiated; }
-	bool						getIsRemoteInitiated( void )			{ return m_RmtInitiated; }
-
 	void						setIsMissedCall( void )					{ m_MissedCalls++; }
 	void						setMissedCallsCnt( int missedCnt )		{ m_MissedCalls = missedCnt; }
 	int							getMissedCallsCnt( void )				{ return m_MissedCalls; }
@@ -50,9 +46,6 @@ public:
 
 	bool						hasMessages( void );
 	std::string					getMessagesText( void );
-
-	void						setHasBeenViewed( bool hasBeenViewed )	{ m_HasBeenViewed = hasBeenViewed; }
-	bool						getHasBeenViewed( void )				{ return m_HasBeenViewed; }
 
 	void						setRequiresReply( bool requiresReply )	{ m_RequiresReply = requiresReply; }
 	bool						getRequiresReply( void )				{ return m_RequiresReply; }
@@ -66,8 +59,6 @@ protected:
     GuiUser*					m_HisIdent{ nullptr };
 	EOfferState					m_OfferState{ eOfferStateNone };
 	int64_t						m_LastActivityMs{ 0 };
-	bool						m_RmtInitiated{ false };
-	bool						m_HasBeenViewed{ false };
 	bool						m_RequiresReply{ false };
 	bool						m_HasNewResponse{ false };
 	int							m_MissedCalls{ 0 };

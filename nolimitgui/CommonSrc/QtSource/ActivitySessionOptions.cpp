@@ -30,7 +30,7 @@ ActivitySessionOptions::ActivitySessionOptions(	AppCommon&			app,
 
 //============================================================================
 ActivitySessionOptions::ActivitySessionOptions(	AppCommon&				app,
-												GuiOfferSession*		poOffer, 
+												std::shared_ptr<GuiOfferSession>		poOffer, 
 												QWidget*				parent )
 : ActivityBase( OBJNAME_ACTIVITY_SESSION_OPTIONS, app, parent )
 {

@@ -1038,10 +1038,16 @@ QFrame* GuiHelpers::getParentPageFrame( QWidget* curWidget )
 
         if( !curParent->parent() )
         {
-            LogMsg( LOG_WARNING, "Object %s has no parent", objName.toUtf8().constData() );
+            LogMsg( LOG_WARNING, "GuiHelpers::%s %s has no parent", __func__, objName.toUtf8().constData() );
         }
 
         curParent = dynamic_cast<QObject *>( curParent->parent() );
+    }
+
+    if( !pageFrame )
+    {
+        LogMsg( LOG_ERROR, "GuiHelpers::%s NOT FOUND", __func__ );
+        vx_assert( false );
     }
 
     return pageFrame;
@@ -2130,9 +2136,19 @@ QMessageBox::StandardButton GuiHelpers::errorMsgBox (EErrMsgType errMsgType, QWi
             QObject::tr( "User " ) + userName.c_str() + QObject::tr( " Is Unavailable" ), QMessageBox::Ok );
         break;
 
+    case eErrMsgUserIsOffline:
+        buttonResult = QMessageBox::information( parent, QObject::tr( "User is offline" ),
+            QObject::tr( "User is no longer connected" ), QMessageBox::Ok );
+        break;
+
     case eErrMsgAlreadyInSession:
         buttonResult = QMessageBox::information( parent, QObject::tr( "Already In A Session" ),
             QObject::tr( "Already in session. Please close existing session and try again" ), QMessageBox::Ok );
+        break;
+
+    case eErrMsgSessionNotFound:
+        buttonResult = QMessageBox::information( parent, QObject::tr( "Session not found" ),
+            QObject::tr( "Session not found" ), QMessageBox::Ok );
         break;
 
     case eErrMsgOfferSent:
@@ -2153,11 +2169,6 @@ QMessageBox::StandardButton GuiHelpers::errorMsgBox (EErrMsgType errMsgType, QWi
     case eErrMsgNoUserSelectedToSendTo:
         buttonResult = QMessageBox::information( parent, QObject::tr( "No User Selected" ),
             QObject::tr( "You must select a user to send to " ), QMessageBox::Ok );
-        break;
-
-    case eErrMsgUserIsOffline:
-        buttonResult = QMessageBox::information( parent, QObject::tr( "User is offline" ),
-            QObject::tr( "User is no longer connected" ), QMessageBox::Ok );
         break;
 
     case eErrMsgPurgeEverythingWarning:

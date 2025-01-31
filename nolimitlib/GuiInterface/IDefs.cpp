@@ -725,7 +725,9 @@ namespace
 
         "Skt Close NetServiceTimeout ",
 
-       "Skt Close Wrong Pkt Ann Size",
+        "Skt Close Wrong Pkt Ann Size",
+        "Skt Close External IP not determined",
+        "Skt Close No Rx Encryption Key",
 
         "eMaxSktCloseReason "
     };
@@ -1889,6 +1891,12 @@ EPluginType HostPluginToClientPluginType( enum EPluginType pluginType )
 
     case ePluginTypeTruthOrDare:
         return ePluginTypeTruthOrDare;
+
+    case ePluginTypeVideoPhone:
+        return ePluginTypeVideoPhone;
+
+    case ePluginTypeVoicePhone:
+        return ePluginTypeVoicePhone;
 
     case ePluginTypeHostGroup:
     case ePluginTypeClientGroup:

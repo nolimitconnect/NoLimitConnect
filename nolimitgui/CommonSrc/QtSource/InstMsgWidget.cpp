@@ -12,6 +12,7 @@
 
 #include "AppCommon.h"
 #include "AppGlobals.h"
+#include "GuiParams.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -32,9 +33,11 @@ InstMsgWidget::InstMsgWidget( QWidget* parent )
 {
 	ui.setupUi( this );
 	//ui.m_MsgListWidget->setReadOnly(true);
-	ui.m_ClearHistoryButton->setIcons( eMyIconShredderNormal );
+	ui.m_ClearHistoryButton->setIcons( eMyIconTrash );
 	ui.m_CancelTextButton->setIcons( eMyIconSendArrowCancel );
 	ui.m_SendTextButton->setIcons( eMyIconSendArrowNormal );
+
+	ui.m_ChatTextEdit->setFixedHeight( GuiParams::getButtonSize( eButtonSizeMedium ).height() + 4 );
 
 	connect( ui.m_CancelTextButton,		SIGNAL(clicked()),						this, SLOT(slotCancelButtonClicked()) );
 	connect( ui.m_SendTextButton,		SIGNAL(clicked()),						this, SLOT(slotSendButtonClicked()) );

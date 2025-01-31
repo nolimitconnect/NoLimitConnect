@@ -170,18 +170,6 @@ void AppletMultiMessenger::onActivityFinish( void )
 }
 
 //============================================================================
-void AppletMultiMessenger::callbackToGuiRxedPluginOffer( GuiOfferSession* offer )
-{
-	m_OfferSessionLogic.callbackToGuiRxedPluginOffer( offer );
-}
-
-//============================================================================
-void AppletMultiMessenger::callbackToGuiRxedOfferReply( GuiOfferSession* offerSession )
-{
-	m_OfferSessionLogic.callbackToGuiRxedOfferReply( offerSession );
-}
-
-//============================================================================
 void AppletMultiMessenger::showReasonAccessNotAllowed( void )
 {
 	EPluginAccess accessState = m_HisIdent->getMyAccessPermissionFromHim( m_ePluginType );
@@ -372,7 +360,7 @@ void AppletMultiMessenger::callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId
 }
 
 //============================================================================
-void AppletMultiMessenger::callbackToGuiPluginSessionEnded( GuiOfferSession* offer )
+void AppletMultiMessenger::callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offer )
 {
 	//handleSessionEnded( offerResponse, this );
 }; 

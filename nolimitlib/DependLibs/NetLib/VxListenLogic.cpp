@@ -45,11 +45,11 @@ namespace
             VxListenLogic* listenLogic = (VxListenLogic*)vxThread->getThreadUserParam();
             if( listenLogic )
             {
-                LogModule( eLogAcceptConn, LOG_INFO, "#### VxListenLogic: ipv6 %d Listen port %d thread started thread 0x%x", 
+                LogModule( eLogConnect, LOG_INFO, "#### VxListenLogic: ipv6 %d Listen port %d thread started thread 0x%x", 
                            listenLogic->getIsIpv6(), listenLogic->getListenPort(), VxGetCurrentThreadId());
                 listenLogic->listenForConnectionsToAccept();
                 // quitting
-                LogModule( eLogAcceptConn, LOG_INFO, "#### VxListenLogic: ipv6 %d Listen port %d thread 0x%x tid %d quiting", 
+                LogModule( eLogConnect, LOG_INFO, "#### VxListenLogic: ipv6 %d Listen port %d thread 0x%x tid %d quiting", 
                            listenLogic->getIsIpv6(), listenLogic->getListenPort(), VxGetCurrentThreadId(), vxThread->getThreadTid() );
             }
 
@@ -194,7 +194,7 @@ start_over:
 
 		if( shouldListenAbort() )
 		{
-            LogModule( eLogAcceptConn, LOG_DEBUG, "%s: aborting1", __func__ );
+            LogModule( eLogConnect, LOG_DEBUG, "%s: aborting1", __func__ );
 			break;
 		}
 		
@@ -207,13 +207,13 @@ start_over:
                 if( listenErrCnt > 50 )
                 {
                     listenErrCnt = 0;
-                    LogModule( eLogAcceptConn, LOG_DEBUG, "%s: try again: listen ipv6 %d port %d skt %d error %d thread 0x%x", __func__, m_IsIpv6, m_ListenPort, getListenSkt(), rc, VxGetCurrentThreadId());
+                    LogModule( eLogConnect, LOG_DEBUG, "%s: try again: listen ipv6 %d port %d skt %d error %d thread 0x%x", __func__, m_IsIpv6, m_ListenPort, getListenSkt(), rc, VxGetCurrentThreadId());
                 }
 
                 VxSleep( 200 );
                 if( shouldListenAbort() )
                 {
-                    LogModule( eLogAcceptConn, LOG_DEBUG, "%s: aborting2", __func__ );
+                    LogModule( eLogConnect, LOG_DEBUG, "%s: aborting2", __func__ );
                     break;
                 }
 
@@ -226,7 +226,7 @@ start_over:
                 VxSleep( 500 );
                 if( shouldListenAbort() )
                 {
-                    LogModule( eLogAcceptConn, LOG_DEBUG, "%s: aborting3", __func__ );
+                    LogModule( eLogConnect, LOG_DEBUG, "%s: aborting3", __func__ );
                     break;
                 }
 
@@ -344,7 +344,7 @@ void VxListenLogic::closeListenSocket( void )
         setIsReadyToAcceptConnections( false );
         VxSetSktBlocking( sktToClose, false ); // so should release accept but seems to hang sometimes
 
-        LogModule( eLogAcceptConn, LOG_INFO, "VxListenLogic:listenForConnectionsToAccept closing listen skt %d", sktToClose );
+        LogModule( eLogConnect, LOG_INFO, "VxListenLogic:listenForConnectionsToAccept closing listen skt %d", sktToClose );
         
         // set the socket to reuse or even though closed the system may not allow another listen on that port to be done
         // until the system has completely cleaned it up

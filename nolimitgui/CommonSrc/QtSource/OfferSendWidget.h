@@ -58,17 +58,22 @@ public:
 	
 	void						clearOffer( void )				{ m_OfferInfo.clear(); }
 
+	void						setFocusOnText( void );
+
 signals:
-	void						signalOfferSent( void );
+	void						signalOfferSend( void );
+	void						signalCancelButtonClicked( void );
 
 protected slots:
 	void						slotOfferViewButtonClicked( void );
 	void						slotOfferSendButtonClicked( void );
 	void						slotExpiresTimeChange( int comboIdx );
+	void						slotOfferCancelButtonClicked( void );
 
 protected:
 	bool						validateOffer( bool showErrorMsg = false );
 	void						updateExpireStatus( EExpireTime expireTime );
+	void						showEvent( QShowEvent* ev );
 
 	Ui::OfferSendWidgetUi&		ui;
 	AppCommon&				    m_MyApp;

@@ -1099,9 +1099,9 @@ void MediaProcessor::wantMixerMediaInput(	VxGUID&						onlineId,
 	if(  false == wantInput )
 	{
 		// user wants to be removed but is probably being called from a callback function.
-		// if we remove not will crash because iterator may expect more items in array
+		// if we remove now it might crash because iterator may expect more items in array
 		m_MixerRemoveMutex.lock();
-		if( m_SpeakerOutputEnabled && !clientToRemoveExistsInList( m_MixerClientRemoveList, onlineId, mediaType, sessionId, callback ) )
+		if( !clientToRemoveExistsInList( m_MixerClientRemoveList, onlineId, mediaType, sessionId, callback ) )
 		{
 			m_MixerClientRemoveList.emplace_back( ClientToRemove( onlineId, mediaType, callback, appModule, sessionId ) );
 		}
@@ -1113,7 +1113,7 @@ void MediaProcessor::wantMixerMediaInput(	VxGUID&						onlineId,
 		if( stopSpeakerOutput )
 		{
 			m_SpeakerOutputEnabled = false;
-			LogModule( eLogAudioIo,LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput stoping speaker output module %s", DescribeAppModule( appModule ) );
+			if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo,LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput stoping speaker output module %s", DescribeAppModule( appModule ) );
 			IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( appModule, false );
 			IAudioRequests::getIAudioRequests().toGuiWantMicrophoneRecording( appModule, false );
 		}
@@ -1169,7 +1169,7 @@ void MediaProcessor::wantMixerMediaInput(	VxGUID&						onlineId,
 
 	if( startSpeakerOutput )
 	{
-		LogModule( eLogAudioIo, LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput starting speaker output module %s", DescribeAppModule( appModule ) );
+		if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput starting speaker output module %s", DescribeAppModule( appModule ) );
 		IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( appModule, true );	
 	}
 }

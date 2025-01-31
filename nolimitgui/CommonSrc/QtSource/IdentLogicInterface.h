@@ -72,7 +72,7 @@ public:
 	virtual void				updateIdentity( VxNetIdent* netIdent, bool queryThumb = true );
 	virtual void				updateHosted( GuiHosted* guiHosted );
     virtual void				updateGroupie( GuiGroupie* guiGroupie );
-	virtual void				updateOffer( GuiOfferSession* offerSession );
+    virtual void				updateOffer( GuiOfferSession* offerSession );
 
 
 	virtual GuiUser*			getGuiUser( void )							{ return m_GuiUser; }
@@ -141,7 +141,7 @@ protected:
 	EHostType					m_HostType{ eHostTypeUnknown };
 	GuiUser*					m_GuiUser{ nullptr };
 	VxGUID						m_UserOnlineId;
-	GuiOfferSession*			m_OfferSession{ nullptr };
+    GuiOfferSession*			m_OfferSession;
 	bool						m_IsSignalsConnected{ false };
 	bool						m_DisableFriendshipChange{ false };
 	bool						m_PushToTalkCallbacksRequested{ false };

@@ -233,8 +233,7 @@ public:
     ActivityBase*               launchApplet( EApplet applet, QWidget* parent, QString launchParam, VxGUID& assetId );
 
     bool						launchOfferSendApplet( EPluginType pluginType, GuiUser* guiUser, QWidget* parent = nullptr );
-    bool                        launchOfferSendSession( EPluginType pluginType, GuiUser* guiUser, GuiOfferSession* existingOffer, QWidget* parent = nullptr );
-    bool                        launchOfferResponseAccept( GuiOfferSession* offerSession, QWidget* contentFrame = nullptr );
+    bool                        launchOfferSendSession( EPluginType pluginType, GuiUser* guiUser, std::shared_ptr<GuiOfferSession> existingOffer, QWidget* parent = nullptr );
 
     void						activityStateChange( ActivityBase* activity, bool isCreated );
 
@@ -846,8 +845,6 @@ protected:
 
     void						showUserNameInTitle();
     void						sendAppSettingsToEngine( void );
-
-    void						removePluginSessionOffer( EPluginType pluginType, GuiUser* poFriend );
 
     void						updateFriendList( GuiUser* guiUser, bool sessionTimeChange = false );
 

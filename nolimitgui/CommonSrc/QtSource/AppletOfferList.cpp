@@ -49,15 +49,17 @@ AppletOfferList::AppletOfferList(	AppCommon& app, QWidget* parent )
 
     connect( this,					    SIGNAL(finished(int)),						this, SLOT(slotHomeButtonClicked()) );
 
-    connect( ui.m_ActiveOffersButton, SIGNAL(clicked()), this, SLOT( slotActiveOffersButtonClicked() ) );
-    connect( ui.m_OfferHistoryButton, SIGNAL(clicked()), this, SLOT( slotOfferHistoryButtonClicked() ) );
+    connect( ui.m_ActiveOffersButton, SIGNAL(clicked()), this, SLOT(slotActiveOffersButtonClicked()) );
+    connect( ui.m_ActiveOffersLabel, SIGNAL(clicked()), this, SLOT(slotActiveOffersButtonClicked()) );   
+    connect( ui.m_OfferHistoryButton, SIGNAL(clicked()), this, SLOT(slotOfferHistoryButtonClicked()) );
+    connect( ui.m_OfferHistoryLabel, SIGNAL(clicked()), this, SLOT(slotOfferHistoryButtonClicked()) );
 
-    connect( ui.m_OfferListWidget, SIGNAL( signalOfferListItemClicked(GuiOfferSession*,GuiOfferListItem*) ), this, SLOT( slotOfferListItemClicked(GuiOfferSession*,GuiOfferListItem*) ) );
-    connect( ui.m_OfferListWidget, SIGNAL( signalAvatarButtonClicked(GuiOfferSession*,GuiOfferListItem*) ), this, SLOT( slotAvatarButtonClicked(GuiOfferSession*,GuiOfferListItem*) ) );
-    connect( ui.m_OfferListWidget, SIGNAL( signalOfferViewButtonClicked(GuiOfferSession*,GuiOfferListItem*) ), this, SLOT( slotOfferViewButtonClicked(GuiOfferSession*,GuiOfferListItem*) ) );
-    connect( ui.m_OfferListWidget, SIGNAL( signalOfferAcceptButtonClicked(GuiOfferSession*,GuiOfferListItem*) ), this, SLOT( slotOfferAcceptButtonClicked(GuiOfferSession*,GuiOfferListItem*) ) );
-    connect( ui.m_OfferListWidget, SIGNAL( signalOfferRejectButtonClicked(GuiOfferSession*,GuiOfferListItem*) ), this, SLOT( slotOfferRejectButtonClicked(GuiOfferSession*,GuiOfferListItem*) ) );
-    connect( ui.m_OfferListWidget, SIGNAL( signalPushToTalkButtonClicked(GuiOfferSession*,GuiOfferListItem*) ), this, SLOT( slotPushToTalkButtonClicked(GuiOfferSession*,GuiOfferListItem*) ) );
+    connect( ui.m_OfferListWidget, SIGNAL(signalOfferListItemClicked(GuiOfferSession*,GuiOfferListItem*)), this, SLOT(slotOfferListItemClicked(GuiOfferSession*,GuiOfferListItem*)) );
+    connect( ui.m_OfferListWidget, SIGNAL(signalAvatarButtonClicked(GuiOfferSession*,GuiOfferListItem*)), this, SLOT(slotAvatarButtonClicked(GuiOfferSession*,GuiOfferListItem*)) );
+    connect( ui.m_OfferListWidget, SIGNAL(signalOfferViewButtonClicked(GuiOfferSession*,GuiOfferListItem*)), this, SLOT(slotOfferViewButtonClicked(GuiOfferSession*,GuiOfferListItem*)) );
+    connect( ui.m_OfferListWidget, SIGNAL(signalOfferAcceptButtonClicked(GuiOfferSession*,GuiOfferListItem*)), this, SLOT(slotOfferAcceptButtonClicked(GuiOfferSession*,GuiOfferListItem*)) );
+    connect( ui.m_OfferListWidget, SIGNAL(signalOfferRejectButtonClicked(GuiOfferSession*,GuiOfferListItem*)), this, SLOT(slotOfferRejectButtonClicked(GuiOfferSession*,GuiOfferListItem*)) );
+    connect( ui.m_OfferListWidget, SIGNAL(signalPushToTalkButtonClicked(GuiOfferSession*,GuiOfferListItem*)), this, SLOT(slotPushToTalkButtonClicked(GuiOfferSession*,GuiOfferListItem*)) );
 
     m_MyApp.activityStateChange( this, true );
     m_UserMgr.wantGuiUserUpdateCallbacks( this, true );
@@ -224,11 +226,11 @@ void AppletOfferList::updateOfferList( EOfferViewType offerViewType )
         bool isActive = offerSession->isAvailableAndActiveOffer();
         if( isActive && eOfferViewTypeActive == m_ListViewType )
         {
-            ui.m_OfferListWidget->addOrUpdateSession( offerSession );
+            ui.m_OfferListWidget->addOrUpdateSession( offerSession.get() );
         }
         else if( !isActive && eOfferViewTypeHistory == m_ListViewType )
         {
-            ui.m_OfferListWidget->addOrUpdateSession( offerSession );
+            ui.m_OfferListWidget->addOrUpdateSession( offerSession.get() );
         }
     }
 }
@@ -236,38 +238,38 @@ void AppletOfferList::updateOfferList( EOfferViewType offerViewType )
 //============================================================================
 void AppletOfferList::slotOfferListItemClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem )
 {
-    LogMsg( LOG_VERBOSE, "AppletOfferList::slotOfferListItemClicked" );
+    LogModule( eLogOffer, LOG_VERBOSE, "AppletOfferList::%s", __func__ );
 }
 
 //============================================================================
 void AppletOfferList::slotAvatarButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem )
 {
-    LogMsg( LOG_VERBOSE, "AppletOfferList::slotAvatarButtonClicked" );
+    LogModule( eLogOffer, LOG_VERBOSE, "AppletOfferList::%s", __func__ );
 }
 
 //============================================================================
 void AppletOfferList::slotOfferViewButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem )
 {
-    LogMsg( LOG_VERBOSE, "AppletOfferList::slotOfferViewButtonClicked" );
+    LogModule( eLogOffer, LOG_VERBOSE, "AppletOfferList::%s", __func__ );
     m_MyApp.getOfferMgr().viewOffer( offerSession, getParentPageFrame() );
 }
 
 //============================================================================
 void AppletOfferList::slotOfferAcceptButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem )
 {
-    LogMsg( LOG_VERBOSE, "AppletOfferList::slotOfferAcceptButtonClicked" );
+    LogModule( eLogOffer, LOG_VERBOSE, "AppletOfferList::%s", __func__ );
     m_MyApp.getOfferMgr().acceptOffer( offerSession, getParentPageFrame() );
 }
 
 //============================================================================
 void AppletOfferList::slotOfferRejectButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem )
 {
-    LogMsg( LOG_VERBOSE, "AppletOfferList::slotOfferRejectButtonClicked" );
+    LogModule( eLogOffer, LOG_VERBOSE, "AppletOfferList::%s", __func__ );
     m_MyApp.getOfferMgr().rejectOffer( offerSession, getParentPageFrame() );
 }
 
 //============================================================================
 void AppletOfferList::slotPushToTalkButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem )
 {
-    LogMsg( LOG_VERBOSE, "AppletOfferList::slotPushToTalkButtonClicked" );
+    LogModule( eLogOffer, LOG_VERBOSE, "AppletOfferList::%s", __func__ );
 }

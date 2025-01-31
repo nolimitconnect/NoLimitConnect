@@ -203,7 +203,7 @@ void AppletCamSettings::webCamSourceOffline()
 }
 
 //============================================================================
-void AppletCamSettings::slotToGuiRxedOfferReply( GuiOfferSession* offerReply )
+void AppletCamSettings::slotToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession> offerReply )
 {
     if( ( ePluginTypeCamServer == offerReply->getPluginType() )
         && ( m_HisIdent->getMyOnlineId() == offerReply->getUserIdent()->getMyOnlineId() ) )
@@ -221,7 +221,7 @@ void AppletCamSettings::slotToGuiRxedOfferReply( GuiOfferSession* offerReply )
 }; 
 
 //============================================================================
-void AppletCamSettings::slotToGuiSessionEnded( GuiOfferSession* offer )
+void AppletCamSettings::slotToGuiSessionEnded( std::shared_ptr<GuiOfferSession> offer )
 {
     if( ( ePluginTypeCamServer == offer->getPluginType() )
         && ( m_HisIdent->getMyOnlineId() == offer->getUserIdent()->getMyOnlineId() ) )

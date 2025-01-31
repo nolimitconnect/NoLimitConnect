@@ -49,9 +49,9 @@ protected:
     bool                        verifyFile( void );
 
     //=== vars ===//
-    Ui::AppletOfferResponseUi&	    ui;
+    Ui::AppletOfferResponseUi&	ui;
 
-	VxGUID						m_OfferSessionId;
+    VxGUID						m_OfferId;
 	GuiUser*					m_HisIdent{ nullptr };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
 	OfferBaseInfo				m_OfferInfo;

@@ -27,11 +27,11 @@ GuiOfferListItem::GuiOfferListItem(QWidget* parent  )
 //============================================================================
 GuiOfferListItem::~GuiOfferListItem()
 {
-    GuiOfferSession * hostSession = getOfferSession();
-    if( hostSession && !hostSession->parent() )
-    {
-        hostSession->deleteLater();
-    }
+    //GuiOfferSession* hostSession = getOfferSession();
+    //if( hostSession && !hostSession->parent() )
+    //{
+    //    hostSession->deleteLater();
+    //}
 }
 
 //============================================================================
@@ -67,9 +67,9 @@ void GuiOfferListItem::setOfferSession( GuiOfferSession* offerSession )
 }
 
 //============================================================================
-GuiOfferSession * GuiOfferListItem::getOfferSession( void )
+GuiOfferSession* GuiOfferListItem::getOfferSession( void )
 {
-    return (GuiOfferSession *)QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
+    return (GuiOfferSession*)QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
 }
 
 //============================================================================

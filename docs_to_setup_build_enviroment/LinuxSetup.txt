@@ -1,5 +1,5 @@
-These instructions assume Ubuntu 20.4 but should work for most linux distributions
-Note: Using Ubuntu 22.4 there seems to be some qt ssl issuses when configuring so 20.4 is recommended then update to 22.4 later if desired
+These instructions assume Ubuntu 20.04 but should work for most linux distributions
+Note: Using Ubuntu 22.04 there seems to be some qt ssl issuses when configuring so 20.04 is recommended then update to 22.04 later if desired
 
 ==== Prerequisite tools required to build nolimitconnect ======
 1.) sudo apt install g++
@@ -30,7 +30,7 @@ Run the installer.
 When you see the installation folder dialog leave the path at default by check developement boxes
 
 You may need to run the maintenance tool and install the appropriate qt versions. 
-At the time of this writing Qt verion is 6.6.2 
+At the time of this writing Qt verion is 6.6.3
 	
 === compile enviroment issues ===
 NOTE: on Ubuntu you will likely see these errors. if packages are not found you are probably not running x11 and is normal

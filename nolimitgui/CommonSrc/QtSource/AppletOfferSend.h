@@ -34,7 +34,7 @@ public:
 	AppletOfferSend( AppCommon& app, QWidget* parent, QString launchParam = "" );
 	virtual ~AppletOfferSend();
 
-	bool						setOffer( EPluginType pluginType, GuiUser* guiUser, GuiOfferSession* existingOffer );
+	bool						setOffer( EPluginType pluginType, GuiUser* guiUser, std::shared_ptr<GuiOfferSession> existingOffer );
 	void						setUser( GuiUser* guiUser ) override;
 	void						setPluginType( EPluginType pluginType ) override;	
 
@@ -46,6 +46,7 @@ protected slots:
     void						slotHomeButtonClicked( void ) override;
     void						statusMsg( QString strMsg );
 	void						slotOfferSent( void );
+	void						slotOfferCanceled( void );
 
 protected:
     bool                        verifyFile( void );
@@ -57,7 +58,7 @@ protected:
 	GuiUser*					m_HisIdent{ nullptr };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
 	OfferBaseInfo				m_OfferInfo;
-	GuiOfferSession*			m_ExistingOffer{ nullptr };
+	std::shared_ptr<GuiOfferSession>			m_ExistingOffer{ nullptr };
 };
 
 

@@ -388,8 +388,9 @@ void ConnectionMgr::callbackActionFailed( UrlActionInfo& actionInfo, ERunTestSta
         actionInfo.getConnectReqInterface()->onUrlActionQueryIdFail( actionInfo.getSessionId(), hostUrl, eStatus, actionInfo.getConnectReason() );
     }
 
-    LogMsg( LOG_ERROR, "ConnectionMgr: query host %s for id failed %s %s",  hostUrl.c_str(),
-        DescribeRunTestStatus( eStatus ), DescribeNetCmdError( netCmdError ));
+    LogMsg( LOG_ERROR, "ConnectionMgr: connect reason %s query host %s for id failed %s %s", 
+            DescribeConnectReason( actionInfo.getConnectReason() ),  hostUrl.c_str(),
+            DescribeRunTestStatus( eStatus ), DescribeNetCmdError( netCmdError ));
 }
 
 //============================================================================

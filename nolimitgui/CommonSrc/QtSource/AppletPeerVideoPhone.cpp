@@ -10,13 +10,10 @@
 
 #include "AppletPeerVideoPhone.h"
 
-#include "AppGlobals.h"
+#include "AppCommon.h"
 #include "GuiOfferSession.h"
 
-#include <P2PEngine/P2PEngine.h>
-
 #include <CoreLib/ObjectCommonDefs.h>
-#include <CoreLib/VxGlobals.h>
 
 #include "ui_AppletPeerVideoPhone.h"
 
@@ -30,37 +27,11 @@ AppletPeerVideoPhone::AppletPeerVideoPhone(	AppCommon& app, QWidget* parent )
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
-	setupActivityVideoPhone();
-	// m_OfferSessionLogic.sendOfferOrResponse();
-}
-
-//============================================================================
-void AppletPeerVideoPhone::setupActivityVideoPhone()
-{
-    /*
-	setupBaseWidgets( ui.m_TitleBarWidget, ui.m_FriendIdentWidget, ui.m_PermissionButton, ui.m_PermissionLabel );
-	ui.m_TitleBarWidget->setTitleBarText( tr("Video Chat") );
-	ui.m_TitleBarWidget->enableAudioControls( true );
-    connectBarWidgets();
-	ui.m_InstMsgWidget->setInstMsgWidgets( m_ePluginType, m_HisIdent );
-
-	ui.m_CamVidWidget->setVideoFeedId( m_HisIdent->getMyOnlineId() );
-	ui.m_CamVidWidget->setRecordFilePath( VxGetDownloadsDirectory().c_str() );
-	ui.m_CamVidWidget->setRecordFriendName( m_HisIdent->getOnlineName() );
-	setVidCamWidget( ui.m_CamVidWidget );
-    */
-}
-
-//============================================================================
-void AppletPeerVideoPhone::callbackToGuiRxedPluginOffer( GuiOfferSession* offer )
-{
-	m_OfferSessionLogic.callbackToGuiRxedPluginOffer( offer );
-}
-
-//============================================================================
-void AppletPeerVideoPhone::callbackToGuiRxedOfferReply( GuiOfferSession* offerSession )
-{
-	m_OfferSessionLogic.callbackToGuiRxedOfferReply( offerSession );
+	ui.m_PermissionButton->setFixedSize( eButtonSizeMedium );
+    ui.m_HangUpButton->setFixedSize( eButtonSizeMedium );
+    ui.m_HangUpButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
+	ui.m_HangUpButton->setIcon( eMyIconRedX );
+	connect( ui.m_HangUpButton, SIGNAL(clicked()), this, SLOT(slotEndSession()) );
 }
 
 //============================================================================
@@ -86,5 +57,19 @@ void AppletPeerVideoPhone::toGuiInstMsg( GuiUser* friendIdent, EPluginType plugi
 	{
 		ui.m_InstMsgWidget->toGuiInstMsg( instMsg );
 	}
-}; 
+}
 
+//============================================================================
+void AppletPeerVideoPhone::onOfferWasSet( void )
+{
+	OfferBaseInfo& offerInfo = getOfferInfo();
+	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( offerInfo.getFromOnlineId() );
+	if( guiUser )
+	{
+		setupBaseWidgets( guiUser, ui.m_FriendIdentWidget, ui.m_PermissionButton, ui.m_PermissionLabel );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "AppletPeerVideoPhone::%s user not found %s", __func__ );
+	}
+}

@@ -52,6 +52,6 @@ void GuiOfferMgr::wantGuiOfferCallbacks( GuiOfferCallback* clientInterface, bool
 
 	if( wantCallbacks )
 	{
-		m_OfferCallbackList.push_back( clientInterface );
+		m_OfferCallbackList.emplace_back( clientInterface );
 	}
 }

@@ -646,9 +646,9 @@ void MiniAudioMgr::callbackAudioDeviceWrite( int16_t* pcmDataMic, int sampleCntM
     if( !getEchoCancelEnable() || m_AudioTestState != eAudioTestStateNone || getDirectLoopbackEnable() )
     {
         // will be processed without echo cancel
-        m_AudioWriteMutex.lock();
-        m_AudioWriteBuf.writeSamples( pcmData, sampleCnt );
-        m_AudioWriteMutex.unlock();
+        lockMicWriteBuffer();
+        m_MicWriteBuf.writeSamples( pcmData, sampleCnt );
+        unlockMicWriteBuffer();
     }
 
     m_ProcessAudioSemaphore.signal();
@@ -678,7 +678,7 @@ void MiniAudioMgr::callbackToSpeakerRead( int16_t* pcmData, int sampleRequestCnt
     if( availableCnt >= sampleRequestCnt)
     {
         m_SpeakerReadBuf.readSamples( pcmData, sampleRequestCnt );
-        //LogModule( eLogAudioIo, LOG_ERROR, "MiniAudioMgr::callbackToSpeakerRead full read %d samples of %d",
+        //if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_ERROR, "MiniAudioMgr::callbackToSpeakerRead full read %d samples of %d",
         //           sampleRequestCnt, availableCnt );
     }
 
@@ -792,14 +792,14 @@ void MiniAudioMgr::processAudioThreaded( void )
         if( getDirectLoopbackEnable() || m_AudioTestState != eAudioTestStateNone )
         {
             lockMicWriteBuffer();
-            int micSamples = m_AudioWriteBuf.getSampleCnt();
+            int micSamples = m_MicWriteBuf.getSampleCnt();
             if( micSamples )
             {
                 lockSpeakerRead();
-                m_SpeakerReadBuf.writeSamples( m_AudioWriteBuf.getSampleBuffer(), micSamples );
+                m_SpeakerReadBuf.writeSamples( m_MicWriteBuf.getSampleBuffer(), micSamples );
                 unlockSpeakerRead();
 
-                m_AudioWriteBuf.samplesWereRead( micSamples );
+                m_MicWriteBuf.samplesWereRead( micSamples );
             }
 
             unlockMicWriteBuffer();
@@ -828,10 +828,10 @@ void MiniAudioMgr::processAudioThreaded( void )
         {
             // send raw audio to engine to be processed and sent out
             lockMicWriteBuffer();
-            if( m_AudioWriteBuf.getSampleCnt() >= AUDIO_SAMPLES_PER_FRAME )
+            if( m_MicWriteBuf.getSampleCnt() >= AUDIO_SAMPLES_PER_FRAME )
             {
-                fromGuiEchoCanceledSamplesThreaded( m_AudioWriteBuf.getSampleBuffer(), AUDIO_SAMPLES_PER_FRAME, false );
-                m_AudioWriteBuf.samplesWereRead( AUDIO_SAMPLES_PER_FRAME );
+                fromGuiEchoCanceledSamplesThreaded( m_MicWriteBuf.getSampleBuffer(), AUDIO_SAMPLES_PER_FRAME, false );
+                m_MicWriteBuf.samplesWereRead( AUDIO_SAMPLES_PER_FRAME );
             }
 
             unlockMicWriteBuffer();
@@ -846,9 +846,9 @@ void MiniAudioMgr::processAudioThreaded( void )
 //============================================================================
 void MiniAudioMgr::resetMicrophoneBuffers( void )
 {
-    m_AudioWriteMutex.lock();
-    m_AudioWriteBuf.clear();
-    m_AudioWriteMutex.unlock();
+    lockMicWriteBuffer();
+    m_MicWriteBuf.clear();
+    unlockMicWriteBuffer();
 
     getAudioEchoCancel().resetMicrophoneBuffers();
 }
@@ -925,7 +925,7 @@ void MiniAudioMgr::processToSpeakerThreaded( void )
     if( m_PlayerNlcActive && mixerSampleCnt < processSampleCnt )
     {
         // wait until at least one frame is available
-        LogModule( eLogAudioIo, LOG_VERBOSE, "Waiting for mixer space" );
+        if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "Waiting for mixer space" );
         return;
     }
 
@@ -1098,9 +1098,9 @@ void MiniAudioMgr::setPlayerNlcActive( bool isActive )
 //============================================================================
 void  MiniAudioMgr::clearAllBuffers()
 {
-    m_AudioWriteMutex.lock();
-    m_AudioWriteBuf.clear();
-    m_AudioWriteMutex.unlock();
+    lockMicWriteBuffer();
+    m_MicWriteBuf.clear();
+    unlockMicWriteBuffer();
 
     m_EchoCanceledBufMutex.lock();
     m_EchoCanceledBuf.clear();
@@ -1121,7 +1121,7 @@ int MiniAudioMgr::toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFlo
 
     if( VxIsAppShuttingDown() || !audioDataLenInBytes || !audioDataFloat )
     {
-        LogModule( eLogAudioIo, LOG_VERBOSE, "MiniAudioMgr::toGuiPlayerNlcAudio ignored len %d", audioDataLenInBytes );
+        if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "MiniAudioMgr::toGuiPlayerNlcAudio ignored len %d", audioDataLenInBytes );
         return 0;
     }
 
@@ -1160,7 +1160,7 @@ int MiniAudioMgr::toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFlo
             float cachedTime = toGuiGetAudioDelaySeconds( appModule );
             float totalCache = toGuiGetAudioCacheTotalSeconds( appModule );
 
-            LogModule( eLogAudioIo, LOG_VERBOSE, "MiniAudioMgr::toGuiPlayerNlcAudio player-nlc samples %d cached sec %3.3f total cache %3.3f sec percent %d", 
+            if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "MiniAudioMgr::toGuiPlayerNlcAudio player-nlc samples %d cached sec %3.3f total cache %3.3f sec percent %d", 
                        totalSamples, cachedTime, totalCache, (int)((cachedTime / totalCache )*100) );
         }
         */
@@ -1297,7 +1297,7 @@ void MiniAudioMgr::calculateMicWriteBufferSize( int micSampleCnt )
         // the buffer must be at to hold the max of 2 mic writes or 2 AUDIO_SAMPLES_PER_FRAME
         int bufSampleCnt = std::max( micSampleCnt * 2, AUDIO_SAMPLES_PER_FRAME * 2 );
         lockMicWriteBuffer();
-        m_AudioWriteBuf.setMaxSamples( bufSampleCnt );
+        m_MicWriteBuf.setMaxSamples( bufSampleCnt );
         unlockMicWriteBuffer();
     }
     else if( AUDIO_SAMPLES_PER_FRAME % micSampleCnt )
@@ -1305,13 +1305,13 @@ void MiniAudioMgr::calculateMicWriteBufferSize( int micSampleCnt )
         // AUDIO_SAMPLES_PER_FRAME is not an even multiple of micSampleCnt
         int bufSampleCnt = AUDIO_SAMPLES_PER_FRAME + ( micSampleCnt * 2 );
         lockMicWriteBuffer();
-        m_AudioWriteBuf.setMaxSamples( bufSampleCnt );
+        m_MicWriteBuf.setMaxSamples( bufSampleCnt );
         unlockMicWriteBuffer();
     }
     else
     {
         lockMicWriteBuffer();
-        m_AudioWriteBuf.setMaxSamples( AUDIO_SAMPLES_PER_FRAME + micSampleCnt );
+        m_MicWriteBuf.setMaxSamples( AUDIO_SAMPLES_PER_FRAME + micSampleCnt );
         unlockMicWriteBuffer();
     }
 }

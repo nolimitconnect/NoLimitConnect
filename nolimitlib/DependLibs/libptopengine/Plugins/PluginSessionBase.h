@@ -63,9 +63,6 @@ public:
 	virtual void				setIsSessionStarted( bool isStarted );
 	virtual bool				getIsSessionStarted( void );
 
-	virtual void				setIsRmtInitiated( bool isRmtInitiated );
-	virtual bool				isRmtInitiated( void );
-
 	void						setIsInTest( bool bTest )					{ m_bTest = bTest; }
 	bool						isInTest( void )							{ return m_bTest; }
 
@@ -77,14 +74,16 @@ public:
 	void						setAssetId( VxGUID& rmtId )					{ m_AssetId = rmtId; }
 	VxGUID&						getAssetId( void )							{ return m_AssetId; }
 
-	void						setOfferInfo( OfferBaseInfo& offerInfo )	{ m_OfferInfo = offerInfo; }
+	void						setOfferInfo( OfferBaseInfo& offerInfo, bool isHost );
 	OfferBaseInfo&				getOfferInfo( void )						{ return m_OfferInfo; }
+
+	bool 						isHost( void )								{ return m_OfferInfo.getOfferMgr() == eOfferMgrHost; }
 
 	void						setOfferResponse( EOfferResponse eResponse ){ m_eOfferResponse = eResponse; }
 	EOfferResponse				getOfferResponse( void )					{ return m_eOfferResponse; }
 
-	bool						waitForTestSemaphore( int iMilliseconds )			{ return m_TestSemaphore.wait(iMilliseconds); }
-	void						signalTestSemaphore( void )							{ if(m_bTest) m_TestSemaphore.signal(); }
+	bool						waitForTestSemaphore( int iMilliseconds )	{ return m_TestSemaphore.wait(iMilliseconds); }
+	void						signalTestSemaphore( void )					{ if(m_bTest) m_TestSemaphore.signal(); }
 
 protected:
 	//=== vars ===//
@@ -93,7 +92,7 @@ protected:
 	std::shared_ptr<VxSktBase>	m_Skt;
 	EPluginSessionType			m_ePluginSessionType{ ePluginSessionTypeUnknown };
 	bool						m_bSessionStarted{ false };
-	bool						m_bRmtInitiatedSession{ false };
+
 	bool						m_bTest{ false };
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;

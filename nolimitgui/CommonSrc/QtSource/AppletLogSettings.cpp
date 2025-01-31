@@ -31,7 +31,7 @@ static QString describeLogModule( ELogModule logModule )
 
     case eLogFileXfer: return QObject::tr( "Log File Xfer" );
     case eLogConnect: return QObject::tr( "Log Connect" );
-    case eLogAcceptConn: return QObject::tr( "Log Accept Connection" );
+    case eLogOffer: return QObject::tr( "Log Offer" );
     case eLogRelay : return QObject::tr( "Log Relay" );
 
     case eLogSkt: return QObject::tr( "Log Skt" );

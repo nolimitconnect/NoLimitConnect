@@ -106,6 +106,11 @@ void AppCommon::slotInternalToGuiContactAdded( VxNetIdent netIdent )
     GuiUser* user = getUserMgr().getUser( netIdent.getMyOnlineId() );
     if( user )
     {
+        if( m_ToGuiActivityInterfaceBusy )
+        {
+            LogMsg( LOG_ERROR, "AppCommon::%s m_ToGuiActivityInterfaceBusy", __func__ );
+        }
+
         m_ToGuiActivityInterfaceBusy = true;
         for( auto client : m_ToGuiActivityInterfaceList )
         {
@@ -148,9 +153,15 @@ void AppCommon::doOnlineStatusChange( VxGUID onlineId, bool isOnline )
     GuiUser* guiUser = m_UserMgr.getOrQueryUser( onlineId );
     if( guiUser )
     {
-        LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::slotInternalToGuiOnlineStatusChange %s id %s my friendship %s his friendship %s",
-                  guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str(),
+        LogModule( eLogUserEvent, LOG_VERBOSE, "AppCommon::%s %s id %s my friendship %s his friendship %s",
+                __func__,  guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str(),
                 DescribeFriendState( guiUser->getMyFriendshipToHim()),  DescribeFriendState( guiUser->getHisFriendshipToMe()) );
+        if( m_ToGuiActivityInterfaceBusy )
+        {
+            LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+            vx_assert( false );
+        }
+
         m_ToGuiActivityInterfaceBusy = true;
 	    for( auto client : m_ToGuiActivityInterfaceList )
 	    {

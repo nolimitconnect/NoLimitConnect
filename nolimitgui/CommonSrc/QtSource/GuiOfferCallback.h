@@ -18,14 +18,15 @@ class GuiOfferSession;
 class GuiOfferCallback
 {
 public:
-	virtual void				callbackActiveOfferCount( int activeCnt ) {};
+	virtual void				callbackActiveOfferCount( int activeCnt, int historyCnt ) {};
 
-	virtual void				callbackToGuiRxedPluginOffer( GuiOfferSession* offerSession ) {};
-	virtual void				callbackToGuiRxedOfferReply( GuiOfferSession* offerSession ) {};
-	virtual void				callbackToGuiPluginSessionEnded( GuiOfferSession* offerSession ) {};
+	virtual void				callbackToGuiRxedPluginOffer( std::shared_ptr<GuiOfferSession>& offerSession ) {};
+	virtual void				callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession>& offerSession ) {};
+	virtual void				callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState offerState ) {};
+	virtual void				callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offerSession ) {};
 
-	virtual void				callbackGuiUpdatePluginOffer( GuiOfferSession* offerSession ) {};
-	virtual void				callbackGuiOfferRemoved( GuiOfferSession* offerSession ) {};
+	virtual void				callbackGuiUpdatePluginOffer( std::shared_ptr<GuiOfferSession>& offerSession ) {};
+	virtual void				callbackGuiOfferRemoved( std::shared_ptr<GuiOfferSession>& offerSession ) {};
 
 	virtual void				callbackGuiAllOffersRemoved( void ) {};
 

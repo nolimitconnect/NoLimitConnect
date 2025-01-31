@@ -591,10 +591,10 @@ bool CVideoPlayerAudio::ProcessDecoderOutput( DVDAudioFrame& audioframe )
     audioframe.framesOut += framesOutput;
 
     /*
-    LogModule( eLogAudioIo, LOG_DEBUG, " CVideoPlayerAudio add audio decoded frames %d duration %3.3f clock %3.3f m_syncState %d",
+    if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_DEBUG, " CVideoPlayerAudio add audio decoded frames %d duration %3.3f clock %3.3f m_syncState %d",
                framesOutput, audioframe.duration, m_audioClock, m_syncState );
 
-    LogModule( eLogAudioIo, LOG_VERBOSE, " CVideoPlayerAudio channels %d rate %d pts %3.3f delay %3.3f max delay %3.3f decoder %s",
+    if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, " CVideoPlayerAudio channels %d rate %d pts %3.3f delay %3.3f max delay %3.3f decoder %s",
                audioframe.format.m_channelLayout.Count(), audioframe.format.m_sampleRate,
                m_audioSink.GetPlayingPts(), m_audioSink.GetDelay(), m_audioSink.GetMaxDelay()
                m_pAudioCodec->GetName().c_str() );
@@ -606,7 +606,7 @@ bool CVideoPlayerAudio::ProcessDecoderOutput( DVDAudioFrame& audioframe )
         double cachetotal = m_audioSink.GetCacheTotal();
         double cachetime = m_audioSink.GetCacheTime();
 
-        LogModule( eLogAudioIo, LOG_VERBOSE, " CVideoPlayerAudio SYNC_STARTING cachetime %3.3f cachetotal %3.3f percent %d",
+        if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, " CVideoPlayerAudio SYNC_STARTING cachetime %3.3f cachetotal %3.3f percent %d",
                    cachetime, cachetotal, (int)((cachetime / cachetotal) * 100) );
 
         if( cachetime >= cachetotal * 0.75 )
@@ -625,7 +625,7 @@ bool CVideoPlayerAudio::ProcessDecoderOutput( DVDAudioFrame& audioframe )
             m_processInfo.SetAudioSampleRate( audioframe.format.m_sampleRate );
             m_processInfo.SetAudioBitsPerSample( audioframe.bits_per_sample );
             m_processInfo.SetAudioDecoderName( m_pAudioCodec->GetName() );
-            LogModule( eLogAudioIo, LOG_VERBOSE, " CVideoPlayerAudio PLAYER_STARTED & PLAYER_AVCHANGE codec %s because cache >= 75 percent",
+            if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, " CVideoPlayerAudio PLAYER_STARTED & PLAYER_AVCHANGE codec %s because cache >= 75 percent",
                        m_pAudioCodec->GetName().c_str() );
             m_messageParent.Put( std::make_shared<CDVDMsg>( CDVDMsg::PLAYER_AVCHANGE ) );
         }
@@ -635,7 +635,7 @@ bool CVideoPlayerAudio::ProcessDecoderOutput( DVDAudioFrame& audioframe )
         double cachetotal = m_audioSink.GetCacheTotal();
         double cachetime = m_audioSink.GetCacheTime();
 
-        //LogModule( eLogAudioIo, LOG_VERBOSE, " CVideoPlayerAudio filling cache cachetime %3.3f cachetotal %3.3f percent %d",
+        //if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, " CVideoPlayerAudio filling cache cachetime %3.3f cachetotal %3.3f percent %d",
         //           cachetime, cachetotal, (int)((cachetime / cachetotal) * 100) );
     }
 

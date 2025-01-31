@@ -29,13 +29,13 @@ class PersonOfferListItem : public IdentLogicInterface, public QListWidgetItem
 	Q_OBJECT;
 public:
 	PersonOfferListItem( QWidget* parent=nullptr );
-	virtual ~PersonOfferListItem();
+    virtual ~PersonOfferListItem() = default;
 
     AppCommon&					getMyApp( void ) { return m_MyApp; }
     MyIcons&					getMyIcons( void );
 
     void                        setOfferSession( GuiOfferSession* hostSession );
-    GuiOfferSession*            getOfferSession( void );
+   GuiOfferSession*             getOfferSession( void );
 
     void						updateWidgetFromInfo( void );
     QSize                       calculateSizeHint( void );

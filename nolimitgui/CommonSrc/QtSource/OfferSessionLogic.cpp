@@ -31,41 +31,37 @@ OfferSessionLogic::OfferSessionLogic( AppletBase* appletBase, GuiOfferCallback* 
 , m_AppletBase( appletBase )
 , m_OfferCallback( callbackInterface )
 , m_MyIdent( myApp.getMyNetIdent() )
-, m_LclSessionId()
-, m_RmtSessionId()
-, m_OfferSessionId()
-, m_strOfferText( "" )
-, m_strOfferFileName(  "" )
 {
-    /*
-	m_IsMyself 					= (m_MyIdent->getMyOnlineId() == m_HisIdent->getMyOnlineId() );
-	if( 0 != m_GuiOfferSession )
-	{
-		m_IsOffer			= true;
-		m_LclSessionId		= m_GuiOfferSession->assuredValidLclSessionId();
-		m_OfferSessionId	= m_GuiOfferSession->getOfferSessionId();
-	}
-	else
-	{
-		m_IsOffer = false;
-		m_GuiOfferSession = new GuiOfferSession();
+}
 
-		m_GuiOfferSession->setPluginType( pluginType );
-		m_GuiOfferSession->setHisIdent( hisIdent );
-		m_GuiOfferSession->setIsRemoteInitiated( false );
-		m_LclSessionId		= m_GuiOfferSession->assuredValidLclSessionId();
-		m_OfferSessionId	= m_GuiOfferSession->getOfferSessionId();
-	}
+//========================================================================
+void OfferSessionLogic::setGuiOfferSession( std::shared_ptr<GuiOfferSession>& offerSession )
+{
+    m_GuiOfferSession = offerSession;
+    if( m_GuiOfferSession.get() )
+    {
+        m_OfferId = m_GuiOfferSession->getOfferId();
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "OfferSessionLogic::%s null offerSession", __func__ );
+    }
+}
 
-	m_IsPluginSingleSession = GuiHelpers::isPluginSingleSession( m_ePluginType );
-	m_UserData = m_GuiOfferSession->getUserData();
-	m_FileHashId.setHashData( m_GuiOfferSession->getFileHashId().getHashData() );
-	m_strOfferText = GuiParams::describePlugin( m_ePluginType, false );
-    */
+//========================================================================
+OfferBaseInfo& OfferSessionLogic::getOfferInfo( void )
+{
+    return m_GuiOfferSession->getOfferInfo();
 }
 
 //======================================================================== 
-bool OfferSessionLogic::isOurSessionType( GuiOfferSession* offerSession )
+bool OfferSessionLogic::isHost( void )									
+{ 
+	return m_GuiOfferSession->getOfferMgr() == eOfferMgrHost; 
+}
+
+//======================================================================== 
+bool OfferSessionLogic::isOurSessionType( std::shared_ptr<GuiOfferSession>& offerSession )
 {
 	if( ( offerSession->getPluginType() == m_ePluginType )
 		&& ( 0 != m_HisIdent ) )
@@ -77,7 +73,7 @@ bool OfferSessionLogic::isOurSessionType( GuiOfferSession* offerSession )
 }
 
 //======================================================================== 
-bool OfferSessionLogic::isOurSessionInstance( GuiOfferSession* offerSession )
+bool OfferSessionLogic::isOurSessionInstance( std::shared_ptr<GuiOfferSession>& offerSession )
 {
 	if( isOurSessionType( offerSession ) )
 	{
@@ -88,7 +84,7 @@ bool OfferSessionLogic::isOurSessionInstance( GuiOfferSession* offerSession )
 				return true;
 			}				
 		}
-		else if(  offerSession->getOfferSessionId() == m_OfferSessionId ) 
+		else if(  offerSession->getOfferId() == getOfferInfo().getOfferId() ) 
 		{
 			return true;
 		}
@@ -106,11 +102,11 @@ void OfferSessionLogic::onInSession( bool isInSession )
 	m_MyApp.toGuiStatusMessage( sessionMsg.c_str() );
 
 	m_OfferCallback->onInSession( isInSession );
-	m_OfferMgr.onIsInSession( m_ePluginType, m_OfferSessionId, m_HisIdent, isInSession );
+	m_OfferMgr.onIsInSession( m_ePluginType, getOfferInfo().getOfferId(), m_HisIdent, isInSession );
 }
 
 //======================================================================== 
-void OfferSessionLogic::callbackToGuiRxedPluginOffer( GuiOfferSession* offerSession )
+void OfferSessionLogic::callbackToGuiRxedPluginOffer( std::shared_ptr<GuiOfferSession>& offerSession )
 {
 	if( isOurSessionType( offerSession ) )
 	{			
@@ -119,9 +115,9 @@ void OfferSessionLogic::callbackToGuiRxedPluginOffer( GuiOfferSession* offerSess
 			// special case for multisession and other single session use online id instead of session id and auto accept
 			if( offerSession->getUserIdent()->getMyOnlineId() == m_HisIdent->getMyOnlineId() )
 			{
-				if( offerSession->getOfferSessionId().isVxGUIDValid() )
+				if( offerSession->getOfferId().isVxGUIDValid() )
 				{
-					m_OfferSessionId = offerSession->getOfferSessionId();
+					getOfferInfo().getOfferId() = offerSession->getOfferId();
 				}
 
 				m_OfferMgr.removePluginSessionOffer( m_ePluginType, m_HisIdent );
@@ -134,7 +130,7 @@ void OfferSessionLogic::callbackToGuiRxedPluginOffer( GuiOfferSession* offerSess
 					m_MyApp.getEngine().fromGuiStartPluginSession( 	m_ePluginType, 
 						m_HisIdent->getMyOnlineId(), 
 						0,
-						m_OfferSessionId );
+						getOfferInfo().getOfferId() );
 					onInSession( true );
 				}
 			}
@@ -144,12 +140,12 @@ void OfferSessionLogic::callbackToGuiRxedPluginOffer( GuiOfferSession* offerSess
 				offerSession->getOfferInfo().setOfferResponse( eOfferResponseBusy );
 				m_MyApp.getEngine().fromGuiToPluginOfferReply(	offerSession->getUserIdent()->getMyOnlineId(), offerSession->getOfferInfo() );
 								
-				m_OfferMgr.sentOfferReply( m_ePluginType, offerSession->getOfferSessionId(), offerSession->getUserIdent(), eOfferResponseBusy );
+				m_OfferMgr.sentOfferReply( m_ePluginType, offerSession->getOfferId(), offerSession->getUserIdent(), eOfferResponseBusy );
 			}
 		}
 		else
 		{
-			if( offerSession->getOfferSessionId() == m_OfferSessionId )
+			if( offerSession->getOfferId() == getOfferInfo().getOfferId() )
 			{
 				// already in session with this user
 				offerSession->getOfferInfo().setOfferResponse( eOfferResponseAccept );
@@ -161,7 +157,7 @@ void OfferSessionLogic::callbackToGuiRxedPluginOffer( GuiOfferSession* offerSess
 					m_MyApp.getEngine().fromGuiStartPluginSession( 	m_ePluginType, 
 																	m_HisIdent->getMyOnlineId(), 
 																	0,
-																	m_OfferSessionId );
+																	getOfferInfo().getOfferId() );
 					onInSession( true );
 				}
 			}
@@ -171,22 +167,21 @@ void OfferSessionLogic::callbackToGuiRxedPluginOffer( GuiOfferSession* offerSess
 				offerSession->getOfferInfo().setOfferResponse( eOfferResponseBusy );
 				m_MyApp.getEngine().fromGuiToPluginOfferReply( offerSession->getUserIdent()->getMyOnlineId(), offerSession->getOfferInfo() );
 							
-				m_OfferMgr.sentOfferReply( m_ePluginType, offerSession->getOfferSessionId(), offerSession->getUserIdent(), eOfferResponseBusy );
+				m_OfferMgr.sentOfferReply( m_ePluginType, offerSession->getOfferId(), offerSession->getUserIdent(), eOfferResponseBusy );
 			}
 		}
 	}
 }
 
 //======================================================================== 
-void OfferSessionLogic::callbackToGuiRxedOfferReply( GuiOfferSession* offerSession )
+void OfferSessionLogic::callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession>& offerSession )
 {
 	if( isOurSessionType( offerSession ) )
 	{			
 		if( isOurSessionInstance( offerSession ) )
 		{
 			EOfferResponse offerResponse		= offerSession->getOfferResponse();			
-            //VxGUID lclSessionId					= offerSession->getLclSessionId();
-			VxGUID offerSessionId				= offerSession->getOfferSessionId();			
+			VxGUID offerSessionId				= offerSession->getOfferId();			
 			if( eOfferResponseAccept == offerResponse )
 			{
 				m_MyApp.playSound( eSndDefOfferAccepted );
@@ -216,14 +211,14 @@ void OfferSessionLogic::callbackToGuiRxedOfferReply( GuiOfferSession* offerSessi
 }
 
 //======================================================================== 
-void OfferSessionLogic::toGuiPluginSessionEnded( GuiOfferSession* offerSession ) 
+void OfferSessionLogic::toGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offerSession )
 {
 	/*
 	if( isOurSessionInstance( offerSession ) )
 	{
 		EOfferResponse offerResponse = offerSession->getOfferResponse();	
 
-		m_OfferMgr.recievedSessionEnd( m_ePluginType, m_OfferSessionId, m_HisIdent, offerResponse );
+        m_OfferMgr.recievedSessionEnd( m_ePluginType, m_OfferId, m_HisIdent, offerResponse );
 		handleSessionEnded( offerResponse );
 	}
 	*/
@@ -288,7 +283,7 @@ bool OfferSessionLogic::sendOfferOrResponse()
 			}
 			else
 			{
-				m_OfferMgr.sentOffer( m_ePluginType, m_OfferSessionId, m_HisIdent );
+				m_OfferMgr.sentOffer( m_ePluginType, getOfferInfo().getOfferId(), m_HisIdent );
 				postStatusMsg( "Waiting Reply Offer %s From %s", describePlugin().c_str(),  getHisOnlineName().c_str() );
 			}
 		}
@@ -336,7 +331,7 @@ void OfferSessionLogic::onStop()
 	if( false == m_IsOnStopCalled && m_HisIdent )
 	{
 		m_IsOnStopCalled = true;
-		m_OfferMgr.onSessionExit( m_ePluginType, m_OfferSessionId, m_HisIdent );
+        m_OfferMgr.onSessionExit( m_ePluginType, m_OfferId, m_HisIdent );
 		if( false == getIsServerSession() )
 		{
 			setCallState( eCallStateHangedUp );
@@ -348,8 +343,8 @@ void OfferSessionLogic::onStop()
 				{
                     if( m_ePluginType < eMaxNetUsePluginType )
 					{
-						m_OfferMgr.fromGuiToPluginOfferReply( m_ePluginType, m_HisIdent, m_OfferInfo, m_OfferSessionId, eOfferResponseEndSession );
-						m_OfferMgr.sentOfferReply( m_ePluginType, m_OfferSessionId, m_HisIdent, eOfferResponseEndSession );
+                        m_OfferMgr.fromGuiToPluginOfferReply( m_ePluginType, m_HisIdent, getOfferInfo(), m_OfferId, eOfferResponseEndSession );
+                        m_OfferMgr.sentOfferReply( m_ePluginType, m_OfferId, m_HisIdent, eOfferResponseEndSession );
 					}
                     else
                     {
@@ -366,7 +361,7 @@ void OfferSessionLogic::onStop()
 					m_MyApp.getEngine().fromGuiStopPluginSession( 	m_ePluginType, 
 																	m_HisIdent->getMyOnlineId(),
 																	getUserData(),
-																	m_OfferSessionId
+                                                                    m_OfferId
 																	);		   
 				}
                 else
@@ -381,9 +376,8 @@ void OfferSessionLogic::onStop()
 	}
 	else
 	{
-		LogMsg( LOG_INFO, "OfferSessionLogic::onStop was already called \n" );
+        LogMsg( LOG_INFO, "OfferSessionLogic::%s was already called", __func__ );
 	}
-
 }
 
 //============================================================================  
@@ -395,8 +389,8 @@ bool OfferSessionLogic::startPluginSessionIfIsSessionOffer()
 		m_MyApp.getEngine().fromGuiStartPluginSession( 	m_ePluginType, 
 														m_HisIdent->getMyOnlineId(),
 														getUserData(),
-														m_OfferSessionId );
-		m_OfferMgr.startedSessionInReply( m_ePluginType, m_OfferSessionId, m_HisIdent );
+                                                        m_OfferId );
+        m_OfferMgr.startedSessionInReply( m_ePluginType, m_OfferId, m_HisIdent );
 		onInSession( true );
 		return true;
 	}
@@ -460,7 +454,7 @@ bool OfferSessionLogic::handleOfferResponseCode( EOfferResponse responseCode )
 }
 
 //============================================================================   
-void OfferSessionLogic::handleSessionEnded( GuiOfferSession* offerSession )
+void OfferSessionLogic::handleSessionEnded( std::shared_ptr<GuiOfferSession> offerSession )
 {
 	if( isOurSessionInstance( offerSession ) ) 
 	{
@@ -591,7 +585,7 @@ void OfferSessionLogic::handleSessionEnded( EOfferResponse responseCode )
 		{
 			m_IsInSession = false;
 			onInSession( false );
-			m_MyApp.getEngine().fromGuiStopPluginSession( m_ePluginType, m_HisIdent->getMyOnlineId(), getUserData(), m_OfferSessionId );
+            m_MyApp.getEngine().fromGuiStopPluginSession( m_ePluginType, m_HisIdent->getMyOnlineId(), getUserData(), m_OfferId );
 		}
 		
 		postStatusMsg( responseDesc.c_str() );
@@ -624,6 +618,7 @@ void OfferSessionLogic::stopPhoneRinging()
 {
 
 }
+
 //========================================================================
 void OfferSessionLogic::showOfflineMsg( bool bExitWhenClicked )
 {
@@ -636,21 +631,4 @@ void OfferSessionLogic::showOfflineMsg( bool bExitWhenClicked )
 		m_OfferCallback->onSessionActivityShouldExit( offlineMsg.c_str() );
 	}
 }
-
-/*
-//============================================================================
-//! show error message box to user
-void OfferSessionLogic::errMsgBox( bool bExitWhenClicked, std::string strMsg )
-{
-	QMessageBox::information( m_Activity, "Session Error Message", strMsg.c_str(), QMessageBox::Ok );
-	if( bExitWhenClicked )
-	{
-		m_OfferCallback->onSessionActivityShouldExit();
-	}
-}*/
-
-
-
-
-
 

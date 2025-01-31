@@ -195,8 +195,7 @@ void VidWidget::showAllControls( bool showCtrls )
 {
 	showFeedControls( showCtrls );
 	showRecordControls( showCtrls );
-	showMotionSensitivityControls( showCtrls );
-	
+	showMotionSensitivityControls( showCtrls );	
 }
 
 //============================================================================
@@ -421,6 +420,7 @@ void VidWidget::showEvent( QShowEvent* ev )
 	if( m_VideoFeedId.isVxGUIDValid() )
 	{
 		m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpgSmall, getAppModule(), m_VideoFeedId, true );
+		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_VideoFeedId, this, true );
 	}
 }
 
@@ -430,6 +430,7 @@ void VidWidget::hideEvent( QHideEvent* ev )
 	QWidget::hideEvent( ev );
 	if( m_VideoFeedId.isVxGUIDValid() )
 	{
+		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_VideoFeedId, this, false );
 		m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpgSmall, getAppModule(), m_VideoFeedId, false );
 	}
 }

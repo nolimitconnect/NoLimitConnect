@@ -324,7 +324,7 @@ GuiUserSessionBase* GuiUserListWidget::findSession( VxGUID& lclSessionId )
         if( listItem )
         {
             GuiUserSessionBase * userSession = listItem->getUserSession();
-            if( userSession && userSession->getOfferSessionId() == lclSessionId )
+            if( userSession && userSession->getUserSessionId() == lclSessionId )
             {
                 return userSession;
             }
@@ -344,7 +344,7 @@ GuiUserListItem* GuiUserListWidget::findListEntryWidgetBySessionId( VxGUID& sess
         if( userItem )
         {
             GuiUserSessionBase * userSession = userItem->getUserSession();
-            if( userSession && ( userSession->getOfferSessionId() == sessionId ) )
+            if( userSession && ( userSession->getUserSessionId() == sessionId ) )
             {
                 return userItem;
             }
@@ -533,7 +533,7 @@ void GuiUserListWidget::addSessionToList( EHostType hostType, VxGUID& sessionId,
 //============================================================================
 GuiUserListItem* GuiUserListWidget::addOrUpdateSession( GuiUserSessionBase* userSession )
 {
-    GuiUserListItem* userItem = findListEntryWidgetBySessionId( userSession->getOfferSessionId() );
+    GuiUserListItem* userItem = findListEntryWidgetBySessionId( userSession->getUserSessionId() );
     if( userItem )
     {
         GuiUserSessionBase* hostOldSession = userItem->getUserSession();

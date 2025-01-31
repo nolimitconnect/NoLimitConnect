@@ -143,7 +143,7 @@ void GuiOfferListWidget::removeSession( VxGUID& uniqueId )
 }
 
 //============================================================================
-GuiOfferSession * GuiOfferListWidget::findSession( VxGUID& lclSessionId )
+GuiOfferSession* GuiOfferListWidget::findSession( VxGUID& lclSessionId )
 {
     int iCnt = count();
     for( int iRow = 0; iRow < iCnt; iRow++ )
@@ -151,8 +151,8 @@ GuiOfferSession * GuiOfferListWidget::findSession( VxGUID& lclSessionId )
         GuiOfferListItem* listItem =  (GuiOfferListItem*)item( iRow );
         if( listItem )
         {
-            GuiOfferSession * offerSession = listItem->getOfferSession();
-            if( offerSession && offerSession->getOfferSessionId() == lclSessionId )
+            GuiOfferSession* offerSession = listItem->getOfferSession();
+            if( offerSession && offerSession->getOfferId() == lclSessionId )
             {
                 return offerSession;
             }
@@ -171,8 +171,8 @@ GuiOfferListItem* GuiOfferListWidget::findListEntryWidgetBySessionId( VxGUID& se
         GuiOfferListItem*  offerItem = (GuiOfferListItem*)item( iRow );
         if( offerItem )
         {
-            GuiOfferSession * offerSession = offerItem->getOfferSession();
-            if( offerSession && ( offerSession->getOfferSessionId() == sessionId ) )
+            GuiOfferSession* offerSession = offerItem->getOfferSession();
+            if( offerSession && ( offerSession->getOfferId() == sessionId ) )
             {
                 return offerItem;
             }
@@ -187,7 +187,7 @@ GuiOfferListItem* GuiOfferListWidget::findListEntryWidgetByOnlineId( VxGUID& onl
 {
     if( !onlineId.isVxGUIDValid() )
     {
-        LogMsg( LOG_ERROR, "ERROR GuiOfferListWidget::findListEntryWidgetByOnlineId: invalid online id" );
+        LogMsg( LOG_ERROR, "ERROR GuiOfferListWidget::%s: invalid online id", __func__ );
         return nullptr;
     }
 
@@ -197,7 +197,7 @@ GuiOfferListItem* GuiOfferListWidget::findListEntryWidgetByOnlineId( VxGUID& onl
         GuiOfferListItem*  offerItem = (GuiOfferListItem*)item( iRow );
         if( offerItem )
         {
-            GuiOfferSession * offerSession = offerItem->getOfferSession();
+            GuiOfferSession* offerSession = offerItem->getOfferSession();
             if( offerSession && ( offerSession->getMyOnlineId() == onlineId ) )
             {
                 return offerItem;
@@ -388,7 +388,7 @@ void GuiOfferListWidget::callbackThumbRemoved( VxGUID& thumbId )
 //============================================================================
 GuiOfferListItem* GuiOfferListWidget::addOrUpdateSession( GuiOfferSession* offerSession )
 {
-    GuiOfferListItem* offerItem = findListEntryWidgetBySessionId( offerSession->getOfferSessionId() );
+    GuiOfferListItem* offerItem = findListEntryWidgetBySessionId( offerSession->getOfferId() );
     if( offerItem )
     {
         GuiOfferSession* hostOldSession = offerItem->getOfferSession();
@@ -426,7 +426,7 @@ GuiOfferListItem* GuiOfferListWidget::addOrUpdateSession( GuiOfferSession* offer
 //============================================================================
 void GuiOfferListWidget::onOfferListItemClicked( GuiOfferListItem* offerItem )
 {
-    LogMsg( LOG_DEBUG, "onOfferListItemClicked" );
+    LogModule( eLogOffer, LOG_DEBUG, "GuiOfferListWidget::%s", __func__ );
     if( offerItem )
     {
         GuiOfferSession* offerSession = offerItem->getOfferSession();
@@ -440,7 +440,7 @@ void GuiOfferListWidget::onOfferListItemClicked( GuiOfferListItem* offerItem )
 //============================================================================
 void GuiOfferListWidget::onAvatarButtonClicked( GuiOfferListItem* offerItem )
 {
-    LogMsg( LOG_DEBUG, "onAvatarButtonClicked" );
+    LogModule( eLogOffer, LOG_DEBUG, "GuiOfferListWidget::%s", __func__ );
     if( offerItem )
     {
         GuiOfferSession* offerSession = offerItem->getOfferSession();
@@ -458,7 +458,7 @@ void GuiOfferListWidget::onAvatarButtonClicked( GuiOfferListItem* offerItem )
 //============================================================================
 void GuiOfferListWidget::onFriendshipButtonClicked( GuiOfferListItem* offerItem )
 {
-    LogMsg( LOG_DEBUG, "onAvatarButtonClicked" );
+    LogModule( eLogOffer, LOG_DEBUG, "GuiOfferListWidget::%s", __func__ );
     if( offerItem )
     {
         GuiOfferSession* offerSession = offerItem->getOfferSession();
@@ -472,7 +472,7 @@ void GuiOfferListWidget::onFriendshipButtonClicked( GuiOfferListItem* offerItem 
 //============================================================================
 void GuiOfferListWidget::onOfferViewButtonClicked( GuiOfferListItem* offerItem )
 {
-    LogMsg( LOG_VERBOSE, "onOfferViewButtonClicked" );
+    LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferListWidget::%s", __func__ );
     if( offerItem )
     {
         GuiOfferSession* offerSession = offerItem->getOfferSession();
@@ -486,7 +486,7 @@ void GuiOfferListWidget::onOfferViewButtonClicked( GuiOfferListItem* offerItem )
 //============================================================================
 void GuiOfferListWidget::onOfferAcceptButtonClicked( GuiOfferListItem* offerItem )
 {
-    LogMsg( LOG_VERBOSE, "onOfferAcceptButtonClicked" );
+    LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferListWidget::%s", __func__ );
     if( offerItem )
     {
         GuiOfferSession* offerSession = offerItem->getOfferSession();
@@ -500,7 +500,7 @@ void GuiOfferListWidget::onOfferAcceptButtonClicked( GuiOfferListItem* offerItem
 //============================================================================
 void GuiOfferListWidget::onOfferRejectButtonClicked( GuiOfferListItem* offerItem )
 {
-    LogMsg( LOG_VERBOSE, "onOfferRejectButtonClicked" );
+    LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferListWidget::%s", __func__ );
     if( offerItem )
     {
         GuiOfferSession* offerSession = offerItem->getOfferSession();
@@ -514,7 +514,7 @@ void GuiOfferListWidget::onOfferRejectButtonClicked( GuiOfferListItem* offerItem
 //============================================================================
 void GuiOfferListWidget::onPushToTalkButtonClicked( GuiOfferListItem* offerItem )
 {
-    LogMsg( LOG_DEBUG, "onPushToTalkButtonClicked" );
+    LogModule( eLogOffer, LOG_DEBUG, "GuiOfferListWidget::%s", __func__ );
     if( offerItem )
     {
         GuiOfferSession* offerSession = offerItem->getOfferSession();
@@ -528,7 +528,7 @@ void GuiOfferListWidget::onPushToTalkButtonClicked( GuiOfferListItem* offerItem 
 //============================================================================
 void GuiOfferListWidget::onMenuButtonClicked( GuiOfferListItem* offerItem )
 {
-    LogMsg( LOG_DEBUG, "UserListWidget::onMenuButtonClicked" );
+    LogModule( eLogOffer, LOG_DEBUG, "GuiOfferListWidget::%s", __func__ );
     if( offerItem )
     {
         GuiOfferSession* offerSession = offerItem->getOfferSession();
@@ -566,9 +566,9 @@ void GuiOfferListWidget::onListItemUpdated( GuiOfferSession* offerSession, GuiOf
             VxPushButton* avatarButton = offerItem->getAvatarButton();
             GuiUser* guiUser = offerSession->getUserIdent();
 
-            QImage	avatarImage;
+            QImage avatarImage;
             bool havAvatarImage = m_ThumbMgr.requestAvatarImage( guiUser, offerSession->getPluginType(), avatarImage, false );
-            if( havAvatarImage && avatarButton )
+            if( havAvatarImage && avatarButton && !avatarImage.isNull() )
             {
                 avatarButton->setIconOverrideImage( avatarImage );
                 offerItem->setIsThumbUpdated( true );

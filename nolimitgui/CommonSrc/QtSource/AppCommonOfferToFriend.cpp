@@ -9,26 +9,15 @@
 //============================================================================
 
 #include "AppCommon.h"
-#include "AppGlobals.h"
-#include "AppletMgr.h"
-#include "GuiOfferMgr.h"
 
 #include "ActivityMessageBox.h"
-#include "AppletPeerChangeFriendship.h"
-#include "AppletFileShareClientView.h"
 #include "AppletFileOfferSelect.h"
 #include "AppletMultiMessenger.h"
 #include "AppletOfferSend.h"
-#include "AppletPeerTodGame.h"
-#include "AppletPeerVideoPhone.h"
-#include "AppletPeerVoicePhone.h"
-
-#include "MyIcons.h"
-#include "GuiHelpers.h"
+#include "AppletMgr.h"
+#include "GuiOfferMgr.h"
+#include "GuiOfferSession.h"
 #include "GuiParams.h"
-
-#include <QDesktopServices>
-#include <QUrl>
 
 //============================================================================
 bool AppCommon::offerToFriendPluginSession( GuiUser* guiUser, EPluginType pluginType, bool inGroup, QWidget* parent )
@@ -72,12 +61,6 @@ void AppCommon::offerToFriendSendFile( GuiUser* guiUser, bool inGroup, QWidget* 
 }
 
 //============================================================================
-void AppCommon::removePluginSessionOffer( EPluginType pluginType, GuiUser* guiUser )
-{
-    getOfferMgr().removePluginSessionOffer( pluginType, guiUser );
-}
-
-//============================================================================
 bool AppCommon::launchOfferSendApplet( EPluginType pluginType, GuiUser* guiUser, QWidget* parent )
 {
 	if( !guiUser )
@@ -86,12 +69,12 @@ bool AppCommon::launchOfferSendApplet( EPluginType pluginType, GuiUser* guiUser,
 		return false;
 	}
 
-	GuiOfferSession* existingOffer = getOfferMgr().findActiveAndAvailableOffer( guiUser, pluginType );
+	std::shared_ptr<GuiOfferSession> existingOffer = getOfferMgr().findActiveAndAvailableOffer( guiUser, pluginType );
 	return launchOfferSendSession( pluginType, guiUser, existingOffer, parent );
 }
 
 //============================================================================
-bool AppCommon::launchOfferSendSession( EPluginType pluginType, GuiUser* guiUser, GuiOfferSession* existingOffer, QWidget* parent )
+bool AppCommon::launchOfferSendSession( EPluginType pluginType, GuiUser* guiUser, std::shared_ptr<GuiOfferSession> existingOffer, QWidget* parent )
 {
 	bool result{ false };
 	if( !guiUser )
@@ -104,94 +87,6 @@ bool AppCommon::launchOfferSendSession( EPluginType pluginType, GuiUser* guiUser
 	if( applet )
 	{
 		result = applet->setOffer( pluginType, guiUser, existingOffer );
-	}
-
-	return result;
-}
-
-//============================================================================
-bool AppCommon::launchOfferResponseAccept( GuiOfferSession* offerSession, QWidget* contentFrame )
-{
-	bool result{ false };
-	GuiUser* guiUser = offerSession->getUser();
-	if( !guiUser )
-	{
-		LogMsg( LOG_ERROR, "AppCommon::launchOfferApplet null guiUser" );
-		return false;
-	}
-
-	switch( offerSession->getPluginType() )
-	{
-
-	case ePluginTypeMessenger:
-	{
-		AppletMultiMessenger* appletMessenger = getAppletMultiMessenger();
-		if( appletMessenger )
-		{
-			appletMessenger->setSelectedUser( guiUser );
-			result = true;
-		}
-	}
-
-	break;
-
-	case ePluginTypeVoicePhone:
-	{
-		if( !getAppletMgr().findAppletDialog( eAppletPeerVoicePhone ) || guiUser->isMyself() ) // allow multiple sessions if is myself for testing
-		{
-			AppletPeerVoicePhone* applet = dynamic_cast<AppletPeerVoicePhone*>( getAppletMgr().launchApplet( eAppletPeerVoicePhone, contentFrame ) );
-			if( applet )
-			{
-				result = applet->offerSession( guiUser, offerSession );
-			}
-		}
-		else
-		{
-			GuiHelpers::errorMsgBox( eErrMsgAlreadyInSession, contentFrame );
-		}
-	}
-
-	break;
-
-	case ePluginTypeVideoPhone:
-	{
-		if( !getAppletMgr().findAppletDialog( eAppletPeerVideoPhone ) || guiUser->isMyself() ) // allow multiple sessions if is myself for testing
-		{
-			AppletPeerVideoPhone* applet = dynamic_cast<AppletPeerVideoPhone*>(getAppletMgr().launchApplet( eAppletPeerVideoPhone, contentFrame ));
-			if( applet )
-			{
-				result = applet->offerSession( guiUser, offerSession );
-			}
-		}
-		else
-		{
-			GuiHelpers::errorMsgBox( eErrMsgAlreadyInSession, contentFrame );
-		}
-	}
-
-	break;
-
-	case ePluginTypeTruthOrDare:
-	{
-		if( !getAppletMgr().findAppletDialog( eAppletPeerTruthOrDare ) || guiUser->isMyself() ) // allow multiple sessions if is myself for testing
-		{
-			AppletPeerTodGame* applet = dynamic_cast<AppletPeerTodGame*>(getAppletMgr().launchApplet( eAppletPeerTruthOrDare, contentFrame ));
-			if( applet )
-			{
-				result = applet->offerSession( guiUser, offerSession );
-			}
-		}
-		else
-		{
-			GuiHelpers::errorMsgBox( eErrMsgAlreadyInSession, contentFrame );
-		}
-	}
-
-	break;
-
-	default:
-		ActivityMessageBox errMsgBox( *this, this, LOG_ERROR, "AppCommon::launchOfferApplet UNKNOWN plugin type %d", offerSession->getPluginType() );
-		errMsgBox.exec();
 	}
 
 	return result;

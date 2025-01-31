@@ -114,7 +114,7 @@ void AppletAboutUser::fillUserDetails( GuiUser* guiUser )
             uint8_t fileTypes = netIdent.getSharedFileTypes();
             if( !fileTypes )
             {
-                typeText += QObject::tr("No Shared Files");
+                typeText += QObject::tr("no shared files");
             }
             else
             {
@@ -128,11 +128,11 @@ void AppletAboutUser::fillUserDetails( GuiUser* guiUser )
         {
             if( netIdent.hasProfilePicture() )
             {
-                infoMsg( QObject::tr( " -- has profile picture" ) );
+                infoMsg( QObject::tr( " -- has about me picture" ) );
             }
             else
             {
-                infoMsg( QObject::tr( " -- no profile picture" ) );
+                infoMsg( QObject::tr( " -- no about me picture" ) );
             }
         }      
     }

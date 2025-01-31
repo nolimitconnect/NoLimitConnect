@@ -27,22 +27,30 @@ public:
 	AppletPeerBase( const char* objName, AppCommon& app, QWidget* parent );
 	virtual ~AppletPeerBase();
 
-    virtual void				setPluginType( EPluginType pluginType ) override   { m_ePluginType = pluginType; m_OfferSessionLogic.setPluginType( pluginType ); }
-    virtual void                setGuiOfferSession( GuiOfferSession* offerSession ) { m_OfferSessionLogic.setGuiOfferSession( offerSession ); }
+    virtual void				setPluginType( EPluginType pluginType ) override    { m_ePluginType = pluginType; m_OfferSessionLogic.setPluginType( pluginType ); }
 
-	void						setupBaseWidgets(	IdentWidget *		friendIdentWidget = 0, 
-													VxPushButton *		permissionButton = 0, 
-													QLabel *			permissionLabel = 0 );
+    virtual bool                setOfferSession( std::shared_ptr<GuiOfferSession> offerSession );
+
+	virtual OfferBaseInfo&		getOfferInfo( void )                                    { return m_OfferSessionLogic.getOfferInfo(); }
+    virtual void                onOfferWasSet( void ) {};
+
+    virtual void                setOfferToIdentity( GuiUser* guiUser, bool inGroup );
+
+	void						setupBaseWidgets(	GuiUser*	        guiUser, 
+                                                    IdentWidget *		friendIdentWidget = nullptr, 
+													VxPushButton *		permissionButton = nullptr, 
+													QLabel *			permissionLabel = nullptr );
 
 	void						setVidCamWidget( VidWidget * camWidget )			{ m_VidCamWidget = camWidget; }
 	VidWidget *					getVidCamWidget( void )								{ return m_VidCamWidget; }
-
-    virtual bool				offerSession( GuiUser* guiUser, GuiOfferSession* existingOffer = nullptr );
 
 	virtual bool				fromGuiSetGameValueVar(	int32_t varId, int32_t varValue );
 	virtual bool				fromGuiSetGameActionVar( int32_t actionId, int32_t actionValue );
 
     virtual void				onActivityFinish( void ) override;
+
+protected slots:
+    virtual void                slotEndSession( void );
 
 protected:
     void				        callbackUserAdded( GuiUser* guiUser ) override; 
@@ -50,9 +58,9 @@ protected:
     void                        callbackUserUpdated( GuiUser* guiUser ) override;
     void                        callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline ) override;
 
-    virtual void				callbackToGuiRxedPluginOffer( GuiOfferSession* offer ) override;
-    virtual void				callbackToGuiRxedOfferReply( GuiOfferSession* offerReply ) override;
-    virtual void				callbackToGuiPluginSessionEnded( GuiOfferSession* offer ) override;
+    virtual void				callbackToGuiRxedPluginOffer( std::shared_ptr<GuiOfferSession>& offer ) override;
+    virtual void				callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession>& offerReply ) override;
+    virtual void				callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offer ) override;
 
 	virtual void				callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 ) override;
 

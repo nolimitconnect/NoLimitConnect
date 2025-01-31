@@ -254,7 +254,7 @@ int OpusAudioEncoder::encodePcmData(	int16_t*	pcmData,
 
 	if( minVal < -15000 || maxVal > 15000 )
 	{
-		LogModule( eLogAudioIo, LOG_VERBOSE, "OpusAudioEncoder::writePcmData debug peak min %d max %d len %d", minVal, maxVal, totalEncodedLen );
+		if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "OpusAudioEncoder::%s debug peak min %d max %d len %d", __func__, minVal, maxVal, totalEncodedLen );
 	}
 
 #endif // defined(DEBUG)

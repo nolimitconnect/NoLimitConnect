@@ -23,6 +23,7 @@ class AppletBase;
 class GuiOfferMgr;
 class GuiOfferSession;
 class GuiOfferCallback;
+class GuiUser;
 class VxNetIdent;
 
 class OfferSessionLogic
@@ -31,7 +32,8 @@ public:
 	OfferSessionLogic( AppletBase* appletBase, GuiOfferCallback* callbackInterface, AppCommon& myApp );
 	
 	bool 						isSessionOffer( void )							{ return m_IsOffer; }
-	bool 						isRmtInitiated( void )							{ return m_IsOffer; }
+	bool 						isHost( void );
+
 	void 						setIsServerSession( bool isServerSession )		{ m_IsServerSession = isServerSession; }
 	bool 						getIsServerSession( void )						{ return m_IsServerSession; }
 	void 						setIsInSession( bool isInSession )				{ m_IsInSession = isInSession; }
@@ -45,24 +47,28 @@ public:
 	void 						setUserData( int userData )						{ m_UserData = userData; }
 	int 						getUserData( void )								{ return m_UserData; }
     VxGUID& 					getLclSessionId( void )							{ return m_LclSessionId;    }
-	VxGUID& 					getOfferSessionId( void )						{ return m_OfferSessionId;    }
 
     void                        setPluginType( EPluginType pluginType )			{ m_ePluginType = pluginType;    }
 	EPluginType 				getPluginType( void )							{ return m_ePluginType;    }
-    void                        setGuiOfferSession( GuiOfferSession* offerSession ) { m_GuiOfferSession = offerSession; };
-    GuiOfferSession*			getGuiOfferSession( void )                      { return m_GuiOfferSession; };
+
+    void                        setGuiOfferSession( std::shared_ptr<GuiOfferSession>& offerSession );
+    std::shared_ptr<GuiOfferSession> getGuiOfferSession( void )                 { return m_GuiOfferSession; };
+
+    OfferBaseInfo&				getOfferInfo( void );
+    VxGUID&                     getOfferId( void )                              { return m_OfferId; };
+
     void                        setHisIdent( GuiUser* guiUser )					{ m_HisIdent = guiUser;    }
 	GuiUser* 				    getHisIdent( void )								{ return m_HisIdent;    }
 
-	bool						isOurSessionType( GuiOfferSession* offerSession ); 
-	bool						isOurSessionInstance( GuiOfferSession* offerSession ); 
+    bool						isOurSessionType( std::shared_ptr<GuiOfferSession>& offerSession );
+    bool						isOurSessionInstance( std::shared_ptr<GuiOfferSession>& offerSession );
 
 	void						onInSession( bool isInSession ); 
 
-	void						callbackToGuiRxedPluginOffer( GuiOfferSession* offerSession );
-	void						callbackToGuiRxedOfferReply( GuiOfferSession* offerSession );
+    void						callbackToGuiRxedPluginOffer( std::shared_ptr<GuiOfferSession>& offerSession );
+    void						callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession>& offerSession );
 
-	void						toGuiPluginSessionEnded( GuiOfferSession* offerSession ); 
+    void						toGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offerSession );
 	void						toGuiContactOffline( GuiUser* friendIdent ); 
 
 	bool						sendOfferOrResponse();
@@ -82,15 +88,12 @@ public:
 
 	bool						handleOfferResponse( GuiOfferSession offerSession );
 	bool						handleOfferResponseCode( EOfferResponse responseCode ) ;
-	void						handleSessionEnded( GuiOfferSession* offerSession );
+	void						handleSessionEnded( std::shared_ptr<GuiOfferSession> offerSession );
 	void						handleSessionEnded( EOfferResponse responseCode );
 	void						handleUserWentOffline( void );
 	void						startPhoneRinging( void );
 	void						stopPhoneRinging( void );
 	void						showOfflineMsg( bool bExitWhenClicked = true );
-
-	OfferBaseInfo&				getOfferInfo( void ) { return m_OfferInfo; }
-    bool						isOfferInfoValid( void ) {return false;}
 
 private:
 	AppCommon& 				    m_MyApp;
@@ -102,9 +105,10 @@ private:
     VxNetIdent*				    m_MyIdent{ nullptr };
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
-	VxGUID						m_OfferSessionId;
+
 	VxSha1Hash					m_FileHashId;
-	GuiOfferSession*			m_GuiOfferSession{ nullptr };
+    std::shared_ptr<GuiOfferSession> m_GuiOfferSession{ nullptr };
+    VxGUID						m_OfferId; // from m_GuiOfferSession when set
     bool 						m_IsOffer{ false };
 	bool 						m_IsMyself{ false };
 	bool 						m_IsServerSession{ false };
@@ -114,7 +118,6 @@ private:
 	bool 						m_SessionEndIsHandled{ false };
 	bool 						m_IsInSession{ false };
 	bool 						m_IsOnStopCalled{ false };
-	OfferBaseInfo				m_OfferInfo;
 };
 
 

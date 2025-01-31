@@ -50,13 +50,13 @@ private slots:
     void                        slotActiveOffersButtonClicked( void );
     void                        slotOfferHistoryButtonClicked( void );
 
-    void                        slotOfferListItemClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
-    void                        slotAvatarButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
+    void                        slotOfferListItemClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem );
+    void                        slotAvatarButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem );
 
-    void                        slotOfferViewButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
-    void                        slotOfferAcceptButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
-    void                        slotOfferRejectButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
-    void                        slotPushToTalkButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
+    void                        slotOfferViewButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem );
+    void                        slotOfferAcceptButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem );
+    void                        slotOfferRejectButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem );
+    void                        slotPushToTalkButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem );
 
 protected:
     virtual void				callbackIndentListUpdate( EUserViewType listType, VxGUID& onlineId, uint64_t timestamp ) override;

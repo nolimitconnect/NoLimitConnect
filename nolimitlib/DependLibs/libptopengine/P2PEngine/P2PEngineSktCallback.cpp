@@ -35,7 +35,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 
     if( sktBase->isUdpSocket() )
     {
-        LogMsg( LOG_ERROR, "P2PEngine::handleTcpData: attempted handle UDP data" );
+        LogMsg( LOG_ERROR, "P2PEngine::%s: attempted handle UDP data", __func__ );
         return;
     }
 
@@ -153,11 +153,23 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 			&& (false == sktBase->isRxEncryptionKeySet() ) )
 		{
 			// we connected out but never set our key
+			sktBase->closeSkt( eSktCloseNoRxEncryptionKey );
+			LogMsg( LOG_ERROR, "P2PEngine::%s Accept socket has no rx encryption key", __func__ );
 			vx_assert( false );
+			return;
 		}
 
         if( false == sktBase->isRxEncryptionKeySet() )
 		{
+			if( !m_PktAnn.m_DirectConnectId.isIpAddressValid() )
+			{
+				// the external ip address has not yet been determined
+				// just close the connection because we are not ready yet
+				sktBase->closeSkt( eSktCloseExternalIpNotDeterminedYet );
+				LogMsg( LOG_WARN, "P2PEngine::%s Packet recieved before external ip has been determined", __func__ );
+				return;
+			}
+
 			// this data has not been decrypted.. set encryption key and decrypt it
 			GenerateRxConnectionKey( sktBase, &m_PktAnn.m_DirectConnectId, m_NetworkMgr.getNetworkKey().c_str() );
 			sktBase->decryptReceiveData();

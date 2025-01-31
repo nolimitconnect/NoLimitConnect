@@ -40,7 +40,7 @@ public:
 
 	virtual void				callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 )  override;
     virtual void				toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID onlineId, int pos0to100000 ) override;
-	virtual void				callbackToGuiPluginSessionEnded( GuiOfferSession* offerSession ) override;
+    virtual void				callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offerSession ) override;
 
     virtual void 				onSessionActivityShouldExit( QString shouldExitReason ) override {};
 
@@ -63,8 +63,6 @@ protected:
     virtual void				showEvent( QShowEvent* ev ) override;
     virtual void				hideEvent( QHideEvent* ev ) override;
 
-    virtual void				callbackToGuiRxedPluginOffer( GuiOfferSession* offer ) override;
-    virtual void				callbackToGuiRxedOfferReply( GuiOfferSession* offer ) override;
 	void                        callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline ) override;
 
 	virtual bool 				checkForSendAccess( bool sendOfferIfPossible );

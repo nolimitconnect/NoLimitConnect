@@ -1016,9 +1016,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserMultiListWidget.h">
       <Filter>Header Files\GuiUser</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserSessionBase.h">
-      <Filter>Header Files\GuiUser</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserJoinListItem.h">
       <Filter>Header Files\GuiUserJoin</Filter>
     </QtMoc>
@@ -1141,6 +1138,9 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendList.h">
       <Filter>Header Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserSessionBase.h">
+      <Filter>Header Files\GuiUser</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

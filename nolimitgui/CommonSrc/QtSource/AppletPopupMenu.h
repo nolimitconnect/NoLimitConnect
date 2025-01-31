@@ -103,6 +103,8 @@ protected:
 	void						launchChangeFriendship( GuiUser* selectedFriend );
 	void						launchUserDetails( void );
 
+	bool						isMyAccessAllowed( GuiUser* guiUser, EPluginType pluginType, bool inGroup );
+
     //=== vars ===//
     Ui::AppletPopupMenuUi&		ui;
 	AppletBase*					m_ParentActivity{ nullptr };

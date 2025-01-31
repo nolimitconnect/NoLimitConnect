@@ -10,9 +10,11 @@
 
 #include "OfferBaseInfo.h"
 
+#include <P2PEngine/P2PEngine.h>
+
 #include <CoreLib/PktBlobEntry.h>
+#include <CoreLib/VxTime.h>
 #include <PktLib/VxCommon.h>
-#include <CoreLib/VxTimer.h>
 
 //============================================================================
 OfferBaseInfo::OfferBaseInfo( const OfferBaseInfo& rhs )
@@ -22,6 +24,7 @@ OfferBaseInfo::OfferBaseInfo( const OfferBaseInfo& rhs )
 	, m_OfferExpireTime( rhs.m_OfferExpireTime )
 	, m_OfferMsg( rhs.m_OfferMsg )
 	, m_OfferResponse( rhs.m_OfferResponse )
+	, m_OfferTimestamp( rhs.m_OfferTimestamp )
 {
 }
 
@@ -54,6 +57,7 @@ OfferBaseInfo& OfferBaseInfo::operator=( const OfferBaseInfo& rhs )
 		m_OfferExpireTime = rhs.m_OfferExpireTime;
 		m_OfferMsg = rhs.m_OfferMsg;
 		m_OfferResponse = rhs.m_OfferResponse;
+		m_OfferTimestamp = rhs.m_OfferTimestamp;
 	}
 
 	return *this;
@@ -70,6 +74,7 @@ bool OfferBaseInfo::addToBlob( PktBlobEntry& blob )
 		result &= blob.setValue( m_OfferExpireTime );
 		result &= blob.setValue( m_OfferMsg );
 		result &= blob.setValue( m_OfferResponse );
+		result &= blob.setValue( m_OfferTimestamp );
 
 		return result;
 	}
@@ -88,6 +93,7 @@ bool OfferBaseInfo::extractFromBlob( PktBlobEntry& blob )
 		result &= blob.getValue( m_OfferExpireTime );
 		result &= blob.getValue( m_OfferMsg );
 		result &= blob.getValue( m_OfferResponse );
+		result &= blob.getValue( m_OfferTimestamp );
 
 		return result;
 	}
@@ -102,17 +108,18 @@ void OfferBaseInfo::fillOfferSend( EPluginType pluginType, VxNetIdent& netIdent 
 	m_OfferResponse = eOfferResponseNotSet;
 	m_OfferMgr = eOfferMgrHost;
 	setOnlineId( netIdent.getMyOnlineId() );
-	setCreatorId( netIdent.getMyOnlineId() );
+	setCreatorId( GetPtoPEngine().getMyOnlineId() );
 	setHistoryId( netIdent.getMyOnlineId() );
 	m_UniqueId.assureIsValidGUID(); // may not neccessarily be session unique if is file or thumb asset
 	// offer id always needs to be unique
 	m_OfferId.initializeWithNewVxGUID();
+	m_OfferTimestamp = GetTimeStampMs();
 }
 
 //============================================================================
 bool OfferBaseInfo::isExpiredOffer( void )
 {
-	return m_OfferExpireTime && GetHighResolutionTimeMs()  < m_OfferExpireTime;
+	return m_OfferExpireTime && GetGmtTimeMs() < m_OfferExpireTime;
 }
 
 //============================================================================
@@ -125,4 +132,12 @@ bool OfferBaseInfo::isValid( bool logErrIfInvalid )
 bool OfferBaseInfo::isSessionMatch( OfferBaseInfo& rhs )
 {
 	return getOfferId() == rhs.getOfferId() && m_PluginType == rhs.getPluginType() && getOnlineId() == rhs.getOnlineId() && getOfferMgr() == rhs.getOfferMgr();
+}
+
+//============================================================================
+bool OfferBaseInfo::isPhoneTypePlugin( void )          
+{ 
+	return m_PluginType == ePluginTypeVoicePhone ||
+			m_PluginType == ePluginTypeVideoPhone ||
+			m_PluginType == ePluginTypeTruthOrDare; 
 }

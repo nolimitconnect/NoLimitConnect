@@ -1471,8 +1471,14 @@ RCODE	VxFileUtil::getExecutePathAndName( std::string& strRetExeDir, std::string&
 	{
 		LogMsg( LOG_INFO, "Error %d occured getting module directory", VxGetLastError());
 		return -1;
-
 	}
+
+    if( iByteCount >= VX_MAX_PATH )
+    {
+        LogMsg( LOG_INFO, "Error %d occured iByteCount %d", VxGetLastError(), iByteCount );
+        return -1;
+    }
+
 	pRetBuf[iByteCount] = '\0';
 
 	if(nullptr == (pTempBuf = strrchr(pRetBuf,'/')))
@@ -1480,11 +1486,9 @@ RCODE	VxFileUtil::getExecutePathAndName( std::string& strRetExeDir, std::string&
 		LogMsg( LOG_INFO, "Error %d occured getting module directory", VxGetLastError());
 		return -1;
 	}
+
+    strRetExeFileName = &pTempBuf[1];
 	pTempBuf[1] = '\0';
-
-	//const char* dir * name = dirname( pRetBuf );
-
-	strRetExeFileName = &pTempBuf[2];
 	strRetExeDir = pRetBuf;
 #endif // LINUX
 	return 0;

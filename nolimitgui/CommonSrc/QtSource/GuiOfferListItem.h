@@ -21,11 +21,11 @@ class GuiOfferListItem : public IdentWidget, public QListWidgetItem
 	Q_OBJECT;
 public:
 	GuiOfferListItem( QWidget* parent=nullptr );
-	virtual ~GuiOfferListItem();
+    virtual ~GuiOfferListItem() override;
 
     AppCommon&					getMyApp( void ) { return m_MyApp; }
 
-    void                        setOfferSession( GuiOfferSession* hostSession );
+    void                        setOfferSession( GuiOfferSession* offerSession );
     GuiOfferSession*            getOfferSession( void );
 
     VxPushButton*               getAvatarButton( void )                 { return getIdentAvatarButton(); }

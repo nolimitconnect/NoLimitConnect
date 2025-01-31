@@ -10,7 +10,7 @@
 
 #include "GuiOfferInfo.h"
 
-#include <CoreLib/VxTimer.h>
+#include <CoreLib/VxTime.h>
 
 //============================================================================
 GuiOfferInfo::GuiOfferInfo( const GuiOfferInfo& rhs )
@@ -18,8 +18,6 @@ GuiOfferInfo::GuiOfferInfo( const GuiOfferInfo& rhs )
 	, m_HisIdent( rhs.m_HisIdent )
 	, m_OfferState( rhs.m_OfferState )
 	, m_LastActivityMs( rhs.m_LastActivityMs )
-	, m_RmtInitiated( rhs.m_RmtInitiated )
-	, m_HasBeenViewed( rhs.m_HasBeenViewed )
 	, m_RequiresReply( rhs.m_RequiresReply )
 	, m_HasNewResponse( rhs.m_HasNewResponse )
 	, m_MissedCalls( rhs.m_MissedCalls )
@@ -42,8 +40,6 @@ GuiOfferInfo& GuiOfferInfo::operator=( const GuiOfferInfo& rhs )
 		m_HisIdent = rhs.m_HisIdent;
 		m_OfferState = rhs.m_OfferState;
 		m_LastActivityMs = rhs.m_LastActivityMs;
-		m_RmtInitiated = rhs.m_RmtInitiated;
-		m_HasBeenViewed = rhs.m_HasBeenViewed;
 		m_RequiresReply = rhs.m_RequiresReply;
 		m_HasNewResponse = rhs.m_HasNewResponse;
 		m_MissedCalls = rhs.m_MissedCalls;
@@ -62,7 +58,7 @@ void GuiOfferInfo::setOfferBaseInfo( OfferBaseInfo& offerBaseInfo )
 //============================================================================
 void GuiOfferInfo::updateLastActivityTime( void )
 {
-	m_LastActivityMs = GetHighResolutionTimeMs();
+	m_LastActivityMs = GetGmtTimeMs();
 }
 
 //============================================================================
@@ -73,7 +69,7 @@ void GuiOfferInfo::addMissedMessage( std::string& missedMsg )
 		m_MissedMessages.insert( m_MissedMessages.begin(), missedMsg );
 	}
 	
-	m_LastActivityMs = GetHighResolutionTimeMs();
+	m_LastActivityMs = GetGmtTimeMs();
 }
 
 //============================================================================

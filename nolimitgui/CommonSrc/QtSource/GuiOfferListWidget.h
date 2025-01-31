@@ -55,7 +55,7 @@ signals:
     void                        signalOfferAcceptButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
     void                        signalOfferRejectButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
     void                        signalPushToTalkButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
-    void                        signalMenuButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem ); 
+    void                        signalMenuButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
 
 protected slots:    
 	void						slotItemClicked( QListWidgetItem* item );

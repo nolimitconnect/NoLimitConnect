@@ -15,19 +15,17 @@
 
 #include "GuiUser.h"
 
-#include <QWidget>
-
 class P2PEngine;
 class VxGUID;
 class PluginSetting;
 
-class GuiUserSessionBase : public QWidget
+class GuiUserSessionBase : public QObject
 {
     Q_OBJECT
 public:
-	GuiUserSessionBase( QWidget* parent = nullptr );
-    GuiUserSessionBase( GuiUser* hostIdent, QWidget* parent = nullptr );
-	GuiUserSessionBase(	EHostType hostType, VxGUID& sessionId, GuiUser* hostIdent, QWidget* parent = nullptr );
+    GuiUserSessionBase( QObject* parent = nullptr );
+    GuiUserSessionBase( GuiUser* hostIdent, QObject* parent = nullptr );
+    GuiUserSessionBase(	EHostType hostType, VxGUID& sessionId, GuiUser* hostIdent, QObject* parent = nullptr );
 	GuiUserSessionBase( const GuiUserSessionBase &rhs );
     virtual ~GuiUserSessionBase() {};
 
@@ -38,8 +36,8 @@ public:
 
     EHostType                   getHostType( void )                         { return m_HostType; }
 
-    void						setOfferSessionId( VxGUID& sessionId )      { m_OfferSessionId = sessionId; }
-    VxGUID&					    getOfferSessionId( void )                   { return m_OfferSessionId; }
+    void						setUserSessionId( VxGUID& sessionId )       { m_UserSessionId = sessionId; }
+    VxGUID&					    getUserSessionId( void )                    { return m_UserSessionId; }
 
     VxGUID&					    getMyOnlineId( void )                       { return m_OnlineId; }
     std::string                 getOnlineName( void )                       { return m_Userdent ? m_Userdent->getOnlineName() : ""; }
@@ -48,7 +46,7 @@ protected:
 	//=== vars ===//
     EHostType                   m_HostType{ eHostTypeUnknown };
     GuiUser*                    m_Userdent{ nullptr };
-    VxGUID					    m_OfferSessionId;
+    VxGUID					    m_UserSessionId;
     VxGUID                      m_OnlineId;
 };
 

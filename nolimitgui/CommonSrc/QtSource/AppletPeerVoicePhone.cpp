@@ -10,11 +10,7 @@
 
 #include "AppletPeerVoicePhone.h"
 
-#include "GuiOfferSession.h"
-#include "AppGlobals.h"
-
-#include <P2PEngine/P2PEngine.h>
-
+#include "AppCommon.h"
 #include "GuiOfferSession.h"
 
 #include <CoreLib/ObjectCommonDefs.h>
@@ -31,36 +27,11 @@ AppletPeerVoicePhone::AppletPeerVoicePhone(	AppCommon& app, QWidget* parent )
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
-	setupActivityVoicePhone();
-	// m_OfferSessionLogic.sendOfferOrResponse();
-}
-
-//============================================================================
-void AppletPeerVoicePhone::setupActivityVoicePhone( void )
-{
-    /*
-	setupBaseWidgets( ui.m_TitleBarWidget, ui.m_FriendIdentWidget, ui.m_PermissionButton, ui.m_PermissionLabel );
-    QString titleText = QObject::tr("Voice Phone (VOIP) - ");
-    titleText += m_HisIdent->getOnlineName();
-    ui.m_TitleBarWidget->setTitleBarText( titleText );
-	ui.m_TitleBarWidget->enableAudioControls( true );
-    connectBarWidgets();
-	ui.m_InstMsgWidget->setInstMsgWidgets( m_ePluginType, m_HisIdent );
-	ui.m_HangUpButton->setIcon( eMyIconVoicePhoneCancel );
-	connect( ui.m_HangUpButton, SIGNAL(clicked()), this, SLOT(reject()) );
-    */
-}
-
-//============================================================================
-void AppletPeerVoicePhone::callbackToGuiRxedPluginOffer( GuiOfferSession* offer )
-{
-	m_OfferSessionLogic.callbackToGuiRxedPluginOffer( offer );
-}
-
-//============================================================================
-void AppletPeerVoicePhone::callbackToGuiRxedOfferReply( GuiOfferSession* offerSession )
-{
-	m_OfferSessionLogic.callbackToGuiRxedOfferReply( offerSession );
+	ui.m_PermissionButton->setFixedSize( eButtonSizeMedium );
+    ui.m_HangUpButton->setFixedSize( eButtonSizeMedium );
+    ui.m_HangUpButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
+	ui.m_HangUpButton->setIcon( eMyIconRedX );
+	connect( ui.m_HangUpButton, SIGNAL(clicked()), this, SLOT(slotEndSession()) );
 }
 
 //============================================================================
@@ -86,5 +57,19 @@ void AppletPeerVoicePhone::toGuiInstMsg( GuiUser* friendIdent, EPluginType plugi
 	{
 		ui.m_InstMsgWidget->toGuiInstMsg( instMsg );
 	}
-}; 
+}
 
+//============================================================================
+void AppletPeerVoicePhone::onOfferWasSet( void )
+{
+	OfferBaseInfo& offerInfo = getOfferInfo();
+	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( offerInfo.getFromOnlineId() );
+	if( guiUser )
+	{
+		setupBaseWidgets( guiUser, ui.m_FriendIdentWidget, ui.m_PermissionButton, ui.m_PermissionLabel );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "AppletPeerVoicePhone::%s user not found %s", __func__ );
+	}
+}

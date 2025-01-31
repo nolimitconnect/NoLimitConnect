@@ -53,8 +53,8 @@ void AppletPeerBase::onActivityFinish( void )
 //============================================================================
 void AppletPeerBase::setupAppletPeerBase( void )
 {
-	m_Engine.fromGuiMuteMicrophone( false );
-	m_Engine.fromGuiMuteSpeaker( false );
+	//m_Engine.fromGuiMuteMicrophone( false );
+	//m_Engine.fromGuiMuteSpeaker( false );
 	wantActivityCallbacks( true );
 }
 
@@ -87,19 +87,19 @@ void AppletPeerBase::callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline
 }
 
 //============================================================================
-void AppletPeerBase::setupBaseWidgets( IdentWidget*	friendIdentWidget, VxPushButton* permissionButton, QLabel* permissionLabel )
+void AppletPeerBase::setupBaseWidgets( GuiUser*	guiUser, IdentWidget* friendIdentWidget, VxPushButton* permissionButton, QLabel* permissionLabel )
 {
 	if( friendIdentWidget )
 	{
-		friendIdentWidget->updateIdentity( m_HisIdent );
+		friendIdentWidget->updateIdentity( guiUser );
 	}
 
-	if( permissionButton && m_HisIdent )
+	if( permissionButton && guiUser )
 	{
-		EPluginAccess ePluginAccess = m_HisIdent->getMyAccessPermissionFromHim( m_ePluginType );
+		EPluginAccess ePluginAccess = guiUser->getMyAccessPermissionFromHim( m_ePluginType );
 
 		permissionButton->setIcon( getMyIcons().getPluginIcon( m_ePluginType, ePluginAccess ) );
-		QString strAction = DescribePluginType( m_ePluginType );
+		QString strAction = GuiParams::describePluginType( m_ePluginType );
 		if( 0 != permissionLabel )
 		{
 			permissionLabel->setText( strAction );	
@@ -168,19 +168,19 @@ bool AppletPeerBase::fromGuiSetGameActionVar( int32_t s32VarId, int32_t s32VarVa
 }
 
 //============================================================================
-void AppletPeerBase::callbackToGuiRxedPluginOffer( GuiOfferSession* offer )
+void AppletPeerBase::callbackToGuiRxedPluginOffer( std::shared_ptr<GuiOfferSession>& offer )
 {
-	//m_OfferSessionLogic.toGuiRxedPluginOffer( offer );
+    m_OfferSessionLogic.callbackToGuiRxedPluginOffer( offer );
 }; 
 
 //============================================================================
-void AppletPeerBase::callbackToGuiRxedOfferReply( GuiOfferSession* offerReply )
+void AppletPeerBase::callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession>& offerReply )
 {
-	//m_OfferSessionLogic.toGuiRxedOfferReply( offerReply );
+    m_OfferSessionLogic.callbackToGuiRxedOfferReply( offerReply );
 }; 
 
 //============================================================================
-void AppletPeerBase::callbackToGuiPluginSessionEnded( GuiOfferSession* offer )
+void AppletPeerBase::callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offer )
 {
 	//handleSessionEnded( offerResponse, this );
 }; 
@@ -221,9 +221,22 @@ void AppletPeerBase::toGuiSetGameActionVar(	EPluginType     pluginType,
 }
 
 //============================================================================
-bool AppletPeerBase::offerSession( GuiUser* guiUser, GuiOfferSession* existingOffer )
+void AppletPeerBase::setOfferToIdentity( GuiUser* guiUser, bool inGroup )
 {
+	m_MyApp.offerToFriendPluginSession( guiUser, getPluginType(), inGroup, getParentPageFrame() );
+}
 
+//============================================================================
+bool AppletPeerBase::setOfferSession( std::shared_ptr<GuiOfferSession> offerSession )   
+{ 
+	m_OfferSessionLogic.setGuiOfferSession( offerSession );
+	onOfferWasSet();
+	return true;
+}
 
-	return false;
+//============================================================================
+void AppletPeerBase::slotEndSession( void )
+{
+	onActivityFinish();
+	closeApplet();
 }

@@ -659,6 +659,12 @@ void AppCommon::toGuiPluginCommError( EPluginType pluginType, VxGUID& onlineId, 
 //============================================================================
 void AppCommon::slotInternalPluginMessage( EPluginType pluginType, VxGUID onlineId, EPluginMsgType msgType, QString paramValue )
 {
+    if( m_ToGuiActivityInterfaceBusy )
+    {
+        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        vx_assert( false );
+    }
+
 	m_ToGuiActivityInterfaceBusy = true;
 	for( auto client : m_ToGuiActivityInterfaceList )
 	{
@@ -672,6 +678,12 @@ void AppCommon::slotInternalPluginMessage( EPluginType pluginType, VxGUID online
 void AppCommon::slotInternalPluginErrorMsg( EPluginType pluginType, VxGUID onlineId, EPluginMsgType msgType, ECommErr commError )
 {
 	QString commErrDescription = GuiParams::describeCommError( commError );
+    if( m_ToGuiActivityInterfaceBusy )
+    {
+        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        vx_assert( false );
+    }
+
 	m_ToGuiActivityInterfaceBusy = true;
 	for( auto client : m_ToGuiActivityInterfaceList )
 	{
@@ -1154,6 +1166,12 @@ void AppCommon::slotInternalToGuiSetGameValueVar( EPluginType pluginType, VxGUID
 		return;
 	}
 
+    if( m_ToGuiActivityInterfaceBusy )
+    {
+        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        vx_assert( false );
+    }
+
 	m_ToGuiActivityInterfaceBusy = true;
 	for( auto client : m_ToGuiActivityInterfaceList )
 	{
@@ -1184,6 +1202,12 @@ void AppCommon::slotInternalToGuiSetGameActionVar( EPluginType pluginType, VxGUI
 	{
 		return;
 	}
+
+    if( m_ToGuiActivityInterfaceBusy )
+    {
+        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        vx_assert( false );
+    }
 
 	m_ToGuiActivityInterfaceBusy = true;
 	for( auto client : m_ToGuiActivityInterfaceList )
@@ -1252,6 +1276,12 @@ void AppCommon::toGuiAssetUpdated( AssetBaseInfo* assetInfo )
 //============================================================================
 void AppCommon::slotInternalToGuiAssetUpdated( AssetBaseInfo assetInfo )
 {
+    if( m_ToGuiActivityInterfaceBusy )
+    {
+        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        vx_assert( false );
+    }
+
 	m_ToGuiActivityInterfaceBusy = true;
 	for( auto client : m_ToGuiActivityInterfaceList )
 	{
@@ -1277,6 +1307,11 @@ void AppCommon::slotInternalToGuiAssetRemoved( AssetBaseInfo assetInfo )
 {
 	// when assets are removed they might call wantToGuiActivityCallbacks and change the clientList
 // check if client is in list each time to avoid out of range vector interation crash
+    if( m_ToGuiActivityInterfaceBusy )
+    {
+        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        vx_assert( false );
+    }
 
 	m_ToGuiActivityInterfaceBusy = true;
 	for( auto client : m_ToGuiActivityInterfaceList )
@@ -1301,6 +1336,12 @@ void AppCommon::toGuiAssetXferState( VxGUID& assetUniqueId, EAssetSendState asse
 //============================================================================
 void AppCommon::slotInternalToGuiAssetXferState( VxGUID assetUniqueId, EAssetSendState assetSendState, int param )
 {
+    if( m_ToGuiActivityInterfaceBusy )
+    {
+        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        vx_assert( false );
+    }
+
 	m_ToGuiActivityInterfaceBusy = true;
 	for( auto client : m_ToGuiActivityInterfaceList )
 	{
@@ -1330,6 +1371,12 @@ void AppCommon::slotInternalToGuiAssetSessionHistory( AssetBaseInfo* assetInfo )
 	{
 		return;
 	}
+
+    if( m_ToGuiActivityInterfaceBusy )
+    {
+        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        vx_assert( false );
+    }
 
 	m_ToGuiActivityInterfaceBusy = true;
 	for( auto client : m_ToGuiActivityInterfaceList )
@@ -1362,6 +1409,12 @@ void AppCommon::slotInternalToGuiAssetAction( EAssetAction assetAction, VxGUID a
         return;
     }
 
+    if( m_ToGuiActivityInterfaceBusy )
+    {
+        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        vx_assert( false );
+    }
+
 	m_ToGuiActivityInterfaceBusy = true;
     for( auto client : m_ToGuiActivityInterfaceList )
     {
@@ -1389,6 +1442,12 @@ void AppCommon::slotInternalMultiSessionAction( VxGUID onlineId, EMSessionAction
 	{
 		return;
 	}
+
+    if( m_ToGuiActivityInterfaceBusy )
+    {
+        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        vx_assert( false );
+    }
 
 	m_ToGuiActivityInterfaceBusy = true;
     for( auto client : m_ToGuiActivityInterfaceList )
@@ -1425,6 +1484,12 @@ void AppCommon::slotInternalBlobAction( EAssetAction assetAction, VxGUID assetId
 		return;
 	}
 
+    if( m_ToGuiActivityInterfaceBusy )
+    {
+        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        vx_assert( false );
+    }
+
 	m_ToGuiActivityInterfaceBusy = true;
 	for( auto client : m_ToGuiActivityInterfaceList )
 	{
@@ -1453,6 +1518,12 @@ void AppCommon::slotInternalBlobAdded( BlobInfo blobInfo )
 		return;
 	}
 
+    if( m_ToGuiActivityInterfaceBusy )
+    {
+        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        vx_assert( false );
+    }
+
 	m_ToGuiActivityInterfaceBusy = true;
     for( auto client : m_ToGuiActivityInterfaceList )
     {
@@ -1480,6 +1551,12 @@ void AppCommon::slotInternalBlobSessionHistory( BlobInfo blobInfo )
 	{
 		return;
 	}
+
+    if( m_ToGuiActivityInterfaceBusy )
+    {
+        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        vx_assert( false );
+    }
 
 	m_ToGuiActivityInterfaceBusy = true;
     for( auto client : m_ToGuiActivityInterfaceList )
@@ -1595,6 +1672,12 @@ static bool actCallbackShutdownComplete = false;
 		clearToGuiActivityInterfaceList();
 		return;
 	}
+
+    if( m_ToGuiActivityInterfaceBusy )
+    {
+        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        vx_assert( false );
+    }
 
 	if( m_ToGuiActivityInterfaceBusy )
 	{

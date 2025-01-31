@@ -169,14 +169,8 @@ protected:
 
 	virtual void				callbackToGuiCameraEnable( bool enableCamera ) override;
 
-	virtual void				callbackActiveOfferCount( int activeCnt ) override;
+	virtual void				callbackActiveOfferCount( int activeCnt, int historyCnt ) override;
 	virtual void				callbackJoinRequestCount( int requestCnt ) override;
-
-	virtual void				callbackToGuiRxedPluginOffer( GuiOfferSession* offerSession ) override;
-	virtual void				callbackToGuiRxedOfferReply( GuiOfferSession* offerSession ) override;
-	virtual void				callbackToGuiPluginSessionEnded( GuiOfferSession* offerSession ) override;
-	virtual void				callbackGuiUpdatePluginOffer( GuiOfferSession* offerSession ) override;
-	virtual void				callbackGuiOfferRemoved( GuiOfferSession* offerSession )  override;
 
 	virtual void				callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 ) override;
 	virtual void				callbackGuiPlayVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame ) override;

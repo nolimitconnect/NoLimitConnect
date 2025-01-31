@@ -64,7 +64,7 @@ int AudioSampleBuf::readSamples( int16_t* retSamplesBuf, int sampleCnt )
 	}
 	else
 	{
-		LogModule( eLogAudioIo, LOG_ERROR, "AudioSampleBuf::readSamples ERROR samplesToRead %d m_SampleCnt %d", sampleCnt, m_SampleCnt );
+		if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_ERROR, "AudioSampleBuf::readSamples ERROR samplesToRead %d m_SampleCnt %d", sampleCnt, m_SampleCnt );
 	}
 
 	return samplesToRead;
@@ -88,7 +88,7 @@ void AudioSampleBuf::samplesWereRead( int samplesRead )
 	}
 	else
 	{
-		LogModule( eLogAudioIo, LOG_ERROR, "AudioSampleBuf::sampleWereRead ERROR samplesRead %d m_SampleCnt %d", samplesRead, m_SampleCnt );
+		if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_ERROR, "AudioSampleBuf::sampleWereRead ERROR samplesRead %d m_SampleCnt %d", samplesRead, m_SampleCnt );
 	}
 
 	if( samplesRead && m_NotSilentCnt )
@@ -103,7 +103,7 @@ int AudioSampleBuf::writeSamples( int16_t* srcSamplesBuf, int sampleCnt, bool is
 	int writtenSamples = 0;
 	if( sampleCnt > m_MaxSamples )
 	{
-		LogModule( eLogAudioIo, LOG_ERROR, "AudioSampleBuf::writeSamples ERROR samplesToWrite %d greater than max samples %d", sampleCnt, m_MaxSamples );
+		if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_ERROR, "AudioSampleBuf::writeSamples ERROR samplesToWrite %d greater than max samples %d", sampleCnt, m_MaxSamples );
 		return 0;
 	}
 	else if( sampleCnt <= ( m_MaxSamples - m_SampleCnt ) )
@@ -117,7 +117,7 @@ int AudioSampleBuf::writeSamples( int16_t* srcSamplesBuf, int sampleCnt, bool is
 	{
 		// make room for samples
 		int samplesToRemove = std::abs( m_MaxSamples - ( m_SampleCnt + sampleCnt ) );
-		LogModule( eLogAudioIo, LOG_WARNING, "AudioSampleBuf::writeSamples removing %d samples to fit %d samples", samplesToRemove, sampleCnt );
+		if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_WARNING, "AudioSampleBuf::writeSamples removing %d samples to fit %d samples", samplesToRemove, sampleCnt );
 		samplesWereRead( samplesToRemove );
 		memcpy( &m_PcmData[ m_SampleCnt ], srcSamplesBuf, sampleCnt * AUDIO_BYTES_PER_SAMPLE );
 		samplesWereWritten( sampleCnt, isSilent );

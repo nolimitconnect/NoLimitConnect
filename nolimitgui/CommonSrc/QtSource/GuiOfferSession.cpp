@@ -14,20 +14,27 @@
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTime.h>
 
 //============================================================================
-GuiOfferSession::GuiOfferSession( const GuiOfferInfo& offerInfo, QWidget* parent)
+GuiOfferSession::GuiOfferSession(QObject* parent)
 : GuiUserSessionBase(parent)
+{
+}
+
+//============================================================================
+GuiOfferSession::GuiOfferSession( const GuiOfferInfo& offerInfo )
+: GuiUserSessionBase()
 , m_OfferInfo( offerInfo )
 {
 	m_UniqueId.assureIsValidGUID();
-	GuiUserSessionBase::setOfferSessionId( m_UniqueId );
+    GuiUserSessionBase::setUserSessionId( m_UniqueId );
 	GuiUserSessionBase::setUserIdent( m_OfferInfo.getUser() );	
 }
 
 //============================================================================
-GuiOfferSession::GuiOfferSession(const GuiOfferSession& rhs)
+GuiOfferSession::GuiOfferSession( const GuiOfferSession& rhs)
 : GuiUserSessionBase(rhs)
 , m_OfferInfo( rhs.m_OfferInfo )
 , m_UniqueId( rhs.m_UniqueId )
@@ -105,7 +112,14 @@ std::string GuiOfferSession::getOnlineName()
 //============================================================================
 void GuiOfferSession::updateOfferInfo( OfferBaseInfo& offerInfo )
 {
+	EOfferMgrType offerMgrType = m_OfferInfo.getOfferMgr();
 	m_OfferInfo.setOfferBaseInfo( offerInfo );
+	if( offerMgrType != eOfferMgrNotSet )
+	{
+		// maintain offer mgr
+		m_OfferInfo.setOfferMgr( offerMgrType );
+	}
+
 	emitOfferUpdated();
 }
 
@@ -142,6 +156,7 @@ bool GuiOfferSession::isAvailableAndActiveOffer( void )
 	}
 	else
 	{
+		LogModule( eLogOffer, LOG_ERROR, " GuiOfferSession::%s null user", __func__ );
 		return false;
 	}
 }

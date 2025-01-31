@@ -29,12 +29,13 @@ enum EErrMsgType
 {
     eErrMsgNotSet = 0,
     eErrMsgUserUnavailable,
+    eErrMsgUserIsOffline,
     eErrMsgAlreadyInSession,
+    eErrMsgSessionNotFound,
     eErrMsgOfferSent,
     eErrMsgOfferSendFailed,
     eErrMsgNotConnectedToHost,
     eErrMsgNoUserSelectedToSendTo,
-    eErrMsgUserIsOffline,
     eErrMsgPurgeEverythingWarning,
 
     eErrMsgVoiceMessageTooShort,

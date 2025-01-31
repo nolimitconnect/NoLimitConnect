@@ -19,6 +19,9 @@
 #include "AppletCamClient.h"
 #include "AppletFileShareClientView.h"
 #include "AppletPeerChangeFriendship.h"
+#include "AppletPeerTodGame.h"
+#include "AppletPeerVideoPhone.h"
+#include "AppletPeerVoicePhone.h"
 #include "AppletStoryboardClient.h"
 
 #include "FileShareItemWidget.h"
@@ -197,13 +200,12 @@ void AppletPopupMenu::showFriendMenu( GuiUser* poSelectedFriend, bool inGroup )
 
 	if( m_SelectedFriend->isIgnored() )
 	{
-		addMenuItem( (int)eMaxPluginType + 2, getMyIcons().getIcon( eMyIconFriend ), QObject::tr( "Unblock User" ) );
+		addMenuItem( (int)eMaxPluginType + 1, getMyIcons().getIcon( eMyIconFriend ), QObject::tr( "Unblock User" ) );
 		return;
 	}
 	else if( !isMyself )
 	{
-		addMenuItem( (int)eMaxPluginType + 2, getMyIcons().getIcon( eMyIconIgnored ), QObject::tr( "Block User" ) );
-		addChangeFriendshipMenuItem( (int)eMaxPluginType + 3 );
+		addMenuItem( (int)eMaxPluginType + 1, getMyIcons().getIcon( eMyIconIgnored ), QObject::tr( "Block User" ) );
 	}
 
 	if( m_SelectedFriend->isMyAccessAllowedFromHim( ePluginTypeAboutMePageServer, m_InGroup ) )
@@ -269,12 +271,11 @@ void AppletPopupMenu::showFriendMenu( GuiUser* poSelectedFriend, bool inGroup )
 		addMenuItem( (int)ePluginTypeFileShareServer, getMyIcons().getIcon( getMyIcons().getPluginIcon( ePluginTypeFileShareServer, ePluginAccess ) ), strAction );
 	}
 
-	addSetUnsetPreferredMenuItem( (int)eMaxPluginType + 1, m_SelectedFriend->getMyOnlineId() );
-	addChangeFriendshipMenuItem( (int)eMaxPluginType + 2 );
-	addUserDetailsMenuItem( (int)eMaxPluginType + 3, m_SelectedFriend );
+	addSetUnsetPreferredMenuItem( (int)eMaxPluginType + 2, m_SelectedFriend->getMyOnlineId() );
+	addChangeFriendshipMenuItem( (int)eMaxPluginType + 3 );
+	addUserDetailsMenuItem( (int)eMaxPluginType + 4, m_SelectedFriend );
 
 #if defined(DEBUG)
-	addMenuItem( (int)eMaxPluginType + 4, getMyIcons().getIcon( eMyIconDebug ), QObject::tr( "Dump User Info" ) );
 	addMenuItem( (int)eMaxPluginType + 5, getMyIcons().getIcon( eMyIconDebug ), QObject::tr( "Delete User From Database" ) );
 #endif // defined(DEBUG)
 }
@@ -286,7 +287,7 @@ void AppletPopupMenu::onFriendActionSelected( int iMenuId )
 	switch( iMenuId )
 	{
 	case ePluginTypeAboutMePageServer: 
-		if( m_SelectedFriend->isMyAccessAllowedFromHim( ePluginTypeAboutMePageServer, m_InGroup ) )
+		if( isMyAccessAllowed( m_SelectedFriend, ePluginTypeAboutMePageServer, m_InGroup ) )
 		{
 			AppletAboutMeClient* applet = dynamic_cast< AppletAboutMeClient* >( m_MyApp.launchApplet( eAppletAboutMeClient, getParentPageFrame() ) );
 			if( applet )
@@ -298,7 +299,7 @@ void AppletPopupMenu::onFriendActionSelected( int iMenuId )
 		break;
 
 	case ePluginTypeStoryboardServer:
-		if( m_SelectedFriend->isMyAccessAllowedFromHim( ePluginTypeStoryboardServer, m_InGroup ) )
+		if( isMyAccessAllowed( m_SelectedFriend, ePluginTypeStoryboardServer, m_InGroup ) )
 		{
 			AppletStoryboardClient* applet = dynamic_cast< AppletStoryboardClient* >( m_MyApp.launchApplet( eAppletStoryboardClient, getParentPageFrame() ) );
 			if( applet )
@@ -310,7 +311,7 @@ void AppletPopupMenu::onFriendActionSelected( int iMenuId )
 		break;
 
 	case ePluginTypeCamServer:
-		if( m_SelectedFriend->isMyAccessAllowedFromHim( ePluginTypeCamServer, m_InGroup ) )
+		if( isMyAccessAllowed( m_SelectedFriend, ePluginTypeCamServer, m_InGroup ) )
 		{
 			AppletCamClient* applet = dynamic_cast<AppletCamClient*>(m_MyApp.launchApplet( eAppletCamClient, getParentPageFrame() ));
 			if( applet )
@@ -322,7 +323,7 @@ void AppletPopupMenu::onFriendActionSelected( int iMenuId )
 		break;
 
 	case ePluginTypeFileShareServer:
-		if( m_SelectedFriend->isMyAccessAllowedFromHim( ePluginTypeFileShareServer, m_InGroup ) )
+		if( isMyAccessAllowed( m_SelectedFriend, ePluginTypeFileShareServer, m_InGroup ) )
 		{
 			AppletFileShareClientView* applet = dynamic_cast<AppletFileShareClientView*>(m_MyApp.launchApplet( eAppletFileShareClientView, getParentPageFrame() ));
 			if( applet )
@@ -334,46 +335,57 @@ void AppletPopupMenu::onFriendActionSelected( int iMenuId )
 		break;
 
 	case ePluginTypeVideoPhone:
-	case ePluginTypeVoicePhone:
-	case ePluginTypeTruthOrDare:
-	case ePluginTypeMessenger:
-		if( m_SelectedFriend->isMyAccessAllowedFromHim( (EPluginType)iMenuId, m_InGroup ) )
+		if( isMyAccessAllowed( m_SelectedFriend, (EPluginType)iMenuId, m_InGroup ) )
 		{
 			m_MyApp.offerToFriendPluginSession( m_SelectedFriend, (EPluginType)iMenuId, m_InGroup, getParentPageFrame() );
 		}
-		else
+
+		break;
+
+	case ePluginTypeVoicePhone:
+		if( isMyAccessAllowed( m_SelectedFriend, (EPluginType)iMenuId, m_InGroup ) )
 		{
-			QString warnTitle = QObject::tr( "Insufficient Permission Level" );
-			QString warmPermission = warnTitle + QObject::tr( " To Access Plugin " ) + DescribePluginType( (EPluginType)iMenuId );
-			QMessageBox::warning( this, QObject::tr( "Insufficient Permission Level " ), warmPermission );
+			m_MyApp.offerToFriendPluginSession( m_SelectedFriend, (EPluginType)iMenuId, m_InGroup, getParentPageFrame() );
+		}
+
+		break;
+
+	case ePluginTypeTruthOrDare:
+		if( isMyAccessAllowed( m_SelectedFriend, (EPluginType)iMenuId, m_InGroup ) )
+		{
+			m_MyApp.offerToFriendPluginSession( m_SelectedFriend, (EPluginType)iMenuId, m_InGroup, getParentPageFrame() );
+		}
+
+		break;
+
+	case ePluginTypeMessenger:
+		if( isMyAccessAllowed( m_SelectedFriend, (EPluginType)iMenuId, m_InGroup ) )
+		{
+			m_MyApp.offerToFriendPluginSession( m_SelectedFriend, (EPluginType)iMenuId, m_InGroup, getParentPageFrame() );
 		}
 
 		break;
 
 	case ePluginTypePersonFileXfer:
-		if( m_SelectedFriend->isMyAccessAllowedFromHim( ePluginTypePersonFileXfer, m_InGroup ) )
+		if( isMyAccessAllowed( m_SelectedFriend, ePluginTypePersonFileXfer, m_InGroup ) )
 		{
 			m_MyApp.offerToFriendSendFile( m_SelectedFriend, m_InGroup, getParentPageFrame() );
 		}
 
 		break;
 
-	case eMaxPluginType + 1: // make preferred
+	case eMaxPluginType + 2: // make preferred
 		m_MyApp.getFavoriteMgr().toggleIsFavorite( m_SelectedFriend->getMyOnlineId() );
 		break;
 
-	case eMaxPluginType + 2: // change friendship
+	case eMaxPluginType + 1: // block/unblock
+	case eMaxPluginType + 3: // change friendship
 		launchChangeFriendship(m_SelectedFriend);
 		break;
 
-	case eMaxPluginType + 3: // user details
+	case eMaxPluginType + 4: // user details
 		launchUserDetails();
 		break;
-
-	case eMaxPluginType + 4: // debug only .. dump info
-		m_MyApp.getUserMgr().dumpUserInfo( m_SelectedFriend, getParentPageFrame() );
-		break;
-
 
 	case eMaxPluginType + 5: // debug only .. delete user
 		m_MyApp.getUserMgr().deleteUser( m_SelectedFriend, getParentPageFrame() );
@@ -599,38 +611,13 @@ void AppletPopupMenu::onUserSessionActionSelected( int iMenuId )
 void AppletPopupMenu::showTitleBarUserMenu( void )
 {
 	showTitleBarAppMenu();
-	//setMenuType( EPopupMenuType::ePopupMenuTitleBarUserMenu );
-	//setTitle( QObject::tr( "Show List" ) );
-	//addMenuItem( 0, getMyIcons().getIcon( eMyIconFriendJoined ), QObject::tr( "Friends List" ) );
-	//addMenuItem( 1, getMyIcons().getIcon( eMyIconGroupJoined ), QObject::tr( "Groups List" ) );
-	//addMenuItem( 2, getMyIcons().getIcon( eMyIconServiceChatRoom ), QObject::tr( "Chat Room List" ) );
-	//addMenuItem( 3, getMyIcons().getIcon( eMyIconServiceRandomConnect ), QObject::tr( "Random Connect List" ) );
 }
 
 //============================================================================
 void AppletPopupMenu::onTitleBarUserMenuSelected( int iMenuId )
 {
-	//switch( iMenuId )
-	//{
-	//case 0: // friends listing
-	//	m_MyApp.getAppletMgr().launchApplet( eAppletFriendList, getParentPageFrame() );
-	//	break;
-
-	//case 1: // group listing
-	//	m_MyApp.getAppletMgr().launchApplet( eAppletGroupListClient, getParentPageFrame() );
-	//	break;
-
-	//case 2: // chat room listing
-	//	//m_MyApp.getAppletMgr().launchApplet( eAppletGroupListClient, dynamic_cast<QWidget*>(parent()) );
-	//	break;
-
-	//case 3: // random connect listing
-	//	//m_MyApp.getAppletMgr().launchApplet( eAppletGroupListClient, dynamic_cast<QWidget*>(parent()) );
-	//	break;
-
-	//default:
-	//	LogMsg( LOG_ERROR, "Unknown AppletPopupMenu::%s value %d", __func__, iMenuId );
-	//}
+	// should not be called. onTitleBarAppMenuSelected will be called instead
+	LogMsg( LOG_ERROR, "AppletPopupMenu::%s value %d should not have been called", __func__, iMenuId );
 }
 
 //============================================================================
@@ -855,4 +842,28 @@ void AppletPopupMenu::launchUserDetails( void )
 	{
 		applet->setUser( m_SelectedUserDetails );
 	}
+}
+
+//============================================================================
+bool AppletPopupMenu::isMyAccessAllowed( GuiUser* guiUser, EPluginType pluginType, bool inGroup )
+{
+	if( !guiUser )
+	{
+		LogMsg( LOG_ERROR, "AppletPopupMenu::%s null guiUser", __func__ );
+		return false;
+	}
+
+	if( guiUser->isMyAccessAllowedFromHim( pluginType, m_InGroup ) )
+	{
+		return true;
+	}
+	else
+	{
+		QString warnTitle = QObject::tr( "Insufficient Permission Level" );
+		QString warmPermission =  QObject::tr( " Requires " ) + GuiParams::describePermissionLevel( guiUser->getPluginPermission( pluginType ) ) + 
+			QObject::tr( " To Access Plugin " ) + GuiParams::describePluginType( pluginType );
+		QMessageBox::warning( this, warnTitle, warmPermission );
+	}
+
+	return false;
 }

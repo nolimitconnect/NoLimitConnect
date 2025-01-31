@@ -1273,13 +1273,14 @@ QString GuiParams::describePluginOffer( EPluginType pluginType )
     case ePluginTypeCamServer:	// web cam broadcast plugin
         strPluginOffer = QObject::tr( " Web Cam Server Service" );
         break;
+
     case ePluginTypeCamClient:	// web cam viewer plugin
         strPluginOffer = QObject::tr( " View Shared Web Cam " );
         break;
 
     default:
         strPluginOffer = QObject::tr("Unknown Plugin Offer");
-        LogMsg( LOG_ERROR, "GuiParams::describePluginOffer: unrecognized plugin %d", pluginType );
+        LogMsg( LOG_ERROR, "GuiParams::%s: unrecognized plugin %d", __func__, pluginType );
     }
 
     return strPluginOffer;
@@ -2200,7 +2201,8 @@ QString GuiParams::describeOnlineStatus( QString onlineName, bool isOnline )
 bool GuiParams::requestPermission( QString permissionName ) // returns false if user denies permission to use android hardware
 {
 #if defined (Q_OS_ANDROID)
-    if( QtAndroidPrivate::Authorized != QtAndroidPrivate::checkPermission(permissionName).result() )
+    QtAndroidPrivate::PermissionResult permission = QtAndroidPrivate::checkPermission(permissionName).result();
+    if( QtAndroidPrivate::Authorized != permission )
     {
         QtAndroidPrivate::PermissionResult result = QtAndroidPrivate::requestPermission(permissionName).result();
         if( QtAndroidPrivate::Denied == result )

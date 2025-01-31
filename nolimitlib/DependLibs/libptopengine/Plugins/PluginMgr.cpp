@@ -518,7 +518,7 @@ void PluginMgr::handleNonSystemPackets( std::shared_ptr<VxSktBase>& sktBase, VxP
 //============================================================================
 bool PluginMgr::isValidPluginNum( uint8_t u8PluginNum )
 {
-	return ((ePluginTypeInvalid < u8PluginNum ) && (eMaxPluginType > u8PluginNum )) ? true : false;
+    return (ePluginTypeInvalid < u8PluginNum ) && (ePluginTypeMaxNetRange > u8PluginNum );
 }
 
 //============================================================================

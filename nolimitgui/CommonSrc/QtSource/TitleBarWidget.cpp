@@ -69,7 +69,6 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
     ui.m_CamPreviewScreen->setFixedSize( (int)(GuiParams::getButtonSize( eButtonSizeSmall ).height() * aspectRatio + 1), GuiParams::getButtonSize( eButtonSizeSmall ).height() );
 
 	ui.m_StatusLabel->setVisible( false );
-    ui.m_OfferBarWidget->setVisible( false );
 
     ui.m_HostJoinRequestListButton->setIcon( eMyIconPersonsOfferList );
     ui.m_OfferListButton->setIcon( eMyIconOfferList );
@@ -139,8 +138,8 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
     updateTitleBar();
     connect( &m_MyApp,                      SIGNAL(signalSystemReady(bool)),            this, SLOT(slotSystemReady(bool)) );
 
-    callbackActiveOfferCount( m_MyApp.getOfferMgr().getActiveOfferCount() );
-    callbackActiveOfferCount( m_MyApp.getHostJoinMgr().getJoinRequestCount() );
+    callbackActiveOfferCount( m_MyApp.getOfferMgr().getActiveOfferCount(),  m_MyApp.getOfferMgr().getHistoryOfferCount() );
+    callbackJoinRequestCount( m_MyApp.getHostJoinMgr().getJoinRequestCount() );
     wantCallbacks( true );
 }
 
@@ -875,34 +874,19 @@ void TitleBarWidget::callbackGuiPlayVideoFrame( VxGUID& feedOnlineId, QImage& vi
 }
 
 //============================================================================
-void TitleBarWidget::callbackToGuiRxedPluginOffer( GuiOfferSession* offer ) 
+void TitleBarWidget::callbackActiveOfferCount( int activeCnt, int historyCnt ) 
 {
-}
+    ENotifyType notifyType{ eNotifyNone };
+    if( activeCnt )
+    {
+        notifyType = eNotifyOnline;
+    }
+    else if( historyCnt )
+    {
+        notifyType = eNotifyOffline;
+    }
 
-//============================================================================
-void TitleBarWidget::callbackToGuiRxedOfferReply( GuiOfferSession* offer )
-{
-}
-
-//============================================================================
-void TitleBarWidget::callbackToGuiPluginSessionEnded( GuiOfferSession* offerSession )
-{
-}
-
-//============================================================================
-void TitleBarWidget::callbackGuiUpdatePluginOffer( GuiOfferSession* offerState )
-{
-}
-
-//============================================================================
-void TitleBarWidget::callbackGuiOfferRemoved( GuiOfferSession* offerState )
-{
-}
-
-//============================================================================
-void TitleBarWidget::callbackActiveOfferCount( int activeCnt ) 
-{
-    ui.m_OfferListButton->setNotifyType( activeCnt > 0 ? eNotifyAttention : eNotifyOffline );
+    ui.m_OfferListButton->setNotifyType( notifyType );
     ui.m_OfferCountLabel->setVisible( activeCnt > 0 );
     ui.m_OfferCountLabel->setText( QString::number( activeCnt ) );
 }
@@ -910,7 +894,7 @@ void TitleBarWidget::callbackActiveOfferCount( int activeCnt )
 //============================================================================
 void TitleBarWidget::callbackJoinRequestCount( int requestCnt )
 {
-    ui.m_HostJoinRequestListButton->setNotifyType( requestCnt > 0 ? eNotifyAttention : eNotifyOffline );
+    ui.m_HostJoinRequestListButton->setNotifyType( requestCnt > 0 ? eNotifyOnline : eNotifyOffline );
     ui.m_HostJoinRequestCountLabel->setVisible( requestCnt > 0 );
     ui.m_HostJoinRequestCountLabel->setText( QString::number( requestCnt ) );
 }

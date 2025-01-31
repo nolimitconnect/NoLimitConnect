@@ -35,15 +35,22 @@ OfferSendWidget::OfferSendWidget( QWidget* parent )
 	ui.m_OfferSendButton->setFixedSize( eButtonSizeMedium );
     ui.m_OfferSendButton->setIcon( eMyIconSendArrowNormal );
     ui.m_OfferViewButton->setFixedSize( eButtonSizeMedium );
-    ui.m_OfferMsgEdit->setFixedHeight( GuiParams::getButtonSize( eButtonSizeMedium ).height() );
+    ui.m_OfferCancelButton->setFixedSize( eButtonSizeMedium );
+    ui.m_OfferCancelButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
+	ui.m_OfferCancelButton->setIcon( eMyIconRedX );
+
+    ui.m_OfferMsgEdit->setFixedHeight( GuiParams::getButtonSize( eButtonSizeLarge ).height() );
 
     GuiHelpers::fillExpireTimeComboBox( ui.m_ExpiresComboBox );
 
 	connect( ui.m_OfferSendButton,			SIGNAL(clicked()),	            this, SLOT(slotOfferSendButtonClicked()) );
     connect( ui.m_OfferViewButton,          SIGNAL(clicked()),              this, SLOT(slotOfferViewButtonClicked()) );
-    connect( ui.m_ExpiresComboBox,          SIGNAL(currentIndexChanged(int)), this, SLOT(slotExpiresTimeChange(int)) );
+    //connect( ui.m_ExpiresComboBox,          SIGNAL(currentIndexChanged(int)), this, SLOT(slotExpiresTimeChange(int)) );
+    connect( ui.m_OfferCancelButton,        SIGNAL(clicked()),              this, SLOT(slotOfferCancelButtonClicked()) );
 
-    ui.m_ExpiresComboBox->setCurrentIndex( (int)eExpireTimeWhenResponseRxed );
+    //ui.m_ExpiresComboBox->setCurrentIndex( (int)eExpireTimeWhenResponseRxed );
+    ui.m_ExpiresLabel->setVisible( false );
+    ui.m_ExpiresComboBox->setVisible( false );
 }
 
 //============================================================================
@@ -57,7 +64,7 @@ void OfferSendWidget::slotOfferSendButtonClicked( void )
 
     if( validateOffer( true ) )
     {
-        if( false == m_MyApp.getOfferMgr().fromGuiMakePluginOffer( (QWidget*)parent(), m_OfferInfo.getPluginType(), m_HisIdent, m_OfferInfo ) )
+        if( false == m_MyApp.getOfferMgr().fromGuiMakePluginOffer( GuiHelpers::getParentPageFrame( this ), m_OfferInfo.getPluginType(), m_HisIdent, m_OfferInfo))
         {
             ActivityMessageBox errMsgBox( m_MyApp, this, LOG_INFO, "%s is offline", m_HisIdent->getOnlineName().c_str() );
             errMsgBox.exec();
@@ -65,8 +72,12 @@ void OfferSendWidget::slotOfferSendButtonClicked( void )
         }
         else
         {
-            GuiHelpers::errorMsgBox( eErrMsgOfferSent, this, m_HisIdent );
-            emit signalOfferSent();
+            if( !m_OfferInfo.isPhoneTypePlugin() )
+            {
+                GuiHelpers::errorMsgBox( eErrMsgOfferSent, this, m_HisIdent );
+            }
+            
+            emit signalOfferSend();
         }
     }
 }
@@ -132,6 +143,7 @@ void OfferSendWidget::updateOfferInfo( void )
 {
     if( ePluginTypeInvalid != m_PluginType && m_OfferInfo.isValid() )
     {
+        ui.m_PluginNameLabel->setText( GuiParams::describePluginType( m_PluginType ) );
         ui.m_OfferViewButton->setIcon( m_MyApp.getMyIcons().getOfferIcon( m_OfferInfo, m_PluginType ) );
         if( IsPluginSingleSession( m_PluginType ) )
         {
@@ -148,6 +160,8 @@ void OfferSendWidget::updateOfferInfo( void )
             ui.m_OfferViewButton->setEyeOverlayColor( m_MyApp.getAppTheme().getColor( eLayerNotifyOnlineColor ) );
             ui.m_OfferViewButton->setEyeOverlayEnabled( true );
         }
+
+        ui.m_OfferViewButton->setEyeOverlayEnabled( true );       
     }  
 }
 
@@ -211,7 +225,6 @@ bool OfferSendWidget::validateOffer( bool showErrorMsg )
     return true;
 }
 
-
 //============================================================================
 void OfferSendWidget::slotOfferViewButtonClicked( void )
 {
@@ -259,4 +272,28 @@ QString OfferSendWidget::getOfferMessage( void )
 void OfferSendWidget::updateExpireStatus( EExpireTime expireTime )
 {
 
+}
+
+//============================================================================
+void OfferSendWidget::slotOfferCancelButtonClicked( void )
+{
+    emit signalCancelButtonClicked();
+}
+
+//============================================================================
+void OfferSendWidget::setFocusOnText( void )
+{
+    ui.m_OfferMsgEdit->setFocus();
+}
+
+//============================================================================
+void OfferSendWidget::showEvent( QShowEvent* ev )
+{
+    QWidget::showEvent( ev );
+    static bool firstShow{ true };
+    if( firstShow )
+    {
+        firstShow = false;
+        ui.m_OfferMsgEdit->setFocus();
+    }
 }

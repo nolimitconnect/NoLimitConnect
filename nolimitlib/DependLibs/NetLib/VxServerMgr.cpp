@@ -123,13 +123,13 @@ RCODE VxServerMgr::acceptConnection( bool ipv6, VxThread* poVxThread, SOCKET lis
 	RCODE rc = 0;
 	if( INVALID_SOCKET == listenSkt )
 	{
-        LogModule( eLogAcceptConn, LOG_ERROR, "VxServerMgr::%s INVALID LISTEN SOCKET thread 0x%x", __func__, VxGetCurrentThreadId() );
+        LogModule( eLogConnect, LOG_ERROR, "VxServerMgr::%s INVALID LISTEN SOCKET thread 0x%x", __func__, VxGetCurrentThreadId() );
 		return -2;
 	}
 
 	if( poVxThread->isAborted()  )
 	{
-        LogModule( eLogAcceptConn, LOG_ERROR, "VxServerMgr::%s aborted accept thread 0x%x", __func__, VxGetCurrentThreadId() );
+        LogModule( eLogConnect, LOG_ERROR, "VxServerMgr::%s aborted accept thread 0x%x", __func__, VxGetCurrentThreadId() );
         return -3;
 	}
 
@@ -138,7 +138,7 @@ RCODE VxServerMgr::acceptConnection( bool ipv6, VxThread* poVxThread, SOCKET lis
     if( dumpAcceptCnt > 20 )
     {
         dumpAcceptCnt = 0;
-        LogModule( eLogAcceptConn, LOG_INFO, "VxServerMgr::%s start acceptConnection skt %d rc %d thread 0x%x", __func__, listenSkt, VxGetLastError(), VxGetCurrentThreadId() );
+        LogModule( eLogConnect, LOG_INFO, "VxServerMgr::%s start acceptConnection skt %d rc %d thread 0x%x", __func__, listenSkt, VxGetLastError(), VxGetCurrentThreadId() );
     }
 
 	// perform accept
@@ -153,7 +153,7 @@ RCODE VxServerMgr::acceptConnection( bool ipv6, VxThread* poVxThread, SOCKET lis
 
     if( poVxThread->isAborted()  )
 	{
-        LogModule( eLogAcceptConn, LOG_ERROR, "VxServerMgr::%s aborted accept2 thread 0x%x", __func__, VxGetCurrentThreadId() );
+        LogModule( eLogConnect, LOG_ERROR, "VxServerMgr::%s aborted accept2 thread 0x%x", __func__, VxGetCurrentThreadId() );
         return -4;
 	}
 
@@ -178,7 +178,7 @@ static int dumpSktStatsCnt = 0;
                 dumpSktStatsCnt++;
                 if( rc != EAGAIN )
                 {
-                    LogModule( eLogAcceptConn, LOG_DEBUG, "VxServerMgr::%s: listen port %d skt %d error %d thread 0x%x", __func__, port, listenSkt, rc, VxGetCurrentThreadId() );
+                    LogModule( eLogConnect, LOG_DEBUG, "VxServerMgr::%s: listen port %d skt %d error %d thread 0x%x", __func__, port, listenSkt, rc, VxGetCurrentThreadId() );
                 }
 
                 if( dumpSktStatsCnt > 10 )
@@ -201,7 +201,7 @@ static int dumpSktStatsCnt = 0;
 		{
 			// not sure how it happens but seems to get in a loop where the clear doesn't clear and there is no error
 			// so sleep just in case so doesn't eat up all the CPU
-            LogModule( eLogAcceptConn, LOG_INFO, "VxServerMgr:%s: no rc acceptConnection skt %d rc %d thread 0x%x", __func__, listenSkt, VxGetLastError(), VxGetCurrentThreadId() );
+            LogModule( eLogConnect, LOG_INFO, "VxServerMgr:%s: no rc acceptConnection skt %d rc %d thread 0x%x", __func__, listenSkt, VxGetLastError(), VxGetCurrentThreadId() );
 			VxSleep( 500 );
 			return -1;
 		}
@@ -214,14 +214,14 @@ static int dumpSktStatsCnt = 0;
             if( intRetry1Cnt > 20 )
             {
                 intRetry1Cnt = 0;
-                LogModule( eLogAcceptConn, LOG_INFO, "VxServerMgr::%s non blocking operation  acceptConnection skt %d rc %d thread 0x%x", __func__, listenSkt, VxGetLastError(), VxGetCurrentThreadId() );
+                LogModule( eLogConnect, LOG_INFO, "VxServerMgr::%s non blocking operation  acceptConnection skt %d rc %d thread 0x%x", __func__, listenSkt, VxGetLastError(), VxGetCurrentThreadId() );
             }
 
             return 0;
         }
  		else
 		{
-            LogModule( eLogAcceptConn, LOG_INFO, "VxServerMgr::%s other error acceptConnection skt %d rc %d thread 0x%x", __func__, listenSkt, VxGetLastError(), VxGetCurrentThreadId() );
+            LogModule( eLogConnect, LOG_INFO, "VxServerMgr::%s other error acceptConnection skt %d rc %d thread 0x%x", __func__, listenSkt, VxGetLastError(), VxGetCurrentThreadId() );
 			VxSleep( 200 );
 			return rc;
 		}
@@ -231,7 +231,7 @@ static int dumpSktStatsCnt = 0;
         acceptErrCnt = 0;
     }
 
-    LogModule( eLogAcceptConn, LOG_DEBUG, "VxServerMgr::%s: listen skt %d accepted skt %d thread 0x%x", __func__, listenSkt, acceptSkt, VxGetCurrentThreadId() );
+    LogModule( eLogConnect, LOG_DEBUG, "VxServerMgr::%s: listen skt %d accepted skt %d thread 0x%x", __func__, listenSkt, acceptSkt, VxGetCurrentThreadId() );
 	if( poVxThread->isAborted() || VxIsAppShuttingDown() ) 
 	{
 		return -1;
@@ -303,7 +303,7 @@ static int dumpSktStatsCnt = 0;
 	#endif // defined(DEBUG_SKT_MGR_LOCK)
 	unlockSktBaseMgr();
 
-    LogModule( eLogAcceptConn, LOG_INFO, "VxServerMgr::%s doing accept skt %d skt id %d thread 0x%x", __func__, sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
+    LogModule( eLogConnect, LOG_INFO, "VxServerMgr::%s doing accept skt %d skt id %d thread 0x%x", __func__, sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
 
     RCODE rcAccept = dynamic_cast<VxSktAccept *>(sktBase.get())->doAccept( this, *acceptAddr );
 	if( rcAccept || poVxThread->isAborted() || INVALID_SOCKET == listenSkt )
@@ -318,7 +318,7 @@ static int dumpSktStatsCnt = 0;
     {
         acceptErrCnt = 0; // reset counter
         m_LastListenActivityMs = GetGmtTimeMs();
-        LogModule( eLogAcceptConn, LOG_INFO, "VxServerMgr::%s accept success skt %d skt id %d thread 0x%x", __func__, sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
+        LogModule( eLogConnect, LOG_INFO, "VxServerMgr::%s accept success skt %d skt id %d thread 0x%x", __func__, sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
     }
 
     doSktDeleteCleanup();

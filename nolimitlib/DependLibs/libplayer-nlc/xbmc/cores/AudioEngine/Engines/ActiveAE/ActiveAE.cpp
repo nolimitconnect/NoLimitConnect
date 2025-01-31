@@ -1320,7 +1320,7 @@ void CActiveAE::Process()
         }
     }
 
-    LogModule( eLogAudioIo, LOG_DEBUG, " CActiveAE::Process Thread %d EXITING", VxGetCurrentThreadId() );
+    if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_DEBUG, " CActiveAE::Process Thread %d EXITING", VxGetCurrentThreadId() );
 }
 
 AEAudioFormat CActiveAE::GetInputFormat( AEAudioFormat *desiredFmt )

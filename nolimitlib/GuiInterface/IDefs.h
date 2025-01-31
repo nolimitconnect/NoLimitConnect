@@ -1010,6 +1010,7 @@ enum EPluginType
     eMaxNetUsePluginType            = 59,
 
     // 0 to 255 are possible to send over network so internal plugins should start at 256
+    ePluginTypeMaxNetRange          = 255,
     ePluginTypeInternalStart        = 256,
 
     ePluginTypeThumbnail            = 257,  // not used except in asset database for pluginType
@@ -1257,6 +1258,8 @@ enum ESktCloseReason
     eSktCloseNetServiceTimeout,
 
     eSktCloseWrongPktAnnSize,
+    eSktCloseExternalIpNotDeterminedYet,
+    eSktCloseNoRxEncryptionKey,
 
     eMaxSktCloseReason			// always last
 };

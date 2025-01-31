@@ -43,7 +43,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
     eLogHackers
     // | eLogFileXfer
     // | eLogConnect
-    // | eLogAcceptConn
+    // | eLogOffer
     // | eLogSkt
     // | eLogPkt
     // | eLogNetworkState
@@ -59,7 +59,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
     // | eLogStreams
     // | eLogSktData
     //| eLogSktData
-    //| eLogAcceptConn
+    //| eLogOffer
     //| eLogPortForward
     // | eLogNetService
     // | eLogRunTest
@@ -76,7 +76,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         eLogHackers
         // | eLogFileXfer
         // | eLogConnect
-        // | eLogAcceptConn
+        // | eLogOffer
         // | eLogSkt
         // | eLogPkt
         // | eLogNetworkState
@@ -92,7 +92,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         // | eLogStreams
         // | eLogSktData
         //| eLogSktData
-        //| eLogAcceptConn
+        //| eLogOffer
         //| eLogPortForward
         // | eLogNetService
         // | eLogRunTest
@@ -110,7 +110,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         eLogHackers
         // | eLogFileXfer
         // | eLogConnect
-        // | eLogAcceptConn
+        // | eLogOffer
         // | eLogSkt
         // | eLogPkt
         // | eLogNetworkState
@@ -126,7 +126,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
         // | eLogStreams
         // | eLogSktData
         //| eLogSktData
-        //| eLogAcceptConn
+        //| eLogOffer
         //| eLogPortForward
         // | eLogNetService
         // | eLogRunTest

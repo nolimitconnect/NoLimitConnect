@@ -40,5 +40,5 @@ protected:
 
 	//=== vars ===//
 	Ui::AppletPeerReplyFileOfferUi&	ui;
-    GuiOfferSession*			m_Offer{ nullptr };
+    std::shared_ptr<GuiOfferSession>			m_Offer{ nullptr };
 };

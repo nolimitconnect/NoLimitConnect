@@ -196,8 +196,8 @@ public:
     void                        lockPlayerCache( void )                             { m_PlayerCacheMutex.lock(); }
     void                        unlockPlayerCache( void )                           { m_PlayerCacheMutex.unlock(); }
 
-    void                        lockMicWriteBuffer( void )                          { m_AudioWriteMutex.lock(); }
-    void                        unlockMicWriteBuffer( void )                        { m_AudioWriteMutex.unlock(); }
+    void                        lockMicWriteBuffer( void )                          { m_MicWriteMutex.lock(); }
+    void                        unlockMicWriteBuffer( void )                        { m_MicWriteMutex.unlock(); }
 
     void                        lockEchoCanceledBuffer( void )                      { m_EchoCanceledBufMutex.lock(); }
     void                        unlockEchoCanceledBuffer( void )                    { m_EchoCanceledBufMutex.unlock(); }
@@ -313,8 +313,8 @@ protected:
     AudioTestGenerator          m_ToneGenerator;
     int16_t                     m_SilenceBuf[ AUDIO_SAMPLES_PER_FRAME ];
 
-    AudioSampleBuf              m_AudioWriteBuf;
-    VxMutex                     m_AudioWriteMutex;
+    AudioSampleBuf              m_MicWriteBuf;
+    VxMutex                     m_MicWriteMutex;
 
     AudioSampleBuf              m_SpeakerReadBuf;
     VxMutex                     m_SpeakerReadMutex;

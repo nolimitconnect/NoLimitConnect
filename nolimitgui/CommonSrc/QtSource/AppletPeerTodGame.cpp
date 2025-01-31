@@ -40,6 +40,12 @@ AppletPeerTodGame::AppletPeerTodGame( AppCommon& app, QWidget* parent )
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
+	ui.m_PermissionButton->setFixedSize( eButtonSizeMedium );
+    ui.m_HangUpButton->setFixedSize( eButtonSizeMedium );
+    ui.m_HangUpButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
+	ui.m_HangUpButton->setIcon( eMyIconRedX );
+	connect( ui.m_HangUpButton, SIGNAL(clicked()), this, SLOT(slotEndSession()) );
+
 	ui.m_TodGameWidget->getVidWidget()->setRecordFilePath( VxGetDownloadsDirectory().c_str() );
 	setVidCamWidget( ui.m_TodGameWidget->getVidWidget() );
 	connectBarWidgets();
@@ -58,39 +64,19 @@ AppletPeerTodGame::AppletPeerTodGame( AppCommon& app, QWidget* parent )
 }
 
 //============================================================================
-void AppletPeerTodGame::callbackToGuiRxedPluginOffer( GuiOfferSession* offer )
-{
-	m_OfferSessionLogic.callbackToGuiRxedPluginOffer( offer );
-}
-
-//============================================================================
-void AppletPeerTodGame::callbackToGuiRxedOfferReply( GuiOfferSession* offerSession )
-{
-	m_OfferSessionLogic.callbackToGuiRxedOfferReply( offerSession );
-
-}
-
-//============================================================================
 //! called by base class with in session state
 void AppletPeerTodGame::onInSession( bool isInSession )
 {
 	if( isInSession )
 	{
 		//setStatusText( tr( "In Truth Or Dare Session" ) );
-		m_TodGameLogic.beginGame( ! m_OfferSessionLogic.isRmtInitiated() );
+		m_TodGameLogic.beginGame( ! m_OfferSessionLogic.isHost() );
 		//m_Engine.fromGuiStartPluginSession( VxGUID& onlineId, void * pvUserData )
 	}
 	//else
 	//{
 	//	setStatusText( tr( "Truth Or Dare Session Ended" ) );
 	//}
-}
-
-//============================================================================
-//! called after session end or dialog exit
-void AppletPeerTodGame::onEndSession( void )
-{
-
 }
 
 //============================================================================
@@ -105,10 +91,10 @@ void AppletPeerTodGame::toGuiInstMsg( GuiUser* friendIdent, EPluginType pluginTy
 }; 
 
 //============================================================================
-bool AppletPeerTodGame::offerSession( GuiUser* guiUser, GuiOfferSession* offerSession )
+bool AppletPeerTodGame::setOfferSession( std::shared_ptr<GuiOfferSession> offerSession )
 {
 	bool setupSessionResult{ false };
-	m_HisIdent = guiUser;
+    m_HisIdent = offerSession->getUser();
 	if( m_HisIdent )
 	{
 		m_TodGameLogic.setGuiWidgets( m_HisIdent, ui.m_TodGameWidget );
@@ -117,8 +103,23 @@ bool AppletPeerTodGame::offerSession( GuiUser* guiUser, GuiOfferSession* offerSe
 		ui.m_TodGameWidget->getVidWidget()->setVideoFeedId( m_HisIdent->getMyOnlineId(), eAppModuleTruthOrDare );
 		ui.m_TodGameWidget->getVidWidget()->setRecordFriendName( m_HisIdent->getOnlineName().c_str() );	
 
-		setupSessionResult = AppletPeerBase::offerSession( guiUser, offerSession );
+        setupSessionResult = AppletPeerBase::setOfferSession( offerSession );
 	}
 
 	return setupSessionResult;
+}
+
+//============================================================================
+void AppletPeerTodGame::onOfferWasSet( void )
+{
+	OfferBaseInfo& offerInfo = getOfferInfo();
+	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( offerInfo.getFromOnlineId() );
+	if( guiUser )
+	{
+		setupBaseWidgets( guiUser, ui.m_FriendIdentWidget, ui.m_PermissionButton, ui.m_PermissionLabel );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "AppletPeerTodGame::%s user not found %s", __func__ );
+	}
 }

@@ -41,7 +41,7 @@ public:
 	AppCommon&					getMyApp( void )							{ return m_MyApp; }
 	MyIcons&					getMyIcons( void );
 
-	void						setOfferSessionId( VxGUID& offerSessionId ) { m_OfferSessionId = offerSessionId; }
+    void						setOfferId( VxGUID& offerId )               { m_OfferId = offerId; }
 
 	bool						setUser( GuiUser* guiUser );
 	void						setPluginType( EPluginType pluginType );
@@ -59,14 +59,14 @@ protected:
 	virtual void				hideEvent( QHideEvent* ev );
 	virtual void				closeEvent( QCloseEvent * ev );
 
-	virtual void				callbackGuiUpdatePluginOffer( GuiOfferSession* offerState ); 
-	virtual void				callbackGuiOfferRemoved( GuiOfferSession* offerState ); 
+	virtual void				callbackGuiUpdatePluginOffer( std::shared_ptr<GuiOfferSession> offerState ); 
+	virtual void				callbackGuiOfferRemoved( std::shared_ptr<GuiOfferSession> offerState ); 
 	virtual void				callbackGuiAllOffersRemoved( void ); 
 
 
 	void						initializeOfferBar( void );
-	void						fillOfferBar( GuiOfferSession* offerState );
-	void						updateOfferBar( GuiOfferSession* offerState );
+	void						fillOfferBar( std::shared_ptr<GuiOfferSession> offerState );
+	void						updateOfferBar( std::shared_ptr<GuiOfferSession> offerState );
 	void						setOfferOnlineState( bool isOnline );
 	void						setIsOfferAvailable( bool available );
 	bool						getIsOfferAvailable( void );
@@ -75,7 +75,7 @@ protected:
 	Ui::OfferBarWidgetUi&		ui;
 	AppCommon&				    m_MyApp;
 	GuiOfferMgr&				m_OfferMgr;
-	VxGUID						m_OfferSessionId;
+    VxGUID						m_OfferId;
 	GuiUser*					m_HisIdent{ nullptr };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
 	OfferBaseInfo				m_OfferInfo;

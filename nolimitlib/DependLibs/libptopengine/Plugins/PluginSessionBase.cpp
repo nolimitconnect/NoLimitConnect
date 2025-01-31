@@ -128,13 +128,8 @@ bool PluginSessionBase::getIsSessionStarted( void )
 }
 
 //============================================================================
-void  PluginSessionBase::setIsRmtInitiated( bool isRmtInitiated )
+void PluginSessionBase::setOfferInfo( OfferBaseInfo& offerInfo, bool isHost )	
 { 
-	m_bRmtInitiatedSession = isRmtInitiated; 
-}
-
-//============================================================================
-bool  PluginSessionBase::isRmtInitiated( void )					
-{ 
-	return m_bRmtInitiatedSession; 
+	m_OfferInfo = offerInfo; 
+	m_OfferInfo.setOfferMgr( isHost ? eOfferMgrHost : eOfferMgrClient );
 }

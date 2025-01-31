@@ -51,7 +51,7 @@ protected:
     //=== vars ===//
     Ui::AppletOfferResponseAcceptUi&	    ui;
 
-	VxGUID						m_OfferSessionId;
+    VxGUID						m_OfferId;
 	GuiUser*					m_HisIdent{ nullptr };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
 	OfferBaseInfo				m_OfferInfo;

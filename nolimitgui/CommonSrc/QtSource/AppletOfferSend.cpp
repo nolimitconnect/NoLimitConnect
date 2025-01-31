@@ -20,7 +20,7 @@
 #include "ActivityYesNoMsgBox.h"
 
 #include "FileShareItemWidget.h"
-#include "MyIcons.h"
+#include "MyIconsDefs.h"
 #include "AppGlobals.h"
 #include "FileItemInfo.h"
 #include "FileActionMenu.h"
@@ -34,7 +34,6 @@
 
 #include <PktLib/VxSearchDefs.h>
 #include <NetLib/VxFileXferInfo.h>
-
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileInfo.h>
 #include <CoreLib/VxDebug.h>
@@ -54,9 +53,12 @@ AppletOfferSend::AppletOfferSend( AppCommon& app, QWidget* parent, QString launc
     ui.m_OfferSendWidget->setCanViewOffer( false );
     ui.m_OfferSendWidget->showIdentityWidget( false );
 
-    connect( ui.m_OfferSendWidget, SIGNAL( signalOfferSent() ), this, SLOT( slotOfferSent() ) );
+    connect( ui.m_OfferSendWidget, SIGNAL(signalOfferSent()), this, SLOT(slotOfferSent()) );
+    connect( ui.m_OfferSendWidget, SIGNAL(signalCancelButtonClicked()), this, SLOT(slotOfferCanceled()) );
 
     m_MyApp.activityStateChange( this, true );
+    ui.m_StatusMsgLabel->setText( "" );
+    ui.m_OfferSendWidget->setFocusOnText();
 }
 
 //============================================================================
@@ -68,7 +70,6 @@ AppletOfferSend::~AppletOfferSend()
 //============================================================================
 void AppletOfferSend::statusMsg( QString strMsg )
 {
-    //LogMsg( LOG_INFO, strMsg.toStdString().c_str() );
     ui.m_StatusMsgLabel->setText( strMsg );
 }
 
@@ -80,6 +81,12 @@ void AppletOfferSend::slotHomeButtonClicked( void )
 
 //============================================================================
 void AppletOfferSend::slotOfferSent( void )
+{
+    closeApplet();
+}
+
+//============================================================================
+void AppletOfferSend::slotOfferCanceled( void )
 {
     closeApplet();
 }
@@ -98,8 +105,7 @@ void AppletOfferSend::setUser( GuiUser* guiUser )
         AppletBase::setUser( guiUser );
         m_HisIdent = guiUser;
         ui.m_IdentWidget->updateIdentity( guiUser );
-        ui.m_OfferSendWidget->setUser( guiUser );
-       
+        ui.m_OfferSendWidget->setUser( guiUser );       
     }
 }
 
@@ -140,7 +146,7 @@ void AppletOfferSend::setOfferMessage( QString msgText )
 }
 
 //============================================================================
-bool AppletOfferSend::setOffer( EPluginType pluginType, GuiUser* guiUser, GuiOfferSession* existingOffer )
+bool AppletOfferSend::setOffer( EPluginType pluginType, GuiUser* guiUser, std::shared_ptr<GuiOfferSession> existingOffer )
 {
     m_ExistingOffer = existingOffer;
     m_OfferInfo.fillOfferSend( pluginType, guiUser->getNetIdent() );

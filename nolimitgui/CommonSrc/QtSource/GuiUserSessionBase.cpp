@@ -20,35 +20,35 @@
 #include <QObject>
 
 //============================================================================
-GuiUserSessionBase::GuiUserSessionBase( QWidget* parent )
-    : QWidget( parent )
+GuiUserSessionBase::GuiUserSessionBase( QObject* parent )
+    : QObject( parent )
 {
 }
 
 //============================================================================
-GuiUserSessionBase::GuiUserSessionBase( GuiUser* hostIdent, QWidget* parent )
-    : QWidget( parent )
+GuiUserSessionBase::GuiUserSessionBase( GuiUser* hostIdent, QObject* parent )
+    : QObject( parent )
     , m_Userdent( hostIdent )
 {
     setUserIdent( m_Userdent );
 }
 
 //============================================================================
-GuiUserSessionBase::GuiUserSessionBase( EHostType hostType, VxGUID& sessionId, GuiUser* hostIdent, QWidget* parent )
-    : QWidget( parent )
+GuiUserSessionBase::GuiUserSessionBase( EHostType hostType, VxGUID& sessionId, GuiUser* hostIdent, QObject* parent )
+    : QObject( parent )
     , m_HostType( hostType )
     , m_Userdent( hostIdent )
-    , m_OfferSessionId( sessionId )
+    , m_UserSessionId( sessionId )
 {
     setUserIdent( m_Userdent );
 }
 
 //============================================================================
 GuiUserSessionBase::GuiUserSessionBase( const GuiUserSessionBase &rhs )
-    : QWidget()
+    : QObject()
     , m_HostType( rhs.m_HostType )
     , m_Userdent( rhs.m_Userdent )
-    , m_OfferSessionId( rhs.m_OfferSessionId )
+    , m_UserSessionId( rhs.m_UserSessionId )
     , m_OnlineId( rhs.m_OnlineId )
 {
 }
@@ -59,7 +59,7 @@ GuiUserSessionBase& GuiUserSessionBase::operator =( const GuiUserSessionBase &rh
 	if( this != &rhs )   
 	{
         m_HostType		        = rhs.m_HostType;
-        m_OfferSessionId        = rhs.m_OfferSessionId;
+        m_UserSessionId         = rhs.m_UserSessionId;
         m_Userdent		        = rhs.m_Userdent;
         m_OnlineId		        = rhs.m_OnlineId;
 	}

@@ -100,8 +100,8 @@ void AppletOfferResponseAccept::setPluginType( EPluginType pluginType )
 //============================================================================
 void AppletOfferResponseAccept::setOfferSessionId( VxGUID& offerSessionId )
 {
-    m_OfferSessionId = offerSessionId;
-    ui.m_OfferBarWidget->setOfferSessionId( m_OfferSessionId );
+    m_OfferId = offerSessionId;
+    ui.m_OfferBarWidget->setOfferId( m_OfferId );
 }
 
 //============================================================================

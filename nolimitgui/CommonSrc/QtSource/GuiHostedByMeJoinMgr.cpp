@@ -62,7 +62,7 @@ void GuiHostedByMeJoinMgr::onSystemReady( bool ready )
         }
 
         m_MyApp.getEngine().getHostJoinMgr().unlockHostJoinInfoList();
-        updateHostRequestCount( true );
+        updateJoinRequestCount( true );
     }
 }
 
@@ -123,7 +123,7 @@ void GuiHostedByMeJoinMgr::callbackHostJoinOnlineState( GroupieId& groupieId, EO
 void GuiHostedByMeJoinMgr::slotInternalHostJoinRequested( HostJoinInfo* hostJoinInfo )
 {
     updateHostJoin( hostJoinInfo );
-    updateHostRequestCount();
+    updateJoinRequestCount();
     delete hostJoinInfo; // was created new on callback
 }
 
@@ -131,7 +131,7 @@ void GuiHostedByMeJoinMgr::slotInternalHostJoinRequested( HostJoinInfo* hostJoin
 void GuiHostedByMeJoinMgr::slotInternalHostJoinUpdated( HostJoinInfo* hostJoinInfo )
 {
     updateHostJoin( hostJoinInfo );
-    updateHostRequestCount();
+    updateJoinRequestCount();
     delete hostJoinInfo;
 }
 
@@ -154,7 +154,7 @@ void GuiHostedByMeJoinMgr::slotInternalHostUnJoin( GroupieId groupieId )
         }
     }
 
-    updateHostRequestCount();
+    updateJoinRequestCount();
 }
 
 //============================================================================
@@ -174,7 +174,7 @@ void GuiHostedByMeJoinMgr::slotInternalHostJoinRemoved( GroupieId groupieId )
         }
     }
 
-    updateHostRequestCount();
+    updateJoinRequestCount();
 }
 
 //============================================================================
@@ -190,7 +190,7 @@ void GuiHostedByMeJoinMgr::slotInternalHostJoinOfferState( GroupieId groupieId, 
         }
     }
 
-    updateHostRequestCount();
+    updateJoinRequestCount();
 }
 
 //============================================================================
@@ -204,7 +204,7 @@ void GuiHostedByMeJoinMgr::slotInternalHostJoinOnlineState( GroupieId groupieId,
         emit signalHostJoinOnlineStatus( guiHostJoin, isOnline );
     }
 
-    updateHostRequestCount();
+    updateJoinRequestCount();
 }
 
 //============================================================================
@@ -313,7 +313,7 @@ void GuiHostedByMeJoinMgr::onHostJoinUpdated( GuiHostJoin* guiHostJoin, EJoinSta
 }
 
 //============================================================================
-void GuiHostedByMeJoinMgr::updateHostRequestCount( bool forceEmit )
+void GuiHostedByMeJoinMgr::updateJoinRequestCount( bool forceEmit )
 {
     int hostRequestCount = 0;
     for( auto& item : m_HostJoinList )
@@ -322,12 +322,12 @@ void GuiHostedByMeJoinMgr::updateHostRequestCount( bool forceEmit )
         hostRequestCount += joinInfo->getHostRequestCount();
     }
 
-    if( hostRequestCount != m_HostRequestCount || forceEmit )
+    if( hostRequestCount != m_JoinRequestCount || forceEmit )
     {
-        m_HostRequestCount = hostRequestCount;
+        m_JoinRequestCount = hostRequestCount;
         for( auto client : m_HostJoinClients )
         {
-            client->callbackJoinRequestCount( m_HostRequestCount );
+            client->callbackJoinRequestCount( m_JoinRequestCount );
         }
     }
 }

@@ -39,16 +39,6 @@ PersonOfferListItem::PersonOfferListItem(QWidget* parent  )
 }
 
 //============================================================================
-PersonOfferListItem::~PersonOfferListItem()
-{
-    GuiOfferSession* hostSession = (GuiOfferSession*)QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
-    if( hostSession && !hostSession->parent() )
-    {
-        delete hostSession;
-    }
-}
-
-//============================================================================
 QSize PersonOfferListItem::calculateSizeHint( void )
 {
     return QSize( (int)( GuiParams::getGuiScale() * 200 ), (int)( GuiParams::getButtonSize().height() + 8 ) );
