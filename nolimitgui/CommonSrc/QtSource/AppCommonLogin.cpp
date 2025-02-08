@@ -156,22 +156,18 @@ void AppCommon::completeLogin( void )
 
     m_UserMgr.updateMyIdent( netIdent );
 
-    // TODO remove if not really needed
-    // m_eLastSelectedWhichContactsToView = getEngine().getEngineSettings().getWhichContactsToView();
-    // slotListViewTypeChanged( m_eLastSelectedWhichContactsToView );
-
     onUserLoggedOn();
 
     if( netIdent->getPluginPermission( ePluginTypeCamServer ) != eFriendStateIgnore &&
         m_AppSettings.getRunOnStartupCamServer() )
     {
-        getFromGuiInterface().fromGuiStartPluginSession( ePluginTypeCamServer, netIdent->getMyOnlineId(), 0, netIdent->getMyOnlineId() );
+        getFromGuiInterface().fromGuiStartPluginSession( ePluginTypeCamServer, netIdent->getMyOnlineId(), netIdent->getMyOnlineId() );
     }
 
     if( netIdent->getPluginPermission( ePluginTypeFileShareServer ) != eFriendStateIgnore &&
         m_AppSettings.getRunOnStartupFileShareServer() )
     {
-        getFromGuiInterface().fromGuiStartPluginSession( ePluginTypeFileShareServer, netIdent->getMyOnlineId(), 0, netIdent->getMyOnlineId() );
+        getFromGuiInterface().fromGuiStartPluginSession( ePluginTypeFileShareServer, netIdent->getMyOnlineId(), netIdent->getMyOnlineId() );
     }
 }
 
@@ -393,44 +389,6 @@ void AppCommon::sendAppSettingsToEngine( void )
     {
         getEngine().fromGuiApplyNetHostSettings( selectedNetHostSetting );
     } 
-}
-
-//============================================================================
-void AppCommon::slotListViewTypeChanged( int viewSelectedIdx )
-{
-    m_eLastSelectedWhichContactsToView = (EFriendViewType)viewSelectedIdx;
-
-    //EMyIcons whichIcon = eMyIconUnknown;
-    QString statMsg = "Unknown List View";
-
-    switch( m_eLastSelectedWhichContactsToView )
-    {
-    case eFriendViewEverybody: //Everybody
-        //whichIcon = eMyIconGuest;
-        statMsg = QObject::tr( "List View Everybody Except Ignored" );
-        break;
-    case eFriendViewAdministrators:
-        //whichIcon = eMyIconAdministrator;
-        statMsg = QObject::tr( "List View Administrators" );
-        break;
-    case eFriendViewFriendsAndGuests: //Friends And Guests
-        //whichIcon = eMyIconFriend;
-        statMsg = QObject::tr( "List View Friends And Guests" );
-        break;
-    case eFriendViewAnonymous: //Anonymous
-        //whichIcon = eMyIconAnonymous;
-        statMsg = QObject::tr( "List View Anonymous" );
-        break;
-    case eFriendViewIgnored: //Ignored
-        //whichIcon = eMyIconIgnored;
-        statMsg = QObject::tr( "List View People I Ignore" );
-        break;
-
-    default:
-        break;
-    }
-
-    toGuiStatusMessage( statMsg.toUtf8().constData() );
 }
 
 //============================================================================

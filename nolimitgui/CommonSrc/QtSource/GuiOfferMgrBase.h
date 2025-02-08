@@ -13,6 +13,7 @@
 
 #include "GuiUserUpdateCallback.h"
 #include "GuiOfferSession.h"
+#include "PhoneRinger.h"
 
 #include <OfferBase/OfferCallback.h>
 
@@ -30,10 +31,13 @@ class VxGUID;
 class GuiOfferMgrBase : public QWidget, public GuiUserUpdateCallback, public OfferCallback
 {
 	Q_OBJECT
+
+	const int MAX_OFFER_HISTORY_ENTRIES = 20;
 public:
 	GuiOfferMgrBase( AppCommon& myApp );
 
     virtual std::vector<std::shared_ptr<GuiOfferSession>>& getOfferList( void )			{ return m_OfferList; }
+	virtual std::vector<std::shared_ptr<GuiOfferSession>>& getOfferHistoryList( void )	{ return m_OfferHistory; }
 
 	virtual void                onAppCommonCreated( void ) = 0;
 	virtual void                onMessengerReady( bool ready )				{ }
@@ -48,7 +52,7 @@ public:
 // from engine
 	virtual void                toGuiRxedPluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo );
 	virtual void                toGuiRxedOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo );
-
+	virtual void                toGuiRxedOfferUpdated( OfferBaseInfo* offerInfo );
 	virtual void				toGuiPluginSessionEnded( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId );
 
 	virtual bool				fromGuiMakePluginOffer( QWidget* parent, EPluginType pluginType, GuiUser* guiUser, FileInfo& fileInfo );
@@ -63,7 +67,7 @@ public:
 	void						rejectOfferButtonClicked( EPluginType pluginType, VxGUID offerSessionId, GuiUser* guiUser );
 
 	// called if starting new session to know if responding to existing offer
-	std::shared_ptr<GuiOfferSession>			findActiveAndAvailableOffer( GuiUser* guiUser, EPluginType pluginType );
+	std::shared_ptr<GuiOfferSession>	findActiveAndAvailableOffer( GuiUser* guiUser, EPluginType pluginType );
 	void						sentOffer( EPluginType pluginType, VxGUID offerSessionId, GuiUser* guiUser );
 	void						sentOfferReply( EPluginType pluginType, VxGUID offerSessionId, GuiUser* guiUser, EOfferResponse offerResponse );
 	void						removePluginSessionOffer( EPluginType pluginType, GuiUser* guiUser );
@@ -73,7 +77,13 @@ public:
 	virtual bool				acceptOffer( GuiOfferSession* offerSession, QWidget* contentFrame );
 	virtual bool				rejectOffer( GuiOfferSession* offerSession, QWidget* contentFrame );
 
-	virtual bool				validateOffer( GuiOfferSession* offerSession, QWidget* contentFrame, bool showErrorMsg = true );
+	std::shared_ptr<GuiOfferSession> findOffer( GuiOfferSession* offerSession );
+
+	virtual bool				validateOffer( std::shared_ptr<GuiOfferSession>& offerSession, QWidget* contentFrame, bool showErrorMsg = true );
+
+	void						phoneRingTimeout( std::shared_ptr<GuiOfferSession>& offerSession );
+
+	void						updateRxedOffer( GuiUser* guiUser, std::shared_ptr<GuiOfferSession>& offerSession, OfferBaseInfo& offerInfo );
 
 signals:
 	void						signalCallbackFileWasShredded( QString fileName );
@@ -95,9 +105,6 @@ protected slots:
     void						slotCallbackOfferUpdated( OfferBaseInfo* assetInfo );
     void						slotCallbackOfferRemoved( VxGUID offerId );
 
-	void						slotUpdateOffersTimer( void );
-	void						slotOncePerSecondRingTimer( void );
-
 protected:
 	virtual void				callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline ) override;
 
@@ -105,11 +112,7 @@ protected:
 	void						recievedOfferReply( EPluginType pluginType, VxGUID offerSessionId, GuiUser* guiUser, EOfferResponse offerResponse );
 	void						recievedSessionEnd( EPluginType pluginType, VxGUID offerSessionId, GuiUser* guiUser, EOfferResponse offerResponse );
 
-	void						changeOfferState( std::shared_ptr<GuiOfferSession> sessionState, EOfferState newOfferState );
-	void						forceToNotInSession( std::shared_ptr<GuiOfferSession> sessionState );
-	void						startRingTimerIfNotInSession( void );
-	void						stopRingTimer( void );
-	void						updateSndsAndMessages( std::shared_ptr<GuiOfferSession> offerSession );
+	void						changeOfferState( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState newOfferState );
 
 	std::shared_ptr<GuiOfferSession>	createOfferSession( GuiUser* guiUser, OfferBaseInfo& offerInfo );
     std::shared_ptr<GuiOfferSession>	findOfferSession( EPluginType pluginType, VxGUID sessionId, GuiUser* guiUser );
@@ -134,24 +137,24 @@ protected:
 	bool                        launchOfferResponseAccept( GuiOfferSession* offerSession, QWidget* contentFrame );
 	bool                        launchOfferResponseAccept( std::shared_ptr<GuiOfferSession>& offerSession, QWidget* contentFrame );
 
-	//=== vars ===//
-	static const int 			RING_COUNT 				= 4; 
-	static const int 			RING_ELAPSE_SEC 		= 4; 
+    bool                        sendResponse( GuiUser* guiUser, OfferBaseInfo& offerInfo, EOfferState offerState );
 
+    void                        announceOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& offerMsg );
+
+	void						moveToHistory( VxGUID& offerId );
+
+	//=== vars ===//
 	AppCommon& 					m_MyApp;
-	QTimer*						m_OfferUpdateTimer{ nullptr };
-	QTimer*						m_RingTimer{ nullptr };
 
 	bool						m_UserIsInSession{ false };
-	int							m_RingTimerCycleCnt{ 0 };
-	int							m_RingTimerSecondCnt{ 0 };
-
     int							m_LastActiveOfferCount{ 0 };
 
 	//std::vector<OfferBaseInfo>	m_ResponseSentList;
 
 	std::vector<std::shared_ptr<GuiOfferSession>> m_OfferList;
-	std::vector<OfferBaseInfo>	m_OfferHistory;
+	std::vector<std::shared_ptr<GuiOfferSession>> m_OfferHistory;
 
 	std::vector<GuiOfferCallback*>	m_OfferCallbackList;
+
+	PhoneRinger					m_PhoneRinger;
 };

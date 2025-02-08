@@ -11,20 +11,10 @@
 #include "AppletOfferResponse.h"
 
 #include "AppCommon.h"
-#include "AppSettings.h"
-#include "MyIcons.h"
-#include "AppCommon.h"	
-#include "AppSettings.h"
-
-#include "AppletDownloads.h"
-#include "ActivityBrowseFiles.h"
-#include "ActivityYesNoMsgBox.h"
-
-#include "FileShareItemWidget.h"
-#include "MyIcons.h"
 #include "AppGlobals.h"
 #include "FileItemInfo.h"
 #include "FileActionMenu.h"
+#include "FileShareItemWidget.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 
@@ -32,13 +22,13 @@
 #include <AssetMgr/AssetMgr.h>
 #include <AssetMgr/AssetInfo.h>
 
-#include <PktLib/VxSearchDefs.h>
-#include <NetLib/VxFileXferInfo.h>
-
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileInfo.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTime.h>
+
+#include <NetLib/VxFileXferInfo.h>
+#include <PktLib/VxSearchDefs.h>
 
 #include "ui_AppletOfferResponse.h"
 

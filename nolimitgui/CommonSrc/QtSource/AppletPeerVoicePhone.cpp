@@ -60,6 +60,12 @@ void AppletPeerVoicePhone::toGuiInstMsg( GuiUser* friendIdent, EPluginType plugi
 }
 
 //============================================================================
+void AppletPeerVoicePhone::callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg )
+{
+	toGuiInstMsg( guiUser, pluginType, msg.c_str() );
+}
+
+//============================================================================
 void AppletPeerVoicePhone::onOfferWasSet( void )
 {
 	OfferBaseInfo& offerInfo = getOfferInfo();

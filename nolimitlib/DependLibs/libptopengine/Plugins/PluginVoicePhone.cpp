@@ -61,21 +61,21 @@ bool PluginVoicePhone::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& 
 }
 
 //============================================================================
-bool PluginVoicePhone::fromGuiIsPluginInSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+bool PluginVoicePhone::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
-	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, pvUserData, lclSessionId );
+	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, lclSessionId );
 }
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginVoicePhone::fromGuiStartPluginSession( VxGUID& onlineId,int, VxGUID )
+void PluginVoicePhone::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID )
 {
 	m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleVoicePhone, onlineId );
 }
 
 //============================================================================
 //! called to stop service or session with remote friend
-void PluginVoicePhone::fromGuiStopPluginSession( VxGUID& onlineId, int, VxGUID )
+void PluginVoicePhone::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID )
 {
 	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleVoicePhone, onlineId );
 	m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId );

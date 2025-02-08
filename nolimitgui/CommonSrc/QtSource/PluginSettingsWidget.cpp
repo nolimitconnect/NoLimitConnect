@@ -194,11 +194,11 @@ void PluginSettingsWidget::slotApplyServiceSettings()
     {
         if( getPermissionWidget()->getPermissionLevel() != eFriendStateIgnore )
         {
-            m_MyApp.getFromGuiInterface().fromGuiStartPluginSession( ePluginTypeCamServer, m_MyApp.getMyNetIdent()->getMyOnlineId(), 0, m_MyApp.getMyNetIdent()->getMyOnlineId() );
+            m_MyApp.getFromGuiInterface().fromGuiStartPluginSession( ePluginTypeCamServer, m_MyApp.getMyNetIdent()->getMyOnlineId(), m_MyApp.getMyNetIdent()->getMyOnlineId() );
         }
         else
         {
-            m_MyApp.getFromGuiInterface().fromGuiStopPluginSession( ePluginTypeCamServer, m_MyApp.getMyNetIdent()->getMyOnlineId(), 0, m_MyApp.getMyNetIdent()->getMyOnlineId() );
+            m_MyApp.getFromGuiInterface().fromGuiStopPluginSession( ePluginTypeCamServer, m_MyApp.getMyNetIdent()->getMyOnlineId(), m_MyApp.getMyNetIdent()->getMyOnlineId() );
         }
     }
 
@@ -209,7 +209,7 @@ void PluginSettingsWidget::slotApplyServiceSettings()
 void PluginSettingsWidget::slotThumbnailAssetChanged( ThumbInfo* thumbAsset )
 {
     VxGUID thumbGuid = ui.m_ThumbnailChooseWidget->getAssetId();
-    LogMsg( LOG_VERBOSE, "slotThumbnailAssetChanged %s", thumbGuid.toGUIDStandardFormatedString().c_str() );
+    LogMsg( LOG_VERBOSE, "%s %s", __func__, thumbGuid.toGUIDStandardFormatedString().c_str() );
     m_PluginSetting.setThumnailId( thumbGuid, ui.m_ThumbnailChooseWidget->getThumbnailIsCircular() );
     ui.m_ThumbnailChooseWidget->getThumbnailViewWidget()->updateAssetImage( thumbAsset );
     emit signalThumbnailAssetChanged( thumbGuid, thumbAsset->isCircular() );

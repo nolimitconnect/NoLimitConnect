@@ -134,11 +134,11 @@ bool GuiOfferSession::isAvailableAndActiveOffer( void )
 		}
 
 		bool avail = false;
-		switch( getOfferState() )
+		EOfferState offerState = getOfferState();
+		switch( offerState )
 		{
 		case eOfferStateSending:
 		case eOfferStateSent:
-		case eOfferStateNeedResponse:
 		case eOfferStateRxedByUser:
 		case eOfferStateInSession:
 			avail = true;

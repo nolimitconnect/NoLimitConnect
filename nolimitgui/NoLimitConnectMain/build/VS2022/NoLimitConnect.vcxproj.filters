@@ -219,6 +219,9 @@
     <Filter Include="Source Files\Cam">
       <UniqueIdentifier>{f14c3319-b667-42bc-8aaa-688867613337}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\PhoneRinger">
+      <UniqueIdentifier>{1caab6a7-3c45-4991-b350-6354ab192ec8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppSetup.h">
@@ -1141,6 +1144,9 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserSessionBase.h">
       <Filter>Header Files\GuiUser</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\PhoneRinger.h">
+      <Filter>Source Files\PhoneRinger</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -2292,6 +2298,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFriendList.cpp">
       <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\PhoneRinger.cpp">
+      <Filter>Source Files\PhoneRinger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

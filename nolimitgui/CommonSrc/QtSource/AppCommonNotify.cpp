@@ -32,6 +32,9 @@ void AppCommon::toGuiRxedPluginOffer( VxGUID onlineId, OfferBaseInfo& offerInfo 
 		return;
 	}
 
+	if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "AppCommon::%s type %s response %s send state %s", 
+										__func__, DescribeOfferType( offerInfo.getOfferType() ), DescribeOfferResponse( offerInfo.getOfferResponse() ),
+										DescribeOfferSendState( offerInfo.getOfferSendState() ) );
 	emit signalInternalToGuiRxedPluginOffer( onlineId, offerInfo );
 }
 
@@ -50,6 +53,9 @@ void AppCommon::toGuiRxedOfferReply( VxGUID onlineId, OfferBaseInfo& offerInfo )
 		return;
 	}
 
+	if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "AppCommon::%s type %s response %s send state %s", 
+										__func__, DescribeOfferType( offerInfo.getOfferType() ), DescribeOfferResponse( offerInfo.getOfferResponse() ), 
+										DescribeOfferSendState( offerInfo.getOfferSendState() ) );
 	emit signalInternalToGuiRxedOfferReply( onlineId, offerInfo );
 }
 
@@ -67,6 +73,7 @@ void AppCommon::toGuiPluginSessionEnded( VxNetIdent* netIdent, EPluginType plugi
 		return;
 	}
 
+	LogMsg( LOG_VERBOSE, "AppCommon::%s plugin %s", __func__, DescribePluginType( pluginType ) );
 	emit signalInternalToGuiPluginSessionEnded( netIdent->getMyOnlineId(), pluginType, lclSessionId );
 }
 
@@ -79,6 +86,8 @@ void AppCommon::slotInternalToGuiPluginSessionEnded( VxGUID onlineId, EPluginTyp
 //============================================================================
 void AppCommon::toGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue )
 {
+	LogMsg( LOG_VERBOSE, "AppCommon::%s plugin %s statusType %d statusValue %d ", __func__, DescribePluginType( pluginType ),
+			statusType, statusValue );
 	getPluginMgr().toGuiPluginStatus( pluginType, statusType, statusValue );
 }
 
@@ -96,6 +105,12 @@ void AppCommon::toGuiInstMsg( VxNetIdent* netIdent, EPluginType	pluginType, cons
 //============================================================================
 void AppCommon::slotToGuiInstMsg( GuiUser* guiUser, EPluginType pluginType, QString pMsg )
 {
+	if( m_ToGuiActivityInterfaceBusy )
+    {
+        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        vx_assert( false );
+    }
+
 	m_ToGuiActivityInterfaceBusy = true;
 	for( auto client : m_ToGuiActivityInterfaceList )
 	{

@@ -44,8 +44,7 @@ public:
 	std::string 				getOfferText( void )							{ return m_strOfferText; }
 	void 						setOfferFileName( std::string strOfferFileName ){ m_strOfferFileName = strOfferFileName; }
 	std::string 				getOfferFileName()								{ return m_strOfferFileName; }
-	void 						setUserData( int userData )						{ m_UserData = userData; }
-	int 						getUserData( void )								{ return m_UserData; }
+
     VxGUID& 					getLclSessionId( void )							{ return m_LclSessionId;    }
 
     void                        setPluginType( EPluginType pluginType )			{ m_ePluginType = pluginType;    }
@@ -114,7 +113,7 @@ private:
 	bool 						m_IsServerSession{ false };
     std::string 				m_strOfferText{ "" };
 	std::string 				m_strOfferFileName{ "" };
-	int							m_UserData{ 0 };
+
 	bool 						m_SessionEndIsHandled{ false };
 	bool 						m_IsInSession{ false };
 	bool 						m_IsOnStopCalled{ false };

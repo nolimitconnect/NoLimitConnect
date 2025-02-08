@@ -33,6 +33,7 @@ public:
 protected:
 
     void						toGuiInstMsg( GuiUser* friendIdent, EPluginType pluginType, QString instMsg ) override;
+	void				        callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg ) override;
 
 	void						onOfferWasSet( void ) override;
 

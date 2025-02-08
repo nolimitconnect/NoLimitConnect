@@ -118,16 +118,16 @@ void GuiConnectIdListMgr::slotInternalRelayStatusChange( ConnectId connectId, bo
 //============================================================================
 void GuiConnectIdListMgr::slotInternalOnlineStatusChange( VxGUID onlineId, bool isOnline )
 {
-    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::slotInternalOnlineStatusChange user %s isRelayed %d", 
-            m_MyApp.describeUser( onlineId ).c_str(), isOnline );
+    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::%s user %s isOnline %d",
+            __func__, m_MyApp.describeUser( onlineId ).c_str(), isOnline );
     m_MyApp.doOnlineStatusChange( onlineId, isOnline );
 }
 
 //============================================================================
 void GuiConnectIdListMgr::slotInternalConnectionStatusChange( ConnectId connectId, bool isConnected )
 {
-    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::slotInternalConnectionStatusChange user %s isConnect %d to %s", 
-            m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str(), isConnected,
+    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::%s user %s isConnect %d to %s",
+            __func__, m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str(), isConnected,
             GuiParams::describeHostType( connectId.getHostType() ).toUtf8().constData() );
     if( isConnected )
     {

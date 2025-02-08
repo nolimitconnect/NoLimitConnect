@@ -121,7 +121,7 @@ int FileInfoXferMgr::fromGuiGetFileDownloadState( uint8_t * fileHashId )
 }
 
 //============================================================================
-void FileInfoXferMgr::fromGuiStartPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void FileInfoXferMgr::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	if( false == m_bIsInSession )
 	{
@@ -130,7 +130,7 @@ void FileInfoXferMgr::fromGuiStartPluginSession( VxGUID& onlineId, int pvUserDat
 }
 
 //============================================================================
-void FileInfoXferMgr::fromGuiStopPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void FileInfoXferMgr::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	if( true == m_bIsInSession )
 	{
@@ -139,7 +139,7 @@ void FileInfoXferMgr::fromGuiStopPluginSession( VxGUID& onlineId, int pvUserData
 }
 
 //============================================================================
-bool FileInfoXferMgr::fromGuiIsPluginInSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+bool FileInfoXferMgr::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	return m_bIsInSession;
 }

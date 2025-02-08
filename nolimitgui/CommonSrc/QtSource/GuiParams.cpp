@@ -1709,7 +1709,7 @@ QString GuiParams::describeOfferState( EOfferState offerState )
     case eOfferStateNone:
         return QObject::tr( "No Offer" );
     case eOfferStateSending:
-        return QObject::tr( "Seding Offer" );
+        return QObject::tr( "Sending Offer" );
     case eOfferStateSent:
         return QObject::tr( "Offer Sent" );
     case eOfferStateSendFailed:

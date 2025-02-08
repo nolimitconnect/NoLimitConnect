@@ -294,9 +294,9 @@ public:
     virtual int					fromGuiGetPluginPermission( enum EPluginType pluginType ) override;
     virtual EPluginServerState	fromGuiGetPluginServerState( enum EPluginType pluginType ) override;
 
-    virtual void				fromGuiStartPluginSession( enum EPluginType pluginType, VxGUID onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-    virtual void				fromGuiStopPluginSession( enum EPluginType pluginType, VxGUID onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID()  ) override;
-    virtual bool				fromGuiIsPluginInSession( enum EPluginType pluginType, VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual void				fromGuiStartPluginSession( enum EPluginType pluginType, VxGUID onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual void				fromGuiStopPluginSession( enum EPluginType pluginType, VxGUID onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID()  ) override;
+    virtual bool				fromGuiIsPluginInSession( enum EPluginType pluginType, VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 
 	virtual bool				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
     virtual bool				fromGuiToPluginOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;

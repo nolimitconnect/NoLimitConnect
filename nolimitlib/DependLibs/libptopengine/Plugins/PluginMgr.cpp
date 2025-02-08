@@ -873,7 +873,7 @@ void PluginMgr::pluginApiWantMediaInput( EPluginType pluginType, EMediaInputType
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginMgr::fromGuiStartPluginSession( EPluginType pluginType, VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void PluginMgr::fromGuiStartPluginSession( EPluginType pluginType, VxGUID& onlineId, VxGUID lclSessionId )
 {
 	PluginBase* plugin = getPlugin( pluginType );
 	if( plugin )
@@ -881,7 +881,7 @@ void PluginMgr::fromGuiStartPluginSession( EPluginType pluginType, VxGUID& onlin
 		VxNetIdent* netIdent = m_BigListMgr.findNetIdent( onlineId );
 		if( netIdent )
 		{
-			plugin->fromGuiStartPluginSession( onlineId, pvUserData, lclSessionId );
+			plugin->fromGuiStartPluginSession( onlineId, lclSessionId );
 		}
 		else
 		{
@@ -898,12 +898,12 @@ void PluginMgr::fromGuiStartPluginSession( EPluginType pluginType, VxGUID& onlin
 
 //============================================================================
 //! called to stop service or session with remote friend
-void PluginMgr::fromGuiStopPluginSession( EPluginType pluginType, VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void PluginMgr::fromGuiStopPluginSession( EPluginType pluginType, VxGUID& onlineId, VxGUID lclSessionId )
 {
 	PluginBase* plugin = getPlugin( pluginType );
 	if( plugin )
 	{
-		plugin->fromGuiStopPluginSession( onlineId, pvUserData, lclSessionId );	
+		plugin->fromGuiStopPluginSession( onlineId, lclSessionId );	
 	}
 	else
 	{
@@ -913,13 +913,13 @@ void PluginMgr::fromGuiStopPluginSession( EPluginType pluginType, VxGUID& online
 
 //============================================================================
 //! return true if is plugin session
-bool PluginMgr::fromGuiIsPluginInSession( EPluginType pluginType, VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+bool PluginMgr::fromGuiIsPluginInSession( EPluginType pluginType, VxGUID& onlineId, VxGUID lclSessionId )
 {
 	bool inSession = false;
 	PluginBase* plugin = getPlugin( pluginType );
 	if( plugin )
 	{
-		inSession = plugin->fromGuiIsPluginInSession( onlineId, pvUserData, lclSessionId );	
+		inSession = plugin->fromGuiIsPluginInSession( onlineId, lclSessionId );	
 	}
 
 	return inSession;

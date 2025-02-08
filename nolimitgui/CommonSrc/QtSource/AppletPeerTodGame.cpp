@@ -88,7 +88,13 @@ void AppletPeerTodGame::toGuiInstMsg( GuiUser* friendIdent, EPluginType pluginTy
 	{
 		ui.m_InstMsgWidget->toGuiInstMsg( instMsg );
 	}
-}; 
+}
+
+//============================================================================
+void AppletPeerTodGame::callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg )
+{
+	toGuiInstMsg( guiUser, pluginType, msg.c_str() );
+}
 
 //============================================================================
 bool AppletPeerTodGame::setOfferSession( std::shared_ptr<GuiOfferSession> offerSession )

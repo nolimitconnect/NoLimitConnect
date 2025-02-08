@@ -129,7 +129,6 @@ void OfferSessionLogic::callbackToGuiRxedPluginOffer( std::shared_ptr<GuiOfferSe
 					m_IsInSession = true;
 					m_MyApp.getEngine().fromGuiStartPluginSession( 	m_ePluginType, 
 						m_HisIdent->getMyOnlineId(), 
-						0,
 						getOfferInfo().getOfferId() );
 					onInSession( true );
 				}
@@ -156,7 +155,6 @@ void OfferSessionLogic::callbackToGuiRxedPluginOffer( std::shared_ptr<GuiOfferSe
 					m_IsInSession = true;
 					m_MyApp.getEngine().fromGuiStartPluginSession( 	m_ePluginType, 
 																	m_HisIdent->getMyOnlineId(), 
-																	0,
 																	getOfferInfo().getOfferId() );
 					onInSession( true );
 				}
@@ -191,7 +189,6 @@ void OfferSessionLogic::callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSes
 				{
 					m_IsInSession = true;
 					m_MyApp.getEngine().fromGuiStartPluginSession( m_ePluginType, m_HisIdent->getMyOnlineId(),
-						0,
 						offerSessionId );
 					m_OfferMgr.startedSessionInReply( m_ePluginType, offerSessionId, m_HisIdent );
 					onInSession( true );
@@ -360,7 +357,6 @@ void OfferSessionLogic::onStop()
 				{
 					m_MyApp.getEngine().fromGuiStopPluginSession( 	m_ePluginType, 
 																	m_HisIdent->getMyOnlineId(),
-																	getUserData(),
                                                                     m_OfferId
 																	);		   
 				}
@@ -388,7 +384,6 @@ bool OfferSessionLogic::startPluginSessionIfIsSessionOffer()
 		setIsInSession( true );
 		m_MyApp.getEngine().fromGuiStartPluginSession( 	m_ePluginType, 
 														m_HisIdent->getMyOnlineId(),
-														getUserData(),
                                                         m_OfferId );
         m_OfferMgr.startedSessionInReply( m_ePluginType, m_OfferId, m_HisIdent );
 		onInSession( true );
@@ -585,7 +580,7 @@ void OfferSessionLogic::handleSessionEnded( EOfferResponse responseCode )
 		{
 			m_IsInSession = false;
 			onInSession( false );
-            m_MyApp.getEngine().fromGuiStopPluginSession( m_ePluginType, m_HisIdent->getMyOnlineId(), getUserData(), m_OfferId );
+            m_MyApp.getEngine().fromGuiStopPluginSession( m_ePluginType, m_HisIdent->getMyOnlineId(), m_OfferId );
 		}
 		
 		postStatusMsg( responseDesc.c_str() );

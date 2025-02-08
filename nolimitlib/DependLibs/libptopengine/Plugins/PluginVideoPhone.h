@@ -23,9 +23,9 @@ public:
 	virtual bool				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
 	virtual bool				fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
 
-	virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(),  int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-	virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), 	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-	virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), 	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+	virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+	virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+	virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 
 	virtual bool				fromGuiInstMsg(	VxGUID& onlineId, const char* pMsg ) override;
 

@@ -12,9 +12,10 @@
 #include "OfferCallback.h"
 #include "OfferBaseInfoDb.h"
 
-#include <CoreLib/VxThread.h>
-#include <CoreLib/VxSemaphore.h>
+#include <CoreLib/Sha1GeneratorCallback.h>
 #include <CoreLib/VxMutex.h>
+#include <CoreLib/VxSemaphore.h>
+#include <CoreLib/VxThread.h>
 
 class FileInfo;
 class GuiUser;
@@ -27,7 +28,7 @@ class P2PEngine;
 class PktFileListReply;
 class QWidget;
 
-class OfferBaseMgr
+class OfferBaseMgr : public Sha1GeneratorCallback
 {
 public:
 	OfferBaseMgr() = delete;
@@ -95,7 +96,7 @@ public:
 												VxGUID&			assetId,  
 												uint8_t *		hashId = 0, 
 												EOfferLocation	locationFlags = eOfferLocUnknown, 
-												const char*	assetTag = "", 
+												const char*		assetTag = "", 
 												int64_t		    timestamp = 0 );
 
 	bool						addOfferFile(	const char*		fileName, 
@@ -105,7 +106,7 @@ public:
 												VxGUID&		    historyId, 
 												uint8_t *		hashId = 0, 
 												EOfferLocation	locationFlags = eOfferLocUnknown, 
-												const char*	assetTag = "", 
+												const char*		assetTag = "", 
                                                 int64_t			timestamp = 0 );
 
 	bool						addOffer( OfferBaseInfo& offerInfo );
@@ -115,14 +116,13 @@ public:
 	bool						removeOffer( VxGUID& assetOfferId );
 	void						queryHistoryOffers( VxGUID& historyId );
 
-	void						generateHashForFile( std::string fileNameAndPath );
 	void						updateOfferXferState( VxGUID& assetOfferId, EOfferSendState assetSendState, int param = 0 );
 
 	bool						deleteDatabase( void );
 
-	virtual void				announceOfferAdded( OfferBaseInfo* offerInfo );
+	virtual void				announceOfferAdded( OfferBaseInfo* offerInfo, bool resourceLocked = false );
     virtual void				announceOfferUpdated( OfferBaseInfo* offerInfo );
-    virtual void				announceOfferRemoved( OfferBaseInfo* offerInfo );
+    virtual void				announceOfferRemoved( OfferBaseInfo* offerInfo, bool resourceLocked = false );
     virtual void				announceOfferXferState( VxGUID& assetOfferId, EOfferSendState assetSendState, int param );
 	virtual void				announceOfferAction( VxGUID& assetOfferId, EOfferAction offerAction, int param );
 
@@ -134,7 +134,7 @@ protected:
    void							unlockClientList( void )					{ m_ClientListMutex.unlock(); }
 
 	void						updateOfferListFromDb( VxThread* thread );
-	void						generateHashIds( VxThread* thread );
+
 	void						clearOfferFileListPackets( void );
 	void						clearOfferInfoList( void );
 	OfferBaseInfo*				createOfferInfo(	std::string		fileName,
@@ -148,6 +148,9 @@ protected:
 	void						updateDatabase( OfferBaseInfo* offerInfo );
 	void						updateOfferDatabaseSendState( VxGUID& assetOfferId, EOfferSendState sendState );
 
+	void                        requestFileHash( OfferBaseInfo* assetInfo );
+    void                        callbackSha1GenerateResult( ESha1GenResult sha1GenResult, VxGUID& assetId, Sha1Info& sha1Info );
+
     //=== vars ===//
     EOfferMgrType               m_OfferMgrType{ eOfferMgrNotSet };
     VxMutex						m_ResourceMutex;
@@ -157,10 +160,8 @@ protected:
 	bool						m_Initialized{ false };
 
 	std::vector<OfferBaseInfo*>	m_WaitingForHastList;
-	std::vector<std::string>	m_GenHashList;
-	VxMutex						m_GenHashMutex;
-	VxThread					m_GenHashThread;
-	VxSemaphore					m_GenHashSemaphore;
+
+	VxThread					m_OfferMgrStartupThread;
 
     uint16_t					m_u16OfferBaseFileTypes{ 0 };
 	VxMutex						m_FileListPacketsMutex;

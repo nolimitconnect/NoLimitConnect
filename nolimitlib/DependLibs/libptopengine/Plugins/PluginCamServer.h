@@ -20,9 +20,9 @@ public:
 	PluginCamServer( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginCamServer() = default;
 
-    virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(),	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-    virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-    virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 
 	//! user wants to send offer to friend.. return false if cannot connect
 	virtual bool				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;

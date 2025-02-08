@@ -60,6 +60,12 @@ void AppletPeerVideoPhone::toGuiInstMsg( GuiUser* friendIdent, EPluginType plugi
 }
 
 //============================================================================
+void AppletPeerVideoPhone::callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg )
+{
+	toGuiInstMsg( guiUser, pluginType, msg.c_str() );
+}
+
+//============================================================================
 void AppletPeerVideoPhone::onOfferWasSet( void )
 {
 	OfferBaseInfo& offerInfo = getOfferInfo();
@@ -70,6 +76,6 @@ void AppletPeerVideoPhone::onOfferWasSet( void )
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "AppletPeerVideoPhone::%s user not found %s", __func__ );
+		LogMsg( LOG_ERROR, "AppletPeerVideoPhone::%s user not found", __func__ );
 	}
 }

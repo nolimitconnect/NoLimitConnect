@@ -37,7 +37,6 @@ public:
     VxPushButton*               getMenuButton( void )                   { return getIdentMenuButton(); }
 
     void						onIdentAvatarButtonClicked( void ) override;
-    //void                        onIdentFriendshipButtonClicked( void ) override; // commented out to allow default behavior
     void						onIdentOfferViewButtonClicked( void ) override;
     void						onIdentOfferAcceptButtonClicked( void ) override;
     void						onIdentOfferRejectButtonClicked( void ) override;

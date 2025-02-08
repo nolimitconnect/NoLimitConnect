@@ -99,26 +99,26 @@ bool PluginBaseMultimedia::fromGuiSendAsset( AssetBaseInfo& assetInfo )
 }
 
 //============================================================================
-bool PluginBaseMultimedia::fromGuiIsPluginInSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+bool PluginBaseMultimedia::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
-	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, pvUserData, lclSessionId );
+	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, lclSessionId );
 }
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginBaseMultimedia::fromGuiStartPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void PluginBaseMultimedia::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 }
 
 //============================================================================
 //! called to stop service or session with remote friend
-void PluginBaseMultimedia::fromGuiStopPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void PluginBaseMultimedia::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	//LogMsg( LOG_INFO, "PluginBaseMultimedia::fromGuiStopPluginSession start\n" );
 	m_VoiceFeedMgr.fromGuiStopPluginSession( true, getAppModule(), onlineId );
 	m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), getEngine().getMyOnlineId() );
 
-	m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId, pvUserData, lclSessionId );
+	m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId, lclSessionId );
 	//LogMsg( LOG_INFO, "PluginBaseMultimedia::fromGuiStopPluginSession done\n" );
 }
 

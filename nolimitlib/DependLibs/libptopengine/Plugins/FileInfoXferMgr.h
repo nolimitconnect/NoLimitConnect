@@ -78,9 +78,9 @@ public:
 	virtual void				fromGuiGetFileShareSettings( FileShareSettings& fileShareSettings );
 	virtual void				fromGuiSetFileShareSettings( FileShareSettings& fileShareSettings );
 
-	virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
-	virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
-	virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
+	virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() );
+	virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() );
+	virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() );
 
 	void						fromGuiCancelDownload( VxGUID& fileInstance );
 	void						fromGuiCancelUpload( VxGUID& fileInstance );

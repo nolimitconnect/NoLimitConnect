@@ -109,6 +109,7 @@ void AppCommon::slotInternalToGuiContactAdded( VxNetIdent netIdent )
         if( m_ToGuiActivityInterfaceBusy )
         {
             LogMsg( LOG_ERROR, "AppCommon::%s m_ToGuiActivityInterfaceBusy", __func__ );
+            vx_assert( false );
         }
 
         m_ToGuiActivityInterfaceBusy = true;
@@ -180,7 +181,7 @@ void AppCommon::doOnlineStatusChange( VxGUID onlineId, bool isOnline )
     else
     {
         // this may be normal if online user is host or service like network host
-        LogMsg( LOG_VERBOSE, "AppCommon::slotInternalToGuiOnlineStatusChange null user %s", onlineId.toOnlineIdString().c_str() );
+        LogMsg( LOG_VERBOSE, "AppCommon::%s null user %s", __func__, onlineId.toOnlineIdString().c_str() );
     } 
 }
 

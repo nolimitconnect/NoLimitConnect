@@ -59,12 +59,15 @@ private slots:
     void                        slotPushToTalkButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem );
 
 protected:
-    virtual void				callbackIndentListUpdate( EUserViewType listType, VxGUID& onlineId, uint64_t timestamp ) override;
-    virtual void				callbackIndentListRemove( EUserViewType listType, VxGUID& onlineId ) override;
+    void				        callbackIndentListUpdate( EUserViewType listType, VxGUID& onlineId, uint64_t timestamp ) override;
+    void				        callbackIndentListRemove( EUserViewType listType, VxGUID& onlineId ) override;
 
-    virtual void				callbackUserAdded( GuiUser* guiUser ) override;
-    virtual void				callbackUserUpdated( GuiUser* guiUser ) override;
-    virtual void				callbackUserRemoved( VxGUID& onlineId ) override;
+    void				        callbackUserAdded( GuiUser* guiUser ) override;
+    void				        callbackUserUpdated( GuiUser* guiUser ) override;
+    void				        callbackUserRemoved( VxGUID& onlineId ) override;
+
+    void				        callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState oldOfferState, EOfferState newOfferState ) override;
+    void				        callbackToGuiOfferMovedToHistory( std::shared_ptr<GuiOfferSession>& offerSession ) override;
 
     void						showEvent( QShowEvent* ev ) override;
     void						hideEvent( QHideEvent* ev ) override;
@@ -74,6 +77,7 @@ protected:
     void                        removeUser( VxGUID& onlineId );
 
     void                        updateOfferList( EOfferViewType offerViewType );
+    void                        refreshOfferList( void );
 
     //=== vars ===//
     Ui::AppletOfferListUi&      ui;

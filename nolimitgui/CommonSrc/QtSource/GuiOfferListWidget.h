@@ -79,6 +79,8 @@ protected:
     void                        callbackUserUpdated( GuiUser* guiUser ) override;
     void                        callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline ) override;
 
+    void				        callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState oldOfferState, EOfferState newOfferState ) override;
+
     GuiOfferListItem*           sessionToWidget( GuiOfferSession* userSession );
     GuiOfferSession*			widgetToSession( GuiOfferListItem* userItem );
 

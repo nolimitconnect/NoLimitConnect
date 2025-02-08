@@ -94,6 +94,12 @@ void GuiUserMgr::toGuiIndentListUpdate( EUserViewType listType, VxGUID& onlineId
         guiUser->setLastUpdateTime( timestamp );
         if( isMessengerReady() && onlineId.isVxGUIDValid() )
         {
+            if( m_ClientListBusy )
+            {
+                LogMsg( LOG_ERROR, "GuiUserMgr::%s m_ClientListBusy", __func__ );
+                vx_assert( false );
+            }
+
             m_ClientListBusy = true;
             for( auto client : m_GuiUserUpdateClientList )
             {
@@ -144,6 +150,12 @@ void GuiUserMgr::toGuiIndentListRemove( EUserViewType listType, VxGUID& onlineId
 
         if( isMessengerReady() && onlineId.isVxGUIDValid() )
         {
+            if( m_ClientListBusy )
+            {
+                LogMsg( LOG_ERROR, "GuiUserMgr::%s m_ClientListBusy", __func__ );
+                vx_assert( false );
+            }
+
             m_ClientListBusy = true;
             for( auto client : m_GuiUserUpdateClientList )
             {
@@ -207,6 +219,11 @@ bool GuiUserMgr::toGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline )
         if( guiUser )
         {
             LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::toGuiOnlineStatusChange user %s online %d id %s", guiUser->getOnlineName().c_str(), isOnline, guiUser->getMyOnlineId().toOnlineIdString().c_str() );
+            if( m_ClientListBusy )
+            {
+                LogMsg( LOG_ERROR, "GuiUserMgr::%s m_ClientListBusy", __func__ );
+                vx_assert( false );
+            }
 
             m_ClientListBusy = true;
             for( auto client : m_GuiUserUpdateClientList )
@@ -294,6 +311,12 @@ void GuiUserMgr::updateOnlineStatus( VxNetIdent* netIdent, bool online )
     GuiUser* guiUser = findUser( netIdent->getMyOnlineId() );
     if( guiUser )
     {
+        if( m_ClientListBusy )
+        {
+            LogMsg( LOG_ERROR, "GuiUserMgr::%s m_ClientListBusy", __func__ );
+            vx_assert( false );
+        }
+
         m_ClientListBusy = true;
         for( auto client : m_GuiUserUpdateClientList )
         {
@@ -591,6 +614,12 @@ void GuiUserMgr::updateMyIdent( VxNetIdent* myIdent )
     {
         if( isMessengerReady() )
         {
+            if( m_ClientListBusy )
+            {
+                LogMsg( LOG_ERROR, "GuiUserMgr::%s m_ClientListBusy", __func__ );
+                vx_assert( false );
+            }
+
             m_ClientListBusy = true;
             for( auto client : m_GuiUserUpdateClientList )
             {
@@ -611,6 +640,12 @@ void GuiUserMgr::onUserAdded( GuiUser* guiUser )
 {
     if( isMessengerReady() && guiUser )
     {
+        if( m_ClientListBusy )
+        {
+            LogMsg( LOG_ERROR, "GuiUserMgr::%s m_ClientListBusy", __func__ );
+            vx_assert( false );
+        }
+
         m_ClientListBusy = true;
         for( auto client : m_GuiUserUpdateClientList )
         {
@@ -630,6 +665,12 @@ void GuiUserMgr::onUserRemoved( VxGUID& onlineId )
 {
     if( isMessengerReady() )
     {
+        if( m_ClientListBusy )
+        {
+            LogMsg( LOG_ERROR, "GuiUserMgr::%s m_ClientListBusy", __func__ );
+            vx_assert( false );
+        }
+
         m_ClientListBusy = true;
         for( auto client : m_GuiUserUpdateClientList )
         {
@@ -676,6 +717,12 @@ void GuiUserMgr::onUserOnlineStatusChange( GuiUser* guiUser )
 {
     if( isMessengerReady() )
     {
+        if( m_ClientListBusy )
+        {
+            LogMsg( LOG_ERROR, "GuiUserMgr::%s m_ClientListBusy", __func__ );
+            vx_assert( false );
+        }
+
         m_ClientListBusy = true;
         for( auto client : m_GuiUserUpdateClientList )
         {
@@ -705,6 +752,12 @@ void GuiUserMgr::onMyIdentUpdated( GuiUser* guiUser )
 {
     if( isMessengerReady() )
     {
+        if( m_ClientListBusy )
+        {
+            LogMsg( LOG_ERROR, "GuiUserMgr::%s m_ClientListBusy", __func__ );
+            vx_assert( false );
+        }
+
         m_ClientListBusy = true;
         for( auto client : m_GuiUserUpdateClientList )
         {
@@ -756,6 +809,7 @@ void GuiUserMgr::wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bo
         return;
     }
 
+    m_ClientListBusy = true;
     if( wantCallback )
     {
         for( auto client : m_GuiUserUpdateClientList )
@@ -763,12 +817,14 @@ void GuiUserMgr::wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bo
             if( client == callback )
             {
                 LogMsg( LOG_WARN, "WARNING. Ignoring New wantToGuiUserUpdateCallbacks because already in list" );
+                m_ClientListBusy = false;
                 return;
             }
         }
 
         LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr Add wantToGuiUserUpdateCallback %p at index %d", callback, m_GuiUserUpdateClientList.size() );
-        m_GuiUserUpdateClientList.push_back( callback );
+        m_GuiUserUpdateClientList.emplace_back( callback );
+        m_ClientListBusy = false;
         return;
     }
     else
@@ -781,6 +837,7 @@ void GuiUserMgr::wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bo
             {
                 LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr Remove wantToGuiUserUpdateCallback %p at index %d", callback, idx );
                 m_GuiUserUpdateClientList.erase( iter );
+                m_ClientListBusy = false;
                 return;
             }
 
@@ -789,6 +846,8 @@ void GuiUserMgr::wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bo
 
         LogMsg( LOG_WARN, "WARNING. ToGuiUserUpdateInterface remove not found in list" );
     }
+
+    m_ClientListBusy = false;
 }
 
 //============================================================================
@@ -810,6 +869,12 @@ void GuiUserMgr::sendUserUpdatedToCallbacks( GuiUser* guiUser )
         if( guiUser->isMyself() )
         {
             LogMsg( LOG_ERROR, "GuiUserMgr::sendUserUpdatedToCallbacks updating myself" );
+        }
+
+        if( m_ClientListBusy )
+        {
+            LogMsg( LOG_ERROR, "GuiUserMgr::%s m_ClientListBusy", __func__ );
+            vx_assert( false );
         }
 
         m_ClientListBusy = true;
@@ -834,6 +899,12 @@ void GuiUserMgr::sendUserUpdatedToCallbacks( GuiUser* guiUser )
 void GuiUserMgr::updateClientList( void )
 {
     // update client list from que of want callback that happened while client list was busy
+    if( m_ClientListBusy )
+    {
+        LogMsg( LOG_ERROR, "GuiUserMgr::%s m_ClientListBusy", __func__ );
+        vx_assert( false );
+    }
+
     m_UpdatingClientList = true;
     LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr updateClientList to do list size %d updateClientList size %d", m_WantUpdateToDoList.size(), m_GuiUserUpdateClientList.size());
     for( auto pair : m_WantUpdateToDoList )
@@ -855,7 +926,7 @@ void GuiUserMgr::updateClientList( void )
             {
 
                 LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr updateClientList adding client %p at index %d", pair.first, m_GuiUserUpdateClientList.size());
-                m_GuiUserUpdateClientList.push_back( pair.first );
+                m_GuiUserUpdateClientList.emplace_back( pair.first );
             }
         }
         else

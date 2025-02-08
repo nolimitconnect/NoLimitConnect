@@ -50,6 +50,7 @@ public:
 
     virtual void				setOfferTag( std::string assetTag )     { setAssetTag( assetTag.c_str() ); }
     virtual std::string&        getOfferTag( void )                     { return getAssetTag(); }
+    virtual bool                hasOfferTag( void )                     { return !getAssetTag().empty(); }
 
     virtual void				setOfferSendState( EOfferSendState sendState ) { setAssetSendState( (EAssetSendState)sendState ); }
     virtual EOfferSendState		getOfferSendState( void )               { return (EOfferSendState)getAssetSendState(); }
@@ -66,6 +67,7 @@ public:
 
     virtual void				setOfferMsg( std::string offerMsg )     { m_OfferMsg = offerMsg; }
     virtual std::string&		getOfferMsg( void )                     { return m_OfferMsg; }
+    virtual bool                hasOfferMsg( void )                     { return !m_OfferMsg.empty(); }
 
     virtual void				setOfferExpireTime( int64_t expireTime ) { m_OfferExpireTime = expireTime; }
     virtual int64_t             getOfferExpireTime( void )              { return m_OfferExpireTime; }

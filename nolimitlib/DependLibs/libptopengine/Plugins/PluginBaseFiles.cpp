@@ -52,21 +52,21 @@ void PluginBaseFiles::onAfterUserLogOnThreaded( void )
 }
 
 //============================================================================
-void PluginBaseFiles::fromGuiStartPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void PluginBaseFiles::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
-	return m_FileInfoXferMgr.fromGuiStartPluginSession( onlineId, pvUserData, lclSessionId );
+	return m_FileInfoXferMgr.fromGuiStartPluginSession( onlineId, lclSessionId );
 }
 
 //============================================================================
-void PluginBaseFiles::fromGuiStopPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId)
+void PluginBaseFiles::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSessionId)
 {
-	return m_FileInfoXferMgr.fromGuiStopPluginSession( onlineId, pvUserData, lclSessionId );
+	return m_FileInfoXferMgr.fromGuiStopPluginSession( onlineId, lclSessionId );
 }
 
 //============================================================================
-bool PluginBaseFiles::fromGuiIsPluginInSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+bool PluginBaseFiles::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
-	return m_FileInfoXferMgr.fromGuiIsPluginInSession( onlineId, pvUserData, lclSessionId );
+	return m_FileInfoXferMgr.fromGuiIsPluginInSession( onlineId, lclSessionId );
 }
 
 //============================================================================

@@ -58,6 +58,7 @@ void OfferSendWidget::slotOfferSendButtonClicked( void )
 {
     if( !m_HisIdent || !m_HisIdent->isOnline() )
     {
+        emit signalOfferSent( false );
         GuiHelpers::errorMsgBox( eErrMsgUserUnavailable, this, m_HisIdent );
         return;
     }
@@ -66,6 +67,7 @@ void OfferSendWidget::slotOfferSendButtonClicked( void )
     {
         if( false == m_MyApp.getOfferMgr().fromGuiMakePluginOffer( GuiHelpers::getParentPageFrame( this ), m_OfferInfo.getPluginType(), m_HisIdent, m_OfferInfo))
         {
+            emit signalOfferSent( false );
             ActivityMessageBox errMsgBox( m_MyApp, this, LOG_INFO, "%s is offline", m_HisIdent->getOnlineName().c_str() );
             errMsgBox.exec();
             return;
@@ -77,8 +79,12 @@ void OfferSendWidget::slotOfferSendButtonClicked( void )
                 GuiHelpers::errorMsgBox( eErrMsgOfferSent, this, m_HisIdent );
             }
             
-            emit signalOfferSend();
+            emit signalOfferSent( true );
         }
+    }
+    else
+    {
+        emit signalOfferSent( false );
     }
 }
 

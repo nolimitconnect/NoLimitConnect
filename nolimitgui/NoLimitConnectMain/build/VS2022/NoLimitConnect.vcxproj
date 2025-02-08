@@ -450,6 +450,7 @@ libopenjpeg.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PermissionWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PersonOfferListItem.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PersonOfferListWidget.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\PhoneRinger.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PlayControlWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PluginSettingsWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\RenderGlLogic.cpp" />
@@ -722,6 +723,7 @@ libopenjpeg.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\PersonOfferListItem.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\PersonOfferListWidget.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\PlayControlWidget.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\PhoneRinger.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\RenderGlShaders.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\RenderLogoShaders.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\RenderPlayerNlcThread.h" />

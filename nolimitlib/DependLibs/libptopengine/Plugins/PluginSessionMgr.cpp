@@ -305,7 +305,7 @@ void PluginSessionMgr::doEndAndEraseSession( PluginSessionBase* sessionBase, EOf
 }
 
 //============================================================================
-bool PluginSessionMgr::fromGuiIsPluginInSession( bool pluginIsLocked, VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+bool PluginSessionMgr::fromGuiIsPluginInSession( bool pluginIsLocked, VxGUID& onlineId, VxGUID lclSessionId )
 {
 	bool isInSesion = false;
 	VxMutex& pluginMutex = m_Plugin.getPluginMutex();
@@ -450,7 +450,7 @@ bool PluginSessionMgr::fromGuiOfferReply( bool pluginIsLocked, VxGUID& onlineId,
 }
 
 //============================================================================
-void PluginSessionMgr::fromGuiStopPluginSession( bool pluginIsLocked, VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void PluginSessionMgr::fromGuiStopPluginSession( bool pluginIsLocked, VxGUID& onlineId, VxGUID lclSessionId )
 {
 	removeSession( pluginIsLocked, onlineId, lclSessionId, eOfferResponseEndSession );
 }

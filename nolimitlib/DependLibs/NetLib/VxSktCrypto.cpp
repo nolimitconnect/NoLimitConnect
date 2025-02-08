@@ -43,7 +43,7 @@ bool GenerateRxConnectionKey(	std::shared_ptr<VxSktBase>&		sktBase,
 	sktBase->lockCryptoAccess();
 	if( false == sktBase->m_RxKey.isKeySet() )
 	{
-		result = GenerateConnectionKey( &sktBase->m_RxKey, poConnectId, sktBase->getCryptoKeyPort(), networkName);
+		result = GenerateConnectionKey( &sktBase->m_RxKey, poConnectId, sktBase->getCryptoKeyPort(), networkName );
 		if( result )
 		{
 			sktBase->m_RxCrypto.importKey( &sktBase->m_RxKey );

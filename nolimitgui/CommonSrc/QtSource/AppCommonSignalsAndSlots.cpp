@@ -150,7 +150,7 @@ void AppCommon::connectSignals( void )
     connect( this, SIGNAL( signalInternalToGuiIndentListUpdate(EUserViewType,VxGUID,uint64_t) ), this, SLOT( slotInternalToGuiIndentListUpdate(EUserViewType,VxGUID,uint64_t) ), Qt::QueuedConnection );
     connect( this, SIGNAL( signalInternalToGuiIndentListRemove(EUserViewType,VxGUID) ), this, SLOT( slotInternalToGuiIndentListRemove(EUserViewType,VxGUID) ), Qt::QueuedConnection );
 
-    connect( this, SIGNAL( signalInternalToGuiContactAdded(VxGUID) ), this, SLOT( slotInternalToGuiContactAdded(VxGUID) ), Qt::QueuedConnection );
+    connect( this, SIGNAL( signalInternalToGuiContactAdded(VxNetIdent) ), this, SLOT( slotInternalToGuiContactAdded(VxNetIdent) ), Qt::QueuedConnection );
     connect( this, SIGNAL( signalInternalToGuiContactRemoved(VxGUID) ), this, SLOT( slotInternalToGuiContactRemoved(VxGUID) ), Qt::QueuedConnection );
 
     connect( this, SIGNAL( signalInternalToGuiContactOnline(VxNetIdent) ), this, SLOT( slotInternalToGuiContactOnline(VxNetIdent) ), Qt::QueuedConnection );

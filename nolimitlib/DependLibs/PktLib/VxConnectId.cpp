@@ -150,14 +150,15 @@ void VxConnectId::clear( void )
 {
 	clearVxGUID();
 	m_u16OnlinePort = 0;
-	m_IpAddrType = 0;
 	m_u8Reseved1 = 0;
 	m_u32Reseved2 = 0;
 	m_OnlineIp.setToInvalid();
+	m_IpAddrType = 0;
 }
 
 //============================================================================
 void VxConnectId::clearIpAddress( void )
 {
 	m_OnlineIp.setToInvalid();
+	m_IpAddrType = 0;
 }

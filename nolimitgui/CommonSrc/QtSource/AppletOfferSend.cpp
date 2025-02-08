@@ -53,7 +53,7 @@ AppletOfferSend::AppletOfferSend( AppCommon& app, QWidget* parent, QString launc
     ui.m_OfferSendWidget->setCanViewOffer( false );
     ui.m_OfferSendWidget->showIdentityWidget( false );
 
-    connect( ui.m_OfferSendWidget, SIGNAL(signalOfferSent()), this, SLOT(slotOfferSent()) );
+    connect( ui.m_OfferSendWidget, SIGNAL(signalOfferSent(bool)), this, SLOT(slotOfferSent(bool)) );
     connect( ui.m_OfferSendWidget, SIGNAL(signalCancelButtonClicked()), this, SLOT(slotOfferCanceled()) );
 
     m_MyApp.activityStateChange( this, true );
@@ -80,14 +80,16 @@ void AppletOfferSend::slotHomeButtonClicked( void )
 }
 
 //============================================================================
-void AppletOfferSend::slotOfferSent( void )
+void AppletOfferSend::slotOfferSent( bool sendSuccess )
 {
+    if(LogEnabled(eLogOffer))LogModule(eLogOffer, LOG_DEBUG, "AppletOfferSend::%s success ? %d", __func__, sendSuccess );
     closeApplet();
 }
 
 //============================================================================
 void AppletOfferSend::slotOfferCanceled( void )
 {
+    if(LogEnabled(eLogOffer))LogModule(eLogOffer, LOG_DEBUG, "AppletOfferSend::%s", __func__ );
     closeApplet();
 }
 

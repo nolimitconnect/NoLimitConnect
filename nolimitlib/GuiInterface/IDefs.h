@@ -793,14 +793,16 @@ enum EOfferState
     eOfferStateSendFailed           = 3,
     eOfferStateRxedByUser           = 4,    // recieved by destination user
     eOfferStateBusy                 = 5,    // destination user is already in session
-    eOfferStateNeedResponse         = 6,
-    eOfferStateAccepted             = 7,
-    eOfferStateRejected             = 8,
-    eOfferStateCanceled             = 9,
-    eOfferStateUserOffline          = 10,
-    eOfferStateInSession            = 11,   // in session or in xfer progress
-    eOfferStateSessionComplete      = 12,   // session or xfer completed
-    eOfferStateSessionFailed        = 13,   // session or xfer failed
+    eOfferStateAccepted,
+    eOfferStateRejected,
+    eOfferStateCanceled,
+    eOfferStateUserOffline,
+    eOfferStateInSession,           // in session or in xfer progress
+    eOfferStateSessionComplete,     // session or xfer completed
+    eOfferStateSessionFailed,       // session or xfer failed
+
+    eOfferStateNoResponse,          // offer timed out without response
+    eOfferStateMissedCall,          // offer rxed but timed out before response
 
     eMaxOfferState
 };
@@ -880,6 +882,8 @@ enum EOfferAction
 
     eOfferActionRxNotifyNewMsg		= 39,
     eOfferActionRxViewingMsg		= 40,
+
+    eMaxOfferAction
 };
 
 enum EOfferMgrType
@@ -1365,9 +1369,9 @@ const char* DescribeHackerReason( enum EHackerReason hackReason );
 //! Host announce status as text
 const char* DescribeHostAnnounceStatus( enum EHostAnnounceStatus hostStatus );
 //! Host join status as text
-const char* DescribeHostJoinStatus( enum EHostJoinStatus hostStatus );
+const char* DescribeHostJoinStatus( enum EHostJoinStatus joinStatus );
 //! Host search status as text
-const char* DescribeHostSearchStatus( enum EHostSearchStatus hostStatus );
+const char* DescribeHostSearchStatus( enum EHostSearchStatus searchStatus );
 
 //! Host type as text
 const char* DescribeHostType( enum EHostType hostType );
@@ -1393,8 +1397,12 @@ const char* DescribeNetCmdType( enum ENetCmdType netCmdType );
 const char* DescribeNetCmdError( enum ENetCmdError netCmdError );
 //! Notify enum as text
 const char* DescribeNotifyType( enum ENotifyType notifyType );
-//! Offer Response as test
+//! Offer Action enum as text
+const char* DescribeOfferAction( enum EOfferAction offerAction );
+//! Offer Response as text
 const char* DescribeOfferResponse( enum EOfferResponse offerResponse );
+//! Offer Offer send state as text
+const char* DescribeOfferSendState( enum EOfferSendState offerSendState );
 //! Offer state as text
 const char* DescribeOfferState( enum EOfferState offerState );
 //! Offer type as text

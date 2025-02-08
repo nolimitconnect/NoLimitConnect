@@ -21,11 +21,11 @@ public:
 	//! handle app state change
 	virtual void				onAppStateChange( EAppState eAppState );
 	//! called to start service or session with remote friend
-    virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 	//! called to stop service or session with remote friend
-    virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 	//! return true if is plugin session
-    virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 	//! can accept a new connection/session
     virtual EPluginAccess		canAcceptNewSession( VxNetIdent* netIdent ) override;
 

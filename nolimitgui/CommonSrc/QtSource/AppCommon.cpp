@@ -1251,6 +1251,7 @@ void AppCommon::slotInternalToGuiAssetAdded( AssetBaseInfo assetInfo )
 	if( m_ToGuiActivityInterfaceBusy )
 	{
 		LogMsg( LOG_ERROR, "%s m_ToGuiActivityInterfaceBusy is true", __func__ );
+        vx_assert( false );
 	}
 
 	m_ToGuiActivityInterfaceBusy = true;
@@ -1592,7 +1593,7 @@ void AppCommon::slotInternalNetworkIsTested( bool requiresRelay, QString ipAddr,
 		firstTime = false;
 		if( m_AppSettings.getRunOnStartupCamServer() && eFriendStateIgnore != getMyNetIdent()->getPluginPermission( ePluginTypeCamServer ) )
 		{
-			getEngine().fromGuiStartPluginSession( ePluginTypeCamServer, getMyNetIdent()->getMyOnlineId(), 0, getMyNetIdent()->getMyOnlineId() );
+			getEngine().fromGuiStartPluginSession( ePluginTypeCamServer, getMyNetIdent()->getMyOnlineId(), getMyNetIdent()->getMyOnlineId() );
 		}
 	}
 }
@@ -1679,11 +1680,7 @@ static bool actCallbackShutdownComplete = false;
         vx_assert( false );
     }
 
-	if( m_ToGuiActivityInterfaceBusy )
-	{
-		LogMsg( LOG_ERROR, "AppCommon::wantToGuiActivityCallbacks do NOT call while busy" );
-		vx_assert( false );
-	}
+    m_ToGuiActivityInterfaceBusy = true;
 
 	if( wantCallback )
 	{
@@ -1692,11 +1689,13 @@ static bool actCallbackShutdownComplete = false;
 			if( client == callback )
 			{
 				LogMsg( LOG_INFO, "WARNING. Ignoring New ToGuiActivityInterface.h because already in list" );
+                m_ToGuiActivityInterfaceBusy = false;
 				return;
 			}
 		}
 
-		m_ToGuiActivityInterfaceList.push_back( callback );
+        m_ToGuiActivityInterfaceList.emplace_back( callback );
+        m_ToGuiActivityInterfaceBusy = false;
 		return;
 	}
 
@@ -1706,10 +1705,12 @@ static bool actCallbackShutdownComplete = false;
 		if( client == callback )
 		{
 			m_ToGuiActivityInterfaceList.erase( iter );
+            m_ToGuiActivityInterfaceBusy = false;
 			return;
 		}
 	}
 
+    m_ToGuiActivityInterfaceBusy = false;
 	LogMsg( LOG_INFO, "WARNING. ToGuiActivityInterface.h remove not found in list" );
 	return;
 }
@@ -1717,10 +1718,13 @@ static bool actCallbackShutdownComplete = false;
 //============================================================================
 void AppCommon::clearToGuiActivityInterfaceList( void )
 {
+    m_ToGuiActivityInterfaceBusy = true;
 	if( m_ToGuiActivityInterfaceList.size() )
 	{
 		m_ToGuiActivityInterfaceList.clear();
 	}
+
+    m_ToGuiActivityInterfaceBusy = false;
 }
 
 //============================================================================

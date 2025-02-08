@@ -45,7 +45,7 @@ public:
 protected slots:
     void						slotHomeButtonClicked( void ) override;
     void						statusMsg( QString strMsg );
-	void						slotOfferSent( void );
+    void						slotOfferSent( bool sendSuccess );
 	void						slotOfferCanceled( void );
 
 protected:

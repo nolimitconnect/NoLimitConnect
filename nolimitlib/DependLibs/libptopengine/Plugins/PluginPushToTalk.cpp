@@ -61,21 +61,21 @@ bool PluginPushToTalk::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& 
 }
 
 //============================================================================
-bool PluginPushToTalk::fromGuiIsPluginInSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+bool PluginPushToTalk::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
-	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, pvUserData, lclSessionId );
+	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, lclSessionId );
 }
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginPushToTalk::fromGuiStartPluginSession( VxGUID& onlineId,int, VxGUID )
+void PluginPushToTalk::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID )
 {
 	//m_PushToTalkFeedMgr.fromGuiStartPluginSession( false, onlineId );
 }
 
 //============================================================================
 //! called to stop service or session with remote friend
-void PluginPushToTalk::fromGuiStopPluginSession( VxGUID& onlineId, int, VxGUID )
+void PluginPushToTalk::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID )
 {
 	//m_PushToTalkFeedMgr.fromGuiStopPluginSession( false, onlineId );
 	//m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId );

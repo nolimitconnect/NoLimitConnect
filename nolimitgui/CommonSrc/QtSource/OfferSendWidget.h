@@ -61,7 +61,7 @@ public:
 	void						setFocusOnText( void );
 
 signals:
-	void						signalOfferSend( void );
+    void						signalOfferSent( bool sendSuccess );
 	void						signalCancelButtonClicked( void );
 
 protected slots:

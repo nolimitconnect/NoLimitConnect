@@ -134,9 +134,6 @@ uint32_t						VxGetLogLevelFlags( void );
 void                            VxSetModuleLogFlags( uint64_t flags );
 uint64_t                        VxGetModuleLogFlags( void );
 
-// enable log to file
-//void							VxSetLogToFile( const char* pFileName );
-
 // enable/disable default log handler
 void                            VxEnableDefaultLogHandler( bool enableDefaultHandler );
 

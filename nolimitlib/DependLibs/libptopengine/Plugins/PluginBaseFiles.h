@@ -42,9 +42,9 @@ public:
 
 	virtual void				onAfterUserLogOnThreaded( void ) override;
 
-    virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-    virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), 	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-    virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), 	int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 
     void						fromGuiGetFileShareSettings( FileShareSettings& fileShareSettings ) override;
     void						fromGuiSetFileShareSettings( FileShareSettings& fileShareSettings ) override;

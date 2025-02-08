@@ -184,11 +184,11 @@ void AppletServiceBase::slotApplyServiceSettings()
     {
         if( getPermissionWidget()->getPermissionLevel() != eFriendStateIgnore )
         {
-            getFromGuiInterface().fromGuiStartPluginSession( ePluginTypeCamServer, m_MyApp.getMyNetIdent()->getMyOnlineId(), 0, m_MyApp.getMyNetIdent()->getMyOnlineId() );
+            getFromGuiInterface().fromGuiStartPluginSession( ePluginTypeCamServer, m_MyApp.getMyNetIdent()->getMyOnlineId(), m_MyApp.getMyNetIdent()->getMyOnlineId() );
         }
         else
         {
-            getFromGuiInterface().fromGuiStopPluginSession( ePluginTypeCamServer, m_MyApp.getMyNetIdent()->getMyOnlineId(), 0, m_MyApp.getMyNetIdent()->getMyOnlineId() );
+            getFromGuiInterface().fromGuiStopPluginSession( ePluginTypeCamServer, m_MyApp.getMyNetIdent()->getMyOnlineId(), m_MyApp.getMyNetIdent()->getMyOnlineId() );
         }     
     }
    

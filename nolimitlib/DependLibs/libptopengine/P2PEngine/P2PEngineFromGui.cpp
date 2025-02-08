@@ -523,21 +523,21 @@ void P2PEngine::fromGuiUpdateWebPageProfile(	const char*	pProfileDir,	// directo
 }
 
 //============================================================================
-void P2PEngine::fromGuiStartPluginSession( EPluginType pluginType, VxGUID oOnlineId, int pvUserData, VxGUID lclSessionId )
+void P2PEngine::fromGuiStartPluginSession( EPluginType pluginType, VxGUID oOnlineId, VxGUID lclSessionId )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiStartPluginSession" );
-	m_PluginMgr.fromGuiStartPluginSession( pluginType, oOnlineId, pvUserData, lclSessionId );
+	m_PluginMgr.fromGuiStartPluginSession( pluginType, oOnlineId, lclSessionId );
 }
 
 //============================================================================
-void P2PEngine::fromGuiStopPluginSession( EPluginType pluginType, VxGUID oOnlineId, int pvUserData, VxGUID lclSessionId )
+void P2PEngine::fromGuiStopPluginSession( EPluginType pluginType, VxGUID oOnlineId, VxGUID lclSessionId )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiStopPluginSession" );
-	m_PluginMgr.fromGuiStopPluginSession( pluginType, oOnlineId, pvUserData, lclSessionId );
+	m_PluginMgr.fromGuiStopPluginSession( pluginType, oOnlineId, lclSessionId );
 }
 
 //============================================================================
-bool P2PEngine::fromGuiIsPluginInSession( EPluginType pluginType,VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+bool P2PEngine::fromGuiIsPluginInSession( EPluginType pluginType,VxGUID& onlineId, VxGUID lclSessionId )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiIsPluginInSession" );
 	if( ( false == m_IsUserSpecificDirSet ) || VxIsAppShuttingDown() )
@@ -546,7 +546,7 @@ bool P2PEngine::fromGuiIsPluginInSession( EPluginType pluginType,VxGUID& onlineI
 		return false;	
 	}
 
-	return m_PluginMgr.fromGuiIsPluginInSession( pluginType, onlineId, pvUserData, lclSessionId );
+	return m_PluginMgr.fromGuiIsPluginInSession( pluginType, onlineId, lclSessionId );
 }
 
 //============================================================================

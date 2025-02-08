@@ -824,8 +824,6 @@ protected slots:
 
     void						slotToGuiInstMsg( GuiUser* guiUser, EPluginType pluginType, QString pMsg );
 
-    void						slotListViewTypeChanged( int viewSelectedIdx );
-
     void						slotRelayHelpButtonClicked( void );
     void						slotSetRelayHelpButtonVisibility( bool isVisible );
     void						slotNetworkStateChanged( ENetworkStateType eNetworkState );

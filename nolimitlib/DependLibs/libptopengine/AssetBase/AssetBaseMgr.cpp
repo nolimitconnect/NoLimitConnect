@@ -721,53 +721,58 @@ void AssetBaseMgr::updateAssetListFromDb( VxThread* startupThread )
 	lockResources();
 	clearAssetInfoList();
 	m_AssetBaseInfoDb.getAllAssets( m_AssetBaseInfoList );
-	bool movedToGenerateHash = true;
-	while(	movedToGenerateHash 
-			&& ( false == startupThread->isAborted() ) )
+
+	// there should not be any without valid hash but if is then generate it
+	for( auto iter = m_AssetBaseInfoList.begin(); iter != m_AssetBaseInfoList.end();  )
 	{
-		// there should not be any without valid hash but if is then generate it
-		movedToGenerateHash = false;
-		for( auto iter = m_AssetBaseInfoList.begin(); iter != m_AssetBaseInfoList.end(); ++iter )
+		if( startupThread->isAborted() )
 		{
-			AssetBaseInfo* assetInfo = (*iter);
-			if( !assetInfo->validateAssetExist() )
-			{
-				// add to list to remove from database and delete
-				toDeleteList.emplace_back( assetInfo );
-				continue;
-			}
+			unlockResources();
+			return;
+		}
 
-			if( !assetInfo->isValid() )
-			{
-				toDeleteList.emplace_back( assetInfo );
-				continue;
-			}
+		AssetBaseInfo* assetInfo = (*iter);
+		if( !assetInfo->validateAssetExist() )
+		{
+			// add to list to remove from database and delete
+			toDeleteList.emplace_back( assetInfo );
+			++iter;
+			continue;
+		}
 
-			if( assetInfo->isSharedFileAsset() )
-			{
-				m_Engine.getPluginFileShareServer().fileShareEnable( assetInfo, true );
-			}
+		if( !assetInfo->isValid() )
+		{
+			toDeleteList.emplace_back( assetInfo );
+			++iter;
+			continue;
+		}
 
-			EAssetSendState sendState = assetInfo->getAssetSendState();
-			if( eAssetSendStateTxProgress == sendState ) 
-			{
-				assetInfo->setAssetSendState( eAssetSendStateTxFail );
-				m_AssetBaseInfoDb.updateAssetSendState( assetInfo->getAssetUniqueId(), eAssetSendStateTxFail );
-			}
-			else if(  eAssetSendStateRxProgress == sendState  )
-			{
-				assetInfo->setAssetSendState( eAssetSendStateRxFail );
-				m_AssetBaseInfoDb.updateAssetSendState( assetInfo->getAssetUniqueId(), eAssetSendStateRxFail );
-			}
+		if( assetInfo->isSharedFileAsset() )
+		{
+			m_Engine.getPluginFileShareServer().fileShareEnable( assetInfo, true );
+		}
 
-			if( assetInfo->needsHashGenerated() )
-			{
-				m_WaitingForHastList.emplace_back( assetInfo );
-				m_AssetBaseInfoList.erase( iter );
-                requestFileHash( assetInfo );
-				movedToGenerateHash = true;
-				break;
-			}
+		EAssetSendState sendState = assetInfo->getAssetSendState();
+		if( eAssetSendStateTxProgress == sendState ) 
+		{
+			assetInfo->setAssetSendState( eAssetSendStateTxFail );
+			m_AssetBaseInfoDb.updateAssetSendState( assetInfo->getAssetUniqueId(), eAssetSendStateTxFail );
+		}
+		else if(  eAssetSendStateRxProgress == sendState  )
+		{
+			assetInfo->setAssetSendState( eAssetSendStateRxFail );
+			m_AssetBaseInfoDb.updateAssetSendState( assetInfo->getAssetUniqueId(), eAssetSendStateRxFail );
+		}
+
+		if( assetInfo->needsHashGenerated() )
+		{
+			m_WaitingForHastList.emplace_back( assetInfo );
+			iter = m_AssetBaseInfoList.erase( iter );
+            requestFileHash( assetInfo );
+		}
+		else
+		{
+			++iter;
 		}
 	}
 
@@ -1160,7 +1165,7 @@ void AssetBaseMgr::updateDatabase( AssetBaseInfo* assetInfo )
 }
 
 //============================================================================
-void AssetBaseMgr::updateAssetDatabaseSendState( VxGUID& assetUniqueId, EAssetSendState sendState )
+void AssetBaseMgr::updateAssetDatabaseSendState( VxGUID& assetUniqueId, enum EAssetSendState sendState )
 {
 	m_AssetBaseInfoDb.updateAssetSendState( assetUniqueId, sendState );
 }

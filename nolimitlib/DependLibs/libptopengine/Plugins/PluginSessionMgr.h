@@ -35,9 +35,9 @@ public:
 
 	virtual void				onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline );
 
-    virtual bool				fromGuiIsPluginInSession( bool pluginIsLocked, VxGUID& onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
+    virtual bool				fromGuiIsPluginInSession( bool pluginIsLocked, VxGUID& onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 
-	virtual void				fromGuiStopPluginSession( bool pluginIsLocked, VxGUID& onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() );
+	virtual void				fromGuiStopPluginSession( bool pluginIsLocked, VxGUID& onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 
 	virtual bool				fromGuiMakePluginOffer(	bool pluginIsLocked, VxGUID& onlineId, OfferBaseInfo& offerInfo );
 	virtual bool				fromGuiOfferReply( bool pluginIsLocked, VxGUID& onlineId, OfferBaseInfo& offerInfo );

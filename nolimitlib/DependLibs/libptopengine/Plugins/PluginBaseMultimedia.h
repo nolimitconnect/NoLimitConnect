@@ -32,9 +32,9 @@ public:
 	virtual bool				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
     virtual bool				fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
 
-    virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(),  int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-    virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-    virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(),  int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 
 	virtual bool				fromGuiSendAsset( AssetBaseInfo& assetInfo ) override;
     virtual bool				fromGuiMultiSessionAction( VxGUID& onlineId, EMSessionAction mSessionAction, int pos0to100000, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;

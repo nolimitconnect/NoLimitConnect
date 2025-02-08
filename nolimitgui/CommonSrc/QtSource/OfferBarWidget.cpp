@@ -96,9 +96,9 @@ void OfferBarWidget::fillOfferBar( std::shared_ptr<GuiOfferSession> offerSession
 	if( offerSession.get() )
 	{
 		// this->setVisible( true ); // TODO OfferBarWidget will probably be removed
-        m_OfferId	= offerSession->getOfferId();
-		m_HisIdent			= offerSession->getUser();
-		m_PluginType		= offerSession->getPluginType();
+        m_OfferId       = offerSession->getOfferId();
+        m_HisIdent		= offerSession->getUser();
+        m_PluginType	= offerSession->getPluginType();
 		updateOfferBar( offerSession );
 	}
 	else
@@ -269,7 +269,7 @@ bool OfferBarWidget::setOfferInfo( OfferBaseInfo& offerInfo )
 	if( m_HisIdent && ePluginTypeInvalid != m_PluginType )
 	{
 		ui.m_OfferViewButton->setIcon( m_MyApp.getMyIcons().getOfferIcon( m_OfferInfo, m_PluginType ) );
-		ui.m_OfferViewButton->setEyeOverlayEnabled( true );
+        //ui.m_OfferViewButton->setEyeOverlayEnabled( true );
 		return true;
 	}
 

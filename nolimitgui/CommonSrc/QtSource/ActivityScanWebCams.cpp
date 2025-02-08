@@ -191,7 +191,7 @@ void ActivityScanWebCams::doCamConnect( GuiUser* guiUser )
 	{
 		// stop the old session
 		startWebCamSession( m_HisIdent->getMyOnlineId(), false );
-        m_FromGui.fromGuiStopPluginSession( m_ePluginType, m_HisIdent->getMyOnlineId(), 0 );
+        m_FromGui.fromGuiStopPluginSession( m_ePluginType, m_HisIdent->getMyOnlineId() );
 		VxGUID nullGuid;
 		ui.m_CamVidWidget->setVideoFeedId( nullGuid, eAppModuleCamClient );
 	}
@@ -223,13 +223,13 @@ void ActivityScanWebCams::startWebCamSession( VxGUID& onlineId, bool startSessio
 		}
 
 		m_LclSessionId.initializeWithNewVxGUID();
-        m_FromGui.fromGuiStartPluginSession( m_ePluginType, onlineId, 0, m_LclSessionId );
+        m_FromGui.fromGuiStartPluginSession( m_ePluginType, onlineId, m_LclSessionId );
 		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( onlineId, this, true );
 	}
 	else
 	{
 		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( onlineId, this, false );
-		m_FromGui.fromGuiStopPluginSession( m_ePluginType, onlineId, 0, m_LclSessionId );
+		m_FromGui.fromGuiStopPluginSession( m_ePluginType, onlineId, m_LclSessionId );
 		setCamViewToOfflineImage();			
 	}		
 }

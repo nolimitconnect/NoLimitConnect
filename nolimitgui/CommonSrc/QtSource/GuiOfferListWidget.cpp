@@ -126,7 +126,7 @@ void GuiOfferListWidget::updateEntryWidget( VxGUID& onlineId )
     }
     else
     {
-        LogMsg( LOG_ERROR, "GuiOfferListWidget::updateUser failed to find session for user" );
+        LogMsg( LOG_ERROR, "GuiOfferListWidget::%s failed to find session for user", __func__ );
     }
 }
 
@@ -187,7 +187,7 @@ GuiOfferListItem* GuiOfferListWidget::findListEntryWidgetByOnlineId( VxGUID& onl
 {
     if( !onlineId.isVxGUIDValid() )
     {
-        LogMsg( LOG_ERROR, "ERROR GuiOfferListWidget::%s: invalid online id", __func__ );
+        LogMsg( LOG_ERROR, "GuiOfferListWidget::%s ERROR invalid online id", __func__ );
         return nullptr;
     }
 
@@ -213,7 +213,7 @@ GuiOfferListItem* GuiOfferListWidget::findListEntryWidgetByUniqueId( VxGUID& uni
 {
     if( !uniqueId.isVxGUIDValid() )
     {
-        LogMsg( LOG_ERROR, "ERROR GuiOfferListWidget::findListEntryWidgetByOnlineId: invalid uniqueId" );
+        LogMsg( LOG_ERROR, "GuiOfferListWidget::%s ERROR invalid uniqueId", __func__ );
         return nullptr;
     }
 
@@ -402,7 +402,7 @@ GuiOfferListItem* GuiOfferListWidget::addOrUpdateSession( GuiOfferSession* offer
     else
     {
         offerItem = sessionToWidget( offerSession );
-        connect( offerSession, SIGNAL(signalOfferUpdated()), this, SLOT(updateWidgetFromInfo()) );
+        connect( offerSession, SIGNAL(signalOfferUpdated()), offerItem, SLOT(updateWidgetFromInfo()) );
 
         if( !count() )
         {
@@ -567,8 +567,8 @@ void GuiOfferListWidget::onListItemUpdated( GuiOfferSession* offerSession, GuiOf
             GuiUser* guiUser = offerSession->getUserIdent();
 
             QImage avatarImage;
-            bool havAvatarImage = m_ThumbMgr.requestAvatarImage( guiUser, offerSession->getPluginType(), avatarImage, false );
-            if( havAvatarImage && avatarButton && !avatarImage.isNull() )
+            bool haveAvatarImage = m_ThumbMgr.requestAvatarImage( guiUser, offerSession->getPluginType(), avatarImage, false );
+            if( haveAvatarImage && avatarButton && !avatarImage.isNull() )
             {
                 avatarButton->setIconOverrideImage( avatarImage );
                 offerItem->setIsThumbUpdated( true );
@@ -586,5 +586,14 @@ void GuiOfferListWidget::updateThumb( GuiThumb* guiThumb )
     if( offerItem )
     {
         offerItem->updateThumb( guiThumb );
+    }
+}
+
+//============================================================================
+void GuiOfferListWidget::callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState oldOfferState, EOfferState newOfferState )
+{
+    if( newOfferState == eOfferStateMissedCall )
+    {
+
     }
 }

@@ -161,11 +161,11 @@ public:
 	virtual EPluginServerState	fromGuiGetPluginServerState( EPluginType pluginType ) = 0;
 
 	/// Start plugin session or server
-	virtual void				fromGuiStartPluginSession( EPluginType pluginType, VxGUID onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) = 0;
+	virtual void				fromGuiStartPluginSession( EPluginType pluginType, VxGUID onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() ) = 0;
 	/// Stop plugin session or server
-	virtual void				fromGuiStopPluginSession( EPluginType pluginType, VxGUID onlineId, int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID()  ) = 0;
+	virtual void				fromGuiStopPluginSession( EPluginType pluginType, VxGUID onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID()  ) = 0;
 	/// Return true if plugin is in session
-	virtual bool				fromGuiIsPluginInSession( EPluginType pluginType, VxGUID& onlineId = VxGUID::nullVxGUID(), int pvUserData = 0, VxGUID lclSessionId = VxGUID::nullVxGUID() ) = 0;
+	virtual bool				fromGuiIsPluginInSession( EPluginType pluginType, VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) = 0;
 
 	/// Send offer of file or session to a contact
 	virtual bool				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) = 0;

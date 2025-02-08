@@ -84,20 +84,20 @@ bool PluginVideoPhone::fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offer
 }
 
 //============================================================================
-bool PluginVideoPhone::fromGuiIsPluginInSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+bool PluginVideoPhone::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
-	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, pvUserData, lclSessionId );
+	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, lclSessionId );
 }
 
 //============================================================================
-void PluginVideoPhone::fromGuiStartPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void PluginVideoPhone::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleVideoPhone, onlineId );
 	m_VideoFeedMgr.fromGuiStartPluginSession( false, eAppModuleVideoPhone, getEngine().getMyOnlineId() );
 }
 
 //============================================================================
-void PluginVideoPhone::fromGuiStopPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void PluginVideoPhone::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogMsg( LOG_INFO, "PluginVideoPhone::fromGuiStopPluginSession %s start", netIdent->getOnlineName() );
@@ -105,7 +105,7 @@ void PluginVideoPhone::fromGuiStopPluginSession( VxGUID& onlineId, int pvUserDat
 	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleVideoPhone, onlineId );
 	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleVideoPhone, onlineId );
 	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleVideoPhone, getEngine().getMyOnlineId() );
-	m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId, pvUserData, lclSessionId );
+	m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId, lclSessionId );
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogMsg( LOG_INFO, "PluginVideoPhone::fromGuiStopPluginSession %s done", netIdent->getOnlineName() );
 #endif // DEBUG_AUTOPLUGIN_LOCK

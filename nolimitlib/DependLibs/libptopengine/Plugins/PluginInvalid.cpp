@@ -52,19 +52,19 @@ void PluginInvalid::onAppStateChange( EAppState eAppState )
 //============================================================================
 //============================================================================
 //! called to start service or session with remote friend
-void PluginInvalid::fromGuiStartPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void PluginInvalid::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 
 }
 //============================================================================
 //! called to stop service or session with remote friend
-void PluginInvalid::fromGuiStopPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void PluginInvalid::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 
 }
 //============================================================================
 //! return true if is plugin session
-bool PluginInvalid::fromGuiIsPluginInSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+bool PluginInvalid::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	return true;
 }

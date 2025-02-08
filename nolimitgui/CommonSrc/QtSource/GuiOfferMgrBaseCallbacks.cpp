@@ -38,6 +38,7 @@ void GuiOfferMgrBase::connectCallbackSignalsAndSlots( void )
 //========================================================================
 void GuiOfferMgrBase::callbackFileWasShredded( std::string& fileName ) 
 {
+    if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferMgrBase::%s", __func__ );
     emit signalCallbackFileWasShredded( fileName.c_str() );
 }
 
@@ -48,9 +49,10 @@ void GuiOfferMgrBase::slotCallbackFileWasShredded( QString fileName )
 }
 
 //========================================================================
-void GuiOfferMgrBase::callbackOfferSendState( VxGUID& assetOfferId, EOfferSendState assetSendState, int param )
+void GuiOfferMgrBase::callbackOfferSendState( VxGUID& assetOfferId, EOfferSendState offerSendState, int param )
 {
-    emit signalCallbackOfferSendState( assetOfferId, assetSendState, param );
+    if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferMgrBase::%s %s", __func__, DescribeOfferSendState( offerSendState ) );
+    emit signalCallbackOfferSendState( assetOfferId, offerSendState, param );
 }
 
 //========================================================================
@@ -62,7 +64,8 @@ void GuiOfferMgrBase::slotCallbackOfferSendState( VxGUID assetOfferId, EOfferSen
 //========================================================================
 void GuiOfferMgrBase::callbackOfferAction( VxGUID& assetOfferId, EOfferAction offerAction, int param )
 {
-     emit slotCallbackOfferAction( assetOfferId, offerAction, param );
+    if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferMgrBase::%s offerAction %s", __func__, DescribeOfferAction( offerAction ) );
+    emit slotCallbackOfferAction( assetOfferId, offerAction, param );
 }
 
 //========================================================================
@@ -72,34 +75,38 @@ void GuiOfferMgrBase::slotCallbackOfferAction( VxGUID assetOfferId, EOfferAction
 }
 
 //========================================================================
-void GuiOfferMgrBase::callbackOfferAdded( OfferBaseInfo* assetInfo )
+void GuiOfferMgrBase::callbackOfferAdded( OfferBaseInfo* offerInfo )
 {
-    emit signalCallbackOfferAdded( new OfferBaseInfo( *assetInfo ) );
+    if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferMgrBase::%s", __func__ );
+    emit signalCallbackOfferAdded( new OfferBaseInfo( *offerInfo ) );
 }
 
 //========================================================================
-void GuiOfferMgrBase::slotCallbackOfferAdded( OfferBaseInfo* assetInfo )
+void GuiOfferMgrBase::slotCallbackOfferAdded( OfferBaseInfo* offerInfo )
 {
-    toGuiRxedPluginOffer( assetInfo->getCreatorId(), *assetInfo );
-    delete assetInfo;
+    if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferMgrBase::%s", __func__ );
+    toGuiRxedPluginOffer( offerInfo->getCreatorId(), *offerInfo );
+    delete offerInfo;
 }
 
 //========================================================================
-void GuiOfferMgrBase::callbackOfferUpdated( OfferBaseInfo* assetInfo )
+void GuiOfferMgrBase::callbackOfferUpdated( OfferBaseInfo* offerInfo )
 {
-    emit signalCallbackOfferUpdated( new OfferBaseInfo( *assetInfo ) );
+    if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferMgrBase::%s", __func__ );
+    emit signalCallbackOfferUpdated( new OfferBaseInfo( *offerInfo ) );
 }
 
 //========================================================================
-void GuiOfferMgrBase::slotCallbackOfferUpdated( OfferBaseInfo* assetInfo )
+void GuiOfferMgrBase::slotCallbackOfferUpdated( OfferBaseInfo* offerInfo )
 {
-
-    delete assetInfo;
+    toGuiRxedOfferUpdated( offerInfo );
+    delete offerInfo;
 }
 
 //========================================================================
 void GuiOfferMgrBase::callbackOfferRemoved( VxGUID& offerId )
 {
+    if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferMgrBase::%s", __func__ );
     emit signalCallbackOfferRemoved( offerId );
 }
 

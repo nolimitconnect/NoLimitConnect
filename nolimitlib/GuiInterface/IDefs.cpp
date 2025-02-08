@@ -405,6 +405,59 @@ namespace
         "Max Relay Error ",
     };
 
+    const char* OfferActionEnumStrings[] =
+    {
+        "Offer Action Unknown ",
+        "Offer Action DeleteFile ",
+        "Offer Action ShreadFile ",
+        "Offer Action AddToOfferMgr ",
+        "Offer Action RemoveFromOfferMgr ",
+        "Offer Action UpdateOffer ",
+        "Offer Action AddOfferAndSend ",
+        "Offer Action OfferResend ",
+
+        "Offer Action AddToShare ",
+        "Offer Action RemoveFromShare ",
+        "Offer Action AddToLibrary ",
+        "Offer Action RemoveFromLibrary ",
+        "Offer Action AddToHistory ",
+        "Offer Action RemoveFromHistory ",
+
+        "Offer Action RecordBegin ",
+        "Offer Action RecordPause ",
+        "Offer Action RecordResume ",
+        "Offer Action RecordProgress ",
+        "Offer Action RecordEnd ",
+        "Offer Action RecordCancel ",
+
+        "Offer Action PlayBegin ",
+        "Offer Action PlayOneFrame ",
+        "Offer Action PlayPause ",
+        "Offer Action PlayResume ",
+        "Offer Action PlayProgress ",
+        "Offer Action PlayEnd ",
+        "Offer Action PlayCancel ",
+
+        "Offer Action TxBegin ",
+        "Offer Action TxProgress ",
+        "Offer Action TxSuccess ",
+        "Offer Action TxError ",
+        "Offer Action TxCancel ",
+        "Offer Action TxPermission ",
+
+        "Offer Action RxBegin ",
+        "Offer Action RxProgress ",
+        "Offer Action RxSuccess ",
+        "Offer Action RxError ",
+        "Offer Action RxCancel ",
+        "Offer Action RxPermission ",
+
+        "Offer Action RxNotifyNewMsg ",
+        "Offer Action RxViewingMsg ",
+
+        "MaxOfferAction "
+    };
+
     const char* OfferStateEnumStrings[] =
     {
         "No Offer ",
@@ -413,14 +466,16 @@ namespace
         "Offer Send Failed ",
         "Offer Recieved By User ",
         "User Is Busy ",
-        "Need Response ",
+
         "Offer Accepted ",
         "Offer Rejected ",
         "Offer Was Canceled ",
         "User Is Offline ",
+
         "Offer Is In Session ",
         "Offer Session Complete ",
         "Offer Session Failed ",
+
         "Max Offer State ",
     };
 
@@ -1402,6 +1457,45 @@ const char* DescribeNotifyType( enum ENotifyType notifyType )
     case eNotifyNone:
     default:
         return "Notify None ";
+    }
+}
+
+//============================================================================
+const char* DescribeOfferAction( enum EOfferAction offerAction )
+{
+    if(  offerAction < 0 || eMaxOfferAction <= offerAction )
+    {
+        return ENUM_BAD_PARM;
+    }
+
+    return OfferActionEnumStrings[ offerAction ]; 
+}
+
+//============================================================================
+const char* DescribeOfferSendState( enum EOfferSendState offerSendState )
+{
+    switch( offerSendState )
+    {
+    case eOfferSendStateTxProgress:
+        return "Offer Send State Tx Progress ";
+    case eOfferSendStateRxProgress: 
+        return "Offer Send State Rx Progress ";
+    case eOfferSendStateTxSuccess: 
+        return "Offer Send State Tx Success ";
+    case eOfferSendStateTxFail: 
+        return "Offer Send State Tx Fail ";
+    case eOfferSendStateRxSuccess: 
+        return "Offer Send State Rx Success ";
+    case eOfferSendStateRxFail: 
+        return "Offer Send State Rx Fail ";
+    case eOfferSendStateTxPermissionErr: 
+        return "Offer Send Tx Permission Err ";
+    case eOfferSendStateRxPermissionErr: 
+        return "Offer Send Rx Permission Err ";
+    case eOfferSendStateNone:
+         return "Offer Send State None ";
+    default:
+        return "Offer Send State Unknown ";
     }
 }
 

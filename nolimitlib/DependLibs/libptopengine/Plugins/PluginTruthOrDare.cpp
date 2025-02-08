@@ -66,14 +66,14 @@ bool PluginTruthOrDare::fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offe
 }
 
 //============================================================================
-bool PluginTruthOrDare::fromGuiIsPluginInSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+bool PluginTruthOrDare::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
-	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, pvUserData, lclSessionId );
+	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, lclSessionId );
 }
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginTruthOrDare::fromGuiStartPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void PluginTruthOrDare::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleTruthOrDare, onlineId );
 	m_VideoFeedMgr.fromGuiStartPluginSession( false, eAppModuleTruthOrDare, onlineId );
@@ -81,12 +81,12 @@ void PluginTruthOrDare::fromGuiStartPluginSession( VxGUID& onlineId, int pvUserD
 
 //============================================================================
 //! called to stop service or session with remote friend
-void PluginTruthOrDare::fromGuiStopPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void PluginTruthOrDare::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, onlineId );
 	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, onlineId );
 	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, getEngine().getMyOnlineId() );
-	m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId, pvUserData, lclSessionId );
+	m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId, lclSessionId );
 }
 
 //============================================================================

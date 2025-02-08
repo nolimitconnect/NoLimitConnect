@@ -58,25 +58,27 @@ protected:
     void                        callbackUserUpdated( GuiUser* guiUser ) override;
     void                        callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline ) override;
 
-    virtual void				callbackToGuiRxedPluginOffer( std::shared_ptr<GuiOfferSession>& offer ) override;
-    virtual void				callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession>& offerReply ) override;
-    virtual void				callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offer ) override;
+    void				        callbackToGuiRxedPluginOffer( std::shared_ptr<GuiOfferSession>& offer ) override;
+    void				        callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession>& offerReply ) override;
+    void				        callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg ) override {};
+    void				        callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState oldOfferState, EOfferState newOfferState ) override {};
+    void				        callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offer ) override;
 
-	virtual void				callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 ) override;
+	void				        callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 ) override;
 
-    virtual void				toGuiSetGameValueVar(	EPluginType     pluginType,
+    void				        toGuiSetGameValueVar(	EPluginType     pluginType,
                                                         VxGUID&         onlineId,
 														int32_t			s32VarId, 
                                                         int32_t			s32VarValue ) override;
 
-    virtual void				toGuiSetGameActionVar(	EPluginType     pluginType,
+    void				        toGuiSetGameActionVar(	EPluginType     pluginType,
                                                         VxGUID&         onlineId,
 														int32_t			s32VarId, 
                                                         int32_t			s32VarValue ) override;
 
-    virtual void				showEvent( QShowEvent* ev ) override;
-    virtual void				hideEvent( QHideEvent* ev ) override;
-    virtual void				closeEvent( QCloseEvent * ev ) override;
+    void				        showEvent( QShowEvent* ev ) override;
+    void				        hideEvent( QHideEvent* ev ) override;
+    void				        closeEvent( QCloseEvent * ev ) override;
 
 	//=== vars ===//
     bool						m_bFirstMsg{false};

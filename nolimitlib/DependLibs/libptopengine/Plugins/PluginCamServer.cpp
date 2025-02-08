@@ -136,7 +136,7 @@ void PluginCamServer::callbackVideoPktPicChunk( VxGUID& feedId, PktVideoFeedPicC
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginCamServer::fromGuiStartPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void PluginCamServer::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	if( onlineId == m_Engine.getMyOnlineId() )
 	{
@@ -183,7 +183,7 @@ void PluginCamServer::fromGuiStartPluginSession( VxGUID& onlineId, int pvUserDat
 
 //============================================================================
 //! called to stop service or session with remote friend
-void PluginCamServer::fromGuiStopPluginSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+void PluginCamServer::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	LogModule( eLogWebCam, LOG_INFO, "PluginCamServer::fromGuiStopPluginSession" );
 	PluginBase::AutoPluginLock pluginMutexLock( this );
@@ -251,7 +251,7 @@ void PluginCamServer::fromGuiStopPluginSession( VxGUID& onlineId, int pvUserData
 }
 
 //============================================================================
-bool PluginCamServer::fromGuiIsPluginInSession( VxGUID& onlineId, int pvUserData, VxGUID lclSessionId )
+bool PluginCamServer::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	// for cam server we really want to know if server is running
 	return getIsServerInSession();

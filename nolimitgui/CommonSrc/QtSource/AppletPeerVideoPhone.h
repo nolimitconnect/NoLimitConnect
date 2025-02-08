@@ -30,6 +30,7 @@ public:
 
 	//! called by base class with in session state
     virtual void				onInSession( bool isInSession ) override;
+	void				        callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg ) override;
 
 protected:
 

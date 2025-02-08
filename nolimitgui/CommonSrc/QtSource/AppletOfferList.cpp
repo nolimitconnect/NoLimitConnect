@@ -32,7 +32,7 @@ namespace
 }
 
 //============================================================================
-AppletOfferList::AppletOfferList(	AppCommon& app, QWidget* parent )
+AppletOfferList::AppletOfferList( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_OFFER_LIST, app, parent )
 , ui(*(new Ui::AppletOfferListUi))
 {
@@ -220,25 +220,24 @@ void AppletOfferList::updateOfferList( EOfferViewType offerViewType )
         return;
     }
 
+    refreshOfferList();
+}
+
+//============================================================================
+void AppletOfferList::refreshOfferList( void )
+{
     ui.m_OfferListWidget->clearOfferList();
-    for( auto offerSession : m_MyApp.getOfferMgr().getOfferList() )
+    std::vector<std::shared_ptr<GuiOfferSession>>& offerList = m_ListViewType == eOfferViewTypeActive ? m_MyApp.getOfferMgr().getOfferList() : m_MyApp.getOfferMgr().getOfferHistoryList();
+    for( auto offerSession : offerList )
     {
-        bool isActive = offerSession->isAvailableAndActiveOffer();
-        if( isActive && eOfferViewTypeActive == m_ListViewType )
-        {
-            ui.m_OfferListWidget->addOrUpdateSession( offerSession.get() );
-        }
-        else if( !isActive && eOfferViewTypeHistory == m_ListViewType )
-        {
-            ui.m_OfferListWidget->addOrUpdateSession( offerSession.get() );
-        }
+        ui.m_OfferListWidget->addOrUpdateSession( offerSession.get() );
     }
 }
 
 //============================================================================
 void AppletOfferList::slotOfferListItemClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem )
 {
-    LogModule( eLogOffer, LOG_VERBOSE, "AppletOfferList::%s", __func__ );
+    if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "AppletOfferList::%s", __func__ );
 }
 
 //============================================================================
@@ -273,3 +272,16 @@ void AppletOfferList::slotPushToTalkButtonClicked( GuiOfferSession* offerSession
 {
     LogModule( eLogOffer, LOG_VERBOSE, "AppletOfferList::%s", __func__ );
 }
+
+//============================================================================
+void AppletOfferList::callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState oldOfferState, EOfferState newOfferState )
+{
+    // refreshOfferList();
+}
+
+//============================================================================
+void AppletOfferList::callbackToGuiOfferMovedToHistory( std::shared_ptr<GuiOfferSession>& offerSession )
+{
+    refreshOfferList();
+}
+
