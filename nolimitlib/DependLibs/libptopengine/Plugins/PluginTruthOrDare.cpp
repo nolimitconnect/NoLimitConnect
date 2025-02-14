@@ -73,10 +73,11 @@ bool PluginTruthOrDare::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSe
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginTruthOrDare::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
+bool PluginTruthOrDare::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
-	m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleTruthOrDare, onlineId );
-	m_VideoFeedMgr.fromGuiStartPluginSession( false, eAppModuleTruthOrDare, onlineId );
+    bool result = m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleTruthOrDare, onlineId );
+    result &= m_VideoFeedMgr.fromGuiStartPluginSession( false, eAppModuleTruthOrDare, onlineId );
+    return result;
 }
 
 //============================================================================

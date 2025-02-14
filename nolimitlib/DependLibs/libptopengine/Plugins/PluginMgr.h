@@ -63,7 +63,7 @@ public:
 
 	virtual void				fromGuiUserLoggedOn( void );
 
-	virtual void				fromGuiStartPluginSession( EPluginType pluginType, VxGUID& oOnlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() );
+	virtual bool                fromGuiStartPluginSession( EPluginType pluginType, VxGUID& oOnlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 	virtual void				fromGuiStopPluginSession( EPluginType pluginType, VxGUID& oOnlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 	virtual bool				fromGuiIsPluginInSession( EPluginType pluginType, VxGUID& onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 

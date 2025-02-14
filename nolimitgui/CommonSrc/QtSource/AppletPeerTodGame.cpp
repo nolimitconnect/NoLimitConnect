@@ -103,13 +103,13 @@ bool AppletPeerTodGame::setOfferSession( std::shared_ptr<GuiOfferSession> offerS
     m_HisIdent = offerSession->getUser();
 	if( m_HisIdent )
 	{
+		setupSessionResult = AppletPeerBase::setOfferSession( offerSession );
+
 		m_TodGameLogic.setGuiWidgets( m_HisIdent, ui.m_TodGameWidget );
 		ui.m_InstMsgWidget->setInstMsgWidgets( m_ePluginType, m_HisIdent );
 
 		ui.m_TodGameWidget->getVidWidget()->setVideoFeedId( m_HisIdent->getMyOnlineId(), eAppModuleTruthOrDare );
 		ui.m_TodGameWidget->getVidWidget()->setRecordFriendName( m_HisIdent->getOnlineName().c_str() );	
-
-        setupSessionResult = AppletPeerBase::setOfferSession( offerSession );
 	}
 
 	return setupSessionResult;
@@ -128,4 +128,10 @@ void AppletPeerTodGame::onOfferWasSet( void )
 	{
 		LogMsg( LOG_ERROR, "AppletPeerTodGame::%s user not found %s", __func__ );
 	}
+}
+
+//============================================================================
+void AppletPeerTodGame::onStateTextChanged( QString& stateText )
+{
+	ui.m_StateText->setText( stateText );
 }

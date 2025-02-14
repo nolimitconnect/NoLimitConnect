@@ -121,12 +121,14 @@ int FileInfoXferMgr::fromGuiGetFileDownloadState( uint8_t * fileHashId )
 }
 
 //============================================================================
-void FileInfoXferMgr::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
+bool FileInfoXferMgr::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	if( false == m_bIsInSession )
 	{
 		m_bIsInSession = true;
 	}
+
+	return true;
 }
 
 //============================================================================

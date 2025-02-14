@@ -47,15 +47,17 @@ void PluginInvalid::onAppStateChange( EAppState eAppState )
 		LogMsg( LOG_ERROR, "PluginInvalid::onAppStateChange unknown state");
 	}
 }
+
 //============================================================================
 //=== plugin session ===//
 //============================================================================
 //============================================================================
 //! called to start service or session with remote friend
-void PluginInvalid::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
+bool PluginInvalid::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
-
+    return false;
 }
+
 //============================================================================
 //! called to stop service or session with remote friend
 void PluginInvalid::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSessionId )

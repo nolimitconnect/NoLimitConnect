@@ -42,6 +42,7 @@ public:
 
 	GuiUser*					getUser( void )								{ return m_OfferInfo.getUser(); }
 	VxGUID&						getOnlineId( void );
+	VxGUID&						getCreatorOnlineId( void )					{ return m_OfferInfo.getCreatorId(); }
 
 	EPluginType					getPluginType( void )						{ return m_OfferInfo.getPluginType(); }
 

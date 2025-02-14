@@ -132,9 +132,10 @@ void PluginCamClient::callbackVideoPktPicChunk( VxGUID& feedId, PktVideoFeedPicC
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginCamClient::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
+bool PluginCamClient::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	LogMsg( LOG_VERBOSE, "PluginCamClient::%s %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
+    bool result{false};
 	AutoPluginLock pluginMutexLock( this );
 	RxSession* rxSession = m_PluginSessionMgr.findRxSessionByOnlineId( onlineId, true );
 	if( !rxSession )
@@ -159,14 +160,16 @@ void PluginCamClient::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSes
 
 		requestCamSession( rxSession, false );
 
-		m_VideoFeedMgr.fromGuiStartPluginSession( true, eAppModuleCamClient, onlineId, false );
-		m_VoiceFeedMgr.fromGuiStartPluginSession( true, eAppModuleCamClient, onlineId, false );
+        result = m_VideoFeedMgr.fromGuiStartPluginSession( true, eAppModuleCamClient, onlineId, false );
+        result &= m_VoiceFeedMgr.fromGuiStartPluginSession( true, eAppModuleCamClient, onlineId, false );
 		setIsPluginInSession( true );
 	}
 	else
 	{
 		LogMsg( LOG_VERBOSE, "PluginCamClient::fromGuiStartPluginSession could not connect to %s", m_Engine.describeUser( onlineId ).c_str() );
 	}
+
+    return result;
 }
 
 //============================================================================

@@ -21,7 +21,7 @@ public:
 	//! handle app state change
 	virtual void				onAppStateChange( EAppState eAppState );
 	//! called to start service or session with remote friend
-    virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    virtual bool                fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 	//! called to stop service or session with remote friend
     virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 	//! return true if is plugin session
@@ -37,6 +37,6 @@ public:
 	void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override {};
 
 	//=== methods ===//
-    virtual	void				fromGuiStartPluginSession( PluginSessionBase* poOffer ) override {};
+	bool						fromGuiStartPluginSession( PluginSessionBase* poOffer ) override { return false; };
 
 };

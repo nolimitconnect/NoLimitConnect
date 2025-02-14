@@ -125,8 +125,8 @@ public:
 
 	virtual void				fromGuiUserLoggedOn( void )								{};
 
-	virtual void				fromGuiStartPluginSession( PluginSessionBase* poOffer )	{};
-    virtual void				fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() )	{};
+	virtual bool                fromGuiStartPluginSession( PluginSessionBase* poOffer )	{ return true; };
+    virtual bool                fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() )	{ return true; };
     virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() )	{};
     virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() )	{ return true; }
 

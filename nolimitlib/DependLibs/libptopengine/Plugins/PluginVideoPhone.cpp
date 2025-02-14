@@ -90,10 +90,11 @@ bool PluginVideoPhone::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSes
 }
 
 //============================================================================
-void PluginVideoPhone::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
+bool PluginVideoPhone::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
-	m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleVideoPhone, onlineId );
-	m_VideoFeedMgr.fromGuiStartPluginSession( false, eAppModuleVideoPhone, getEngine().getMyOnlineId() );
+    bool result = m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleVideoPhone, onlineId );
+    result &= m_VideoFeedMgr.fromGuiStartPluginSession( false, eAppModuleVideoPhone, getEngine().getMyOnlineId() );
+    return result;
 }
 
 //============================================================================

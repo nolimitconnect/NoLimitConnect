@@ -66,6 +66,24 @@ void AppletPeerVideoPhone::callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType 
 }
 
 //============================================================================
+bool AppletPeerVideoPhone::setOfferSession( std::shared_ptr<GuiOfferSession> offerSession )
+{
+	bool setupSessionResult{ false };
+    m_HisIdent = offerSession->getUser();
+	if( m_HisIdent )
+	{
+		setupSessionResult = AppletPeerBase::setOfferSession( offerSession );
+
+		ui.m_InstMsgWidget->setInstMsgWidgets( m_ePluginType, m_HisIdent );
+
+		ui.m_CamVidWidget->setVideoFeedId( m_HisIdent->getMyOnlineId(), eAppModuleVideoPhone );
+		ui.m_CamVidWidget->setRecordFriendName( m_HisIdent->getOnlineName().c_str() );	
+	}
+
+	return setupSessionResult;
+}
+
+//============================================================================
 void AppletPeerVideoPhone::onOfferWasSet( void )
 {
 	OfferBaseInfo& offerInfo = getOfferInfo();
@@ -78,4 +96,10 @@ void AppletPeerVideoPhone::onOfferWasSet( void )
 	{
 		LogMsg( LOG_ERROR, "AppletPeerVideoPhone::%s user not found", __func__ );
 	}
+}
+
+//============================================================================
+void AppletPeerVideoPhone::onStateTextChanged( QString& stateText )
+{
+	ui.m_StateText->setText( stateText );
 }

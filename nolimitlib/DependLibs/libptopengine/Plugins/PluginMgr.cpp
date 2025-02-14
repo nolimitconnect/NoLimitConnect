@@ -873,15 +873,16 @@ void PluginMgr::pluginApiWantMediaInput( EPluginType pluginType, EMediaInputType
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginMgr::fromGuiStartPluginSession( EPluginType pluginType, VxGUID& onlineId, VxGUID lclSessionId )
+bool PluginMgr::fromGuiStartPluginSession( EPluginType pluginType, VxGUID& onlineId, VxGUID lclSessionId )
 {
+    bool result{false};
 	PluginBase* plugin = getPlugin( pluginType );
 	if( plugin )
 	{
 		VxNetIdent* netIdent = m_BigListMgr.findNetIdent( onlineId );
 		if( netIdent )
 		{
-			plugin->fromGuiStartPluginSession( onlineId, lclSessionId );
+            result = plugin->fromGuiStartPluginSession( onlineId, lclSessionId );
 		}
 		else
 		{
@@ -893,7 +894,9 @@ void PluginMgr::fromGuiStartPluginSession( EPluginType pluginType, VxGUID& onlin
 	else
 	{
 		LogMsg( LOG_ERROR, "PluginMgr::fromGuiStartPluginSession: invalid plugin type %d", pluginType );
-	}	
+    }
+
+    return result;
 }
 
 //============================================================================

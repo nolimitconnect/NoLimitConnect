@@ -140,7 +140,6 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
 
     callbackActiveOfferCount( m_MyApp.getOfferMgr().getActiveOfferCount(),  m_MyApp.getOfferMgr().getHistoryOfferCount() );
     callbackJoinRequestCount( m_MyApp.getHostJoinMgr().getJoinRequestCount() );
-    wantCallbacks( true );
 }
 
 //============================================================================
@@ -159,18 +158,10 @@ void TitleBarWidget::wantCallbacks( bool enable )
         m_MyApp.wantToGuiActivityCallbacks( this, enable );
         m_MyApp.getOfferMgr().wantGuiOfferCallbacks( this, enable );
         m_MyApp.getHostJoinMgr().wantHostJoinCallbacks( this, enable );
-        m_MyApp.getPluginMgr().wantPluginMgrCallbacks( this, enable );
-        if( enable )
-        {
-            // check if my online id is valid before requesting cam callbacks
-            updateCamCallbackRequests();
-        }
-        else
-        {
-            m_VidCallbacksRequested = false;
-            m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, false );
-        }  
+        m_MyApp.getPluginMgr().wantPluginMgrCallbacks( this, enable ); 
     }
+
+    updateCamCallbackRequests();
 }
 
 //============================================================================
@@ -197,7 +188,7 @@ void TitleBarWidget::updateTitleBar( void )
     updateWebServerClientCount();
 
     bool isCamEnabled = m_MyApp.getCamLogic().getCameraEnable();
-    callbackToGuiCameraEnable( isCamEnabled );
+    callbackToGuiCameraEnable( isCamEnabled && isVisible() );
 
     update();
 }
@@ -234,12 +225,11 @@ void TitleBarWidget::showEvent( QShowEvent* showEvent )
 //============================================================================
 void TitleBarWidget::hideEvent( QHideEvent* ev )
 {
+    QWidget::hideEvent( ev );
     if( m_CallbacksRequested && ( false == VxIsAppShuttingDown() ) )
     {
         wantCallbacks( false );
     }
-
-    QWidget::hideEvent( ev );
 }
 
 //============================================================================
@@ -902,9 +892,27 @@ void TitleBarWidget::callbackJoinRequestCount( int requestCnt )
 //============================================================================
 void TitleBarWidget::updateCamCallbackRequests( void )
 {
-    if( !m_VidCallbacksRequested && m_MyApp.getMyOnlineId().isVxGUIDValid() )
+    if( m_CallbacksRequested != m_VidCallbacksRequested )
     {
-        m_VidCallbacksRequested = true;
-        m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, true );
+        if( m_CallbacksRequested )
+        {
+            // check if my online id is valid before requesting cam callbacks
+            if( !m_MyOnlineId.isVxGUIDValid() )
+            {
+                m_MyOnlineId = m_MyApp.getMyOnlineId();
+            }
+
+            if( isVisible() && !m_VidCallbacksRequested && m_MyApp.getMyOnlineId().isVxGUIDValid() )
+            {
+                m_VidCallbacksRequested = true;
+                m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, true );
+            }
+        }
+        else
+        {
+            m_VidCallbacksRequested = false;
+            m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, false );
+        }
     }
+
 }

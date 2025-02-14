@@ -41,6 +41,8 @@ void OfferSessionLogic::setGuiOfferSession( std::shared_ptr<GuiOfferSession>& of
     if( m_GuiOfferSession.get() )
     {
         m_OfferId = m_GuiOfferSession->getOfferId();
+		m_HisIdent = m_GuiOfferSession->getUser();
+		m_ePluginType = m_GuiOfferSession->getPluginType();
     }
     else
     {
@@ -338,7 +340,7 @@ void OfferSessionLogic::onStop()
 				setIsInSession( false );
 				if( 0 != m_HisIdent )
 				{
-                    if( m_ePluginType < eMaxNetUsePluginType )
+                    if( m_ePluginType != ePluginTypeInvalid )
 					{
                         m_OfferMgr.fromGuiToPluginOfferReply( m_ePluginType, m_HisIdent, getOfferInfo(), m_OfferId, eOfferResponseEndSession );
                         m_OfferMgr.sentOfferReply( m_ePluginType, m_OfferId, m_HisIdent, eOfferResponseEndSession );

@@ -230,7 +230,12 @@ void AppletOfferList::refreshOfferList( void )
     std::vector<std::shared_ptr<GuiOfferSession>>& offerList = m_ListViewType == eOfferViewTypeActive ? m_MyApp.getOfferMgr().getOfferList() : m_MyApp.getOfferMgr().getOfferHistoryList();
     for( auto offerSession : offerList )
     {
-        ui.m_OfferListWidget->addOrUpdateSession( offerSession.get() );
+        // do not show offers sent by myself if is active offer list
+        if( m_ListViewType == eOfferViewTypeHistory ||
+            (m_ListViewType == eOfferViewTypeActive && offerSession->getCreatorOnlineId() != m_MyApp.getMyOnlineId()) )
+        {
+            ui.m_OfferListWidget->addOrUpdateSession( offerSession.get() );
+        }
     }
 }
 

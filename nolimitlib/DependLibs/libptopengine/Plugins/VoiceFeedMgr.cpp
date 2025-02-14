@@ -41,9 +41,10 @@ VoiceFeedMgr::VoiceFeedMgr( P2PEngine& engine, PluginBase& plugin, PluginSession
 }
 
 //============================================================================
-void VoiceFeedMgr::fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantAudioCapture )
+bool VoiceFeedMgr::fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantAudioCapture )
 {
 	enableAudioCapture( true, onlineId, appModule, wantAudioCapture );
+    return true;
 }
 
 //============================================================================

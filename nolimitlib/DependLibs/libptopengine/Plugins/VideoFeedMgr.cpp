@@ -44,9 +44,10 @@ VideoFeedMgr::VideoFeedMgr( P2PEngine& engine, PluginBase& plugin, PluginSession
 }
 
 //============================================================================
-void VideoFeedMgr::fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantCamCapture )
+bool VideoFeedMgr::fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantCamCapture )
 {
 	enableVideoCapture( true, onlineId, appModule, wantCamCapture );
+    return true;
 }
 
 //============================================================================

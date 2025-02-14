@@ -274,13 +274,13 @@ void GuiOfferMgrBase::toGuiPluginSessionEnded( VxGUID& onlineId, EPluginType plu
 	}
 
 	std::shared_ptr<GuiOfferSession> offerSession = findOfferSession( pluginType, lclSessionId, guiUser );
-	if( !offerSession )
+    if( !offerSession.get() )
 	{
-		LogMsg( LOG_WARNING, "GuiOfferMgrBase::toGuiPluginSessionEnded offer of %s from %s not found", guiUser->getOnlineName().c_str() );
+        LogMsg( LOG_WARNING, "GuiOfferMgrBase::%s offer from %s not found", __func__, guiUser->getOnlineName().c_str() );
 		return;
 	}
 
-	offerSession->setOfferState( eOfferStateSessionComplete );
+    changeOfferState( offerSession, eOfferStateSessionComplete );
 
 	for( auto client : m_OfferCallbackList )
 	{
@@ -435,23 +435,28 @@ void GuiOfferMgrBase::acceptOfferButtonClicked( EPluginType pluginType, VxGUID o
 		return;
 	}
 
+	offerSession->assuredValidOfferId();
+	offerSession->setOfferResponse( eOfferResponseAccept );
+	offerSession->setOfferState( eOfferStateAccepted );
+
+	if( false == m_MyApp.getEngine().fromGuiToPluginOfferReply( offerSession->getUserIdent()->getMyOnlineId(), offerSession->getOfferInfo() ) )
+	{
+        QString strErrMsg = offerSession->getUser()->getOnlineName().c_str();
+        strErrMsg += QObject::tr( " Is Offline " );
+		m_MyApp.toGuiStatusMessage( strErrMsg.toUtf8().constData() );
+	}
+
 	if( ePluginTypePersonFileXfer == offerSession->getPluginType() )
 	{
-		offerSession->assuredValidOfferId();
-
-		//if( false == m_MyApp.getEngine().fromGuiToPluginOfferReply( offerSession->getPluginType(), offerSession->getUserIdent()->getMyOnlineId(), lclSessionId, eOfferResponseAccept );
-		//{
-  //          QString strErrMsg = offerSession->getUser()->getOnlineName().c_str();
-  //          strErrMsg += QObject::tr( " Is Offline " );
-		//	m_MyApp.toGuiStatusMessage( strErrMsg.toUtf8().constData() );
-		//}
+		removePluginSessionOffer( offerSessionId );
 	}
 	else
 	{
+		m_OfferList.emplace_back( offerSession );
         launchOfferResponseAccept( offerSession, GuiHelpers::pluginTypeToDefaultContentFrame( offerSession->getPluginType() ) );
 	}
 
-	removePluginSessionOffer( offerSessionId );
+	updateActiveOfferCount();
 }
 
 //========================================================================
@@ -469,6 +474,7 @@ void GuiOfferMgrBase::rejectOfferButtonClicked( EPluginType pluginType, VxGUID o
 		&& offerSession->isAvailableAndActiveOffer() )
 	{
 		offerSession->getOfferInfo().setOfferResponse( eOfferResponseReject );
+		offerSession->setOfferState( eOfferStateRejected );
 		bool sentMsg = m_MyApp.getEngine().fromGuiToPluginOfferReply( offerSession->getUserIdent()->getMyOnlineId(), offerSession->getOfferInfo() );
 
 		if( false == sentMsg )
@@ -476,8 +482,17 @@ void GuiOfferMgrBase::rejectOfferButtonClicked( EPluginType pluginType, VxGUID o
 			LogMsg( LOG_INFO, "ActivityOfferListDlg::%s user went offline", __func__ );
 		}
 	}
-
-	removePluginSessionOffer( offerSessionId );
+	
+	if( ePluginTypePersonFileXfer == offerSession->getPluginType() )
+	{
+		removePluginSessionOffer( offerSessionId );
+	}
+	else
+	{
+		moveToHistory( offerSessionId );
+	}
+	
+	updateActiveOfferCount();
 }
 
 //========================================================================
@@ -633,6 +648,14 @@ std::shared_ptr<GuiOfferSession> GuiOfferMgrBase::findOfferSession( EPluginType 
 		}
 	}
 
+	for( auto offerSession : m_OfferHistory )
+	{
+		if( offerSession->getPluginType() == pluginType && offerSession->getUser() == guiUser && offerSession->getOfferId() == sessionId )
+		{
+			return offerSession;
+		}
+	}
+
 	return nullptr;
 }
 
@@ -702,7 +725,10 @@ bool GuiOfferMgrBase::fromGuiMakePluginOffer( QWidget* parent, EPluginType plugi
 			if( appletPeerBase )
 			{
 				std::shared_ptr<GuiOfferSession> offerSession = createOfferSession( guiUser, offerInfo );
+				offerSession->setOfferState( eOfferStateSent );
+				m_OfferList.emplace_back( offerSession );
 				appletPeerBase->setOfferSession( offerSession );
+				updateActiveOfferCount();
 			}
 		}
 	}
@@ -723,6 +749,10 @@ bool GuiOfferMgrBase::fromGuiToPluginOfferReply( EPluginType pluginType, GuiUser
 	offerInfo.setCreationTime( GetGmtTimeMs() );
 	offerInfo.setOfferResponse( offerResponse );
 	offerInfo.setOfferMgr( eOfferMgrClient );
+    if( offerResponse == eOfferResponseEndSession )
+    {
+        toGuiPluginSessionEnded( guiUser->getMyOnlineId(), pluginType, offerInfo.getOfferId() );
+    }
 
 	bool result = m_MyApp.getFromGuiInterface().fromGuiToPluginOfferReply( guiUser->getMyOnlineId(), offerInfo );
 	if( result )
@@ -738,23 +768,18 @@ void GuiOfferMgrBase::updateActiveOfferCount( void )
 {
 	if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferMgrBase::%s ", __func__ );
 	int activeCnt = 0;
-	int historyCnt = 0;
 	for( auto offerSession : m_OfferList )
 	{
-		if( offerSession->isAvailableAndActiveOffer() )
+		if( offerSession->getCreatorOnlineId() != m_MyApp.getMyOnlineId() && offerSession->isAvailableAndActiveOffer() )
 		{
 			activeCnt++;
-		}
-		else
-		{
-			historyCnt++;
 		}
 	}
 
     if( activeCnt != m_LastActiveOfferCount )
 	{
         m_LastActiveOfferCount = activeCnt;
-        int historyOfferCount = getHistoryOfferCount() + historyCnt;
+        int historyOfferCount = getHistoryOfferCount();
 		for( auto client : m_OfferCallbackList )
 		{
             client->callbackActiveOfferCount( activeCnt, historyOfferCount );
@@ -845,6 +870,7 @@ bool GuiOfferMgrBase::rejectOffer( GuiOfferSession* offerSessionIn, QWidget* con
 	{
 		GuiOfferInfo& offerInfo = offerSession->getOfferInfo();
 		offerInfo.setOfferResponse( eOfferResponseReject );
+		changeOfferState( offerSession, eOfferStateRejected );
 		offerSent = m_MyApp.getEngine().fromGuiToPluginOfferReply( offerSession->getUserIdent()->getMyOnlineId(), offerSession->getOfferInfo() );
 		if( !offerSent )
 		{

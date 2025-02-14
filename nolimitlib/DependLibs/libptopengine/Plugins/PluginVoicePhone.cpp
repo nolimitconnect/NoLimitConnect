@@ -68,9 +68,9 @@ bool PluginVoicePhone::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSes
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginVoicePhone::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID )
+bool PluginVoicePhone::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID )
 {
-	m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleVoicePhone, onlineId );
+    return m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleVoicePhone, onlineId );
 }
 
 //============================================================================

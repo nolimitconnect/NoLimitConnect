@@ -13,10 +13,7 @@
 #include "ActivityMessageBox.h"
 #include "AppCommon.h"
 #include "AppGlobals.h"
-
 #include "IdentWidget.h"
-#include "SoundMgr.h"
-
 #include "GuiOfferSession.h"
 #include "GuiParams.h"
 #include "GuiPluginMgr.h"
@@ -24,23 +21,23 @@
 #include "VidWidget.h"
 #include "VxPushButton.h"
 
-#include <QLabel>
-
 #include <P2PEngine/P2PEngine.h>
 
+#include <QLabel>
 
 //============================================================================
 AppletPeerBase::AppletPeerBase(	const char* objName, AppCommon& app, QWidget* parent )
 : AppletHostBase( objName, app, parent )
 , m_OfferSessionLogic( this, this, app )
 {
-	setupAppletPeerBase();
+	wantActivityCallbacks( true );
 	m_MyApp.getOfferMgr().wantGuiOfferCallbacks( this, true );
 }
 
 //============================================================================
 AppletPeerBase::~AppletPeerBase()
 {
+	wantActivityCallbacks( false );
 	m_MyApp.getOfferMgr().wantGuiOfferCallbacks( this, false );
 }
 
@@ -48,14 +45,6 @@ AppletPeerBase::~AppletPeerBase()
 void AppletPeerBase::onActivityFinish( void )
 {
 	m_OfferSessionLogic.onStop();
-}
-
-//============================================================================
-void AppletPeerBase::setupAppletPeerBase( void )
-{
-	//m_Engine.fromGuiMuteMicrophone( false );
-	//m_Engine.fromGuiMuteSpeaker( false );
-	wantActivityCallbacks( true );
 }
 
 //============================================================================
@@ -111,7 +100,7 @@ void AppletPeerBase::setupBaseWidgets( GuiUser*	guiUser, IdentWidget* friendIden
 void AppletPeerBase::showEvent( QShowEvent* ev )
 {
 	AppletBase::showEvent( ev );
-    if( ePluginTypeInvalid == m_ePluginType )
+    if( ePluginTypeInvalid != m_ePluginType )
     {
         m_MyApp.getPluginMgr().setPluginVisible( m_ePluginType, true );
         wantActivityCallbacks( true );
@@ -121,13 +110,12 @@ void AppletPeerBase::showEvent( QShowEvent* ev )
 //============================================================================
 void AppletPeerBase::hideEvent( QHideEvent* ev )
 {
-    if( ePluginTypeInvalid == m_ePluginType )
+	AppletBase::hideEvent( ev );
+    if( ePluginTypeInvalid != m_ePluginType )
     {
         m_MyApp.getPluginMgr().setPluginVisible( m_ePluginType, false );
         wantActivityCallbacks( false );
     }
-
-    AppletBase::hideEvent( ev );
 }
 
 //============================================================================   
@@ -231,6 +219,8 @@ bool AppletPeerBase::setOfferSession( std::shared_ptr<GuiOfferSession> offerSess
 { 
 	m_OfferSessionLogic.setGuiOfferSession( offerSession );
 	onOfferWasSet();
+	showState( offerSession->getOfferState() );
+
 	return true;
 }
 
@@ -239,4 +229,24 @@ void AppletPeerBase::slotEndSession( void )
 {
 	onActivityFinish();
 	closeApplet();
+}
+
+//============================================================================
+void AppletPeerBase::showState( EOfferState offerState )
+{
+	QString offerText = GuiParams::describeOfferState( offerState );
+	onStateTextChanged( offerText );
+}
+
+//============================================================================
+void AppletPeerBase::callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState oldOfferState, EOfferState newOfferState )
+{
+	showState( newOfferState );
+	if( eOfferStateRxedByUser == newOfferState || eOfferStateAccepted )
+	{
+		if( m_MyApp.getFromGuiInterface().fromGuiStartPluginSession( getPluginType(), offerSession->getMyOnlineId(), offerSession->getOfferId() ) )
+		{
+
+		}
+	}
 }

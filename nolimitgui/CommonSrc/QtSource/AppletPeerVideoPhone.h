@@ -29,14 +29,16 @@ public:
 	virtual ~AppletPeerVideoPhone() override = default;
 
 	//! called by base class with in session state
-    virtual void				onInSession( bool isInSession ) override;
+    void						onInSession( bool isInSession ) override;
 	void				        callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg ) override;
 
-protected:
+	bool						setOfferSession( std::shared_ptr<GuiOfferSession> offerSession ) override;
 
+protected:
     void						toGuiInstMsg( GuiUser* friendIdent, EPluginType pluginType, QString instMsg ) override;
 
 	void						onOfferWasSet( void ) override;
+	void						onStateTextChanged( QString& stateText ) override;
 
 	//=== vars ===//
 	Ui::AppletPeerVideoPhoneUi&	ui;

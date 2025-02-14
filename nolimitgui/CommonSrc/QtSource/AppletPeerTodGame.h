@@ -39,6 +39,7 @@ protected:
 	void				        callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg ) override;
 
 	void						onOfferWasSet( void ) override;
+	void						onStateTextChanged( QString& stateText ) override;
 
 	//=== vars ===//
 	Ui::AppletPeerTodGameUi&	ui;

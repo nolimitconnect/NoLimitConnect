@@ -106,8 +106,9 @@ bool PluginBaseMultimedia::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lc
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginBaseMultimedia::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
+bool PluginBaseMultimedia::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
+    return true;
 }
 
 //============================================================================

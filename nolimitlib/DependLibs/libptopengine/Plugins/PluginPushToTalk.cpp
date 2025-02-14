@@ -68,9 +68,10 @@ bool PluginPushToTalk::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSes
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginPushToTalk::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID )
+bool PluginPushToTalk::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID )
 {
 	//m_PushToTalkFeedMgr.fromGuiStartPluginSession( false, onlineId );
+    return true;
 }
 
 //============================================================================

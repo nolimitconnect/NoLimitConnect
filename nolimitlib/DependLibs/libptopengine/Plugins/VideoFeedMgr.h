@@ -32,7 +32,7 @@ public:
 	VideoFeedMgr( P2PEngine& engine, PluginBase& plugin, PluginSessionMgr& sessionMgr );
 	virtual ~VideoFeedMgr() = default;
 
-    virtual void				fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantCamCapture = true );
+    virtual bool                fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantCamCapture = true );
     virtual void				fromGuiStopPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantCamCapture = true );
 
 	virtual void				onPktVideoFeedReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );

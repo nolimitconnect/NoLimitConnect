@@ -61,7 +61,7 @@ protected:
     void				        callbackToGuiRxedPluginOffer( std::shared_ptr<GuiOfferSession>& offer ) override;
     void				        callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession>& offerReply ) override;
     void				        callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg ) override {};
-    void				        callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState oldOfferState, EOfferState newOfferState ) override {};
+    void				        callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState oldOfferState, EOfferState newOfferState ) override;
     void				        callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offer ) override;
 
 	void				        callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 ) override;
@@ -80,11 +80,13 @@ protected:
     void				        hideEvent( QHideEvent* ev ) override;
     void				        closeEvent( QCloseEvent * ev ) override;
 
+    void                        showState( EOfferState offerState );
+    virtual void                onStateTextChanged( QString& stateText ) {};
+
 	//=== vars ===//
     bool						m_bFirstMsg{false};
     VidWidget *					m_VidCamWidget{nullptr};
 	OfferSessionLogic			m_OfferSessionLogic;
 
-private:
-    void						setupAppletPeerBase( void );
+
 };

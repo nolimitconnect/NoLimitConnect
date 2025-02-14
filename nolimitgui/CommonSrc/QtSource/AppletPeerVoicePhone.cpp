@@ -79,3 +79,9 @@ void AppletPeerVoicePhone::onOfferWasSet( void )
 		LogMsg( LOG_ERROR, "AppletPeerVoicePhone::%s user not found %s", __func__ );
 	}
 }
+
+//============================================================================
+void AppletPeerVoicePhone::onStateTextChanged( QString& stateText )
+{
+	ui.m_StateText->setText( stateText );
+}

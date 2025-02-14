@@ -653,7 +653,7 @@ signals:
     void						signalAssetViewMsgAction( EAssetAction, VxGUID onlineId, int pos0to100000 );
     void						signalBlobViewMsgAction( EAssetAction, VxGUID onlineId, int pos0to100000 );
 
-    void						signalToGuiInstMsg( GuiUser* guiUser, EPluginType pluginType, QString pMsg );
+    void						signalToGuiInstMsg( VxGUID onlineId, EPluginType pluginType, QString pMsg );
 
     void						signalMicrophonePeak( int peekVal0to32768 );
 
@@ -822,7 +822,7 @@ protected slots:
 
     void						slotOnNotifyIconFlashTimeout( bool bWhite );
 
-    void						slotToGuiInstMsg( GuiUser* guiUser, EPluginType pluginType, QString pMsg );
+    void						slotToGuiInstMsg( VxGUID onlineId, EPluginType pluginType, QString pMsg );
 
     void						slotRelayHelpButtonClicked( void );
     void						slotSetRelayHelpButtonVisibility( bool isVisible );

@@ -523,10 +523,10 @@ void P2PEngine::fromGuiUpdateWebPageProfile(	const char*	pProfileDir,	// directo
 }
 
 //============================================================================
-void P2PEngine::fromGuiStartPluginSession( EPluginType pluginType, VxGUID oOnlineId, VxGUID lclSessionId )
+bool P2PEngine::fromGuiStartPluginSession( EPluginType pluginType, VxGUID oOnlineId, VxGUID lclSessionId )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiStartPluginSession" );
-	m_PluginMgr.fromGuiStartPluginSession( pluginType, oOnlineId, lclSessionId );
+	return m_PluginMgr.fromGuiStartPluginSession( pluginType, oOnlineId, lclSessionId );
 }
 
 //============================================================================

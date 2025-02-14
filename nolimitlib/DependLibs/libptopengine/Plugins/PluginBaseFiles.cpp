@@ -52,7 +52,7 @@ void PluginBaseFiles::onAfterUserLogOnThreaded( void )
 }
 
 //============================================================================
-void PluginBaseFiles::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
+bool PluginBaseFiles::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	return m_FileInfoXferMgr.fromGuiStartPluginSession( onlineId, lclSessionId );
 }

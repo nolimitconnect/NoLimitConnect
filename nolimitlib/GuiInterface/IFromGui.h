@@ -161,7 +161,7 @@ public:
 	virtual EPluginServerState	fromGuiGetPluginServerState( EPluginType pluginType ) = 0;
 
 	/// Start plugin session or server
-	virtual void				fromGuiStartPluginSession( EPluginType pluginType, VxGUID onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() ) = 0;
+	virtual bool                fromGuiStartPluginSession( EPluginType pluginType, VxGUID onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() ) = 0;
 	/// Stop plugin session or server
 	virtual void				fromGuiStopPluginSession( EPluginType pluginType, VxGUID onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID()  ) = 0;
 	/// Return true if plugin is in session

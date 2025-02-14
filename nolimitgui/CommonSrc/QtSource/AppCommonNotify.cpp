@@ -99,16 +99,25 @@ void AppCommon::toGuiInstMsg( VxNetIdent* netIdent, EPluginType	pluginType, cons
 		return;
 	}
 
-	emit signalToGuiInstMsg( m_UserMgr.getUser( netIdent->getMyOnlineId() ), pluginType, pMsg );
+	emit signalToGuiInstMsg( netIdent->getMyOnlineId(), pluginType, pMsg );
 }
 
 //============================================================================
-void AppCommon::slotToGuiInstMsg( GuiUser* guiUser, EPluginType pluginType, QString pMsg )
+void AppCommon::slotToGuiInstMsg( VxGUID onlineId, EPluginType pluginType, QString pMsg )
 {
+	GuiUser* guiUser = m_UserMgr.getUser( onlineId );
+	if( !guiUser )
+	{
+        LogMsg( LOG_ERROR, "AppCommon::%s null guiUser", __func__ );
+        vx_assert( false );
+		return;
+	}
+
 	if( m_ToGuiActivityInterfaceBusy )
     {
-        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
+        LogMsg( LOG_ERROR, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
         vx_assert( false );
+		return;
     }
 
 	m_ToGuiActivityInterfaceBusy = true;

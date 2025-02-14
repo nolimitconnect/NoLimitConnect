@@ -31,7 +31,7 @@ class VoiceFeedMgr
 public:
 	VoiceFeedMgr( P2PEngine& engine, PluginBase& plugin, PluginSessionMgr& sessionMgr );
 
-    virtual void				fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantAudioCapture = true );
+    virtual bool                fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantAudioCapture = true );
     virtual void				fromGuiStopPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantAudioCapture = true );
 
 	virtual void				onPktVoiceReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );

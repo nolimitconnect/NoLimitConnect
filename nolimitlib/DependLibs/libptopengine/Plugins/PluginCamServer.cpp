@@ -136,12 +136,14 @@ void PluginCamServer::callbackVideoPktPicChunk( VxGUID& feedId, PktVideoFeedPicC
 
 //============================================================================
 //! called to start service or session with remote friend
-void PluginCamServer::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
+bool PluginCamServer::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
+    bool result{false};
 	if( onlineId == m_Engine.getMyOnlineId() )
 	{
 		LogModule( eLogWebCam, LOG_INFO, "PluginCamServer::fromGuiStartPluginSession is ME" );
 		enableCamServerService( true );
+        result = true;
 	}
 	else
 	{
@@ -170,8 +172,8 @@ void PluginCamServer::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSes
 
 			requestCamSession( rxSession, false );
 
-			m_VideoFeedMgr.fromGuiStartPluginSession( true, eAppModuleCamServer, onlineId );
-			m_VoiceFeedMgr.fromGuiStartPluginSession( true, eAppModuleCamServer, onlineId );
+            result = m_VideoFeedMgr.fromGuiStartPluginSession( true, eAppModuleCamServer, onlineId );
+            result &= m_VoiceFeedMgr.fromGuiStartPluginSession( true, eAppModuleCamServer, onlineId );
 			setIsPluginInSession( true );
 		}
 		else
@@ -179,6 +181,8 @@ void PluginCamServer::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSes
 			LogMsg( LOG_INFO, "PluginCamServer::fromGuiStartPluginSession could not connect to %s", m_Engine.describeUser( onlineId ).c_str() );
 		}
 	}
+
+    return result;
 }
 
 //============================================================================

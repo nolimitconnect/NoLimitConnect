@@ -18,6 +18,7 @@
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
+#include <CoreLib/VxTime.h>
 
 namespace
 {
@@ -68,33 +69,28 @@ void VideoFrameProcessor::slotVideoFrameChanged( const QVideoFrame& frame )
         return;
     }
 
-    if( !frame.isValid() )
+    static int64_t lastTimeMs{0};
+    int64_t timeNowMs = GetGmtTimeMs();
+    if( timeNowMs - lastTimeMs < CAM_SNAPSHOT_INTERVAL_MS )
     {
-        LogModule( eLogWebCam, LOG_WARN, "%s frame not valid", __func__ );
+        //LogModule( eLogWebCam, LOG_WARN, "%s skip frame at %lld ms", __func__, elapsedMs );
         return;
     }
+
+    lastTimeMs = timeNowMs;
 
     size_t vidQueSize = m_MediaProcessor.getVideoQueueSize();
     if( vidQueSize > 2 )
     {
-        LogModule( eLogWebCam, LOG_WARN, "%s media processor behind.. queue size is %d ", __func__, vidQueSize );
+        LogModule( eLogWebCam, LOG_WARN, "slotVideoFrameChanged media processor behind.. queue size is %d ", vidQueSize );
         return;
     }
 
     if( !m_FrameProcessed )
     {
-        LogModule( eLogWebCam, LOG_WARN, "%s prev frame not processed", __func__ );
+        LogModule( eLogWebCam, LOG_WARN, "slotVideoFrameChanged prev frame not processed" );
         return;
     }
-
-    int64_t elapsedMs = m_ElapsedTimer.elapsed();
-    if( elapsedMs < CAM_SNAPSHOT_INTERVAL_MS )
-    {
-        //LogModule( eLogWebCam, LOG_WARN, "%s skip frame at %lld ms", __func__, elapsedMs );
-        return;
-    }
-   
-    m_ElapsedTimer.start();
 
     lockFrameQueue();
     m_CamImage = frame.toImage();
