@@ -12,6 +12,8 @@
 #include "AppletBase.h"
 #include "UserProfile.h"
 
+#include <PktLib/VxCommon.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
     class AppletUserIdentityUi;
@@ -19,6 +21,7 @@ namespace Ui {
 QT_END_NAMESPACE
 
 class ThumbInfo;
+
 class AppletUserIdentity : public AppletBase
 {
 	Q_OBJECT

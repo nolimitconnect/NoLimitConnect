@@ -52,7 +52,6 @@ namespace
 AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
 : AppletClientBase( OBJNAME_APPLET_SOUND_SETTINGS, app, parent )
 , ui(*(new Ui::AppletSoundSettingsUi))
-, m_PeakTimer( new QTimer( this ) )
 , m_devices( new QMediaDevices( this ) )
 {
     setAppletType( eAppletSoundSettings );
@@ -61,8 +60,6 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
 
     ui.m_AudioInPeakProgressBar->setValue( 0 );
     ui.m_AudioOutPeakProgressBar->setValue( 0 );
-
-    m_PeakTimer->setInterval( 200 );
 
     int echoDelayMs = m_MyApp.getAppSettings().getEchoDelayParam();
     ui.m_EchoDelayLineEdit->setText( QString::number( echoDelayMs ) );
@@ -111,9 +108,6 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
 
     m_MyApp.activityStateChange( this, true );
 
-    connect( m_PeakTimer, SIGNAL( timeout() ), this, SLOT( slotPeakTimerTimeout() ) );
-    m_PeakTimer->start();
-
     if( !m_MyApp.getSoundMgr().isSpeakerDeviceAvailable() )
     {
         QMessageBox::information( this, QObject::tr( "Speaker Device Unavailable" ), QObject::tr( "No speaker device is available to enable" ), QMessageBox::Ok );
@@ -128,14 +122,16 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
         //m_MyApp.getSoundMgr().setDirectLoopbackEnable( true );
         ui.m_SendMicEchoCanceledToSpeakerCheckBox->setChecked( true );
     }
+
+    m_MyApp.getSoundMgr().wantAudioLevelCallbacks( this, true );
 }
 
 //============================================================================
 AppletSoundSettings::~AppletSoundSettings()
 {
+    m_MyApp.getSoundMgr().wantAudioLevelCallbacks( this, false );
     m_MyApp.getFromGuiInterface().fromGuiPushToTalk( m_MyApp.getMyOnlineId(), false );
 
-    m_PeakTimer->stop();
     m_MyApp.getSoundMgr().setDirectLoopbackEnable( false );
     m_MyApp.activityStateChange( this, false );
 }
@@ -282,13 +278,6 @@ void AppletSoundSettings::slotApplyOutDeviceChange( void )
     {
         QMessageBox::information( this, QObject::tr( "Sound Out Device" ), QObject::tr( "No Sound Out Device Is Available" ), QMessageBox::Ok );
     }
-}
-
-//============================================================================
-void AppletSoundSettings::slotPeakTimerTimeout( void )
-{
-    ui.m_AudioInPeakProgressBar->setValue( m_MyApp.getSoundMgr().getAudioInPeakAmplitude() );
-    ui.m_AudioOutPeakProgressBar->setValue( m_MyApp.getSoundMgr().getAudioOutPeakAmplitude() );
 }
 
 //============================================================================
@@ -470,4 +459,11 @@ void AppletSoundSettings::slotSendMicEchoCanceledToSpeakerCheckBox( int checkedS
 
     ui.m_AudioInPeakProgressBar->setValue( 0 );
     ui.m_AudioOutPeakProgressBar->setValue( 0 );
+}
+
+//============================================================================
+void AppletSoundSettings::callbackGuiAudioLevel( int micLevel, int speakerLevel )
+{
+    ui.m_AudioInPeakProgressBar->setValue( micLevel );
+    ui.m_AudioOutPeakProgressBar->setValue( speakerLevel );
 }

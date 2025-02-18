@@ -10,6 +10,8 @@
 //============================================================================
 
 #include "AppletClientBase.h"
+
+#include "GuiAudioLevelCallback.h"
 #include "GuiUserUpdateCallback.h"
 
 #include "miniaudioio/AudioTestGenerator.h"
@@ -32,7 +34,7 @@ QT_END_NAMESPACE
 class VxNetIdent;
 class GuiHostSession;
 
-class AppletSoundSettings : public AppletClientBase
+class AppletSoundSettings : public AppletClientBase, public GuiAudioLevelCallback
 {
 	Q_OBJECT
 public:
@@ -57,7 +59,6 @@ protected slots:
 
     void                        slotApplyInDeviceChange( void );
     void                        slotApplyOutDeviceChange( void );
-    void                        slotPeakTimerTimeout( void );
 
     void                        slotStartTestSoundDelay( void );
     void                        slotEchoDelaySaveButtonClicked( void );
@@ -79,9 +80,10 @@ protected:
 
     void                        showEchoDelayTestResults( void );
 
+    void						callbackGuiAudioLevel( int micLevel, int speakerLevel ) override;
+
     //=== vars ===//
     Ui::AppletSoundSettingsUi&  ui;
-    QTimer*                     m_PeakTimer{ nullptr };
 
     QMediaDevices*              m_devices = nullptr;
     QScopedPointer<AudioTestGenerator>   m_Test8000HzMono200HzToneGenerator;

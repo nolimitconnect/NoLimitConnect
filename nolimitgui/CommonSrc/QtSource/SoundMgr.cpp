@@ -12,6 +12,7 @@
 
 #include "AppCommon.h"
 #include "AppSettings.h"
+#include "GuiAudioLevelCallback.h"
 #include "VxSndInstance.h"
 
 #include <CoreLib/VxDebug.h>
@@ -29,7 +30,10 @@ SoundMgr& GetSndMgrInstance( void )
 //============================================================================
 SoundMgr::SoundMgr( AppCommon& app )
 	: MiniAudioMgr( app, app, &app )
+	, m_AudioLevelPeekTimer( new QTimer( this ) )
 {
+	m_AudioLevelPeekTimer->setInterval( 500 );
+	connect( m_AudioLevelPeekTimer, SIGNAL(timeout()), this, SLOT(slotAudioPeekTimeout()) );
 }
 
 //============================================================================ 
@@ -165,5 +169,56 @@ void SoundMgr::slotSndFinished( VxSndInstance * sndInstance )
 	if( m_CurSndPlaying == sndInstance )
 	{
 		m_CurSndPlaying = 0;
+	}
+}
+
+//============================================================================
+void SoundMgr::wantAudioLevelCallbacks( GuiAudioLevelCallback* client, bool enable )
+{
+	for( auto iter = m_AudioLevelClientList.begin(); iter != m_AudioLevelClientList.end(); ++iter )
+	{
+        if( client == *iter )
+		{
+			if( enable )
+			{
+				return;
+			}
+			else
+			{
+				m_AudioLevelClientList.erase( iter );
+				if( 0 == m_AudioLevelClientList.size() )
+				{
+					m_AudioLevelPeekTimer->stop();
+				}
+
+				return;
+			}
+		}
+	}
+
+	if( enable )
+	{
+		m_AudioLevelClientList.emplace_back( client );
+		if( 1 == m_AudioLevelClientList.size() )
+		{
+			m_AudioLevelPeekTimer->start();
+		}
+	}
+}
+
+//============================================================================
+void SoundMgr::slotAudioPeekTimeout( void )
+{
+	if( m_AudioLevelClientList.empty() )
+	{
+		return;
+	}
+
+	int micLevel = isMicrophoneEnabled() && !getIsMicrophoneMuted() ? getAudioInPeakAmplitude() : 0;
+	int speakerLevel = isSpeakerEnabled() && !getIsSpeakerMuted() ? getAudioOutPeakAmplitude() : 0;
+
+	for( auto client : m_AudioLevelClientList )
+	{
+		client->callbackGuiAudioLevel( micLevel, speakerLevel );
 	}
 }

@@ -38,7 +38,6 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
 , m_MyApp( GetAppInstance() )
 , m_OfferMgr( m_MyApp.getOfferMgr() )
 , m_CamTimer(new QTimer(this))
-, m_MicrophonePeekTimer( new QTimer( this ) )
 {
 	ui.setupUi( this );
 
@@ -127,13 +126,12 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
 
     connect( m_CamTimer,                    SIGNAL(timeout()),                          this, SLOT(slotCamTimeout()) );
 
-    connect( m_MicrophonePeekTimer,         SIGNAL(timeout()),                          this, SLOT(slotMicrophonePeekTimeout()) );
-
     connect( ui.m_NetAvailStatusWidget,     SIGNAL(clicked()),                          this, SLOT(slotSignalHelpClick()) );
 
     connect( ui.m_MenuButton,               SIGNAL(clicked()),                          this, SLOT(slotTitleBarUserMenuButtonClicked()) );
 
     ui.m_MicVolPeakBar->setFixedWidth( GuiParams::getDefaultFontHeight() / 2 );
+    ui.m_MicVolPeakBar->setRange( 0, 50 ); // make twice as sensitive to make it more obvious
 
     updateTitleBar();
     connect( &m_MyApp,                      SIGNAL(signalSystemReady(bool)),            this, SLOT(slotSystemReady(bool)) );
@@ -162,12 +160,12 @@ void TitleBarWidget::wantCallbacks( bool enable )
     }
 
     updateCamCallbackRequests();
+    updateAudioLevelCallbackRequests();
 }
 
 //============================================================================
 void TitleBarWidget::updateTitleBar( void )
 {
-    checkTitleBarIconsFit();
     SoundMgr& sndMgr = m_MyApp.getSoundMgr();
     bool isMicEnabled = sndMgr.isMicrophoneEnabled();
     callbackToGuiWantMicrophoneRecording( isMicEnabled );
@@ -200,6 +198,7 @@ void TitleBarWidget::slotSystemReady( bool isReady )
     {
         updateTitleBar();        
         updateCamCallbackRequests();
+        updateAudioLevelCallbackRequests();
     }
 }
 
@@ -750,30 +749,23 @@ void TitleBarWidget::slotApplicationIconClicked( void )
 //============================================================================
 void TitleBarWidget::callbackToGuiWantMicrophoneRecording( bool wantMicInput )
 {
-    m_MicrophonePlaying = wantMicInput;
-
-    if( wantMicInput )
+    if( m_MicrophonePlaying != wantMicInput )
     {
-        m_MicrophonePeekTimer->start( 500 );
-        ui.m_MuteMicButton->setVisible( true );
-        ui.m_MicVolPeakBar->setVisible( true );
-        ui.m_MicVolPeakBar->setValue( 0 );
-    }
-    else
-    {
-        m_MicrophonePeekTimer->stop();
-        ui.m_MuteMicButton->setVisible( false );
-        ui.m_MicVolPeakBar->setVisible( false );
-    }
+        m_MicrophonePlaying = wantMicInput;
+        if( wantMicInput )
+        {
+            ui.m_MuteMicButton->setVisible( true );
+            ui.m_MicVolPeakBar->setVisible( true );
+            ui.m_MicVolPeakBar->setValue( 0 );
+        }
+        else
+        {
+            ui.m_MuteMicButton->setVisible( false );
+            ui.m_MicVolPeakBar->setVisible( false );
+        }
 
-    checkTitleBarIconsFit();
-}
-
-//============================================================================
-void TitleBarWidget::slotMicrophonePeekTimeout()
-{
-    // LogMsg( LOG_VERBOSE, "slotMicrophonePeekTimeout %d", m_MyApp.getSoundMgr().getMicrophonePeakValue0To100() );
-    ui.m_MicVolPeakBar->setValue( m_MyApp.getSoundMgr().getMicrophonePeakValue() );
+        checkTitleBarIconsFit();
+    }
 }
 
 //============================================================================
@@ -914,5 +906,41 @@ void TitleBarWidget::updateCamCallbackRequests( void )
             m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, false );
         }
     }
+}
 
+//============================================================================
+void TitleBarWidget::updateAudioLevelCallbackRequests( void )
+{
+    if( m_CallbacksRequested != m_AudioLevelCallbacksRequested )
+    {
+        if( m_CallbacksRequested )
+        {
+            // check if my online id is valid before requesting cam callbacks
+            if( !m_MyOnlineId.isVxGUIDValid() )
+            {
+                m_MyOnlineId = m_MyApp.getMyOnlineId();
+            }
+
+            if( isVisible() && !m_AudioLevelCallbacksRequested )
+            {
+                m_AudioLevelCallbacksRequested = true;
+                m_MyApp.getSoundMgr().wantAudioLevelCallbacks( this, true );
+            }
+        }
+        else
+        {
+            m_AudioLevelCallbacksRequested = false;
+            m_MyApp.getSoundMgr().wantAudioLevelCallbacks( this, false );
+        }
+    }
+}
+
+//============================================================================
+void TitleBarWidget::callbackGuiAudioLevel( int micLevel, int speakerLevel )
+{
+    if( m_LastMicLevel != micLevel )
+    {
+        m_LastMicLevel = micLevel;
+        ui.m_MicVolPeakBar->setValue( micLevel );
+    }
 }

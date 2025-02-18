@@ -386,10 +386,10 @@
          </size>
         </property>
         <property name="maximum">
-         <number>32768</number>
+         <number>100</number>
         </property>
         <property name="value">
-         <number>3000</number>
+         <number>0</number>
         </property>
         <property name="orientation">
          <enum>Qt::Orientation::Vertical</enum>

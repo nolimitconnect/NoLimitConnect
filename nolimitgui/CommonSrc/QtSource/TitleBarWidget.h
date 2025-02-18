@@ -11,6 +11,7 @@
 
 #include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 
+#include "GuiAudioLevelCallback.h"
 #include "GuiHostJoinCallback.h"
 #include "GuiOfferCallback.h"
 #include "GuiPlayerCallback.h"
@@ -41,6 +42,7 @@ class VxPushButton;
 class TitleBarWidget : public QWidget, 
 				public ToGuiActivityInterface, 
 	public ToGuiHardwareControlInterface, 
+	public GuiAudioLevelCallback, 
 	public GuiPlayerCallback, 
 	public GuiPluginMgrCallback, 
 	public GuiOfferCallback, 
@@ -150,8 +152,6 @@ public slots:
 
 	virtual void				slotTitleBarUserMenuButtonClicked( void );
 
-	virtual void				slotMicrophonePeekTimeout( void );
-
 protected:
 	QWidget*					getTitleBarParentFrame( void );
 	QWidget*					getTitleBarParentPage( void );
@@ -161,47 +161,49 @@ protected:
 
 	void						checkTitleBarIconsFit( void );
 
-	virtual void 				callbackToGuiWantMicrophoneRecording( bool wantMicInput ) override;
-	virtual void 				callbackToGuiWantSpeakerOutput( bool wantSpeakerOutput ) override;
-	virtual void				callbackToGuiWantVideoCapture( bool wantVideoCapture ) override;
-	virtual void				callbackToGuiMicrophoneMuted( bool isMuted ) override;
-	virtual void				callbackToGuiSpeakerMuted( bool isMuted ) override;
+	void						callbackGuiAudioLevel( int micLevel, int speakerLevel ) override;
 
-	virtual void				callbackToGuiCameraEnable( bool enableCamera ) override;
+	void						callbackToGuiWantMicrophoneRecording( bool wantMicInput ) override;
+	void						callbackToGuiWantSpeakerOutput( bool wantSpeakerOutput ) override;
+	void						callbackToGuiWantVideoCapture( bool wantVideoCapture ) override;
+	void						callbackToGuiMicrophoneMuted( bool isMuted ) override;
+	void						callbackToGuiSpeakerMuted( bool isMuted ) override;
 
-	virtual void				callbackActiveOfferCount( int activeCnt, int historyCnt ) override;
-	virtual void				callbackJoinRequestCount( int requestCnt ) override;
+	void						callbackToGuiCameraEnable( bool enableCamera ) override;
 
-	virtual void				callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 ) override;
-	virtual void				callbackGuiPlayVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame ) override;
+	void						callbackActiveOfferCount( int activeCnt, int historyCnt ) override;
+	void						callbackJoinRequestCount( int requestCnt ) override;
 
-	virtual void				callbackToGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue ) override;
+	void						callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 ) override;
+	void						callbackGuiPlayVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame ) override;
 
-	virtual void				updateWebServerClientCount( void );
+	void						callbackToGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue ) override;
+
+	void						updateWebServerClientCount( void );
 
 	void						wantCallbacks( bool enableCallbacks );
 
 	void						updateCamCallbackRequests( void );
+	void						updateAudioLevelCallbackRequests( void );
 
 	Ui::TitleBarWidgetClass&	ui;
 	AppCommon&					m_MyApp;
     GuiOfferMgr&				m_OfferMgr;
 	bool						m_MutedMic{ false };
 	bool						m_MutedSpeaker{ false };
+	bool						m_MicrophonePlaying{ false };
+	int							m_LastMicLevel{ 0 };
+
 	bool						m_CamEnabled{ false };
+	QTimer*                     m_CamTimer;
+    bool                        m_CamPlaying{ false };
+    uint64_t                    m_LastCamFrameTimeMs{ 0 };
 
     VxGUID                      m_MyOnlineId;
 	bool                        m_CallbacksRequested{ false };
 
-    QTimer*                     m_CamTimer;
-    bool                        m_CamPlaying{ false };
-    uint64_t                    m_LastCamFrameTimeMs{ 0 };
-
-	QTimer*						m_MicrophonePeekTimer;
-	bool                        m_MicrophonePlaying{ false };
-	uint64_t                    m_LastMicrophonePeekTimeMs{ 0 };
-
 	bool						m_IsPopupDialog{ false };
 	bool						m_VidCallbacksRequested{ false };
+	bool						m_AudioLevelCallbacksRequested{ false };
 	std::string					m_TitleText;
 };

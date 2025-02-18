@@ -1965,13 +1965,16 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>
       </SDLCheck>
-      <PreprocessorDefinitions>GLIB_COMPILATION;_MBCS;TARGET_OS_WINDOWS;_HAS_ITERATOR_DEBUGGING=0;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLIB_COMPILATION;_MBCS;TARGET_OS_WINDOWS;_CRT_SECURE_NO_WARNINGS;_HAS_ITERATOR_DEBUGGING=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(ProjectDir)..\..\;$(ProjectDir)..\..\..\;$(ProjectDir)..\..\..\..\;$(ProjectDir)..\..\..\;$(ProjectDir)..\..\..\..\;$(ProjectDir)..\..\..\..\sysheaders;$(ProjectDir)..\..\..\openssl-1.0.2p\include%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DebugInformationFormat />
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <LanguageStandard_C>stdc11</LanguageStandard_C>
+      <LanguageStandard_C>Default</LanguageStandard_C>
+      <CompileAsManaged>false</CompileAsManaged>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <PrecompiledHeaderOutputFile>$(IntDir)\vc$(PlatformToolsetVersion).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

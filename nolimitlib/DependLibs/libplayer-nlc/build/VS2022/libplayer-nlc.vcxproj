@@ -273,7 +273,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <AdditionalOptions>%(AdditionalOptions)  /FS</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\sysheaders;$(ProjectDir)..\..\..\libptopengine;$(ProjectDir)..\..\..\;$(ProjectDir)..\..\..\libpthread\;$(ProjectDir)..\..\xbmc\;$(ProjectDir)..\..\xbmc\cores\AudioEngine\;$(ProjectDir)..\..\;$(ProjectDir)..\..\..\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\..\;$(ProjectDir)..\..\..\..\sysheaders;$(ProjectDir)..\..\..\libptopengine;$(ProjectDir)..\..\..\;$(ProjectDir)..\..\..\libpthread\;$(ProjectDir)..\..\xbmc\;$(ProjectDir)..\..\xbmc\cores\AudioEngine\;$(ProjectDir)..\..\;$(ProjectDir)..\..\..\ffmpeg;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(SolutionDir)objs\$(TargetName)\$(Configuration)\</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <DebugInformationFormat>

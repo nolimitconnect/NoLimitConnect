@@ -19,6 +19,7 @@
 #include <QVector>
 #include <QObject>
 
+class GuiAudioLevelCallback;
 class P2PEngine;
 class QIODevice;
 class QSound;
@@ -42,6 +43,8 @@ public:
 	VxSndInstance*			    playSnd( ESndDef sndDef, bool loopContinuous = false );
 	void						stopSnd( ESndDef sndDef );
 
+	void						wantAudioLevelCallbacks( GuiAudioLevelCallback *client, bool enable );
+
 signals:
 	void						signalSndFinished( VxSndInstance* sndInstance );
 
@@ -52,6 +55,8 @@ public slots:
 	void						slotStopPhoneRinging( void );
 	void						slotPlayNotifySound( void );
 	void						slotPlayShredderSound( void );
+
+	void						slotAudioPeekTimeout( void );
 
 private slots:
 	void						slotSndFinished( VxSndInstance * sndInstance );
@@ -64,5 +69,8 @@ protected:
 
 	QVector<VxSndInstance *>	m_SndList;
 	VxSndInstance *			    m_CurSndPlaying{ nullptr };
+
+	QTimer*						m_AudioLevelPeekTimer;
+	std::vector<GuiAudioLevelCallback*> m_AudioLevelClientList;
 };
 
