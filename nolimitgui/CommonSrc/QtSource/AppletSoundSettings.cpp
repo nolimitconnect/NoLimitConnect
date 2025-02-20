@@ -59,32 +59,22 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
     ui.m_AudioInPeakProgressBar->setValue( 0 );
-    ui.m_AudioOutPeakProgressBar->setValue( 0 );
 
     int echoDelayMs = m_MyApp.getAppSettings().getEchoDelayParam();
     ui.m_EchoDelayLineEdit->setText( QString::number( echoDelayMs ) );
     ui.m_TestDelayResultLineEdit->setText( QString::number( 0 ) );
 
-    bool echoCancelEnable = m_MyApp.getAppSettings().getEchoCancelEnable();
-    ui.m_EchoCancelEnableCheckBox->setChecked( echoCancelEnable );
-    ui.m_EchoCancelEnableCheckBox->setVisible( false );
-
     connectBarWidgets();
 
-    connect( ui.m_TestSoundDelayButton, SIGNAL(clicked()), this, SLOT( slotStartTestSoundDelay() ) );
-    connect( ui.m_EchoDelaySaveButton, SIGNAL(clicked()), this, SLOT( slotEchoDelaySaveButtonClicked() ) );
+    connect( ui.m_TestSoundDelayButton, SIGNAL(clicked()), this, SLOT(slotStartTestSoundDelay()) );
+    connect( ui.m_EchoDelaySaveButton, SIGNAL(clicked()), this, SLOT(slotEchoDelaySaveButtonClicked()) );
     connect( &m_MyApp.getSoundMgr(), SIGNAL(signalTestedSoundDelay(int)), this, SLOT(slotTestedSoundDelayResult(int)), Qt::QueuedConnection );
     connect( &m_MyApp.getSoundMgr(), SIGNAL(signalAudioTestState(EAudioTestState)), this, SLOT(slotAudioTestState(EAudioTestState)), Qt::QueuedConnection );
     connect( &m_MyApp.getSoundMgr(), SIGNAL(signalAudioTestMsg(QString)), this, SLOT(slotAudioTestMsg(QString)), Qt::QueuedConnection );
 
-    //connect( ui.m_EchoCancelEnableCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotEchoCancelEnableChange(int)) );
-
-    connect( ui.m_MuteMicrophoneCheckBox, SIGNAL( stateChanged( int ) ), this, SLOT( slotMuteMicrophoneCheckBox( int ) ) );
-    connect( ui.m_MuteSpeakersCheckBox, SIGNAL( stateChanged( int ) ), this, SLOT( slotMuteSpeakerCheckBox( int ) ) );
-
-    connect( ui.m_GenerateToneCheckBox, SIGNAL( stateChanged(int) ), this, SLOT( slotGenerateToneCheckBox(int) ) );
-    connect( ui.m_SendMicDirectlyToSpeakersCheckBox, SIGNAL( stateChanged(int) ), this, SLOT( slotSendMicDirectlyToSpeakersCheckBox(int) ) );
-    connect( ui.m_SendMicEchoCanceledToSpeakerCheckBox, SIGNAL( stateChanged(int) ), this, SLOT( slotSendMicEchoCanceledToSpeakerCheckBox(int) ) );
+    connect( ui.m_GenerateToneCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotGenerateToneCheckBox(int)) );
+    connect( ui.m_SendMicDirectlyToSpeakersCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotSendMicDirectlyToSpeakersCheckBox(int)) );
+    connect( ui.m_SendMicEchoCanceledToSpeakerCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotSendMicEchoCanceledToSpeakerCheckBox(int)) );
 
     updateInAudioDevices();
 
@@ -119,17 +109,21 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
     }
     else
     {
-        //m_MyApp.getSoundMgr().setDirectLoopbackEnable( true );
         ui.m_SendMicEchoCanceledToSpeakerCheckBox->setChecked( true );
     }
 
-    m_MyApp.getSoundMgr().wantAudioLevelCallbacks( this, true );
+    ui.m_EchoCancelEnableCheckBox->setChecked( m_MyApp.getSoundMgr().getEchoCancelEnable() );
+    connect( ui.m_EchoCancelEnableCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotEchoCancelEnableChange(int)) );
+
+
+    m_MyApp.getSoundMgr().wantMicrophoneLevelCallbacks( this, true );
+    m_MyApp.getSoundMgr().wantEchoCancelEnableCallbacks( this, true );
 }
 
 //============================================================================
 AppletSoundSettings::~AppletSoundSettings()
 {
-    m_MyApp.getSoundMgr().wantAudioLevelCallbacks( this, false );
+    m_MyApp.getSoundMgr().wantMicrophoneLevelCallbacks( this, false );
     m_MyApp.getFromGuiInterface().fromGuiPushToTalk( m_MyApp.getMyOnlineId(), false );
 
     m_MyApp.getSoundMgr().setDirectLoopbackEnable( false );
@@ -395,30 +389,11 @@ void AppletSoundSettings::showEchoDelayTestResults( void )
 }
 
 //============================================================================
-void AppletSoundSettings::slotMuteMicrophoneCheckBox( int checkedState )
-{
-    bool muteMic = ui.m_MuteMicrophoneCheckBox->isChecked();
-    m_MyApp.getSoundMgr().setMuteMicrophone( muteMic );
-    ui.m_AudioInPeakProgressBar->setValue( 0 );
-    ui.m_AudioOutPeakProgressBar->setValue( 0 );
-}
-
-//============================================================================
-void AppletSoundSettings::slotMuteSpeakerCheckBox( int checkedState )
-{
-     bool muteSpeaker = ui.m_MuteSpeakersCheckBox->isChecked();
-     m_MyApp.getSoundMgr().setMuteSpeaker( muteSpeaker );
-     ui.m_AudioInPeakProgressBar->setValue( 0 );
-     ui.m_AudioOutPeakProgressBar->setValue( 0 );
-}
-
-//============================================================================
 void AppletSoundSettings::slotGenerateToneCheckBox( int checkedState )
 {
     bool genTone = ui.m_GenerateToneCheckBox->isChecked();
     m_MyApp.getSoundMgr().setEnableSpeakerTestTone( genTone );
     ui.m_AudioInPeakProgressBar->setValue( 0 );
-    ui.m_AudioOutPeakProgressBar->setValue( 0 );
 }
 
 //============================================================================
@@ -434,7 +409,6 @@ void AppletSoundSettings::slotSendMicDirectlyToSpeakersCheckBox( int checkedStat
     bool directMicToSpeaker = ui.m_SendMicDirectlyToSpeakersCheckBox->isChecked();
     m_MyApp.getSoundMgr().setDirectLoopbackEnable( directMicToSpeaker );
     ui.m_AudioInPeakProgressBar->setValue( 0 );
-    ui.m_AudioOutPeakProgressBar->setValue( 0 );
 }
 
 //============================================================================
@@ -458,12 +432,23 @@ void AppletSoundSettings::slotSendMicEchoCanceledToSpeakerCheckBox( int checkedS
     }
 
     ui.m_AudioInPeakProgressBar->setValue( 0 );
-    ui.m_AudioOutPeakProgressBar->setValue( 0 );
 }
 
 //============================================================================
-void AppletSoundSettings::callbackGuiAudioLevel( int micLevel, int speakerLevel )
+void AppletSoundSettings::callbackGuiMicrophoneLevel( int micLevel )
 {
     ui.m_AudioInPeakProgressBar->setValue( micLevel );
-    ui.m_AudioOutPeakProgressBar->setValue( speakerLevel );
+}
+
+//============================================================================
+void AppletSoundSettings::callbackGuiEchoCancelEnable( bool echoCancelEnabled )
+{
+    ui.m_EchoCancelEnableCheckBox->setChecked( echoCancelEnabled );
+}
+
+//============================================================================
+void AppletSoundSettings::slotEchoCancelEnableChange( int checkState )
+{
+    bool isEnabled = ui.m_EchoCancelEnableCheckBox->isChecked();
+    m_MyApp.getSoundMgr().setEchoCancelEnable( isEnabled );
 }

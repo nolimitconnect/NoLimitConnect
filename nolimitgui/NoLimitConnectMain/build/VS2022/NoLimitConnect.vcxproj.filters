@@ -2628,6 +2628,9 @@
     <ClInclude Include="..\..\..\CommonSrc\QtSource\VxSndInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiEchoCancelEnableCallback.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="..\..\..\CommonSrc\NoLimitConnect.qrc">

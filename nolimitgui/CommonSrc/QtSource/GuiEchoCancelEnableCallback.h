@@ -9,9 +9,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
-class GuiAudioLevelCallback
+class GuiEchoCancelEnableCallback
 {
 public:
-	virtual void				callbackGuiMicrophoneLevel( int micLevel ) = 0;
+	virtual void				callbackGuiEchoCancelEnable( bool echoCancelEnabled ) = 0;
 };
 

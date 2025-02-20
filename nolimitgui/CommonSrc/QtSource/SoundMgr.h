@@ -20,6 +20,7 @@
 #include <QObject>
 
 class GuiAudioLevelCallback;
+class GuiEchoCancelEnableCallback;
 class P2PEngine;
 class QIODevice;
 class QSound;
@@ -43,7 +44,10 @@ public:
 	VxSndInstance*			    playSnd( ESndDef sndDef, bool loopContinuous = false );
 	void						stopSnd( ESndDef sndDef );
 
-	void						wantAudioLevelCallbacks( GuiAudioLevelCallback *client, bool enable );
+	void						wantEchoCancelEnableCallbacks( GuiEchoCancelEnableCallback *client, bool enable );
+	void						wantMicrophoneLevelCallbacks( GuiAudioLevelCallback *client, bool enable );
+
+	void						setEchoCancelEnable( bool enable ) override;
 
 signals:
 	void						signalSndFinished( VxSndInstance* sndInstance );
@@ -72,5 +76,6 @@ protected:
 
 	QTimer*						m_AudioLevelPeekTimer;
 	std::vector<GuiAudioLevelCallback*> m_AudioLevelClientList;
+	std::vector<GuiEchoCancelEnableCallback*> m_EchoCancelEnableClientList;
 };
 

@@ -309,6 +309,11 @@ if(DEFINED TARGET_CPU_X86_64)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse3 -msse4.1")
 endif()
 
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    # turn on optimization even when in debug mode
+    set_property(TARGET ffmpegopus PROPERTY COMPILE_OPTIONS "$<$<CONFIG:Debug>:-O2>")
+endif()
+
 if(DEFINED TARGET_OS_WINDOWS)
     target_compile_definitions(ffmpegopus
         PRIVATE

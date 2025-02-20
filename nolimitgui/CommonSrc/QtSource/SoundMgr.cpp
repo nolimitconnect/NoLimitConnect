@@ -13,6 +13,7 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "GuiAudioLevelCallback.h"
+#include "GuiEchoCancelEnableCallback.h"
 #include "VxSndInstance.h"
 
 #include <CoreLib/VxDebug.h>
@@ -173,7 +174,47 @@ void SoundMgr::slotSndFinished( VxSndInstance * sndInstance )
 }
 
 //============================================================================
-void SoundMgr::wantAudioLevelCallbacks( GuiAudioLevelCallback* client, bool enable )
+void SoundMgr::wantEchoCancelEnableCallbacks( GuiEchoCancelEnableCallback* client, bool enable )
+{
+	for( auto iter = m_EchoCancelEnableClientList.begin(); iter != m_EchoCancelEnableClientList.end(); ++iter )
+	{
+        if( client == *iter )
+		{
+			if( enable )
+			{
+				return;
+			}
+			else
+			{
+				m_EchoCancelEnableClientList.erase( iter );
+				return;
+			}
+		}
+	}
+
+	if( enable )
+	{
+		m_EchoCancelEnableClientList.emplace_back( client );
+	}
+}
+
+//============================================================================
+void SoundMgr::setEchoCancelEnable( bool enable )
+{
+	if( enable == getEchoCancelEnable() )
+	{
+		return;
+	}
+
+	MiniAudioMgr::setEchoCancelEnable( enable );
+	for( auto client : m_EchoCancelEnableClientList )
+	{
+		client->callbackGuiEchoCancelEnable( enable );
+	}
+}
+
+//============================================================================
+void SoundMgr::wantMicrophoneLevelCallbacks( GuiAudioLevelCallback* client, bool enable )
 {
 	for( auto iter = m_AudioLevelClientList.begin(); iter != m_AudioLevelClientList.end(); ++iter )
 	{
@@ -215,10 +256,9 @@ void SoundMgr::slotAudioPeekTimeout( void )
 	}
 
 	int micLevel = isMicrophoneEnabled() && !getIsMicrophoneMuted() ? getAudioInPeakAmplitude() : 0;
-	int speakerLevel = isSpeakerEnabled() && !getIsSpeakerMuted() ? getAudioOutPeakAmplitude() : 0;
 
 	for( auto client : m_AudioLevelClientList )
 	{
-		client->callbackGuiAudioLevel( micLevel, speakerLevel );
+		client->callbackGuiMicrophoneLevel( micLevel );
 	}
 }

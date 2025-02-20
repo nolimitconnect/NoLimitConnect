@@ -51,9 +51,9 @@ class AudioEchoCancelImpl : public QObject
 
 public:
 	AudioEchoCancelImpl( AppCommon& appCommon, MiniAudioMgr& audioIoMgr, QObject* parent );
-	virtual ~AudioEchoCancelImpl();
+	virtual ~AudioEchoCancelImpl() = default;
 
-	void						echoCancelStartup( int sampleFreq = 8000 );
+	void						echoCancelStartup( int sampleFreq = ECHO_SAMPLE_RATE );
 	void						echoCancelShutdown( void );
 
 	void						enableEchoCancel( bool enable );
@@ -93,7 +93,7 @@ protected:
 
 	void						processWebRtc1EchoCancel( int16_t* micWriteBuf, int16_t* speakerBuf, int sampleCnt, int16_t* echoCanceledData );
 	void						processWebRtc3EchoCancel( int16_t* micWriteBuf, int16_t* speakerBuf, int sampleCnt, int16_t* echoCanceledData );
-	void						processWebRtcMobileEchoCancel( int16_t* micWriteBuf, int16_t* speakerBuf, int sampleCnt, int16_t* echoCanceledData );
+	bool						processWebRtcMobileEchoCancel( int16_t* micWriteBuf, int16_t* speakerBuf, int sampleCnt, int16_t* echoCanceledData );
 
 #if defined(USE_SPEEX_ECHO_CANCEL)
 	void						startupSpeex( int sampleCnt );

@@ -201,16 +201,16 @@ void PushToTalkFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 	if( !allowed )
 	{
 		// should this be a hack offence?
-        LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr user %s insufficient permaision", m_Engine.describeUser( srcOnlineId ).c_str() );
+        LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::%s user %s insufficient permission", __func__, m_Engine.describeUser( srcOnlineId ).c_str() );
 		return;
 	}
 
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-	LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::onPktPushToTalkReq PluginBase::AutoPluginLock autoLock start" );
+	LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::%s PluginBase::AutoPluginLock autoLock start", __func__ );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 	PluginBase::AutoPluginLock autoLock( &m_Plugin );
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-	LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::onPktPushToTalkReq PluginBase::AutoPluginLock autoLock done" );
+	LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::%s PluginBase::AutoPluginLock autoLock done", __func__ );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 
 	PluginSessionMgr::SessionIter iter;
@@ -221,7 +221,7 @@ void PushToTalkFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
         if( poSession->isRxSession() && srcOnlineId == poSession->getSendToId() )
 		{
 			AudioJitterBuffer& jitterBuf = poSession->getJitterBuffer();
-			//LogMsg( LOG_INFO, "PushToTalkFeedMgr::onPktPushToTalkReq jitterBuf.lockResource" );
+			//LogMsg( LOG_INFO, "PushToTalkFeedMgr::%s jitterBuf.lockResource", __func__ );
 			jitterBuf.lockResource();
 
 			char* audioBuf = poSession->getJitterBuffer().getBufToFill();
@@ -229,29 +229,29 @@ void PushToTalkFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 			{
 				PktVoiceReq* pktReq = (PktVoiceReq*)pktHdr;
 				std::vector<uint16_t> opusEncodedLenList;
-				opusEncodedLenList.push_back( pktReq->getFrame1Len() );
-				opusEncodedLenList.push_back( pktReq->getFrame2Len() );
-				opusEncodedLenList.push_back( pktReq->getFrame3Len() );
-				opusEncodedLenList.push_back( pktReq->getFrame4Len() );
+				opusEncodedLenList.emplace_back( pktReq->getFrame1Len() );
+				opusEncodedLenList.emplace_back( pktReq->getFrame2Len() );
+				opusEncodedLenList.emplace_back( pktReq->getFrame3Len() );
+				opusEncodedLenList.emplace_back( pktReq->getFrame4Len() );
 				bool result = poSession->getAudioDecoder()->decodeToPcmData( pktReq->getCompressedData(), opusEncodedLenList, (int16_t*)audioBuf, (int32_t)MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
 				if( !result )
 				{
-					LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::onPktPushToTalkReq failed to decode opus" );
+					LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::%s failed to decode opus", __func__ );
 				}
 			}
 			else
 			{
-				LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::onPktPushToTalkReq failed to get jitter buffer" );
+				LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::%s failed to get jitter buffer", __func__ );
 			}
 
-			//LogMsg( LOG_INFO, "PushToTalkFeedMgr::onPktPushToTalkReq jitterBuf.unlockResource" );
+			//LogMsg( LOG_INFO, "PushToTalkFeedMgr::%s jitterBuf.unlockResource" );
 			jitterBuf.unlockResource();
 			break;
 		}
 	}
 
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-	LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::onPktPushToTalkReq PluginBase::AutoPluginLock autoLock destroy" );
+	LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::%s PluginBase::AutoPluginLock autoLock destroy", __func__ );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 }
 

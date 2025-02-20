@@ -5,7 +5,6 @@
 #include <stdlib.h> // for NULL operator
 #include <assert.h>
 #include "echo_control_mobile.h"
-#include "echo_control_mobile.h"
 
 #include <CoreLib/VxDebug.h>
 
@@ -27,7 +26,7 @@ AecmWebRtc::~AecmWebRtc()
 }
 
 //============================================================================
-bool AecmWebRtc::initializeAecm( int sampFreq, int echoMode )
+bool AecmWebRtc::initializeAecm( int echoDelay, int sampFreq, int echoMode )
 {
 	if( !(sampFreq == 16000) )
 	{
@@ -35,6 +34,7 @@ bool AecmWebRtc::initializeAecm( int sampFreq, int echoMode )
 		return false;
 	}
 
+	m_AecmDelayMs = echoDelay;
 	m_EchoMode = echoMode;
 	m_SampleFreq = sampFreq;
 	m_EchoChunkSampleCnt = 160;
@@ -286,7 +286,7 @@ bool AecmWebRtc::processEchoCancel( int16_t* nearendNoisyMic, int16_t* farSpeake
 		return false;
 	}
 
-	if( aecmProcess( m_AecmHandler, nearendNoisyMic, nullptr, retEchoCanceledSamples, nrOfSamples, echoDelay ) )
+	if( aecmProcess( m_AecmHandler, retEchoCanceledSamples, nearendNoisyMic, nullptr, nrOfSamples, echoDelay ) )
 	{
 		LogMsg( LOG_ERROR, "AecmWebRtc::initializeAecm failed processAecm" );
 		freeAecmInstance( m_AecmHandler );

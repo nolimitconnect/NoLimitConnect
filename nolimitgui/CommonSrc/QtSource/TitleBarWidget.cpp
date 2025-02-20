@@ -924,19 +924,19 @@ void TitleBarWidget::updateAudioLevelCallbackRequests( void )
             if( isVisible() && !m_AudioLevelCallbacksRequested )
             {
                 m_AudioLevelCallbacksRequested = true;
-                m_MyApp.getSoundMgr().wantAudioLevelCallbacks( this, true );
+                m_MyApp.getSoundMgr().wantMicrophoneLevelCallbacks( this, true );
             }
         }
         else
         {
             m_AudioLevelCallbacksRequested = false;
-            m_MyApp.getSoundMgr().wantAudioLevelCallbacks( this, false );
+            m_MyApp.getSoundMgr().wantMicrophoneLevelCallbacks( this, false );
         }
     }
 }
 
 //============================================================================
-void TitleBarWidget::callbackGuiAudioLevel( int micLevel, int speakerLevel )
+void TitleBarWidget::callbackGuiMicrophoneLevel( int micLevel )
 {
     if( m_LastMicLevel != micLevel )
     {

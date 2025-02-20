@@ -11,28 +11,13 @@
 
 // only one of these echo cancelers may be defined at time
 // uncomment the define of the echo canceler desired to use
-// # define USE_SPEEX_ECHO_CANCEL
-// # define USE_WEB_RTC_ECHO_CANCEL_1
-// # define USE_WEB_RTC_ECHO_CANCEL_3
-# define USE_WEB_RTC_ECHO_CANCEL_MOBILE
+// #define USE_SPEEX_ECHO_CANCEL
+// #define USE_WEB_RTC_ECHO_CANCEL_1
+// #define USE_WEB_RTC_ECHO_CANCEL_3
+#define USE_WEB_RTC_ECHO_CANCEL_MOBILE
 
-#if defined( USE_SPEEX_ECHO_CANCEL )
-constexpr int ECHO_SAMPLE_RATE = 8000;  
-constexpr int AUDIO_DEVICE_SAMPLE_RATE = 48000;
-
-#elif defined( USE_WEB_RTC_ECHO_CANCEL_1 )
-constexpr int ECHO_SAMPLE_RATE = 8000;
-constexpr int AUDIO_DEVICE_SAMPLE_RATE = 48000;
-
-#elif defined( USE_WEB_RTC_ECHO_CANCEL_3 )
-constexpr int ECHO_SAMPLE_RATE = 8000;
-constexpr int AUDIO_DEVICE_SAMPLE_RATE = 48000;
-
-#elif defined( USE_WEB_RTC_ECHO_CANCEL_MOBILE )
 constexpr int ECHO_SAMPLE_RATE = 16000;
 constexpr int AUDIO_DEVICE_SAMPLE_RATE = 16000;
-
-#endif // defined( USE_SPEEX_ECHO_CANCEL )
 
 constexpr int AUDIO_CHANNELS = 1;	
 constexpr int AUDIO_BYTES_PER_SAMPLE = 2;			// PCM 2 bytes per sample
@@ -52,11 +37,6 @@ constexpr double AUDIO_BYTES_TO_MS_MULTIPLIER = ((double)AUDIO_MS_PER_FRAME / (d
 constexpr int ECHO_MS_PER_FRAME = 10; 
 constexpr int ECHO_SAMPLES_PER_FRAME = AUDIO_SAMPLES_PER_FRAME / ( AUDIO_MS_PER_FRAME / ECHO_MS_PER_FRAME );
 constexpr int ECHO_BUF_SIZE = AUDIO_BUF_SIZE / (AUDIO_MS_PER_FRAME / ECHO_MS_PER_FRAME);
-
-// qt application mixer
-constexpr int MAX_GUI_MIXER_FRAMES = 2;
-// ptop mixer
-constexpr int MAX_PTOP_MIXER_FRAMES = 2;
 
 // kodi and player-nlc output (float) 960 frames 
 constexpr int AUDIO_SAMPLE_RATE_KODI = 48000;        // kodi is configured for 48000 hz

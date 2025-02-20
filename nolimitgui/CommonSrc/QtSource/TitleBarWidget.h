@@ -161,7 +161,7 @@ protected:
 
 	void						checkTitleBarIconsFit( void );
 
-	void						callbackGuiAudioLevel( int micLevel, int speakerLevel ) override;
+	void						callbackGuiMicrophoneLevel( int micLevel ) override;
 
 	void						callbackToGuiWantMicrophoneRecording( bool wantMicInput ) override;
 	void						callbackToGuiWantSpeakerOutput( bool wantSpeakerOutput ) override;

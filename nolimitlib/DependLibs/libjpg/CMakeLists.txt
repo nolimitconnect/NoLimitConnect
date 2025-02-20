@@ -58,6 +58,11 @@ list(APPEND jpg_SOURCES
 
 add_library(jpg STATIC ${jpg_SOURCES})
 
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    # turn on optimization even when in debug mode
+    set_property(TARGET jpg PROPERTY COMPILE_OPTIONS "$<$<CONFIG:Debug>:-O2>")
+endif()
+
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction

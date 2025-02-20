@@ -427,6 +427,11 @@ EPluginAccess VxNetIdent::getMyAccessPermissionFromHim( EPluginType pluginType, 
 //============================================================================
 bool VxNetIdent::isHisAccessAllowedFromMe( EPluginType pluginType, bool inGroup )
 {
+	if( GetPtoPEngine().getIsPluginInTestState( pluginType, getMyOnlineId() ) )
+	{
+		return true;
+	}
+
 	EFriendState friendState = this->getMyFriendshipToHim();
 	if( eFriendStateAnonymous == friendState && inGroup )
 	{
@@ -439,6 +444,11 @@ bool VxNetIdent::isHisAccessAllowedFromMe( EPluginType pluginType, bool inGroup 
 //============================================================================
 bool VxNetIdent::isMyAccessAllowedFromHim( EPluginType pluginType, bool inGroup )
 {
+	if( GetPtoPEngine().getIsPluginInTestState( pluginType, getMyOnlineId() ) )
+	{
+		return true;
+	}
+
 	EFriendState friendState = this->getHisFriendshipToMe();
 	if( eFriendStateAnonymous == friendState && inGroup )
 	{

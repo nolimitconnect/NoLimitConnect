@@ -84,12 +84,12 @@ class UserJoinMgr;
 class UserOnlineMgr;
 class VxPeerMgr;
 
-class P2PEngine :	public IFromGui,
-					public PktHandlerBase,
-                    public AssetCallbackInterface,
-                    public BlobCallbackInterface,
-					public MediaCallbackInterface,
-                    public IAudioCallbacks
+class P2PEngine final:	public IFromGui,
+					    public PktHandlerBase,
+                        public AssetCallbackInterface,
+                        public BlobCallbackInterface,
+					    public MediaCallbackInterface,
+                        public IAudioCallbacks
 {
 public:
     P2PEngine() = delete; // don't allow default constructor
@@ -191,15 +191,16 @@ public:
     bool                        setPluginSetting( PluginSetting& pluginSetting );
     bool                        getPluginSetting( enum EPluginType pluginType, PluginSetting& pluginSetting );
 
-    virtual void				setPluginPermission( EPluginType pluginType, int iPluginPermission );
-    virtual EFriendState		getPluginPermission( int iPluginType );
+    void           				setPluginPermission( EPluginType pluginType, int iPluginPermission );
+    EFriendState		        getPluginPermission( int iPluginType );
+    bool                        getIsPluginInTestState( EPluginType pluginType, VxGUID& onlineId );
 
     PluginLibraryServer&        getPluginLibraryServer( void )                  { return *m_PluginLibraryServer; }
 	PluginFileShareServer&		getPluginFileShareServer( void )				{ return *m_PluginFileShareServer; }
 	PluginNetServices&			getPluginNetServices( void )					{ return *m_PluginNetServices; }
 
-	virtual void				setHasPicture( int bHasPicture );
-	virtual void				setHasSharedWebCam( int bHasShaeredWebCam );
+	void           				setHasPicture( int bHasPicture );
+	void           				setHasSharedWebCam( int bHasShaeredWebCam );
 	bool						isContactConnected( VxGUID& onlineId );
 
     bool                        isUserConnected( VxGUID& onlineId );
@@ -210,71 +211,71 @@ public:
 	//========================================================================
 	void						assureUserSpecificDirIsSet( const char* checkReason );
 
-    virtual void				fromGuiAppStartup( std::string assetDir, std::string rootDataDir, bool fromThread = false ) override;
-    virtual void				fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fromThread = false ) override;
-    virtual void				fromGuiSetUserXferDir( std::string userXferDir, bool fromThread = false ) override;
-    virtual void				fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread = false ) override;
+    void           				fromGuiAppStartup( std::string assetDir, std::string rootDataDir, bool fromThread = false ) override;
+    void           				fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fromThread = false ) override;
+    void           				fromGuiSetUserXferDir( std::string userXferDir, bool fromThread = false ) override;
+    void           				fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread = false ) override;
 
 	bool				        fromGuiDeleteUser( VxGUID& onlineId ) override;
 
-    virtual uint64_t			fromGuiGetDiskFreeSpace( const char* dir = nullptr  ) override;
-    virtual uint64_t			fromGuiClearCache( ECacheType cacheType ) override;
-    virtual void				fromGuiAppShutdown( void  ) override;
+    uint64_t			        fromGuiGetDiskFreeSpace( const char* dir = nullptr  ) override;
+    uint64_t			        fromGuiClearCache( ECacheType cacheType ) override;
+    void           				fromGuiAppShutdown( void  ) override;
 
-    virtual void				fromGuiOnlineNameChanged( const char* newOnlineName ) override;
-    virtual void				fromGuiMoodMessageChanged( const char* newMoodMessage ) override;
-    virtual void				fromGuiIdentPersonalInfoChanged( int age, int gender, int language, int preferredContent ) override;
+    void           				fromGuiOnlineNameChanged( const char* newOnlineName ) override;
+    void           				fromGuiMoodMessageChanged( const char* newMoodMessage ) override;
+    void           				fromGuiIdentPersonalInfoChanged( int age, int gender, int language, int preferredContent ) override;
 
-    virtual void				fromGuiSetUserHasProfilePicture( bool haveProfilePick ) override;
-    virtual void				fromGuiUpdateMyIdent( VxNetIdent* netIdent, bool permissionAndStatsOnly = false ) override;
-    virtual void				fromGuiQueryMyIdent( VxNetIdent* poRetIdent ) override;
-    virtual void				fromGuiSetIdentHasTextOffers( VxGUID& onlineId, bool hasTextOffers ) override;
+    void           				fromGuiSetUserHasProfilePicture( bool haveProfilePick ) override;
+    void           				fromGuiUpdateMyIdent( VxNetIdent* netIdent, bool permissionAndStatsOnly = false ) override;
+    void           				fromGuiQueryMyIdent( VxNetIdent* poRetIdent ) override;
+    void           				fromGuiSetIdentHasTextOffers( VxGUID& onlineId, bool hasTextOffers ) override;
 
-    virtual bool				fromGuiOrientationEvent( float f32RotX, float f32RotY, float f32RotZ  ) override;
-    virtual bool				fromGuiMouseEvent( enum EMouseButtonType eMouseButType, enum EMouseEventType eMouseEventType, int iMouseXPos, int iMouseYPos  ) override;
-    virtual bool				fromGuiMouseWheel( float f32MouseWheelDist ) override;
-    virtual bool				fromGuiKeyEvent( enum EKeyEventType eKeyEventType, EKeyCode eKey, int iFlags = 0 ) override;
+    bool           				fromGuiOrientationEvent( float f32RotX, float f32RotY, float f32RotZ  ) override;
+    bool           				fromGuiMouseEvent( enum EMouseButtonType eMouseButType, enum EMouseEventType eMouseEventType, int iMouseXPos, int iMouseYPos  ) override;
+    bool           				fromGuiMouseWheel( float f32MouseWheelDist ) override;
+    bool           				fromGuiKeyEvent( enum EKeyEventType eKeyEventType, EKeyCode eKey, int iFlags = 0 ) override;
 
-    virtual void				fromGuiNativeGlInit( void ) override;
-    virtual void				fromGuiNativeGlResize( int w, int h ) override;
-    virtual int					fromGuiNativeGlRender( void ) override;
-    virtual void				fromGuiNativeGlPauseRender( void ) override;
-    virtual void				fromGuiNativeGlResumeRender( void ) override;
-    virtual void				fromGuiNativeGlDestroy( void ) override;
+    void           				fromGuiNativeGlInit( void ) override;
+    void           				fromGuiNativeGlResize( int w, int h ) override;
+    int            					fromGuiNativeGlRender( void ) override;
+    void           				fromGuiNativeGlPauseRender( void ) override;
+    void           				fromGuiNativeGlResumeRender( void ) override;
+    void           				fromGuiNativeGlDestroy( void ) override;
 
-    virtual void				fromGuiMuteMicrophone( bool muteMic ) override;
-    virtual bool				fromGuiIsMicrophoneMuted( void ) override;
-    virtual void				fromGuiMuteSpeaker(	bool muteSpeaker ) override;
-    virtual bool				fromGuiIsSpeakerMuted( void ) override;
+    void           				fromGuiMuteMicrophone( bool muteMic ) override;
+    bool           				fromGuiIsMicrophoneMuted( void ) override;
+    void           				fromGuiMuteSpeaker(	bool muteSpeaker ) override;
+    bool           				fromGuiIsSpeakerMuted( void ) override;
 
-    virtual bool				fromGuiSndRecord( enum ESndRecordState eRecState, VxGUID& feedId, const char* fileName ) override;
-    virtual bool				fromGuiVideoRecord( enum EVideoRecordState eRecState, VxGUID& feedId, const char* fileName ) override;
-    virtual bool				fromGuiPlayLocalMedia( const char* fileName, const char* fileNameAndPath, uint64_t fileLen, uint8_t fileType, int pos0to100000 = 0 ) override;
-    virtual bool				fromGuiPlayLocalMedia( const char* fileName, const char* fileNameAndPath, uint64_t fileLen, uint8_t fileType, VxGUID assetId, int pos0to100000 = 0 ) override;
+    bool           				fromGuiSndRecord( enum ESndRecordState eRecState, VxGUID& feedId, const char* fileName ) override;
+    bool           				fromGuiVideoRecord( enum EVideoRecordState eRecState, VxGUID& feedId, const char* fileName ) override;
+    bool           				fromGuiPlayLocalMedia( const char* fileName, const char* fileNameAndPath, uint64_t fileLen, uint8_t fileType, int pos0to100000 = 0 ) override;
+    bool           				fromGuiPlayLocalMedia( const char* fileName, const char* fileNameAndPath, uint64_t fileLen, uint8_t fileType, VxGUID assetId, int pos0to100000 = 0 ) override;
 
-    virtual bool				fromGuiAssetAction( enum EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
+    bool           				fromGuiAssetAction( enum EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
     bool				        fromGuiQueueAssetAction( enum EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 = 0 ) override;
-    virtual bool				fromGuiAssetAction( enum EPluginType pluginType, enum EAssetAction assetAction, VxGUID& assetId, int pos0to100000 = 0 ) override;
-    virtual bool				fromGuiSendAsset( AssetBaseInfo& assetInfo ) override;
+    bool           				fromGuiAssetAction( enum EPluginType pluginType, enum EAssetAction assetAction, VxGUID& assetId, int pos0to100000 = 0 ) override;
+    bool           				fromGuiSendAsset( AssetBaseInfo& assetInfo ) override;
 
-    virtual void				fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, MediaCallbackInterface * callback, enum EAppModule appModule, VxGUID& mediaSessionId, bool wantInput ) override;
-    virtual void				fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, enum EAppModule appModule, VxGUID& mediaSessionId, bool wantInput ) override;
+    void           				fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, MediaCallbackInterface * callback, enum EAppModule appModule, VxGUID& mediaSessionId, bool wantInput ) override;
+    void           				fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, enum EAppModule appModule, VxGUID& mediaSessionId, bool wantInput ) override;
 
-    virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
-    virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
-    virtual void				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
-    virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
+    void           				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
+    void           				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
+    void           				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
+    void           				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
 
-    virtual void				fromGuiSearchHost( enum EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread = false ) override;
+    void           				fromGuiSearchHost( enum EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread = false ) override;
 
     void				        fromGuiSendAnnouncedList( enum EHostType hostType, VxGUID& sessionId ) override;
 
     void				        fromGuiDisconnectFromUser( VxGUID& onlineId ) override;
 
-    virtual void				fromGuiRunIsPortOpenTest( uint16_t port ) override;
-    virtual void				fromGuiRunUrlAction( VxGUID& sessionId, const char* myUrl, const char* ptopUrl, ENetCmdType testType ) override;
+    void           				fromGuiRunIsPortOpenTest( uint16_t port ) override;
+    void           				fromGuiRunUrlAction( VxGUID& sessionId, const char* myUrl, const char* ptopUrl, ENetCmdType testType ) override;
 
-	virtual void				fromGuiUpdateWebPageProfile(	const char*	pProfileDir,	// directory containing user profile
+	void           				fromGuiUpdateWebPageProfile(	const char*	pProfileDir,	// directory containing user profile
 																const char*	strGreeting,	// greeting text
 																const char*	aboutMe,		// about me text
 																const char*	url1,			// favorite url 1
@@ -282,113 +283,113 @@ public:
                                                                 const char*	url3,           // favorite url 3
                                                                 const char*	donation ) override;	// donation		
 
-    virtual void				fromGuiApplyNetHostSettings( NetHostSetting& netSettings ) override;
-    virtual void				fromGuiSetNetSettings( NetSettings& netSettings ) override;
-    virtual void				fromGuiGetNetSettings( NetSettings& netSettings ) override;
-    virtual void				fromGuiSetRelaySettings( int userRelayMaxCnt, int systemRelayMaxCnt ) override;
+    void           				fromGuiApplyNetHostSettings( NetHostSetting& netSettings ) override;
+    void           				fromGuiSetNetSettings( NetSettings& netSettings ) override;
+    void           				fromGuiGetNetSettings( NetSettings& netSettings ) override;
+    void           				fromGuiSetRelaySettings( int userRelayMaxCnt, int systemRelayMaxCnt ) override;
 
-    virtual void				fromGuiGetFileShareSettings( FileShareSettings& fileShareSettings ) override;
-    virtual void				fromGuiSetFileShareSettings( FileShareSettings& fileShareSettings ) override;
+    void           				fromGuiGetFileShareSettings( FileShareSettings& fileShareSettings ) override;
+    void           				fromGuiSetFileShareSettings( FileShareSettings& fileShareSettings ) override;
 
-    virtual void				fromGuiSetPluginPermission( enum EPluginType pluginType, enum EFriendState eFriendState ) override;
-    virtual int					fromGuiGetPluginPermission( enum EPluginType pluginType ) override;
-    virtual EPluginServerState	fromGuiGetPluginServerState( enum EPluginType pluginType ) override;
+    void           				fromGuiSetPluginPermission( enum EPluginType pluginType, enum EFriendState eFriendState ) override;
+    int            				fromGuiGetPluginPermission( enum EPluginType pluginType ) override;
+    EPluginServerState	        fromGuiGetPluginServerState( enum EPluginType pluginType ) override;
 
-    virtual bool				fromGuiStartPluginSession( enum EPluginType pluginType, VxGUID onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-    virtual void				fromGuiStopPluginSession( enum EPluginType pluginType, VxGUID onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID()  ) override;
-    virtual bool				fromGuiIsPluginInSession( enum EPluginType pluginType, VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    bool           				fromGuiStartPluginSession( enum EPluginType pluginType, VxGUID onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    void           				fromGuiStopPluginSession( enum EPluginType pluginType, VxGUID onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID()  ) override;
+    bool           				fromGuiIsPluginInSession( enum EPluginType pluginType, VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 
-	virtual bool				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
-    virtual bool				fromGuiToPluginOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
+	bool           				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
+    bool           				fromGuiToPluginOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
 
     virtual EXferError			fromGuiFileXferControl( enum EPluginType pluginType, enum EXferAction xferAction, FileInfo& fileInfo ) override;
 
-	virtual bool				fromGuiInstMsg(	enum EPluginType	pluginType, VxGUID&	onlineId, const char* pMsg ) override;
+	bool           				fromGuiInstMsg(	enum EPluginType	pluginType, VxGUID&	onlineId, const char* pMsg ) override;
                                                    
-    virtual bool				fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk ) override;
+    bool           				fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk ) override;
 
-	virtual bool				fromGuiChangeMyFriendshipToHim(	VxGUID&	onlineId, enum EFriendState myFriendshipToHim, enum EFriendState hisFriendshipToMe ) override;															
+	bool           				fromGuiChangeMyFriendshipToHim(	VxGUID&	onlineId, enum EFriendState myFriendshipToHim, enum EFriendState hisFriendshipToMe ) override;															
                                                                 
-    virtual void				fromGuiSendContactList( enum EFriendViewType eFriendView, int maxContactsToSend ) override;
-    virtual void				fromGuiRefreshContactList( int maxContactsToSend ) override;
+    void           				fromGuiSendContactList( enum EFriendViewType eFriendView, int maxContactsToSend ) override;
+    void           				fromGuiRefreshContactList( int maxContactsToSend ) override;
 
-    virtual void				fromGuiRequireRelay( bool bRequireRelay ) override;
+    void           				fromGuiRequireRelay( bool bRequireRelay ) override;
 
-    virtual void				fromGuiRelayPermissionCount( int userPermittedCount, int anonymousCount );
+    void           				fromGuiRelayPermissionCount( int userPermittedCount, int anonymousCount );
 
-    virtual void				fromGuiStartScan( enum EScanType eScanType, uint8_t searchFlags, uint8_t fileTypeFlags, const char* pSearchPattern = "" ) override;
-    virtual void				fromGuiNextScan( enum EScanType eScanType ) override;
-    virtual void				fromGuiStopScan( enum EScanType eScanType ) override;
+    void           				fromGuiStartScan( enum EScanType eScanType, uint8_t searchFlags, uint8_t fileTypeFlags, const char* pSearchPattern = "" ) override;
+    void           				fromGuiNextScan( enum EScanType eScanType ) override;
+    void           				fromGuiStopScan( enum EScanType eScanType ) override;
 
-    virtual InetAddress			fromGuiGetMyIpAddress( void ) override;
-    virtual InetAddress			fromGuiGetMyIPv4Address( void ) override;
-    virtual InetAddress			fromGuiGetMyIPv6Address( void ) override;
+    InetAddress			        fromGuiGetMyIpAddress( void ) override;
+    InetAddress			        fromGuiGetMyIPv4Address( void ) override;
+    InetAddress			        fromGuiGetMyIPv6Address( void ) override;
 
-    virtual void				fromGuiUserModifiedStoryboard( void ) override;
+    void           				fromGuiUserModifiedStoryboard( void ) override;
 
-    virtual void				fromGuiCancelDownload( VxGUID& fileInstance ) override;
-    virtual void				fromGuiCancelUpload( VxGUID& fileInstance ) override;
+    void           				fromGuiCancelDownload( VxGUID& fileInstance ) override;
+    void           				fromGuiCancelUpload( VxGUID& fileInstance ) override;
 
-	virtual bool				fromGuiSetGameValueVar( enum EPluginType	pluginType, VxGUID& onlineId, int32_t varId, int32_t varValue ) override;
+	bool           				fromGuiSetGameValueVar( enum EPluginType	pluginType, VxGUID& onlineId, int32_t varId, int32_t varValue ) override;
 														                                            
-	virtual bool				fromGuiSetGameActionVar( enum EPluginType pluginType, VxGUID& onlineId, int32_t actionId, int32_t actionValue ) override;
+	bool           				fromGuiSetGameActionVar( enum EPluginType pluginType, VxGUID& onlineId, int32_t actionId, int32_t actionValue ) override;
 
-	virtual bool				fromGuiTestCmd(	enum ETestParam1 testParam1, int	testParam2 = 0, const char* testParam3 = nullptr ) override;                                            
+	bool           				fromGuiTestCmd(	enum ETestParam1 testParam1, int	testParam2 = 0, const char* testParam3 = nullptr ) override;                                            
 
     virtual uint16_t			fromGuiGetRandomTcpPort( void ) override;
     /// Get url for this node
-    virtual void                fromGuiGetNodeUrl( std::string& nodeUrl ) override;
+    void                           fromGuiGetNodeUrl( std::string& nodeUrl ) override;
     /// Get internet status
     virtual EInternetStatus     fromGuiGetInternetStatus( void ) override;
     /// Get network status
     virtual ENetAvailStatus     fromGuiGetNetAvailStatus( void ) override;
 
-    virtual bool				fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY ) override;
+    bool           				fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY ) override;
 
-    virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared ) override;
-    virtual bool				fromGuiGetIsFileShared( FileInfo& fileInfo ) override;
+    bool           				fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared ) override;
+    bool           				fromGuiGetIsFileShared( FileInfo& fileInfo ) override;
 
 	// returns -1 if unknown else percent downloaded
-    virtual int					fromGuiGetFileDownloadState( uint8_t* fileHashId ) override;
+    int            					fromGuiGetFileDownloadState( uint8_t* fileHashId ) override;
 
-    virtual bool				fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibrary ) override;
-    virtual bool				fromGuiSetFileIsInLibrary( std::string& fileName, bool isInLibrary ) override;
+    bool           				fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibrary ) override;
+    bool           				fromGuiSetFileIsInLibrary( std::string& fileName, bool isInLibrary ) override;
 
-    virtual bool				fromGuiGetFileIsInLibrary( FileInfo& fileInfo ) override;
-    virtual bool				fromGuiGetIsFileInLibrary( std::string& fileName ) override;
+    bool           				fromGuiGetFileIsInLibrary( FileInfo& fileInfo ) override;
+    bool           				fromGuiGetIsFileInLibrary( std::string& fileName ) override;
 
-    virtual void				fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter ) override;
+    void           				fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter ) override;
 
-    virtual bool				fromGuiIsNoLimitVideoFile( const char* fileName ) override;
-    virtual bool				fromGuiIsNoLimitAudioFile( const char* fileName ) override;
+    bool           				fromGuiIsNoLimitVideoFile( const char* fileName ) override;
+    bool           				fromGuiIsNoLimitAudioFile( const char* fileName ) override;
 
-    virtual int					fromGuiDeleteFile( std::string fileName, bool shredFile ) override;
+    int            				fromGuiDeleteFile( std::string fileName, bool shredFile ) override;
 
-    virtual void				fromGuiQuerySessionHistory( GroupieId& groupieId ) override;
-    virtual bool				fromGuiMultiSessionAction( enum EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-    virtual int					fromGuiGetJoinedListCount( enum EPluginType pluginType ) override;
-    virtual void                fromGuiListAction( enum EListAction listAction ) override;
-    virtual std::string			fromGuiQueryDefaultUrl( enum EHostType hostType ) override;
-    virtual bool                fromGuiSetDefaultUrl( enum EHostType hostType, std::string& hostUrl ) override;
-    virtual bool				fromGuiQueryIdentity( std::string& url, VxNetIdent& retNetIdent, bool requestIdentityIfUnknown ) override;
-    virtual bool				fromGuiQueryIdentity( VxGUID onlineId, VxNetIdent& retNetIdent ) override;
-    virtual bool				fromGuiQueryHosts( std::string& netHostUrl, enum EHostType hostType, std::vector<HostedInfo>& hostedInfoList, VxGUID& hostIdIfNullThenAll ) override;
-    virtual bool				fromGuiQueryMyHostedInfo( enum EHostType hostType, std::vector<HostedInfo>& hostedInfoList ) override;
-    virtual bool				fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, enum EHostType hostType, VxGUID& hostIdIfNullThenAll ) override;
-    virtual bool				fromGuiQueryGroupiesFromHosted( VxPtopUrl& hostedUrl, enum EHostType hostType, VxGUID& onlineIdIfNullThenAll ) override;
+    void           				fromGuiQuerySessionHistory( GroupieId& groupieId ) override;
+    bool           				fromGuiMultiSessionAction( enum EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+    int            				fromGuiGetJoinedListCount( enum EPluginType pluginType ) override;
+    void                        fromGuiListAction( enum EListAction listAction ) override;
+    std::string			        fromGuiQueryDefaultUrl( enum EHostType hostType ) override;
+    bool                        fromGuiSetDefaultUrl( enum EHostType hostType, std::string& hostUrl ) override;
+    bool           				fromGuiQueryIdentity( std::string& url, VxNetIdent& retNetIdent, bool requestIdentityIfUnknown ) override;
+    bool           				fromGuiQueryIdentity( VxGUID onlineId, VxNetIdent& retNetIdent ) override;
+    bool           				fromGuiQueryHosts( std::string& netHostUrl, enum EHostType hostType, std::vector<HostedInfo>& hostedInfoList, VxGUID& hostIdIfNullThenAll ) override;
+    bool           				fromGuiQueryMyHostedInfo( enum EHostType hostType, std::vector<HostedInfo>& hostedInfoList ) override;
+    bool           				fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, enum EHostType hostType, VxGUID& hostIdIfNullThenAll ) override;
+    bool           				fromGuiQueryGroupiesFromHosted( VxPtopUrl& hostedUrl, enum EHostType hostType, VxGUID& onlineIdIfNullThenAll ) override;
 
-    virtual bool				fromGuiDownloadWebPage( enum EWebPageType webPageType, VxGUID& onlineId ) override;
-    virtual bool				fromGuiCancelWebPage( enum EWebPageType webPageType, VxGUID& onlineId ) override;
+    bool           				fromGuiDownloadWebPage( enum EWebPageType webPageType, VxGUID& onlineId ) override;
+    bool           				fromGuiCancelWebPage( enum EWebPageType webPageType, VxGUID& onlineId ) override;
 
-    virtual bool				fromGuiDownloadFileList( enum EPluginType pluginType, VxGUID& onlineId, VxGUID& sessionId, uint8_t fileTypes = 0 ) override;
-    virtual bool				fromGuiDownloadFileListCancel( enum EPluginType pluginType, VxGUID& onlineId, VxGUID& sessionId ) override;
+    bool           				fromGuiDownloadFileList( enum EPluginType pluginType, VxGUID& onlineId, VxGUID& sessionId, uint8_t fileTypes = 0 ) override;
+    bool           				fromGuiDownloadFileListCancel( enum EPluginType pluginType, VxGUID& onlineId, VxGUID& sessionId ) override;
 
-    virtual EJoinState		    fromGuiQueryJoinState( enum EHostType hostType, VxNetIdent& netIdent ) override;
+    EJoinState		            fromGuiQueryJoinState( enum EHostType hostType, VxNetIdent& netIdent ) override;
 
-    virtual void				fromGuiUpdatePluginPermission( enum EPluginType pluginType, enum EFriendState pluginPermission ) override;
+    void           				fromGuiUpdatePluginPermission( enum EPluginType pluginType, enum EFriendState pluginPermission ) override;
 
-    virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo ) override;
-    virtual void				fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash ) override;
+    bool           				fromGuiQueryFileHash( FileInfo& fileInfo ) override;
+    void           				fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash ) override;
 
     bool				        fromGuiDeleteDatabase( enum EDatabaseType databaseType ) override;
 
@@ -412,26 +413,26 @@ public:
 	//========================================================================
 	// asset mgr callbacks
 	//========================================================================
-    virtual void				callbackFileWasShredded( std::string& fileName ) override;
-    virtual void				callbackAssetAdded( AssetBaseInfo* assetInfo ) override;
-    virtual void				callbackAssetRemoved( AssetBaseInfo* assetInfo ) override;
+    void           				callbackFileWasShredded( std::string& fileName ) override;
+    void           				callbackAssetAdded( AssetBaseInfo* assetInfo ) override;
+    void           				callbackAssetRemoved( AssetBaseInfo* assetInfo ) override;
 
-	virtual void				callbackSharedFileTypesChanged( uint16_t fileTypes );
-	virtual void				callbackSharedPktFileListUpdated( void );
+	void           				callbackSharedFileTypesChanged( uint16_t fileTypes );
+	void           				callbackSharedPktFileListUpdated( void );
 
-    virtual void				callbackAssetHistory( void * userData, AssetBaseInfo* assetInfo ) override;
+    void           				callbackAssetHistory( void * userData, AssetBaseInfo* assetInfo ) override;
     //========================================================================
     // host list mgr callbacks
     //========================================================================
-    virtual void				callbackBlobAdded( BlobInfo* blobInfo ) override;
-    virtual void				callbackBlobRemoved( BlobInfo* blobInfo ) override;
-    virtual void				callbackBlobHistory( BlobInfo* blobInfo ) override;
+    void           				callbackBlobAdded( BlobInfo* blobInfo ) override;
+    void           				callbackBlobRemoved( BlobInfo* blobInfo ) override;
+    void           				callbackBlobHistory( BlobInfo* blobInfo ) override;
 
 	//========================================================================
 	// media processor callbacks
 	//========================================================================
-    virtual void				callbackVideoJpgBig( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen ) override;
-    virtual void				callbackVideoJpgSmall( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 ) override;
+    void           				callbackVideoJpgBig( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen ) override;
+    void           				callbackVideoJpgSmall( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 ) override;
 
 	//========================================================================
 	//========================================================================
@@ -471,18 +472,18 @@ public:
 	void						broadcastSystemPkt( VxPktHdr* pkt, bool onlyIncludeMyContacts );
 	void						broadcastSystemPkt( VxPktHdr* pkt, VxGUIDList& retIdsSentPktTo );
 
-    virtual bool				txSystemPkt( const VxGUID&                  destOnlineId,
+    bool           				txSystemPkt( const VxGUID&                  destOnlineId,
                                              std::shared_ptr<VxSktBase>&    sktBase,
                                              VxPktHdr*                      poPkt );
 
-	virtual void				replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt );
+	void           				replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt );
 
 	bool						connectToContact(	VxConnectInfo&		        connectInfo, 
 													std::shared_ptr<VxSktBase>&	ppoRetSkt,
 													bool&				        retIsNewConnection,
 													EConnectReason		        connectReason = eConnectReasonStayConnected );
 
-	virtual void				doPktAnnHasChanged( bool connectionListIsLocked );
+	void           				doPktAnnHasChanged( bool connectionListIsLocked );
 
 	bool						shouldInfoBeInDatabase( BigListInfo * poInfo );
 
@@ -512,196 +513,196 @@ public:
 	//========================================================================
 
     //=== packet handlers ===//
-    virtual void                handlePkt                   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktUnhandled              ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktInvalid				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void                           handlePkt                   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktUnhandled              ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktInvalid				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktAnnounce				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktAnnList				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktAnnounce				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktAnnList				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktScanReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktScanReply			    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktScanReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktScanReply			    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktPluginOfferReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktPluginOfferReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktPluginOfferReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktPluginOfferReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktChatReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktChatReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktChatReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktChatReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktVoiceReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktVoiceReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktVoiceReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktVoiceReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktVideoFeedReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktVideoFeedStatus		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktVideoFeedPic			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktVideoFeedPicChunk		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktVideoFeedPicAck		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktVideoFeedReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktVideoFeedStatus		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktVideoFeedPic			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktVideoFeedPicChunk		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktVideoFeedPicAck		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktFileGetReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileGetReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileSendReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileSendReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFindFileReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFindFileReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileListReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileListReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileGetReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileGetReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileSendReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileSendReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFindFileReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFindFileReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileListReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileListReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktFileInfoReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileInfoReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktFileChunkReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileChunkReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileSendCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileSendCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileGetCompleteReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileGetCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileShareErr			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileChunkReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileChunkReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileSendCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileSendCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileGetCompleteReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileGetCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileShareErr			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktAssetGetReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktAssetGetReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktAssetSendReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktAssetSendReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktAssetChunkReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktAssetChunkReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktAssetGetCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktAssetGetCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktAssetSendCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktAssetSendCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktAssetXferErr			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktAssetGetReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktAssetGetReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktAssetSendReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktAssetSendReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktAssetChunkReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktAssetChunkReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktAssetGetCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktAssetGetCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktAssetSendCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktAssetSendCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktAssetXferErr			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktMultiSessionReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktMultiSessionReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktMultiSessionReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktMultiSessionReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktSessionStartReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktSessionStartReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktSessionStopReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktSessionStopReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktSessionStartReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktSessionStartReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktSessionStopReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktSessionStopReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktMyPicSendReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktMyPicSendReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktWebServerPicChunkTx	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktWebServerPicChunkAck	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktWebServerGetChunkTx	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktWebServerGetChunkAck	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktWebServerPutChunkTx	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktWebServerPutChunkAck	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktMyPicSendReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktMyPicSendReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktWebServerPicChunkTx	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktWebServerPicChunkAck	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktWebServerGetChunkTx	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktWebServerGetChunkAck	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktWebServerPutChunkTx	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktWebServerPutChunkAck	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktTodGameStats			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktTodGameAction			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktTodGameValue			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktTodGameStats			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktTodGameAction			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktTodGameValue			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktTcpPunch				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktTcpPunch				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktPingReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktPingReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktPingReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktPingReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktImAliveReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktImAliveReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktImAliveReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktImAliveReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktBlobSendReq            ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktBlobSendReply          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktBlobChunkReq           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktBlobChunkReply         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktBlobSendCompleteReq    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktBlobSendCompleteReply  ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktBlobXferErr            ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktBlobSendReq            ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktBlobSendReply          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktBlobChunkReq           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktBlobChunkReply         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktBlobSendCompleteReq    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktBlobSendCompleteReply  ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktBlobXferErr            ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktHostJoinReq            ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostJoinReply          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostLeaveReq           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostLeaveReply         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostJoinReq            ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostJoinReply          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostLeaveReq           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostLeaveReply         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktHostUnJoinReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostUnJoinReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostSearchReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostSearchReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostOfferReq           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostOfferReply         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFriendOfferReq         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFriendOfferReply       ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostUnJoinReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostUnJoinReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostSearchReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostSearchReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostOfferReq           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostOfferReply         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFriendOfferReq         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFriendOfferReply       ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktThumbGetReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktThumbGetReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktThumbSendReq           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktThumbSendReply         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktThumbChunkReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktThumbChunkReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktThumbGetCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktThumbGetCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktThumbSendCompleteReq   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktThumbSendCompleteReply ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktThumbXferErr           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktThumbGetReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktThumbGetReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktThumbSendReq           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktThumbSendReply         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktThumbChunkReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktThumbChunkReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktThumbGetCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktThumbGetCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktThumbSendCompleteReq   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktThumbSendCompleteReply ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktThumbXferErr           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktOfferSendReq           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktOfferSendReply         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktOfferChunkReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktOfferChunkReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktOfferSendCompleteReq   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktOfferSendCompleteReply ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktOfferXferErr           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktOfferSendReq           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktOfferSendReply         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktOfferChunkReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktOfferChunkReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktOfferSendCompleteReq   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktOfferSendCompleteReply ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktOfferXferErr           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktPushToTalkReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktPushToTalkReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktPushToTalkStart        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktPushToTalkStop         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktPushToTalkReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktPushToTalkReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktPushToTalkStart        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktPushToTalkStop         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktMembershipReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktMembershipReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktMembershipReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktMembershipReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktHostInfoReq            ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostInfoReply          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostInfoReq            ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostInfoReply          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktHostInviteAnnReq       ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostInviteAnnReply     ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostInviteSearchReq    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostInviteSearchReply  ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostInviteMoreReq      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostInviteMoreReply    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostInviteAnnReq       ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostInviteAnnReply     ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostInviteSearchReq    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostInviteSearchReply  ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostInviteMoreReq      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostInviteMoreReply    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktGroupieInfoReq         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktGroupieInfoReply       ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktGroupieInfoReq         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktGroupieInfoReply       ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktGroupieAnnReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktGroupieAnnReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktGroupieSearchReq       ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktGroupieSearchReply     ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktGroupieMoreReq         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktGroupieMoreReply       ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktGroupieAnnReq          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktGroupieAnnReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktGroupieSearchReq       ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktGroupieSearchReply     ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktGroupieMoreReq         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktGroupieMoreReply       ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktFileInfoInfoReq        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileInfoInfoReply      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileInfoInfoReq        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileInfoInfoReply      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktFileInfoAnnReq         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileInfoAnnReply       ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileInfoSearchReq      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileInfoSearchReply    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileInfoMoreReq        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktFileInfoMoreReply      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileInfoAnnReq         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileInfoAnnReply       ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileInfoSearchReq      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileInfoSearchReply    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileInfoMoreReq        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktFileInfoMoreReply      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktRelayUserDisconnect    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktRelayUserDisconnect    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktHostUserInfoReq        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostUserInfoReply      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostUserStatusReq      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostUserStatusReply    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostUserInfoReq        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostUserInfoReply      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostUserStatusReq      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostUserStatusReply    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktHostUserListReq        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostUserListReply      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostUserListMoreReq    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-    virtual void				onPktHostUserListMoreReply  ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostUserListReq        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostUserListReply      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostUserListMoreReq    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktHostUserListMoreReply  ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
     
-	virtual void				onPktTestConnTestReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-	virtual void				onPktTestConnTestReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-	virtual void				onPktTestConnPingReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-	virtual void				onPktTestConnPingReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+	void           				onPktTestConnTestReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+	void           				onPktTestConnTestReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+	void           				onPktTestConnPingReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+	void           				onPktTestConnPingReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-	virtual void				onPktQueryHostUrlReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-	virtual void				onPktQueryHostUrlReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+	void           				onPktQueryHostUrlReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+	void           				onPktQueryHostUrlReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktStreamCtrlReq		    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-	virtual void				onPktStreamCtrlReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktStreamCtrlReq		    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+	void           				onPktStreamCtrlReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
-    virtual void				onPktRandConnectReq		    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
-	virtual void				onPktRandConnectReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktRandConnectReq		    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+	void           				onPktRandConnectReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
     bool                        validateIdent( VxNetIdent* netIdent ); // extra validatation for at risk connections like multicast
 
@@ -721,17 +722,17 @@ protected:
     //========================================================================
     void						iniitializePtoPEngine( void );
 
-	virtual bool				txPluginPkt( 	enum EPluginType			pluginType, 
+	bool           				txPluginPkt( 	enum EPluginType			pluginType, 
 												VxNetIdentBase *	netIdent, 
 												std::shared_ptr<VxSktBase>&			sktBase, 
 												VxPktHdr*			poPkt );
 
-	virtual void				doAppStateChange( enum EAppState eAppState );
-	virtual bool				shouldNotifyGui( VxNetIdent* netIdent );
+	void           				doAppStateChange( enum EAppState eAppState );
+	bool           				shouldNotifyGui( VxNetIdent* netIdent );
 
 	// pkt ann has changed and needs to be re announced
 	void						doPktAnnConnectionInfoChanged( bool connectionListIsLocked );
-	virtual	void				attemptConnectionToRelayService( BigListInfo * poInfo );
+	void				        attemptConnectionToRelayService( BigListInfo * poInfo );
 	void						handleIncommingRelayData( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 	void						sendToGuiTheContactList( int maxContactsToSend );
     void                        updateIdentLists( BigListInfo* bigListInfo, int64_t timestampMs = 0 );

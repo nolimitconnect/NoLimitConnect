@@ -119,7 +119,7 @@ public:
     void                        setDirectLoopbackEnable( int enable )           { m_DirectLoopbackEnable = enable; }
     bool                        getDirectLoopbackEnable( void )                 { return m_DirectLoopbackEnable; }
 
-    void                        setEchoCancelEnable( bool enable );
+    virtual void                setEchoCancelEnable( bool enable );
     bool                        getEchoCancelEnable( void )                     { return m_EchoCancelEnabled; }
 
     void                        setEchoCancelerNeedsReset( bool needReset );

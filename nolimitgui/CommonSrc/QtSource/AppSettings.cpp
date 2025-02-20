@@ -654,13 +654,13 @@ void AppSettings::setEchoDelayParam( int delayMs )
 //============================================================================
 int AppSettings::getEchoDelayParam( void )
 {
-	uint32_t defaultParamVal = 100;
+	uint32_t defaultParamVal = 140;
 #if defined(TARGET_OS_ANDROID)
-	defaultParamVal = 200;
+	defaultParamVal = 280;
 #elif defined(TARGET_OS_WINDOWS) 
-	defaultParamVal = 100;
+	defaultParamVal = 140;
 #elif defined(TARGET_OS_LINUX) 
-	defaultParamVal = 100;
+	defaultParamVal = 140;
 #endif // defined(TARGET_OS_ANDROID)
 
 	uint32_t paramVal;

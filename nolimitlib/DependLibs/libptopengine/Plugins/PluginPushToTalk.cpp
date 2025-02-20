@@ -139,7 +139,6 @@ bool PluginPushToTalk::fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk )
 	}
 	else
 	{
-		//BRJ temp return m_PushToTalkFeedMgr.fromGuiPushToTalk( netIdent, false, sktBase );
 		return m_PushToTalkFeedMgr.fromGuiPushToTalk( onlineId, false, sktBase );
 	}
 

@@ -622,6 +622,7 @@ libass.lib;libpcre.lib
     <ClInclude Include="..\..\..\CommonSrc\QtSource\FriendListDelegate.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiConnectIdListMgr.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiConnectIdListCallback.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiEchoCancelEnableCallback.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiFavoriteMgr.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiFileXferMgr.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiFileXferSession.h" />

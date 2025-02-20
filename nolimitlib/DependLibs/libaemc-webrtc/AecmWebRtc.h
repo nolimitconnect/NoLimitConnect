@@ -15,7 +15,7 @@ public:
     void            setEchoDelay( int delayMs )                 { m_AecmDelayMs = delayMs; } // 40 to 500 milliseconds
     int             getEchoDelay( void )                        { return m_AecmDelayMs; }
 
-    bool            initializeAecm( int sampFreq, int echoMode = 3 ); // echo mode 0-4 controls noise supression gain. may need to boost volume if set to high echoMode
+    bool            initializeAecm( int echoDelay, int sampFreq, int echoMode = 3 ); // echo mode 0-4 controls noise supression gain. may need to boost volume if set to high echoMode
     bool            resetAecm( void ); // reset aecm using previous initialize values
 
     bool            processEchoCancel( int16_t* nearendNoisyMic, int16_t* farSpeakerOut, int nrOfSamples, int16_t* retEchoCanceledSamples );

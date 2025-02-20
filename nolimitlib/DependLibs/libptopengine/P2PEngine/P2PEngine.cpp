@@ -441,6 +441,17 @@ EFriendState P2PEngine::getPluginPermission( int iPluginType )
 }
 
 //============================================================================
+bool P2PEngine::getIsPluginInTestState( EPluginType pluginType, VxGUID& onlineId )
+{
+	if( ePluginTypePushToTalk == pluginType && onlineId == m_MyOnlineId )
+	{
+		return true;
+	}
+
+	return false;
+}
+
+//============================================================================
 void P2PEngine::setPluginPermission( EPluginType pluginType, int iPluginPermission )
 {
 	if( ( ePluginTypeInvalid < pluginType ) && 

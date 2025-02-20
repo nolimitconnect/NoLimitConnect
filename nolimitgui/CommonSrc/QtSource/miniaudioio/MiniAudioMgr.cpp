@@ -9,11 +9,10 @@
 //============================================================================
 
 #include "MiniAudioMgr.h"
+
 #include "AudioUtils.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
-
-
 
 #include <QSurface>
 #include <qmath.h>
@@ -73,7 +72,7 @@ MiniAudioMgr::MiniAudioMgr( AppCommon& app, IAudioCallbacks& audioCallbacks, QOb
     m_AudioInFormat.setChannelCount( AUDIO_CHANNELS );
     m_AudioInFormat.setSampleFormat( QAudioFormat::Int16 );
 
-    // setEchoCancelEnable( true ); // for now always enabled
+    MiniAudioMgr::setEchoCancelEnable( m_MyApp.getAppSettings().getEchoCancelEnable() ); // for now always enabled
 
     // setDirectLoopbackEnable( true );
 
@@ -495,11 +494,16 @@ bool MiniAudioMgr::handleAudioTestResult( int64_t soundOutTimeMs, int64_t soundD
 //============================================================================
 void MiniAudioMgr::setEchoCancelEnable( bool enable ) 
 { 
-    m_EchoCancelEnabled = enable; 
-    m_AudioEchoCancel.enableEchoCancel( m_EchoCancelEnabled );
-    if( m_MyApp.getAppSettings().getIsAppSettingInitialized() )
+    if( m_EchoCancelEnabled != enable )
     {
-        m_MyApp.getAppSettings().setEchoCancelEnable( m_EchoCancelEnabled );
+        resetMicrophoneBuffers();
+        resetSpeakerBuffers( eAppModuleAll );
+        m_EchoCancelEnabled = enable; 
+        m_AudioEchoCancel.enableEchoCancel( m_EchoCancelEnabled );
+        if( m_MyApp.getAppSettings().getIsAppSettingInitialized() )
+        {
+            m_MyApp.getAppSettings().setEchoCancelEnable( m_EchoCancelEnabled );
+        }
     }
 }
 
@@ -741,7 +745,8 @@ void MiniAudioMgr::audioTestDetectTestSound( int16_t* sampleInData, int inSample
     int samplePosVal = 0;
     int64_t sampleTimeMs = 0;
 
-    constexpr int16_t sampCompareValue = 32768 / 10;
+    // this is peak value to assume recieved test sound. Hopefully not so low as to pickup noise as the test sound
+    constexpr int16_t sampCompareValue = 32768 / 200;
 
     for( int i = 0; i < inSampleCnt; i++ )
     {
@@ -779,6 +784,9 @@ int64_t MiniAudioMgr::getAudioTestDetectTime( int& peakValue )
 //============================================================================
 void MiniAudioMgr::processAudioThreaded( void )
 {
+    // initialize echo cancel even if not enabled because may get enabled later
+    getAudioEchoCancel().echoCancelStartup();
+
     while( false == m_ProcessAudioThread.isAborted() )
     {
         // wait until miniaudio has read some speaker output
@@ -811,30 +819,33 @@ void MiniAudioMgr::processAudioThreaded( void )
 
             continue;
         }
-        else if( getEchoCancelEnable() && isMicrophoneInputWanted() && isSpeakerOutputWanted() )
-        {
-            getAudioEchoCancel().processEchoCancelThreaded();
-
-            lockEchoCanceledBuffer();
-            if( m_EchoCanceledBuf.getSampleCnt() >= AUDIO_SAMPLES_PER_FRAME )
-            {
-                fromGuiEchoCanceledSamplesThreaded( m_EchoCanceledBuf.getSampleBuffer(), AUDIO_SAMPLES_PER_FRAME, false );
-                m_EchoCanceledBuf.samplesWereRead( AUDIO_SAMPLES_PER_FRAME );
-            }
-
-            unlockEchoCanceledBuffer();
-        }
         else if( isMicrophoneInputWanted() )
         {
-            // send raw audio to engine to be processed and sent out
-            lockMicWriteBuffer();
-            if( m_MicWriteBuf.getSampleCnt() >= AUDIO_SAMPLES_PER_FRAME )
+            if( getEchoCancelEnable() )
             {
-                fromGuiEchoCanceledSamplesThreaded( m_MicWriteBuf.getSampleBuffer(), AUDIO_SAMPLES_PER_FRAME, false );
-                m_MicWriteBuf.samplesWereRead( AUDIO_SAMPLES_PER_FRAME );
-            }
+                getAudioEchoCancel().processEchoCancelThreaded();
 
-            unlockMicWriteBuffer();
+                lockEchoCanceledBuffer();
+                if( m_EchoCanceledBuf.getSampleCnt() >= AUDIO_SAMPLES_PER_FRAME )
+                {
+                    fromGuiEchoCanceledSamplesThreaded( m_EchoCanceledBuf.getSampleBuffer(), AUDIO_SAMPLES_PER_FRAME, false );
+                    m_EchoCanceledBuf.samplesWereRead( AUDIO_SAMPLES_PER_FRAME );
+                }
+
+                unlockEchoCanceledBuffer();
+            }
+            else
+            {
+                // send raw audio to engine to be processed and sent out
+                lockMicWriteBuffer();
+                if( m_MicWriteBuf.getSampleCnt() >= AUDIO_SAMPLES_PER_FRAME )
+                {
+                    fromGuiEchoCanceledSamplesThreaded( m_MicWriteBuf.getSampleBuffer(), AUDIO_SAMPLES_PER_FRAME, false );
+                    m_MicWriteBuf.samplesWereRead( AUDIO_SAMPLES_PER_FRAME );
+                }
+
+                unlockMicWriteBuffer();
+            }
         }
 
         processToSpeakerThreaded();

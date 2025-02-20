@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="contextMenuPolicy">
-   <enum>Qt::ActionsContextMenu</enum>
+   <enum>Qt::ContextMenuPolicy::ActionsContextMenu</enum>
   </property>
   <property name="windowTitle">
    <string>Sound Settings</string>
@@ -104,13 +104,6 @@
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="m_MuteMicrophoneCheckBox">
-        <property name="text">
-         <string>Mute Microphone</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QCheckBox" name="m_SendMicEchoCanceledToSpeakerCheckBox">
         <property name="text">
          <string>Send microphone to speakers (Echo Cancel, Compress, Decompress)</string>
@@ -191,30 +184,9 @@
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="m_MuteSpeakersCheckBox">
-        <property name="text">
-         <string>Mute Speakers</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QCheckBox" name="m_GenerateToneCheckBox">
         <property name="text">
          <string>Generat 400Hz tone for speakers</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Speaker Output Peak Level</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QProgressBar" name="m_AudioOutPeakProgressBar">
-        <property name="value">
-         <number>24</number>
         </property>
        </widget>
       </item>

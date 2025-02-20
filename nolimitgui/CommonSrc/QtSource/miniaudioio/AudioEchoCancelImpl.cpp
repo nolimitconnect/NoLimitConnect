@@ -10,9 +10,9 @@
 //============================================================================
 
 #include "AudioEchoCancelImpl.h"
-#include "AudioUtils.h"
 
 #include "AppCommon.h"
+#include "AudioUtils.h"
 #include "MiniAudioMgr.h"
 
 #ifdef USE_ECHO_CANCEL_3
@@ -30,11 +30,6 @@ AudioEchoCancelImpl::AudioEchoCancelImpl( AppCommon& appCommon, MiniAudioMgr& au
 	: QObject( parent )
 	, m_MyApp( appCommon )
 	, m_AudioIoMgr( audioIoMgr )
-{
-}
-
-//============================================================================
-AudioEchoCancelImpl::~AudioEchoCancelImpl()
 {
 }
 
@@ -79,13 +74,8 @@ void AudioEchoCancelImpl::echoCancelStartup( int sampleFreq )
 		m_SpeakerStreamConfig.sample_rate_hz(), m_SpeakerStreamConfig.num_channels() );
 
 #elif defined( USE_WEB_RTC_ECHO_CANCEL_MOBILE )
-	m_AecmWebRtc.initializeAecm( sampleFreq );
+	m_AecmWebRtc.initializeAecm( getEchoDelayMsConstant(), sampleFreq );
 #endif // USE_SPEEX_ECHO_CANCEL
-}
-
-//============================================================================
-void AudioEchoCancelImpl::echoCancelShutdown( void )
-{
 }
 
 //============================================================================
@@ -443,19 +433,22 @@ void AudioEchoCancelImpl::processWebRtc3EchoCancel( int16_t* micWriteBuf, int16_
 }
 
 //============================================================================
-void AudioEchoCancelImpl::processWebRtcMobileEchoCancel( int16_t* micWriteBuf, int16_t* speakerBuf, int sampleCnt, int16_t* echoCanceledData )
+bool AudioEchoCancelImpl::processWebRtcMobileEchoCancel( int16_t* micWriteBuf, int16_t* speakerBuf, int sampleCnt, int16_t* echoCanceledData )
 {
 	if( !m_EchoCancelEnable )
 	{
 		memcpy( echoCanceledData, micWriteBuf, sampleCnt * AUDIO_BYTES_PER_SAMPLE );
-		return;
+		return true;
 	}
 
 	if( !m_AecmWebRtc.processEchoCancel( micWriteBuf, speakerBuf, sampleCnt, echoCanceledData ) )
 	{
 		LogMsg( LOG_ERROR, "AudioEchoCancelImpl::processWebRtcMobileEchoCancel failed" );
 		memcpy( echoCanceledData, micWriteBuf, sampleCnt * AUDIO_BYTES_PER_SAMPLE );
+		return false;
 	}
+
+	return true;
 }
 
 #if defined(USE_SPEEX_ECHO_CANCEL)
@@ -554,11 +547,10 @@ void AudioEchoCancelImpl::processEchoCancelFrame( int16_t* micBuf, int16_t* spea
 	processWebRtc1EchoCancel( micBuf, speakerBuf, samplesPerFrame, echoCanceledBuf );
 #elif defined(USE_WEB_RTC_ECHO_CANCEL_3)
 	processWebRtc3EchoCancel( micBuf, speakerBuf, samplesPerFrame, echoCanceledBuf );
-#elif defined(USE_WEB_RTC_ECHO_MOBILE)
+#elif defined(USE_WEB_RTC_ECHO_CANCEL_MOBILE)
 	processWebRtcMobileEchoCancel( micBuf, speakerBuf, samplesPerFrame, echoCanceledBuf );
 #endif // defined(USE_SPEEX_ECHO_CANCEL)
 }
-
 
 //============================================================================
 void AudioEchoCancelImpl::resetMicrophoneBuffers( void )
