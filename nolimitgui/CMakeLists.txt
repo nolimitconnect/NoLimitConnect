@@ -1102,6 +1102,7 @@ if (DEFINED TARGET_OS_LINUX)
             #glew
             iconv
 
+            ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/libturbojpeg.a
             jpg
             vxvideolib
             tag
@@ -1158,6 +1159,7 @@ if (DEFINED TARGET_OS_LINUX)
             #glew
             iconv
 
+            ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/libturbojpeg.a
             jpg
             vxvideolib
             tag
@@ -1220,6 +1222,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
             #glew
             iconv
 
+            ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/libturbojpeg.a
             jpg
             vxvideolib
             speex
@@ -1279,6 +1282,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
             #glew
             iconv
 
+            ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/libturbojpeg.a
             jpg
             vxvideolib
             speex
@@ -1342,6 +1346,8 @@ elseif (DEFINED TARGET_OS_WINDOWS)
         #glew
         iconv
         ilb
+
+        ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/libturbojpeg.a
         jpg
 
         vxvideolib

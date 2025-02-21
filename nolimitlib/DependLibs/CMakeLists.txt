@@ -30,6 +30,9 @@ add_subdirectory(libgnu)
 
 add_subdirectory(libiconv)
 
+include(ExternalProject)
+ExternalProject_Add(libjpeg-turbo SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libjpeg-turbo)
+
 add_subdirectory(libjpg)
 add_subdirectory(liblame)
 #add_subdirectory(liblcms2) # not used but headers needed for avcodec
