@@ -44,6 +44,7 @@ jinit_compress_master(j_compress_ptr cinfo)
       jinit_color_converter(cinfo);
       jinit_downsampler(cinfo);
       jinit_c_prep_controller(cinfo, FALSE /* never need full buffer here */);
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
     } else if (cinfo->data_precision <= 12) {
       j12init_color_converter(cinfo);
       j12init_downsampler(cinfo);
@@ -60,7 +61,12 @@ jinit_compress_master(j_compress_ptr cinfo)
 #endif
     }
   }
+#else
+    }
+  }
+#endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
 
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
   if (cinfo->master->lossless) {
 #ifdef C_LOSSLESS_SUPPORTED
     /* Prediction, sample differencing, and point transform */
@@ -91,11 +97,14 @@ jinit_compress_master(j_compress_ptr cinfo)
     ERREXIT(cinfo, JERR_NOT_COMPILED);
 #endif
   } else {
+#endif // !defined(SUPPORT_JPEG_HIGH_PRECISION)
     /* Forward DCT */
     if (cinfo->data_precision == 8)
       jinit_forward_dct(cinfo);
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
     else if (cinfo->data_precision == 12)
       j12init_forward_dct(cinfo);
+#endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
     else
       ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
     /* Entropy encoding: either Huffman or arithmetic coding. */
@@ -114,19 +123,23 @@ jinit_compress_master(j_compress_ptr cinfo)
 #endif
       } else
         jinit_huff_encoder(cinfo);
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
     }
 
     /* Need a full-image coefficient buffer in any multi-pass mode. */
+
     if (cinfo->data_precision == 12)
       j12init_c_coef_controller(cinfo, (boolean)(cinfo->num_scans > 1 ||
                                                  cinfo->optimize_coding));
     else
+#endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
       jinit_c_coef_controller(cinfo, (boolean)(cinfo->num_scans > 1 ||
                                                cinfo->optimize_coding));
   }
 
   if (cinfo->data_precision <= 8)
     jinit_c_main_controller(cinfo, FALSE /* never need full buffer here */);
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
   else if (cinfo->data_precision <= 12)
     j12init_c_main_controller(cinfo, FALSE /* never need full buffer here */);
   else
@@ -135,6 +148,7 @@ jinit_compress_master(j_compress_ptr cinfo)
 #else
     ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
 #endif
+#endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
 
   jinit_marker_writer(cinfo);
 

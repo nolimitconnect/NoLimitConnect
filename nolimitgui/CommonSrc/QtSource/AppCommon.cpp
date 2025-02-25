@@ -666,7 +666,7 @@ void AppCommon::slotInternalPluginMessage( EPluginType pluginType, VxGUID online
     }
 
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiPluginMsg( pluginType, onlineId, msgType, paramValue );
 	}
@@ -685,7 +685,7 @@ void AppCommon::slotInternalPluginErrorMsg( EPluginType pluginType, VxGUID onlin
     }
 
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiPluginMsg( pluginType, onlineId, msgType, commErrDescription );
 	}
@@ -1173,7 +1173,7 @@ void AppCommon::slotInternalToGuiSetGameValueVar( EPluginType pluginType, VxGUID
     }
 
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiSetGameValueVar( pluginType, onlineId, s32VarId, s32VarValue );
 	}
@@ -1210,7 +1210,7 @@ void AppCommon::slotInternalToGuiSetGameActionVar( EPluginType pluginType, VxGUI
     }
 
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiSetGameActionVar( pluginType, onlineId, s32VarId, s32VarValue );
 	}
@@ -1255,7 +1255,7 @@ void AppCommon::slotInternalToGuiAssetAdded( AssetBaseInfo assetInfo )
 	}
 
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiAssetAdded( assetInfo );
 	}
@@ -1284,7 +1284,7 @@ void AppCommon::slotInternalToGuiAssetUpdated( AssetBaseInfo assetInfo )
     }
 
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiAssetUpdated( assetInfo );
 	}
@@ -1315,7 +1315,7 @@ void AppCommon::slotInternalToGuiAssetRemoved( AssetBaseInfo assetInfo )
     }
 
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiAssetUpdated( assetInfo );
 	}
@@ -1344,7 +1344,7 @@ void AppCommon::slotInternalToGuiAssetXferState( VxGUID assetUniqueId, EAssetSen
     }
 
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiAssetXferState( assetUniqueId, assetSendState, param );
 	}
@@ -1380,7 +1380,7 @@ void AppCommon::slotInternalToGuiAssetSessionHistory( AssetBaseInfo* assetInfo )
     }
 
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiAssetSessionHistory( *assetInfo );
 	}
@@ -1417,7 +1417,7 @@ void AppCommon::slotInternalToGuiAssetAction( EAssetAction assetAction, VxGUID a
     }
 
 	m_ToGuiActivityInterfaceBusy = true;
-    for( auto client : m_ToGuiActivityInterfaceList )
+    for( auto& client : m_ToGuiActivityInterfaceList )
     {
         client->toGuiClientAssetAction( assetAction, assetId, pos0to100000 );
     }
@@ -1451,7 +1451,7 @@ void AppCommon::slotInternalMultiSessionAction( VxGUID onlineId, EMSessionAction
     }
 
 	m_ToGuiActivityInterfaceBusy = true;
-    for( auto client : m_ToGuiActivityInterfaceList )
+    for( auto& client : m_ToGuiActivityInterfaceList )
     {
         client->toGuiMultiSessionAction(  mSessionAction, onlineId, pos0to100000 );
     }
@@ -1492,7 +1492,7 @@ void AppCommon::slotInternalBlobAction( EAssetAction assetAction, VxGUID assetId
     }
 
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiClientBlobAction( assetAction, assetId, pos0to100000 );
 	}
@@ -1526,7 +1526,7 @@ void AppCommon::slotInternalBlobAdded( BlobInfo blobInfo )
     }
 
 	m_ToGuiActivityInterfaceBusy = true;
-    for( auto client : m_ToGuiActivityInterfaceList )
+    for( auto& client : m_ToGuiActivityInterfaceList )
     {
         client->toGuiBlobAdded( blobInfo );
     }
@@ -1560,7 +1560,7 @@ void AppCommon::slotInternalBlobSessionHistory( BlobInfo blobInfo )
     }
 
 	m_ToGuiActivityInterfaceBusy = true;
-    for( auto client : m_ToGuiActivityInterfaceList )
+    for( auto& client : m_ToGuiActivityInterfaceList )
     {
         client->toGuiBlobSessionHistory( blobInfo );
     }
@@ -1684,7 +1684,7 @@ static bool actCallbackShutdownComplete = false;
 
 	if( wantCallback )
 	{
-		for( auto client : m_ToGuiActivityInterfaceList )
+		for( auto& client : m_ToGuiActivityInterfaceList )
 		{
 			if( client == callback )
 			{
@@ -1750,7 +1750,7 @@ static bool actCallbackShutdownComplete = false;
 
 	if( wantCallback )
 	{
-		for( auto client : m_ToGuiHardwareCtrlList )
+		for( auto& client : m_ToGuiHardwareCtrlList )
 		{
 			if( client == callback )
 			{

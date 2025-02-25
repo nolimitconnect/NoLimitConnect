@@ -2093,7 +2093,7 @@ void FileInfoXferMgr::wantFileXferCallback( FileXferCallback* client, bool wantC
 void FileInfoXferMgr::announcePkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	lockClientList();
-    for( auto client : m_FileXferCallbackClients )
+    for( auto& client : m_FileXferCallbackClients )
     {
 		client->onFileXferPktRxed( sktBase, pktHdr );
     }

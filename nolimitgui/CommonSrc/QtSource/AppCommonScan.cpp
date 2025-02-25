@@ -33,7 +33,7 @@ void AppCommon::toGuiScanSearchComplete( EScanType eScanType )
 void AppCommon::slotInternalToGuiScanSearchComplete( EScanType eScanType )
 {
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiClientScanSearchComplete( eScanType );
 	}
@@ -58,7 +58,7 @@ void AppCommon::slotInternalToGuiScanResultSuccess( EScanType eScanType, VxNetId
     GuiUser* guiUser = m_UserMgr.getUser( netIdent.getMyOnlineId() );
 
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiScanResultSuccess( eScanType, guiUser );
 	}
@@ -83,7 +83,7 @@ void AppCommon::slotInternalToGuiSearchResultError( EScanType eScanType, VxNetId
     GuiUser* guiUser = m_UserMgr.getUser( netIdentIn.getMyOnlineId() );
 
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiSearchResultError( eScanType, guiUser, errCode );
 	}
@@ -104,7 +104,7 @@ void AppCommon::toGuiSearchResultProfilePic(	VxNetIdent*	netIdentIn,
     GuiUser* guiUser = m_UserMgr.getUser( netIdentIn->getMyOnlineId() );
 
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiSearchResultProfilePic( guiUser, pu8JpgData, u32JpgDataLen );
 	}
@@ -129,7 +129,7 @@ void AppCommon::slotInternalToGuiSearchResultFileSearch( VxGUID onlineId, EPlugi
 	GuiUser* guiUser = m_UserMgr.getUser( onlineId );
 
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiSearchResultFileSearch( guiUser, pluginType, lclSessionId, fileInfo );
 	}

@@ -603,7 +603,7 @@ void AssetBaseMgr::announceAssetUpdated( AssetBaseInfo* assetInfo )
 
     // LogMsg( LOG_VERBOSE, "AssetBaseMgr::announceAssetUpdated start" );
     lockClientList();
-    for( auto client : m_AssetClients )
+    for( auto& client : m_AssetClients )
     {
         client->callbackAssetAdded( assetInfo );
     }
@@ -623,7 +623,7 @@ void AssetBaseMgr::announceAssetRemoved( AssetBaseInfo* assetInfo, bool resource
 	}
 
 	lockClientList();
-    for( auto client : m_AssetClients )
+    for( auto& client : m_AssetClients )
     {
 		client->callbackAssetRemoved( assetInfo );
 	}
@@ -637,7 +637,7 @@ void AssetBaseMgr::announceAssetXferState( VxGUID& sendToId, VxGUID& assetUnique
 {
 	LogMsg( LOG_VERBOSE, "AssetBaseMgr::announceAssetXferState state %d start", assetSendState );
 	lockClientList();
-    for( auto client : m_AssetClients )
+    for( auto& client : m_AssetClients )
     {
 		client->callbackAssetSendState( sendToId, assetUniqueId, assetSendState, param );
 	}
@@ -819,7 +819,7 @@ void AssetBaseMgr::updateAssetFileTypes( bool resourceLocked )
 		m_u16AssetBaseFileTypes = u16FileTypes;
 
 		lockClientList();
-		for( auto client : m_AssetClients )
+		for( auto& client : m_AssetClients )
 		{
 			client->callbackAssetFileTypesChanged( u16FileTypes );
 		}

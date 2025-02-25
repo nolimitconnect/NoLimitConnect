@@ -140,7 +140,7 @@ void GuiRandConnectMgr::wantRandConnectCallback( GuiRandConnectCallback* client,
 //============================================================================
 void GuiRandConnectMgr::announceRandConnect( VxGUID& onlineId, enum ERandAction randAction )
 {
-    for( auto client : m_MemberClients )
+    for( auto& client : m_MemberClients )
     {
         client->callbackGuiRandConnect( onlineId, randAction );
     }

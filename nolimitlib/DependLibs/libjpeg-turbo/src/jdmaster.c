@@ -574,10 +574,13 @@ master_selection(j_decompress_ptr cinfo)
 #ifdef QUANT_1PASS_SUPPORTED
       if (cinfo->data_precision == 8)
         jinit_1pass_quantizer(cinfo);
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
       else if (cinfo->data_precision == 12)
         j12init_1pass_quantizer(cinfo);
+#endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
       else
         ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
+
       master->quantizer_1pass = cinfo->cquantize;
 #else
       ERREXIT(cinfo, JERR_NOT_COMPILED);
@@ -589,10 +592,12 @@ master_selection(j_decompress_ptr cinfo)
 #ifdef QUANT_2PASS_SUPPORTED
       if (cinfo->data_precision == 8)
         jinit_2pass_quantizer(cinfo);
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
       else if (cinfo->data_precision == 12)
         j12init_2pass_quantizer(cinfo);
       else
         ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
+#endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
       master->quantizer_2pass = cinfo->cquantize;
 #else
       ERREXIT(cinfo, JERR_NOT_COMPILED);
@@ -609,6 +614,7 @@ master_selection(j_decompress_ptr cinfo)
 #ifdef UPSAMPLE_MERGING_SUPPORTED
       if (cinfo->data_precision == 8)
         jinit_merged_upsampler(cinfo); /* does color conversion too */
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
       else if (cinfo->data_precision == 12)
         j12init_merged_upsampler(cinfo); /* does color conversion too */
       else
@@ -616,10 +622,13 @@ master_selection(j_decompress_ptr cinfo)
 #else
       ERREXIT(cinfo, JERR_NOT_COMPILED);
 #endif
+#endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
+
     } else {
       if (cinfo->data_precision <= 8) {
         jinit_color_deconverter(cinfo);
         jinit_upsampler(cinfo);
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
       } else if (cinfo->data_precision <= 12) {
         j12init_color_deconverter(cinfo);
         j12init_upsampler(cinfo);
@@ -630,10 +639,12 @@ master_selection(j_decompress_ptr cinfo)
 #else
         ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
 #endif
+#endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
       }
     }
     if (cinfo->data_precision <= 8)
       jinit_d_post_controller(cinfo, cinfo->enable_2pass_quant);
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
     else if (cinfo->data_precision <= 12)
       j12init_d_post_controller(cinfo, cinfo->enable_2pass_quant);
     else
@@ -642,6 +653,7 @@ master_selection(j_decompress_ptr cinfo)
 #else
       ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
 #endif
+#endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
   }
 
   if (cinfo->master->lossless) {
@@ -651,10 +663,12 @@ master_selection(j_decompress_ptr cinfo)
      */
     if (cinfo->data_precision <= 8)
       jinit_lossless_decompressor(cinfo);
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
     else if (cinfo->data_precision <= 12)
       j12init_lossless_decompressor(cinfo);
     else
       j16init_lossless_decompressor(cinfo);
+#endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
     /* Entropy decoding: either Huffman or arithmetic coding. */
     if (cinfo->arith_code) {
       ERREXIT(cinfo, JERR_ARITH_NOTIMPL);
@@ -667,6 +681,7 @@ master_selection(j_decompress_ptr cinfo)
                    cinfo->buffered_image;
     if (cinfo->data_precision <= 8)
       jinit_d_diff_controller(cinfo, use_c_buffer);
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
     else if (cinfo->data_precision <= 12)
       j12init_d_diff_controller(cinfo, use_c_buffer);
     else
@@ -674,12 +689,15 @@ master_selection(j_decompress_ptr cinfo)
 #else
     ERREXIT(cinfo, JERR_NOT_COMPILED);
 #endif
+#endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
   } else {
     /* Inverse DCT */
     if (cinfo->data_precision == 8)
       jinit_inverse_dct(cinfo);
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
     else if (cinfo->data_precision == 12)
       j12init_inverse_dct(cinfo);
+#endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
     else
       ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
     /* Entropy decoding: either Huffman or arithmetic coding. */
@@ -703,18 +721,21 @@ master_selection(j_decompress_ptr cinfo)
     /* Initialize principal buffer controllers. */
     use_c_buffer = cinfo->inputctl->has_multiple_scans ||
                    cinfo->buffered_image;
+ #if defined(SUPPORT_JPEG_HIGH_PRECISION)
     if (cinfo->data_precision == 12)
       j12init_d_coef_controller(cinfo, use_c_buffer);
     else
+ #endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
       jinit_d_coef_controller(cinfo, use_c_buffer);
   }
 
   if (!cinfo->raw_data_out) {
     if (cinfo->data_precision <= 8)
       jinit_d_main_controller(cinfo, FALSE /* never need full buffer here */);
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
     else if (cinfo->data_precision <= 12)
       j12init_d_main_controller(cinfo,
-                                FALSE /* never need full buffer here */);
+                                FALSE /* never need full buffer here */);    
     else
 #ifdef D_LOSSLESS_SUPPORTED
       j16init_d_main_controller(cinfo,
@@ -722,6 +743,7 @@ master_selection(j_decompress_ptr cinfo)
 #else
       ERREXIT1(cinfo, JERR_BAD_PRECISION, cinfo->data_precision);
 #endif
+#endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
   }
 
   /* We can now tell the memory manager to allocate virtual arrays. */

@@ -205,7 +205,7 @@ void GuiConnectIdListMgr::announceOnlineStatusChange( VxGUID& onlineId, bool isO
                 m_MyApp.describeUser( onlineId ).c_str(), isOnline );
     if( onlineId.isVxGUIDValid() )
     {
-        for( auto client : m_GuiConnectIdClientList )
+        for( auto& client : m_GuiConnectIdClientList )
         {
             if( client )
             {
@@ -301,7 +301,7 @@ void GuiConnectIdListMgr::wantGuiConnectIdCallbacks( GuiConnectIdListCallback* c
 
     if( wantCallback )
     {
-        for( auto client : m_GuiConnectIdClientList )
+        for( auto& client : m_GuiConnectIdClientList )
         {
             if( client == callback )
             {
@@ -344,7 +344,7 @@ void GuiConnectIdListMgr::wantGuiOnlineStatusCallbacks( GuiOnlineStatusCallback*
    
     if( wantCallback )
     {
-        for( auto client : m_GuiOnlineStatusClientList )
+        for( auto& client : m_GuiOnlineStatusClientList )
         {
             if( client == callback )
             {

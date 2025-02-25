@@ -1197,7 +1197,7 @@ void ConnectIdListMgr::announceOnlineStatus( VxGUID& onlineId, bool isOnline )
 
     lockConnectIdClientList();
 
-    for( auto client : m_ConnectIdCallbackClients )
+    for( auto& client : m_ConnectIdCallbackClients )
     {
         if( client )
         {
@@ -1213,7 +1213,7 @@ void ConnectIdListMgr::announceOnlineStatus( VxGUID& onlineId, bool isOnline )
 
     lockOnlineStatusClientList();
 
-    for( auto client : m_OnlineStatusCallbackClients )
+    for( auto& client : m_OnlineStatusCallbackClients )
     {
         if( client )
         {
@@ -1241,7 +1241,7 @@ void ConnectIdListMgr::announceConnectionStatus( ConnectId& connectId, bool isCo
 {
     lockConnectIdClientList();
 
-    for( auto client : m_ConnectIdCallbackClients )
+    for( auto& client : m_ConnectIdCallbackClients )
     {
         if( client )
         {
@@ -1261,7 +1261,7 @@ void ConnectIdListMgr::announceRelayStatus( ConnectId& connectId, bool isRelayed
 {
     lockConnectIdClientList();
 
-    for( auto client : m_ConnectIdCallbackClients )
+    for( auto& client : m_ConnectIdCallbackClients )
     {
         if( client )
         {
@@ -1281,7 +1281,7 @@ void ConnectIdListMgr::announceConnectionReason( VxGUID& sktConnectId, EConnectR
 {
     lockConnectIdClientList();
 
-    for( auto client : m_ConnectIdCallbackClients )
+    for( auto& client : m_ConnectIdCallbackClients )
     {
         if( client )
         {
@@ -1301,7 +1301,7 @@ void ConnectIdListMgr::announceConnectionLost( VxGUID& sktConnectId )
 {
     lockConnectIdClientList();
 
-    for( auto client : m_ConnectIdCallbackClients )
+    for( auto& client : m_ConnectIdCallbackClients )
     {
         if( client )
         {

@@ -153,7 +153,7 @@ void ThumbMgr::announceAssetAdded( AssetBaseInfo* assetInfo, bool resourceLocked
 	    LogMsg( LOG_INFO, "ThumbMgr::announceThumbAdded start" );
 	
 	    lockClientList();
-	    for( auto client : m_ThumbClients )
+	    for( auto& client : m_ThumbClients )
 	    {
 		    client->callbackThumbAdded( thumbInfo );
 	    }
@@ -181,7 +181,7 @@ void ThumbMgr::announceAssetUpdated( AssetBaseInfo* assetInfo )
     if( thumbInfo )
     {
         lockClientList();
- 	    for( auto client : m_ThumbClients )
+ 	    for( auto& client : m_ThumbClients )
 	    {
             client->callbackThumbUpdated( thumbInfo );
         }
@@ -202,7 +202,7 @@ void ThumbMgr::announceAssetRemoved( AssetBaseInfo* assetInfo, bool resourceLock
     if( thumbInfo && thumbInfo->isThumbAsset() )
     {
 	    lockClientList();
-	    for( auto client : m_ThumbClients )
+	    for( auto& client : m_ThumbClients )
 	    {
 		    client->callbackThumbRemoved( thumbInfo->getThumbId() );
 	    }
@@ -223,7 +223,7 @@ void ThumbMgr::announceAssetXferState( VxGUID& sendToId, VxGUID& assetUniqueId, 
 	LogMsg( LOG_INFO, "ThumbMgr::announceAssetXferState state %d start", assetSendState );
 	lockClientList();
 
-	for( auto client : m_ThumbClients )
+	for( auto& client : m_ThumbClients )
 	{
 		client->callbackAssetSendState( sendToId, assetUniqueId, assetSendState, param );
 	}
@@ -236,7 +236,7 @@ void ThumbMgr::announceAssetXferState( VxGUID& sendToId, VxGUID& assetUniqueId, 
 void ThumbMgr::announceThumbAdded( ThumbInfo& thumbInfo )
 {
     lockClientList();
-	for( auto client : m_ThumbClients )
+	for( auto& client : m_ThumbClients )
 	{
         client->callbackThumbAdded( &thumbInfo );
     }
@@ -254,7 +254,7 @@ void ThumbMgr::announceThumbUpdated( ThumbInfo& thumbInfo )
     }
 
     lockClientList();
-	for( auto client : m_ThumbClients )
+	for( auto& client : m_ThumbClients )
 	{
         client->callbackThumbUpdated( &thumbInfo );
     }

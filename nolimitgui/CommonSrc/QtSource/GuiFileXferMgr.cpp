@@ -100,7 +100,7 @@ void GuiFileXferMgr::toGuiFileListReply( VxGUID& onlineId, EPluginType pluginTyp
     FileListReplySession* replySession = new FileListReplySession( pluginType, m_MyApp.getUserMgr().getUser( onlineId ), fileInfo );
 
     m_ToGuiFileXferInterfaceBusy = true;
-    for( auto client : m_ToGuiFileXferInterfaceList )
+    for( auto& client : m_ToGuiFileXferInterfaceList )
     {
         client->toGuiFileListReply( replySession );
     }
@@ -120,7 +120,7 @@ void GuiFileXferMgr::toGuiFileUploadStart( VxGUID& onlineId, EPluginType pluginT
     GuiFileXferSession* fileXferSession = new GuiFileXferSession( eXferDirectionTx, pluginType, m_MyApp.getUserMgr().getUser( onlineId ), lclSessionId, fileInfo );
 
     m_ToGuiFileXferInterfaceBusy = true;
-    for( auto client : m_ToGuiFileXferInterfaceList )
+    for( auto& client : m_ToGuiFileXferInterfaceList )
     {
         client->toGuiFileUploadStart( fileXferSession );
     }
@@ -139,7 +139,7 @@ void GuiFileXferMgr::toGuiFileDownloadStart( VxGUID& onlineId, EPluginType plugi
 
     GuiFileXferSession* fileXferSession = new GuiFileXferSession( eXferDirectionRx, pluginType, m_MyApp.getUserMgr().getUser( onlineId ), lclSessionId, fileInfo );
     m_ToGuiFileXferInterfaceBusy = true;
-    for( auto client : m_ToGuiFileXferInterfaceList )
+    for( auto& client : m_ToGuiFileXferInterfaceList )
     {
         client->toGuiFileDownloadStart( fileXferSession );
     }
@@ -166,7 +166,7 @@ void GuiFileXferMgr::toGuiFileXferState( EPluginType pluginType, VxGUID& lclSess
     }
 
     m_ToGuiFileXferInterfaceBusy = true;
-    for( auto client : m_ToGuiFileXferInterfaceList )
+    for( auto& client : m_ToGuiFileXferInterfaceList )
     {
         client->toGuiFileXferState( pluginType, lclSessionId, xferDir, xferState, xferErr, percentProgress );
     }
@@ -184,7 +184,7 @@ void GuiFileXferMgr::toGuiFileDeleted( QString& fileName )
     }
 
     m_ToGuiFileXferInterfaceBusy = true;
-    for( auto client : m_ToGuiFileXferInterfaceList )
+    for( auto& client : m_ToGuiFileXferInterfaceList )
     {
         client->toGuiFileDeleted( fileName );
     }
@@ -201,7 +201,7 @@ void GuiFileXferMgr::toGuiFileDownloadComplete( EPluginType pluginType, VxGUID& 
     }
 
     m_ToGuiFileXferInterfaceBusy = true;
-    for( auto client : m_ToGuiFileXferInterfaceList )
+    for( auto& client : m_ToGuiFileXferInterfaceList )
     {
         client->toGuiFileDownloadComplete( pluginType, lclSessionId, fileName, xferError );
     }
@@ -218,7 +218,7 @@ void GuiFileXferMgr::toGuiFileUploadComplete( EPluginType pluginType, VxGUID& lc
     }
 
     m_ToGuiFileXferInterfaceBusy = true;
-    for( auto client : m_ToGuiFileXferInterfaceList )
+    for( auto& client : m_ToGuiFileXferInterfaceList )
     {
         client->toGuiFileUploadComplete( pluginType, lclSessionId, xferError );
     }
@@ -235,7 +235,7 @@ void GuiFileXferMgr::toGuiFileList( VxGUID appInstId, FileInfo& fileInfo )
     }
 
     m_ToGuiFileXferInterfaceBusy = true;
-    for( auto client : m_ToGuiFileXferInterfaceList )
+    for( auto& client : m_ToGuiFileXferInterfaceList )
     {
         client->callbackToGuiFileList( appInstId, fileInfo );
     }
@@ -252,7 +252,7 @@ void GuiFileXferMgr::toGuiFileListCompleted( VxGUID appInstId )
     }
 
     m_ToGuiFileXferInterfaceBusy = true;
-    for( auto client : m_ToGuiFileXferInterfaceList )
+    for( auto& client : m_ToGuiFileXferInterfaceList )
     {
         client->callbackToGuiFileListCompleted(appInstId);
     }
@@ -265,7 +265,7 @@ void GuiFileXferMgr::beginDownload( EApplet appletType, GuiFileXferSession* xfer
 {
     addDownload( xferSession );
     m_ToGuiFileXferInterfaceBusy = true;
-    for( auto client : m_ToGuiFileXferInterfaceList )
+    for( auto& client : m_ToGuiFileXferInterfaceList )
     {
         client->callbackBeginDownload( appletType, xferSession );
     }
@@ -281,7 +281,7 @@ void GuiFileXferMgr::acceptDownload( EApplet appletType, GuiFileXferSession* xfe
     {
         m_MyApp.getEngine().fromGuiSetFileIsInLibrary( xferSession->getFileInfo(), true );
         m_ToGuiFileXferInterfaceBusy = true;
-        for( auto client : m_ToGuiFileXferInterfaceList )
+        for( auto& client : m_ToGuiFileXferInterfaceList )
         {
             client->callbackAcceptDownload( appletType, xferSession );
         }
@@ -301,7 +301,7 @@ void GuiFileXferMgr::cancelDownload( EApplet appletType, GuiFileXferSession* xfe
     m_MyApp.getEngine().fromGuiSetFileIsInLibrary( xferSession->getFileInfo(), false );
     m_MyApp.getEngine().fromGuiCancelDownload( xferSession->getLclSessionId() );
     m_ToGuiFileXferInterfaceBusy = true;
-    for( auto client : m_ToGuiFileXferInterfaceList )
+    for( auto& client : m_ToGuiFileXferInterfaceList )
     {
         client->callbackCancelDownload( appletType, xferSession );
     }
@@ -314,7 +314,7 @@ void GuiFileXferMgr::beginUpload( EApplet appletType, GuiFileXferSession* xferSe
 {
     addUpload( xferSession );
     m_ToGuiFileXferInterfaceBusy = true;
-    for( auto client : m_ToGuiFileXferInterfaceList )
+    for( auto& client : m_ToGuiFileXferInterfaceList )
     {
         client->callbackBeginUpload( appletType, xferSession );
     }
@@ -327,7 +327,7 @@ void GuiFileXferMgr::acceptUpload( EApplet appletType, GuiFileXferSession* xferS
 {
     removeUpload( xferSession );
     m_ToGuiFileXferInterfaceBusy = true;
-    for( auto client : m_ToGuiFileXferInterfaceList )
+    for( auto& client : m_ToGuiFileXferInterfaceList )
     {
         client->callbackAcceptUpload( appletType, xferSession );
     }
@@ -341,7 +341,7 @@ void GuiFileXferMgr::cancelUpload( EApplet appletType, GuiFileXferSession* xferS
     removeUpload( xferSession );
     m_MyApp.getEngine().fromGuiCancelUpload( xferSession->getLclSessionId() );
     m_ToGuiFileXferInterfaceBusy = true;
-    for( auto client : m_ToGuiFileXferInterfaceList )
+    for( auto& client : m_ToGuiFileXferInterfaceList )
     {
         client->callbackCancelUpload( appletType, xferSession );
     }

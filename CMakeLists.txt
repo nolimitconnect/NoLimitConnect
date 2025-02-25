@@ -59,6 +59,10 @@ set(BUILD_SYSTEM_CI_PIPELINE false)
 
 project(nolimitconnect LANGUAGES C CXX ASM)
 
+# set if want to use libturbo-jpeg instead of libjpeg
+set(USE_LIBJPEG_TURBO true)
+add_compile_definitions(USE_LIBJPEG_TURBO=1)
+
 # if linux we can use the arch command to determine host cpu and assuming it is not cross compiled then set default
 set(NLC_BUILD_HOST_ARCH "")
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux" AND NOT DEFINED MAKE_ENV)

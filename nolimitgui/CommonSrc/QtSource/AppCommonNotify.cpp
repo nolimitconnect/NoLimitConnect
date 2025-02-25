@@ -121,7 +121,7 @@ void AppCommon::slotToGuiInstMsg( VxGUID onlineId, EPluginType pluginType, QStri
     }
 
 	m_ToGuiActivityInterfaceBusy = true;
-	for( auto client : m_ToGuiActivityInterfaceList )
+	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
 		client->toGuiInstMsg( guiUser, pluginType, pMsg );
 	}

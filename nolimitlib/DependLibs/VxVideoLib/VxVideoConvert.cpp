@@ -12,7 +12,12 @@
 #include "GdvBufferUtil.h"
 #include "VxRescaleRgb.h"
 
+#if defined(USE_LIBJPEG_TURBO)
+#include <libjpeg-turbo/VxJpgLib.h>
+#else
 #include <libjpg/VxJpgLib.h>
+#endif // defined(USE_LIBJPEG_TURBO)
+
 #include <CoreLib/VxDebug.h>
 
 #include <string.h>
@@ -132,12 +137,12 @@ void decodeYUV420SP( uint8_t * rgb, uint8_t * yuv420sp, int width, int height)
 //============================================================================
 //! convert image
 // NOTE 1: caller must delete the returned buffer
-uint8_t * VxConvertImage(	uint32_t		u32FourCcIn,		// FOURCC of format to convert
-						uint8_t *	pu8DataIn,			// data to convert
-						int 	iImageWidth,		// width of image in pixels
-						int 	iImageHeight,		// height of image in pixels
-						uint32_t		u32FourCcConverTo,	// FOURCC of format to convert to 
-						uint32_t&	u32RetDataLen )		// data length of converted image
+uint8_t * VxConvertImage(	uint32_t	u32FourCcIn,		// FOURCC of format to convert
+							uint8_t *	pu8DataIn,			// data to convert
+							int 		iImageWidth,		// width of image in pixels
+							int 		iImageHeight,		// height of image in pixels
+							uint32_t	u32FourCcConverTo,	// FOURCC of format to convert to 
+							uint32_t&	u32RetDataLen )		// data length of converted image
 {
 	uint32_t formatToConvertTo = FOURCC_RGB; 
 	u32RetDataLen = VxCalcImageDataLen( formatToConvertTo, iImageWidth, iImageHeight );

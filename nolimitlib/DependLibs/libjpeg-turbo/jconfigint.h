@@ -1,32 +1,42 @@
-/* libjpeg-turbo build number */
-#define BUILD  "@BUILD@"
+#pragma once
+#include <NlcDependLibrariesConfig.h>
 
+/* libjpeg-turbo build number */
+#define BUILD  "20250223"
+
+#if defined(TARGET_OS_WINDOWS)
+#else
 /* How to hide global symbols. */
-#define HIDDEN  @HIDDEN@
+# define HIDDEN  __attribute__((visibility("hidden")))
+#endif // defined(TARGET_OS_WINDOWS)
 
 /* Compiler's inline keyword */
 #undef inline
 
+#if defined(TARGET_OS_WINDOWS)
+# define INLINE  NLC_FORCE_INLINE
+#else
 /* How to obtain function inlining. */
-#define INLINE  @INLINE@
+# define INLINE  __inline__ __attribute__((always_inline))
+#endif // defined(TARGET_OS_WINDOWS)
 
 /* How to obtain thread-local storage */
-#define THREAD_LOCAL  @THREAD_LOCAL@
+#define THREAD_LOCAL  __thread
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME  "@CMAKE_PROJECT_NAME@"
+#define PACKAGE_NAME  "libjpeg-turbo"
 
 /* Version number of package */
-#define VERSION  "@VERSION@"
+#define VERSION  "3.1.1"
 
 /* The size of `size_t', as computed by sizeof. */
-#define SIZEOF_SIZE_T  @SIZE_T@
+#define SIZEOF_SIZE_T  8
 
 /* Define if your compiler has __builtin_ctzl() and sizeof(unsigned long) == sizeof(size_t). */
-#cmakedefine HAVE_BUILTIN_CTZL
+#define HAVE_BUILTIN_CTZL
 
 /* Define to 1 if you have the <intrin.h> header file. */
-#cmakedefine HAVE_INTRIN_H
+/* #undef HAVE_INTRIN_H */
 
 #if defined(_MSC_VER) && defined(HAVE_INTRIN_H)
 #if (SIZEOF_SIZE_T == 8)
@@ -65,12 +75,12 @@
 #if BITS_IN_JSAMPLE == 8
 
 /* Support arithmetic encoding */
-#cmakedefine C_ARITH_CODING_SUPPORTED 1
+#define C_ARITH_CODING_SUPPORTED 1
 
 /* Support arithmetic decoding */
-#cmakedefine D_ARITH_CODING_SUPPORTED 1
+#define D_ARITH_CODING_SUPPORTED 1
 
 /* Use accelerated SIMD routines. */
-#cmakedefine WITH_SIMD 1
+#define WITH_SIMD 1
 
 #endif

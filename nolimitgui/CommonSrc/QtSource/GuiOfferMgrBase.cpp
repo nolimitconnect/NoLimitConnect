@@ -110,7 +110,7 @@ void GuiOfferMgrBase::toGuiRxedPluginOffer( VxGUID& onlineId, OfferBaseInfo& off
 
 	if( newOfferSession )
 	{
-		for( auto client : m_OfferCallbackList )
+		for( auto& client : m_OfferCallbackList )
 		{
 			client->callbackToGuiRxedPluginOffer( offerSession );
 		}
@@ -118,7 +118,7 @@ void GuiOfferMgrBase::toGuiRxedPluginOffer( VxGUID& onlineId, OfferBaseInfo& off
 
 	if( offerState != eOfferStateNone )
 	{
-		for( auto client : m_OfferCallbackList )
+		for( auto& client : m_OfferCallbackList )
 		{
 			client->callbackToGuiRxedOfferStateChange( offerSession, eOfferStateNone, offerState );
 		}
@@ -194,7 +194,7 @@ void GuiOfferMgrBase::updateRxedOffer( GuiUser* guiUser, std::shared_ptr<GuiOffe
 
 	changeOfferState( offerSession, newOfferState );
 
-	for( auto client : m_OfferCallbackList )
+	for( auto& client : m_OfferCallbackList )
 	{
 		client->callbackToGuiRxedOfferReply( offerSession );
 	}
@@ -282,7 +282,7 @@ void GuiOfferMgrBase::toGuiPluginSessionEnded( VxGUID& onlineId, EPluginType plu
 
     changeOfferState( offerSession, eOfferStateSessionComplete );
 
-	for( auto client : m_OfferCallbackList )
+	for( auto& client : m_OfferCallbackList )
 	{
 		client->callbackToGuiPluginSessionEnded( offerSession );
 	}
@@ -302,7 +302,7 @@ void GuiOfferMgrBase::callbackOnlineStatusChange( GuiUser* guiUser, bool isOnlin
 			if( offerSession->getUser()->getMyOnlineId() == guiUser->getMyOnlineId() )
 			{
 				changeOfferState( offerSession, eOfferStateUserOffline );
-				for( auto client : m_OfferCallbackList )
+				for( auto& client : m_OfferCallbackList )
 				{
 					client->callbackGuiOfferRemoved( offerSession );
 				}
@@ -395,14 +395,14 @@ void GuiOfferMgrBase::changeOfferState( std::shared_ptr<GuiOfferSession>& offerS
 		std::shared_ptr<GuiOfferSession> sessionStateTop = m_OfferList[0];
 		if( sessionStateTop == offerSession )
 		{
-			for( auto client : m_OfferCallbackList )
+			for( auto& client : m_OfferCallbackList )
 			{
 				client->callbackGuiUpdatePluginOffer( offerSession );
 			}
 		}
 	}
 
-	for( auto client : m_OfferCallbackList )
+	for( auto& client : m_OfferCallbackList )
 	{
 		client->callbackToGuiRxedOfferStateChange( offerSession, oldOfferState, newOfferState );
 	}
@@ -504,7 +504,7 @@ void GuiOfferMgrBase::removePluginSessionOffer( EPluginType pluginType, GuiUser*
 		std::shared_ptr<GuiOfferSession> offerSession = (*iter);
 		if( pluginType == offerSession->getPluginType() && offerSession->getUser() == guiUser )
 		{
-			for( auto client : m_OfferCallbackList )
+			for( auto& client : m_OfferCallbackList )
 			{
 				client->callbackGuiOfferRemoved( offerSession );
 			}
@@ -525,7 +525,7 @@ void GuiOfferMgrBase::checkAndUpdateIfEmptyOfferList( void )
 {
 	if( m_OfferList.empty() )
 	{
-		for( auto client : m_OfferCallbackList )
+		for( auto& client : m_OfferCallbackList )
 		{
 			client->callbackGuiAllOffersRemoved();
 		}
@@ -545,7 +545,7 @@ void GuiOfferMgrBase::removePluginSessionOffer( VxGUID&  offerSessionId )
 		{
             m_OfferHistory.emplace_back( offerSession );
 			iter = m_OfferList.erase( iter );
-			for( auto client : m_OfferCallbackList )
+			for( auto& client : m_OfferCallbackList )
 			{
 				client->callbackGuiOfferRemoved( offerSession );
 			}
@@ -780,7 +780,7 @@ void GuiOfferMgrBase::updateActiveOfferCount( void )
 	{
         m_LastActiveOfferCount = activeCnt;
         int historyOfferCount = getHistoryOfferCount();
-		for( auto client : m_OfferCallbackList )
+		for( auto& client : m_OfferCallbackList )
 		{
             client->callbackActiveOfferCount( activeCnt, historyOfferCount );
 		}

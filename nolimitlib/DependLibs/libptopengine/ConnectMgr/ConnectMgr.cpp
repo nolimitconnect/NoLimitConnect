@@ -117,7 +117,7 @@ void ConnectMgr::announceConnectAdded( ConnectInfo * assetInfo )
 	    LogMsg( LOG_INFO, "ConnectMgr::%s start", __func__ );
 	
 	    lockClientList();
-	    for( auto client : m_ConnectClients )
+	    for( auto& client : m_ConnectClients )
 	    {
 		    client->callbackConnectAdded( userHostInfo );
 	    }
@@ -138,7 +138,7 @@ void ConnectMgr::announceConnectUpdated( ConnectInfo * assetInfo )
     if( userHostInfo )
     {
         lockClientList();
-	    for( auto client : m_ConnectClients )
+	    for( auto& client : m_ConnectClients )
 	    {
             client->callbackConnectUpdated( userHostInfo );
         }
@@ -155,7 +155,7 @@ void ConnectMgr::announceConnectUpdated( ConnectInfo * assetInfo )
 void ConnectMgr::announceConnectRemoved( VxGUID& hostOnlineId )
 {
 	lockClientList();
-	for( auto client : m_ConnectClients )
+	for( auto& client : m_ConnectClients )
 	{
 		client->callbackConnectRemoved( hostOnlineId );
 	}
@@ -168,7 +168,7 @@ void ConnectMgr::announceConnectOfferState( VxGUID& hostOnlineId, enum EOfferSta
 {
 	LogMsg( LOG_INFO, "ConnectMgr::%s state %d start", __func__, userHostOfferState );
 	lockClientList();
-	for( auto client : m_ConnectClients )
+	for( auto& client : m_ConnectClients )
 	{
 		client->callbackConnectOfferState( hostOnlineId, userHostOfferState );
 	}
@@ -182,7 +182,7 @@ void ConnectMgr::announceConnectOnlineState( VxGUID& hostOnlineId, enum EOnlineS
 {
     LogMsg( LOG_INFO, "ConnectMgr::%s state %d start", __func__, onlineState );
     lockClientList();
-	for( auto client : m_ConnectClients )
+	for( auto& client : m_ConnectClients )
 	{
         client->callbackConnectOnlineState( hostOnlineId, onlineState, connectionId );
     }

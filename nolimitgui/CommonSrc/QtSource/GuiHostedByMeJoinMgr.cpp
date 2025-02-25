@@ -325,7 +325,7 @@ void GuiHostedByMeJoinMgr::updateJoinRequestCount( bool forceEmit )
     if( hostRequestCount != m_JoinRequestCount || forceEmit )
     {
         m_JoinRequestCount = hostRequestCount;
-        for( auto client : m_HostJoinClients )
+        for( auto& client : m_HostJoinClients )
         {
             client->callbackJoinRequestCount( m_JoinRequestCount );
         }
@@ -410,7 +410,7 @@ void GuiHostedByMeJoinMgr::announceJoinState( GuiHostJoin* guiHostJoin, EJoinSta
 //============================================================================
 void GuiHostedByMeJoinMgr::announceHostJoinRequested( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
 {
-    for( auto client : m_HostJoinClients )
+    for( auto& client : m_HostJoinClients )
     {
         client->callbackGuiHostJoinRequested( groupieId, guiHostJoin );
     }
@@ -419,7 +419,7 @@ void GuiHostedByMeJoinMgr::announceHostJoinRequested( GroupieId& groupieId, GuiH
 //============================================================================
 void GuiHostedByMeJoinMgr::announceHostJoinWasGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
 {
-    for( auto client : m_HostJoinClients )
+    for( auto& client : m_HostJoinClients )
     {
         client->callbackGuiHostJoinWasGranted( groupieId, guiHostJoin );
     }
@@ -428,7 +428,7 @@ void GuiHostedByMeJoinMgr::announceHostJoinWasGranted( GroupieId& groupieId, Gui
 //============================================================================
 void GuiHostedByMeJoinMgr::announceHostJoinIsGranted( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
 {
-    for( auto client : m_HostJoinClients )
+    for( auto& client : m_HostJoinClients )
     {
         client->callbackGuiHostJoinIsGranted( groupieId, guiHostJoin );
     }
@@ -437,7 +437,7 @@ void GuiHostedByMeJoinMgr::announceHostJoinIsGranted( GroupieId& groupieId, GuiH
 //============================================================================
 void GuiHostedByMeJoinMgr::announceHostJoinDenied( GroupieId& groupieId, GuiHostJoin* guiHostJoin )
 {
-    for( auto client : m_HostJoinClients )
+    for( auto& client : m_HostJoinClients )
     {
         client->callbackGuiHostJoinDenied( groupieId, guiHostJoin );
     }
@@ -446,7 +446,7 @@ void GuiHostedByMeJoinMgr::announceHostJoinDenied( GroupieId& groupieId, GuiHost
 //============================================================================
 void GuiHostedByMeJoinMgr::announceHostJoinLeaveHost( GroupieId& groupieId )
 {
-    for( auto client : m_HostJoinClients )
+    for( auto& client : m_HostJoinClients )
     {
         client->callbackGuiHostJoinLeaveHost( groupieId );
     }
@@ -455,7 +455,7 @@ void GuiHostedByMeJoinMgr::announceHostJoinLeaveHost( GroupieId& groupieId )
 //============================================================================
 void GuiHostedByMeJoinMgr::announceHostUnJoin( GroupieId& groupieId )
 {
-    for( auto client : m_HostJoinClients )
+    for( auto& client : m_HostJoinClients )
     {
         client->callbackGuiHostUnJoin( groupieId );
     }
@@ -464,7 +464,7 @@ void GuiHostedByMeJoinMgr::announceHostUnJoin( GroupieId& groupieId )
 //============================================================================
 void GuiHostedByMeJoinMgr::announceHostJoinRemoved( GroupieId& groupieId )
 {
-    for( auto client : m_HostJoinClients )
+    for( auto& client : m_HostJoinClients )
     {
         client->callbackGuiHostJoinRemoved( groupieId );
     }

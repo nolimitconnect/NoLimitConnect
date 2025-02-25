@@ -113,7 +113,7 @@ void AppCommon::slotInternalToGuiContactAdded( VxNetIdent netIdent )
         }
 
         m_ToGuiActivityInterfaceBusy = true;
-        for( auto client : m_ToGuiActivityInterfaceList )
+        for( auto& client : m_ToGuiActivityInterfaceList )
         {
             client->toGuiContactAdded( user );
         }
@@ -137,7 +137,7 @@ void AppCommon::toGuiContactRemoved( VxGUID& onlineId )
 void AppCommon::slotInternalToGuiContactRemoved( VxGUID onlineId )
 {
     m_ToGuiActivityInterfaceBusy = true;
-    for( auto client : m_ToGuiActivityInterfaceList )
+    for( auto& client : m_ToGuiActivityInterfaceList )
     {
         client->toGuiContactRemoved( onlineId );
     }
@@ -164,7 +164,7 @@ void AppCommon::doOnlineStatusChange( VxGUID onlineId, bool isOnline )
         }
 
         m_ToGuiActivityInterfaceBusy = true;
-	    for( auto client : m_ToGuiActivityInterfaceList )
+	    for( auto& client : m_ToGuiActivityInterfaceList )
 	    {
             if( isOnline )
             {
@@ -226,7 +226,7 @@ void AppCommon::slotInternalToGuiContactOnline( VxNetIdent netIdent )
     if( guiUser && wasOnline != isOnline && isOnline )
     {
         m_ToGuiActivityInterfaceBusy = true;
-        for( auto client : m_ToGuiActivityInterfaceList )
+        for( auto& client : m_ToGuiActivityInterfaceList )
         {
             client->toGuiContactOnline( guiUser );
         }

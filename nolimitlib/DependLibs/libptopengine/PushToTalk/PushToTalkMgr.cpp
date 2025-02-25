@@ -59,7 +59,7 @@ void PushToTalkMgr::pushToTalkStatusChange( VxGUID& onlineId, enum EPushToTalkSt
     {
         setPushToTalkStatus( onlineId, pushToTalkStatus );
         lockClientList();
-        for( auto client : m_PushToTalkClients )
+        for( auto& client : m_PushToTalkClients )
         {
             client->callbackPushToTalkStatus( onlineId, pushToTalkStatus );
         }

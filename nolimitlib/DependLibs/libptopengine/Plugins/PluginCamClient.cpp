@@ -13,7 +13,6 @@
 #include "TxSession.h"
 #include "RxSession.h"
 
-#include <libjpg/VxJpgLib.h>
 #include <P2PEngine/P2PEngine.h>
 #include <MediaProcessor/MediaProcessor.h>
 #include <GuiInterface/IToGui.h>

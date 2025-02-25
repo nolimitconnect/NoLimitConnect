@@ -20,7 +20,12 @@
 #include <Plugins/PluginBase.h>
 #include <Plugins/PluginMgr.h>
 
+#if defined(USE_LIBJPEG_TURBO)
+#include <libjpeg-turbo/VxJpgLib.h>
+#else
 #include <libjpg/VxJpgLib.h>
+#endif // defined(USE_LIBJPEG_TURBO)
+
 #include <VxVideoLib/VxVideoLib.h>
 #include <VxVideoLib/VxRescaleRgb.h>
 
@@ -43,12 +48,7 @@
 // requried due to some wierd microsoft std::min / max issue
 using namespace std;
 
-//#define TEST_JPG_SPEED 1
-#ifdef TEST_JPG_SPEED
-void testJpgSpeed( void );
-#endif // TEST_JPG_SPEED
-//#define DEBUG_AUDIO_PROCESSOR_LOCK
-//#define LOG_JPG_SIZE 1
+//#define DEBUG_AUDIO_PROCESSOR_LOCK 1
 
 namespace
 {
@@ -437,23 +437,35 @@ void MediaProcessor::fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataI
 			// need to convert to rgb.. NOTE: the caller must delete the returned data
 			pu8VidData = VxConvertImage(	u32FourCc,				// FOURCC of format to convert
 											pu8VidDataIn,			// data to convert
-											imageWidth,					// width of image in pixels
-											imageHeight,				// height of image in pixels
+											imageWidth,				// width of image in pixels
+											imageHeight,			// height of image in pixels
 											FOURCC_RGB,				// FOURCC of format to convert to 
 											u32VidDataLen );		// return data length of converted image
-
 		}
 
 		// if we converted the image we also changed the width and height to our cam dimensions for processing
 	}
 
+	std::shared_ptr<uint8_t*> sharedVidData;
+	if( bConvert )
+	{
+		// data is already allocated and will need deleted
+		sharedVidData = std::make_shared<uint8_t*>( pu8VidData );
+	}
+	else
+	{
+		// make copy of data which shared pointer will delete
+		uint8_t* copiedVidData = new uint8_t[ u32VidDataLen ];
+		memcpy( copiedVidData, pu8VidData, u32VidDataLen );
+		sharedVidData = std::make_shared<uint8_t*>( copiedVidData );
+	}
+
 	RawVideo * rawVideo = new RawVideo( FOURCC_RGB,
-										pu8VidData,
+										sharedVidData,
 										u32VidDataLen, 
 										imageWidth,
 										imageHeight,
-										iRotation,
-										bConvert );
+										iRotation );
 	#ifdef DEBUG_PROCESSOR_LOCK
 		LogMsg( LOG_INFO, "fromGuiVideoData m_VideoQueInMutex.lock()" );
 	#endif // DEBUG_PROCESSOR_LOCK
@@ -509,13 +521,13 @@ void MediaProcessor::fromGuiYUV420CaptureImage(	uint8_t * yBytes, uint8_t * uByt
 
 	static int BYTES_PER_RGB_PIX = 3;
 	int rgbDataLen = BYTES_PER_RGB_PIX * imageWidth * imageHeight;
-	uint8_t * rgbData = new uint8_t[ rgbDataLen ];
+	uint8_t* rgbData = new uint8_t[ rgbDataLen ];
 
 	uint8_t yuvPixel[] = { 0, 0, 0 }; 
-	uint8_t * yFullRow = new uint8_t[yPixStride * (imageWidth - 1) + 1]; 
-	uint8_t * uFullRow = new uint8_t[uPixStride * (imageWidth / 2 - 1) + 1]; 
-	uint8_t * vFullRow = new uint8_t[vPixStride * (imageWidth / 2 - 1) + 1]; 
-	uint8_t * finalRow = rgbData; 
+	uint8_t* yFullRow = new uint8_t[yPixStride * (imageWidth - 1) + 1]; 
+	uint8_t* uFullRow = new uint8_t[uPixStride * (imageWidth / 2 - 1) + 1]; 
+	uint8_t* vFullRow = new uint8_t[vPixStride * (imageWidth / 2 - 1) + 1]; 
+	uint8_t* finalRow = rgbData; 
 	for( int i = 0; i < imageHeight; i++ ) 
 	{ 
 		int halfH = i / 2; 
@@ -534,13 +546,14 @@ void MediaProcessor::fromGuiYUV420CaptureImage(	uint8_t * yBytes, uint8_t * uByt
 		finalRow += BYTES_PER_RGB_PIX * imageWidth; 
 	} 
 
+	std::shared_ptr<uint8_t*> sharedVidData = std::make_shared<uint8_t*>( rgbData );
+
 	RawVideo * rawVideo = new RawVideo( FOURCC_RGB,
-										rgbData,
+										sharedVidData,
 										rgbDataLen, 
 										imageWidth,
 										imageHeight,
-										imageRotation,
-										false );
+										imageRotation );
 
 	//#ifdef DEBUG_PROCESSOR_LOCK
 	//	LogMsg( LOG_INFO, "fromGuiVideoData m_VideoQueInMutex.lock()\n" );
@@ -556,88 +569,6 @@ void MediaProcessor::fromGuiYUV420CaptureImage(	uint8_t * yBytes, uint8_t * uByt
 	delete[] yFullRow; 
 	delete[] uFullRow;
 	delete[] vFullRow;
-}
-
-//============================================================================
-void testJpgSpeed( void )
-{
-	void * retBuf = 0;
-	uint32_t lenOfData = 0;
-#ifdef TARGET_OS_WINDOWS
-	if( 0 != VxFileUtil::readWholeFile( "f:\\rawBmp1.raw", &retBuf, &lenOfData ) )
-	{
-		LogMsg( LOG_INFO, "Fail read raw bmp " );
-		return;
-	}
-#else
-    std::string rawFile = VxGetAppNoLimitDataDirectory();
-	rawFile += "rawBmp1.raw";
-	if( 0 != VxFileUtil::readWholeFile( rawFile.c_str(), &retBuf, &lenOfData ) )
-	{
-		LogMsg( LOG_INFO, "Fail read raw bmp %s ", rawFile.c_str() );
-		return;
-	}
-#endif
-
-	if( 0 == lenOfData )
-	{
-		LogMsg( LOG_INFO, "Fail read raw bmp " );
-		return;
-	}
-
-	VxTimer compressTimer;
-	unsigned char * pu8VidData = (unsigned char *)retBuf;
-	unsigned char jpgData[ VIDEO_DATA_BYTE_CNT ];
-    //int32_t s32JpgDataLen = 0;
-	compressTimer.startTimer();
-	long s32JpgDataLen = 0;
-	for( int i = 0; i < 1000; i++ )
-	{
-		s32JpgDataLen = 0;
-		// take a guess at what size the jpg will be
-		int iMaxJpgSize = VIDEO_DATA_BYTE_CNT;
-		RCODE rc = VxBmp2Jpg(	24,							// number of bits each pixel..(For now must be 24)
-			pu8VidData,					// bits of bmp to convert
-			320,						// width of image in pixels
-			240,						// height of image in pixels
-			75,		// quality of image
-			iMaxJpgSize,				// maximum length of pu8RetJpg
-			jpgData,					// buffer to return Jpeg image
-			&s32JpgDataLen );			// return length of jpeg image
-
-		if( 0 != rc )
-		{
-			LogMsg( LOG_INFO, "VxBmp2Jpg ERROR %d", rc );
-			break;
-		}
-
-		/*
-		if( 0 == i )
-		{
-#ifdef TARGET_OS_WINDOWS
-            if( 0 != VxFileUtil::writeWholeFile( "f:\\rawBmpToJpgNew.jpg", jpgData, s32JpgDataLen) )
-			{
-				LogMsg( LOG_INFO, "Fail write jpg Convert \n" );
-				return;
-			}
-#else
-			std::string jpgFile = "/storage/emulated/0/MyP2PWeb/data/";;
-			jpgFile += "rawBmpToJpgNew.jpg";
-			if( 0 != VxFileUtil::writeWholeFile( jpgFile.c_str(), jpgData, s32JpgDataLen) )
-			{
-				LogMsg( LOG_INFO, "Fail write jpg Convert \n" );
-				return;
-			}
-#endif
-		}*/
-	}
-
-	double elapsedSec = compressTimer.elapsedSec();
-	//elapsedSec+= 1.0;
-	LogMsg( LOG_INFO, "Jpg convert time sec %3.3f size %d ", elapsedSec, s32JpgDataLen );
-	//elapsedSec = (elapsedSec -1.0) * 1000;
-	LogMsg( LOG_INFO, "Jpg convert time millisec %3.3f ", elapsedSec / 1000, s32JpgDataLen );
-
 }
 
 //============================================================================
@@ -711,7 +642,7 @@ void MediaProcessor::processFriendVideoFeed(	VxGUID&			onlineId,
 		#endif // DEBUG_PROCESSOR_LOCK
 		doVideoClientRemovals( m_VideoClientRemoveList );
 
-		for( auto client : m_VideoJpgSmallList )
+		for( auto& client : m_VideoJpgSmallList )
 		{
 			if( !client.m_OnlineId.isVxGUIDValid() || client.m_OnlineId == onlineId )
 			{
@@ -728,11 +659,12 @@ void MediaProcessor::processFriendVideoFeed(	VxGUID&			onlineId,
 //============================================================================
 void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 {
-	uint8_t * pu8VidData		= rawVideo->m_VidData;
+	uint8_t* pu8VidData	= *rawVideo->m_VidData;
 	int iWidth			= rawVideo->m_Width; 
 	int iHeight			= rawVideo->m_Height; 
 	int iRotation		= rawVideo->m_Rotation; 
 
+	bool needToDeleteVidData{ false };
 	bool bResize = (( 320 != iWidth ) || ( 240 != iHeight ));
 	bool bDidLargePhoto = bResize && m_VideoJpgBigList.size();
 	if( bDidLargePhoto )
@@ -740,12 +672,11 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 		if( 0 != iRotation )
 		{
 			// need to rotate
-			unsigned char * pu8DataToDelete = pu8VidData;
 			pu8VidData = VxRotateRgbImage(	pu8VidData, 
 											iWidth, 
 											iHeight, 
 											iRotation );
-			delete pu8DataToDelete;
+			needToDeleteVidData = true;
 			iRotation = 0;
 		}
 
@@ -764,12 +695,6 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 					pu8JpgData,				// buffer to return Jpeg image
 					&s32JpgDataLen );		// return length of jpeg image
 
-		#if defined( LOG_JPG_SIZE )
-				{
-					LogMsg( LOG_VERBOSE, "VxBmp2Jpg processRawVideoIn size %d", s32JpgDataLen );
-				}
-		#endif // defined( LOG_JPG_SIZE )
-
 		#ifdef DEBUG_PROCESSOR_LOCK
 		LogMsg( LOG_INFO, "VxBmp2Jpg AutoProcessorLock" );
 		#endif // DEBUG_PROCESSOR_LOCK
@@ -787,7 +712,11 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 			&& ( 0 == m_VideoPktsList.size() ) )
 		{
 			// we are done
-			delete[] pu8VidData;
+			if( needToDeleteVidData )
+			{
+				delete[] pu8VidData;
+			}
+
 			return;
 		}
 	}
@@ -796,29 +725,34 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 	{
 		// scale to 320x200.. the reason we don't use the GdvBufferUtil to scale at same time as convert is that
 		// it looks like crap. here we use averaging
-		unsigned char * pu8DataToDelete = pu8VidData;
 		pu8VidData = VxResizeRgbImage(	pu8VidData, 
 			iWidth, 
 			iHeight, 
 			320, 
 			240,
 			iRotation );
+		needToDeleteVidData = true;
 		iWidth = 320;
 		iHeight = 240;
-		delete pu8DataToDelete;
 	}
 	else if( 0 != iRotation )
 	{
 		// need to rotate
-		unsigned char * pu8DataToDelete = pu8VidData;
 		pu8VidData = VxResizeRgbImage(	pu8VidData, 
 			                            iWidth, 
 			                            iHeight, 
 			                            320, 
 			                            240,
 			                            iRotation );
-		delete[] pu8DataToDelete;
+		needToDeleteVidData = true;
 	}
+
+	#define ENABLE_JPG_PERF 1
+	#if ENABLE_JPG_PERF
+	static std::vector<int64_t> perfTimes;
+	static std::vector<long> perfSize;
+	int64_t jpgStartMs = GetGmtTimeMs();
+    #endif // ENABLE_JPG_PERF
 
 	static int8_t motionBuf[ VIDEO_DATA_BYTE_CNT ];
 	int8_t * cmpData = (int8_t *)pu8VidData;
@@ -836,7 +770,7 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 	long s32JpgDataLen = 0;
 	// take a guess at what size the jpg will be
 	int iMaxJpgSize = VIDEO_DATA_BYTE_CNT;
-	RCODE rc = VxBmp2Jpg(	24,							// number of bits each pixel..(For now must be 24)
+	RCODE rc = VxBmp2Jpg(	24,								// number of bits each pixel..(For now must be 24)
 						     pu8VidData,					// bits of bmp to convert
 						     iWidth,						// width of image in pixels
 						     iHeight,						// height of image in pixels
@@ -844,11 +778,39 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 						     iMaxJpgSize,					// maximum length of pu8RetJpg
 						     m_PktVideoFeedPic->getDataPayload(),	// buffer to return Jpeg image
 						     &s32JpgDataLen );				// return length of jpeg image
-	#if defined( LOG_JPG_SIZE )
-		LogMsg( LOG_VERBOSE, "VxBmp2Jpg processRawVideoIn size %d", s32JpgDataLen );
-	#endif //defined( LOG_JPG_SIZE )
 
-	delete[] pu8VidData;
+	#if ENABLE_JPG_PERF
+	perfTimes.emplace_back( GetGmtTimeMs() - jpgStartMs );
+	perfSize.emplace_back( s32JpgDataLen );
+	if( perfTimes.size() >= 20 )
+	{
+		int64_t totalTime{ 0 };
+		for( auto timeMs : perfTimes )
+		{
+			totalTime += timeMs;
+		}
+
+		int64_t totalSize{ 0 };
+		for( auto jpgSize : perfSize )
+		{
+			totalSize += jpgSize;
+		}
+
+		int averageTime = (int)(totalTime / perfTimes.size());
+		int averageSize = (int)(totalSize / perfSize.size());
+		perfTimes.clear();
+		perfSize.clear();
+
+		LogMsg( LOG_DEBUG, "MediaProcessor::%s jpg avg time %d size %d", __func__, averageTime, averageSize );	
+	}
+	#endif // ENABLE_JPG_PERF
+
+	if( needToDeleteVidData )
+	{
+		delete[] pu8VidData;
+		pu8VidData = nullptr;
+	}
+
 	if( 0 == rc )
 	{
 		//LogMsg( LOG_INFO, "PluginMgr::fromGuiVideoData width %d height %d len %d compressed %d\n", iWidth, iHeight, u32VidDataLen, s32JpgDataLen  );
@@ -856,16 +818,14 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 		if( !bDidLargePhoto && m_VideoJpgBigList.size() )
 		{
 			// clients wanted large but the video capture was small so we have to give them small
-			std::vector<MediaClient>::iterator iter;
 			#ifdef DEBUG_PROCESSOR_LOCK
 			LogMsg( LOG_INFO, "m_VideoJpgBigList VideoProcessorLock" );
 			#endif // DEBUG_PROCESSOR_LOCK
 			VideoProcessorLock mgrMutexLock( this );
 			doVideoClientRemovals( m_VideoClientRemoveList );
 
-			for( iter = m_VideoJpgBigList.begin(); iter != m_VideoJpgBigList.end(); ++iter )
+			for( auto& client : m_VideoJpgBigList )
 			{
-				MediaClient& client = (*iter);
 				client.m_Callback->callbackVideoJpgBig( m_Engine.getMyOnlineId(), m_PktVideoFeedPic->getDataPayload(), s32JpgDataLen );
 			}
 		}
@@ -882,7 +842,7 @@ void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 			#ifdef DEBUG_PROCESSOR_LOCK
 			LogMsg( LOG_INFO, "m_VideoJpgSmallList VideoProcessorLock done" );
 			#endif // DEBUG_PROCESSOR_LOCK
-			for( auto client : m_VideoJpgSmallList )
+			for( auto& client : m_VideoJpgSmallList )
 			{
 				client.m_Callback->callbackVideoJpgSmall( m_Engine.getMyOnlineId(), m_PktVideoFeedPic->getDataPayload(), s32JpgDataLen, motion0To100000 );
 			}
@@ -1002,7 +962,7 @@ bool MediaProcessor::clientExistsInList(	std::vector<MediaClient>&		clientList,
 											VxGUID&							sessionId,
 											MediaCallbackInterface *		callback )
 {
-	for( auto client : clientList )
+	for( auto& client : clientList )
 	{
 		if( client.m_OnlineId == onlineId &&
 			client.m_Callback == callback &&
@@ -1048,7 +1008,7 @@ bool MediaProcessor::clientToRemoveExistsInList(	std::vector<ClientToRemove>&	cl
 													VxGUID&							sessionId,
 													MediaCallbackInterface *		callback )
 {
-	for( auto client : clientRemoveList )
+	for( auto& client : clientRemoveList )
 	{
 		if( client.m_OnlineId == onlineId &&
 			client.m_Callback == callback &&

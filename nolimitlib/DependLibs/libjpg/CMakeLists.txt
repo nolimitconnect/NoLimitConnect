@@ -60,7 +60,9 @@ add_library(jpg STATIC ${jpg_SOURCES})
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     # turn on optimization even when in debug mode
-    set_property(TARGET jpg PROPERTY COMPILE_OPTIONS "$<$<CONFIG:Debug>:-O2>")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3")
+elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3")
 endif()
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

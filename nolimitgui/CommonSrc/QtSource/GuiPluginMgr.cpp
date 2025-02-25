@@ -81,7 +81,7 @@ void GuiPluginMgr::slotInternalToGuiPluginStatus( EPluginType pluginType, int st
 		setCamServerClientCount( statusValue );
 	}
 
-	for( auto client : m_CallbackClients )
+	for( auto& client : m_CallbackClients )
 	{
 		client->callbackToGuiPluginStatus( pluginType, statusType, statusValue );
 	}

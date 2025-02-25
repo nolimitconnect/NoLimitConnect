@@ -292,7 +292,7 @@ void MediaPlayerNlc::onInitLevel( int level, bool success )
 	}
 
 	lockClientList();
-    for( auto client : m_MediaPlayerCallbackClients )
+    for( auto& client : m_MediaPlayerCallbackClients )
     {
 		client->fromMediaPlayerInitLevel( level, success );
     }
@@ -304,7 +304,7 @@ void MediaPlayerNlc::onInitLevel( int level, bool success )
 void MediaPlayerNlc::onPlayerRunning( bool isRunning )
 {
 	lockClientList();
-    for( auto client : m_MediaPlayerCallbackClients )
+    for( auto& client : m_MediaPlayerCallbackClients )
     {
 		client->fromMediaPlayerIsRunning( isRunning );
     }
@@ -316,7 +316,7 @@ void MediaPlayerNlc::onPlayerRunning( bool isRunning )
 void MediaPlayerNlc::onPlayFile( bool fileOpened )
 {
 	lockClientList();
-    for( auto client : m_MediaPlayerCallbackClients )
+    for( auto& client : m_MediaPlayerCallbackClients )
     {
 		client->fromMediaPlayerPlayFile( m_FeedId, fileOpened );
     }
@@ -328,7 +328,7 @@ void MediaPlayerNlc::onPlayFile( bool fileOpened )
 void MediaPlayerNlc::onPlayStarted( void )
 {
 	lockClientList();
-    for( auto client : m_MediaPlayerCallbackClients )
+    for( auto& client : m_MediaPlayerCallbackClients )
     {
 		client->fromMediaPlayerPlaybackStarted( m_FeedId );
     }
@@ -347,7 +347,7 @@ void MediaPlayerNlc::onStopPlaying( void )
 void MediaPlayerNlc::onPlaybackStopped( void )
 {
 	lockClientList();
-    for( auto client : m_MediaPlayerCallbackClients )
+    for( auto& client : m_MediaPlayerCallbackClients )
     {
 		client->fromMediaPlayerPlaybackStopped( m_FeedId );
     }
@@ -361,7 +361,7 @@ void MediaPlayerNlc::onPlaybackEnded( void )
 	setIsPlayingVideo( false );
 	setIsPlayingMedia( false );
 	lockClientList();
-    for( auto client : m_MediaPlayerCallbackClients )
+    for( auto& client : m_MediaPlayerCallbackClients )
     {
 		client->fromMediaPlayerPlaybackEnded( m_FeedId );
     }
@@ -373,7 +373,7 @@ void MediaPlayerNlc::onPlaybackEnded( void )
 void MediaPlayerNlc::onPlayPause( bool isPaused )
 {
 	lockClientList();
-    for( auto client : m_MediaPlayerCallbackClients )
+    for( auto& client : m_MediaPlayerCallbackClients )
     {
 		client->fromMediaPlayerPlayPause( m_FeedId, isPaused );
     }
@@ -385,7 +385,7 @@ void MediaPlayerNlc::onPlayPause( bool isPaused )
 void MediaPlayerNlc::onCanSeek( bool canSeek, bool canPause )
 {
 	lockClientList();
-    for( auto client : m_MediaPlayerCallbackClients )
+    for( auto& client : m_MediaPlayerCallbackClients )
     {
 		client->fromMediaPlayerCanSeek( m_FeedId, canSeek, canPause );
     }
@@ -414,7 +414,7 @@ void MediaPlayerNlc::fromGuiGetCanSeek( void )
 		bool canSeek = appPlayer->CanSeek();
 		bool canPause = appPlayer->CanPause();
 		lockClientList();
-		for( auto client : m_MediaPlayerCallbackClients )
+		for( auto& client : m_MediaPlayerCallbackClients )
 		{
 			client->fromMediaPlayerCanSeek( m_FeedId, canSeek, canPause );
 		}
@@ -454,7 +454,7 @@ void MediaPlayerNlc::fromGuiUpdatePlayPosition( void )
 	}
 
 	lockClientList();
-	for( auto client : m_MediaPlayerCallbackClients )
+	for( auto& client : m_MediaPlayerCallbackClients )
 	{
 		client->fromMediaPlayerUpdatePlayPosition( m_FeedId, playPos );
 	}

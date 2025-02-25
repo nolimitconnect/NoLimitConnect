@@ -2518,7 +2518,7 @@ void AssetBaseXferMgr::wantAssetXferCallbacks( AssetXferCallback* client, bool e
 void AssetBaseXferMgr::announceXferReadyToSend( VxGUID& sendToId, std::shared_ptr<VxSktBase>& sktBase )
 {
     lockClientList();
-    for( auto client : m_AssetXferClients )
+    for( auto& client : m_AssetXferClients )
     {
         client->callbackAssetXferReadyToSend( sendToId, sktBase );
     }
@@ -2530,7 +2530,7 @@ void AssetBaseXferMgr::announceXferReadyToSend( VxGUID& sendToId, std::shared_pt
 void AssetBaseXferMgr::announceXferState( VxGUID& sendToId, VxGUID& assetId, enum EAssetSendState sendState, int param )
 {
     lockClientList();
-    for( auto client : m_AssetXferClients )
+    for( auto& client : m_AssetXferClients )
     {
         client->callbackXferState( sendToId, assetId, sendState, param );
     }

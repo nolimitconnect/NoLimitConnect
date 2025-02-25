@@ -96,7 +96,7 @@ void MemberActiveMgr::announceMemberActive( GroupieId& groupieId, bool memberAct
     LogModule( eLogMembership, LOG_INFO, "MemberActiveMgr::announceMemberActive %d %s", memberActive, GetPtoPEngine().describeGroupieId( groupieId ).c_str() );
     lockClientList();
 
-    for( auto client : m_MemberClients )
+    for( auto& client : m_MemberClients )
     {
         client->callbackMemberActive( groupieId, memberActive );
     }

@@ -1197,12 +1197,14 @@ bailout:
 #define BITS_IN_JSAMPLE  8
 #include "turbojpeg-mp.c"
 #undef BITS_IN_JSAMPLE
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
 #define BITS_IN_JSAMPLE  12
 #include "turbojpeg-mp.c"
 #undef BITS_IN_JSAMPLE
 #define BITS_IN_JSAMPLE  16
 #include "turbojpeg-mp.c"
 #undef BITS_IN_JSAMPLE
+#endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
 
 /* TurboJPEG 1.2+ */
 DLLEXPORT int tjCompress2(tjhandle handle, const unsigned char *srcBuf,
@@ -3101,7 +3103,7 @@ bailout:
 
 
 /*************************** Packed-Pixel Image I/O **************************/
-
+#if defined(SUPPORT_JPEG_FILE_READ_WRITE)
 /* tj3LoadImage*() is implemented in turbojpeg-mp.c */
 
 /* TurboJPEG 2.0+ */
@@ -3143,3 +3145,5 @@ DLLEXPORT int tjSaveImage(const char *filename, unsigned char *buffer,
   tj3Destroy(handle);
   return retval;
 }
+
+#endif // defined(SUPPORT_JPEG_FILE_READ_WRITE)

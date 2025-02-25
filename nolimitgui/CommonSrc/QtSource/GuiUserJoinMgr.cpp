@@ -404,7 +404,7 @@ void GuiUserJoinMgr::wantUserJoinCallbacks( GuiUserJoinCallback* client, bool en
 //============================================================================
 void GuiUserJoinMgr::announceUserJoinRequested( GroupieId& groupieId, GuiUserJoin* guiUserJoin )
 {
-    for( auto client : m_UserJoinClients )
+    for( auto& client : m_UserJoinClients )
     {
         client->callbackGuiUserJoinRequested( groupieId, guiUserJoin );
     }
@@ -413,7 +413,7 @@ void GuiUserJoinMgr::announceUserJoinRequested( GroupieId& groupieId, GuiUserJoi
 //============================================================================
 void GuiUserJoinMgr::announceUserJoinWasGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin )
 {
-    for( auto client : m_UserJoinClients )
+    for( auto& client : m_UserJoinClients )
     {
         client->callbackGuiUserJoinWasGranted( groupieId, guiUserJoin );
     }
@@ -422,7 +422,7 @@ void GuiUserJoinMgr::announceUserJoinWasGranted( GroupieId& groupieId, GuiUserJo
 //============================================================================
 void GuiUserJoinMgr::announceUserJoinIsGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin )
 {
-    for( auto client : m_UserJoinClients )
+    for( auto& client : m_UserJoinClients )
     {
         client->callbackGuiUserJoinIsGranted( groupieId, guiUserJoin );
     }
@@ -438,7 +438,7 @@ void GuiUserJoinMgr::announceUserJoinIsGranted( GroupieId& groupieId, GuiUserJoi
 //============================================================================
 void GuiUserJoinMgr::announceUserUnJoinGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin )
 {
-    for( auto client : m_UserJoinClients )
+    for( auto& client : m_UserJoinClients )
     {
         client->callbackGuiUserUnJoinGranted( groupieId, guiUserJoin );
     }
@@ -447,7 +447,7 @@ void GuiUserJoinMgr::announceUserUnJoinGranted( GroupieId& groupieId, GuiUserJoi
 //============================================================================
 void GuiUserJoinMgr::announceUserJoinDenied( GroupieId& groupieId, GuiUserJoin* guiUserJoin )
 {
-    for( auto client : m_UserJoinClients )
+    for( auto& client : m_UserJoinClients )
     {
         client->callbackGuiUserJoinDenied( groupieId, guiUserJoin );
     }
@@ -456,7 +456,7 @@ void GuiUserJoinMgr::announceUserJoinDenied( GroupieId& groupieId, GuiUserJoin* 
 //============================================================================
 void GuiUserJoinMgr::announceUserJoinLeaveHost( GroupieId& groupieId )
 {
-    for( auto client : m_UserJoinClients )
+    for( auto& client : m_UserJoinClients )
     {
         client->callbackGuiUserJoinLeaveHost( groupieId );
     }
@@ -465,7 +465,7 @@ void GuiUserJoinMgr::announceUserJoinLeaveHost( GroupieId& groupieId )
 //============================================================================
 void GuiUserJoinMgr::announceUserJoinRemoved( GroupieId& groupieId )
 {
-    for( auto client : m_UserJoinClients )
+    for( auto& client : m_UserJoinClients )
     {
         client->callbackGuiUserJoinRemoved( groupieId );
     }
@@ -474,7 +474,7 @@ void GuiUserJoinMgr::announceUserJoinRemoved( GroupieId& groupieId )
 //============================================================================
 void GuiUserJoinMgr::announceUserJoinedToHostState( EHostType hostType, bool isJoined )
 {
-    for( auto client : m_UserJoinClients )
+    for( auto& client : m_UserJoinClients )
     {
         client->callbackGuiUserJoinToHostState( hostType, isJoined );
     }
@@ -483,7 +483,7 @@ void GuiUserJoinMgr::announceUserJoinedToHostState( EHostType hostType, bool isJ
 //============================================================================
 void GuiUserJoinMgr::announceUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus )
 {
-    for( auto client : m_UserJoinClients )
+    for( auto& client : m_UserJoinClients )
     {
         client->callbackGuiUserJoinAHostStatus( hostType, sessionId, connectStatus );
     }

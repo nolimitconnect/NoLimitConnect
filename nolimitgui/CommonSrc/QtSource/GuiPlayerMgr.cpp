@@ -16,6 +16,7 @@
 #include "AppSettings.h"
 #include "GuiHelpers.h"
 #include "GuiPlayerCallback.h"
+#include "GuiVideoTitleBarCallback.h"
 #include "HomeWindow.h"
 
 #include <AssetMgr/AssetInfo.h>
@@ -47,7 +48,8 @@ GuiPlayerMgr::GuiPlayerMgr()
 void GuiPlayerMgr::playerMgrStartup( void )
 {
 	connect( this, SIGNAL(signalInternalPlayVideoFrame(VxGUID,QImage*,int,int)), this, SLOT(slotInternalPlayVideoFrame(VxGUID,QImage*,int,int)), Qt::QueuedConnection );
-	connect( this, SIGNAL(signalInternalPlayMotionVideoFrame(VxGUID,QImage*,int)), this, SLOT(slotInternalPlayMotionVideoFrame(VxGUID,QImage*,int)), Qt::QueuedConnection );
+	// the SharedUint8DataPtr forces use of new style connect or does not pass it through signals and slots
+	QObject::connect( this, &GuiPlayerMgr::signalInternalPlayMotionVideoFrame, this, &GuiPlayerMgr::slotInternalPlayMotionVideoFrame, Qt::QueuedConnection );
 	// tell engine to send all video jpeg inputs
 	VxGUID nullGuid;
 	GetPtoPEngine().fromGuiWantMediaInput( nullGuid, eMediaInputVideoJpgSmall, eAppModuleMediaPlayer, m_MediaSessionId, true );
@@ -77,9 +79,27 @@ void GuiPlayerMgr::wantPlayVideoCallbacks( VxGUID& feedOnlineId, GuiPlayerCallba
 }
 
 //============================================================================
+void GuiPlayerMgr::wantVideoTitleBarCallbacks( GuiVideoTitleBarCallback* client, bool enable )
+{
+	for( auto iter = m_VideoTitleBarClients.begin(); iter != m_VideoTitleBarClients.end(); ++iter )
+	{
+		if( *iter == client )
+		{
+			m_VideoTitleBarClients.erase( iter );
+			break;
+		}
+	}
+
+	if( enable )
+	{
+		m_VideoTitleBarClients.emplace_back( client );
+	}
+}
+
+//============================================================================
 void GuiPlayerMgr::toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* pu8Jpg, uint32_t u32JpgDataLen, int motion0To100000 )
 {
-	if( m_VideoPlayClients.empty() )
+	if( m_VideoTitleBarClients.empty() && m_VideoPlayClients.empty() )
 	{
 		return;
 	}
@@ -90,34 +110,41 @@ void GuiPlayerMgr::toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* pu8Jpg, u
 		return;
 	}
 
-	int behindFramCnt = m_BehindMotionFrameCnt;
-	if( behindFramCnt > 3 )
+	if( m_BehindMotionFrameCnt > 1 )
 	{
-		ProcessQtEvents( 50 );
-		behindFramCnt = m_BehindMotionFrameCnt;
-		if( behindFramCnt > 3 )
-		{
-			LogModule( eLogVideoIo, LOG_VERBOSE, " GuiPlayerMgr::%s behind frame cnt %d", __func__, behindFramCnt );
-			return;
-		}
+		return;
 	}
 
+	// unfortunately using QImage causes max QImage used error on android so have to do shared data instead
+	uint8_t* jpgData = new uint8_t[u32JpgDataLen];
+	memcpy( jpgData, pu8Jpg, u32JpgDataLen );
+	SharedUint8DataPtr vidData = SharedUint8DataPtr(jpgData);
+	//QImage* vidFrame = new QImage();
+	//if( !vidFrame->loadFromData( pu8Jpg, u32JpgDataLen, "JPG") )
+	//{
+	//	LogMsg( LOG_WARNING, "GuiPlayerMgr::%s failed to load JPG", __func__ );
+	//	delete vidFrame;
+	//	return;
+	//}
+
+	m_BehindMotionFrameCnt++;
+	emit signalInternalPlayMotionVideoFrame( feedOnlineId, vidData, u32JpgDataLen, motion0To100000 );
+}
+
+//============================================================================
+void GuiPlayerMgr::slotInternalPlayMotionVideoFrame( VxGUID feedOnlineId, SharedUint8DataPtr vidData, int dataLen, int motion0To100000 )
+{
+	m_BehindMotionFrameCnt--;
+
 	QImage* vidFrame = new QImage();
-	if( !vidFrame->loadFromData( pu8Jpg, u32JpgDataLen, "JPG") )
+	if( !vidFrame->loadFromData( vidData.get(), dataLen, "JPG") )
 	{
 		LogMsg( LOG_WARNING, "GuiPlayerMgr::%s failed to load JPG", __func__ );
 		delete vidFrame;
 		return;
 	}
 
-	m_BehindMotionFrameCnt++;
-	emit signalInternalPlayMotionVideoFrame( feedOnlineId, vidFrame, motion0To100000 );
-}
-
-//============================================================================
-void GuiPlayerMgr::slotInternalPlayMotionVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int motion0To100000 )
-{
-	m_BehindMotionFrameCnt--;
+	vx_assert( !m_VideoPlayClientsBusy );
 
 	m_VideoPlayClientsBusy = true;
 	for( auto clientPair : m_VideoPlayClients )
@@ -129,6 +156,19 @@ void GuiPlayerMgr::slotInternalPlayMotionVideoFrame( VxGUID feedOnlineId, QImage
 	}
 
 	m_VideoPlayClientsBusy = false;
+
+	if( m_VideoTitleBarClients.size() && feedOnlineId == GetAppInstance().getMyOnlineId() && m_TitleBarImageSize.width() )
+	{
+		QPixmap titleBarPixmap = QPixmap::fromImage( vidFrame->scaled( m_TitleBarImageSize ) );
+		if( !titleBarPixmap.isNull() )
+		{
+			for( auto client : m_VideoTitleBarClients )
+			{
+				client->callbackGuiVideoTitleBarPixmap( titleBarPixmap );
+			}
+		}
+	}
+
 	delete vidFrame;
 }
 
@@ -147,15 +187,10 @@ int GuiPlayerMgr::toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* picBuf, ui
 		return behindFramCnt;
 	}
 
-	if( behindFramCnt > 3 )
+	if( behindFramCnt > 2 )
 	{
-		ProcessQtEvents( 50 );
-		behindFramCnt = m_BehindMotionFrameCnt;
-		if( behindFramCnt > 3 )
-		{
-			LogModule( eLogVideoIo, LOG_VERBOSE, " GuiPlayerMgr::%s behind frame cnt %d", __func__, behindFramCnt );
-			return behindFramCnt;
-		}
+		LogModule( eLogVideoIo, LOG_VERBOSE, " GuiPlayerMgr::%s behind frame cnt %d", __func__, behindFramCnt );
+		return behindFramCnt;
 	}
 
 	QImage::Format imageFormat = QImage::Format_ARGB32;

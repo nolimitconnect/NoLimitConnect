@@ -822,37 +822,23 @@ void TitleBarWidget::callbackToGuiCameraEnable( bool enableCamera )
 }
 
 //============================================================================
-void TitleBarWidget::callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 )
+void TitleBarWidget::callbackGuiVideoTitleBarPixmap( QPixmap& vidPixmap )
 {
     if( !m_CamEnabled || !isVisible() )
     {
         return;
     }
 
-    if( !m_MyOnlineId.isVxGUIDValid() )
+    m_LastCamFrameTimeMs = GetApplicationAliveMs();
+    if( !m_CamPlaying )
     {
-        m_MyOnlineId = m_MyApp.getMyOnlineId();
+        m_CamPlaying = true;
     }
 
-    if( m_MyOnlineId == feedOnlineId )
+    if( ui.m_CamPreviewScreen->isVisible() )
     {
-        m_LastCamFrameTimeMs = GetApplicationAliveMs();
-        if( !m_CamPlaying )
-        {
-            m_CamPlaying = true;
-        }
-
-        if( ui.m_CamPreviewScreen->isVisible() )
-        {
-            ui.m_CamPreviewScreen->playMotionVideoFrame( vidFrame, motion0To100000 );
-        }       
-    }
-}
-
-//============================================================================
-void TitleBarWidget::callbackGuiPlayVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame )
-{
-    callbackGuiPlayMotionVideoFrame( feedOnlineId, vidFrame, 0 );
+        ui.m_CamPreviewScreen->setPixmap( vidPixmap );
+    }       
 }
 
 //============================================================================
@@ -897,13 +883,14 @@ void TitleBarWidget::updateCamCallbackRequests( void )
             if( isVisible() && !m_VidCallbacksRequested && m_MyApp.getMyOnlineId().isVxGUIDValid() )
             {
                 m_VidCallbacksRequested = true;
-                m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, true );
+                m_MyApp.getPlayerMgr().setTitleBarVideoImageSize( ui.m_CamPreviewScreen->frameSize() );
+                m_MyApp.getPlayerMgr().wantVideoTitleBarCallbacks( this, true );
             }
         }
         else
         {
             m_VidCallbacksRequested = false;
-            m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, false );
+            m_MyApp.getPlayerMgr().wantVideoTitleBarCallbacks( this, false );
         }
     }
 }

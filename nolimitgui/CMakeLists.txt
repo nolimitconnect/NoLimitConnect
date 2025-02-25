@@ -1079,6 +1079,18 @@ target_link_libraries(nolimitconnect
     wav-decoder
 )
 
+if (DEFINED USE_LIBJPEG_TURBO)
+    target_link_libraries(nolimitconnect
+        PUBLIC
+        jpegturbo
+    )
+else()
+    target_link_libraries(nolimitconnect
+        PUBLIC
+        jpg
+    )
+endif()
+
 if (DEFINED TARGET_OS_LINUX)
     if (DEFINED TARGET_CPU_ARM64)
         #libvpx will not compile on raspberry pi
@@ -1102,8 +1114,6 @@ if (DEFINED TARGET_OS_LINUX)
             #glew
             iconv
 
-            ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/libturbojpeg.a
-            jpg
             vxvideolib
             tag
             theora
@@ -1159,8 +1169,6 @@ if (DEFINED TARGET_OS_LINUX)
             #glew
             iconv
 
-            ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/libturbojpeg.a
-            jpg
             vxvideolib
             tag
             theora
@@ -1222,8 +1230,6 @@ elseif (DEFINED TARGET_OS_ANDROID)
             #glew
             iconv
 
-            ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/libturbojpeg.a
-            jpg
             vxvideolib
             speex
             tag
@@ -1282,8 +1288,6 @@ elseif (DEFINED TARGET_OS_ANDROID)
             #glew
             iconv
 
-            ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/libturbojpeg.a
-            jpg
             vxvideolib
             speex
             tag
@@ -1346,9 +1350,6 @@ elseif (DEFINED TARGET_OS_WINDOWS)
         #glew
         iconv
         ilb
-
-        ${PROJECT_SRC_ROOT_DIR}/build-staticlibs/libturbojpeg.a
-        jpg
 
         vxvideolib
 

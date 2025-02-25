@@ -269,7 +269,7 @@ void UserJoinMgr::announceUserJoinRemoved( GroupieId& groupieId )
     removeFromDatabase( groupieId, false );
     LogMsg( LOG_VERBOSE, "UserJoinMgr::announceUserJoinRemoved %s", groupieId.describeGroupieId().c_str() );
 	lockClientList();
-	for( auto client : m_UserJoinClients )
+	for( auto& client : m_UserJoinClients )
 	{
 		client->callbackUserJoinRemoved( groupieId );
 	}
@@ -281,7 +281,7 @@ void UserJoinMgr::announceUserJoinRemoved( GroupieId& groupieId )
 void UserJoinMgr::announceUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus )
 {
 	lockClientList();
-	for( auto client : m_UserJoinClients )
+	for( auto& client : m_UserJoinClients )
 	{
 		client->callbackUserJoinAHostStatus( hostType, sessionId, connectStatus );
 	}

@@ -10,6 +10,7 @@
 
 #include "AppCommon.h"
 #include "GuiHelpers.h"
+#include "GuiPlayerMgr.h"
 
 #include <GuiInterface/IAudioDefs.h>
 
@@ -29,6 +30,8 @@ void  AppCommon::registerMetaData( void )
 	qRegisterMetaType<uint32_t>( "uint32_t" );
 	qRegisterMetaType<uint64_t>( "uint64_t" );
 	qRegisterMetaType<int64_t>( "int64_t" );
+
+	qRegisterMetaType<SharedUint8DataPtr>("SharedUint8");
 
 	qRegisterMetaType<EAppErr>( "EAppErr" );
 	qRegisterMetaType<EApplet>( "EApplet" );

@@ -149,7 +149,7 @@ void UserOnlineMgr::announceUserOnlineAdded( std::shared_ptr<User> userInfo, Bas
         #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
             LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList done", __func__ );
         #endif // defined(DEBUG_SKT_MGR_LOCK)
-	    for( auto client : m_UserOnlineClients )
+	    for( auto& client : m_UserOnlineClients )
 	    {
 		    client->callbackUserOnlineAdded( userInfo );
             if( sessionInfo.isValid() )
@@ -182,7 +182,7 @@ void UserOnlineMgr::announceUserOnlineUpdated( std::shared_ptr<User> userInfo, B
         #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
             LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList done", __func__ );
         #endif // defined(DEBUG_SKT_MGR_LOCK)
-        for( auto client : m_UserOnlineClients )
+        for( auto& client : m_UserOnlineClients )
         {
             client->callbackUserOnlineUpdated( userInfo );
             if( sessionInfo.isValid() )
@@ -212,7 +212,7 @@ void UserOnlineMgr::announceUserOnlineRemoved( VxGUID& hostOnlineId, EHostType h
     #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
         LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList done", __func__ );
     #endif // defined(DEBUG_SKT_MGR_LOCK)
-    for( auto client : m_UserOnlineClients )
+    for( auto& client : m_UserOnlineClients )
     {
 		client->callbackUserOnlineRemoved( hostOnlineId );
 	}
@@ -233,7 +233,7 @@ void UserOnlineMgr::announceUserOnlineState( std::shared_ptr<User> userInfo, boo
     #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
         LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList done", __func__ );
     #endif // defined(DEBUG_SKT_MGR_LOCK)
-    for( auto client : m_UserOnlineClients )
+    for( auto& client : m_UserOnlineClients )
     {
         client->callbackUserOnlineState( userInfo, isOnline );
     }
@@ -473,7 +473,7 @@ void UserOnlineMgr::onUserOffline( VxGUID& onlineId )
         #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
             LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList done", __func__ );
         #endif // defined(DEBUG_SKT_MGR_LOCK)
-        for( auto client : m_UserOnlineClients )
+        for( auto& client : m_UserOnlineClients )
         {
             client->callbackUserOffline( onlineId );
         }
@@ -492,7 +492,7 @@ void UserOnlineMgr::onUserOffline( VxGUID& onlineId )
         #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
             LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList done", __func__ );
         #endif // defined(DEBUG_SKT_MGR_LOCK)
-        for( auto client : m_UserOnlineClients )
+        for( auto& client : m_UserOnlineClients )
         {
             client->callbackUserOnlineState( user, false );
         }

@@ -65,6 +65,7 @@ bool CamLogic::isCamCaptureRequested( void )
 //============================================================================
 void CamLogic::startupCamLogic( void )
 {
+    GuiParams::requestPermission("android.permission.CAMERA");
     updateCameraDevices();
     m_CameraEnabled = m_MyApp.getAppSettings().getCamEnable();
     m_MyApp.fromGuiCameraEnable( m_CameraEnabled );

@@ -288,7 +288,7 @@ bailout:
 
 
 /*************************** Packed-Pixel Image I/O **************************/
-
+#if defined(SUPPORT_JPEG_FILE_READ_WRITE)
 /* TurboJPEG 3.0+ */
 DLLEXPORT _JSAMPLE *GET_NAME(tj3LoadImage, BITS_IN_JSAMPLE)
   (tjhandle handle, const char *filename, int *width, int align, int *height,
@@ -549,7 +549,7 @@ bailout:
 
 #endif
 }
-
+#endif // defined(SUPPORT_JPEG_FILE_READ_WRITE)
 
 #undef _JSAMPLE
 #undef _JSAMPROW

@@ -202,22 +202,22 @@ void PluginPermission::setPluginPermissionsToDefaultValues( void )
 
     setPluginPermission( ePluginTypePushToTalk, eFriendStateIgnore );
 
-	setPluginPermission( ePluginTypeClientPeerUser, eFriendStateGuest );
+    // clients outside of published permissions setPluginPermission( ePluginTypeClientPeerUser, eFriendStateGuest );
 	setPluginPermission( ePluginTypeHostPeerUser, eFriendStateGuest );
 
-	setPluginPermission( ePluginTypeClientConnectTest, eFriendStateIgnore );
+    // clients outside of published permissions setPluginPermission( ePluginTypeClientConnectTest, eFriendStateIgnore );
 	setPluginPermission( ePluginTypeHostConnectTest, eFriendStateIgnore );
 
-	setPluginPermission( ePluginTypeClientChatRoom, eFriendStateGuest );
+    // clients outside of published permissions setPluginPermission( ePluginTypeClientChatRoom, eFriendStateGuest );
 	setPluginPermission( ePluginTypeHostChatRoom, eFriendStateIgnore );
 
-    setPluginPermission( ePluginTypeClientGroup, eFriendStateGuest );
+    // clients outside of published permissions setPluginPermission( ePluginTypeClientGroup, eFriendStateGuest );
 	setPluginPermission( ePluginTypeHostGroup, eFriendStateIgnore );
 
-    setPluginPermission( ePluginTypeClientNetwork, eFriendStateIgnore );
+    // clients outside of published permissions setPluginPermission( ePluginTypeClientNetwork, eFriendStateIgnore );
 	setPluginPermission( ePluginTypeHostNetwork, eFriendStateIgnore );
 
-    setPluginPermission( ePluginTypeClientRandomConnect, eFriendStateGuest );
+    // clients outside of published permissions setPluginPermission( ePluginTypeClientRandomConnect, eFriendStateGuest );
 	setPluginPermission( ePluginTypeHostRandomConnect, eFriendStateIgnore );
 } 
 

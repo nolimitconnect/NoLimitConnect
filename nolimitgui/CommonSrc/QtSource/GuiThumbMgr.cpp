@@ -194,7 +194,7 @@ void GuiThumbMgr::onThumbAdded( GuiThumb* guiThumb )
 {
     if( isMessengerReady() )
     {
-        for( auto client : m_GuiThumbClientList )
+        for( auto& client : m_GuiThumbClientList )
         {
             client->callbackThumbAdded( guiThumb );
         }
@@ -206,7 +206,7 @@ void GuiThumbMgr::onThumbUpdated( GuiThumb* guiThumb )
 {
     if( isMessengerReady() )
     {
-        for( auto client : m_GuiThumbClientList )
+        for( auto& client : m_GuiThumbClientList )
         {
             client->callbackThumbUpdated( guiThumb );
         }
@@ -218,7 +218,7 @@ void GuiThumbMgr::onThumbRemoved( VxGUID& thumbId )
 {
     if( isMessengerReady() )
     {
-        for( auto client : m_GuiThumbClientList )
+        for( auto& client : m_GuiThumbClientList )
         {
             client->callbackThumbRemoved( thumbId );
         }
@@ -541,7 +541,7 @@ void GuiThumbMgr::wantGuiThumbCallbacks( GuiThumbCallback* callback, bool wantCa
 
     if( wantCallback )
     {
-        for( auto client : m_GuiThumbClientList )
+        for( auto& client : m_GuiThumbClientList )
         {
             if( client == callback )
             {

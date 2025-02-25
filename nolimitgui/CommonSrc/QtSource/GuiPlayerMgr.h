@@ -16,10 +16,16 @@
 #include <CoreLib/VxGUID.h>
 
 #include <QObject>
+#include <QSharedPointer>
+#include <QSize>
+
+// requires typedef or signal will not connect to slot
+typedef QSharedPointer<uint8_t> SharedUint8DataPtr;
 
 class AppCommon;
 class AssetBaseInfo;
 class GuiPlayerCallback;
+class GuiVideoTitleBarCallback;
 class QImage;
 
 class GuiPlayerMgr : public QObject
@@ -38,23 +44,26 @@ public:
 
 	// if feedOnlineId is empty then want all callbacks
 	void                        wantPlayVideoCallbacks( VxGUID& feedOnlineId, GuiPlayerCallback* client, bool enable );
+	void                        setTitleBarVideoImageSize( QSize imageSize ) { if( imageSize.width() > 4 && imageSize.height() > 4 ) m_TitleBarImageSize = imageSize; }
+	void                        wantVideoTitleBarCallbacks( GuiVideoTitleBarCallback* client, bool enable );
 
+	int							toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* picBuf, uint32_t picBufLen, int picWidth, int picHeight );
 	void						toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* pu8Jpg, uint32_t u32JpgDataLen, int motion0To100000 );
-	virtual int				    toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* picBuf, uint32_t picBufLen, int picWidth, int picHeight );
-
-    //void						toGuiPlayerNlcReady( bool isReady );
 
 signals:
 	void						signalInternalPlayVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int width, int height );
-	void						signalInternalPlayMotionVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int motion0To100000 );
+	void						signalInternalPlayMotionVideoFrame( VxGUID feedOnlineId, SharedUint8DataPtr vidFrame, int dataLen, int motion0To100000 );
 
 protected slots:
 	void						slotInternalPlayVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int width, int height );
-	void						slotInternalPlayMotionVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int motion0To100000 );
+	void						slotInternalPlayMotionVideoFrame( VxGUID feedOnlineId, SharedUint8DataPtr vidFrame, int dataLen, int motion0To100000 );
 
 protected:
 	bool						m_VideoPlayClientsBusy{ false };
 	std::vector<std::pair<VxGUID,GuiPlayerCallback*>>  m_VideoPlayClients;
+	std::vector<GuiVideoTitleBarCallback*>  m_VideoTitleBarClients;
+	QSize						m_TitleBarImageSize;
+
 	QAtomicInt					m_BehindFeedFrameCnt;
 	QAtomicInt					m_BehindMotionFrameCnt;
 	VxGUID						m_MediaSessionId;

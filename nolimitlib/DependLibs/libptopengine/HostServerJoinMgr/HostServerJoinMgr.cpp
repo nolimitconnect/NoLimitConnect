@@ -115,7 +115,7 @@ void HostServerJoinMgr::announceHostJoinRequested( HostJoinInfo * hostInfo )
 	    LogMsg( LOG_INFO, "HostServerJoinMgr::announceHostJoinRequested start" );
 	
 	    lockClientList();
-        for( auto client : m_HostJoinClients )
+        for( auto& client : m_HostJoinClients )
         {
 		    client->callbackHostJoinRequested( userHostInfo );
 	    }
@@ -136,7 +136,7 @@ void HostServerJoinMgr::announceHostJoinUpdated( HostJoinInfo * hostInfo )
     if( userHostInfo )
     {
         lockClientList();
-        for( auto client : m_HostJoinClients )
+        for( auto& client : m_HostJoinClients )
         {
             client->callbackHostJoinUpdated( userHostInfo );
         }
@@ -153,7 +153,7 @@ void HostServerJoinMgr::announceHostJoinUpdated( HostJoinInfo * hostInfo )
 void HostServerJoinMgr::announceHostUnJoin( GroupieId& groupieId )
 {
     lockClientList();
-    for( auto client : m_HostJoinClients )
+    for( auto& client : m_HostJoinClients )
     {
         client->callbackHostUnJoin( groupieId );
     }
@@ -166,7 +166,7 @@ void HostServerJoinMgr::announceHostJoinRemoved( GroupieId& groupieId )
 {
     removeFromDatabase( groupieId, false );
 	lockClientList();
-    for( auto client : m_HostJoinClients )
+    for( auto& client : m_HostJoinClients )
 	{
 		client->callbackHostJoinRemoved( groupieId );
 	}

@@ -388,7 +388,7 @@ void OfferBaseMgr::announceOfferAdded( OfferBaseInfo* offerInfo, bool resourceLo
 		lockClientList();
 	}
 
-	for( auto client : m_OfferClients )
+	for( auto& client : m_OfferClients )
 	{
 		client->callbackOfferAdded( offerInfo );
 	}
@@ -404,7 +404,7 @@ void OfferBaseMgr::announceOfferUpdated( OfferBaseInfo* offerInfo )
 {
     if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "OfferBaseMgr::%s", __func__ );
     lockClientList();
-	for( auto client : m_OfferClients )
+	for( auto& client : m_OfferClients )
 	{
         client->callbackOfferAdded( offerInfo );
     }
@@ -434,7 +434,7 @@ void OfferBaseMgr::announceOfferRemoved( OfferBaseInfo* offerInfo, bool resource
 		lockClientList();
 	}
 
-	for( auto client : m_OfferClients )
+	for( auto& client : m_OfferClients )
 	{
 		client->callbackOfferRemoved( offerInfo->getOfferId() );
 	}
@@ -450,7 +450,7 @@ void OfferBaseMgr::announceOfferXferState( VxGUID& assetOfferId, EOfferSendState
 {
 	if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "OfferBaseMgr::%s", __func__ );
 	lockClientList();
-	for( auto client : m_OfferClients )
+	for( auto& client : m_OfferClients )
 	{
 		client->callbackOfferSendState( assetOfferId, assetSendState, param );
 	}
@@ -464,7 +464,7 @@ void OfferBaseMgr::announceOfferAction( VxGUID& assetOfferId, EOfferAction offer
 {
     if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "OfferBaseMgr::%s", __func__ );
     lockClientList();
-	for( auto client : m_OfferClients )
+	for( auto& client : m_OfferClients )
 	{
         client->callbackOfferAction( assetOfferId, offerAction, param );
     }
@@ -635,7 +635,7 @@ void OfferBaseMgr::updateOfferFileTypes( void )
 	if( fileTypesChanged )
 	{
 		lockClientList();
-		for( auto client : m_OfferClients )
+		for( auto& client : m_OfferClients )
 		{
 			client->callbackOfferFileTypesChanged( u16FileTypes );
 		}
@@ -703,7 +703,7 @@ void OfferBaseMgr::updateFileListPackets( void )
 	if( hadOfferBaseFiles || m_FileListPackets.size() )
 	{
 		lockClientList();
-		for( auto client : m_OfferClients )
+		for( auto& client : m_OfferClients )
 		{
 			client->callbackOfferPktFileListUpdated();
 		}

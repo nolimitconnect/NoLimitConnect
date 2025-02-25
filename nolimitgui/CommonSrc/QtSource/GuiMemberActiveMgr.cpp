@@ -160,7 +160,7 @@ void GuiMemberActiveMgr::wantMemberActiveCallback( GuiMemberActiveCallback* clie
 //============================================================================
 void GuiMemberActiveMgr::announceMemberActive( GroupieId& groupieId, bool isActive )
 {
-    for( auto client : m_MemberClients )
+    for( auto& client : m_MemberClients )
     {
         client->callbackGuiMemberActive( groupieId, isActive );
     }
@@ -169,7 +169,7 @@ void GuiMemberActiveMgr::announceMemberActive( GroupieId& groupieId, bool isActi
 //============================================================================
 void GuiMemberActiveMgr::announceMemberIsJoinedToHost( VxGUID& onlineId, EHostType host, bool isJoined )
 {
-    for( auto client : m_MemberClients )
+    for( auto& client : m_MemberClients )
     {
         client->callbackGuiMemberIsJoinedToHost( onlineId, host, isJoined );
     }

@@ -207,7 +207,7 @@ void SoundMgr::setEchoCancelEnable( bool enable )
 	}
 
 	MiniAudioMgr::setEchoCancelEnable( enable );
-	for( auto client : m_EchoCancelEnableClientList )
+	for( auto& client : m_EchoCancelEnableClientList )
 	{
 		client->callbackGuiEchoCancelEnable( enable );
 	}
@@ -257,7 +257,7 @@ void SoundMgr::slotAudioPeekTimeout( void )
 
 	int micLevel = isMicrophoneEnabled() && !getIsMicrophoneMuted() ? getAudioInPeakAmplitude() : 0;
 
-	for( auto client : m_AudioLevelClientList )
+	for( auto& client : m_AudioLevelClientList )
 	{
 		client->callbackGuiMicrophoneLevel( micLevel );
 	}

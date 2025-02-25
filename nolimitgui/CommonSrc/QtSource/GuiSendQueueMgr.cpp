@@ -135,7 +135,7 @@ void GuiSendQueueMgr::wantSendQueueCallback( GuiSendQueueCallback* client, bool 
 //============================================================================
 void GuiSendQueueMgr::announceSendQueue( SendQueInfo& sendQueInfo )
 {
-    for( auto client : m_MemberClients )
+    for( auto& client : m_MemberClients )
     {
         client->callbackSendQueInfo( sendQueInfo );
     }

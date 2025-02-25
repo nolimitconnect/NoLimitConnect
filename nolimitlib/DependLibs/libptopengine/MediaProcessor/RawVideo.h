@@ -9,18 +9,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <memory.h>
+#include <memory>
 
 class RawVideo
 {
 public:
-	RawVideo( 	uint32_t		fourCc,
-		uint8_t *	vidData,
-		uint32_t		vidDataLen, 
-		int		width,
-		int		height,
-		int		rotation,
-		bool	needToDelete )
+	RawVideo( 	uint32_t	fourCc,
+				std::shared_ptr<uint8_t*>& vidData,
+				uint32_t	vidDataLen, 
+				int			width,
+				int			height,
+				int			rotation )
 		: m_FourCc( fourCc ) // should always be FOURCC_RGB
 		, m_VidData( vidData )
 		, m_VidDataLen( vidDataLen )
@@ -28,18 +27,11 @@ public:
 		, m_Height( height )
 		, m_Rotation( rotation )
 	{
-		if( !needToDelete )
-		{
-			// need to make copy because will be deleted by caller
-			uint8_t * newVidData = new uint8_t[ vidDataLen ];
-			memcpy( newVidData, vidData, vidDataLen );
-			m_VidData = newVidData;
-		}
 	}
 
-	uint32_t							m_FourCc;
-	uint8_t *						m_VidData;
-	uint32_t							m_VidDataLen; 
+	uint32_t					m_FourCc;
+	std::shared_ptr<uint8_t*>	m_VidData;
+	uint32_t					m_VidDataLen; 
 	int							m_Width;
 	int							m_Height; 
 	int							m_Rotation;

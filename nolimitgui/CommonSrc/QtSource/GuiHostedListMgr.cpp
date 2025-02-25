@@ -390,7 +390,7 @@ void GuiHostedListMgr::wantHostedListCallbacks( GuiHostedListCallback* client, b
 //============================================================================
 void GuiHostedListMgr::announceHostedListAdded( HostedId& hostedId, GuiHosted* guiHosted )
 {
-    for( auto client : m_HostedListClients )
+    for( auto& client : m_HostedListClients )
     {
         client->callbackGuiHostedListAdded( hostedId, guiHosted );
     }
@@ -399,7 +399,7 @@ void GuiHostedListMgr::announceHostedListAdded( HostedId& hostedId, GuiHosted* g
 //============================================================================
 void GuiHostedListMgr::announceHostedListUpdated( HostedId& hostedId, GuiHosted* guiHosted )
 {
-    for( auto client : m_HostedListClients )
+    for( auto& client : m_HostedListClients )
     {
         client->callbackGuiHostedListUpdated( hostedId, guiHosted );
     }
@@ -408,7 +408,7 @@ void GuiHostedListMgr::announceHostedListUpdated( HostedId& hostedId, GuiHosted*
 //============================================================================
 void GuiHostedListMgr::announceHostedListRemoved( HostedId& hostedId )
 {
-    for( auto client : m_HostedListClients )
+    for( auto& client : m_HostedListClients )
     {
         client->callbackGuiHostedListRemoved( hostedId );
     }
@@ -417,7 +417,7 @@ void GuiHostedListMgr::announceHostedListRemoved( HostedId& hostedId )
 //============================================================================
 void GuiHostedListMgr::announceHostedListSearchResult( HostedId& hostedId, GuiHosted* guiHosted, VxGUID& sessionId )
 {
-    for( auto client : m_HostedListClients )
+    for( auto& client : m_HostedListClients )
     {
         client->callbackGuiHostedListSearchResult( hostedId, guiHosted, sessionId );
     }
@@ -426,7 +426,7 @@ void GuiHostedListMgr::announceHostedListSearchResult( HostedId& hostedId, GuiHo
 //============================================================================
 void GuiHostedListMgr::announceHostedListSearchStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus )
 {
-    for( auto client : m_HostedListClients )
+    for( auto& client : m_HostedListClients )
     {
         client->callbackGuiHostedListSearchStatus( hostType, sessionId, connectStatus );
     }
@@ -435,7 +435,7 @@ void GuiHostedListMgr::announceHostedListSearchStatus( EHostType hostType, VxGUI
 //============================================================================
 void GuiHostedListMgr::announceHostedListSearchComplete( EHostType hostType, VxGUID& sessionId )
 {
-    for( auto client : m_HostedListClients )
+    for( auto& client : m_HostedListClients )
     {
         client->callbackGuiHostedListSearchComplete( hostType, sessionId );
     }

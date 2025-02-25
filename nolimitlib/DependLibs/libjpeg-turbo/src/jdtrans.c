@@ -130,9 +130,11 @@ transdecode_master_selection(j_decompress_ptr cinfo)
   }
 
   /* Always get a full-image coefficient buffer. */
+#if defined(SUPPORT_JPEG_HIGH_PRECISION)
   if (cinfo->data_precision == 12)
     j12init_d_coef_controller(cinfo, TRUE);
   else
+#endif // defined(SUPPORT_JPEG_HIGH_PRECISION)
     jinit_d_coef_controller(cinfo, TRUE);
 
   /* We can now tell the memory manager to allocate virtual arrays. */

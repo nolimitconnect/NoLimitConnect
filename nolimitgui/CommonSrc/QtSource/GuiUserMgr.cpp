@@ -101,7 +101,7 @@ void GuiUserMgr::toGuiIndentListUpdate( EUserViewType listType, VxGUID& onlineId
             }
 
             m_ClientListBusy = true;
-            for( auto client : m_GuiUserUpdateClientList )
+            for( auto& client : m_GuiUserUpdateClientList )
             {
                 if( client && !isClientQueuedForRemoval( client ) )
                 {
@@ -157,7 +157,7 @@ void GuiUserMgr::toGuiIndentListRemove( EUserViewType listType, VxGUID& onlineId
             }
 
             m_ClientListBusy = true;
-            for( auto client : m_GuiUserUpdateClientList )
+            for( auto& client : m_GuiUserUpdateClientList )
             {
                 if( client && !isClientQueuedForRemoval( client ) )
                 {
@@ -226,7 +226,7 @@ bool GuiUserMgr::toGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline )
             }
 
             m_ClientListBusy = true;
-            for( auto client : m_GuiUserUpdateClientList )
+            for( auto& client : m_GuiUserUpdateClientList )
             {
                 if( client && !isClientQueuedForRemoval( client ) )
                 {
@@ -318,7 +318,7 @@ void GuiUserMgr::updateOnlineStatus( VxNetIdent* netIdent, bool online )
         }
 
         m_ClientListBusy = true;
-        for( auto client : m_GuiUserUpdateClientList )
+        for( auto& client : m_GuiUserUpdateClientList )
         {
             if( client && !isClientQueuedForRemoval( client ) )
             {
@@ -621,7 +621,7 @@ void GuiUserMgr::updateMyIdent( VxNetIdent* myIdent )
             }
 
             m_ClientListBusy = true;
-            for( auto client : m_GuiUserUpdateClientList )
+            for( auto& client : m_GuiUserUpdateClientList )
             {
                 if( client && !isClientQueuedForRemoval( client ) )
                 {
@@ -647,7 +647,7 @@ void GuiUserMgr::onUserAdded( GuiUser* guiUser )
         }
 
         m_ClientListBusy = true;
-        for( auto client : m_GuiUserUpdateClientList )
+        for( auto& client : m_GuiUserUpdateClientList )
         {
             if( client && !isClientQueuedForRemoval( client ) )
             {
@@ -672,7 +672,7 @@ void GuiUserMgr::onUserRemoved( VxGUID& onlineId )
         }
 
         m_ClientListBusy = true;
-        for( auto client : m_GuiUserUpdateClientList )
+        for( auto& client : m_GuiUserUpdateClientList )
         {
             if( client && !isClientQueuedForRemoval( client ) )
             {
@@ -724,7 +724,7 @@ void GuiUserMgr::onUserOnlineStatusChange( GuiUser* guiUser )
         }
 
         m_ClientListBusy = true;
-        for( auto client : m_GuiUserUpdateClientList )
+        for( auto& client : m_GuiUserUpdateClientList )
         {
             if( client && !isClientQueuedForRemoval( client ) )
             {
@@ -759,7 +759,7 @@ void GuiUserMgr::onMyIdentUpdated( GuiUser* guiUser )
         }
 
         m_ClientListBusy = true;
-        for( auto client : m_GuiUserUpdateClientList )
+        for( auto& client : m_GuiUserUpdateClientList )
         {
             if( client && !isClientQueuedForRemoval( client ) )
             {
@@ -812,7 +812,7 @@ void GuiUserMgr::wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bo
     m_ClientListBusy = true;
     if( wantCallback )
     {
-        for( auto client : m_GuiUserUpdateClientList )
+        for( auto& client : m_GuiUserUpdateClientList )
         {
             if( client == callback )
             {
@@ -878,7 +878,7 @@ void GuiUserMgr::sendUserUpdatedToCallbacks( GuiUser* guiUser )
         }
 
         m_ClientListBusy = true;
-        for( auto client : m_GuiUserUpdateClientList )
+        for( auto& client : m_GuiUserUpdateClientList )
         {
             if( client && !isClientQueuedForRemoval( client ) )
             {
@@ -912,7 +912,7 @@ void GuiUserMgr::updateClientList( void )
         if( pair.second )
         {
             bool isDuplicate{ false };
-            for( auto client : m_GuiUserUpdateClientList )
+            for( auto& client : m_GuiUserUpdateClientList )
             {
                 if( client == pair.first )
                 {

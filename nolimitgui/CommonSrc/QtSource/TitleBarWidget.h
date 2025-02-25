@@ -14,7 +14,7 @@
 #include "GuiAudioLevelCallback.h"
 #include "GuiHostJoinCallback.h"
 #include "GuiOfferCallback.h"
-#include "GuiPlayerCallback.h"
+#include "GuiVideoTitleBarCallback.h"
 #include "GuiPluginMgrCallback.h"
 #include "MyIconsDefs.h"
 #include "ToGuiActivityInterface.h"
@@ -39,14 +39,14 @@ class MyIcons;
 class QLabel;
 class VxPushButton;
 
-class TitleBarWidget : public QWidget, 
-				public ToGuiActivityInterface, 
-	public ToGuiHardwareControlInterface, 
-	public GuiAudioLevelCallback, 
-	public GuiPlayerCallback, 
-	public GuiPluginMgrCallback, 
-	public GuiOfferCallback, 
-	public GuiHostJoinCallback
+class TitleBarWidget : public QWidget,
+	public ToGuiActivityInterface,
+	public ToGuiHardwareControlInterface,
+	public GuiAudioLevelCallback,
+	public GuiPluginMgrCallback,
+	public GuiOfferCallback,
+	public GuiHostJoinCallback,
+	public GuiVideoTitleBarCallback
 {
 	Q_OBJECT
 
@@ -174,8 +174,7 @@ protected:
 	void						callbackActiveOfferCount( int activeCnt, int historyCnt ) override;
 	void						callbackJoinRequestCount( int requestCnt ) override;
 
-	void						callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 ) override;
-	void						callbackGuiPlayVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame ) override;
+	void						callbackGuiVideoTitleBarPixmap( QPixmap& vidPixmap) override;
 
 	void						callbackToGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue ) override;
 

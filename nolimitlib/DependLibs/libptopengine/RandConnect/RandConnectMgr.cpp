@@ -88,7 +88,7 @@ void RandConnectMgr::announceRandConnect( GroupieId& groupieId, enum ERandAction
 {
     lockClientList();
 
-    for( auto client : m_MemberClients )
+    for( auto& client : m_MemberClients )
     {
         client->callbackRandConnect( groupieId, randAction );
     }

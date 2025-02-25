@@ -211,7 +211,7 @@ void HostedListMgr::announceHostInfoUpdated( HostedInfo* hostedInfo )
     if( hostedInfo )
     {
         lockClientList();
-        for( auto client : m_HostedInfoListClients )
+        for( auto& client : m_HostedInfoListClients )
         {
             client->callbackHostedInfoListUpdated( hostedInfo );
         }
@@ -229,7 +229,7 @@ void HostedListMgr::announceHostInfoRemoved( enum EHostType hostType, VxGUID& ho
 {
     // removeFromDatabase( hostOnlineId, hostType, false );
     lockClientList();
-    for( auto client : m_HostedInfoListClients )
+    for( auto& client : m_HostedInfoListClients )
     {
         client->callbackHostedInfoListRemoved( hostOnlineId, hostType );
     }
@@ -245,7 +245,7 @@ void HostedListMgr::announceHostInfoSearchResult( HostedInfo* hostedInfo, VxGUID
     if( hostedInfo )
     {
         lockClientList();
-        for( auto client : m_HostedInfoListClients )
+        for( auto& client : m_HostedInfoListClients )
         {
             client->callbackHostedInfoListSearchResult( hostedInfo, sessionId );
         }
@@ -264,7 +264,7 @@ void HostedListMgr::announceHostInfoSearchStatus( EHostType hostType, VxGUID& se
     if( hostType != eHostTypeUnknown )
     {
         lockClientList();
-        for( auto client : m_HostedInfoListClients )
+        for( auto& client : m_HostedInfoListClients )
         {
             client->callbackHostedInfoListSearchStatus( hostType, sessionId, connectStatus );
         }
@@ -283,7 +283,7 @@ void HostedListMgr::announceHostInfoSearchComplete( enum EHostType hostType, VxG
     if( hostType != eHostTypeUnknown )
     {
         lockClientList();
-        for( auto client : m_HostedInfoListClients )
+        for( auto& client : m_HostedInfoListClients )
         {
             client->callbackHostedInfoListSearchComplete( hostType, sessionId );
         }

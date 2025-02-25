@@ -355,7 +355,7 @@ void GuiGroupieListMgr::wantGroupieListCallbacks( GuiGroupieListCallback* client
 //============================================================================
 void GuiGroupieListMgr::announceGroupieListUpdated( GroupieId& groupieId, GuiGroupie* guiGroupie )
 {
-    for( auto client : m_GroupieListClients )
+    for( auto& client : m_GroupieListClients )
     {
         client->callbackGuiGroupieListUpdated( groupieId, guiGroupie );
     }
@@ -364,7 +364,7 @@ void GuiGroupieListMgr::announceGroupieListUpdated( GroupieId& groupieId, GuiGro
 //============================================================================
 void GuiGroupieListMgr::announceGroupieListRemoved( GroupieId& groupieId )
 {
-    for( auto client : m_GroupieListClients )
+    for( auto& client : m_GroupieListClients )
     {
         client->callbackGuiGroupieListRemoved( groupieId );
     }
@@ -373,7 +373,7 @@ void GuiGroupieListMgr::announceGroupieListRemoved( GroupieId& groupieId )
 //============================================================================
 void GuiGroupieListMgr::announceGroupieListSearchResult( GroupieId& groupieId, GuiGroupie* guiGroupie, VxGUID& sessionId )
 {
-    for( auto client : m_GroupieListClients )
+    for( auto& client : m_GroupieListClients )
     {
         client->callbackGuiGroupieListSearchResult( groupieId, guiGroupie, sessionId );
     }
@@ -382,7 +382,7 @@ void GuiGroupieListMgr::announceGroupieListSearchResult( GroupieId& groupieId, G
 //============================================================================
 void GuiGroupieListMgr::announceGroupieListSearchComplete( EHostType hostType, VxGUID& sessionId )
 {
-    for( auto client : m_GroupieListClients )
+    for( auto& client : m_GroupieListClients )
     {
         client->callbackGuiGroupieListSearchComplete( hostType, sessionId );
     }
