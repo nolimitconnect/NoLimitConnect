@@ -155,7 +155,7 @@ public:
 												VxGUID&						sessionId,
 												bool						wantInput );
 
-	virtual void				fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataIn, int iWidth, int iHeight, uint32_t u32VidDataLen, int iRotation );
+    virtual void				fromGuiVideoData( uint32_t u32FourCc, std::shared_ptr<uint8_t*>& vidDataIn, int iWidth, int iHeight, uint32_t vidDataLen, int iRotation );
 	virtual void				fromGuiYUV420CaptureImage( uint8_t * yBytes, uint8_t * uBytes, uint8_t * vBytes, 
 														int yRowStride, int uRowStride, int vRowStride,
 														int yPixStride, int uPixStride, int vPixStride,

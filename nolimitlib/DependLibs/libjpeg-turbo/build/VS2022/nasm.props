@@ -10,10 +10,10 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <NASM>
-	  <IncludeDir>$(ProjectDir)..\..\simd\nasm</IncludeDir>
+	  <IncludeDir></IncludeDir>
       <ObjectFileName>$(IntDir)%(FileName).obj</ObjectFileName>
-      <CommandLineTemplate Condition="'$(Platform)' == 'Win32'">"$(NasmPath)"nasm.exe  -Z nasm_error.log  [IncludeDir]  -Pconfig_jpegturbo_w64.asm -Xvc -f win32 [AllOptions] [AdditionalOptions] "%(FullPath)"</CommandLineTemplate>
-      <CommandLineTemplate Condition="'$(Platform)' == 'x64'">"$(NasmPath)"nasm.exe  -Z nasm_error.log [IncludeDir]  -Pconfig_jpegturbo_w64.asm -Xvc -f win64 [AllOptions] [AdditionalOptions] "%(FullPath)"</CommandLineTemplate>
+      <CommandLineTemplate Condition="'$(Platform)' == 'Win32'">"$(NasmPath)"nasm.exe  -Z nasm_error.log  -I"$(ProjectDir)..\..\simd\nasm" -I"$(ProjectDir)..\..\simd\x86_64"  -P$(ProjectDir)..\..\simd\nasm\config_jpegturbo_w64.asm -Xvc -f win32 [AllOptions] [AdditionalOptions] "%(FullPath)"</CommandLineTemplate>
+      <CommandLineTemplate Condition="'$(Platform)' == 'x64'">"$(NasmPath)"nasm.exe  -Z nasm_error.log -I"$(ProjectDir)..\..\simd\nasm" -I"$(ProjectDir)..\..\simd\x86_64"  -P"$(ProjectDir)..\..\simd\nasm\config_jpegturbo_w64.asm" -Xvc -f win64 [AllOptions] [AdditionalOptions] "%(FullPath)"</CommandLineTemplate>
       <CommandLineTemplate Condition="'$(Platform)' != 'Win32' and '$(Platform)' != 'x64'">echo NASM not supported on this platform
 exit 1</CommandLineTemplate>
       <ExecutionDescription>NASM %(Identity)</ExecutionDescription>

@@ -5,7 +5,7 @@
 
 %define WIN64
 
-%include jcolsamp.inc
-%include jdct.inc
-%include jsimdcfg.inc
-%include jsimdext.inc
+%include "jsimdcfg.inc"
+%include "jsimdext.inc"
+%include "jcolsamp.inc"
+%include "jdct.inc"

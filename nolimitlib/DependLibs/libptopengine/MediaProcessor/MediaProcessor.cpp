@@ -367,7 +367,7 @@ void MediaProcessor::processFriendAudioFeed( VxGUID& onlineId, int16_t * pcmData
 }
 
 //============================================================================
-void MediaProcessor::fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataIn, int imageWidth, int imageHeight, uint32_t u32VidDataLen, int iRotation )
+void MediaProcessor::fromGuiVideoData( uint32_t u32FourCc, std::shared_ptr<uint8_t*>& vidDataIn, int imageWidth, int imageHeight, uint32_t vidDataLen, int iRotation )
 {
 	if( false == m_VidCaptureEnabled )
 	{
@@ -389,80 +389,80 @@ void MediaProcessor::fromGuiVideoData( uint32_t u32FourCc, uint8_t * pu8VidDataI
 	//elapsedTimer.startTimer();
 	//LogMsg( LOG_INFO, "fromGuiVideoData  FourCc 0x%x width %d height %d len %d\n", u32FourCc, iWidth, iHeight, u32VidDataLen );
 
-	uint8_t * pu8VidData = pu8VidDataIn;
-	bool bConvert =  ( FOURCC_RGB != u32FourCc );
+    // uint8_t * pu8VidData = pu8VidDataIn;
+    // bool bConvert =  ( FOURCC_RGB != u32FourCc );
 
-	if( bConvert )
-	{
-		if( FOURCC_YUVS == u32FourCc )
-		{
-			// optimize convert for android .. could use normal converter because it is supported
-			uint8_t * yuv420sp = pu8VidData;
-			pu8VidData = new uint8_t[ imageWidth * imageHeight * 3 ];
-			uint8_t * rgb = pu8VidData;
-			int frameSize = imageWidth * imageHeight;
-			for( int j = 0, yp = 0; j < imageHeight; j++ )
-			{
-				int uvp = frameSize + (j >> 1) * imageWidth, u = 0, v = 0;
-				for( int i = 0; i < imageWidth; i++, yp++ )
-				{
-					int y = (0xff & ((int) yuv420sp[yp])) - 16;
-					if (y < 0) y = 0;
-					if ((i & 1) == 0) 
-					{
-						v = (0xff & yuv420sp[uvp++]) - 128;
-						u = (0xff & yuv420sp[uvp++]) - 128;
-					}
+    // if( bConvert )
+    // {
+    // 	if( FOURCC_YUVS == u32FourCc )
+    // 	{
+    // 		// optimize convert for android .. could use normal converter because it is supported
+    // 		uint8_t * yuv420sp = pu8VidData;
+    // 		pu8VidData = new uint8_t[ imageWidth * imageHeight * 3 ];
+    // 		uint8_t * rgb = pu8VidData;
+    // 		int frameSize = imageWidth * imageHeight;
+    // 		for( int j = 0, yp = 0; j < imageHeight; j++ )
+    // 		{
+    // 			int uvp = frameSize + (j >> 1) * imageWidth, u = 0, v = 0;
+    // 			for( int i = 0; i < imageWidth; i++, yp++ )
+    // 			{
+    // 				int y = (0xff & ((int) yuv420sp[yp])) - 16;
+    // 				if (y < 0) y = 0;
+    // 				if ((i & 1) == 0)
+    // 				{
+    // 					v = (0xff & yuv420sp[uvp++]) - 128;
+    // 					u = (0xff & yuv420sp[uvp++]) - 128;
+    // 				}
 
-					int y1192 = 1192 * y;
-					int r = (y1192 + 1634 * v);
-					int g = (y1192 - 833 * v - 400 * u);
-					int b = (y1192 + 2066 * u);
+    // 				int y1192 = 1192 * y;
+    // 				int r = (y1192 + 1634 * v);
+    // 				int g = (y1192 - 833 * v - 400 * u);
+    // 				int b = (y1192 + 2066 * u);
 
-					if (r < 0) r = 0; else if (r > 262143) r = 262143;
-					if (g < 0) g = 0; else if (g > 262143) g = 262143;
-					if (b < 0) b = 0; else if (b > 262143) b = 262143;
+    // 				if (r < 0) r = 0; else if (r > 262143) r = 262143;
+    // 				if (g < 0) g = 0; else if (g > 262143) g = 262143;
+    // 				if (b < 0) b = 0; else if (b > 262143) b = 262143;
 
-					*rgb = ( r >> 10 ) & 0xff;
-					rgb++;
-					*rgb = ( g >> 10 ) & 0xff;
-					rgb++;
-					*rgb = (b>>10)&0xff;
-					rgb++;
-				}
-			}
-		}
-		else
-		{
-			// need to convert to rgb.. NOTE: the caller must delete the returned data
-			pu8VidData = VxConvertImage(	u32FourCc,				// FOURCC of format to convert
-											pu8VidDataIn,			// data to convert
-											imageWidth,				// width of image in pixels
-											imageHeight,			// height of image in pixels
-											FOURCC_RGB,				// FOURCC of format to convert to 
-											u32VidDataLen );		// return data length of converted image
-		}
+    // 				*rgb = ( r >> 10 ) & 0xff;
+    // 				rgb++;
+    // 				*rgb = ( g >> 10 ) & 0xff;
+    // 				rgb++;
+    // 				*rgb = (b>>10)&0xff;
+    // 				rgb++;
+    // 			}
+    // 		}
+    // 	}
+    // 	else
+    // 	{
+    // 		// need to convert to rgb.. NOTE: the caller must delete the returned data
+    // 		pu8VidData = VxConvertImage(	u32FourCc,				// FOURCC of format to convert
+    // 										pu8VidDataIn,			// data to convert
+    // 										imageWidth,				// width of image in pixels
+    // 										imageHeight,			// height of image in pixels
+    // 										FOURCC_RGB,				// FOURCC of format to convert to
+    // 										u32VidDataLen );		// return data length of converted image
+    // 	}
 
-		// if we converted the image we also changed the width and height to our cam dimensions for processing
-	}
+    // 	// if we converted the image we also changed the width and height to our cam dimensions for processing
+    // }
 
-	std::shared_ptr<uint8_t*> sharedVidData;
-	if( bConvert )
-	{
-		// data is already allocated and will need deleted
-		sharedVidData = std::make_shared<uint8_t*>( pu8VidData );
-	}
-	else
-	{
-		// make copy of data which shared pointer will delete
-		uint8_t* copiedVidData = new uint8_t[ u32VidDataLen ];
-		memcpy( copiedVidData, pu8VidData, u32VidDataLen );
-		sharedVidData = std::make_shared<uint8_t*>( copiedVidData );
-	}
+    // std::shared_ptr<uint8_t*> sharedVidData;
+    // if( bConvert )
+    // {
+    // 	// data is already allocated and will need deleted
+    // 	sharedVidData = std::make_shared<uint8_t*>( pu8VidData );
+    // }
+    // else
+    // {
+    // 	// make copy of data which shared pointer will delete
+    // 	uint8_t* copiedVidData = new uint8_t[ u32VidDataLen ];
+    // 	memcpy( copiedVidData, pu8VidData, u32VidDataLen );
+    // 	sharedVidData = std::make_shared<uint8_t*>( copiedVidData );
+    // }
 
 	RawVideo * rawVideo = new RawVideo( FOURCC_RGB,
-										sharedVidData,
-										u32VidDataLen, 
+                                        vidDataIn,
+                                        vidDataLen,
 										imageWidth,
 										imageHeight,
 										iRotation );

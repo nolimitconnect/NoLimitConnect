@@ -28,12 +28,10 @@ namespace
 
 //============================================================================
 VideoFrameProcessor::VideoFrameProcessor( AppCommon& myApp, QObject* widget )
-    : QThread( widget )
+    : QObject( widget )
     , m_MyApp( myApp )
     , m_MediaProcessor( GetPtoPEngine().getMediaProcessor() )
 {
-    // 
-    setPriority(QThread::HighPriority);
 }
 
 //============================================================================
@@ -51,12 +49,6 @@ void VideoFrameProcessor::enableProcessing( bool enable )
         if( m_ProcessFramesEnabled )
         {
             m_DesiredFrameSize = GuiParams::getSnapshotDesiredSize();
-            m_ElapsedTimer.start();
-            start();
-        }
-        else
-        {
-            m_FrameSemaphore.signal();
         }
     }
 }
@@ -79,70 +71,25 @@ void VideoFrameProcessor::slotVideoFrameChanged( const QVideoFrame& frame )
 
     lastTimeMs = timeNowMs;
 
-    size_t vidQueSize = m_MediaProcessor.getVideoQueueSize();
-    if( vidQueSize > 2 )
+    if( m_MediaProcessor.getVideoQueueSize() > 2 )
     {
-        LogModule( eLogWebCam, LOG_WARN, "slotVideoFrameChanged media processor behind.. queue size is %d ", vidQueSize );
+        LogModule( eLogWebCam, LOG_WARN, "%s media processor behind", __func__ );
         return;
     }
 
     if( !m_FrameProcessed )
     {
-        LogModule( eLogWebCam, LOG_WARN, "slotVideoFrameChanged prev frame not processed" );
+        LogModule( eLogWebCam, LOG_WARN, "%s prev frame not processed", __func__ );
         return;
     }
 
-    lockFrameQueue();
-    m_CamImage = frame.toImage();
-    m_FrameProcessed = false;
-    unlockFrameQueue();
-
-    m_FrameSemaphore.signal();
-}
-
-//============================================================================
-void VideoFrameProcessor::run( void )
-{
-    while( m_ProcessFramesEnabled )
+    QImage rgbImage = frame.toImage().convertToFormat( QImage::Format_RGB888 );
+    if( !rgbImage.isNull() )
     {
-        m_FrameSemaphore.wait();
-        if( !m_ProcessFramesEnabled || VxIsAppShuttingDown() )
-        {
-            return;
-        }
-
-        lockFrameQueue();
-        processCapturedImage( m_CamImage );
-        m_FrameProcessed = true;  
-        unlockFrameQueue();
-    }
-}
-
-//============================================================================
-void VideoFrameProcessor::processCapturedImage( const QImage& imgIn )
-{
-    if( imgIn.isNull() )
-    {
-        LogModule( eLogWebCam, LOG_ERROR, "%s null image ", __func__ );
-        return;
-    }
-
-    if( imgIn.format() == QImage::Format_RGB888 )
-    {
-        uint32_t imageLen = imgIn.bytesPerLine() * imgIn.height();
-        m_MediaProcessor.fromGuiVideoData( FOURCC_RGB, (uint8_t *)imgIn.bits(), imgIn.width(), imgIn.height(), imageLen, m_MyApp.getCamCaptureRotation() );
-    }
-    else 
-    {
-        QImage toSendImage = imgIn.convertToFormat( QImage::Format_RGB888 );
-        if( !toSendImage.isNull() )
-        {
-            uint32_t imageLen = toSendImage.bytesPerLine() * toSendImage.height();
-            m_MediaProcessor.fromGuiVideoData( FOURCC_RGB, toSendImage.bits(), toSendImage.width(), toSendImage.height(), imageLen, m_MyApp.getCamCaptureRotation() );
-        }
-        else
-        {
-            LogModule( eLogWebCam, LOG_ERROR, "%s convert to Format_RGB888 failed", __func__ );
-        }
+        uint32_t dataLen = 3 * rgbImage.width() * rgbImage.height();
+        uint8_t* rgbData = new uint8_t[dataLen];
+        memcpy( rgbData, rgbImage.bits(), dataLen );
+        std::shared_ptr<uint8_t*> sharedData = std::make_shared<uint8_t*>(rgbData);
+        m_MediaProcessor.fromGuiVideoData( FOURCC_RGB, sharedData, rgbImage.width(), rgbImage.height(), dataLen, m_MyApp.getCamCaptureRotation() );
     }
 }

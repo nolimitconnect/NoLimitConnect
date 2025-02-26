@@ -13,18 +13,13 @@
 #include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 #endif // defined(TARGET_OS_LINUX)
 
-#include <QElapsedTimer>
-#include <QSemaphore>
-#include <QThread>
+#include <QObject>
 #include <QVideoFrame>
-
-#include <CoreLib/VxMutex.h>
-#include <CoreLib/VxSemaphore.h>
 
 class AppCommon;
 class MediaProcessor;
 
-class VideoFrameProcessor : public QThread
+class VideoFrameProcessor : public QObject
 {
     Q_OBJECT
 
@@ -40,20 +35,11 @@ protected slots:
     void                        slotVideoFrameChanged( const QVideoFrame& frame );
 
 protected:
-    void                        lockFrameQueue( void ) { m_FrameQueueMutex.lock(); }
-    void                        unlockFrameQueue( void ) { m_FrameQueueMutex.unlock(); }
-
-    void                        run( void );
-    void                        processCapturedImage( const QImage& imgIn );
 
     AppCommon&                  m_MyApp;
     MediaProcessor&             m_MediaProcessor;
     QSize                       m_DesiredFrameSize;
-    QElapsedTimer               m_ElapsedTimer;
-    bool                        m_ProcessFramesEnabled{false};
 
-    VxMutex                     m_FrameQueueMutex;
-    VxSemaphore                 m_FrameSemaphore;
-    QImage                      m_CamImage;
+    bool                        m_ProcessFramesEnabled{false};
     bool                        m_FrameProcessed{ true };
 };

@@ -120,9 +120,6 @@
     <NASM Include="..\..\simd\x86_64\jsimdcpu.asm">
       <Filter>x86</Filter>
     </NASM>
-    <NASM Include="..\..\simd\nasm\config_jpegturbo_w64.asm">
-      <Filter>nasm</Filter>
-    </NASM>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\simd\x86_64\jsimd.c">

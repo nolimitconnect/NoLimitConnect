@@ -1,8 +1,6 @@
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/.. ${CMAKE_CURRENT_SOURCE_DIR}/../.. )
 
-set(USE_LIBJPEG_TURBO 1)
-
 include(ConfigStaticDependLib)
 
 add_subdirectory(libvpx)
@@ -32,11 +30,13 @@ add_subdirectory(libgnu)
 
 add_subdirectory(libiconv)
 
-#include(ExternalProject)
-#ExternalProject_Add(libjpeg-turbo SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libjpeg-turbo)
-add_subdirectory(libjpeg-turbo)
-
-add_subdirectory(libjpg) # replaced by libjpeg-turbo
+if(DEFINED USE_LIBJPEG_TURBO)
+    #include(ExternalProject)
+    #ExternalProject_Add(libjpeg-turbo SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/libjpeg-turbo)
+    add_subdirectory(libjpeg-turbo)
+else()
+    add_subdirectory(libjpg)
+endif()
 
 add_subdirectory(liblame)
 #add_subdirectory(liblcms2) # not used but headers needed for avcodec
