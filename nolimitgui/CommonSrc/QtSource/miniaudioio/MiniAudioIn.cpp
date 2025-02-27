@@ -51,13 +51,13 @@ bool MiniAudioIn::soundInDeviceChanged( int deviceIndex )
     int deviceCount = m_AudioIoMgr.getAudioInDeviceCount();
     if( !deviceCount )
     {
-        QMessageBox::information( nullptr, QObject::tr( "Sound In Device" ), QObject::tr( "No Sound Input Devices Avalable" ), QMessageBox::Ok );
+        emit signalShowErrorFromThread( QObject::tr( "Sound In Device" ), QObject::tr( "No Sound Input Devices Avalable" ) );
         return false;
     }
 
     if( deviceIndex >= deviceCount )
     {
-        QMessageBox::information( nullptr, QObject::tr( "Sound In Device" ), QObject::tr( "Sound Input Device Index Out Of Range. Will Use Default Device" ), QMessageBox::Ok );
+        emit signalShowErrorFromThread( QObject::tr( "Sound In Device" ), QObject::tr( "Sound Input Device Index Out Of Range. Will Use Default Device" ) );
         deviceIndex = 0;
     }
 
@@ -89,7 +89,7 @@ bool MiniAudioIn::soundInDeviceChanged( int deviceIndex )
     }
     else
     {
-        QMessageBox::information( nullptr, QObject::tr( "Sound In Device" ), QObject::tr( "Could not initialize sound in device " ) + m_AudioIoMgr.getAudioInDeviceDesc( deviceIndex ).c_str(), QMessageBox::Ok );
+        emit signalShowErrorFromThread( QObject::tr( "Sound In Device" ), QObject::tr( "Could not initialize sound in device " ) + m_AudioIoMgr.getAudioInDeviceDesc( deviceIndex ).c_str() );
     }
 
     return m_initialized;

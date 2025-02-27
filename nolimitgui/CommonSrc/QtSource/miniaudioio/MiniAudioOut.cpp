@@ -46,20 +46,20 @@ bool MiniAudioOut::soundOutDeviceChanged( int deviceIndex )
     int deviceCount = m_AudioIoMgr.getAudioOutDeviceCount();
     if( !deviceCount )
     {
-        QMessageBox::information( nullptr, QObject::tr( "Sound Out Device" ), QObject::tr( "No Sound Output Devices Avalable" ), QMessageBox::Ok );
+        emit signalShowErrorFromThread( QObject::tr( "Sound Out Device" ), QObject::tr( "No Sound Output Devices Avalable" ) );
         return false;
     }
 
     if( deviceIndex >= deviceCount )
     {
-        QMessageBox::information( nullptr, QObject::tr( "Sound Out Device" ), QObject::tr( "Sound Output Device Index Out Of Range. Will Use Default Device" ), QMessageBox::Ok );
+        emit signalShowErrorFromThread( QObject::tr( "Sound Out Device" ), QObject::tr( "Sound Output Device Index Out Of Range. Will Use Default Device" ) );
         deviceIndex = 0;
     }
 
     stopAudioOut();
     if( !m_AudioFormat.sampleRate() )
     {
-        QMessageBox::information( nullptr, QObject::tr( "Sound Out Device" ), QObject::tr( "Sound Output Device Invalid Format" ), QMessageBox::Ok );
+        emit signalShowErrorFromThread( QObject::tr( "Sound Out Device" ), QObject::tr( "Sound Output Device Invalid Format" ) );
         deviceIndex = 0;
         m_AudioFormat.setSampleRate( AUDIO_DEVICE_SAMPLE_RATE );
         m_AudioFormat.setChannelCount( AUDIO_CHANNELS );
@@ -91,7 +91,7 @@ bool MiniAudioOut::soundOutDeviceChanged( int deviceIndex )
     }
     else
     {
-        QMessageBox::information( nullptr, QObject::tr( "Sound Out Device" ), QObject::tr( "Could not initialize sound out device " ) + m_AudioIoMgr.getAudioOutDeviceDesc( deviceIndex ).c_str(), QMessageBox::Ok );
+       emit signalShowErrorFromThread( QObject::tr( "Sound Out Device" ), QObject::tr( "Could not initialize sound out device " ) + m_AudioIoMgr.getAudioOutDeviceDesc( deviceIndex ).c_str() );
     }
 
     return m_initialized;

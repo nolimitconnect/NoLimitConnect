@@ -29,6 +29,12 @@ public:
 
 	virtual int					callbackAudioRead( int16_t* pcmData, int lenBytes ) = 0;
 
+signals:
+    void                        signalShowErrorFromThread( QString title, QString body );
+
+protected slots:
+    void                        slotShowErrorFromThread( QString title, QString body );
+
 protected:
 	bool						initalizeDevice( int deviceIndex, int sampleRate );
 

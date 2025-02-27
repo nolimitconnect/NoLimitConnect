@@ -13,6 +13,8 @@
 
 #include <CoreLib/VxDebug.h>
 
+#include <QMessageBox>
+
 namespace
 {
     void MiniAudioOutCallback( ma_device* pDevice, void* pOutput, const void* pInput, ma_uint32 frameCount )
@@ -30,6 +32,7 @@ namespace
 MiniAudioOutDevice::MiniAudioOutDevice( MiniAudioMgr& maMgr )
     : m_AudioIoMgr( maMgr )
 {
+    connect( this, SIGNAL(signalShowErrorFromThread(QString,QString)), this, SIGNAL(slotShowErrorFromThread(QString,QString)), Qt::QueuedConnection );
 }
 
 //============================================================================
@@ -160,3 +163,8 @@ bool MiniAudioOutDevice::initalizeDevice( int deviceIndex, int sampleRate )
     return true;
 }
 
+//============================================================================
+void MiniAudioOutDevice::slotShowErrorFromThread( QString title, QString body )
+{
+    QMessageBox::information( nullptr, title, body, QMessageBox::Ok );
+}
