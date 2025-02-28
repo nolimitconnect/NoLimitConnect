@@ -8,7 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ActivityYesNoMsgBox.h"
+#include "ActivityMsgBoxYesNo.h"
 #include "MyIconsDefs.h"
 #include "AppGlobals.h"
 #include "AppCommon.h"
@@ -20,17 +20,17 @@
 
 #include "ui_ActivityYesNo.h"
 
-TitleBarWidget*		ActivityYesNoMsgBox::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
-BottomBarWidget*	ActivityYesNoMsgBox::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
-QFrame*				ActivityYesNoMsgBox::getContentItemsFrame( void ) { return ui.m_ItemsFrame; }
+TitleBarWidget*		ActivityMsgBoxYesNo::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
+BottomBarWidget*	ActivityMsgBoxYesNo::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+QFrame*				ActivityMsgBoxYesNo::getContentItemsFrame( void ) { return ui.m_ItemsFrame; }
 
 //============================================================================
-ActivityYesNoMsgBox::ActivityYesNoMsgBox(	AppCommon&		app, 
+ActivityMsgBoxYesNo::ActivityMsgBoxYesNo(	AppCommon&		app, 
 											QWidget*		parent, 
 											QString			title, 
 											QString			bodyText,
 											bool			showNeverAgainCheckBox )
-: ActivityBase( OBJNAME_ACTIVITY_YES_NO_MSG_BOX, app, parent, eAppletMessengerFrame, true )
+: ActivityBase( OBJNAME_ACTIVITY_MSG_BOX_YES_NO, app, parent, eAppletMessengerFrame, true )
 , ui(*(new Ui::YesNoMsgBoxClass))
 {
 	ui.setupUi(this);
@@ -55,37 +55,37 @@ ActivityYesNoMsgBox::ActivityYesNoMsgBox(	AppCommon&		app,
 }
 
 //============================================================================
-void ActivityYesNoMsgBox::setTitle( QString strTitle )
+void ActivityMsgBoxYesNo::setTitle( QString strTitle )
 {
 	ui.m_TitleBarWidget->setTitleBarText(strTitle);
 }
 
 //============================================================================
-void ActivityYesNoMsgBox::setBodyText( QString strBodyText )
+void ActivityMsgBoxYesNo::setBodyText( QString strBodyText )
 {
 	ui.m_BodyTextLabel->setText( strBodyText );
 }
 
 //============================================================================
-void ActivityYesNoMsgBox::hideCancelButton( void )
+void ActivityMsgBoxYesNo::hideCancelButton( void )
 {
 	ui.m_CancelButton->setVisible( false );
 }
 
 //============================================================================
-void ActivityYesNoMsgBox::makeNeverShowAgainVisible( bool makeVisible )
+void ActivityMsgBoxYesNo::makeNeverShowAgainVisible( bool makeVisible )
 {
 	ui.m_NeverShowAgainCheckBox->setVisible( makeVisible );
 }
 
 //============================================================================
-bool ActivityYesNoMsgBox::wasNeverShowAgainChecked( void )
+bool ActivityMsgBoxYesNo::wasNeverShowAgainChecked( void )
 {
 	return ui.m_NeverShowAgainCheckBox->isChecked();
 }
 
 //============================================================================
-void ActivityYesNoMsgBox::slotHomeButtonClicked( void )
+void ActivityMsgBoxYesNo::slotHomeButtonClicked( void )
 {
 	reject();
 }

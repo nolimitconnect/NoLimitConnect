@@ -42,6 +42,11 @@ signals:
     void						signalSnapshotImage( QImage snapshotImage );
 
 protected slots:
+    void                        inDeviceChanged( int index );
+    void                        updateInVideoDevices( void );
+
+    void                        slotApplyInDeviceChange( void );
+
     void						slotToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession> offerSession );
     void						slotToGuiSessionEnded( std::shared_ptr<GuiOfferSession> offerSession );
     void						slotToGuiContactOffline( VxNetIdent* hisIdent );
@@ -53,15 +58,12 @@ protected:
 
     void						setupCamFeed( VxNetIdent* feedNetIdent );
     void						resizeBitmapToFitScreen( QLabel * VideoScreen, QImage& oPicBitmap );
-    void						setMuteSpeakerVisibility( bool visible );
-    void						setMuteMicrophoneVisibility( bool visible );
-    void						setCameraButtonVisibility( bool visible );
 
     //=== vars ===//
     Ui::AppletCamSettingsUi&	ui;
     bool						m_IsMyself{ false };
     bool 					    m_CameraSourceAvail{ false };
-    QTimer *                    m_CloseAppletTimer{ nullptr };
+
     QImage	                    m_ImageBitmap;
     VxNetIdent*                 m_CamFeedIdent{ nullptr };
     VxGUID                      m_CamFeedId;

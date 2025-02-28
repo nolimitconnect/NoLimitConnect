@@ -14,7 +14,7 @@
 #include "AppSettings.h"
 #include "AppletDownloads.h"
 #include "ActivityMessageBox.h"
-#include "ActivityYesNoMsgBox.h"
+#include "ActivityMsgBoxYesNo.h"
 
 #include "FileXferWidget.h"
 #include "AppletPopupMenu.h"
@@ -643,7 +643,7 @@ bool AppletFileShareClientView::confirmDeleteFile( bool shredFile )
 			bodyText = QObject::tr( "Are You Sure To Delete The File From The Device?" );
 		}
 
-		ActivityYesNoMsgBox dlg( m_MyApp, &m_MyApp, title, bodyText );
+		ActivityMsgBoxYesNo dlg( m_MyApp, &m_MyApp, title, bodyText );
 		dlg.makeNeverShowAgainVisible( true );
 		if( false == (QDialog::Accepted == dlg.exec()))
 		{

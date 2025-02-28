@@ -186,7 +186,7 @@
       <item>
        <widget class="QCheckBox" name="m_GenerateToneCheckBox">
         <property name="text">
-         <string>Generat 400Hz tone for speakers</string>
+         <string>Generate 400Hz tone for speakers</string>
         </property>
        </widget>
       </item>

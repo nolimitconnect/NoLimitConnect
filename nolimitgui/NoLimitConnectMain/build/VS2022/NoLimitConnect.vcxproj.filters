@@ -323,12 +323,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\NetHostGuiLogic.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\NetworkKeyWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\NetworkTestWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\PermissionListItem.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -770,9 +764,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityBrowseFiles.h">
       <Filter>Header Files\Activity</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityChooseTestWebsiteUrl.h">
-      <Filter>Header Files\Activity</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityCreateAccount.h">
       <Filter>Header Files\Activity</Filter>
     </QtMoc>
@@ -786,9 +777,6 @@
       <Filter>Header Files\Activity</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityMessageBox.h">
-      <Filter>Header Files\Activity</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityNetworkState.h">
       <Filter>Header Files\Activity</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanPeopleSearch.h">
@@ -809,13 +797,7 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityShowHelp.h">
       <Filter>Header Files\Activity</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivitySoundOptions.h">
-      <Filter>Header Files\Activity</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityTimedMessage.h">
-      <Filter>Header Files\Activity</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityYesNoMsgBox.h">
       <Filter>Header Files\Activity</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.h">
@@ -1148,6 +1130,12 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\PhoneRinger.h">
       <Filter>Source Files\PhoneRinger</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityMsgBoxOk.h">
+      <Filter>Source Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityMsgBoxYesNo.h">
+      <Filter>Source Files\Activity</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.cpp">
@@ -1259,12 +1247,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\NetHostGuiLogic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\NetworkKeyWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\NetworkTestWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PermissionListItem.cpp">
@@ -2149,9 +2131,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityBrowseFiles.cpp">
       <Filter>Source Files\Activity</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityChooseTestWebsiteUrl.cpp">
-      <Filter>Source Files\Activity</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityCreateAccount.cpp">
       <Filter>Source Files\Activity</Filter>
     </ClCompile>
@@ -2168,9 +2147,6 @@
       <Filter>Source Files\Activity</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityMessageBox.cpp">
-      <Filter>Source Files\Activity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityNetworkState.cpp">
       <Filter>Source Files\Activity</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanPeopleSearch.cpp">
@@ -2191,13 +2167,7 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityShowHelp.cpp">
       <Filter>Source Files\Activity</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivitySoundOptions.cpp">
-      <Filter>Source Files\Activity</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityTimedMessage.cpp">
-      <Filter>Source Files\Activity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityYesNoMsgBox.cpp">
       <Filter>Source Files\Activity</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\InputClientBaseCallback.cpp">
@@ -2301,6 +2271,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PhoneRinger.cpp">
       <Filter>Source Files\PhoneRinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityMsgBoxOk.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityMsgBoxYesNo.cpp">
+      <Filter>Source Files\Activity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -2647,9 +2623,6 @@
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityBrowseFiles.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityChooseTestWebsiteUrl.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityConnectionOptions.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -2666,9 +2639,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityNetworkStartupTest.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityNetworkStatus.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityNetworkTest.ui">
@@ -2701,13 +2671,7 @@
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityShowHelp.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivitySoundOptions.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityTimedMessage.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityVideoOptions.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityYesNo.ui">
@@ -2933,12 +2897,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\LogWidget.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\NetworkKeyWidget.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\NetworkTestWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\OfferBarWidget.ui">

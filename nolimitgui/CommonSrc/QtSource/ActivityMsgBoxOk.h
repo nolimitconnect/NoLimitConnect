@@ -17,16 +17,16 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
-class ActivityYesNoMsgBox : public ActivityBase
+class ActivityMsgBoxOk : public ActivityBase
 {
 	Q_OBJECT
 public:
-	ActivityYesNoMsgBox(	AppCommon&		app, 
+	ActivityMsgBoxOk(	AppCommon&		app, 
 							QWidget*		parent, 
 							QString			title, 
 							QString			bodyText,
 							bool			showNeverAgainCheckBox = false); 
-	virtual ~ActivityYesNoMsgBox() override = default;
+	virtual ~ActivityMsgBoxOk() override = default;
 
 	void						setTitle( QString strTitle );
 	void						setBodyText( QString strBodyText );

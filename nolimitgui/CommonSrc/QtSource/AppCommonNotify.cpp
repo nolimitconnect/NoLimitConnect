@@ -11,7 +11,6 @@
 #include "AppCommon.h"
 
 #include "AppGlobals.h"
-#include "ActivityNetworkState.h"
 
 #include "GuiFileXferSession.h"
 #include "GuiOfferSession.h"

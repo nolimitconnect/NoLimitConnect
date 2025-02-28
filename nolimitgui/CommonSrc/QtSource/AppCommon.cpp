@@ -20,8 +20,7 @@
 
 #include "ActivityCreateAccount.h"
 #include "ActivityShowHelp.h"
-#include "ActivitySoundOptions.h"
-#include "ActivityYesNoMsgBox.h"
+#include "ActivityMsgBoxYesNo.h"
 
 #include "AppletDownloads.h"
 #include "AppletUploads.h"
@@ -286,7 +285,7 @@ bool AppCommon::loadWithThread( void )
                                             "No Limit Connect does not monitor or log any user actions or content.\n\n"
                                             "Are you an adult and at least 18 years old?" );
 
-        ActivityYesNoMsgBox confirmAdult( *this, nullptr, warnAdultTitle, warnAdultBody );
+        ActivityMsgBoxYesNo confirmAdult( *this, nullptr, warnAdultTitle, warnAdultBody );
 		getAppTheme().selectTheme( getAppSettings().getLastSelectedTheme(), &confirmAdult );
         if( QDialog::Rejected == confirmAdult.exec() )
         {
@@ -1052,7 +1051,7 @@ bool AppCommon::confirmAppShutdown( QWidget* parentWindow )
 	QString title = QObject::tr( "Close Application" );
 	QString body = QObject::tr( "Are you sure you want to exit?" );
 
-	ActivityYesNoMsgBox confirmExit( *this, parentWindow, title, body );
+	ActivityMsgBoxYesNo confirmExit( *this, parentWindow, title, body );
 	if( QDialog::Accepted == confirmExit.exec() )
 	{
         confirmedExit = true;

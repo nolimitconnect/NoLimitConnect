@@ -12,10 +12,9 @@
 
 #include "AppCommon.h"	
 #include "AppSettings.h"
+#include "ActivityMsgBoxOk.h"
 
 #include <GuiInterface/IFromGui.h>
-
-#include <QMessageBox>
 
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
@@ -28,7 +27,6 @@
 AppletCamSettings::AppletCamSettings( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_CAM_SETTINGS, app, parent )
 , ui(*(new Ui::AppletCamSettingsUi))
-, m_CloseAppletTimer( new QTimer( this ) )
 {
     setAppletType( eAppletCamSettings );
     setPluginType( ePluginTypeCamServer );
@@ -37,10 +35,8 @@ AppletCamSettings::AppletCamSettings( AppCommon& app, QWidget* parent )
 
     if( !m_MyApp.getCamLogic().isCamAvailable() )
     {
-        QMessageBox::warning( this, QObject::tr( "Camera Capture" ), QObject::tr( "No Camera Source Available." ) );
-        connect( m_CloseAppletTimer, SIGNAL( timeout() ), this, SLOT( onCancelButClick() ) );
-        m_CloseAppletTimer->setSingleShot( true );
-        m_CloseAppletTimer->start( 1000 );
+        ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Camera Capture" ), QObject::tr( "No Camera Source Available." ) );
+        msgBox.exec();
         return;
     }
 
@@ -54,6 +50,18 @@ AppletCamSettings::AppletCamSettings( AppCommon& app, QWidget* parent )
     }
 
     startCamFeed();
+    if( m_IsMyself )
+    {
+        updateInVideoDevices();
+        connect( ui.m_InDeviceComboBox, QOverload<int>::of(&QComboBox::activated), this, &AppletCamSettings::inDeviceChanged );
+        connect( ui.m_ApplyVideoInDeviceButton, SIGNAL(clicked()), this, SLOT(slotApplyInDeviceChange()) );
+    }
+    else
+    {
+        ui.m_InDeviceComboBox->setVisible( false );
+        ui.m_ApplyVideoInDeviceButton->setVisible( false );
+        ui.m_InDeviceLabel->setVisible( false );
+    }
 
     m_MyApp.activityStateChange( this, true );
 }
@@ -77,18 +85,6 @@ void AppletCamSettings::setupCamFeed( VxNetIdent* feedNetIdent )
     m_CamFeedIdent = feedNetIdent;
     m_CamFeedId = feedNetIdent->getMyOnlineId();
     m_IsMyself = m_CamFeedId == m_MyApp.getMyOnlineId();
-    if( m_IsMyself )
-    {
-        setMuteSpeakerVisibility( false );
-        setMuteMicrophoneVisibility( true );
-        setCameraButtonVisibility( true );
-    }
-    else
-    {
-        setMuteSpeakerVisibility( true );
-        setMuteMicrophoneVisibility( false );
-        setCameraButtonVisibility( false ); 
-    }
 
     ui.m_CamVidWidget->showAllControls( true );
     ui.m_CamVidWidget->enableCamSourceControls( false );
@@ -166,24 +162,6 @@ void AppletCamSettings::closeEvent( QCloseEvent * ev )
 }
 
 //============================================================================
-void AppletCamSettings::setMuteSpeakerVisibility( bool visible )
-{
-    //ui.m_TitleBarWidget->setMuteSpeakerVisibility( visible );
-}
-
-//============================================================================
-void AppletCamSettings::setMuteMicrophoneVisibility( bool visible )
-{
-    //ui.m_TitleBarWidget->setMuteMicrophoneVisibility( visible );
-}
-
-//============================================================================
-void AppletCamSettings::setCameraButtonVisibility( bool visible )
-{
-    //ui.m_TitleBarWidget->setCameraButtonVisibility( visible );
-}
-
-//============================================================================
 void AppletCamSettings::resizeBitmapToFitScreen( QLabel * VideoScreen, QImage& oPicBitmap )
 {
     QSize screenSize( VideoScreen->width(), VideoScreen->height() );
@@ -236,5 +214,70 @@ void AppletCamSettings::slotToGuiContactOffline( VxNetIdent* friendIdent )
     if( m_HisIdent->getMyOnlineId() == friendIdent->getMyOnlineId() )
     {
         webCamSourceOffline();
+    }
+}
+
+//============================================================================
+void AppletCamSettings::inDeviceChanged( int index )
+{
+    QString vidInDevDescription = ui.m_InDeviceComboBox->currentText();
+    if( !m_MyApp.getCamLogic().selectCamera( vidInDevDescription ) )
+    {
+        ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Video In Device" ), vidInDevDescription + QObject::tr( " failed to initialize" ) );
+        msgBox.exec();
+    }
+}
+
+//============================================================================
+void AppletCamSettings::updateInVideoDevices( void )
+{
+    ui.m_InDeviceComboBox->clear();
+
+    std::vector<QString> camList;
+    m_MyApp.getCamLogic().getAvailableCameras( camList );
+
+    QString defaultCamId = m_MyApp.getAppSettings().getCamSourceId().c_str();
+
+    int defaultIndex = -1;
+    int devIndex = 0;
+    for( auto& deviceDesc : camList )
+    {
+        if( defaultCamId == deviceDesc )
+        {
+            defaultIndex = devIndex;
+        }
+
+        ui.m_InDeviceComboBox->addItem( deviceDesc, QVariant::fromValue( devIndex ) );
+        devIndex++;
+    }
+
+    if( defaultIndex >= 0 )
+    {
+        ui.m_InDeviceComboBox->setCurrentIndex( defaultIndex );
+    }
+}
+
+//============================================================================
+void AppletCamSettings::slotApplyInDeviceChange( void )
+{
+    QString vidInDevDescription = ui.m_InDeviceComboBox->currentText();
+    if( !vidInDevDescription.isEmpty() )
+    {
+        if( m_MyApp.getCamLogic().selectCamera( vidInDevDescription ) )
+        {
+            m_MyApp.getAppSettings().setCamSourceId( vidInDevDescription.toUtf8().constData() );
+            ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Video In Device" ), vidInDevDescription + QObject::tr( " device is saved as preferred Video In Device" ) );
+            msgBox.exec();
+        }
+        else
+        {
+            ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Video In Device" ), vidInDevDescription + QObject::tr( " failed to initialize" ) );
+            msgBox.exec();
+        }
+    }
+    else
+    {
+       ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Video In Device" ), QObject::tr( "No Video In Device Is Available" ) );
+       msgBox.exec();
     }
 }

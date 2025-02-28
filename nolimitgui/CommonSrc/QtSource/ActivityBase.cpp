@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "ActivityBase.h"
-#include "ActivityYesNoMsgBox.h"
+#include "ActivityMsgBoxYesNo.h"
 #include "AppCommon.h"
 #include "AppGlobals.h"
 #include "ActivityMessageBox.h"
@@ -1323,7 +1323,7 @@ bool ActivityBase::confirmDeleteFile( QString fileName, bool shredFile )
 			bodyText += fileName;
 		}
 
-		ActivityYesNoMsgBox dlg( m_MyApp, &m_MyApp, title, bodyText );
+		ActivityMsgBoxYesNo dlg( m_MyApp, &m_MyApp, title, bodyText );
 		dlg.makeNeverShowAgainVisible( false );
 		if( false == (QDialog::Accepted == dlg.exec()) )
 		{

@@ -10,7 +10,7 @@
 
 #include "AppletDownloads.h"
 
-#include "ActivityYesNoMsgBox.h"
+#include "ActivityMsgBoxYesNo.h"
 
 #include "AppCommon.h"
 #include "AppSettings.h"
@@ -384,7 +384,7 @@ bool AppletDownloads::confirmDeleteFile( bool shredFile )
 			bodyText = "Are You Sure To Delete The File From The Device?";
 		}
 
-		ActivityYesNoMsgBox dlg( m_MyApp, &m_MyApp, title, bodyText );
+		ActivityMsgBoxYesNo dlg( m_MyApp, &m_MyApp, title, bodyText );
 		dlg.makeNeverShowAgainVisible( true );
 		if( false == (QDialog::Accepted == dlg.exec()))
 		{

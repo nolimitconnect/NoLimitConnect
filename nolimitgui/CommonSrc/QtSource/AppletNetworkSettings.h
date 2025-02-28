@@ -31,7 +31,6 @@ public:
 
 protected slots:
     void						slotExitButtonClick( void );
-    void						slotGoToNetHostSettingsButtonClick( void );
     void						slotRandomPortButtonClick( void );
     void						slotTestIsMyPortOpenButtonClick( void );
     void						slotTestUpnpButtonClick( void );

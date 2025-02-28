@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "ActivityBrowseFiles.h"
-#include "ActivityYesNoMsgBox.h"
+#include "ActivityMsgBoxYesNo.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
 
@@ -326,7 +326,7 @@ void ActivityBrowseFiles::slotAddAllButtonClicked( void )
 	QString title = QObject::tr( "Confirm add all Files to library" );
 	QString bodyText = QObject::tr( "Do you want to add All the files in the list to the library?" );
 
-	ActivityYesNoMsgBox dlg( m_MyApp, &m_MyApp, title, bodyText );
+	ActivityMsgBoxYesNo dlg( m_MyApp, &m_MyApp, title, bodyText );
 	if( false == (QDialog::Accepted == dlg.exec()) )
 	{
 		acceptAction = false;

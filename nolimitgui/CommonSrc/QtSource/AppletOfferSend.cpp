@@ -17,7 +17,7 @@
 
 #include "AppletDownloads.h"
 #include "ActivityBrowseFiles.h"
-#include "ActivityYesNoMsgBox.h"
+#include "ActivityMsgBoxYesNo.h"
 
 #include "FileShareItemWidget.h"
 #include "MyIconsDefs.h"

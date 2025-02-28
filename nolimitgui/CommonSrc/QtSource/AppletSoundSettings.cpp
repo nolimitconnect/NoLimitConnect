@@ -12,6 +12,7 @@
 
 #include "ActivityInformation.h"
 #include "ActivityMessageBox.h"
+#include "ActivityMsgBoxOk.h"
 
 #include "AppCommon.h"
 #include "AppGlobals.h"
@@ -100,12 +101,14 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
 
     if( !m_MyApp.getSoundMgr().isSpeakerDeviceAvailable() )
     {
-        QMessageBox::information( this, QObject::tr( "Speaker Device Unavailable" ), QObject::tr( "No speaker device is available to enable" ), QMessageBox::Ok );
+        ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Speaker Device Unavailable" ), QObject::tr( "No speaker device is available to enable" ) );
+        msgBox.exec();
     }
     else if( !m_MyApp.getSoundMgr().isMicrophoneDeviceAvailable() )
     {
         m_MyApp.getSoundMgr().playSnd( eSndDefBusy );
-        QMessageBox::information( this, QObject::tr( "Microphone Device Unavailable" ), QObject::tr( "No microphone device is available to enable" ), QMessageBox::Ok );
+        ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Microphone Device Unavailable" ), QObject::tr( "No microphone device is available to enable" ) );
+        msgBox.exec();
     }
     else
     {
@@ -187,7 +190,6 @@ void AppletSoundSettings::statusMsg( const char* errMsg, ... )
     setStatusLabel( as8Buf );
 }
 
-
 //============================================================================
 void AppletSoundSettings::inDeviceChanged( int index )
 {
@@ -237,18 +239,20 @@ void AppletSoundSettings::slotApplyInDeviceChange( void )
     if( !sndInDevDescription.isEmpty() )
     {
         if( m_MyApp.getSoundMgr().setSoundInDeviceIndex( ui.m_InDeviceComboBox->currentIndex() ) )
-        {
-            
-            QMessageBox::information( this, QObject::tr( "Sound In Device" ), sndInDevDescription + QObject::tr( " device is saved as preferred Sound In Device" ), QMessageBox::Ok );
+        {            
+            ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Sound In Device" ), sndInDevDescription + QObject::tr( " device is saved as preferred Sound In Device" ) );
+            msgBox.exec();
         }
         else
         {
-            QMessageBox::information( this, QObject::tr( "Sound In Device" ), sndInDevDescription + QObject::tr( " failed to initialize" ), QMessageBox::Ok );
+            ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Sound In Device" ), sndInDevDescription + QObject::tr( " failed to initialize" ) );
+            msgBox.exec();
         }
     }
     else
     {
-        QMessageBox::information( this, QObject::tr( "Sound In Device" ), QObject::tr( "No Sound In Device Is Available" ), QMessageBox::Ok );
+        ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Sound In Device" ), QObject::tr( "No Sound In Device Is Available" ) );
+        msgBox.exec();
     }
 }
 
@@ -261,16 +265,19 @@ void AppletSoundSettings::slotApplyOutDeviceChange( void )
         if( m_MyApp.getSoundMgr().setSoundOutDeviceIndex( ui.m_OutDeviceComboBox->currentIndex() ) )
         {
             m_MyApp.getAppSettings().setSoundOutDeviceIndex( ui.m_OutDeviceComboBox->currentIndex() );
-            QMessageBox::information( this, QObject::tr( "Sound Out Device" ), sndOutDevDescription + QObject::tr( " device is saved as preferred Sound Out Device" ), QMessageBox::Ok );
+            ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Sound Out Device" ), sndOutDevDescription + QObject::tr( " device is saved as preferred Sound Out Device" ) );
+            msgBox.exec();
         }
         else
         {
-            QMessageBox::information( this, QObject::tr( "Sound Out Device" ), sndOutDevDescription + QObject::tr( " failed to initialize" ), QMessageBox::Ok );
+            ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Sound Out Device" ), sndOutDevDescription + QObject::tr( " failed to initialize" ) );
+            msgBox.exec();
         }
     }
     else
     {
-        QMessageBox::information( this, QObject::tr( "Sound Out Device" ), QObject::tr( "No Sound Out Device Is Available" ), QMessageBox::Ok );
+        ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Sound Out Device" ), QObject::tr( "No Sound Out Device Is Available" ) );
+        msgBox.exec();
     }
 }
 
@@ -284,7 +291,8 @@ void AppletSoundSettings::slotStartTestSoundDelay( void )
     }
     else
     {
-        QMessageBox::information( this, QObject::tr( "Echo delay test is running" ), QObject::tr( "Echo delay test can not be run until the previous test finishes" ), QMessageBox::Ok );
+        ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Echo delay test is running" ), QObject::tr( "Echo delay test can not be run until the previous test finishes" ) );
+        msgBox.exec();
     }
 }
 
@@ -294,13 +302,15 @@ void AppletSoundSettings::slotEchoDelaySaveButtonClicked( void )
     int delayMs = ui.m_EchoDelayLineEdit->text().toInt();
     if( delayMs < 40 || delayMs > 500 )
     {
-        QMessageBox::information( this, QObject::tr( "Echo Delay Value Invalid" ), QObject::tr( "Echo Delay value must be between 40 and 500 milliseconds" ), QMessageBox::Ok );
+        ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Echo Delay Value Invalid" ), QObject::tr( "Echo Delay value must be between 40 and 500 milliseconds" ) );
+        msgBox.exec();
     }
     else
     {
         m_MyApp.getAppSettings().setEchoDelayParam( delayMs );
         m_MyApp.getSoundMgr().setEchoDelayMsParam( delayMs );
-        QMessageBox::information( this, QObject::tr( "Echo Delay Value Save" ), QObject::tr( "Echo Delay value has been saved for use by Echo Cancelation" ), QMessageBox::Ok );
+        ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Echo Delay Value Save" ), QObject::tr( "Echo Delay value has been saved for use by Echo Cancelation" ) );
+        msgBox.exec();
     }
 }
 
@@ -379,11 +389,13 @@ void AppletSoundSettings::showEchoDelayTestResults( void )
             msg += QString::number( averageDelay - 5 );
             msg += QObject::tr( " into  Echo delay ms field and click Save Echo Delay To Echo Canceller button\n" );
             msg += resultMsg;
-            QMessageBox::information( this, QObject::tr( "Echo Delay Test Is Valid" ), msg, QMessageBox::Ok );
+            ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Echo Delay Test Is Valid" ), msg );
+            msgBox.exec();
         }
         else
         {   
-            QMessageBox::information( this, QObject::tr( "Echo Delay Test Is Invalid. Check microphone and speaker. Try turning up the volume or placing microphone closer to speaker" ), resultMsg, QMessageBox::Ok );
+            ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Echo Delay Test Is Invalid. Check microphone and speaker. Try turning up the volume or placing microphone closer to speaker" ), resultMsg );
+            msgBox.exec();
         }
     }  
 }
@@ -402,7 +414,8 @@ void AppletSoundSettings::slotSendMicDirectlyToSpeakersCheckBox( int checkedStat
     if( !m_MyApp.getSoundMgr().isMicrophoneDeviceAvailable() )
     {
         m_MyApp.getSoundMgr().playSnd( eSndDefBusy );
-        QMessageBox::information( this, QObject::tr( "Microphone Device Unavailable" ), QObject::tr( "No microphone device is available to enable" ), QMessageBox::Ok );
+        ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Microphone Device Unavailable" ), QObject::tr( "No microphone device is available to enable" ) );
+        msgBox.exec();
         return;
     }
 
@@ -417,7 +430,8 @@ void AppletSoundSettings::slotSendMicEchoCanceledToSpeakerCheckBox( int checkedS
     if( !m_MyApp.getSoundMgr().isMicrophoneDeviceAvailable() )
     {
         m_MyApp.getSoundMgr().playSnd( eSndDefBusy );
-        QMessageBox::information( this, QObject::tr( "Microphone Device Unavailable" ), QObject::tr( "No microphone device is available to enable" ), QMessageBox::Ok );
+        ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Microphone Device Unavailable" ), QObject::tr( "No microphone device is available to enable" ) );
+        msgBox.exec();
         return;
     }
 
@@ -427,7 +441,8 @@ void AppletSoundSettings::slotSendMicEchoCanceledToSpeakerCheckBox( int checkedS
         if( enableLoopback )
         {
             m_MyApp.getSoundMgr().playSnd( eSndDefBusy );
-            QMessageBox::information( this, QObject::tr( "Push To Talk" ), QObject::tr( "Sound settings Push To Talk failed to enable" ), QMessageBox::Ok );
+            ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Push To Talk" ), QObject::tr( "Sound settings Push To Talk failed to enable" ) );
+            msgBox.exec();
         }
     }
 

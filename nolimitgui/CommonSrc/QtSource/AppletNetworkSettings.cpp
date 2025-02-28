@@ -11,8 +11,7 @@
 #include "AppletNetworkSettings.h"
 
 #include "ActivityInformation.h"
-#include "ActivityNetworkState.h"
-#include "ActivityYesNoMsgBox.h"
+#include "ActivityMsgBoxYesNo.h"
 #include "AppletIsPortOpenTest.h"
 
 #include "AccountMgr.h"
@@ -336,13 +335,6 @@ void AppletNetworkSettings::slotExitButtonClick()
 }
 
 //============================================================================
-void AppletNetworkSettings::slotGoToNetHostSettingsButtonClick()
-{
-    ActivityNetworkState * activityInfo = new ActivityNetworkState( m_MyApp, this );
-    activityInfo->show();
-}
-
-//============================================================================
 void AppletNetworkSettings::slotAutoDetectProxyClick( void )
 {
     setFirewallTestType( eFirewallTestUrlConnectionTest );
@@ -519,7 +511,7 @@ void AppletNetworkSettings::onSaveButtonClick( void )
 		QString title = QObject::tr( "Confirm Use Of Experimental IPv6 Network?" );
 		QString bodyText = QObject::tr( "IPv6 is experimental and the network for IPv6 is not visible on the IPv4 network" );
 
-		ActivityYesNoMsgBox dlg( m_MyApp, &m_MyApp, title, bodyText );
+		ActivityMsgBoxYesNo dlg( m_MyApp, &m_MyApp, title, bodyText );
 		dlg.makeNeverShowAgainVisible( false );
         bool confirmed = (QDialog::Accepted == dlg.exec());
         if( !confirmed )
@@ -773,7 +765,7 @@ bool AppletNetworkSettings::verifyIpv6Capable( void )
     QString title = QObject::tr( "Your device does not seem to be capable of IPv6" );
     QString bodyText = QObject::tr( "Your device does not seem to be capable of IPv6. Continue Anyway?" );
 
-    ActivityYesNoMsgBox dlg( m_MyApp, &m_MyApp, title, bodyText );
+    ActivityMsgBoxYesNo dlg( m_MyApp, &m_MyApp, title, bodyText );
     bool confirmed = (QDialog::Accepted == dlg.exec());
     if( !confirmed )
     {

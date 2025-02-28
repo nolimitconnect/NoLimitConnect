@@ -13,7 +13,7 @@
 #include "AppGlobals.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
-#include "ActivityYesNoMsgBox.h"
+#include "ActivityMsgBoxYesNo.h"
 #include "ActivityMessageBox.h"
 
 #include "GuiHelpers.h"
@@ -211,7 +211,7 @@ void FileActionMenu::itemClicked(QListWidgetItem*item)
 				{
 					QString title = "Could Not Delete File";
 					QString bodyText =  QString("OS returned error %1 accessing file %2 for deletion").arg(result).arg(m_FileInfo.getFileNameAndPath().c_str());
-					ActivityYesNoMsgBox dlg( m_MyApp, &m_MyApp, title, bodyText );
+					ActivityMsgBoxYesNo dlg( m_MyApp, &m_MyApp, title, bodyText );
 					dlg.hideCancelButton();
 					dlg.exec();
 				}
@@ -226,7 +226,7 @@ void FileActionMenu::itemClicked(QListWidgetItem*item)
 				{
 					QString title = "Could Not Shred File";
 					QString bodyText =  QString("OS returned error %1 accessing file %2 for shredding").arg(result).arg(m_FileInfo.getFileNameAndPath().c_str());
-					ActivityYesNoMsgBox dlg( m_MyApp, &m_MyApp, title, bodyText );
+					ActivityMsgBoxYesNo dlg( m_MyApp, &m_MyApp, title, bodyText );
 					dlg.hideCancelButton();
 					dlg.exec();
 				}
@@ -260,7 +260,7 @@ bool FileActionMenu::confirmDeleteFile( bool shredFile )
 			bodyText = "Are You Sure To Delete The File From The Device?";
 		}
 
-		ActivityYesNoMsgBox dlg( m_MyApp, &m_MyApp, title, bodyText );
+		ActivityMsgBoxYesNo dlg( m_MyApp, &m_MyApp, title, bodyText );
 		dlg.makeNeverShowAgainVisible( true );
 		if( false == (QDialog::Accepted == dlg.exec()))
 		{

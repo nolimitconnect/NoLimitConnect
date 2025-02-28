@@ -41,24 +41,23 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AcceptCancelWidget.h
     CommonSrc/QtSource/ActivityAppSetup.h
     CommonSrc/QtSource/ActivityBrowseFiles.h
-    CommonSrc/QtSource/ActivityChooseTestWebsiteUrl.h
     CommonSrc/QtSource/ActivityCreateAccount.h
     CommonSrc/QtSource/ActivityDownloadItemMenu.h
     CommonSrc/QtSource/ActivityFileSearch.h
     CommonSrc/QtSource/ActivityGenerateHash.h
     CommonSrc/QtSource/ActivityInformation.h
     CommonSrc/QtSource/ActivityMessageBox.h
-    CommonSrc/QtSource/ActivityNetworkState.h
+    CommonSrc/QtSource/ActivityMsgBoxOk.h
+    CommonSrc/QtSource/ActivityMsgBoxYesNo.h
     CommonSrc/QtSource/ActivityScanPeopleSearch.h
     CommonSrc/QtSource/ActivityScanProfiles.h
     CommonSrc/QtSource/ActivityScanStoryBoards.h
     CommonSrc/QtSource/ActivityScanWebCams.h
     CommonSrc/QtSource/ActivitySessionOptions.h
     CommonSrc/QtSource/ActivityShowHelp.h
-    CommonSrc/QtSource/ActivitySoundOptions.h
     CommonSrc/QtSource/ActivityTimedMessage.h
     CommonSrc/QtSource/ActivityBase.h
-    CommonSrc/QtSource/ActivityYesNoMsgBox.h
+    
     CommonSrc/QtSource/AppDefs.h
     CommonSrc/QtSource/AppCommon.h
     CommonSrc/QtSource/AppGlobals.h
@@ -333,8 +332,6 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/MyIcons.h
     CommonSrc/QtSource/MyIconsDefs.h
     CommonSrc/QtSource/MultiSessionState.h
-    CommonSrc/QtSource/NetworkKeyWidget.h
-    CommonSrc/QtSource/NetworkTestWidget.h
     CommonSrc/QtSource/NetAvailStatusWidget.h
     CommonSrc/QtSource/OfferBarWidget.h
     CommonSrc/QtSource/OfferSendWidget.h
@@ -438,23 +435,21 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/ActivityAppSetup.cpp
     CommonSrc/QtSource/ActivityBase.cpp
     CommonSrc/QtSource/ActivityBrowseFiles.cpp
-    CommonSrc/QtSource/ActivityChooseTestWebsiteUrl.cpp
     CommonSrc/QtSource/ActivityCreateAccount.cpp
     CommonSrc/QtSource/ActivityDownloadItemMenu.cpp
     CommonSrc/QtSource/ActivityFileSearch.cpp
     CommonSrc/QtSource/ActivityGenerateHash.cpp
     CommonSrc/QtSource/ActivityInformation.cpp
     CommonSrc/QtSource/ActivityMessageBox.cpp
-    CommonSrc/QtSource/ActivityNetworkState.cpp
+    CommonSrc/QtSource/ActivityMsgBoxOk.cpp
+    CommonSrc/QtSource/ActivityMsgBoxYesNo.cpp
     CommonSrc/QtSource/ActivityScanPeopleSearch.cpp
     CommonSrc/QtSource/ActivityScanProfiles.cpp
     CommonSrc/QtSource/ActivityScanStoryBoards.cpp
     CommonSrc/QtSource/ActivityScanWebCams.cpp
     CommonSrc/QtSource/ActivitySessionOptions.cpp
     CommonSrc/QtSource/ActivityShowHelp.cpp
-    CommonSrc/QtSource/ActivitySoundOptions.cpp
     CommonSrc/QtSource/ActivityTimedMessage.cpp
-    CommonSrc/QtSource/ActivityYesNoMsgBox.cpp
     CommonSrc/QtSource/AppCommon.cpp
     CommonSrc/QtSource/AppCommonAudio.cpp
     CommonSrc/QtSource/AppCommonEvents.cpp
@@ -747,8 +742,6 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/MultiSessionState.cpp
     CommonSrc/QtSource/MyIcons.cpp
     CommonSrc/QtSource/NetAvailStatusWidget.cpp
-    CommonSrc/QtSource/NetworkKeyWidget.cpp
-    CommonSrc/QtSource/NetworkTestWidget.cpp
     CommonSrc/QtSource/OfferBarWidget.cpp
     CommonSrc/QtSource/OfferSendWidget.cpp
     CommonSrc/QtSource/OfferSessionLogic.cpp
@@ -831,7 +824,6 @@ set(nlc_FORMS)
 list(APPEND nlc_FORMS
     CommonSrc/Forms/ActivityAppSetup.ui
     CommonSrc/Forms/ActivityBrowseFiles.ui
-    CommonSrc/Forms/ActivityChooseTestWebsiteUrl.ui
     CommonSrc/Forms/ActivityConnectionOptions.ui
     CommonSrc/Forms/ActivityCreateAccount.ui
     CommonSrc/Forms/ActivityDownloadItemMenu.ui
@@ -840,17 +832,13 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/ActivityInformation.ui
     CommonSrc/Forms/ActivityMessageBox.ui
     CommonSrc/Forms/ActivityNetworkStartupTest.ui
-    CommonSrc/Forms/ActivityNetworkStatus.ui
-    CommonSrc/Forms/ActivityNetworkTest.ui
     CommonSrc/Forms/ActivityScanPeopleSearch.ui
     CommonSrc/Forms/ActivityScanProfiles.ui
     CommonSrc/Forms/ActivityScanStoryBoards.ui
     CommonSrc/Forms/ActivityScanWebCams.ui
     CommonSrc/Forms/ActivitySessionOptions.ui
     CommonSrc/Forms/ActivityShowHelp.ui
-    CommonSrc/Forms/ActivitySoundOptions.ui
     CommonSrc/Forms/ActivityTimedMessage.ui
-    CommonSrc/Forms/ActivityVideoOptions.ui
     CommonSrc/Forms/ActivityYesNo.ui
     CommonSrc/Forms/AcceptCancelWidget.ui
     CommonSrc/Forms/AppletAboutApp.ui
@@ -976,8 +964,6 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/InputVoiceWidget.ui
     CommonSrc/Forms/InstMsgWidget.ui
     CommonSrc/Forms/LogWidget.ui
-    CommonSrc/Forms/NetworkKeyWidget.ui
-    CommonSrc/Forms/NetworkTestWidget.ui
     CommonSrc/Forms/OfferBarWidget.ui
     CommonSrc/Forms/OfferSendWidget.ui
     CommonSrc/Forms/PermissionWidget.ui
