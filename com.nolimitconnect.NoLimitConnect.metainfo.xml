@@ -82,9 +82,9 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
-        <release version="1.0.8" date="2024-05-18">
+        <release version="1.0.12" date="2024-05-18">
             <description>
-                NoLimitConnect v1.0.8 Initial Release.
+                NoLimitConnect 1.0.12 Beta2 Release.
             </description>
         </release>
     </releases>
