@@ -11,10 +11,8 @@
 #include "AppCommon.h"	
 
 #include "AccountMgr.h"
-#include "ActivityAppSetup.h"
 #include "ActivityCreateAccount.h"
 #include "AppSettings.h"
-#include "AppSetup.h"
 #include "AppletMgr.h"
 #include "GuiHelpers.h"
 #include "HomeWindow.h"
@@ -69,23 +67,7 @@ void AppCommon::updateMyIdent( VxNetIdent* myIdent, bool permissionAndStateOnly 
 //============================================================================
 void AppCommon::doLogin()
 {
-    doLoginStep2();
-}
 
-//============================================================================
-void AppCommon::slotCheckSetupTimer()
-{
-    if( m_AppSetupDlg && m_AppSetupDlg->isSetupCompleted() )
-    {
-        m_CheckSetupTimer->stop();
-        m_AppSetupDlg->close();
-        doLoginStep2();
-    }
-}
-
-//============================================================================
-void AppCommon::doLoginStep2()
-{
 doover:
     bool bLastUserAccountLoaded = loadLastUserAccount();
     if( bLastUserAccountLoaded )

@@ -14,7 +14,6 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 
-#include "ActivityAppSetup.h"
 #include "ActivityFileSearch.h"
 #include "ActivityScanPeopleSearch.h"
 #include "ActivityScanProfiles.h"
@@ -354,7 +353,6 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletFileOfferSelect:            if( launchAppletAllowed( eAppletFileOfferSelect ) ) appletDialog = new AppletFileOfferSelect( m_MyApp, parent ); break;
     case eAppletFileShareClientView:        if( launchAppletAllowed( eAppletFileShareClientView ) ) appletDialog = new AppletFileShareClientView( m_MyApp, parent ); break;
 
-    case eActivityAppSetup:                 if( launchAppletAllowed( eActivityAppSetup ) ) appletDialog = new ActivityAppSetup( m_MyApp, parent ); break;
     case eAppletAboutMeClient:              if( launchAppletAllowed( eAppletAboutMeClient ) ) appletDialog = new AppletAboutMeClient( m_MyApp, parent ); break;
     case eAppletAboutNoLimitConnect:        if( launchAppletAllowed( eAppletAboutNoLimitConnect ) ) appletDialog = new AppletAboutApp( m_MyApp, parent ); break;
     case eAppletAboutUser:                  if( launchAppletAllowed( eAppletAboutUser ) ) appletDialog = new AppletAboutUser( m_MyApp, parent ); break;

@@ -124,7 +124,6 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AccountDb.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AccountMgr.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityAppSetup.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityBrowseFiles.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityCreateAccount.cpp" />
@@ -295,7 +294,6 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletUserPreferences.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppModuleState.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppSettings.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppSetup.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppTranslate.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AssetBaseWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AssetFaceWidget.cpp" />
@@ -827,7 +825,6 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AssetPhotoWidget.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AssetFaceWidget.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AssetBaseWidget.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppSetup.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUserIdentity.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUploads.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTheme.h" />
@@ -920,17 +917,14 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityDownloadItemMenu.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityBrowseFiles.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityBase.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityAppSetup.h" />
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="..\..\..\CommonSrc\NoLimitConnect.qrc" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="..\..\..\CommonSrc\Forms\AcceptCancelWidget.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityAppSetup.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityBase.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityBrowseFiles.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityConnectionOptions.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityCreateAccount.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityDownloadItemMenu.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityFileSearch.ui" />

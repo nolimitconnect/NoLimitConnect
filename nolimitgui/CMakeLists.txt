@@ -39,7 +39,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AccountDb.h
     CommonSrc/QtSource/AccountMgr.h
     CommonSrc/QtSource/AcceptCancelWidget.h
-    CommonSrc/QtSource/ActivityAppSetup.h
+
     CommonSrc/QtSource/ActivityBrowseFiles.h
     CommonSrc/QtSource/ActivityCreateAccount.h
     CommonSrc/QtSource/ActivityDownloadItemMenu.h
@@ -62,7 +62,6 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppCommon.h
     CommonSrc/QtSource/AppGlobals.h
     CommonSrc/QtSource/AppSettings.h
-    CommonSrc/QtSource/AppSetup.h
     CommonSrc/QtSource/AppletAboutApp.h
     CommonSrc/QtSource/AppletAboutMeClient.h
     CommonSrc/QtSource/AppletAboutUser.h
@@ -427,12 +426,11 @@ set(nlc_SOURCES)
 list(APPEND nlc_SOURCES
     NoLimitConnectMain/AppSource/main.cpp
     CommonSrc/QtSource/AccountMgr.cpp
-
     NoLimitConnectMain/AppSource/main.cpp
     CommonSrc/QtSource/AcceptCancelWidget.cpp
     CommonSrc/QtSource/AccountDb.cpp
     CommonSrc/QtSource/AccountMgr.cpp
-    CommonSrc/QtSource/ActivityAppSetup.cpp
+
     CommonSrc/QtSource/ActivityBase.cpp
     CommonSrc/QtSource/ActivityBrowseFiles.cpp
     CommonSrc/QtSource/ActivityCreateAccount.cpp
@@ -468,7 +466,6 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppGlobals.cpp
     CommonSrc/QtSource/AppModuleState.cpp
     CommonSrc/QtSource/AppSettings.cpp
-    CommonSrc/QtSource/AppSetup.cpp
     CommonSrc/QtSource/AppletAboutApp.cpp
     CommonSrc/QtSource/AppletAboutMeClient.cpp
     CommonSrc/QtSource/AppletAboutUser.cpp
@@ -783,10 +780,8 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/ThumbnailViewWidget.cpp
 
     CommonSrc/QtSource/VideoFrameProcessor.cpp
-
     CommonSrc/QtSource/VxAspectFrame.cpp
     CommonSrc/QtSource/VxComboBox.cpp
-
     CommonSrc/QtSource/VxContextMenu.cpp
     CommonSrc/QtSource/VxAvatarImage.cpp
     CommonSrc/QtSource/VxFrame.cpp
@@ -822,9 +817,7 @@ list(APPEND nlc_SOURCES
 
 set(nlc_FORMS)
 list(APPEND nlc_FORMS
-    CommonSrc/Forms/ActivityAppSetup.ui
     CommonSrc/Forms/ActivityBrowseFiles.ui
-    CommonSrc/Forms/ActivityConnectionOptions.ui
     CommonSrc/Forms/ActivityCreateAccount.ui
     CommonSrc/Forms/ActivityDownloadItemMenu.ui
     CommonSrc/Forms/ActivityFileSearch.ui

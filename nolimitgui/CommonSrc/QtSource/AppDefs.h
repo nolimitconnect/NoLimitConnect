@@ -112,7 +112,6 @@ enum EApplet
     // not launched from launch page icon
 
     eAppletApplicationInfo,
-    eActivityAppSetup,	            // application initialize
     eAppletBrowseFiles,             // file directory browser
 
     eAppletPlayerCamClip,

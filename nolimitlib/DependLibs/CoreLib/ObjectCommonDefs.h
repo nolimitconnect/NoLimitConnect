@@ -10,7 +10,6 @@
 //============================================================================
 
 #define OBJNAME_ACTIVITY_ABOUT							"ActivityAbout"
-#define OBJNAME_ACTIVITY_APP_SETUP          			"ActivityAppSetup"
 #define OBJNAME_ACTIVITY_BROWSE_FILES					"ActivityBrowseFiles"
 #define OBJNAME_ACTIVITY_CREATE_ACCOUNT					"ActivityCreateAccount"
 #define OBJNAME_ACTIVITY_DOWNLOAD_ITEM_MENU				"ActivityDownloadItemMenu"

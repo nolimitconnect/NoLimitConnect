@@ -52,7 +52,6 @@
 
 class AccountMgr;
 
-class ActivityAppSetup;
 class ActivityBase;
 class ActivityCreateAccount;
 class ActivityShowHelp;
@@ -219,7 +218,6 @@ public:
     virtual void				startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame );
 
     virtual void				doLogin( void );
-    virtual void				doLoginStep2( void );
     virtual void				completeLogin( void );
 
     // prompt user to confirm wants to shutdown app.. caller must call appCommonShutdown if answer is yes
@@ -836,7 +834,6 @@ protected slots:
     void						onUpdateMyIdent( VxNetIdent* poMyIdent );
 
     void						slotGuiStartupTimer( void );
-    void						slotCheckSetupTimer( void );
 
 protected:
     void                        connectSignals( void );
@@ -937,8 +934,6 @@ protected:
     bool                        m_LoginBegin = false;
     bool                        m_LoginComplete = false;
     bool                        m_AppInitialized = false;
-
-    ActivityAppSetup*           m_AppSetupDlg = nullptr;
     bool                        m_IsMessengerReady{ false };
     bool                        m_IsLoggedOn{ false };
     bool                        m_IsGuiSystemReady{ false };
@@ -947,7 +942,6 @@ protected:
     bool                        m_GuiCpuTimeEnable{ false };
 
     QTimer*                     m_GuiStartupTimer = nullptr;
-    QTimer*                     m_CheckSetupTimer = nullptr;
 
     bool                        m_LauchedAfterLogonApplets{ false };
     bool                        m_ConnectToLastConnectedHost{ false };

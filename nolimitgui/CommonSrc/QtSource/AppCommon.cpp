@@ -213,7 +213,6 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_CamCaptureRotation( 0 )
 , m_AppletMgr( *( new AppletMgr( *this, this) ) )
 , m_GuiStartupTimer( new QTimer( this ) )
-, m_CheckSetupTimer( new QTimer( this ) )
 {
     g_AppCommon = this; // need a global instance that can accessed immediately with GetAppInstance() for objects created in ui files
 
@@ -223,7 +222,6 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 	signal( SIGPIPE, SIG_IGN );
 #endif // !defined(TARGET_OS_WINDOWS)
 
-    connect( m_CheckSetupTimer, SIGNAL(timeout()), this, SLOT(slotCheckSetupTimer()) );
 	connect( m_GuiStartupTimer, SIGNAL(timeout()), this, SLOT(slotGuiStartupTimer()) );
 }
 
@@ -371,13 +369,13 @@ void AppCommon::slotGuiStartupTimer( void )
 
 		m_GuiStartupTimer->start();
 	}
-	else if( 3 == guiStartupStep )
+	else if( 4 == guiStartupStep )
 	{
 		std::string strAssetDir = VxGetRootUserDataDirectory() + "assets/";
 		getEngine().fromGuiAppStartup( strAssetDir.c_str(), VxGetRootUserDataDirectory().c_str() );
 		m_GuiStartupTimer->start();
 	}
-	else if( 4 == guiStartupStep )
+	else if( 6 == guiStartupStep )
 	{
 		m_PlayerMgr.playerMgrStartup();
 		m_OncePerSecondTimer->setInterval( 1000 ); 

@@ -224,9 +224,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppSetup.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AssetBaseWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -755,9 +752,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletUserIdentity.h">
       <Filter>Header Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityAppSetup.h">
-      <Filter>Header Files\Activity</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityBase.h">
       <Filter>Header Files\Activity</Filter>
     </QtMoc>
@@ -1154,9 +1148,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppSettings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppSetup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppTranslate.cpp">
@@ -2122,9 +2113,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiMemberActiveMgr.cpp">
       <Filter>Source Files\GuiMemberActive</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityAppSetup.cpp">
-      <Filter>Source Files\Activity</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityBase.cpp">
       <Filter>Source Files\Activity</Filter>
     </ClCompile>
@@ -2617,13 +2605,7 @@
     <QtUic Include="..\..\..\CommonSrc\Forms\AcceptCancelWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityAppSetup.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityBrowseFiles.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityConnectionOptions.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityDownloadItemMenu.ui">
