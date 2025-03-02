@@ -839,6 +839,7 @@ else()
     endif()
     if(DEFINED TARGET_OS_ANDROID)
         message(STATUS "TARGET_OS_ANDROID is defined")
+        #set(ANDROID_MANIFEST ${CMAKE_SOURCE_DIR}/nolimitgui/android/AndroidManifest.xml)
     endif()
 
     if(DEFINED TARGET_CPU_X86_64)
