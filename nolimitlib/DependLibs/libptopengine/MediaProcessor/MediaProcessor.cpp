@@ -367,7 +367,7 @@ void MediaProcessor::processFriendAudioFeed( VxGUID& onlineId, int16_t * pcmData
 }
 
 //============================================================================
-void MediaProcessor::fromGuiVideoData( uint32_t u32FourCc, std::shared_ptr<uint8_t*>& vidDataIn, int imageWidth, int imageHeight, uint32_t vidDataLen, int iRotation )
+void MediaProcessor::fromGuiVideoData( uint32_t u32FourCc, std::shared_ptr<uint8_t>& vidDataIn, int imageWidth, int imageHeight, uint32_t vidDataLen, int iRotation )
 {
 	if( false == m_VidCaptureEnabled )
 	{
@@ -446,7 +446,7 @@ void MediaProcessor::fromGuiVideoData( uint32_t u32FourCc, std::shared_ptr<uint8
     // 	// if we converted the image we also changed the width and height to our cam dimensions for processing
     // }
 
-    // std::shared_ptr<uint8_t*> sharedVidData;
+    // std::shared_ptr<uint8_t> sharedVidData;
     // if( bConvert )
     // {
     // 	// data is already allocated and will need deleted
@@ -546,7 +546,7 @@ void MediaProcessor::fromGuiYUV420CaptureImage(	uint8_t * yBytes, uint8_t * uByt
 		finalRow += BYTES_PER_RGB_PIX * imageWidth; 
 	} 
 
-	std::shared_ptr<uint8_t*> sharedVidData = std::make_shared<uint8_t*>( rgbData );
+	std::shared_ptr<uint8_t> sharedVidData( rgbData );
 
 	RawVideo * rawVideo = new RawVideo( FOURCC_RGB,
 										sharedVidData,
@@ -659,7 +659,7 @@ void MediaProcessor::processFriendVideoFeed(	VxGUID&			onlineId,
 //============================================================================
 void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
 {
-	uint8_t* pu8VidData	= *rawVideo->m_VidData;
+	uint8_t* pu8VidData	= rawVideo->m_VidData.get();
 	int iWidth			= rawVideo->m_Width; 
 	int iHeight			= rawVideo->m_Height; 
 	int iRotation		= rawVideo->m_Rotation; 

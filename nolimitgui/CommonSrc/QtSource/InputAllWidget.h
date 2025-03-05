@@ -26,7 +26,8 @@ public:
 
 	void						setCanSend( bool canSend );
 
-	void						hideVideoCaptureInput( void );
+	void						hideVideoCaptureInput( bool hideCapture = true );
+	void						hideAudioCaptureInput( bool hideCapture = true );
 
 signals:
 	void						signalUserInputButtonClicked( void );

@@ -15,7 +15,7 @@ class RawVideo
 {
 public:
 	RawVideo( 	uint32_t	fourCc,
-				std::shared_ptr<uint8_t*>& vidData,
+				std::shared_ptr<uint8_t>& vidData,
 				uint32_t	vidDataLen, 
 				int			width,
 				int			height,
@@ -30,7 +30,7 @@ public:
 	}
 
 	uint32_t					m_FourCc;
-	std::shared_ptr<uint8_t*>	m_VidData;
+	std::shared_ptr<uint8_t>	m_VidData;
 	uint32_t					m_VidDataLen; 
 	int							m_Width;
 	int							m_Height; 

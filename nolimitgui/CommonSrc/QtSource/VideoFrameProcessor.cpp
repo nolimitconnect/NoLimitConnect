@@ -87,9 +87,9 @@ void VideoFrameProcessor::slotVideoFrameChanged( const QVideoFrame& frame )
     if( !rgbImage.isNull() )
     {
         uint32_t dataLen = 3 * rgbImage.width() * rgbImage.height();
-        uint8_t* rgbData = new uint8_t[dataLen];
-        memcpy( rgbData, rgbImage.bits(), dataLen );
-        std::shared_ptr<uint8_t*> sharedData = std::make_shared<uint8_t*>(rgbData);
+       
+        std::shared_ptr<uint8_t> sharedData( new uint8_t[dataLen] );
+        memcpy( sharedData.get(), rgbImage.bits(), dataLen);
         m_MediaProcessor.fromGuiVideoData( FOURCC_RGB, sharedData, rgbImage.width(), rgbImage.height(), dataLen, m_MyApp.getCamCaptureRotation() );
     }
 }

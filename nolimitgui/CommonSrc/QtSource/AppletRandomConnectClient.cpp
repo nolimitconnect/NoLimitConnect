@@ -35,8 +35,11 @@ AppletRandomConnectClient::AppletRandomConnectClient( AppCommon& app, QWidget* p
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
     setPluginType( ePluginTypeClientRandomConnect );
 
-    ui.m_SessionWidget->setAppModule( eAppModuleChatRoomClient );
+    ui.m_SessionWidget->setAppModule( eAppModuleRandomConnectClient );
     ui.m_SessionWidget->setPluginType( ePluginTypeClientRandomConnect );
+	ui.m_SessionWidget->setInputClientCallback( this );
+
+	ui.m_SessionWidget->setLimitToTextAndPhotos( true );
 
     ui.m_UserListWidget->setUserViewType( eUserViewTypeRandomConnect );
 

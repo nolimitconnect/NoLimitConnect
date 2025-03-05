@@ -41,6 +41,8 @@ public:
 	void						setGroupieId( GroupieId& groupieId );
 	GroupieId&					getGroupieId( void )						{ return m_GroupieId; }
 
+	// for low bandwith hosts do not allow video and audio recordings
+	void						setLimitToTextAndPhotos( bool justTextAndPhotos );
 	void						setEntryMode( EAssetType inputMode );
 	void						setIsPersonalRecorder( bool isPersonal );
 	void						setCanSend( bool canSend );
@@ -73,6 +75,7 @@ protected:
     AppCommon&                  m_MyApp;
 	EAssetType					m_InputMode;
 	bool						m_IsInitialized{ false };
+	bool						m_JustTextAndPhotos{ false };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
 	GroupieId					m_GroupieId;
 

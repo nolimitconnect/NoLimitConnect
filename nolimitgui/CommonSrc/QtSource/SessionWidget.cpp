@@ -57,6 +57,13 @@ void SessionWidget::setGroupieId( GroupieId& groupieId )
 }
 
 //============================================================================
+void SessionWidget::setLimitToTextAndPhotos( bool justTextAndPhotos )
+{
+	m_JustTextAndPhotos = justTextAndPhotos;
+	ui.m_ChatEntry->setLimitToTextAndPhotos( justTextAndPhotos );
+}
+
+//============================================================================
 void SessionWidget::setEntryMode( EAssetType inputMode )
 {
 	ui.m_ChatEntry->setEntryMode( inputMode );

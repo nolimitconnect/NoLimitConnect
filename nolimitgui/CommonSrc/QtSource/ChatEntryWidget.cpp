@@ -113,9 +113,16 @@ void ChatEntryWidget::setCanSend( bool canSend )
 }
 
 //============================================================================
-void ChatEntryWidget::hideVideoCaptureInput( void )
+void ChatEntryWidget::hideVideoCaptureInput( bool justTextAndPhotos )
 {
-	ui.m_InputAllWidget->hideVideoCaptureInput();
+	ui.m_InputAllWidget->hideVideoCaptureInput( justTextAndPhotos );
+}
+
+//============================================================================
+void ChatEntryWidget::setLimitToTextAndPhotos( bool justTextAndPhotos )
+{
+	ui.m_InputAllWidget->hideVideoCaptureInput( justTextAndPhotos );
+	ui.m_InputAllWidget->hideAudioCaptureInput( justTextAndPhotos );	
 }
 
 //============================================================================

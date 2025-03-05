@@ -133,7 +133,13 @@ void InputAllWidget::slotMicButtonReleased( void )
 }
 
 //============================================================================
-void InputAllWidget::hideVideoCaptureInput( void )
+void InputAllWidget::hideVideoCaptureInput( bool hideCapture )
 {
-	ui.m_VideoAllButton->setVisible( false );
+	ui.m_VideoAllButton->setVisible( !hideCapture );
+}
+
+//============================================================================
+void InputAllWidget::hideAudioCaptureInput( bool hideCapture )
+{
+	ui.m_MicAllButton->setVisible( !hideCapture );
 }

@@ -39,6 +39,8 @@ AppletChatRoomClient::AppletChatRoomClient( AppCommon& app, QWidget* parent )
 	ui.m_ChatRoomWidget->setPluginType( getPluginType() );
 	ui.m_ChatRoomWidget->setInputClientCallback( this );
 
+	ui.m_ChatRoomWidget->setLimitToTextAndPhotos( true );
+
     connect( this,                      SIGNAL(signalBackButtonClicked()),			this, SLOT(closeApplet()) );
 	connect( ui.m_UserListWidget,		SIGNAL(signalSetSessionVisible(bool)),		this, SLOT(slotSetSessionVisible(bool)) );
     connect( ui.m_UserListWidget,		SIGNAL(signalViewChanged(EUserViewType)),	this, SLOT(slotViewChanged(EUserViewType)));

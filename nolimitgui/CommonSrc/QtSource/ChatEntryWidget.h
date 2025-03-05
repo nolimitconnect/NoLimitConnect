@@ -44,7 +44,8 @@ public:
 	void						setPluginType( EPluginType pluginType );
 	EPluginType					getPluginType( void )						{ return  m_PluginType; }
 
-	void						hideVideoCaptureInput( void ); // video takes a lot of bandwidth.. disable for chat room host
+	void						setLimitToTextAndPhotos( bool justTextAndPhotos = true );
+	void						hideVideoCaptureInput( bool justTextAndPhotos = true ); // video takes a lot of bandwidth.. disable for chat room host
 
 	void						callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 );
 

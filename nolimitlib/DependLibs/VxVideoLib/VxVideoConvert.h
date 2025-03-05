@@ -23,8 +23,8 @@ public:
 		, m_ImgWidth( imgWidth )
 		, m_ImgHeight( imgHeight )
 		, m_CamRotation( camRotation )
+        , m_ImgData(imgData)
 	{
-		m_ImgData = std::make_shared<uint8_t*>(imgData);
 	}
 
 	
@@ -32,7 +32,7 @@ public:
 	int m_ImgWidth;
 	int m_ImgHeight;
 	int m_CamRotation;
-	std::shared_ptr<uint8_t*> m_ImgData;
+	std::shared_ptr<uint8_t> m_ImgData;
 };
 
 
