@@ -13,6 +13,8 @@
 
 #include <CoreLib/VxGUID.h>
 
+#include <vector>
+
 class FriendListMgr : public IdentListMgrBase
 {
 public:

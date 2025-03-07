@@ -14,6 +14,7 @@
 #include "AccountMgr.h"
 #include "ToGuiActivityInterface.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 //============================================================================

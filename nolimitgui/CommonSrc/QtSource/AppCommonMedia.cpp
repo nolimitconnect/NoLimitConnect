@@ -20,6 +20,7 @@
 #include "ToGuiHardwareControlInterface.h"
 
 #include <AssetBase/AssetPlaySession.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <VxVideoLib/VxVideoLib.h>
 

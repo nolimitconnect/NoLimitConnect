@@ -25,6 +25,7 @@
 #include <PktLib/SearchParams.h>
 #include <PktLib/VxCommon.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxFileShredder.h>
 #include <CoreLib/VxGlobals.h>

@@ -15,6 +15,7 @@
 #include <AssetMgr/AssetInfo.h>
 #include <MediaProcessor/MediaProcessor.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxFileUtil.h>
 

@@ -19,6 +19,8 @@
 #include "GuiParams.h"
 #include "MyIconsDefs.h"
 
+#include <CoreLib/VxDebug.h>
+
 #include "ui_BottomBarWidget.h"
 
 //============================================================================

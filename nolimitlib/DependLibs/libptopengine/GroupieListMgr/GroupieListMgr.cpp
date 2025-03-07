@@ -17,10 +17,11 @@
 #include <Plugins/PluginBase.h>
 #include <Plugins/PluginBaseNetworkService.h>
 
+#include <CoreLib/GroupieId.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxPtopUrl.h>
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsGroupie.h>
-#include <CoreLib/GroupieId.h>
 
 //============================================================================
 GroupieListMgr::GroupieListMgr( P2PEngine& engine )

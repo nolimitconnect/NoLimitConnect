@@ -11,6 +11,8 @@
 #include "HostJoinedLastDb.h"
 #include "HostJoinInfo.h"
 
+#include <CoreLib/VxDebug.h>
+
 namespace
 {
     std::string 		TABLE_USER_HOST	 				= "tblHostJoinedLast";

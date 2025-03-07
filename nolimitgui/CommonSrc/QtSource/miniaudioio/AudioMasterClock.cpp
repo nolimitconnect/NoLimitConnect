@@ -13,6 +13,7 @@
 #include "AppCommon.h"
 #include "MiniAudioMgr.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTimer.h>
 
 const int FRAME_INTERVAL_MS = 80;

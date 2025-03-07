@@ -9,9 +9,11 @@
 //============================================================================
 
 #include "ActivityBase.h"
+
 #include "ActivityMsgBoxYesNo.h"
 #include "AppCommon.h"
 #include "AppGlobals.h"
+#include "AppSettings.h"
 #include "ActivityMessageBox.h"
 #include "IdentWidget.h"
 
@@ -28,7 +30,7 @@
 
 #include <P2PEngine/P2PEngine.h>
 
-#include "AppSettings.h"
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
 

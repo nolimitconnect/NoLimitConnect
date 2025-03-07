@@ -14,6 +14,8 @@
 #include "VxThread.h"
 #include "VxMutex.h"
 
+#include <vector>
+
 class Sha1GeneratorMgr
 {
 public:

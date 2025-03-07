@@ -23,6 +23,7 @@
 #include <UserJoinMgr/UserJoinMgr.h>
 #include <UserOnlineMgr/UserOnlineMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxSktBase.h>
 

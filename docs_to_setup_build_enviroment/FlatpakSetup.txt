@@ -21,7 +21,7 @@ flatpak -vv remote-ls flathub
 git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
 // after checkout
 cd nolimitapp
-git submodule add https://github.com/flathub/shared-modules.git
+git submodule add https://github.com/flathub/shared-modules.git -f
 
 see CompileNoLimitConnectUsingFlatpak.txt for build instructions
 

@@ -21,11 +21,12 @@
 #include <NetLib/VxSktConnect.h>
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxSktCrypto.h>
-#include <CoreLib/VxSktUtil.h>
 
 #include <PktLib/PktsRelay.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxParse.h>
+#include <CoreLib/VxSktUtil.h>
 
 #include <memory.h>
 

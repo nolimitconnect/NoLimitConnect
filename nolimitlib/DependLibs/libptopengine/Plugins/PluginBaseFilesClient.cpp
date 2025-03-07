@@ -14,6 +14,7 @@
 #include <BigListLib/BigListInfo.h>
 #include <ConnectIdListMgr/ConnectIdListMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsFileInfo.h>
 

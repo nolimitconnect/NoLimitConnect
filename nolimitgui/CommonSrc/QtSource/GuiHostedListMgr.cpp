@@ -22,6 +22,7 @@
 #include <P2PEngine/P2PEngine.h>
 
 #include <PktLib/VxCommon.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxPtopUrl.h>
 #include <CoreLib/VxSktUtil.h>
 

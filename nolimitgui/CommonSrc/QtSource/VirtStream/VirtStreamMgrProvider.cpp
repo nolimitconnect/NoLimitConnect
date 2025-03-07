@@ -15,6 +15,7 @@
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VFile.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 
 #include <QDir>

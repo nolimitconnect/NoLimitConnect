@@ -30,6 +30,7 @@
 
 #include <PktLib/VxCommon.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxGlobals.h>

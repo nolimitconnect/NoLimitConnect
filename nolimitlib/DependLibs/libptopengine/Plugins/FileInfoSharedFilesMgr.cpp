@@ -12,6 +12,8 @@
 
 #include "PluginBase.h"
 
+#include <CoreLib/VxDebug.h>
+
 //============================================================================
 FileInfoSharedFilesMgr::FileInfoSharedFilesMgr( P2PEngine& engine, PluginBase& plugin, std::string sharedFilesDbName )
 	: FileInfoDb( sharedFilesDbName )

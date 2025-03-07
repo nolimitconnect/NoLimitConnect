@@ -11,6 +11,7 @@
 #include "VxGlobals.h"
 
 #include "AppVersion.h"
+#include "VxDebug.h"
 #include "VxFileShredder.h"
 #include "VxFileUtil.h"
 #include "VxGUID.h"

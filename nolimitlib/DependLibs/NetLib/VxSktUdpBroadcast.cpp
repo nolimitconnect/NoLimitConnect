@@ -9,6 +9,8 @@
 //============================================================================
 
 #include "VxSktUdpBroadcast.h"
+
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxSktUtil.h>
 
 VxSktUdpBroadcast::VxSktUdpBroadcast()

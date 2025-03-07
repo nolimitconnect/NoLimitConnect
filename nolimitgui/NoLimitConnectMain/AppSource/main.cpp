@@ -38,6 +38,7 @@
 # endif
 #endif
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxFileUtil.h>
 

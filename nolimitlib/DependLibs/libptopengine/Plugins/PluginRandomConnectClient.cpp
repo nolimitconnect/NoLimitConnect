@@ -13,6 +13,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <RandConnect/RandConnectMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <PktLib/PktsRandConnect.h>
 
 //============================================================================

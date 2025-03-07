@@ -14,6 +14,8 @@
 #include "GuiOfferSession.h"
 #include "GuiParams.h"
 
+#include <CoreLib/VxDebug.h>
+
 #include "ui_PersonOfferListItem.h"
 
 VxPushButton*               PersonOfferListItem::getIdentAvatarButton( void )       { return ui.m_AvatarButton; }

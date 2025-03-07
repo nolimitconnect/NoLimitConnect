@@ -19,6 +19,7 @@
 #include <BigListLib/BigListInfo.h>
 
 #include <NetLib/VxSktBase.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 
 //============================================================================

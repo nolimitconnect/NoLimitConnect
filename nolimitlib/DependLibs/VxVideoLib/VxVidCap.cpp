@@ -10,6 +10,7 @@
 #ifdef TARGET_OS_WINDOWS
 
 #include "VxVidCap.h"
+#include <CoreLib/VxDebug.h>
 
 //============================================================================
 //=== constants ===//

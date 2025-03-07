@@ -15,6 +15,7 @@
 #include <CoreLib/VxThread.h>
 
 #include <map>
+#include <vector>
 
 class NetAvailStatusCallbackInterface
 {

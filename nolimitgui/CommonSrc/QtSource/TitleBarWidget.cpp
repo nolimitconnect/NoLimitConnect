@@ -23,6 +23,7 @@
 #include "MyIcons.h"
 #include "SoundMgr.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxTime.h>
 #include <QFrame>

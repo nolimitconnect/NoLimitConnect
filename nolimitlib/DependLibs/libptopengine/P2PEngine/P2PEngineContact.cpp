@@ -16,6 +16,8 @@
 #include <BigListLib/BigListInfo.h>
 #include <BigListLib/BigList.h>
 
+#include <CoreLib/VxDebug.h>
+
 #include <time.h>
 #include <stdio.h>
 #include <stdarg.h>

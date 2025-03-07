@@ -11,6 +11,7 @@
 #include "HostUrlListDb.h"
 #include "HostUrlInfo.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/sqlite3.h>

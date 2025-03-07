@@ -11,6 +11,7 @@
 #include "VxPeerMgr.h"
 #include "VxSktConnect.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGUID.h>
 #include <PktLib/VxPktHdr.h>
 

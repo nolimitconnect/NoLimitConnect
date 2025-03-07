@@ -14,6 +14,8 @@
 #include "OfferBaseXferMgr.h"
 #include "OfferBaseInfo.h"
 
+#include <CoreLib/VxDebug.h>
+
 namespace
 {
 	std::string 		TABLE_OFFERS	 				= "tblOffers";

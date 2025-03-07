@@ -19,6 +19,7 @@
 #include <GroupieListMgr/GroupieListMgr.h>
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxDebug.h>
 #include <PktLib/VxCommon.h>
 
 //============================================================================

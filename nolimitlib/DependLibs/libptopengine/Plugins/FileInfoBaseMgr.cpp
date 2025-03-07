@@ -22,6 +22,7 @@
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/Sha1GeneratorMgr.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxFileIsTypeFunctions.h>
 #include <CoreLib/VxGlobals.h>

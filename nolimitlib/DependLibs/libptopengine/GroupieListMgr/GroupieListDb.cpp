@@ -11,6 +11,7 @@
 #include "GroupieListDb.h"
 #include "GroupieInfo.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/sqlite3.h>

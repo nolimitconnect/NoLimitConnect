@@ -11,6 +11,8 @@
 #include "VxClientMgr.h"
 #include "VxSktConnect.h"
 
+#include <CoreLib/VxDebug.h>
+
 //============================================================================
 VxClientMgr::VxClientMgr()
 {

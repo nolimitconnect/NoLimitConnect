@@ -10,6 +10,7 @@
 
 #include "AudioJitterBuffer.h"
 
+#include <CoreLib/VxDebug.h>
 #include <MediaToolsLib/SndDefs.h>
 
 // implements circular buffer and delays available data for anti jitter reasons

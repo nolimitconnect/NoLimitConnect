@@ -15,6 +15,8 @@
 
 #include <HostListMgr/HostedInfo.h>
 
+#include <CoreLib/VxDebug.h>
+
 //============================================================================
 GuiHosted::GuiHosted( AppCommon& app )
     : QWidget( &app )

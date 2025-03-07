@@ -19,6 +19,8 @@
 #include "GuiOfferSession.h"
 #include "GuiParams.h"
 
+#include <CoreLib/VxDebug.h>
+
 //============================================================================
 bool AppCommon::offerToFriendPluginSession( GuiUser* guiUser, EPluginType pluginType, bool inGroup, QWidget* parent )
 {

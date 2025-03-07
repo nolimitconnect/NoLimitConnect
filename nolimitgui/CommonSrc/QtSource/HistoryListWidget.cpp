@@ -22,6 +22,7 @@
 #include <AssetMgr/AssetInfo.h>
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 #include <QTimer>

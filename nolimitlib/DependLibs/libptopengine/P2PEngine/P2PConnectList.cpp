@@ -16,6 +16,7 @@
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsRelay.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxGUIDList.h>
 

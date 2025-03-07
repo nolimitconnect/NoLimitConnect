@@ -12,6 +12,8 @@
 #include "ThumbXferDb.h"
 #include "ThumbInfo.h"
 
+#include <CoreLib/VxDebug.h>
+
 namespace
 {
 	std::string 		TABLE_ASSET_XFER	 			= "asset_xfer";

@@ -18,6 +18,7 @@
 #include <UserJoinMgr/UserJoinInfo.h>
 #include <UserJoinMgr/UserJoinMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxPtopUrl.h>
 #include <PktLib/VxCommon.h>
 

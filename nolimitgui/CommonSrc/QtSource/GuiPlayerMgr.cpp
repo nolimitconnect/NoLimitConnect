@@ -20,6 +20,7 @@
 #include "HomeWindow.h"
 
 #include <AssetMgr/AssetInfo.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 #include <P2PEngine/P2PEngine.h>
 

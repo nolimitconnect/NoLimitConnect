@@ -32,7 +32,7 @@ namespace
 MiniAudioOutDevice::MiniAudioOutDevice( MiniAudioMgr& maMgr )
     : m_AudioIoMgr( maMgr )
 {
-    connect( this, SIGNAL(signalShowErrorFromThread(QString,QString)), this, SIGNAL(slotShowErrorFromThread(QString,QString)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalShowErrorFromThread(QString,QString)), this, SLOT(slotShowErrorFromThread(QString,QString)), Qt::QueuedConnection );
 }
 
 //============================================================================

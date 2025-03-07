@@ -16,6 +16,7 @@
 #include <GuiInterface/IToGui.h>
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxDebug.h>
 #include <PktLib/PktVoiceReq.h>
 #include <PktLib/PktVoiceReply.h>
 #include <PktLib/PktChatReq.h>

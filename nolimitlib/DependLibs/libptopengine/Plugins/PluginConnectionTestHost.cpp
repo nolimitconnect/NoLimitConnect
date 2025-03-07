@@ -14,6 +14,7 @@
 #include <NetServices/NetServiceHdr.h>
 #include <NetServices/NetServicesMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <NetLib/VxSktBase.h>
 
 #ifdef _MSC_VER

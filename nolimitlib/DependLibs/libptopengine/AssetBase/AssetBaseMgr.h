@@ -19,6 +19,8 @@
 #include <CoreLib/VxSemaphore.h>
 #include <CoreLib/VxMutex.h>
 
+#include <vector>
+
 enum EAssetMgrType
 {
     eAssetMgrTypeNone,

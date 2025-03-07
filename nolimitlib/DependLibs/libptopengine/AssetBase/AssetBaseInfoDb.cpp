@@ -14,6 +14,8 @@
 #include "AssetBaseXferMgr.h"
 #include "AssetBaseInfo.h"
 
+#include <CoreLib/VxDebug.h>
+
 namespace
 {
 	std::string 		TABLE_ASSETS	 				= "tblAssets";

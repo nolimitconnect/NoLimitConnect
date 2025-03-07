@@ -17,6 +17,8 @@
 #include <P2PEngine/P2PEngine.h>
 #include <Membership/MemberActiveMgr.h>
 
+#include <CoreLib/VxDebug.h>
+
 //============================================================================
 GuiMemberActiveMgr::GuiMemberActiveMgr()
     : QObject()

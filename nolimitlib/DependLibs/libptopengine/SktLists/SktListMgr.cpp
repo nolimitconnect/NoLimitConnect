@@ -12,6 +12,8 @@
 #include <P2PEngine/P2PEngine.h>
 #include <BigListLib/BigListInfo.h>
 
+#include <CoreLib/VxDebug.h>
+
 //============================================================================
 SktListMgr::SktListMgr( P2PEngine& engine )
     : SktListMgrBase( engine )

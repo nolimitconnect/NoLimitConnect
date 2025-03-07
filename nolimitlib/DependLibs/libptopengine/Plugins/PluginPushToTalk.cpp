@@ -16,6 +16,7 @@
 #include <GuiInterface/IToGui.h>
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxDebug.h>
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsPushToTalk.h>
 #include <PktLib/PktChatReq.h>

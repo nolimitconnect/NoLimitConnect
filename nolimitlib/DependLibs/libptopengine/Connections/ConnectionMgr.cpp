@@ -21,6 +21,7 @@
 
 #include <UrlMgr/UrlMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxSktUtil.h>
 #include <CoreLib/VxTime.h>
 #include <CoreLib/VxUrl.h>

@@ -16,6 +16,7 @@
 #include "VxSpinProgress.h"
 #include "VxPushButton.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 
 #include <QApplication>

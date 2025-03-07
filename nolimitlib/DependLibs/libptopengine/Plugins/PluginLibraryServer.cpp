@@ -19,6 +19,7 @@
 #include <PktLib/PktsPluginOffer.h>
 #include <PktLib/VxSearchDefs.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxFileShredder.h>
 #include <CoreLib/VxGlobals.h>

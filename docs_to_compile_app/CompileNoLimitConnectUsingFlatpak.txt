@@ -7,11 +7,9 @@ git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
 cd nolimitapp
 
 === allow flatpak submodules (required for GL/glu lib) ===
-git submodule add https://github.com/flathub/shared-modules.git
+git submodule add https://github.com/flathub/shared-modules.git -f
 
 === build nolimitconnect ===
-# just build
-flatpak-builder build-dir com.nolimitconnect.NoLimitConnect.yml --force-clean
 
 # build and install so is ready to run
 flatpak-builder --user --install --force-clean build-dir com.nolimitconnect.NoLimitConnect.yml
@@ -29,6 +27,7 @@ flatpak info --show-location com.nolimitconnect.NoLimitConnect
 flatpak uninstall --delete-data com.nolimitconnect.NoLimitConnect
 
 === build nolimitconnect notes ===
+// NOT RECOMMENDED unless doing local changes and development
 NOTE: to use local sources change sources of com.nolimitconnect.NoLimitConnect.yml to
    sources:
       - type: dir

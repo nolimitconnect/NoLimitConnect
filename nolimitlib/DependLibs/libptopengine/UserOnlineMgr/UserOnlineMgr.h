@@ -18,6 +18,7 @@
 #include <CoreLib/GroupieId.h>
 
 #include <memory>
+#include <vector>
 
 class BaseSessionInfo;
 class P2PEngine;

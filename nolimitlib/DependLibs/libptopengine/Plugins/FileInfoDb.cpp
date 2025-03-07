@@ -11,6 +11,7 @@
 #include "FileInfoDb.h"
 #include <Plugins/FileInfo.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 
 namespace

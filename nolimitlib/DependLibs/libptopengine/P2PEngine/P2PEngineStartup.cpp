@@ -22,6 +22,7 @@
 #include <UserJoinMgr/UserJoinMgr.h>
 #include <UserOnlineMgr/UserOnlineMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxFileShredder.h>
 #include <CoreLib/VxParse.h>

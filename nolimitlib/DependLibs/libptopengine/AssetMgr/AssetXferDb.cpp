@@ -12,6 +12,8 @@
 #include "AssetXferDb.h"
 #include "AssetInfo.h"
 
+#include <CoreLib/VxDebug.h>
+
 namespace
 {
 	std::string 		TABLE_ASSET_XFER	 			= "asset_xfer";
@@ -60,11 +62,11 @@ void AssetXferDb::purgeAllAssetXfer( void )
 	unlockAssetXferDb();
 	if( rc )
 	{
-		LogMsg( LOG_ERROR, "AssetXferDb::purgeAllAssetXfer error %d\n", rc );
+		LogMsg( LOG_ERROR, "AssetXferDb::purgeAllAssetXfer error %d", rc );
 	}
 	else
 	{
-		LogMsg( LOG_INFO, "AssetXferDb::purgeAllAssetXfer success\n" );
+		LogMsg( LOG_INFO, "AssetXferDb::purgeAllAssetXfer success" );
 	}
 }
 
@@ -89,7 +91,7 @@ void AssetXferDb::addAsset( VxGUID& assetUniqueId )
 		bindList );
 	if( rc )
 	{
-		LogMsg( LOG_ERROR, "AssetXferDb::addAsset error %d\n", rc );
+		LogMsg( LOG_ERROR, "AssetXferDb::addAsset error %d", rc );
 	}
 }
 

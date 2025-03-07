@@ -9,6 +9,8 @@
 //============================================================================
 
 #include "SendQueueDb.h"
+
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTime.h>
 
 namespace

@@ -12,7 +12,10 @@
 #include <GuiInterface/IDefs.h>
 
 #include <CoreLib/VxMutex.h>
+
+#include <string>
 #include <map>
+#include <vector>
 
 class VxGUID;
 class WebPageCallbackInterface;

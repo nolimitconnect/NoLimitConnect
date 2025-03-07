@@ -12,6 +12,7 @@
 #include "EngineSettings.h"
 #include "EngineSettingsDefaultValues.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
 

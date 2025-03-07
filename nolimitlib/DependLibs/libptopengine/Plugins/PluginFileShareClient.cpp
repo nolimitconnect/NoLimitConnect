@@ -14,6 +14,7 @@
 #include <Plugins/FileInfo.h>
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <NetLib/VxSktBase.h>
 

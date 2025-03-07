@@ -11,6 +11,7 @@
 #include "PluginStoryboardServer.h"
 #include "PluginMgr.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 //============================================================================

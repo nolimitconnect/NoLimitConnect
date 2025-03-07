@@ -15,6 +15,7 @@
 #include <CoreLib/VxMutex.h>
 
 #include <map>
+#include <vector>
 
 class PushToTalkMgr
 {

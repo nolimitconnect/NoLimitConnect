@@ -2,8 +2,9 @@
 #include "VxJava.h"
 #ifdef TARGET_OS_ANDROID
 
-#include <CoreLib/VxThread.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
+#include <CoreLib/VxThread.h>
 
 #define FROM_NATIVE_LOG_TAG "NativeFromJava:"
 

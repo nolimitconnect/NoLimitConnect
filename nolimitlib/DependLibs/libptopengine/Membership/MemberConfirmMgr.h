@@ -13,6 +13,7 @@
 #include <CoreLib/VxMutex.h>
 
 #include <memory>
+#include <vector>
 
 // this class handles the confirm member announce by exchanging PktAnnounce through relay so that
 // the correct friendship is shown and queued items will be sent 

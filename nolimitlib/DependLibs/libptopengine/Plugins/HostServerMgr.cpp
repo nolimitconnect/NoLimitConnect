@@ -20,6 +20,7 @@
 #include <UserOnlineMgr/UserOnlineMgr.h>
 #include <UrlMgr/UrlMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsHostInvite.h>
 #include <PktLib/PktsHostUser.h>

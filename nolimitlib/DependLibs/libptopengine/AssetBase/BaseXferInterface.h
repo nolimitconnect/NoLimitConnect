@@ -13,6 +13,7 @@
 
 #include <CoreLib/VxMutex.h>
 
+#include <string>
 #include <memory>
 
 class VxGUID;

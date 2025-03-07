@@ -24,6 +24,7 @@
 #include <PktLib/PluginIdList.h>
 #include <PktLib/PktsHostUser.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTime.h>
 #include <NetLib/VxSktBase.h>
 

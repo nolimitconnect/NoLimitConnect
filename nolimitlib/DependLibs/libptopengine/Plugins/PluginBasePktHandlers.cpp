@@ -10,6 +10,7 @@
 
 #include "PluginBase.h"
 
+#include <CoreLib/VxDebug.h>
 #include <ThumbMgr/ThumbMgr.h>
 
 //============================================================================

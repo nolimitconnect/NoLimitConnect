@@ -10,6 +10,7 @@
 
 #include "PushToTalkMgr.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 //============================================================================

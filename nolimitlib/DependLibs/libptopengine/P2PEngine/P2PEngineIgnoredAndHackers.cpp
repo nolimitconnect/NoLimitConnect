@@ -10,6 +10,7 @@
 
 #include "P2PEngine.h"
 
+#include <CoreLib/VxDebug.h>
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxSktBase.h>
 

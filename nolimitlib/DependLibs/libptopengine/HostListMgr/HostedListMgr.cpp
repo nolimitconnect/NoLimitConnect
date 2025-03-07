@@ -20,6 +20,7 @@
 #include <Plugins/PluginBase.h>
 #include <Plugins/PluginBaseHostService.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxPtopUrl.h>
 
 #include <NetLib/VxSktBase.h>

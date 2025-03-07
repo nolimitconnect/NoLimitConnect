@@ -13,6 +13,7 @@
 
 #include <BigListLib/BigListInfo.h>
 
+#include <CoreLib/VxDebug.h>
 #include <NetLib/VxSktBase.h>
 
 //============================================================================
