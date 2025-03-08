@@ -17,6 +17,7 @@
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/ObjectCommonDefs.h>
+#include <CoreLib/VxDebug.h>
 
 #include "ui_AppletPeerChangeFriendship.h"
 

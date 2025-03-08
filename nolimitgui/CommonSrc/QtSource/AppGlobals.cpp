@@ -18,6 +18,7 @@
 #include <P2PEngine/EngineSettings.h>
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 
 #include <QMessageBox>

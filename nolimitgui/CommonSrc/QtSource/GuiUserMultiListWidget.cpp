@@ -24,6 +24,7 @@
 
 #include "MyIconsDefs.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 #include "ui_GuiUserMultiListWidget.h"

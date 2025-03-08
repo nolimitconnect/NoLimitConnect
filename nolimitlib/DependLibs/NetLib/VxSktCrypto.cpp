@@ -14,8 +14,8 @@
 
 #include <PktLib/VxConnectId.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxParse.h>
-#include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxGlobals.h>
 
 //=================================================================

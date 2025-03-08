@@ -27,6 +27,7 @@
 
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxAppInfo.h>
+#include <CoreLib/VxDebug.h>
 
 #include <QScreen>
 #include <QtWidgets>

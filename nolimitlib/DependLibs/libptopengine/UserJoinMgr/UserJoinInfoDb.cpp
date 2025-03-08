@@ -11,6 +11,7 @@
 #include "UserJoinInfoDb.h"
 #include "UserJoinInfo.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxPtopUrl.h>
 
 namespace

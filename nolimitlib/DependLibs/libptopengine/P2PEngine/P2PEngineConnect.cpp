@@ -26,6 +26,7 @@
 #include <BigListLib/BigListInfo.h>
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsRelay.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxParse.h>
 
 #include <string.h>

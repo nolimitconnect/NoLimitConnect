@@ -13,6 +13,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <BigListLib/BigListInfo.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxPtopUrl.h>
 #include <NetLib/VxSktBase.h>
 

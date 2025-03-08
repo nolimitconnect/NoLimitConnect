@@ -16,11 +16,12 @@
 
 #include <UrlMgr/UrlMgr.h>
 
+#include <CoreLib/InetAddress.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxPtopUrl.h>
-
-#include <CoreLib/InetAddress.h>
 #include <CoreLib/VxSktUtil.h>
+
 #include <NetLib/VxSktConnectSimple.h>
 #include <NetLib/VxSktBase.h>
 

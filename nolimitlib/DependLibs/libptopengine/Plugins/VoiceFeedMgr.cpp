@@ -20,6 +20,7 @@
 
 #include <MediaToolsLib/OpusAudioDecoder.h>
 
+#include <CoreLib/VxDebug.h>
 #include <PktLib/PktVoiceReq.h>
 #include <NetLib/VxSktBase.h>
 

@@ -18,6 +18,7 @@
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/ObjectCommonDefs.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 #include "ui_ActivityScanPeopleSearch.h"

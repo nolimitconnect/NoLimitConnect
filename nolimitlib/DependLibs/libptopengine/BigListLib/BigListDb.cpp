@@ -16,6 +16,7 @@
 #include <GuiInterface/IToGui.h>
 
 #include <CoreLib/sqlite3.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxMacros.h>
 
 #include <string.h>

@@ -14,6 +14,7 @@
 #include <Plugins/FileInfo.h>
 
 #include <CoreLib/VirtFileMgr.h>
+#include <CoreLib/VxDebug.h>
 
 #include <QDir>
 #include <QUrl>

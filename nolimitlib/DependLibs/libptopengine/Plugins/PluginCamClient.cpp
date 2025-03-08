@@ -17,6 +17,7 @@
 #include <MediaProcessor/MediaProcessor.h>
 #include <GuiInterface/IToGui.h>
 
+#include <CoreLib/VxDebug.h>
 #include <NetLib/VxSktBase.h>
 
 #include <PktLib/PktsVideoFeed.h>

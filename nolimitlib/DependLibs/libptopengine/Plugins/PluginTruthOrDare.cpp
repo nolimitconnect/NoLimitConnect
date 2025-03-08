@@ -18,6 +18,7 @@
 #include <GuiInterface/IToGui.h>
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxDebug.h>
 #include <PktLib/PktsTodGame.h>
 #include <PktLib/PktChatReq.h>
 

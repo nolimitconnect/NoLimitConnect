@@ -60,6 +60,8 @@
 
 #include <BigListLib/BigListInfo.h>
 #include <NetServices/NetServiceHdr.h>
+
+#include <CoreLib/VxDebug.h>
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxSktBase.h>
 

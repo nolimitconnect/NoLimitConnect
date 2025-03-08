@@ -13,6 +13,7 @@
 #include "VxSktAccept.h"
 #include "VxSktBaseMgr.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxSktUtil.h>
 

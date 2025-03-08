@@ -19,6 +19,7 @@
 #include "BigListLib/BigListInfo.h"
 #include <Plugins/PluginMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsRelay.h>
 #include <NetLib/VxSktCrypto.h>

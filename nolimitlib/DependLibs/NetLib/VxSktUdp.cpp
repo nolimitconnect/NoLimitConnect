@@ -11,6 +11,7 @@
 #include "VxSktUdp.h"
 
 #include <CoreLib/ISktStatCallbackInterface.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxSktUtil.h>
 

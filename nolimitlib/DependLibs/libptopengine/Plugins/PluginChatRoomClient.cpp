@@ -14,6 +14,7 @@
 #include <GuiInterface/IToGui.h>
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxDebug.h>
 #include <PktLib/PktsVideoFeed.h>
 #include <PktLib/PktsMultiSession.h>
 #include <PktLib/PktsTodGame.h>

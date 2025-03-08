@@ -17,6 +17,8 @@
 #include <HostServerJoinMgr/HostServerJoinMgr.h>
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxDebug.h>
+
 //============================================================================
 GuiHostedByMeJoinMgr::GuiHostedByMeJoinMgr( AppCommon& app )
     : QObject( &app )

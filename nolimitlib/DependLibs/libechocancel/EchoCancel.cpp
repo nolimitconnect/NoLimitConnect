@@ -26,6 +26,8 @@
 #include "aec_resampler.h"
 #include "signal_processing_library.h"
 
+#include <CoreLib/VxDebug.h>
+
 #if defined(WEBRTC_CHROMIUM_BUILD) && defined(WEBRTC_MAC)
 #define WEBRTC_UNTRUSTED_DELAY
 #endif

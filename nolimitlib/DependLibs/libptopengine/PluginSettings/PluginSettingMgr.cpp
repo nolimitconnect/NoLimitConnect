@@ -13,6 +13,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <Plugins/PluginMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 //============================================================================

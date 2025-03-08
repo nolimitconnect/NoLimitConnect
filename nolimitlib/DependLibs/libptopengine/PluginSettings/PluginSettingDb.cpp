@@ -13,6 +13,7 @@
 
 #include <CoreLib/sqlite3.h>
 #include <CoreLib/BinaryBlob.h>
+#include <CoreLib/VxDebug.h>
 #include <PktLib/VxCommon.h>
 
 #include <stdio.h>

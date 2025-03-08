@@ -16,6 +16,7 @@
 #include <Plugins/PluginMessenger.h>
 #include <Plugins/PluginMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 #include <algorithm>

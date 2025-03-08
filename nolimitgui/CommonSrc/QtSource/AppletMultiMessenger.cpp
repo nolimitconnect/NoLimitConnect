@@ -26,6 +26,7 @@
 #include <P2PEngine/EngineSettings.h>
 
 #include <CoreLib/ObjectCommonDefs.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 #include <QMessageBox>

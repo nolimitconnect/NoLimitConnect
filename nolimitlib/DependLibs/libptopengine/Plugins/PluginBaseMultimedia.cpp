@@ -12,6 +12,7 @@
 #include "P2PSession.h"
 #include "PluginMgr.h"
 
+#include <CoreLib/VxDebug.h>
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxSktBase.h>
 

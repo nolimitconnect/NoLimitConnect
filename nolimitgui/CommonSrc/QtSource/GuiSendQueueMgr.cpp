@@ -17,6 +17,8 @@
 #include <P2PEngine/P2PEngine.h>
 #include <SendQueue/SendQueueMgr.h>
 
+#include <CoreLib/VxDebug.h>
+
 //============================================================================
 GuiSendQueueMgr::GuiSendQueueMgr()
     : QObject()

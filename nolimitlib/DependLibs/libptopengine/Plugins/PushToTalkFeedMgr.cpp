@@ -21,6 +21,7 @@
 
 #include <MediaToolsLib/OpusAudioDecoder.h>
 
+#include <CoreLib/VxDebug.h>
 #include <PktLib/PktsPushToTalk.h>
 #include <NetLib/VxSktBase.h>
 

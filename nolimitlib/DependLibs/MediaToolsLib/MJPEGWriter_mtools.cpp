@@ -18,6 +18,7 @@
 #include <PktLib/PktVoiceReply.h>
 #include <PktLib/PktChatReq.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxMacros.h>

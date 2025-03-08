@@ -11,7 +11,6 @@
 #include "AppCommon.h"
 #include "AppletPeerBase.h"
 #include "OfferSessionLogic.h"
-#include "GuiOfferSession.h"
 #include "GuiOfferCallback.h"
 #include "GuiOfferMgr.h"
 #include "GuiOfferSession.h"
@@ -20,6 +19,7 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 #include <stdio.h>

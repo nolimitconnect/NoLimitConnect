@@ -23,6 +23,7 @@
 #include <P2PEngine/FileShareSettings.h>
 #include <P2PEngine/EngineSettings.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 /*

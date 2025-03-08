@@ -12,6 +12,7 @@
 #include "IgnoredHostInfo.h"
 #include "IgnoreListMgr.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxPtopUrl.h>
 
 namespace

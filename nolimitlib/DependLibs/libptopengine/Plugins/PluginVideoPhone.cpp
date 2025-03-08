@@ -18,6 +18,8 @@
 #include <GuiInterface/IToGui.h>
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxDebug.h>
+
 #include <memory.h>
 
 #ifdef _MSC_VER

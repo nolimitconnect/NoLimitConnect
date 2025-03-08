@@ -45,6 +45,7 @@
 #include <NetLib/VxFileXferInfo.h>
 
 #include <CoreLib/ObjectCommonDefs.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileInfo.h>
 #include <CoreLib/VxGlobals.h>
 #include <VxVideoLib/VxVideoLib.h>

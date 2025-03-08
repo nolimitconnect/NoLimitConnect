@@ -8,9 +8,12 @@
 // https://nolimitconnect.com
 //============================================================================
 #include "config_corelib.h"
+
+#include "VxDebug.h"
+#include "VxParse.h"
 #include "VxSettings.h"
 #include "sqlite3.h"
-#include "VxParse.h"
+
 #include <memory.h>
 #include <string.h>
 #include <stdio.h>

@@ -24,6 +24,7 @@
 #include "rendering/RenderSystem.h"
 #include "windowing/WinSystem.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxMemUtils.h>
 
  //=== textures ===//

@@ -11,6 +11,8 @@
 #ifdef TARGET_OS_WINDOWS
 #include "VxVidCapImp.h"
 #include "GdvBufferUtil.h"
+
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxMacros.h>
 
@@ -142,7 +144,7 @@ void VxVidCapImp::StartMotionThread( void )
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "VxVidCapImp::StartMotionThread: Thread Still Running\n" );
+		LogMsg( LOG_ERROR, "VxVidCapImp::StartMotionThread: Thread Still Running" );
 	}
 }
 

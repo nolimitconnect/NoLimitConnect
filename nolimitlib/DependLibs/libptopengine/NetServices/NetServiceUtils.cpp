@@ -15,6 +15,7 @@
 #include <NetServices/NetServiceHdr.h>
 #include <NetServices/NetServicesMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxParse.h>
 #include <NetLib/VxSktConnectSimple.h>
 #include <NetLib/VxSktBase.h>

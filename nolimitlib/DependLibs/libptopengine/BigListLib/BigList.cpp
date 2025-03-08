@@ -14,6 +14,8 @@
 #include <P2PEngine/P2PEngine.h>
 #include <GuiInterface/IToGui.h>
 
+#include <CoreLib/VxDebug.h>
+
 #include <string.h>
 
 //============================================================================

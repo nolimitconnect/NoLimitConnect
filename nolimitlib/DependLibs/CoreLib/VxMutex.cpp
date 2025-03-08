@@ -10,6 +10,8 @@
 
 #include "VxMutex.h"
 
+#include "VxDebug.h"
+
 #if defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
 # include "VxThread.h"
 #endif // defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)

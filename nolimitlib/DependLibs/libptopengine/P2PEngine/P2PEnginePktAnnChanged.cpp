@@ -15,6 +15,8 @@
 #include <Network/NetworkMgr.h>
 #include <BigListLib/BigListInfo.h>
 
+#include <CoreLib/VxDebug.h>
+
 #include <memory.h>
 
 //============================================================================

@@ -20,6 +20,8 @@
 
 #include <Network/StayConnected.h>
 
+#include <CoreLib/VxDebug.h>
+
 #include <NetLib/VxSktCrypto.h>
 #include <NetLib/VxSktBase.h>
 

@@ -16,6 +16,7 @@
 #include <Network/NetworkMgr.h>
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxTimeDefs.h>

@@ -22,6 +22,7 @@
 #include <PktLib/PktAnnounce.h>
 #include <PktLib/PktsFileList.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxTime.h>

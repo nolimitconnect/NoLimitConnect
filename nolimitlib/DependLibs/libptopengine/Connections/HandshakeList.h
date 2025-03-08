@@ -16,6 +16,7 @@
 
 #include <map>
 #include <memory>
+#include <vector>
 
 class HandshakeInfo;
 class VxSktBase;

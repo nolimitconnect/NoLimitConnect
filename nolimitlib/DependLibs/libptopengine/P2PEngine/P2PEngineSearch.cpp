@@ -12,6 +12,7 @@
 #include <Search/RcScan.h>
 #include <BigListLib/BigListInfo.h>
 #include <BigListLib/BigListMgr.h>
+#include <CoreLib/VxDebug.h>
 #include <PktLib/VxCommon.h>
 
 //============================================================================

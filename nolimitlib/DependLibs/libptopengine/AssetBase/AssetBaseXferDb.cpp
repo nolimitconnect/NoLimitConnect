@@ -12,6 +12,8 @@
 #include "AssetBaseXferDb.h"
 #include "AssetBaseInfo.h"
 
+#include <CoreLib/VxDebug.h>
+
 namespace
 {
 	std::string 		TABLE_ASSET_XFER	 			= "asset_xfer";

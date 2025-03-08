@@ -22,6 +22,7 @@
 
 #include "MediaPlayerNlc.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTimeUtil.h>
 
 #include <QDebug>

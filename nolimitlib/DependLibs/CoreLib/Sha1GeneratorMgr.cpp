@@ -9,6 +9,8 @@
 //============================================================================
 
 #include "Sha1GeneratorMgr.h"
+
+#include "VxDebug.h"
 #include "VxFileUtil.h"
 #include "VxGlobals.h"
 

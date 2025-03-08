@@ -11,6 +11,7 @@
 #include "FileInfoClientFilesMgr.h"
 
 #include "PluginBase.h"
+#include <CoreLib/VxDebug.h>
 #include <Plugins/FileInfo.h>
 
 //============================================================================

@@ -20,6 +20,7 @@
 #include <Plugins/PluginMgr.h>
 #include <Plugins/PluginBaseHostClient.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxTime.h>
 #include <CoreLib/VxPtopUrl.h>

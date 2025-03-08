@@ -11,6 +11,7 @@
 #include "AppSettings.h"
 
 #include <CoreLib/AppVersion.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxParse.h>
 
 #include <QString>

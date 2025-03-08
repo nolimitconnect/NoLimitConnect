@@ -14,6 +14,8 @@
 #include <Membership/MemberActiveMgr.h>
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxDebug.h>
+
 #include <algorithm>
 
 //============================================================================

@@ -8,9 +8,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "config_corelib.h"
-
 #include "VxFileShredderDb.h"
+
+#include "VxDebug.h"
 #include "VxParse.h"
 
 #include <string.h>

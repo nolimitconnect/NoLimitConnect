@@ -17,6 +17,7 @@
 #include "GuiParams.h"
 #include "InputClientBaseCallback.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxTime.h>

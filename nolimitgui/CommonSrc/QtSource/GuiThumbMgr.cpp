@@ -19,6 +19,7 @@
 #include <ThumbMgr/ThumbInfo.h>
 #include <ThumbMgr/ThumbMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
 

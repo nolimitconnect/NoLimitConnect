@@ -44,6 +44,7 @@
 #include <UrlMgr/UrlMgr.h>
 
 #include <CoreLib/Invite.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxFileShredder.h>

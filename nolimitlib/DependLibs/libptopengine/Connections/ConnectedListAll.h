@@ -13,6 +13,7 @@
 #include <GuiInterface/IDefs.h>
 
 #include <memory>
+#include <vector>
 
 class BigListInfo;
 class IConnectRequestCallback;

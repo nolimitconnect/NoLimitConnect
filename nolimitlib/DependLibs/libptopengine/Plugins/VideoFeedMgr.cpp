@@ -17,6 +17,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <MediaProcessor/MediaProcessor.h>
 
+#include <CoreLib/VxDebug.h>
 #include <PktLib/PktsVideoFeed.h>
 #include <NetLib/VxSktBase.h>
 

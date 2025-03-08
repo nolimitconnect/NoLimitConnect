@@ -14,6 +14,7 @@
 #include <Plugins/PluginMgr.h>
 
 #include <CoreLib/VFile.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsStreamCtrl.h>

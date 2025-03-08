@@ -11,6 +11,8 @@
 #include "ConnectInfoDb.h"
 #include "ConnectInfo.h"
 
+#include <CoreLib/VxDebug.h>
+
 namespace
 {
     std::string 		TABLE_ASSETS	 				= "tblConnects";

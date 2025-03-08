@@ -14,6 +14,7 @@
 #include <HostServerJoinMgr/HostServerJoinMgr.h>
 #include <BigListLib/BigListInfo.h>
 
+#include <CoreLib/VxDebug.h>
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsRelay.h>
 

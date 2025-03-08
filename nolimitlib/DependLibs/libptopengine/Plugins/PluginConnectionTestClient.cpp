@@ -13,6 +13,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <NetServices/NetServiceHdr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <NetLib/VxSktBase.h>
 
 #ifdef _MSC_VER

@@ -10,7 +10,6 @@
 //============================================================================
 
 #include "VxDefs.h"
-#include "VxDebug.h"
 
 #ifdef TARGET_OS_WINDOWS
 	#include <WinSock2.h>
@@ -19,8 +18,13 @@
 	#include <libpthread/pthread.h>
 #endif // TARGET_OS_WINDOWS
 
-//#define DEBUG_VX_MUTEX 1
+#if defined(DEBUG) || defined(_DEBUG)
+// defining DEBUG_VX_MUTEX_DEADLOCK causes lock to timeout after a several minutes
 #define DEBUG_VX_MUTEX_DEADLOCK 1
+#endif // defined(DEBUG) || defined(_DEBUG)
+
+// uncomment for additional mutex lock debugging
+//#define DEBUG_VX_MUTEX 1
 
 #ifdef DEBUG_VX_MUTEX
 #define MAX_MUTEX_THREADS 50
@@ -58,7 +62,7 @@ public:
 
 	//=== vars ===//
 	#ifdef TARGET_OS_WINDOWS
-	HANDLE						m_hAccessLock;
+		HANDLE					m_hAccessLock;
 	#else // LINUX
 		pthread_mutex_t			m_Lock;
 		pthread_mutexattr_t		m_MutexAttr;

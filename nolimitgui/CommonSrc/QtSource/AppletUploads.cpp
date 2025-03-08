@@ -24,6 +24,7 @@
 #include <PktLib/VxSearchDefs.h>
 
 #include <CoreLib/ObjectCommonDefs.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileInfo.h>
 
 #include "ui_AppletUploads.h"

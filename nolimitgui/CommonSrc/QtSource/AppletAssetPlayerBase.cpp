@@ -15,6 +15,7 @@
 
 #include <AssetMgr/AssetMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 #include <QProgressBar>

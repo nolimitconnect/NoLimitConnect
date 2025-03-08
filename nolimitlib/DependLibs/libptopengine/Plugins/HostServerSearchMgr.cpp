@@ -18,6 +18,7 @@
 #include <NetLib/VxSktBase.h>
 #include <PktLib/PktsHostSearch.h>
 #include <PktLib/PluginIdList.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTime.h>
 
 #include <memory.h>

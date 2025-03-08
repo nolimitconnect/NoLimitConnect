@@ -17,6 +17,8 @@
 #include "ActivityScanWebCams.h"
 #include "ActivityFileSearch.h"
 
+#include <CoreLib/VxDebug.h>
+
 /*
 //============================================================================
 void AppCommon::slotSearchButtonClick( void )

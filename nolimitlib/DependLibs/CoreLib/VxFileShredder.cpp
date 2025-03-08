@@ -10,6 +10,7 @@
 
 #include "config_corelib.h"
 
+#include "VxDebug.h"
 #include "VxFileShredder.h"
 #include "VxFileUtil.h"
 

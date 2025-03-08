@@ -15,6 +15,7 @@
 #include "GuiUserMgr.h"
 #include "GuiParams.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTime.h>
 
 //============================================================================

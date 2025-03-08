@@ -10,11 +10,9 @@
 
 #include "AppletOfferList.h"
 
-#include "ActivityInformation.h"
 #include "AppCommon.h"
 #include "AppGlobals.h"
 
-#include "ActivityMessageBox.h"
 #include "GuiHostSession.h"
 #include "GuiParams.h"
 #include "GuiHelpers.h"
@@ -22,6 +20,7 @@
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/ObjectCommonDefs.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 #include "ui_AppletOfferList.h"

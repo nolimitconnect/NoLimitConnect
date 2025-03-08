@@ -14,6 +14,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <User/User.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTime.h>
 #include <NetLib/VxSktBase.h>
 

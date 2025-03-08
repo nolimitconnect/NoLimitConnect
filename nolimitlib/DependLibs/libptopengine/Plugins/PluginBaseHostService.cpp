@@ -18,6 +18,7 @@
 #include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <CoreLib/Invite.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxPtopUrl.h>
 
 #include <NetLib/VxSktBase.h>

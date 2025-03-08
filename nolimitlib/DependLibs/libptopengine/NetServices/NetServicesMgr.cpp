@@ -26,6 +26,7 @@
 #include <P2PEngine/EngineSettings.h>
 
 #include <CoreLib/OsDetect.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxSktUtil.h>

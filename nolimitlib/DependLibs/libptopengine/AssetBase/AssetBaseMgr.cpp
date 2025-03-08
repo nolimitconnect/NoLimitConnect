@@ -28,6 +28,7 @@
 #include <PktLib/PktsFileList.h>
 
 #include <CoreLib/Sha1GeneratorMgr.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileIsTypeFunctions.h>
 #include <CoreLib/VxFileShredder.h>
 #include <CoreLib/VxFileUtil.h>

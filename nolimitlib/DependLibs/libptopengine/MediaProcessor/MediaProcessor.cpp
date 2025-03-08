@@ -36,6 +36,7 @@
 #include <PktLib/PktVoiceReq.h>
 #include <PktLib/PktVoiceReply.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxTimer.h>

@@ -8,8 +8,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "VxSktBuf.h"
+
+#include <CoreLib/VxDebug.h>
 
 #include <memory.h>
 

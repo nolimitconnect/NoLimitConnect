@@ -16,6 +16,7 @@
 #include <UserJoinMgr/UserJoinMgr.h>
 #include <NetLib/VxPeerMgr.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxPtopUrl.h>
 #include <NetLib/VxSktBase.h>
 #include <PktLib/SearchParams.h>

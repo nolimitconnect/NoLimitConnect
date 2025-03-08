@@ -11,6 +11,7 @@
 #include "AccountDb.h"
 
 #include <CoreLib/sqlite3.h>
+#include <CoreLib/VxDebug.h>
 #include <PktLib/VxCommon.h>
 
 #include <NetLib/NetHostSetting.h>

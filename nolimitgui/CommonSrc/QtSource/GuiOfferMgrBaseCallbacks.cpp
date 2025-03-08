@@ -15,10 +15,11 @@
 #include "AppletOfferView.h"
 #include "GuiOfferCallback.h"
 #include "GuiOfferSession.h"
-#include "GuiOfferSession.h"
 #include "GuiHelpers.h"
 
 #include <P2PEngine/P2PEngine.h>
+
+#include <CoreLib/VxDebug.h>
 
 #include <QTimer>
 

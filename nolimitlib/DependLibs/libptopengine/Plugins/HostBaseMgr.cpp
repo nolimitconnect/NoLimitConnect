@@ -24,6 +24,7 @@
 #include <PktLib/PktsSearch.h>
 #include <PktLib/SearchParams.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxPtopUrl.h>
 
 #include <memory.h>
