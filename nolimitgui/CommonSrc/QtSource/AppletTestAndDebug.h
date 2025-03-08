@@ -67,12 +67,10 @@ protected slots:
     void                        slotPingTestButtonClicked( void );
     void                        slotSktStatViewButtonClicked( void );
     void                        slotHackerViewButtonClicked( void );
-    void                        slotQueryHostIdButtonClicked( void );
+
     void                        slotGenerateGuidButtonClicked( void );
     void                        slotGenKeyButtonClicked( void );
     void                        slotPurgeCacheButtonClicked( void );
-    void                        slotListActionButtonClicked( void );
-    void                        slotHostClientTestButtonClicked( void );
 
     void                        slotPurgeEverythingButtonClicked( void );
 

@@ -26,18 +26,12 @@ public:
 
     ~GuiThreadSettingsLoader() = default;
 
-    void                setIsRootStorageSet( bool isComplete )    { m_RootStorageIsSet = isComplete; }
-    bool                getIsRootStorageSet( void )               { return m_RootStorageIsSet; }
-
     void                setIsSettingsLoaded( bool isLoaded )     { m_SettingsLoaded = isLoaded; }
     bool                getIsSettingsLoaded( void )              { return m_SettingsLoaded; }
 
 protected:
     void run() override;
 
-    void                setupRootStorageDirectory( void );
-
     AppSettings&        m_AppSettings;
-    bool                m_RootStorageIsSet{ false };
     bool                m_SettingsLoaded{ false };
 };

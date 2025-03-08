@@ -51,6 +51,65 @@ namespace {
     {
         QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
     }
+
+
+    //============================================================================
+    void setupRootStorageDirectory()
+    {
+        std::string strRootAppDataDir;
+
+        //=== determine root path to store all application data and settings etc ===//
+        QString dataPath = QStandardPaths::writableLocation( QStandardPaths::AppDataLocation );
+
+        strRootAppDataDir = dataPath.toUtf8().constData();
+
+#ifdef DEBUG
+        // remove the D from the end so release and debug builds use the same storage directory
+        if( !strRootAppDataDir.empty() && ( strRootAppDataDir.c_str()[ strRootAppDataDir.length() - 1 ] == 'D' ) )
+        {
+            strRootAppDataDir = strRootAppDataDir.substr( 0, strRootAppDataDir.length() - 1 );
+        }
+#endif // DEBUG
+
+        VxFileUtil::makeForwardSlashPath( strRootAppDataDir );
+        strRootAppDataDir += "/";
+        VxSetAppDirectory( eAppData, strRootAppDataDir );
+
+        // No need to put application in path because when call QCoreApplication::setApplicationName("AppName")
+        // it made it a sub directory of DataLocation
+        VxSetRootDataStorageDirectory( strRootAppDataDir.c_str() );
+        VxSetRootUserDataDirectory( strRootAppDataDir.c_str() );
+
+    //=== determine root path for data xfer like incomplete/downloads/uploads etc ===//
+#if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
+        QString docsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+#else
+        // linux hides document under .local so use home directory if possible
+        QString docsPath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+        if( docsPath.isEmpty() )
+        {
+            docsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+        }
+#endif // TARGET_OS_WINDOWS
+
+        std::string rootXferDir = docsPath.toUtf8().constData();
+
+        VxFileUtil::makeForwardSlashPath( rootXferDir );
+        VxFileUtil::assurePathEndWithSlash( rootXferDir );
+
+        rootXferDir += VxGetApplicationNameNoSpaces();
+        VxFileUtil::assurePathEndWithSlash( rootXferDir );
+        VxFileUtil::makeDirectory( rootXferDir.c_str() );
+
+        // sets root of data transfer directories
+
+        VxSetRootXferDirectory( rootXferDir.c_str() );
+
+        if( !VxFileUtil::directoryExists( rootXferDir.c_str() ) )
+        {
+            LogMsg( LOG_ERROR, "%s Could not create xfer dir %s", __func__, rootXferDir.c_str());
+        }
+    }
 }
 
 //============================================================================
@@ -60,7 +119,6 @@ int runApplication( QApplication* myApp, int argc, char** argv )
 
     static AppSettings appSettings;
     GuiThreadSettingsLoader threadSettingsLoader(appSettings);
-    threadSettingsLoader.start();
 
     // register types first so connections made in construction have registered signal/slot values
     AppCommon::registerMetaData();
@@ -72,6 +130,11 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     QCoreApplication::setApplicationVersion( VxGetAppVersionString() );
     QGuiApplication::setApplicationDisplayName( VxGetApplicationTitle() );
     QCoreApplication::setOrganizationDomain( VxGetCompanyDomain() );
+
+    // must be ran after application name is set or paths with app name may be lower case instead of upper case
+    setupRootStorageDirectory();
+
+    threadSettingsLoader.start();
 
     QStringList downloadPath =  QStandardPaths::standardLocations(QStandardPaths::DownloadLocation );
     std::string download = downloadPath[0].toUtf8().constData();
@@ -102,19 +165,6 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     // the best method I have found to scale the gui is to use the default font height as the scaling factor
     QFontMetrics fontMetrics( myApp->font() );
     GuiParams::initGuiParams(fontMetrics.height());
-
-    int timeSetAppDirs = GetApplicationAliveMs();
-    if( !threadSettingsLoader.getIsRootStorageSet() )
-    {
-        LogMsg( LOG_VERBOSE, "%s waiting for root storage setup", __func__ );
-        while( !threadSettingsLoader.getIsRootStorageSet() )
-        {
-            ProcessQtEvents(50);
-        }
-
-        int timeWaitRoot = GetApplicationAliveMs();
-        LogMsg( LOG_VERBOSE, "%s waited %d ms for root storage setup", __func__, timeWaitRoot - timeSetAppDirs );
-    }
 
     GuiThreadMainLoader mainLoaderThread;
     mainLoaderThread.start();
@@ -162,8 +212,8 @@ int runApplication( QApplication* myApp, int argc, char** argv )
             LogMsg( LOG_VERBOSE, "%s time waiting for loaders %d ms", __func__, timePreStartApp - timeInitFonts );
         }
 
-        LogMsg( LOG_VERBOSE, "%s time register %d app dirs %d fonts %d", __func__, timeRegisterMetadata - timeStart,
-                timeSetAppDirs - timeRegisterMetadata, timeInitFonts - timeSetAppDirs );
+        LogMsg( LOG_VERBOSE, "%s time register %d app fonts %d", __func__, timeRegisterMetadata - timeStart,
+                timeInitFonts - timeRegisterMetadata );
     }
 
     AppCommon& appCommon = CreateAppInstance( myApp, appSettings );

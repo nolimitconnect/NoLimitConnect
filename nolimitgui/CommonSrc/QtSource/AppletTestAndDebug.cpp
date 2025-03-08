@@ -113,10 +113,6 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
         }
     }
 
-    ui.m_AnnouncedCheckBox->setChecked( true );
-    ui.m_HostJoinedCheckBox->setChecked( true );
-    ui.m_ClientJoinedCheckBox->setChecked( true );
-
     connect( ui.m_ShowLogButton, SIGNAL(clicked()), this, SLOT(slotShowLogButtonClick()) );
     connect( ui.m_ShowAppInfoButton, SIGNAL(clicked()), this, SLOT(slotShowAppInfoButtonClick()) );
 
@@ -128,13 +124,10 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
 
     connect( ui.m_BrowseFilesButton, SIGNAL(clicked()), this, SLOT(slotBrowseFilesButtonClicked()) );
 
-    connect( ui.m_QueryHostIdButton, SIGNAL(clicked()), this, SLOT(slotQueryHostIdButtonClicked()) );
-    connect( ui.m_GenerateGuidButton, SIGNAL(clicked()), this, SLOT(slotGenerateGuidButtonClicked()) );
-    connect( ui.m_PurgeCacheButton, SIGNAL(clicked()), this, SLOT(slotPurgeCacheButtonClicked()) );
+    connect( ui.m_GenerateGuidButton, SIGNAL(clicked()), this, SLOT(slotGenerateGuidButtonClicked()) ); 
     connect( ui.m_GenKeyButton, SIGNAL(clicked()), this, SLOT(slotGenKeyButtonClicked()) );
-    connect( ui.m_ListActionButton, SIGNAL(clicked()), this, SLOT(slotListActionButtonClicked()) );
-    connect( ui.m_HostClientTestButton, SIGNAL(clicked()), this, SLOT(slotHostClientTestButtonClicked()) );
 
+    connect( ui.m_PurgeCacheButton, SIGNAL(clicked()), this, SLOT(slotPurgeCacheButtonClicked()) );
     connect( ui.m_PurgeEverythingButton, SIGNAL(clicked()), this, SLOT(slotPurgeEverythingButtonClicked()) );
 
     connect( ui.m_BrowseDownloadsButton, SIGNAL(clicked()), this, SLOT(slotBrowseDownloadsButtonClicked()) );
@@ -209,12 +202,6 @@ void AppletTestAndDebug::slotSktStatViewButtonClicked( void )
 {
     getInfoEdit()->clear();
     m_MyApp.launchApplet( eAppletSocketList, getParentPageFrame() );
-}
-
-//============================================================================
-void AppletTestAndDebug::slotQueryHostIdButtonClicked( void )
-{
-    startUrlTest( eNetCmdQueryHostOnlineIdReq );
 }
 
 //============================================================================
@@ -423,11 +410,11 @@ void AppletTestAndDebug::fillBasicInfo( void )
 
     infoMsg( "thumbs: %s", VxGetAppDirectory( eAppDirThumbs ).c_str() );
 
-    infoMsg( "download: %s", VxGetAppDirectory( eAppDownload ).c_str() );
-    infoMsg( "music: %s", VxGetAppDirectory( eAppMusic ).c_str() );
-    infoMsg( "video: %s", VxGetAppDirectory( eAppVideo ).c_str() );
-    infoMsg( "picture: %s", VxGetAppDirectory( eAppPictures ).c_str() );
-    infoMsg( "document: %s", VxGetAppDirectory( eAppDocuments ).c_str() );
+    //infoMsg( "download: %s", VxGetAppDirectory( eAppDownload ).c_str() );
+    //infoMsg( "music: %s", VxGetAppDirectory( eAppMusic ).c_str() );
+    //infoMsg( "video: %s", VxGetAppDirectory( eAppVideo ).c_str() );
+    //infoMsg( "picture: %s", VxGetAppDirectory( eAppPictures ).c_str() );
+    //infoMsg( "document: %s", VxGetAppDirectory( eAppDocuments ).c_str() );
 }
 
 //============================================================================
@@ -493,38 +480,6 @@ void AppletTestAndDebug::slotGenKeyButtonClicked( void )
     key1.setKeyFromPassword( keyPwd2.c_str(), keyPwd2.length() );
     infoMsg( "Gen Key 1 pwd %s", keyPwd2.c_str() );
     infoMsg( "Gen Key 1 result %s", key1.describeKey().c_str() );
-}
-
-//============================================================================
-void AppletTestAndDebug::slotListActionButtonClicked( void )
-{
-    if( m_ShowListMsg )
-    {
-        m_ShowListMsg = false;
-        okMessageBox( QObject::tr( "List Action" ),
-            QObject::tr( "To see list result click Show Log. Also review log setting to make sure logging is enabled" ) );
-    }
-
-    if( ui.m_AnnouncedCheckBox->isChecked() )
-    {
-        getFromGuiInterface().fromGuiListAction( eListActionAnnounced );
-    }
-
-    if( ui.m_HostJoinedCheckBox->isChecked() )
-    {
-        getFromGuiInterface().fromGuiListAction( eListActionJoinedHost );
-    }
-
-    if( ui.m_ClientJoinedCheckBox->isChecked() )
-    {
-        getFromGuiInterface().fromGuiListAction( eListActionJoinedClient );
-    }
-}
-
-//============================================================================
-void AppletTestAndDebug::slotHostClientTestButtonClicked( void )
-{
-    m_MyApp.launchApplet( eAppletTestHostClient, getContentFrameOfOppositePageFrame() );
 }
 
 //============================================================================

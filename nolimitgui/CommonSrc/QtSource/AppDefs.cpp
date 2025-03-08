@@ -352,7 +352,7 @@ QString DescribeApplet( EApplet applet )
 
     case eAppletPopupMenu:                  return QObject::tr( "Menu" );
 
-    case eAppletHackerList:                 return QObject::tr( "Blocked Users" );
+    case eAppletHackerList:                 return QObject::tr( "Blocked Hackers" );
     case eAppletSocketList:                 return QObject::tr( "Socket Connections" );
     case eAppletIsPortOpenTest:             return QObject::tr( "Test Connection" );
 
