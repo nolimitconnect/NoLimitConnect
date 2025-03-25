@@ -147,7 +147,7 @@ bool MJPEGWriter::startAviWrite( const char* fileName, uint32_t timeBetweenFrame
 
 	setIsRecordingPaused( beginInPausedState );
 	setIsRecording( true );
-    m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputVideoJpgSmall, this, eAppModuleMediaWriter, m_MediaSessionId, true );
+    m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputVideoJpg, this, eAppModuleMediaWriter, m_MediaSessionId, true );
     m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputAudioPcm, this, eAppModuleMediaWriter, m_MediaSessionId, true );
 	return true;
 }
@@ -159,7 +159,7 @@ void MJPEGWriter::stopAviWrite( bool deleteFile )
 	{
 		setIsRecordingPaused( true );
         m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputAudioPcm, this, eAppModuleMediaWriter, m_MediaSessionId, false );
-        m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputVideoJpgSmall, this, eAppModuleMediaWriter, m_MediaSessionId, false );
+        m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputVideoJpg, this, eAppModuleMediaWriter, m_MediaSessionId, false );
 
 		if( deleteFile )
 		{
@@ -365,12 +365,15 @@ bool MJPEGWriter::writeVideoHeader( void )
 }
 
 //============================================================================
-void MJPEGWriter::callbackVideoJpgSmall( VxGUID& vidFeedId, uint8_t * pu8Jpg, uint32_t u32JpgDataLen, int /*motion0to100000*/ )
+void MJPEGWriter::callbackVideoJpg( VxGUID& vidFeedId, std::shared_ptr<CamJpgVideo>& jpgVideo )
 {
 	if( !getIsRecording() || getIsRecordingPaused() || ( vidFeedId != m_FeedId ) )
 	{
 		return;
 	}
+
+	uint8_t* pu8Jpg = jpgVideo->m_VidData.get();
+	uint32_t u32JpgDataLen = jpgVideo->m_VidDataLen;
 
 	uint32_t lenToWrite = ROUND_TO_4BYTE_BOUNDRY( u32JpgDataLen );
 	if( 0 == lenToWrite )

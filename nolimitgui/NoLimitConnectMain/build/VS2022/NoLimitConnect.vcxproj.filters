@@ -2266,6 +2266,12 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityMsgBoxYesNo.cpp">
       <Filter>Source Files\Activity</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\CamJavaClient.cpp">
+      <Filter>Source Files\Cam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\CamProcessor.cpp">
+      <Filter>Source Files\Cam</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
@@ -2594,6 +2600,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiEchoCancelEnableCallback.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\CamJavaClient.h">
+      <Filter>Source Files\Cam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\CamProcessor.h">
+      <Filter>Source Files\Cam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\CamRgbVideo.h">
+      <Filter>Source Files\Cam</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

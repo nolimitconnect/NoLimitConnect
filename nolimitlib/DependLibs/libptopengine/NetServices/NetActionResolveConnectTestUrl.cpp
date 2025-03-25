@@ -110,7 +110,7 @@ void NetActionResolveConnectTestUrl::doAction( void )
 		waitCnt++;
 	}
 
-	LogMsg( LOG_ERROR, "NetActionResolveConnectTestUrl:%s timed out waiting to resolve", __func__ );
+	LogMsg( LOG_ERROR, "NetActionResolveConnectTestUrl:%s timed out waiting to resolve %s", __func__, connectTestUrl.c_str() );
 	m_Engine.getNetStatusAccum().setConnectionTestAvail( false );
 }
 

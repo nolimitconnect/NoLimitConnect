@@ -429,12 +429,6 @@ public:
     void           				callbackBlobHistory( BlobInfo* blobInfo ) override;
 
 	//========================================================================
-	// media processor callbacks
-	//========================================================================
-    void           				callbackVideoJpgBig( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen ) override;
-    void           				callbackVideoJpgSmall( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 ) override;
-
-	//========================================================================
 	//========================================================================
     void                        enableTimerThread( bool enable );
     void                        executeTimerThreadFunctions( void );

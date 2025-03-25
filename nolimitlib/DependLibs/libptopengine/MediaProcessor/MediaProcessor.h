@@ -9,6 +9,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include "CamJpgVideo.h"
+
 #include <GuiInterface/IFromGui.h>
 #include <GuiInterface/IAudioDefs.h>
 
@@ -18,19 +20,19 @@
 #include <CoreLib/VxThread.h>
 #include <CoreLib/VxSemaphore.h>
 
-#include <string>
+#include <memory>
 #include <vector>
 
 class PluginBase;
 class IToGui;
-class P2PEngine;
-class PluginMgr;
 class MediaTools;
-class RawAudio;
-class RawVideo;
 class MediaClient;
 class PktVideoFeedPic;
 class PktVideoFeedPicChunk;
+class P2PEngine;
+class PluginBase;
+class PluginMgr;
+class RawAudio;
 
 class ClientToRemove
 {
@@ -82,8 +84,6 @@ public:
 class MediaProcessor : public MediaCallbackInterface
 {
 public:
-	const int JPG_CONVERT_QUALITY = 75; // there is very little picture quality improvement above 75 
-
 	class AudioProcessorLock
 	{
 	public:
@@ -142,7 +142,6 @@ public:
 	VxMutex&					getAudioMutex( void )				{ return m_AudioMutex; }
 	VxMutex&					getVideoMutex( void )				{ return m_VideoMutex; }
 	MediaTools&					getMediaTools( void )				{ return m_MediaTools; }
-	size_t						getVideoQueueSize( void )			{ return m_ProcessVideoQue.size(); }
 
 	bool						isSpeakerOutputEnabled( void )		{ return m_SpeakerOutputEnabled; }
 	bool						isMicrophoneCaptureEnabled( void )	{ return m_MicCaptureEnabled; }
@@ -155,12 +154,6 @@ public:
 												VxGUID&						sessionId,
 												bool						wantInput );
 
-    virtual void				fromGuiVideoData( uint32_t u32FourCc, std::shared_ptr<uint8_t>& vidDataIn, int iWidth, int iHeight, uint32_t vidDataLen, int iRotation );
-	virtual void				fromGuiYUV420CaptureImage( uint8_t * yBytes, uint8_t * uBytes, uint8_t * vBytes, 
-														int yRowStride, int uRowStride, int vRowStride,
-														int yPixStride, int uPixStride, int vPixStride,
-														int imageWidth, int imageHeight, int imageRotate );
-
 	virtual void				fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int sampleCnt, bool isSilence );
 	virtual void				fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen );
 
@@ -172,6 +165,10 @@ public:
 	void						muteMicrophone( bool muteMic )							{ m_MuteMicrophone = muteMic; }
 	bool						isMicrophoneMuted( void )								{ return m_MuteMicrophone; }
 
+	void						processCamCaptureJpgVideo( std::shared_ptr<CamJpgVideo>& jpgVideo );
+	void						sendCamPackets( std::shared_ptr<CamJpgVideo>& jpgVideo );
+	void						sendJpgVideo( VxGUID& onlineId, std::shared_ptr<CamJpgVideo>& jpgVideo );
+
 	void						processFriendVideoFeed(	VxGUID&			onlineId, 
 														uint8_t *		jpgData, 
 														uint32_t		jpgDataLen,
@@ -180,14 +177,12 @@ public:
 	void						processFriendAudioFeed(	VxGUID&	onlineId, int16_t * pcmData, uint16_t pcmDataLen, bool dontLock = false );
 
 	void						processAudioInThreaded( void );
-	void						processVideoIn( void );
 
 	void 						setMyIdInVidPktListCount( int cnt ) { m_VidPktListContainsMyIdCnt = cnt; }
 	int							getMyIdInVidPktListCount( void )	{ return m_VidPktListContainsMyIdCnt; }
 
 protected:
 	void						processRawAudioIn( RawAudio * rawAudio );
-	void						processRawVideoIn( RawVideo * rawVideo );
 	bool						isAudioMediaType( EMediaInputType mediaType );
 	void						wantAudioMediaInput(	VxGUID&						onlineId,
 														EMediaInputType				mediaType, 
@@ -257,8 +252,7 @@ protected:
 	VxSemaphore					m_AudioInSemaphore;
 	PktVoiceReq					m_PktVoiceReq;
 
-	std::vector<MediaClient>	m_VideoJpgBigList;	
-	std::vector<MediaClient>	m_VideoJpgSmallList;
+	std::vector<MediaClient>	m_VideoJpgList;
 	std::vector<MediaClient>	m_VideoPktsList;
 	std::vector<MediaClient>	m_MixerList;
 	VxMutex						m_MixerClientsMutex;
@@ -270,11 +264,6 @@ protected:
 	std::vector<ClientToRemove>	m_AudioClientRemoveList;
 	VxMutex						m_AudioRemoveMutex;
 
-
-	std::vector<RawVideo *>		m_ProcessVideoQue;
-	VxMutex						m_VideoQueInMutex;
-	VxThread					m_ProcessVideoThread;
-	VxSemaphore					m_VideoSemaphore;
 	PktVideoFeedPic *			m_PktVideoFeedPic{ nullptr };
 	std::vector<PktVideoFeedPicChunk *> m_VidChunkList;
 

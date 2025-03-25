@@ -31,7 +31,6 @@
     <Import Project="$(QtMsBuild)\qt_defaults.props" />
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
-    <QtInstall>6.7.3_msvc2022_64</QtInstall>
     <QtModules>core;gui;widgets;opengl;svg;multimedia;concurrent</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
@@ -303,7 +302,9 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AssetVoiceWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AvatarBar.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\BottomBarWidget.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\CamJavaClient.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\CamLogic.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\CamProcessor.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\CamTitleBarPreview.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ChatEntryWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ChatRoomWidget.cpp" />
@@ -610,6 +611,9 @@ libass.lib;libpcre.lib
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AudioBuffer.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\DialogAddComment.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\CamJavaClient.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\CamProcessor.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\CamRgbVideo.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\EventsQtToNlc.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\FileFilterSelectWidget.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\FileItemInfo.h" />

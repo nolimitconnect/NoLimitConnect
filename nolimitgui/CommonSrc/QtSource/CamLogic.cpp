@@ -9,40 +9,45 @@
 //============================================================================
 
 #include "CamLogic.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "GuiParams.h"
+#include "GuiPlayerMgr.h"
+
+#include <P2PEngine/P2PEngine.h>
+#include <MediaProcessor/MediaProcessor.h>
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 #include <QAudioInput>
-#include <QAudioOutput>
-
-namespace
-{
-    const int PROCESS_QT_DEFAULT_MS = 50;
-    void ProcessQtEvents( int ms = PROCESS_QT_DEFAULT_MS )
-    {
-        QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
-    }
-};
 
 //============================================================================
 CamLogic::CamLogic(AppCommon& myApp, QObject *parent )
     : QObject(parent)
     , m_MyApp(myApp)
-    , m_VideoFrameProcessor(myApp, this )
+    , m_MediaProcessor( GetPtoPEngine().getMediaProcessor() )
+    , m_CamProcessor(*this)
+#if defined(ENABLE_JAVA_CAM)
+    , m_CamJavaClient( myApp, *this, this )
+#else
+    , m_VideoFrameProcessor( myApp, *this, this )
+#endif // defined(ENABLE_JAVA_CAM)
 {
     memset( m_WantCamInput, 0, sizeof( m_WantCamInput ) );
 }
 
 //============================================================================
 CamLogic::~CamLogic() {
+#if defined(ENABLE_JAVA_CAM)
+
+#else
     if (m_Camera) 
     {
         m_Camera->stop();
     }
+#endif // defined(ENABLE_JAVA_CAM)
 }
 
 //============================================================================
@@ -65,20 +70,26 @@ bool CamLogic::isCamCaptureRequested( void )
 //============================================================================
 void CamLogic::startupCamLogic( void )
 {
-    GuiParams::requestPermission("android.permission.CAMERA");
-    updateCameraDevices();
-    m_CameraEnabled = m_MyApp.getAppSettings().getCamEnable();
-    m_MyApp.fromGuiCameraEnable( m_CameraEnabled );
-    std::string camId = m_MyApp.getAppSettings().getCamSourceId();
-    if( !camId.empty() )
+    if( !GuiParams::requestPermission("android.permission.CAMERA") )
     {
-        selectCamera( camId.c_str() );
+        LogMsg( LOG_ERROR, "%s Do Not have camera permission", __func__ );
+        return;
     }
+
+#if defined(ENABLE_JAVA_CAM)
+    m_CamJavaClient.startupCamLogic();
+    // onCamCaptureReady will get called after camera service starts
+#else
+    onCamCaptureReady( true );
+#endif // defined(ENABLE_JAVA_CAM)
 }
 
 //============================================================================
 void CamLogic::shutdownCamLogic( void )
 {
+#if defined(ENABLE_JAVA_CAM)
+    m_CamJavaClient.shutdownCamLogic();
+#else
     m_VideoFrameProcessor.enableProcessing( false );
 
     if( m_Camera )
@@ -101,32 +112,59 @@ void CamLogic::shutdownCamLogic( void )
         m_CamFrameSink->deleteLater();
         m_CamFrameSink = nullptr;
     }
+#endif // defined(ENABLE_JAVA_CAM)
 }
 
 //============================================================================
-void CamLogic::updateCameraDevices( void )
+void CamLogic::onCamCaptureReady( bool isReady )
 {
-    m_AvailableCameras = QMediaDevices::videoInputs();
-}
+    updateCameraDevices();
 
-//============================================================================
-void CamLogic::getAvailableCameras( std::vector<QString>& retCamList )
-{
-    for( auto device : m_AvailableCameras )
+    m_CamId = selectLastUsedCamera();
+    if( m_CamId.empty() )
     {
-        retCamList.emplace_back( device.description() );
+        LogMsg( LOG_WARN, "%s NO AVAILABLE CAMERAS", __func__ );
     }
+    else
+    {
+        LogMsg( LOG_VERBOSE, "%s last used camera %s", __func__, m_CamId.c_str() );
+    }
+
+    m_MyApp.fromGuiCameraEnable( m_MyApp.getAppSettings().getCamEnable() );
 }
 
 //============================================================================
-bool CamLogic::selectDefaultCamera( void )
+std::string CamLogic::selectLastUsedCamera( void )
 {
+    std::string camId = m_MyApp.getAppSettings().getCamSourceId();
+    if( !camId.empty() && cameraExists( camId ) )
+    {
+        return camId;
+    }
+
+#if defined(ENABLE_JAVA_CAM)
+    // try back facing camera first
+    for( auto device : m_CamIdList )
+    {
+        if( device.first )
+        {
+            return device.second;
+        }
+    }
+
+    // select first camera if exists
+    if( m_CamIdList.size() )
+    {
+        return m_CamIdList.front().second;
+    }
+
+#else
     // try back facing camera first
     for( auto device : m_AvailableCameras )
     {
         if( device.position() == device.BackFace )
         {
-            return setCamera( device );
+            return device.description().toUtf8().constData();
         }
     }
     // try front facing camera next
@@ -134,41 +172,86 @@ bool CamLogic::selectDefaultCamera( void )
     {
         if( device.position() == device.FrontFace )
         {
-            return setCamera( device );
+            return device.description().toUtf8().constData();
         }
     }
 
-    // try first available if exists
+    // select first available if exists
     if( m_AvailableCameras.size() )
     {
-        return setCamera( m_AvailableCameras.front() );
+        return m_AvailableCameras.front().description().toUtf8().constData();
     }
 
-    return false;
+#endif // defined(ENABLE_JAVA_CAM)
+    return "";
 }
 
 //============================================================================
-bool CamLogic::selectCamera( QString camDescription )
+bool CamLogic::canProcessCamCapture( void )
 {
-    if( m_Camera && m_Camera->cameraDevice().description() == camDescription )
+    if( VxIsAppShuttingDown() || !isCamCaptureRequested() || m_CamProcessor.isStalled() )
     {
-        return true;
+        LogMsg( LOG_WARN, "%s cam que rgb %d jpg %d", __func__, (int)m_CamProcessor.getRgbQueueSize(), (int)(int)m_CamProcessor.getJpgQueueSize() );
+        return false;
     }
 
+    return true;
+}
+
+//============================================================================
+void CamLogic::processCamCapture( std::shared_ptr<CamJpgVideo>& jpgVideo )
+{
+    m_CamImageInTransitCnt++;
+    m_MediaProcessor.processCamCaptureJpgVideo( jpgVideo );
+}
+
+//============================================================================
+void CamLogic::updateCameraDevices( void )
+{
+#if defined(ENABLE_JAVA_CAM)
+    m_CamJavaClient.getCameraDevices( m_CamIdList );
+#else
+    m_AvailableCameras = QMediaDevices::videoInputs();
+#endif // defined(ENABLE_JAVA_CAM)
+}
+
+//============================================================================
+void CamLogic::getAvailableCameras( std::vector<QString>& retCamList )
+{
+#if defined(ENABLE_JAVA_CAM)
+    for( auto device : m_CamIdList )
+    {
+        retCamList.emplace_back( device.second.c_str() );
+    }
+#else
     for( auto device : m_AvailableCameras )
     {
-        if( device.description() == camDescription )
-        {
-            return setCamera( device );
-        }
+        retCamList.emplace_back( device.description() );
+    }
+#endif // defined(ENABLE_JAVA_CAM)
+}
+
+//============================================================================
+bool CamLogic::startCamCapture( std::string camId )
+{
+    if( camId.empty() || !cameraExists( camId ) )
+    {
+        return false;
     }
 
-    return false;
+    m_CamId = camId;
+    m_MyApp.getAppSettings().setCamSourceId( camId );
+    m_MyApp.setCamCaptureRotation( m_MyApp.getAppSettings().getCamRotation( camId ) );
+    
+    return enableCamCapture( true );
 }
 
 //============================================================================
 bool CamLogic::setCamera( const QCameraDevice& cameraDevice )
 {
+#if defined(ENABLE_JAVA_CAM)
+    return false;
+#else
     if( m_Camera )
     {
         m_Camera->stop();
@@ -196,7 +279,7 @@ bool CamLogic::setCamera( const QCameraDevice& cameraDevice )
         return false;
     }
 
-    ProcessQtEvents( 300 ); // give qt time to clean up old capture
+    //ProcessQtEvents( 300 ); // give qt time to clean up old capture
 
     m_Camera = new QCamera(cameraDevice);
     selectVideoFormat( cameraDevice );
@@ -205,12 +288,14 @@ bool CamLogic::setCamera( const QCameraDevice& cameraDevice )
     m_CaptureSession->setCamera(m_Camera);
     if( m_CaptureSession->audioInput() )
     {
-        m_CaptureSession->audioInput()->setMuted(true);
+        //m_CaptureSession->audioInput()->setMuted(true);
+        m_CaptureSession->setAudioInput(nullptr);
     }
 
     if( m_CaptureSession->audioOutput() )
     {
-        m_CaptureSession->audioOutput()->setMuted(true);
+        //m_CaptureSession->audioOutput()->setMuted(true);
+        m_CaptureSession->setAudioOutput(nullptr);
     }
 
     m_CamFrameSink = new QVideoSink();
@@ -221,25 +306,14 @@ bool CamLogic::setCamera( const QCameraDevice& cameraDevice )
     {
         m_Camera->start();
     }
-    
-    std::string camId = cameraDevice.description().toUtf8().constData();
-    if( !camId.empty() )
-    {
-        m_MyApp.getAppSettings().setCamSourceId( cameraDevice.description().toUtf8().constData() );
-        m_MyApp.setCamCaptureRotation( m_MyApp.getAppSettings().getCamRotation( camId ) );
-    }
 
     return m_Camera->isActive();
+#endif // defined(ENABLE_JAVA_CAM)
 }
 
 //============================================================================
 bool CamLogic::isCamCaptureRunning( void )
 {
-    //if( getCamStartupCompleted() )
-    //{
-    //    return m_CamIsStarted && !m_camera.isNull() && m_camera->isAvailable();
-    //}
-
     return false;
 }
 
@@ -251,21 +325,45 @@ void CamLogic::toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture 
         return;
     }
 
+    bool isWanted = isCamCaptureRequested();
     m_WantCamInput[appModule] = wantVidCapture;
+    bool isWantedAfter = isCamCaptureRequested();
+    if( isWanted != isWantedAfter )
+    {
+        enableCamCapture( isWantedAfter );
+    }
 }
 
 //============================================================================
-bool CamLogic::cameraExists( QString camId )
+bool CamLogic::cameraExists( std::string camId )
 {
-    for( auto device : m_AvailableCameras )
+    if( camId.empty() )
     {
-        if( device.description() == camId )
+        return false;
+    }
+
+#if defined(ENABLE_JAVA_CAM)
+    for( auto camPair : m_CamIdList )
+    {
+        if( camId == camPair.second )
         {
             return true;
         }
     }
 
     return false;
+#else
+    QString camDescription = camId.c_str();
+    for( auto device : m_AvailableCameras )
+    {
+        if( device.description() == camDescription )
+        {
+            return true;
+        }
+    }
+
+    return false;
+#endif // defined(ENABLE_JAVA_CAM)
 }
 
 //============================================================================
@@ -277,15 +375,15 @@ void CamLogic::setCameraEnable( bool camEnable )
     }
 
     m_CameraEnabled = camEnable;
-    if( m_Camera )
+    if( !m_CameraEnabled )
     {
-        if( camEnable )
+         enableCamCapture( false );
+    }
+    else
+    {
+        if( isCamCaptureRequested() )
         {
-            m_Camera->start();
-        }
-        else
-        {
-            m_Camera->stop();
+            enableCamCapture( true );
         }
     }
 
@@ -313,6 +411,10 @@ void CamLogic::selectVideoFormat( const QCameraDevice& cameraDevice )
     {
         return;
     }
+
+#if defined(ENABLE_JAVA_CAM)
+    return;
+#else
 
     QSize targetSize = GuiParams::getSnapshotDesiredSize();
     auto formats = cameraDevice.videoFormats();
@@ -357,11 +459,15 @@ void CamLogic::selectVideoFormat( const QCameraDevice& cameraDevice )
 
         m_Camera->setCameraFormat( chooseFormat );
     }
+#endif // defined(ENABLE_JAVA_CAM)
 }
 
 //============================================================================
 bool CamLogic::isBetterVideoFormat( QSize& targetSize, const QCameraFormat& newFormat, const QCameraFormat& oldFormat )
 {
+#if defined(ENABLE_JAVA_CAM)
+    return false;
+#else
     if( newFormat.resolution() == targetSize )
     {
         if(LogEnabled( eLogWebCam ) ) LogModule( eLogWebCam, LOG_VERBOSE, "%s new resolution w %d h %d min fps %3.1f max fps %3.1f pix format %d", __func__,
@@ -404,24 +510,43 @@ bool CamLogic::isBetterVideoFormat( QSize& targetSize, const QCameraFormat& newF
     }
 
     return false;
+
+#endif // defined(ENABLE_JAVA_CAM)
 }
 
 //============================================================================
 bool CamLogic::nextCamera( void )
 {
     updateCameraDevices();
-    if(m_AvailableCameras.size() < 2 || !m_Camera )
+    if( getCameraCount() < 2 )
     {
         return false;
     }
 
-    QString camDesc = getCamDescription();
+#if defined(ENABLE_JAVA_CAM)
+    std::string camId = getCamId();
+    bool foundCurrent{false};
+    for( auto device : m_CamIdList )
+    {
+        if(foundCurrent)
+        {
+            return startCamCapture( device.second );
+        }
+        else if(device.second == camId)
+        {
+            foundCurrent = true;
+        }
+    }
+
+    return startCamCapture( m_CamIdList.front().second );
+#else
+    QString camDesc = getCamId().c_str();
     bool foundCurrent{false};
     for( auto device : m_AvailableCameras )
     {
         if(foundCurrent)
         {
-            return setCamera( device );
+            return startCamCapture( device.description().toUtf8().constData() );
         }
         else if(device.description() == camDesc)
         {
@@ -429,5 +554,109 @@ bool CamLogic::nextCamera( void )
         }
     }
 
-    return setCamera( m_AvailableCameras.front() );
+    return startCamCapture( m_AvailableCameras.front().description().toUtf8().constData() );
+#endif // defined(ENABLE_JAVA_CAM)
+}
+
+//============================================================================
+int CamLogic::getCameraCount( void )
+{
+#if defined(ENABLE_JAVA_CAM)
+    return m_CamIdList.size();
+#else
+    return m_AvailableCameras.size();
+#endif // defined(ENABLE_JAVA_CAM)
+}
+
+//============================================================================
+bool CamLogic::isCamAvailable( void )
+{
+    return getCameraCount();
+}
+
+//============================================================================
+std::string CamLogic::getCamId( void )
+{
+#if defined(ENABLE_JAVA_CAM)
+    return m_CamId;
+#else
+    return m_Camera ? m_Camera->cameraDevice().description().toUtf8().constData() : "";
+#endif // defined(ENABLE_JAVA_CAM)
+}
+
+//============================================================================
+int CamLogic::getCamCaptureRotation( void )
+{
+    return m_MyApp.getCamCaptureRotation();
+}
+
+
+//============================================================================
+bool CamLogic::enableCamCapture( bool enable )
+{
+    if( !enable )
+    {
+    #if defined(ENABLE_JAVA_CAM)
+        m_CamJavaClient.stopCamCapture();
+    #else
+        if( m_Camera )
+        {
+            m_Camera->stop();
+        }
+    #endif // defined(ENABLE_JAVA_CAM)
+        return false;
+    }
+
+    if( m_CamId.empty() )
+    {
+        LogMsg( LOG_ERROR, "%s m_CamId.empty()", __func__ );
+        return false;
+    }
+
+    if( !m_CameraEnabled )
+    {
+        LogMsg( LOG_ERROR, "%s !m_CameraEnabled", __func__ );
+        return false;
+    }
+
+    if( !isCamCaptureRequested() )
+    {
+        LogMsg( LOG_ERROR, "%s !isCamCaptureRequested()", __func__ );
+        return false;
+    }
+
+#if defined(ENABLE_JAVA_CAM)
+    return m_CamJavaClient.startCamCapture( m_CamId );
+#else
+    QString camDescription = m_CamId.c_str();
+    if( m_Camera && m_Camera->cameraDevice().description() == camDescription )
+    {
+        if( m_CameraEnabled )
+        {
+            m_Camera->start();
+        }
+        else
+        {
+            m_Camera->stop();
+        }
+        
+        return true;
+    }
+
+    if( !m_CameraEnabled )
+    {
+        return false;
+    }
+
+    for( auto device : m_AvailableCameras )
+    {
+        if( device.description() == camDescription )
+        {
+            return setCamera( device );
+        }
+    }
+
+#endif // defined(ENABLE_JAVA_CAM)
+    LogMsg( LOG_DEBUG, "%s camera %s NOT available", __func__, m_CamId.c_str() );
+    return false;
 }

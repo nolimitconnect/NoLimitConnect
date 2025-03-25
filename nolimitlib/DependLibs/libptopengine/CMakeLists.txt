@@ -11,6 +11,8 @@ list(APPEND ptopengine_HEADERS
     SendQueue/SendQueueCallback.h
     SendQueue/SendQueueDb.h
     SendQueue/SendQueueMgr.h
+    MediaProcessor/CamJpgVideo.h
+    MediaProcessor/MediaProcessor.h
 )
 
 set(ptopengine_SOURCES)
@@ -126,6 +128,7 @@ list(APPEND ptopengine_SOURCES
     P2PEngine/EngineSettings.cpp
     P2PEngine/FileShareSettings.cpp
     P2PEngine/P2PConnectList.cpp
+
     P2PEngine/P2PEngine.cpp
     P2PEngine/P2PEngineAssetMgrCallbacks.cpp
     P2PEngine/P2PEngineConnect.cpp
@@ -135,7 +138,6 @@ list(APPEND ptopengine_SOURCES
     P2PEngine/P2PEngineHostList.cpp
     P2PEngine/P2PEngineIgnoredAndHackers.cpp
     P2PEngine/P2PEngineInit.cpp
-    P2PEngine/P2PEngineMediaProcessorCallbacks.cpp
     P2PEngine/P2PEnginePktAnnChanged.cpp
     P2PEngine/P2PEnginePktAnnHandlers.cpp
     P2PEngine/P2PEnginePktHandlers.cpp
@@ -145,6 +147,7 @@ list(APPEND ptopengine_SOURCES
     P2PEngine/P2PEngineStartup.cpp
     P2PEngine/P2PEngineSktCallback.cpp
     P2PEngine/P2PEngineTimerThread.cpp
+
 	P2PEngine/VxSktLoopback.cpp
 	PluginSettings/PluginSetting.cpp
 	PluginSettings/PluginSettingDb.cpp

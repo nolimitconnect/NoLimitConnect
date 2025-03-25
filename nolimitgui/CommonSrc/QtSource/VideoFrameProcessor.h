@@ -17,6 +17,7 @@
 #include <QVideoFrame>
 
 class AppCommon;
+class CamLogic;
 class MediaProcessor;
 
 class VideoFrameProcessor : public QObject
@@ -24,9 +25,7 @@ class VideoFrameProcessor : public QObject
     Q_OBJECT
 
 public:  
-    static const int64_t CAM_SNAPSHOT_INTERVAL_MS = 60;
-
-    VideoFrameProcessor( AppCommon& myApp, QObject* widget );
+    VideoFrameProcessor( AppCommon& myApp, CamLogic& camLogic, QObject* parent );
     ~VideoFrameProcessor();
 
     void                        enableProcessing( bool enable );
@@ -37,9 +36,8 @@ protected slots:
 protected:
 
     AppCommon&                  m_MyApp;
-    MediaProcessor&             m_MediaProcessor;
+    CamLogic&                   m_CamLogic;
     QSize                       m_DesiredFrameSize;
 
     bool                        m_ProcessFramesEnabled{false};
-    bool                        m_FrameProcessed{ true };
 };

@@ -1,0 +1,62 @@
+#pragma once
+//============================================================================
+// Copyright (C) 2025 Brett R. Jones
+//
+// Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
+// See file COPYING and LEGAL in root of the No Limit Connect project
+//
+// bjones.engineer@gmail.com
+// https://nolimitconnect.com
+//============================================================================
+
+
+#include <CoreLib/VxMutex.h>
+#include <CoreLib/VxThread.h>
+#include <CoreLib/VxSemaphore.h>
+
+#include <memory>
+#include <vector>
+
+class CamLogic;
+class CamRgbVideo;
+class CamJpgVideo;
+
+class CamProcessor
+{
+public:
+	const int JPG_CONVERT_QUALITY = 75; // there is very little picture quality improvement above 75 
+
+    CamProcessor( CamLogic& camLogic );
+    virtual ~CamProcessor() = default;
+	
+    void						shutdownCamProcessor( void );
+
+    void                        processCamCapture( int width, int height, std::shared_ptr<uint8_t>& rgbData, int dataLen );
+    void                        fromGuiCamImageConsumed( void );
+
+    bool                        isStalled( void ) { return m_ProcessCamRgbQue.size() > 1 || m_ProcessCamJpgQue.size() > 1;  }
+    size_t                      getRgbQueueSize( void ) { return m_ProcessCamRgbQue.size(); }
+    size_t                      getJpgQueueSize( void ) { return m_ProcessCamJpgQue.size(); }
+
+    void						processCamRgbThreaded( void );
+    void						processCamJpgThreaded( void );
+
+protected:
+    void                        processCamVideoRgb( CamRgbVideo* rgbVideo );
+    int                         calculateImageMotion( std::shared_ptr<uint8_t> newRgbData, int dataLen );
+
+	//=== vars ===//
+    CamLogic&					m_CamLogic;
+	
+    VxMutex						m_CamRgbMutex;
+    VxSemaphore					m_CamRgbSemaphore;
+    VxThread					m_ProcessCamRgbThread;
+    std::vector<CamRgbVideo *>	m_ProcessCamRgbQue;
+    std::vector<std::shared_ptr<uint8_t>>    m_LastRgbData;
+    int                         m_LastRgbDataLen = 0;
+
+    VxMutex						m_CamJpgMutex;
+    VxSemaphore					m_CamJpgSemaphore;
+    VxThread					m_ProcessCamJpgThread;
+    std::vector<std::shared_ptr<CamJpgVideo>>	m_ProcessCamJpgQue;
+};

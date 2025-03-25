@@ -128,7 +128,13 @@ void AppCommon::slotInternalWantUserVoiceSpeaker( EAppModule appModule, VxGUID o
 	bool isSpeakerAvailable = m_SoundMgr.isSpeakerEnabled();
 
 	if( wasSpeakerAvailable != isSpeakerAvailable )
-	{
+	{	
+		if( m_ToGuiHardwareCtrlBusy )
+		{
+			LogMsg( LOG_ERROR, "AppCommon::%s ToGuiHardware busy", __func__ );
+			vx_assert( false );
+		}
+
 		m_ToGuiHardwareCtrlBusy = true;
 		for( auto toGuiClient : m_ToGuiHardwareCtrlList )
 		{
@@ -203,6 +209,12 @@ void AppCommon::fromGuiMuteMicrophone( bool muteMic )
 	m_SoundMgr.setMuteMicrophone( muteMic );
     getEngine().fromGuiMuteMicrophone( muteMic );
 
+	if( m_ToGuiHardwareCtrlBusy )
+	{
+		LogMsg( LOG_ERROR, "AppCommon::%s ToGuiHardware busy", __func__ );
+		vx_assert( false );
+	}
+
 	m_ToGuiHardwareCtrlBusy = true;
 	for( auto toGuiClient : m_ToGuiHardwareCtrlList )
 	{
@@ -226,8 +238,14 @@ void AppCommon::fromGuiMuteSpeaker( bool muteSpeaker )
 	m_SoundMgr.setMuteSpeaker( muteSpeaker );
     getEngine().fromGuiMuteSpeaker( muteSpeaker );
 
+	if( m_ToGuiHardwareCtrlBusy )
+	{
+		LogMsg( LOG_ERROR, "AppCommon::%s ToGuiHardware busy", __func__ );
+		vx_assert( false );
+	}
+
 	m_ToGuiHardwareCtrlBusy = true;
-	for( auto toGuiClient : m_ToGuiHardwareCtrlList )
+	for( auto& toGuiClient : m_ToGuiHardwareCtrlList )
 	{
 		toGuiClient->callbackToGuiSpeakerMuted( muteSpeaker );
 	}
@@ -240,8 +258,14 @@ void AppCommon::fromGuiCameraEnable( bool enableCamera )
 {
     m_CamLogic.setCameraEnable( enableCamera );
 
+	if( m_ToGuiHardwareCtrlBusy )
+	{
+		LogMsg( LOG_ERROR, "AppCommon::%s ToGuiHardware busy", __func__ );
+		vx_assert( false );
+	}
+
 	m_ToGuiHardwareCtrlBusy = true;
-	for( auto toGuiClient : m_ToGuiHardwareCtrlList )
+	for( auto& toGuiClient : m_ToGuiHardwareCtrlList )
 	{
 		toGuiClient->callbackToGuiCameraEnable( enableCamera );
 	}

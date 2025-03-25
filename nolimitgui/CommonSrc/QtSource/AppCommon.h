@@ -252,10 +252,6 @@ public:
     virtual void                fromGuiMouseReleaseEvent( EAppModule appModule, int mouseXPos, int mouseyPos, int mouseButton ) override;
     virtual void                fromGuiMouseMoveEvent( EAppModule appModule, int mouseXPos, int mouseyPos ) override;
 
-    //virtual void                fromGuiResizeBegin( EAppModule appModule, int winWidth, int winHeight ) override;
-    //virtual void                fromGuiResizeEvent( EAppModule appModule, int winWidth, int winHeight ) override;
-    //virtual void                fromGuiResizeEnd( EAppModule appModule, int winWidth, int winHeight ) override;
-
     virtual void                fromGuiCloseEvent( EAppModule appModule ) override;
     virtual void                fromGuiVisibleEvent( EAppModule appModule, bool isVisible ) override;
 
@@ -500,8 +496,7 @@ public:
     virtual float               toGuiGetAudioCacheTotalSeconds( EAppModule appModule ) override;
 
     virtual void				toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture ) override;
-    virtual void				toGuiPlayVideoFrame( VxGUID& onlineId, uint8_t* pu8Jpg, uint32_t u32JpgDataLen, int motion0To100000 ) override;
-    virtual int				    toGuiPlayVideoFrame( VxGUID& onlineId, uint8_t* picBuf, uint32_t picBufLen, int picWidth, int picHeight ) override;
+    virtual void				toGuiPlayJpgVideo( VxGUID& onlineId, std::shared_ptr<CamJpgVideo>& jpgVideo ) override;
 
     // user update interface
     virtual void				toGuiIndentListUpdate( EUserViewType listType, VxGUID& onlineId, uint64_t timestamp ) override;

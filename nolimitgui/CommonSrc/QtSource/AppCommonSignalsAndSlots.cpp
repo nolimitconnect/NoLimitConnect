@@ -31,8 +31,6 @@ void  AppCommon::registerMetaData( void )
 	qRegisterMetaType<uint64_t>( "uint64_t" );
 	qRegisterMetaType<int64_t>( "int64_t" );
 
-	qRegisterMetaType<SharedUint8DataPtr>("SharedUint8");
-
 	qRegisterMetaType<EAppErr>( "EAppErr" );
 	qRegisterMetaType<EApplet>( "EApplet" );
 	qRegisterMetaType<EAppModule>( "EAppModule" );
@@ -157,13 +155,6 @@ void AppCommon::connectSignals( void )
     connect( this, SIGNAL(signalInternalToGuiContactRemoved(VxGUID)), this, SLOT(slotInternalToGuiContactRemoved(VxGUID)), Qt::QueuedConnection );
 
     connect( this, SIGNAL(signalInternalToGuiContactOnline(VxNetIdent)), this, SLOT(slotInternalToGuiContactOnline(VxNetIdent)), Qt::QueuedConnection );
-
-    //connect( this, SIGNAL(signalInternalToGuiContactNameChange(VxNetIdent)), this, SLOT(slotInternalToGuiContactNameChange(VxNetIdent)), Qt::QueuedConnection );
-    //connect( this, SIGNAL(signalInternalToGuiContactDescChange(VxNetIdent)), this, SLOT(slotInternalToGuiContactDescChange(VxNetIdent)), Qt::QueuedConnection );
-    //connect( this, SIGNAL(signalInternalToGuiContactFriendshipChange(VxNetIdent)), this, SLOT(slotInternalToGuiContactFriendshipChange(VxNetIdent)), Qt::QueuedConnection );
-
-    //connect( this, SIGNAL(signalInternalToGuiPluginPermissionChange(VxNetIdent)), this, SLOT(slotInternalToGuiPluginPermissionChange(VxNetIdent)), Qt::QueuedConnection );
-    //connect( this, SIGNAL(signalInternalToGuiContactSearchFlagsChange(VxNetIdent)), this, SLOT(slotInternalToGuiContactSearchFlagsChange(VxNetIdent)), Qt::QueuedConnection );
 
 	connect( this, SIGNAL(signalInternalToGuiContactUpdated(VxNetIdent)), this, SLOT(slotInternalToGuiContactUpdated(VxNetIdent)), Qt::QueuedConnection );
 

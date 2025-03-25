@@ -23,16 +23,17 @@
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 
-#include <P2PEngine/P2PEngine.h>
 #include <AssetMgr/AssetMgr.h>
+#include <MediaProcessor/CamJpgVideo.h>
+#include <P2PEngine/P2PEngine.h>
 
-#include <PktLib/VxSearchDefs.h>
 #include <NetLib/VxFileXferInfo.h>
+#include <PktLib/VxSearchDefs.h>
+#include <VxVideoLib/VxVideoLib.h>
 
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxFileInfo.h>
 #include <CoreLib/VxGlobals.h>
-#include <VxVideoLib/VxVideoLib.h>
 
 #include <QResizeEvent>
 #include <QMessageBox>
@@ -68,11 +69,17 @@ AppletSnapshot::AppletSnapshot(	AppCommon& app, QWidget* parent )
 
     ui.m_CamFrontBackButton->setEnabled( m_MyApp.getCamLogic().getCameraCount() > 1 );
 
-    ui.m_CamNameLabel->setText( m_MyApp.getCamLogic().getCamDescription() );
+    ui.m_CamNameLabel->setText( m_MyApp.getCamLogic().getCamId().c_str() );
 
-    if( m_MyApp.getCamLogic().isCamAvailable() )
+    if( m_MyApp.getCamLogic().getCameraCount() )
     {
-        m_MyApp.getEngine().fromGuiWantMediaInput( m_MyApp.getMyOnlineId(), eMediaInputVideoJpgSmall, this, eAppModuleSnapshot, m_MediaSessionId, true );
+        m_MyApp.getEngine().fromGuiWantMediaInput( m_MyApp.getMyOnlineId(), eMediaInputVideoJpg, this, eAppModuleSnapshot, m_MediaSessionId, true );
+        VxLabel* camScreen = ui.m_ImageScreen;
+        if( camScreen )
+        {
+            QString bkgFile = m_MyApp.getCamLogic().getCameraBackgroundFile();
+            camScreen->setImageFromFile( bkgFile );
+        }
     }
     else
     {
@@ -99,8 +106,11 @@ void AppletSnapshot::onSnapShotButClick( void )
 }
 
 //============================================================================
-void AppletSnapshot::callbackVideoJpgSmall( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 )
+void AppletSnapshot::callbackVideoJpg( VxGUID& vidFeedId, std::shared_ptr<CamJpgVideo>& jpgVideo )
 {
+    uint8_t* jpgData = jpgVideo->m_VidData.get();
+    uint32_t jpgDataLen = jpgVideo->m_VidDataLen;
+    int motion0to100000 = jpgVideo->m_Motion;
     if( jpgData && jpgDataLen && ( vidFeedId == m_MyApp.getMyOnlineId() ) )
     {
         QImage capBitmap;
@@ -144,7 +154,7 @@ void AppletSnapshot::onCamFrontBackButClick( void )
 //============================================================================
 void AppletSnapshot::onCloseEvent( void )
 {
-    m_MyApp.getEngine().fromGuiWantMediaInput( m_MyApp.getMyOnlineId(), eMediaInputVideoJpgSmall, this, eAppModuleSnapshot, m_MediaSessionId, false );
+    m_MyApp.getEngine().fromGuiWantMediaInput( m_MyApp.getMyOnlineId(), eMediaInputVideoJpg, this, eAppModuleSnapshot, m_MediaSessionId, false );
     AppletBase::onCloseEvent();
 }
 

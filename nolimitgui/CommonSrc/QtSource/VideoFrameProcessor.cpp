@@ -11,6 +11,7 @@
 #include "VideoFrameProcessor.h"
 
 #include "AppCommon.h"
+#include "CamLogic.h"
 #include "GuiParams.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -27,10 +28,10 @@ namespace
 };
 
 //============================================================================
-VideoFrameProcessor::VideoFrameProcessor( AppCommon& myApp, QObject* widget )
-    : QObject( widget )
+VideoFrameProcessor::VideoFrameProcessor( AppCommon& myApp, CamLogic& camLogic, QObject* parent )
+    : QObject( parent )
     , m_MyApp( myApp )
-    , m_MediaProcessor( GetPtoPEngine().getMediaProcessor() )
+    , m_CamLogic( camLogic )
 {
 }
 
@@ -56,40 +57,41 @@ void VideoFrameProcessor::enableProcessing( bool enable )
 //============================================================================
 void VideoFrameProcessor::slotVideoFrameChanged( const QVideoFrame& frame )
 {
-    if( !m_ProcessFramesEnabled || VxIsAppShuttingDown() )
+    static int64_t lastTimeMs = 0;
+    int64_t timeNow = GetGmtTimeMs();
+    if( timeNow < lastTimeMs + CamLogic::CAM_SNAPSHOT_INTERVAL_MS )
     {
+        //LogMsg( LOG_VERBOSE, "%s time ok %d ms", __func__, (int)(timeNow - lastTimeMs) );
+        return;
+    }
+    
+    if( !m_ProcessFramesEnabled || !m_CamLogic.canProcessCamCapture() )
+    {
+        //if( !m_ProcessFramesEnabled )
+        //{
+        //    LogMsg( LOG_ERROR, "%s !m_ProcessFramesEnabled %d", __func__, GetApplicationAliveMs() );
+        //}
+        //else
+        //{
+        //    LogMsg( LOG_ERROR, "%s !m_CamLogic.canProcessCamCapture %d", __func__, GetApplicationAliveMs() );
+        //}
+
         return;
     }
 
-    static int64_t lastTimeMs{0};
-    int64_t timeNowMs = GetGmtTimeMs();
-    if( timeNowMs - lastTimeMs < CAM_SNAPSHOT_INTERVAL_MS )
-    {
-        //LogModule( eLogWebCam, LOG_WARN, "%s skip frame at %lld ms", __func__, elapsedMs );
-        return;
-    }
-
-    lastTimeMs = timeNowMs;
-
-    if( m_MediaProcessor.getVideoQueueSize() > 2 )
-    {
-        LogModule( eLogWebCam, LOG_WARN, "%s media processor behind", __func__ );
-        return;
-    }
-
-    if( !m_FrameProcessed )
-    {
-        LogModule( eLogWebCam, LOG_WARN, "%s prev frame not processed", __func__ );
-        return;
-    }
-
+    lastTimeMs = timeNow;
     QImage rgbImage = frame.toImage().convertToFormat( QImage::Format_RGB888 );
     if( !rgbImage.isNull() )
     {
         uint32_t dataLen = 3 * rgbImage.width() * rgbImage.height();
        
-        std::shared_ptr<uint8_t> sharedData( new uint8_t[dataLen] );
-        memcpy( sharedData.get(), rgbImage.bits(), dataLen);
-        m_MediaProcessor.fromGuiVideoData( FOURCC_RGB, sharedData, rgbImage.width(), rgbImage.height(), dataLen, m_MyApp.getCamCaptureRotation() );
+        std::shared_ptr<uint8_t> rgbData( new uint8_t[dataLen] );
+        memcpy( rgbData.get(), rgbImage.bits(), dataLen);
+        // LogMsg( LOG_VERBOSE, "%s getCamProcessor().processCamCapture %d", __func__, GetApplicationAliveMs() );
+        m_CamLogic.getCamProcessor().processCamCapture( rgbImage.width(), rgbImage.height(), rgbData, dataLen );
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "%s !rgbImage.isNull() %d", __func__, GetApplicationAliveMs() );
     }
 }

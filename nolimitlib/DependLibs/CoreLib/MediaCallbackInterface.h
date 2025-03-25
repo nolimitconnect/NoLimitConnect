@@ -11,8 +11,10 @@
 
 #include "VxDefs.h"
 
+#include <memory>
 #include <vector>
 
+class CamJpgVideo;
 class PktVoiceReq;
 class PktVideoFeedPic;
 class PktVideoFeedPicChunk;
@@ -26,8 +28,7 @@ public:
 	virtual void				callbackOpusPkt( PktVoiceReq* pktOpusAudio ){};
 	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen ){};
 
-	virtual void				callbackVideoJpgBig( VxGUID& vidFeedId, uint8_t* jpgData, uint32_t jpgDataLen ){};
-	virtual void				callbackVideoJpgSmall( VxGUID& vidFeedId, uint8_t* jpgData, uint32_t jpgDataLen, int motion0to100000 ){};
+	virtual void				callbackVideoJpg( VxGUID& vidFeedId, std::shared_ptr<CamJpgVideo>& jpgVideo ){};
 	virtual void				callbackVideoPktPic( VxGUID& onlineId, PktVideoFeedPic* pktVid, int pktsInSequence, int thisPktNum ){};
 	virtual void				callbackVideoPktPicChunk( VxGUID& onlineId, PktVideoFeedPicChunk* pktVid, int pktsInSequence, int thisPktNum ){};
 };

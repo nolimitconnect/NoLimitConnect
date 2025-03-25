@@ -88,7 +88,7 @@ public:
 	virtual VxNetIdent*			pluginApiGetMyIdentity( void );
 	virtual VxNetIdent*			pluginApiFindUser( const char* pUserName );
 
-	virtual void				pluginApiPlayVideoFrame( EPluginType pluginType, uint8_t * pu8VidData, uint32_t u32VidDataLen, VxNetIdent* netIdent, int iRotation );
+	virtual void				pluginApiPlayJpgVideo( EPluginType pluginType, VxNetIdent* netIdent, std::shared_ptr<CamJpgVideo>& jpgVideo );
 
 	virtual void				pluginApiWantMediaInput( EPluginType pluginType, EMediaInputType mediaType, EAppModule appModule, VxGUID& mediaSessionId, bool wantInput );
 

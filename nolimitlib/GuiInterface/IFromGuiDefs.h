@@ -17,7 +17,6 @@
 #include <CoreLib/AssetDefs.h>
 #include <CoreLib/MediaCallbackInterface.h>
 
-
 // Plugin server state
 enum EPluginServerState
 {
@@ -67,8 +66,7 @@ enum EMediaInputType
 	eMediaInputAudioPcm,
 
 	eMediaInputVideoPkts,
-	eMediaInputVideoJpgSmall,   // 320x240 jpg video
-	eMediaInputVideoJpgBig,     // really for photos only
+	eMediaInputVideoJpg,   // 320x240 jpg video
 
 	eMediaInputMixer,
 

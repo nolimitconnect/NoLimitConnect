@@ -511,8 +511,8 @@ bool MJPEGReader::readFirstVidFrameFromFile( VFile * fileHandle, const char* fil
 					return false;
 				}
 
-				uint8_t * payloadData = new uint8_t[ aviChunk.m_PayloadDataSize ];
-				if( aviChunk.m_PayloadDataSize != VFileRead( payloadData, 1, aviChunk.m_PayloadDataSize, fileHandle ) )
+				std::shared_ptr<uint8_t> jpgData( new uint8_t[ aviChunk.m_PayloadDataSize ] );
+				if( aviChunk.m_PayloadDataSize != VFileRead( jpgData.get(), 1, aviChunk.m_PayloadDataSize, fileHandle) )
 				{
 					LogMsg( LOG_ERROR, "MJPEGReader::readFirstVidFrameFromFile error %d reading file %s", VxGetLastError(), fileName );
 					return false;
@@ -522,19 +522,19 @@ bool MJPEGReader::readFirstVidFrameFromFile( VFile * fileHandle, const char* fil
 				{
 					VxGUID onlineId;
 					onlineId.setVxGUID( assetId );
-					IToGui::getIToGui().toGuiPlayVideoFrame( onlineId, payloadData, aviChunk.m_PayloadDataSize, 0 );
-					delete[] payloadData;
+
+					std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, aviChunk.m_PayloadDataSize, 0 ) );
+					IToGui::getIToGui().toGuiPlayJpgVideo( m_AssetId, jpgVideo );
+
 					return true;
 				}
 				else if(  aviChunk.m_Id.isIdEqual( "01WB" ) )
 				{
 					// audio chunk.. keep going
-					delete[] payloadData;
 				}
 				else
 				{
 					// unknown type
-					delete[] payloadData;
 					LogMsg( LOG_ERROR, "MJPEGReader::readFirstVidFrameFromFile UNKNOWN CHUNK TYPE reading file %s", fileName );
 					return false;
 				}
@@ -1060,7 +1060,12 @@ void MJPEGReader::readerThread( void )
 			&& aviChunk->hasData() )
 		{
 			// LogMsg( LOG_INFO, "MJPEGReader vid chunk %d start", m_VidWriteIdx );
-			IToGui::getIToGui().toGuiPlayVideoFrame( m_AssetId, &aviChunk->m_DataPtr[8], aviChunk->m_ChunkLen, 0 );
+			
+			std::shared_ptr<uint8_t> jpgData( new uint8_t[aviChunk->m_ChunkLen] );
+			memcpy( jpgData.get(), &aviChunk->m_DataPtr[8], aviChunk->m_ChunkLen );
+			std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, aviChunk->m_ChunkLen, 0 ) );
+
+			IToGui::getIToGui().toGuiPlayJpgVideo( m_AssetId, jpgVideo );
 			// LogMsg( LOG_INFO, "MJPEGReader vid chunk %d end", m_VidWriteIdx );
 			m_VidChunksInMemory--;
 			aviChunk->deleteDataPtr();

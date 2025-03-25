@@ -78,7 +78,7 @@ protected:
     virtual void				callbackOpusPkt( PktVoiceReq * pktOpusAudio ) override;
     virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen ) override;
 
-	//virtual void				callbackVideoJpgSmall( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 );
+	//virtual void				callbackVideoJpg( VxGUID& vidFeedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 );
     virtual void				callbackVideoPktPic( VxGUID& onlineId, PktVideoFeedPic * pktVid, int pktsInSequence, int thisPktNum ) override;
     virtual void				callbackVideoPktPicChunk( VxGUID& onlineId, PktVideoFeedPicChunk * pktVid, int pktsInSequence, int thisPktNum ) override;
 

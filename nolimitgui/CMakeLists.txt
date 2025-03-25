@@ -212,7 +212,11 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/BottomBarWidget.h
     CommonSrc/QtSource/CamTitleBarPreview.h
     CommonSrc/QtSource/ChatRoomWidget.h
+
+    CommonSrc/QtSource/CamJavaClient.h
     CommonSrc/QtSource/CamLogic.h
+    CommonSrc/QtSource/CamProcessor.h
+
     CommonSrc/QtSource/ChatEntryWidget.h
     CommonSrc/QtSource/DialogAddComment.h
     CommonSrc/QtSource/DialogConfirmRemoveMessage.h
@@ -614,7 +618,11 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AssetVideoWidget.cpp
     CommonSrc/QtSource/AssetVoiceWidget.cpp
     CommonSrc/QtSource/AvatarBar.cpp
+
+    CommonSrc/QtSource/CamJavaClient.cpp
     CommonSrc/QtSource/CamLogic.cpp
+    CommonSrc/QtSource/CamProcessor.cpp
+
     CommonSrc/QtSource/CamTitleBarPreview.cpp
     CommonSrc/QtSource/ChatRoomWidget.cpp
     CommonSrc/QtSource/ChatEntryWidget.cpp
@@ -1185,7 +1193,7 @@ if (DEFINED TARGET_OS_LINUX)
     endif()
 
 elseif (DEFINED TARGET_OS_ANDROID)
-    find_package(Qt6 COMPONENTS Quick Gui REQUIRED)
+    find_package(Qt6 COMPONENTS Gui REQUIRED)
     if (DEFINED TARGET_CPU_ARM64)
         target_link_libraries(nolimitconnect
             PUBLIC

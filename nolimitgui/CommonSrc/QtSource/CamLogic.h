@@ -9,6 +9,7 @@
 //============================================================================
 #pragma once
 
+#include "CamProcessor.h"
 #include "VideoFrameProcessor.h"
 
 #include <GuiInterface/IDefs.h>
@@ -22,20 +23,35 @@
 
 #include <string>
 
+#if defined(ENABLE_JAVA_CAM)
+#include "CamJavaClient.h"
+#endif // defined(ENABLE_JAVA_CAM)
+
 class AppCommon;
+class CamJpgVideo;
+class MediaProcessor;
 
 class CamLogic : public QObject {
     Q_OBJECT
 
 public:
+    static const int64_t CAM_SNAPSHOT_INTERVAL_MS = 30; // 60 = approx 15 frames per second 30 = approx 30 fps
+
     CamLogic( AppCommon& myApp, QObject* parent = nullptr );
     ~CamLogic();
 
     void                        startupCamLogic( void );
     void                        shutdownCamLogic( void );
 
-    int                         getCameraCount( void ) { return m_AvailableCameras.size(); }
-    bool                        isCamAvailable( void ) { return m_AvailableCameras.size(); }
+    CamProcessor&               getCamProcessor( void ) { return m_CamProcessor; }
+
+    void                        onCamCaptureReady( bool isReady );
+    bool                        canProcessCamCapture( void );
+    void                        processCamCapture( std::shared_ptr<CamJpgVideo>& jpgVideo );
+    void                        camImageConsumed( void ) { if( m_CamImageInTransitCnt.load() ) m_CamImageInTransitCnt--; }
+
+    int                         getCameraCount( void );
+    bool                        isCamAvailable( void );
     bool                        isCamCaptureRequested( void );
     bool                        isCamCaptureRunning( void );
 
@@ -43,34 +59,54 @@ public:
 
     void                        updateCameraDevices( void );
     void                        getAvailableCameras( std::vector<QString>& retCamList );
-    bool                        selectDefaultCamera( void );
-    bool                        selectCamera( QString camDescription );
+    bool                        cameraExists( std::string camId );
 
-    QString                     getCamDescription( void ) { return m_Camera ? m_Camera->cameraDevice().description() : ""; }
-    std::string                 getCamId( void ) { return m_Camera ? m_Camera->cameraDevice().description().toUtf8().constData() : ""; }
-
-    bool                        cameraExists( QString camId );
-
+    // enable or disable all camera activity
     void                        setCameraEnable( bool camEnable );
     bool                        getCameraEnable( void ) { return m_CameraEnabled; }
 
-    QString                     getCameraBackgroundFile( void );
-
+    // get last used or in use camera id
+    std::string                 getCamId( void );
+    // start capture using the given cam id if camera is not disabled
+    bool                        startCamCapture( std::string camId );
+    // start/stop capture using the last used cam id if camera is not disabled
+    bool                        enableCamCapture( bool enableCapture );
+    // start capture using next cam id if camera is not disabled
     bool                        nextCamera( void );
 
+    int                         getCamCaptureRotation( void );
+
+    QString                     getCameraBackgroundFile( void );
+
 protected:
+    std::string                 selectLastUsedCamera( void ); // only called on startup
+
     bool                        setCamera( const QCameraDevice& cameraDevice );
     void                        selectVideoFormat( const QCameraDevice& cameraDevice );
     bool                        isBetterVideoFormat( QSize& targetSize, const QCameraFormat& newFormat, const QCameraFormat& oldFormat );
 
     AppCommon&                  m_MyApp;
+    MediaProcessor&             m_MediaProcessor;
+
+    CamProcessor                m_CamProcessor;
+
     bool                        m_WantCamInput[ eMaxAppModule ];
+    bool                        m_CameraEnabled{ false };
+
+    std::string                 m_CamId;
+
+#if defined(ENABLE_JAVA_CAM)
+    CamJavaClient               m_CamJavaClient;
+    std::vector<std::pair<bool,std::string>> m_CamIdList;
+#else
     QCamera*                    m_Camera{ nullptr };
     QMediaCaptureSession *      m_CaptureSession{ nullptr };
     QVideoSink *                m_CamFrameSink{ nullptr };
 
     QList<QCameraDevice>        m_AvailableCameras;
-    bool                        m_CameraEnabled{ false };
 
     VideoFrameProcessor         m_VideoFrameProcessor;
+#endif // defined(ENABLE_JAVA_CAM)
+
+    std::atomic<int>            m_CamImageInTransitCnt;
 };

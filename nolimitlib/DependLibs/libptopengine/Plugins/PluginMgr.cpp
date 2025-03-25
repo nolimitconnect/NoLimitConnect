@@ -857,10 +857,10 @@ bool PluginMgr::canAccessPlugin( EPluginType pluginType, VxNetIdent* netIdent )
 }
 
 //============================================================================
-void PluginMgr::pluginApiPlayVideoFrame( EPluginType pluginType, uint8_t * pu8VidData, uint32_t u32VidDataLen, VxNetIdent* netIdent, int motion0to100000 )
+void PluginMgr::pluginApiPlayJpgVideo( EPluginType pluginType, VxNetIdent* netIdent, std::shared_ptr<CamJpgVideo>& jpgVideo )
 {
-	//LogMsg( LOG_INFO, "PluginMgr::pluginApiPlayVideoFrame\n" );
-	IToGui::getIToGui().toGuiPlayVideoFrame( netIdent->getMyOnlineId(), pu8VidData, u32VidDataLen, motion0to100000 );
+	//LogMsg( LOG_INFO, "PluginMgr::pluginApiPlayJpgVideo\n" );
+	IToGui::getIToGui().toGuiPlayJpgVideo( netIdent->getMyOnlineId(), jpgVideo );
 }
 
 //============================================================================

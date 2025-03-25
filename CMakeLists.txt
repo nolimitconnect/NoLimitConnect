@@ -839,7 +839,9 @@ else()
     endif()
     if(DEFINED TARGET_OS_ANDROID)
         message(STATUS "TARGET_OS_ANDROID is defined")
-        #set(ANDROID_MANIFEST ${CMAKE_SOURCE_DIR}/nolimitgui/android/AndroidManifest.xml)
+        # use native java camera capture to replace buggy qt android camera
+        set(ENABLE_JAVA_CAM true)
+        add_compile_definitions(ENABLE_JAVA_CAM=1)
     endif()
 
     if(DEFINED TARGET_CPU_X86_64)

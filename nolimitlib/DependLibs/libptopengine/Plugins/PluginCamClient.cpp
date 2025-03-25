@@ -64,9 +64,9 @@ TxSession * PluginCamClient::createTxSession( std::shared_ptr<VxSktBase>& sktBas
 }
 
 //============================================================================
-void PluginCamClient::callbackVideoJpgSmall( VxGUID& feedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 )
+void PluginCamClient::callbackVideoJpg( VxGUID& feedId, std::shared_ptr<CamJpgVideo>& jpgVideo )
 {
-	m_PluginMgr.pluginApiPlayVideoFrame( m_ePluginType, jpgData, jpgDataLen, m_MyIdent, motion0to100000 );
+	m_PluginMgr.pluginApiPlayJpgVideo( m_ePluginType, m_MyIdent, jpgVideo );
 }
 
 //============================================================================
@@ -660,11 +660,11 @@ void PluginCamClient::onPktVideoFeedPicChunk( std::shared_ptr<VxSktBase>& sktBas
 				sktBase, 
 				&oPkt ); 
 
-			m_PluginMgr.pluginApiPlayVideoFrame(	m_ePluginType, 
-				poPktCastPic->getDataPayload(), 
-				poPktCastPic->getTotalDataLen(), 
-				netIdent,
-				poPktCastPic->getMotionDetect() );
+			std::shared_ptr<uint8_t> jpgData( new uint8_t[poPktCastPic->getTotalDataLen()] );
+			memcpy( jpgData.get(), poPktCastPic->getDataPayload(), poPktCastPic->getTotalDataLen() );
+			std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, poPktCastPic->getTotalDataLen(), poPktCastPic->getMotionDetect() ) );
+
+			m_PluginMgr.pluginApiPlayJpgVideo( m_ePluginType, netIdent, jpgVideo );
 			
 			delete poSession->getVideoFeedPkt();
 			poSession->setVideoFeedPkt( NULL );

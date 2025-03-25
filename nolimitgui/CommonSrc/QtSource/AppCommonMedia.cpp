@@ -106,10 +106,10 @@ void AppCommon::toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture
 }
 
 //============================================================================
-void AppCommon::slotInternalWantVideoCapture( EAppModule appModule, bool enableVidCapture )
+void AppCommon::slotInternalWantVideoCapture( EAppModule appModule, bool wantVidCapture )
 {
 	bool wasCamEnabled = m_CamLogic.isCamCaptureRunning();
-	m_CamLogic.toGuiWantVideoCapture( appModule, enableVidCapture );
+	m_CamLogic.toGuiWantVideoCapture( appModule, wantVidCapture );
 	bool isCamEnabled = m_CamLogic.isCamCaptureRunning();
 
     if( wasCamEnabled != isCamEnabled )
@@ -140,7 +140,7 @@ void AppCommon::slotInternalWantVideoCapture( EAppModule appModule, bool enableV
 		m_ToGuiHardwareCtrlBusy = true;
 		for( auto toGuiClient : m_ToGuiHardwareCtrlList )
 		{
-			toGuiClient->callbackToGuiWantVideoCapture( enableVidCapture );
+			toGuiClient->callbackToGuiWantVideoCapture( wantVidCapture );
 		}
 
 		m_ToGuiHardwareCtrlBusy = false;
@@ -148,25 +148,14 @@ void AppCommon::slotInternalWantVideoCapture( EAppModule appModule, bool enableV
 }
 
 //============================================================================
-void AppCommon::toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* pu8Jpg, uint32_t u32JpgDataLen, int motion0To100000 )
+void AppCommon::toGuiPlayJpgVideo( VxGUID& feedOnlineId, std::shared_ptr<CamJpgVideo>& jpgVideo )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return;
 	}
 
-	m_PlayerMgr.toGuiPlayVideoFrame( feedOnlineId, pu8Jpg, u32JpgDataLen, motion0To100000 );
-}
-
-//============================================================================
-int AppCommon::toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* picBuf, uint32_t picBufLen, int picWidth, int picHeight )
-{
-	if( VxIsAppShuttingDown() )
-	{
-		return 0;
-	}
-
-	return m_PlayerMgr.toGuiPlayVideoFrame( feedOnlineId, picBuf, picBufLen, picWidth, picHeight );
+	m_PlayerMgr.toGuiPlayJpgVideo( feedOnlineId, jpgVideo );
 }
 
 //============================================================================

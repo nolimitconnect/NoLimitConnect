@@ -597,7 +597,6 @@
     <ClCompile Include="..\..\P2PEngine\P2PEngineHostList.cpp" />
     <ClCompile Include="..\..\P2PEngine\P2PEngineIgnoredAndHackers.cpp" />
     <ClCompile Include="..\..\P2PEngine\P2PEngineInit.cpp" />
-    <ClCompile Include="..\..\P2PEngine\P2PEngineMediaProcessorCallbacks.cpp" />
     <ClCompile Include="..\..\P2PEngine\P2PEnginePktAnnChanged.cpp" />
     <ClCompile Include="..\..\P2PEngine\P2PEnginePktAnnHandlers.cpp" />
     <ClCompile Include="..\..\P2PEngine\P2PEnginePktHandlers.cpp" />
@@ -802,10 +801,9 @@
     <ClInclude Include="..\..\IdentListMgrs\IgnoredHostsDb.h" />
     <ClInclude Include="..\..\IdentListMgrs\IgnoreListMgr.h" />
     <ClInclude Include="..\..\MediaProcessor\AudioUtil.h" />
+    <ClInclude Include="..\..\MediaProcessor\CamJpgVideo.h" />
     <ClInclude Include="..\..\MediaProcessor\MediaClient.h" />
     <ClInclude Include="..\..\MediaProcessor\MediaProcessor.h" />
-    <ClInclude Include="..\..\MediaProcessor\RawAudio.h" />
-    <ClInclude Include="..\..\MediaProcessor\RawVideo.h" />
     <ClInclude Include="..\..\Membership\MemberActiveCallback.h" />
     <ClInclude Include="..\..\Membership\MemberActiveMgr.h" />
     <ClInclude Include="..\..\Membership\MemberConfirmMgr.h" />

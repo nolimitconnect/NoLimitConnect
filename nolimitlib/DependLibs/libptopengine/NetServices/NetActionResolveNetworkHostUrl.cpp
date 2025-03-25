@@ -79,7 +79,7 @@ void NetActionResolveNetworkHostUrl::doAction( void )
 		waitCnt++;
 	}
 
-	LogMsg( LOG_ERROR, "NetActionResolveNetworkHostUrl:%s timed out waiting to resolve", __func__ );
+	LogMsg( LOG_ERROR, "NetActionResolveNetworkHostUrl:%s timed out waiting to resolve %s", __func__, networkHostUrl.c_str() );
 	m_Engine.getNetStatusAccum().setNetHostAvail( false );
 
 }

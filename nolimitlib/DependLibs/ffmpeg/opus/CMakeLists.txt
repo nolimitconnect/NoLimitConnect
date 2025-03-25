@@ -303,17 +303,16 @@ list(APPEND ffmpegopus_HEADERS
 
 add_library(ffmpegopus STATIC ${ffmpegopus_SOURCES} ${ffmpegopus_HEADERS})
 
+# Override optimization flags for this library
+target_compile_options(ffmpegopus PRIVATE
+    $<$<CONFIG:Release>:-O3>
+    $<$<CONFIG:Debug>:-O0>
+)
+
 if(DEFINED TARGET_CPU_X86_64)
     message(STATUS "Adding opus flags -msse3 -msse4.1")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -msse3 -msse4.1")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse3 -msse4.1")
-endif()
-
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-    # turn on optimization even when in debug mode
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3")
-elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3")
 endif()
 
 if(DEFINED TARGET_OS_WINDOWS)

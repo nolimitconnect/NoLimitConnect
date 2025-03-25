@@ -92,6 +92,9 @@ void AppletCamSettings::setupCamFeed( VxNetIdent* feedNetIdent )
     ui.m_CamVidWidget->setRecordFilePath( VxGetDownloadsDirectory().c_str() );
     ui.m_CamVidWidget->setRecordFriendName( m_CamFeedIdent->getOnlineName() );
     ui.m_CamVidWidget->setVideoFeedId( m_CamFeedId, eAppModuleCamClient );
+
+    QString bkgFile = m_MyApp.getCamLogic().getCameraBackgroundFile();
+    ui.m_CamVidWidget->setImageFromFile( bkgFile );
 }
 
 //============================================================================
@@ -222,7 +225,7 @@ void AppletCamSettings::slotToGuiContactOffline( VxNetIdent* friendIdent )
 void AppletCamSettings::inDeviceChanged( int index )
 {
     QString vidInDevDescription = ui.m_InDeviceComboBox->currentText();
-    if( !m_MyApp.getCamLogic().selectCamera( vidInDevDescription ) )
+    if( !m_MyApp.getCamLogic().startCamCapture( vidInDevDescription.toUtf8().constData() ) )
     {
         ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Video In Device" ), vidInDevDescription + QObject::tr( " failed to initialize" ) );
         msgBox.exec();
@@ -264,7 +267,7 @@ void AppletCamSettings::slotApplyInDeviceChange( void )
     QString vidInDevDescription = ui.m_InDeviceComboBox->currentText();
     if( !vidInDevDescription.isEmpty() )
     {
-        if( m_MyApp.getCamLogic().selectCamera( vidInDevDescription ) )
+        if( m_MyApp.getCamLogic().startCamCapture( vidInDevDescription.toUtf8().constData() ) )
         {
             m_MyApp.getAppSettings().setCamSourceId( vidInDevDescription.toUtf8().constData() );
             ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Video In Device" ), vidInDevDescription + QObject::tr( " device is saved as preferred Video In Device" ) );

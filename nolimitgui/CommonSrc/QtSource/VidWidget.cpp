@@ -126,7 +126,7 @@ VidWidget::~VidWidget()
 	if( m_VideoFeedId.isVxGUIDValid() && eAppModuleInvalid != m_AppModule)
 	{
 		// stop previous feed
-		m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpgSmall, m_AppModule, m_VideoFeedId, false );
+		m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpg, m_AppModule, m_VideoFeedId, false );
 	}
 
 	m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, false );
@@ -182,7 +182,8 @@ void VidWidget::setVideoFeedId( VxGUID& feedOnlineId, EAppModule appModule )
 //============================================================================
 void VidWidget::showOfflineImage( void )
 {
-	ui.m_VideoScreen->setImageFromFile( ":/AppRes/Resources/web_cam_buffering.png" );
+	QString bkgFile = m_MyApp.getCamLogic().getCameraBackgroundFile();
+	ui.m_VideoScreen->setImageFromFile( bkgFile );
 }
 
 //============================================================================
@@ -317,12 +318,12 @@ void VidWidget::updatePreviewVisibility( void )
 	if( showPreview )
 	{
 		ui.m_CamPreviewButton->setIcon( eMyIconCamPreviewCancelNormal );
-		m_Engine.fromGuiWantMediaInput( m_MyOnlineId, eMediaInputVideoJpgSmall, getAppModule(), m_MyOnlineId, true);
+		m_Engine.fromGuiWantMediaInput( m_MyOnlineId, eMediaInputVideoJpg, getAppModule(), m_MyOnlineId, true);
 	}
 	else
 	{
 		ui.m_CamPreviewButton->setIcons( eMyIconCamPreviewNormal );
-		m_Engine.fromGuiWantMediaInput( m_MyOnlineId, eMediaInputVideoJpgSmall, getAppModule(), m_MyOnlineId, false );
+		m_Engine.fromGuiWantMediaInput( m_MyOnlineId, eMediaInputVideoJpg, getAppModule(), m_MyOnlineId, false );
 	}
 }
 
@@ -420,7 +421,7 @@ void VidWidget::showEvent( QShowEvent* ev )
 	updatePreviewVisibility();
 	if( m_VideoFeedId.isVxGUIDValid() )
 	{
-		m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpgSmall, getAppModule(), m_VideoFeedId, true );
+		m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpg, getAppModule(), m_VideoFeedId, true );
 		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_VideoFeedId, this, true );
 	}
 }
@@ -432,7 +433,7 @@ void VidWidget::hideEvent( QHideEvent* ev )
 	if( m_VideoFeedId.isVxGUIDValid() )
 	{
 		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_VideoFeedId, this, false );
-		m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpgSmall, getAppModule(), m_VideoFeedId, false );
+		m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpg, getAppModule(), m_VideoFeedId, false );
 	}
 }
 

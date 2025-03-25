@@ -18,13 +18,12 @@
 #include <CoreLib/VxMutex.h>
 #include <CoreLib/MediaCallbackInterface.h>
 
-#include <string>
 #include <stdio.h>
-#include <memory.h>
+#include <string>
 
-class P2PEngine;
-class MediaProcessor;
 class IToGui;
+class MediaProcessor;
+class P2PEngine;
 class VFile;
 
 class MJPEGWriter : public MediaCallbackInterface
@@ -40,7 +39,7 @@ public:
 
 
 	bool						fromGuiVideoRecord( EVideoRecordState eRecState, VxGUID& feedId, const char* fileName  );
-	virtual void				callbackVideoJpgSmall( VxGUID& feedId, uint8_t * jpgData, uint32_t jpgDataLen, int motion0to100000 ) override;
+	virtual void				callbackVideoJpg( VxGUID& feedId, std::shared_ptr<CamJpgVideo>& jpgVideo ) override;
 	virtual void				callbackPcm( VxGUID& feedId, int16_t * pcmData, uint16_t pcmDataLen ) override;
 
 	bool						startAviWrite( const char* fileName, uint32_t MicroSecBetweenFrames, bool beginInPausedState );

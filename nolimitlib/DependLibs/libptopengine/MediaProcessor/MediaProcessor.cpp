@@ -9,10 +9,10 @@
 //============================================================================
 
 #include "MediaProcessor.h"
+
+#include "AudioUtil.h"
 #include "MediaClient.h"
 #include "RawAudio.h"
-#include "RawVideo.h"
-#include "AudioUtil.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <GuiInterface/IToGui.h>
@@ -54,7 +54,6 @@ using namespace std;
 namespace
 {
 	const int VIDEO_DATA_BYTE_CNT					    = (320*240*3);
-	const int VIDEO_SENSITIVITY_DIVISOR				    = (320*240*3*64);
 	const int VIDEO_MAX_MOTION_VALUE				    = 100000;
 	const int MAX_PIC_PKT_DATA_PAYLOAD					= MAX_PKT_LEN - ( sizeof(PktVideoFeedPic) + 16 );
 
@@ -67,21 +66,6 @@ namespace
         if( processor )
         {
             processor->processAudioInThreaded();
-        }
-
-		poThread->threadAboutToExit();
-        return nullptr;
-	}
-
-	//============================================================================
-    static void * VideoProcessThreadFunc( void * pvContext )
-	{
-		VxThread* poThread = (VxThread*)pvContext;
-		poThread->setIsThreadRunning( true );
-		MediaProcessor * processor = (MediaProcessor *)poThread->getThreadUserParam();
-        if( processor && false == poThread->isAborted() )
-        {
-            processor->processVideoIn();
         }
 
 		poThread->threadAboutToExit();
@@ -113,7 +97,6 @@ MediaProcessor::MediaProcessor( P2PEngine& engine )
 	}
 
 	m_ProcessAudioInThread.startThread( (VX_THREAD_FUNCTION_T)AudioInProcessThreadFunc, this, "AudioInProcessor" );
-	m_ProcessVideoThread.startThread( (VX_THREAD_FUNCTION_T)VideoProcessThreadFunc, this, "VideoProcessor" );
 }
 
 //============================================================================
@@ -133,8 +116,6 @@ void MediaProcessor::shutdownMediaProcessor( void )
 {
 	m_ProcessAudioInThread.abortThreadRun( true );
 	m_AudioInSemaphore.signal();
-	m_ProcessVideoThread.abortThreadRun( true );
-	m_VideoSemaphore.signal();
 }
 
 //============================================================================
@@ -368,262 +349,110 @@ void MediaProcessor::processFriendAudioFeed( VxGUID& onlineId, int16_t * pcmData
 }
 
 //============================================================================
-void MediaProcessor::fromGuiVideoData( uint32_t u32FourCc, std::shared_ptr<uint8_t>& vidDataIn, int imageWidth, int imageHeight, uint32_t vidDataLen, int iRotation )
+void MediaProcessor::processCamCaptureJpgVideo( std::shared_ptr<CamJpgVideo>& jpgVideo )
 {
 	if( false == m_VidCaptureEnabled )
 	{
 		// nobody wants it 
-		//LogMsg( LOG_INFO, "PluginMgr::fromGuiVideoData not wanted\n" );
-		m_VideoSemaphore.signal();
+		//LogMsg( LOG_WARN, "MediaProcessor::%s not enabled %d", __func__, GetApplicationAliveMs() );
 		return;
 	}
 
-	if( m_ProcessVideoQue.size() > 2 )
-	{
-		LogModule( eLogWebCam, LOG_VERBOSE, "MediaProcessor::%s dropping video because que size %d", __func__, m_ProcessVideoQue.size() );
-		m_VideoSemaphore.signal();
-		return;
-	}
-	
-	//static VxTimer elapsedTimer;
-	//LogMsg( LOG_INFO, "MediaProcessor::fromGuiVideoData %3.3fms rot %d\n", elapsedTimer.elapsedMs(), iRotation );
-	//elapsedTimer.startTimer();
-	//LogMsg( LOG_INFO, "fromGuiVideoData  FourCc 0x%x width %d height %d len %d\n", u32FourCc, iWidth, iHeight, u32VidDataLen );
+	sendCamPackets( jpgVideo );
 
-    // uint8_t * pu8VidData = pu8VidDataIn;
-    // bool bConvert =  ( FOURCC_RGB != u32FourCc );
-
-    // if( bConvert )
-    // {
-    // 	if( FOURCC_YUVS == u32FourCc )
-    // 	{
-    // 		// optimize convert for android .. could use normal converter because it is supported
-    // 		uint8_t * yuv420sp = pu8VidData;
-    // 		pu8VidData = new uint8_t[ imageWidth * imageHeight * 3 ];
-    // 		uint8_t * rgb = pu8VidData;
-    // 		int frameSize = imageWidth * imageHeight;
-    // 		for( int j = 0, yp = 0; j < imageHeight; j++ )
-    // 		{
-    // 			int uvp = frameSize + (j >> 1) * imageWidth, u = 0, v = 0;
-    // 			for( int i = 0; i < imageWidth; i++, yp++ )
-    // 			{
-    // 				int y = (0xff & ((int) yuv420sp[yp])) - 16;
-    // 				if (y < 0) y = 0;
-    // 				if ((i & 1) == 0)
-    // 				{
-    // 					v = (0xff & yuv420sp[uvp++]) - 128;
-    // 					u = (0xff & yuv420sp[uvp++]) - 128;
-    // 				}
-
-    // 				int y1192 = 1192 * y;
-    // 				int r = (y1192 + 1634 * v);
-    // 				int g = (y1192 - 833 * v - 400 * u);
-    // 				int b = (y1192 + 2066 * u);
-
-    // 				if (r < 0) r = 0; else if (r > 262143) r = 262143;
-    // 				if (g < 0) g = 0; else if (g > 262143) g = 262143;
-    // 				if (b < 0) b = 0; else if (b > 262143) b = 262143;
-
-    // 				*rgb = ( r >> 10 ) & 0xff;
-    // 				rgb++;
-    // 				*rgb = ( g >> 10 ) & 0xff;
-    // 				rgb++;
-    // 				*rgb = (b>>10)&0xff;
-    // 				rgb++;
-    // 			}
-    // 		}
-    // 	}
-    // 	else
-    // 	{
-    // 		// need to convert to rgb.. NOTE: the caller must delete the returned data
-    // 		pu8VidData = VxConvertImage(	u32FourCc,				// FOURCC of format to convert
-    // 										pu8VidDataIn,			// data to convert
-    // 										imageWidth,				// width of image in pixels
-    // 										imageHeight,			// height of image in pixels
-    // 										FOURCC_RGB,				// FOURCC of format to convert to
-    // 										u32VidDataLen );		// return data length of converted image
-    // 	}
-
-    // 	// if we converted the image we also changed the width and height to our cam dimensions for processing
-    // }
-
-    // std::shared_ptr<uint8_t> sharedVidData;
-    // if( bConvert )
-    // {
-    // 	// data is already allocated and will need deleted
-    // 	sharedVidData = std::make_shared<uint8_t*>( pu8VidData );
-    // }
-    // else
-    // {
-    // 	// make copy of data which shared pointer will delete
-    // 	uint8_t* copiedVidData = new uint8_t[ u32VidDataLen ];
-    // 	memcpy( copiedVidData, pu8VidData, u32VidDataLen );
-    // 	sharedVidData = std::make_shared<uint8_t*>( copiedVidData );
-    // }
-
-	RawVideo * rawVideo = new RawVideo( FOURCC_RGB,
-                                        vidDataIn,
-                                        vidDataLen,
-										imageWidth,
-										imageHeight,
-										iRotation );
-	#ifdef DEBUG_PROCESSOR_LOCK
-		LogMsg( LOG_INFO, "fromGuiVideoData m_VideoQueInMutex.lock()" );
-	#endif // DEBUG_PROCESSOR_LOCK
-	m_VideoQueInMutex.lock();
-	m_ProcessVideoQue.emplace_back( rawVideo );
-	#ifdef DEBUG_PROCESSOR_LOCK
-		LogMsg( LOG_INFO, "fromGuiVideoData m_VideoQueInMutex.unlock()" );
-	#endif // DEBUG_PROCESSOR_LOCK
-	m_VideoQueInMutex.unlock();
-	m_VideoSemaphore.signal();
-}
-
-//========================================================================
-// Convert a single YUV pixel to RGB. 
-static void yuvToRgb( uint8_t * yuvData, int outOffset, /*out*/uint8_t * rgbOut) 
-{ 
-	static float COLOR_MAX = 255.0f; 
-
-	float y		= (float)yuvData[0]; // Y channel 
-	float cb	= (float)yuvData[1]; // U channel 
-	float cr	= (float)yuvData[2]; // V channel 
-
-	// convert YUV -> RGB (from JFIF's "Conversion to and from RGB" section) 
-	float r = y + 1.402f * (cr - 128.0f); 
-	float g = y - 0.34414f * (cb - 128.0f) - 0.71414f * (cr - 128.0f); 
-	float b = y + 1.772f * (cb - 128.0f); 
-
-	// clamp to [0,255] 
-    rgbOut[ outOffset ] = ( uint8_t )max( 0.0f, min( COLOR_MAX, r ) );
-    rgbOut[ outOffset + 1 ] = ( uint8_t )max( 0.0f, min( COLOR_MAX, g ) );
-    rgbOut[ outOffset + 2 ] = ( uint8_t )max( 0.0f, min( COLOR_MAX, b ) );
+    sendJpgVideo( m_Engine.getMyOnlineId(), jpgVideo );
 }
 
 //============================================================================
-void MediaProcessor::fromGuiYUV420CaptureImage(	uint8_t * yBytes, uint8_t * uBytes, uint8_t * vBytes, 
-												int yRowStride, int uRowStride, int vRowStride,
-												int yPixStride, int uPixStride, int vPixStride,
-												int imageWidth, int imageHeight, int imageRotation )
+void MediaProcessor::sendCamPackets( std::shared_ptr<CamJpgVideo>& jpgVideo )
 {
-	if( false == m_VidCaptureEnabled )
+	if( !m_VideoPktsList.size() )
 	{
-		//LogMsg( LOG_INFO, "PluginMgr::fromGuiVideoData not wanted\n" );
-		m_VideoSemaphore.signal();
-		return;
+		return; // no one to send to;
 	}
 
-	if( m_ProcessVideoQue.size() > 4 )
+	uint8_t* jpgData = jpgVideo->m_VidData.get();
+	int32_t s32JpgDataLen = jpgVideo->m_VidDataLen;
+
+	int32_t picPktDataLen		= s32JpgDataLen > MAX_PIC_PKT_DATA_PAYLOAD ? MAX_PIC_PKT_DATA_PAYLOAD : s32JpgDataLen;
+	int32_t dataOverflow		= s32JpgDataLen > MAX_PIC_PKT_DATA_PAYLOAD ? s32JpgDataLen - MAX_PIC_PKT_DATA_PAYLOAD : 0;
+	int32_t chunkPktsRequired	= dataOverflow / MAX_PIC_CHUNK_LEN + ((dataOverflow % MAX_PIC_CHUNK_LEN)?1:0);
+
+	#ifdef DEBUG_PROCESSOR_LOCK
+	LogMsg( LOG_INFO, "m_VideoPktsList VideoProcessorLock" );
+	#endif // DEBUG_PROCESSOR_LOCK
+	VideoProcessorLock mgrMutexLock( this );
+	doVideoClientRemovals( m_VideoClientRemoveList );
+
+	m_PktVideoFeedPic->setThisDataLen( picPktDataLen );
+	m_PktVideoFeedPic->setTotalDataLen( s32JpgDataLen );
+	m_PktVideoFeedPic->setTimeStampMs( GetGmtTimeMs() );
+    m_PktVideoFeedPic->setMotionDetect( jpgVideo->m_Motion );
+	m_PktVideoFeedPic->setTotalPktsInSeq( 1 + chunkPktsRequired );
+	m_PktVideoFeedPic->setPktSeqNum( 1 );
+
+	memcpy( m_PktVideoFeedPic->getDataPayload(), jpgData, picPktDataLen );
+	m_PktVideoFeedPic->calcPktLen();
+
+	for( auto client : m_VideoPktsList )
 	{
-		//LogMsg( LOG_INFO, "WARNING MediaProcessor::fromGuiVideoData dropping video because que size %d\n", m_ProcessVideoQue.size() );
-		m_VideoSemaphore.signal();
-		return;
+		client.m_Callback->callbackVideoPktPic( m_Engine.getMyOnlineId(), m_PktVideoFeedPic, 1 + chunkPktsRequired, 1  );
 	}
 
-	static int BYTES_PER_RGB_PIX = 3;
-	int rgbDataLen = BYTES_PER_RGB_PIX * imageWidth * imageHeight;
-	uint8_t* rgbData = new uint8_t[ rgbDataLen ];
-
-	uint8_t yuvPixel[] = { 0, 0, 0 }; 
-	uint8_t* yFullRow = new uint8_t[yPixStride * (imageWidth - 1) + 1]; 
-	uint8_t* uFullRow = new uint8_t[uPixStride * (imageWidth / 2 - 1) + 1]; 
-	uint8_t* vFullRow = new uint8_t[vPixStride * (imageWidth / 2 - 1) + 1]; 
-	uint8_t* finalRow = rgbData; 
-	for( int i = 0; i < imageHeight; i++ ) 
-	{ 
-		int halfH = i / 2; 
-		memcpy( yFullRow, &yBytes[yRowStride * i], yPixStride * (imageWidth - 1) + 1 );
-		memcpy( uFullRow, &uBytes[uRowStride * halfH], uPixStride * (imageWidth / 2 - 1) + 1 );
-		memcpy( vFullRow, &vBytes[vRowStride * halfH], vPixStride * (imageWidth / 2 - 1) + 1 );
-		for (int j = 0; j < imageWidth; j++) 
-		{ 
-			int halfW = j / 2; 
-			yuvPixel[0] = yFullRow[yPixStride * j]; 
-			yuvPixel[1] = uFullRow[uPixStride * halfW]; 
-			yuvPixel[2] = vFullRow[vPixStride * halfW]; 
-			yuvToRgb(yuvPixel, j * BYTES_PER_RGB_PIX, /*out*/finalRow); 
-		} 
-
-		finalRow += BYTES_PER_RGB_PIX * imageWidth; 
-	} 
-
-	std::shared_ptr<uint8_t> sharedVidData( rgbData );
-
-	RawVideo * rawVideo = new RawVideo( FOURCC_RGB,
-										sharedVidData,
-										rgbDataLen, 
-										imageWidth,
-										imageHeight,
-										imageRotation );
-
-	//#ifdef DEBUG_PROCESSOR_LOCK
-	//	LogMsg( LOG_INFO, "fromGuiVideoData m_VideoQueInMutex.lock()\n" );
-	//#endif // DEBUG_PROCESSOR_LOCK
-	m_VideoQueInMutex.lock();
-	m_ProcessVideoQue.emplace_back( rawVideo );
-	//#ifdef DEBUG_PROCESSOR_LOCK
-	//	LogMsg( LOG_INFO, "fromGuiVideoData m_VideoQueInMutex.unlock()\n" );
-	//#endif // DEBUG_PROCESSOR_LOCK
-	m_VideoQueInMutex.unlock();
-	m_VideoSemaphore.signal();
-
-	delete[] yFullRow; 
-	delete[] uFullRow;
-	delete[] vFullRow;
-}
-
-//============================================================================
-void MediaProcessor::processVideoIn( void )
-{
-	//testJpgSpeed();
-	while( false == m_ProcessVideoThread.isAborted() )
+	if( chunkPktsRequired )
 	{
-		#ifdef DEBUG_PROCESSOR_LOCK
-			LogMsg( LOG_INFO, "processVideoIn wait for video semaphore" );
-		#endif // DEBUG_PROCESSOR_LOCK
-		m_VideoSemaphore.wait();
-		if( m_ProcessVideoThread.isAborted() )
+		int curDataIdx = MAX_PIC_PKT_DATA_PAYLOAD;
+		int dataLeftToSend = dataOverflow;
+		for( int i = 0; i < chunkPktsRequired; i++ )
 		{
-			LogMsg( LOG_INFO, "MediaProcessor::processVideoIn aborting1" );
-			break;
-		}
-		else
-		{
-			VideoProcessorLock mgrMutexLock( this );
-			doVideoClientRemovals( m_VideoClientRemoveList );
-		}
+			PktVideoFeedPicChunk * pktChunk = m_VidChunkList[i];
+            int32_t dataThisChunk = dataLeftToSend > (int)MAX_PIC_CHUNK_LEN ? (int)MAX_PIC_CHUNK_LEN : dataLeftToSend;
+			memcpy( pktChunk->getDataPayload(), &(jpgData[curDataIdx]), dataThisChunk );
 
-		while( m_ProcessVideoQue.size() )
-		{
-			#ifdef DEBUG_PROCESSOR_LOCK
-				LogMsg( LOG_INFO, "processVideoIn m_VideoQueInMutex.lock()" );
-			#endif // DEBUG_PROCESSOR_LOCK
-			m_VideoQueInMutex.lock();
-			RawVideo * rawVideo = m_ProcessVideoQue[0];
-			m_ProcessVideoQue.erase( m_ProcessVideoQue.begin() );
-			#ifdef DEBUG_PROCESSOR_LOCK
-				LogMsg( LOG_INFO, "processVideoIn m_VideoQueInMutex.unlock()" );
-			#endif // DEBUG_PROCESSOR_LOCK
-			m_VideoQueInMutex.unlock();
-
-			processRawVideoIn( rawVideo );
-			delete rawVideo;
-
-			if( m_ProcessVideoThread.isAborted() )
+			pktChunk->setThisDataLen( dataThisChunk );
+			pktChunk->setPktSeqNum( 2 + i );
+			pktChunk->setTotalPktsInSeq( chunkPktsRequired + 1 );
+			pktChunk->calcPktLen();
+			for( auto client : m_VideoPktsList )
 			{
-				LogMsg( LOG_INFO, "MediaProcessor::processVideoIn aborting2" );
-				break;
+				client.m_Callback->callbackVideoPktPicChunk( m_Engine.getMyOnlineId(), pktChunk, chunkPktsRequired + 1, 2 + i );
 			}
-		}
 
-		if( m_ProcessVideoThread.isAborted() )
+			curDataIdx += dataThisChunk;
+			dataLeftToSend -= dataThisChunk;
+		}
+	}
+}
+
+//============================================================================
+void MediaProcessor::sendJpgVideo( VxGUID& onlineId, std::shared_ptr<CamJpgVideo>& jpgVideo )
+{
+	if( !m_VideoJpgList.size() )
+	{
+		return;
+	}
+
+	#ifdef DEBUG_PROCESSOR_LOCK
+	LogMsg( LOG_INFO, "processFriendVideoFeed VideoProcessorLock start" );
+	#endif // DEBUG_PROCESSOR_LOCK
+	VideoProcessorLock mgrMutexLock( this );
+	#ifdef DEBUG_PROCESSOR_LOCK
+		LogMsg( LOG_INFO, "processFriendVideoFeed VideoProcessorLock done" );
+	#endif // DEBUG_PROCESSOR_LOCK
+	doVideoClientRemovals( m_VideoClientRemoveList );
+
+	for( auto& client : m_VideoJpgList )
+	{
+		if( !client.m_OnlineId.isVxGUIDValid() || client.m_OnlineId == onlineId )
 		{
-			LogMsg( LOG_INFO, "MediaProcessor::processVideoIn aborting3" );
-			break;
+            client.m_Callback->callbackVideoJpg( onlineId, jpgVideo );
 		}
 	}
 
-	LogMsg( LOG_INFO, "MediaProcessor::processVideoIn leaving function" );
+	#ifdef DEBUG_PROCESSOR_LOCK
+		LogMsg( LOG_INFO, "processFriendVideoFeed VideoProcessorLock callbacks done" );
+	#endif // DEBUG_PROCESSOR_LOCK
+
 }
 
 //============================================================================
@@ -632,288 +461,15 @@ void MediaProcessor::processFriendVideoFeed(	VxGUID&			onlineId,
 												uint32_t		jpgDataLen,
 												int				motion0To100000 )
 {
-	if( m_VideoJpgSmallList.size() )
+	if( !m_VideoJpgList.size() )
 	{
-		#ifdef DEBUG_PROCESSOR_LOCK
-			LogMsg( LOG_INFO, "processFriendVideoFeed VideoProcessorLock start" );
-		#endif // DEBUG_PROCESSOR_LOCK
-		VideoProcessorLock mgrMutexLock( this );
-		#ifdef DEBUG_PROCESSOR_LOCK
-			LogMsg( LOG_INFO, "processFriendVideoFeed VideoProcessorLock done" );
-		#endif // DEBUG_PROCESSOR_LOCK
-		doVideoClientRemovals( m_VideoClientRemoveList );
-
-		for( auto& client : m_VideoJpgSmallList )
-		{
-			if( !client.m_OnlineId.isVxGUIDValid() || client.m_OnlineId == onlineId )
-			{
-				client.m_Callback->callbackVideoJpgSmall( onlineId, pu8Jpg, jpgDataLen, motion0To100000 );
-			}
-		}
-
-		#ifdef DEBUG_PROCESSOR_LOCK
-			LogMsg( LOG_INFO, "processFriendVideoFeed VideoProcessorLock callbacks done" );
-		#endif // DEBUG_PROCESSOR_LOCK
-	}
-};
-
-//============================================================================
-void MediaProcessor::processRawVideoIn( RawVideo * rawVideo )
-{
-	uint8_t* pu8VidData	= rawVideo->m_VidData.get();
-	int iWidth			= rawVideo->m_Width; 
-	int iHeight			= rawVideo->m_Height; 
-	int iRotation		= rawVideo->m_Rotation; 
-
-	bool needToDeleteVidData{ false };
-	bool bResize = (( 320 != iWidth ) || ( 240 != iHeight ));
-	bool bDidLargePhoto = bResize && m_VideoJpgBigList.size();
-	if( bDidLargePhoto )
-	{
-		if( 0 != iRotation )
-		{
-			// need to rotate
-			pu8VidData = VxRotateRgbImage(	pu8VidData, 
-											iWidth, 
-											iHeight, 
-											iRotation );
-			needToDeleteVidData = true;
-			iRotation = 0;
-		}
-
-		// compress from rgb to jpg for sending
-		long s32JpgDataLen = 0;
-		// take a guess at what size the jpg will be
-		int iMaxJpgSize = iWidth * iHeight * 3;
-
-		uint8_t* pu8JpgData = new uint8_t[ iMaxJpgSize ];
-        VxBmp2Jpg(	24,						// number of bits each pixel..(For now must be 24)
-					pu8VidData,				// bits of bmp to convert
-					iWidth,					// width of image in pixels
-					iHeight,				// height of image in pixels
-					JPG_CONVERT_QUALITY,	// quality of image
-					iMaxJpgSize,			// maximum length of pu8RetJpg
-					pu8JpgData,				// buffer to return Jpeg image
-					&s32JpgDataLen );		// return length of jpeg image
-
-		#ifdef DEBUG_PROCESSOR_LOCK
-		LogMsg( LOG_INFO, "VxBmp2Jpg AutoProcessorLock" );
-		#endif // DEBUG_PROCESSOR_LOCK
-		VideoProcessorLock mgrMutexLock( this );
-		doVideoClientRemovals( m_VideoClientRemoveList );
-		for( auto iter = m_VideoJpgBigList.begin(); iter != m_VideoJpgBigList.end(); ++iter )
-		{
-			MediaClient& client = (*iter);
-			client.m_Callback->callbackVideoJpgBig( m_Engine.getMyOnlineId(), pu8JpgData, s32JpgDataLen );
-		}
-
-		delete[] pu8JpgData;
-
-		if( ( 0 == m_VideoJpgSmallList.size() )
-			&& ( 0 == m_VideoPktsList.size() ) )
-		{
-			// we are done
-			if( needToDeleteVidData )
-			{
-				delete[] pu8VidData;
-			}
-
 			return;
-		}
 	}
 
-	if( bResize )
-	{
-		// scale to 320x200.. the reason we don't use the GdvBufferUtil to scale at same time as convert is that
-		// it looks like crap. here we use averaging
-		pu8VidData = VxResizeRgbImage(	pu8VidData, 
-			iWidth, 
-			iHeight, 
-			320, 
-			240,
-			iRotation );
-		needToDeleteVidData = true;
-		iWidth = 320;
-		iHeight = 240;
-	}
-	else if( 0 != iRotation )
-	{
-		// need to rotate
-		pu8VidData = VxResizeRgbImage(	pu8VidData, 
-			                            iWidth, 
-			                            iHeight, 
-			                            320, 
-			                            240,
-			                            iRotation );
-		needToDeleteVidData = true;
-	}
-
-	#define ENABLE_JPG_PERF 1
-	#if ENABLE_JPG_PERF
-	static std::vector<int64_t> perfTimes;
-	static std::vector<long> perfSize;
-	int64_t jpgStartMs = GetGmtTimeMs();
-    #endif // ENABLE_JPG_PERF
-
-	static int8_t motionBuf[ VIDEO_DATA_BYTE_CNT ];
-	int8_t * cmpData = (int8_t *)pu8VidData;
-    int32_t vidDiff = 0;
-	for( int i = 0; i < VIDEO_DATA_BYTE_CNT; i++ )
-	{
-		vidDiff += cmpData[i] > motionBuf[i] ? ( cmpData[i] - motionBuf[i] ) : ( motionBuf[i] - cmpData[i] ); 
-	}
-
-	memcpy( motionBuf, pu8VidData, VIDEO_DATA_BYTE_CNT );
-	double difNormalized = ((double)vidDiff * VIDEO_MAX_MOTION_VALUE) / ( VIDEO_SENSITIVITY_DIVISOR );
-	int motion0To100000 = difNormalized > VIDEO_MAX_MOTION_VALUE ? VIDEO_MAX_MOTION_VALUE : (int)difNormalized;
-
-	// compress from rgb to jpg for sending
-	long s32JpgDataLen = 0;
-	// take a guess at what size the jpg will be
-	int iMaxJpgSize = VIDEO_DATA_BYTE_CNT;
-	RCODE rc = VxBmp2Jpg(	24,								// number of bits each pixel..(For now must be 24)
-						     pu8VidData,					// bits of bmp to convert
-						     iWidth,						// width of image in pixels
-						     iHeight,						// height of image in pixels
-						     m_VideoJpgBigList.size() ? 100 : JPG_CONVERT_QUALITY,							// quality of image
-						     iMaxJpgSize,					// maximum length of pu8RetJpg
-						     m_PktVideoFeedPic->getDataPayload(),	// buffer to return Jpeg image
-						     &s32JpgDataLen );				// return length of jpeg image
-
-	#if ENABLE_JPG_PERF
-	perfTimes.emplace_back( GetGmtTimeMs() - jpgStartMs );
-	perfSize.emplace_back( s32JpgDataLen );
-	if( perfTimes.size() >= 20 )
-	{
-		int64_t totalTime{ 0 };
-		for( auto timeMs : perfTimes )
-		{
-			totalTime += timeMs;
-		}
-
-		int64_t totalSize{ 0 };
-		for( auto jpgSize : perfSize )
-		{
-			totalSize += jpgSize;
-		}
-
-		int averageTime = (int)(totalTime / perfTimes.size());
-		int averageSize = (int)(totalSize / perfSize.size());
-		perfTimes.clear();
-		perfSize.clear();
-
-		LogMsg( LOG_DEBUG, "MediaProcessor::%s jpg avg time %d size %d", __func__, averageTime, averageSize );	
-	}
-	#endif // ENABLE_JPG_PERF
-
-	if( needToDeleteVidData )
-	{
-		delete[] pu8VidData;
-		pu8VidData = nullptr;
-	}
-
-	if( 0 == rc )
-	{
-		//LogMsg( LOG_INFO, "PluginMgr::fromGuiVideoData width %d height %d len %d compressed %d\n", iWidth, iHeight, u32VidDataLen, s32JpgDataLen  );
-		//writeWholeFile( "Test.jpg", pu8JpgData, s32JpgDataLen );
-		if( !bDidLargePhoto && m_VideoJpgBigList.size() )
-		{
-			// clients wanted large but the video capture was small so we have to give them small
-			#ifdef DEBUG_PROCESSOR_LOCK
-			LogMsg( LOG_INFO, "m_VideoJpgBigList VideoProcessorLock" );
-			#endif // DEBUG_PROCESSOR_LOCK
-			VideoProcessorLock mgrMutexLock( this );
-			doVideoClientRemovals( m_VideoClientRemoveList );
-
-			for( auto& client : m_VideoJpgBigList )
-			{
-				client.m_Callback->callbackVideoJpgBig( m_Engine.getMyOnlineId(), m_PktVideoFeedPic->getDataPayload(), s32JpgDataLen );
-			}
-		}
-
-		if( m_VideoJpgSmallList.size() )
-		{
-			std::vector<MediaClient>::iterator iter;
-			#ifdef DEBUG_PROCESSOR_LOCK
-			LogMsg( LOG_INFO, "m_VideoJpgSmallList VideoProcessorLock start" );
-			#endif // DEBUG_PROCESSOR_LOCK
-			VideoProcessorLock mgrMutexLock( this );
-			doVideoClientRemovals( m_VideoClientRemoveList );
-
-			#ifdef DEBUG_PROCESSOR_LOCK
-			LogMsg( LOG_INFO, "m_VideoJpgSmallList VideoProcessorLock done" );
-			#endif // DEBUG_PROCESSOR_LOCK
-			for( auto& client : m_VideoJpgSmallList )
-			{
-				client.m_Callback->callbackVideoJpgSmall( m_Engine.getMyOnlineId(), m_PktVideoFeedPic->getDataPayload(), s32JpgDataLen, motion0To100000 );
-			}
-
-			#ifdef DEBUG_PROCESSOR_LOCK
-			LogMsg( LOG_INFO, "m_VideoJpgSmallList VideoProcessorLock callbacks done" );
-			#endif // DEBUG_PROCESSOR_LOCK
-		}
-
-		//if( getMyIdInVidPktListCount() && m_VideoPktsList.size() )
-		if( m_VideoPktsList.size() )
-		{
-			int32_t picPktDataLen		= s32JpgDataLen > MAX_PIC_PKT_DATA_PAYLOAD ? MAX_PIC_PKT_DATA_PAYLOAD : s32JpgDataLen;
-			int32_t dataOverflow		= s32JpgDataLen > MAX_PIC_PKT_DATA_PAYLOAD ? s32JpgDataLen - MAX_PIC_PKT_DATA_PAYLOAD : 0;
-			int32_t chunkPktsRequired	= dataOverflow / MAX_PIC_CHUNK_LEN + ((dataOverflow % MAX_PIC_CHUNK_LEN)?1:0);
-			m_PktVideoFeedPic->setThisDataLen( picPktDataLen );
-			m_PktVideoFeedPic->setTotalDataLen( s32JpgDataLen );
-			m_PktVideoFeedPic->setTimeStampMs( GetGmtTimeMs() );
-			m_PktVideoFeedPic->setMotionDetect( motion0To100000 );
-			m_PktVideoFeedPic->setTotalPktsInSeq( 1 + chunkPktsRequired );
-			m_PktVideoFeedPic->setPktSeqNum( 1 );
-			m_PktVideoFeedPic->calcPktLen();
-
-			std::vector<MediaClient>::iterator iter;
-			#ifdef DEBUG_PROCESSOR_LOCK
-			LogMsg( LOG_INFO, "m_VideoPktsList VideoProcessorLock" );
-			#endif // DEBUG_PROCESSOR_LOCK
-			VideoProcessorLock mgrMutexLock( this );
-			doVideoClientRemovals( m_VideoClientRemoveList );
-			for( iter = m_VideoPktsList.begin(); iter != m_VideoPktsList.end(); ++iter )
-			{
-				MediaClient& client = (*iter);
-				client.m_Callback->callbackVideoPktPic( m_Engine.getMyOnlineId(), m_PktVideoFeedPic, 1 + chunkPktsRequired, 1  );
-			}
-
-			if( chunkPktsRequired )
-			{
-				int curDataIdx = MAX_PIC_PKT_DATA_PAYLOAD;
-				int dataLeftToSend = dataOverflow;
-				for( int i = 0; i < chunkPktsRequired; i++ )
-				{
-					PktVideoFeedPicChunk * pktChunk = m_VidChunkList[i];
-                    int32_t dataThisChunk = dataLeftToSend > (int)MAX_PIC_CHUNK_LEN ? (int)MAX_PIC_CHUNK_LEN : dataLeftToSend;
-					memcpy( pktChunk->getDataPayload(), &(m_PktVideoFeedPic->getDataPayload()[curDataIdx]), dataThisChunk );
-					pktChunk->setThisDataLen( dataThisChunk );
-					pktChunk->setPktSeqNum( 2 + i );
-					pktChunk->setTotalPktsInSeq( chunkPktsRequired + 1 );
-					pktChunk->calcPktLen();
-					for( iter = m_VideoPktsList.begin(); iter != m_VideoPktsList.end(); ++iter )
-					{
-						MediaClient& client = (*iter);
-						client.m_Callback->callbackVideoPktPicChunk( m_Engine.getMyOnlineId(), pktChunk, chunkPktsRequired + 1, 2 + i );
-					}
-
-					curDataIdx += dataThisChunk;
-					dataLeftToSend -= dataThisChunk;
-				}
-			}
-
-#ifdef DEBUG_PROCESSOR_LOCK
-			LogMsg( LOG_INFO, "m_VideoPktsList callbacks done" );
-#endif // DEBUG_PROCESSOR_LOCK
-		}
-	}
-	else
-	{
-		LogMsg( LOG_ERROR, "PluginMgr::fromGuiVideoData: JPEG Conversion error %d", rc );
-	}
-
-	//LogMsg( LOG_INFO, "PluginMgr::fromGuiVideoData done\n" );
+	std::shared_ptr<uint8_t> vidData( new uint8_t[jpgDataLen] );
+	memcpy( vidData.get(), pu8Jpg, jpgDataLen );
+	std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( vidData, jpgDataLen, motion0To100000 ) );
+	sendJpgVideo( onlineId, jpgVideo );
 }
 
 //============================================================================
@@ -1161,14 +717,11 @@ void MediaProcessor::doMixerClientRemovals( std::vector<ClientToRemove>& clientR
 			case eMediaInputAudioPcm:
 				clientList = &m_AudioPcmList;
 				break;
-			case eMediaInputVideoJpgSmall:
-				clientList = &m_VideoJpgSmallList;
+			case eMediaInputVideoJpg:
+				clientList = &m_VideoJpgList;
 				break;
 			case eMediaInputAudioOpus:
 				clientList = &m_AudioOpusList;
-				break;
-			case eMediaInputVideoJpgBig:
-				clientList = &m_VideoJpgBigList;
 				break;
 
 			case eMediaInputMixer:
@@ -1328,14 +881,11 @@ void MediaProcessor::doAudioClientRemovals( std::vector<ClientToRemove>& clientR
 			case eMediaInputAudioPcm:
 				clientList = &m_AudioPcmList;
 				break;
-			case eMediaInputVideoJpgSmall:
-				clientList = &m_VideoJpgSmallList;
+			case eMediaInputVideoJpg:
+				clientList = &m_VideoJpgList;
 				break;
 			case eMediaInputAudioOpus:
 				clientList = &m_AudioOpusList;
-				break;
-			case eMediaInputVideoJpgBig:
-				clientList = &m_VideoJpgBigList;
 				break;
 
 			case eMediaInputMixer:
@@ -1393,7 +943,6 @@ void MediaProcessor::wantVideoMediaInput(	VxGUID&						onlineId,
 		if( m_VidCaptureEnabled && !clientToRemoveExistsInList( m_VideoClientRemoveList, onlineId, mediaType, sessionId, callback ) )
 		{
 			m_VideoClientRemoveList.emplace_back( ClientToRemove( onlineId, mediaType, callback, appModule, sessionId ) );
-			m_VideoSemaphore.signal();
 		}
 
 		m_VideoRemoveMutex.unlock();
@@ -1422,13 +971,9 @@ void MediaProcessor::wantVideoMediaInput(	VxGUID&						onlineId,
 		clientList = &m_VideoPktsList;
 		LogModule( eLogWebCam, LOG_DEBUG, "%s eMediaInputVideoPkts %s want %d cnt %d", __func__, DescribeAppModule( appModule ), wantInput, clientList->size() );
 		break;
-	case eMediaInputVideoJpgSmall:
-		clientList = &m_VideoJpgSmallList;
-		LogModule( eLogWebCam, LOG_DEBUG, "%s eMediaInputVideoJpgSmall %s want %d cnt %d", __func__, DescribeAppModule( appModule ), wantInput, clientList->size() );
-		break;
-	case eMediaInputVideoJpgBig:
-		clientList = &m_VideoJpgBigList;
-		LogModule( eLogWebCam, LOG_DEBUG, "%s eMediaInputVideoJpgBig %s want %d cnt %d", __func__, DescribeAppModule( appModule ), wantInput, clientList->size() );
+	case eMediaInputVideoJpg:
+		clientList = &m_VideoJpgList;
+		LogModule( eLogWebCam, LOG_DEBUG, "%s eMediaInputVideoJpg %s want %d cnt %d", __func__, DescribeAppModule( appModule ), wantInput, clientList->size() );
 		break;
 
 	default:
@@ -1457,7 +1002,7 @@ void MediaProcessor::wantVideoMediaInput(	VxGUID&						onlineId,
 	#ifdef DEBUG_PROCESSOR_LOCK
 		LogMsg( LOG_INFO, "m_VideoMutex.unlock" );
 	#endif // DEBUG_PROCESSOR_LOCK
-	bool startVidCapture = ( false == m_VidCaptureEnabled ) && ( 1 == ( m_VideoJpgSmallList.size() + idsInVidPktListCnt + m_VideoJpgBigList.size() ) );
+	bool startVidCapture = ( false == m_VidCaptureEnabled ) && ( 1 == ( m_VideoJpgList.size() + idsInVidPktListCnt ) );
 	m_VideoMutex.unlock();
 	if( startVidCapture )
 	{
@@ -1496,14 +1041,11 @@ void MediaProcessor::doVideoClientRemovals( std::vector<ClientToRemove>& clientR
 			case eMediaInputAudioPcm:
 				clientList = &m_AudioPcmList;
 				break;
-			case eMediaInputVideoJpgSmall:
-				clientList = &m_VideoJpgSmallList;
+			case eMediaInputVideoJpg:
+				clientList = &m_VideoJpgList;
 				break;
 			case eMediaInputAudioOpus:
 				clientList = &m_AudioOpusList;
-				break;
-			case eMediaInputVideoJpgBig:
-				clientList = &m_VideoJpgBigList;
 				break;
 
 			case eMediaInputMixer:
@@ -1530,7 +1072,7 @@ void MediaProcessor::doVideoClientRemovals( std::vector<ClientToRemove>& clientR
 			}
 
 			int idsInVidPktListCnt2 = getMyIdInVidPktListCount(); // this also updates m_VidPktListContainsMyId
-			bool stopVidCapture = m_VidCaptureEnabled && (0 == (m_VideoJpgSmallList.size() + idsInVidPktListCnt2 + m_VideoJpgBigList.size()));
+			bool stopVidCapture = m_VidCaptureEnabled && (0 == ( m_VideoJpgList.size() + idsInVidPktListCnt2 ) );
 			if( stopVidCapture )
 			{
 				m_VidCaptureEnabled = false;

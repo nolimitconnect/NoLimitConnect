@@ -13,22 +13,21 @@
 #include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 #endif // defined(TARGET_OS_LINUX)
 
+#include <CoreLib/MediaCallbackInterface.h>
 #include <CoreLib/VxGUID.h>
 
 #include <QObject>
 #include <QSharedPointer>
 #include <QSize>
 
-// requires typedef or signal will not connect to slot
-typedef QSharedPointer<uint8_t> SharedUint8DataPtr;
-
 class AppCommon;
 class AssetBaseInfo;
+class CamJpgVideo;
 class GuiPlayerCallback;
 class GuiVideoTitleBarCallback;
 class QImage;
 
-class GuiPlayerMgr : public QObject
+class GuiPlayerMgr : public QObject, public MediaCallbackInterface
 {
 	Q_OBJECT;
 public:
@@ -47,16 +46,15 @@ public:
 	void                        setTitleBarVideoImageSize( QSize imageSize ) { if( imageSize.width() > 4 && imageSize.height() > 4 ) m_TitleBarImageSize = imageSize; }
 	void                        wantVideoTitleBarCallbacks( GuiVideoTitleBarCallback* client, bool enable );
 
-	int							toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* picBuf, uint32_t picBufLen, int picWidth, int picHeight );
-	void						toGuiPlayVideoFrame( VxGUID& feedOnlineId, uint8_t* pu8Jpg, uint32_t u32JpgDataLen, int motion0To100000 );
+    void						callbackVideoJpg( VxGUID& vidFeedId, std::shared_ptr<CamJpgVideo>& camJpg ) override;
+
+	void						toGuiPlayJpgVideo( VxGUID& feedOnlineId, std::shared_ptr<CamJpgVideo>& camJpg );
 
 signals:
-	void						signalInternalPlayVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int width, int height );
-	void						signalInternalPlayMotionVideoFrame( VxGUID feedOnlineId, SharedUint8DataPtr vidFrame, int dataLen, int motion0To100000 );
+    void						signalInternalPlayCamJpg( VxGUID feedOnlineId, std::shared_ptr<CamJpgVideo> camJpg );
 
 protected slots:
-	void						slotInternalPlayVideoFrame( VxGUID feedOnlineId, QImage* vidFrame, int width, int height );
-	void						slotInternalPlayMotionVideoFrame( VxGUID feedOnlineId, SharedUint8DataPtr vidFrame, int dataLen, int motion0To100000 );
+    void						slotInternalPlayCamJpg( VxGUID feedOnlineId, std::shared_ptr<CamJpgVideo> camJpg );
 
 protected:
 	bool						m_VideoPlayClientsBusy{ false };
@@ -67,4 +65,6 @@ protected:
 	QAtomicInt					m_BehindFeedFrameCnt;
 	QAtomicInt					m_BehindMotionFrameCnt;
 	VxGUID						m_MediaSessionId;
+
+    int                         m_JpgCntInSignal = 0;
 };

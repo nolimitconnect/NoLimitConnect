@@ -18,17 +18,18 @@
 #include <CoreLib/VxSha1Hash.h>
 #include <PktLib/VxCommon.h>
 
-class VxNetIdent;
 class AssetBaseInfo;
 class BlobInfo;
+class CamJpgVideo;
 class FileInfo;
+class GroupieInfo;
+class HostedInfo;
 class OfferBaseInfo;
 class OfferClientInfo;
 class OfferHostInfo;
 class ThumbInfo;
 class VxGUID;
-class GroupieInfo;
-class HostedInfo;
+class VxNetIdent;
 
 //! IToGui is an abstract interface for calls to GUI from native C++/C code
 class IToGui
@@ -62,9 +63,7 @@ public:
 	/// Start/Stop camera capture
 	virtual void				toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture ) = 0;
 	/// Send video feed frame to GUI for playback.. includes amount of motion detected
-	virtual void				toGuiPlayVideoFrame( VxGUID& onlineId, uint8_t * pu8Jpg, uint32_t u32JpgDataLen, int motion0to100000 ) = 0;
-    /// Send video feed frame to GUI for playback.. 
-    virtual int				    toGuiPlayVideoFrame( VxGUID& onlineId, uint8_t * picBuf, uint32_t picBufLen, int picWidth, int picHeight ) = 0;
+	virtual void				toGuiPlayJpgVideo( VxGUID& onlineId, std::shared_ptr<CamJpgVideo>& jpgVideo ) = 0;
 
     /// Send host status to GUI for display
     virtual void				toGuiHostAnnounceStatus( EHostType hostType, VxGUID& sessionId, EHostAnnounceStatus joinStatus, const char* msg = "" ) = 0;
