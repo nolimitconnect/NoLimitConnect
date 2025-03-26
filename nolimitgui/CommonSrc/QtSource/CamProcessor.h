@@ -9,6 +9,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#if defined(TARGET_OS_LINUX)
+#include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
+#endif // defined(TARGET_OS_LINUX)
 
 #include <CoreLib/VxMutex.h>
 #include <CoreLib/VxThread.h>
