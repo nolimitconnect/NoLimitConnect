@@ -30,6 +30,8 @@
 #include <Plugins/PluginFileShareClient.h>
 #include <Plugins/PluginFileShareServer.h>
 
+#include <Plugins/PluginFriendRequest.h>
+
 #include <Plugins/PluginGroupClient.h>
 #include <Plugins/PluginGroupHost.h>
 
@@ -216,6 +218,10 @@ void PluginMgr::pluginMgrStartup( void )
     LogModule( eLogStartup, LOG_INFO, "pluginMgrStartup adding net services" );
 	// net services pre created by engine
     m_aoPlugins.emplace_back( &m_Engine.getPluginNetServices() );
+
+	LogModule( eLogStartup, LOG_VERBOSE, "pluginMgrStartup create friend request plugin" );
+    poPlugin = new PluginFriendRequest( m_Engine, *this, &this->m_PktAnn, ePluginTypeFriendRequest );
+    m_aoPlugins.emplace_back( poPlugin );
 
 	m_PluginMgrInitialized = true;
 

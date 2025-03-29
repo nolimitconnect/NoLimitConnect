@@ -1130,6 +1130,12 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityMsgBoxYesNo.h">
       <Filter>Source Files\Activity</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsFriendRequest.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendRequest.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.cpp">
@@ -2272,6 +2278,12 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\CamProcessor.cpp">
       <Filter>Source Files\Cam</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletSettingsFriendRequest.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFriendRequest.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
@@ -3116,6 +3128,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletFriendList.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletFriendRequest.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

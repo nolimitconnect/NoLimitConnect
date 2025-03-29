@@ -29,7 +29,8 @@ EMyIcons GetAppletIcon( EApplet applet )
 
     case eAppletCreateAccount:			    return eMyIconUserIdentity;
 
-    case eAppletFriendList:	        return eMyIconFriendJoined;
+    case eAppletFriendList:	                return eMyIconFriendJoined;
+    case eAppletFriendRequest:	            return eMyIconFriendJoined;
     case eAppletGetStarted:                 return eMyIconInformation;
 
     case eAppletGroupClient:                return eMyIconGroupClient;
@@ -124,6 +125,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletSettingsTruthOrDare:        return eMyIconSettingsTruthOrDare;
     case eAppletSettingsVideoPhone:         return eMyIconSettingsVideoPhone;
     case eAppletSettingsVoicePhone:         return eMyIconSettingsVoicePhone;
+    case eAppletSettingsFriendRequest:      return eMyIconFriendJoined;
 
     case eAppletShareServicesPage:          return eMyIconShareServices;
 
@@ -226,7 +228,8 @@ QString DescribeApplet( EApplet applet )
     case eAppletRandomConnectClient:		return QObject::tr( "Random Person Connect" );
     case eAppletAvatarImageClient:          return QObject::tr( "Get Persons Avatar Image For Contact List" );
     case eAppletCreateAccount:			    return QObject::tr( "Create Account" );
-    case eAppletFriendList:	        return QObject::tr( "Friend List" );
+    case eAppletFriendList:	                return QObject::tr( "Friend List" );
+    case eAppletFriendRequest:	            return QObject::tr( "Friend Request" );
     case eAppletGalleryEmoticon:			return QObject::tr( "Emoticon Gallery" );
     case eAppletGalleryImage:			    return QObject::tr( "Image Gallery" );
     case eAppletGalleryThumb:			    return QObject::tr( "Thumbnail Gallery" );
@@ -326,6 +329,8 @@ QString DescribeApplet( EApplet applet )
     case eAppletSettingsTruthOrDare:        return QObject::tr( "Truth Or Dare Video Chat Game Settings" );
     case eAppletSettingsVideoPhone:         return QObject::tr( "Video Chat Settings" );
     case eAppletSettingsVoicePhone:         return QObject::tr( "Voice Only Phone Call Settings" );
+
+    case eAppletSettingsFriendRequest:      return QObject::tr( "Friend Request" );
 
 	case ePluginAppletCamProvider:		    return QObject::tr( "Provide Cam Stream" );
 	case ePluginAppletNlcStation:		    return QObject::tr( "Manage Station" );

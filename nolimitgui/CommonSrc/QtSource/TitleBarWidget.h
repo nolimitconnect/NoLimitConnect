@@ -170,6 +170,7 @@ protected:
 	void						callbackToGuiSpeakerMuted( bool isMuted ) override;
 
 	void						callbackToGuiCameraEnable( bool enableCamera ) override;
+	void						callbackToGuiCaptureRunning( bool camCaptureRunning ) override;
 
 	void						callbackActiveOfferCount( int activeCnt, int historyCnt ) override;
 	void						callbackJoinRequestCount( int requestCnt ) override;

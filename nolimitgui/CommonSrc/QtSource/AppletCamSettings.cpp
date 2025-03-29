@@ -100,44 +100,13 @@ void AppletCamSettings::setupCamFeed( VxNetIdent* feedNetIdent )
 //============================================================================
 void AppletCamSettings::startCamFeed( void )
 {
-    if( !isCamFeedStarted() )
-    {
-        if( m_CamFeedIdent )
-        {
-            if( ePluginTypeInvalid != m_ePluginType )
-            {
-                m_FromGui.fromGuiStartPluginSession( m_ePluginType, m_CamFeedIdent->getMyOnlineId() );
-            }
-
-            setIsCamFeedStarted( true );
-        }
-        else
-        {
-            LogMsg( LOG_ERROR, "startCamFeed null feed ident" );
-            vx_assert( false );
-        }
-    }
+    m_MyApp.getCamLogic().toGuiWantVideoCapture( eAppModuleCamClient, true );
 }
 
 //============================================================================
 void AppletCamSettings::stopCamFeed( void )
 {
-    if( isCamFeedStarted() )
-    {
-        setIsCamFeedStarted( false );
-        if( m_CamFeedIdent )
-        {
-            if( ePluginTypeInvalid != m_ePluginType )
-            {
-                m_FromGui.fromGuiStopPluginSession( m_ePluginType, m_CamFeedIdent->getMyOnlineId() );
-            }
-        }
-        else
-        {
-            LogMsg( LOG_ERROR, "stopCamFeed null feed ident" );
-            vx_assert( false );
-        }
-    }
+    m_MyApp.getCamLogic().toGuiWantVideoCapture( eAppModuleCamClient, false );
 }
 
 //============================================================================

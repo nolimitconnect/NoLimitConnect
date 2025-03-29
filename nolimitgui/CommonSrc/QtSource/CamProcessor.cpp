@@ -112,7 +112,12 @@ void CamProcessor::processCamRgbThreaded( void )
 
         while( m_ProcessCamRgbQue.size() )
 		{
-            int64_t startTime = GetGmtTimeMs();
+            int64_t startTime;
+            if( LogEnabled( eLogWebCam ) )
+            {
+               startTime = GetGmtTimeMs();
+            }
+
             m_CamRgbMutex.lock();
             CamRgbVideo * rawVideo = m_ProcessCamRgbQue[0];
             m_ProcessCamRgbQue.erase( m_ProcessCamRgbQue.begin() );
@@ -120,11 +125,17 @@ void CamProcessor::processCamRgbThreaded( void )
 
             processCamVideoRgb( rawVideo );
 			delete rawVideo;
-            //if( LogEnabled( eLogWebCam ) )
+            if( LogEnabled( eLogWebCam ) )
             {
-                int64_t endTime = GetGmtTimeMs();
-                LogMsg( LOG_VERBOSE, "CamProcessor::%s took %d ms at %d", __func__,
-                       (int)(endTime - startTime), GetApplicationAliveMs() );
+                static int frameCnt = 0;
+                frameCnt++;
+                if( frameCnt >= 100 )
+                {
+                    frameCnt = 0;
+                    int64_t endTime = GetGmtTimeMs();
+                    LogMsg( LOG_VERBOSE, "CamProcessor::%s took %d ms at %d", __func__,
+                           (int)(endTime - startTime), GetApplicationAliveMs() );
+                }
             }
 
             if( m_ProcessCamRgbThread.isAborted() )
@@ -267,20 +278,12 @@ void CamProcessor::processCamJpgThreaded( void )
 
         while( m_ProcessCamJpgQue.size() )
         {
-            int64_t startTime = GetGmtTimeMs();
             m_CamJpgMutex.lock();
             std::shared_ptr<CamJpgVideo> jpgVideo = m_ProcessCamJpgQue[0];
             m_ProcessCamJpgQue.erase( m_ProcessCamJpgQue.begin() );
             m_CamJpgMutex.unlock();
 
             m_CamLogic.processCamCapture( jpgVideo );
-
-            //if( LogEnabled( eLogWebCam ) )
-            {
-                int64_t endTime = GetGmtTimeMs();
-                LogMsg( LOG_VERBOSE, "CamProcessor::%s took %d ms at %d", __func__,
-                       (int)(endTime - startTime), GetApplicationAliveMs() );
-            }
 
             if( m_ProcessCamJpgThread.isAborted() )
             {

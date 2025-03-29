@@ -687,6 +687,7 @@ EPluginType GuiHelpers::getAppletAssociatedPlugin( EApplet applet )
     case eAppletSettingsConnectTest:        return ePluginTypeHostConnectTest;
     case eAppletSettingsShareFiles:         return ePluginTypeFileShareServer;
     case eAppletSettingsFileXfer:           return ePluginTypePersonFileXfer;
+    case eAppletSettingsFriendRequest:      return ePluginTypePersonFileXfer;
 
     case eAppletSettingsHostChatRoom:       return ePluginTypeHostChatRoom;
     case eAppletSettingsHostGroup:          return ePluginTypeHostGroup;
@@ -761,6 +762,8 @@ EApplet GuiHelpers::pluginTypeToSettingsApplet( EPluginType pluginType )
     case ePluginTypeTruthOrDare:            return eAppletSettingsTruthOrDare;
     case ePluginTypeVideoPhone:             return eAppletSettingsVideoPhone;
     case ePluginTypeVoicePhone:             return eAppletSettingsVoicePhone;
+
+    case ePluginTypeFriendRequest:          return eAppletSettingsFriendRequest;
 
     default:
         break;
@@ -946,6 +949,7 @@ bool GuiHelpers::isPluginAPrimaryService( EPluginType pluginType )
     case ePluginTypeHostRandomConnect:
     case ePluginTypeHostConnectTest:
     case ePluginTypePushToTalk:
+    case ePluginTypeFriendRequest:
         isPrimaryPlugin = true;
         break;
 

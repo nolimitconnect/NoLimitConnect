@@ -427,6 +427,11 @@ void MediaProcessor::sendCamPackets( std::shared_ptr<CamJpgVideo>& jpgVideo )
 //============================================================================
 void MediaProcessor::sendJpgVideo( VxGUID& onlineId, std::shared_ptr<CamJpgVideo>& jpgVideo )
 {
+	if( m_GuiPlayerCallback )
+	{
+		m_GuiPlayerCallback->callbackVideoJpg( onlineId, jpgVideo );
+	}
+
 	if( !m_VideoJpgList.size() )
 	{
 		return;
@@ -935,6 +940,13 @@ void MediaProcessor::wantVideoMediaInput(	VxGUID&						onlineId,
 											bool						wantInput )
 {
 	LogModule( eLogWebCam, LOG_DEBUG, "%s %s wantInput %d", __func__, DescribeAppModule( appModule ), wantInput );
+	if( appModule == eAppModuleMediaPlayer && wantInput )
+	{
+		// gui media player wants all jpg streams and is never removed and we do not want it to trigger video capture
+		m_GuiPlayerCallback = callback;
+		return;
+	}
+
 	if( false == wantInput )
 	{
 		// user wants to be removed but is probably being called from a callback function.

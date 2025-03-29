@@ -688,6 +688,9 @@
     <ClCompile Include="..\..\AssetBase\AssetPlaySession.cpp">
       <Filter>Source Files\AssetBase</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginFriendRequest.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AssetMgr\AssetCallbackInterface.h">
@@ -1439,6 +1442,9 @@
     </ClInclude>
     <ClInclude Include="..\..\MediaProcessor\CamJpgVideo.h">
       <Filter>Source Files\MediaProcessor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginFriendRequest.h">
+      <Filter>Source Files\Plugins</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -651,6 +651,7 @@
     <ClCompile Include="..\..\Plugins\PluginConnectionTestHost.cpp" />
     <ClCompile Include="..\..\Plugins\PluginFileShareClient.cpp" />
     <ClCompile Include="..\..\Plugins\PluginFileShareServer.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginFriendRequest.cpp" />
     <ClCompile Include="..\..\Plugins\PluginGroupClient.cpp" />
     <ClCompile Include="..\..\Plugins\PluginGroupHost.cpp" />
     <ClCompile Include="..\..\Plugins\PluginInvalid.cpp" />
@@ -893,6 +894,7 @@
     <ClInclude Include="..\..\Plugins\PluginConnectionTestHost.h" />
     <ClInclude Include="..\..\Plugins\PluginFileShareClient.h" />
     <ClInclude Include="..\..\Plugins\PluginFileShareServer.h" />
+    <ClInclude Include="..\..\Plugins\PluginFriendRequest.h" />
     <ClInclude Include="..\..\Plugins\PluginGroupClient.h" />
     <ClInclude Include="..\..\Plugins\PluginGroupHost.h" />
     <ClInclude Include="..\..\Plugins\PluginInvalid.h" />

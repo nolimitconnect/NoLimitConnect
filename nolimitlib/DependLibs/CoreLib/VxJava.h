@@ -29,6 +29,8 @@ public:
 
 VxJava& GetJavaEnvCache();
 
+JavaVM* GetJavaVM();
+
 #endif // TARGET_OS_ANDROID
 
 #endif // VXJAVA_H

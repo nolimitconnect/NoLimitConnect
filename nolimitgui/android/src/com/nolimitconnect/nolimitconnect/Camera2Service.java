@@ -10,14 +10,12 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
-import android.hardware.camera2.CameraCaptureSession;
-import android.hardware.camera2.CameraDevice;
-import android.hardware.camera2.CameraManager;
-import android.hardware.camera2.CaptureRequest;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Binder;
 import android.os.IBinder;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.util.Range;
 import androidx.annotation.Nullable;
@@ -28,6 +26,8 @@ public class Camera2Service extends Service {
     private static final String TAG = "Camera2Service";
     private static final int MIN_CAPTURE_INTERVAL_MS = 28; // limit to about 30 fps.. 15 fps still looks ok so could be 60
     private long m_LastCaptureTimeMs = 0;
+
+    private Handler m_MainThreadHandler = null;
 
     // native methods
     public native void camServiceStarted();
@@ -79,6 +79,8 @@ public class Camera2Service extends Service {
     public void onCreate() {
         Log.d(TAG, "onCreate Camera Service Created");
         super.onCreate();
+        // Initialize the Handler for running tasks on the main thread
+        m_MainThreadHandler = new Handler(Looper.getMainLooper());
     }
 
     @Override
@@ -96,7 +98,7 @@ public class Camera2Service extends Service {
     @Override
     public void onDestroy() {
         Log.d(TAG, "Camera Service Destroyed");
-        stopCameraCapture();
+        internalStopCameraCapture();
         camServiceStopped();
 
         super.onDestroy();   
@@ -136,11 +138,39 @@ public class Camera2Service extends Service {
 
     public boolean startCameraCapture(String cameraId)
     {
-        return openCamera( cameraId );
+        m_CameraId = cameraId;
+        Log.d(TAG, "**** begin startCameraCapture " + cameraId );
+        // has to run on main thread
+        m_MainThreadHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "**** main thread openCamera " + cameraId );
+                openCamera( m_CameraId );
+            }
+        });
+
+
+        Log.d(TAG, "**** end startCameraCapture " + cameraId );
+        return true;
     }
 
     public void stopCameraCapture()
     {
+        Log.d(TAG, "**** begin stopCameraCapture " + m_CameraId );
+        // has to run on main thread
+        m_MainThreadHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                internalStopCameraCapture();
+            }
+       });
+
+        Log.d(TAG, "**** end stopCameraCapture " + m_CameraId );
+    }
+
+    public void internalStopCameraCapture()
+    {
+        Log.d(TAG, "**** internalStopCameraCapture " + m_CameraId );
         if (m_CaptureSession != null) {
             m_CaptureSession.close();
             m_CaptureSession = null;
@@ -266,7 +296,7 @@ public class Camera2Service extends Service {
     private boolean openCamera(String cameraId) {
         boolean result = false;
         try {
-            stopCameraCapture(); // in case was already running
+            internalStopCameraCapture(); // in case was already running
 
             if( m_ImageReader == null )
             {

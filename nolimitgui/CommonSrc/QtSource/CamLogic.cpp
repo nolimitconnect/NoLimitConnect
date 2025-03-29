@@ -53,7 +53,6 @@ CamLogic::~CamLogic() {
 //============================================================================
 bool CamLogic::isCamCaptureRequested( void )
 {
-    return true;
     bool isRequested{ false };
     for( int i = 0; i < eMaxAppModule; i++ )
     {
@@ -131,6 +130,8 @@ void CamLogic::onCamCaptureReady( bool isReady )
     }
 
     m_MyApp.fromGuiCameraEnable( m_MyApp.getAppSettings().getCamEnable() );
+
+    emit signalCamCaptureReady();
 }
 
 //============================================================================
@@ -240,6 +241,7 @@ bool CamLogic::startCamCapture( std::string camId )
     }
 
     m_CamId = camId;
+    m_LastCamUsed.clear();
     m_MyApp.getAppSettings().setCamSourceId( camId );
     m_MyApp.setCamCaptureRotation( m_MyApp.getAppSettings().getCamRotation( camId ) );
     
@@ -309,12 +311,6 @@ bool CamLogic::setCamera( const QCameraDevice& cameraDevice )
 
     return m_Camera->isActive();
 #endif // defined(ENABLE_JAVA_CAM)
-}
-
-//============================================================================
-bool CamLogic::isCamCaptureRunning( void )
-{
-    return false;
 }
 
 //============================================================================
@@ -590,7 +586,6 @@ int CamLogic::getCamCaptureRotation( void )
     return m_MyApp.getCamCaptureRotation();
 }
 
-
 //============================================================================
 bool CamLogic::enableCamCapture( bool enable )
 {
@@ -604,6 +599,11 @@ bool CamLogic::enableCamCapture( bool enable )
             m_Camera->stop();
         }
     #endif // defined(ENABLE_JAVA_CAM)
+        if( m_CaptureRunning != enable )
+        {
+            updateCaptureRunning( enable );
+        }
+
         return false;
     }
 
@@ -625,8 +625,21 @@ bool CamLogic::enableCamCapture( bool enable )
         return false;
     }
 
+    if( m_CaptureRunning && m_CamId == m_LastCamUsed)
+    {
+        return true;
+    }
+
 #if defined(ENABLE_JAVA_CAM)
-    return m_CamJavaClient.startCamCapture( m_CamId );
+
+
+    bool capRunning = m_CamJavaClient.startCamCapture( m_CamId );
+    if( m_CaptureRunning != capRunning )
+    {
+        updateCaptureRunning( capRunning );
+    }
+
+    return capRunning;
 #else
     QString camDescription = m_CamId.c_str();
     if( m_Camera && m_Camera->cameraDevice().description() == camDescription )
@@ -640,6 +653,11 @@ bool CamLogic::enableCamCapture( bool enable )
             m_Camera->stop();
         }
         
+        if( !m_CaptureRunning )
+        {
+            updateCaptureRunning( true );
+        }
+
         return true;
     }
 
@@ -652,11 +670,28 @@ bool CamLogic::enableCamCapture( bool enable )
     {
         if( device.description() == camDescription )
         {
-            return setCamera( device );
+            bool result = setCamera( device );
+            if( result && !m_CaptureRunning )
+            {
+                updateCaptureRunning( true );
+            }
+
+            return result;
         }
     }
 
 #endif // defined(ENABLE_JAVA_CAM)
     LogMsg( LOG_DEBUG, "%s camera %s NOT available", __func__, m_CamId.c_str() );
     return false;
+}
+
+//============================================================================
+void CamLogic::updateCaptureRunning( bool capIsRunning )
+{
+    if( m_CaptureRunning != capIsRunning )
+    {
+        m_CaptureRunning = capIsRunning;
+        m_LastCamUsed = capIsRunning ? m_CamId : "";
+        m_MyApp.fromGuiCaptureRunning( capIsRunning );
+    }
 }

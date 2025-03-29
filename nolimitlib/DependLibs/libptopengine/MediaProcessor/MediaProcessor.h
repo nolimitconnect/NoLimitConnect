@@ -280,4 +280,6 @@ protected:
 	bool						m_SpeakerOutputEnabled{ false };
 
 	int							m_VidPktListContainsMyIdCnt{ 0 };
+
+	MediaCallbackInterface*		m_GuiPlayerCallback = nullptr;
 };

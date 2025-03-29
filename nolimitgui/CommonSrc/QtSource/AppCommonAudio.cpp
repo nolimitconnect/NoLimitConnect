@@ -274,6 +274,24 @@ void AppCommon::fromGuiCameraEnable( bool enableCamera )
 }
 
 //============================================================================
+void AppCommon::fromGuiCaptureRunning( bool camCaptureRunning )
+{
+	if( m_ToGuiHardwareCtrlBusy )
+	{
+		LogMsg( LOG_ERROR, "AppCommon::%s ToGuiHardware busy", __func__ );
+		vx_assert( false );
+	}
+
+	m_ToGuiHardwareCtrlBusy = true;
+	for( auto& toGuiClient : m_ToGuiHardwareCtrlList )
+	{
+		toGuiClient->callbackToGuiCaptureRunning( camCaptureRunning );
+	}
+
+	m_ToGuiHardwareCtrlBusy = false;
+}
+
+//============================================================================
 /// Returns true if speaker is muted
 bool AppCommon::fromGuiIsSpeakerMuted( void )
 {

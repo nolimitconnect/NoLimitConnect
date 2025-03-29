@@ -59,6 +59,7 @@ list(APPEND CoreLib_HEADERS
     VxLinuxOnly.h
     VxMathDef.h
     VxMathVec3f.h
+    VxMemoryUsage.h
     VxMemUtils.h
     VxMutex.h
     VxParse.h
@@ -144,6 +145,7 @@ list(APPEND CoreLib_SOURCES
     VxLinuxOnly.cpp
     VxMathDef.cpp
     VxMathVec3f.cpp
+    VxMemoryUsage.cpp
     VxMemUtils.cpp
     VxMutex.cpp
     VxParse.cpp

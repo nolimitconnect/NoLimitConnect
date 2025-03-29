@@ -23,5 +23,6 @@ public:
     virtual void				callbackToGuiWantVideoCapture( bool wantVideoCapture ){};
 
     virtual void				callbackToGuiCameraEnable( bool enableCamera ){};
+    virtual void				callbackToGuiCaptureRunning( bool camCaptureRunning ){};
 };
 

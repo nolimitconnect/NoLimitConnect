@@ -26,6 +26,17 @@ VxJava& GetJavaEnvCache()
 }
 
 //============================================================================
+JavaVM* GetJavaVM()
+{
+    if(g_JniLoadCalledCnt)
+    {
+        return g_VxJava.getJavaVM();
+    }
+
+    return nullptr;
+}
+
+//============================================================================
 JNIEnv * VxJava::getJavaEnv( void )
 {
     if( GetJavaEnvCache().getJavaVM() )

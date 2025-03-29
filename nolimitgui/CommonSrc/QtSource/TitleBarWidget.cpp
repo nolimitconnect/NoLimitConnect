@@ -105,11 +105,11 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
     setBackButtonVisibility( true );
 
     // will show when have microphone peek signal
-    setMuteMicrophoneVisibility( false );
-    setMicrophoneVolumeVisibility( false );
+    //setMuteMicrophoneVisibility( false );
+    //setMicrophoneVolumeVisibility( false );
 
     // will show when have cam frames signal
-    enableVideoControls( false );
+    //enableVideoControls( false );
 
     connect( ui.m_NoLimitAppButton,         SIGNAL(clicked()), this, SLOT(slotApplicationIconClicked()) );
 
@@ -326,8 +326,8 @@ void TitleBarWidget::updateWebServerClientCount( void )
 //============================================================================
 void TitleBarWidget::enableVideoControls( bool enable )
 {
-	ui.m_CamPreviewScreen->setVisible( enable );
-	ui.m_CamClientCountLabel->setVisible( enable );
+	//ui.m_CamPreviewScreen->setVisible( enable );
+	//ui.m_CamClientCountLabel->setVisible( enable );
 }
 
 //============================================================================
@@ -414,10 +414,10 @@ void TitleBarWidget::setPopupVisibility( bool hideBackButton )
     setHostJoinRequestListButtonVisibility( false );
     setShareButtonVisibility( false );
 
-    enableAudioControls( false );
-    setMicrophoneVolumeVisibility( false );
-    setMuteSpeakerVisibility( false );
-    enableVideoControls( false );
+    //enableAudioControls( false );
+    //setMicrophoneVolumeVisibility( false );
+    //setMuteSpeakerVisibility( false );
+    //enableVideoControls( false );
     setMenuTopButtonVisibility( false );
     setMenuListButtonVisibility( false );
     if( hideBackButton )
@@ -782,7 +782,7 @@ void TitleBarWidget::callbackToGuiWantVideoCapture( bool wantVideoCapture )
     enableVideoControls( wantVideoCapture );
     if( wantVideoCapture )
     {
-        m_CamTimer->start( 2000 );
+        m_CamTimer->start( 500 );
     }
     else
     {
@@ -819,6 +819,24 @@ void TitleBarWidget::callbackToGuiCameraEnable( bool enableCamera )
     if( !m_CamEnabled )
     {
         ui.m_CamPreviewScreen->setImageFromFile( m_MyApp.getCamLogic().getCameraBackgroundFile() );
+    }
+}
+
+//============================================================================
+void TitleBarWidget::callbackToGuiCaptureRunning( bool camCaptureRunning )
+{
+    if( camCaptureRunning )
+    {
+        if( !ui.m_CamPreviewScreen->isVisible() )
+        {
+            ui.m_CamPreviewScreen->setVisible( true );
+        }
+    }
+    else
+    {
+        ui.m_CamPreviewScreen->setImageFromFile( m_MyApp.getCamLogic().getCameraBackgroundFile() );
+        // sometimes a few frame are shown after call .. reset to background after a while
+        m_CamTimer->start( 300 );
     }
 }
 

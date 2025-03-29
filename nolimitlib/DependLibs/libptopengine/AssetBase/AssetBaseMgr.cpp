@@ -1061,6 +1061,7 @@ bool AssetBaseMgr::fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibra
 //============================================================================
 bool AssetBaseMgr::fromGuiSetFileIsInLibrary(  std::string& fileNameAndPath, bool isInLibrary )
 {
+	bool foundAsset{ false };
 	lockResources();
 	AssetBaseInfo* assetInfo = findAsset( fileNameAndPath );
 	if( assetInfo )
@@ -1076,6 +1077,39 @@ bool AssetBaseMgr::fromGuiSetFileIsInLibrary(  std::string& fileNameAndPath, boo
 	}
 
 	unlockResources();
+
+	if( !foundAsset && VxFileUtil::fileExists( fileNameAndPath.c_str() ) )
+	{
+		// create the asset for this file and put in library
+		// file is not currently AssetBase and should be
+		FileInfo fileInfo;
+		if( VxFileUtil::getFileInfo( fileNameAndPath.c_str(), fileInfo ) )
+		{
+			VxGUID guid;
+			AssetBaseInfo* assetInfo = createAssetInfo( fileInfo );
+			if( assetInfo )
+			{
+				assetInfo->setIsInLibrary( true );
+				insertNewInfo( assetInfo );
+				if( !assetInfo->getAssetHashId().isHashValid() )
+				{
+					requestFileHash( assetInfo );
+				}
+			}
+			else
+			{
+				LogMsg( LOG_ERROR, "AssetBaseMgr::%s failed createAssetInfo for %s", __func__, fileNameAndPath.c_str() );
+			}
+		}
+		else
+		{
+			LogMsg( LOG_ERROR, "AssetBaseMgr::%s failed getFileInfo for %s", __func__, fileNameAndPath.c_str() );
+		}
+	}
+	else if( !foundAsset )
+	{
+		LogMsg( LOG_ERROR, "AssetBaseMgr::%s failed file does not exist %s", __func__, fileNameAndPath.c_str() );
+	}
 
 	return false;
 }

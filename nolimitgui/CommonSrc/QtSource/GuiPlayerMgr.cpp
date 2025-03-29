@@ -54,7 +54,7 @@ void GuiPlayerMgr::playerMgrStartup( void )
 {
 	// tell engine to send all video jpeg inputs
 	VxGUID nullGuid;
-	GetPtoPEngine().fromGuiWantMediaInput( nullGuid, eMediaInputVideoJpg, eAppModuleMediaPlayer, m_MediaSessionId, true );
+	GetPtoPEngine().fromGuiWantMediaInput( nullGuid, eMediaInputVideoJpg, this, eAppModuleMediaPlayer, m_MediaSessionId, true );
 }
 
 //============================================================================

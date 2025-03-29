@@ -45,6 +45,8 @@
 #include "AppletEditStoryboard.h"
 #include "AppletFileOfferSelect.h"
 #include "AppletFriendList.h"
+#include "AppletFriendRequest.h"
+
 #include "AppletGalleryEmoticon.h"
 #include "AppletGalleryImage.h"
 #include "AppletGalleryThumb.h"
@@ -117,6 +119,7 @@
 #include "AppletSettingsAvatarImage.h"
 #include "AppletSettingsConnectionTest.h"
 #include "AppletSettingsFileXfer.h"
+#include "AppletSettingsFriendRequest.h"
 
 #include "AppletSettingsHostChatRoom.h"
 #include "AppletSettingsHostGroup.h"
@@ -415,8 +418,9 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletChatRoomClient:             if( launchAppletAllowed( eAppletChatRoomClient ) ) appletDialog = new AppletChatRoomClient( m_MyApp, parent ); break;
     case eAppletRandomConnectClient:        if( launchAppletAllowed( eAppletRandomConnectClient ) ) appletDialog = new AppletRandomConnectClient( m_MyApp, parent ); break;
 
-    case eAppletFriendList:           if( launchAppletAllowed( eAppletFriendList ) ) appletDialog = new AppletFriendList( m_MyApp, parent ); break;
-        
+    case eAppletFriendList:                 if( launchAppletAllowed( eAppletFriendList ) ) appletDialog = new AppletFriendList( m_MyApp, parent ); break;
+    case eAppletFriendRequest:              if( launchAppletAllowed( eAppletFriendRequest ) ) appletDialog = new AppletFriendRequest( m_MyApp, parent ); break;
+       
     case eAppletGroupListClient:            if( launchAppletAllowed( eAppletGroupListClient ) ) appletDialog = new AppletGroupListClient( m_MyApp, parent ); break;
 
     case eAppletGroupHostAdmin:             if( launchAppletAllowed( eAppletGroupHostAdmin ) ) appletDialog = new AppletGroupHostAdmin( m_MyApp, parent ); break;
@@ -453,6 +457,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletSettingsAvatarImage:        if( launchAppletAllowed( eAppletSettingsAvatarImage ) ) appletDialog = new AppletSettingsAvatarImage( m_MyApp, parent ); break;
     case eAppletSettingsConnectTest:        if( launchAppletAllowed( eAppletSettingsConnectTest ) ) appletDialog = new AppletSettingsConnectionTest( m_MyApp, parent ); break;
     case eAppletSettingsFileXfer:           if( launchAppletAllowed( eAppletSettingsFileXfer ) ) appletDialog = new AppletSettingsFileXfer( m_MyApp, parent ); break;
+    case eAppletSettingsFriendRequest:      if( launchAppletAllowed( eAppletSettingsFriendRequest ) ) appletDialog = new AppletSettingsFriendRequest( m_MyApp, parent ); break;
 
     case eAppletSettingsHostChatRoom:       if( launchAppletAllowed( eAppletSettingsHostChatRoom ) ) appletDialog = new AppletSettingsHostChatRoom( m_MyApp, parent ); break;
     case eAppletSettingsHostGroup:          if( launchAppletAllowed( eAppletSettingsHostGroup ) ) appletDialog = new AppletSettingsHostGroup( m_MyApp, parent ); break;

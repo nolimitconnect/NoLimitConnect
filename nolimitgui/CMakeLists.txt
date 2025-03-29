@@ -92,6 +92,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletFileShareClientView.h
     CommonSrc/QtSource/AppletFileShareServerViewMine.h
     CommonSrc/QtSource/AppletFriendList.h
+    CommonSrc/QtSource/AppletFriendRequest.h
     CommonSrc/QtSource/AppletGalleryImage.h
     CommonSrc/QtSource/AppletGalleryEmoticon.h
     CommonSrc/QtSource/AppletGalleryThumb.h
@@ -168,6 +169,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletSettingsBase.h
     CommonSrc/QtSource/AppletSettingsConnectionTest.h
     CommonSrc/QtSource/AppletSettingsFileXfer.h
+    CommonSrc/QtSource/AppletSettingsFriendRequest.h
     CommonSrc/QtSource/AppletSettingsHostBase.h
     CommonSrc/QtSource/AppletSettingsHostChatRoom.h
     CommonSrc/QtSource/AppletSettingsHostGroup.h
@@ -496,10 +498,13 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletEditAboutMe.cpp
     CommonSrc/QtSource/AppletEditAvatarImage.cpp
     CommonSrc/QtSource/AppletEditStoryboard.cpp
+    
     CommonSrc/QtSource/AppletFileOfferSelect.cpp
     CommonSrc/QtSource/AppletFileShareClientView.cpp
     CommonSrc/QtSource/AppletFileShareServerViewMine.cpp
     CommonSrc/QtSource/AppletFriendList.cpp
+    CommonSrc/QtSource/AppletFriendRequest.cpp
+
     CommonSrc/QtSource/AppletGalleryImage.cpp
     CommonSrc/QtSource/AppletGalleryEmoticon.cpp
     CommonSrc/QtSource/AppletGalleryThumb.cpp
@@ -577,6 +582,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletSettingsBase.cpp
     CommonSrc/QtSource/AppletSettingsConnectionTest.cpp
     CommonSrc/QtSource/AppletSettingsFileXfer.cpp
+    CommonSrc/QtSource/AppletSettingsFriendRequest.cpp
     CommonSrc/QtSource/AppletSettingsHostChatRoom.cpp
     CommonSrc/QtSource/AppletSettingsHostGroup.cpp
     CommonSrc/QtSource/AppletSettingsHostNetwork.cpp
@@ -861,6 +867,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/AppletFileOfferSelect.ui
     CommonSrc/Forms/AppletFileShareClientView.ui
     CommonSrc/Forms/AppletFriendList.ui
+    CommonSrc/Forms/AppletFriendRequest.ui
     CommonSrc/Forms/AppletGalleryImage.ui
     CommonSrc/Forms/AppletGalleryEmoticon.ui
     CommonSrc/Forms/AppletGalleryThumb.ui

@@ -58,6 +58,7 @@
 #include <CoreLib/ConnectId.h>
 #include <CoreLib/IsBigEndianCpu.h>
 #include <CoreLib/VxFileUtil.h>
+#include <CoreLib/VxMemoryUsage.h>
 #include <CoreLib/VxParse.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxGUID.h>
@@ -449,12 +450,6 @@ ActivityBase* AppCommon::launchApplet( EApplet applet, QWidget* parent, QString 
 void AppCommon::activityStateChange( ActivityBase* activity, bool isCreated )
 {
 	m_AppletMgr.activityStateChange( activity, isCreated );
-}
-
-//============================================================================
-void AppCommon::setCamCaptureRotation( uint32_t rot )
-{ 
-	m_CamCaptureRotation = rot; 
 }
 
 //============================================================================
@@ -1093,7 +1088,7 @@ void AppCommon::onOncePerSecond( void )
     else
     {
         waitCnt++;
-        LogMsg( LOG_VERBOSE, "Wait to login seconds %d alive ms %" PRId64 "", waitCnt, GetApplicationAliveMs() );
+        LogMsg( LOG_VERBOSE, "Wait to login seconds %d alive ms %d", waitCnt, GetApplicationAliveMs() );
     }
 
 	static int64_t endTime = 0;
@@ -1105,7 +1100,23 @@ void AppCommon::onOncePerSecond( void )
 		{
 			LogMsg( LOG_VERBOSE, "AppCommon::onOncePerSecond %d ms in function", elapsedTime );
 		}
-	}
+    }
+
+// commented out but do not remove. usefull in debugging memory leaks
+// #if defined(DEBUG)
+// 	static int memShowCnt = 0;
+// 	memShowCnt++;
+// 	if( memShowCnt >= 10 )
+// 	{
+// 		memShowCnt = 0;
+// 		uint64_t memoryInUse = 0;
+// 		uint64_t totalMemory = 0;
+// 		if( VxGetMemoryUsage( memoryInUse, totalMemory ) )
+// 		{
+// 			LogMsg( LOG_VERBOSE, "Memory usage %3.1f MB of %3.1f MB", (double)memoryInUse / 1000000.0,  (double)totalMemory / 1000000.0 );
+// 		}
+//     }
+// #endif // defined(DEBUG)
 }
 
 //============================================================================

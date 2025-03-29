@@ -43,7 +43,7 @@ public:
     void                        startupCamLogic( void );
     void                        shutdownCamLogic( void );
 
-    CamProcessor&               getCamProcessor( void ) { return m_CamProcessor; }
+    CamProcessor& getCamProcessor( void ) { return m_CamProcessor; }
 
     void                        onCamCaptureReady( bool isReady );
     bool                        canProcessCamCapture( void );
@@ -53,7 +53,7 @@ public:
     int                         getCameraCount( void );
     bool                        isCamAvailable( void );
     bool                        isCamCaptureRequested( void );
-    bool                        isCamCaptureRunning( void );
+    bool                        isCamCaptureRunning( void ) { return m_CaptureRunning; }
 
     void                        toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture );
 
@@ -78,12 +78,16 @@ public:
 
     QString                     getCameraBackgroundFile( void );
 
+signals:
+    void                        signalCamCaptureReady( void );
+
 protected:
     std::string                 selectLastUsedCamera( void ); // only called on startup
 
     bool                        setCamera( const QCameraDevice& cameraDevice );
     void                        selectVideoFormat( const QCameraDevice& cameraDevice );
     bool                        isBetterVideoFormat( QSize& targetSize, const QCameraFormat& newFormat, const QCameraFormat& oldFormat );
+    void                        updateCaptureRunning( bool capIsRunning );
 
     AppCommon&                  m_MyApp;
     MediaProcessor&             m_MediaProcessor;
@@ -92,8 +96,10 @@ protected:
 
     bool                        m_WantCamInput[ eMaxAppModule ];
     bool                        m_CameraEnabled{ false };
+    bool                        m_CaptureRunning{ false };
 
     std::string                 m_CamId;
+    std::string                 m_LastCamUsed;
 
 #if defined(ENABLE_JAVA_CAM)
     CamJavaClient               m_CamJavaClient;

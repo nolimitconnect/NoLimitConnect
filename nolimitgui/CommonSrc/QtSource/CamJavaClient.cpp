@@ -16,6 +16,8 @@
 #include "CamProcessor.h"
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxJava.h>
+#include <CoreLib/VxThread.h>
 #include <CoreLib/VxTime.h>
 
 #include <QTimer>
@@ -54,7 +56,39 @@ CamServiceMethod g_CamMethods[] {
 
 JNIEnv* g_CamEnv = nullptr;
 jobject g_CamObj = nullptr;
+unsigned int g_CamServiceThreadId = 0;
 bool g_CamServiceReady = false;
+
+std::vector<std::pair<unsigned int, JNIEnv*>> g_JavaEnvList;
+
+JNIEnv* GetJniEnv( void )
+{
+    unsigned int threadId = VxGetCurrentThreadId();
+    if( threadId == g_CamServiceThreadId)
+    {
+        return g_CamEnv;
+    }
+
+    for(auto& pair : g_JavaEnvList)
+    {
+        if( pair.first == threadId)
+        {
+            return pair.second;
+        }
+    }
+
+    JNIEnv* jniEnv = nullptr;
+    if (GetJavaVM()->AttachCurrentThread(&jniEnv, NULL) == JNI_OK)
+    {
+        g_JavaEnvList.emplace_back(std::make_pair(threadId, jniEnv));
+        return jniEnv;
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "%s AttachCurrentThread failed", __func__ );
+        return nullptr;
+    }
+}
 
 //============================================================================
 void AndroidYUV420SPtoRGB(  uint8_t* rgbImage, int width, int height,
@@ -87,7 +121,10 @@ void AndroidYUV420SPtoRGB(  uint8_t* rgbImage, int width, int height,
 extern "C" {
 
 JNIEXPORT void JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_camServiceStarted(JNIEnv *env, jobject obj) {
+    LogMsg( LOG_VERBOSE, "%s thread id %d", __func__, VxGetCurrentThreadId() );
     g_CamEnv = env;
+    g_CamServiceThreadId = VxGetCurrentThreadId();
+    LogMsg( LOG_VERBOSE, "%s service thread id %d", __func__, g_CamServiceThreadId );
     // Obtain a reference to the class of the passed object (obj)
     jclass clazz = env->GetObjectClass(obj);
 
@@ -202,6 +239,7 @@ CamJavaClient::CamJavaClient( AppCommon& myApp, CamLogic& camLogic, QObject *par
 //============================================================================
 void CamJavaClient::startupCamLogic( void )
 {
+    LogMsg( LOG_VERBOSE, "%s GUI thread id %d", __func__, VxGetCurrentThreadId() );
     QJniObject appContext(QNativeInterface::QAndroidApplication::context());
     if(!appContext.isValid())
     {
@@ -227,7 +265,7 @@ void CamJavaClient::shutdownCamLogic( void )
 //============================================================================
 void CamJavaClient::onCamServiceStarted( void )
 {
-    LogMsg( LOG_VERBOSE, "%s called", __func__ );
+    LogMsg( LOG_VERBOSE, "%s thread id %d", __func__, VxGetCurrentThreadId() );
     updateCameraList();
     m_CamLogic.onCamCaptureReady( true );
 }
@@ -278,9 +316,10 @@ bool CamJavaClient::isBackFacing( std::string& camId )
         return false;
     }
 
-    jstring jCamId = g_CamEnv->NewStringUTF(camId.c_str());
-    jboolean value = g_CamEnv->CallBooleanMethod( g_CamObj, g_CamMethods[CAM_IS_BACKFACING_IDX].methodID, jCamId );
-    g_CamEnv->DeleteLocalRef(jCamId);
+    JNIEnv* jniEnv = GetJniEnv();
+    jstring jCamId = jniEnv->NewStringUTF(camId.c_str());
+    jboolean value = jniEnv->CallBooleanMethod( g_CamObj, g_CamMethods[CAM_IS_BACKFACING_IDX].methodID, jCamId );
+    jniEnv->DeleteLocalRef(jCamId);
 
     return value ? true : false;
 }
@@ -295,19 +334,20 @@ void CamJavaClient::updateCameraList( void )
         return;
     }
 
-    jobjectArray stringArray  = (jobjectArray)g_CamEnv->CallObjectMethod( g_CamObj, g_CamMethods[CAM_GET_IDS_IDX].methodID );
+    JNIEnv* jniEnv = GetJniEnv();
+    jobjectArray stringArray  = (jobjectArray)jniEnv->CallObjectMethod( g_CamObj, g_CamMethods[CAM_GET_IDS_IDX].methodID );
     if (stringArray == nullptr) {
         LogMsg( LOG_ERROR, "%s string array in null", __func__ );
         return;
     }
 
-    jsize length = g_CamEnv->GetArrayLength(stringArray);
+    jsize length = jniEnv->GetArrayLength(stringArray);
     for (int i = 0; i < length; ++i) {
-        jstring stringElement = (jstring)g_CamEnv->GetObjectArrayElement(stringArray, i);
-        const char *charPtr = g_CamEnv->GetStringUTFChars(stringElement, nullptr);
+        jstring stringElement = (jstring)jniEnv->GetObjectArrayElement(stringArray, i);
+        const char *charPtr = jniEnv->GetStringUTFChars(stringElement, nullptr);
         if (charPtr != nullptr) {
             m_CamIdList.emplace_back(charPtr);
-            g_CamEnv->ReleaseStringUTFChars(stringElement, charPtr);
+            jniEnv->ReleaseStringUTFChars(stringElement, charPtr);
         }
         //  env->DeleteLocalRef(stringElement); //optional
     }
@@ -324,10 +364,16 @@ bool CamJavaClient::startCamCapture( std::string camId )
         return false;
     }
 
-    // Convert C++ string to a Java string (jstring)
-    jstring jCamId = g_CamEnv->NewStringUTF(camId.c_str());
-    jboolean value = g_CamEnv->CallBooleanMethod( g_CamObj, g_CamMethods[CAM_START_CAPTURE_IDX].methodID, jCamId );
-    g_CamEnv->DeleteLocalRef(jCamId);
+    if( camId.empty() )
+    {
+        LogMsg( LOG_ERROR, "%s camId.empty() ", __func__ );
+        return false;
+    }
+
+    JNIEnv* jniEnv = GetJniEnv();
+    jstring jCamId = jniEnv->NewStringUTF(camId.c_str());
+    jboolean value = jniEnv->CallBooleanMethod( g_CamObj, g_CamMethods[CAM_START_CAPTURE_IDX].methodID, jCamId );
+    jniEnv->DeleteLocalRef(jCamId);
 
     return value ? true : false;
 }
@@ -341,7 +387,8 @@ void CamJavaClient::stopCamCapture( void )
         return;
     }
 
-    g_CamEnv->CallVoidMethod( g_CamObj, g_CamMethods[CAM_STOP_CAPTURE_IDX].methodID  );
+    JNIEnv* jniEnv = GetJniEnv();
+    jniEnv->CallVoidMethod( g_CamObj, g_CamMethods[CAM_STOP_CAPTURE_IDX].methodID  );
 }
 
 #endif // defined(ENABLE_JAVA_CAM)

@@ -184,6 +184,7 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFileShareClientView.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFileShareServerViewMine.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFriendList.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFriendRequest.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGalleryEmoticon.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGalleryImage.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGalleryThumb.cpp" />
@@ -260,6 +261,7 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletSettingsBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletSettingsConnectionTest.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletSettingsFileXfer.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletSettingsFriendRequest.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletSettingsHostBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletSettingsHostChatRoom.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletSettingsHostGroup.cpp" />
@@ -606,6 +608,8 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTestUpnp.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletAboutUser.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendList.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsFriendRequest.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendRequest.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />
@@ -967,6 +971,7 @@ libass.lib;libpcre.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletFileOfferSelect.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletFileShareClientView.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletFriendList.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletFriendRequest.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGalleryEmoticon.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGalleryImage.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGalleryThumb.ui" />

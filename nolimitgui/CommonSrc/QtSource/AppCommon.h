@@ -180,7 +180,7 @@ public:
 
     QApplication&               getQApplication( void ) { return m_QApp; }
 
-    void						setCamCaptureRotation( uint32_t rot );
+    void						setCamCaptureRotation( uint32_t rot )  { m_CamCaptureRotation = rot; }
     int							getCamCaptureRotation( void ) { return m_CamCaptureRotation; }
 
     void 						setAccountUserName( const char* name ) { m_strAccountUserName = name; }
@@ -272,6 +272,7 @@ public:
     virtual void				fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen );
 
     virtual void				fromGuiCameraEnable( bool enableCamera );
+    virtual void				fromGuiCaptureRunning( bool camCaptureRunning );
 
     //============================================================================
     //=== to gui media/render ===//

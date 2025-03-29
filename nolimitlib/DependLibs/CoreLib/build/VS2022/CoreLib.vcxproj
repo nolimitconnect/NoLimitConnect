@@ -305,6 +305,7 @@
     <ClInclude Include="..\..\VxMathVec3f.h" />
     <ClInclude Include="..\..\VxMathVec4f.h" />
     <ClInclude Include="..\..\VxMd5.h" />
+    <ClInclude Include="..\..\VxMemoryUsage.h" />
     <ClInclude Include="..\..\VxMemUtils.h" />
     <ClInclude Include="..\..\VxMutex.h" />
     <ClInclude Include="..\..\VxParse.h" />
@@ -389,6 +390,7 @@
     <ClCompile Include="..\..\VxMathDef.cpp" />
     <ClCompile Include="..\..\VxMathVec3f.cpp" />
     <ClCompile Include="..\..\VxMd5.cpp" />
+    <ClCompile Include="..\..\VxMemoryUsage.cpp" />
     <ClCompile Include="..\..\VxMemUtils.cpp" />
     <ClCompile Include="..\..\VxMutex.cpp" />
     <ClCompile Include="..\..\VxParse.cpp" />

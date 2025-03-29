@@ -24,12 +24,13 @@ enum EApplet
     eAppletGetStarted,
 
     eAppletFriendList,
+    eAppletFriendRequest,
 
     eAppletGroupJoin,
     eAppletChatRoomJoin,
     eAppletRandomConnectJoin,
     eAppletInvites,
-    // eAppletSearchPage, // Remvoed from home page until can be fully implemented
+    // eAppletSearchPage, // Removed from home page until can be fully implemented
     eAppletUserIdentity,
     eAppletPersonalRecorder,
     eAppletLibrary,
@@ -150,6 +151,7 @@ enum EApplet
     eAppletSettingsConnectTest,
     eAppletSettingsShareFiles,
     eAppletSettingsFileXfer,
+    eAppletSettingsFriendRequest,
 
     eAppletSettingsMessenger,
     eAppletSettingsPushToTalk,

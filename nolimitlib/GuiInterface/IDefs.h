@@ -993,8 +993,10 @@ enum EPluginType
     ePluginTypeVideoPhone           = 15,	//!< Video Chat with motion detect and stream recording
     ePluginTypeVoicePhone           = 16,	//!< VOIP audio only phone call
 
+    ePluginTypeFriendRequest        = 17,	//!< Who can send a join host or friend request
+
     // NOTE: plugin types 17 - 47 not implemented .. reserved for future use
-    eMaxPermissionPluginType	    = 17, 
+    eMaxPermissionPluginType	    = 18, 
     // plugins 0-47 are part of PktAnnounce
     // plugins after 47 do not go out in announcement pkt
     eMaxAnnouncedPluginType         = 48, // this marks end of announced permissions

@@ -13,6 +13,7 @@ list(APPEND ptopengine_HEADERS
     SendQueue/SendQueueMgr.h
     MediaProcessor/CamJpgVideo.h
     MediaProcessor/MediaProcessor.h
+    Plugins/PluginFriendRequest.h
 )
 
 set(ptopengine_SOURCES)
@@ -194,6 +195,7 @@ list(APPEND ptopengine_SOURCES
 	Plugins/PluginConnectionTestHost.cpp
     Plugins/PluginFileShareClient.cpp
     Plugins/PluginFileShareServer.cpp
+    Plugins/PluginFriendRequest.cpp
     Plugins/PluginInvalid.cpp
     Plugins/PluginGroupClient.cpp
 	Plugins/PluginGroupHost.cpp

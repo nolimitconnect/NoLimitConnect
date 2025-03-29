@@ -67,9 +67,9 @@
 #define OBJNAME_APPLET_EDIT_AVATAR_IMAGE				"AppletEditAvatarImage"
 #define OBJNAME_APPLET_EDIT_STORYBOARD				    "AppletEditStoryboard"
 
-#define OBJNAME_APPLET_FRIEND_LIST_CLIENT			    "AppletFriendList"
-
 #define OBJNAME_APPLET_FILE_OFFER_SELECT				"AppletFileOfferSelect"
+#define OBJNAME_APPLET_FRIEND_LIST_CLIENT			    "AppletFriendList"
+#define OBJNAME_APPLET_FRIEND_REQUEST					"AppletFriendRequest"
 
 #define OBJNAME_APPLET_GALLERY_EMOTICON				    "AppletGalleryEmoticon"
 #define OBJNAME_APPLET_GALLERY_IMAGE				    "AppletGalleryImage"
@@ -157,6 +157,7 @@
 #define OBJNAME_APPLET_SETTINGS_AVATAR_IMAGE			"AppletSettingsAvatarImage"
 #define OBJNAME_APPLET_SETTINGS_CONNECT_TEST			"AppletSettingsConnectTest"
 #define OBJNAME_APPLET_SETTINGS_FILE_XFER			    "AppletSettingsFileXfer"
+#define OBJNAME_APPLET_SETTINGS_FRIEND_REQUEST			"AppletSettingsFriendRequest"
 #define OBJNAME_APPLET_SETTINGS_HOST_CHAT_ROOM			"AppletSettingsHostChatRoom"
 #define OBJNAME_APPLET_SETTINGS_HOST_CHAT_ROOM_LISTING	"AppletSettingsHostChatRoomListing"
 #define OBJNAME_APPLET_SETTINGS_HOST_GROUP				"AppletSettingsHostGroup"
