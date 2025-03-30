@@ -38,9 +38,8 @@ public class Camera2Service extends Service {
                                             int uPixelStride, int uRowStride,
                                             int vPixelStride, int vRowStride );
 
-    protected CameraDevice m_CameraDevice = null;
-    protected CameraCaptureSession m_CaptureSession = null;
     protected CameraManager m_CameraManager = null;
+    protected CameraDevice m_CameraDevice = null;
     protected ImageReader m_ImageReader = null;
     protected String m_CameraId;
 
@@ -56,7 +55,11 @@ public class Camera2Service extends Service {
 
     public static void startCamServiceStatic(Context context) {
         Log.d(TAG, "startCamServiceStatic Called");
-        context.startForegroundService(new Intent(context, Camera2Service.class));
+        // for unknown reason foreground service cause gradlelock and other issues on some devices
+        // do not run in forground
+        // context.startForegroundService(new Intent(context, Camera2Service.class));
+
+        context.startService( new Intent( context, Camera2Service.class ) );
         Log.d(TAG, "startCamServiceStatic Done");
     }
 
@@ -85,11 +88,17 @@ public class Camera2Service extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "onStartCommand Called");
-        m_CameraManager = (CameraManager) getSystemService(CAMERA_SERVICE);
         super.onStartCommand(intent, flags, startId);
 
-        camServiceStarted();
+        m_CameraManager = (CameraManager) getSystemService(CAMERA_SERVICE);
+        // must start quickly or will shutdown. use runnable
+        m_MainThreadHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(TAG, "onStartCommand Called");
+                camServiceStarted();
+            }
+        });
 
         // Keep service running until explicitly stopped
         return START_STICKY;
@@ -171,10 +180,6 @@ public class Camera2Service extends Service {
     public void internalStopCameraCapture()
     {
         Log.d(TAG, "**** internalStopCameraCapture " + m_CameraId );
-        if (m_CaptureSession != null) {
-            m_CaptureSession.close();
-            m_CaptureSession = null;
-        }
 
         if (m_CameraDevice != null) {
             m_CameraDevice.close();
@@ -229,7 +234,6 @@ public class Camera2Service extends Service {
 
     public void createCameraCaptureSession(CameraDevice camera) {
         try {
-            m_CameraDevice = camera;
             camera.createCaptureSession(
                 Arrays.asList(m_ImageReader.getSurface()),
                 m_SessionStateCallback,

@@ -25,11 +25,11 @@ BottomBarWidget*	ActivityMsgBoxOk::getBottomBarWidget( void ) { return ui.m_Bott
 QFrame*				ActivityMsgBoxOk::getContentItemsFrame( void ) { return ui.m_ItemsFrame; }
 
 //============================================================================
-ActivityMsgBoxOk::ActivityMsgBoxOk(	AppCommon&		app, 
-											QWidget*		parent, 
-											QString			title, 
-											QString			bodyText,
-											bool			showNeverAgainCheckBox )
+ActivityMsgBoxOk::ActivityMsgBoxOk( AppCommon&		app,
+                                    QWidget*		parent,
+                                    QString			title,
+                                    QString			bodyText,
+                                    bool			showNeverAgainCheckBox )
 : ActivityBase( OBJNAME_ACTIVITY_MSG_BOX_OK, app, parent, eAppletMessengerFrame, true )
 , ui(*(new Ui::YesNoMsgBoxClass))
 {

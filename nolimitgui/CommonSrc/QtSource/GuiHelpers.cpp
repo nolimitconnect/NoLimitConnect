@@ -1051,7 +1051,7 @@ QFrame* GuiHelpers::getParentPageFrame( QWidget* curWidget )
     if( !pageFrame )
     {
         LogMsg( LOG_ERROR, "GuiHelpers::%s NOT FOUND", __func__ );
-        vx_assert( false );
+        // vx_assert( false ); // popup dialags from title bar have HomeWindow as parent so QFrame will not be found
     }
 
     return pageFrame;
