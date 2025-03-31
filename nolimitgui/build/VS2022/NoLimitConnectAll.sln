@@ -317,6 +317,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libwav-decoder", "..\..\..\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libjpg", "..\..\..\nolimitlib\DependLibs\libjpg\build\VS2022\libjpg.vcxproj", "{085FB718-9754-4DAD-ABA7-87150CFD1CBC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\android\src\com\nolimitconnect\nolimitconnect\Camera2Service.java = ..\..\android\src\com\nolimitconnect\nolimitconnect\Camera2Service.java
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -772,9 +777,10 @@ Global
 		{2A2CBC08-7D99-425F-B9EB-E5EE737EC823} = {1BBBE95F-B370-40FE-9B2A-901555E8E928}
 		{CC7EE85B-8468-4982-97B8-ACEBEA88240A} = {1BBBE95F-B370-40FE-9B2A-901555E8E928}
 		{127E4B1D-8C1F-4E2A-ACC4-6A984E06AF4E} = {1BBBE95F-B370-40FE-9B2A-901555E8E928}
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {0A4C7EF1-734D-4A1E-8041-5A3074E8F4E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {87B675DC-A218-4B2C-B2F9-4690ED594DAA}
 		Qt5Version = 6.3.0_msvc2019_64
+		SolutionGuid = {87B675DC-A218-4B2C-B2F9-4690ED594DAA}
 	EndGlobalSection
 EndGlobal

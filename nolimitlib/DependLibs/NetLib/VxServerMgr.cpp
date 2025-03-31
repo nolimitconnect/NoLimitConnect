@@ -75,9 +75,9 @@ bool VxServerMgr::startListening( bool ipv6, uint16_t port, bool usePortForwardI
 {
     setListenPort( port );
     // no need to use upnp if we assume no firewall
-    if( usePortForwardIfEnabled && ( GetPtoPEngine().getNetStatusAccum().getFirewallTestType() != eFirewallTestAssumeNoFirewall) )
+    if( usePortForwardIfEnabled )
     {
-        addPortForward( ipv6, port );
+        addPortForward( ipv6, port );   
     }
     
     return ipv6 ? m_ListenLogicIpv6.startListening( port ) : m_ListenLogicIpv4.startListening( port );

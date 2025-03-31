@@ -24,8 +24,6 @@ import java.util.Arrays;
 
 public class Camera2Service extends Service {
     private static final String TAG = "Camera2Service";
-    private static final int MIN_CAPTURE_INTERVAL_MS = 28; // limit to about 30 fps.. 15 fps still looks ok so could be 60
-    private long m_LastCaptureTimeMs = 0;
 
     private Handler m_MainThreadHandler = null;
 

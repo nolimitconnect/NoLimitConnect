@@ -27,8 +27,15 @@ void NetActionRenewPortForward::doAction( void )
 {
 	if( eFirewallTestAssumeNoFirewall == m_Engine.getEngineSettings().getFirewallTestSetting() )
 	{
-		// if no firewall then no need to port forward
-		return;
+		bool ipv6 = m_Engine.getEngineSettings().getUseIpv6();
+		std::string externalIp = m_Engine.getEngineSettings().getUserSpecifiedExternIpAddr( ipv6 );
+		std::string lclIp = m_Engine.getNetStatusAccum().getLocalIpAddress();
+		if( lclIp == externalIp )
+		{
+			// if no firewall then no need to port forward
+			LogModule( eLogNetService, LOG_INFO, "NetActionRenewPortForward::%s lcl ip is same as external %s ", __func__, lclIp.c_str() );
+			return;
+		}
 	}
 
 	ENetCmdError eResult = m_NetServicesMgr.doRenewPortForward();

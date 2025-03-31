@@ -966,6 +966,9 @@ EMyIcons MyIcons::getPluginSettingsIcon( enum EPluginType pluginType )
 	case ePluginTypePushToTalk:
 		return eMyIconSettingsPushToTalk;
 
+	case ePluginTypeFriendRequest:
+		return eMyIconUserPreferences;
+
     default:
         LogMsg( LOG_ERROR, "MyIcons::getPluginIcon: unrecognized plugin type %d", pluginType );
     }
@@ -1370,12 +1373,28 @@ EMyIcons MyIcons::getPluginIcon( enum EPluginType pluginType, EPluginAccess ePlu
         return eMyIconServiceHostGroup;
         break;
 
-    case ePluginTypeHostNetwork:
-        return eMyIconServiceHostNetwork;
+    case ePluginTypeFriendRequest:
+        switch( ePluginAccess )
+        {
+        case ePluginAccessOk:
+            return eMyIconFriendJoined;
+        case ePluginAccessDisabled:
+        case ePluginAccessInactive:
+        case ePluginAccessRequiresDirectConnect:
+        case ePluginAccessRequiresOnline:
+        case ePluginAccessNotSet:
+        case eMaxPluginAccessState:
+            return eMyIconPeople;
+        case ePluginAccessLocked:
+            return eMyIconIgnored;
+        case ePluginAccessIgnored:
+        case ePluginAccessBusy:
+            return eMyIconIgnored;
+        }
         break;
 
 	default:
-		LogMsg( LOG_ERROR, "MyIcons::getPluginIcon: unrecognized plugin type %d\n", pluginType );
+		LogMsg( LOG_ERROR, "MyIcons::getPluginIcon: unrecognized plugin type %d", pluginType );
 	}
 	return eMyIconUnknown;
 }

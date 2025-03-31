@@ -794,8 +794,18 @@ void NetStatusAccum::threadedSetupListen( void )
         VxSetLclIpAddress( useThisLocaIpAddr.c_str() ); // global
 
         m_Engine.getPeerMgr().setLocalIp( useThisLocaIpAddr );
-        EFirewallTestType firewallTestType = getFirewallTestType();
-        m_Engine.getPeerMgr().startListening( useIpv6, ipPort, eFirewallTestAssumeNoFirewall != firewallTestType );
+
+        bool needPortForward = GetPtoPEngine().getEngineSettings().getUseUpnp();
+        if( needPortForward && GetPtoPEngine().getNetStatusAccum().getFirewallTestType() == eFirewallTestAssumeNoFirewall )
+        {
+            std::string externalIp = GetPtoPEngine().getEngineSettings().getUserSpecifiedExternIpAddr( useIpv6 );
+            if( useThisLocaIpAddr == externalIp )
+            {
+                needPortForward = false;
+            }
+        }
+
+        m_Engine.getPeerMgr().startListening( useIpv6, ipPort, needPortForward );
 
         // if we have a local ip address we have internet
         setInternetAvail( true );
@@ -807,12 +817,12 @@ void NetStatusAccum::threadedSetupListen( void )
             // if we are a connection test host then try to listen for both ipv4 and ipv6
             // this is not required but convenient for testing
             
-            if( firewallTestType == eFirewallTestAssumeNoFirewall )
+            if( needPortForward )
             {
                 std::string otherLclIp = useIpv6 ? localAddrIpv4 : localAddrIpv6;
                 if( !otherLclIp.empty() )
                 {
-                    m_Engine.getPeerMgr().startListening( !useIpv6, ipPort, false );
+                    m_Engine.getPeerMgr().startListening( !useIpv6, ipPort, needPortForward );
                     LogMsg( LOG_VERBOSE, "NetStatusAccum::%s: Also listening on port %d local ip %s", __func__, ipPort, otherLclIp.c_str() );
                 }
             }

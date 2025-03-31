@@ -398,6 +398,15 @@ QString ActivityInformation::m_Ipv6( QObject::tr(
 
 ) );
 
+QString ActivityInformation::m_FriendRequest( QObject::tr(
+    "=== FRIEND REQUEST ===\n"
+    " Friend request is a way for someone you do not know to request friendship or request to join your host."
+    " Friend request is defaulted to Anonymous permission level, however, to avoid any requests by people you ."
+    " do not know you can set it to disabled ."
+    "\n"
+    "\n"
+) );
+
 //============================================================================
 QString ActivityInformation::getInfoText( void )
 {
@@ -410,6 +419,9 @@ QString ActivityInformation::getInfoText( void )
         case ePluginTypeHostNetwork:
         case ePluginTypeHostRandomConnect:
             return m_NetworkDesign + m_PluginDefinitions;
+            break;
+        case ePluginTypeFriendRequest:
+            return m_FriendRequest;
             break;
         default:
             return m_NoInfoAvailable;
