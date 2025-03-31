@@ -202,6 +202,8 @@ void PluginPermission::setPluginPermissionsToDefaultValues( void )
 
     setPluginPermission( ePluginTypePushToTalk, eFriendStateIgnore );
 
+    setPluginPermission( ePluginTypeFriendRequest, eFriendStateAnonymous );
+
     // clients outside of published permissions setPluginPermission( ePluginTypeClientPeerUser, eFriendStateGuest );
 	setPluginPermission( ePluginTypeHostPeerUser, eFriendStateGuest );
 

@@ -1058,6 +1058,10 @@ QString GuiParams::describePluginType( EPluginType pluginType )
         strPluginType = QObject::tr( "Library" );
         break;
 
+    case ePluginTypeFriendRequest:
+        strPluginType = QObject::tr( "Friend Request" );
+        break;
+
     default:
         strPluginType = QObject::tr("Unknown Plugin");
         LogMsg( LOG_ERROR, "DescribePluginAction: unrecognized plugin %d", pluginType );
