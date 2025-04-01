@@ -104,17 +104,16 @@ public:
     void                        setDirectConnectTested( bool isTested, bool requiresRelay, std::string& myExternalIp );
     bool                        isDirectConnectTested( void )       { return m_DirectConnectTested; };
 
+    bool                        isNetHostOnlineIdAvailable( void )  { return m_NetHostIdAvail; };
     bool                        isNetworkOnline( void )             { return m_InternetAvail && ( m_HasFixedIpAddr || m_DirectConnectTested ); };
     bool                        isP2POnline( void )                 { return m_InternetAvail && ( m_HasFixedIpAddr || ( m_DirectConnectTested && ( !m_RequriesRelay || m_ConnectedToRelay ) ) ); }
+    bool                        isRxPortOpen( void )                { return m_HasFixedIpAddr || ( m_DirectConnectTested && !m_RequriesRelay ); };
 
     void                        setConnectToRelay( bool connectedToRelay );
 
     void                        setFirewallTestType( EFirewallTestType firewallTestType );
     EFirewallTestType           getFirewallTestType( void );
     
-    bool                        isNetHostOnlineIdAvailable( void )  { return m_NetHostIdAvail; };
-
-    bool                        isRxPortOpen( void )                { return m_HasFixedIpAddr || ( m_DirectConnectTested && !m_RequriesRelay ); };
     bool                        requiresRelay( void )               { return m_RequriesRelay; };
     void                        getNodeUrl( std::string& retNodeUrl );
 
@@ -160,6 +159,8 @@ public:
     std::string                 getConnectionTestHostUrl( void );
     std::string                 getConnectionTestHostName( void ); // just connection test name or ip
     uint16_t                    getConnectionTestHostPort( void );
+
+    bool                        canAnnounceToNlcHost( bool iAmNetHost ); // true if using NLC network key and network host url and port is open
 
     void                        threadedSetupListen( void );
 

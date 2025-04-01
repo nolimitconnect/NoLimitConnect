@@ -17,8 +17,8 @@
 #define NET_DEFAULT_GROUP_HOST_URL_IPV4		    "ptop://nolimitconnect.net:45124" // for default group host.. for now same as Network Host but could be seperated to spread network load
 #define NET_DEFAULT_CHAT_ROOM_HOST_URL_IPV4		"ptop://nolimitconnect.net:45124" // for default chat room host.. for now same as Network Host but could be seperated to spread network load
 
-#define NET_DEFAULT_NET_HOST_URL_IPV6			"ptop://[2a07:85c0:0:122::]:45124"
-#define NET_DEFAULT_CONNECT_TEST_URL_IP6		"ptop://[2a07:85c0:0:122::]:45124" 
-#define NET_DEFAULT_RANDOM_CONNECT_URL_IPV6		"ptop://[2a07:85c0:0:122::]:45124" 
-#define NET_DEFAULT_GROUP_HOST_URL_IPV6		    "ptop://[2a07:85c0:0:122::]:45124" 
-#define NET_DEFAULT_CHAT_ROOM_HOST_URL_IPV6		"ptop://[2a07:85c0:0:122::]:45124" 
+#define NET_DEFAULT_NET_HOST_URL_IPV6			"ptop://[2602:fafd:f0e:24::]:45124"
+#define NET_DEFAULT_CONNECT_TEST_URL_IP6		"ptop://[2a01:e940:0:2c5::]:45124" 
+#define NET_DEFAULT_RANDOM_CONNECT_URL_IPV6		"ptop://[2602:fafd:f0e:24::]:45124" 
+#define NET_DEFAULT_GROUP_HOST_URL_IPV6		    "ptop://[2602:fafd:f0e:24::]:45124" 
+#define NET_DEFAULT_CHAT_ROOM_HOST_URL_IPV6		"ptop://[2602:fafd:f0e:24::]:45124" 

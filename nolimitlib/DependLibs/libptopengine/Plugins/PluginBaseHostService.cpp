@@ -169,15 +169,12 @@ void PluginBaseHostService::sendHostAnnounce( void )
                 sentToOurself = true;
             }
         }
-    }
-    
-    if( !sentToOurself )
+    } 
+
+    if( m_Engine.getNetStatusAccum().canAnnounceToNlcHost( sentToOurself ) )
     {
-        if( m_PktHostInviteIsValid && m_Engine.getNetStatusAccum().getNetAvailStatus() != eNetAvailNoInternet )
-        {
-            VxGUID::generateNewVxGUID( m_AnnounceSessionId );
-            m_HostServerMgr.sendHostAnnounceToNetworkHost( m_AnnounceSessionId, m_PktHostInviteAnnounceReq, getHostAnnounceConnectReason() );
-        }
+        VxGUID::generateNewVxGUID( m_AnnounceSessionId );
+        m_HostServerMgr.sendHostAnnounceToNetworkHost( m_AnnounceSessionId, m_PktHostInviteAnnounceReq, getHostAnnounceConnectReason() );
     }
 }
 

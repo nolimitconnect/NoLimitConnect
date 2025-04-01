@@ -19,6 +19,8 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxSktUtil.h>
+
+#include <NetLib/NetHostSettingDefs.h>
 #include <NetLib/VxPeerMgr.h>
 
 namespace
@@ -976,4 +978,30 @@ uint16_t NetStatusAccum::getConnectionTestHostPort( void )
     uint16_t connectTestPort = m_ConnectionTestPort;
     unlockAccum();
     return connectTestPort;
+}
+
+//============================================================================
+bool NetStatusAccum::canAnnounceToNlcHost( bool iAmNetHost )
+{
+    if( !isRxPortOpen() )
+    {
+        return false;
+    }
+
+    if( iAmNetHost )
+    {
+        // if I am a network host can I still announce to the NLC network host?
+        if( getNetworkHostUrl() != NET_DEFAULT_NET_HOST_URL_IPV4 && getNetworkHostUrl() != NET_DEFAULT_NET_HOST_URL_IPV6 )
+        {
+            return false;
+        }
+    }
+
+    // do not announce if using different network key or will get banned as hacker
+    if( getNetworkKey() != NET_DEFAULT_NETWORK_NAME )
+    {
+        return false;
+    }
+    
+    return true;
 }

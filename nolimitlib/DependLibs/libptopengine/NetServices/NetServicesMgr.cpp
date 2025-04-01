@@ -255,11 +255,11 @@ void NetServicesMgr::runNetActions( void )
 				return;
 			}
 
-			LogMsg( LOG_VERBOSE, "NetServicesMgr::runNetActions %d starting action %s", netActionNum, DescribeNetAction( m_CurNetAction->getNetActionType() ) );
+			LogModule( eLogNetService, LOG_VERBOSE, "NetServicesMgr::runNetActions %d starting action %s", netActionNum, DescribeNetAction( m_CurNetAction->getNetActionType() ) );
 			m_CurNetAction->enterAction();
 			m_CurNetAction->doAction();
 			m_CurNetAction->exitAction();
-			LogMsg( LOG_VERBOSE, "NetServicesMgr::runNetActions %d done action %s", netActionNum, DescribeNetAction( m_CurNetAction->getNetActionType() ) );
+			LogModule( eLogNetService, LOG_VERBOSE, "NetServicesMgr::runNetActions %d done action %s", netActionNum, DescribeNetAction( m_CurNetAction->getNetActionType() ) );
 
 			m_NetActionMutex.lock();
 			delete m_CurNetAction;

@@ -68,18 +68,9 @@ void HostServerMgr::sendHostAnnounceToNetworkHost( VxGUID& sessionId, PktHostInv
         return;
     }
 
-    if( m_Engine.isNetworkHostEnabled() )
-    {
-        // announce to ourself because we are network host
-        addAnnounceSession( sessionId, hostAnnounce.makeHostAnnCopy() );
-        onConnectToHostSuccess( eHostTypeNetwork, sessionId, m_Engine.getSktLoopback(), m_Engine.getMyOnlineId(), connectReason );
-    }
-    else
-    {
-        LogModule( eLogHostJoin, LOG_DEBUG, "sendHostAnnounceToNetworkHost %s", DescribePluginType( m_Plugin.getPluginType() ) );
-        addAnnounceSession( sessionId, hostAnnounce.makeHostAnnCopy() );
-        connectToHost( eHostTypeNetwork, sessionId, url, connectReason );
-    }
+    LogModule( eLogHostJoin, LOG_DEBUG, "sendHostAnnounceToNetworkHost %s", DescribePluginType( m_Plugin.getPluginType() ) );
+    addAnnounceSession( sessionId, hostAnnounce.makeHostAnnCopy() );
+    connectToHost( eHostTypeNetwork, sessionId, url, connectReason );
 }
 
 //============================================================================
