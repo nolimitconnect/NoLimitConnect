@@ -11,6 +11,7 @@
 #include "AppletPlayerNlcBase.h"
 
 #include "AppCommon.h"
+#include "GuiHelpers.h"
 #include "GuiPluginMgr.h"
 #include "GuiPlayerMgr.h"
 #include "PlayControlWidget.h"
@@ -27,16 +28,6 @@
 
 #include <QMessageBox>
 #include <QSlider>
-
-namespace
-{
-	constexpr int PROCESS_QT_DEFAULT_MS = 50;
-
-	void ProcessQtEvents( int ms = PROCESS_QT_DEFAULT_MS )
-	{
-		QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
-	}
-}
 
 //============================================================================
 AppletPlayerNlcBase::AppletPlayerNlcBase( const char* ObjName, AppCommon& app, QWidget* parent )
@@ -202,7 +193,7 @@ bool AppletPlayerNlcBase::waitForPlayerThread( void )
 	m_ElapsedTimer.start();
 	while( !IMediaPlayerRequests::getNlcPlayer().fromGuiIsModuleRunning( eAppModulePlayerNlc ) )
 	{
-		ProcessQtEvents( 100 );
+		GuiHelpers::processQtEvents( 100 );
 		if( m_ElapsedTimer.elapsed() > 6000 )
 		{
 			LogMsg( LOG_ERROR, "Media Player Failed To Start" );

@@ -172,6 +172,7 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChatRoomJoin.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChatRoomJoinSearch.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChatRoomListLocalView.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChooseHostAdminOrSearch.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChooseThumbnail.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChooseUser.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletClientAvatarImage.cpp" />
@@ -610,6 +611,7 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendList.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletSettingsFriendRequest.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendRequest.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseHostAdminOrSearch.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />
@@ -962,6 +964,7 @@ libass.lib;libpcre.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletChatRoomClient.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletChatRoomJoinSearch.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletChatRoomListLocalView.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletChooseHostAdminOrSearch.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletChooseThumbnail.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletChooseUser.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletDownloads.ui" />

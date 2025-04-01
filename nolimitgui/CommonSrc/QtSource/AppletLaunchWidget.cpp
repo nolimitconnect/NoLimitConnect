@@ -12,6 +12,7 @@
 
 #include "AppCommon.h"
 #include "AppletLaunchPage.h"
+#include "GuiHelpers.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <NetworkMonitor/NetStatusAccum.h>
@@ -52,8 +53,8 @@ void AppletLaunchWidget::slotAppletIconPressed( void )
     {
         if( !m_MyApp.getEngine().getNetStatusAccum().isNetworkOnline() )
         {
-             QMessageBox::information( this, QObject::tr( "Application Not Ready" ), QObject::tr( "Cannot launch applet until network is available" ) );
-             return;
+            GuiHelpers::showApplicationNotReadyError( true ); 
+            return;
         }
     }
 
@@ -80,7 +81,7 @@ void AppletLaunchWidget::slotAppletIconPressed( void )
     }
     else
     {
-        QMessageBox::information( this, QObject::tr( "Application Not Ready" ), QObject::tr( "Cannot Launch Applet Until Application Has Initialized" ) );
+        GuiHelpers::showApplicationNotReadyError( false ); 
     }
 }
 

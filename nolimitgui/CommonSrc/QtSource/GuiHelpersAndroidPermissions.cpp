@@ -115,15 +115,6 @@ bool GuiHelpers::requestFilePermission( enum EMediaFileType permissionType, bool
 }
 
 //============================================================================
-void GuiHelpers::showFilePermissionError( void )
-{
-    QString deniedPermTitle = QObject::tr("Access File Permissions Denied By User");
-    QString deniedPermMsg = QObject::tr("Access File Permissions Denied By User");
-    QMessageBox warnStorage( QMessageBox::Icon::Information, deniedPermMsg, deniedPermMsg, QMessageBox::Ok);
-    warnStorage.exec();
-}
-
-//============================================================================
 static QString getRealPathFromUri(const QUrl &url)
 {
     QString path = "";

@@ -12,12 +12,16 @@
 
 #include "AppletMgr.h"
 #include "AppCommon.h"
+#include "AppletChooseHostAdminOrSearch.h"
 #include "AppletChooseUser.h"
 #include "GuiHelpers.h"
 #include "GuiHostedListMgr.h"
 #include "GuiMemberActiveMgr.h"
 #include "GuiParams.h"
 #include "MyIconsDefs.h"
+
+#include <P2PEngine/P2PEngine.h>
+#include <NetworkMonitor/NetStatusAccum.h>
 
 #include <CoreLib/VxDebug.h>
 
@@ -394,6 +398,12 @@ void BottomBarWidget::launchJoinHostView( EHostType hostType )
 		return;
 	}
 
+	if( !m_MyApp.getEngine().getNetStatusAccum().isNetworkOnline() )
+	{
+		GuiHelpers::showApplicationNotReadyError( true ); 
+        return;
+	}
+
 	EChooseUserReason chooseUserReason{ eChooseUserReasonUnknown };
 	EApplet appletHostAdmin{ eAppletUnknown };
 	EApplet appleHostJoin{ eAppletUnknown };
@@ -465,7 +475,22 @@ void BottomBarWidget::launchJoinHostView( EHostType hostType )
 		{
 			if( myIdent->getNetIdent().isValidNetIdent() )
 			{
-				if( m_MyApp.getUserMgr().getMyIdent()->getNetIdent().userIsHosting( hostType ) )
+				bool iAmHost = m_MyApp.getUserMgr().getMyIdent()->getNetIdent().userIsHosting( hostType );
+				bool asAdmin = iAmHost;
+				if( asAdmin )
+				{
+					AppletChooseHostAdminOrSearch appletChoose( m_MyApp, getParentPageFrame() );
+					if( appletChoose.exec() == QDialog::Accepted )
+					{
+						asAdmin = appletChoose.getToAdminChoice();
+					}
+					else
+					{
+						return;
+					}
+				}
+
+				if( asAdmin )
 				{
 					m_MyApp.getAppletMgr().launchApplet( appletHostAdmin, getParentPageFrame() );
 				}

@@ -13,6 +13,7 @@
 #include "ToGuiActivityInterface.h"
 
 #include "HomeWindow.h"
+#include "GuiHelpers.h"
 #include "GuiParams.h"
 #include "LogMgr.h"
 #include "MyIcons.h"
@@ -86,12 +87,6 @@
 namespace
 {
 	AppCommon * g_AppCommon = 0;
-
-	const int PROCESS_QT_DEFAULT_MS = 50;
-	void ProcessQtEvents( int ms = PROCESS_QT_DEFAULT_MS )
-	{
-		QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
-	}
 
 	//============================================================================
 	QString GetAppTitle( void )
@@ -255,7 +250,7 @@ bool AppCommon::loadWithThread( void )
 
 	while( !appLoaderThread.getIsAccountMgrLoaded() )
 	{
-		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
+		GuiHelpers::processQtEvents();
 	}
 
 	m_ThumbMgr.onAppCommonCreated();
@@ -273,7 +268,7 @@ bool AppCommon::loadWithThread( void )
 
 	while( !appLoaderThread.getIsIconsLoaded() )
 	{
-		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
+		GuiHelpers::processQtEvents();
 	}
 
 	if( !hasExistingAccount() )
@@ -303,7 +298,7 @@ bool AppCommon::loadWithThread( void )
 
 	while( !appLoaderThread.getIsLoadComplete() )
 	{
-		ProcessQtEvents( PROCESS_QT_DEFAULT_MS );
+		GuiHelpers::processQtEvents();
 	}
 
 	appLoaderThread.quit();
@@ -1255,7 +1250,7 @@ void AppCommon::slotInternalToGuiAssetAdded( AssetBaseInfo assetInfo )
 {
 	// when assets are added they might call wantToGuiActivityCallbacks and change the clientList
 	// make sure que is empty before attempting to use the activity interfaces
-	ProcessQtEvents( 50 );
+	GuiHelpers::processQtEvents();
 	if( m_ToGuiActivityInterfaceBusy )
 	{
 		LogMsg( LOG_ERROR, "%s m_ToGuiActivityInterfaceBusy is true", __func__ );

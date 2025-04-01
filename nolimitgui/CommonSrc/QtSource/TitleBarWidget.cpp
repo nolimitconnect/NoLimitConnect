@@ -743,7 +743,7 @@ void TitleBarWidget::slotApplicationIconClicked( void )
     }
     else
     {
-        QMessageBox::information( this, QObject::tr( "Application Not Ready" ), QObject::tr( "Cannot Launch Applet Until Application Has Initialized" ) );
+        GuiHelpers::showApplicationNotReadyError( false ); 
     }
 }
 

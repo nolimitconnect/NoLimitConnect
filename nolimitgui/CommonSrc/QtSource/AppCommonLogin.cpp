@@ -251,7 +251,7 @@ std::string AppCommon::getUserSpecificDataDirectoryFromAccountUserName( const ch
 //============================================================================
 void AppCommon::loadAccountSpecificSettings( const char* userName )
 {
-    uint64_t loadStartMs = GetApplicationAliveMs();
+    int loadStartMs = GetApplicationAliveMs();
 
     getEngine().fromGuiSetUserXferDir( getUserXferDirectoryFromAccountUserName( userName ).c_str() );
     std::string strUserSpecificDir = getUserSpecificDataDirectoryFromAccountUserName( userName );
@@ -263,8 +263,8 @@ void AppCommon::loadAccountSpecificSettings( const char* userName )
     m_CamSourceId = m_AppSettings.getCamSourceId();
     m_CamCaptureRotation = m_AppSettings.getCamRotation( m_CamSourceId );
 
-    //uint64_t aliveMs = GetApplicationAliveMs();
-    //LogMsg( LOG_DEBUG, "Account Loaded ms %" PRId64 " alive ms %" PRId64 "", aliveMs - loadStartMs, aliveMs );
+    //int aliveMs = GetApplicationAliveMs();
+    //LogMsg( LOG_DEBUG, "Account Loaded ms %" PRId64 " alive ms %d", aliveMs - loadStartMs, aliveMs );
 
     setIsAppInitialized( true );
 

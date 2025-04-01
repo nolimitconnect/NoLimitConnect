@@ -212,10 +212,13 @@ public:
 
     static std::string          getRealFileName( QString selectedFile );
 
+    static void                 showApplicationNotReadyError( bool appReadyButNetworkNotReady );
+    static void                 showFilePermissionError( void );
+
     // android permissions
     static bool                 havePermission( QString permissionName );
     static bool                 requestFilePermission( enum EMediaFileType permissionType, bool showUserMsgIfDenied = true );
 
-    static void                 showFilePermissionError( void );
+
 };
 

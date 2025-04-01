@@ -62,6 +62,7 @@
 
 #define OBJNAME_APPLET_CHOOSE_THUMBNAIL					"AppletChooseThumbnail"
 #define OBJNAME_APPLET_CHOOSE_USER						"AppletChooseUser"
+#define OBJNAME_APPLET_CHOOSE_HOST_ADMIN_OR_SEARCH		"AppletChooseHostAdminOrSearch"
 
 #define OBJNAME_APPLET_EDIT_ABOUT_ME					"AppletEditAboutMe"
 #define OBJNAME_APPLET_EDIT_AVATAR_IMAGE				"AppletEditAvatarImage"

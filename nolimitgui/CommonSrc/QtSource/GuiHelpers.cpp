@@ -92,23 +92,6 @@ std::string GuiHelpers::browseForDirectory( QString startDir, QWidget* parent )
 	return folder;
 }
 
-/*
-//============================================================================
-void GuiHelpers::listFilesInFolder( std::string& folder, std::vector<VxFileInfoBase>& retFileList, uint8_t fileFilterMask )
-{
-    std::string folderName( folder );
-    VxFileUtil::removeTrailingDirectorySlash(folderName);
-
-    if( 0 == fileFilterMask )
-    {
-        fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY;
-    }
-
-    QDir folderDir( folderName.c_str() );
-    return listFilesInFolder( folderDir, retFileList, fileFilterMask );
-}
-*/
-
 //============================================================================
 void GuiHelpers::listFilesInFolder( QDir& folder, std::vector<VxFileInfoBase>& retFileList, uint8_t fileFilterMask )
 {
@@ -2202,6 +2185,24 @@ QMessageBox::StandardButton GuiHelpers::errorMsgBox (EErrMsgType errMsgType, QWi
     }
 
     return buttonResult;
+}
+
+//============================================================================
+void GuiHelpers::showFilePermissionError( void )
+{
+    QString deniedPermTitle = QObject::tr("Access File Permissions Denied By User");
+    QString deniedPermMsg = QObject::tr("Access File Permissions Denied By User");
+    QMessageBox warnStorage( QMessageBox::Icon::Information, deniedPermMsg, deniedPermMsg, QMessageBox::Ok);
+    warnStorage.exec();
+}
+
+//============================================================================
+void GuiHelpers::showApplicationNotReadyError( bool appReadyButNetworkNotReady )
+{
+    QString notReadyTitle = QObject::tr("Application Not Ready");
+    QString notReadyMsg = appReadyButNetworkNotReady ? QObject::tr("Cannot launch applet until network is available") : QObject::tr("Cannot Launch Applet Until Application Has Initialized");
+    QMessageBox warnStorage( QMessageBox::Icon::Information, notReadyTitle, notReadyMsg, QMessageBox::Ok);
+    warnStorage.exec();
 }
 
 //============================================================================

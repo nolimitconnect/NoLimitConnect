@@ -10,6 +10,7 @@
 
 #include <QWidget> // must be declared first or Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 
+#include "GuiHelpers.h"
 #include "GuiThreadMainLoader.h"
 #include "GuiThreadSettingsLoader.h"
 #include "NlcCommonConfig.h"
@@ -48,11 +49,6 @@
 #include <NetLib/VxPeerMgr.h>
 
 namespace {
-    void ProcessQtEvents( int ms = 100 )
-    {
-        QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
-    }
-
 
     //============================================================================
     void setupRootStorageDirectory()
@@ -181,7 +177,7 @@ int runApplication( QApplication* myApp, int argc, char** argv )
         LogMsg( LOG_VERBOSE, "%s waiting for main loader thread", __func__ );
         while( !mainLoaderThread.getIsLoadComplete() )
         {
-            ProcessQtEvents(50);
+            GuiHelpers::processQtEvents();
         }
 
         int waitMainLoaderThread = GetApplicationAliveMs();
@@ -194,7 +190,7 @@ int runApplication( QApplication* myApp, int argc, char** argv )
         int waitStart = GetApplicationAliveMs();
         while( !threadSettingsLoader.getIsSettingsLoaded() )
         {
-            ProcessQtEvents(50);
+            GuiHelpers::processQtEvents();
         }
 
         // now that settings are loaded we can start using LogModule

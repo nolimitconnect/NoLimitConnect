@@ -123,6 +123,11 @@ VxSndInstance * SoundMgr::playSnd( ESndDef sndDef, bool loopContinuous  )
 		return nullptr;
 	}
 
+    if( !m_MyApp.getIsAppInitialized() )
+    {
+        return nullptr;
+    }
+
 	if( m_MutePhoneRing 
 		&& ( eSndDefPhoneRing1 == sndDef ) )
 	{

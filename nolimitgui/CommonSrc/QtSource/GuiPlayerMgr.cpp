@@ -30,16 +30,6 @@
 #include <QUrl>
 #include <QPainter>
 
-namespace
-{
-	const int PROCESS_QT_DEFAULT_MS = 50;
-
-	void ProcessQtEvents( int ms = PROCESS_QT_DEFAULT_MS )
-	{
-		QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
-	}
-}
-
 //============================================================================
 GuiPlayerMgr::GuiPlayerMgr()
 	: QObject()
