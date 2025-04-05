@@ -38,7 +38,7 @@ AppletHostSelect::AppletHostSelect( AppCommon& app,  QWidget* parent )
 	ui.m_CreateInviteButton->setFixedSize( eButtonSizeSmall );
 	ui.m_CreateInviteButton->setIcon( eMyIconInviteCreate );
 
-	connect( &m_HostJoinMgr, SIGNAL(signalHostJoinOfferStateChange(GroupieId&,EJoinState)), this, SLOT(slotHostJoinOfferStateChange(GroupieId&,EJoinState)) );
+	connect( &m_HostJoinMgr, SIGNAL(signalHostJoinOfferStateChange(GroupieId,EJoinState)), this, SLOT(slotHostJoinOfferStateChange(GroupieId,EJoinState)) );
 	connect( &m_HostJoinMgr, SIGNAL(signalHostJoinOnlineStatus(GuiHostJoin*,bool)), this, SLOT(slotHostJoinOnlineStatus(GuiHostJoin*,bool)) );
 
 	connect( ui.m_HostJoinRequestList, SIGNAL(signalAcceptButtonClicked(GuiHostJoinSession*,HostJoinRequestListItem*)), 
@@ -88,13 +88,13 @@ void AppletHostSelect::slotlHostJoinUpdated( GuiHostJoin* guiHostJoin )
 }
 
 //============================================================================
-void AppletHostSelect::slotHostJoinRemoved( GroupieId& groupieId )
+void AppletHostSelect::slotHostJoinRemoved( GroupieId groupieId )
 {
 	ui.m_HostJoinRequestList->removeHostJoinRequest( groupieId );
 }
 
 //============================================================================
-void AppletHostSelect::slotHostJoinOfferStateChange( GroupieId& groupieId, EJoinState hostOfferState )
+void AppletHostSelect::slotHostJoinOfferStateChange( GroupieId groupieId, EJoinState hostOfferState )
 {
 	updateJoinList();
 }

@@ -58,12 +58,10 @@ AppletInviteCreate::AppletInviteCreate( AppCommon& app, QWidget* parent )
 
     ui.m_SelectGroupButton->setIcon( eMyIconArrowUpRight );
     ui.m_SelectGroupButton->setFixedSize( eButtonSizeTiny );
-    ui.m_CopyInviteButton->setIcon( eMyIconEditCopy );
-    ui.m_CopyInviteButton->setFixedSize( eButtonSizeTiny );
     ui.m_NetworkSettingsInfoButton->setIcon( eMyIconInformation );
     ui.m_NetworkSettingsInfoButton->setFixedSize( eButtonSizeSmall );
 
-    connect( ui.m_CopyInviteButton, SIGNAL(clicked()), this, SLOT( slotCopyInviteButtonClicked() ) );
+    connect( ui.m_ClipboardCopyWidget, SIGNAL(clicked()), this, SLOT( slotCopyInviteButtonClicked() ) );
     connect( ui.m_NetworkSettingsInfoButton, SIGNAL(clicked()), this, SLOT( slotNetworkSettingsInfoButtonClicked() ) );
     connect( ui.m_SelectGroupButton, SIGNAL(clicked()), this, SLOT( slotSelectGroupHostButtonClicked() ) );
 
@@ -258,4 +256,11 @@ bool AppletInviteCreate::populateNetSettingUrl( EHostType hostType, std::string&
     }
 
     return true;
+}
+
+//============================================================================
+bool AppletInviteCreate::setInviteType( EHostType hostType )
+{
+
+    return false;
 }

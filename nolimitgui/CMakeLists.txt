@@ -39,6 +39,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AccountDb.h
     CommonSrc/QtSource/AccountMgr.h
     CommonSrc/QtSource/AcceptCancelWidget.h
+    CommonSrc/QtSource/ActionWidget.h
 
     CommonSrc/QtSource/ActivityBrowseFiles.h
     CommonSrc/QtSource/ActivityCreateAccount.h
@@ -81,7 +82,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletChatRoomListLocalView.h
     CommonSrc/QtSource/AppletChooseHostAdminOrSearch.h
     CommonSrc/QtSource/AppletChooseThumbnail.h
-    CommonSrc/QtSource/AppletChooseUser.h
+    CommonSrc/QtSource/AppletChooseHost.h
     CommonSrc/QtSource/AppletClientAvatarImage.h
     CommonSrc/QtSource/AppletClientBase.h
     CommonSrc/QtSource/AppletRandomConnectClient.h
@@ -221,6 +222,9 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/CamProcessor.h
 
     CommonSrc/QtSource/ChatEntryWidget.h
+    CommonSrc/QtSource/ClipboardCopyWidget.h
+    CommonSrc/QtSource/ClipboardPasteWidget.h
+
     CommonSrc/QtSource/DialogAddComment.h
     CommonSrc/QtSource/DialogConfirmRemoveMessage.h
     CommonSrc/QtSource/EventsQtToNlc.h
@@ -422,6 +426,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/VxAppDisplay.h
     CommonSrc/QtSource/VxPlainTextEdit.h
     CommonSrc/QtSource/WaitingSpinnerWidget.h
+    CommonSrc/QtSource/WebsiteWidget.h
     CommonSrc/QtSource/VirtStream/VirtProviderFile.h
     CommonSrc/QtSource/VirtStream/VirtStorageProvider.h
     CommonSrc/QtSource/VirtStream/VirtStreamCache.h
@@ -438,6 +443,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AccountDb.cpp
     CommonSrc/QtSource/AccountMgr.cpp
 
+    CommonSrc/QtSource/ActionWidget.cpp
     CommonSrc/QtSource/ActivityBase.cpp
     CommonSrc/QtSource/ActivityBrowseFiles.cpp
     CommonSrc/QtSource/ActivityCreateAccount.cpp
@@ -492,7 +498,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletChatRoomListLocalView.cpp
     CommonSrc/QtSource/AppletChooseHostAdminOrSearch.cpp
     CommonSrc/QtSource/AppletChooseThumbnail.cpp
-    CommonSrc/QtSource/AppletChooseUser.cpp
+    CommonSrc/QtSource/AppletChooseHost.cpp
     CommonSrc/QtSource/AppletClientAvatarImage.cpp
     CommonSrc/QtSource/AppletClientBase.cpp
     CommonSrc/QtSource/AppletRandomConnectClient.cpp
@@ -634,6 +640,8 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/CamTitleBarPreview.cpp
     CommonSrc/QtSource/ChatRoomWidget.cpp
     CommonSrc/QtSource/ChatEntryWidget.cpp
+    CommonSrc/QtSource/ClipboardCopyWidget.cpp
+    CommonSrc/QtSource/ClipboardPasteWidget.cpp
     CommonSrc/QtSource/DialogAddComment.cpp
     CommonSrc/QtSource/DialogConfirmRemoveMessage.cpp
     CommonSrc/QtSource/EventsQtToNlc.cpp
@@ -820,6 +828,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/VxAppDisplay.cpp
     CommonSrc/QtSource/VxPlainTextEdit.cpp
     CommonSrc/QtSource/WaitingSpinnerWidget.cpp
+    CommonSrc/QtSource/WebsiteWidget.cpp
     CommonSrc/QtSource/VirtStream/VirtProviderFile.cpp
     CommonSrc/QtSource/VirtStream/VirtStorageProvider.cpp
     CommonSrc/QtSource/VirtStream/VirtStreamCache.cpp
@@ -833,6 +842,7 @@ list(APPEND nlc_SOURCES
 
 set(nlc_FORMS)
 list(APPEND nlc_FORMS
+    CommonSrc/Forms/ActionWidget.ui
     CommonSrc/Forms/ActivityBrowseFiles.ui
     CommonSrc/Forms/ActivityCreateAccount.ui
     CommonSrc/Forms/ActivityDownloadItemMenu.ui
@@ -862,7 +872,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/AppletChatRoomListLocalView.ui
     CommonSrc/Forms/AppletChooseHostAdminOrSearch.ui
     CommonSrc/Forms/AppletChooseThumbnail.ui
-    CommonSrc/Forms/AppletChooseUser.ui
+    CommonSrc/Forms/AppletChooseHost.ui
     CommonSrc/Forms/AppletDownloads.ui
     CommonSrc/Forms/AppletEditAboutMe.ui
     CommonSrc/Forms/AppletEditAvatarImage.ui
@@ -993,6 +1003,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/TitleBarWidget.ui
     CommonSrc/Forms/TodGameWidget.ui
     CommonSrc/Forms/VidWidget.ui
+    CommonSrc/Forms/WebsiteWidget.ui
     CommonSrc/NoLimitConnect.qrc
     )
 

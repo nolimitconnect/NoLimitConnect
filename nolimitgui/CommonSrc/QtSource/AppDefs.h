@@ -136,7 +136,7 @@ enum EApplet
     eAppletCamClient,
 
     eAppletChooseThumbnail,
-    eAppletChooseUser,
+    eAppletChooseHost,
 
     eAppletGalleryEmoticon,
     eAppletGalleryImage,

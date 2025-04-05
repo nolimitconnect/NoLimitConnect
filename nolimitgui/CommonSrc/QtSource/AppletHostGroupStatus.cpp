@@ -59,7 +59,8 @@ AppletHostGroupStatus::AppletHostGroupStatus( AppCommon& app, QWidget* parent )
 
     connect( ui.m_HostingRequirementsButton, SIGNAL(clicked()), this, SLOT( slotHostRequirementsButtonClicked() ) );
     connect( m_UpdateStatusTimer, SIGNAL( timeout() ), this, SLOT( slotUpdateStatusTimeout() ) );
-    connect( ui.m_VistEvalVpnsButton, SIGNAL(clicked()), this, SLOT( gotoWebsite() ) );
+
+    ui.m_WebsiteWidget->setUrlType( eWebsiteUrlVpn );
 
     m_UpdateStatusTimer->start( 3000 );
     slotUpdateStatusTimeout();
@@ -110,12 +111,6 @@ void AppletHostGroupStatus::slotHostRequirementsButtonClicked()
     {
         activityInfo->show();
     }
-}
-
-//============================================================================
-void AppletHostGroupStatus::gotoWebsite( void )
-{
-    QDesktopServices::openUrl( QUrl( "https://nolimitconnect.com/nlc/vpns/" ) );
 }
 
 //============================================================================

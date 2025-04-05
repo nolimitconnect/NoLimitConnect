@@ -1309,7 +1309,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 
                     sktBase->RxedPkt( iDataLen );
                     // call back user with the good news.. we have data
-                    LogModule( eLogSktData, LOG_VERBOSE, "%s: skt %d skt Id %d receiving len %d thread 0x%x",
+                    LogModule( eLogSktData, LOG_VERBOSE, "%s: skt handle %d skt Id %d receiving len %d thread 0x%x",
                                __func__, sktBase->getSktHandle(), sktBase->getSktNumber(), iDataLen, VxGetCurrentThreadId() );
                     sktBase->updateLastActiveTime();
                     sktBase->m_pfnReceive( sktBase->getThisSkt(), sktBase->getRxCallbackUserData() );

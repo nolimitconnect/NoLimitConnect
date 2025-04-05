@@ -236,7 +236,11 @@ start_over:
             }
         }
 
-		m_ServerMgr.acceptConnection( m_IsIpv6, &m_ListenThread, listenSock, m_ListenPort );
+		RCODE acceptResult = m_ServerMgr.acceptConnection( m_IsIpv6, &m_ListenThread, listenSock, m_ListenPort );
+        if( acceptResult )
+        {
+            LogMsg( LOG_DEBUG, "ListenLogic::%s acceptConnection ERROR %d %s", __func__, acceptResult, VxDescribeSktError( acceptResult ) );
+        }
 	}	
 	
 	m_ServerMgr.setIsReadyToAcceptConnections( m_IsIpv6, false );

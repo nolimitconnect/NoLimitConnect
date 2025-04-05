@@ -1989,3 +1989,9 @@ void AppCommon::checkIsGuiThread( void )
 		exit(99);
 	}
 }
+
+//============================================================================
+bool AppCommon::getIsMyPortOpen( void )
+{
+	return getEngine().getNetStatusAccum().isRxPortOpen();
+}

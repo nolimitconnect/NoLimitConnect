@@ -29,6 +29,8 @@ public:
     void                        infoMsg( const char* infoMsg, ... );
     void                        toGuiInfoMsg( char * logMsg );
 
+    bool                        setInviteType( EHostType hostType );
+
 signals:
     void                        signalInfoMsg( const QString& logMsg );
 
@@ -48,6 +50,7 @@ protected:
     bool                        populateNetSettingUrl( EHostType hostType, std::string& ptopUrl );
 
     Ui::AppletInviteCreateUi&   ui;
+    EHostType                   m_HostType{ eHostTypePeerUser };
 };
 
 

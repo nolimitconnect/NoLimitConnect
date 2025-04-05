@@ -42,8 +42,6 @@ protected slots:
 
     void slotWebCam();
 
-    void gotoWebsite();
-
 protected:
     Ui::AppletGetStartedUi&     ui;
 };

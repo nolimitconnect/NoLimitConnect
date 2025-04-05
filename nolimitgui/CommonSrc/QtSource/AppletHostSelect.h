@@ -36,8 +36,8 @@ signals:
 protected slots:
 	void				        slotHostJoinRequested( GuiHostJoin* guiHostJoin );
 	void				        slotlHostJoinUpdated( GuiHostJoin* guiHostJoin );
-	void				        slotHostJoinRemoved( GroupieId& groupieId );
-	void                        slotHostJoinOfferStateChange( GroupieId& groupieId, EJoinState hostOfferState );
+	void				        slotHostJoinRemoved( GroupieId groupieId );
+	void                        slotHostJoinOfferStateChange( GroupieId groupieId, EJoinState hostOfferState );
 	void                        slotHostJoinOnlineStatus( GuiHostJoin* user, bool isOnline );
 
 	void                        slotAcceptButtonClicked( GuiHostJoinSession* joinSession, HostJoinRequestListItem* joinItem );

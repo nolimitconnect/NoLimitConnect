@@ -121,6 +121,12 @@ void PluginBaseNetworkService::sendHostAnnounce( void )
         return;
     }
 
+    if( getPluginType() == ePluginTypeHostNetwork ||  getPluginType() == ePluginTypeHostConnectTest )
+    {
+        //LogMsg( LOG_ERROR, "PluginBaseNetworkService::%s do NOT announce %s", __func__, DescribePluginType( getPluginType() ) );
+        return;
+    }
+
     if( m_Engine.getMyPktAnnounce().requiresRelay() )
     {
         VxGUID sessionId;
@@ -163,13 +169,10 @@ void PluginBaseNetworkService::sendHostAnnounce( void )
         }
     }
     
-    if( !sentToOurself )
+    if( m_Engine.getNetStatusAccum().canAnnounceToNlcHost( m_Engine.isNetworkHostEnabled() ) )
     {
-        if( m_PktHostInviteIsValid && m_Engine.getNetStatusAccum().getNetAvailStatus() != eNetAvailNoInternet )
-        {
-            VxGUID::generateNewVxGUID( m_AnnounceSessionId );
-            m_HostServerMgr.sendHostAnnounceToNetworkHost( m_AnnounceSessionId, m_PktHostInviteAnnounceReq, getHostAnnounceConnectReason() );
-        }
+        VxGUID::generateNewVxGUID( m_AnnounceSessionId );
+        m_HostServerMgr.sendHostAnnounceToNetworkHost( m_AnnounceSessionId, m_PktHostInviteAnnounceReq, getHostAnnounceConnectReason() );
     }
 }
 

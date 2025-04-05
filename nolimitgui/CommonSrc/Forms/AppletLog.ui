@@ -81,17 +81,7 @@
        <number>5</number>
       </property>
       <item>
-       <widget class="QPushButton" name="gotoWebsiteButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>visit https://nolimitconnect.com</string>
-        </property>
-       </widget>
+       <widget class="WebsiteWidget" name="m_WebsiteWidget" native="true"/>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -109,14 +99,10 @@
           </property>
          </widget>
         </item>
-        <item>
-         <widget class="QPushButton" name="m_CopyToClipboardButton">
-          <property name="text">
-           <string>Copy To Clipboard</string>
-          </property>
-         </widget>
-        </item>
        </layout>
+      </item>
+      <item>
+       <widget class="ClipboardCopyWidget" name="m_CopyToClipboardWidget" native="true"/>
       </item>
       <item>
        <widget class="QPlainTextEdit" name="m_LogPlainTextEdit"/>
@@ -126,6 +112,20 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ClipboardCopyWidget</class>
+   <extends>QWidget</extends>
+   <header>ClipboardCopyWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WebsiteWidget</class>
+   <extends>QWidget</extends>
+   <header>WebsiteWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

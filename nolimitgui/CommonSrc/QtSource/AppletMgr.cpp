@@ -37,7 +37,7 @@
 #include "AppletChatRoomListLocalView.h"
 
 #include "AppletChooseThumbnail.h"
-#include "AppletChooseUser.h"
+#include "AppletChooseHost.h"
 
 #include "AppletDownloads.h"
 #include "AppletEditAboutMe.h"
@@ -367,7 +367,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletChatRoomJoinSearch:         if( launchAppletAllowed( eAppletChatRoomJoinSearch ) ) appletDialog = new AppletChatRoomJoinSearch( m_MyApp, parent ); break;
     case eAppletChatRoomListLocalView:      if( launchAppletAllowed( eAppletChatRoomListLocalView ) ) appletDialog = new AppletChatRoomListLocalView( m_MyApp, parent ); break;
     case eAppletChooseThumbnail:            if( launchAppletAllowed( eAppletChooseThumbnail ) ) appletDialog = new AppletChooseThumbnail( m_MyApp, parent ); break;
-    case eAppletChooseUser:                 if( launchAppletAllowed( eAppletChooseUser ) ) appletDialog = new AppletChooseUser( m_MyApp, parent ); break;
+    case eAppletChooseHost:                 if( launchAppletAllowed( eAppletChooseHost ) ) appletDialog = new AppletChooseHost( m_MyApp, parent ); break;
 
     case eAppletEditAboutMe:                if( launchAppletAllowed( eAppletEditAboutMe ) ) appletDialog = new AppletEditAboutMe( m_MyApp, parent ); break;
     case eAppletEditAvatarImage:            if( launchAppletAllowed( eAppletEditAvatarImage ) ) appletDialog = new AppletEditAvatarImage( m_MyApp, parent ); break;

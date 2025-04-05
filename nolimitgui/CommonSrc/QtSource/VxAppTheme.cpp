@@ -97,6 +97,14 @@ QColor VxAppTheme::getNotifyColor( ENotifyType notifyType )
 }
 
 //============================================================================
+QColor VxAppTheme::getLinkColor( bool isVisited )
+{
+    if( isVisited )
+        return getColor( eLinkVisitedColor );
+    return getColor( eLinkColor );
+}
+
+//============================================================================
 void VxAppTheme::updateProgressBar( QProgressBar* progressBar )
 {
     setHighlightColor( progressBar, getColor( eProgressBarColor ) );
@@ -832,8 +840,8 @@ void VxAppTheme::updateWindowTheme( QWidget* homeHindow )
 
     palette.setColor( QPalette::Highlight, getColor( eProgressBarColor ) );		// Highlight and progress bar
     palette.setColor( QPalette::HighlightedText, getColor( eWindowHighlightTextColor ) );	// HighlightedText
-    palette.setColor( QPalette::Link, QColor( COLOR_BLUE ) );                   // Link
-    palette.setColor( QPalette::LinkVisited, QColor( COLOR_PURPLE ) );          // LinkVisited
+    palette.setColor( QPalette::Link, getColor( eLinkColor ) );                   // Link
+    palette.setColor( QPalette::LinkVisited, getColor( eLinkVisitedColor ) );          // LinkVisited
     palette.setColor( QPalette::ToolTipText, windowTextColor );                 // ToolTipText
     palette.setColor( QPalette::ToolTipBase, QColor( COLOR_YELLOW_DARK ) );     // ToolTipBase
 
@@ -1005,6 +1013,8 @@ void VxAppTheme::selectTheme( EThemeType eThemeType, QWidget* homeHindow )
         m_ThemeColors.emplace_back( COLOR_WHITE ); //eChatTextTxForground,
         m_ThemeColors.emplace_back( COLOR_WHITE ); //eChatTextRxBackground,
         m_ThemeColors.emplace_back( COLOR_BLACK ); //eChatTextRxForground,
+        m_ThemeColors.emplace_back( COLOR_BLUE_LIGHT ); //eLinkColor,
+        m_ThemeColors.emplace_back( COLOR_BLUE_MEDIUM ); //eLinkVisitedColor,
         break;
 
 	case eThemeTypeBlueOnWhite:
@@ -1048,6 +1058,8 @@ void VxAppTheme::selectTheme( EThemeType eThemeType, QWidget* homeHindow )
         m_ThemeColors.emplace_back( COLOR_WHITE ); //eChatTextRxBackground,
         m_ThemeColors.emplace_back( COLOR_BLACK ); //eChatTextRxForground,
 
+        m_ThemeColors.emplace_back( COLOR_BLUE_DARK ); //eLinkColor,
+        m_ThemeColors.emplace_back( COLOR_BLUE_MEDIUM ); //eLinkVisitedColor,
 		break;
 
 	case eThemeTypeGreenOnWhite:
@@ -1090,6 +1102,9 @@ void VxAppTheme::selectTheme( EThemeType eThemeType, QWidget* homeHindow )
         m_ThemeColors.emplace_back( COLOR_WHITE ); //eChatTextTxForground,
         m_ThemeColors.emplace_back( COLOR_WHITE ); //eChatTextRxBackground,
         m_ThemeColors.emplace_back( COLOR_BLACK ); //eChatTextRxForground,
+
+        m_ThemeColors.emplace_back( COLOR_BLUE_DARK ); //eLinkColor,
+        m_ThemeColors.emplace_back( COLOR_BLUE_MEDIUM ); //eLinkVisitedColor,
         break;
 
 	case eThemeTypeUnknown:
@@ -1134,6 +1149,9 @@ void VxAppTheme::selectTheme( EThemeType eThemeType, QWidget* homeHindow )
         m_ThemeColors.emplace_back( COLOR_WHITE ); //eChatTextTxForground,
         m_ThemeColors.emplace_back( COLOR_WHITE ); //eChatTextRxBackground,
         m_ThemeColors.emplace_back( COLOR_BLACK ); //eChatTextRxForground,
+
+        m_ThemeColors.emplace_back( COLOR_BLUE_DARK ); //eLinkColor,
+        m_ThemeColors.emplace_back( COLOR_BLUE_MEDIUM ); //eLinkVisitedColor,
         break;
 	}
 
@@ -1147,4 +1165,17 @@ void VxAppTheme::selectTheme( EThemeType eThemeType, QWidget* homeHindow )
 void VxAppTheme::createChatStyleSheet( QString& styleSheet, QColor textBkg, QColor textFgd )
 {
     styleSheet = QString("QLabel{border-radius: 5px; background-color: rgb(%1, %2, %3); color: rgb(%4, %5, %6);}").arg(textBkg.red()).arg(textBkg.green()).arg(textBkg.blue()).arg(textFgd.red()).arg(textFgd.green()).arg(textFgd.blue());
+}
+
+
+//============================================================================
+QString VxAppTheme::getFontBeginTag( QColor color )
+{
+    return QString( "<font color= %1>" ).arg( color.name() );
+}
+
+//============================================================================
+QString VxAppTheme::getFontEndTag( void )
+{
+    return "</font>";
 }

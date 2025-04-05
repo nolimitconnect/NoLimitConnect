@@ -8,7 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppletChooseUser.h"
+#include "AppletChooseHost.h"
 
 #include "AppCommon.h"
 #include "AppletMgr.h"
@@ -20,14 +20,14 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
-#include "ui_AppletChooseUser.h"
+#include "ui_AppletChooseHost.h"
 
 //============================================================================
-AppletChooseUser::AppletChooseUser( AppCommon& app, QWidget* parent )
-: AppletBase( OBJNAME_APPLET_CHOOSE_USER, app, parent )
-, ui(*(new Ui::AppletChooseUserUi))
+AppletChooseHost::AppletChooseHost( AppCommon& app, QWidget* parent )
+: AppletBase( OBJNAME_APPLET_CHOOSE_HOST, app, parent )
+, ui(*(new Ui::AppletChooseHostUi))
 {
-	setAppletType( eAppletChooseUser );
+	setAppletType( eAppletChooseHost );
 	ui.setupUi( getContentItemsFrame() );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
 	setPluginType( ePluginTypeClientChatRoom );
@@ -53,13 +53,13 @@ AppletChooseUser::AppletChooseUser( AppCommon& app, QWidget* parent )
 }
 
 //============================================================================
-AppletChooseUser::~AppletChooseUser()
+AppletChooseHost::~AppletChooseHost()
 {
     m_MyApp.activityStateChange( this, false );
 }
 
 //============================================================================
-void AppletChooseUser::setChooseUserReason( EChooseUserReason chooseUserReason )   
+void AppletChooseHost::setChooseUserReason( EChooseUserReason chooseUserReason )   
 { 
 	m_ChooseUserReason = chooseUserReason; 
 	if( chooseUserReason == eChooseUserReasonChatRoomHost )
@@ -69,13 +69,13 @@ void AppletChooseUser::setChooseUserReason( EChooseUserReason chooseUserReason )
 }
 
 //============================================================================
-void AppletChooseUser::setChooseInstructionsText( QString instructionText )
+void AppletChooseHost::setChooseInstructionsText( QString instructionText )
 {
 	ui.m_ChooseLabel->setText( instructionText );
 }
 
 //============================================================================
-void AppletChooseUser::addUser( VxGUID& onlineId )
+void AppletChooseHost::addUser( VxGUID& onlineId )
 {
 	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( onlineId );
 	if( guiUser )
@@ -84,12 +84,12 @@ void AppletChooseUser::addUser( VxGUID& onlineId )
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "AppletChooseUser::addUser null user %s", onlineId.toOnlineIdString().c_str() );
+		LogMsg( LOG_ERROR, "AppletChooseHost::addUser null user %s", onlineId.toOnlineIdString().c_str() );
 	}
 }
 
 //============================================================================
-void AppletChooseUser::updateUser( GuiUser* guiUser )
+void AppletChooseHost::updateUser( GuiUser* guiUser )
 {
 	if( guiUser )
 	{
@@ -97,18 +97,18 @@ void AppletChooseUser::updateUser( GuiUser* guiUser )
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "AppletChooseUser::addUser null user " );
+		LogMsg( LOG_ERROR, "AppletChooseHost::addUser null user " );
 	}
 }
 
 //============================================================================
-void AppletChooseUser::showEvent( QShowEvent* ev )
+void AppletChooseHost::showEvent( QShowEvent* ev )
 {
 	AppletBase::showEvent( ev );
 }
 
 //============================================================================
-void AppletChooseUser::slotUserSelected( GuiUserSessionBase* userSession, GuiUserListItem* userItem )
+void AppletChooseHost::slotUserSelected( GuiUserSessionBase* userSession, GuiUserListItem* userItem )
 {
 	if( userSession )
 	{
@@ -140,7 +140,7 @@ void AppletChooseUser::slotUserSelected( GuiUserSessionBase* userSession, GuiUse
 				break;
 
 			case eChooseUserReasonTest:
-				LogMsg( LOG_VERBOSE, "AppletChooseUser::slotUserSelected %s", guiUser->describeUser().toUtf8().constData() );
+				LogMsg( LOG_VERBOSE, "AppletChooseHost::slotUserSelected %s", guiUser->describeUser().toUtf8().constData() );
 				emit signalUserChoosen( guiUser->getMyOnlineId() );
 				closeApplet();
 				return;
@@ -175,11 +175,11 @@ void AppletChooseUser::slotUserSelected( GuiUserSessionBase* userSession, GuiUse
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "AppletChooseUser::slotUserSelected null user" );
+			LogMsg( LOG_ERROR, "AppletChooseHost::slotUserSelected null user" );
 		}
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "AppletChooseUser::slotUserSelected null userSession" );
+		LogMsg( LOG_ERROR, "AppletChooseHost::slotUserSelected null userSession" );
 	}
 }

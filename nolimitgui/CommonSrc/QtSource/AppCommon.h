@@ -151,6 +151,7 @@ public:
     bool						getIsVidCaptureEnabled( void ) { return m_VidCaptureEnabled; }
     bool						getIsMicrophoneHardwareEnabled( void ) { return m_MicrophoneHardwareEnabled; }
     bool						getIsSpeakerHardwareEnabled( void ) { return m_SpeakerHardwareEnabled; }
+    bool						getIsMyPortOpen( void );
     MyIcons&                    getMyIcons( void ) { return m_MyIcons; }
     VxNetIdent*                 getMyNetIdent( void );
     VxGUID&                     getMyOnlineId( void );

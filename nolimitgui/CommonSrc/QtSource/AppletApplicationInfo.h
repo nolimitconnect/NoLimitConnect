@@ -42,8 +42,6 @@ signals:
     void                        signalInfoMsg( const QString& logMsg );
 
 protected slots:
-    void						gotoWebsite( void );
-    void                        slotExtraInfoButtonClick( void );
     void                        slotLogMsg( const QString& text );
     void                        slotInfoMsg( const QString& text );
 

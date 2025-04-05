@@ -25,7 +25,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletChatRoomJoinSearch:	        return eMyIconSearchJoinChatRoom;
     case eAppletChatRoomJoin:	            return eMyIconChatRoomClient;
     case eAppletChatRoomListLocalView:	    return eMyIconEyeAnnouncedChatRooms;
-    case eAppletChooseUser:	                return eMyIconSearchPerson;
+    case eAppletChooseHost:	                return eMyIconSearchPerson;
 
     case eAppletCreateAccount:			    return eMyIconUserIdentity;
 
@@ -223,7 +223,7 @@ QString DescribeApplet( EApplet applet )
 
     case eAppletChooseHostAdminOrSearch:    return QObject::tr( "Choose Admin Or Search Join" );
     case eAppletChooseThumbnail:		    return QObject::tr( "Choose Thumbnail" );
-    case eAppletChooseUser:		            return QObject::tr( "Choose User" );
+    case eAppletChooseHost:		            return QObject::tr( "Choose Host" );
 
     case eAppletChatRoomClient:		        return QObject::tr( "Chat Room" );
     case eAppletRandomConnectClient:		return QObject::tr( "Random Person Connect" );

@@ -538,7 +538,9 @@ namespace
         "Video Chat ", // 15
         "Voice Call ", // 16
 
-        "Max Announced Plugin ", // 17
+        "Friend Request ", // 17
+
+        "Max Announced Plugin ", // 18
 
         "Plugin Reserved 18 ",
         "Plugin Reserved 19 ",

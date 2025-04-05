@@ -54,9 +54,10 @@ AppletHostRandomConnectStatus::AppletHostRandomConnectStatus( AppCommon& app, QW
 
     m_MyApp.activityStateChange( this, true );
 
-    connect( ui.m_HostingRequirementsButton, SIGNAL(clicked()), this, SLOT( slotHostRequirementsButtonClicked() ) );
-    connect( m_UpdateStatusTimer, SIGNAL( timeout() ), this, SLOT( slotUpdateStatusTimeout() ) );
-    connect( ui.m_VistEvalVpnsButton, SIGNAL(clicked()), this, SLOT( gotoWebsite() ) );
+    connect( ui.m_HostingRequirementsButton, SIGNAL(clicked()), this, SLOT(slotHostRequirementsButtonClicked()) );
+    connect( m_UpdateStatusTimer, SIGNAL(timeout()), this, SLOT(slotUpdateStatusTimeout()) );
+
+    ui.m_WebsiteWidget->setUrlType( eWebsiteUrlVpn );
 
     m_UpdateStatusTimer->start( 3000 );
     slotUpdateStatusTimeout();
@@ -102,12 +103,6 @@ void AppletHostRandomConnectStatus::slotUpdateStatusTimeout()
     m_MyApp.getFromGuiInterface().fromGuiGetNodeUrl( url );
     ui.m_UrlText->setText( url.c_str() );
     updateOnlineMembers();
-}
-
-//============================================================================
-void AppletHostRandomConnectStatus::gotoWebsite( void )
-{
-    QDesktopServices::openUrl( QUrl( "https://nolimitconnect.com/nlc/vpns/" ) );
 }
 
 //============================================================================

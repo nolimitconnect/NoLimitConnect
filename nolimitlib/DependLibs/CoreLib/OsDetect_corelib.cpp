@@ -8,6 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <CoreLib/config_corelib.h>
 #include "OsDetect.h"
 #include "VxDebug.h"
 
@@ -19,32 +20,58 @@
 #endif // TARGET_OS_WINDOWS
 
 //============================================================================
-char * OsDetect::getOsName( void )
+std::string OsDetect::getOsName( void )
 {
-     if( isAndroid() )
-     {
-         return (char *)"Android";
-     }
-     else if( isWindowsPlatform() )
-     {
-         return (char *)"Windows";
-     }
-     else if( isLinux() )
-     {
-         return (char *)"Linux";
-     }
-     else if( isApple() )
-     {
-         return (char *)"Apple";
-     }
-     else if( isRasberryPi() )
-     {
-         return (char *)"RasberryPi";
-     }
-     else
-     {
-         return (char *)"UnknownOS";
-     }
+    std::string osName;
+    if( isAndroid() )
+    {
+        osName = "Android";
+    }
+    else if( isWindowsPlatform() )
+    {
+        osName = "Windows";
+    }
+    else if( isLinux() )
+    {
+        osName = "Linux";
+    }
+    else if( isApple() )
+    {
+        osName = "Apple";
+    }
+    else if( isRasberryPi() )
+    {
+        osName = "RasberryPi";
+    }
+    else
+    {
+        osName = "UnknownOS";
+    }
+
+    return osName;
+}
+
+//============================================================================
+std::string OsDetect::getCpuName( void )
+{
+    std::string cpu;
+#if defined(TARGET_CPU_ARM64) || defined(TARGET_CPU_ARM32)
+	cpu += "ARM ";
+# if defined(TARGET_CPU_ARM64) 
+    cpu += "64 Bit ";
+# else
+    cpu += "32 Bit ";
+# endif 
+#else
+    cpu += "X86 ";
+# if ARCH_32_BITS
+    cpu += "32 Bit ";
+# else
+    cpu += "64 Bit ";
+# endif 
+
+#endif // defined(TARGET_CPU_ARM64) || defined(TARGET_CPU_ARM32)
+    return cpu;
 }
 
 //============================================================================
@@ -126,7 +153,7 @@ double OsDetect::getWindowsVersionNumber( void )
 	}
 
 	RCODE rc = VxGetLastError();
-	LogMsg( LOG_ERROR, "OsDetect::getWindowsVersionNumber failed with error %d\n", rc );
+	LogMsg( LOG_ERROR, "OsDetect::getWindowsVersionNumber failed with error %d", rc );
 	return 0;
 #else
 	LogMsg( LOG_ERROR, "OsDetect::getWindowsVersionNumber called from unknown OS" );

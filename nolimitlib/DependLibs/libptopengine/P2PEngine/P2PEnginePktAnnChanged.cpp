@@ -38,9 +38,9 @@ void P2PEngine::doPktAnnHasChanged( bool connectionListIsLocked )
 
 	if( false == connectionListIsLocked )
 	{
-		LogMsg( LOG_ERROR, "P2PEngine::doPktAnnHasChanged m_ConnectListMutex attempt lock" );
+        //LogMsg( LOG_ERROR, "P2PEngine::doPktAnnHasChanged m_ConnectListMutex attempt lock" );
 		m_ConnectionList.connectListLock();
-		LogMsg( LOG_ERROR, "P2PEngine::doPktAnnHasChanged m_ConnectListMutex lock success" );
+        //LogMsg( LOG_ERROR, "P2PEngine::doPktAnnHasChanged m_ConnectListMutex lock success" );
 	}
 
 	// make copy of pkt announce 
@@ -66,7 +66,7 @@ void P2PEngine::doPktAnnHasChanged( bool connectionListIsLocked )
 
 	if( false == connectionListIsLocked )
 	{
-		LogMsg( LOG_INFO, "P2PEngine::doPktAnnHasChanged: m_ConnectListMutex.unlock()" );
+        //LogMsg( LOG_INFO, "P2PEngine::doPktAnnHasChanged: m_ConnectListMutex.unlock()" );
 		m_ConnectionList.connectListUnlock();
 	}
 

@@ -42,8 +42,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>491</width>
-        <height>651</height>
+        <width>497</width>
+        <height>657</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -723,17 +723,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="gotoWebsiteButton">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>visit https://nolimitconnect.com</string>
-         </property>
-        </widget>
+        <widget class="WebsiteWidget" name="m_WebsiteWidget" native="true"/>
        </item>
        <item>
         <spacer name="verticalSpacer">
@@ -759,6 +749,12 @@
    <class>VxPushButton</class>
    <extends>QPushButton</extends>
    <header>VxPushButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>WebsiteWidget</class>
+   <extends>QWidget</extends>
+   <header>WebsiteWidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

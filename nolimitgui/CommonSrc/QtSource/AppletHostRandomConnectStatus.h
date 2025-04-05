@@ -33,7 +33,6 @@ public:
     PermissionWidget*           getConnectionTestWidget();
 
 protected slots:
-    void						gotoWebsite( void );
     void                        slotHostRequirementsButtonClicked();
     void                        slotUpdateStatusTimeout();
 

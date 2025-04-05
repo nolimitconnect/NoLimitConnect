@@ -17,7 +17,6 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
-class VxUrl;
 class QPlainTextEdit;
 
 class AppletInviteAccept : public AppletBase
@@ -34,12 +33,11 @@ signals:
     void                        signalInfoMsg( const QString& logMsg );
 
 protected slots:
-    void                        slotCopyInviteFromClipboardButtonClicked( void );
+    void                        slotPasteFromClipboard( QString clipboardText );
     void                        slotAcceptInviteButtonClicked( void );
     void                        slotRejectInviteButtonClicked( void );
 
 protected:
-    void						setupApplet( void );
     QPlainTextEdit *            getInviteEdit( void );
     void                        updateInvite( void );
 

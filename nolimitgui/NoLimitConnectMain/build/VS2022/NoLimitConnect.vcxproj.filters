@@ -213,9 +213,6 @@
     <Filter Include="androidManifests\android">
       <UniqueIdentifier>{9e2b6cb6-9299-4f06-ac23-518343085f90}</UniqueIdentifier>
     </Filter>
-    <Filter Include="androidManifests\android34">
-      <UniqueIdentifier>{10c56bc1-a01f-407e-874e-3423c8d71825}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Cam">
       <UniqueIdentifier>{f14c3319-b667-42bc-8aaa-688867613337}</UniqueIdentifier>
     </Filter>
@@ -860,9 +857,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChatRoomListLocalView.h">
       <Filter>Header Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseUser.h">
-      <Filter>Header Files\Applets</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFileShareClientView.h">
       <Filter>Header Files\Applets</Filter>
     </QtMoc>
@@ -1138,6 +1132,21 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseHostAdminOrSearch.h">
       <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseHost.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\WebsiteWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ClipboardCopyWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ClipboardPasteWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActionWidget.h">
+      <Filter>Source Files</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -2110,9 +2119,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiHostJoinSession.cpp">
       <Filter>Source Files\GuiHostServerJoin</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChooseUser.cpp">
-      <Filter>Source Files\Applets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChatRoomHostAdmin.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
@@ -2289,6 +2295,21 @@
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChooseHostAdminOrSearch.cpp">
       <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChooseHost.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\WebsiteWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ClipboardCopyWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ClipboardPasteWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActionWidget.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -3109,9 +3130,6 @@
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletUserConnections.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\AppletChooseUser.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\PlayControlWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -3140,6 +3158,15 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletChooseHostAdminOrSearch.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletChooseHost.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\WebsiteWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\ActionWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -3198,10 +3225,5 @@
     <Text Include="..\..\..\..\nolimitlib\NlcPtoPVersion.txt">
       <Filter>CompilerConfig</Filter>
     </Text>
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="..\..\..\android34\AndroidManifest.xml">
-      <Filter>androidManifests\android34</Filter>
-    </Xml>
   </ItemGroup>
 </Project>

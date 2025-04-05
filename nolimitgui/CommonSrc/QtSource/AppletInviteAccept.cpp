@@ -48,16 +48,14 @@ AppletInviteAccept::AppletInviteAccept( AppCommon& app, QWidget* parent )
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
     ui.m_IdentWidget->setIdentWidgetSize( eButtonSizeSmall );
     //ui.m_IdentWidget->setVisible( false );
-    ui.m_CopyInviteFromClipboardButton->setFixedSize( eButtonSizeSmall );
-    ui.m_CopyInviteFromClipboardButton->setIcon( eMyIconEditPaste );
     ui.m_AcceptInviteButton->setFixedSize( eButtonSizeMedium );
     ui.m_AcceptInviteButton->setIcon( eMyIconInviteAccept );
     ui.m_RejectInviteButton->setFixedSize( eButtonSizeMedium );
     ui.m_RejectInviteButton->setIcon( eMyIconCancelNormal );
 
-    connect( ui.m_CopyInviteFromClipboardButton, SIGNAL(clicked()), this, SLOT( slotCopyInviteFromClipboardButtonClicked() ) );
-    connect( ui.m_AcceptInviteButton, SIGNAL(clicked()), this, SLOT( slotAcceptInviteButtonClicked() ) );
-    connect( ui.m_RejectInviteButton, SIGNAL(clicked()), this, SLOT( slotRejectInviteButtonClicked() ) );
+    connect( ui.m_ClipboardPastWidget, SIGNAL(signalClipboardPaste(QString)), this, SLOT(slotPasteFromClipboard(QString)) );
+    connect( ui.m_AcceptInviteButton, SIGNAL(clicked()), this, SLOT(slotAcceptInviteButtonClicked()) );
+    connect( ui.m_RejectInviteButton, SIGNAL(clicked()), this, SLOT(slotRejectInviteButtonClicked()) );
 
     // Log is seperate now VxAddLogHandler( this );
     m_MyApp.activityStateChange( this, true );
@@ -81,23 +79,22 @@ void AppletInviteAccept::toGuiInfoMsg( char * infoMsg )
 }
 
 //============================================================================
-void AppletInviteAccept::slotCopyInviteFromClipboardButtonClicked( void )
+void AppletInviteAccept::slotPasteFromClipboard( QString clipboardText )
 {
-    QClipboard * clipboard = QApplication::clipboard();
-    if( clipboard->text().isEmpty() )
+    if( clipboardText.isEmpty() )
     {
         okMessageBox( QObject::tr( "Clipboard Is Empty" ), QObject::tr( "Cannot Paste Empty Clipboard" ) );
         return;
     }
     
     Invite invite;
-    if( !invite.setInviteText( clipboard->text().toUtf8().constData() ) )
+    if( !invite.setInviteText( clipboardText.toUtf8().constData() ) )
     {
         okMessageBox( QObject::tr( "Clipboard Contained Invalid Invite Text" ), QObject::tr( "Clipboard Has Text That Cannot Be Parsed Into An Invite" ) );
         return;
     }
 
-    ui.m_InviteTextEdit->setPlainText( clipboard->text().toUtf8().constData() );
+    ui.m_InviteTextEdit->setPlainText( clipboardText.toUtf8().constData() );
     updateInvite();
 }
 

@@ -15,6 +15,8 @@
 
 #include "ActivityBase.h"
 #include "AppletBase.h"
+#include "AppletInviteCreate.h"
+#include "AppletMgr.h"
 #include "AppCommon.h"
 #include "AppDefs.h"
 #include "AppTranslate.h"
@@ -2188,7 +2190,7 @@ QMessageBox::StandardButton GuiHelpers::errorMsgBox (EErrMsgType errMsgType, QWi
 }
 
 //============================================================================
-void GuiHelpers::showFilePermissionError( void )
+void GuiHelpers::showFilePermissionError( QWidget* parent )
 {
     QString deniedPermTitle = QObject::tr("Access File Permissions Denied By User");
     QString deniedPermMsg = QObject::tr("Access File Permissions Denied By User");
@@ -2197,7 +2199,7 @@ void GuiHelpers::showFilePermissionError( void )
 }
 
 //============================================================================
-void GuiHelpers::showApplicationNotReadyError( bool appReadyButNetworkNotReady )
+void GuiHelpers::showApplicationNotReadyError( bool appReadyButNetworkNotReady, QWidget* parent )
 {
     QString notReadyTitle = QObject::tr("Application Not Ready");
     QString notReadyMsg = appReadyButNetworkNotReady ? QObject::tr("Cannot launch applet until network is available") : QObject::tr("Cannot Launch Applet Until Application Has Initialized");
@@ -2206,7 +2208,33 @@ void GuiHelpers::showApplicationNotReadyError( bool appReadyButNetworkNotReady )
 }
 
 //============================================================================
+void GuiHelpers::showRequiresOpenPort( QWidget* parent )
+{
+    QString title = QObject::tr("Requires Open Port");
+    QString msg = QObject::tr("Action requires a open port");
+    QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok);
+    warnMsg.exec();
+}
+
+//============================================================================
 void GuiHelpers::processQtEvents( int ms )
 {
 	QCoreApplication::processEvents( QEventLoop::AllEvents, ms );
+}
+
+//============================================================================
+void GuiHelpers::showCreateInvite( EHostType hostType, QWidget* parent )
+{
+    if( !GetAppInstance().getIsMyPortOpen() )
+	{
+		GuiHelpers::showRequiresOpenPort();
+		return;
+	}
+
+	ActivityBase* inviteBase = GetAppInstance().getAppletMgr().launchApplet( eAppletInviteCreate, parent );
+	AppletInviteCreate* appletInvite = dynamic_cast<AppletInviteCreate*>(inviteBase);
+	if( appletInvite )
+	{
+		appletInvite->setInviteType( hostType );
+	}
 }

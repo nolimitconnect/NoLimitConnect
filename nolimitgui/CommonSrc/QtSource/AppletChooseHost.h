@@ -26,20 +26,20 @@ enum EChooseUserReason
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-    class AppletChooseUserUi;
+    class AppletChooseHostUi;
 }
 QT_END_NAMESPACE
 
 class GuiUserSessionBase;
 class GuiUserListItem;
 
-class AppletChooseUser : public AppletBase
+class AppletChooseHost : public AppletBase
 {
 
 	Q_OBJECT
 public:
-    AppletChooseUser( AppCommon& app, QWidget* parent );
-	virtual ~AppletChooseUser() override;
+    AppletChooseHost( AppCommon& app, QWidget* parent );
+	virtual ~AppletChooseHost() override;
 
     void                        setChooseUserReason( EChooseUserReason chooseUserReason );
     EChooseUserReason           getChooseUserReason( void )                                 { return m_ChooseUserReason; }
@@ -59,7 +59,7 @@ protected:
     void                        showEvent( QShowEvent* ev ) override;
 
     //=== vars ===//
-    Ui::AppletChooseUserUi&	    ui;
+    Ui::AppletChooseHostUi&	    ui;
     EChooseUserReason           m_ChooseUserReason{ eChooseUserReasonUnknown };
 };
 

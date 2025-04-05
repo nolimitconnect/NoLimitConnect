@@ -25,7 +25,6 @@
 
 #include <stdio.h>
 #include <memory.h>
-#include <time.h>
 
 #if defined(TARGET_OS_WINDOWS)
 #include <winsock2.h>
@@ -139,7 +138,7 @@ RCODE VxServerMgr::acceptConnection( bool ipv6, VxThread* poVxThread, SOCKET lis
     if( dumpAcceptCnt > 20 )
     {
         dumpAcceptCnt = 0;
-        LogModule( eLogConnect, LOG_INFO, "VxServerMgr::%s start acceptConnection skt %d rc %d thread 0x%x", __func__, listenSkt, VxGetLastError(), VxGetCurrentThreadId() );
+        LogModule( eLogConnect, LOG_INFO, "VxServerMgr::%s start acceptConnection listen skt %d rc %d thread 0x%x", __func__, listenSkt, VxGetLastError(), VxGetCurrentThreadId() );
     }
 
 	// perform accept
@@ -246,7 +245,7 @@ static int dumpSktStatsCnt = 0;
         // we have reached max connections
         // just close it immediately
         VxCloseSktNow( acceptSkt );
-
+        acceptSkt = INVALID_SOCKET;
         doSktDeleteCleanup();
 		// sleep awhile
 		VxSleep( 200 );
@@ -267,15 +266,17 @@ static int dumpSktStatsCnt = 0;
 
     if( rmtIp.empty() )
     {
-        LogMsg( LOG_ERROR, "Failed to get remote ip for accept skt %d", acceptSkt );
+        LogMsg( LOG_ERROR, "Failed to get remote ip for accept skt handle %d", acceptSkt );
         VxCloseSktNow( acceptSkt );
-        return 0;
+        acceptSkt = INVALID_SOCKET;
+        return -9;
     }
     else if( isHacker( rmtIp ) )
     {
         LogModule( eLogHackers, LOG_INFO, "Hacker from IP %d attempted connect again", rmtIp.c_str() );
         VxCloseSktNow( acceptSkt );
-        return 0;
+        acceptSkt = INVALID_SOCKET;
+        return -10;
     }
 
 	// add a skt to our list	
@@ -284,7 +285,7 @@ static int dumpSktStatsCnt = 0;
     {
         LogMsg( LOG_ERROR, "%s makeNewAcceptSkt returned null", __func__ );
         VxCloseSktNow( acceptSkt );
-        return 0;
+        return -11;
     }
 
     #if defined(DEBUG_SKT_MGR_LOCK)
@@ -304,16 +305,15 @@ static int dumpSktStatsCnt = 0;
 	#endif // defined(DEBUG_SKT_MGR_LOCK)
 	unlockSktBaseMgr();
 
-    LogModule( eLogConnect, LOG_INFO, "VxServerMgr::%s doing accept skt %d skt id %d thread 0x%x", __func__, sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
+    LogModule( eLogConnect, LOG_INFO, "VxServerMgr::%s doing accept skt handle %d skt id %d thread 0x%x", __func__, sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
 
     RCODE rcAccept = dynamic_cast<VxSktAccept *>(sktBase.get())->doAccept( this, *acceptAddr );
 	if( rcAccept || poVxThread->isAborted() || INVALID_SOCKET == listenSkt )
 	{
 		sktBase->closeSkt( eSktCloseAcceptFailed );
-		LogMsg( LOG_ERROR, "VxServerMgr::%s error %d doing accept skt %d skt id %d thread 0x%x", __func__, rc, sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
+		LogMsg( LOG_ERROR, "VxServerMgr::%s error %d doing accept skt handle %d skt id %d thread 0x%x", __func__, rc, sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
         moveToEraseList( sktBase );
-
-        rc = -7;
+        return -12;
 	}
     else
     {

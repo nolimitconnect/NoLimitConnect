@@ -185,13 +185,13 @@
          </size>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
+         <enum>QFrame::Shadow::Plain</enum>
         </property>
         <property name="lineWidth">
          <number>2</number>
         </property>
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
        </widget>
       </item>
@@ -203,11 +203,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="m_VistEvalVpnsButton">
-        <property name="text">
-         <string>visit https://nolimitconnect.com/nlc/vpns/</string>
-        </property>
-       </widget>
+       <widget class="WebsiteWidget" name="m_WebsiteWidget" native="true"/>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -249,6 +245,12 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>WebsiteWidget</class>
+   <extends>QWidget</extends>
+   <header>WebsiteWidget.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>PermissionWidget</class>
    <extends>QWidget</extends>

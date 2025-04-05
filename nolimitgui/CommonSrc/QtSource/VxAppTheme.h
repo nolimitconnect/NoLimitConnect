@@ -132,6 +132,9 @@ enum EThemeColorRole
 	eChatTextRxBackground,
 	eChatTextRxForground,
 
+	eLinkColor,
+	eLinkVisitedColor,
+
 	MaxThemeColorRole
 };
 
@@ -192,6 +195,8 @@ public:
 
 	virtual QColor				getNotifyColor( ENotifyType notifyType );
 
+	virtual QColor				getLinkColor( bool isVisited = false );
+
 	virtual void				updateWindowTheme( QWidget* homeHindow );
 	virtual void				updateProgressBar( QProgressBar* progressBar );
 
@@ -245,6 +250,9 @@ public:
 
 	static QString				getChatTextTxStyleSheet( void ) { return m_ChatTextTxStyleSheet; };
 	static QString				getChatTextRxStyleSheet( void ) { return m_ChatTextRxStyleSheet; };
+
+	static QString				getFontBeginTag( QColor color );
+	static QString				getFontEndTag( void );
 
 protected:
 	void						setWidgetPallette( QWidget* widget, QPalette & palette );

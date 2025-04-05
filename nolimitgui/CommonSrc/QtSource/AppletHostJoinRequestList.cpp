@@ -91,13 +91,13 @@ void AppletHostJoinRequestList::slotlHostJoinUpdated( GuiHostJoin* guiHostJoin )
 }
 
 //============================================================================
-void AppletHostJoinRequestList::slotHostJoinRemoved( GroupieId& groupieId )
+void AppletHostJoinRequestList::slotHostJoinRemoved( GroupieId groupieId )
 {
 	ui.m_HostJoinRequestList->removeHostJoinRequest( groupieId );
 }
 
 //============================================================================
-void AppletHostJoinRequestList::slotHostJoinOfferStateChange( GroupieId& groupieId, EJoinState hostOfferState )
+void AppletHostJoinRequestList::slotHostJoinOfferStateChange( GroupieId groupieId, EJoinState hostOfferState )
 {
 	updateJoinList();
 }
@@ -147,7 +147,7 @@ void AppletHostJoinRequestList::slotJoinComboBoxSelectionChange( int comboIdx )
 //============================================================================
 void AppletHostJoinRequestList::slotInviteCreateButtonClicked( void )
 {
-	m_MyApp.getAppletMgr().launchApplet( eAppletInviteCreate, this );
+	GuiHelpers::showCreateInvite( m_HostType, this );
 }
 
 //============================================================================

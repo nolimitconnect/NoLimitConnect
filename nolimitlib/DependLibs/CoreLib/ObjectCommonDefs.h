@@ -61,7 +61,7 @@
 #define OBJNAME_APPLET_CHAT_ROOM_LIST_LOCAL_VIEW		"AppletChatRoomListLocalView"
 
 #define OBJNAME_APPLET_CHOOSE_THUMBNAIL					"AppletChooseThumbnail"
-#define OBJNAME_APPLET_CHOOSE_USER						"AppletChooseUser"
+#define OBJNAME_APPLET_CHOOSE_HOST						"AppletChooseHost"
 #define OBJNAME_APPLET_CHOOSE_HOST_ADMIN_OR_SEARCH		"AppletChooseHostAdminOrSearch"
 
 #define OBJNAME_APPLET_EDIT_ABOUT_ME					"AppletEditAboutMe"

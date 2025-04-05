@@ -67,9 +67,11 @@ signals:
 
 protected slots:
     void                        slotStatusMsg( QString );
+    void                        slotCreateInviteButtonClicked( void );
 
 protected:
 	void						hideVideoCaptureInput( void );
+	void						setupAdminInvite( void );
 
 	Ui::SessionWidgetClass&		ui;
     AppCommon&                  m_MyApp;

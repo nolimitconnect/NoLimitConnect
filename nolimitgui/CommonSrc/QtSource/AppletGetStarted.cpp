@@ -17,8 +17,6 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
-#include <QDesktopServices>
-
 #include "ui_AppletGetStarted.h"
 
 //============================================================================
@@ -83,8 +81,6 @@ AppletGetStarted::AppletGetStarted( AppCommon& app, QWidget* parent )
 
     connect( ui.m_WebCamButton, SIGNAL(clicked()), this, SLOT(slotWebCam()) );
 
-    connect( ui.gotoWebsiteButton, SIGNAL(clicked()), this, SLOT(gotoWebsite()) );
-
 	m_MyApp.activityStateChange( this, true );
 }
 
@@ -92,12 +88,6 @@ AppletGetStarted::AppletGetStarted( AppCommon& app, QWidget* parent )
 AppletGetStarted::~AppletGetStarted()
 {
     m_MyApp.activityStateChange( this, false );
-}
-
-//============================================================================
-void AppletGetStarted::gotoWebsite( void )
-{
-    QDesktopServices::openUrl( QUrl( "https://nolimitconnect.com/" ) );
 }
 
 //============================================================================

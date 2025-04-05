@@ -212,8 +212,11 @@ public:
 
     static std::string          getRealFileName( QString selectedFile );
 
-    static void                 showApplicationNotReadyError( bool appReadyButNetworkNotReady );
-    static void                 showFilePermissionError( void );
+    static void                 showApplicationNotReadyError( bool appReadyButNetworkNotReady, QWidget* parent = nullptr );
+    static void                 showFilePermissionError( QWidget* parent = nullptr );
+    static void                 showRequiresOpenPort( QWidget* parent = nullptr );
+
+    static void                 showCreateInvite( EHostType hostType, QWidget* parent = nullptr );
 
     // android permissions
     static bool                 havePermission( QString permissionName );

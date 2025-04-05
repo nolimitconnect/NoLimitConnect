@@ -482,7 +482,7 @@ std::string CUtil::GetSplashPath()
         LogMsg( LOG_ERROR, "media player splash screen not found");
         g_application.toGuiMediaError( eMediaErrorPlayerAssetNotFound, "Player splash screen image not Found. Check your bin directory" );
 #if defined(DEBUG)
-        LogMsg( LOG_ERROR, "You are probably not running the execuable from the bin-%s folder", OsDetect::getOsName());
+        LogMsg( LOG_ERROR, "You are probably not running the execuable from the bin-%s folder", OsDetect::getOsName().c_str() );
 #endif // defined(DEBUG)
 
         throw std::runtime_error( "No splash image found" );

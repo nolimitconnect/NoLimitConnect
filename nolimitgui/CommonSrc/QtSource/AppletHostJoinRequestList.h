@@ -33,8 +33,8 @@ public:
 protected slots:
 	void				        slotHostJoinRequested( GuiHostJoin* user );
 	void				        slotlHostJoinUpdated( GuiHostJoin* user );
-	void				        slotHostJoinRemoved( GroupieId& groupieId );
-	void                        slotHostJoinOfferStateChange( GroupieId& groupieId, EJoinState hostOfferState );
+	void				        slotHostJoinRemoved( GroupieId groupieId );
+	void                        slotHostJoinOfferStateChange( GroupieId groupieId, EJoinState hostOfferState );
 	void                        slotHostJoinOnlineStatus( GuiHostJoin* guiHostJoin, bool isOnline );
 
 	void                        slotAcceptButtonClicked( GuiHostJoinSession* joinSession, HostJoinRequestListItem* joinItem );

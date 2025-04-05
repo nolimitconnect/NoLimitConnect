@@ -12,7 +12,7 @@
 
 #include "AppCommon.h"
 #include "AppletBrowseFiles.h"
-#include "AppletChooseUser.h"
+#include "AppletChooseHost.h"
 #include "AppletPopupMenu.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
@@ -513,7 +513,7 @@ void AppletTestAndDebug::slotTestChooseUserButtonClicked( void )
     GuiUser* myselfUser = m_MyApp.getUserMgr().getUser( m_MyApp.getMyOnlineId() );
     if( testUser && myselfUser )
     {
-        AppletChooseUser* appletChooseUser = dynamic_cast<AppletChooseUser*>(m_MyApp.launchApplet( eAppletChooseUser, getContentFrameOfOppositePageFrame() ));
+        AppletChooseHost* appletChooseUser = dynamic_cast<AppletChooseHost*>(m_MyApp.launchApplet( eAppletChooseHost, getContentFrameOfOppositePageFrame() ));
         if( appletChooseUser )
         {
             appletChooseUser->setChooseUserReason( eChooseUserReasonTest );

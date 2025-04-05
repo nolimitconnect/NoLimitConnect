@@ -25,11 +25,13 @@ public:
 	virtual ~AppletAboutApp();
 
 protected slots:
-    void						gotoWebsite( void );
     void                        slotShowAppInfo( void );
+    void                        slotCopyDeviceInfoToClipboard( void );
+    void                        slotCopyConnectionInfoToClipboard( void );
 
 protected:
-    void						setupAboutMe( void );
+    void						setupDeviceInfo( void );
+    void						setupConnectionInfo( void );
 
     Ui::AppletAboutAppUi&        ui;
 };

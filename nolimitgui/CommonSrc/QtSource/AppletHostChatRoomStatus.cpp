@@ -20,7 +20,6 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
-#include <QDesktopServices>
 #include <QTimer>
 
 #include "ui_AppletHostNetworkStatus.h"
@@ -53,11 +52,13 @@ AppletHostChatRoomStatus::AppletHostChatRoomStatus( AppCommon& app, QWidget* par
     ui.m_ConnectionTestPermissionCheckBox->setEnabled( false );
     ui.m_ConnectionTestPermissionCheckBox->setVisible( false );
 
+    ui.m_WebsiteWidget->setUrlType( eWebsiteUrlVpn );
+
     m_MyApp.activityStateChange( this, true );
 
     connect( ui.m_HostingRequirementsButton, SIGNAL(clicked()), this, SLOT( slotHostRequirementsButtonClicked() ) );
     connect( m_UpdateStatusTimer, SIGNAL( timeout() ), this, SLOT( slotUpdateStatusTimeout() ) );
-    connect( ui.m_VistEvalVpnsButton, SIGNAL(clicked()), this, SLOT( gotoWebsite() ) );
+    
 
     m_UpdateStatusTimer->start( 3000 );
     slotUpdateStatusTimeout();
@@ -105,12 +106,6 @@ void AppletHostChatRoomStatus::slotUpdateStatusTimeout()
     // BRJ TODO investigate why this is needed. there should be nothing to set it to disabled
     getChatRoomHostPermissionWidget()->setEnabled( true );
     updateOnlineMembers();
-}
-
-//============================================================================
-void AppletHostChatRoomStatus::gotoWebsite( void )
-{
-    QDesktopServices::openUrl( QUrl( "https://nolimitconnect.com/nlc/vpns/" ) );
 }
 
 //============================================================================

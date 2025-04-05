@@ -22,7 +22,6 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 
-#include <QDesktopServices>
 #include <QUrl>
 #include <QClipboard>
 #include <QRegularExpression>
@@ -70,8 +69,7 @@ void AppletLog::setupApplet( void )
     getLogEdit()->setMaximumBlockCount( MAX_LOG_EDIT_BLOCK_CNT );
     getLogEdit()->setReadOnly( true );
 
-    connect( ui.gotoWebsiteButton, SIGNAL(clicked()), this, SLOT(gotoWebsite()) );
-    connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT(slotCopyToClipboardClicked()) );
+    connect( ui.m_CopyToClipboardWidget, SIGNAL(clicked()), this, SLOT(slotCopyToClipboardClicked()) );
     connect( ui.m_LogSettingsButton, SIGNAL(clicked()), this, SLOT(slotLogSettingButtonClick()) );
 
     connect( this, SIGNAL(signalLogMsg(const QString&)), this, SLOT(slotLogMsg(const QString&)) );
@@ -104,12 +102,6 @@ void AppletLog::slotLogMsg( const QString& text )
 }
 
 //============================================================================
-void  AppletLog::gotoWebsite( void )
-{
-    QDesktopServices::openUrl( QUrl( VxGetCompanyWebsite() ) );
-}
-
-//============================================================================
 void AppletLog::slotLogSettingButtonClick( void )
 {
     m_MyApp.launchApplet( eAppletLogSettings, getContentFrameOfMessengerFrame() );
@@ -118,8 +110,7 @@ void AppletLog::slotLogSettingButtonClick( void )
 //============================================================================
 void AppletLog::slotCopyToClipboardClicked( void )
 {
-    QClipboard * clipboard = QApplication::clipboard();
-    clipboard->setText( getLogEdit()->toPlainText() );
+    ui.m_CopyToClipboardWidget->copyToClipboard( getLogEdit()->toPlainText() );
 }
 
 //============================================================================

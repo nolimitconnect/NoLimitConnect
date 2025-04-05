@@ -42,6 +42,7 @@ RCODE VxSktAccept::doAccept( VxServerMgr * poMgr, struct sockaddr& oAcceptAddr )
     if( rc )
     {
         VxCloseSktNow( m_Socket );
+		LogModule( eLogConnect, LOG_ERROR, "VxSktAccept::%s error getting ip address skt handle %d skt id %d", __func__, m_Socket, m_SktNumber );
         m_Socket = INVALID_SOCKET;
         return rc;
     }

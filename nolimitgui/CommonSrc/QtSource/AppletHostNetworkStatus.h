@@ -33,12 +33,11 @@ public:
     PermissionWidget*           getConnectionTestWidget();
 
 protected slots:
-    void						gotoWebsite( void );
     void                        slotHostRequirementsButtonClicked();
     void                        slotUpdateStatusTimeout();
 
 protected:
-    Ui::AppletHostNetworkStatusUi&     ui;
+    Ui::AppletHostNetworkStatusUi& ui;
 
     QTimer*                     m_UpdateStatusTimer;
 };

@@ -8,13 +8,14 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppCommon.h"
 #include "SessionWidget.h"
+
+#include "AppCommon.h"
+#include "GuiHelpers.h"
+
 #include "ui_SessionWidget.h"
 
 #include <QDebug>
-
-#include "ui_SessionWidget.h"
 
 QLabel *                    SessionWidget::getSessionStatusLabel( void )				{ return ui.m_StatusLabel; }
 HistoryListWidget *         SessionWidget::getSessionHistoryList( void )				{ return ui.m_HistoryList; }
@@ -31,9 +32,11 @@ SessionWidget::SessionWidget( QWidget* parent, EAssetType inputMode )
 	qDebug() << "SessionWidget input mode " << inputMode;
 	ui.setupUi(this);
 	ui.m_IdentWidget->setVisible( false );
+	ui.m_CreateInviteFrame->setVisible( false );
 
 	connect( ui.m_ChatEntry, SIGNAL(signalUserInputButtonClicked()), this, SIGNAL(signalUserInputButtonClicked()) );
-    connect( &m_MyApp, SIGNAL( signalStatusMsg(QString) ), this, SLOT( slotStatusMsg(QString) ) );
+	connect( ui.m_CreateInviteButton, SIGNAL(clicked()), this, SLOT(slotCreateInviteButtonClicked()) );
+    connect( &m_MyApp, SIGNAL(signalStatusMsg(QString)), this, SLOT(slotStatusMsg(QString)) );
 
 	setEntryMode( m_InputMode );
 }
@@ -50,9 +53,16 @@ void SessionWidget::slotStatusMsg( QString msg )
 //============================================================================
 void SessionWidget::setGroupieId( GroupieId& groupieId )
 {
+	m_GroupieId = groupieId;
 	ui.m_ChatEntry->setGroupieId( groupieId );
 	ui.m_HistoryList->setGroupieId( groupieId );
 	ui.m_IdentWidget->updateIdentity( groupieId.getUserOnlineId() );
+	if( groupieId.getHostOnlineId() == m_MyApp.getMyOnlineId() )
+	{
+		// I am administrator
+		setupAdminInvite();
+	}
+
 	m_IsInitialized = true;
 }
 
@@ -125,3 +135,30 @@ void SessionWidget::hideVideoCaptureInput( void )
 {
 	ui.m_ChatEntry->hideVideoCaptureInput();
 }
+
+//============================================================================
+void SessionWidget::setupAdminInvite( void )
+{
+	switch( m_GroupieId.getHostType() )
+	{
+	case eHostTypeGroup:
+	case eHostTypeChatRoom:
+	case eHostTypeRandomConnect:
+	case eHostTypePeerUser:
+		break;
+	default:
+		// not a type we can create invite to
+		return;
+	}
+
+	ui.m_CreateInviteButton->setFixedSize( eButtonSizeSmall );
+	ui.m_CreateInviteButton->setIcon( eMyIconInviteCreate );
+	ui.m_CreateInviteFrame->setVisible( true );
+}
+
+//============================================================================
+void SessionWidget::slotCreateInviteButtonClicked( void )
+{
+	GuiHelpers::showCreateInvite( m_GroupieId.getHostType(), this );	
+}
+

@@ -9,12 +9,13 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <CoreLib/config_corelib.h>
+#include <string>
 
 class OsDetect
 {
 public:
-    static char *					getOsName( void ); // returns os platform name.. ie Windows or Linux etc
+    static std::string				getOsName( void ); // returns os platform name.. ie Windows or Linux etc
+    static std::string				getCpuName( void );
 	
     static bool						isAndroid( void );
     static bool						isLinux( void );

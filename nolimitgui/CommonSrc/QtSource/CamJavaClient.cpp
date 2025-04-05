@@ -121,10 +121,9 @@ void AndroidYUV420SPtoRGB(  uint8_t* rgbImage, int width, int height,
 extern "C" {
 
 JNIEXPORT void JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_camServiceStarted(JNIEnv *env, jobject obj) {
-    LogMsg( LOG_VERBOSE, "%s thread id %d", __func__, VxGetCurrentThreadId() );
     g_CamEnv = env;
     g_CamServiceThreadId = VxGetCurrentThreadId();
-    LogMsg( LOG_VERBOSE, "%s service thread id %d", __func__, g_CamServiceThreadId );
+
     // Obtain a reference to the class of the passed object (obj)
     jclass clazz = env->GetObjectClass(obj);
 

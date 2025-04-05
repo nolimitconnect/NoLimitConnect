@@ -988,17 +988,19 @@ bool NetStatusAccum::canAnnounceToNlcHost( bool iAmNetHost )
         return false;
     }
 
+    bool isNlcHostUrl = getNetworkHostUrl() == NET_DEFAULT_NET_HOST_URL_IPV4 || getNetworkHostUrl() == NET_DEFAULT_NET_HOST_URL_IPV6;
+    bool isNlcNetworkKey = getNetworkKey() == NET_DEFAULT_NETWORK_NAME;
     if( iAmNetHost )
     {
         // if I am a network host can I still announce to the NLC network host?
-        if( getNetworkHostUrl() != NET_DEFAULT_NET_HOST_URL_IPV4 && getNetworkHostUrl() != NET_DEFAULT_NET_HOST_URL_IPV6 )
+        if( !isNlcHostUrl )
         {
             return false;
         }
     }
 
-    // do not announce if using different network key or will get banned as hacker
-    if( getNetworkKey() != NET_DEFAULT_NETWORK_NAME )
+    // do not announce to NLC network host if using different network key or will get banned as hacker
+    if( isNlcHostUrl && !isNlcNetworkKey )
     {
         return false;
     }

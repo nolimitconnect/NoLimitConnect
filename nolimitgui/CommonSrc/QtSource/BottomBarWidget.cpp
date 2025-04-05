@@ -13,7 +13,7 @@
 #include "AppletMgr.h"
 #include "AppCommon.h"
 #include "AppletChooseHostAdminOrSearch.h"
-#include "AppletChooseUser.h"
+#include "AppletChooseHost.h"
 #include "GuiHelpers.h"
 #include "GuiHostedListMgr.h"
 #include "GuiMemberActiveMgr.h"
@@ -443,18 +443,18 @@ void BottomBarWidget::launchJoinHostView( EHostType hostType )
 			{
 				// we are both an admin of our chat room and a member of another chat room.
 				// prompt user to choose which chat room to show
-				ActivityBase* activity = m_MyApp.getAppletMgr().launchApplet( eAppletChooseUser, getParentPageFrame() );
-				AppletChooseUser* appletChooseUser = dynamic_cast<AppletChooseUser*>(activity);
-				if( appletChooseUser )
+				ActivityBase* activity = m_MyApp.getAppletMgr().launchApplet( eAppletChooseHost, getParentPageFrame() );
+				AppletChooseHost* appletChooseHost = dynamic_cast<AppletChooseHost*>(activity);
+				if( appletChooseHost )
 				{
-					appletChooseUser->setChooseUserReason( chooseUserReason );
+					appletChooseHost->setChooseUserReason( chooseUserReason );
 
-					appletChooseUser->addUser( hostAdminOnlineId );
-					appletChooseUser->addUser( m_MyApp.getMyOnlineId() );
+					appletChooseHost->addUser( hostAdminOnlineId );
+					appletChooseHost->addUser( m_MyApp.getMyOnlineId() );
 				}
 				else
 				{
-					LogMsg( LOG_ERROR, "BottomBarWidget::slotChatRoomHostButtonClicked launch eAppletChooseUser null" );
+					LogMsg( LOG_ERROR, "BottomBarWidget::%s launch eAppletChooseHost null", __func__ );
 				}
 			}
 			else
@@ -464,7 +464,7 @@ void BottomBarWidget::launchJoinHostView( EHostType hostType )
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "BottomBarWidget::slotChatRoomHostButtonClicked host admin id invalid" );
+			LogMsg( LOG_ERROR, "BottomBarWidget::%s host admin id invalid", __func__ );
 			m_MyApp.getAppletMgr().launchApplet( appletHostAdmin, getParentPageFrame() );
 		}
 	}
@@ -501,12 +501,12 @@ void BottomBarWidget::launchJoinHostView( EHostType hostType )
 			}
 			else
 			{
-				LogMsg( LOG_ERROR, "BottomBarWidget::slotChatRoomHostButtonClicked isValidNetIdent false" );
+				LogMsg( LOG_ERROR, "BottomBarWidget::%s isValidNetIdent false", __func__ );
 			}
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "BottomBarWidget::slotChatRoomHostButtonClicked myIdent null" );
+			LogMsg( LOG_ERROR, "BottomBarWidget::%s myIdent null", __func__ );
 		}
 	}
 }
