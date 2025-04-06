@@ -124,11 +124,8 @@ unsigned int VxGetCurrentThreadId( void )
 #ifdef TARGET_OS_WINDOWS
 		return GetCurrentThreadId();
 #else // LINUX
-	#ifdef TARGET_OS_ANDROID
-		return ( unsigned int )gettid();
-	#else
-		return pthread_self();
-	#endif // TARGET_OS_ANDROID
+    //  pthread_self() reuses numbers of dead thread and may not be unique
+    return ( unsigned int )gettid(); // unique thread id
 #endif
 }
 

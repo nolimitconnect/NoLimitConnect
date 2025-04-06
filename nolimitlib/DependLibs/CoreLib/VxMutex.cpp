@@ -66,6 +66,10 @@ int VxMutex::unlock( int iInstance )
 #ifdef SHOW_LOCKS
 	LogMsg( LOG_INFO, "Unlocking VxMutex ..instance %d", iInstance );
 #endif
+    m_IsLocked = false;
+#if defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
+    m_uiLastLockThreadId = 0;
+#endif // defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
 	return this->unlock();
 }
 
@@ -102,7 +106,14 @@ int VxMutex::lock( void )
 	return 0;
 #else // LINUX
 #if defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
-	vx_assert( m_uiLastLockThreadId != VxGetCurrentThreadId() );
+    unsigned int curThreadId = VxGetCurrentThreadId();
+    bool possibleDeadlock = m_uiLastLockThreadId == curThreadId;
+    if( possibleDeadlock )
+    {
+        LogMsg( LOG_ERROR, "VxMutex::lock possible deadlock thread 0x%X", curThreadId );
+        vx_assert( false );
+    }
+
 #endif // defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
 	int iError;
 
@@ -120,15 +131,19 @@ int VxMutex::lock( void )
 #ifdef DEBUG_VX_MUTEX
 		DoMutexError( this, pthread_self(), iError );
 #endif// DEBUG_VX_MUTEX
-		LogMsg( LOG_INFO, "VxMutex Lock failure %d", iError );
+        LogMsg( LOG_ERROR, "VxMutex Lock failure %d", iError );
 		if( iError != EDEADLK )
 		{
-			LogMsg( LOG_INFO, "VxMutex was not Deadlocked");
+            LogMsg( LOG_ERROR, "VxMutex was not Deadlocked");
 		}
 		vx_assert( false );
 	}
 
 #if defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
+    if( possibleDeadlock && !iError )
+    {
+        LogMsg( LOG_ERROR, "VxMutex::lock possible deadlock false detection thread 0x%X", curThreadId );
+    }
 	m_uiLastLockThreadId = VxGetCurrentThreadId();
 #endif // defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
 	m_IsLocked = true;
@@ -147,7 +162,7 @@ int VxMutex::unlock( void )
 	if( false == SetEvent( m_hAccessLock ) )
 	{
 		int iLastErr = GetLastError();
-		LogMsg( LOG_INFO, "VxMutex Unlock failure %d", iLastErr );
+        LogMsg( LOG_ERROR, "VxMutex Unlock failure %d", iLastErr );
 		vx_assert( false );
 		return iLastErr;
 	}
@@ -156,7 +171,7 @@ int VxMutex::unlock( void )
 	int err;
 	if( 0 != (err = pthread_mutex_unlock( &m_Lock ) ) )
 	{
-		LogMsg( LOG_INFO, "VxMutex Unlock failure %d", err );
+        LogMsg( LOG_ERROR, "VxMutex Unlock failure %d", err );
 		vx_assert( false );
 	}
 	return err;
@@ -244,6 +259,10 @@ int VxMutex::unlock( const char* file, int line )
 		vx_assert( false );
 	}
 #endif // DEBUG_VX_MUTEX
+#if defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
+    m_uiLastLockThreadId = 0;
+#endif // defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
+    m_IsLocked = false;
 	return this->unlock();
 }
 
