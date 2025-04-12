@@ -10,7 +10,8 @@
 //============================================================================
 
 #include "AppletBase.h"
-#include "AppDefs.h"
+
+#include <CoreLib/VxPtopUrl.h>
 
 #include <NetLib/NetHostSetting.h>
 
@@ -28,6 +29,8 @@ class AppletNetworkSettings : public AppletBase
 public:
 	AppletNetworkSettings( AppCommon& app, QWidget* parent );
 	virtual ~AppletNetworkSettings();
+
+    void						acceptInvite( VxGUID onlineId, std::vector<VxPtopUrl> networkUrls );
 
 protected slots:
     void						slotExitButtonClick( void );

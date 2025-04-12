@@ -2226,6 +2226,15 @@ void GuiHelpers::showInviteInvalidError( QWidget* parent )
 }
 
 //============================================================================
+void GuiHelpers::showInviteMyselfError( QWidget* parent )
+{
+    QString title = QObject::tr("Invalid Invite");
+    QString msg = QObject::tr("Cannot accept invite from myself");
+    QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok);
+    warnMsg.exec();
+}
+
+//============================================================================
 void GuiHelpers::processQtEvents( int ms )
 {
 	QCoreApplication::processEvents( QEventLoop::AllEvents, ms );

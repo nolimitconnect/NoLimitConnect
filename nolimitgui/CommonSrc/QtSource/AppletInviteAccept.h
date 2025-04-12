@@ -11,6 +11,8 @@
 
 #include "AppletBase.h"
 
+#include <CoreLib/VxPtopUrl.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
     class AppletInviteAcceptUi;
@@ -31,12 +33,18 @@ protected slots:
     void                        slotAcceptInviteButtonClicked( void );
     void                        slotRejectInviteButtonClicked( void );
     void                        slotInviteChanged( void );
+    void                        slotConnectToHosts( void );
 
 protected:
     QPlainTextEdit *            getInviteEdit( void );
+    VxGUID                      getFromOnlineId( void );
 
     Ui::AppletInviteAcceptUi&   ui;
+        
+    std::string                 m_UserMsg;
 
+    std::vector<VxPtopUrl>      m_HostUrls;
+    std::vector<VxPtopUrl>      m_NetworkUrls;
 };
 
 

@@ -765,7 +765,7 @@ bool AppletNetworkSettings::verifyIpv6Capable( void )
     QString title = QObject::tr( "Your device does not seem to be capable of IPv6" );
     QString bodyText = QObject::tr( "Your device does not seem to be capable of IPv6. Continue Anyway?" );
 
-    ActivityMsgBoxYesNo dlg( m_MyApp, &m_MyApp, title, bodyText );
+    ActivityMsgBoxYesNo dlg( m_MyApp, this, title, bodyText );
     bool confirmed = (QDialog::Accepted == dlg.exec());
     if( !confirmed )
     {
@@ -773,4 +773,26 @@ bool AppletNetworkSettings::verifyIpv6Capable( void )
     }
 
     return true;
+}
+
+//============================================================================
+void AppletNetworkSettings::acceptInvite( VxGUID onlineId, std::vector<VxPtopUrl> networkUrls )
+{
+    QString title = QObject::tr( "Accepting Network Invite" );
+    QString bodyText = QObject::tr( "You are accepting a network invite.\nBe sure the Network Key is correct before pressing save" );
+    okMessageBox( title, bodyText );
+
+    QString networkSettingName = QString( "invite-%1" ).arg( onlineId.toHexString().c_str() );
+    ui.m_NetworkSettingsNameComboBox->setCurrentText( networkSettingName );
+    for( auto& ptopUrl : networkUrls )
+    {
+        if( ptopUrl.getHostType() == eHostTypeNetwork )
+        {
+            ui.m_NetworkHostUrlEdit->setText( ptopUrl.getUrl().c_str() );
+        }
+        else if( ptopUrl.getHostType() == eHostTypeConnectTest )
+        {
+            ui.m_ConnectTestUrlEdit->setText( ptopUrl.getUrl().c_str() );
+        }
+    }
 }

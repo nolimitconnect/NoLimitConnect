@@ -234,14 +234,13 @@ void VxPtopUrl::setUrl( std::string& url )
 }
 
 //============================================================================
-bool VxPtopUrl::setUrlHostType( EHostType hostType )
+bool VxPtopUrl::setUrlHostType( EHostType hostType, bool forceHostType )
 {
     bool result = setUrlHostType( m_Url, hostType );
-    if( result )
+    if( result || forceHostType )
     {
         m_HostType = hostType;
     }
-
 
     return result;
 }

@@ -44,7 +44,9 @@ public:
 
 	std::string					stripHost( const std::string& url ) const; // remove suffix invite type if exists
 
-	bool						setUrlHostType( EHostType hostType ); 
+	// if forceHostType then set group type even if url does not end with !
+	// example nolimitconnect.xyz does not have a online id
+	bool						setUrlHostType( EHostType hostType, bool forceHostType = false ); 
 	static bool					setUrlHostType( std::string& url, EHostType hostType );
 
 	void						clear( void );

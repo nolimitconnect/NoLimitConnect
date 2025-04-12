@@ -216,6 +216,7 @@ public:
     static void                 showFilePermissionError( QWidget* parent = nullptr );
     static void                 showRequiresOpenPort( QWidget* parent = nullptr );
     static void                 showInviteInvalidError( QWidget* parent = nullptr );
+    static void                 showInviteMyselfError( QWidget* parent = nullptr );
 
     static void                 showCreateInvite( EHostType hostType, QWidget* parent = nullptr );
 

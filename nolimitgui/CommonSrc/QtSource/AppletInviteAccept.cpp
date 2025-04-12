@@ -11,6 +11,7 @@
 #include "AppletInviteAccept.h"
 
 #include "AppCommon.h"
+#include "AppletNetworkSettings.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
@@ -47,7 +48,7 @@ AppletInviteAccept::AppletInviteAccept( AppCommon& app, QWidget* parent )
     ui.setupUi( getContentItemsFrame() );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
     ui.m_IdentWidget->setIdentWidgetSize( eButtonSizeSmall );
-    //ui.m_IdentWidget->setVisible( false );
+    ui.m_IdentWidget->setVisible( false );
     ui.m_AcceptInviteButton->setFixedSize( eButtonSizeMedium );
     ui.m_AcceptInviteButton->setIcon( eMyIconInviteAccept );
     ui.m_RejectInviteButton->setFixedSize( eButtonSizeMedium );
@@ -88,12 +89,6 @@ void AppletInviteAccept::slotPasteFromClipboard( QString clipboardText )
 }
 
 //============================================================================
-void AppletInviteAccept::slotAcceptInviteButtonClicked( void )
-{
-
-}
-
-//============================================================================
 void AppletInviteAccept::slotRejectInviteButtonClicked( void )
 {
     closeApplet();
@@ -104,4 +99,65 @@ void AppletInviteAccept::slotInviteChanged( void )
 {
     getInviteEdit()->clear();
     getInviteEdit()->appendPlainText( ui.m_InviteUrlWidget->getInviteText().c_str() );
+}
+
+//============================================================================
+VxGUID AppletInviteAccept::getFromOnlineId( void )
+{
+    VxGUID onlineId;
+    onlineId.initializeWithNewVxGUID();
+    for( auto& ptopUrl : m_HostUrls )
+    {
+        if( ptopUrl.getOnlineId().isVxGUIDValid() )
+        {
+            onlineId = ptopUrl.getOnlineId();
+            break;
+        }
+    }
+
+    return onlineId;
+}
+
+//============================================================================
+void AppletInviteAccept::slotAcceptInviteButtonClicked( void )
+{
+    std::string inviteText = getInviteEdit()->toPlainText().toUtf8().constData();
+    Invite invite;
+    invite.setInviteText( inviteText );
+
+    if( !invite.getInviteUrls( m_HostUrls, m_NetworkUrls, m_UserMsg ) )
+    {
+        GuiHelpers::showInviteInvalidError( this );
+        return;
+    }
+
+    VxGUID onlineId = getFromOnlineId();
+    if( onlineId == m_MyApp.getMyOnlineId() )
+    {
+        GuiHelpers::showInviteMyselfError( this );
+        // return; 
+    }
+
+    bool acceptingNetwork{ false };
+    if( !m_NetworkUrls.empty() )
+    {       
+        AppletNetworkSettings* applet = dynamic_cast<AppletNetworkSettings*>(m_MyApp.launchApplet( eAppletNetworkSettings, this ));
+        if( applet )
+        {
+            acceptingNetwork = true;
+            connect( applet, SIGNAL(signalBackButtonClicked()), this, SLOT(slotConnectToHosts()) );
+            applet->acceptInvite( onlineId, m_NetworkUrls );          
+        }
+    }
+
+    if( !acceptingNetwork )
+    {
+        slotConnectToHosts();
+    }
+}
+
+//============================================================================
+void AppletInviteAccept::slotConnectToHosts( void )
+{
+
 }

@@ -222,7 +222,7 @@ bool Invite::getNetSettingUrl( EHostType hostType, VxPtopUrl& retUrl )
     if( !url.empty() )
     {
         retUrl.setUrl( url );
-        retUrl.setUrlHostType( hostType );
+        retUrl.setUrlHostType( hostType, true );
     }
 
     return retUrl.isValid( true );

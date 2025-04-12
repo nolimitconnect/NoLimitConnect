@@ -408,6 +408,7 @@ void InviteUrlWidget::parseInviteText( std::string inviteText )
     }
 }
 
+//============================================================================
 std::string InviteUrlWidget::generateSelectedInviteText( void )
 {
     std::string inviteText;
@@ -441,8 +442,27 @@ std::string InviteUrlWidget::generateSelectedInviteText( void )
         inviteText += "\n";
         for( auto& ptopUrl : m_NetworkUrls )
         {
-            inviteText += ptopUrl.getHostUrl();
-            inviteText += "\n";
+            if( ptopUrl.getHostType() == eHostTypeNetwork )
+            {
+                inviteText += ptopUrl.getHostUrl();
+                if( inviteText[inviteText.length() - 1] != Invite::getHostTypeSuffix( eHostTypeNetwork ) )
+                {
+                    inviteText += Invite::getHostTypeSuffix( eHostTypeNetwork );
+                }
+
+                inviteText += "\n";
+            }
+            else if( ptopUrl.getHostType() == eHostTypeConnectTest )
+            {
+                inviteText += ptopUrl.getHostUrl();
+                if( inviteText[inviteText.length() - 1] != Invite::getHostTypeSuffix( eHostTypeConnectTest ) )
+                {
+                    inviteText += Invite::getHostTypeSuffix( eHostTypeConnectTest );
+                }
+        
+                inviteText += "\n";
+            }
+
         }
     }
 
@@ -502,6 +522,5 @@ void InviteUrlWidget::testUrl( EHostType hostType )
         }
     }
 
-
-    
+    // TODO network and hosts tests
 }
