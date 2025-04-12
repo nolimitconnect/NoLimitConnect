@@ -1076,9 +1076,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppModuleState.h">
       <Filter>Source Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInvites.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\FileFilterSelectWidget.h">
       <Filter>Source Files</Filter>
     </QtMoc>
@@ -1146,6 +1143,9 @@
       <Filter>Source Files</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActionWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\InviteUrlWidget.h">
       <Filter>Source Files</Filter>
     </QtMoc>
   </ItemGroup>
@@ -2227,9 +2227,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtStreamMgrProvider.cpp">
       <Filter>Source Files\VirtStream</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletInvites.cpp">
-      <Filter>Source Files\Applets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\FileFilterSelectWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -2309,6 +2306,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActionWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\InviteUrlWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -3136,9 +3136,6 @@
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityBase.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\AppletInvites.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\FileFilterSelectWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -3167,6 +3164,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\ActionWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\InviteUrlWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

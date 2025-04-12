@@ -48,8 +48,7 @@ void ActivityInformation::initActivityInformation( void )
     ui.setupUi( this );
     ui.m_TitleBarWidget->setTitleBarText( QObject::tr( "Information " ) );
     ui.m_TitleBarWidget->setHomeButtonVisibility( false );
-    connect( ui.m_ClipboardButton, SIGNAL(clicked()), this, SLOT(slotCopyToClipboardButtonClicked()) );
-    connect( ui.m_ClipboardIconButton, SIGNAL(clicked()), this, SLOT(slotCopyToClipboardButtonClicked()) );
+    connect( ui.m_ClipboardCopyWidget, SIGNAL(clicked()), this, SLOT(slotCopyToClipboardButtonClicked()) );
 
     connectBarWidgets();
 }
@@ -64,8 +63,7 @@ void ActivityInformation::showEvent( QShowEvent* ev )
 //============================================================================
 void ActivityInformation::slotCopyToClipboardButtonClicked( void )
 {
-    QClipboard * clipboard = QApplication::clipboard();
-    clipboard->setText( ui.m_InfoText->toPlainText() );
+    ui.m_ClipboardCopyWidget->copyToClipboard( ui.m_InfoText->toPlainText() );
     okMessageBox( QObject::tr( "Clipboard" ), QObject::tr( "Text was copied to clipboard" ) );
 }
 
@@ -74,9 +72,6 @@ void ActivityInformation::updateInformation( void )
 {
     ui.m_PictureLabel->setVisible( false );
     ui.m_ServiceInfoButton->setFixedSize( eButtonSizeLarge );
-    ui.m_ClipboardIconButton->setFixedSize( eButtonSizeMedium );
-    ui.m_ClipboardIconButton->setIcon( eMyIconEditCopy );
-    ui.m_WebsiteUrlLabel->setText( "https://nolimitconnect.com" );
 
     if( m_PluginType != ePluginTypeInvalid )
     {
@@ -395,7 +390,6 @@ QString ActivityInformation::m_Ipv6( QObject::tr(
     "IPv6 Protocol is different from IPv4 and a connection from IPv6 to IPv4 is not in the protocols.\n"
     "If you choose IPv6 then the Network Host and Connection Test Host must also be IPv6 enabled.\n"
     "This means the host listing on the IPv6 network may not have the same hosts listed as the IPv4 network.\n"
-
 ) );
 
 QString ActivityInformation::m_FriendRequest( QObject::tr(

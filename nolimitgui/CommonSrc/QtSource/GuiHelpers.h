@@ -215,6 +215,7 @@ public:
     static void                 showApplicationNotReadyError( bool appReadyButNetworkNotReady, QWidget* parent = nullptr );
     static void                 showFilePermissionError( QWidget* parent = nullptr );
     static void                 showRequiresOpenPort( QWidget* parent = nullptr );
+    static void                 showInviteInvalidError( QWidget* parent = nullptr );
 
     static void                 showCreateInvite( EHostType hostType, QWidget* parent = nullptr );
 

@@ -23,7 +23,7 @@ public:
     VxPtopUrl&                  operator = ( const VxPtopUrl& rhs );
     bool                        operator == ( const VxPtopUrl& rhs ) const;
 
-	bool						isValid( void );
+	bool						isValid( bool isNetworkUrl = false );
 	bool						isHostIpValid( void );
 	bool						isHostTypeValid( void )						{ return m_HostType != eHostTypeUnknown; }
 
@@ -47,10 +47,12 @@ public:
 	bool						setUrlHostType( EHostType hostType ); 
 	static bool					setUrlHostType( std::string& url, EHostType hostType );
 
+	void						clear( void );
+
 protected:
-    std::string					m_Url{ "" };
-	std::string					m_Protocol{ "" };
-	std::string					m_Host{ "" };
+    std::string					m_Url;
+	std::string					m_Protocol;
+	std::string					m_Host;
 	uint16_t					m_Port{ 0 };
 	VxGUID						m_OnlineId;
 	EHostType					m_HostType{ eHostTypeUnknown };

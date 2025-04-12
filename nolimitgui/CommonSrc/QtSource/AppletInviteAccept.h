@@ -26,20 +26,14 @@ public:
     AppletInviteAccept( AppCommon& app, QWidget* parent );
     virtual ~AppletInviteAccept();
 
-    void                        infoMsg( const char* infoMsg, ... );
-    void                        toGuiInfoMsg( char * logMsg );
-
-signals:
-    void                        signalInfoMsg( const QString& logMsg );
-
 protected slots:
     void                        slotPasteFromClipboard( QString clipboardText );
     void                        slotAcceptInviteButtonClicked( void );
     void                        slotRejectInviteButtonClicked( void );
+    void                        slotInviteChanged( void );
 
 protected:
     QPlainTextEdit *            getInviteEdit( void );
-    void                        updateInvite( void );
 
     Ui::AppletInviteAcceptUi&   ui;
 

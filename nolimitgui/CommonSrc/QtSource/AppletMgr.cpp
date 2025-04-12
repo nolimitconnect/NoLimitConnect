@@ -174,6 +174,8 @@
 #include "GuiParams.h"
 #include "HomeWindow.h"
 
+#include <P2PEngine/P2PEngine.h>
+
 #include <CoreLib/ObjectCommonDefs.h>
 
 #include <QApplication>
@@ -433,7 +435,6 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
 
     case eAppletInviteAccept:               if( launchAppletAllowed( eAppletInviteAccept ) ) appletDialog = new AppletInviteAccept( m_MyApp, parent ); break;
     case eAppletInviteCreate:               if( launchAppletAllowed( eAppletInviteCreate ) ) appletDialog = new AppletInviteCreate( m_MyApp, parent ); break;
-    case eAppletInvites:                    if( launchAppletAllowed( eAppletInvites ) ) appletDialog = new AppletInvites( m_MyApp, parent ); break;
 
     case eAppletNetHostingPage:             if( launchAppletAllowed( eAppletNetHostingPage ) ) appletDialog = new AppletNetHostingPage( m_MyApp, parent ); break;
     case eAppletHostJoinRequestList:        if( launchAppletAllowed( eAppletHostJoinRequestList ) ) appletDialog = new AppletHostJoinRequestList( m_MyApp, parent ); break;
@@ -648,7 +649,7 @@ void AppletMgr::addApplet( ActivityBase* activity )
 {
 	if( 0 == findAppletDialog( activity ) )
 	{
-        m_ActivityList.push_back( activity );
+        m_ActivityList.emplace_back( activity );
 	}
 	else 
 	{
@@ -770,6 +771,14 @@ bool AppletMgr::isServiceEnabled( EPluginType pluginType )
 bool AppletMgr::launchAppletAllowed( EApplet applet )
 {
     bool launchAllowed{ true };
+    if( eAppletInviteCreate == applet )
+    {
+        if( !m_MyApp.getEngine().getNetStatusAccum().isRxPortOpen() )
+        {
+            GuiHelpers::showRequiresOpenPort( this );
+            return false;
+        }
+    }
 
     return launchAllowed;
 }

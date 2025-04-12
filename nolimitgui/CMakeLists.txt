@@ -115,7 +115,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletHostNetworkStatus.h
     CommonSrc/QtSource/AppletHostSelect.h
     CommonSrc/QtSource/AppletIgnoredHosts.h
-    CommonSrc/QtSource/AppletInvites.h
+
     CommonSrc/QtSource/AppletInviteAccept.h
     CommonSrc/QtSource/AppletInviteCreate.h
     CommonSrc/QtSource/AppletIsPortOpenTest.h
@@ -319,6 +319,8 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/IdentLogicInterface.h
     CommonSrc/QtSource/IdentOfferWidget.h
     CommonSrc/QtSource/IdentWidget.h
+    CommonSrc/QtSource/InviteUrlWidget.h
+
     CommonSrc/QtSource/ImageListEntry.h
     CommonSrc/QtSource/ImagePickBar.h
     CommonSrc/QtSource/ImageListRow.h
@@ -533,7 +535,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletHostSelect.cpp
     CommonSrc/QtSource/AppletHostRandomConnectStatus.cpp
     CommonSrc/QtSource/AppletIgnoredHosts.cpp
-    CommonSrc/QtSource/AppletInvites.cpp
+
     CommonSrc/QtSource/AppletInviteAccept.cpp
     CommonSrc/QtSource/AppletInviteCreate.cpp
     CommonSrc/QtSource/AppletIsPortOpenTest.cpp
@@ -739,6 +741,8 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/IdentOfferWidget.cpp
     CommonSrc/QtSource/IdentWidget.cpp
     CommonSrc/QtSource/InstMsgWidget.cpp
+    CommonSrc/QtSource/InviteUrlWidget.cpp
+
     CommonSrc/QtSource/FriendListEntryWidget.cpp
     CommonSrc/QtSource/ListWidgetBase.cpp
     CommonSrc/QtSource/LogMgr.cpp
@@ -984,6 +988,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/InputVideoWidget.ui
     CommonSrc/Forms/InputVoiceWidget.ui
     CommonSrc/Forms/InstMsgWidget.ui
+    CommonSrc/Forms/InviteUrlWidget.ui
     CommonSrc/Forms/LogWidget.ui
     CommonSrc/Forms/OfferBarWidget.ui
     CommonSrc/Forms/OfferSendWidget.ui

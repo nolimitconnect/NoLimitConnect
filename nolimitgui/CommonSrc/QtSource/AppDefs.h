@@ -29,7 +29,8 @@ enum EApplet
     eAppletGroupJoin,
     eAppletChatRoomJoin,
     eAppletRandomConnectJoin,
-    eAppletInvites,
+    eAppletInviteCreate,
+    eAppletInviteAccept,
     // eAppletSearchPage, // Removed from home page until can be fully implemented
     eAppletUserIdentity,
     eAppletPersonalRecorder,
@@ -195,9 +196,6 @@ enum EApplet
 
     eAppletPopupMenu,
     eAppletHelpNetSignalBars,
-
-    eAppletInviteAccept,
-    eAppletInviteCreate,
 
     eAppletAboutMeClient,
     eAppletAboutUser,

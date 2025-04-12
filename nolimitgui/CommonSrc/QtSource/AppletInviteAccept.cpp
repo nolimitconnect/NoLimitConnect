@@ -52,10 +52,17 @@ AppletInviteAccept::AppletInviteAccept( AppCommon& app, QWidget* parent )
     ui.m_AcceptInviteButton->setIcon( eMyIconInviteAccept );
     ui.m_RejectInviteButton->setFixedSize( eButtonSizeMedium );
     ui.m_RejectInviteButton->setIcon( eMyIconCancelNormal );
+    ui.m_AcceptInviteButton->setIconOverrideColor( m_MyApp.getAppTheme().getAcceptColor() );
+	ui.m_RejectInviteButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
 
-    connect( ui.m_ClipboardPastWidget, SIGNAL(signalClipboardPaste(QString)), this, SLOT(slotPasteFromClipboard(QString)) );
+    ui.m_ClipboardPasteWidget->setActionText( QObject::tr( "Paste invite from clipboard" ) );
+    ui.m_InviteUrlWidget->setupInvite( false );
+
+    connect( ui.m_ClipboardPasteWidget, SIGNAL(signalClipboardPaste(QString)), this, SLOT(slotPasteFromClipboard(QString)) );
     connect( ui.m_AcceptInviteButton, SIGNAL(clicked()), this, SLOT(slotAcceptInviteButtonClicked()) );
     connect( ui.m_RejectInviteButton, SIGNAL(clicked()), this, SLOT(slotRejectInviteButtonClicked()) );
+
+    connect( ui.m_InviteUrlWidget, SIGNAL(signalInviteChanged()), this, SLOT(slotInviteChanged()) );
 
     // Log is seperate now VxAddLogHandler( this );
     m_MyApp.activityStateChange( this, true );
@@ -69,16 +76,6 @@ AppletInviteAccept::~AppletInviteAccept()
 }
 
 //============================================================================
-void AppletInviteAccept::toGuiInfoMsg( char * infoMsg )
-{
-    QString infoStr( infoMsg );
-
-    infoStr.remove(QRegularExpression("[\\n\\r]"));
-
-    emit signalInfoMsg( infoStr );
-}
-
-//============================================================================
 void AppletInviteAccept::slotPasteFromClipboard( QString clipboardText )
 {
     if( clipboardText.isEmpty() )
@@ -87,15 +84,7 @@ void AppletInviteAccept::slotPasteFromClipboard( QString clipboardText )
         return;
     }
     
-    Invite invite;
-    if( !invite.setInviteText( clipboardText.toUtf8().constData() ) )
-    {
-        okMessageBox( QObject::tr( "Clipboard Contained Invalid Invite Text" ), QObject::tr( "Clipboard Has Text That Cannot Be Parsed Into An Invite" ) );
-        return;
-    }
-
-    ui.m_InviteTextEdit->setPlainText( clipboardText.toUtf8().constData() );
-    updateInvite();
+    ui.m_InviteUrlWidget->setInviteText( clipboardText.toUtf8().constData() );
 }
 
 //============================================================================
@@ -111,31 +100,8 @@ void AppletInviteAccept::slotRejectInviteButtonClicked( void )
 }
 
 //============================================================================
-void AppletInviteAccept::infoMsg( const char* errMsg, ... )
+void AppletInviteAccept::slotInviteChanged( void )
 {
-    char as8Buf[ MAX_INFO_MSG_SIZE ];
-    va_list argList;
-    va_start( argList, errMsg );
-    vsnprintf( as8Buf, sizeof( as8Buf ), errMsg, argList );
-    as8Buf[ sizeof( as8Buf ) - 1 ] = 0;
-    va_end( argList );
-
-    toGuiInfoMsg( as8Buf );
-}
-
-//============================================================================
-void AppletInviteAccept::updateInvite( void )
-{
-    QString inviteText = getInviteEdit()->toPlainText();
-    if( inviteText.isEmpty() )
-    {
-        return;
-    }
-
-    Invite invite;
-    if( invite.setInviteText( inviteText.toUtf8().constData() ) )
-    {
-        ui.m_PersonUrlEdit->setText( invite.getInviteUrl( eHostTypePeerUser ).c_str() );
-        ui.m_GroupUrlEdit->setText( invite.getInviteUrl( eHostTypeGroup ).c_str() );
-    }
+    getInviteEdit()->clear();
+    getInviteEdit()->appendPlainText( ui.m_InviteUrlWidget->getInviteText().c_str() );
 }

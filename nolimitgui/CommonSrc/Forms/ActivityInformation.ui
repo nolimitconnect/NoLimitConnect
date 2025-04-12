@@ -147,24 +147,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
-             <widget class="QLabel" name="m_VisitLabel">
-              <property name="text">
-               <string>Website</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="m_WebsiteUrlLabel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
+             <widget class="WebsiteWidget" name="m_WebsiteWidget" native="true"/>
             </item>
            </layout>
           </item>
@@ -199,40 +182,7 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="VxPushButton" name="m_ClipboardIconButton">
-          <property name="text">
-           <string notr="true"/>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="VxPushButton" name="m_ClipboardButton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>16777215</width>
-            <height>30</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Copy To Clipboard</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
+       <widget class="ClipboardCopyWidget" name="m_ClipboardCopyWidget" native="true"/>
       </item>
      </layout>
     </widget>
@@ -260,6 +210,28 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>VxPushButton</class>
+   <extends>QPushButton</extends>
+   <header>VxPushButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VxLabel</class>
+   <extends>QLabel</extends>
+   <header>VxLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ClipboardCopyWidget</class>
+   <extends>QWidget</extends>
+   <header>ClipboardCopyWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WebsiteWidget</class>
+   <extends>QWidget</extends>
+   <header>WebsiteWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>TitleBarWidget</class>
    <extends>QWidget</extends>
    <header>TitleBarWidget.h</header>
@@ -270,16 +242,6 @@
    <extends>QWidget</extends>
    <header location="global">BottomBarWidget.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>VxPushButton</class>
-   <extends>QPushButton</extends>
-   <header>VxPushButton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>VxLabel</class>
-   <extends>QLabel</extends>
-   <header>VxLabel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

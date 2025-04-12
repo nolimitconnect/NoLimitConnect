@@ -38,7 +38,7 @@ AppletHostJoinRequestList::AppletHostJoinRequestList( AppCommon& app,  QWidget* 
 	ui.m_InviteCreateButton->setFixedSize( eButtonSizeSmall );
 	ui.m_InviteCreateButton->setIcon( eMyIconInviteCreate );
 	ui.m_InviteAcceptButton->setFixedSize( eButtonSizeSmall );
-	ui.m_InviteAcceptButton->setIcon( eMyIconInvite );
+	ui.m_InviteAcceptButton->setIcon( eMyIconInviteAccept );
 
 	connect( &m_HostJoinMgr, SIGNAL(signalHostJoinOfferStateChange(GroupieId,EJoinState)), this, SLOT(slotHostJoinOfferStateChange(GroupieId,EJoinState)) );
 	connect( &m_HostJoinMgr, SIGNAL(signalHostJoinOnlineStatus(GuiHostJoin*,bool)), this, SLOT(slotHostJoinOnlineStatus(GuiHostJoin*,bool)) );

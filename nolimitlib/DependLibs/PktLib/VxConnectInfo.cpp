@@ -76,7 +76,7 @@ VxConnectBaseInfo& VxConnectBaseInfo::operator =( const VxConnectBaseInfo &rhs )
 }
 
 //============================================================================
-std::string VxConnectBaseInfo::getMyOnlineUrl( EHostType hostType )
+std::string VxConnectBaseInfo::getMyOnlineUrl( EHostType hostType, bool appendHostSuffix )
 {
     std::string myUrl;
     std::string strIP; 
@@ -86,27 +86,20 @@ std::string VxConnectBaseInfo::getMyOnlineUrl( EHostType hostType )
     {
         myUrl += "/";
         myUrl += getMyOnlineId().toOnlineIdString().c_str();
-        
-        if( hostType != eHostTypeUnknown )
+        if( appendHostSuffix )
         {
-            Invite::appendHostTypeSuffix( hostType, myUrl );
-        }
-        else if( !requiresRelay() )
-        {
-            Invite::appendHostTypeSuffix( eHostTypePeerUser, myUrl );
-        }
-        else
-        {
-            static int64_t lastLogTime = 0;
-            int64_t timeNow = GetTimeStampMs();
-            if( 10000 < timeNow - lastLogTime )
+            if( hostType != eHostTypeUnknown )
             {
-                lastLogTime = timeNow;
-                LogMsg( LOG_VERBOSE, " Invite::appendHostTypeSuffix( hostType %d-%s, myUrl %s ); Unknown", hostType, DescribeHostType( hostType ),
-                    myUrl.c_str() );
+                Invite::appendHostTypeSuffix( hostType, myUrl );
             }
-
-            Invite::appendHostTypeSuffix( hostType, myUrl );
+            else if( !requiresRelay() )
+            {
+                Invite::appendHostTypeSuffix( eHostTypePeerUser, myUrl );
+            }
+            else
+            {
+                Invite::appendHostTypeSuffix( hostType, myUrl );
+            }
         }
     }
     else

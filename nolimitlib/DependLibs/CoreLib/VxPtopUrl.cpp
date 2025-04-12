@@ -84,9 +84,15 @@ std::string VxPtopUrl::stripHost( const std::string& url ) const // remove suffi
 }
 
 //============================================================================
-bool VxPtopUrl::isValid( void )
+bool VxPtopUrl::isValid( bool isNetworkUrl )
 {
-    return m_Port && m_OnlineId.isVxGUIDValid() && !m_Protocol.empty() && isHostIpValid();
+    bool isValid = m_Port && !m_Protocol.empty() && isHostIpValid();
+    if( !isNetworkUrl )
+    {
+        isValid &= m_OnlineId.isVxGUIDValid();
+    }
+    
+    return isValid;
 }
 
 //============================================================================
@@ -283,4 +289,15 @@ bool VxPtopUrl::isUrlIpv6( void )
 std::string VxPtopUrl::getHostUrl( void )
 {
     return m_Url;
+}
+
+//============================================================================
+void VxPtopUrl::clear( void )
+{
+    m_Url.clear();
+    m_Protocol.clear();
+    m_Host.clear();
+    m_Port = 0;
+    m_OnlineId.clear();
+    m_HostType = eHostTypeUnknown;
 }

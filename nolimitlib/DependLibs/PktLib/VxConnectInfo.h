@@ -79,7 +79,7 @@ public:
     bool                        addToBlob( PktBlobEntry& blob );
     bool                        extractFromBlob( PktBlobEntry& blob );
 
-    std::string                 getMyOnlineUrl( EHostType hostType = eHostTypeUnknown );
+    std::string                 getMyOnlineUrl( EHostType hostType = eHostTypeUnknown, bool appendHostSuffix = true );
 
 	void						setMyOnlineId( VxGUID& onlineId );
 	VxGUID&						getMyOnlineId();

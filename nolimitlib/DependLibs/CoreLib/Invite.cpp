@@ -14,11 +14,10 @@
 
 #include <algorithm>
 
-const char* Invite::INVITE_HDR_DIRECT_CONNECT = "!DirectConnectInvite!";
-const char* Invite::INVITE_HDR_RELAYED = "!Invite!";
+const char* Invite::INVITE_BEGIN = "!Invite!";
 const char* Invite::INVITE_HDR_MSG = "!Message!";
 const char* Invite::INVITE_HDR_NET_SETTING = "!NetworkSettings!";
-const char* Invite::INVITE_END = "!End!";
+const char* Invite::INVITE_END = "!InviteEnd!";
 const char* Invite::PTOP_URL_PREFIX = "ptop://";
 const char Invite::SUFFIX_CHAR_PERSON_DIRECT = 'D'; // D
 const char Invite::SUFFIX_CHAR_PERSON_RELAYED = 'P'; // P
@@ -32,8 +31,6 @@ const char Invite::SUFFIX_CHAR_UNKNOWN = 'U'; // 'U'
 //============================================================================
 void Invite::clearInvite( void )
 {
-
-    m_CanDirectConnect = false;
     m_InviteText.clear();
 
     m_PersonUrl.clear();
@@ -57,15 +54,21 @@ bool Invite::setInviteText( std::string inviteText )
 }
 
 //============================================================================
-bool Invite::setInviteUrl( EHostType hostType, std::string& url )
+bool Invite::setInviteUrl( EHostType hostType, std::string& url, bool isNetworkUrl )
 {
     bool result = false;
+    if( url.empty() )
+    {
+
+    }
+
     switch( hostType )
     {
     case eHostTypeGroup:
         m_GroupUrl = url;
-        VxPtopUrl::setUrlHostType( m_GroupUrl, eHostTypeGroup );
-        result = !m_GroupUrl.empty();
+        VxPtopUrl::setUrlHostType( url, eHostTypeGroup );
+        result = !url.empty();
+        if( result )
         break;
 
     case eHostTypeChatRoom:
@@ -94,7 +97,7 @@ bool Invite::setInviteUrl( EHostType hostType, std::string& url )
 }
 
 //============================================================================
-std::string Invite::getInviteUrl( EHostType hostType )
+std::string& Invite::getInviteUrl( EHostType hostType )
 {
     switch( hostType )
     {
@@ -111,12 +114,12 @@ std::string Invite::getInviteUrl( EHostType hostType )
         return m_PersonUrl;
 
     default:
-        return std::string();
+        return m_EmptyString;
     }
 }
 
 //============================================================================
-std::string Invite::getNetSettingUrl( EHostType hostType )
+std::string& Invite::getNetSettingUrl( EHostType hostType )
 {
     switch( hostType )
     {
@@ -136,7 +139,7 @@ std::string Invite::getNetSettingUrl( EHostType hostType )
         return m_NetSettingRandomConnectUrl;
 
     default:
-        return std::string();
+        return m_EmptyString;
     }
 }
 
@@ -198,6 +201,34 @@ EHostType Invite::getHostTypeFromSuffix( const char suffix )
 }
 
 //============================================================================
+bool Invite::getInviteUrl( EHostType hostType, VxPtopUrl& retUrl )
+{
+    retUrl.clear();
+    std::string url = getInviteUrl( hostType );
+    if( !url.empty() )
+    {
+        retUrl.setUrl( url );
+        retUrl.setUrlHostType( hostType );
+    }
+
+    return retUrl.isValid();
+}
+
+//============================================================================
+bool Invite::getNetSettingUrl( EHostType hostType, VxPtopUrl& retUrl )
+{
+    retUrl.clear();
+    std::string url = getNetSettingUrl( hostType );
+    if( !url.empty() )
+    {
+        retUrl.setUrl( url );
+        retUrl.setUrlHostType( hostType );
+    }
+
+    return retUrl.isValid( true );
+}
+
+//============================================================================
 bool Invite::isValidHostTypeSuffix( const char suffix )
 {
     return SUFFIX_CHAR_PERSON_RELAYED == suffix ||
@@ -224,20 +255,17 @@ bool Invite::parseInviteText( void )
     if( result )
     {
         bool foundStart = false;
+        bool foundMsg = false;
         bool foundEnd = false;
         bool foundUrl = false;
+        bool isNetworkUrl = false;
+        m_UserMsg.clear();
         for( auto& str : strList )
         {
             if( !foundStart )
             {
-                if( str == INVITE_HDR_DIRECT_CONNECT )
+                if( str == INVITE_BEGIN )
                 {
-                    m_CanDirectConnect = true;
-                    foundStart = true;
-                }
-                else if( str == INVITE_HDR_RELAYED )
-                {
-                    m_CanDirectConnect = false;
                     foundStart = true;
                 }
 
@@ -246,11 +274,29 @@ bool Invite::parseInviteText( void )
             
             if( !foundEnd )
             {
-                if( str == INVITE_HDR_MSG || str == INVITE_HDR_NET_SETTING || str == INVITE_END )
+                if( str == INVITE_END )
                 {
                     foundEnd = true;
                     break;
                 }
+            }
+
+            if( str == INVITE_HDR_NET_SETTING )
+            {
+                isNetworkUrl = true;
+                continue;
+            }
+
+            if( str == INVITE_HDR_MSG )
+            {
+                foundMsg = true;
+                continue;
+            }
+
+            if( foundMsg && !isNetworkUrl )
+            {
+                m_UserMsg += str;
+                continue;
             }
 
             if( str.length() > 10 && str.rfind( PTOP_URL_PREFIX, 0 ) == 0 )
@@ -260,13 +306,21 @@ bool Invite::parseInviteText( void )
                 // it should have a Suffix letter that indicates the host type
                 char endChar = str.at( str.length() - 1 );
                 EHostType hostType = getHostTypeFromSuffix( endChar );
-                if( hostType != eHostTypeUnknown && getInviteUrl( hostType ).empty() )
+                if( hostType != eHostTypeUnknown )
                 {
                     str.erase( str.begin() + str.length() - 1 );
                     VxUrl url( str.c_str() );
                     if( url.getPort() > 0 )
                     {
-                        setInviteUrl( hostType, str );
+                        if( isNetworkUrl )
+                        {
+                            getNetSettingUrl( hostType ) = str;
+                        }
+                        else
+                        {
+                            getInviteUrl( hostType ) = str;
+                        }
+
                         foundUrl = true;
                     }
                 }
@@ -292,4 +346,26 @@ std::string Invite::makeInviteUrl( EHostType hostType, std::string& onlineUrl )
 bool Invite::appendHostTypeSuffix( EHostType hostType, std::string& onlineUrl )
 {
     return VxPtopUrl::setUrlHostType( onlineUrl, hostType );
+}
+
+//============================================================================
+bool Invite::getInviteUrls( std::vector<VxPtopUrl>& hostUrls, std::vector<VxPtopUrl>& networkUrls, std::string& userMsg )
+{
+    hostUrls.clear();
+    networkUrls.clear();
+    userMsg = m_UserMsg;
+
+    VxPtopUrl ptopUrl;
+    if( getInviteUrl( eHostTypePeerUser, ptopUrl ) ) { hostUrls.emplace_back( ptopUrl ); }
+    if( getInviteUrl( eHostTypeChatRoom, ptopUrl ) ) { hostUrls.emplace_back( ptopUrl ); }
+    if( getInviteUrl( eHostTypeGroup, ptopUrl ) ) { hostUrls.emplace_back( ptopUrl ); }
+    if( getInviteUrl( eHostTypeRandomConnect, ptopUrl ) ) { hostUrls.emplace_back( ptopUrl ); }
+
+    if( getNetSettingUrl( eHostTypeNetwork, ptopUrl ) ) { networkUrls.emplace_back( ptopUrl ); }
+    if( getNetSettingUrl( eHostTypeConnectTest, ptopUrl ) ) { networkUrls.emplace_back( ptopUrl ); }
+    if( getNetSettingUrl( eHostTypeChatRoom, ptopUrl ) ) { networkUrls.emplace_back( ptopUrl ); }
+    if( getNetSettingUrl( eHostTypeGroup, ptopUrl ) ) { networkUrls.emplace_back( ptopUrl ); }
+    if( getNetSettingUrl( eHostTypeRandomConnect, ptopUrl ) ) { networkUrls.emplace_back( ptopUrl ); }
+
+    return !hostUrls.empty() || !networkUrls.empty();
 }

@@ -11,6 +11,7 @@
 #include "SessionWidget.h"
 
 #include "AppCommon.h"
+#include "ActivityBase.h"
 #include "GuiHelpers.h"
 
 #include "ui_SessionWidget.h"
@@ -159,6 +160,6 @@ void SessionWidget::setupAdminInvite( void )
 //============================================================================
 void SessionWidget::slotCreateInviteButtonClicked( void )
 {
-	GuiHelpers::showCreateInvite( m_GroupieId.getHostType(), this );	
+	GuiHelpers::showCreateInvite( m_GroupieId.getHostType(), dynamic_cast<QWidget*>( GuiHelpers::findParentActivity( parentWidget() ) ) );
 }
 

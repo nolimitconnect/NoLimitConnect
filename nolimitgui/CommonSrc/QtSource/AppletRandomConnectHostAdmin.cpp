@@ -33,7 +33,7 @@ AppletRandomConnectHostAdmin::AppletRandomConnectHostAdmin( AppCommon& app, QWid
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 	setPluginType( ePluginTypeHostRandomConnect );
 
-    connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
+    connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );
 
     GroupieId hostAdminId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeRandomConnect );
 	ui.m_ChatRoomWidget->setPluginType( ePluginTypeClientRandomConnect );

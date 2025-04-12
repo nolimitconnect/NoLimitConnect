@@ -2217,6 +2217,15 @@ void GuiHelpers::showRequiresOpenPort( QWidget* parent )
 }
 
 //============================================================================
+void GuiHelpers::showInviteInvalidError( QWidget* parent )
+{
+    QString title = QObject::tr("Invalid Invite");
+    QString msg = QObject::tr("The invite is invalid");
+    QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok);
+    warnMsg.exec();
+}
+
+//============================================================================
 void GuiHelpers::processQtEvents( int ms )
 {
 	QCoreApplication::processEvents( QEventLoop::AllEvents, ms );

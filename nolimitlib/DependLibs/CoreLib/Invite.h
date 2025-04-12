@@ -9,18 +9,18 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <string>
-#include <GuiInterface/IDefs.h>
+#include "VxPtopUrl.h"
+
+#include <vector>
 
 class Invite
 {
 public:
-    static const char* INVITE_HDR_DIRECT_CONNECT;
-    static const char* INVITE_HDR_RELAYED;
+    static const char* INVITE_BEGIN;
     static const char* INVITE_HDR_MSG;
     static const char* INVITE_HDR_NET_SETTING;
     static const char* INVITE_END;
-    static const char* PTOP_URL_PREFIX;            // ptop://
+    static const char* PTOP_URL_PREFIX;             // ptop://
     static const char SUFFIX_CHAR_PERSON_RELAYED;   // P
     static const char SUFFIX_CHAR_PERSON_DIRECT;    // D
     static const char SUFFIX_CHAR_GROUP;            // G
@@ -28,15 +28,18 @@ public:
     static const char SUFFIX_CHAR_RANDOM_CONNECT;   // R
     static const char SUFFIX_CHAR_NETWORK_HOST;     // N
     static const char SUFFIX_CHAR_CONNECT_TEST;     // T
-    static const char SUFFIX_CHAR_UNKNOWN;          // ' '
+    static const char SUFFIX_CHAR_UNKNOWN;          // U
 
     bool                        setInviteText( std::string inviteText );
     std::string&                getInviteText( void )                       { return m_InviteText; }
+    bool                        getInviteUrls( std::vector<VxPtopUrl>& hostUrls, std::vector<VxPtopUrl>& networkUrls, std::string& userMsg );
 
-    bool                        canDirectConnect( void )                    { return m_CanDirectConnect; }
-    bool                        setInviteUrl( EHostType hostType, std::string& url );
-    std::string                 getInviteUrl( EHostType hostType );
-    std::string                 getNetSettingUrl( EHostType hostType );
+    bool                        setInviteUrl( EHostType hostType, std::string& url, bool isNetworkUrl = false );
+
+    std::string&                getInviteUrl( EHostType hostType );
+    bool                        getInviteUrl( EHostType hostType, VxPtopUrl& retUrl );
+    std::string&                getNetSettingUrl( EHostType hostType );
+    bool                        getNetSettingUrl( EHostType hostType, VxPtopUrl& retUrl );
 
     static char                 getHostTypeSuffix( EHostType hostType );
     static EHostType            getHostTypeFromSuffix( const char suffix );
@@ -49,8 +52,9 @@ protected:
     bool                        parseInviteText( void );
     void                        clearInvite( void );
 
-    bool                        m_CanDirectConnect{ false };
     std::string                 m_InviteText;
+
+    std::string                 m_UserMsg;
 
     std::string                 m_PersonUrl;
     std::string                 m_GroupUrl;
@@ -62,5 +66,7 @@ protected:
     std::string                 m_NetSettingRandomConnectUrl;
     std::string                 m_NetSettingNetworkHostUrl;
     std::string                 m_NetSettingConnectTestUrl;
+
+    std::string                 m_EmptyString;
 };
 

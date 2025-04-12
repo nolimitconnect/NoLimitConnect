@@ -411,7 +411,6 @@ enum EMyIcons
 	eMyIconConnect,
 	eMyIconDisconnect,
 
-	eMyIconInvite,
 	eMyIconInviteAccept,
 	eMyIconInviteCreate,
 

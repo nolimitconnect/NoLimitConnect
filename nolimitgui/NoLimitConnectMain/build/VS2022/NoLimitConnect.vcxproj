@@ -209,7 +209,6 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletIgnoredHosts.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletInviteAccept.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletInviteCreate.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletInvites.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletIsPortOpenTest.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletJoinBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletLaunchPage.cpp" />
@@ -412,6 +411,7 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\InputVideoWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\InputVoiceWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\InstMsgWidget.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\InviteUrlWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ListWidgetBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\LogMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\LogWidget.cpp" />
@@ -610,7 +610,6 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectHostAdmin.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletPlayerNlcBase.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppModuleState.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInvites.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletTestUpnp.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletAboutUser.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendList.h" />
@@ -706,6 +705,7 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\IdentOfferWidget.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\InputClientBaseCallback.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\InputClientCallback.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\InviteUrlWidget.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\MenuDefs.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioBitrate.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioEchoBuf.h" />
@@ -1000,7 +1000,6 @@ libass.lib;libpcre.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletIgnoredHosts.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletInviteAccept.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletInviteCreate.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\AppletInvites.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletIsPortOpenTest.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletJoinHostList.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletLaunchWidget.ui" />
@@ -1091,6 +1090,7 @@ libass.lib;libpcre.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\InputVideoWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\InputVoiceWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\InstMsgWidget.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\InviteUrlWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\LogWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\OfferBarWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\OfferSendWidget.ui" />

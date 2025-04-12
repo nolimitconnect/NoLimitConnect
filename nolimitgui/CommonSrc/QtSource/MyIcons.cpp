@@ -817,8 +817,6 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 	case eMyIconDisconnect:
 		return ":/AppRes/Resources/disconnect.svg";
 
-	case eMyIconInvite:
-		return ":/AppRes/Resources/invite.svg";
 	case eMyIconInviteAccept:
 		return ":/AppRes/Resources/invite-accept.svg";
 	case eMyIconInviteCreate:

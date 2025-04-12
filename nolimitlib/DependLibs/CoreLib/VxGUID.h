@@ -95,6 +95,8 @@ public:
 	// fill wie random data which is faster but does NOT make it unique
 	void						fillRandom( void );
 
+	void						clear( void ) { m_u64HiPart = 0; m_u64LoPart = 0; }
+
 protected:
     uint64_t					m_u64HiPart{ 0 };
 	uint64_t					m_u64LoPart{ 0 };

@@ -51,7 +51,6 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletIgnoredHosts:	            return eMyIconIgnored;
     case eAppletInviteAccept:	            return eMyIconInviteAccept;
     case eAppletInviteCreate:	            return eMyIconInviteCreate;
-    case eAppletInvites:	                return eMyIconInvite;
 
     case eAppletLibrary:				    return eMyIconLibraryNormal;
     case eAppletLog:	                    return eMyIconDebug;
@@ -253,9 +252,8 @@ QString DescribeApplet( EApplet applet )
 
     case eAppletIgnoredHosts:               return QObject::tr( "Ignored Hosts List" );
 
-    case eAppletInviteAccept:               return QObject::tr( "Open Invite" );
+    case eAppletInviteAccept:               return QObject::tr( "Accept Invite" );
     case eAppletInviteCreate:               return QObject::tr( "Create Invite" );
-    case eAppletInvites:                    return QObject::tr( "Invites" );
 
     case eAppletLibrary:				    return QObject::tr( "My Library Of Media" );
     case eAppletLog:                        return QObject::tr( "Application Log" );

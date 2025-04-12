@@ -98,9 +98,8 @@
 
 #define OBJNAME_APPLET_IGNORED_HOSTS					"AppletIgnoredHosts"
 
-#define OBJNAME_APPLET_INVITES							"AppletInvites"
 #define OBJNAME_APPLET_INVITE_CREATE					"AppletInviteCreate"
-#define OBJNAME_APPLET_INVITE_ACCEPT					"AppletInviteAccepte"
+#define OBJNAME_APPLET_INVITE_ACCEPT					"AppletInviteAccept"
 
 #define OBJNAME_APPLET_IS_PORT_OPEN_TEST				"AppletIsPortOpenTest"
 

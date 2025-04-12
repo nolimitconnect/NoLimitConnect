@@ -81,49 +81,13 @@
        <number>5</number>
       </property>
       <item>
-       <widget class="ClipboardPasteWidget" name="m_ClipboardPastWidget" native="true"/>
+       <widget class="ClipboardPasteWidget" name="m_ClipboardPasteWidget" native="true"/>
       </item>
       <item>
        <widget class="IdentWidget" name="m_IdentWidget" native="true"/>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QLabel" name="m_PersonUrlLabel">
-          <property name="text">
-           <string>Person URL:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="m_PersonUrlEdit">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QLabel" name="m_GroupUrlLabel">
-          <property name="text">
-           <string>Group  URL:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="m_GroupUrlEdit"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QLabel" name="m_StatusLable">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
+       <widget class="InviteUrlWidget" name="m_InviteUrlWidget" native="true"/>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -188,7 +152,7 @@
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Invite Text</string>
+         <string>Invite to accept text</string>
         </property>
        </widget>
       </item>
@@ -205,6 +169,12 @@
    <class>VxPushButton</class>
    <extends>QPushButton</extends>
    <header>VxPushButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>InviteUrlWidget</class>
+   <extends>QWidget</extends>
+   <header>InviteUrlWidget.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>IdentWidget</class>
