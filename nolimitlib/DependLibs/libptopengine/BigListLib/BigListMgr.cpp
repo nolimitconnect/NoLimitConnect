@@ -644,22 +644,23 @@ bool BigListMgr::fromGuiDeleteUser( VxGUID& onlineId )
 }
 
 //============================================================================
-void BigListMgr::updateVectorList( enum EFriendState oldFriendship, BigListInfo* poInfo )
+bool BigListMgr::updateTempIdent( VxNetIdent& tempIdent )
 {
-	EFriendState newFriendship = poInfo->getMyFriendshipToHim();
-	BigList::updateVectorList( oldFriendship, poInfo );
-
-	if( newFriendship > eFriendStateGuest && oldFriendship <= eFriendStateGuest )
+	bool wasUpdated{ false };
+	BigListInfo* bigListInfo = findBigListInfo( tempIdent.getMyOnlineId() );
+	if( bigListInfo )
 	{
-		// became a friend we want to stay connected to
-		if( poInfo->canDirectConnectToUser() )
-		{
-            //m_Engine.getStayConnected().addStayConnectedRequest( poInfo->getConnectInfo(), eConnectReasonStayConnected );
-		}
+		bigListInfo->setPluginPermissions( tempIdent.getPluginPermissions() );
+		bigListInfo->setHisFriendshipToMe( tempIdent.getHisFriendshipToMe() );
+		return false;
 	}
-	else if( newFriendship <= eFriendStateGuest && oldFriendship > eFriendStateGuest )
+	else
 	{
-		// no longer a friend we want to stay connected to
-        //m_Engine.getStayConnected().removeStayConnectedRequest( poInfo->getConnectInfo(), eConnectReasonStayConnected );
+		BigListInfo* bigListInfo = new BigListInfo();
+		memcpy( bigListInfo->getVxNetIdent(), &tempIdent, sizeof( VxNetIdent ) );
+		bigListInfo->setMyFriendshipToHim( eFriendStateAnonymous );
+		bigListInfo->setNeedSavedToDb( false );
+		updateVectorList( eFriendStateAnonymous, bigListInfo );
+		return true;
 	}
 }

@@ -24,7 +24,6 @@ enum EApplet
     eAppletGetStarted,
 
     eAppletFriendList,
-    eAppletFriendRequest,
 
     eAppletGroupJoin,
     eAppletChatRoomJoin,
@@ -138,6 +137,9 @@ enum EApplet
 
     eAppletChooseThumbnail,
     eAppletChooseHost,
+
+    eAppletFriendRequest,
+    eAppletFriendRequestList,
 
     eAppletGalleryEmoticon,
     eAppletGalleryImage,

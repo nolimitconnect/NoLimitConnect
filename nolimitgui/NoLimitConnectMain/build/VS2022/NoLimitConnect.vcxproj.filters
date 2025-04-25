@@ -219,6 +219,9 @@
     <Filter Include="Source Files\PhoneRinger">
       <UniqueIdentifier>{1caab6a7-3c45-4991-b350-6354ab192ec8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GuiFriendRequest">
+      <UniqueIdentifier>{4d381fe0-0556-4418-b7d7-baed63d37ee9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AssetBaseWidget.h">
@@ -1147,6 +1150,18 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\InviteUrlWidget.h">
       <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequestMgr.h">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequestListItem.h">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequestListWidget.h">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendRequestList.h">
+      <Filter>Source Files\Applets</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -2311,6 +2326,21 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\InviteUrlWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequest.cpp">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequestMgr.cpp">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequestListItem.cpp">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequestListWidget.cpp">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFriendRequestList.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
@@ -2648,6 +2678,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\CamRgbVideo.h">
       <Filter>Source Files\Cam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequest.h">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequestCallback.h">
+      <Filter>Source Files\GuiFriendRequest</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3167,6 +3203,12 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\InviteUrlWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletFriendRequestList.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\GuiFriendRequestWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

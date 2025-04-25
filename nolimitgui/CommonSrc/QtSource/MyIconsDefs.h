@@ -205,7 +205,6 @@ enum EMyIcons
 	eMyIconCancelDisabled,
 
 	eMyIconSendArrowNormal,
-	eMyIconSendArrowDisabled,
 	eMyIconSendArrowCancel,
 
 	eMyIconCameraDisabled,
@@ -445,6 +444,8 @@ enum EMyIcons
 	eMyIconPlayStream,
 
 	eMyIconPlayExtern,
+
+	eMyIconFriendRequestList,
 
 	eMaxMyIcon	// must be last
 };

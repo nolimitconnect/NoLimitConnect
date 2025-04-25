@@ -142,6 +142,5 @@ public:
 	// stored arrays
 	std::vector<VxPktHdr*>		m_aoInQue;
 	std::vector<VxPktHdr*>		m_aoOutQue;
-
 };
 

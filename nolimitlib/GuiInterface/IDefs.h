@@ -232,21 +232,20 @@ enum EDatabaseType
     eMaxDatabaseType
 };
 
-enum EGroupieViewType
+enum EFriendRequestState
 {
-    eGroupieViewTypeNone,
-    eGroupieViewTypeFriendsOnly,
-    eGroupieViewTypeGroupOnly,
-    eGroupieViewTypeGroupAndFriends,
-    eGroupieViewTypeEverybody,
-    eGroupieViewTypeIgnored,
-    eGroupieViewTypeNearby,
-    eGroupieViewTypeOnline,
-    eGroupieViewTypeDirectConnect,
+    eFriendRequestUnknown	= 0,	
+    eFriendRequestRxed,
+    eFriendRequestAccepted,
+    eFriendRequestRejected,	
+    eFriendRequestOffline,
+    eFriendRequestBadParam,
+    eFriendRequestSending,
+    eFriendRequestSendSuccess,
+    eFriendRequestSendFail,
 
-    eMaxGroupieViewType,
+    eMaxFriendRequestState
 };
-
 
 //! \public Enumeration of friendship type. NOTE: also used as plugin permission type
 enum EFriendState
@@ -289,6 +288,21 @@ enum EGenderType
     eMaxGenderType
 };
 
+enum EGroupieViewType
+{
+    eGroupieViewTypeNone,
+    eGroupieViewTypeFriendsOnly,
+    eGroupieViewTypeGroupOnly,
+    eGroupieViewTypeGroupAndFriends,
+    eGroupieViewTypeEverybody,
+    eGroupieViewTypeIgnored,
+    eGroupieViewTypeNearby,
+    eGroupieViewTypeOnline,
+    eGroupieViewTypeDirectConnect,
+
+    eMaxGroupieViewType,
+};
+
 enum EHackerLevel
 {
     eHackerLevelUnknown,
@@ -319,6 +333,7 @@ enum EHackerReason
     eHackerReasonInvalidPkt,
     eHackerReasonAccessDenied,
     eHackerReasonLurkerDidNotSendPktAnn,
+    eHackerReasonFriendRequestFromIgnoredUser,
 
     eMaxHackerReason
 };
@@ -421,8 +436,7 @@ enum EHostServiceType
     eHostServiceChatRoom,           // Tier 3 host a chat room service ( chat room users are considered Tier 4 )
     eHostServiceRandomConnect,      // random connect service normally provided by network host ( Tier 1 )
     eHostServiceRelay,              // relay service normally provided by group host ( Tier 3 )  
-    eHostServiceRandomConnectRelay, // random connection relay service normally provided by network host ( Tier 1 )
-    
+    eHostServiceRandomConnectRelay, // random connection relay service normally provided by network host ( Tier 1 )    
 
     eMaxHostServiceType
 };
@@ -1363,8 +1377,9 @@ const char* DescribeConnectType( enum EConnectType connectType );
 
 const char* DescribeDatabaseType( enum EDatabaseType );
 
+const char* DescribeFriendRequest( enum EFriendRequestState friendRequest );
 //! describe friend state
-const char* DescribeFriendState( enum EFriendState eFriendState );
+const char* DescribeFriendState( enum EFriendState friendState );
 const char* DescribeGroupieViewType( enum EGroupieViewType groupieViewType );
 const char* DescribeHackerLevel( enum EHackerLevel hackLevel );
 const char* DescribeHackerReason( enum EHackerReason hackReason );

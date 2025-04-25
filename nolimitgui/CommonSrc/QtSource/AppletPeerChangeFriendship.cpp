@@ -12,6 +12,7 @@
 
 #include "AppGlobals.h"
 #include "AppCommon.h"
+#include "GuiFavoriteMgr.h"
 #include "MyIcons.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -48,7 +49,9 @@ AppletPeerChangeFriendship::AppletPeerChangeFriendship( AppCommon& app, QWidget*
 	ui.m_IdentWidget->setIdentWidgetSize( eButtonSizeMedium );
 
 	ui.m_PreferredButton->setFixedSize( eButtonSizeMedium );
-	ui.m_PreferredButton->setAppIcon( eMyIconApp, this ); // use setAppIcon so has color
+	ui.m_PreferredButton->setAppIcon( eMyIconApp, this );
+	ui.m_PreferredButton->setUseTheme( false ); // so has color
+
 
 	connect( ui.ToAdministratorButton, SIGNAL(clicked()), this, SLOT( onPermissionClick() ) );
 	connect( ui.ToFriendButton,		SIGNAL(clicked()), this, SLOT(onPermissionClick()) );
@@ -57,8 +60,13 @@ AppletPeerChangeFriendship::AppletPeerChangeFriendship( AppCommon& app, QWidget*
 	connect( ui.ToIgnoreButton,		SIGNAL(clicked()), this, SLOT(onPermissionClick()) );
 	connect( ui.m_OkButton,			SIGNAL(clicked()), this, SLOT(onOkButClick()) );
 	connect( ui.m_CancelButton,		SIGNAL(clicked()), this, SLOT(onCancelButClick()) );
+
 	connect( ui.m_MakeFriendButton, SIGNAL(clicked()), this, SLOT(onMakeFriendButClick()) );
+	connect( ui.m_MakeFriendLabel,  SIGNAL(clicked()), this, SLOT(onMakeFriendButClick()) );
+	
 	connect( ui.m_IgnoreButton,		SIGNAL(clicked()), this, SLOT(onIgnoreButClick()) );
+	connect( ui.m_IgnoreLabel,      SIGNAL(clicked()), this, SLOT(onIgnoreButClick()) );
+
 	connect( ui.m_PreferredButton,	SIGNAL(clicked()), this, SLOT(onPreferredButClick()) );
 }
 
@@ -88,7 +96,7 @@ void AppletPeerChangeFriendship::setHisPermissionToMe( EFriendState hisFriendshi
 	ui.m_HisPermissionButton->setIcon( getMyIcons().getFriendshipIcon( hisFriendshipToMe ) );
 	QString strHisFriendship = m_Friend->getOnlineName().c_str();
 	strHisFriendship += QObject::tr("\'s Friendship To Me -");
-	strHisFriendship += DescribeFriendState(hisFriendshipToMe);
+	strHisFriendship += GuiParams::describeFriendState( hisFriendshipToMe );
 	ui.m_HisPermissionLabel->setText(strHisFriendship);
 }
 
@@ -99,7 +107,7 @@ void AppletPeerChangeFriendship::setMyPermissionToHim( EFriendState myFriendship
 	ui.m_MyPermissionButton->setIcon( getMyIcons().getFriendshipIcon( myFriendshipToHim ) );
 	QString strHisName = m_Friend->getOnlineName().c_str();
 	QString strMyFriendship =   QObject::tr("My Friendship To ");
-	strMyFriendship += strHisName + "-" + DescribeFriendState( myFriendshipToHim );
+	strMyFriendship += strHisName + "-" + GuiParams::describeFriendState( myFriendshipToHim );
 	ui.m_MyPermissionLabel->setText(strMyFriendship);
 }
 

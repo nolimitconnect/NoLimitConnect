@@ -25,6 +25,7 @@ list(APPEND pktlib_SOURCES
     PktsFileList.cpp
     PktsFileShare.cpp
 	PktsFriendOffer.cpp
+    PktsFriendRequest.cpp
     PktsGroupie.cpp
     PktsHostInfo.cpp
     PktsHostInvite.cpp

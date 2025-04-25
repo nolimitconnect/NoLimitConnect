@@ -68,6 +68,10 @@ list(APPEND ptopengine_SOURCES
     ConnectMgr/ConnectMgr.cpp
     FromGuiMgr/FromGuiAction.cpp
     FromGuiMgr/FromGuiMgr.cpp
+
+    FriendRequestMgr/FriendRequestInfo.cpp
+    FriendRequestMgr/FriendRequestMgr.cpp
+
     GroupieListMgr/GroupieInfo.cpp
     GroupieListMgr/GroupieListDb.cpp
     GroupieListMgr/GroupieListMgr.cpp

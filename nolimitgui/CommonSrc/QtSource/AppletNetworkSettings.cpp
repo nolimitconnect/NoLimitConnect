@@ -779,7 +779,7 @@ bool AppletNetworkSettings::verifyIpv6Capable( void )
 void AppletNetworkSettings::acceptInvite( VxGUID onlineId, std::vector<VxPtopUrl> networkUrls )
 {
     QString title = QObject::tr( "Accepting Network Invite" );
-    QString bodyText = QObject::tr( "You are accepting a network invite.\nBe sure the Network Key is correct before pressing save" );
+    QString bodyText = QObject::tr( "You are accepting a network invite.\nBe sure the Network Key is correct before pressing save.\nIf the Network Key is incorrect, you will probably be banned as a hacker." );
     okMessageBox( title, bodyText );
 
     QString networkSettingName = QString( "invite-%1" ).arg( onlineId.toHexString().c_str() );

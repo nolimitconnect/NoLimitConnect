@@ -46,6 +46,7 @@
 #include "AppletFileOfferSelect.h"
 #include "AppletFriendList.h"
 #include "AppletFriendRequest.h"
+#include "AppletFriendRequestList.h"
 
 #include "AppletGalleryEmoticon.h"
 #include "AppletGalleryImage.h"
@@ -422,6 +423,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
 
     case eAppletFriendList:                 if( launchAppletAllowed( eAppletFriendList ) ) appletDialog = new AppletFriendList( m_MyApp, parent ); break;
     case eAppletFriendRequest:              if( launchAppletAllowed( eAppletFriendRequest ) ) appletDialog = new AppletFriendRequest( m_MyApp, parent ); break;
+    case eAppletFriendRequestList:          if( launchAppletAllowed( eAppletFriendRequestList ) ) appletDialog = new AppletFriendRequestList( m_MyApp, parent ); break;
        
     case eAppletGroupListClient:            if( launchAppletAllowed( eAppletGroupListClient ) ) appletDialog = new AppletGroupListClient( m_MyApp, parent ); break;
 

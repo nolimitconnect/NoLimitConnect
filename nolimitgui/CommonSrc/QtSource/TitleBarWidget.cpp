@@ -53,11 +53,12 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
     ui.m_MuteMicButton->setFixedSize( eButtonSizeSmall );
     ui.m_MuteSpeakerButton->setFixedSize( eButtonSizeSmall );
     ui.m_CameraStartStopButton->setFixedSize( eButtonSizeSmall );
-    ui.m_TrashButton->setFixedSize( eButtonSizeSmall );
-    ui.m_ShareButton->setFixedSize( eButtonSizeSmall );
     ui.m_MenuTopButton->setFixedSize( eButtonSizeSmall );
     ui.m_MenuButton->setFixedSize( eButtonSizeSmall );
     ui.m_BackDlgButton->setFixedSize( eButtonSizeSmall );
+
+    ui.m_FriendRequestListButton->setFixedSize( eButtonSizeSmall );
+    ui.m_FriendRequestListButton->setIcon( eMyIconFriendRequestList );
 
     ui.m_NetAvailStatusWidget->setFixedSizeAbsolute( GuiParams::getButtonSize( eButtonSizeSmall ) );
 
@@ -86,8 +87,6 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
 	setMicrophoneIcon( m_MutedMic ? eMyIconMicrophoneOff : eMyIconMicrophoneOn );
     setSpeakerIcon( m_MutedSpeaker ? eMyIconSpeakerOff : eMyIconSpeakerOn );
     setCameraIcon();
-    setTrashButtonIcon();
-    setShareButtonIcon();
     setTopMenuButtonIcon();
     setBackButtonIcon();
 
@@ -95,8 +94,6 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
     enableVideoControls( true );
 
     setCameraButtonVisibility( false );
-    setTrashButtonVisibility( false );
-    setShareButtonVisibility( false );
     setMenuTopButtonVisibility( false );
 
     // everyone except home page has home button and back button but not power off button
@@ -131,6 +128,8 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
 
     connect( ui.m_MenuButton,               SIGNAL(clicked()),                          this, SLOT(slotTitleBarUserMenuButtonClicked()) );
 
+    connect( ui.m_FriendRequestListButton,  SIGNAL(clicked()),                          this, SLOT(slotFriendRequestListButtonClicked()) );
+
     ui.m_MicVolPeakBar->setFixedWidth( GuiParams::getDefaultFontHeight() / 2 );
     ui.m_MicVolPeakBar->setRange( 0, 50 ); // make twice as sensitive to make it more obvious
 
@@ -158,6 +157,7 @@ void TitleBarWidget::wantCallbacks( bool enable )
         m_MyApp.getOfferMgr().wantGuiOfferCallbacks( this, enable );
         m_MyApp.getHostJoinMgr().wantHostJoinCallbacks( this, enable );
         m_MyApp.getPluginMgr().wantPluginMgrCallbacks( this, enable ); 
+        m_MyApp.getFriendRequestMgr().wantFriendRequestListCallbacks( this, enable ); 
     }
 
     updateCamCallbackRequests();
@@ -381,18 +381,6 @@ void TitleBarWidget::slotCamPreviewClicked( void )
 }
 
 //============================================================================
-void TitleBarWidget::slotTrashButtonClicked( void )
-{
-	emit signalTrashButtonClicked();
-}
-
-//============================================================================
-void TitleBarWidget::slotShareButtonClicked( void )
-{
-	emit signalShareButtonClicked();
-}
-
-//============================================================================
 void TitleBarWidget::slotMenuTopButtonClicked( void )
 {
 	emit signalMenuTopButtonClicked();
@@ -412,12 +400,7 @@ void TitleBarWidget::setPopupVisibility( bool hideBackButton )
     setNetStatusVisibility( false );
     setOfferListButtonVisibility( false );
     setHostJoinRequestListButtonVisibility( false );
-    setShareButtonVisibility( false );
 
-    //enableAudioControls( false );
-    //setMicrophoneVolumeVisibility( false );
-    //setMuteSpeakerVisibility( false );
-    //enableVideoControls( false );
     setMenuTopButtonVisibility( false );
     setMenuListButtonVisibility( false );
     if( hideBackButton )
@@ -463,12 +446,6 @@ void TitleBarWidget::setNetStatusVisibility( bool visible )
 }
 
 //============================================================================
-void TitleBarWidget::setTrashButtonVisibility( bool visible )
-{
-	ui.m_TrashButton->setVisible( visible );
-}
-
-//============================================================================
 void TitleBarWidget::setHostJoinRequestListButtonVisibility( bool visible )
 {
     ui.m_HostJoinRequestListButton->setVisible( visible );
@@ -478,12 +455,6 @@ void TitleBarWidget::setHostJoinRequestListButtonVisibility( bool visible )
 void TitleBarWidget::setOfferListButtonVisibility( bool visible )
 {
     ui.m_OfferListButton->setVisible( visible );
-}
-
-//============================================================================
-void TitleBarWidget::setShareButtonVisibility( bool visible )
-{
-	ui.m_ShareButton->setVisible( visible );
 }
 
 //============================================================================
@@ -554,18 +525,6 @@ void TitleBarWidget::setCameraIcon( EMyIcons myIcon )
 }
 
 //============================================================================
-void TitleBarWidget::setTrashButtonIcon( EMyIcons myIcon )
-{
-	ui.m_TrashButton->setIcon( myIcon );
-}
-
-//============================================================================
-void TitleBarWidget::setShareButtonIcon( EMyIcons myIcon )
-{
-	ui.m_ShareButton->setIcon( myIcon );
-}
-
-//============================================================================
 void TitleBarWidget::setTopMenuButtonIcon( EMyIcons myIcon )
 {
 	ui.m_MenuTopButton->setIcon( myIcon );
@@ -606,18 +565,6 @@ void TitleBarWidget::setSpeakerColor( QColor iconColor )
 void TitleBarWidget::setCameraColor( QColor iconColor )
 {
 	ui.m_CameraStartStopButton->setIconOverrideColor( iconColor );
-}
-
-//============================================================================
-void TitleBarWidget::setTrashButtonColor( QColor iconColor )
-{
-	ui.m_TrashButton->setIconOverrideColor( iconColor );
-}
-
-//============================================================================
-void TitleBarWidget::setShareButtonColor( QColor iconColor )
-{
-	ui.m_ShareButton->setIconOverrideColor( iconColor );
 }
 
 //============================================================================
@@ -949,4 +896,31 @@ void TitleBarWidget::callbackGuiMicrophoneLevel( int micLevel )
         m_LastMicLevel = micLevel;
         ui.m_MicVolPeakBar->setValue( micLevel );
     }
+}
+
+//============================================================================
+void TitleBarWidget::callbackGuiFriendRequestListUpdated( GuiFriendRequest* friendRequest )
+{
+    updateFriendRequestNotify();
+}
+
+//============================================================================
+void TitleBarWidget::callbackGuiFriendRequestListRemoved( VxGUID requestId )
+{
+    updateFriendRequestNotify();
+}
+
+//============================================================================
+void TitleBarWidget::slotFriendRequestListButtonClicked( void )
+{
+    m_MyApp.getAppletMgr().launchApplet( eAppletFriendRequestList, getTitleBarParentPage()  );
+}
+
+//============================================================================
+void TitleBarWidget::updateFriendRequestNotify( void )
+{
+    bool haveRequests = m_MyApp.getFriendRequestMgr().getRequestCount() != 0;
+    ENotifyType notifyType = haveRequests ? eNotifyOnline : eNotifyOffline;
+
+    ui.m_FriendRequestListButton->setNotifyType( notifyType );
 }

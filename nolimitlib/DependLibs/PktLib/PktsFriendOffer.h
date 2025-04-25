@@ -26,7 +26,7 @@ public:
     EHostType                   getHostType( void )                 { return (EHostType)m_HostType; }
 
 	void						setOfferMsg( const char* msg );
-	const char*				getOfferMsg( void );
+	const char*				    getOfferMsg( void );
 
 private:
     uint8_t					    m_HostType{ 0 };
@@ -47,7 +47,7 @@ public:
     EHostType                   getHostType( void )                 { return (EHostType)m_HostType; }
 
     void						setOfferMsg( const char* msg );
-    const char*				getOfferMsg( void );
+    const char*				    getOfferMsg( void );
 
 private:
     uint8_t					    m_HostType{ 0 };

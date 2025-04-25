@@ -34,6 +34,7 @@
 #include "FileListReplySession.h"
 
 #include "GuiThreadAppLoader.h"
+#include "GuiFavoriteMgr.h"
 #include "GuiMemberActiveMgr.h"
 #include "GuiOfferSession.h"
 #include "GuiParams.h"
@@ -122,6 +123,7 @@ AppCommon& CreateAppInstance( QApplication* myApp, AppSettings& appSettings )
 {
 static AppModuleState appModuleState;
 static AccountMgr accountMgr;
+static GuiFavoriteMgr favoritMgr;
 static GuiMemberActiveMgr memberActiveMgr;
 static GuiPlayerMgr playerMgr;
 static GuiPluginMgr pluginMgr;
@@ -135,7 +137,7 @@ static MyIcons myIcons;
 		VxSocketsStartup();
 
         // constructor of AppCommon will set g_AppCommon
-        new AppCommon( *myApp, appModuleState, appSettings, accountMgr, 
+        new AppCommon( *myApp, appModuleState, appSettings, accountMgr, favoritMgr,
 					   memberActiveMgr, playerMgr, pluginMgr, pushToTalkMgr, randConnectMgr, 
 					   sendQueueMgr, myIcons );
     }
@@ -161,6 +163,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 						AppModuleState& appModuleState,
 						AppSettings&	appSettings, 
                         AccountMgr&	    accountMgr,
+						GuiFavoriteMgr& favoritMgr,
 						GuiMemberActiveMgr& memberActiveMgr,
 					    GuiPlayerMgr& playerMgr,
 						GuiPluginMgr& pluginMgr,
@@ -177,7 +180,9 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_AppTitle( GetAppTitle() )
 , m_AccountMgr( accountMgr )
 , m_ConnectIdListMgr( *this )
+, m_FavoriteMgr( favoritMgr )
 , m_FileXferMgr( *this )
+, m_FriendRequestMgr( *this )
 , m_ThumbMgr( *this )
 , m_MemberActiveMgr( memberActiveMgr )
 , m_OfferMgr( *this )
@@ -265,6 +270,7 @@ bool AppCommon::loadWithThread( void )
 	m_RandConnectMgr.onAppCommonCreated();
 	m_SendQueueMgr.onAppCommonCreated();
 	m_GroupieListMgr.onAppCommonCreated();
+	m_FriendRequestMgr.onAppCommonCreated();
 
 	while( !appLoaderThread.getIsIconsLoaded() )
 	{

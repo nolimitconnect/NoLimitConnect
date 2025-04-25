@@ -17,9 +17,6 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
-class P2PEngine;
-class GuiOfferSession;
-
 class AppletFriendRequest : public AppletPeerBase
 {
 	Q_OBJECT
@@ -27,17 +24,25 @@ public:
 	AppletFriendRequest( AppCommon& app, QWidget*	parent = nullptr );
 	virtual ~AppletFriendRequest() override = default;
 
-	//! called by base class with in session state
-    virtual void				onInSession( bool isInSession ) override;
+	void						friendRequestSetup( VxGUID onlineId, bool isAccept );
+
+protected slots:
+	void						slotPaste( QString pasteText );
+	void						slotCopy( void );
+
+	void						slotSend( void );
+	void						slotCancel( void );
+	void						slotAccept( void );
+	void						slotReject( void );
 
 protected:
 
     void						toGuiInstMsg( GuiUser* friendIdent, EPluginType pluginType, QString instMsg ) override;
 	void				        callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg ) override;
 
-	void						onOfferWasSet( void ) override;
-	void						onStateTextChanged( QString& stateText ) override;
-
 	//=== vars ===//
 	Ui::AppletFriendRequestUi&	ui;
+
+	bool						m_IsAccept{ false };
+	GuiUser*					m_GuiUser{ nullptr }; 
 };

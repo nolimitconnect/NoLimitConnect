@@ -34,7 +34,7 @@ AppletChooseHost::AppletChooseHost( AppCommon& app, QWidget* parent )
 
 	// only update users using this applet
 	ui.m_UserListWidget->disconnectUserUpdates();
-	ui.m_UserListWidget->setAllowMyselfInList( true );
+
 	ui.m_UserListWidget->setUserViewType( eUserViewTypeEverybody );
 
 	connect( this,						SIGNAL(signalBackButtonClicked()),												this, SLOT(closeApplet()) );

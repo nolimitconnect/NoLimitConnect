@@ -71,6 +71,7 @@
 #define OBJNAME_APPLET_FILE_OFFER_SELECT				"AppletFileOfferSelect"
 #define OBJNAME_APPLET_FRIEND_LIST_CLIENT			    "AppletFriendList"
 #define OBJNAME_APPLET_FRIEND_REQUEST					"AppletFriendRequest"
+#define OBJNAME_APPLET_FRIEND_REQUEST_LIST				"AppletFriendRequestList"
 
 #define OBJNAME_APPLET_GALLERY_EMOTICON				    "AppletGalleryEmoticon"
 #define OBJNAME_APPLET_GALLERY_IMAGE				    "AppletGalleryImage"

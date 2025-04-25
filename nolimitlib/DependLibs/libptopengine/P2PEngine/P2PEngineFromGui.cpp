@@ -18,6 +18,7 @@
 #include <AssetMgr/AssetMgr.h>
 #include <BigListLib/BigListInfo.h>
 #include <BlobXferMgr/BlobMgr.h>
+#include <FriendRequestMgr/FriendRequestMgr.h>
 
 #include <Network/NetworkMgr.h>
 
@@ -33,6 +34,7 @@
 #include <Plugins/FileToXfer.h>
 #include <Plugins/PluginBase.h>
 #include <Plugins/PluginFileShareServer.h>
+#include <Plugins/PluginFriendRequest.h>
 #include <Plugins/PluginNetServices.h>
 #include <Plugins/PluginMgr.h>
 
@@ -833,11 +835,10 @@ bool P2PEngine::fromGuiChangeMyFriendshipToHim(	VxGUID&			onlineId,
 	{
 		if( !onlineId.isVxGUIDValid() )
 		{
-			LogMsg( LOG_ERROR, "IgnoreListMgr::updateIgnoreIdent invalid id" );
+            LogMsg( LOG_ERROR, "%s invalid id", __func__ );
 			return false;
 		}
 
-		//assureUserSpecificDirIsSet( "P2PEngine::fromGuiChangeMyFriendshipToHim" );
 		BigListInfo * poInfo = m_BigListMgr.findBigListInfo( onlineId );
 		if( poInfo )
 		{
@@ -848,13 +849,14 @@ bool P2PEngine::fromGuiChangeMyFriendshipToHim(	VxGUID&			onlineId,
 			
 			EFriendState eOldFriendship = poInfo->getMyFriendshipToHim();
 			poInfo->setMyFriendshipToHim( myFriendshipToHim );
+			poInfo->setNeedSavedToDb( true );
 			m_BigListMgr.updateVectorList( eOldFriendship, poInfo );
 
 			BigListInfo* dummyBigListInfo = nullptr;
 			EHostType hostType{ eHostTypeUnknown };
 			m_BigListMgr.updatePktAnn( poInfo->getPktAnnounce(), &dummyBigListInfo, hostType, true );
 
-			LogMsg( LOG_VERBOSE, "P2PEngine::fromGuiChangeMyFriendshipToHim: SUCCESS changed %s friendship to %s", 
+            LogMsg( LOG_VERBOSE, "P2PEngine::%s SUCCESS changed %s friendship to %s", __func__,
 				poInfo->getOnlineName(),
 				poInfo->describeMyFriendshipToHim());
 
@@ -1857,10 +1859,22 @@ void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
 
 	m_NetServicesMgr.addNetActionToQueue( eNetActionResolveNetworkHostUrl );
 	m_NetServicesMgr.addNetActionToQueue( eNetActionResolveDefaultUserHosts );
+}
 
-	//if( settingsHaveChange )
-	//{
-	//	// wait to start monitoring network until listen has a chance to start
-	//	getNetworkMonitor().networkMonitorStartup();
-	//}
+//============================================================================
+bool P2PEngine::fromGuiQueryFriendRequest( std::vector<std::shared_ptr<FriendRequestInfo>>& friendRequestList, VxGUID& onlineIdIfNullThenAll )
+{
+	return getFriendRequestMgr().fromGuiQueryFriendRequest( friendRequestList, onlineIdIfNullThenAll );
+}
+
+//============================================================================
+bool P2PEngine::fromGuiSendFriendRequest( VxGUID& onlineId, std::string& requestText, EFriendState myFriendshipToHim )
+{
+	PluginBase* pluginBase = m_PluginMgr.getPlugin( ePluginTypeFriendRequest );
+	if( pluginBase )
+	{
+		return ((PluginFriendRequest*)pluginBase)->fromGuiSendFriendRequest( onlineId, requestText, myFriendshipToHim );
+	}
+
+	return false;
 }

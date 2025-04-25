@@ -17,6 +17,7 @@ EMyIcons GetAppletIcon( EApplet applet )
 	switch( applet )
 	{
     case eAppletAboutNoLimitConnect:	    return eMyIconApp;
+    case eAppletAboutUser:                  return eMyIconAnonymous;
     case eAppletApplicationInfo:	        return eMyIconUnknown;
     case eAppletAvatarImageClient:          return eMyIconAvatarImage;
     case eAppletBrowseFiles:	            return eMyIconFileOpen;
@@ -31,6 +32,7 @@ EMyIcons GetAppletIcon( EApplet applet )
 
     case eAppletFriendList:	                return eMyIconFriendJoined;
     case eAppletFriendRequest:	            return eMyIconFriendJoined;
+    case eAppletFriendRequestList:	        return eMyIconFriendRequestList;
     case eAppletGetStarted:                 return eMyIconInformation;
 
     case eAppletGroupClient:                return eMyIconGroupClient;
@@ -230,6 +232,7 @@ QString DescribeApplet( EApplet applet )
     case eAppletCreateAccount:			    return QObject::tr( "Create Account" );
     case eAppletFriendList:	                return QObject::tr( "Friend List" );
     case eAppletFriendRequest:	            return QObject::tr( "Friend Request" );
+    case eAppletFriendRequestList:	        return QObject::tr( "Friend Request List" );
     case eAppletGalleryEmoticon:			return QObject::tr( "Emoticon Gallery" );
     case eAppletGalleryImage:			    return QObject::tr( "Image Gallery" );
     case eAppletGalleryThumb:			    return QObject::tr( "Thumbnail Gallery" );

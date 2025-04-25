@@ -691,6 +691,12 @@
     <ClCompile Include="..\..\Plugins\PluginFriendRequest.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\FriendRequestMgr\FriendRequestInfo.cpp">
+      <Filter>Source Files\FriendRequestMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FriendRequestMgr\FriendRequestMgr.cpp">
+      <Filter>Source Files\FriendRequestMgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AssetMgr\AssetCallbackInterface.h">
@@ -1446,6 +1452,15 @@
     <ClInclude Include="..\..\Plugins\PluginFriendRequest.h">
       <Filter>Source Files\Plugins</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\FriendRequestMgr\FriendRequestCallbackInterface.h">
+      <Filter>Source Files\FriendRequestMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FriendRequestMgr\FriendRequestInfo.h">
+      <Filter>Source Files\FriendRequestMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FriendRequestMgr\FriendRequestMgr.h">
+      <Filter>Source Files\FriendRequestMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="QtBuild">
@@ -1567,6 +1582,9 @@
     </Filter>
     <Filter Include="GuiInterface">
       <UniqueIdentifier>{2fd97754-7c51-411b-9283-fd6c558030a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FriendRequestMgr">
+      <UniqueIdentifier>{57e97fe6-412e-4ffb-9dca-b3c2d8d8dbb4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

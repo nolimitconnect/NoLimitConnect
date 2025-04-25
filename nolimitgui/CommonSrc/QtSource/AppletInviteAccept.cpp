@@ -135,7 +135,7 @@ void AppletInviteAccept::slotAcceptInviteButtonClicked( void )
     if( onlineId == m_MyApp.getMyOnlineId() )
     {
         GuiHelpers::showInviteMyselfError( this );
-        // return; 
+        return; 
     }
 
     bool acceptingNetwork{ false };
@@ -159,5 +159,16 @@ void AppletInviteAccept::slotAcceptInviteButtonClicked( void )
 //============================================================================
 void AppletInviteAccept::slotConnectToHosts( void )
 {
+    for( auto& ptopUrl : m_HostUrls )
+    {
+        if( ptopUrl.isValid() )
+        {
+            HostedId adminId( ptopUrl.getOnlineId(), ptopUrl.getHostType() );
+            VxGUID sessionId;
+            sessionId.initializeWithNewVxGUID();
+            std::string url = ptopUrl.getHostUrl();
 
+            m_Engine.fromGuiJoinHost( adminId, sessionId, url );
+        }
+    }
 }

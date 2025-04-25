@@ -24,6 +24,7 @@
 #include "VxPushButton.h"
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxGlobals.h>
 
 #include <vector>
 
@@ -709,7 +710,7 @@ bool GuiUserListWidget::isListViewMatch( GuiUser* guiUser )
     {
         if( guiUser->isMyself() )
         {
-            return getAllowMyselfInList() &&
+            return VxGetShowMyselfInLists() &&
                    (!getHostAdminId().isValid() || guiUser->getMyOnlineId() != getHostAdminId().getHostOnlineId());
         }
         else if( eUserViewTypeEverybody == viewType )

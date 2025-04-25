@@ -57,6 +57,7 @@ class BlobMgr;
 class ConnectMgr;
 class ConnectRequest;
 class FileShareSettings;
+class FriendRequestMgr;
 class HostServerJoinMgr;
 class IToGui;
 class INlc;
@@ -100,7 +101,8 @@ public:
                OfferMgr& offerMgr,
                PushToTalkMgr& pushToTalkMgr, 
                RandConnectMgr& randConnectMgr,
-               SendQueueMgr& sendQueueMgr );
+               SendQueueMgr& sendQueueMgr,
+               FriendRequestMgr& friendRequstMgr);
 	virtual ~P2PEngine() override;
 
 	void						startupEngine( void );
@@ -121,6 +123,7 @@ public:
 	EngineParams&				getEngineParams( void )							{ return m_EngineParams; }
     ConnectIdListMgr&           getConnectIdListMgr( void )                     { return m_ConnectIdListMgr; }
     FriendListMgr&              getFriendListMgr( void )                        { return m_FriendListMgr; }
+    FriendRequestMgr&           getFriendRequestMgr( void )                     { return m_FriendRequestMgr; }
     FromGuiMgr&                 getFromGuiMgr( void )                           { return m_FromGuiMgr; }
     GroupieListMgr&             getGroupieListMgr( void )                       { return m_GroupieListMgr; }
 
@@ -192,7 +195,7 @@ public:
     bool                        getPluginSetting( enum EPluginType pluginType, PluginSetting& pluginSetting );
 
     void           				setPluginPermission( EPluginType pluginType, int iPluginPermission );
-    EFriendState		        getPluginPermission( int iPluginType );
+    EFriendState		        getPluginPermission( EPluginType pluginType );
     bool                        getIsPluginInTestState( EPluginType pluginType, VxGUID& onlineId );
 
     PluginLibraryServer&        getPluginLibraryServer( void )                  { return *m_PluginLibraryServer; }
@@ -238,7 +241,7 @@ public:
 
     void           				fromGuiNativeGlInit( void ) override;
     void           				fromGuiNativeGlResize( int w, int h ) override;
-    int            					fromGuiNativeGlRender( void ) override;
+    int            				fromGuiNativeGlRender( void ) override;
     void           				fromGuiNativeGlPauseRender( void ) override;
     void           				fromGuiNativeGlResumeRender( void ) override;
     void           				fromGuiNativeGlDestroy( void ) override;
@@ -338,7 +341,7 @@ public:
 
     virtual uint16_t			fromGuiGetRandomTcpPort( void ) override;
     /// Get url for this node
-    void                           fromGuiGetNodeUrl( std::string& nodeUrl ) override;
+    void                        fromGuiGetNodeUrl( std::string& nodeUrl ) override;
     /// Get internet status
     virtual EInternetStatus     fromGuiGetInternetStatus( void ) override;
     /// Get network status
@@ -350,7 +353,7 @@ public:
     bool           				fromGuiGetIsFileShared( FileInfo& fileInfo ) override;
 
 	// returns -1 if unknown else percent downloaded
-    int            					fromGuiGetFileDownloadState( uint8_t* fileHashId ) override;
+    int            			    fromGuiGetFileDownloadState( uint8_t* fileHashId ) override;
 
     bool           				fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibrary ) override;
     bool           				fromGuiSetFileIsInLibrary( std::string& fileName, bool isInLibrary ) override;
@@ -396,6 +399,9 @@ public:
     void				        fromGuiSetIsAutomatedHost( bool automatedHost ) override;
 
     bool                        fromGuiSendRandConnectSelected( VxGUID& onlineId, bool isSelected ) override;
+
+    bool                        fromGuiQueryFriendRequest( std::vector<std::shared_ptr<FriendRequestInfo>>& friendRequestList, VxGUID& onlineIdIfNullThenAll ) override;
+    bool                        fromGuiSendFriendRequest( VxGUID& onlineId, std::string& requestText, EFriendState myFriendshipToHim ) override;
 
 	//========================================================================
 	// to gui
@@ -497,17 +503,17 @@ public:
 												const char*	    pMsg, ... );			// message about the offense
 
     void                        hackerOffense(  enum EHackerLevel	hackerLevel,			    
-                                                enum EHackerReason   hackerReason,
-                                                VxPktHdr*	    pktHdr,			// users identity info ( may be null if not known then use ipAddress )
+                                                enum EHackerReason  hackerReason,
+                                                VxPktHdr*	        pktHdr,			// users identity info ( may be null if not known then use ipAddress )
                                                 std::shared_ptr<VxSktBase>&      sktBase,
-                                                const char*	    pMsg, ... );			// message about the offense
+                                                const char*	        pMsg, ... );			// message about the offense
 
 	//========================================================================
 	// pkt handlers
 	//========================================================================
 
     //=== packet handlers ===//
-    void                           handlePkt                   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void                        handlePkt                   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
     void           				onPktUnhandled              ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
     void           				onPktInvalid				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
@@ -698,11 +704,14 @@ public:
     void           				onPktRandConnectReq		    ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 	void           				onPktRandConnectReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
+    void           				onPktFriendRequestReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+	void           				onPktFriendRequestReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+
     bool                        validateIdent( VxNetIdent* netIdent ); // extra validatation for at risk connections like multicast
 
     void                        onNetworkConnectionReady( bool requiresRelay, std::string& ipAddr, uint16_t ipPort );
 
-    /// extract online id from either url if url is valid
+    /// extract online id from url if url is valid
     static VxGUID               getOnlineIdFromUrl( std::string& ptopUrl );
 
     std::string                 describeGroupieId( GroupieId& groupieId );
@@ -711,15 +720,17 @@ public:
 
     void                        onStreamStop( VxGUID& streamId );
 
+    EFriendRequestState         sendFriendRequest( VxGUID& onlineId );
+
 protected:
     //========================================================================
     //========================================================================
     void						iniitializePtoPEngine( void );
 
 	bool           				txPluginPkt( 	enum EPluginType			pluginType, 
-												VxNetIdentBase *	netIdent, 
-												std::shared_ptr<VxSktBase>&			sktBase, 
-												VxPktHdr*			poPkt );
+												VxNetIdentBase *	        netIdent, 
+												std::shared_ptr<VxSktBase>&	sktBase, 
+												VxPktHdr*			        poPkt );
 
 	void           				doAppStateChange( enum EAppState eAppState );
 	bool           				shouldNotifyGui( VxNetIdent* netIdent );
@@ -753,6 +764,7 @@ protected:
     ConnectIdListMgr            m_ConnectIdListMgr;
     IgnoreListMgr               m_IgnoreListMgr;
     FriendListMgr               m_FriendListMgr;
+    FriendRequestMgr&           m_FriendRequestMgr;
     GroupieListMgr              m_GroupieListMgr;
     HostUrlListMgr              m_HostUrlListMgr;
     HostedListMgr               m_HostedListMgr;

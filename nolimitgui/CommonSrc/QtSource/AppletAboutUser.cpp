@@ -46,6 +46,9 @@ AppletAboutUser::AppletAboutUser( AppCommon& app, QWidget* parent )
     getInfoEdit()->setMaximumBlockCount( MAX_LOG_EDIT_BLOCK_CNT );
     getInfoEdit()->setReadOnly( true );
 
+    ui.m_UserMsgLabel->setVisible( false );
+    ui.m_UserMsgTextEdit->setVisible( false );
+
 	m_MyApp.activityStateChange( this, true );
     wantActivityCallbacks( true );
 }
@@ -55,6 +58,19 @@ AppletAboutUser::~AppletAboutUser()
 {
     wantActivityCallbacks( false );
     m_MyApp.activityStateChange( this, false );
+}
+
+//============================================================================
+void AppletAboutUser::setUserMessage( QString userMsg )
+{
+    if( userMsg.isEmpty() )
+    {
+        return;
+    }
+
+    ui.m_UserMsgLabel->setVisible( true );
+    ui.m_UserMsgTextEdit->setVisible( true );
+    ui.m_UserMsgTextEdit->appendPlainText( userMsg );
 }
 
 //============================================================================

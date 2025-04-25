@@ -81,25 +81,32 @@
        <number>5</number>
       </property>
       <item>
+       <widget class="QCheckBox" name="m_ShowMyselfCheckBox">
+        <property name="text">
+         <string notr="true">Show myself in lists for debugging (NOT recommended)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QPushButton" name="m_ShowAppInfoButton">
           <property name="text">
-           <string>Show App Info</string>
+           <string notr="true">Show App Info</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="m_ShowLogButton">
           <property name="text">
-           <string>Show Log</string>
+           <string notr="true">Show Log</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="m_BrowseFilesButton">
           <property name="text">
-           <string>Browse Files</string>
+           <string notr="true">Browse Files</string>
           </property>
          </widget>
         </item>
@@ -110,7 +117,7 @@
         <item>
          <widget class="QLabel" name="m_MyUrlLabel">
           <property name="text">
-           <string>My URL:</string>
+           <string notr="true">My URL:</string>
           </property>
          </widget>
         </item>
@@ -124,7 +131,7 @@
         <item>
          <widget class="QPushButton" name="m_CopyMyUrlButton">
           <property name="text">
-           <string>Copy To Clipboard</string>
+           <string notr="true">Copy To Clipboard</string>
           </property>
          </widget>
         </item>
@@ -135,7 +142,7 @@
         <item>
          <widget class="QLabel" name="m_HostUrlsLabel">
           <property name="text">
-           <string>Host Urls:</string>
+           <string notr="true">Host Urls:</string>
           </property>
          </widget>
         </item>
@@ -156,7 +163,7 @@
         <item>
          <widget class="QLabel" name="m_TestUrlLabel">
           <property name="text">
-           <string>Remote URL:</string>
+           <string notr="true">Remote URL:</string>
           </property>
          </widget>
         </item>
@@ -166,7 +173,7 @@
         <item>
          <widget class="QPushButton" name="m_CopyTestUrlButton">
           <property name="text">
-           <string>Copy To Clipboard</string>
+           <string notr="true">Copy To Clipboard</string>
           </property>
          </widget>
         </item>
@@ -177,14 +184,14 @@
         <item>
          <widget class="QPushButton" name="m_BrowseDownloadsButton">
           <property name="text">
-           <string>Browse Downloads Folder</string>
+           <string notr="true">Browse Downloads Folder</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="m_BrowseAppDataButton">
           <property name="text">
-           <string>Browse Application Data</string>
+           <string notr="true">Browse Application Data</string>
           </property>
          </widget>
         </item>
@@ -195,14 +202,14 @@
         <item>
          <widget class="QPushButton" name="m_DeleteDbButton">
           <property name="text">
-           <string>Delete Database</string>
+           <string notr="true">Delete Database</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="m_GenerateGuidButton">
           <property name="text">
-           <string>Generate A GUID</string>
+           <string notr="true">Generate A GUID</string>
           </property>
          </widget>
         </item>
@@ -213,7 +220,7 @@
         <item>
          <widget class="QPushButton" name="m_GenKeyButton">
           <property name="text">
-           <string>Gen Key</string>
+           <string notr="true">Gen Key</string>
           </property>
          </widget>
         </item>
@@ -234,14 +241,14 @@
         <item>
          <widget class="QPushButton" name="m_PurgeCacheButton">
           <property name="text">
-           <string>Purge Cache</string>
+           <string notr="true">Purge Cache</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="m_PurgeEverythingButton">
           <property name="text">
-           <string>Purge Everything</string>
+           <string notr="true">Purge Everything</string>
           </property>
          </widget>
         </item>
@@ -255,14 +262,14 @@
         <item>
          <widget class="QPushButton" name="m_CopyResultToClipboardButton">
           <property name="text">
-           <string>Copy Results To Clipboard</string>
+           <string notr="true">Copy Results To Clipboard</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="m_ClearResultsButton">
           <property name="text">
-           <string>Clear Results</string>
+           <string notr="true">Clear Results</string>
           </property>
          </widget>
         </item>

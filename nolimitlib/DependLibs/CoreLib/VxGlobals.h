@@ -127,3 +127,6 @@ bool							GetUseMilitaryTime( void );
 
 void							VxSetMaxMessageHistory( int16_t maxHistory );
 int32_t							VxGetMaxMessageHistory( void );
+
+void							VxSetShowMyselfInLists( bool showMyself ); // NOT recommended.. (for debug only)
+bool							VxGetShowMyselfInLists( void );

@@ -204,6 +204,7 @@ namespace
         "Reason Pkt Invalid ",
         "Reason Access Denied ",
         "Reason Lurker Did Not Send Pkt Ann ",
+        "Reason Friend Request From Ignored User ",
 
         "Max Hacker Reason ",
     };
@@ -1125,15 +1126,48 @@ const char* DescribeDatabaseType( enum EDatabaseType databaseType )
 }
 
 //============================================================================
-//! describe friend state
-const char* DescribeFriendState( enum EFriendState eFriendState )
+const char* DescribeFriendRequest( enum EFriendRequestState friendRequest )
 {
-    if( eFriendState < 0 || eFriendStateAdmin < eFriendState )
+    if( friendRequest < 0 || eMaxFriendRequestState <= friendRequest )
     {
         return ENUM_BAD_PARM;
     }
 
-    switch( eFriendState )
+    switch( friendRequest )
+    {
+    case eFriendRequestRxed:		
+        return "Friend Request Recieved ";
+    case eFriendRequestAccepted:		
+        return "Friend Request Accepted ";
+    case eFriendRequestRejected:	
+        return "Friend Request Rejected ";
+    case eFriendRequestOffline:		
+        return "Friend Request Offline ";
+    case eFriendRequestBadParam:		
+        return "Friend Request Bad Param ";
+    case eFriendRequestSending:	
+        return "Friend Request Sending ";
+    case eFriendRequestSendSuccess:		
+        return "Friend Request Send Success ";
+    case eFriendRequestSendFail:	
+        return "Friend Request Send Fail ";
+
+    case eFriendRequestUnknown:	
+    default:
+        return "Friend Request State Unknown ";
+    }
+}
+
+//============================================================================
+//! describe friend state
+const char* DescribeFriendState( enum EFriendState friendState )
+{
+    if( friendState < 0 || eFriendStateAdmin < friendState )
+    {
+        return ENUM_BAD_PARM;
+    }
+
+    switch( friendState )
     {
     case eFriendStateAnonymous:	// anonymous user
         return "Anonymous ";

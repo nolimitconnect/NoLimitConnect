@@ -51,7 +51,7 @@ public:
 												bool			useMyFriendshipFromPktAnn = false,
 												bool			useHisFriendshipFromPktAnn = true );	
 
-	bool						updateTempIdent( VxNetIdent& tempIdent );
+	bool						updateTempIdent( VxNetIdent& tempIdent ); // return true if new contact
 
 	bool						getFriendships( VxGUID&			hisOnlineId,
 												EFriendState&	retMyFriendshipToHim,
@@ -81,9 +81,6 @@ public:
 	bool						updateMemberFriendship( BigListInfo* bigListInfo, bool isMember = true );
 
 	bool				        fromGuiDeleteUser( VxGUID& onlineId );
-
-    //! update which list person is in
-    void						updateVectorList( enum EFriendState oldFriendship, BigListInfo * poInfo ) override;
 
 protected:
 

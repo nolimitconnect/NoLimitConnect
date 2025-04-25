@@ -89,24 +89,24 @@ public:
 	void						fillOfferFromPkt( OfferBaseInfo& assetInfo );
 
 private:
-	uint16_t					m_OfferType;
+	uint16_t					m_OfferType{ 0 };
 	VxGUID						m_OfferId;
 	VxGUID						m_CreatorId;
 	VxGUID						m_HistoryId; 
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxSha1Hash					m_OfferHashId;
-	uint32_t					m_u32Error; 
-	int64_t						m_s64OfferLen;
-	int64_t						m_s64OfferOffs;
-	uint32_t					m_CreationTime;
-	uint16_t					m_OfferNameLen;
-	uint16_t					m_OfferTagLen;
+	uint32_t					m_u32Error{ 0 };
+	int64_t						m_s64OfferLen{ 0 };
+	int64_t						m_s64OfferOffs{ 0 };
+	uint32_t					m_CreationTime{ 0 };
+	uint16_t					m_OfferNameLen{ 0 };
+	uint16_t					m_OfferTagLen{ 0 };
 
-	uint32_t					m_u32Res1; 
-	uint32_t					m_u32Res2; 
-	uint32_t					m_u32Res3; 
-	uint32_t					m_u32Res4; 
+	uint32_t					m_u32Res1{ 0 };
+	uint32_t					m_u32Res2{ 0 };
+	uint32_t					m_u32Res3{ 0 };
+	uint32_t					m_u32Res4{ 0 };
 	char						m_OfferNameAndTag[ PKT_TYPE_OFFER_MAX_NAME_AND_TAG_LEN ];
 };
 
@@ -133,16 +133,16 @@ public:
 	bool						getRequiresFileXfer( void )						{ return m_u8RequiresFileXfer ? true : false; }
 
 private:
-	uint8_t						m_u8RequiresFileXfer;
-	uint8_t						m_u8Res;
-	uint16_t					m_u16Res; 
-	int64_t						m_s64OfferOffs;
+	uint8_t						m_u8RequiresFileXfer{ 0 };
+	uint8_t						m_u8Res{ 0 };
+	uint16_t					m_u16Res{ 0 };
+	int64_t						m_s64OfferOffs{ 0 };
 	VxGUID						m_OfferId;
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
-	uint32_t					m_u32Error; 
-	uint32_t					m_u32Res1;
-	uint32_t					m_u32Res2; 
+	uint32_t					m_u32Error{ 0 };
+	uint32_t					m_u32Res1{ 0 };
+	uint32_t					m_u32Res2{ 0 };
 };
 
 //============================================================================
@@ -168,12 +168,12 @@ public:
 	uint32_t					getError( void )								{ return ntohl( m_u32Error ); }
 
 private:
-	uint16_t					m_u16Res;
-	uint16_t					m_u16OfferChunkLen;
+	uint16_t					m_u16Res{ 0 };
+	uint16_t					m_u16OfferChunkLen{ 0 };
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
-	uint32_t					m_u32Error; 
-	uint32_t					m_u32Res1; 
+	uint32_t					m_u32Error{ 0 };
+	uint32_t					m_u32Res1{ 0 };
 public:
 	uint8_t						m_au8OfferChunk[ PKT_TYPE_OFFER_MAX_DATA_LEN ];
 };
@@ -195,11 +195,11 @@ public:
 	uint32_t					getError( void )								{ return ntohl( m_u32Error ); }
 
 private:
-	uint16_t					m_u16Res;	
-	uint16_t					m_u16OfferChunkLen;
+	uint16_t					m_u16Res{ 0 };	
+	uint16_t					m_u16OfferChunkLen{ 0 };
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
-	uint32_t					m_u32Error; 
+	uint32_t					m_u32Error{ 0 }; 
 };
 
 //============================================================================
@@ -225,8 +225,8 @@ private:
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_OfferId;
-	uint32_t					m_u32Error; 
-	uint32_t					m_u32Res1; 
+	uint32_t					m_u32Error{ 0 };
+	uint32_t					m_u32Res1{ 0 };
 };
 
 class PktOfferSendCompleteReply : public VxPktHdr
@@ -249,8 +249,8 @@ private:
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
 	VxGUID						m_OfferId;
-	uint32_t					m_u32Error; 
-	uint32_t					m_u32Res1; 
+	uint32_t					m_u32Error{ 0 };
+	uint32_t					m_u32Res1{ 0 };
 };
 
 //============================================================================
@@ -261,7 +261,7 @@ class PktOfferXferErr : public VxPktHdr
 public:
 	PktOfferXferErr();
 
-	const char*				describeError();
+	const char*					describeError();
 
 	void						setRxInstance( VxGUID& instanceGuid )			{ m_RxOfferInstance = instanceGuid; }
 	VxGUID& 					getRxInstance( void )							{ return m_RxOfferInstance; }
@@ -272,16 +272,16 @@ public:
 	uint16_t					getError( void )								{ return ntohs( m_u16Err ); }
 
 private:
-	uint16_t					m_u16Err;
-	uint16_t					m_u16Res1;
-	uint32_t					m_u32ResP1;
-	uint32_t					m_u32ResP2;
-	uint32_t					m_u32ResP3;
+	uint16_t					m_u16Err{ 0xffff };
+	uint16_t					m_u16Res1{ 0 };
+	uint32_t					m_u32ResP1{ 0 };
+	uint32_t					m_u32ResP2{ 0 };
+	uint32_t					m_u32ResP3{ 0 };
 
 	VxGUID						m_RxOfferInstance; 
 	VxGUID						m_TxOfferInstance; 
-	uint32_t					m_u32Res1; 
-	uint32_t					m_u32Res2;
+	uint32_t					m_u32Res1{ 0 };
+	uint32_t					m_u32Res2{ 0 };
 };
 
 #pragma pack(pop)

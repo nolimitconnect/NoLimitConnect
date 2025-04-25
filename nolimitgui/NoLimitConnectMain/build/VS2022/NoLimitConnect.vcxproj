@@ -187,6 +187,7 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFileShareServerViewMine.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFriendList.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFriendRequest.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFriendRequestList.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGalleryEmoticon.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGalleryImage.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletGalleryThumb.cpp" />
@@ -332,6 +333,10 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiFavoriteMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiFileXferMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiFileXferSession.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequest.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequestListItem.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequestListWidget.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequestMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiGroupie.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiGroupieListItem.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiGroupieListMgr.cpp" />
@@ -617,6 +622,7 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendRequest.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseHostAdminOrSearch.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseHost.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendRequestList.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />
@@ -639,6 +645,11 @@ libass.lib;libpcre.lib
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiFavoriteMgr.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiFileXferMgr.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiFileXferSession.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequest.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequestCallback.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequestMgr.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequestListItem.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequestListWidget.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiGroupie.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiGroupieListCallback.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiGroupieListItem.h" />
@@ -984,6 +995,7 @@ libass.lib;libpcre.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletFileShareClientView.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletFriendList.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletFriendRequest.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletFriendRequestList.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGalleryEmoticon.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGalleryImage.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGalleryThumb.ui" />
@@ -1072,6 +1084,7 @@ libass.lib;libpcre.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\FileShareItemWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\FileXferWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\FriendListDlg.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\GuiFriendRequestWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\GuiGroupieListItem.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\GuiHostedListItem.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\GuiUserMultiListWidget.ui" />

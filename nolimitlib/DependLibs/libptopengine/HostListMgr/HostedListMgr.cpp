@@ -200,7 +200,7 @@ void HostedListMgr::wantHostedListCallback( HostedListCallbackInterface* client,
 
     if( enable )
     {
-        m_HostedInfoListClients.push_back( client );
+        m_HostedInfoListClients.emplace_back( client );
     }
 
     unlockClientList();

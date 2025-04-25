@@ -18,24 +18,27 @@
 #include "AppletAboutUser.h"
 #include "AppletCamClient.h"
 #include "AppletFileShareClientView.h"
+#include "AppletFriendRequest.h"
 #include "AppletPeerChangeFriendship.h"
 #include "AppletPeerTodGame.h"
 #include "AppletPeerVideoPhone.h"
 #include "AppletPeerVoicePhone.h"
 #include "AppletStoryboardClient.h"
 
-#include "FileShareItemWidget.h"
-#include "MyIcons.h"
+
 #include "AppGlobals.h"
 #include "AppletMgr.h"
 #include "FileItemInfo.h"
 #include "FileActionMenu.h"
+#include "FileShareItemWidget.h"
+#include "GuiFavoriteMgr.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 #include "GuiGroupieListSession.h"
 #include "GuiHostSession.h"
 #include "GuiHostedListSession.h"
 #include "BottomBarWidget.h"
+#include "MyIcons.h"
 #include "TitleBarWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -274,10 +277,13 @@ void AppletPopupMenu::showFriendMenu( GuiUser* poSelectedFriend, bool inGroup )
 
 	addSetUnsetPreferredMenuItem( (int)eMaxPluginType + 2, m_SelectedFriend->getMyOnlineId() );
 	addChangeFriendshipMenuItem( (int)eMaxPluginType + 3 );
-	addUserDetailsMenuItem( (int)eMaxPluginType + 4, m_SelectedFriend );
+
+	addFriendRequestMenuItem( (int)eMaxPluginType + 4, m_SelectedFriend );
+	addUserDetailsMenuItem( (int)eMaxPluginType + 5, m_SelectedFriend );
+
 
 #if defined(DEBUG)
-	addMenuItem( (int)eMaxPluginType + 5, getMyIcons().getIcon( eMyIconDebug ), QObject::tr( "Delete User From Database" ) );
+	addMenuItem( (int)eMaxPluginType + 6, getMyIcons().getIcon( eMyIconDebug ), QObject::tr( "Delete User From Database" ) );
 #endif // defined(DEBUG)
 }
 
@@ -384,11 +390,15 @@ void AppletPopupMenu::onFriendActionSelected( int iMenuId )
 		launchChangeFriendship(m_SelectedFriend);
 		break;
 
-	case eMaxPluginType + 4: // user details
+	case eMaxPluginType + 4: // send friend request
+		launchSendFriendRequest(m_SelectedFriend);
+		break;
+
+	case eMaxPluginType + 5: // user details
 		launchUserDetails();
 		break;
 
-	case eMaxPluginType + 5: // debug only .. delete user
+	case eMaxPluginType + 6: // debug only .. delete user
 		m_MyApp.getUserMgr().deleteUser( m_SelectedFriend, getParentPageFrame() );
 		break;
 
@@ -818,6 +828,38 @@ void AppletPopupMenu::launchChangeFriendship( GuiUser* selectedFriend )
 	if( applet )
 	{
 		applet->setFriend( selectedFriend );
+	}
+}
+
+//============================================================================
+void AppletPopupMenu::addFriendRequestMenuItem( int menuId, GuiUser* guiUser )
+{
+	if( guiUser->getHisFriendshipToMe() < eFriendStateFriend ) // && eFriendStateIgnore != guiUser->getPluginPermission( ePluginTypeFriendRequest ) )
+	{
+		addMenuItem( menuId, getMyIcons().getIcon( eMyIconFriendJoined ), QObject::tr( "Friendship Request" ) );
+	}
+}
+
+//============================================================================
+void AppletPopupMenu::launchSendFriendRequest( GuiUser* selectedFriend )
+{
+	if( !selectedFriend )
+	{
+		LogMsg( LOG_ERROR, "AppletPopupMenu::%s null selectedFriend", __func__ );
+		vx_assert( false );
+		return;
+	}
+
+	if( selectedFriend->getMyFriendshipToHim() < eFriendStateFriend )
+	{
+		okMessageBox( QObject::tr( "Friendship Request" ), QObject::tr( "To send a frienship request you must set ") + selectedFriend->getOnlineName().c_str() + QObject::tr(" as friend or higher first"));
+		return;
+	}
+
+	AppletFriendRequest * applet = dynamic_cast<AppletFriendRequest*>(m_MyApp.launchApplet( eAppletFriendRequest, getParentPageFrame() ));
+	if( applet )
+	{
+		applet->friendRequestSetup( selectedFriend->getMyOnlineId(), false );
 	}
 }
 

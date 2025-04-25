@@ -53,7 +53,7 @@ namespace
 	std::string			g_strAppTempDir                 = "";
 	std::string			g_strAppLogsDir                 = "";
 	std::string			g_strAppNoLimitDataDir          = "";
-    std::string			g_strPlayerNlcDataDir          = "";
+    std::string			g_strPlayerNlcDataDir           = "";
 
     std::string			g_strFontsDir					= "";
 
@@ -90,6 +90,8 @@ namespace
         // default to no logging in release mode
 		bool			g_bIsDebugEnabled				= false;
 	#endif //	_DEBUG
+
+	bool				g_bShowMyselfInLists			= false;
 }
 
 //============================================================================
@@ -580,4 +582,16 @@ void VxSetMaxMessageHistory( int16_t maxHistory )
 int32_t VxGetMaxMessageHistory( void )
 {
 	return g_MaxMessageHistory;
+}
+
+//============================================================================
+void VxSetShowMyselfInLists( bool showMyself )
+{
+	g_bShowMyselfInLists = showMyself;
+}
+
+//============================================================================
+bool VxGetShowMyselfInLists( void )
+{
+	return g_bShowMyselfInLists;
 }

@@ -902,7 +902,7 @@ RCODE VxSktBase::txPacketWithDestId( VxPktHdr* pktHdr, bool sktMgrLocked ) 		// 
     // filter out im alive packets to declutter long
     if( pktHdr->getPktType() != PKT_TYPE_IM_ALIVE_REPLY && pktHdr->getPktType() != PKT_TYPE_IM_ALIVE_REQ )
     {
-        LogModule( eLogPkt, LOG_VERBOSE, "skt num %d id %s send pkt %s to %s:%d src id %s dest id %s peer id %s", getSktNumber(),
+        if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "skt num %d id %s send pkt %s to %s:%d src id %s dest id %s peer id %s", getSktNumber(),
                 getSocketIdText().c_str(), pktHdr->describePktHdr().c_str(), m_strRmtIp.c_str(), m_RmtIp.getPort(),
                 pktHdr->getSrcOnlineId().toOnlineIdString().c_str(), pktHdr->getDestOnlineId().toOnlineIdString().c_str(),
 				getPeerOnlineId().isVxGUIDValid() ? getPeerOnlineId().toOnlineIdString().c_str() : "0" );
@@ -910,7 +910,7 @@ RCODE VxSktBase::txPacketWithDestId( VxPktHdr* pktHdr, bool sktMgrLocked ) 		// 
 
 	if( getPeerOnlineId().isVxGUIDValid() && getPeerOnlineId() != pktHdr->getDestOnlineId() )
 	{
-		LogModule( eLogPkt, LOG_WARN, "pkt %s will be relayed if possible", pktHdr->describePktHdr().c_str() );
+		if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_WARN, "pkt %s will be relayed if possible", pktHdr->describePktHdr().c_str() );
 	}
 
 	return txEncrypted( (const char*)pktHdr, pktHdr->getPktLength(), sktMgrLocked );

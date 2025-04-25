@@ -99,9 +99,11 @@ protected:
 	void						addChangeFriendshipMenuItem( int menuId );
 	void						addSetUnsetPreferredMenuItem( int menuId, VxGUID onlineId );
 	void						addUserDetailsMenuItem( int menuId, GuiUser* guiUser );
+	void						addFriendRequestMenuItem( int menuId, GuiUser* guiUser );
 
 	void						launchChangeFriendship( GuiUser* selectedFriend );
 	void						launchUserDetails( void );
+	void						launchSendFriendRequest( GuiUser* selectedFriend );
 
 	bool						isMyAccessAllowed( GuiUser* guiUser, EPluginType pluginType, bool inGroup );
 

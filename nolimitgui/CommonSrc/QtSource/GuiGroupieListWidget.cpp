@@ -49,10 +49,10 @@ GuiGroupieListItem* GuiGroupieListWidget::sessionToWidget( GuiGroupieListSession
 
     groupieItem->setHostSession( groupieSession );
 
-    connect( groupieItem, SIGNAL( signalGuiGroupieListItemClicked(QListWidgetItem*) ),	    this, SLOT( slotGuiGroupieListItemClicked(QListWidgetItem*) ) );
-    connect( groupieItem, SIGNAL( signalIconButtonClicked(GuiGroupieListItem*) ),	        this, SLOT( slotIconButtonClicked(GuiGroupieListItem*) ) );
-    connect( groupieItem, SIGNAL( signalFriendshipButtonClicked(GuiGroupieListItem*) ),     this, SLOT( slotFriendshipButtonClicked(GuiGroupieListItem*) ) );
-    connect( groupieItem, SIGNAL( signalMenuButtonClicked(GuiGroupieListItem*) ),	        this, SLOT( slotMenuButtonClicked(GuiGroupieListItem*) ) );
+    connect( groupieItem, SIGNAL(signalGuiGroupieListItemClicked(QListWidgetItem*)),	this, SLOT(slotGuiGroupieListItemClicked(QListWidgetItem*)) );
+    connect( groupieItem, SIGNAL(signalIconButtonClicked(GuiGroupieListItem*)),	        this, SLOT(slotIconButtonClicked(GuiGroupieListItem*)) );
+    connect( groupieItem, SIGNAL(signalFriendshipButtonClicked(GuiGroupieListItem*)),   this, SLOT(slotFriendshipButtonClicked(GuiGroupieListItem*)) );
+    connect( groupieItem, SIGNAL(signalMenuButtonClicked(GuiGroupieListItem*)),	        this, SLOT(slotMenuButtonClicked(GuiGroupieListItem*)) );
 
     groupieItem->updateWidgetFromInfo();
 

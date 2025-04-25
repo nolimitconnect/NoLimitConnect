@@ -46,9 +46,6 @@ public:
     void                        setHostAdminId( GroupieId& adminId )        { m_HostAdminId = adminId; };
     GroupieId&                  getHostAdminId( void )                      { return m_HostAdminId; };
 
-    void                        setAllowMyselfInList( bool allowMyself )    { m_AllowMyselfInList = allowMyself; };
-    bool                        getAllowMyselfInList( void )                { return m_AllowMyselfInList; };
-
     void                        clearUserList( void );
     void                        disconnectUserUpdates( void );
 

@@ -138,11 +138,11 @@ protected:
     uint8_t                     m_PastEnd{ 0 };  
     uint8_t                     m_DataVersion{ 0 };     // can be set by caller for versioning
     uint16_t                    m_DataType{ 0 };        // can be set by caller for the type of data contained in blob
-    int16_t                     m_DataIdx{ 0 };
+    uint16_t                    m_DataIdx{ 0 };
     // 8 bytes to here
-    int16_t                     m_BlobLen{ 0 };
-    int16_t                     m_MaxBlobLen{ PKT_BLOB_MAX_STORAGE_LEN };
-    int32_t                     m_BlobRes3{ 0 };        // reserved for alignment
+    uint16_t                    m_BlobLen{ 0 };
+    uint16_t                    m_MaxBlobLen{ PKT_BLOB_MAX_STORAGE_LEN };
+    uint32_t                    m_BlobRes3{ 0 };        // reserved for alignment
     // 16 bytes to here
 
     uint8_t                     m_BlobData[PKT_BLOB_MAX_STORAGE_LEN + 16];

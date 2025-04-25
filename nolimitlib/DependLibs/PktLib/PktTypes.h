@@ -203,9 +203,12 @@
 
 #define PKT_TYPE_RAND_CONNECT_REQ					( PKT_TYPE_STREAM_CTRL_REPLY + 1 ) 				// 150 ( 0x96 )		
 #define PKT_TYPE_RAND_CONNECT_REPLY					( PKT_TYPE_RAND_CONNECT_REQ	+ 1 ) 				// 151 ( 0x97 )	
+// 151 ( 0x97 )                                                                              	
+#define PKT_TYPE_FRIEND_REQUEST_REQ		            ( PKT_TYPE_RAND_CONNECT_REPLY + 1 )	            // 152 ( 0x98 )
+#define PKT_TYPE_FRIEND_REQUEST_REPLY				( PKT_TYPE_FRIEND_REQUEST_REQ + 1 )	            // 153 ( 0x99 )
 
 																									
-#define MAX_PKT_TYPE_CNT							( PKT_TYPE_RAND_CONNECT_REPLY + 1 ) // 152
+#define MAX_PKT_TYPE_CNT							( PKT_TYPE_FRIEND_REQUEST_REPLY + 1 ) // 154
 																									
 #define ROUND_TO_16BYTE_BOUNDRY( a ) (( a + 15 ) & ~15 )	// round up to even 16 byte boundary		
 #define ROUND_TO_4BYTE_BOUNDRY( a ) (( a + 3 ) & ~3 )	    // round up to even 4 byte boundary		

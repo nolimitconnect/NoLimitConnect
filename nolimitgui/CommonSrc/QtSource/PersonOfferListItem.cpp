@@ -21,8 +21,8 @@
 VxPushButton*               PersonOfferListItem::getIdentAvatarButton( void )       { return ui.m_AvatarButton; }
 VxPushButton*               PersonOfferListItem::getIdentFriendshipButton( void )   { return ui.m_FriendshipButton; }
 VxPushButton*               PersonOfferListItem::getIdentMenuButton( void )         { return ui.m_MenuButton; }
-VxPushButton*               PersonOfferListItem::getAcceptButton( void )                     { return ui.m_AcceptButton; }
-VxPushButton*               PersonOfferListItem::getRejectButton( void )                     { return ui.m_RejectButton; }
+VxPushButton*               PersonOfferListItem::getAcceptButton( void )            { return ui.m_AcceptButton; }
+VxPushButton*               PersonOfferListItem::getRejectButton( void )            { return ui.m_RejectButton; }
 
 QLabel*                     PersonOfferListItem::getIdentLine1( void )              { return ui.m_TitlePart1; }
 QLabel*                     PersonOfferListItem::getIdentLine2( void )              { return ui.m_Line2Label; }

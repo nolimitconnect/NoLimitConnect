@@ -12,6 +12,7 @@
 
 #include "AppCommon.h"
 #include "AppletPeerChangeFriendship.h"
+#include "GuiFavoriteMgr.h"
 #include "GuiGroupie.h"
 #include "GuiHelpers.h"
 #include "GuiUser.h"
@@ -175,13 +176,6 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 	{	
 		if( guiUser->getNetIdent().isValidNetIdent() )
 		{
-			//if( ShouldDebugUser( guiUser->getOnlineName().c_str() ) )
-			//{
-			//	LogModule( eLogUserEvent, LOG_VERBOSE, " IdentLogicInterface::updateIdentity %s %s my friendship %s his friendship %s",
-			//			   guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str(),
-			//			   DescribeFriendState( guiUser->getMyFriendshipToHim() ), DescribeFriendState( guiUser->getHisFriendshipToMe() ) );
-			//}
-
 			if( !m_GuiUser  )
 			{
 				wantPushToTalkCallbacks( true );
@@ -205,7 +199,7 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 			getIdentLine2()->setText( m_GuiUser->getOnlineDescription().c_str() );
 			getIdentFriendshipButton()->setIcon( m_MyApp.getMyIcons().getFriendshipIcon( m_GuiUser->getMyFriendshipToHim() ) );
 
-			if( m_GuiUser->getMyFriendshipToHim() == eFriendStateFriend && m_GuiUser->getHisFriendshipToMe() == eFriendStateFriend )
+			if( m_GuiUser->getMyFriendshipToHim() >= eFriendStateFriend && m_GuiUser->getHisFriendshipToMe() >= eFriendStateFriend )
 			{
 				getIdentFriendshipButton()->setIcon( eMyIconFriendJoined );
 			}

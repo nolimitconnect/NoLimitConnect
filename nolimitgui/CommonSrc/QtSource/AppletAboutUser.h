@@ -28,6 +28,8 @@ public:
 
     void                        setUser( GuiUser* guiUser ) override;
 
+    void                        setUserMessage( QString userMsg );
+
 protected:
     void                        fillUserDetails( GuiUser* guiUser );
     QPlainTextEdit *            getInfoEdit( void );

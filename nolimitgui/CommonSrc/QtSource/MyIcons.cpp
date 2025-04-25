@@ -456,8 +456,6 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 
 	case eMyIconSendArrowNormal:
 		return ":/AppRes/Resources/send.svg";
-	case eMyIconSendArrowDisabled:
-		return ":/AppRes/Resources/send.svg";
 	case eMyIconSendArrowCancel:
 		return ":/AppRes/Resources/x-overlay.svg";;
 
@@ -873,6 +871,9 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 
 	case eMyIconUserConnections:
 		return ":/AppRes/Resources/user-connections.svg";
+
+	case eMyIconFriendRequestList:
+		return ":/AppRes/Resources/friend-request-list.svg";
 
 	default:
 		return ":/AppRes/Resources/question-mark.svg";// Icon with question mark

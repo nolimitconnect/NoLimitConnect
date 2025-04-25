@@ -350,5 +350,6 @@
         <file>Resources/arial.ttf</file>
         <file>Resources/teletext.ttf</file>
         <file>Resources/ic_cam_disabled.png</file>
+        <file>Resources/friend-request-list.svg</file>
     </qresource>
 </RCC>

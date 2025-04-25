@@ -10,6 +10,7 @@
 
 #include "P2PEngine.h"
 
+#include <FriendRequestMgr/FriendRequestMgr.h>
 #include <Membership/MemberActiveMgr.h>
 #include <OfferBase/OfferMgr.h>
 #include <PushToTalk/PushToTalkMgr.h>
@@ -33,6 +34,7 @@ P2PEngine& GetPtoPEngine()
     static PushToTalkMgr pushToTalkMgr;
     static RandConnectMgr randConnectMgr;
     static SendQueueMgr sendQueueMgr;
-    static P2PEngine g_P2PEngine( GetVxPeerMgr(), memberActiveMgr, offerMgr, pushToTalkMgr, randConnectMgr, sendQueueMgr );
+    static FriendRequestMgr friendRequstMgr;
+    static P2PEngine g_P2PEngine( GetVxPeerMgr(), memberActiveMgr, offerMgr, pushToTalkMgr, randConnectMgr, sendQueueMgr, friendRequstMgr );
     return g_P2PEngine;
 }

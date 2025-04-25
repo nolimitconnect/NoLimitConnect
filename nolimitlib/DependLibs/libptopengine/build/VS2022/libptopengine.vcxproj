@@ -526,6 +526,8 @@
     <ClCompile Include="..\..\ConnectMgr\ConnectInfo.cpp" />
     <ClCompile Include="..\..\ConnectMgr\ConnectInfoDb.cpp" />
     <ClCompile Include="..\..\ConnectMgr\ConnectMgr.cpp" />
+    <ClCompile Include="..\..\FriendRequestMgr\FriendRequestInfo.cpp" />
+    <ClCompile Include="..\..\FriendRequestMgr\FriendRequestMgr.cpp" />
     <ClCompile Include="..\..\FromGuiMgr\FromGuiAction.cpp" />
     <ClCompile Include="..\..\FromGuiMgr\FromGuiMgr.cpp" />
     <ClCompile Include="..\..\GroupieListMgr\GroupieInfo.cpp" />
@@ -777,6 +779,9 @@
     <ClInclude Include="..\..\ConnectMgr\ConnectInfo.h" />
     <ClInclude Include="..\..\ConnectMgr\ConnectInfoDb.h" />
     <ClInclude Include="..\..\ConnectMgr\ConnectMgr.h" />
+    <ClInclude Include="..\..\FriendRequestMgr\FriendRequestCallbackInterface.h" />
+    <ClInclude Include="..\..\FriendRequestMgr\FriendRequestInfo.h" />
+    <ClInclude Include="..\..\FriendRequestMgr\FriendRequestMgr.h" />
     <ClInclude Include="..\..\FromGuiMgr\FromGuiAction.h" />
     <ClInclude Include="..\..\FromGuiMgr\FromGuiMgr.h" />
     <ClInclude Include="..\..\GroupieListMgr\GroupieInfo.h" />

@@ -259,7 +259,7 @@ void PluginBaseHostClient::onGroupRelayedUserAnnounce( GroupieId& groupieId, std
 //============================================================================
 void PluginBaseHostClient::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostJoinReply %s", pktHdr->describePktHdr().c_str() );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostJoinReply %s", pktHdr->describePktHdr().c_str() );
     PktHostJoinReply* pktReply = (PktHostJoinReply*)pktHdr;
     GroupieId userGroupieId = pktReply->getGroupieId();
     LogModule( eLogMembership, LOG_VERBOSE, "PluginBaseHostClient::onPktHostJoinReply %s", m_Engine.describeGroupieId(userGroupieId).c_str() );
@@ -269,7 +269,7 @@ void PluginBaseHostClient::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBa
 //============================================================================
 void PluginBaseHostClient::onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostLeaveReply %s", pktHdr->describePktHdr().c_str() );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostLeaveReply %s", pktHdr->describePktHdr().c_str() );
     PktHostLeaveReply* pktReply = (PktHostLeaveReply*)pktHdr;
     GroupieId userGroupieId = pktReply->getGroupieId();
     LogModule( eLogMembership, LOG_VERBOSE, "PluginBaseHostClient::onPktHostLeaveReply %s", m_Engine.describeGroupieId(userGroupieId).c_str() );
@@ -279,65 +279,65 @@ void PluginBaseHostClient::onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktB
 //============================================================================
 void PluginBaseHostClient::onPktHostUnJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostUnJoinReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostUnJoinReply" );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktHostOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostOfferReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostOfferReply" );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktHostInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostInfoReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostInfoReply" );
     m_Engine.getHostedListMgr().onPktHostInfoReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktHostSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostSearchReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostSearchReply" );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktGroupieInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktGroupieInfoReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktGroupieInfoReply" );
     m_Engine.getGroupieListMgr().onPktGroupieInfoReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktGroupieAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktGroupieAnnReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktGroupieAnnReply" );
     m_Engine.getGroupieListMgr().onPktGroupieAnnReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktGroupieSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktGroupieSearchReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktGroupieSearchReply" );
      m_Engine.getGroupieListMgr().onPktGroupieSearchReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktGroupieMoreReply ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktGroupieMoreReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktGroupieMoreReply" );
     m_Engine.getGroupieListMgr().onPktGroupieMoreReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostUserListReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostUserListReply" );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostUserListMoreReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostUserListMoreReply" );
 }
 

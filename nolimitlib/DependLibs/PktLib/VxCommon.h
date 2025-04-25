@@ -66,13 +66,16 @@ public:
     PluginPermission&           operator =( const PluginPermission &rhs );
 
     bool						isPluginEnabled( enum EPluginType ePlugin );
-	//! get type of permission user has set for given plugin
-    EFriendState				getPluginPermission( enum EPluginType pluginType, bool inGroup = false );
 	//! set type of permission user has set for given plugin
     void						setPluginPermission( enum EPluginType pluginType, enum EFriendState eFriendState );
+	//! get type of permission user has set for given plugin
+    EFriendState				getPluginPermission( enum EPluginType pluginType, bool inGroup = false );
+
+	void						setPluginPermissions( uint8_t * permissions )	{ memcpy( m_au8Permissions, permissions, PERMISSION_ARRAY_SIZE ); }
+	uint8_t *					getPluginPermissions( void )					{ return m_au8Permissions; }
+
 	//! reset permissions to default values
 	void						setPluginPermissionsToDefaultValues( void );
-	uint8_t *					getPluginPermissions( void )				{ return m_au8Permissions; }
 
 private:
 	//=== vars ===//

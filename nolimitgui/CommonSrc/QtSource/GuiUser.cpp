@@ -11,6 +11,7 @@
 #include "GuiUser.h"
 
 #include "AppCommon.h"
+#include "GuiFavoriteMgr.h"
 #include "GuiParams.h"
 #include "GuiUserMgr.h"
 

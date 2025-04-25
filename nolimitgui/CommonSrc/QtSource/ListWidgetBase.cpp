@@ -11,6 +11,7 @@
 #include "ListWidgetBase.h"
 #include "AppletPeerChangeFriendship.h"
 #include "AppCommon.h"
+#include "GuiHelpers.h"
 
 //============================================================================
 ListWidgetBase::ListWidgetBase( QWidget* parent )
@@ -27,7 +28,7 @@ ListWidgetBase::ListWidgetBase( QWidget* parent )
 //============================================================================
 void ListWidgetBase::launchChangeFriendship( GuiUser* guiUser )
 {
-    AppletPeerChangeFriendship* applet = dynamic_cast<AppletPeerChangeFriendship*>(m_MyApp.launchApplet( eAppletPeerChangeFriendship, dynamic_cast<QWidget*>(this->parent()) ));
+    AppletPeerChangeFriendship* applet = dynamic_cast<AppletPeerChangeFriendship*>(m_MyApp.launchApplet( eAppletPeerChangeFriendship, GuiHelpers::findParentPage( dynamic_cast<QWidget*>(this->parent()) ) ));
     if( applet )
     {
         applet->setFriend( guiUser );

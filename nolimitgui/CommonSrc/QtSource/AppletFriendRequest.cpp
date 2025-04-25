@@ -11,8 +11,8 @@
 #include "AppletFriendRequest.h"
 
 #include "AppCommon.h"
-#include "GuiOfferSession.h"
 
+#include <P2PEngine/P2PEngine.h>
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
@@ -28,24 +28,53 @@ AppletFriendRequest::AppletFriendRequest(	AppCommon& app, QWidget* parent )
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
-	//ui.m_PermissionButton->setFixedSize( eButtonSizeMedium );
- //   ui.m_HangUpButton->setFixedSize( eButtonSizeMedium );
- //   ui.m_HangUpButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
-	//ui.m_HangUpButton->setIcon( eMyIconRedX );
-	//connect( ui.m_HangUpButton, SIGNAL(clicked()), this, SLOT(slotEndSession()) );
+    ui.m_AcceptFrame->setVisible( false );
+    ui.m_SendFrame->setVisible( false );
+
+    ui.m_AcceptButton->setFixedSize( eButtonSizeMedium );
+    ui.m_RejectButton->setFixedSize( eButtonSizeMedium );
+    ui.m_SendButton->setFixedSize( eButtonSizeMedium );
+    ui.m_CancelButton->setFixedSize( eButtonSizeMedium );
+
+	ui.m_AcceptButton->setIcon( eMyIconCheckMark );
+    ui.m_SendButton->setIcon( eMyIconSendArrowNormal );
+	ui.m_AcceptButton->setIconOverrideColor( m_MyApp.getAppTheme().getAcceptColor() );
+	ui.m_SendButton->setIconOverrideColor( m_MyApp.getAppTheme().getAcceptColor() );
+
+	ui.m_RejectButton->setIcon( eMyIconRedX );
+    ui.m_CancelButton->setIcon( eMyIconRedX );
+	ui.m_RejectButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
+	ui.m_CancelButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
+
+	connect( ui.m_ClipboardPasteWidget, SIGNAL(signalClipboardPaste(QString)), this, SLOT(slotPaste(QString)) );
+	connect( ui.m_ClipboardCopyWidget, SIGNAL(clicked()), this, SLOT(slotCopy()) );
+
+	connect( ui.m_SendButton, SIGNAL(clicked()), this, SLOT(slotSend()) );
+	connect( ui.m_CancelButton, SIGNAL(clicked()), this, SLOT(slotCancel()) );
+	connect( ui.m_AcceptButton, SIGNAL(clicked()), this, SLOT(slotAccept()) );
+	connect( ui.m_RejectButton, SIGNAL(clicked()), this, SLOT(slotReject()) );
 }
 
 //============================================================================
-//! called by base class with in session state
-void AppletFriendRequest::onInSession( bool isInSession )
+void AppletFriendRequest::friendRequestSetup( VxGUID onlineId, bool isAccept )
 {
-	if( isInSession )
+	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( onlineId, true );
+	if( !guiUser )
 	{
-		setStatusText( QObject::tr( "In Voice Phone Session" ) );
+		okMessageBox( QObject::tr( "User not found" ), QObject::tr( "No user found with id ") + QString( onlineId.toOnlineIdString().c_str() ) );	
+		return;
+	}
+
+	m_GuiUser = guiUser;
+	ui.m_IdentWidget->updateIdentity( guiUser );
+	m_IsAccept = isAccept;
+	if( m_IsAccept )
+	{
+		ui.m_AcceptFrame->setVisible( true );
 	}
 	else
 	{
-		setStatusText( QObject::tr( "Voice Phone Session Ended" ) );
+		ui.m_SendFrame->setVisible( true );
 	}
 }
 
@@ -67,22 +96,53 @@ void AppletFriendRequest::callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType p
 }
 
 //============================================================================
-void AppletFriendRequest::onOfferWasSet( void )
+void AppletFriendRequest::slotPaste( QString pasteText )
 {
-	//OfferBaseInfo& offerInfo = getOfferInfo();
-	//GuiUser* guiUser = m_MyApp.getUserMgr().getUser( offerInfo.getFromOnlineId() );
-	//if( guiUser )
-	//{
-	//	setupBaseWidgets( guiUser, ui.m_FriendIdentWidget, ui.m_PermissionButton, ui.m_PermissionLabel );
-	//}
-	//else
-	//{
-	//	LogMsg( LOG_ERROR, "AppletFriendRequest::%s user not found %s", __func__ );
-	//}
+	ui.m_RequestTextEdit->clear();
+	ui.m_RequestTextEdit->appendPlainText( pasteText );
 }
 
 //============================================================================
-void AppletFriendRequest::onStateTextChanged( QString& stateText )
+void AppletFriendRequest::slotCopy( void )
 {
-	//ui.m_StateText->setText( stateText );
+	ui.m_ClipboardCopyWidget->copyToClipboard( ui.m_RequestTextEdit->toPlainText() );
 }
+
+//============================================================================
+void AppletFriendRequest::slotSend( void )
+{
+	std::string requestText = ui.m_RequestTextEdit->toPlainText().toUtf8().constData();
+	if( requestText.empty() )
+	{
+		okMessageBox( QObject::tr( "Friend Request" ), QObject::tr( "Friend Request requires a message with request reason" ) );
+		return;
+	}
+
+	if( !m_MyApp.getEngine().fromGuiSendFriendRequest( m_GuiUser->getMyOnlineId(), requestText, m_GuiUser->getMyFriendshipToHim() ) )
+	{
+		okMessageBox( QObject::tr( "Friend Request Send Failed" ), QObject::tr( "Friend Request Send Failed" ) );
+	}
+	else
+	{
+		okMessageBox( QObject::tr( "Friend Request Sent" ), QObject::tr( "Friend Request was sent" ) );
+	}
+}
+
+//============================================================================
+void AppletFriendRequest::slotCancel( void )
+{
+	close();
+}
+
+//============================================================================
+void AppletFriendRequest::slotAccept( void )
+{
+
+}
+
+//============================================================================
+void AppletFriendRequest::slotReject( void )
+{
+
+}
+

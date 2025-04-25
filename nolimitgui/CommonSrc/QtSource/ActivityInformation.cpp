@@ -365,8 +365,11 @@ QString ActivityInformation::m_OfflineList( QObject::tr(
 QString ActivityInformation::m_UserHostRequrements( QObject::tr(
     "=== Hosting Requirements any of these host services Chat Room, Group, Random Connect ===\n"
     "You will need to port forward the listen port you specified in Network Settings\n"
-    "Articles about port forwarding can be found by search engine or at https://www.jguru.com/vpn-port-forwarding \n"
-    "The author of No Limit Connect used PureVPN because it has port forwarding and also fixed ip address (additional costs of course)  .\n"
+    "The author of No Limit Connect uses https://hide.me VPN because:\n"
+    "1. hide.me understands UPNP protocol which allows No Limit Connect to open a port automatically.\n"
+    "2. hide.me can be installed on pretty much any OS including Windows, Linux, Android and Raspberry Pi.\n"
+    "3. hide.me has a free version but is relatively inexpensive to buy.\n"
+    "Articles about port forwarding can be found by search engine or at https://www.jguru.com/vpn-port-forwarding \n"   
 ) );
 
 QString ActivityInformation::m_NetworkHostRequrements( QObject::tr(

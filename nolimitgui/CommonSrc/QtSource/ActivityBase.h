@@ -157,8 +157,7 @@ public:
 	void						setCameraButtonVisibility( bool visible );
 	void						setCamPreviewVisibility( bool visible );
 	void						setCamViewerCountVisibility( bool visible );
-	void						setTrashButtonVisibility( bool visible );
-	void						setShareButtonVisibility( bool visible );
+
 	void						setMenuTopButtonVisibility( bool visible );
 	void						setMenuListButtonVisibility( bool visible );
 	void						setBackButtonVisibility( bool visible );
@@ -167,7 +166,7 @@ public:
 	void						setArrowLeftVisibility( bool visible );
 	void						set30SecBackwardVisibility( bool visible );
 	void						setMediaPlayVisibility( bool visible );
-	void						setMediaTrashVisibility( bool visible );
+
 	void						setMediaFileShareVisibility( bool visible );
 	void						setMediaLibraryVisibility( bool visible );
 	void						set30SecForwardVisibility( bool visible );
@@ -182,8 +181,7 @@ public:
 	virtual void				setMicrophoneIcon( EMyIcons myIcon = eMyIconMicrophoneOn );
 	virtual void				setSpeakerIcon( EMyIcons myIcon = eMyIconSpeakerOn );
 	virtual void				setCameraIcon( EMyIcons myIcon = eMyIconCameraNormal );
-	virtual void				setTrashButtonIcon( EMyIcons myIcon = eMyIconTrash );
-	virtual void				setShareButtonIcon( EMyIcons myIcon = eMyIconShare );
+
 	virtual void				setTopMenuButtonIcon( EMyIcons myIcon = eMyIconMenu );
 	virtual void				setBackButtonIcon( EMyIcons myIcon = eMyIconBack );
 	//=== bottom bar button icon ===// 
@@ -205,8 +203,7 @@ public:
 	virtual void				setMicrophoneColor( QColor iconColor );
 	virtual void				setSpeakerColor( QColor iconColor );
 	virtual void				setCameraColor( QColor iconColor );
-	virtual void				setTrashButtonColor( QColor iconColor );
-	virtual void				setShareButtonColor( QColor iconColor );
+
 	virtual void				setTopMenuButtonColor( QColor iconColor );
 	virtual void				setBackButtonColor( QColor iconColor );
 	//=== bottom bar button color ===// 
@@ -238,8 +235,7 @@ signals:
 	void						signalHomeButtonClicked( void );
 	void						signalCameraSnapshotButtonClicked( void );
 	void						signalCamPreviewClicked( void );
-	void						signalTrashButtonClicked( void );
-	void						signalShareButtonClicked( void );
+
 	void						signalMenuTopButtonClicked( void );
 	void						signalBackButtonClicked( void );
 	//=== bottom bar signals ===// 
@@ -281,8 +277,7 @@ protected slots:
 	virtual void				slotHomeButtonClicked( void );
 	virtual void				slotCameraSnapshotButtonClicked( void );
 	virtual void				slotCamPreviewClicked( void );
-	virtual void				slotTrashButtonClicked( void );
-	virtual void				slotShareButtonClicked( void );
+
 	virtual void				slotMenuTopButtonClicked( void );
 	virtual void				slotBackButtonClicked( void );
     virtual void				slotAppIconSpecialClick( void );

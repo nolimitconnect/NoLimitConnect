@@ -205,6 +205,9 @@
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="spacing">
+         <number>2</number>
+        </property>
         <property name="leftMargin">
          <number>5</number>
         </property>
@@ -214,7 +217,7 @@
         <item>
          <spacer name="horizontalSpacer_3">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -250,7 +253,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="m_MakeFriendLabel">
+         <widget class="VxLabel" name="m_MakeFriendLabel">
           <property name="text">
            <string>Make Friend</string>
           </property>
@@ -259,7 +262,7 @@
         <item>
          <spacer name="horizontalSpacer_6">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -289,7 +292,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="m_IgnoreLabel">
+         <widget class="VxLabel" name="m_IgnoreLabel">
           <property name="text">
            <string>Ignore</string>
           </property>
@@ -298,7 +301,7 @@
         <item>
          <spacer name="horizontalSpacer_4">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -537,7 +540,7 @@
         <item>
          <spacer name="horizontalSpacer">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -570,7 +573,7 @@
         <item>
          <spacer name="horizontalSpacer_2">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -603,7 +606,7 @@
         <item>
          <spacer name="horizontalSpacer_5">
           <property name="orientation">
-           <enum>Qt::Horizontal</enum>
+           <enum>Qt::Orientation::Horizontal</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -618,7 +621,7 @@
       <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
-         <enum>Qt::Vertical</enum>
+         <enum>Qt::Orientation::Vertical</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -637,7 +640,12 @@
   <customwidget>
    <class>VxPushButton</class>
    <extends>QPushButton</extends>
-   <header>VxPushButton.h</header>
+   <header location="global">VxPushButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VxLabel</class>
+   <extends>QLabel</extends>
+   <header>VxLabel.h</header>
   </customwidget>
   <customwidget>
    <class>IdentWidget</class>

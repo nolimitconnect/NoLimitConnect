@@ -95,6 +95,8 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletFileShareServerViewMine.h
     CommonSrc/QtSource/AppletFriendList.h
     CommonSrc/QtSource/AppletFriendRequest.h
+    CommonSrc/QtSource/AppletFriendRequestList.h
+
     CommonSrc/QtSource/AppletGalleryImage.h
     CommonSrc/QtSource/AppletGalleryEmoticon.h
     CommonSrc/QtSource/AppletGalleryThumb.h
@@ -246,6 +248,13 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/GuiFileXferMgr.h
     CommonSrc/QtSource/GuiFileXferSession.h
     CommonSrc/QtSource/GuiFavoriteMgr.h
+
+    CommonSrc/QtSource/GuiFriendRequest/GuiFriendRequest.h
+    CommonSrc/QtSource/GuiFriendRequest/GuiFriendRequestCallback.h
+    CommonSrc/QtSource/GuiFriendRequest/GuiFriendRequestListItem.h
+    CommonSrc/QtSource/GuiFriendRequest/GuiFriendRequestListWidget.h
+    CommonSrc/QtSource/GuiFriendRequest/GuiFriendRequestMgr.h
+
     CommonSrc/QtSource/GuiGroupie.h
     CommonSrc/QtSource/GuiGroupieListCallback.h
     CommonSrc/QtSource/GuiGroupieListItem.h
@@ -514,6 +523,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletFileShareServerViewMine.cpp
     CommonSrc/QtSource/AppletFriendList.cpp
     CommonSrc/QtSource/AppletFriendRequest.cpp
+    CommonSrc/QtSource/AppletFriendRequestList.cpp
 
     CommonSrc/QtSource/AppletGalleryImage.cpp
     CommonSrc/QtSource/AppletGalleryEmoticon.cpp
@@ -664,6 +674,12 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/GuiFileXferMgr.cpp
     CommonSrc/QtSource/GuiFileXferSession.cpp
     CommonSrc/QtSource/GuiFavoriteMgr.cpp
+    
+    CommonSrc/QtSource/GuiFriendRequest/GuiFriendRequest.cpp
+    CommonSrc/QtSource/GuiFriendRequest/GuiFriendRequestListItem.cpp
+    CommonSrc/QtSource/GuiFriendRequest/GuiFriendRequestListWidget.cpp
+    CommonSrc/QtSource/GuiFriendRequest/GuiFriendRequestMgr.cpp
+
     CommonSrc/QtSource/GuiGroupie.cpp
     CommonSrc/QtSource/GuiGroupieListItem.cpp
     CommonSrc/QtSource/GuiGroupieListMgr.cpp
@@ -885,6 +901,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/AppletFileShareClientView.ui
     CommonSrc/Forms/AppletFriendList.ui
     CommonSrc/Forms/AppletFriendRequest.ui
+    CommonSrc/Forms/AppletFriendRequestList.ui
     CommonSrc/Forms/AppletGalleryImage.ui
     CommonSrc/Forms/AppletGalleryEmoticon.ui
     CommonSrc/Forms/AppletGalleryThumb.ui
@@ -970,6 +987,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/FileShareItemWidget.ui
     CommonSrc/Forms/FileXferWidget.ui
     CommonSrc/Forms/FriendListDlg.ui
+    CommonSrc/Forms/GuiFriendRequestWidget.ui
     CommonSrc/Forms/GuiGroupieListItem.ui
     CommonSrc/Forms/GuiHostedListItem.ui
     CommonSrc/Forms/GuiUserMultiListWidget.ui

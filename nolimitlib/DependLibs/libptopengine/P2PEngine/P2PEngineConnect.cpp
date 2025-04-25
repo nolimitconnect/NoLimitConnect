@@ -146,7 +146,7 @@ bool P2PEngine::txPluginPkt( 	EPluginType			pluginType,
 	bool bSendSuccess = false;
 	if( 0 == (poPkt->getPktLength() & 0xf ) )
 	{
-        LogModule( eLogPkt, LOG_VERBOSE, "skt %d txPluginPkt %d", sktBase->m_SktNumber, poPkt->getPktType() );
+        if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "skt %d txPluginPkt %d", sktBase->m_SktNumber, poPkt->getPktType() );
 		if( sktBase->isConnected() && sktBase->isTxEncryptionKeySet() )
 		{
 			poPkt->setSrcOnlineId( m_PktAnn.getMyOnlineId() );

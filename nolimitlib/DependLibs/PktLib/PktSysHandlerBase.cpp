@@ -24,7 +24,7 @@ PktHandlerBase::PktHandlerBase()
 	}
 
 	int maxPktType = MAX_PKT_TYPE_CNT;
-    vx_assert( 152 == maxPktType );
+    vx_assert( 154 == maxPktType );
 
 	m_aBaseSysPktFuncTable[ 0 ] = &PktHandlerBase::onPktInvalid;
 
@@ -213,6 +213,9 @@ PktHandlerBase::PktHandlerBase()
 
 	m_aBaseSysPktFuncTable[ PKT_TYPE_RAND_CONNECT_REQ ]					= &PktHandlerBase::onPktRandConnectReq;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_RAND_CONNECT_REPLY ]				= &PktHandlerBase::onPktRandConnectReply;
+
+	m_aBaseSysPktFuncTable[ PKT_TYPE_FRIEND_REQUEST_REQ ]				= &PktHandlerBase::onPktFriendRequestReq;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_FRIEND_REQUEST_REPLY ]				= &PktHandlerBase::onPktFriendRequestReply;
 }
 
 //============================================================================
@@ -1143,6 +1146,18 @@ void PktHandlerBase::onPktRandConnectReq( std::shared_ptr<VxSktBase>& sktBase, V
 
 //============================================================================
 void PktHandlerBase::onPktRandConnectReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktFriendRequestReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	onPktUnhandled( sktBase, pktHdr );
+}
+
+//============================================================================
+void PktHandlerBase::onPktFriendRequestReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	onPktUnhandled( sktBase, pktHdr );
 }

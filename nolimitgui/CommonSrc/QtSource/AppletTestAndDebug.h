@@ -80,6 +80,8 @@ protected slots:
 
     void                        slotNewUrlSelected( int comboBoxIdx );
 
+    void                        slotShowMyselfClicked( void );
+
 protected:
     void						updateDlgFromSettings( void );
     void						updateSettingsFromDlg( void );

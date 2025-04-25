@@ -138,13 +138,12 @@ bool PluginMgr::pluginApiTxPacket(  EPluginType			pluginType,
     if( onlineId == m_Engine.getMyOnlineId() && sktBase->isLoopbackSocket() )
     {
         // destination is ourself
-        LogModule( eLogPkt, LOG_VERBOSE, "pluginApiTxPacket type %d len %d loopback %s", pktHdr->getPktType(), pktHdr->getPktLength(), DescribePluginType( pluginType ) );
+        if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "pluginApiTxPacket type %d len %d loopback %s", pktHdr->getPktType(), pktHdr->getPktLength(), DescribePluginType( pluginType ) );
         pktHdr->setDestOnlineId( onlineId );
-        sktBase->txPacketWithDestId( pktHdr );
-        return true;
+        return sktBase->txPacketWithDestId( pktHdr ) == 0;
     }
 
-    LogModule( eLogPkt, LOG_VERBOSE, "pluginApiTxPacket type %d len %d plugin %s to %s", pktHdr->getPktType(), pktHdr->getPktLength(), 
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "pluginApiTxPacket type %d len %d plugin %s to %s", pktHdr->getPktType(), pktHdr->getPktLength(), 
         DescribePluginType( pluginType ), sktBase->getRemoteIpAddress() );
     return m_Engine.getPeerMgr().txPacket( sktBase, onlineId, pktHdr );
 }

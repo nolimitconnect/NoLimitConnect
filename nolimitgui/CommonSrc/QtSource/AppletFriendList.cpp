@@ -305,4 +305,13 @@ void AppletFriendList::updateFriendList( EUserViewType listType, std::vector<std
     {
         updateUser( listType, identTimePair.first );
     }
+
+    if( VxGetShowMyselfInLists() )
+    {
+        GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_MyApp.getMyOnlineId() );
+        if( guiUser )
+        {
+            ui.m_UserListWidget->updateUser( guiUser );
+        }
+    }
 }

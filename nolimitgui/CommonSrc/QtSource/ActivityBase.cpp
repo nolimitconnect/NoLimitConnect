@@ -174,8 +174,6 @@ void ActivityBase::connectTitleBarWidget( TitleBarWidget * titleBar, bool remove
 		connect( titleBar, SIGNAL( signalHomeButtonClicked() ), this, SLOT( slotHomeButtonClicked() ) );
 		connect( titleBar, SIGNAL( signalCameraSnapshotButtonClicked() ), this, SLOT( slotCameraSnapshotButtonClicked() ) );
 		connect( titleBar, SIGNAL( signalCamPreviewClicked() ), this, SLOT( slotCamPreviewClicked() ) );
-		connect( titleBar, SIGNAL( signalTrashButtonClicked() ), this, SLOT( slotTrashButtonClicked() ) );
-		connect( titleBar, SIGNAL( signalShareButtonClicked() ), this, SLOT( slotShareButtonClicked() ) );
 		connect( titleBar, SIGNAL( signalMenuTopButtonClicked() ), this, SLOT( slotMenuTopButtonClicked() ) );
 		connect( titleBar, SIGNAL( signalBackButtonClicked() ), this, SLOT( slotBackButtonClicked() ) );
 		VxPushButton* titleButton = titleBar->getAppIconPushButton();
@@ -190,8 +188,6 @@ void ActivityBase::connectTitleBarWidget( TitleBarWidget * titleBar, bool remove
 		disconnect( titleBar, SIGNAL( signalHomeButtonClicked() ), this, SLOT( slotHomeButtonClicked() ) );
 		disconnect( titleBar, SIGNAL( signalCameraSnapshotButtonClicked() ), this, SLOT( slotCameraSnapshotButtonClicked() ) );
 		disconnect( titleBar, SIGNAL( signalCamPreviewClicked() ), this, SLOT( slotCamPreviewClicked() ) );
-		disconnect( titleBar, SIGNAL( signalTrashButtonClicked() ), this, SLOT( slotTrashButtonClicked() ) );
-		disconnect( titleBar, SIGNAL( signalShareButtonClicked() ), this, SLOT( slotShareButtonClicked() ) );
 		disconnect( titleBar, SIGNAL( signalMenuTopButtonClicked() ), this, SLOT( slotMenuTopButtonClicked() ) );
 		disconnect( titleBar, SIGNAL( signalBackButtonClicked() ), this, SLOT( slotBackButtonClicked() ) );
 		VxPushButton * titleButton = titleBar->getAppIconPushButton();
@@ -759,18 +755,6 @@ void ActivityBase::setCamViewerCountVisibility( bool visible )
 }
 
 //============================================================================
-void ActivityBase::setTrashButtonVisibility( bool visible )
-{
-	getTitleBarWidget()->setTrashButtonVisibility( visible );
-}
-
-//============================================================================
-void ActivityBase::setShareButtonVisibility( bool visible )
-{
-	getTitleBarWidget()->setShareButtonVisibility( visible );
-}
-
-//============================================================================
 void ActivityBase::setMenuTopButtonVisibility( bool visible )
 {
 	getTitleBarWidget()->setMenuTopButtonVisibility( visible );
@@ -806,12 +790,6 @@ void ActivityBase::set30SecBackwardVisibility( bool visible )
 void ActivityBase::setMediaPlayVisibility( bool visible )
 {
 	getBottomBarWidget()->setMediaPlayVisibility( visible );
-}
-
-//============================================================================
-void ActivityBase::setMediaTrashVisibility( bool visible )
-{
-	getBottomBarWidget()->setMediaTrashVisibility( visible );
 }
 
 //============================================================================
@@ -886,18 +864,6 @@ void ActivityBase::setSpeakerIcon( EMyIcons myIcon )
 void ActivityBase::setCameraIcon( EMyIcons myIcon )
 {
 	getTitleBarWidget()->setCameraIcon( myIcon );
-}
-
-//============================================================================
-void ActivityBase::setTrashButtonIcon( EMyIcons myIcon )
-{
-	getTitleBarWidget()->setTrashButtonIcon( myIcon );
-}
-
-//============================================================================
-void ActivityBase::setShareButtonIcon( EMyIcons myIcon )
-{
-	getTitleBarWidget()->setShareButtonIcon( myIcon );
 }
 
 //============================================================================
@@ -1012,18 +978,6 @@ void ActivityBase::setCameraColor( QColor iconColor )
 }
 
 //============================================================================
-void ActivityBase::setTrashButtonColor( QColor iconColor )
-{
-	getTitleBarWidget()->setTrashButtonColor( iconColor );
-}
-
-//============================================================================
-void ActivityBase::setShareButtonColor( QColor iconColor )
-{
-	getTitleBarWidget()->setShareButtonColor( iconColor );
-}
-
-//============================================================================
 void ActivityBase::setTopMenuButtonColor( QColor iconColor )
 {
 	getTitleBarWidget()->setTopMenuButtonColor( iconColor );
@@ -1133,18 +1087,6 @@ void ActivityBase::slotCameraSnapshotButtonClicked( void )
 void ActivityBase::slotCamPreviewClicked( void )
 {
 	emit signalCamPreviewClicked();
-}
-
-//============================================================================
-void ActivityBase::slotTrashButtonClicked( void )
-{
-	emit signalTrashButtonClicked();
-}
-
-//============================================================================
-void ActivityBase::slotShareButtonClicked( void )
-{
-	emit signalShareButtonClicked();
 }
 
 //============================================================================

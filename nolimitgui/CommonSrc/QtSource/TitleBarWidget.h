@@ -12,6 +12,7 @@
 #include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 
 #include "GuiAudioLevelCallback.h"
+#include "GuiFriendRequest/GuiFriendRequestCallback.h"
 #include "GuiHostJoinCallback.h"
 #include "GuiOfferCallback.h"
 #include "GuiVideoTitleBarCallback.h"
@@ -46,7 +47,8 @@ class TitleBarWidget : public QWidget,
 	public GuiPluginMgrCallback,
 	public GuiOfferCallback,
 	public GuiHostJoinCallback,
-	public GuiVideoTitleBarCallback
+	public GuiVideoTitleBarCallback,
+	public GuiFriendRequestListCallback
 {
 	Q_OBJECT
 
@@ -86,30 +88,24 @@ public:
 	void						setOfferListButtonVisibility( bool visible );
 	void						setHostJoinRequestListButtonVisibility( bool visible );
 
-	void						setShareButtonVisibility( bool visible );
-    void						setTrashButtonVisibility( bool visible );
-
 	//=== button icons ====//
-    virtual void				setPowerButtonIcon( EMyIcons myIcon = eMyIconPowerOff );
-	virtual void				setHomeButtonIcon( EMyIcons myIcon = eMyIconHome );
-	virtual void				setMicrophoneIcon( EMyIcons myIcon = eMyIconMicrophoneOn );
-	virtual void				setSpeakerIcon( EMyIcons myIcon = eMyIconSpeakerOn );
-	virtual void				setCameraIcon( EMyIcons myIcon = eMyIconCameraNormal );
-	virtual void				setTrashButtonIcon( EMyIcons myIcon = eMyIconTrash );
-	virtual void				setShareButtonIcon( EMyIcons myIcon = eMyIconShare );
-	virtual void				setTopMenuButtonIcon( EMyIcons myIcon = eMyIconMenu );
-	virtual void				setBackButtonIcon( EMyIcons myIcon = eMyIconBack );
+    void           				setPowerButtonIcon( EMyIcons myIcon = eMyIconPowerOff );
+	void           				setHomeButtonIcon( EMyIcons myIcon = eMyIconHome );
+	void           				setMicrophoneIcon( EMyIcons myIcon = eMyIconMicrophoneOn );
+	void           				setSpeakerIcon( EMyIcons myIcon = eMyIconSpeakerOn );
+	void           				setCameraIcon( EMyIcons myIcon = eMyIconCameraNormal );
+
+	void           				setTopMenuButtonIcon( EMyIcons myIcon = eMyIconMenu );
+	void           				setBackButtonIcon( EMyIcons myIcon = eMyIconBack );
 
 	//=== button colors ====//
-	virtual void				setPowerButtonColor( QColor iconColor );
-	virtual void				setHomeButtonColor( QColor iconColor );
-	virtual void				setMicrophoneColor( QColor iconColor );
-	virtual void				setSpeakerColor( QColor iconColor );
-	virtual void				setCameraColor( QColor iconColor );
-	virtual void				setTrashButtonColor( QColor iconColor );
-	virtual void				setShareButtonColor( QColor iconColor );
-	virtual void				setTopMenuButtonColor( QColor iconColor );
-	virtual void				setBackButtonColor( QColor iconColor );
+	void           				setPowerButtonColor( QColor iconColor );
+	void           				setHomeButtonColor( QColor iconColor );
+	void           				setMicrophoneColor( QColor iconColor );
+	void           				setSpeakerColor( QColor iconColor );
+	void           				setCameraColor( QColor iconColor );
+	void           				setTopMenuButtonColor( QColor iconColor );
+	void           				setBackButtonColor( QColor iconColor );
 
 signals:
 	void						signalPowerButtonClicked( void );
@@ -118,39 +114,37 @@ signals:
 	void						signalCameraSnapshotButtonClicked( void );
 	void						signalCamPreviewClicked( void );
 
-	void						signalTrashButtonClicked( void );
-	void						signalShareButtonClicked( void );
 	void						signalMenuTopButtonClicked( void );
 	void						signalBackButtonClicked( void );
 
 public slots:
-	virtual void				updateTitleBar( void );
-	virtual void				slotSystemReady( bool isReady );
+	void           				updateTitleBar( void );
+	void           				slotSystemReady( bool isReady );
 
-	virtual void				slotApplicationIconClicked( void );
-	virtual void				slotPowerButtonClicked( void );
-	virtual void				slotHomeButtonClicked( void );
+	void           				slotApplicationIconClicked( void );
+	void           				slotPowerButtonClicked( void );
+	void           				slotHomeButtonClicked( void );
 
-	virtual void				slotMuteMicButtonClicked( void );
-	virtual void				slotMuteSpeakerButtonClicked( void );
-	virtual void				slotCameraSnapshotButtonClicked( void );
-	virtual void				slotCamPreviewClicked( void );
+	void           				slotMuteMicButtonClicked( void );
+	void           				slotMuteSpeakerButtonClicked( void );
+	void           				slotCameraSnapshotButtonClicked( void );
+	void           				slotCamPreviewClicked( void );
 
-	virtual void				slotTrashButtonClicked( void );
-	virtual void				slotShareButtonClicked( void );
-	virtual void				slotMenuTopButtonClicked( void );
-	virtual void				slotBackButtonClicked( void );
+	void           				slotMenuTopButtonClicked( void );
+	void           				slotBackButtonClicked( void );
 
-	virtual void				slotTitleStatusBarMsg( QString msg );
+	void           				slotTitleStatusBarMsg( QString msg );
 
-    virtual void				slotToGuiNetAvailStatus( ENetAvailStatus eNetAvailStatus );
-    virtual void				slotCamTimeout( void );
-    virtual void				slotSignalHelpClick( void );
+    void           				slotToGuiNetAvailStatus( ENetAvailStatus eNetAvailStatus );
+    void           				slotCamTimeout( void );
+    void           				slotSignalHelpClick( void );
 
-    virtual void				slotHostJoinRequestButtonClicked( void );
-    virtual void				slotOfferListButtonClicked( void );
+    void           				slotHostJoinRequestButtonClicked( void );
+    void           				slotOfferListButtonClicked( void );
 
-	virtual void				slotTitleBarUserMenuButtonClicked( void );
+	void           				slotTitleBarUserMenuButtonClicked( void );
+
+	void           				slotFriendRequestListButtonClicked( void );
 
 protected:
 	QWidget*					getTitleBarParentFrame( void );
@@ -179,12 +173,16 @@ protected:
 
 	void						callbackToGuiPluginStatus( EPluginType pluginType, int statusType, int statusValue ) override;
 
+	void						callbackGuiFriendRequestListUpdated( GuiFriendRequest* friendRequest ) override;
+    void						callbackGuiFriendRequestListRemoved( VxGUID requestId ) override;
+
 	void						updateWebServerClientCount( void );
 
 	void						wantCallbacks( bool enableCallbacks );
 
 	void						updateCamCallbackRequests( void );
 	void						updateAudioLevelCallbackRequests( void );
+	void						updateFriendRequestNotify( void );
 
 	Ui::TitleBarWidgetClass&	ui;
 	AppCommon&					m_MyApp;

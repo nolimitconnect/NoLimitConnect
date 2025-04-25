@@ -16,6 +16,7 @@
 #include <AssetMgr/AssetMgr.h>
 #include <BlobXferMgr/BlobMgr.h>
 #include <BigListLib/BigListInfo.h>
+#include <FriendRequestMgr/FriendRequestMgr.h>
 #include <HostServerJoinMgr/HostServerJoinMgr.h>
 
 #include <MediaProcessor/MediaProcessor.h>
@@ -83,12 +84,14 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr,
 					  OfferMgr& offerMgr,
 					  PushToTalkMgr& pushToTalkMgr,
 					  RandConnectMgr& randConnectMgr,
-					  SendQueueMgr& sendQueueMgr )
+					  SendQueueMgr& sendQueueMgr,
+					  FriendRequestMgr& friendRequstMgr )
 	: m_PeerMgr( peerMgr )
 	, m_FromGuiMgr( *this )
 	, m_ConnectIdListMgr( *this )
 	, m_IgnoreListMgr( *this )
 	, m_FriendListMgr( *this )
+	, m_FriendRequestMgr( friendRequstMgr )
 	, m_GroupieListMgr( *this )
 	, m_HostUrlListMgr( *this )
 	, m_HostedListMgr( *this )
@@ -134,7 +137,7 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr,
     m_PeerMgr.setSktLoopback( m_SktLoopback );
     m_NetStatusAccum.addNetStatusCallback( &m_ConnectionMgr );
     int maxPktType = MAX_PKT_TYPE_CNT;
-    vx_assert( 152 == maxPktType ); // just to make sure our packet types are not mismatched
+    vx_assert( 154 == maxPktType ); // just to make sure our packet types are not mismatched
 
 	// loadAccountSpecificSettings in gui calls this for get getTcpIpPort so need to be created right now 
 	std::string strEngineSettingDbFileName = VxGetAppNoLimitDataDirectory();
@@ -179,6 +182,7 @@ void P2PEngine::startupEngine()
 	m_StayConnected.stayConnectedStartup();
 	m_PluginMgr.onAppStartup();
 	m_IsPortOpenTest.isPortOpenTestStartup();
+	m_FriendRequestMgr.friendRequestMgrStartup();
     LogModule( eLogStartup, LOG_VERBOSE, "P2PEngine::%s done", __func__ );
 }
 
@@ -203,6 +207,7 @@ void P2PEngine::iniitializePtoPEngine( void )
 void P2PEngine::shutdownEngine( void )
 {
 	VxSetAppIsShuttingDown( true );
+	m_FriendRequestMgr.friendRequestMgrShutdown();
 	m_FromGuiMgr.fromGuMgrShutdown();
 	
 	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: shutdown IsPortOpen" );
@@ -428,12 +433,11 @@ bool P2PEngine::getPluginSetting( EPluginType pluginType, PluginSetting& pluginS
 }
 
 //============================================================================
-EFriendState P2PEngine::getPluginPermission( int iPluginType )
+EFriendState P2PEngine::getPluginPermission( EPluginType pluginType )
 {
     EFriendState iPermission = eFriendStateIgnore;
-	EPluginType pluginType = (EPluginType)iPluginType;
 	if( ( ePluginTypeInvalid < pluginType ) && 
-		( eMaxPluginType > pluginType ) )
+		( eMaxPermissionPluginType > pluginType ) )
 	{
 		iPermission = m_PluginMgr.getPluginPermission(pluginType);
 	}
@@ -456,7 +460,7 @@ bool P2PEngine::getIsPluginInTestState( EPluginType pluginType, VxGUID& onlineId
 void P2PEngine::setPluginPermission( EPluginType pluginType, int iPluginPermission )
 {
 	if( ( ePluginTypeInvalid < pluginType ) && 
-		( eMaxPluginType > pluginType ) )
+		( eMaxPermissionPluginType > pluginType ) )
 	{
 		if( ( iPluginPermission != m_PluginMgr.getPluginPermission( pluginType ) )
 			|| ( iPluginPermission != m_PktAnn.getPluginPermission( pluginType ) ) )

@@ -29,6 +29,7 @@ class InetAddress;
 class VxSha1Hash;
 
 class FileInfo;
+class FriendRequestInfo;
 class GroupieInfo;
 class OfferBaseInfo;
 class SearchParams;
@@ -326,5 +327,8 @@ public:
 	virtual void				fromGuiSetIsAutomatedHost( bool automatedHost ) = 0;
 
 	virtual bool				fromGuiSendRandConnectSelected( VxGUID& onlineId, bool isSelected ) = 0;
+
+	virtual bool                fromGuiQueryFriendRequest( std::vector<std::shared_ptr<FriendRequestInfo>>& friendRequestList, VxGUID& onlineIdIfNullThenAll ) = 0;
+	virtual bool                fromGuiSendFriendRequest( VxGUID& onlineId, std::string& requestText, EFriendState myFriendshipToHim ) = 0;
 };
 

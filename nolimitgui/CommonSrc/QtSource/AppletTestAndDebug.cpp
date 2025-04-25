@@ -140,6 +140,8 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
 
     connect( ui.m_TestUrlsComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotNewUrlSelected(int)) );
 
+    connect( ui.m_ShowMyselfCheckBox, SIGNAL(clicked()), this, SLOT(slotShowMyselfClicked()) );
+
     updateDlgFromSettings();
 
     // Log is seperate now VxAddLogHandler( this );
@@ -162,6 +164,8 @@ void AppletTestAndDebug::updateDlgFromSettings()
     {
         ui.m_TestUrlEdit->setText( lastTestUrl.c_str() );
     }
+
+    ui.m_ShowMyselfCheckBox->setChecked( VxGetShowMyselfInLists() );
 }
 
 //============================================================================
@@ -541,4 +545,10 @@ void AppletTestAndDebug::slotDeleteDbButtonClicked( void )
 	{
 		popupMenu->showDeleteDbMenu();
 	}
+}
+
+//============================================================================
+void AppletTestAndDebug::slotShowMyselfClicked( void )
+{
+    VxSetShowMyselfInLists( ui.m_ShowMyselfCheckBox->isChecked() );
 }

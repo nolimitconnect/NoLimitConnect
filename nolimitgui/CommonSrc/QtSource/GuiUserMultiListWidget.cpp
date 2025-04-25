@@ -127,13 +127,13 @@ void GuiUserMultiListWidget::setHostAdminId( GroupieId& adminId )
 //============================================================================
 void GuiUserMultiListWidget::setAllowMyselfInList( bool allowMyself )
 {
-    ui.m_UserListWidget->setAllowMyselfInList( allowMyself );
+    VxSetShowMyselfInLists( allowMyself );
 }
 
 //============================================================================
 bool GuiUserMultiListWidget::getAllowMyselfInList( void )
 {
-    return ui.m_UserListWidget->getAllowMyselfInList();
+    return VxGetShowMyselfInLists();
 }
 
 //============================================================================

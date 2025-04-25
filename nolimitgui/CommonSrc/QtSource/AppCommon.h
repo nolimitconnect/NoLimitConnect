@@ -18,7 +18,7 @@
 
 #include "FriendList.h"
 #include "GuiConnectIdListMgr.h"
-#include "GuiFavoriteMgr.h"
+
 #include "GuiFileXferMgr.h"
 #include "GuiGroupieListMgr.h"
 #include "GuiHostedListMgr.h"
@@ -34,6 +34,8 @@
 #include "VxAppTheme.h"
 #include "VxAppStyle.h"
 #include "VxAppDisplay.h" 
+
+#include "GuiFriendRequest/GuiFriendRequestMgr.h"
 
 #include "ToGuiActivityInterface.h"
 #include "ToGuiHardwareControlInterface.h"
@@ -71,6 +73,7 @@ class FileListReplySession;
 class HomeWindow;
 
 class GuiFileXferSession;
+class GuiFavoriteMgr;
 class GuiMemberActiveMgr;
 class GuiOfferSession;
 class GuiPlayerMgr;
@@ -100,6 +103,7 @@ public:
                AppModuleState& appModuleState,
                AppSettings& appSettings,
                AccountMgr& myDataHelper,
+               GuiFavoriteMgr& favoritMgr,
                GuiMemberActiveMgr& memberActiveMgr,
                GuiPlayerMgr& playerMgr,
                GuiPluginMgr& pluginMgr,
@@ -158,6 +162,7 @@ public:
     ENetworkStateType			getNetworkState( void ) { return m_LastNetworkState; }
 
     GuiConnectIdListMgr&        getConnectIdListMgr( void ) { return m_ConnectIdListMgr; }
+    GuiFriendRequestMgr&        getFriendRequestMgr( void ) { return m_FriendRequestMgr; }
     GuiFavoriteMgr&             getFavoriteMgr( void ) { return m_FavoriteMgr; }
     GuiFileXferMgr&             getFileXferMgr( void ) { return m_FileXferMgr; }
     GuiGroupieListMgr&          getGroupieListMgr( void ) { return m_GroupieListMgr; }
@@ -863,7 +868,8 @@ protected:
     AccountMgr&                 m_AccountMgr;
 
     GuiConnectIdListMgr			m_ConnectIdListMgr;
-    GuiFavoriteMgr			    m_FavoriteMgr;
+    GuiFavoriteMgr&			    m_FavoriteMgr;
+    GuiFriendRequestMgr			m_FriendRequestMgr;
     GuiFileXferMgr              m_FileXferMgr;
     GuiThumbMgr					m_ThumbMgr;
     GuiMemberActiveMgr&         m_MemberActiveMgr;

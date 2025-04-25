@@ -546,34 +546,34 @@ void HostClientMgr::onGroupRelayedUserAnnounce( GroupieId& groupieId, std::share
 //============================================================================
 void HostClientMgr::onPktHostUserInfoReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_ERROR, "HostClientMgr::onPktHostUserInfoReq" ); // should not recieve this.. should we do hack attempt?
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_ERROR, "HostClientMgr::onPktHostUserInfoReq" ); // should not recieve this.. should we do hack attempt?
 }
 
 //============================================================================
 void HostClientMgr::onPktHostUserStatusReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserStatusReq" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserStatusReq" );
 
 }
 
 //============================================================================
 void HostClientMgr::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserStatusReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserStatusReply" );
 
 }
 
 //============================================================================
 void HostClientMgr::onPktHostUserListReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListReq" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListReq" );
 
 }
 
 //============================================================================
 void HostClientMgr::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListReply" );
     PktHostUserListReply* pktReply = (PktHostUserListReply*)pktHdr;
     if( pktReply->isValidPktPrefix() )
     {
@@ -602,13 +602,13 @@ void HostClientMgr::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase,
 //============================================================================
 void HostClientMgr::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListMoreReq" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListMoreReq" );
 }
 
 //============================================================================
 void HostClientMgr::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListMoreReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListMoreReply" );
 }
 
 //============================================================================
@@ -674,7 +674,7 @@ void HostClientMgr::clearUserInfoRequests( void )
 //============================================================================
 void HostClientMgr::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserInfoReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserInfoReply" );
     PktHostUserInfoReply* pktReply = (PktHostUserInfoReply*)pktHdr;
     if( pktReply->isValidPktPrefix() )
     {

@@ -23,17 +23,6 @@
 // PktOfferSendReq
 //============================================================================
 PktOfferSendReq::PktOfferSendReq()
-: m_OfferType( (uint16_t)eOfferTypeUnknown ) 
-, m_u32Error(0)
-, m_s64OfferLen(0)
-, m_s64OfferOffs(0) 
-, m_CreationTime(0)
-, m_OfferNameLen(0)
-, m_OfferTagLen(0)
-, m_u32Res1(0)
-, m_u32Res2(0)
-, m_u32Res3(0)
-, m_u32Res4(0)
 { 
 	setPktType( PKT_TYPE_OFFER_SEND_REQ ); 
 	m_OfferNameAndTag[0] = 0;
@@ -134,13 +123,6 @@ void PktOfferSendReq::setOfferNameAndTag( const char* pOfferName, const char* pO
 
 //============================================================================
 PktOfferSendReply::PktOfferSendReply()
-: m_u8RequiresFileXfer( 0 )
-, m_u8Res( 0 )
-, m_u16Res( 0 )
-, m_s64OfferOffs( 0 )
-, m_u32Error(0) 
-, m_u32Res1( 0 )
-, m_u32Res2(0)
 { 
 	setPktType( PKT_TYPE_OFFER_SEND_REPLY ); 
 	setPktLength( sizeof( PktOfferSendReply ) );
@@ -149,10 +131,6 @@ PktOfferSendReply::PktOfferSendReply()
 
 //============================================================================
 PktOfferChunkReq::PktOfferChunkReq()
-: m_u16Res(0)
-, m_u16OfferChunkLen(0)
-, m_u32Error(0)
-, m_u32Res1(0) 
 {
 	setPktType( PKT_TYPE_OFFER_CHUNK_REQ );
 	setPktLength( emptyLength() );
@@ -179,9 +157,6 @@ uint16_t PktOfferChunkReq::getChunkLen( void )
 
 //============================================================================
 PktOfferChunkReply::PktOfferChunkReply()
-: m_u16Res(0)
-, m_u16OfferChunkLen(0)
-, m_u32Error(0) 
 {
 	setPktType( PKT_TYPE_OFFER_CHUNK_REPLY );
 	setPktLength( (uint16_t)sizeof( PktOfferChunkReply ) );
@@ -189,8 +164,6 @@ PktOfferChunkReply::PktOfferChunkReply()
 
 //============================================================================
 PktOfferSendCompleteReq::PktOfferSendCompleteReq()
-: m_u32Error( 0 )
-, m_u32Res1( 0 )
 {
 	setPktType(  PKT_TYPE_OFFER_SEND_COMPLETE_REQ );
 	setPktLength( (uint16_t)sizeof( PktOfferSendCompleteReq ) );
@@ -198,8 +171,6 @@ PktOfferSendCompleteReq::PktOfferSendCompleteReq()
 
 //============================================================================
 PktOfferSendCompleteReply::PktOfferSendCompleteReply()
-: m_u32Error( 0 )
-, m_u32Res1( 0 )
 {
 	setPktType( PKT_TYPE_OFFER_SEND_COMPLETE_REPLY );
 	setPktLength( (uint16_t)sizeof( PktOfferSendCompleteReply ) );
@@ -208,13 +179,6 @@ PktOfferSendCompleteReply::PktOfferSendCompleteReply()
 
 //============================================================================
 PktOfferXferErr::PktOfferXferErr()
-: m_u16Err(0xffff) 
-, m_u16Res1(0)
-, m_u32ResP1(0)
-, m_u32ResP2(0)
-, m_u32ResP3(0)
-, m_u32Res1(0) 
-, m_u32Res2(0)
 {
 	setPktType( PKT_TYPE_OFFER_XFER_ERR ); 
 	setPktLength( sizeof( PktOfferXferErr ) );

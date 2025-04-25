@@ -2235,6 +2235,33 @@ void GuiHelpers::showInviteMyselfError( QWidget* parent )
 }
 
 //============================================================================
+void GuiHelpers::showUserNotFoundError( QWidget* parent )
+{
+    QString title = QObject::tr("Invalid User");
+    QString msg = QObject::tr("Could not find the user");
+    QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok);
+    warnMsg.exec();
+}
+
+//============================================================================
+void GuiHelpers::showUserNotOnlineError( QWidget* parent )
+{
+    QString title = QObject::tr("User Not Online");
+    QString msg = QObject::tr("The user is not currently online");
+    QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok);
+    warnMsg.exec();
+}
+
+//============================================================================
+void GuiHelpers::showRequiresFriendshipError( QWidget* parent )
+{
+    QString title = QObject::tr("Friendship Level To Low");
+    QString msg = QObject::tr("Requires friendship of friend or higher");
+    QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok);
+    warnMsg.exec();
+}
+
+//============================================================================
 void GuiHelpers::processQtEvents( int ms )
 {
 	QCoreApplication::processEvents( QEventLoop::AllEvents, ms );

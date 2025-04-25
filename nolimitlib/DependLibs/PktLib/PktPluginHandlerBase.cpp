@@ -212,13 +212,16 @@ PktPluginHandlerBase::PktPluginHandlerBase()
 
 	m_aBaseSysPktFuncTable[ PKT_TYPE_RAND_CONNECT_REQ ]					= &PktPluginHandlerBase::onPktRandConnectReq;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_RAND_CONNECT_REPLY ]				= &PktPluginHandlerBase::onPktRandConnectReply;
+
+	m_aBaseSysPktFuncTable[ PKT_TYPE_FRIEND_REQUEST_REQ ]				= &PktPluginHandlerBase::onPktFriendRequestReq;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_FRIEND_REQUEST_REPLY ]				= &PktPluginHandlerBase::onPktFriendRequestReply;
 }
 
 //============================================================================
 //! Handle Incoming packet.. use function jump table for speed
 void PktPluginHandlerBase::handlePkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogPkt, LOG_VERBOSE, "PktPluginHandlerBase::handlePkt type %d len %d plugin %s from %s", pktHdr->getPktType(), pktHdr->getPktLength(),
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PktPluginHandlerBase::handlePkt type %d len %d plugin %s from %s", pktHdr->getPktType(), pktHdr->getPktLength(),
         DescribePluginType( (EPluginType)pktHdr->getPluginNum() ), sktBase->getRemoteIpAddress() );
     if( pktHdr->getPktType() <= sizeof(  m_aBaseSysPktFuncTable ) / (sizeof( void *)) )
 		return (this->*m_aBaseSysPktFuncTable[ pktHdr->getPktType() ])(sktBase, pktHdr, netIdent);
@@ -1129,6 +1132,18 @@ void PktPluginHandlerBase::onPktRandConnectReq( std::shared_ptr<VxSktBase>& sktB
 
 //============================================================================
 void PktPluginHandlerBase::onPktRandConnectReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktFriendRequestReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktFriendRequestReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	onPktUnhandled( sktBase, pktHdr, netIdent );
 }

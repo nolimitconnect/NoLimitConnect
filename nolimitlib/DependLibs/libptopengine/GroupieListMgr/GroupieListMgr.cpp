@@ -479,12 +479,12 @@ bool GroupieListMgr::fromGuiQueryGroupieInfoList( EHostType hostType, std::vecto
 {
     groupieInfoList.clear();
     lockList();
-    for( auto iter = m_GroupieInfoList.begin(); iter != m_GroupieInfoList.end(); ++iter )
+    for( auto& groupieInfo : m_GroupieInfoList )
     {
-        if( iter->getHostType() == hostType )
+        if( groupieInfo.getHostType() == hostType )
         {
-            addToListInJoinedTimestampOrder( groupieInfoList, *iter );
-            groupieInfoList.push_back( *iter );
+            addToListInJoinedTimestampOrder( groupieInfoList, groupieInfo );
+            groupieInfoList.emplace_back( groupieInfo );
         }
     }
 
@@ -590,7 +590,7 @@ void GroupieListMgr::addToListInJoinedTimestampOrder( std::vector<GroupieInfo>& 
 
     if( !wasInserted )
     {
-        groupieInfoList.push_back( groupieInfo );
+        groupieInfoList.emplace_back( groupieInfo );
     }
 }
 
