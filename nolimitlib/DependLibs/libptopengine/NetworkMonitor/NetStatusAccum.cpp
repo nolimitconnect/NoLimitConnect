@@ -988,8 +988,8 @@ bool NetStatusAccum::canAnnounceToNlcHost( bool iAmNetHost )
         return false;
     }
 
-    bool isNlcHostUrl = getNetworkHostUrl() == NET_DEFAULT_NET_HOST_URL_IPV4 || getNetworkHostUrl() == NET_DEFAULT_NET_HOST_URL_IPV6;
-    bool isNlcNetworkKey = getNetworkKey() == NET_DEFAULT_NETWORK_NAME;
+    bool isNlcHostUrl = hasDefaultNetworkUrl();
+    bool isNlcNetworkKey = hasDefaultNetworkKey();
     if( iAmNetHost )
     {
         // if I am a network host can I still announce to the NLC network host?
@@ -1006,4 +1006,16 @@ bool NetStatusAccum::canAnnounceToNlcHost( bool iAmNetHost )
     }
     
     return true;
+}
+
+//============================================================================
+bool NetStatusAccum::hasDefaultNetworkKey( void )
+{
+    return getNetworkKey() == NET_DEFAULT_NETWORK_NAME;
+}
+
+//============================================================================
+bool NetStatusAccum::hasDefaultNetworkUrl( void )
+{
+    return (getNetworkHostUrl() == NET_DEFAULT_NET_HOST_URL_IPV4 || getNetworkHostUrl() == NET_DEFAULT_NET_HOST_URL_IPV6);
 }

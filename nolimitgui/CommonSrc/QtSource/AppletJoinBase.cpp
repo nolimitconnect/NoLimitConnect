@@ -35,7 +35,7 @@ AppletJoinBase::AppletJoinBase( const char*name, AppCommon& app, QWidget* parent
 : AppletBase( name, app, parent )
 , ui(*(new Ui::AppletJoinHostListUi))
 {
-    m_NetworkHostUrl = m_MyApp.getFromGuiInterface().fromGuiQueryDefaultUrl( eHostTypeNetwork );
+    m_NetworkHostUrl = m_MyApp.getFromGuiInterface().fromGuiQueryDefaultUrl( eHostTypeNetwork, true );
     VxPtopUrl netHostUrl( m_NetworkHostUrl );
     m_NetHostPtopUrl = netHostUrl;
     if( m_NetHostPtopUrl.isValid() )

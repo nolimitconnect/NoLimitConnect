@@ -1429,46 +1429,55 @@ void P2PEngine::fromGuiListAction( EListAction listAction )
 }
 
 //============================================================================
-std::string P2PEngine::fromGuiQueryDefaultUrl( EHostType hostType )
+std::string P2PEngine::fromGuiQueryDefaultUrl( EHostType hostType, bool ignoreMyself )
 {
-    if( eHostTypeNetwork == hostType )
-    {
-        if( ( m_PktAnn.getPluginPermission( ePluginTypeHostNetwork ) != eFriendStateIgnore ) &&
-            isDirectConnectTested() )
-        {
-            // I am the network host
-            return getMyOnlineUrl( hostType );
-        }
-	}
-
-	if( eHostTypeChatRoom == hostType )
+	if( !ignoreMyself )
 	{
-		if( ( m_PktAnn.getPluginPermission( ePluginTypeHostChatRoom ) != eFriendStateIgnore) &&
-			isDirectConnectTested() )
+		if( eHostTypeNetwork == hostType )
 		{
-			// I am the chat room host
-			return getMyOnlineUrl( hostType );
+			if( (m_PktAnn.getPluginPermission( ePluginTypeHostNetwork ) != eFriendStateIgnore) &&
+				isDirectConnectTested() )
+			{
+				// I am the network host
+				return getMyOnlineUrl( hostType );
+			}
+		}
+
+		if( eHostTypeChatRoom == hostType )
+		{
+			if( (m_PktAnn.getPluginPermission( ePluginTypeHostChatRoom ) != eFriendStateIgnore) &&
+				isDirectConnectTested() )
+			{
+				// I am the chat room host
+				return getMyOnlineUrl( hostType );
+			}
+		}
+
+		if( eHostTypeGroup == hostType )
+		{
+			if( (m_PktAnn.getPluginPermission( ePluginTypeHostGroup ) != eFriendStateIgnore) &&
+				isDirectConnectTested() )
+			{
+				// I am the group host
+				return getMyOnlineUrl( hostType );
+			}
+		}
+
+		if( eHostTypeRandomConnect == hostType )
+		{
+			if( (m_PktAnn.getPluginPermission( ePluginTypeHostRandomConnect ) != eFriendStateIgnore) &&
+				isDirectConnectTested() )
+			{
+				// I am the random connect host
+				return getMyOnlineUrl( hostType );
+			}
 		}
 	}
 
-	if( eHostTypeGroup == hostType )
+	if( eHostTypeNetwork == hostType && !m_NetStatusAccum.hasDefaultNetworkKey() && m_NetStatusAccum.hasDefaultNetworkUrl() )
 	{
-		if( (m_PktAnn.getPluginPermission( ePluginTypeHostGroup ) != eFriendStateIgnore) &&
-			isDirectConnectTested() )
-		{
-			// I am the group host
-			return getMyOnlineUrl( hostType );
-		}
-	}
-
-	if( eHostTypeRandomConnect == hostType )
-	{
-		if( (m_PktAnn.getPluginPermission( ePluginTypeHostRandomConnect ) != eFriendStateIgnore) &&
-			isDirectConnectTested() )
-		{
-			// I am the random connect host
-			return getMyOnlineUrl( hostType );
-		}
+		// do not allow connection to default network host with the wrong network key
+		return "";
 	}
 
 	std::string defaultUrl = getEngineSettings().fromGuiQueryDefaultUrl( hostType );

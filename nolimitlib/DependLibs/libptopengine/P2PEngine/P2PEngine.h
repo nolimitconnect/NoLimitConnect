@@ -372,7 +372,7 @@ public:
     bool           				fromGuiMultiSessionAction( enum EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
     int            				fromGuiGetJoinedListCount( enum EPluginType pluginType ) override;
     void                        fromGuiListAction( enum EListAction listAction ) override;
-    std::string			        fromGuiQueryDefaultUrl( enum EHostType hostType ) override;
+    std::string			        fromGuiQueryDefaultUrl( enum EHostType hostType, bool ignoreMyself = false ) override;
     bool                        fromGuiSetDefaultUrl( enum EHostType hostType, std::string& hostUrl ) override;
     bool           				fromGuiQueryIdentity( std::string& url, VxNetIdent& retNetIdent, bool requestIdentityIfUnknown ) override;
     bool           				fromGuiQueryIdentity( VxGUID onlineId, VxNetIdent& retNetIdent ) override;

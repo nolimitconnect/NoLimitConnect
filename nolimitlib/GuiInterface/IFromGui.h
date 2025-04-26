@@ -300,7 +300,7 @@ public:
 
 	virtual int					fromGuiGetJoinedListCount( EPluginType pluginType ) = 0;
 	virtual void				fromGuiListAction( EListAction listAction ) = 0;
-	virtual std::string			fromGuiQueryDefaultUrl( EHostType hostType ) = 0;
+	virtual std::string			fromGuiQueryDefaultUrl( EHostType hostType, bool ignoreMyself = false ) = 0;
 	virtual bool				fromGuiSetDefaultUrl( EHostType hostType, std::string& hostUrl ) = 0;
 	virtual bool				fromGuiQueryIdentity( std::string& url, VxNetIdent& retNetIdent, bool requestIdentityIfUnknown ) = 0;
 	virtual bool				fromGuiQueryIdentity( VxGUID onlineId, VxNetIdent& retNetIdent ) = 0;

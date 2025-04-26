@@ -598,22 +598,6 @@ bool HostedListMgr::fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, 
         m_SearchSpecificOnlineId = hostIdIfNullThenAll;
         m_SearchSessionId.initializeWithNewVxGUID();
 
-        // add ourself to host list if we have enabled hosting of the given host type
-        EPluginType pluginType = HostTypeToHostPlugin( hostType );
-        if( m_Engine.getMyPktAnnounce().isPluginEnabled( pluginType ) )
-        {
-            PluginBaseHostService* plugin = dynamic_cast< PluginBaseHostService*>( m_Engine.getPluginMgr().findPlugin( pluginType ));
-            HostedInfo myHostedInfo;
-            if( plugin && plugin->getHostedInfo( myHostedInfo ) )
-            {
-                // so we can work with join our own host always start out as needing request join
-                GroupieId groupieId( m_Engine.getMyOnlineId(), m_Engine.getMyOnlineId(), hostType );
-                m_Engine.getHostJoinMgr().changeJoinState( groupieId, eJoinStateNone );
-                m_Engine.getUserJoinMgr().changeJoinState( groupieId, eJoinStateNone );
-                hostSearchResult( hostType, m_SearchSessionId, m_Engine.getSktLoopback(), m_Engine.getMyPktAnnounce().getVxNetIdent(), myHostedInfo );
-            }
-        }
-
         m_Engine.getFromGuiMgr().fromGuiQueryHostListFromNetworkHost( netHostUrl, hostType, hostIdIfNullThenAll, m_SearchSessionId );
 
         return true;

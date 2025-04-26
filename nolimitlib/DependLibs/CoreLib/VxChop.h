@@ -13,7 +13,7 @@
 
 #include <string>
 
-//=== Chop utils for strings ===//
+//=== Chop utils for strings (saves a some bytes in length usually) ===//
 int VxCalcChoppedLen( const char* pStr );
 int VxGetUnchoppedStrLen( unsigned char * pu8ChopedStr );
 int VxChopStr( const char* pStr, unsigned char * pu8RetChoppedStr );

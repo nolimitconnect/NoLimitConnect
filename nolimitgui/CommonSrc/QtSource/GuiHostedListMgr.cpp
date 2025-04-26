@@ -101,7 +101,7 @@ void GuiHostedListMgr::callbackHostedInfoListSearchResult( HostedInfo* hostedInf
     }
     else
     {
-        LogMsg( LOG_ERROR, "GuiHostedListMgr::callbackHostedInfoListSearchResult invalid invite" );
+        LogMsg( LOG_ERROR, "GuiHostedListMgr::%s invalid invite", __func__ );
     }
 }
 
@@ -121,7 +121,7 @@ void GuiHostedListMgr::callbackHostedInfoListSearchStatus( EHostType hostType, V
     }
     else
     {
-        LogMsg( LOG_ERROR, "GuiHostedListMgr::callbackHostedInfoListSearchResult invalid host type" );
+        LogMsg( LOG_ERROR, "GuiHostedListMgr::%s invalid host type", __func__ );
     }
 }
 
@@ -140,7 +140,7 @@ void GuiHostedListMgr::callbackHostedInfoListSearchComplete( EHostType hostType,
     }
     else
     {
-        LogMsg( LOG_ERROR, "GuiHostedListMgr::callbackHostedInfoListSearchResult invalid host type" );
+        LogMsg( LOG_ERROR, "GuiHostedListMgr::%s invalid host type", __func__ );
     }
 }
 
@@ -155,7 +155,7 @@ void GuiHostedListMgr::toGuiHostSearchResult( EHostType hostType, VxGUID& sessio
 {
     if( m_MyApp.getEngine().getIgnoreListMgr().isHostIgnored( hostedInfo.getAdminOnlineId() ) )
     {
-        LogMsg( LOG_VERBOSE, "GuiHostedListMgr::toGuiHostSearchResult ignored host %s", hostedInfo.getHostTitle().c_str() );
+        LogMsg( LOG_VERBOSE, "GuiHostedListMgr::%s ignored host %s", __func__, hostedInfo.getHostTitle().c_str() );
         return;
     }
 
@@ -166,7 +166,7 @@ void GuiHostedListMgr::toGuiHostSearchResult( EHostType hostType, VxGUID& sessio
     }
     else
     {
-        LogMsg( LOG_ERROR, "GuiHostedListMgr::toGuiHostSearchResult invalid invite" );
+        LogMsg( LOG_ERROR, "GuiHostedListMgr::%s invalid invite", __func__ );
     }
 }
 
@@ -234,7 +234,7 @@ GuiHosted* GuiHostedListMgr::updateHosted( VxNetIdent* hisIdent, EHostType hostT
 {
     if( !hisIdent )
     {
-        LogMsg( LOG_ERROR, "GuiHostedListMgr::updateHosted invalid param" );
+        LogMsg( LOG_ERROR, "GuiHostedListMgr::%s invalid param", __func__ );
         return nullptr;
     }
 
@@ -245,7 +245,7 @@ GuiHosted* GuiHostedListMgr::updateHosted( VxNetIdent* hisIdent, EHostType hostT
     }
     else
     {
-        LogMsg( LOG_ERROR, "GuiHostedListMgr::updateHosted failed to update user" );
+        LogMsg( LOG_ERROR, "GuiHostedListMgr::%s failed to update user", __func__ );
         return nullptr;
     }
 }
@@ -255,7 +255,7 @@ GuiHosted* GuiHostedListMgr::updateHosted( GuiUser* guiUser, EHostType hostType 
 {
     if( !guiUser )
     {
-        LogMsg( LOG_ERROR, "GuiHostedListMgr::updateHosted invalid param" );
+        LogMsg( LOG_ERROR, "GuiHostedListMgr::%s invalid param", __func__ );
         return nullptr;
     }
 
@@ -366,7 +366,7 @@ void GuiHostedListMgr::updateHostSearchResult( HostedInfo& hostedInfo, VxGUID& s
     }
     else
     {
-        LogMsg( LOG_ERROR, "GuiHostedListMgr::updateHostSearchResult invalid invite" );
+        LogMsg( LOG_ERROR, "GuiHostedListMgr::%s invalid invite", __func__ );
     }
 }
 
@@ -493,7 +493,7 @@ void GuiHostedListMgr::checkAutoJoinGroupHost( void )
 {
     if( !m_AttemptedJoinHostGroup && !m_FavoriteHostGroup.empty() )
     {
-        LogMsg( LOG_VERBOSE, "checkAutoJoinGroupHost attempt join %s", m_FavoriteHostGroup.c_str() );
+        LogMsg( LOG_VERBOSE, "GuiHostedListMgr::%s attempt join %s", __func__, m_FavoriteHostGroup.c_str() );
 
         m_AttemptedJoinHostGroup = true;
         VxGUID sessionId;
@@ -519,13 +519,13 @@ bool GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost( HostedId& admin
     bool wasLaunched{ false };
     if( !adminId.isValid() )
     {
-        LogModule( eLogHostedUser, LOG_ERROR, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost invalid host id for %s", DescribeHostType( adminId.getHostType() ) );
+        LogModule( eLogHostedUser, LOG_ERROR, "GuiHostedListMgr::%s invalid host id for %s", __func__, DescribeHostType( adminId.getHostType() ) );
         return false;
     }
 
     if( !IsHostARelayForUsers( adminId.getHostType() ) )
     {
-        LogModule( eLogHostedUser, LOG_ERROR, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost host type %s", DescribeHostType( adminId.getHostType() ) );
+        LogModule( eLogHostedUser, LOG_ERROR, "GuiHostedListMgr::%s host type %s", __func__, DescribeHostType( adminId.getHostType() ) );
         return false;
     }
 
@@ -535,18 +535,18 @@ bool GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost( HostedId& admin
     {
         if( guiHosted->getUser() )
         {
-            LogModule( eLogHostedUser, LOG_VERBOSE, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost found host %s", DescribeHostType( adminId.getHostType() ) );
+            LogModule( eLogHostedUser, LOG_VERBOSE, "GuiHostedListMgr::%s found host %s", __func__, DescribeHostType( adminId.getHostType() ) );
             wasLaunched = m_MyApp.getAppletMgr().launchClientApplet( guiHosted, parentPageFrame );
         }
         else
         {
-            LogMsg( LOG_ERROR, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost null admin user" );
+            LogMsg( LOG_ERROR, "GuiHostedListMgr::%s null admin user", __func__ );
             vx_assert( false );
         }
     }
     else
     {
-        LogModule( eLogHostedUser, LOG_WARN, "GuiHostedListMgr::launchClientAppletOfAlreadyConnectedHost no host %s", DescribeHostType( adminId.getHostType() ) );
+        LogModule( eLogHostedUser, LOG_WARN, "GuiHostedListMgr::%s no host %s", __func__, DescribeHostType( adminId.getHostType() ) );
     }
 
     return wasLaunched;

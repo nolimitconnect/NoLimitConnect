@@ -428,14 +428,14 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
 {
     if( !onlineId.isVxGUIDValid() )
     {
-        LogMsg( LOG_ERROR, "ConnectionMgr::requestConnection must have valid online id" );
+        LogMsg( LOG_ERROR, "ConnectionMgr::%s must have valid online id", __func__ );
         onConnectStatusChange( sessionId, eConnectStatusBadParam, connectReason, hostType );
         return eConnectStatusBadParam;
     }
 
     if( onlineId == m_Engine.getMyOnlineId() )
     {
-        LogModule( eLogHostConnect, LOG_DEBUG, "ConnectionMgr::requestConnection %s Loopback Socket", DescribeConnectReason( connectReason ) );
+        LogModule( eLogHostConnect, LOG_DEBUG, "ConnectionMgr::%s %s Loopback Socket", __func__, DescribeConnectReason( connectReason ) );
         retSktBase = m_Engine.getSktLoopback();
         int64_t timeMs = GetGmtTimeMs();
         retSktBase->setLastActiveTimeMs( timeMs );
@@ -451,7 +451,7 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
         return eConnectStatusReady;
     }
 
-    LogModule( eLogHostConnect, LOG_VERBOSE, "ConnectionMgr::requestConnection %s url %s", DescribeConnectReason( connectReason ), url.c_str() );
+    LogModule( eLogHostConnect, LOG_VERBOSE, "ConnectionMgr::%s %s url %s", __func__, DescribeConnectReason( connectReason ), url.c_str() );
     std::shared_ptr<VxSktBase> sktBase( nullptr );
 
     if( !IsConnectReasonTemporary( connectReason ) )
@@ -559,7 +559,7 @@ EConnectStatus ConnectionMgr::attemptConnection( VxGUID& sessionId, std::string 
 //============================================================================
 void ConnectionMgr::doneWithConnection( VxGUID socketId, VxGUID sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason )
 {
-    LogModule( eLogHostConnect, LOG_DEBUG, "HostBaseMgr::doneWithConnection %s", DescribeConnectReason( connectReason ));
+    LogModule( eLogHostConnect, LOG_DEBUG, "ConnectionMgr::%s %s", __func__, DescribeConnectReason( connectReason ));
     m_HandshakeMutex.lock();
     m_HandshakeList.removeHandshakeInfo( socketId, sessionId );
     m_HandshakeMutex.unlock();
@@ -590,7 +590,7 @@ void ConnectionMgr::doneWithConnection( VxGUID socketId, VxGUID sessionId, VxGUI
 //============================================================================
 void ConnectionMgr::doneWithConnection( VxGUID sessionId, VxGUID onlineId, IConnectRequestCallback* callback, EConnectReason connectReason )
 {
-    LogModule( eLogHostConnect, LOG_DEBUG, "HostBaseMgr::doneWithConnection %s", DescribeConnectReason( connectReason ) );
+    LogModule( eLogHostConnect, LOG_DEBUG, "ConnectionMgr::%s %s", __func__, DescribeConnectReason( connectReason ) );
     m_HandshakeMutex.lock();
     m_HandshakeList.removeHandshakeSession( sessionId );
     m_HandshakeMutex.unlock();
@@ -643,7 +643,7 @@ void ConnectionMgr::updateUrlCache( std::string& hostUrl, VxGUID& onlineId )
     }
     else
     {
-        LogMsg( LOG_ERROR, "ConnectionMgr::updateUrlCache empty url" );
+        LogMsg( LOG_ERROR, "ConnectionMgr::%s empty url", __func__ );
     }
 }
 
@@ -654,7 +654,7 @@ bool ConnectionMgr::urlCacheOnlineIdLookup( std::string& hostUrl, VxGUID& online
     bool foundId = m_Engine.getUrlMgr().lookupOnlineId( hostUrl, onlineId );
     if( foundId )
     {
-        LogMsg( LOG_VERBOSE, "ConnectionMgr::urlCacheOnlineIdLookup found online Id in cache url %s", hostUrl.c_str() );
+        LogMsg( LOG_VERBOSE, "ConnectionMgr::%s found online Id in cache url %s", __func__, hostUrl.c_str() );
         return foundId;
     }
 
@@ -756,42 +756,42 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
         // it is possible that the rx thread closes the socket immediately so keep checking the connection
         if( !sktBase->isConnected() )
         {
-            LogModule( eLogConnect, LOG_ERROR, "ConnectionMgr::directConnectTo: connection to %s:%d was closed abruptly by rx thread", ipAddr.c_str(), port );
+            LogModule( eLogConnect, LOG_ERROR, "ConnectionMgr::%s: connection to %s:%d was closed abruptly by rx thread", __func__, ipAddr.c_str(), port );
             unlockConnectionList();
             onConnectStatusChange( sessionId, eConnectStatusSendPktAnnFailed, connectReason, hostType );
             return eConnectStatusSendPktAnnFailed;
         }
 
         // generate encryption keys
-        LogModule( eLogSktData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. generating tx key %s:%d %s", sktBase->getRemoteIp().c_str(), port, onlineId.toHexString().c_str() );
+        LogModule( eLogSktData, LOG_VERBOSE, "ConnectionMgr::%s: connect success.. generating tx key %s:%d %s", __func__, sktBase->getRemoteIp().c_str(), port, onlineId.toHexString().c_str() );
 
         GenerateTxConnectionKey( sktBase, sktBase->getRemoteIp(), port, onlineId, m_Engine.getNetworkMgr().getNetworkKey() );
 
         if (!sktBase->isConnected())
         {
-            LogModule(eLogConnect, LOG_ERROR, "ConnectionMgr::directConnectTo: connection to %s:%d was closed abruptly by rx thread after tx key generated", ipAddr.c_str(), port);
+            LogModule(eLogConnect, LOG_ERROR, "ConnectionMgr::%s: connection to %s:%d was closed abruptly by rx thread after tx key generated", __func__, ipAddr.c_str(), port);
             unlockConnectionList();
             onConnectStatusChange( sessionId, eConnectStatusSendPktAnnFailed, connectReason, hostType );
             return eConnectStatusSendPktAnnFailed;
         }
 
-        LogModule( eLogSktData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. generating rx key" );
+        LogModule( eLogSktData, LOG_VERBOSE, "ConnectionMgr::%s: connect success.. generating rx key", __func__ );
 
         GenerateRxConnectionKey( sktBase, &m_Engine.getMyPktAnnounce().m_DirectConnectId, m_Engine.getNetworkMgr().getNetworkKey().c_str() );
 
         if( !sktBase->isConnected() )
         {
-            LogModule(eLogConnect, LOG_ERROR, "ConnectionMgr::directConnectTo: connection to %s:%d was closed abruptly by rx thread after rx key generated", ipAddr.c_str(), port);
+            LogModule(eLogConnect, LOG_ERROR, "ConnectionMgr::%s connection to %s:%d was closed abruptly by rx thread after rx key generated", __func__, ipAddr.c_str(), port);
             unlockConnectionList();
             onConnectStatusChange( sessionId, eConnectStatusSendPktAnnFailed, connectReason, hostType );
             return eConnectStatusSendPktAnnFailed;
         }
 
-        LogModule( eLogSktData, LOG_VERBOSE, "NetworkMgr::DirectConnectTo: connect success.. sending announce" );
+        LogModule( eLogSktData, LOG_VERBOSE, "ConnectionMgr::%s connect success.. sending announce", __func__ );
 
         if( false == sendMyPktAnnounce( onlineId, sktBase, true, false, false ) )
         {
-            LogModule( eLogConnect, LOG_DEBUG, "NetworkMgr::DirectConnectTo: connect failed sending announce" );
+            LogModule( eLogConnect, LOG_DEBUG, "ConnectionMgr::%s connect failed sending announce", __func__ );
             unlockConnectionList();
             onConnectStatusChange( sessionId, eConnectStatusSendPktAnnFailed, connectReason, hostType );
             return eConnectStatusSendPktAnnFailed;
@@ -799,7 +799,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
 
         if( !sktBase->isConnected() )
         {
-            LogModule( eLogConnect, LOG_ERROR, "ConnectionMgr::directConnectTo: connection to %s:%d was closed after pkt announce sent by rx thread", ipAddr.c_str(), port);
+            LogModule( eLogConnect, LOG_ERROR, "ConnectionMgr::%s connection to %s:%d was closed after pkt announce sent by rx thread", __func__, ipAddr.c_str(), port);
             unlockConnectionList();
             onConnectStatusChange( sessionId, eConnectStatusSendPktAnnFailed, connectReason, hostType );
             return eConnectStatusSendPktAnnFailed;
@@ -811,7 +811,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
         m_HandshakeMutex.unlock();
         if( !sktBase->isConnected() )
         {
-            LogModule( eLogConnect, LOG_ERROR, "ConnectionMgr::directConnectTo: connection to %s:%d was closed after handshake set by rx thread", ipAddr.c_str(), port);
+            LogModule( eLogConnect, LOG_ERROR, "ConnectionMgr::%s connection to %s:%d was closed after handshake set by rx thread", __func__, ipAddr.c_str(), port);
             m_HandshakeMutex.lock();
             m_HandshakeList.removeHandshake( sktBase );
             m_HandshakeMutex.unlock();
@@ -849,14 +849,14 @@ bool ConnectionMgr::connectToContact(	VxConnectInfo&		            connectInfo,
     retIsNewConnection	 = false;
     if( connectInfo.getMyOnlineId() == m_Engine.getMyOnlineId() )
     {
-        LogMsg( LOG_ERROR, "ConnectionMgr::connectToContact: cannot connect to ourself" );  
+        LogMsg( LOG_ERROR, "ConnectionMgr::%s cannot connect to ourself", __func__ );  
         return false;
     }
 
     ppoRetSkt = m_Engine.getConnectIdListMgr().findAnyUserOnlineConnection( connectInfo.getMyOnlineId() );
     if( ppoRetSkt.get() )
     {
-        LogMsg( LOG_VERBOSE, "ConnectionMgr::connectToContact: already connected" );  
+        LogMsg( LOG_VERBOSE, "ConnectionMgr::%s already connected", __func__ );  
         return true;
     }
 
@@ -902,12 +902,12 @@ bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, std::shared_ptr
     std::shared_ptr<VxSktBase> sktBase( nullptr );
     if( false == connectInfo.m_DirectConnectId.isVxGUIDValid() )
     {
-        LogMsg( LOG_ERROR, "connectUsingTcp: User invalid online id" );
+        LogMsg( LOG_ERROR, "ConnectionMgr::connectUsingTcp: User invalid online id" );
         return false;
     }
 
 #ifdef DEBUG_CONNECTIONS
-    LogMsg( LOG_INFO, "P2PEngine::connectUsingTcp: Attempting direct connect to %s ip %s port %d",
+    LogMsg( LOG_INFO, "ConnectionMgr::connectUsingTcp: Attempting direct connect to %s ip %s port %d",
         m_Engine.knownContactNameFromId( connectInfo.getMyOnlineId() ),
         strDirectConnectIp.c_str(),
         connectInfo.m_DirectConnectId.getPort() );
@@ -916,7 +916,7 @@ bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, std::shared_ptr
     {
         // direct connection success
 #ifdef DEBUG_CONNECTIONS
-        LogMsg( LOG_SKT, "connectUsingTcp: SUCCESS skt %d direct connect to %s ip %s port %d",
+        LogMsg( LOG_SKT, "ConnectionMgr::connectUsingTcp: SUCCESS skt %d direct connect to %s ip %s port %d",
             sktBase->m_SktNumber,
             m_Engine.knownContactNameFromId( connectInfo.getMyOnlineId() ),
             strDirectConnectIp.c_str(),
@@ -929,7 +929,7 @@ bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, std::shared_ptr
     else
     {
 #ifdef DEBUG_CONNECTIONS
-        LogMsg( LOG_SKT, "directConnectTo: FAIL LAN connect to %s ip %s port %d",
+        LogMsg( LOG_SKT, "ConnectionMgr::directConnectTo: FAIL LAN connect to %s ip %s port %d",
             connectInfo.getOnlineName(),
             strDirectConnectIp.c_str(),
             connectInfo.m_DirectConnectId.getPort() );

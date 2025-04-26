@@ -84,7 +84,7 @@ bool IgnoredHostsDb::saveToDatabase( IgnoredHostInfo& hostInfo )
     bindList.add( hostInfo.getHostDescription().c_str() );
     bindList.add( hostInfo.getTimestampMs() );  
    
-    RCODE rc = sqlExec( "INSERT INTO tblIgnoreHost (onlineId, thumbId, hostUrlIp, hostTitle, hostDescription, timestampdMs) values(?,?,?,?,?,?)",
+    RCODE rc = sqlExec( "INSERT INTO tblIgnoreHost (onlineId, thumbId, hostUrl, hostTitle, hostDescription, timestampdMs) values(?,?,?,?,?,?)",
         bindList );
     vx_assert( 0 == rc );
     if( rc )

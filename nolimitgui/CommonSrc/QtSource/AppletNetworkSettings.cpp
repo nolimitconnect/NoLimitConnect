@@ -29,7 +29,6 @@
 #include <NetLib/NetHostSettingDefs.h>
 #include <NetLib/VxGetRandomPort.h>
 
-#include <QClipboard>
 #include <QLabel>
 #include <QMessageBox>
 
@@ -94,7 +93,7 @@ void AppletNetworkSettings::connectSignals( void )
     connect( ui.m_DeleteSettingsButton, SIGNAL(clicked()), this, SLOT(onDeleteButtonClick()) );
     connect( ui.m_DeleteSettingsLabel, SIGNAL(clicked()), this, SLOT(slotDeleteLabelClick()) );
 
-    connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT(slotCopyMyUrlToClipboard()) );
+    connect( ui.m_ClipboardCopyWidget, SIGNAL(clicked()), this, SLOT(slotCopyMyUrlToClipboard()) );
     connect( ui.m_TestIsPortOpenButton, SIGNAL(clicked()), this, SLOT(slotTestIsMyPortOpenButtonClick()) );
 
     connect( ui.m_NetworkSettingsNameComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(onComboBoxSelectionChange(int)) );
@@ -736,8 +735,7 @@ bool AppletNetworkSettings::verifyFirewallSettings( void )
 //============================================================================
 void AppletNetworkSettings::slotCopyMyUrlToClipboard( void )
 {
-    QClipboard * clipboard = QApplication::clipboard();
-    clipboard->setText( ui.m_NodeUrlLabel->text() );
+    ui.m_ClipboardCopyWidget->copyToClipboard( ui.m_NodeUrlLabel->text() );
 }
 
 //============================================================================

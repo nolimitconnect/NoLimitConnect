@@ -109,6 +109,9 @@ public:
     bool                        isP2POnline( void )                 { return m_InternetAvail && ( m_HasFixedIpAddr || ( m_DirectConnectTested && ( !m_RequriesRelay || m_ConnectedToRelay ) ) ); }
     bool                        isRxPortOpen( void )                { return m_HasFixedIpAddr || ( m_DirectConnectTested && !m_RequriesRelay ); };
 
+    bool                        hasDefaultNetworkKey( void );
+    bool                        hasDefaultNetworkUrl( void );
+
     void                        setConnectToRelay( bool connectedToRelay );
 
     void                        setFirewallTestType( EFirewallTestType firewallTestType );
