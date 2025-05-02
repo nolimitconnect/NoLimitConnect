@@ -10,15 +10,12 @@
 
 #include "AppletInviteCreate.h"
 
-#include "AppletHostSelect.h"
 #include "AppletMgr.h"
 #include "ActivityInformation.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
-#include "MyIcons.h"
-#include "AccountMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -54,6 +51,10 @@ AppletInviteCreate::AppletInviteCreate( AppCommon& app, QWidget* parent )
     setAppletType( eAppletInviteCreate );
     ui.setupUi( getContentItemsFrame() );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
+
+    ui.m_InviteInfoButton->setFixedSize( eButtonSizeSmall );
+    ui.m_InviteInfoButton->setIcon( eMyIconInformation );
+    connect( ui.m_InviteInfoButton, SIGNAL(clicked()), this, SLOT(slotInviteInfoButtonClicked()) );
 
     ui.m_InviteUrlWidget->setupInvite( true );
     ui.m_ClipboardCopyWidget->setActionText( QObject::tr( "Copy invite to clipboard" ) );
@@ -95,4 +96,11 @@ void AppletInviteCreate::slotUpdateInviteUserMsg( void )
 bool AppletInviteCreate::setInviteType( EHostType hostType )
 {
     return ui.m_InviteUrlWidget->setHostInviteType( hostType );
+}
+
+//============================================================================
+void AppletInviteCreate::slotInviteInfoButtonClicked( void )
+{
+    ActivityInformation * activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeWhatIsAInvite );
+    activityInfo->show();
 }

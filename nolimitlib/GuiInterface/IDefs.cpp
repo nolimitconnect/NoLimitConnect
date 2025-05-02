@@ -149,7 +149,7 @@ namespace
         "Connect Reason Network Host",
         "Connect Reason Connect Test",
 
-        "Connect Reason Push To Talk",
+        "Connect Reason Peer Invite",
 
         "Max Connect Reason ",
     };
@@ -781,6 +781,8 @@ namespace
         "Skt Close NetworkHost ",
         "Skt Close ConnectTest ",
 
+        "Skt Close PeerInvite ",
+
         "Skt Close NetServiceTimeout ",
 
         "Skt Close Wrong Pkt Ann Size",
@@ -892,8 +894,8 @@ ESktCloseReason ConnectReasonToCloseReason( enum EConnectReason connectReason )
         return eSktCloseNetworkHost;
     case eConnectReasonConnectTest:
         return eSktCloseNetworkHost;
-    case eConnectReasonPushToTalk:
-        return eSktClosePushToTalk;
+    case eConnectReasonPeerInvite:
+        return eSktClosePeerInvite;
 
     default:
         return eSktCloseConnectReasonsEmpty;

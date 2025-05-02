@@ -154,7 +154,7 @@ enum EConnectReason
     eConnectReasonNetworkHost,
     eConnectReasonConnectTest,
 
-    eConnectReasonPushToTalk,
+    eConnectReasonPeerInvite,
 
     eMaxConnectReason
 };
@@ -492,7 +492,6 @@ enum EInfoType
 
     eInfoTypeFriendsList,
     eInfoTypeIgnoredList,
-    eInfoTypeNearbyList,
     eInfoTypeOfflineList,
 
     eInfoTypeGroupStatus,
@@ -504,6 +503,8 @@ enum EInfoType
     eInfoTypeMaxMessageHistory,
     
     eInfoTypeIpv6,
+
+    eInfoTypeWhatIsAInvite,
 
     eMaxInfoType // must be last
 };
@@ -1273,7 +1274,7 @@ enum ESktCloseReason
     eSktCloseNetworkHost,
     eSktCloseConnectTest,
 
-    eSktClosePushToTalk,
+    eSktClosePeerInvite,
 
     eSktCloseNetServiceTimeout,
 

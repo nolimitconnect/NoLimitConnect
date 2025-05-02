@@ -35,6 +35,7 @@ signals:
 protected slots:
     void                        slotCopyInviteButtonClicked( void );
     void                        slotUpdateInviteUserMsg( void );
+    void                        slotInviteInfoButtonClicked( void );
 
 protected:
     QPlainTextEdit *            getInviteMessageEdit( void );

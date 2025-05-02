@@ -66,6 +66,7 @@ protected:
     QFrame*                     getUrlFrame( EHostType hostType );
 
     std::string                 generateSelectedInviteText( void );
+    void                        updateAcceptUrls( void );
 
     void                        testUrl( EHostType hostType );
     

@@ -10,6 +10,7 @@
 
 #include "AppletInviteAccept.h"
 
+#include "ActivityInformation.h"
 #include "AppCommon.h"
 #include "AppletNetworkSettings.h"
 #include "AppSettings.h"
@@ -58,6 +59,10 @@ AppletInviteAccept::AppletInviteAccept( AppCommon& app, QWidget* parent )
 
     ui.m_ClipboardPasteWidget->setActionText( QObject::tr( "Paste invite from clipboard" ) );
     ui.m_InviteUrlWidget->setupInvite( false );
+
+    ui.m_InviteInfoButton->setFixedSize( eButtonSizeSmall );
+    ui.m_InviteInfoButton->setIcon( eMyIconInformation );
+    connect( ui.m_InviteInfoButton, SIGNAL(clicked()), this, SLOT(slotInviteInfoButtonClicked()) );
 
     connect( ui.m_ClipboardPasteWidget, SIGNAL(signalClipboardPaste(QString)), this, SLOT(slotPasteFromClipboard(QString)) );
     connect( ui.m_AcceptInviteButton, SIGNAL(clicked()), this, SLOT(slotAcceptInviteButtonClicked()) );
@@ -171,4 +176,11 @@ void AppletInviteAccept::slotConnectToHosts( void )
             m_Engine.fromGuiJoinHost( adminId, sessionId, url );
         }
     }
+}
+
+//============================================================================
+void AppletInviteAccept::slotInviteInfoButtonClicked( void )
+{
+    ActivityInformation * activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeWhatIsAInvite );
+    activityInfo->show();
 }

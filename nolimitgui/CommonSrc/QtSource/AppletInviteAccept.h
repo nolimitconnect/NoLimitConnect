@@ -34,6 +34,7 @@ protected slots:
     void                        slotRejectInviteButtonClicked( void );
     void                        slotInviteChanged( void );
     void                        slotConnectToHosts( void );
+    void                        slotInviteInfoButtonClicked( void );
 
 protected:
     QPlainTextEdit *            getInviteEdit( void );

@@ -563,7 +563,7 @@ bool HostedListMgr::fromGuiQueryMyHostedInfo( enum EHostType hostType, std::vect
         HostedInfo hostedInfo;
         if( pluginBase->getHostedInfo( hostedInfo ) )
         {
-            hostedInfoList.push_back( hostedInfo );
+            hostedInfoList.emplace_back( hostedInfo );
         }
     }
 
@@ -580,7 +580,7 @@ bool HostedListMgr::fromGuiQueryHostedInfoList( enum EHostType hostType, std::ve
         if( iter->getHostType() == hostType )
         {
             addToListInJoinedTimestampOrder( hostedInfoList, *iter );
-            hostedInfoList.push_back( *iter );
+            hostedInfoList.emplace_back( *iter );
         }
     }
 

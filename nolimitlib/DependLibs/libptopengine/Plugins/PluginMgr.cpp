@@ -804,6 +804,8 @@ PluginBase* PluginMgr::hostClientToPlugin( EHostType hostType )
         return findPlugin( ePluginTypeClientNetwork );
     case eHostTypeRandomConnect:
         return findPlugin( ePluginTypeClientRandomConnect );
+	case eHostTypePeerUser:
+        return findPlugin( ePluginTypeMessenger );
     default:
         return nullptr;
     }

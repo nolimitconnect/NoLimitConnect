@@ -57,13 +57,13 @@ InviteUrlWidget::InviteUrlWidget( QWidget* parent )
     connect( ui.m_NetworkSettingsInfoButton, SIGNAL(clicked()), this, SLOT(slotNetworkSettingsInfoButtonClicked()) );
 
     connect( ui.m_PersonalCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateInvite()) );
-    connect( ui.m_PersonalUrlEdit, SIGNAL(textChanged()), this, SLOT(slotUpdateInvite()) );
+    connect( ui.m_PersonalUrlEdit, SIGNAL(textChanged(const QString)), this, SLOT(slotUpdateInvite()) );
     connect( ui.m_ChatRoomCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateInvite()) );
-    connect( ui.m_ChatRoomUrlEdit, SIGNAL(textChanged()), this, SLOT(slotUpdateInvite()) );
+    connect( ui.m_ChatRoomUrlEdit, SIGNAL(textChanged(const QString)), this, SLOT(slotUpdateInvite()) );
     connect( ui.m_GroupCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateInvite()) );
-    connect( ui.m_GroupUrlEdit, SIGNAL(textChanged()), this, SLOT(slotUpdateInvite()) );
+    connect( ui.m_GroupUrlEdit, SIGNAL(textChanged(const QString)), this, SLOT(slotUpdateInvite()) );
     connect( ui.m_RandomConnectCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateInvite()) );
-    connect( ui.m_RandomConnectUrlEdit, SIGNAL(textChanged()), this, SLOT(slotUpdateInvite()) );
+    connect( ui.m_RandomConnectUrlEdit, SIGNAL(textChanged(const QString)), this, SLOT(slotUpdateInvite()) );
     connect( ui.m_NetworkSettingsCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateInvite()) );
 
     connect( ui.m_ChatRoomButton, SIGNAL(clicked()), this, SLOT(slotChatRoomButtonClicked()) );
@@ -412,6 +412,7 @@ void InviteUrlWidget::parseInviteText( std::string inviteText )
 std::string InviteUrlWidget::generateSelectedInviteText( void )
 {
     std::string inviteText;
+    updateAcceptUrls();
     if( m_HostUrls.empty() && m_NetworkUrls.empty() )
     {
         return inviteText;
@@ -469,6 +470,27 @@ std::string InviteUrlWidget::generateSelectedInviteText( void )
     inviteText += Invite::INVITE_END;
 
     return inviteText;
+}
+
+//============================================================================
+void InviteUrlWidget::updateAcceptUrls( void )
+{
+    m_HostUrls.clear();
+    for( auto hostType : m_HostTestList )
+    {
+        if( !getUrlCheckBox( hostType )->isChecked() )
+        {
+            continue;
+        }
+
+        VxPtopUrl ptopUrl( getUrlEdit( hostType )->text().toUtf8().constData() );
+        if( !ptopUrl.isValid() || ptopUrl.getHostType() != hostType )
+        {
+            continue;
+        }
+
+        m_HostUrls.emplace_back( ptopUrl );
+    }
 }
 
 //============================================================================

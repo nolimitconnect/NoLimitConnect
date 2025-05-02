@@ -10,21 +10,44 @@
 //============================================================================
 
 #include "PluginBaseMultimedia.h"
-#include "PluginSessionMgr.h"
+
 #include "VoiceFeedMgr.h"
 #include "VideoFeedMgr.h"
 
-class AssetXferCallback;
+#include <AssetMgr/AssetInfo.h>
+#include <Connections/IConnectRequest.h>
 
-class PluginMessenger : public PluginBaseMultimedia
+class PluginMessenger : public PluginBaseMultimedia, public IConnectRequestCallback
 {
 public:
 	PluginMessenger( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginMessenger() = default;
 
-	virtual EAppModule			getAppModule( void )		{ return eAppModuleMessenger; }
+    virtual EAppModule			getAppModule( void ) override		{ return eAppModuleMessenger; }
 
 	void						wantAssetXferCallbacks( AssetXferCallback* client, bool enable );
+
+	void						fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl ) override;
+
+protected:
+	bool						onUrlActionQueryIdSuccess( VxGUID& sessionId, std::string& url, VxGUID& onlineId, enum EConnectReason connectReason = eConnectReasonUnknown ) override { return true; };
+	void						onUrlActionQueryIdFail( VxGUID& sessionId, std::string& url, enum ERunTestStatus testStatus, 
+                                                       enum  EConnectReason connectReason = eConnectReasonUnknown, ECommErr commErr = eCommErrNone ) override {};
+
+	bool						onContactHandshaking( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason = eConnectReasonUnknown ) override { return true; };
+	void						onHandshakeTimeout( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason = eConnectReasonUnknown ) override {};
+	void						onContactSessionDone( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason = eConnectReasonUnknown ) override {};
+
+	void						onConnectRequestFail( VxGUID& sessionId, VxGUID& onlineId, EConnectStatus connectStatus, 
+                                                      enum EConnectReason connectReason = eConnectReasonUnknown, enum ECommErr commErr = eCommErrNone ) override {};
+	void						onContactDisconnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason = eConnectReasonUnknown ) override {};
+
+    /// returns false if one time use and packet has been sent. Connect Manager will disconnect if nobody else needs the connection
+	bool						onContactConnected( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, enum EConnectReason connectReason = eConnectReasonUnknown ) override;
+
+	bool						sendWasInvited( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId );
+
+	AssetBaseInfo				m_AssetInfo;
 };
 
 

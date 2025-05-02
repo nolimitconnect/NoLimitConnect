@@ -332,11 +332,13 @@ QString ActivityInformation::m_DefaultChatRoomHostUrl( QObject::tr(
 
 QString ActivityInformation::m_NetworkSettingsInvite( QObject::tr(
     "=== Network Settings Invite ===\n"
-    "Accepting A Network Settings Invite that changes the Network Host URL\n"
-    "Or If user changes the Network Key then\n"
+    "By Accepting A Network Settings Invite that changes the Network Host URL:\n"
     "The user will no longer be able to connect to No Limit Connect Network.\n"
     "You should only change the Network Host URL and Network Key if you have\n"
     "A private network with a private Network Host server\n"
+    "The Network Key is NOT part of a Invite\n\n"
+    "Warning: If accepting a network host be sure you have the correct network key before saving the network settings\n"
+    "If you do not have the correct network key you will get banned as a hacker\n"
 ) );
 
 QString ActivityInformation::m_FriendList( QObject::tr(
@@ -348,12 +350,6 @@ QString ActivityInformation::m_IgnoredList( QObject::tr(
     "=== Ignored List ===\n"
     "A list showing ignored (blocked) users.\n"
     "You can unblock a user by clicking the friendship icon or select Change Friendship from the menu button on right side of list entry.\n"
-) );
-
-QString ActivityInformation::m_NearbyList( QObject::tr(
-    "=== Nearby Users List ===\n"
-    "A list showing users on the same Wireless or LAN network that are also showing the nearby list.\n"
-    "An easy way to get connected without being in the same group is to connect his/her device on your home Wireless or LAN network.\n"
 ) );
 
 QString ActivityInformation::m_OfflineList( QObject::tr(
@@ -392,7 +388,7 @@ QString ActivityInformation::m_Ipv6( QObject::tr(
     "IPv6 maximum addresses 340,282,366,920,938,463,463,374,607,431,768,211,456 (2^128)\n"
     "IPv6 Protocol is different from IPv4 and a connection from IPv6 to IPv4 is not in the protocols.\n"
     "If you choose IPv6 then the Network Host and Connection Test Host must also be IPv6 enabled.\n"
-    "This means the host listing on the IPv6 network may not have the same hosts listed as the IPv4 network.\n"
+    "This means the host listing on the IPv6 network might not have the same hosts listed as the IPv4 network.\n"
 ) );
 
 QString ActivityInformation::m_FriendRequest( QObject::tr(
@@ -402,6 +398,14 @@ QString ActivityInformation::m_FriendRequest( QObject::tr(
     " do not know you can set it to disabled ."
     "\n"
     "\n"
+) );
+
+QString ActivityInformation::m_WhatIsAInvite( QObject::tr(
+    "=== What Is A Invite ===\n"
+    "A Invite is text that starts with !Invite! and typically is sent by email or text message\n"
+    "A Invite allows users to join a host and/or private network\n"
+    "In the case of a personal invites a user can directly connect to another user without joining a host\n"
+    "If user is a friend with open port a attempt to reconnect will occur even after restart\n\n"
 ) );
 
 //============================================================================
@@ -451,8 +455,6 @@ QString ActivityInformation::getInfoText( void )
         return m_FriendList;
     case eInfoTypeIgnoredList:
         return m_IgnoredList;
-    case eInfoTypeNearbyList:
-        return m_NearbyList;
     case eInfoTypeOfflineList:
         return m_OfflineList;
 
@@ -467,6 +469,8 @@ QString ActivityInformation::getInfoText( void )
         return m_MaxMessageHistory;
     case eInfoTypeIpv6:
         return m_Ipv6;
+    case eInfoTypeWhatIsAInvite:
+        return m_WhatIsAInvite + m_NetworkSettingsInvite;
     default:
         return m_NoInfoAvailable;
     }

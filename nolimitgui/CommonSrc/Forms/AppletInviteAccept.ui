@@ -69,17 +69,53 @@
        <number>2</number>
       </property>
       <property name="leftMargin">
-       <number>5</number>
+       <number>2</number>
       </property>
       <property name="topMargin">
-       <number>5</number>
+       <number>2</number>
       </property>
       <property name="rightMargin">
-       <number>5</number>
+       <number>2</number>
       </property>
       <property name="bottomMargin">
-       <number>5</number>
+       <number>2</number>
       </property>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="VxPushButton" name="m_InviteInfoButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="text">
+           <string notr="true"/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="m_InviteInfoLabel">
+          <property name="text">
+           <string>What is a invite?</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
       <item>
        <widget class="ClipboardPasteWidget" name="m_ClipboardPasteWidget" native="true"/>
       </item>
@@ -166,15 +202,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>VxPushButton</class>
-   <extends>QPushButton</extends>
-   <header>VxPushButton.h</header>
-  </customwidget>
-  <customwidget>
    <class>InviteUrlWidget</class>
    <extends>QWidget</extends>
    <header>InviteUrlWidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VxPushButton</class>
+   <extends>QPushButton</extends>
+   <header>VxPushButton.h</header>
   </customwidget>
   <customwidget>
    <class>IdentWidget</class>
