@@ -74,6 +74,7 @@ protected:
     Ui::InviteUrlWidgetUi&      ui;
     AppCommon&					m_MyApp;
     bool                        m_IsCreateInvite{ false };
+    bool                        m_IsSettingUrls{ false };
 
     std::vector<EHostType>      m_HostTestList;
     std::vector<EHostType>      m_HostValidList;

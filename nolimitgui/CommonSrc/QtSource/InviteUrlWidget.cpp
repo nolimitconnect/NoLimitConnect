@@ -19,6 +19,7 @@
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/Invite.h>
+#include <CoreLib/VxDebug.h>
 #include <NetLib/NetHostSetting.h>
 
 #include "ui_InviteUrlWidget.h"
@@ -111,13 +112,13 @@ void InviteUrlWidget::setInviteText( std::string inviteText )
 //============================================================================
 std::string InviteUrlWidget::getInviteText( void )
 {
-    updateInviteText();
     if( m_IsCreateInvite )
     {
+        updateInviteText();
         return ui.m_InviteTextEdit->toPlainText().toUtf8().constData();
     }
     else
-    {
+    {      
         return generateSelectedInviteText();
     } 
 }
@@ -263,6 +264,11 @@ QFrame* InviteUrlWidget::getUrlFrame( EHostType hostType )
 //============================================================================
 void InviteUrlWidget::slotUpdateInvite( void )
 {
+    if( m_IsSettingUrls )
+    {
+        return; // while setting do not update with every change
+    }
+
     updateUrls();
     updateInviteText();
     emit signalInviteChanged();
@@ -396,16 +402,44 @@ void InviteUrlWidget::parseInviteText( std::string inviteText )
         ui.m_NetworkFrame->setVisible( false );
     }
 
-    for( auto& ptopUrl : m_HostUrls )
+    m_IsSettingUrls = true; // do not say has changed until have set all the text
+    for( auto ptopUrl : m_HostUrls )
     {
         EHostType hostType = ptopUrl.getHostType();
         if( hostType != eHostTypeUnknown )
         {
-            getUrlFrame( hostType )->setVisible( true );
-            getUrlEdit( hostType )->setText( ptopUrl.getHostUrl().c_str() );
-            getUrlCheckBox( hostType )->setChecked( true );
+            std::string url = ptopUrl.getHostUrl().c_str();
+            if( !url.empty() )
+            {
+                QFrame* frame = getUrlFrame( hostType );
+                QLineEdit* lineEdit = getUrlEdit( hostType );
+                QCheckBox* checkBox = getUrlCheckBox( hostType );
+                if( frame && lineEdit && checkBox )
+                {
+                    QString urlText = url.c_str();
+                    frame->setVisible( true );
+                    lineEdit->setText( urlText );
+                    checkBox->setChecked( true );
+                    LogMsg( LOG_VERBOSE, "%s host %s url %s", __func__, DescribeHostType( hostType ), url.c_str() );
+                }
+                else
+                {
+                    LogMsg( LOG_VERBOSE, "%s null widget for host %s url %s", __func__, DescribeHostType( hostType ), url.c_str() );
+                }
+            }
+            else
+            {
+                LogMsg( LOG_VERBOSE, "%s host %s empty url", __func__, DescribeHostType( hostType ) );
+            }
+        }
+        else
+        {
+            LogMsg( LOG_VERBOSE, "%s Invalid host type %d", __func__, hostType );
         }
     }
+
+    m_IsSettingUrls = false; 
+    slotUpdateInvite(); // now say has changed
 }
 
 //============================================================================
