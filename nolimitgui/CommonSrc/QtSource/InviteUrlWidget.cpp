@@ -214,6 +214,9 @@ QCheckBox* InviteUrlWidget::getUrlCheckBox( EHostType hostType )
 
     case eHostTypeRandomConnect:
         return ui.m_RandomConnectCheckBox;
+
+    default:
+        break;
     }
 
     return nullptr;
@@ -235,6 +238,9 @@ QLineEdit* InviteUrlWidget::getUrlEdit( EHostType hostType )
 
     case eHostTypeRandomConnect:
         return ui.m_RandomConnectUrlEdit;
+
+    default:
+        break;
     }
 
     return nullptr;
@@ -256,6 +262,9 @@ QFrame* InviteUrlWidget::getUrlFrame( EHostType hostType )
 
     case eHostTypeRandomConnect:
         return ui.m_RandomConnectFrame;
+
+    default:
+        break;
     }
 
     return nullptr;

@@ -18,6 +18,7 @@
 #include <Membership/MemberActiveMgr.h>
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxGlobals.h>
 
 //============================================================================
 GuiMemberActiveMgr::GuiMemberActiveMgr()
@@ -36,6 +37,12 @@ void GuiMemberActiveMgr::onAppCommonCreated( void )
 //============================================================================
 bool GuiMemberActiveMgr::isMemberActive( GroupieId& groupieId )
 {
+    if( VxGetShowMyselfInLists() && groupieId.getUserOnlineId() == GetPtoPEngine().getMyOnlineId() && groupieId.getHostOnlineId() == GetPtoPEngine().getMyOnlineId() )
+    {
+        // is myself and allowed
+        return true;
+    }
+
     auto iter = std::find(m_MemberList.begin(), m_MemberList.end(), groupieId);
     return iter != m_MemberList.end();
 }

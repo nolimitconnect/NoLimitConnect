@@ -26,6 +26,7 @@
 
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxPtopUrl.h>
 
 #include "ui_AppletJoinHostList.h"
@@ -35,7 +36,7 @@ AppletJoinBase::AppletJoinBase( const char*name, AppCommon& app, QWidget* parent
 : AppletBase( name, app, parent )
 , ui(*(new Ui::AppletJoinHostListUi))
 {
-    m_NetworkHostUrl = m_MyApp.getFromGuiInterface().fromGuiQueryDefaultUrl( eHostTypeNetwork, true );
+    m_NetworkHostUrl = m_MyApp.getFromGuiInterface().fromGuiQueryDefaultUrl( eHostTypeNetwork, !VxGetShowMyselfInLists() );
     VxPtopUrl netHostUrl( m_NetworkHostUrl );
     m_NetHostPtopUrl = netHostUrl;
     if( m_NetHostPtopUrl.isValid() )
@@ -199,7 +200,7 @@ void AppletJoinBase::callbackUserUpdated( GuiUser* guiUser )
 //============================================================================
 void AppletJoinBase::callbackGuiHostedListSearchResult( HostedId& hostedId, GuiHosted* guiHosted, VxGUID& sessionId )
 {
-	if( hostedId.getHostType() == m_HostType && guiHosted && hostedId.getHostOnlineId() != m_MyApp.getMyOnlineId() )
+	if( hostedId.getHostType() == m_HostType && guiHosted && ( VxGetShowMyselfInLists() || hostedId.getHostOnlineId() != m_MyApp.getMyOnlineId() ) )
 	{
 		ui.m_GuiHostedListWidget->updateHostedList( hostedId, guiHosted, sessionId );
 		GroupieId groupieId( m_MyApp.getMyOnlineId(), hostedId );

@@ -113,7 +113,7 @@ void CamProcessor::processCamRgbThreaded( void )
         while( m_ProcessCamRgbQue.size() )
 		{
             int64_t startTime;
-            //if( LogEnabled( eLogWebCam ) )
+            if( LogEnabled( eLogWebCam ) )
             {
                startTime = GetGmtTimeMs();
             }
@@ -125,7 +125,7 @@ void CamProcessor::processCamRgbThreaded( void )
 
             processCamVideoRgb( rawVideo );
 			delete rawVideo;
-            //if( LogEnabled( eLogWebCam ) )
+            if( LogEnabled( eLogWebCam ) )
             {
                 static int frameCnt = 0;
                 frameCnt++;

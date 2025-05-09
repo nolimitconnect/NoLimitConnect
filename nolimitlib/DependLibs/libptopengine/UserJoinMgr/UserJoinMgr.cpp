@@ -607,6 +607,12 @@ void UserJoinMgr::changeJoinState( GroupieId& groupieId, EJoinState joinState )
 //============================================================================
 EJoinState UserJoinMgr::getUserJoinState( GroupieId& groupieId )
 {
+    if( VxGetShowMyselfInLists() && groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() && groupieId.getHostOnlineId() == m_Engine.getMyOnlineId() )
+    {
+        // is myself and allowed
+        return eJoinStateJoinIsGranted;
+    }
+
     EJoinState joinState{ eJoinStateNone };
     lockResources();
     UserJoinInfo* joinInfo = findUserJoinInfo( groupieId );
