@@ -26,15 +26,37 @@ namespace
 	{
 		eSqlExecStepDbOpen				= 0,
 		eSqlExecStepPrepStatement		= 1,
-		eSqlExecStepGetFirstParam		= 2,
-		eSqlExecStepBindParams			= 3,
-		eSqlExecStepFinalize			= 4,
-		eMaxExecSqlStep					= 5,
+		eSqlExecStepBindParams			= 2,
+		eSqlExecStepFinalize			= 3,
+		eSqlExecStepError				= 4,
+		eSqlExecStepDbClose				= 5,
+		eMaxExecSqlStep					= 6
 	};
+
+	const char* DescribeSqlStep( enum ESqlExecStep sqlStep )
+	{
+		switch( sqlStep )
+		{
+		case eSqlExecStepDbOpen:
+			return "sqlDbOpen";
+		case eSqlExecStepDbClose:
+			return "sqlDbClose";
+		case eSqlExecStepPrepStatement:
+			return "sqlPrepStmt";
+		case eSqlExecStepBindParams:
+			return "sqlBindParams";
+		case eSqlExecStepFinalize:
+			return "sqlFinalize";
+		case eSqlExecStepError:
+			return "sqlStepError";
+		case eMaxExecSqlStep:
+		default:
+			return "unknown step";
+		}
+	}
 
 	VxMutex			g_DbBaseStartupMutex;
 }
-
 
 //============================================================================
 DbBindParam::DbBindParam( void )
@@ -260,6 +282,14 @@ bool DbBindList::getNext( DbBindParam** ppBindParam )
 	}
 
 	return( retVal );
+}
+
+//============================================================================
+bool DbBindList::hasNext( void )
+{
+	auto nextIter = m_CurrParamIter;
+	nextIter++;
+	return nextIter != m_ParamList.end();
 }
 
 //============================================================================
@@ -569,221 +599,193 @@ bool DbBase::dbTableExists( const char* pTableName )
 RCODE DbBase::sqlExec( const char*		SQL_Statement, 
                        DbBindList&		bindList )
 {
-	EDbBindType			bindType;
-	const char*			bindTypeDesc		= "";
-	char				stepDescBuf[ 128 ];
-	const char*         stepDesc			= "";
-	bool				executing;
-	bool				needToFinalize		= false;
-	bool				needToClose			= false;
-	bool				finishedStepping	= false;
-	bool				incrExStep			= true;
-	bool				paramObtained		= false;
-	const char*			srcStr				= "DbBase:sqlite3_exec: error";
-	DbBindParam*		pBindParam{ nullptr };
-	RCODE				expectedResult		= SQLITE_OK;
-	RCODE				retVal				= SQLITE_OK;
-    RCODE				result				= 0;
-	sqlite3_stmt*		pSqlStatement		= nullptr;
-	unsigned short		bindNum				= 1;
-	unsigned short		exStep				= 0;
+    RCODE result = 0;
+	sqlite3_stmt* pSqlStatement	= nullptr;
+	enum ESqlExecStep sqlStep{eSqlExecStepDbOpen};
+	enum ESqlExecStep sqlErrorStep{eSqlExecStepDbOpen};
 
 	do
-	{
-		executing = false;
-		if( eSqlExecStepDbOpen != exStep && !m_Db )
+	{					 
+		switch( sqlStep )
 		{
-			LogMsg( LOG_ERROR, "DbBase::sqlExec ERROR null m_Db. Did you forget a mutex Lock?" );
-			return SQLITE_ERROR;
-		}
-
-		switch( exStep )
-		{
-		case eSqlExecStepDbOpen:
-			stepDesc = "OPEN";
-			result = dbOpen();
-			if( expectedResult == result )
+		case eSqlExecStepError:
+			if( result != SQLITE_OK )
 			{
-				needToClose = true;
+				LogMsg( LOG_ERROR, "DbBase::sqlExec error %d in step %s", result, DescribeSqlStep( sqlErrorStep ) );
 			}
+
+			if( m_Db )
+			{
+				LogMsg( LOG_ERROR, "DbBase::sqlExec error %s in step %s db %s", sqlite3_errmsg(m_Db), DescribeSqlStep( sqlErrorStep ), m_strDbFileName.c_str() );
+			}
+
+			dbClose();
+			return -1;
+
+		case eSqlExecStepDbOpen:
+			sqlStep = eSqlExecStepPrepStatement;
+			result = dbOpen();
+			if( SQLITE_OK != result )
+			{
+				sqlErrorStep = eSqlExecStepDbOpen;
+				sqlStep = eSqlExecStepError;
+			}
+
 			break;
 
 		case eSqlExecStepPrepStatement:
-			stepDesc = "PREPARE";
+			sqlStep = eSqlExecStepBindParams;
 			result = sqlite3_prepare_v2( m_Db                             , 
 										SQL_Statement                      , 
 										( int )strlen( SQL_Statement ) + 1 , 
 										&pSqlStatement                     , 
 										 NULL                               );
-			if( SQLITE_OK == result )
+			if( SQLITE_OK != result )
 			{
-				needToFinalize = true;
+				sqlErrorStep = eSqlExecStepPrepStatement;
+				sqlStep = eSqlExecStepError;
 			}
-			break;
-
-		case eSqlExecStepGetFirstParam:
-			paramObtained = bindList.getFirst( &pBindParam );
 			break;
 
 		case eSqlExecStepBindParams:
-			if( false == paramObtained )
+			sqlStep = eSqlExecStepFinalize;
+			if( false == bindParams( pSqlStatement, bindList ) )
 			{
-				incrExStep = true;
-			}
-			else
-			{
-				vx_assert( ( DbBindParam* )0 != pBindParam );
-				bindType = pBindParam->getType();
-				vx_assert( eDbBindTypeNone != bindType );
-
-				switch( bindType )
-				{
-				case eDbBindTypeText:
-					bindTypeDesc = "TEXT";
-					result = sqlite3_bind_text(	pSqlStatement, 
-												bindNum, 
-												pBindParam->getText(), 
-												pBindParam->getTextLen(), 
-												SQLITE_TRANSIENT );
-					break;
-
-				case eDbBindTypeInt:
-					bindTypeDesc = "INT";
-					result = sqlite3_bind_int(	pSqlStatement, 
-												bindNum, 
-												pBindParam->getInt() );
-					break;
-
-				case eDbBindTypeS64:
-					bindTypeDesc = "int64_t";
-					result = sqlite3_bind_int64(	pSqlStatement, 
-													bindNum, 
-													pBindParam->getS64() );
-					break;
-
-				case eDbBindTypeBlob:
-					{
-						bindTypeDesc = "BLOB";
-						int len = 0;
-						void * pvBlob = pBindParam->getBlob( len );
-						result = sqlite3_bind_blob( pSqlStatement, 
-													bindNum, 
-													pvBlob, 
-													len,
-													SQLITE_TRANSIENT );
-					}
-
-					break;
-
-                default:
-                    LogMsg( LOG_ERROR,"DbBase::sqlExec UNKNOWN bind type db %s", m_strDbFileName.c_str());
-                    dbClose();
-                    return -1;
-				}
-
-				sprintf( stepDescBuf, "BIND %s %d", bindTypeDesc, bindNum );
-				stepDesc = stepDescBuf;
-				
-				bindNum += 1;
-				paramObtained = bindList.getNext( &pBindParam );
-				incrExStep = false;
-				if( false == paramObtained )
-				{
-					incrExStep = true;
-				}
+				sqlErrorStep = eSqlExecStepBindParams;
+				sqlStep = eSqlExecStepError;
 			}
 
 			break;
 
 		case eSqlExecStepFinalize:
-			stepDesc = "FINALIZE";
-			needToFinalize = true;
+			sqlStep = eSqlExecStepDbClose;
 
-			retVal = -1;
 			if( SQLITE_DONE != sqlite3_step(pSqlStatement) )
 			{
-				LogMsg( LOG_ERROR, "DbBase::finalizeIniSetTransaction:ERROR %s while stepping db %s", sqlite3_errmsg(m_Db), m_strDbFileName.c_str() );
+				sqlErrorStep = eSqlExecStepFinalize;
+				sqlStep = eSqlExecStepError;
+				LogMsg( LOG_ERROR, "DbBase::sqlExec:ERROR %s while stepping db %s", sqlite3_errmsg(m_Db), m_strDbFileName.c_str() );
 			}
 			else
 			{
-				needToFinalize = false;
-				if( SQLITE_OK == ( retVal = sqlite3_finalize(pSqlStatement) ) )
+				if( SQLITE_OK != sqlite3_finalize(pSqlStatement) ) 
 				{
-					retVal = 0;
-				}
-				else
-				{
-					LogMsg( LOG_ERROR, "DbBase::finalizeIniSetTransaction:ERROR %s in finalize db %s", sqlite3_errmsg(m_Db), m_strDbFileName.c_str() );
+					sqlErrorStep = eSqlExecStepFinalize;
+					sqlStep = eSqlExecStepError;
+					LogMsg( LOG_ERROR, "DbBase::sqlExec:ERROR %s in finalize db %s", sqlite3_errmsg(m_Db), m_strDbFileName.c_str() );
 				}
 			}
 
-			if( true == needToFinalize )
-			{
-				sqlite3_finalize( pSqlStatement );
-				needToFinalize = false;
-			}
-
-			result = expectedResult = SQLITE_OK;
+			break;
 
 		default:
-			finishedStepping = true;
+			break;
 		}
 
-		if( expectedResult == result )
-		{
-			if( true != finishedStepping )
-			{
-				if( true == incrExStep )
-				{
-					exStep += 1;
-				}
+	} while( sqlStep != eSqlExecStepDbClose );
 
-				executing = true;
-			}
+	//if( true == needToFinalize )
+	//{
+	//	sqlite3_exec(m_Db,"END",NULL,NULL,NULL);
+	//}
+
+ //   if( retVal )
+ //   {
+ //       LogMsg( LOG_ERROR, "DbBase::sqlExec returning error %d %s for statement %s",
+ //               retVal,
+ //               sqlite3_errmsg( m_Db ),
+ //               SQL_Statement );
+ //   }
+
+	result = dbClose();
+
+	return 0;
+}
+
+//============================================================================
+bool DbBase::bindParams( sqlite3_stmt* sqlStmt, DbBindList& bindParams )
+{
+	int result{ 0 };
+	bool firstParam{ true };
+	int bindNum{ 1 }; // binds start at 1 (not 0)
+	DbBindParam* dbBind;
+	do {
+		bool retrievedBind{ false };
+		dbBind = nullptr;
+		if( firstParam )
+		{
+			firstParam = false;
+			retrievedBind = bindParams.getFirst( &dbBind );
 		}
 		else
 		{
-			if( SQLITE_OK == expectedResult )
-			{
-				retVal = result;
-			}
-			else
-			{
-				retVal = -1;
-			}
-
-			LogMsg( LOG_ERROR, "%s %s %s", 
-			        srcStr, 
-			        stepDesc, 
-			        sqlite3_errmsg( m_Db ) );
+			retrievedBind = bindParams.getNext( &dbBind );
 		}
 
-	} while( true == executing );
+		if( !retrievedBind )
+		{
+			return false;
+		}
 
-	if( true == needToFinalize )
-	{
-		sqlite3_exec(m_Db,"END",NULL,NULL,NULL);
-	}
+		switch( dbBind->getType() )
+		{
+		case eDbBindTypeText:
 
-    if( retVal )
-    {
-        LogMsg( LOG_ERROR, "DbBase::sqlExec returning error %d %s for statement %s",
-                retVal,
-                sqlite3_errmsg( m_Db ),
-                SQL_Statement );
-    }
+			result = sqlite3_bind_text(	sqlStmt, 
+										bindNum, 
+										dbBind->getText(), 
+										dbBind->getTextLen(), 
+										SQLITE_TRANSIENT );
+			break;
 
-	if( true == needToClose )
-	{
-		result = dbClose();
-	}
+		case eDbBindTypeInt:
 
-	if ( SQLITE_OK == retVal )
-	{
-		retVal = result;
-	}
+			result = sqlite3_bind_int(	sqlStmt, 
+										bindNum, 
+										dbBind->getInt() );
+			break;
 
-	return retVal;
+		case eDbBindTypeS64:
+
+			result = sqlite3_bind_int64(	sqlStmt, 
+											bindNum, 
+											dbBind->getS64() );
+			break;
+
+		case eDbBindTypeBlob:
+			{
+
+				int len = 0;
+				void * pvBlob = dbBind->getBlob( len );
+				result = sqlite3_bind_blob( sqlStmt, 
+											bindNum, 
+											pvBlob, 
+											len,
+											SQLITE_TRANSIENT );
+			}
+
+			break;
+
+        default:
+            LogMsg( LOG_ERROR,"DbBase::%s UNKNOWN bind type db %s", __func__, m_strDbFileName.c_str());
+            return false;
+		}
+
+		if( SQLITE_OK != result )
+		{
+			LogMsg( LOG_ERROR,"DbBase::%s bind error %s db %s", __func__,  m_strDbFileName.c_str());
+		}
+
+		bindNum++;
+		if( !bindParams.hasNext() )
+		{
+			// all done
+			return true;
+		}
+
+	} while( true );
+
+	return false;
 }
 
 //============================================================================

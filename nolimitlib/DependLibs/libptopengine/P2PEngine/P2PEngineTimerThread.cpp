@@ -179,7 +179,7 @@ void P2PEngine::onOncePerMinute( void )
     m_RcScan.onOncePerMinute();
 
     static bool firstMinute = true;
-    if( firstMinute )
+    if( firstMinute || VxGetFastHostAnnounce() )
     {
         firstMinute = false;
         // this is so announcement of hosts start in a minute instead of waiting 
@@ -203,7 +203,11 @@ void P2PEngine::onOncePer10Minutes( void )
 //============================================================================
 void P2PEngine::onOncePer15Minutes( void )
 {
-    m_PluginMgr.onThreadOncePer15Minutes();
+    // if VxGetFastHostAnnounce() is set then will announce host every minute instead of every 15 minutes
+    if( !VxGetFastHostAnnounce() )
+    {
+        m_PluginMgr.onThreadOncePer15Minutes();
+    }  
 }
 
 //============================================================================

@@ -20,7 +20,7 @@ class VxPeerMgr : public VxServerMgr
 {
 public:
 	VxPeerMgr();
-	virtual ~VxPeerMgr();
+	virtual ~VxPeerMgr() = default;
 
 	void						sktMgrStartup( bool ipv6 ) override;
     void						sktMgrShutdown( void ) override;

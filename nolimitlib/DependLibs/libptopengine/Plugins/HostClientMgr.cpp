@@ -248,6 +248,13 @@ void HostClientMgr::onUserJoinHostGranted( GroupieId& groupieId, std::shared_ptr
     m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinSuccess );
     if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
     {
+        // for the case of host is also the network host add connect reason so is not treated as temp connection
+        enum EConnectReason connectReason = hostTypeToConnectReason( groupieId.getHostType() );
+        if( connectReason != eConnectReasonUnknown )
+        {
+            sktBase->addConnectReason( connectReason );
+        }       
+
         // request a list of everybody because we just joined
         clearUserInfoRequests();
 
@@ -279,6 +286,28 @@ void HostClientMgr::onUserJoinHostGranted( GroupieId& groupieId, std::shared_ptr
 }
 
 //============================================================================
+enum EConnectReason HostClientMgr::hostTypeToConnectReason( EHostType hostType )
+{
+    enum EConnectReason connectReason{ eConnectReasonUnknown };
+    switch( hostType )
+    {
+    case eHostTypeChatRoom:
+        connectReason = eConnectReasonGroupJoin;
+        break;
+    case eHostTypeGroup:
+        connectReason = eConnectReasonGroupJoin;
+        break;
+    case eHostTypeRandomConnect:
+        connectReason = eConnectReasonRandomConnectJoin;
+        break;
+    default:
+        break;
+    }
+
+    return connectReason;
+}
+
+//============================================================================
 void HostClientMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     m_ServerListMutex.lock();
@@ -288,6 +317,12 @@ void HostClientMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktB
     m_Engine.getUserJoinMgr().onUserLeftHost( groupieId, sktBase, netIdent, sessionInfo );
     m_Engine.getUserOnlineMgr().onUserLeftHost( groupieId, sktBase, netIdent, sessionInfo );
     m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
+
+    enum EConnectReason connectReason = hostTypeToConnectReason( groupieId.getHostType() );
+    if( connectReason != eConnectReasonUnknown )
+    {
+        sktBase->removeConnectReason( connectReason );
+    }   
 }
 
 //============================================================================
@@ -300,6 +335,12 @@ void HostClientMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<Vx
     m_Engine.getUserJoinMgr().onUserUnJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
     m_Engine.getUserOnlineMgr().onUserUnJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
     m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
+
+    enum EConnectReason connectReason = hostTypeToConnectReason( groupieId.getHostType() );
+    if( connectReason != eConnectReasonUnknown )
+    {
+        sktBase->removeConnectReason( connectReason );
+    }  
 }
 
 //============================================================================

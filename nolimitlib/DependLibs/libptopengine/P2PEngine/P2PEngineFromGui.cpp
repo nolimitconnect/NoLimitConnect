@@ -1482,6 +1482,19 @@ std::string P2PEngine::fromGuiQueryDefaultUrl( EHostType hostType, bool ignoreMy
 
 	std::string defaultUrl = getEngineSettings().fromGuiQueryDefaultUrl( hostType );
     std::string resolvedUrl = getUrlMgr().resolveUrl( defaultUrl );
+	// if the resolved ip is our external ip then we are the host. if does not have online id then set to ours
+	// this is so can query ourself for hosts to join
+	VxPtopUrl ptopUrl( resolvedUrl );
+	if( !ptopUrl.getOnlineId().isVxGUIDValid() )
+	{
+		if( ptopUrl.getHost() == getNetStatusAccum().getExternalIpAddress() )
+		{
+			// we are the host
+			resolvedUrl += "/";
+			resolvedUrl += getMyOnlineId().toOnlineIdString();
+		}
+	}
+
 	Invite::appendHostTypeSuffix( hostType, resolvedUrl );
 	return resolvedUrl;
 }

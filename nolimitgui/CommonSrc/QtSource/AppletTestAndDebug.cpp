@@ -141,6 +141,7 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
     connect( ui.m_TestUrlsComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotNewUrlSelected(int)) );
 
     connect( ui.m_ShowMyselfCheckBox, SIGNAL(clicked()), this, SLOT(slotShowMyselfClicked()) );
+    connect( ui.m_FastHostAnnounceCheckBox, SIGNAL(clicked()), this, SLOT(slotFastHostAnnounceClicked()) );
 
     updateDlgFromSettings();
 
@@ -551,4 +552,10 @@ void AppletTestAndDebug::slotDeleteDbButtonClicked( void )
 void AppletTestAndDebug::slotShowMyselfClicked( void )
 {
     VxSetShowMyselfInLists( ui.m_ShowMyselfCheckBox->isChecked() );
+}
+
+//============================================================================
+void AppletTestAndDebug::slotFastHostAnnounceClicked( void )
+{
+    VxSetFastHostAnnounce( ui.m_FastHostAnnounceCheckBox->isChecked() );
 }

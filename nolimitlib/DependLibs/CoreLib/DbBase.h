@@ -60,7 +60,9 @@ public:
 	~DbBindList( void );
 
 	bool						getFirst( DbBindParam** ppBindParam );
-	bool						getNext(  DbBindParam** ppBindParam );
+	bool						getNext( DbBindParam** ppBindParam );
+	bool						hasNext( void );
+
 	void						add( const char* strVal );
 	void						add( int64_t s64Val );
 	void						add( void * blob, int blobLen );
@@ -146,6 +148,8 @@ public:
 	virtual RCODE				sqlExec( const char* pSqlStatment );
 	//! open db then execute Sql statement then close db
 	virtual RCODE				sqlExec( const char* SQL_Statement, DbBindList& bindList );
+
+	virtual bool				bindParams( sqlite3_stmt* sqlStmt, DbBindList& bindList );
 
 
 	//! start query and use DbCursor to access column's data.. be sure to call DbCursor.close() when done

@@ -93,7 +93,9 @@ void AssetBaseInfoDb::purgeAllAssets( void )
 void AssetBaseInfoDb::removeAsset( const char* fileNameAndPath )
 {
 	DbBindList bindList( fileNameAndPath );
+	lockAssetInfoDb();
 	sqlExec( "DELETE FROM tblAssets WHERE fileNameAndPath=?", bindList );
+	unlockAssetInfoDb();
 }
 
 //============================================================================
@@ -101,7 +103,9 @@ void AssetBaseInfoDb::removeAsset( VxGUID& assetId )
 {
 	std::string assetStr = assetId.toHexString();
 	DbBindList bindList( assetStr.c_str() );
+	lockAssetInfoDb();
 	sqlExec( "DELETE FROM tblAssets WHERE unique_id=?", bindList );
+	unlockAssetInfoDb();
 }
 
 //============================================================================
@@ -111,7 +115,9 @@ void AssetBaseInfoDb::removeAsset( AssetBaseInfo* assetInfo )
 	//DbBindList bindList( assetInfo->getAssetUniqueId().toHexString().c_str() );
 	std::string hexId = assetInfo->getAssetUniqueId().toHexString();
 	DbBindList bindList( hexId.c_str() );
+	lockAssetInfoDb();
 	sqlExec( "DELETE FROM tblAssets WHERE unique_id=?", bindList );
+	unlockAssetInfoDb();
 }
 
 //============================================================================
@@ -174,8 +180,11 @@ bool AssetBaseInfoDb::addAsset( VxGUID&			assetId,
 		LogMsg( LOG_VERBOSE, "AssetBaseInfoDb::addAsset no plugin type" );
 	}
 
+	lockAssetInfoDb();
     RCODE rc = sqlExec( "INSERT INTO tblAssets (unique_id,creatorId,historyId,adminId,thumbId,assetName,fileNameAndPath,length,type,hashId,locFlags,attribFlags,creationTime,modifiedTime,accessedTime,assetTag,sendState,pluginType,sendToId) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         bindList );
+	unlockAssetInfoDb();
+
     if( rc )
     {
         LogMsg( LOG_ERROR, "AssetBaseInfoDb::addAsset error %d", rc );
@@ -191,8 +200,10 @@ void AssetBaseInfoDb::updateAssetSendState( VxGUID& assetId, EAssetSendState sen
 	std::string assetIdStr		= assetId.toHexString();
 	DbBindList bindList(  (int)sendState );
 	bindList.add( assetIdStr.c_str() );
-	RCODE rc  = sqlExec( "UPDATE tblAssets SET sendState=? WHERE unique_id=?",
-		bindList );
+
+	lockAssetInfoDb();
+	RCODE rc  = sqlExec( "UPDATE tblAssets SET sendState=? WHERE unique_id=?", bindList );
+	unlockAssetInfoDb();
     vx_assert( 0 == rc );
 	if( rc )
 	{
@@ -291,14 +302,13 @@ void AssetBaseInfoDb::getAllAssets( std::vector<AssetBaseInfo*>& AssetAssetList 
 		cursor->close();
 	}
 
+	unlockAssetInfoDb();
 	// clear out any that do not exist anymore
 	for( auto asset : toRemoveList )
 	{
 		removeAsset( asset );
 		delete asset;
 	}
-
-	unlockAssetInfoDb();
 } 
 
 //============================================================================

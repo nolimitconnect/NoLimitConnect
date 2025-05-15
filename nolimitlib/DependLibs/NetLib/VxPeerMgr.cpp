@@ -53,12 +53,6 @@ VxPeerMgr::VxPeerMgr()
 }
 
 //============================================================================
-VxPeerMgr::~VxPeerMgr()
-{
-	sktMgrShutdown();
-}
-
-//============================================================================
 void VxPeerMgr::sktMgrStartup( bool ipv6 )
 {
 	m_ClientMgr.sktMgrStartup( ipv6 );

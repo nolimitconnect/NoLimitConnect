@@ -71,6 +71,8 @@ protected:
     virtual void                sendNextUserInfoRequest( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& onlineId, VxGUID& sessionId );
     void                        announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, VxGUID& sessionId, EHostType hostType = eHostTypeUnknown );
 
+    enum EConnectReason         hostTypeToConnectReason( EHostType hostType );
+
     VxMutex                     m_ClientMutex;
     VxGUIDList                  m_UserInfoReqList;
     int64_t                     m_SentUserInfoReqTime{ 0 };

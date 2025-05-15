@@ -1567,7 +1567,7 @@ const std::string& VxSktBase::describeSktDirection( void )
 //============================================================================
 bool VxSktBase::isTempConnection( void )
 {
-	return IsConnectReasonTemporary( m_ConnectReason );
+	return IsConnectReasonTemporary( m_ConnectReason ) && m_ConnectReasonList.empty();
 }
 
 //============================================================================
@@ -1668,4 +1668,51 @@ void VxSktBase::setIsNetServiceConnection( bool isNetSrv )
 	setLastImAliveTimeTxMs( timeNow );
 	setLastActiveTimeMs( timeNow );
 	setLastSessionTimeMs( timeNow );
+}
+
+//============================================================================
+void VxSktBase::addConnectReason( enum EConnectReason connectReason )
+{
+	if( IsConnectReasonTemporary( connectReason ) )
+	{
+		LogMsg( LOG_ERROR, "VxSktBase::%s temporary connect reason cannot be added to list" );
+		return;
+	}
+
+	bool reasonAlreadyExists{ false };
+	// time mutex is rarely used. we just need to avoid multiple threads accessing m_ConnectReasonList
+	lockTimeAccess();
+	for( auto reason : m_ConnectReasonList )
+	{
+		if( reason == connectReason )
+		{
+			reasonAlreadyExists = true;
+			break;
+		}
+	}
+
+	if( !reasonAlreadyExists )
+	{
+		m_ConnectReasonList.emplace_back( connectReason );
+	}
+
+	unlockTimeAccess();
+}
+
+//============================================================================
+bool VxSktBase::removeConnectReason( enum EConnectReason connectReason )
+{
+	lockTimeAccess();
+	for( auto iter = m_ConnectReasonList.begin(); iter != m_ConnectReasonList.end(); ++iter )
+	{
+		if( *iter == connectReason )
+		{
+			m_ConnectReasonList.erase( iter );
+			break;
+		}
+	}
+
+	bool reasonsAreEmpty = m_ConnectReasonList.empty();
+	unlockTimeAccess();
+	return reasonsAreEmpty;
 }

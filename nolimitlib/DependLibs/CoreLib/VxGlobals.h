@@ -130,3 +130,6 @@ int32_t							VxGetMaxMessageHistory( void );
 
 void							VxSetShowMyselfInLists( bool showMyself ); // NOT recommended.. (for debug only)
 bool							VxGetShowMyselfInLists( void );
+
+void							VxSetFastHostAnnounce( bool fastAnnounce ); // NOT recommended.. (for debug only)
+bool							VxGetFastHostAnnounce( void );

@@ -302,6 +302,11 @@ public:
 	void						setIsInEraseList( bool isInEraseList ) { m_IsInEraseList = isInEraseList; }
 	bool						getIsInEraseList( void ) { return m_IsInEraseList; }
 
+	// keep track of connected reasons so do not close after announce host if still in use
+	void						addConnectReason( enum EConnectReason connectReason );
+	// done with this connect reason.. return true if no other connect reasons
+	bool						removeConnectReason( enum EConnectReason connectReason );
+
 
     SOCKET						m_Socket{ INVALID_SOCKET };	    // handle to socket
     int							m_SktNumber{ 0 };				// socket unique id
@@ -385,5 +390,7 @@ protected:
 	int64_t			    		m_RxPktAnnTimeMs{ 0 };
 
 	bool						m_IsInEraseList{ false };
+
+	std::vector<enum EConnectReason> m_ConnectReasonList;
 };
 

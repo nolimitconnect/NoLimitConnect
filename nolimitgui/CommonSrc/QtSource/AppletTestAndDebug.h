@@ -81,6 +81,7 @@ protected slots:
     void                        slotNewUrlSelected( int comboBoxIdx );
 
     void                        slotShowMyselfClicked( void );
+    void                        slotFastHostAnnounceClicked( void );
 
 protected:
     void						updateDlgFromSettings( void );

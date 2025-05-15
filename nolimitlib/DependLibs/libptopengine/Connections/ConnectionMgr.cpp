@@ -543,6 +543,10 @@ EConnectStatus ConnectionMgr::attemptConnection( VxGUID& sessionId, std::string 
         {
             // connected but waiting for PktAnnounce reply
             connectStatus = eConnectStatusReady;
+            if( !IsConnectReasonTemporary( connectReason ) )
+            {
+                retSktBase->addConnectReason( connectReason );
+            }
         }
 
         onConnectStatusChange( sessionId, connectStatus, connectReason, hostType );
@@ -574,12 +578,14 @@ void ConnectionMgr::doneWithConnection( VxGUID socketId, VxGUID sessionId, VxGUI
     }
 
     unlockConnectionList();
-    if( sktBase )
+    if( sktBase.get() == nullptr || !sktBase->isConnected() )
     {
-        m_Engine.getConnectIdListMgr().removeConnectionReason( sktBase->getSocketId(), connectReason );
+        return; // nothing more we can do
     }
 
-    if( sktDisconnected && sktBase )
+    m_Engine.getConnectIdListMgr().removeConnectionReason( sktBase->getSocketId(), connectReason );
+
+    if( sktDisconnected && !sktBase->removeConnectReason( connectReason ) )
     {
         // this has to be done after list is unlocked or mutex delock can occur
         // let the normal socket disconnected code do the work of removing the connection
