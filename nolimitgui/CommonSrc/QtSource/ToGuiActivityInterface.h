@@ -38,9 +38,6 @@ public:
     virtual void				toGuiContactAdded( GuiUser* netIdent ){}; 
     virtual void				toGuiContactRemoved( VxGUID& onlineId ) {}; 
 
-	virtual void				toGuiContactOnline( GuiUser* netIdent ){}; 
-	virtual void				toGuiContactOffline( GuiUser* guiUser ){}; 
-
     virtual void				toGuiContactLastSessionTimeChange( GuiUser* guiUser ){}; 
     virtual void				toGuiUpdateMyIdent(GuiUser* guiUser ){}; 
 

@@ -114,6 +114,11 @@ void HomeWindow::showEvent( QShowEvent* ev )
     if( firstShow )
     {
         firstShow = false;
+        if( !GuiParams::requestAllDangerousPermissions() )
+        {
+            LogMsg( LOG_ERROR, "Not all permissions were granted" );
+        }
+
         m_MyApp.getCamLogic().startupCamLogic();
     }
 }

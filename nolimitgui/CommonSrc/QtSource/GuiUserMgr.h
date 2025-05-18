@@ -18,7 +18,6 @@
 #include <QObject>
 
 class AppCommon;
-class GuiUserUpdateCallback;
 
 class GuiUserMgr : public QObject, public ToGuiUserUpdateInterface
 {
@@ -43,9 +42,7 @@ public:
     virtual void				toGuiContactAdded( VxNetIdent* netIdent ) override; 
     virtual void				toGuiContactRemoved( VxGUID& onlineId ) override;  
 
-    virtual void				toGuiContactUpdated( VxNetIdent* netIdent ) override; 
-
-    bool				        toGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline );
+    bool				        onGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline );
     bool                        updateIsOnlineList( VxGUID& onlineId, bool isOnline );
 
     virtual void				toGuiContactLastSessionTimeChange( VxNetIdent* netIdent ) override; 

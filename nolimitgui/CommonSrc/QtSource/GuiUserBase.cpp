@@ -110,7 +110,7 @@ EPluginAccess GuiUserBase::getMyAccessPermissionFromHim( EPluginType pluginType,
 		friendState = eFriendStateGuest;
 	}
 
-	EPluginAccess accessState = m_NetIdent.getPluginAccessState( pluginType, friendState );
+	EPluginAccess accessState = m_NetIdent.getPluginAccessState( pluginType, friendState, inGroup );
 	if( ePluginAccessOk == accessState )
 	{
 		if( ( ePluginTypeFileShareServer == pluginType ) 

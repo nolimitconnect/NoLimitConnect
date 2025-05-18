@@ -175,7 +175,6 @@ enum EApplet
 
     eAppletLog,                     // logging window.. shown in other frame
     eAppletLogSettings,
-    eAppletLogView,
 
     // not lauched by user
     eAppletCreateAccount,

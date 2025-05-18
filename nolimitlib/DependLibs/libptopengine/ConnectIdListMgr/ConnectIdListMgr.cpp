@@ -454,11 +454,11 @@ bool ConnectIdListMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
         return false;
     }
 
-    return onConnectionLost( sktBase->getSocketId() );
+    return onConnectionLost( sktBase->getSocketId(), sktBase->isTempConnection() );
 }
 
 //============================================================================
-bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
+bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId, bool tmpConnection )
 {
     if( !sktConnectId.isVxGUIDValid() )
     {
@@ -468,8 +468,14 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
 
     if( isConnectIdExcluded( sktConnectId ) )
     {
+        // was connection test or network host
         setExcludeConnectId( sktConnectId, false );
-        return false;
+
+        // if !tmpConnection then probably is a admin of a host
+        if( tmpConnection )
+        {
+            return false;
+        }
     }
 
     if( !m_OnlineIdListList.size() && !m_ConnectIdList.size() && !m_RelayedIdList.size() && !m_OnlineConnectionPairs.size() )
@@ -552,20 +558,16 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId )
 
         if( !findAnyUserOnlineConnection( onlineId ) )
         {
-            bool wasRemoved{ false };
             lockOnlineIdList();
             auto iter = m_OnlineIdListList.find( onlineId );
             if( iter != m_OnlineIdListList.end() )
             {
                 m_OnlineIdListList.erase( iter );
-                wasRemoved = true;
             }
 
             unlockOnlineIdList();
-            if( wasRemoved )
-            {
-                announceOnlineStatus( const_cast<VxGUID&>(onlineId), false );
-            }
+
+            announceOnlineStatus( const_cast<VxGUID&>(onlineId), false );
         }
     }
 
@@ -1881,4 +1883,11 @@ void ConnectIdListMgr::fromGuiDisconnectFromUser( VxGUID& userOnlineId )
     {
         m_Engine.getPeerMgr().closeConnection( sktConnectId, eSktCloseClosedByUser );
     }
+}
+
+//============================================================================
+void ConnectIdListMgr::addHostConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieId& groupieId ) // only called when join host on temp connection
+{
+    updateOnlineExclusion( groupieId.getHostOnlineId(), false, false );
+    announceOnlineStatus( groupieId.getHostOnlineId(), true );
 }

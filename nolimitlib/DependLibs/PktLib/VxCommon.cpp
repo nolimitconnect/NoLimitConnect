@@ -126,8 +126,8 @@ bool PluginPermission::isPluginEnabled( EPluginType ePlugin )
 //============================================================================
 //! get type of permission user has set for givin plugin
 EFriendState PluginPermission::getPluginPermission( EPluginType pluginType, bool inGroup )
-{ 
-	if(( pluginType > 0 ) && ( pluginType < eMaxPluginType ) )
+{
+    if(( pluginType > 0 ) && ( pluginType < eMaxPermissionPluginType ) )
 	{
 		int pluginNum = (int)(pluginType - 1);
 		int byteIdx = pluginNum >> 1;
@@ -142,6 +142,20 @@ EFriendState PluginPermission::getPluginPermission( EPluginType pluginType, bool
 
 		return friendState;
 	}
+    else
+    {
+        if( pluginType == ePluginTypeClientChatRoom ||
+            pluginType == ePluginTypeClientGroup ||
+            pluginType == ePluginTypeClientRandomConnect )
+        {
+            // not a published permission but assume has at least guest if in group
+            if( inGroup )
+            {
+                return eFriendStateGuest;
+            }
+
+        }
+    }
 
 	return eFriendStateIgnore;
 }
@@ -440,7 +454,7 @@ bool VxNetIdent::isHisAccessAllowedFromMe( EPluginType pluginType, bool inGroup 
 		friendState = eFriendStateGuest;
 	}
 
-    return ( ePluginAccessOk == GetPtoPEngine().getMyPktAnnounce().getPluginAccessState( pluginType, friendState ) );
+    return ( ePluginAccessOk == GetPtoPEngine().getMyPktAnnounce().getPluginAccessState( pluginType, friendState, inGroup ) );
 }
 
 //============================================================================
@@ -461,14 +475,14 @@ bool VxNetIdent::isMyAccessAllowedFromHim( EPluginType pluginType, bool inGroup 
 }
 
 //============================================================================
-EPluginAccess VxNetIdent::getPluginAccessState( EPluginType pluginType, EFriendState eHisPermissionToMe )
+EPluginAccess VxNetIdent::getPluginAccessState( EPluginType pluginType, EFriendState eHisPermissionToMe, bool inGroup )
 {
 	if( eFriendStateIgnore == eHisPermissionToMe )
 	{
 		return ePluginAccessIgnored;
 	}
 
-	EFriendState ePermissionLevel = this->getPluginPermission( pluginType );
+	EFriendState ePermissionLevel = this->getPluginPermission( pluginType, inGroup );
 	if( eFriendStateIgnore == ePermissionLevel )
 	{
 		return ePluginAccessDisabled;

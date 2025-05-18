@@ -80,6 +80,10 @@ void UserOnlineMgr::callbackConnectionStatusChange( ConnectId& connectId, bool i
     {
         announceUserOnlineState( user, m_Engine.getConnectIdListMgr().isUserOnline( connectId.getUserOnlineId() ) );
     }
+	else
+	{
+   	    announceUserOnlineState( user, m_Engine.getConnectIdListMgr().isUserOnline( connectId.getUserOnlineId() ) );
+	}
 }
 
 //============================================================================

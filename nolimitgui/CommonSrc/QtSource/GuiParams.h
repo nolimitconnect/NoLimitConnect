@@ -149,6 +149,8 @@ public:
 
     static bool                 requestPermission( QString permissionName );
 
+    static bool                 requestAllDangerousPermissions( void ); // returns false if user denies any permission
+
 protected:
 
     static QColor				m_OnlineBkgColor;

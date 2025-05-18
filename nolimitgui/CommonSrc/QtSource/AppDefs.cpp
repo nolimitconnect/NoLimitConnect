@@ -57,7 +57,6 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletLibrary:				    return eMyIconLibraryNormal;
     case eAppletLog:	                    return eMyIconDebug;
     case eAppletLogSettings:                return eMyIconDebug;
-    case eAppletLogView:                    return eMyIconDebug;
 
     case eAppletMessengerFrame:				return eMyIconMessenger;
     case eAppletMultiMessenger:				return eMyIconMessenger;
@@ -261,7 +260,7 @@ QString DescribeApplet( EApplet applet )
     case eAppletLibrary:				    return QObject::tr( "My Library Of Media" );
     case eAppletLog:                        return QObject::tr( "Application Log" );
     case eAppletLogSettings:		        return QObject::tr( "Log Settings" );
-    case eAppletLogView:	                return QObject::tr( "View Log" );
+
 	case eAppletMessengerFrame:				return QObject::tr( "Messenger" );
     case eAppletMultiMessenger:				return QObject::tr( "Messenger" );
     case eAppletNetworkSettings:		    return QObject::tr( "Network Settings" );

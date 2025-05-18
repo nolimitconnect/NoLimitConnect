@@ -198,19 +198,7 @@ void GuiUserMgr::toGuiContactRemoved( VxGUID& onlineId )
 }
 
 //============================================================================
-void GuiUserMgr::toGuiContactUpdated( VxNetIdent* netIdent )
-{
-    if( !netIdent || !netIdent->isValidNetIdent() )
-    {
-        LogMsg( LOG_ERROR, "GuiUserMgr::toGuiContactAdded invalid netIdent" );
-        return;
-    }
-
-    updateUser( netIdent );
-}
-
-//============================================================================
-bool GuiUserMgr::toGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline )
+bool GuiUserMgr::onGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline )
 {
     bool listUpdated = updateIsOnlineList( onlineId, isOnline );
 

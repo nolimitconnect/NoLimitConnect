@@ -252,7 +252,9 @@ void HostClientMgr::onUserJoinHostGranted( GroupieId& groupieId, std::shared_ptr
         enum EConnectReason connectReason = hostTypeToConnectReason( groupieId.getHostType() );
         if( connectReason != eConnectReasonUnknown )
         {
-            sktBase->addConnectReason( connectReason );
+            // tell gui to add online status so we know when disconnects
+            sktBase->addConnectReason( connectReason ); // will no longer be a temporary connection
+            m_Engine.getConnectIdListMgr().addHostConnection( sktBase, groupieId );
         }       
 
         // request a list of everybody because we just joined

@@ -33,16 +33,18 @@ AppletCamClient::AppletCamClient( AppCommon& app, QWidget* parent )
 	setPluginType( ePluginTypeCamClient );
     ui.setupUi( getContentItemsFrame() );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
-	connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT( closeApplet()) );
+	connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );
 
 	m_MyApp.activityStateChange( this, true );
 	wantActivityCallbacks( true );
+    m_MyApp.getUserMgr().wantGuiUserUpdateCallbacks( this, true );
 }
 
 //============================================================================
 AppletCamClient::~AppletCamClient()
 {
     stopCamFeed();
+    m_MyApp.getUserMgr().wantGuiUserUpdateCallbacks( this, false );
     m_MyApp.activityStateChange( this, false );
 	wantActivityCallbacks( false );
 }
@@ -209,9 +211,9 @@ void AppletCamClient::setupCamFeed( GuiUser* feedNetIdent )
 }
 
 //============================================================================
-void AppletCamClient::toGuiContactOffline( GuiUser* guiUser )
+void AppletCamClient::callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline )
 {
-    if( m_CamFeedIdent && m_CamFeedIdent->getMyOnlineId() == guiUser->getMyOnlineId() )
+    if( !isOnline && m_CamFeedIdent && m_CamFeedIdent->getMyOnlineId() == guiUser->getMyOnlineId() )
     {
         QString statText = GuiParams::describeOnlineStatus( m_CamFeedIdent->getOnlineName().c_str(), false);
         LogModule( eLogWebCam, LOG_DEBUG, statText.toUtf8().constData() );

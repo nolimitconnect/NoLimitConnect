@@ -618,8 +618,6 @@ public:
     std::string                 describeUser( VxGUID& onlineId );
     std::string                 describeUser( GuiUser* guiUser );
 
-    void                        doOnlineStatusChange( VxGUID onlineId, bool isOnline ); // called on gui thread by GuiConnectIdListMgr
-
     //! throw error if not gui thread
     void                        checkIsGuiThread( void );
 

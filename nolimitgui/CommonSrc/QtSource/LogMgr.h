@@ -48,37 +48,20 @@ public:
     void                        startupLogMgr( void );
     void                        shutdownLogMgr( void );
 
-    void                        lockLogQue( void )                  { m_LogMutex.lock(); }
-    void                        unlockLogQue( void )                { m_LogMutex.unlock(); }
-
     void                        setLogLevels( uint32_t logLevelFlags );
     uint32_t                    getLogLevels( void );
 
     void                        setLogModules( uint32_t logModuleFlags );
     uint32_t                    getLogModules( void );
 
-    void                        setLogQueMaxLines( int maxLineCnt ) { m_LogQueMaxLines = maxLineCnt; }
-    int                         getLogQueMaxLines( void )           { return m_LogQueMaxLines; }
-
-    QVector<LogQueEntry>&       getLogQue( void )                   { return m_LogQue; }
-    void                        clearLogQue( void )                 { m_LogQue.clear(); }
-
-    void                        addLogMsgToQue( uint32_t u32LogFlags, const QString& text );
-
     void                        onLogEvent( uint32_t u32LogFlags, const char* logMsg ) override;
 
 signals:
     void                        signalLogMsg( uint32_t u32LogFlags, const QString& logMsg );
 
-protected slots:
-    void                        slotLogMsg( uint32_t u32LogFlags, const QString& logMsg );
-
 protected:
     AppCommon&                  m_MyApp;
-    QMutex                      m_LogMutex;
     bool                        m_VerboseLog = false;
-    QVector<LogQueEntry>        m_LogQue;
-    int                         m_LogQueMaxLines{ 1024 };
 };
 
 // get log manager singleton

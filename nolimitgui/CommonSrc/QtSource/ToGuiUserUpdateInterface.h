@@ -28,8 +28,6 @@ public:
     virtual void				toGuiContactAdded( VxNetIdent* netIdent ) = 0; 
     virtual void				toGuiContactRemoved( VxGUID& onlineId ) = 0; 
 
-     virtual void				toGuiContactUpdated( VxNetIdent* netIdent ) = 0; 
-        ; 
     virtual void				toGuiContactLastSessionTimeChange( VxNetIdent* netIdent ) = 0; 
 
     virtual void				toGuiUpdateMyIdent( VxNetIdent* netIdent ) = 0; 

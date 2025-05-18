@@ -217,7 +217,6 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletLibrary.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletLog.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletLogSettings.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletLogView.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletMultiMessenger.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletNetHostingPage.cpp" />
@@ -906,7 +905,6 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletNetHostingPage.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletMultiMessenger.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletMgr.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLogView.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLogSettings.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLog.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLibrary.h" />
@@ -1018,7 +1016,6 @@ libass.lib;libpcre.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletLibrary.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletLog.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletLogSettings.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\AppletLogView.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletMultiMessenger.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletNetworkKey.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletNetworkSettings.ui" />

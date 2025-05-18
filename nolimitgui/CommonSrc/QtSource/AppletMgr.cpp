@@ -80,7 +80,6 @@
 #include "AppletLibrary.h"
 #include "AppletLog.h"
 #include "AppletLogSettings.h"
-#include "AppletLogView.h"
 
 #include "AppletNetHostingPage.h"
 #include "AppletNetworkSettings.h"
@@ -397,7 +396,6 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
 
     case eAppletLibrary:                    if( launchAppletAllowed( eAppletLibrary ) ) appletDialog = new AppletLibrary( m_MyApp, parent, launchParam ); break;
     case eAppletLogSettings:                if( launchAppletAllowed( eAppletLogSettings ) ) appletDialog = new AppletLogSettings( m_MyApp, parent ); break;
-    case eAppletLogView:                    if( launchAppletAllowed( eAppletLogView ) ) appletDialog = new AppletLogView( m_MyApp, parent ); break;
 
     case eAppletMessengerFrame:             makeMessengerFullSized(); return appletDialog;
 

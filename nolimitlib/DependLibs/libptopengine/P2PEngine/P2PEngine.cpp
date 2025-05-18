@@ -130,7 +130,6 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr,
     , m_SktLoopback( new VxSktLoopback( *this ) )
     , m_RcScan( *this, m_ConnectionList )
 {
-    LogMsg( LOG_VERBOSE, "P2PEngine::P2PEngine created" );
 	m_SktLoopback->setThisSkt( m_SktLoopback ); // so skt can do callbacks without look up in manager
 
 	VxSetSktStatCallback( &m_PeerMgr );
@@ -145,6 +144,7 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr,
 	getEngineSettings().engineSettingsStartup( strEngineSettingDbFileName );
 
 	m_IsEngineCreated = true;
+    LogMsg( LOG_VERBOSE, "P2PEngine::P2PEngine created" );
 }
 
 //============================================================================

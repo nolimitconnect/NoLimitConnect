@@ -65,11 +65,13 @@ AppletCamSettings::AppletCamSettings( AppCommon& app, QWidget* parent )
     }
 
     m_MyApp.activityStateChange( this, true );
+    m_MyApp.getUserMgr().wantGuiUserUpdateCallbacks( this, true );
 }
 
 //============================================================================
 AppletCamSettings::~AppletCamSettings()
 {
+    m_MyApp.getUserMgr().wantGuiUserUpdateCallbacks( this, false );
     m_MyApp.activityStateChange( this, false );
 }
 
@@ -182,9 +184,9 @@ void AppletCamSettings::slotToGuiSessionEnded( std::shared_ptr<GuiOfferSession> 
 }; 
 
 //============================================================================
-void AppletCamSettings::slotToGuiContactOffline( VxNetIdent* friendIdent )
+void AppletCamSettings::callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline )
 {
-    if( m_HisIdent->getMyOnlineId() == friendIdent->getMyOnlineId() )
+    if( m_HisIdent->getMyOnlineId() == guiUser->getMyOnlineId() )
     {
         webCamSourceOffline();
     }

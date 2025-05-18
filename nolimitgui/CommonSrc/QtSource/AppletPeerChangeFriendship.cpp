@@ -144,16 +144,23 @@ EFriendState AppletPeerChangeFriendship::getPermissionSelection( void )
 //! Implement the OnClickListener callback    
 void AppletPeerChangeFriendship::onOkButClick( void )
 {
+	bool changed{ false };
+	if( m_MyApp.getFavoriteMgr().getIsFavorite( m_Friend->getMyOnlineId() ) != m_PreferredUser )
+	{
+		m_MyApp.getFavoriteMgr().setIsFavorite( m_Friend->getMyOnlineId(), m_PreferredUser );
+		changed = true;
+	}
+
 	if( getPermissionSelection() != m_Friend->getMyFriendshipToHim() )
 	{
 		m_Friend->setMyFriendshipToHim(getPermissionSelection());
 		m_Engine.fromGuiChangeMyFriendshipToHim( m_Friend->getMyOnlineId(), m_Friend->getMyFriendshipToHim(), m_Friend->getHisFriendshipToMe() );
-		m_MyApp.refreshFriend( m_Friend->getMyOnlineId() );
+		changed = true;
 	}
 
-	if( m_MyApp.getFavoriteMgr().getIsFavorite( m_Friend->getMyOnlineId() ) != m_PreferredUser )
+	if( changed )
 	{
-		m_MyApp.getFavoriteMgr().setIsFavorite( m_Friend->getMyOnlineId(), m_PreferredUser );
+		m_MyApp.refreshFriend( m_Friend->getMyOnlineId() );
 	}
 
 	accept();
@@ -250,12 +257,13 @@ void AppletPeerChangeFriendship::onPreferredButClick( void )
 //============================================================================   
 void AppletPeerChangeFriendship::updatePreferredText( void )
 {
+	ui.m_MyPermissionButton->setNotifyNlcFavoriteEnabled( m_PreferredUser );
 	if( m_PreferredUser )
 	{
-		ui.m_PreferredLabel->setText( QObject::tr( "Not Preferred (No priority given to user)" ) );
+		ui.m_PreferredLabel->setText( QObject::tr( "Click icon to unmark preferred" ) );
 	}
 	else
 	{
-		ui.m_PreferredLabel->setText( QObject::tr( "Is Preferred (High priority given to user)" ) );
+		ui.m_PreferredLabel->setText( QObject::tr( "Click icon to mark preferred" ) );
 	}
 }

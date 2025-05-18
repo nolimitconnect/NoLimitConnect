@@ -11,6 +11,8 @@
 
 #include "AppletClientBase.h"
 
+#include "GuiUserUpdateCallback.h"
+
 #include <CoreLib/MediaCallbackInterface.h>
 
 QT_BEGIN_NAMESPACE
@@ -19,7 +21,7 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
-class AppletCamClient : public AppletBase, public MediaCallbackInterface
+class AppletCamClient : public AppletBase, public MediaCallbackInterface, public GuiUserUpdateCallback
 {
 	Q_OBJECT
 public:
@@ -51,7 +53,7 @@ protected:
 
     void						resizeBitmapToFitScreen( QLabel* VideoScreen, QImage& oPicBitmap );
 
-    void                        toGuiContactOffline( GuiUser* guiUser ) override;
+    void                        callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline ) override;
 
     //=== vars ===//
     Ui::AppletCamClientUi&      ui;

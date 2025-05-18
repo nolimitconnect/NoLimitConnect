@@ -75,6 +75,7 @@ public:
     std::shared_ptr<VxSktBase>  findSktBase( VxGUID& connectId );
 
     bool                        addConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieId& groupieId );
+    void                        addHostConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieId& groupieId ); // only called when join host on temp connection
     void                        addConnection( VxGUID& sktConnectId, GroupieId& groupieId, bool relayed );
     void                        removeConnection( VxGUID& sktConnectId, GroupieId& groupieId );
     void                        addConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason );
@@ -83,7 +84,7 @@ public:
     void                        disconnectIfIsOnlyUser( GroupieId& groupieId );
 
     virtual bool                onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );
-    virtual bool                onConnectionLost( VxGUID& sktConnectId ); ///< returns false if invalid or is excluded connection
+    virtual bool                onConnectionLost( VxGUID& sktConnectId, bool tmpConnection ); ///< returns false if invalid or is excluded connection
     virtual void                onGroupUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, bool relayed );
     void                        onGroupRelayedUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 

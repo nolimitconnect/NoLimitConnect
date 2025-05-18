@@ -566,9 +566,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLogSettings.h">
       <Filter>Header Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletLogView.h">
-      <Filter>Header Files\Applets</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletMgr.h">
       <Filter>Header Files\Applets</Filter>
     </QtMoc>
@@ -1903,9 +1900,6 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletLogSettings.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletLogView.cpp">
-      <Filter>Source Files\Applets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletMgr.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
@@ -2801,9 +2795,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletLogSettings.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\AppletLogView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletMultiMessenger.ui">

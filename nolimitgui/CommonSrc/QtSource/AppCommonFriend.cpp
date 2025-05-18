@@ -148,45 +148,6 @@ void AppCommon::slotInternalToGuiContactRemoved( VxGUID onlineId )
 }
 
 //============================================================================
-void AppCommon::doOnlineStatusChange( VxGUID onlineId, bool isOnline )
-{
-    getUserMgr().toGuiOnlineStatusChange( onlineId, isOnline );
-
-    GuiUser* guiUser = m_UserMgr.getOrQueryUser( onlineId );
-    if( guiUser )
-    {
-        LogModule( eLogUserEvent, LOG_VERBOSE, "AppCommon::%s %s id %s my friendship %s his friendship %s",
-                __func__,  guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str(),
-                DescribeFriendState( guiUser->getMyFriendshipToHim()),  DescribeFriendState( guiUser->getHisFriendshipToMe()) );
-        if( m_ToGuiActivityInterfaceBusy )
-        {
-            LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
-            vx_assert( false );
-        }
-
-        m_ToGuiActivityInterfaceBusy = true;
-	    for( auto& client : m_ToGuiActivityInterfaceList )
-	    {
-            if( isOnline )
-            {
-                client->toGuiContactOnline( guiUser );
-            }
-            else
-            {
-                client->toGuiContactOffline( guiUser );
-            }
-	    }
-
-        m_ToGuiActivityInterfaceBusy = false;
-    }
-    else
-    {
-        // this may be normal if online user is host or service like network host
-        LogMsg( LOG_VERBOSE, "AppCommon::%s null user %s", __func__, onlineId.toOnlineIdString().c_str() );
-    } 
-}
-
-//============================================================================
 void AppCommon::toGuiContactOnline( VxNetIdent* netIdent )
 {
     if( VxIsAppShuttingDown() )
@@ -221,19 +182,7 @@ void AppCommon::slotInternalToGuiContactOnline( VxNetIdent netIdent )
         return;
     }
 
-    bool wasOnline = getConnectIdListMgr().isOnline( netIdent.getMyOnlineId() );
-    GuiUser* guiUser = getUserMgr().updateUser( &netIdent );
-    bool isOnline = getConnectIdListMgr().isOnline( netIdent.getMyOnlineId() );
-    if( guiUser && wasOnline != isOnline && isOnline )
-    {
-        m_ToGuiActivityInterfaceBusy = true;
-        for( auto& client : m_ToGuiActivityInterfaceList )
-        {
-            client->toGuiContactOnline( guiUser );
-        }
-
-        m_ToGuiActivityInterfaceBusy = false;
-    }
+    getUserMgr().updateUser( &netIdent );
 }
 
 //============================================================================
@@ -255,7 +204,7 @@ void AppCommon::toGuiContactAnythingChange( VxNetIdent* netIdent )
 //============================================================================
 void AppCommon::slotInternalToGuiContactUpdated( VxNetIdent netIdent )
 {
-    getUserMgr().toGuiContactUpdated( &netIdent );
+    getUserMgr().updateUser( &netIdent );
 }
 
 //============================================================================

@@ -192,7 +192,6 @@
 #define OBJNAME_APPLET_USER_PREFERENCES				    "AppletUserPreferences"
 
 #define OBJNAME_APPLET_LOG_SETTINGS				        "AppletLogSettings"
-#define OBJNAME_APPLET_LOG_VIEW				            "AppletViewLog"
 
 #define OBJNAME_APPLET_HACKER_LIST				        "AppletHackerList"
 #define OBJNAME_APPLET_SOCKET_LIST				        "AppletSocketList"

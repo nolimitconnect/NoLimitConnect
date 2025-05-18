@@ -2218,3 +2218,48 @@ bool GuiParams::requestPermission( QString permissionName ) // returns false if 
 
     return true;
 }
+
+//============================================================================
+bool GuiParams::requestAllDangerousPermissions( void ) // returns false if user denies any permission
+{
+#if defined (Q_OS_ANDROID)
+    bool allGranted{true};
+    static QStringList permissions = {
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_MEDIA_IMAGES",
+        "android.permission.READ_MEDIA_VIDEO"
+    };
+
+    QList<QString> missing;
+
+    for( const QString &permission : permissions )
+    {
+        if( QtAndroidPrivate::checkPermission(permission).result() != QtAndroidPrivate::PermissionResult::Authorized )
+        {
+            missing.append(permission);
+        }
+    }
+
+    if (!missing.isEmpty())
+    {
+        for( auto permissionName : missing )
+        {
+            if( requestPermission( permissionName ) )
+            {
+                qDebug() << permissionName << " granted.";
+            }
+            else
+            {
+                qDebug() << permissionName << " denied.";
+                allGranted = false;
+            }
+        }
+    }
+
+    return allGranted;
+
+#endif // defined (Q_OS_ANDROID)
+
+    return true;
+}

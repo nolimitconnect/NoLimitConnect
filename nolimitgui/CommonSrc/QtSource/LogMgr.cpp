@@ -32,14 +32,13 @@ LogMgr::LogMgr( QObject* parent )
 {
     m_VerboseLog = m_MyApp.getAppSettings().getVerboseLog();
 
-    connect( this, SIGNAL( signalLogMsg( uint32_t, const QString& ) ), this, SLOT( slotLogMsg( uint32_t, const QString& ) ) );
+    connect( this, SIGNAL(signalLogMsg(uint32_t,const QString&)), this, SLOT(slotLogMsg(uint32_t,const QString&)) );
 }
 
 //============================================================================
 void LogMgr::startupLogMgr( void )
 {
     VxAddLogHandler( this );
-
 }
 
 //============================================================================
@@ -86,23 +85,4 @@ void LogMgr::onLogEvent( uint32_t u32LogFlags, const char* logMsg )
 
         emit signalLogMsg( u32LogFlags, logStr );
     }
-}
-
-//============================================================================
-void LogMgr::slotLogMsg( uint32_t u32LogFlags, const QString& text )
-{  
-    addLogMsgToQue( u32LogFlags, text );
-}
-
-//============================================================================
-void LogMgr::addLogMsgToQue( uint32_t u32LogFlags, const QString& logMsg )
-{
-    m_LogMutex.lock();
-    m_LogQue.push_back( LogQueEntry( u32LogFlags, logMsg ) );
-    if( m_LogQue.size() > m_LogQueMaxLines )
-    {
-        m_LogQue.pop_front();
-    }
-
-    m_LogMutex.unlock();
 }

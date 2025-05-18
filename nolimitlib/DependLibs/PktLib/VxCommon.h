@@ -129,7 +129,7 @@ public:
     bool						canRequestJoin( enum EHostType hostType );
     bool						canJoinImmediate( enum EHostType hostType ); // request to join will be granted immediate because have sufficient permission
 
-	EPluginAccess			    getPluginAccessState( enum EPluginType pluginType, enum EFriendState eFriendState );
+	EPluginAccess			    getPluginAccessState( enum EPluginType pluginType, enum EFriendState eFriendState, bool inGroup = false );
 
 	std::string					describeUser( void );
 

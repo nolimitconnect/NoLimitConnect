@@ -11,6 +11,8 @@
 
 #include "AppletBase.h"
 
+#include "GuiUserUpdateCallback.h"
+
 #include <CoreLib/MediaCallbackInterface.h>
 
 QT_BEGIN_NAMESPACE
@@ -23,7 +25,7 @@ class ThumbnailViewWidget;
 class AssetMgr;
 class IVxVidCap;
 
-class AppletCamSettings : public AppletBase, public MediaCallbackInterface
+class AppletCamSettings : public AppletBase, public MediaCallbackInterface, public GuiUserUpdateCallback
 {
 	Q_OBJECT
 public:
@@ -49,7 +51,6 @@ protected slots:
 
     void						slotToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession> offerSession );
     void						slotToGuiSessionEnded( std::shared_ptr<GuiOfferSession> offerSession );
-    void						slotToGuiContactOffline( VxNetIdent* hisIdent );
 
 protected:
     virtual void				showEvent( QShowEvent* ev ) override;
@@ -58,6 +59,8 @@ protected:
 
     void						setupCamFeed( VxNetIdent* feedNetIdent );
     void						resizeBitmapToFitScreen( QLabel * VideoScreen, QImage& oPicBitmap );
+
+    void                        callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline ) override;
 
     //=== vars ===//
     Ui::AppletCamSettingsUi&	ui;

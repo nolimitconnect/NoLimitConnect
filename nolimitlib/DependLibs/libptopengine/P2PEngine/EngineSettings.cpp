@@ -10,6 +10,8 @@
 
 #include "EngineSettings.h"
 #include "EngineSettingsDefaultValues.h"
+
+#include <CoreLib/VxDebug.h>
 #include <NetLib/VxGetRandomPort.h>
 #include <NetLib/NetHostSettingDefs.h>
 
@@ -43,6 +45,11 @@ RCODE EngineSettings::engineSettingsStartup( std::string& strDbFileName )
 	{
 		m_Initialized = true;
 	}
+    else
+    {
+        LogMsg( LOG_VERBOSE, "P2PEngine::%s failed db %s", __func__, strDbFileName.c_str() );
+        vx_assert( false );
+    }
 
 	return rc;
 }

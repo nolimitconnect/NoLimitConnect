@@ -68,6 +68,7 @@ protected:
     virtual void				announceUserOnlineUpdated( std::shared_ptr<User> userJoinInfo, BaseSessionInfo& sessionInfo );
     virtual void				announceUserOnlineRemoved( VxGUID& hostOnlineId, EHostType hostType );
 
+    void                        announceUserOffline( VxGUID& onlineId );
     void				        announceUserOnlineState( std::shared_ptr<User> userJoinInfo, bool isOnline );
     void                        announceUserSessionState( std::shared_ptr<User> user, bool isInSession );
 

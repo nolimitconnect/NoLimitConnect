@@ -169,7 +169,7 @@ void UserJoinMgr::addUserJoinMgrClient( UserJoinCallbackInterface * client, bool
     lockClientList();
     if( enable )
     {
-        m_UserJoinClients.push_back( client );
+        m_UserJoinClients.emplace_back( client );
     }
     else
     {
