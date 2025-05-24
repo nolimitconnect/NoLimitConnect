@@ -182,13 +182,13 @@ void AppletEditAboutMe::slotImageSnapshot( QImage snapshotImage )
 //! Implement the OnClickListener callback    
 void AppletEditAboutMe::onApplyAboutMeButClick( void )
 {
+    bool saveError{ false };
     std::string strUserProfileDir = VxGetAppDirectory( eAppDirAboutMePageServer );
 
     saveContentToDb();
 
     if( m_bUserPickedImage || m_bUsingDefaultImage )
     {
-#if QT_VERSION > QT_VERSION_CHECK(6,0,0)
         // save image to web page
         QPixmap bitmap = ui.m_PictureOfMeFrame->pixmap();
         if( !bitmap.isNull())
@@ -196,31 +196,18 @@ void AppletEditAboutMe::onApplyAboutMeButClick( void )
             QString picPath = strUserProfileDir.c_str();
             picPath += "me.png";
             bool isOk = bitmap.save( picPath, "PNG" );
-#else
-        // save image to web page
-        const QPixmap* bitmap = ui.m_PictureOfMeFrame->pixmap();
-        if (bitmap)
-        {
-            QString picPath = strUserProfileDir.c_str();
-            picPath += "me.png";
-            bool isOk = bitmap->save(picPath, "PNG");
-#endif // QT_VERSION > QT_VERSION_CHECK(6,0,0)
 
             if( !isOk )
             {
                 QString msgText = QObject::tr( "Failed to write into " ) + picPath;
                 QMessageBox::critical( this, QObject::tr( "Error Writing" ), msgText );
-            }
-            if( true != m_MyApp.getAppGlobals().getMyNetIdent()->hasProfilePicture() )
-            {
-                m_MyApp.getAppGlobals().getMyNetIdent()->setHasProfilePicture( true );
-                m_Engine.setHasPicture( true );
-                m_MyApp.updateMyIdent( m_MyApp.getAppGlobals().getMyNetIdent() );
+                saveError = true;
             }
         }
         else
         {
             LogMsg( LOG_ERROR, "Failed to save picture of me" );
+            saveError = true;
         }
     }
 
@@ -231,8 +218,16 @@ void AppletEditAboutMe::onApplyAboutMeButClick( void )
                                           m_UserProfile.m_strUrl2.toUtf8(),
                                           m_UserProfile.m_strUrl3.toUtf8(),
                                           m_UserProfile.m_strDonation.toUtf8() );
+    if( !saveError )
+    {
+        // assume user has changed something so has about me content
+        UpdateHasAboutMeContent( m_MyApp.getEngine(), true );
+    }
+
+    QString titleText = QObject::tr( "About Me Change" );
     QString msgText = QObject::tr( "Applied About Me Changes " );
-    QMessageBox::information( this, QObject::tr( "About Me Change Success" ), msgText );
+    msgText += saveError ? QObject::tr( "Failed" ) : QObject::tr( "Success" );
+    QMessageBox::information( this, titleText, msgText);
 }
 
 //============================================================================

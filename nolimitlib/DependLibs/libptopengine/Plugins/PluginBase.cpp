@@ -243,7 +243,9 @@ void PluginBase::setPluginPermission( EFriendState eFriendState )
 	EFriendState prevState = m_Engine.getMyPktAnnounce().getPluginPermission( m_ePluginType ); 
 	if( prevState != eFriendState )
 	{
+        m_Engine.lockAnnouncePktAccess();
 		m_Engine.getMyPktAnnounce().setPluginPermission( m_ePluginType, eFriendState );
+        m_Engine.unlockAnnouncePktAccess();
 		m_Engine.doPktAnnHasChanged( false );
 	}
 };

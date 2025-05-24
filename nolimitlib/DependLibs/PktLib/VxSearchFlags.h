@@ -51,14 +51,14 @@ public:
 	void						setHasOtherFiles( bool bHasFiles );
 	bool						hasOtherFiles( void );
 
-	void						setHasProfilePicture( bool bHasPicture );
-	bool						hasProfilePicture( void );
+	void						setHasAboutMeContent( bool hasContent );
+	bool						hasAboutMeContent( void );
+
+	void						setHasStoryboardContent( bool hasContent );
+	bool						hasStoryboardContent( void );
 
 	void						setHasSharedWebCam( bool bHasWebCam );
 	bool						hasSharedWebCam( void );
-
-	void						setHasModifiedStoryboard( bool bHasStoryBoard );
-	bool						hasModifiedStoryboard( void );
 
 protected:
 	//=== vars ===//

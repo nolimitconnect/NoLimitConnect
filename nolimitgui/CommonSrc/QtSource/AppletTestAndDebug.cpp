@@ -142,6 +142,7 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
 
     connect( ui.m_ShowMyselfCheckBox, SIGNAL(clicked()), this, SLOT(slotShowMyselfClicked()) );
     connect( ui.m_FastHostAnnounceCheckBox, SIGNAL(clicked()), this, SLOT(slotFastHostAnnounceClicked()) );
+    connect( ui.m_AllowDeleteUserCheckBox, SIGNAL(clicked()), this, SLOT(slotCanDeleteUserClicked()) );
 
     updateDlgFromSettings();
 
@@ -167,6 +168,8 @@ void AppletTestAndDebug::updateDlgFromSettings()
     }
 
     ui.m_ShowMyselfCheckBox->setChecked( VxGetShowMyselfInLists() );
+    ui.m_FastHostAnnounceCheckBox->setChecked( VxGetFastHostAnnounce() );
+    ui.m_AllowDeleteUserCheckBox->setChecked( VxGetCanDeleteUserFromDb() );
 }
 
 //============================================================================
@@ -558,4 +561,10 @@ void AppletTestAndDebug::slotShowMyselfClicked( void )
 void AppletTestAndDebug::slotFastHostAnnounceClicked( void )
 {
     VxSetFastHostAnnounce( ui.m_FastHostAnnounceCheckBox->isChecked() );
+}
+
+//============================================================================
+void AppletTestAndDebug::slotCanDeleteUserClicked( void )
+{
+    VxSetCanDeleteUserFromDb( ui.m_AllowDeleteUserCheckBox->isChecked() );
 }

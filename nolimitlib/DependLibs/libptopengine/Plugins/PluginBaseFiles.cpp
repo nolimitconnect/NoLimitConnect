@@ -228,7 +228,9 @@ void PluginBaseFiles::onSharedFilesUpdated( uint16_t u16FileTypes )
 {
 	if( m_MyIdent->getSharedFileTypes() != u16FileTypes )
 	{
+		m_Engine.lockAnnouncePktAccess();
 		m_MyIdent->setSharedFileTypes( (uint8_t)u16FileTypes );
+		m_Engine.unlockAnnouncePktAccess();
 		m_Engine.doPktAnnHasChanged( false );
 	}
 }

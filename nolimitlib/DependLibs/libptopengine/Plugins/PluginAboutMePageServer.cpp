@@ -92,6 +92,6 @@ void PluginAboutMePageServer::updateHasProfilePictureChanged( void )
 	// TODO.. DO NOT HARDCODE DEFAULT PROFILE PIC SIZE
 	if( fileSize && 2500 != fileSize )
 	{
-		m_MyIdent->setHasProfilePicture( true );
+		m_MyIdent->setHasAboutMeContent( true );
 	}
 }

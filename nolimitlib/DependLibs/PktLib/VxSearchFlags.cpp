@@ -156,15 +156,8 @@ void VxSearchFlags::setHasOtherFiles( bool bHasFiles )
 }
 
 //============================================================================
-//! return true if user has set profile picture
-bool VxSearchFlags::hasProfilePicture( void )					
-{ 
-	return (RC_FLAG_HAS_PROFILE_PIC & getSearchFlags()) ? true : false; 
-}
-
-//============================================================================
 //! set has profile picture
-void VxSearchFlags::setHasProfilePicture( bool bHasPicture )
+void VxSearchFlags::setHasAboutMeContent( bool bHasPicture )
 {
 	if( bHasPicture )
 		setSearchFlags( getSearchFlags() | RC_FLAG_HAS_PROFILE_PIC );
@@ -173,9 +166,26 @@ void VxSearchFlags::setHasProfilePicture( bool bHasPicture )
 }
 
 //============================================================================
-bool VxSearchFlags::hasSharedWebCam( void )					
+//! return true if user has set profile picture
+bool VxSearchFlags::hasAboutMeContent( void )					
 { 
-	return (RC_FLAG_HAS_SHARED_WEBCAM & getSearchFlags() ) ? true : false; 
+	return (RC_FLAG_HAS_PROFILE_PIC & getSearchFlags()) ? true : false; 
+}
+
+//============================================================================
+void VxSearchFlags::setHasStoryboardContent( bool bHasStoryBoard )
+{
+	if( bHasStoryBoard )
+		setSearchFlags( getSearchFlags() | RC_FLAG_HAS_STORY_BOARD );
+	else
+		setSearchFlags( getSearchFlags() & ~RC_FLAG_HAS_STORY_BOARD );
+}
+
+//============================================================================
+//! return true if user has modified storyboard page
+bool VxSearchFlags::hasStoryboardContent( void )					
+{ 
+	return (RC_FLAG_HAS_STORY_BOARD & getSearchFlags()) ? true : false; 
 }
 
 //============================================================================
@@ -188,18 +198,8 @@ void VxSearchFlags::setHasSharedWebCam( bool bHasWebCam )
 }
 
 //============================================================================
-bool VxSearchFlags::hasModifiedStoryboard( void )					
+bool VxSearchFlags::hasSharedWebCam( void )					
 { 
-	return ( RC_FLAG_HAS_STORY_BOARD & getSearchFlags() ) ? true : false; 
+	return (RC_FLAG_HAS_SHARED_WEBCAM & getSearchFlags() ) ? true : false; 
 }
-
-//============================================================================
-void VxSearchFlags::setHasModifiedStoryboard( bool bHasStoryBoard )
-{
-	if( bHasStoryBoard )
-		setSearchFlags( getSearchFlags() | RC_FLAG_HAS_STORY_BOARD );
-	else
-		setSearchFlags( getSearchFlags() & ~RC_FLAG_HAS_STORY_BOARD );
-}
-
 

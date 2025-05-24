@@ -86,15 +86,34 @@ void  AppGlobals::updatePluginPermission( EPluginType pluginType, EFriendState e
 
 //============================================================================
 //! update has picture and save to database then send picture change to engine
-void UpdateHasPicture( P2PEngine& engine, int bHasPicture )
+void UpdateHasAboutMeContent( P2PEngine& engine, bool hasContent )
 {
-	engine.getMyNetIdent()->setHasProfilePicture(bHasPicture);
-	if( false == GetAppInstance().getAccountMgr().updateAccount( *engine.getMyNetIdent() ) )
+	if( hasContent != engine.getMyNetIdent()->hasAboutMeContent() )
 	{
-		LogMsg( LOG_ERROR, "UpdateHasPicture: ERROR updating database");
-	}
+		engine.getMyNetIdent()->setHasAboutMeContent( hasContent );
+		if( false == GetAppInstance().getAccountMgr().updateAccount( *engine.getMyNetIdent() ) )
+		{
+			LogMsg( LOG_ERROR, "%s: ERROR updating database", __func__ );
+		}
 
-	engine.setHasPicture( bHasPicture );
+		engine.setHasAboutMeContent( hasContent );
+	}
+}
+
+//============================================================================
+//! update has storyboard content and save to database then send update to engine
+void UpdateHasStoryboardContent( P2PEngine& engine, bool hasContent )
+{
+	if( hasContent != engine.getMyNetIdent()->hasStoryboardContent() )
+	{
+		engine.getMyNetIdent()->setHasStoryboardContent( hasContent );
+		if( false == GetAppInstance().getAccountMgr().updateAccount( *engine.getMyNetIdent() ) )
+		{
+			LogMsg( LOG_ERROR, "%s: ERROR updating database", __func__ );
+		}
+
+		engine.setHasStoryboardContent( hasContent );
+	}
 }
 
 //============================================================================

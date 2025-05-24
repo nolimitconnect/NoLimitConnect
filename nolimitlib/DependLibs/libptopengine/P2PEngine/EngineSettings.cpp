@@ -67,6 +67,7 @@ void EngineSettings::engineSettingsShutdown( void )
 //============================================================================
 void EngineSettings::getNetHostSettings( NetHostSetting& netSettings )
 {
+    vx_assert( m_Initialized );
     std::string strValue;
     getNetworkKey( strValue );
     netSettings.setNetworkKey( strValue.c_str() );
@@ -122,6 +123,7 @@ void EngineSettings::getNetHostSettings( NetHostSetting& netSettings )
 //============================================================================
 void EngineSettings::setNetHostSettings( NetHostSetting& netSettings )
 {
+    vx_assert( m_Initialized );
     bool ipv6 = netSettings.getUseIpv6();
     setNetworkKey( netSettings.getNetworkKey() );
     setNetworkHostUrl( netSettings.getNetworkHostUrl() );
@@ -156,6 +158,7 @@ void EngineSettings::setNetHostSettings( NetHostSetting& netSettings )
 //============================================================================
 void EngineSettings::getNetSettings( NetSettings& netSettings )
 {
+    vx_assert( m_Initialized );
     getNetHostSettings( netSettings );
     
     uint16_t u16MulticastPort = 0;
@@ -174,6 +177,7 @@ void EngineSettings::getNetSettings( NetSettings& netSettings )
 //============================================================================
 void EngineSettings::setNetSettings( NetSettings& netSettings )
 {
+    vx_assert( m_Initialized );
     setNetHostSettings( netSettings );
 
 	setMulticastPort( netSettings.getMyMulticastPort() );
@@ -186,6 +190,7 @@ void EngineSettings::setNetSettings( NetSettings& netSettings )
 //============================================================================
 EFriendViewType EngineSettings::getWhichContactsToView( void )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	int32_t whichContactView = eFriendViewEverybody;
 	getIniValue( MY_SETTINGS_KEY, "WhichContactsToView", whichContactView, eFriendViewEverybody );
@@ -196,6 +201,7 @@ EFriendViewType EngineSettings::getWhichContactsToView( void )
 //============================================================================
 void EngineSettings::setWhichContactsToView( EFriendViewType eViewType )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	int32_t whichContactView = (int32_t)eViewType;
 	setIniValue( MY_SETTINGS_KEY, "WhichContactsToView", whichContactView );
@@ -205,6 +211,7 @@ void EngineSettings::setWhichContactsToView( EFriendViewType eViewType )
 //============================================================================
 uint16_t EngineSettings::getTcpIpPort( bool bGetRandomIfDoesntExist )
 {
+    vx_assert( m_Initialized );
     uint16_t u16IpPort;
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "TcpIpPort", u16IpPort, 0 );
@@ -230,6 +237,7 @@ uint16_t EngineSettings::getTcpIpPort( bool bGetRandomIfDoesntExist )
 //============================================================================
 void EngineSettings::setTcpIpPort( uint16_t u16IpPort )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
     setIniValue( MY_SETTINGS_KEY, "TcpIpPort", u16IpPort );
     m_SettingsDbMutex.unlock();
@@ -238,6 +246,7 @@ void EngineSettings::setTcpIpPort( uint16_t u16IpPort )
 //============================================================================
 void EngineSettings::getMulticastPort( uint16_t& u16IpPort )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "UdpIpPort", u16IpPort, DEFAULT_UDP_PORT );
     m_SettingsDbMutex.unlock();
@@ -246,6 +255,7 @@ void EngineSettings::getMulticastPort( uint16_t& u16IpPort )
 //============================================================================
 void EngineSettings::setMulticastPort( uint16_t u16IpPort )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "UdpIpPort", u16IpPort );
     m_SettingsDbMutex.unlock();
@@ -254,6 +264,7 @@ void EngineSettings::setMulticastPort( uint16_t u16IpPort )
 //============================================================================
 void EngineSettings::setMulticastEnable( bool enableMulticast )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "MulticastEnable", enableMulticast );
     m_SettingsDbMutex.unlock();
@@ -262,6 +273,7 @@ void EngineSettings::setMulticastEnable( bool enableMulticast )
 //============================================================================
 void EngineSettings::getMulticastEnable( bool& enableMulticast )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "MulticastEnable", enableMulticast, false );
     m_SettingsDbMutex.unlock();
@@ -270,6 +282,7 @@ void EngineSettings::getMulticastEnable( bool& enableMulticast )
 //============================================================================
 void EngineSettings::getConnectTestUrl( std::string& strWebsiteUrl )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "ConnectTestUrl", strWebsiteUrl, NET_DEFAULT_CONNECT_TEST_URL_IPV4 );
     m_SettingsDbMutex.unlock();
@@ -278,6 +291,7 @@ void EngineSettings::getConnectTestUrl( std::string& strWebsiteUrl )
 //============================================================================
 void EngineSettings::setConnectTestUrl( std::string& strWebsiteUrl )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "ConnectTestUrl", strWebsiteUrl );
     m_SettingsDbMutex.unlock();
@@ -286,6 +300,7 @@ void EngineSettings::setConnectTestUrl( std::string& strWebsiteUrl )
 //============================================================================
 void EngineSettings::getNetworkHostUrl( std::string& strWebsiteUrl )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "NetHostUrl", strWebsiteUrl, NET_DEFAULT_NET_HOST_URL_IPV4 );
     m_SettingsDbMutex.unlock();
@@ -294,6 +309,7 @@ void EngineSettings::getNetworkHostUrl( std::string& strWebsiteUrl )
 //============================================================================
 void EngineSettings::setNetworkHostUrl( std::string& strWebsiteUrl )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "NetHostUrl", strWebsiteUrl );
     m_SettingsDbMutex.unlock();
@@ -302,6 +318,7 @@ void EngineSettings::setNetworkHostUrl( std::string& strWebsiteUrl )
 //============================================================================
 void EngineSettings::setRandomConnectUrl( std::string& strWebsiteUrl )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
     setIniValue( MY_SETTINGS_KEY, "RandConnectUrl", strWebsiteUrl );
     m_SettingsDbMutex.unlock();
@@ -310,6 +327,7 @@ void EngineSettings::setRandomConnectUrl( std::string& strWebsiteUrl )
 //============================================================================
 void EngineSettings::getRandomConnectUrl( std::string& strWebsiteUrl )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
     getIniValue( MY_SETTINGS_KEY, "RandConnectUrl", strWebsiteUrl, NET_DEFAULT_RANDOM_CONNECT_URL_IPV4 );
     m_SettingsDbMutex.unlock();
@@ -318,6 +336,7 @@ void EngineSettings::getRandomConnectUrl( std::string& strWebsiteUrl )
 //============================================================================
 void EngineSettings::setGroupHostUrl( std::string& strWebsiteUrl )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
     setIniValue( MY_SETTINGS_KEY, "GroupHostUrl", strWebsiteUrl );
     m_SettingsDbMutex.unlock();
@@ -326,6 +345,7 @@ void EngineSettings::setGroupHostUrl( std::string& strWebsiteUrl )
 //============================================================================
 void EngineSettings::getGroupHostUrl( std::string& strWebsiteUrl )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
     getIniValue( MY_SETTINGS_KEY, "GroupHostUrl", strWebsiteUrl, NET_DEFAULT_GROUP_HOST_URL_IPV4 );
     m_SettingsDbMutex.unlock();
@@ -334,6 +354,7 @@ void EngineSettings::getGroupHostUrl( std::string& strWebsiteUrl )
 //============================================================================
 void EngineSettings::setChatRoomHostUrl( std::string& strWebsiteUrl )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
     setIniValue( MY_SETTINGS_KEY, "ChatRoomHostUrl", strWebsiteUrl );
     m_SettingsDbMutex.unlock();
@@ -342,6 +363,7 @@ void EngineSettings::setChatRoomHostUrl( std::string& strWebsiteUrl )
 //============================================================================
 void EngineSettings::getChatRoomHostUrl( std::string& strWebsiteUrl )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
     getIniValue( MY_SETTINGS_KEY, "ChatRoomHostUrl", strWebsiteUrl, NET_DEFAULT_CHAT_ROOM_HOST_URL_IPV4 );
     m_SettingsDbMutex.unlock();
@@ -350,6 +372,7 @@ void EngineSettings::getChatRoomHostUrl( std::string& strWebsiteUrl )
 //============================================================================
 void EngineSettings::setUserSpecifiedExternIpAddr( std::string& externIp, bool ipv6 )
 {
+    vx_assert( m_Initialized );
     if( ipv6 )
     {
         m_CachedExternIpv6 = externIp;
@@ -367,6 +390,7 @@ void EngineSettings::setUserSpecifiedExternIpAddr( std::string& externIp, bool i
 //============================================================================
 void EngineSettings::getUserSpecifiedExternIpAddr( std::string& externIp, bool ipv6)
 {
+    vx_assert( m_Initialized );
     if( ipv6 && !m_CachedExternIpv6.empty() )
     {
         externIp = m_CachedExternIpv6;
@@ -395,6 +419,7 @@ void EngineSettings::getUserSpecifiedExternIpAddr( std::string& externIp, bool i
 //============================================================================
 std::string EngineSettings::getUserSpecifiedExternIpAddr( bool ipv6  )
 {
+    vx_assert( m_Initialized );
     std::string externIp;
     getUserSpecifiedExternIpAddr( externIp, ipv6 );
     return externIp;
@@ -403,6 +428,7 @@ std::string EngineSettings::getUserSpecifiedExternIpAddr( bool ipv6  )
 //============================================================================
 void EngineSettings::setUseIpv6( bool useIpv6 )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "UseIpv6", useIpv6 );
     m_HasUseIpv6BeenCached = true;
@@ -413,6 +439,7 @@ void EngineSettings::setUseIpv6( bool useIpv6 )
 //============================================================================
 bool EngineSettings::getUseIpv6( void )
 {
+    vx_assert( m_Initialized );
     if( m_HasUseIpv6BeenCached )
     {
         return m_CachedUseIpv6;
@@ -430,6 +457,7 @@ bool EngineSettings::getUseIpv6( void )
 //============================================================================
 void EngineSettings::setUseUpnp( bool useUpnp )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "UseUpnp", useUpnp );
     m_SettingsDbMutex.unlock();
@@ -438,6 +466,7 @@ void EngineSettings::setUseUpnp( bool useUpnp )
 //============================================================================
 bool EngineSettings::getUseUpnp( void )
 {
+    vx_assert( m_Initialized );
 	bool useUpnp = false;
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "UseUpnp", useUpnp, false );
@@ -448,6 +477,7 @@ bool EngineSettings::getUseUpnp( void )
 //============================================================================
 void EngineSettings::setExcludeMeFromNetHostList( bool excludeFromHostList )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "ExcludeFromHostList", excludeFromHostList );
     m_SettingsDbMutex.unlock();
@@ -456,6 +486,7 @@ void EngineSettings::setExcludeMeFromNetHostList( bool excludeFromHostList )
 //============================================================================
 bool EngineSettings::getExcludeMeFromNetHostList( void )
 {
+    vx_assert( m_Initialized );
 	bool excludeMe = false;
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "ExcludeFromHostList", excludeMe, false );
@@ -466,6 +497,7 @@ bool EngineSettings::getExcludeMeFromNetHostList( void )
 //============================================================================
 void EngineSettings::getNetworkKey( std::string& strNetworkName )
 {
+    vx_assert( m_Initialized );
 	if( m_CachedNetworkName.length() )
 	{
 		strNetworkName = m_CachedNetworkName;
@@ -482,6 +514,7 @@ void EngineSettings::getNetworkKey( std::string& strNetworkName )
 //============================================================================
 void EngineSettings::setNetworkKey( std::string& strNetworkName )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	m_CachedNetworkName = strNetworkName;
 	setIniValue( MY_SETTINGS_KEY, "NetworkName", strNetworkName );
@@ -491,6 +524,7 @@ void EngineSettings::setNetworkKey( std::string& strNetworkName )
 //============================================================================
 bool EngineSettings::getUseUpnpPortForward( void )
 {
+    vx_assert( m_Initialized );
 	bool bUseUpnp = true;
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "UseUpnp", bUseUpnp, true );
@@ -502,6 +536,7 @@ bool EngineSettings::getUseUpnpPortForward( void )
 //============================================================================
 void EngineSettings::setUseUpnpPortForward( bool bUseUpnpPortForward )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "UseUpnp", bUseUpnpPortForward );
     m_SettingsDbMutex.unlock();
@@ -510,6 +545,7 @@ void EngineSettings::setUseUpnpPortForward( bool bUseUpnpPortForward )
 //============================================================================
 bool EngineSettings::getUseNatPortForward( void )
 {
+    vx_assert( m_Initialized );
 	bool bUseNat = true;
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "UseNat", bUseNat, false );
@@ -520,6 +556,7 @@ bool EngineSettings::getUseNatPortForward( void )
 //============================================================================
 void EngineSettings::setUseNatPortForward( bool bUseNatPortForward )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "UseNat", bUseNatPortForward );
     m_SettingsDbMutex.unlock();
@@ -528,6 +565,7 @@ void EngineSettings::setUseNatPortForward( bool bUseNatPortForward )
 //============================================================================
 EFirewallTestType EngineSettings::getFirewallTestSetting( void )
 {
+    vx_assert( m_Initialized );
     if( m_HaveCachedFirewallTestType )
     {
         return m_CachedFirewallTestType;
@@ -546,6 +584,7 @@ EFirewallTestType EngineSettings::getFirewallTestSetting( void )
 //============================================================================
 void EngineSettings::setFirewallTestSetting( EFirewallTestType eFirewallTestType )
 {
+    vx_assert( m_Initialized );
 	uint16_t u16Setting = (uint16_t)eFirewallTestType;
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "FirewallTest", u16Setting );
@@ -559,6 +598,7 @@ void EngineSettings::setFirewallTestSetting( EFirewallTestType eFirewallTestType
 //============================================================================
 void EngineSettings::getCompletedDnldsDir( std::string& strCompletedDir )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "CompletedDnldsDir", strCompletedDir, "" );
     m_SettingsDbMutex.unlock();
@@ -567,6 +607,7 @@ void EngineSettings::getCompletedDnldsDir( std::string& strCompletedDir )
 //============================================================================
 void EngineSettings::setCompletedDnldsDir( std::string& strCompletedDir )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "CompletedDnldsDir", strCompletedDir );
     m_SettingsDbMutex.unlock();
@@ -575,6 +616,7 @@ void EngineSettings::setCompletedDnldsDir( std::string& strCompletedDir )
 //============================================================================
 void EngineSettings::getIncompleteDnldsDir( std::string& strIncompleteDir )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "IncompleteDnldsDir", strIncompleteDir, "" );
     m_SettingsDbMutex.unlock();
@@ -583,6 +625,7 @@ void EngineSettings::getIncompleteDnldsDir( std::string& strIncompleteDir )
 //============================================================================
 void EngineSettings::setIncompleteDnldsDir( std::string& strIncompleteDir )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "IncompleteDnldsDir", strIncompleteDir );
     m_SettingsDbMutex.unlock();
@@ -591,6 +634,7 @@ void EngineSettings::setIncompleteDnldsDir( std::string& strIncompleteDir )
 //============================================================================
 void EngineSettings::getDnldsBandwidth( uint32_t& u32Bandwidth )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "DnldsBandwidth", u32Bandwidth, 0 );
     m_SettingsDbMutex.unlock();
@@ -599,6 +643,7 @@ void EngineSettings::getDnldsBandwidth( uint32_t& u32Bandwidth )
 //============================================================================
 void EngineSettings::setDnldsBandwidth( uint32_t& u32Bandwidth )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "DnldsBandwidth", u32Bandwidth );
     m_SettingsDbMutex.unlock();
@@ -607,6 +652,7 @@ void EngineSettings::setDnldsBandwidth( uint32_t& u32Bandwidth )
 //============================================================================
 void EngineSettings::getMaxDownloadingFiles( uint32_t& u32MaxDownloadingFiles )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "MaxDownloadingFiles", u32MaxDownloadingFiles, DEFAULT_MAX_DOWNLOADING_FILES );
     m_SettingsDbMutex.unlock();
@@ -615,6 +661,7 @@ void EngineSettings::getMaxDownloadingFiles( uint32_t& u32MaxDownloadingFiles )
 //============================================================================
 void EngineSettings::setMaxDownloadingFiles( uint32_t& u32MaxDownloadingFiles )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "MaxDownloadingFiles", u32MaxDownloadingFiles );
     m_SettingsDbMutex.unlock();
@@ -623,6 +670,7 @@ void EngineSettings::setMaxDownloadingFiles( uint32_t& u32MaxDownloadingFiles )
 //============================================================================
 void EngineSettings::getSharedFilesDirs( std::vector<std::string>& strSharedDirs )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "SharedDirs", strSharedDirs );
     m_SettingsDbMutex.unlock();
@@ -631,6 +679,7 @@ void EngineSettings::getSharedFilesDirs( std::vector<std::string>& strSharedDirs
 //============================================================================
 void EngineSettings::setSharedFilesDirs( std::vector<std::string>& strSharedDirs )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "SharedDirs", strSharedDirs );
     m_SettingsDbMutex.unlock();
@@ -639,6 +688,7 @@ void EngineSettings::setSharedFilesDirs( std::vector<std::string>& strSharedDirs
 //============================================================================
 void EngineSettings::getUpldsBandwidth( uint32_t& u32Bandwidth )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "UpldsBandwidth", u32Bandwidth, 0 );
     m_SettingsDbMutex.unlock();
@@ -647,6 +697,7 @@ void EngineSettings::getUpldsBandwidth( uint32_t& u32Bandwidth )
 //============================================================================
 void EngineSettings::setUpldsBandwidth( uint32_t& u32Bandwidth )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "UpldsBandwidth", u32Bandwidth );
     m_SettingsDbMutex.unlock();
@@ -655,6 +706,7 @@ void EngineSettings::setUpldsBandwidth( uint32_t& u32Bandwidth )
 //============================================================================
 void EngineSettings::getMaxUploadingFiles( uint32_t& u32MaxUploadingFiles )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "MaxUploadingFiles", u32MaxUploadingFiles, DEFAULT_MAX_UPLOADING_FILES );
     m_SettingsDbMutex.unlock();
@@ -663,6 +715,7 @@ void EngineSettings::getMaxUploadingFiles( uint32_t& u32MaxUploadingFiles )
 //============================================================================
 void EngineSettings::setMaxUploadingFiles( uint32_t& u32MaxUploadingFiles )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "MaxUploadingFiles", u32MaxUploadingFiles );
     m_SettingsDbMutex.unlock();
@@ -671,6 +724,7 @@ void EngineSettings::setMaxUploadingFiles( uint32_t& u32MaxUploadingFiles )
 //============================================================================
 void EngineSettings::setMaxRelaysInUse( uint32_t userRelays, uint32_t anonRelays )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "MaxUserRelays", userRelays );
 	setIniValue( MY_SETTINGS_KEY, "MaxSystemRelays", anonRelays );
@@ -680,6 +734,7 @@ void EngineSettings::setMaxRelaysInUse( uint32_t userRelays, uint32_t anonRelays
 //============================================================================
 void EngineSettings::getMaxRelaysInUse( uint32_t& userRelays, uint32_t& anonRelays )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "MaxUserRelays", userRelays, DEFAULT_USER_RELAYS );
 	getIniValue( MY_SETTINGS_KEY, "MaxSystemRelays", anonRelays, DEFAULT_ANON_RELAYS );
@@ -689,6 +744,7 @@ void EngineSettings::getMaxRelaysInUse( uint32_t& userRelays, uint32_t& anonRela
 //============================================================================
 void EngineSettings::setAllowUserLocation( bool allowUserLocation )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "AllowUserLocation", allowUserLocation );
     m_SettingsDbMutex.unlock();
@@ -697,6 +753,7 @@ void EngineSettings::setAllowUserLocation( bool allowUserLocation )
 //============================================================================
 bool EngineSettings::getAllowUserLocation( void )
 {
+    vx_assert( m_Initialized );
 	bool allowUserLocation = true;
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "AllowUserLocation", allowUserLocation, true );
@@ -707,6 +764,7 @@ bool EngineSettings::getAllowUserLocation( void )
 //============================================================================
 void EngineSettings::setAllowMulticastBroadcast( bool allowBroadcast )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "AllowBroadcast", allowBroadcast );
     m_SettingsDbMutex.unlock();
@@ -715,6 +773,7 @@ void EngineSettings::setAllowMulticastBroadcast( bool allowBroadcast )
 //============================================================================
 bool EngineSettings::getAllowMulticastBroadcast( void )
 {
+    vx_assert( m_Initialized );
 	bool allowBroadcast = true;
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "AllowBroadcast", allowBroadcast, false );
@@ -725,6 +784,7 @@ bool EngineSettings::getAllowMulticastBroadcast( void )
 //============================================================================
 void EngineSettings::setLastFirewallPort( uint16_t u16IpPort )
 {
+    vx_assert( m_Initialized );
     m_SettingsDbMutex.lock();
 	setIniValue( MY_SETTINGS_KEY, "firewallPort", u16IpPort );
     m_SettingsDbMutex.unlock();
@@ -733,6 +793,7 @@ void EngineSettings::setLastFirewallPort( uint16_t u16IpPort )
 //============================================================================
 uint16_t EngineSettings::getLastFirewallPort( void )
 {
+    vx_assert( m_Initialized );
 	uint16_t u16IpPort;
     m_SettingsDbMutex.lock();
 	getIniValue( MY_SETTINGS_KEY, "firewallPort", u16IpPort, 0 );
@@ -743,6 +804,7 @@ uint16_t EngineSettings::getLastFirewallPort( void )
 //============================================================================
 std::string EngineSettings::fromGuiQueryDefaultUrl( EHostType hostType )
 {
+    vx_assert( m_Initialized );
     std::string hostUrl( "" );
     switch( hostType )
     {
@@ -772,6 +834,7 @@ std::string EngineSettings::fromGuiQueryDefaultUrl( EHostType hostType )
 //============================================================================
 bool EngineSettings::fromGuiSetDefaultUrl( EHostType hostType, std::string& hostUrl )
 {
+    vx_assert( m_Initialized );
     if( hostUrl.empty() )
     {
         return false;

@@ -398,11 +398,10 @@ void GuiGroupieListWidget::onMenuButtonClicked( GuiGroupieListItem* hostItem )
         GuiGroupieListSession* groupieSession = hostItem->getHostSession();
         if( groupieSession )
         {
-            // emit signalMenuButtonClicked( groupieSession, hostItem );
             AppletPopupMenu* popupMenu = dynamic_cast<AppletPopupMenu*>(m_MyApp.launchApplet( eAppletPopupMenu, GuiHelpers::getParentPageFrame( this ) ));
             if( popupMenu )
             {
-                popupMenu->showGroupieListSessionMenu( groupieSession, true );
+                popupMenu->showGroupieListSessionMenu( groupieSession );
             }
         }
     }

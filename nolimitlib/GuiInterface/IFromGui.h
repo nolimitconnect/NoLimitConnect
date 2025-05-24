@@ -212,9 +212,6 @@ public:
 	/// Get current IPv6 IP Address
 	virtual InetAddress			fromGuiGetMyIPv6Address( void ) = 0;
 
-	/// Notify engine that user has modified his/her Story Board Web Page
-	virtual void				fromGuiUserModifiedStoryboard( void ) = 0;
-
 	/// Cancel a download
 	virtual void				fromGuiCancelDownload( VxGUID& fileInstance ) = 0;
 	/// Cancel a upload

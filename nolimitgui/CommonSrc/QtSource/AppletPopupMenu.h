@@ -30,6 +30,28 @@ enum class EPopupMenuType
 	eMaxPopupMenu
 };
 
+enum EUserAction
+{
+	eUserActionNone,
+	eUserActionBlockUnblock,
+	eUserActionAboutMe,
+	eUserActionStoryboard,
+	eUserActionCamServer,
+	eUserActionViewSharedFiles,
+	eUserActionOfferFile,
+	eUserActionMessenger,
+	eUserActionVoicePhone,
+	eUserActionVideoPhone,
+	eUserActionTruthOrDare,
+	eUserActionSetUnsetPreferred,
+	eUserActionChangeFriendship,
+	eUserActionRequestFriendship,
+	eUserActionUserDetails,
+	eUserActionDeleteUserFromDb,
+
+	eMaxFriendAction
+};
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
     class AppletPopupMenuUi;
@@ -61,11 +83,11 @@ public:
 	void						showTitleBarAppMenu( void );
 	void						showTitleBarUserMenu( void );
 
-	void						showFriendMenu( GuiUser* poSelectedFriend, bool inGroup = false );
+	void						showFriendMenu( GuiUser* poSelectedFriend );
 	void						showPersonOfferMenu( GuiUser* poSelectedFriend );
 	void						showUserSessionMenu( EApplet appletType, GuiUserSessionBase* userSession );
 
-	void						showGroupieListSessionMenu( GuiGroupieListSession* hostSession, bool inGroup = false );
+	void						showGroupieListSessionMenu( GuiGroupieListSession* hostSession );
 	void						showHostedListSessionMenu( GuiHostedListSession* hostSession );
 	void						showHostSessionMenu( GuiHostSession* hostSession );
 
@@ -100,12 +122,16 @@ protected:
 	void						addSetUnsetPreferredMenuItem( int menuId, VxGUID onlineId );
 	void						addUserDetailsMenuItem( int menuId, GuiUser* guiUser );
 	void						addFriendRequestMenuItem( int menuId, GuiUser* guiUser );
+	void						addDeleteUserFromDbMenuItem( int menuId, GuiUser* guiUser );
 
 	void						launchChangeFriendship( GuiUser* selectedFriend );
 	void						launchUserDetails( void );
 	void						launchSendFriendRequest( GuiUser* selectedFriend );
 
 	bool						isMyAccessAllowed( GuiUser* guiUser, EPluginType pluginType, bool inGroup );
+
+	void						addUserAction( enum EUserAction userAction );
+	bool						canPerformAction( enum EUserAction userAction, EPluginAccess& retPluginAccess );
 
     //=== vars ===//
     Ui::AppletPopupMenuUi&		ui;

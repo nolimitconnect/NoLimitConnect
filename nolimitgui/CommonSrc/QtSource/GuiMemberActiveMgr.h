@@ -42,6 +42,7 @@ public:
 
     bool                        isMemberActive( GroupieId& groupieId );
     bool                        isMemberOfHostType( EHostType hostType, VxGUID& onlineId );
+    bool                        isActiveMemberOfAny( VxGUID& onlineId );
 
     void                        getActiveMembers( HostedId& hostId, std::set<VxGUID>& memberList );
 

@@ -133,3 +133,6 @@ bool							VxGetShowMyselfInLists( void );
 
 void							VxSetFastHostAnnounce( bool fastAnnounce ); // NOT recommended.. (for debug only)
 bool							VxGetFastHostAnnounce( void );
+
+void							VxSetCanDeleteUserFromDb( bool canDeleteFromDb ); // NOT recommended.. (for debug only)
+bool							VxGetCanDeleteUserFromDb( void );

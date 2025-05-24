@@ -472,24 +472,35 @@ void P2PEngine::setPluginPermission( EPluginType pluginType, int iPluginPermissi
 
 //============================================================================
 //! if bHasPicture then user has updated profile picture		
-void P2PEngine::setHasPicture( int bHasPicture )
+void P2PEngine::setHasAboutMeContent( bool hasContent )
 {
-	m_PktAnn.setHasProfilePicture( bHasPicture ? true : false );
+	lockAnnouncePktAccess();
+	m_PktAnn.setHasAboutMeContent( hasContent );
+	unlockAnnouncePktAccess();
 	// let others handle the changed announcement packet
 	doPktAnnHasChanged( false );
 }
 
 //============================================================================
-//! if bHasShaeredWebCam then user has has started web cam server		
-void P2PEngine::setHasSharedWebCam( int hasSharedWebCam )
+//! if bHasPicture then user has updated profile picture		
+void P2PEngine::setHasStoryboardContent( bool hasContent )
 {
-	bool sharedCam = hasSharedWebCam ? true : false;
-	if( sharedCam != m_PktAnn.hasSharedWebCam() )
-	{
-		m_PktAnn.setHasSharedWebCam( sharedCam );
-		// let others handle the changed announcement packet
-		doPktAnnHasChanged( false );
-	}
+	lockAnnouncePktAccess();
+	m_PktAnn.setHasStoryboardContent( hasContent );
+	unlockAnnouncePktAccess();
+	// let others handle the changed announcement packet
+	doPktAnnHasChanged( false );
+}
+
+//============================================================================
+//! if bHasShaeredWebCam then user bool has started web cam server		
+void P2PEngine::setHasSharedWebCam( bool hasSharedWebCam )
+{
+	lockAnnouncePktAccess();
+	m_PktAnn.setHasSharedWebCam( hasSharedWebCam );
+	unlockAnnouncePktAccess();
+	// let others handle the changed announcement packet
+	doPktAnnHasChanged( false );
 }
 
 //============================================================================

@@ -65,6 +65,20 @@ bool GuiMemberActiveMgr::isMemberOfHostType( EHostType hostType, VxGUID& onlineI
 }
 
 //============================================================================
+bool GuiMemberActiveMgr::isActiveMemberOfAny( VxGUID& onlineId )
+{
+    for( auto groupieId : m_MemberList )
+    {
+        if( groupieId.getUserOnlineId() == onlineId || groupieId.getHostOnlineId() == onlineId )
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+//============================================================================
 void GuiMemberActiveMgr::getActiveMembers( HostedId& hostId, std::set<VxGUID>& memberList )
 {
     memberList.clear();
@@ -121,7 +135,7 @@ void GuiMemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool isActive
 
     if( !wasFound && isActive )
     {
-        m_MemberList.push_back( groupieId );
+        m_MemberList.emplace_back( groupieId );
         wasUpdated = true;
     }
 
@@ -162,7 +176,7 @@ void GuiMemberActiveMgr::wantMemberActiveCallback( GuiMemberActiveCallback* clie
 
     if( enable && !wasFound )
     {
-        m_MemberClients.push_back( client );
+        m_MemberClients.emplace_back( client );
     }
 }
 

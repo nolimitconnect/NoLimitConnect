@@ -125,33 +125,41 @@ void P2PEngine::fromGuiAppShutdown( void )
 //============================================================================
 void P2PEngine::fromGuiOnlineNameChanged( const char* newOnlineName )
 {
+	lockAnnouncePktAccess();
 	m_PktAnn.setOnlineName( newOnlineName );
+	unlockAnnouncePktAccess();
 	doPktAnnHasChanged( false );
 }
 
 //============================================================================
 void P2PEngine::fromGuiMoodMessageChanged( const char* newMoodMessage )
 {
+	lockAnnouncePktAccess();
 	m_PktAnn.setOnlineDescription( newMoodMessage );
+	unlockAnnouncePktAccess();
 	doPktAnnHasChanged( false );
 }
 
 //============================================================================
 void P2PEngine::fromGuiIdentPersonalInfoChanged( int age, int gender, int language, int preferredContent )
 {
+	lockAnnouncePktAccess();
     m_PktAnn.setAgeType( (EAgeType)age );
     m_PktAnn.setGender( (EGenderType)gender );
     m_PktAnn.setPrimaryLanguage( (ELanguageType)language );
     m_PktAnn.setPreferredContent( (EContentRating)preferredContent );
+	unlockAnnouncePktAccess();
     doPktAnnHasChanged( false );
 }
 
 //============================================================================
 void P2PEngine::fromGuiSetUserHasProfilePicture( bool haveProfilePick )
 {
-	if( m_PktAnn.hasProfilePicture() != haveProfilePick )
+	if( m_PktAnn.hasAboutMeContent() != haveProfilePick )
 	{
-		m_PktAnn.setHasProfilePicture( haveProfilePick );
+		lockAnnouncePktAccess();
+		m_PktAnn.setHasAboutMeContent( haveProfilePick );
+		unlockAnnouncePktAccess();
 		doPktAnnHasChanged( false );
 	}
 }
@@ -159,8 +167,9 @@ void P2PEngine::fromGuiSetUserHasProfilePicture( bool haveProfilePick )
 //============================================================================
 void P2PEngine::fromGuiUpdateMyIdent( VxNetIdent* netIdent, bool permissionAndStatsOnly )
 {
+	lockAnnouncePktAccess();
 	if( permissionAndStatsOnly )
-	{
+	{	
 		memcpy( m_PktAnn.getPluginPermissions(), netIdent->getPluginPermissions(), PERMISSION_ARRAY_SIZE );
 		m_PktAnn.setDareCount( netIdent->getDareCount() );
 		m_PktAnn.setTruthCount( netIdent->getTruthCount() );
@@ -171,6 +180,8 @@ void P2PEngine::fromGuiUpdateMyIdent( VxNetIdent* netIdent, bool permissionAndSt
 	{
 		memcpy( (VxNetIdent*)&m_PktAnn, netIdent, sizeof( VxNetIdent ));
 	}
+
+	unlockAnnouncePktAccess();
 
 	doPktAnnHasChanged( false );
 }
@@ -192,7 +203,9 @@ void P2PEngine::fromGuiSetIdentHasTextOffers( VxGUID& onlineId, bool hasTextOffe
 //============================================================================
 void P2PEngine::fromGuiQueryMyIdent( VxNetIdent* poRetIdent )
 {
+	lockAnnouncePktAccess();
 	memcpy( poRetIdent, (VxNetIdent*)&m_PktAnn, sizeof( VxNetIdent ) );
+	unlockAnnouncePktAccess();
 }
 
 //============================================================================
@@ -560,7 +573,9 @@ void P2PEngine::fromGuiSetPluginPermission( EPluginType pluginType, EFriendState
 	if( eCurFriendState != eFriendState )
 	{
 		m_PluginMgr.setPluginPermission( pluginType, eFriendState );
+		lockAnnouncePktAccess();
 		m_PktAnn.setPluginPermission( pluginType, eFriendState );
+		unlockAnnouncePktAccess();
 		doPktAnnHasChanged( false );
 	}
 }
@@ -885,7 +900,9 @@ void P2PEngine::fromGuiRequireRelay( bool bRequireRelay )
 		//assureUserSpecificDirIsSet( "P2PEngine::fromGuiRequireRelay" );
 		if( m_PktAnn.requiresRelay() != bRequireRelay )
 		{
+			 lockAnnouncePktAccess();
 			 m_PktAnn.setRequiresRelay( bRequireRelay );
+			 unlockAnnouncePktAccess();
 			 doPktAnnHasChanged( false );
 		}
 	}
@@ -915,14 +932,6 @@ InetAddress P2PEngine::fromGuiGetMyIPv4Address( void )
 InetAddress P2PEngine::fromGuiGetMyIPv6Address( void )
 {
 	return VxGetMyGlobalIPv6Address();
-}
-
-//============================================================================
-void P2PEngine::fromGuiUserModifiedStoryboard( void )
-{
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiUserModifiedStoryboard" );
-	m_PktAnn.setHasModifiedStoryboard( true );
-	doPktAnnHasChanged( false );
 }
 
 //============================================================================
@@ -1673,9 +1682,9 @@ bool P2PEngine::fromGuiCancelWebPage( EWebPageType webPageType, VxGUID& onlineId
 //============================================================================
 void P2PEngine::fromGuiUpdatePluginPermission( EPluginType pluginType, EFriendState pluginPermission )
 {
-	m_AnnouncePktMutex.lock(); 
+	lockAnnouncePktAccess();
 	m_PktAnn.setPluginPermission( pluginType, pluginPermission );
-	m_AnnouncePktMutex.unlock();
+	unlockAnnouncePktAccess();
 	getPluginMgr().fromGuiUpdatePluginPermission( pluginType, pluginPermission );
 	doPktAnnHasChanged( false );
 }

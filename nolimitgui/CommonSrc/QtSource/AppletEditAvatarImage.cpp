@@ -133,7 +133,21 @@ void AppletEditAvatarImage::onApplyButClick( void )
 //============================================================================    
 void AppletEditAvatarImage::onRemoveButClick( void )
 {
-    QString removeConfirmmsgText = QObject::tr( "Are you sure you want to remove your avatar image? " );
+    ThumbInfo* assetInfo{ nullptr };
+    bool assetExists = ui.m_ThumbnailEditWidget->isAssetIdValid();
+    if( assetExists )
+    {
+        assetInfo = dynamic_cast<ThumbInfo*>(m_ThumbMgr.findAsset( ui.m_ThumbnailEditWidget->getAssetId() ));
+    }
+
+    if( assetExists && assetInfo->isChatFaceAsset() )
+    {
+        QString msgText = QObject::tr( "Cannot Delete Avatar Image" );
+        QMessageBox::information( this, QObject::tr( "Cannot remove image that is a emoticon" ), msgText );  
+        return;
+    }
+
+    QString removeConfirmmsgText = QObject::tr( "Are you sure you want to remove your avatar image?" );
     if( QMessageBox::Yes == QMessageBox::question( this, QObject::tr( "Remove Avatar Image" ), removeConfirmmsgText ) )
     {
         removeAvatarImage();

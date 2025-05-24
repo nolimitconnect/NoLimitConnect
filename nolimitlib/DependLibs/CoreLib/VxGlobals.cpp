@@ -93,6 +93,7 @@ namespace
 
 	bool				g_bShowMyselfInLists			= false;
 	bool				g_bFastHostAnnounce				= false;
+	bool				g_bCanDeleteUserFromDb 			= false;
 }
 
 //============================================================================
@@ -592,9 +593,9 @@ bool VxGetShowMyselfInLists( void )
 }
 
 //============================================================================
-void VxSetFastHostAnnounce( bool showMyself )
+void VxSetFastHostAnnounce( bool fastHostAnnounce )
 {
-	g_bShowMyselfInLists = showMyself;
+	g_bFastHostAnnounce = fastHostAnnounce;
 }
 
 //============================================================================
@@ -602,3 +603,18 @@ bool VxGetFastHostAnnounce( void )
 {
 	return g_bFastHostAnnounce;
 }
+
+//============================================================================
+void VxSetCanDeleteUserFromDb( bool canDeleteFromDb )
+{
+	g_bCanDeleteUserFromDb = canDeleteFromDb;
+}
+
+//============================================================================
+bool VxGetCanDeleteUserFromDb( void )
+{
+	return g_bCanDeleteUserFromDb;
+}
+
+void							VxSetCanDeleteUserFromDb( bool canDeleteFromDb ); // NOT recommended.. (for debug only)
+bool							VxGetCanDeleteUserFromDb( void );

@@ -61,6 +61,10 @@ public:
 
     bool                        isInSession( void );
 
+    bool                        hasAboutMeContent( void )               { return m_NetIdent.hasAboutMeContent(); }
+    bool                        hasStoryboardContent( void )            { return m_NetIdent.hasStoryboardContent(); }
+    bool                        hasSharedWebCam( void )                 { return m_NetIdent.hasSharedWebCam(); }
+
     VxGUID&                     getMyOnlineId( void )                   { return m_OnlineId; }
     std::string                 getOnlineName( void )                   { return std::string( m_NetIdent.getOnlineName() ); }
     std::string                 getOnlineDescription( void )            { return std::string( m_NetIdent.getOnlineDescription() ); }

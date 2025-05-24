@@ -1064,6 +1064,12 @@ bool AppCommon::userCanceled( void )
 //============================================================================
 void AppCommon::onOncePerSecond( void )
 {
+    if( !getAppSettings().getIsAppSettingInitialized() )
+    {
+        LogMsg( LOG_ERROR, "%s called before settings initialized", __func__ );
+        return;
+    }
+
 	static int64_t startTime = 0;
 	if( getGuiCpuTimeEnable() )
 	{

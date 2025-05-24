@@ -42,7 +42,9 @@ protected:
 GuiParams&                      GetGuiParams();
 
 //! update has picture and save to database then send picture change to engine
-void							UpdateHasPicture( P2PEngine& engine, int bHasPicture );
+void							UpdateHasAboutMeContent( P2PEngine& engine, bool hasContent );
+//! update has storyboard content and save to database then send update to engine
+void							UpdateHasStoryboardContent( P2PEngine& engine, bool hasContent );
 
 //! show message box to user
 void							ErrMsgBox( QWidget*, int infoLevel, const char* pMsg, ... );

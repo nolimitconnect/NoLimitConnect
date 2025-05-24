@@ -138,19 +138,40 @@ void AppletAboutUser::fillUserDetails( GuiUser* guiUser )
             }
 
             infoMsg( typeText );
-        }
-
-        if( ePluginTypeAboutMePageServer == pluginType )
+        } 
+        else if( ePluginTypeAboutMePageServer == pluginType )
         {
-            if( netIdent.hasProfilePicture() )
+            if( netIdent.hasAboutMeContent() )
             {
-                infoMsg( QObject::tr( " -- has about me picture" ) );
+                infoMsg( QObject::tr( " -- has about me content" ) );
             }
             else
             {
-                infoMsg( QObject::tr( " -- no about me picture" ) );
+                infoMsg( QObject::tr( " -- no about me content" ) );
             }
-        }      
+        }   
+        else if( ePluginTypeStoryboardServer == pluginType )
+        {
+            if( netIdent.hasStoryboardContent() )
+            {
+                infoMsg( QObject::tr( " -- has storyboard content" ) );
+            }
+            else
+            {
+                infoMsg( QObject::tr( " -- no storyboard content" ) );
+            }
+        } 
+        else if( ePluginTypeCamServer == pluginType )
+        {
+            if( netIdent.hasSharedWebCam() )
+            {
+                infoMsg( QObject::tr( " -- has shared web cam" ) );
+            }
+            else
+            {
+                infoMsg( QObject::tr( " -- no shared web cam" ) );
+            }
+        } 
     }
 
     if( hadDisabledPlugins )

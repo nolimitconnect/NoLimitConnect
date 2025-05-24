@@ -202,8 +202,9 @@ public:
 	PluginFileShareServer&		getPluginFileShareServer( void )				{ return *m_PluginFileShareServer; }
 	PluginNetServices&			getPluginNetServices( void )					{ return *m_PluginNetServices; }
 
-	void           				setHasPicture( int bHasPicture );
-	void           				setHasSharedWebCam( int bHasShaeredWebCam );
+	void           				setHasAboutMeContent( bool hasContent );
+    void           				setHasStoryboardContent( bool hasContent );
+	void           				setHasSharedWebCam(  bool hasShaeredWebCam );
 	bool						isContactConnected( VxGUID& onlineId );
 
     bool                        isUserConnected( VxGUID& onlineId );
@@ -327,8 +328,6 @@ public:
     InetAddress			        fromGuiGetMyIpAddress( void ) override;
     InetAddress			        fromGuiGetMyIPv4Address( void ) override;
     InetAddress			        fromGuiGetMyIPv6Address( void ) override;
-
-    void           				fromGuiUserModifiedStoryboard( void ) override;
 
     void           				fromGuiCancelDownload( VxGUID& fileInstance ) override;
     void           				fromGuiCancelUpload( VxGUID& fileInstance ) override;

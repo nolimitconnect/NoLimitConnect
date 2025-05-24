@@ -49,8 +49,8 @@ AppletEditStoryboard::AppletEditStoryboard( AppCommon& app, QWidget* parent )
     ui.m_PermissionWidget->setPluginType( ePluginTypeStoryboardServer );
     ui.m_PermissionWidget->getPluginSettingsButton()->setVisible( false );
 
-    connect( ui.m_ViewStoryboardPageButton, SIGNAL(clicked()), this, SLOT( slotViewStoryboardButClick() ) );
-    connect( ui.StoryEditWidget, SIGNAL( signalStoryBoardSavedModified() ), this, SLOT( slotStoryBoardSavedModified() ) );
+    connect( ui.m_ViewStoryboardPageButton, SIGNAL(clicked()), this, SLOT(slotViewStoryboardButClick()) );
+    connect( ui.StoryEditWidget, SIGNAL(signalStoryBoardSavedModified()), this, SLOT(slotStoryBoardSavedModified()) );
 
     // get current working directory
     VxFileUtil::getCurrentWorkingDirectory( m_strSavedCwd );
@@ -63,11 +63,16 @@ AppletEditStoryboard::AppletEditStoryboard( AppCommon& app, QWidget* parent )
 	m_MyApp.activityStateChange( this, true );
 }
 
+//============================================================================
+AppletEditStoryboard::~AppletEditStoryboard()
+{
+    m_MyApp.activityStateChange( this, false );
+}
 
 //============================================================================
 void AppletEditStoryboard::slotStoryBoardSavedModified( void )
 {
-    m_FromGui.fromGuiUserModifiedStoryboard();
+    UpdateHasStoryboardContent( m_MyApp.getEngine(), true );
 }
 
 //============================================================================

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>570</width>
+    <width>498</width>
     <height>625</height>
    </rect>
   </property>
@@ -82,6 +82,12 @@
       </property>
       <item>
        <widget class="QCheckBox" name="m_ShowMyselfCheckBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
          <string notr="true">Show myself in lists for debugging (NOT recommended)</string>
         </property>
@@ -89,8 +95,27 @@
       </item>
       <item>
        <widget class="QCheckBox" name="m_FastHostAnnounceCheckBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
          <string>1 minute Host Announce interval (NOT Recommended)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="m_AllowDeleteUserCheckBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Allow delete user from database</string>
         </property>
        </widget>
       </item>

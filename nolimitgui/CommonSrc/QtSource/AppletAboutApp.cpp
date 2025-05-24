@@ -97,7 +97,8 @@ void AppletAboutApp::setupConnectionInfo( void )
     ui.m_ConnectionInfoTextEdit->appendPlainText( QString( "Local IPv4 Address: %1" ).arg( m_MyApp.getEngine().getNetStatusAccum().getLocalIpv4().c_str()));
     ui.m_ConnectionInfoTextEdit->appendPlainText( QString( "Local IPv6 Address: %1" ).arg( m_MyApp.getEngine().getNetStatusAccum().getLocalIpv6().c_str()));
     ui.m_ConnectionInfoTextEdit->appendPlainText( QString( "Requires Relay?: %1 " ).arg( oMyIdent.requiresRelay() ) );
-    ui.m_ConnectionInfoTextEdit->appendPlainText( QString( "Has Profile Pic?: %1" ).arg( oMyIdent.hasProfilePicture() ) );
+    ui.m_ConnectionInfoTextEdit->appendPlainText( QString( "Has About Me Content?: %1" ).arg( oMyIdent.hasAboutMeContent() ) );
+    ui.m_ConnectionInfoTextEdit->appendPlainText( QString( "Has Storyboard Content?: %1" ).arg( oMyIdent.hasStoryboardContent() ) );
 }
 
 //============================================================================

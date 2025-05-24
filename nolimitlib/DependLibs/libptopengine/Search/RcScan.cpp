@@ -357,7 +357,7 @@ bool RcScan::isLocalSearchMatch( VxNetIdent* netIdent )
 				return false;
 			}
 
-			if( netIdent->hasProfilePicture() )
+			if( netIdent->hasAboutMeContent() )
 			{
 				bIsMatch = true;
 			}
@@ -423,7 +423,7 @@ bool RcScan::isRemoteSearchMatch( VxNetIdent* netIdent, PktScanReq* poPkt )
 	case eScanTypeProfilePic:
 		{
 			EFriendState eAccessState = netIdent->getPluginPermission( ePluginTypeAboutMePageServer );
-			if( netIdent->hasProfilePicture() 
+			if( netIdent->hasAboutMeContent() 
 				&& ( eFriendStateIgnore != eAccessState ) )
 			{
 				LogMsg( LOG_INFO, "MATCH isRemoteSearchMatch eScanTypeProfilePic %s\n", netIdent->getOnlineName() );
@@ -431,7 +431,7 @@ bool RcScan::isRemoteSearchMatch( VxNetIdent* netIdent, PktScanReq* poPkt )
 			}
 			else
 			{
-				LogMsg( LOG_INFO, "NO MATCH isRemoteSearchMatch eScanTypeProfilePic %s hasProfilePic %d\n", netIdent->getOnlineName(), netIdent->hasProfilePicture() );
+				LogMsg( LOG_INFO, "NO MATCH isRemoteSearchMatch eScanTypeProfilePic %s hasProfilePic %d\n", netIdent->getOnlineName(), netIdent->hasAboutMeContent() );
 			}
 
 			break;

@@ -82,6 +82,7 @@ protected slots:
 
     void                        slotShowMyselfClicked( void );
     void                        slotFastHostAnnounceClicked( void );
+    void                        slotCanDeleteUserClicked( void );
 
 protected:
     void						updateDlgFromSettings( void );
