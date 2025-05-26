@@ -115,7 +115,7 @@ public:
 private:
 	bool						m_Initialized{ false };
 	std::string					m_CachedNetworkName; // network is used so often we keep a cached copy
-    VxMutex                     m_SettingsDbMutex; // protection from multiple thread access
+
 	std::string					m_CachedExternIpv4;
 	std::string					m_CachedExternIpv6;
 	bool						m_HasUseIpv6BeenCached{ false };

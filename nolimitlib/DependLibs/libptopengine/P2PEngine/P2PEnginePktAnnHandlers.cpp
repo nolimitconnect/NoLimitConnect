@@ -72,16 +72,15 @@ bool P2PEngine::onConnectionPktAnnounceUpdated( std::shared_ptr<VxSktBase>& sktB
     }
 
     // the updates to user should have been done in m_BigListMgr.updatePktAnn
-    LogModule( eLogConnect, LOG_VERBOSE, "onConnectionPktAnnounceUpdated %s %s at ip %s",
+    LogModule( eLogConnect, LOG_VERBOSE, "%s %s %s at ip %s", __func__,
                bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
-
-    LogModule( eLogUserEvent, LOG_VERBOSE, "onConnectionPktAnnounceUpdated %s", pktAnn->describeUser().c_str() );
     
     // update the pkt ann set into the connection
     sktBase->setPeerPktAnn( *pktAnn ); 
 
     // again request thumbs in case they have changed
     getThumbMgr().requestThumbs( sktBase, bigListInfo->getVxNetIdent() );
+    // tell gui the user has updated
 
     return true;
 }

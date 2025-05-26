@@ -42,7 +42,7 @@ public:
 	VxGUID&                     getNetworkHostOnlineId( void )							{ return m_NetworkHostOnlineId; }
 
 	VxPtopUrl&					getNetworkHostPtopUrl( void )							{ return m_NetHostPtopUrl; }
-	bool						isNetworkHostUrlValid( void )							{ return m_NetHostPtopUrl.isValid(); }
+    bool						isNetworkHostUrlValid( void )							{ return m_NetHostPtopUrl.isValid( true ); }
 
     void                        setStatusMsg( QString statusMsg );
     void                        setListLabel( QString labelText );

@@ -93,6 +93,25 @@ bool MemberActiveMgr::isMemberActive( GroupieId& groupieId )
 }
 
 //============================================================================
+bool MemberActiveMgr::isActiveMemberOfAny( VxGUID& onlineId )
+{
+    bool isActive{ false };
+    lockMemberList();
+    for( auto groupieId : m_MemberList )
+    {
+        if( groupieId.getUserOnlineId() == onlineId || groupieId.getHostOnlineId() == onlineId )
+        {
+            isActive = true;
+            break;
+        }
+    }
+
+    unlockMemberList();
+
+    return isActive;
+}
+
+//============================================================================
 void MemberActiveMgr::announceMemberActive( GroupieId& groupieId, bool memberActive )
 {
     LogModule( eLogMembership, LOG_INFO, "MemberActiveMgr::announceMemberActive %d %s", memberActive, GetPtoPEngine().describeGroupieId( groupieId ).c_str() );

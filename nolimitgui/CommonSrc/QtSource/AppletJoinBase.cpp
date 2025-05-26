@@ -124,7 +124,11 @@ void AppletJoinBase::queryHostedList( void )
 	{
 		setStatusMsg( QObject::tr( "Network Host list request is queued" ) );
 		VxGUID nullGuid;
-		m_MyApp.getFromGuiInterface().fromGuiQueryHostListFromNetworkHost( m_NetHostPtopUrl, getHostType(), nullGuid );
+        bool result = m_MyApp.getFromGuiInterface().fromGuiQueryHostListFromNetworkHost( m_NetHostPtopUrl, getHostType(), nullGuid );
+        if( !result )
+        {
+            setStatusMsg( QObject::tr( "Network Host list query failed" ) );
+        }
 	}
 	else
 	{

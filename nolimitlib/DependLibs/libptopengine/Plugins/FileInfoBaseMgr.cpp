@@ -1046,7 +1046,9 @@ ECommErr FileInfoBaseMgr::searchMoreRequest( PktFileInfoMoreReply& pktReply, VxG
 //============================================================================
 bool FileInfoBaseMgr::startDownload( FileInfo& fileInfo, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
-	return m_FileInfoXferMgr.startDownload( fileInfo, searchSessionId, sktBase, onlineId );
+	bool downStarted = m_FileInfoXferMgr.startDownload( fileInfo, searchSessionId, sktBase, onlineId );
+    m_Plugin.onFileDownloadStart( downStarted, onlineId, sktBase, searchSessionId, fileInfo.getRemoteFileName(), fileInfo.getAssetId() );
+	return downStarted;
 }
 
 //============================================================================

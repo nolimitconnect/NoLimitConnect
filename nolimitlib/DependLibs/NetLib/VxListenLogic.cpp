@@ -97,6 +97,7 @@ void VxListenLogic::stopListeningThread( void )
      
     if( m_ListenThread.isThreadRunning() )
     {
+        closeListenSocket();
         // give thread a while to exit
         m_ListenThread.killThread();
     }

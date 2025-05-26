@@ -48,6 +48,13 @@ void PluginFileShareClient::onFilesChanged( int64_t lastFileUpdateTime, int64_t 
 }
 
 //============================================================================
+void PluginFileShareClient::onFileDownloadStart( bool started, VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string fileName, VxGUID& assetId )
+{
+	EPluginMsgType pluginMsgType = started ? ePluginMsgDownloading : ePluginMsgDownloadFailed;
+	m_Engine.getToGui().toGuiPluginMsg( getPluginType(), onlineId, pluginMsgType, fileName );
+}
+
+//============================================================================
 bool PluginFileShareClient::onFileDownloadComplete( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string& fileNameAndPath, VxGUID& assetId, VxSha1Hash& sha11Hash )
 {
 	std::string filePath;

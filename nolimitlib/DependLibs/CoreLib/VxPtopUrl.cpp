@@ -272,6 +272,11 @@ bool VxPtopUrl::setUrlHostType( std::string& url, EHostType hostType )
 
             result = true;
         }
+        else if( hostType == eHostTypeConnectTest ||  hostType == eHostTypeNetwork )
+        {
+            // network and connection test do not require online id
+            url += Invite::getHostTypeSuffix( hostType );
+        }
     }
 
     return result;

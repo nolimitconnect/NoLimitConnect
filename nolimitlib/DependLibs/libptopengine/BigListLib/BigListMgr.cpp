@@ -12,6 +12,7 @@
 
 #include <BigListLib/BigListInfo.h>
 #include <GuiInterface/IToGui.h>
+#include <Membership/MemberActiveMgr.h>
 #include <Network/StayConnected.h>
 #include <Network/NetworkMgr.h>
 #include <P2PEngine/P2PEngine.h>
@@ -161,14 +162,6 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 											bool				useMyFriendshipFromPktAnn,
 											bool				useHisFriendshipFromPktAnn )	
 {
-	// temp for debug
-	std::string onlineName = poPktAnnIn->getOnlineName();
-	bool debugUser = onlineName == "Dev A8 tab" || onlineName == "Win2 Dev";
-	if( debugUser )
-	{
-		LogMsg( LOG_WARNING, "updatePktAnn %s", onlineName.c_str() );
-	}
-
 	EFriendState myFriendship = poPktAnnIn->getMyFriendshipToHim();
 	EFriendState hisFriendship = poPktAnnIn->getHisFriendshipToMe();
 
@@ -238,12 +231,15 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 			}
 			else
 			{
-				if( hostedUserUpdate && poInfo->isAnonymous() )
+				if( poInfo->isAnonymous() )
 				{
-					poPktAnnIn->setMyFriendshipToHim( eFriendStateGuest );
-					poInfo->makeGuest();
-					updateVectorList( eFriendStateGuest, poInfo );
-					friendshipChanged = true;
+					if( hostedUserUpdate || m_Engine.getMemberActiveMgr().isActiveMemberOfAny( poInfo->getMyOnlineId() ) )
+					{
+						poPktAnnIn->setMyFriendshipToHim( eFriendStateGuest );
+						poInfo->makeGuest();
+						updateVectorList( eFriendStateGuest, poInfo );
+						friendshipChanged = true;
+					}
 				}
 			}
 
@@ -285,7 +281,9 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 
 			bool contactInfoChanged = false;
 			if( ( poPktAnnIn->m_DirectConnectId != poInfo->m_DirectConnectId ) ||
-				( poPktAnnIn->m_u8RelayFlags != poInfo->m_u8RelayFlags ) )
+				( poPktAnnIn->m_u8RelayFlags != poInfo->m_u8RelayFlags ) || 
+				( poPktAnnIn->getSearchFlags() != poInfo->getSearchFlags() ) ||
+				( poPktAnnIn->getSharedFileTypes() != poInfo->getSharedFileTypes() ) )
 			{
 				contactInfoChanged = true;
 				eUpdateType = ePktAnnUpdateTypeContactChanged;

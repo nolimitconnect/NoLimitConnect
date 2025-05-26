@@ -42,7 +42,7 @@ public:
 
     bool                        isMemberActive( GroupieId& groupieId );
     bool                        isMemberOfHostType( EHostType hostType, VxGUID& onlineId );
-    bool                        isActiveMemberOfAny( VxGUID& onlineId );
+    bool                        isActiveMemberOfAny( VxGUID& onlineId );  // return true if active member of any host we have joined
 
     void                        getActiveMembers( HostedId& hostId, std::set<VxGUID>& memberList );
 

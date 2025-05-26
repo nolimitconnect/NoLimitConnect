@@ -48,6 +48,13 @@ void PluginAboutMePageClient::onFilesChanged( int64_t lastFileUpdateTime, int64_
 }
 
 //============================================================================
+void PluginAboutMePageClient::onFileDownloadStart( bool started, VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string fileName, VxGUID& assetId )
+{
+	EPluginMsgType pluginMsgType = started ? ePluginMsgDownloading : ePluginMsgDownloadFailed;
+	m_Engine.getToGui().toGuiPluginMsg( getPluginType(), onlineId, pluginMsgType, fileName );
+}
+
+//============================================================================
 bool PluginAboutMePageClient::onFileDownloadComplete( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string& fileNameAndPath, VxGUID& assetId, VxSha1Hash& sha11Hash )
 {
 	std::string filePath;
@@ -102,7 +109,7 @@ bool PluginAboutMePageClient::onFileDownloadComplete( VxGUID& onlineId, std::sha
 				if( result )
 				{
 					// all done
-					m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, indexFileInfo.getFileNameAndPath() );
+                    m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, indexFileInfo.getFileNameAndPath() );
 				}
 				else
 				{

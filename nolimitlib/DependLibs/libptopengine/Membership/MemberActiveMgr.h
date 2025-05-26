@@ -31,6 +31,7 @@ public:
     virtual void                updateMemberActive( GroupieId& groupieId, bool memberActive );
 
     bool                        isMemberActive( GroupieId& groupieId );
+    bool                        isActiveMemberOfAny( VxGUID& onlineId ); // return true if active member of any host we have joined
 
     std::vector<GroupieId>&     getMemberActiveList( void )         { return m_MemberList; };
 

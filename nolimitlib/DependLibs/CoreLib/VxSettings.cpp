@@ -804,7 +804,7 @@ RCODE VxSettings::prepareIniQuery(	sqlite3_stmt ** ppoRetSqlStatement,
 	if( rc )
 	{
 		LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %d preparing", rc );
-		vx_assert( false );
+        //vx_assert( false );
 	}
 
 	return rc;
