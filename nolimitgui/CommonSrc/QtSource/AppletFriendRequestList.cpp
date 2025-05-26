@@ -86,10 +86,15 @@ void AppletFriendRequestList::slotAcceptButtonClicked( GuiFriendRequest* friendR
     GuiUser* guiUser = m_MyApp.getUserMgr().getUser( friendRequest->getRequestInfo()->getUserOnlineId() );
     if( guiUser )
     {
-        if( !(guiUser->getMyFriendshipToHim() >= eFriendStateFriend) )
+        if( guiUser->isIgnored() )
         {
             GuiHelpers::showRequiresFriendshipError( this );
             return;
+        }
+        else if( !(guiUser->getMyFriendshipToHim() >= eFriendStateFriend) )
+        {
+            guiUser->setMyFriendshipToHim( eFriendStateFriend );
+            m_Engine.fromGuiChangeMyFriendshipToHim( guiUser->getMyOnlineId(), guiUser->getMyFriendshipToHim(), guiUser->getHisFriendshipToMe() );
         }
 
         m_MyApp.getFriendRequestMgr().friendAccepted( friendRequest );
