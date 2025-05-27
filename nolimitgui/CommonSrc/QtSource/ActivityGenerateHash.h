@@ -39,7 +39,6 @@ signals:
 	void						signalGenerateSha1Completed( ESha1GenResult genResult );
 
 private slots:
-    void						slotHomeButtonClicked( void ) override;
 	void						slotCancelButtonClicked( void );
 	void						slotGenerateSha1Completed( ESha1GenResult genResult );
 

@@ -76,7 +76,7 @@ public:
 	void						setCamPreviewVisibility( bool visible );
 	void						setCamViewerCountVisibility( bool visible );
 	void						setCameraButtonVisibility( bool visible );
-    void						setHomeButtonVisibility( bool visible );
+
 	void						setNetStatusVisibility( bool visible );
     void						setMuteSpeakerVisibility( bool visible );
     void						setMuteMicrophoneVisibility( bool visible );
@@ -90,7 +90,6 @@ public:
 
 	//=== button icons ====//
     void           				setPowerButtonIcon( EMyIcons myIcon = eMyIconPowerOff );
-	void           				setHomeButtonIcon( EMyIcons myIcon = eMyIconHome );
 	void           				setMicrophoneIcon( EMyIcons myIcon = eMyIconMicrophoneOn );
 	void           				setSpeakerIcon( EMyIcons myIcon = eMyIconSpeakerOn );
 	void           				setCameraIcon( EMyIcons myIcon = eMyIconCameraNormal );
@@ -100,7 +99,6 @@ public:
 
 	//=== button colors ====//
 	void           				setPowerButtonColor( QColor iconColor );
-	void           				setHomeButtonColor( QColor iconColor );
 	void           				setMicrophoneColor( QColor iconColor );
 	void           				setSpeakerColor( QColor iconColor );
 	void           				setCameraColor( QColor iconColor );
@@ -109,7 +107,6 @@ public:
 
 signals:
 	void						signalPowerButtonClicked( void );
-	void						signalHomeButtonClicked( void );
 
 	void						signalCameraSnapshotButtonClicked( void );
 	void						signalCamPreviewClicked( void );
@@ -123,7 +120,6 @@ public slots:
 
 	void           				slotApplicationIconClicked( void );
 	void           				slotPowerButtonClicked( void );
-	void           				slotHomeButtonClicked( void );
 
 	void           				slotMuteMicButtonClicked( void );
 	void           				slotMuteSpeakerButtonClicked( void );

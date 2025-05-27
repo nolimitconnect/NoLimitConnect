@@ -496,12 +496,6 @@ void AppletLibrary::addFile( FileInfo& fileInfo )
 }
 
 //============================================================================
-void AppletLibrary::slotHomeButtonClicked( void )
-{
-    closeApplet();
-}
-
-//============================================================================
 //! user selected menu item
 void AppletLibrary::slotListItemClicked( QListWidgetItem* item )
 {

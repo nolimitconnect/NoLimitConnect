@@ -147,7 +147,6 @@ public:
 
 	//=== title bar button visiblility ====//
 	void						setPowerButtonVisibility( bool visible );
-	void						setHomeButtonVisibility( bool visible );
 	void						setNetStatusVisibility( bool visible );
 	void						setOfferListButtonVisibility( bool visible );
 	void						setHostJoinRequestListButtonVisibility( bool visible );
@@ -177,7 +176,6 @@ public:
 
 	//=== title bar button icons ====//
 	virtual void				setPowerButtonIcon( EMyIcons myIcon = eMyIconPowerOff );
-	virtual void				setHomeButtonIcon( EMyIcons myIcon = eMyIconHome );
 	virtual void				setMicrophoneIcon( EMyIcons myIcon = eMyIconMicrophoneOn );
 	virtual void				setSpeakerIcon( EMyIcons myIcon = eMyIconSpeakerOn );
 	virtual void				setCameraIcon( EMyIcons myIcon = eMyIconCameraNormal );
@@ -199,7 +197,6 @@ public:
 
 	//=== title bar button colors ====//
 	virtual void				setPowerButtonColor( QColor iconColor );
-	virtual void				setHomeButtonColor( QColor iconColor );
 	virtual void				setMicrophoneColor( QColor iconColor );
 	virtual void				setSpeakerColor( QColor iconColor );
 	virtual void				setCameraColor( QColor iconColor );
@@ -232,7 +229,6 @@ public:
 signals:
 	//=== title bar signals ====//
 	void						signalPowerButtonClicked( void );
-	void						signalHomeButtonClicked( void );
 	void						signalCameraSnapshotButtonClicked( void );
 	void						signalCamPreviewClicked( void );
 
@@ -274,7 +270,6 @@ protected slots:
 
 	//=== title bar slots ====//
 	virtual void				slotPowerButtonClicked( void );
-	virtual void				slotHomeButtonClicked( void );
 	virtual void				slotCameraSnapshotButtonClicked( void );
 	virtual void				slotCamPreviewClicked( void );
 

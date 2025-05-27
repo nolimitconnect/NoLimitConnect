@@ -46,7 +46,6 @@ ActivityScanStoryBoards::ActivityScanStoryBoards(	AppCommon& app,
     connectBarWidgets();
 
     connect( this, SIGNAL(signalScanStoryBoard( VxNetIdent*, QString )), this, SLOT(slotScanStoryBoard( VxNetIdent*, QString )));
-    connect(ui.m_TitleBarWidget, SIGNAL(signalBackButtonClicked()), this, SLOT(slotHomeButtonClicked()));
     connect(ui.NextStoryBoardButton, SIGNAL(clicked()), this, SLOT(onNextButtonClicked()));
 
 	ui.FriendIdentWidget->setVisible( false );
@@ -87,13 +86,6 @@ void ActivityScanStoryBoards::slotScanStoryBoard( VxNetIdent* netIdent, QString 
 {
 	ui.FriendIdentWidget->setVisible( true );
 	setupIdentWidget( netIdent );
-}
-
-//============================================================================
-//! clicked the upper right x button
-void ActivityScanStoryBoards::slotHomeButtonClicked( void )
-{
-	closeApplet();
 }
 
 //============================================================================

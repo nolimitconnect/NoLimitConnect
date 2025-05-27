@@ -83,7 +83,6 @@ public:
 	void						addMenuItem( int iItemId, QIcon& oIcon, QString strMenuItemText );
 
 private slots:
-    void						slotHomeButtonClicked( void ) override;
 	void						itemClicked(QListWidgetItem*item);
 
 protected:

@@ -47,7 +47,6 @@ FileActionMenu::FileActionMenu( AppCommon&		app,
 	ui.setupUi(this);
 	slotRepositionToParent();
 
-    connect(ui.m_ExitButton, SIGNAL(clicked()), this, SLOT(slotHomeButtonClicked()));
     connect(ui.m_MenuItemList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(itemClicked(QListWidgetItem*)));
 
 	setupFileInfo();
@@ -147,13 +146,6 @@ void FileActionMenu::addMenuItem( int iItemId, QIcon& oIcon, QString strMenuItem
 	poMenuItem->setIcon( oIcon );
 	poMenuItem->setData( Qt::UserRole, iItemId );
 	ui.m_MenuItemList->addItem( poMenuItem );
-}
-
-//============================================================================
-//! clicked the upper right x button
-void FileActionMenu::slotHomeButtonClicked( void )
-{
-	closeApplet();
 }
 
 //============================================================================

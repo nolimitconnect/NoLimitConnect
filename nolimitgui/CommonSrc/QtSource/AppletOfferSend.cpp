@@ -74,12 +74,6 @@ void AppletOfferSend::statusMsg( QString strMsg )
 }
 
 //============================================================================
-void AppletOfferSend::slotHomeButtonClicked( void )
-{
-    closeApplet();
-}
-
-//============================================================================
 void AppletOfferSend::slotOfferSent( bool sendSuccess )
 {
     if(LogEnabled(eLogOffer))LogModule(eLogOffer, LOG_DEBUG, "AppletOfferSend::%s success ? %d", __func__, sendSuccess );

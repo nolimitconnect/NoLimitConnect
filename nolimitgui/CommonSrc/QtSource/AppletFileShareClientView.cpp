@@ -367,12 +367,6 @@ void AppletFileShareClientView::addFile( GuiUser* guiUser, EPluginType pluginTyp
 }
 
 //============================================================================
-void AppletFileShareClientView::slotHomeButtonClicked( void )
-{
-	accept();
-}
-
-//============================================================================
 void AppletFileShareClientView::slotItemClicked(QListWidgetItem* item)
 {
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->data(Qt::UserRole + 1).toLongLong();

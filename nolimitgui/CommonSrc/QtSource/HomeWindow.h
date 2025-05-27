@@ -71,7 +71,6 @@ signals:
 private slots:
 	void						slotDeviceOrientationChanged( int qtOrientation ); // from m_AppDisplay
 	void						help( void );
-    void						slotHomeButtonClicked( void );
 	void						slotFrameResized( void );
     void                        accept() override;
     void                        reject() override;

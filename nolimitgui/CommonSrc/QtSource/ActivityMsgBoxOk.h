@@ -34,9 +34,6 @@ public:
 	void						makeNeverShowAgainVisible( bool makeVisible );
 	bool						wasNeverShowAgainChecked( void );
 
-private slots:
-    void						slotHomeButtonClicked( void ) override;
-
 protected:
 	// overrides required for dialogs with there own title bar and bottom bar widgets
     TitleBarWidget*				getTitleBarWidget( void ) override;

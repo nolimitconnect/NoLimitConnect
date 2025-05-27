@@ -39,7 +39,6 @@ public:
     void						addFile( GuiUser* guiUser, EPluginType pluginType, FileInfo& fileInfo  );
 
 private slots:
-    void						slotHomeButtonClicked( void ) override;
 	void						statusMsg( QString strMsg );
 	void						slotApplyFileFilter( EFileFilterType fileFilter );
 	void						slotDownloadFileSelected( int iMenuId, QWidget* popupMenu );

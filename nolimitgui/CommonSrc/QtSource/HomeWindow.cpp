@@ -452,11 +452,6 @@ void HomeWindow::createMessengerPage( void )
 }
 
 //============================================================================
-void HomeWindow::slotHomeButtonClicked( void )
-{
-}
-
-//============================================================================
 void HomeWindow::slotFrameResized( void )
 {
     emit signalMainWindowResized();

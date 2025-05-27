@@ -27,7 +27,7 @@ AppletSearchPage::AppletSearchPage( AppCommon& app, QWidget* parent )
     setAppletType( eAppletSearchPage );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 	setupAppletSearchPage();
-	setHomeButtonVisibility( false );
+
 	setBackButtonVisibility( true );
 	setPowerButtonVisibility( false );
 	setExpandWindowVisibility( true );

@@ -30,7 +30,6 @@ ActivityFileSearch::ActivityFileSearch(	AppCommon& app,  QWidget* parent )
 
     connectBarWidgets();
 
-    connect(ui.m_TitleBarWidget, SIGNAL(signalBackButtonClicked()), this, SLOT(slotHomeButtonClicked()));
     connect(ui.FileItemList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
     connect(ui.FileItemList, SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT(slotItemClicked(QListWidgetItem*)));
 
@@ -53,13 +52,6 @@ void ActivityFileSearch::setTitle( QString strTitle )
 //============================================================================
 //=== signals and slots ===//
 //============================================================================
-
-//============================================================================
-//! clicked the upper right x button
-void ActivityFileSearch::slotHomeButtonClicked( void )
-{
-	close();
-}
 
 //============================================================================
 //! user selected menu item

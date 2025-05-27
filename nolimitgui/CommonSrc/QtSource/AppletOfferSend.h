@@ -43,7 +43,6 @@ public:
 	void						setOfferMessage( QString msgText );
 
 protected slots:
-    void						slotHomeButtonClicked( void ) override;
     void						statusMsg( QString strMsg );
     void						slotOfferSent( bool sendSuccess );
 	void						slotOfferCanceled( void );

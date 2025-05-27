@@ -47,7 +47,7 @@ ActivityMsgBoxOk::ActivityMsgBoxOk( AppCommon&		app,
 	getBottomBarWidget()->setVisible( false );
     getTitleBarWidget()->setPopupVisibility( true );
 
-    connect(ui.m_TitleBarWidget, SIGNAL(signalBackButtonClicked()), this, SLOT(slotHomeButtonClicked()));
+    connect(ui.m_TitleBarWidget, SIGNAL(signalBackButtonClicked()), this, SLOT(reject()));
 
 	connect( ui.m_AcceptButton, SIGNAL(clicked()), this, SLOT(accept()) );
 }
@@ -80,10 +80,4 @@ void ActivityMsgBoxOk::makeNeverShowAgainVisible( bool makeVisible )
 bool ActivityMsgBoxOk::wasNeverShowAgainChecked( void )
 {
 	return ui.m_NeverShowAgainCheckBox->isChecked();
-}
-
-//============================================================================
-void ActivityMsgBoxOk::slotHomeButtonClicked( void )
-{
-	reject();
 }

@@ -27,7 +27,7 @@ AppletSettingsPage::AppletSettingsPage( AppCommon& app, QWidget* parent )
     setAppletType( eAppletSettingsPage );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
     setupAppletSettingsgPage();
-    setHomeButtonVisibility( false );
+
     setBackButtonVisibility( true );
     setPowerButtonVisibility( false );
     setExpandWindowVisibility( true );

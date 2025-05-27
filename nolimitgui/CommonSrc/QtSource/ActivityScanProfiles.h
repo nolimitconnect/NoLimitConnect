@@ -83,7 +83,6 @@ protected slots:
 
 	void						slotSearchResultProfilePic( GuiUser* guiUser, QImage oPicBitmap ); 
 
-    void						slotHomeButtonClicked( void ) override;
 	void						slotPauseScanClicked( void );
 	void						slotStartScanClicked( void );
 	void						slotNextScanClicked( void );

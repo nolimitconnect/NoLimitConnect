@@ -60,7 +60,7 @@ ActivityScanWebCams::ActivityScanWebCams(	AppCommon&	app,
 
     connect(m_CountdownTimer, SIGNAL(timeout()), this, SLOT(onCountdownTimer()));
     connect( ui.m_TitleBarWidget, SIGNAL(signalBackButtonClicked()), this, SLOT( closeApplet()));
-	connect( this, SIGNAL(finished(int)), this, SLOT(slotHomeButtonClicked()));
+	connect( this, SIGNAL(finished(int)), this, SLOT(closeApplet()));
 
 	connect( ui.m_StartScanButton, SIGNAL(clicked()), this, SLOT(slotStartScanClicked()));
 	connect( ui.m_PauseScanButton, SIGNAL(clicked()), this, SLOT(slotPauseScanClicked()));
@@ -238,17 +238,6 @@ void ActivityScanWebCams::setCamViewToOfflineImage( void )
 	if( 0 != ui.m_CamVidWidget )
 	{
 		ui.m_CamVidWidget->showOfflineImage();    			
-	}
-}
-
-//============================================================================
-void ActivityScanWebCams::slotHomeButtonClicked( void )
-{
-	m_FromGui.fromGuiStopScan( m_eScanType );
-	wantActivityCallbacks( false );
-	if( 0 != m_HisIdent )
-	{
-		startWebCamSession( m_HisIdent->getMyOnlineId(), false );
 	}
 }
 

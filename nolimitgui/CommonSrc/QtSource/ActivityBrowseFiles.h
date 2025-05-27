@@ -53,7 +53,6 @@ public:
 	void						setCurrentBrowseDir( QString browseDir );
 
 protected slots:
-    void						slotHomeButtonClicked( void ) override;
 	void						slotUpDirectoryClicked( void );
 	void						slotBrowseButtonClicked( void );
 

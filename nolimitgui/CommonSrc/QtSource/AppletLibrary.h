@@ -47,7 +47,6 @@ public:
     bool						getSelectedFileIsInLibrary( void )				{ return m_SelectedFileIsInLibrary; }
 
 private slots:
-    void						slotHomeButtonClicked( void ) override;
 
     void						slotRequestFileList( void );
     void						slotApplyFileFilter( EFileFilterType eFileFilter );

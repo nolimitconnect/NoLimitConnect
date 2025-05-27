@@ -170,12 +170,11 @@ void ActivityBase::connectTitleBarWidget( TitleBarWidget * titleBar, bool remove
     //=== title bar connections ====//
 	if( !removeConnections )
 	{
-		connect( titleBar, SIGNAL( signalPowerButtonClicked() ), this, SLOT( slotPowerButtonClicked() ) );
-		connect( titleBar, SIGNAL( signalHomeButtonClicked() ), this, SLOT( slotHomeButtonClicked() ) );
-		connect( titleBar, SIGNAL( signalCameraSnapshotButtonClicked() ), this, SLOT( slotCameraSnapshotButtonClicked() ) );
-		connect( titleBar, SIGNAL( signalCamPreviewClicked() ), this, SLOT( slotCamPreviewClicked() ) );
-		connect( titleBar, SIGNAL( signalMenuTopButtonClicked() ), this, SLOT( slotMenuTopButtonClicked() ) );
-		connect( titleBar, SIGNAL( signalBackButtonClicked() ), this, SLOT( slotBackButtonClicked() ) );
+		connect( titleBar, SIGNAL(signalPowerButtonClicked()), this, SLOT(slotPowerButtonClicked()) );
+		connect( titleBar, SIGNAL(signalCameraSnapshotButtonClicked() ), this, SLOT(slotCameraSnapshotButtonClicked()) );
+		connect( titleBar, SIGNAL(signalCamPreviewClicked()), this, SLOT(slotCamPreviewClicked()) );
+		connect( titleBar, SIGNAL(signalMenuTopButtonClicked()), this, SLOT(slotMenuTopButtonClicked()) );
+		connect( titleBar, SIGNAL(signalBackButtonClicked()), this, SLOT(slotBackButtonClicked()) );
 		VxPushButton* titleButton = titleBar->getAppIconPushButton();
         if( titleButton )
         {
@@ -184,16 +183,15 @@ void ActivityBase::connectTitleBarWidget( TitleBarWidget * titleBar, bool remove
 	}
 	else
 	{
-		disconnect( titleBar, SIGNAL( signalPowerButtonClicked() ), this, SLOT( slotPowerButtonClicked() ) );
-		disconnect( titleBar, SIGNAL( signalHomeButtonClicked() ), this, SLOT( slotHomeButtonClicked() ) );
-		disconnect( titleBar, SIGNAL( signalCameraSnapshotButtonClicked() ), this, SLOT( slotCameraSnapshotButtonClicked() ) );
-		disconnect( titleBar, SIGNAL( signalCamPreviewClicked() ), this, SLOT( slotCamPreviewClicked() ) );
-		disconnect( titleBar, SIGNAL( signalMenuTopButtonClicked() ), this, SLOT( slotMenuTopButtonClicked() ) );
-		disconnect( titleBar, SIGNAL( signalBackButtonClicked() ), this, SLOT( slotBackButtonClicked() ) );
+		disconnect( titleBar, SIGNAL(signalPowerButtonClicked()), this, SLOT(slotPowerButtonClicked()) );
+		disconnect( titleBar, SIGNAL(signalCameraSnapshotButtonClicked()), this, SLOT(slotCameraSnapshotButtonClicked()) );
+		disconnect( titleBar, SIGNAL(signalCamPreviewClicked()), this, SLOT(slotCamPreviewClicked()) );
+		disconnect( titleBar, SIGNAL(signalMenuTopButtonClicked()), this, SLOT(slotMenuTopButtonClicked()) );
+		disconnect( titleBar, SIGNAL(signalBackButtonClicked()), this, SLOT(slotBackButtonClicked()) );
 		VxPushButton * titleButton = titleBar->getAppIconPushButton();
         if( titleButton )
         {
-            disconnect( titleButton, SIGNAL( signalAppIconSpecialClick() ), this, SLOT( slotAppIconSpecialClick() ) );
+            disconnect( titleButton, SIGNAL(signalAppIconSpecialClick()), this, SLOT(slotAppIconSpecialClick()) );
         }
 	}
 }
@@ -695,12 +693,6 @@ void ActivityBase::setPowerButtonVisibility( bool visible )
 }
 
 //============================================================================
-void ActivityBase::setHomeButtonVisibility( bool visible )
-{
-	getTitleBarWidget()->setHomeButtonVisibility( visible );
-}
-
-//============================================================================
 void ActivityBase::setNetStatusVisibility( bool visible )
 {
 	getTitleBarWidget()->setNetStatusVisibility( visible );
@@ -843,12 +835,6 @@ void ActivityBase::setPowerButtonIcon( EMyIcons myIcon )
 }
 
 //============================================================================
-void ActivityBase::setHomeButtonIcon( EMyIcons myIcon )
-{
-	getTitleBarWidget()->setHomeButtonIcon( myIcon );
-}
-
-//============================================================================
 void ActivityBase::setMicrophoneIcon( EMyIcons myIcon )
 {
 	getTitleBarWidget()->setMicrophoneIcon( myIcon );
@@ -951,12 +937,6 @@ void ActivityBase::setExpandWindowButtonIcon( EMyIcons myIcon )
 void ActivityBase::setPowerButtonColor( QColor iconColor )
 {
 	getTitleBarWidget()->setPowerButtonColor( iconColor );
-}
-
-//============================================================================
-void ActivityBase::setHomeButtonColor( QColor iconColor )
-{
-	getTitleBarWidget()->setHomeButtonColor( iconColor );
 }
 
 //============================================================================
@@ -1069,12 +1049,6 @@ void ActivityBase::setExpandWindowButtonColor( QColor iconColor )
 void ActivityBase::slotPowerButtonClicked( void )
 {
 	emit signalPowerButtonClicked();
-}
-
-//============================================================================
-void ActivityBase::slotHomeButtonClicked( void )
-{
-	emit signalHomeButtonClicked();
 }
 
 //============================================================================

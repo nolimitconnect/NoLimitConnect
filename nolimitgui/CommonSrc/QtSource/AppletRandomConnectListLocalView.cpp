@@ -46,7 +46,6 @@ AppletRandomConnectListLocalView::AppletRandomConnectListLocalView(	AppCommon& a
 
     connectBarWidgets();
 
-    connect( this,					    SIGNAL(finished(int)),						this, SLOT(slotHomeButtonClicked()) );
     connect( ui.m_RefreshButton,	    SIGNAL(clicked()),		                    this, SLOT(slotRefreshGroupList()) );
     connect( this,					    SIGNAL(signalSearchComplete()),				this, SLOT(slotSearchComplete()) );
     connect( this,					    SIGNAL(signalSearchResult(VxNetIdent*)),	this, SLOT(slotSearchResult(VxNetIdent*)) ); 
@@ -116,11 +115,6 @@ void AppletRandomConnectListLocalView::hideEvent( QHideEvent* ev )
 {
     wantActivityCallbacks( false );
     ActivityBase::hideEvent( ev );
-}
-
-//============================================================================
-void AppletRandomConnectListLocalView::slotHomeButtonClicked( void )
-{
 }
 
 //============================================================================

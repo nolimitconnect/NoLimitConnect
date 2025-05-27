@@ -36,7 +36,6 @@ public:
 private slots:
     /*
 
-    void						slotHomeButtonClicked( void ) override;
 	void						slotFileXferItemClicked( QListWidgetItem* item );
 
 	void						slotFileIconButtonClicked( QListWidgetItem* item );

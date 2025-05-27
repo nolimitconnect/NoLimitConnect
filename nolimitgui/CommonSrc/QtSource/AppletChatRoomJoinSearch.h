@@ -56,7 +56,6 @@ signals:
 private slots:
     void                        slotInfoMsg( const QString& text );
 	void						slotSearchComplete( void );
-    void						slotHomeButtonClicked( void ) override;
 	void						slotStartSearchState( bool startSearch );
     void						slotHostAnnounceStatus( EHostType hostType, VxGUID sessionId, EHostAnnounceStatus hostStatus, QString strMsg );
     void						slotHostJoinStatus( EHostType hostType, VxGUID sessionId, EHostJoinStatus hostStatus, QString strMsg );

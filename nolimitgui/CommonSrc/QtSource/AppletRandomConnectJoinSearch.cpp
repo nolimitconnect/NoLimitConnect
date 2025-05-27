@@ -48,7 +48,6 @@ AppletRandomConnectJoinSearch::AppletRandomConnectJoinSearch(	AppCommon&		    ap
 
     connectBarWidgets();
 
-    connect( this,					    SIGNAL(finished(int)),						this, SLOT(slotHomeButtonClicked()) );
     connect( ui.m_SearchsParamWidget,	SIGNAL(signalSearchState(bool)),		    this, SLOT(slotStartSearchState(bool)) );
     connect( this,					    SIGNAL(signalSearchComplete()),				this, SLOT(slotSearchComplete()) );
     connect( this,					    SIGNAL(signalSearchResult(VxNetIdent*)),	this, SLOT(slotSearchResult(VxNetIdent*)) ); 
@@ -109,11 +108,6 @@ void AppletRandomConnectJoinSearch::hideEvent( QHideEvent* ev )
 {
     wantActivityCallbacks( false );
     ActivityBase::hideEvent( ev );
-}
-
-//============================================================================
-void AppletRandomConnectJoinSearch::slotHomeButtonClicked( void )
-{
 }
 
 //============================================================================

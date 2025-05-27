@@ -48,7 +48,6 @@ public slots:
 	void						slotScanStoryBoard( VxNetIdent* netIdent, QString strStory );
 
 private slots:
-    void						slotHomeButtonClicked( void ) override;
 	void						onNextButtonClicked( void );
 
 protected:

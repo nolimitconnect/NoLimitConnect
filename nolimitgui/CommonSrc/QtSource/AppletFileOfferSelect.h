@@ -41,7 +41,6 @@ public:
     void						setFileFilter( EFileFilterType eFileFilter );
 
 protected slots:
-    void						slotHomeButtonClicked( void ) override;
     void						statusMsg( QString strMsg );
     void						slotRequestFileList( void );
     void						slotApplyFileFilter( EFileFilterType fileFilter );

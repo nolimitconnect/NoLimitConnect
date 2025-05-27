@@ -40,8 +40,6 @@ ActivityGenerateHash::ActivityGenerateHash(	AppCommon& app, QWidget* parent, std
 	ui.m_CancelButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
 	ui.m_CancelButton->setIcon( eMyIconCancelNormal );
 
-    connect(ui.m_TitleBarWidget, SIGNAL(signalBackButtonClicked()), this, SLOT(slotHomeButtonClicked()));
-
 	connect( ui.m_CancelButton, SIGNAL(clicked()), this, SLOT( slotCancelButtonClicked()) );
 	this->setFocus();
 	ui.m_CancelButton->setFocus();
@@ -72,13 +70,6 @@ void ActivityGenerateHash::setBodyText( QString strBodyText )
 void ActivityGenerateHash::hideCancelButton( void )
 {
 	ui.m_CancelButton->setVisible( false );
-}
-
-//============================================================================
-void ActivityGenerateHash::slotHomeButtonClicked( void )
-{
-	GetSha1GeneratorMgr().cancelGenerateSha1( m_HashInstanceId, m_FileName, this );
-	reject();
 }
 
 //============================================================================

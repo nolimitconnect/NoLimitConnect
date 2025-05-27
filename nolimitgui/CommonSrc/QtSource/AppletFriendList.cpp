@@ -61,8 +61,6 @@ AppletFriendList::AppletFriendList(	AppCommon& app, QWidget* parent )
 
     connectBarWidgets();
 
-    connect( this,					    SIGNAL(finished(int)),						this, SLOT(slotHomeButtonClicked()) );
-
     connect( ui.m_FriendsButton, SIGNAL(clicked()), this, SLOT(slotFriendsButtonClicked()) );
     connect( ui.m_OnlineLabel, SIGNAL(clicked()), this, SLOT(slotFriendsButtonClicked()) );
     connect( ui.m_FriendsInfoButton, SIGNAL(clicked()), this, SLOT(slotFriendsInfoButtonClicked()) );

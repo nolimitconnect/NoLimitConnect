@@ -49,7 +49,6 @@ AppletGroupListLocalView::AppletGroupListLocalView(	AppCommon& app, QWidget* par
 
     connectBarWidgets();
 
-    connect( this,					    SIGNAL(finished(int)),						this, SLOT(slotHomeButtonClicked()) );
     connect( ui.m_RefreshButton,	    SIGNAL(clicked()),		                    this, SLOT(slotRefreshGroupList()) );
     connect( this,					    SIGNAL(signalSearchComplete()),				this, SLOT(slotSearchComplete()) );
     connect( this,					    SIGNAL(signalSearchResult(VxNetIdent*)),	this, SLOT(slotSearchResult(VxNetIdent*)) ); 
@@ -119,11 +118,6 @@ void AppletGroupListLocalView::hideEvent( QHideEvent* ev )
 {
     wantActivityCallbacks( false );
     ActivityBase::hideEvent( ev );
-}
-
-//============================================================================
-void AppletGroupListLocalView::slotHomeButtonClicked( void )
-{
 }
 
 //============================================================================

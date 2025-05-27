@@ -31,7 +31,6 @@ AppletLaunchPage::AppletLaunchPage( AppCommon& app, QWidget* parent, EApplet eAp
     {
         setTitleBarText( QObject::tr( "Home" ) );
         setupAppletLaunchPage();
-        setHomeButtonVisibility( false );
         setBackButtonVisibility( false );
         setPowerButtonVisibility( true );
         setExpandWindowVisibility( true );

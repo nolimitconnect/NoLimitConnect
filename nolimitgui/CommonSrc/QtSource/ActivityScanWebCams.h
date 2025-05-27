@@ -56,8 +56,6 @@ signals:
 public slots:
 	void						slotNewWebCamSession( GuiUser* guiUser );
 
-    void						slotHomeButtonClicked( void ) override;
-
 	void						slotStartScanClicked();
 	void						slotPauseScanClicked();
 	void						slotNextScanClicked( void );

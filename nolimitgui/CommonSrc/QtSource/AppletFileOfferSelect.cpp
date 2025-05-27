@@ -411,12 +411,6 @@ void AppletFileOfferSelect::addFile( FileInfo& fileInfo )
 }
 
 //============================================================================
-void AppletFileOfferSelect::slotHomeButtonClicked( void )
-{
-    closeApplet();
-}
-
-//============================================================================
 //! user selected menu item
 void AppletFileOfferSelect::slotListItemClicked( QListWidgetItem* item )
 {

@@ -269,12 +269,6 @@ void AppletBrowseFiles::addFile( FileInfo& fileInfo )
 }
 
 //============================================================================
-void AppletBrowseFiles::slotHomeButtonClicked( void )
-{
-	hide();
-}
-
-//============================================================================
 void AppletBrowseFiles::slotUpDirectoryClicked( void )
 {
 	if( m_CurBrowseDirectory.length() > 1 )

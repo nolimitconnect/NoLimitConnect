@@ -45,7 +45,7 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
     setFixedHeight( GuiParams::getButtonSize( eButtonSizeSmall ).height() + 6 );
     ui.m_NoLimitAppButton->setFixedSize( eButtonSizeSmall );
     ui.m_PowerOffButton->setFixedSize( eButtonSizeSmall );
-    ui.m_HomeButton->setFixedSize( eButtonSizeSmall );
+
     ui.m_OfferListButton->setFixedSize( eButtonSizeSmall );
     ui.m_OfferCountLabel->setVisible( false );
     ui.m_HostJoinRequestListButton->setFixedSize( eButtonSizeSmall );
@@ -83,7 +83,6 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
     m_MutedSpeaker = m_MyApp.getAppSettings().getSpeakerMuted();
 
 	setPowerButtonIcon();
-	setHomeButtonIcon();
 	setMicrophoneIcon( m_MutedMic ? eMyIconMicrophoneOff : eMyIconMicrophoneOn );
     setSpeakerIcon( m_MutedSpeaker ? eMyIconSpeakerOff : eMyIconSpeakerOn );
     setCameraIcon();
@@ -96,22 +95,13 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
     setCameraButtonVisibility( false );
     setMenuTopButtonVisibility( false );
 
-    // everyone except home page has home button and back button but not power off button
+    // everyone except home page has back button but not power off button
     setPowerButtonVisibility( false );
-    setHomeButtonVisibility( false );
     setBackButtonVisibility( true );
-
-    // will show when have microphone peek signal
-    //setMuteMicrophoneVisibility( false );
-    //setMicrophoneVolumeVisibility( false );
-
-    // will show when have cam frames signal
-    //enableVideoControls( false );
 
     connect( ui.m_NoLimitAppButton,         SIGNAL(clicked()), this, SLOT(slotApplicationIconClicked()) );
 
     connect( ui.m_PowerOffButton,           SIGNAL(clicked()), this, SLOT(slotPowerButtonClicked()) );
-    connect( ui.m_HomeButton,               SIGNAL(clicked()), this, SLOT(slotHomeButtonClicked()) );
     connect( ui.m_HostJoinRequestListButton,   SIGNAL(clicked()), this, SLOT(slotHostJoinRequestButtonClicked()) );
     connect( ui.m_OfferListButton,          SIGNAL(clicked()), this, SLOT(slotOfferListButtonClicked()) );
     connect( ui.m_BackDlgButton,            SIGNAL(clicked()), this, SLOT(slotBackButtonClicked()) );
@@ -346,12 +336,6 @@ void TitleBarWidget::slotPowerButtonClicked( void )
 }
 
 //============================================================================
-void TitleBarWidget::slotHomeButtonClicked( void )
-{
-	emit signalHomeButtonClicked();
-}
-
-//============================================================================
 void TitleBarWidget::slotMuteMicButtonClicked( void )
 {
 	m_MutedMic = !m_MutedMic;
@@ -434,12 +418,6 @@ void TitleBarWidget::setPowerButtonVisibility( bool visible )
 }
 
 //============================================================================
-void TitleBarWidget::setHomeButtonVisibility( bool visible )
-{
-	ui.m_HomeButton->setVisible( visible );
-}
-
-//============================================================================
 void TitleBarWidget::setNetStatusVisibility( bool visible )
 {
     ui.m_NetAvailStatusWidget->setVisible( visible );
@@ -501,12 +479,6 @@ void TitleBarWidget::setPowerButtonIcon( EMyIcons myIcon )
 }
 
 //============================================================================
-void TitleBarWidget::setHomeButtonIcon( EMyIcons myIcon )
-{
-	ui.m_HomeButton->setIcon( myIcon );
-}
-
-//============================================================================
 void TitleBarWidget::setMicrophoneIcon( EMyIcons myIcon )
 {
 	ui.m_MuteMicButton->setIcon( myIcon );
@@ -541,12 +513,6 @@ void TitleBarWidget::setBackButtonIcon( EMyIcons myIcon )
 void TitleBarWidget::setPowerButtonColor( QColor iconColor )
 {
 	ui.m_PowerOffButton->setIconOverrideColor( iconColor );
-}
-
-//============================================================================
-void TitleBarWidget::setHomeButtonColor( QColor iconColor )
-{
-	ui.m_HomeButton->setIconOverrideColor( iconColor );
 }
 
 //============================================================================

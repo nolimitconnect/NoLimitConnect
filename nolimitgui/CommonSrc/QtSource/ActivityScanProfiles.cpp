@@ -59,7 +59,7 @@ ActivityScanProfiles::ActivityScanProfiles(	AppCommon& app, QWidget* parent )
     connect(this, SIGNAL(signalSearchResultProfilePic(VxNetIdent*, QImage)), this, SLOT(slotSearchResultProfilePic(VxNetIdent*, QImage)));
     connect(m_CountdownTimer, SIGNAL(timeout()), this, SLOT(onCountdownTimer()));
     connect( ui.m_TitleBarWidget, SIGNAL(signalBackButtonClicked()), this, SLOT( closeApplet()));
-	connect( this, SIGNAL(finished(int)), this, SLOT(slotHomeButtonClicked()));
+	connect( this, SIGNAL(finished(int)), this, SLOT(closeApplet()));
 
 	connect( ui.m_StartScanButton, SIGNAL(clicked()), this, SLOT(slotStartScanClicked()));
 	connect( ui.m_PauseScanButton, SIGNAL(clicked()), this, SLOT(slotPauseScanClicked()));
@@ -130,13 +130,6 @@ void ActivityScanProfiles::setupIdentWidget( GuiUser* guiUser )
 void ActivityScanProfiles::updateCountdownGui()
 {
 	ui.CountdownValue->setText( QString( "%1" ).arg( m_iCountdownCnt ) );
-}
-
-//============================================================================
-//! clicked the upper right x button
-void ActivityScanProfiles::slotHomeButtonClicked( void )
-{
-	m_FromGui.fromGuiStopScan( m_eScanType );
 }
 
 //============================================================================

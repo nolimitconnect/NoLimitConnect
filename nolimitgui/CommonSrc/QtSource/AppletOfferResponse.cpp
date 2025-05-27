@@ -58,12 +58,6 @@ void AppletOfferResponse::statusMsg( QString strMsg )
 }
 
 //============================================================================
-void AppletOfferResponse::slotHomeButtonClicked( void )
-{
-    closeApplet();
-}
-
-//============================================================================
 bool AppletOfferResponse::verifyFile( void )
 {
     return true;

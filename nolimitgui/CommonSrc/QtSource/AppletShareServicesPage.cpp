@@ -28,7 +28,7 @@ AppletShareServicesPage::AppletShareServicesPage( AppCommon& app, QWidget* paren
     setAppletType( eAppletShareServicesPage );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 	setupAppletShareServicesPage();
-	setHomeButtonVisibility( true );
+
 	setBackButtonVisibility( true );
 	setPowerButtonVisibility( false );
 	setExpandWindowVisibility( true );

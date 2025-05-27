@@ -267,12 +267,6 @@ void ActivityBrowseFiles::addFile( FileInfo& fileInfo )
 }
 
 //============================================================================
-void ActivityBrowseFiles::slotHomeButtonClicked( void )
-{
-	hide();
-}
-
-//============================================================================
 void ActivityBrowseFiles::slotUpDirectoryClicked( void )
 {
 	if( m_CurBrowseDirectory.length() > 1 )

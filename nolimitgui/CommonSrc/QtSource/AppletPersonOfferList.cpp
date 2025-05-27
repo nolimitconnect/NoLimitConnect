@@ -75,11 +75,6 @@ void AppletPersonOfferList::hideEvent( QHideEvent* ev )
 }
 
 /*
-//============================================================================
-void AppletPersonOfferList::slotHomeButtonClicked( void )
-{
-	hide();
-}
 
 // override default behavior of closing dialog when back button is clicked
 //============================================================================

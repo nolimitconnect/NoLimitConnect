@@ -36,7 +36,7 @@ ActivityScanPeopleSearch::ActivityScanPeopleSearch(	AppCommon&		    app,
     connectBarWidgets();
 
     connect( ui.m_TitleBarWidget,	SIGNAL(signalBackButtonClicked()),			this, SLOT(closeApplet()) );
-	connect( this,					SIGNAL(finished(int)),						this, SLOT(slotHomeButtonClicked()) );
+	connect( this,					SIGNAL(finished(int)),						this, SLOT(closeApplet()) );
 
 	connect( ui.StartSearchButton,	SIGNAL(clicked()),							this, SLOT(slotStartSearchClicked()) );
 	connect( ui.StopSearchButton,	SIGNAL(clicked()),							this, SLOT(slotStopSearchClicked()) );
@@ -110,11 +110,6 @@ void ActivityScanPeopleSearch::hideEvent( QHideEvent* ev )
 {
 	wantActivityCallbacks( false );
 	ActivityBase::hideEvent( ev );
-}
-
-//============================================================================
-void ActivityScanPeopleSearch::slotHomeButtonClicked( void )
-{
 }
 
 //============================================================================

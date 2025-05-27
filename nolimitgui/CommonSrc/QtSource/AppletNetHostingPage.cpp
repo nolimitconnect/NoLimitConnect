@@ -28,7 +28,7 @@ AppletNetHostingPage::AppletNetHostingPage( AppCommon& app, QWidget* parent )
     setAppletType( eAppletNetHostingPage );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 	setupAppletNetHostingPage();
-	setHomeButtonVisibility( true );
+
 	setBackButtonVisibility( true );
 	setPowerButtonVisibility( false );
 	setExpandWindowVisibility( true );
