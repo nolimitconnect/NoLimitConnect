@@ -170,6 +170,11 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
 
         void handleLog( void* userData, uint32_t u32LogFlags, const char* logMsg )
         {
+            if( VxIsAppShuttingDown() )
+            {
+                return;
+            }
+
             if( m_LogCallbackList.size() )
             {
                 getLogMutex().lock();

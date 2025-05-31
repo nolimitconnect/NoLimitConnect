@@ -277,24 +277,8 @@ bool AppCommon::loadWithThread( void )
 		GuiHelpers::processQtEvents();
 	}
 
-	if( !hasExistingAccount() )
-    {
-        // adult warning
-        QString warnAdultTitle = QObject::tr( "You must be an adult to use No Limit Connect application" );
-        QString warnAdultBody = QObject::tr( "Although No Limit Connect does not host any offensive media, users of No Limit Connect may host offensive material or act in an offensive manner.\n"
-                                            "No Limit Connect does not monitor or log any user actions or content.\n\n"
-                                            "Are you an adult and at least 18 years old?" );
-
-        ActivityMsgBoxYesNo confirmAdult( *this, nullptr, warnAdultTitle, warnAdultBody );
-		getAppTheme().selectTheme( getAppSettings().getLastSelectedTheme(), &confirmAdult );
-        if( QDialog::Rejected == confirmAdult.exec() )
-        {
-            return false;
-        }
-    }
-
-	m_HomeWindow = new HomeWindow( *this, m_AppTitle );
-	getAppTheme().selectTheme( getAppSettings().getLastSelectedTheme(), m_HomeWindow );
+	m_HomeWindow = new HomeWindow(*this, m_AppTitle);
+	getAppTheme().selectTheme(getAppSettings().getLastSelectedTheme(), m_HomeWindow);
     m_HomeWindow->initializeHomePage();
 
     connect( m_HomeWindow, SIGNAL(signalMainWindowResized()), this, SLOT(slotMainWindowResized()) );

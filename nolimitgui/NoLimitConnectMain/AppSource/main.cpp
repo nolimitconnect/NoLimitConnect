@@ -23,6 +23,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
+#include <QSettings>
 #include <QStringList>
 #include <QStandardPaths>
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
@@ -112,6 +113,39 @@ namespace {
 //============================================================================
 int runApplication( QApplication* myApp, int argc, char** argv )
 {
+    // NOTE OrganizationName and ApplicationName become part of data storage location path
+    QCoreApplication::setOrganizationName( "" ); // leave blank or will become part of data storage path
+    QCoreApplication::setApplicationName( VxGetApplicationNameNoSpaces() );
+    QCoreApplication::setApplicationVersion( VxGetAppVersionString() );
+    QGuiApplication::setApplicationDisplayName( VxGetApplicationTitle() );
+    QCoreApplication::setOrganizationDomain( VxGetCompanyDomain() );
+
+    QSettings settings (VxGetCompanyDomain(), VxGetApplicationNameNoSpaces() );
+
+    // TODO fix and apply theme to age confirm dialog.. Android Qt 6.8.3 does not send button click in ActivityMsgBoxYesNo when done before startup
+    if (!settings.contains("isAdult")) {
+        QString warnAdultTitle = QObject::tr( "You must be an adult to use No Limit Connect application" );
+        QString warnAdultBody = QObject::tr( "Although No Limit Connect does not host any offensive media, users of No Limit Connect may host offensive material or act in an offensive manner.\n"
+                                            "No Limit Connect does not monitor or log any user actions or content.\n\n"
+                                            "Are you an adult and at least 18 years old?" );
+
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(nullptr, warnAdultTitle,
+                                      warnAdultBody,
+                                      QMessageBox::Yes | QMessageBox::No);
+
+        bool isAdult = (reply == QMessageBox::Yes);
+
+        if (!isAdult) {
+            QString deniedTitle = QObject::tr("Access Denied");
+            QString deniedBody = QObject::tr("You must be 18 or older to use this application.");
+            QMessageBox::information(nullptr, deniedTitle, deniedBody);
+            return 0; // Exit application
+        }
+
+        settings.setValue("isAdult", isAdult);
+    }
+
     int timeStart = GetApplicationAliveMs();
 
     static AppSettings appSettings;
@@ -121,12 +155,7 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     AppCommon::registerMetaData();
     int timeRegisterMetadata = GetApplicationAliveMs();
 
-    // NOTE OrganizationName and ApplicationName become part of data storage location path
-    QCoreApplication::setOrganizationName( "" ); // leave blank or will become part of data storage path
-    QCoreApplication::setApplicationName( VxGetApplicationNameNoSpaces() );
-    QCoreApplication::setApplicationVersion( VxGetAppVersionString() );
-    QGuiApplication::setApplicationDisplayName( VxGetApplicationTitle() );
-    QCoreApplication::setOrganizationDomain( VxGetCompanyDomain() );
+
 
     // must be ran after application name is set or paths with app name may be lower case instead of upper case
     setupRootStorageDirectory();
@@ -264,6 +293,8 @@ int main( int argc, char** argv )
 
     // for some reason QApplication must be newed or does not initialize
     QApplication* myApp = new QApplication( argc, argv );
+
+
 
     try
     {
