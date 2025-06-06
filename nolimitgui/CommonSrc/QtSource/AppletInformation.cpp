@@ -8,7 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ActivityInformation.h"
+#include "AppletInformation.h"
 
 #include "AppCommon.h"
 #include "AppSettings.h"
@@ -19,55 +19,37 @@
 
 #include <QClipboard>
 
-#include "ui_ActivityInformation.h"
-
-TitleBarWidget *  ActivityInformation::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
-BottomBarWidget * ActivityInformation::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+#include "ui_AppletInformation.h"
 
 //============================================================================
-ActivityInformation::ActivityInformation( AppCommon& app, QWidget* parent, EPluginType pluginType )
-: ActivityBase( OBJNAME_ACTIVITY_INFORMATION, app, parent, eAppletActivityDialog )
-, ui(*(new Ui::InformationDialog))
-, m_PluginType( pluginType )
-{
-    initActivityInformation();
-}
-
-//============================================================================
-ActivityInformation::ActivityInformation( AppCommon& app, QWidget* parent, EInfoType infoType )
-    : ActivityBase( OBJNAME_ACTIVITY_INFORMATION, app, parent, eAppletActivityDialog )
-    , ui(*(new Ui::InformationDialog))
+AppletInformation::AppletInformation( AppCommon& app, QWidget* parent, EInfoType infoType )
+    : AppletBase( OBJNAME_APPLET_INFORMATION, app, parent )
+    , ui(*(new Ui::InformationUi ))
     , m_InfoType( infoType )
 {
-    initActivityInformation();
+    setAppletType( eAppletInformation );
+    ui.setupUi( getContentItemsFrame() );
+    setTitleBarText( DescribeApplet( m_EAppletType ) );
+
+    connect( ui.m_ClipboardCopyWidget, SIGNAL( clicked() ), this, SLOT( slotCopyToClipboardButtonClicked() ) );
 }
 
 //============================================================================
-void ActivityInformation::initActivityInformation( void )
-{
-    ui.setupUi( this );
-    ui.m_TitleBarWidget->setTitleBarText( QObject::tr( "Information " ) );
-    connect( ui.m_ClipboardCopyWidget, SIGNAL(clicked()), this, SLOT(slotCopyToClipboardButtonClicked()) );
-
-    connectBarWidgets();
-}
-
-//============================================================================
-void ActivityInformation::showEvent( QShowEvent* ev )
+void AppletInformation::showEvent( QShowEvent* ev )
 {
     ActivityBase::showEvent( ev );
     updateInformation();
 }
 
 //============================================================================
-void ActivityInformation::slotCopyToClipboardButtonClicked( void )
+void AppletInformation::slotCopyToClipboardButtonClicked( void )
 {
     ui.m_ClipboardCopyWidget->copyToClipboard( ui.m_InfoText->toPlainText() );
     okMessageBox( QObject::tr( "Clipboard" ), QObject::tr( "Text was copied to clipboard" ) );
 }
 
 //============================================================================
-void ActivityInformation::updateInformation( void )
+void AppletInformation::updateInformation( void )
 {
     ui.m_PictureLabel->setVisible( false );
     ui.m_ServiceInfoButton->setFixedSize( eButtonSizeLarge );
@@ -128,9 +110,9 @@ void ActivityInformation::updateInformation( void )
     ui.m_InfoText->appendPlainText( getInfoText() );
 }
 
-QString ActivityInformation::m_NoInfoAvailable( QObject::tr( "No Information is localy available. please visit https://nolimitconnect.com for latest infomation and help" ) );
+QString AppletInformation::m_NoInfoAvailable( QObject::tr( "No Information is localy available. please visit https://nolimitconnect.com for latest infomation and help" ) );
 
-QString ActivityInformation::m_NetworkDesign( QObject::tr(
+QString AppletInformation::m_NetworkDesign( QObject::tr(
     "=== NETWORK DESIGN ===\n"
     "NOTE: A VPN with port forwarding feature is suggested\n"
     "1.) An Open Port is required for Hosting and recommended for direct connection between users\n"
@@ -171,7 +153,7 @@ QString ActivityInformation::m_NetworkDesign( QObject::tr(
     "\n"
 ) );
 
-QString ActivityInformation::m_PluginDefinitions( QObject::tr(
+QString AppletInformation::m_PluginDefinitions( QObject::tr(
     "\n"
 "DEFINITIONS:\n"
 " *ABOUT PAGE SERVICE - Provide a information page about a host or person\n"
@@ -192,7 +174,7 @@ QString ActivityInformation::m_PluginDefinitions( QObject::tr(
 " *VOICE PHONE PLUGIN: Provides user with voice phone calling to others using the NoLimitConnect app and internet.\n"
 ) );
 
-QString ActivityInformation::m_Permissions( QObject::tr(
+QString AppletInformation::m_Permissions( QObject::tr(
     "=== PERMISSION LEVELS ===\n"
     " Permission Levels are used for setting either what level of permission is required to access a plugin or"
     " the permission level granted to another person to control what that person has access to."
@@ -238,7 +220,7 @@ QString ActivityInformation::m_Permissions( QObject::tr(
     "\n"
 ) );
 
-QString ActivityInformation::m_NetworkKey( QObject::tr(
+QString AppletInformation::m_NetworkKey( QObject::tr(
     "=== NETWORK KEY ===\n"
     "The network key is a text string used for user data network encryption.\n"
     "The network key should only be changed if connecting to or hosting a private network seperate from NoLimitConnect.\n"
@@ -250,7 +232,7 @@ QString ActivityInformation::m_NetworkKey( QObject::tr(
     "Use of a VPN is recommended to improve your privacy."
 ) );
 
-QString ActivityInformation::m_NetworkHost( QObject::tr(
+QString AppletInformation::m_NetworkHost( QObject::tr(
     "=== NETWORK HOST ===\n"
     "The network host provides group host listing and connection test services for a PtoP Network.\n"
     "The network host URL should only be changed if connecting to or hosting a private network seperate from NoLimitConnect.\n"
@@ -267,7 +249,7 @@ QString ActivityInformation::m_NetworkHost( QObject::tr(
     " that can be resolved to a IP using DNS ( Domain Name Service ).\n"
 ) );
 
-QString ActivityInformation::m_ConnectTestUrl( QObject::tr(
+QString AppletInformation::m_ConnectTestUrl( QObject::tr(
     "=== CONNECTION TEST URL ===\n"
     "The connection test service provides services to test if your device's port is open.\n"
     "If your port is open then others can connect directly to your device.\n"
@@ -282,7 +264,7 @@ QString ActivityInformation::m_ConnectTestUrl( QObject::tr(
     "\n"
 ) );
 
-QString ActivityInformation::m_ConnectTestSettings( QObject::tr(
+QString AppletInformation::m_ConnectTestSettings( QObject::tr(
     "=== Enable UPNP check box ===\n"
     "If enabled then UPNP protocol will be used to attempt to open a port to your devcice\n"
     "UPNP works well with Hide.me VPN\n"
@@ -307,7 +289,7 @@ QString ActivityInformation::m_ConnectTestSettings( QObject::tr(
     "\n"
 ) );
 
-QString ActivityInformation::m_RandomConnectUrl( QObject::tr(
+QString AppletInformation::m_RandomConnectUrl( QObject::tr(
     "=== RANDOM CONNECT SERVICE URL ===\n"
     "Provides Service of listing/connecting 2 Persons using the random connect feature.\n"
     "The person listed could be anyone in the world also using the random connect feature.\n"
@@ -315,21 +297,21 @@ QString ActivityInformation::m_RandomConnectUrl( QObject::tr(
     "Within 20 seconds of the random connect button press.\n"
 ) );
 
-QString ActivityInformation::m_DefaultGroupHostUrl( QObject::tr(
+QString AppletInformation::m_DefaultGroupHostUrl( QObject::tr(
     "=== Default GROUP HOST URL ===\n"
     "No Limit Connect will attempt to connect the this group\n"
     "When Log In is completed.\n"
     "If connect fails or no url is provided then you can search for a Group to join\n"
 ) );
 
-QString ActivityInformation::m_DefaultChatRoomHostUrl( QObject::tr(
+QString AppletInformation::m_DefaultChatRoomHostUrl( QObject::tr(
     "=== Default CHAT ROOM HOST URL ===\n"
     "No Limit Connect will attempt to connect the this Chat Room\n"
     "When Log In is completed.\n"
     "If connect fails or no url is provided then you can search for a Chat Room to join\n"
 ) );
 
-QString ActivityInformation::m_NetworkSettingsInvite( QObject::tr(
+QString AppletInformation::m_NetworkSettingsInvite( QObject::tr(
     "=== Network Settings Invite ===\n"
     "By Accepting A Network Settings Invite that changes the Network Host URL:\n"
     "The user will no longer be able to connect to No Limit Connect Network.\n"
@@ -340,24 +322,24 @@ QString ActivityInformation::m_NetworkSettingsInvite( QObject::tr(
     "If you do not have the correct network key you will get banned as a hacker\n"
 ) );
 
-QString ActivityInformation::m_FriendList( QObject::tr(
+QString AppletInformation::m_FriendList( QObject::tr(
     "=== Friends List ===\n"
     "A list showing users set to friend or administrator permission level.\n"
 ) );
 
-QString ActivityInformation::m_IgnoredList( QObject::tr(
+QString AppletInformation::m_IgnoredList( QObject::tr(
     "=== Ignored List ===\n"
     "A list showing ignored (blocked) users.\n"
     "You can unblock a user by clicking the friendship icon or select Change Friendship from the menu button on right side of list entry.\n"
 ) );
 
-QString ActivityInformation::m_OfflineList( QObject::tr(
+QString AppletInformation::m_OfflineList( QObject::tr(
     "=== Offline Friends List ===\n"
     "A list showing offline friends and admins.\n"
     "You can change friendship even when offline (Set to anonymouse or guest so network no longer tries to stay connected).\n"
 ) );
 
-QString ActivityInformation::m_UserHostRequrements( QObject::tr(
+QString AppletInformation::m_UserHostRequrements( QObject::tr(
     "=== Hosting Requirements any of these host services Chat Room, Group, Random Connect ===\n"
     "You will need to port forward the listen port you specified in Network Settings\n"
     "The author of No Limit Connect uses https://hide.me VPN because:\n"
@@ -367,12 +349,12 @@ QString ActivityInformation::m_UserHostRequrements( QObject::tr(
     "Articles about port forwarding can be found by search engine or at https://www.jguru.com/vpn-port-forwarding \n"   
 ) );
 
-QString ActivityInformation::m_NetworkHostRequrements( QObject::tr(
+QString AppletInformation::m_NetworkHostRequrements( QObject::tr(
     "=== Hosting Requirements Network Host ===\n"
     "If you want to host your own network the network host must have port forwarding and also a fixed ip address.\n"
 ) );
 
-QString ActivityInformation::m_MaxMessageHistory( QObject::tr(
+QString AppletInformation::m_MaxMessageHistory( QObject::tr(
     "=== Maximum Message History ===\n"
     "Limits the message history stored to the specified maximum message history.\n"
     "The limit is applied per user for messenger.\n"
@@ -381,7 +363,7 @@ QString ActivityInformation::m_MaxMessageHistory( QObject::tr(
     "To delete files recieved from a user you can delete them using the Library Applet.\n"
 ) );
 
-QString ActivityInformation::m_Ipv6( QObject::tr(
+QString AppletInformation::m_Ipv6( QObject::tr(
     "=== IPv6 vs IPv4 ===\n"
     "IPv4 maximum addresses 4,294,967,296 (2^32)\n"
     "IPv6 maximum addresses 340,282,366,920,938,463,463,374,607,431,768,211,456 (2^128)\n"
@@ -390,7 +372,7 @@ QString ActivityInformation::m_Ipv6( QObject::tr(
     "This means the host listing on the IPv6 network might not have the same hosts listed as the IPv4 network.\n"
 ) );
 
-QString ActivityInformation::m_FriendRequest( QObject::tr(
+QString AppletInformation::m_FriendRequest( QObject::tr(
     "=== FRIEND REQUEST ===\n"
     " Friend request is a way for someone you do not know to request friendship or request to join your host."
     " Friend request is defaulted to Anonymous permission level, however, to avoid any requests by people you ."
@@ -399,7 +381,7 @@ QString ActivityInformation::m_FriendRequest( QObject::tr(
     "\n"
 ) );
 
-QString ActivityInformation::m_WhatIsAInvite( QObject::tr(
+QString AppletInformation::m_WhatIsAInvite( QObject::tr(
     "=== What Is A Invite ===\n"
     "A Invite is text that starts with !Invite! and typically is sent by email or text message\n"
     "A Invite allows users to join a host and/or private network\n"
@@ -408,7 +390,7 @@ QString ActivityInformation::m_WhatIsAInvite( QObject::tr(
 ) );
 
 //============================================================================
-QString ActivityInformation::getInfoText( void )
+QString AppletInformation::getInfoText( void )
 {
     if( m_PluginType != ePluginTypeInvalid )
     {

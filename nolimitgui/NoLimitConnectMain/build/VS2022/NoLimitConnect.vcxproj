@@ -33,7 +33,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtModules>core;gui;widgets;opengl;svg;multimedia;concurrent</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
-    <QtInstall>6.8.3_msvc2022_64</QtInstall>
+    <QtInstall>6.9.1_msvc2022_64</QtInstall>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
     <QtInstall>6.7.3_msvc2022_64</QtInstall>
@@ -127,18 +127,12 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActionWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityBase.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityBrowseFiles.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityCreateAccount.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityDownloadItemMenu.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityFileSearch.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityGenerateHash.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityInformation.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityMessageBox.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityMsgBoxOk.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityMsgBoxYesNo.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanPeopleSearch.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanProfiles.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanStoryBoards.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanWebCams.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivitySessionOptions.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityShowHelp.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityTimedMessage.cpp" />
@@ -153,8 +147,6 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppCommonNotify.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppCommonOfferToFriend.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppCommonRender.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppCommonScan.cpp" />
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppCommonSearch.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppCommonSignalsAndSlots.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppDefs.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppGlobals.cpp" />
@@ -179,6 +171,7 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletChooseThumbnail.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletClientAvatarImage.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletClientBase.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletCreateAccount.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletDownloads.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletEditAboutMe.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletEditAvatarImage.cpp" />
@@ -209,6 +202,7 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletHostRandomConnectStatus.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletHostSelect.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletIgnoredHosts.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletInformation.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletInviteAccept.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletInviteCreate.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletIsPortOpenTest.cpp" />
@@ -555,11 +549,10 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\WaitingSpinnerWidget.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletRandomConnectClient.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\GuiUserMultiListWidget.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityCreateAccount.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityGenerateHash.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityMsgBoxOk.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityMsgBoxYesNo.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActionWidget.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityGenerateHash.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppGlobals.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInviteCreate.h" />
@@ -623,6 +616,8 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseHostAdminOrSearch.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletChooseHost.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendRequestList.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletCreateAccount.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInformation.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />
@@ -935,12 +930,7 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityTimedMessage.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityShowHelp.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivitySessionOptions.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanWebCams.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanStoryBoards.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanProfiles.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanPeopleSearch.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityMessageBox.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityInformation.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityFileSearch.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityDownloadItemMenu.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityBrowseFiles.h" />
@@ -954,21 +944,15 @@ libass.lib;libpcre.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\ActionWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityBase.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityBrowseFiles.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityCreateAccount.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityDownloadItemMenu.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityFileSearch.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityGenerateHash.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityInformation.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityMessageBox.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityNetworkStartupTest.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityNetworkTest.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityPersonalRecorder.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityPhoneShake.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityReplyFileOffer.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityScanPeopleSearch.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityScanProfiles.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityScanStoryBoards.ui" />
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityScanWebCams.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivitySessionOptions.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityShowHelp.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityTimedMessage.ui" />
@@ -986,6 +970,7 @@ libass.lib;libpcre.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletChooseHost.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletChooseHostAdminOrSearch.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletChooseThumbnail.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletCreateAccount.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletDownloads.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletEditAboutMe.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletEditAvatarImage.ui" />
@@ -1009,6 +994,7 @@ libass.lib;libpcre.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletHostNetworkStatus.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletHostSelect.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletIgnoredHosts.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletInformation.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletInviteAccept.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletInviteCreate.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletIsPortOpenTest.ui" />

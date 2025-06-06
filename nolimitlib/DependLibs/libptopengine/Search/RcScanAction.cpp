@@ -295,7 +295,7 @@ void RcScanAction::onScanResultProfilePic(	VxNetIdent*	netIdent,
 												uint8_t *			pu8JpgData, 
 												uint32_t				u32JpgDataLen )
 {
-	m_Engine.getToGui().toGuiSearchResultProfilePic( netIdent, pu8JpgData, u32JpgDataLen );
+	//m_Engine.getToGui().toGuiSearchResultProfilePic( netIdent, pu8JpgData, u32JpgDataLen );
 	removeIdent( netIdent );
 }
 

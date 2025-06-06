@@ -32,6 +32,7 @@ enum EMyIcons
 	eMyIconGlobeOverlay,			// is random connect person globe in upper left
 	eMyIconNlcFavoriteOverlay,		// nlc preferred host or user overlay
 
+	eMyIconHashtag,
     eMyIconInformation,
     eMyIconPeople,
 	eMyIconServers,

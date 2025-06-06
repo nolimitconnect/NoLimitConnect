@@ -10,7 +10,7 @@
 
 #include "ServiceSettingsWidget.h"
 
-#include "ActivityInformation.h"
+#include "AppletInformation.h"
 #include "AppletBase.h"
 #include "AppCommon.h"
 #include "AppGlobals.h"

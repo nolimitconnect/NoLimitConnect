@@ -10,7 +10,7 @@
 
 #include "AppletNetworkSettings.h"
 
-#include "ActivityInformation.h"
+#include "AppletInformation.h"
 #include "ActivityMsgBoxYesNo.h"
 #include "AppletIsPortOpenTest.h"
 
@@ -610,49 +610,49 @@ void AppletNetworkSettings::onDeleteButtonClick( void )
 //============================================================================
 void AppletNetworkSettings::slotShowNetworkHostInformation()
 {
-    ActivityInformation * activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeNetworkHost );
+    AppletInformation * activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeNetworkHost );
     activityInfo->show();
 }
 
 //============================================================================
 void AppletNetworkSettings::slotShowNetworkKeyInformation()
 {
-    ActivityInformation * activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeNetworkKey );
+    AppletInformation * activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeNetworkKey );
     activityInfo->show();
 }
 
 //============================================================================
 void AppletNetworkSettings::slotShowConnectTestUrlInformation( void )
 {
-    ActivityInformation * activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeConnectTestUrl );
+    AppletInformation * activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeConnectTestUrl );
     activityInfo->show();
 }
 
 //============================================================================
 void AppletNetworkSettings::slotShowConnectTestSettingsInformation( void )
 {
-    ActivityInformation * activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeConnectTestSettings );
+    AppletInformation * activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeConnectTestSettings );
     activityInfo->show();
 }
 
 //============================================================================
 void AppletNetworkSettings::slotShowRandomConnectUrlInformation( void )
 {
-    ActivityInformation * activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeRandomConnectUrl );
+    AppletInformation * activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeRandomConnectUrl );
     activityInfo->show();
 }
 
 //============================================================================
 void AppletNetworkSettings::slotShowDefaultGroupHostUrlInformation( void )
 {
-    ActivityInformation * activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeDefaultGroupHostUrl );
+    AppletInformation * activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeDefaultGroupHostUrl );
     activityInfo->show();
 }
 
 //============================================================================
 void AppletNetworkSettings::slotShowDefaultChatRoomUrlInformation( void )
 {
-    ActivityInformation * activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeDefaultChatRoomHostUrl );
+    AppletInformation * activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeDefaultChatRoomHostUrl );
     activityInfo->show();
 }
 
@@ -741,7 +741,7 @@ void AppletNetworkSettings::slotCopyMyUrlToClipboard( void )
 //============================================================================
 void AppletNetworkSettings::slotShowIpv6Information( void )
 {
-    ActivityInformation * activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeIpv6 );
+    AppletInformation * activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeIpv6 );
     activityInfo->show();
 }
 

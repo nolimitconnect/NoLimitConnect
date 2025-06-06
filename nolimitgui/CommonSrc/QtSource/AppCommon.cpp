@@ -19,7 +19,7 @@
 #include "MyIcons.h"
 #include "SoundMgr.h"
 
-#include "ActivityCreateAccount.h"
+#include "AppletCreateAccount.h"
 #include "ActivityShowHelp.h"
 #include "ActivityMsgBoxYesNo.h"
 
@@ -318,8 +318,6 @@ void AppCommon::startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame )
     m_AppletUploads = new AppletUploads( *this, appletFrame );
 	m_AppletUploads->hide();
 
-    m_CreateAccountDlg = new ActivityCreateAccount( *this, appletFrame );
-
 	std::string strAssetDir = VxGetRootUserDataDirectory() + "assets/";
 	VxFileUtil::makeDirectory( strAssetDir );
 
@@ -376,20 +374,23 @@ void AppCommon::shutdownAppCommon( void )
     static bool hasBeenShutdown = false;
     if( false == hasBeenShutdown )
     {
-        hasBeenShutdown = true;
-        VxSetAppIsShuttingDown( true );
-        m_CamLogic.shutdownCamLogic();
-		m_SoundMgr.sndMgrShutdown();
-        fromGuiCloseEvent( eAppModuleAll );
-		ActivityBase* appPlayer = m_AppletMgr.findAppletDialog( eAppletPlayerNlc );
-		if( appPlayer )
+		if( confirmAppShutdown( m_HomeWindow ) )
 		{
-			// to force media player stop before exit application
-			appPlayer->onActivityFinish();
-		}
+			hasBeenShutdown = true;
+			VxSetAppIsShuttingDown( true );
+			m_CamLogic.shutdownCamLogic();
+			m_SoundMgr.sndMgrShutdown();
+			fromGuiCloseEvent( eAppModuleAll );
+			ActivityBase* appPlayer = m_AppletMgr.findAppletDialog( eAppletPlayerNlc );
+			if( appPlayer )
+			{
+				// to force media player stop before exit application
+				appPlayer->onActivityFinish();
+			}
 
-        QApplication::closeAllWindows();
-        getEngine().fromGuiAppShutdown();
+			QApplication::closeAllWindows();
+			getEngine().fromGuiAppShutdown();
+		}
     }
 }
 

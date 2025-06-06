@@ -176,26 +176,8 @@ public:
 	/// Scan network for user shared resources
 	///============================================================================
 
-	/// Search found an contact matching and accessible from this node resource
-	virtual void				toGuiScanResultSuccess( EScanType eScanType, VxNetIdent* netIdent ) = 0;
-	/// Search had error scanning this user
-	virtual void				toGuiSearchResultError( EScanType eScanType, VxNetIdent* netIdent, int errCode ) = 0;
-	/// Search had completed or has no more contact nodes to search
-	virtual void				toGuiScanSearchComplete( EScanType eScanType ) = 0;	
-	/// Search has found and received a About Me picture from contact
-	virtual void				toGuiSearchResultProfilePic( VxNetIdent* netIdent, uint8_t*	pu8JpgData, uint32_t u32JpgDataLen ) = 0;
 	/// Search has found a matching file
 	virtual void				toGuiSearchResultFileSearch( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo ) = 0;
 
 	virtual void				toGuiNetworkIsTested( bool requiresRelay, std::string& ipAddr, uint16_t ipPort ) = 0;
-
-    //virtual void				toGuiOfferAction( EOfferAction assetAction, VxGUID& assetId, int pos0to100000 ) = 0;
-
-    //virtual void				toGuiOfferClientAdded( OfferClientInfo * offerClent ) = 0;
-    //virtual void				toGuiOfferClientUpdated( OfferClientInfo * offerClent ) = 0;
-    //virtual void				toGuiOfferClientRemoved( VxGUID& offerId ) = 0;
-
-    //virtual void				toGuiOfferHostAdded( OfferHostInfo * offerHost ) = 0;
-    //virtual void				toGuiOfferHostUpdated( OfferHostInfo * offerHost ) = 0;
-    //virtual void				toGuiOfferHostRemoved( VxGUID& offerId ) = 0;
 };

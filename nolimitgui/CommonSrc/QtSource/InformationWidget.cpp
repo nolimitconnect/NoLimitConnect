@@ -12,7 +12,7 @@
 
 #include "AppCommon.h"
 #include "MyIcons.h"
-#include "ActivityInformation.h"
+#include "AppletInformation.h"
 
 #include "ui_InformationWidget.h"
 
@@ -55,6 +55,7 @@ void InformationWidget::slotShowInformation()
        return;
    }
 
-   m_ActivityInfo = new ActivityInformation( m_MyApp, this, m_PluginType );
+   m_ActivityInfo = new AppletInformation( m_MyApp, this );
+   m_ActivityInfo->setPluginType( m_PluginType );
    m_ActivityInfo->show();
 }

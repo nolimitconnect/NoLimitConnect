@@ -11,7 +11,7 @@
 #include "AppCommon.h"	
 
 #include "AccountMgr.h"
-#include "ActivityCreateAccount.h"
+#include "AppletCreateAccount.h"
 #include "AppSettings.h"
 #include "AppletMgr.h"
 #include "GuiHelpers.h"
@@ -68,8 +68,6 @@ void AppCommon::updateMyIdent( VxNetIdent* myIdent, bool permissionAndStateOnly 
 //============================================================================
 void AppCommon::doLogin()
 {
-
-doover:
     bool bLastUserAccountLoaded = loadLastUserAccount();
     if( bLastUserAccountLoaded )
     {
@@ -77,33 +75,9 @@ doover:
     }
     else
     {
-        applySoundSettings( true );
+        applySoundSettings( true );  
         // user needs to create login and profile
-        m_CreateAccountDlg->setRootUserDataDirectory( VxGetRootUserDataDirectory() );
-        
-        if( QDialog::Rejected == m_CreateAccountDlg->exec() )
-        {
-            m_bUserCanceledCreateProfile = true;
-            if( QMessageBox::Yes == QMessageBox::question( this, QObject::tr( "Exit Application" ), QObject::tr( "Create account was canceled. Do you want to exit application?" ), QMessageBox::Yes | QMessageBox::No ) )
-            {
-                QCoreApplication::quit();
-                return;
-            }
-            else
-            {
-                goto doover;
-            }
-        }
-
-        if( false == m_CreateAccountDlg->wasLoginNameEntered() )
-        {
-            goto doover;
-        }
-        else
-        {
-            doAccountStartup();
-            return;
-        }
+        showCreateAccount();
     }
 }
 
@@ -424,4 +398,26 @@ void AppCommon::checkReadyToConnectToLastConnectedHost( void )
             getUserJoinMgr().reconnectToLastConnectedHost( lastConnectedHost );
         }
     }
+}
+
+//============================================================================
+void AppCommon::showCreateAccount( void )
+{
+    AppletCreateAccount* createAccount = new AppletCreateAccount( *this, m_HomeWindow );
+    createAccount->setRootUserDataDirectory( VxGetRootUserDataDirectory() );
+    connect( createAccount, SIGNAL(signalAccountCreated(bool)), this, SLOT(slotAccountCreated(bool)) );
+    createAccount->show();
+}
+
+//============================================================================
+void AppCommon::slotAccountCreated( bool wasCreated )
+{
+    if(!wasCreated)
+    {
+        VxSetAppIsShuttingDown( true );
+        QCoreApplication::quit();
+        return;
+    }
+
+    doAccountStartup();
 }

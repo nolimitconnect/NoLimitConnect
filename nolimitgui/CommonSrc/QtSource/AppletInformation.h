@@ -9,29 +9,22 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ActivityBase.h"
+#include "AppletBase.h"
 #include <GuiInterface/IDefs.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-    class InformationDialog;
+    class InformationUi;
 }
 QT_END_NAMESPACE
 
-class ActivityInformation : public ActivityBase
+class AppletInformation : public AppletBase
 {
 	Q_OBJECT
 
 public:
-
-    ActivityInformation( AppCommon& app, QWidget* parent, EPluginType pluginType );
-    ActivityInformation( AppCommon& app, QWidget* parent, EInfoType infoType );
-
-	virtual ~ActivityInformation() override = default;
-
-    // overrides required for dialogs with there own title bar and bottom bar widgets
-	TitleBarWidget*				getTitleBarWidget( void ) override;
-	BottomBarWidget*			getBottomBarWidget( void ) override;
+    AppletInformation( AppCommon& app, QWidget* parent, EInfoType infoType = eInfoTypeInvalid );
+	virtual ~AppletInformation() override = default;
 
     void						setPluginType( EPluginType pluginType ) override { m_InfoType = eInfoTypePlugin; m_PluginType = pluginType; updateInformation(); }
     void						setInformationType( EInfoType infoType ) { m_InfoType = infoType; updateInformation(); }
@@ -44,12 +37,11 @@ protected slots:
 protected:
     virtual void				showEvent( QShowEvent* ev ) override;
 
-    void						initActivityInformation( void );
     void						updateInformation( void );
     QString                     getInfoText( void );
 
 	//=== vars ===//
-	Ui::InformationDialog&		ui;
+	Ui::InformationUi&		    ui;
     EInfoType                   m_InfoType = eInfoTypeInvalid;
     EPluginType                 m_PluginType = ePluginTypeInvalid;
 

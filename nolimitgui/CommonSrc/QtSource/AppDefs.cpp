@@ -183,6 +183,9 @@ EMyIcons GetAppletIcon( EApplet applet )
 	case ePluginAppletNlcStation:		    return eMyIconNlcStation;
 	case ePluginAppletNlcNetworkHost:	    return eMyIconServiceHostNetwork;
 
+    case eActivityGenerateHash:			    return eMyIconHashtag;
+    case eAppletInformation:			    return eMyIconInformation;
+
 	case eAppletUnknown:
 	default:
 		return eMyIconUnknown;
@@ -361,6 +364,9 @@ QString DescribeApplet( EApplet applet )
     case eAppletHackerList:                 return QObject::tr( "Blocked Hackers" );
     case eAppletSocketList:                 return QObject::tr( "Socket Connections" );
     case eAppletIsPortOpenTest:             return QObject::tr( "Test Connection" );
+
+    case eActivityGenerateHash:               return QObject::tr("Generate Hash");
+    case eAppletInformation:                return QObject::tr("Information");
 
 	case eMaxBasicApplets:
 	case eAppletUnknown:

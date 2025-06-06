@@ -163,16 +163,13 @@ void AppCommon::connectSignals( void )
     connect( this, SIGNAL(signalInternalToGuiUpdateIdent(VxNetIdent)), this, SLOT(slotInternalToGuiUpdateIdent(VxNetIdent)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalToGuiSaveMyIdent(VxNetIdent)), this, SLOT(slotInternalToGuiSaveMyIdent(VxNetIdent)), Qt::QueuedConnection );
 
-    connect( this, SIGNAL(signalInternalToGuiScanSearchComplete(EScanType)), this, SLOT(slotInternalToGuiScanSearchComplete(EScanType)), Qt::QueuedConnection );
-    connect( this, SIGNAL(signalInternalToGuiScanResultSuccess(EScanType,VxNetIdent)), this, SLOT(slotInternalToGuiScanResultSuccess(EScanType,VxNetIdent)), Qt::QueuedConnection );
-    connect( this, SIGNAL(signalInternalToGuiSearchResultError(EScanType,VxNetIdent,int)), this, SLOT(slotInternalToGuiSearchResultError(EScanType,VxNetIdent,int)), Qt::QueuedConnection );
-
     connect( this, SIGNAL(signalInternalNetworkIsTested(bool,QString,uint16_t)), this, SLOT(slotInternalNetworkIsTested(bool,QString,uint16_t)), Qt::QueuedConnection );
 
 	connect( this, SIGNAL(signalInternalPlayNlcMedia(AssetBaseInfo)), this, SLOT(slotInternalPlayNlcMedia(AssetBaseInfo)), Qt::QueuedConnection );
 
 	connect( this, SIGNAL(signalInternalToGuiSearchResultFileSearch(VxGUID,EPluginType,VxGUID,FileInfo)), this, 
 		           SLOT(slotInternalToGuiSearchResultFileSearch(VxGUID,EPluginType,VxGUID,FileInfo)), Qt::QueuedConnection );
+
     connect( this, SIGNAL(signalInternalToGuiFileListReply(VxGUID,EPluginType,FileInfo)), this,
                    SLOT(slotInternalToGuiFileListReply(VxGUID,EPluginType,FileInfo)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalToGuiFileDownloadStart(VxGUID,EPluginType,VxGUID,FileInfo)), this,

@@ -11,6 +11,7 @@
 
 #include "VxDefs.h"
 #include <string>
+#include <memory.h>
 
 #ifdef __cplusplus
 
@@ -38,6 +39,7 @@ public:
 	uint8_t *					getHashData( void )						{ return m_HashId; }
 
 	std::string					toString( void ) const;
+	void						clear( void ) { memset( m_HashId, 0, sizeof( m_HashId ) ); }
 
 protected:
 	char						highNibbleChar( uint8_t val ) const		{ return nibbleToHex( val >> 4 ); }

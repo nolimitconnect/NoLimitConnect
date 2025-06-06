@@ -10,7 +10,7 @@
 
 #include "AppletInviteAccept.h"
 
-#include "ActivityInformation.h"
+#include "AppletInformation.h"
 #include "AppCommon.h"
 #include "AppletNetworkSettings.h"
 #include "AppSettings.h"
@@ -181,6 +181,6 @@ void AppletInviteAccept::slotConnectToHosts( void )
 //============================================================================
 void AppletInviteAccept::slotInviteInfoButtonClicked( void )
 {
-    ActivityInformation * activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeWhatIsAInvite );
+    AppletInformation * activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeWhatIsAInvite );
     activityInfo->show();
 }

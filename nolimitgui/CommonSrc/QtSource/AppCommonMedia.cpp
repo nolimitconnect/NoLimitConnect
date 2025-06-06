@@ -15,7 +15,6 @@
 #include "GuiPlayerMgr.h"
 #include "HomeWindow.h"
 
-#include "ActivityScanWebCams.h"
 #include "ToGuiActivityInterface.h"
 #include "ToGuiHardwareControlInterface.h"
 

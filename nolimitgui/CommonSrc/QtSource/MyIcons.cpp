@@ -159,7 +159,9 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 		return ":/AppRes/Resources/overlay-globe.svg";
 	case eMyIconNlcFavoriteOverlay:		// nlc icon in upper left
 		return ":/AppRes/Resources/overlay-nlc.svg";
-
+		
+	case eMyIconHashtag:
+		return ":/AppRes/Resources/hashtag.svg";
     case eMyIconInformation:
         return ":/AppRes/Resources/info.svg";
 	case eMyIconPeople:

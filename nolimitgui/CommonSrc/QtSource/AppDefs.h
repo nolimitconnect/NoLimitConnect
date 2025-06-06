@@ -213,6 +213,9 @@ enum EApplet
 
     eAppletIsPortOpenTest,
 
+    eActivityGenerateHash,
+    eAppletInformation,
+
     eAppletHomeFrame, // left or top frame
     eAppletMessengerFrame, // right or bottom frame
 

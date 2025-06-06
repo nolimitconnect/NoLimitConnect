@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ActivityBase.h"
+#include "AppletBase.h"
 
 #include <PktLib/VxCommon.h>
 
@@ -17,37 +17,36 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-    class CreateAccountClass;
+    class CreateAccountUi;
 }
 QT_END_NAMESPACE
 
 class P2PEngine;
 
-class ActivityCreateAccount : public ActivityBase
+class AppletCreateAccount : public AppletBase
 {
 	Q_OBJECT
 public:
-    ActivityCreateAccount( AppCommon& app, QWidget* parent = nullptr );
-	virtual ~ActivityCreateAccount() override = default;
-
-    // overrides required for dialogs with there own title bar and bottom bar widgets
-	TitleBarWidget*				getTitleBarWidget( void ) override;
-	BottomBarWidget*			getBottomBarWidget( void ) override;
+    AppletCreateAccount( AppCommon& app, QWidget* parent = nullptr );
+	virtual ~AppletCreateAccount() override = default;
 
 	void						setRootUserDataDirectory( std::string userDir ) { m_strRootUserDataDir = userDir; };
 	//! validate user input
 	bool						accountValidate( void );
     bool						wasLoginNameEntered( void );
 
-	virtual void				onBackButtonClicked( void ) override;
+signals:
+	void						signalAccountCreated( bool wasCreated );
 
 private slots:
 	//! login was clicked
 	void						slotButtonLoginClicked( void );
 
 protected:
+	virtual void				onBackButtonClicked( void ) override;
+
 	//=== vars ===//
-	Ui::CreateAccountClass&		ui;
+	Ui::CreateAccountUi&		ui;
 	VxNetIdent					m_UserAccount;
 	std::string					m_strRootUserDataDir;
 };

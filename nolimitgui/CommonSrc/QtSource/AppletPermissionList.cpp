@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "AppletPermissionList.h"
-#include "ActivityInformation.h"
+
 #include "PermissionListItem.h"
 
 #include "AppGlobals.h"

@@ -42,13 +42,8 @@ public:
     virtual void				toGuiUpdateMyIdent(GuiUser* guiUser ){}; 
 
 	virtual void				toGuiInstMsg( GuiUser* friendIdent, EPluginType pluginType, QString instMsg ){}; 
-
-	virtual void				toGuiScanResultSuccess( EScanType eScanType, GuiUser* guiUser ){};
-	virtual void				toGuiSearchResultError( EScanType eScanType, GuiUser* guiUser, int errCode ){};
-	virtual void				toGuiSearchResultProfilePic( GuiUser* guiUser, uint8_t* pu8JpgData, uint32_t u32JpgDataLen ){};
+    
     virtual void				toGuiSearchResultFileSearch( GuiUser* guiUser, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo ) {};
-
-	virtual void				toGuiClientScanSearchComplete( EScanType eScanType ){};
 
     virtual void				toGuiAssetAdded( AssetBaseInfo& assetInfo ) {};
     virtual void				toGuiAssetUpdated( AssetBaseInfo& assetInfo ) {};

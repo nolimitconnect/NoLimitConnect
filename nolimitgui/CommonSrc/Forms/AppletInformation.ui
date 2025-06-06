@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>InformationDialog</class>
- <widget class="QDialog" name="InformationDialog">
+ <class>InformationUi</class>
+ <widget class="QWidget" name="InformationUi">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -47,28 +47,6 @@
    <property name="bottomMargin">
     <number>0</number>
    </property>
-   <item>
-    <widget class="TitleBarWidget" name="m_TitleBarWidget" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>16777215</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
    <item>
     <widget class="QGroupBox" name="StyledDlgItemsBox">
      <property name="sizePolicy">
@@ -187,25 +165,6 @@
      </layout>
     </widget>
    </item>
-   <item>
-    <widget class="BottomBarWidget" name="m_BottomBarWidget" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>30</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="autoFillBackground">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -229,18 +188,6 @@
    <class>WebsiteWidget</class>
    <extends>QWidget</extends>
    <header>WebsiteWidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>TitleBarWidget</class>
-   <extends>QWidget</extends>
-   <header>TitleBarWidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>BottomBarWidget</class>
-   <extends>QWidget</extends>
-   <header location="global">BottomBarWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

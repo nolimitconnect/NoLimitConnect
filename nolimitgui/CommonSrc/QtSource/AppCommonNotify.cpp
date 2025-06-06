@@ -128,3 +128,28 @@ void AppCommon::slotToGuiInstMsg( VxGUID onlineId, EPluginType pluginType, QStri
 
 	m_ToGuiActivityInterfaceBusy = false;
 }
+
+//============================================================================
+void AppCommon::toGuiSearchResultFileSearch( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo )
+{
+	emit signalInternalToGuiSearchResultFileSearch( onlineId, pluginType, lclSessionId, fileInfo );
+}
+
+//============================================================================
+void AppCommon::slotInternalToGuiSearchResultFileSearch( VxGUID onlineId, EPluginType pluginType, VxGUID lclSessionId, FileInfo fileInfo )
+{
+	if(VxIsAppShuttingDown())
+	{
+		return;
+	}
+
+	GuiUser* guiUser = m_UserMgr.getUser( onlineId );
+
+	m_ToGuiActivityInterfaceBusy = true;
+	for(auto& client : m_ToGuiActivityInterfaceList)
+	{
+		client->toGuiSearchResultFileSearch( guiUser, pluginType, lclSessionId, fileInfo );
+	}
+
+	m_ToGuiActivityInterfaceBusy = false;
+}

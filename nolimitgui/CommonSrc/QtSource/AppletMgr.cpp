@@ -14,12 +14,6 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 
-#include "ActivityFileSearch.h"
-#include "ActivityScanPeopleSearch.h"
-#include "ActivityScanProfiles.h"
-#include "ActivityScanStoryBoards.h"
-#include "ActivityScanWebCams.h"
-
 #include "AppletApplicationInfo.h"
 #include "AppletAboutApp.h"
 #include "AppletAboutMeClient.h"
@@ -377,11 +371,13 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletGalleryEmoticon:            if( launchAppletAllowed( eAppletGalleryEmoticon ) ) appletDialog = new AppletGalleryEmoticon( m_MyApp, parent ); break;
     case eAppletGalleryImage:               if( launchAppletAllowed( eAppletGalleryImage ) ) appletDialog = new AppletGalleryImage( m_MyApp, parent ); break;
     case eAppletGalleryThumb:               if( launchAppletAllowed( eAppletGalleryThumb ) ) appletDialog = new AppletGalleryThumb( m_MyApp, parent ); break;
+
     case eAppletGetStarted:                 if( launchAppletAllowed( eAppletGetStarted ) ) appletDialog = new AppletGetStarted( m_MyApp, parent ); break;
     case eAppletGroupJoin:                  if( launchAppletAllowed( eAppletGroupJoin ) ) appletDialog = new AppletGroupJoin( m_MyApp, parent ); break;
     case eAppletGroupJoinSearch:            if( launchAppletAllowed( eAppletGroupJoinSearch ) ) appletDialog = new AppletGroupJoinSearch( m_MyApp, parent ); break;
     case eAppletGroupListLocalView:         if( launchAppletAllowed( eAppletGroupListLocalView ) ) appletDialog = new AppletGroupListLocalView( m_MyApp, parent ); break;
     case eAppletHelpNetSignalBars:          if( launchAppletAllowed( eAppletHelpNetSignalBars ) ) appletDialog = new AppletHelpNetSignalBars( m_MyApp, parent ); break;
+    case eAppletHomePage:                   m_MyApp.errMessageBox(appletMissingTitle, "Home Page Not Implemented"); return nullptr;
 
     case eAppletRandomConnectHostAdmin:     if( launchAppletAllowed( eAppletRandomConnectHostAdmin ) ) appletDialog = new AppletRandomConnectHostAdmin( m_MyApp, parent ); break;
     case eAppletRandomConnectJoin:          if( launchAppletAllowed( eAppletRandomConnectJoin ) ) appletDialog = new AppletRandomConnectJoin( m_MyApp, parent ); break;
@@ -392,7 +388,6 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletStoryboardClient:           if( launchAppletAllowed( eAppletStoryboardClient ) ) appletDialog = new AppletStoryboardClient( m_MyApp, parent ); break;
     case eAppletLog:                        if( launchAppletAllowed( eAppletLog ) ) appletDialog = new AppletLog( m_MyApp, parent ); break;
 
-    case eAppletHomePage:                   m_MyApp.errMessageBox( appletMissingTitle, "Home Page Not Implemented" ); return nullptr;
 
     case eAppletLibrary:                    if( launchAppletAllowed( eAppletLibrary ) ) appletDialog = new AppletLibrary( m_MyApp, parent, launchParam ); break;
     case eAppletLogSettings:                if( launchAppletAllowed( eAppletLogSettings ) ) appletDialog = new AppletLogSettings( m_MyApp, parent ); break;
@@ -404,13 +399,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletSettingsPage:               if( launchAppletAllowed( eAppletSettingsPage ) ) appletDialog = new AppletSettingsPage( m_MyApp, parent ); break;
 
     case eAppletSearchPage:	                if( launchAppletAllowed( eAppletSearchPage ) ) appletDialog = new AppletSearchPage( m_MyApp, parent ); break;
-    case eAppletSearchPersons:              if( launchAppletAllowed( eAppletSearchPersons ) ) appletDialog = new ActivityScanPeopleSearch( m_MyApp, eScanTypePeopleSearch, launchFrame ); break;
-    case eAppletSearchMood:                 if( launchAppletAllowed( eAppletSearchMood ) ) appletDialog = new ActivityScanPeopleSearch( m_MyApp, eScanTypeMoodMsgSearch, launchFrame ); break;
-    case eAppletScanAboutMe:                if( launchAppletAllowed( eAppletScanAboutMe ) ) appletDialog = new ActivityScanProfiles( m_MyApp, launchFrame ); break;
-    case eAppletScanStoryboard:             if( launchAppletAllowed( eAppletScanStoryboard ) ) appletDialog = new ActivityScanStoryBoards( m_MyApp, launchFrame ); break;
-    case eAppletScanSharedFiles:            if( launchAppletAllowed( eAppletScanSharedFiles ) ) appletDialog = new ActivityFileSearch( m_MyApp, launchFrame ); break;
-    case eAppletScanWebCam:                 if( launchAppletAllowed( eAppletScanWebCam ) ) appletDialog = new ActivityScanWebCams( m_MyApp, launchFrame ); break;
-
+ 
     case eAppletPlayerCamClip:              if( launchAppletAllowed( eAppletPlayerCamClip ) ) appletDialog = new AppletPlayerCamClip( m_MyApp, parent, assetId ); break;
     case eAppletCamSettings:                if( launchAppletAllowed( eAppletCamSettings ) ) appletDialog = new AppletCamSettings( m_MyApp, parent ); break;
         

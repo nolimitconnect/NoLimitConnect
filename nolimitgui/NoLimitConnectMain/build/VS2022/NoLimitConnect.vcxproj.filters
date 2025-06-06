@@ -755,31 +755,13 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityBrowseFiles.h">
       <Filter>Header Files\Activity</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityCreateAccount.h">
-      <Filter>Header Files\Activity</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityDownloadItemMenu.h">
       <Filter>Header Files\Activity</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityFileSearch.h">
       <Filter>Header Files\Activity</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityInformation.h">
-      <Filter>Header Files\Activity</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityMessageBox.h">
-      <Filter>Header Files\Activity</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanPeopleSearch.h">
-      <Filter>Header Files\Activity</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanProfiles.h">
-      <Filter>Header Files\Activity</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanStoryBoards.h">
-      <Filter>Header Files\Activity</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityScanWebCams.h">
       <Filter>Header Files\Activity</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivitySessionOptions.h">
@@ -814,9 +796,6 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\PersonOfferListItem.h">
       <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityGenerateHash.h">
-      <Filter>Header Files\Activity</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\HistoryEntryWidget.h">
       <Filter>Header Files\InputWidgets</Filter>
@@ -1158,6 +1137,15 @@
       <Filter>Source Files\GuiFriendRequest</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendRequestList.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\ActivityGenerateHash.h">
+      <Filter>Source Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletCreateAccount.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInformation.h">
       <Filter>Source Files\Applets</Filter>
     </QtMoc>
   </ItemGroup>
@@ -1541,12 +1529,6 @@
       <Filter>Source Files\AppCommon</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppCommonRender.cpp">
-      <Filter>Source Files\AppCommon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppCommonScan.cpp">
-      <Filter>Source Files\AppCommon</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppCommonSearch.cpp">
       <Filter>Source Files\AppCommon</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppCommonSignalsAndSlots.cpp">
@@ -2143,34 +2125,13 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityBrowseFiles.cpp">
       <Filter>Source Files\Activity</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityCreateAccount.cpp">
-      <Filter>Source Files\Activity</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityDownloadItemMenu.cpp">
       <Filter>Source Files\Activity</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityFileSearch.cpp">
       <Filter>Source Files\Activity</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityGenerateHash.cpp">
-      <Filter>Source Files\Activity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityInformation.cpp">
-      <Filter>Source Files\Activity</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityMessageBox.cpp">
-      <Filter>Source Files\Activity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanPeopleSearch.cpp">
-      <Filter>Source Files\Activity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanProfiles.cpp">
-      <Filter>Source Files\Activity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanStoryBoards.cpp">
-      <Filter>Source Files\Activity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityScanWebCams.cpp">
       <Filter>Source Files\Activity</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivitySessionOptions.cpp">
@@ -2333,6 +2294,15 @@
       <Filter>Source Files\GuiFriendRequest</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletFriendRequestList.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\ActivityGenerateHash.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletCreateAccount.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletInformation.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
   </ItemGroup>
@@ -2698,9 +2668,6 @@
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityFileSearch.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityInformation.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityMessageBox.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -2717,18 +2684,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivityReplyFileOffer.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityScanPeopleSearch.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityScanProfiles.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityScanStoryBoards.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityScanWebCams.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\ActivitySessionOptions.ui">
@@ -3043,9 +2998,6 @@
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletGalleryEmoticon.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityCreateAccount.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletTestHostClient.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -3092,9 +3044,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletOfferView.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityGenerateHash.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\TestWidget.ui">
@@ -3200,6 +3149,15 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\GuiFriendRequestWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\ActivityGenerateHash.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletCreateAccount.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletInformation.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

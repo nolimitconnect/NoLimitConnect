@@ -8,7 +8,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "ActivityCreateAccount.h"
+#include "AppletCreateAccount.h"
+
+#include "ActivityMsgBoxYesNo.h"
 #include "AppGlobals.h"
 #include "AppCommon.h"
 #include "AccountMgr.h"
@@ -23,22 +25,17 @@
 #include <CoreLib/VxGlobals.h>
 
 #include <QMessageBox>
-#include <QUuid>
 
-#include "ui_ActivityCreateAccount.h"
-
-TitleBarWidget *  ActivityCreateAccount::getTitleBarWidget( void ) { return ui.m_TitleBarWidget; }
-BottomBarWidget * ActivityCreateAccount::getBottomBarWidget( void ) { return ui.m_BottomBarWidget; }
+#include "ui_AppletCreateAccount.h"
 
 //============================================================================
-ActivityCreateAccount::ActivityCreateAccount( AppCommon& app, QWidget* parent )
-: ActivityBase( OBJNAME_ACTIVITY_CREATE_ACCOUNT, app, parent, eAppletCreateAccount, true, false, true )
-, ui(*(new Ui::CreateAccountClass))
+AppletCreateAccount::AppletCreateAccount( AppCommon& app, QWidget* parent )
+: AppletBase( OBJNAME_APPLET_CREATE_ACCOUNT, app, parent )
+, ui(*(new Ui::CreateAccountUi ))
 {
-    ui.setupUi( this );
-    setTitleBarText( QObject::tr( "Create Account" ) );
-
-    connectBarWidgets();
+    setAppletType( eAppletCreateAccount );
+    ui.setupUi( getContentItemsFrame() );
+    setTitleBarText( DescribeApplet( m_EAppletType ) );
 
     GuiHelpers::fillGender( ui.m_GenderComboBox );
     GuiHelpers::fillLanguage( ui.m_LanguageComboBox );
@@ -50,7 +47,7 @@ ActivityCreateAccount::ActivityCreateAccount( AppCommon& app, QWidget* parent )
 
 //============================================================================
 //! button clicked
-void ActivityCreateAccount::slotButtonLoginClicked( void )
+void AppletCreateAccount::slotButtonLoginClicked( void )
 {
     if( accountValidate() )
     {
@@ -77,7 +74,8 @@ void ActivityCreateAccount::slotButtonLoginClicked( void )
         if( m_MyApp.getAccountMgr().insertAccount( m_UserAccount ) )
         {
             m_MyApp.getAccountMgr().updateLastLogin( m_UserAccount.getOnlineName() );
-            accept();
+            emit signalAccountCreated( true );
+            closeApplet();
         }
         else
         {
@@ -89,7 +87,7 @@ void ActivityCreateAccount::slotButtonLoginClicked( void )
 
 //============================================================================
 //! validate user input
-bool ActivityCreateAccount::accountValidate( void )
+bool AppletCreateAccount::accountValidate( void )
 {
     QString strUserName = ui.m_UserNameEdit->text();
     bool validAccount = GuiHelpers::validateUserName( this, strUserName );
@@ -103,14 +101,20 @@ bool ActivityCreateAccount::accountValidate( void )
 }
 
 //============================================================================
-bool ActivityCreateAccount::wasLoginNameEntered( void )
+bool AppletCreateAccount::wasLoginNameEntered( void )
 {
     QString strUserName = ui.m_UserNameEdit->text();
     return strUserName.length() > 3 ? true : false;
 }
 
 //============================================================================
-void ActivityCreateAccount::onBackButtonClicked( void )
+void AppletCreateAccount::onBackButtonClicked( void )
 {
-    // do nothing.. user must click login
+    QString title = QObject::tr( "Create an account or exit" );
+    QString msg = QObject::tr( "User must create an account or exit\nDo you want to exit the application?" );
+    ActivityMsgBoxYesNo msgBox( m_MyApp, this, title, msg );
+    if( QDialog::Accepted == msgBox.exec() )
+    {
+        m_MyApp.shutdownAppCommon();
+    }
 }

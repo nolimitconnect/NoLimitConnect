@@ -11,7 +11,7 @@
 #include "AppletSettingsHostBase.h"
 
 #include "AppCommon.h"
-#include "ActivityInformation.h"
+#include "AppletInformation.h"
 #include "VxPushButton.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -117,7 +117,7 @@ void AppletSettingsHostBase::slotHostRequirementsButtonClicked()
 
     if( eInfoTypeInvalid != infoType )
     {
-        ActivityInformation* activityInfo = new ActivityInformation( m_MyApp, this, infoType );
+        AppletInformation* activityInfo = new AppletInformation( m_MyApp, this, infoType );
         if( activityInfo )
         {
             activityInfo->show();

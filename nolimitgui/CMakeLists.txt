@@ -42,18 +42,11 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/ActionWidget.h
 
     CommonSrc/QtSource/ActivityBrowseFiles.h
-    CommonSrc/QtSource/ActivityCreateAccount.h
     CommonSrc/QtSource/ActivityDownloadItemMenu.h
-    CommonSrc/QtSource/ActivityFileSearch.h
     CommonSrc/QtSource/ActivityGenerateHash.h
-    CommonSrc/QtSource/ActivityInformation.h
     CommonSrc/QtSource/ActivityMessageBox.h
     CommonSrc/QtSource/ActivityMsgBoxOk.h
     CommonSrc/QtSource/ActivityMsgBoxYesNo.h
-    CommonSrc/QtSource/ActivityScanPeopleSearch.h
-    CommonSrc/QtSource/ActivityScanProfiles.h
-    CommonSrc/QtSource/ActivityScanStoryBoards.h
-    CommonSrc/QtSource/ActivityScanWebCams.h
     CommonSrc/QtSource/ActivitySessionOptions.h
     CommonSrc/QtSource/ActivityShowHelp.h
     CommonSrc/QtSource/ActivityTimedMessage.h
@@ -85,6 +78,8 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletChooseHost.h
     CommonSrc/QtSource/AppletClientAvatarImage.h
     CommonSrc/QtSource/AppletClientBase.h
+    CommonSrc/QtSource/AppletCreateAccount.h
+
     CommonSrc/QtSource/AppletRandomConnectClient.h
     CommonSrc/QtSource/AppletDownloads.h
     CommonSrc/QtSource/AppletEditAboutMe.h
@@ -118,6 +113,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletHostSelect.h
     CommonSrc/QtSource/AppletIgnoredHosts.h
 
+    CommonSrc/QtSource/AppletInformation.h
     CommonSrc/QtSource/AppletInviteAccept.h
     CommonSrc/QtSource/AppletInviteCreate.h
     CommonSrc/QtSource/AppletIsPortOpenTest.h
@@ -457,21 +453,15 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/ActionWidget.cpp
     CommonSrc/QtSource/ActivityBase.cpp
     CommonSrc/QtSource/ActivityBrowseFiles.cpp
-    CommonSrc/QtSource/ActivityCreateAccount.cpp
     CommonSrc/QtSource/ActivityDownloadItemMenu.cpp
-    CommonSrc/QtSource/ActivityFileSearch.cpp
     CommonSrc/QtSource/ActivityGenerateHash.cpp
-    CommonSrc/QtSource/ActivityInformation.cpp
     CommonSrc/QtSource/ActivityMessageBox.cpp
     CommonSrc/QtSource/ActivityMsgBoxOk.cpp
     CommonSrc/QtSource/ActivityMsgBoxYesNo.cpp
-    CommonSrc/QtSource/ActivityScanPeopleSearch.cpp
-    CommonSrc/QtSource/ActivityScanProfiles.cpp
-    CommonSrc/QtSource/ActivityScanStoryBoards.cpp
-    CommonSrc/QtSource/ActivityScanWebCams.cpp
     CommonSrc/QtSource/ActivitySessionOptions.cpp
     CommonSrc/QtSource/ActivityShowHelp.cpp
     CommonSrc/QtSource/ActivityTimedMessage.cpp
+
     CommonSrc/QtSource/AppCommon.cpp
     CommonSrc/QtSource/AppCommonAudio.cpp
     CommonSrc/QtSource/AppCommonEvents.cpp
@@ -483,8 +473,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppCommonNotify.cpp
     CommonSrc/QtSource/AppCommonOfferToFriend.cpp
     CommonSrc/QtSource/AppCommonRender.cpp
-    CommonSrc/QtSource/AppCommonScan.cpp
-    CommonSrc/QtSource/AppCommonSearch.cpp
+
     CommonSrc/QtSource/AppCommonSignalsAndSlots.cpp
     CommonSrc/QtSource/AppDefs.cpp
     CommonSrc/QtSource/AppGlobals.cpp
@@ -512,6 +501,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletChooseHost.cpp
     CommonSrc/QtSource/AppletClientAvatarImage.cpp
     CommonSrc/QtSource/AppletClientBase.cpp
+    CommonSrc/QtSource/AppletCreateAccount.cpp
     CommonSrc/QtSource/AppletRandomConnectClient.cpp
     CommonSrc/QtSource/AppletDownloads.cpp
     CommonSrc/QtSource/AppletEditAboutMe.cpp
@@ -546,6 +536,7 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletHostRandomConnectStatus.cpp
     CommonSrc/QtSource/AppletIgnoredHosts.cpp
 
+    CommonSrc/QtSource/AppletInformation.cpp
     CommonSrc/QtSource/AppletInviteAccept.cpp
     CommonSrc/QtSource/AppletInviteCreate.cpp
     CommonSrc/QtSource/AppletIsPortOpenTest.cpp
@@ -864,21 +855,16 @@ set(nlc_FORMS)
 list(APPEND nlc_FORMS
     CommonSrc/Forms/ActionWidget.ui
     CommonSrc/Forms/ActivityBrowseFiles.ui
-    CommonSrc/Forms/ActivityCreateAccount.ui
     CommonSrc/Forms/ActivityDownloadItemMenu.ui
-    CommonSrc/Forms/ActivityFileSearch.ui
+
     CommonSrc/Forms/ActivityGenerateHash.ui
-    CommonSrc/Forms/ActivityInformation.ui
     CommonSrc/Forms/ActivityMessageBox.ui
     CommonSrc/Forms/ActivityNetworkStartupTest.ui
-    CommonSrc/Forms/ActivityScanPeopleSearch.ui
-    CommonSrc/Forms/ActivityScanProfiles.ui
-    CommonSrc/Forms/ActivityScanStoryBoards.ui
-    CommonSrc/Forms/ActivityScanWebCams.ui
     CommonSrc/Forms/ActivitySessionOptions.ui
     CommonSrc/Forms/ActivityShowHelp.ui
     CommonSrc/Forms/ActivityTimedMessage.ui
     CommonSrc/Forms/ActivityYesNo.ui
+
     CommonSrc/Forms/AcceptCancelWidget.ui
     CommonSrc/Forms/AppletAboutApp.ui
     CommonSrc/Forms/AppletAboutMeClient.ui
@@ -893,6 +879,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/AppletChooseHostAdminOrSearch.ui
     CommonSrc/Forms/AppletChooseThumbnail.ui
     CommonSrc/Forms/AppletChooseHost.ui
+    CommonSrc/Forms/AppletCreateAccount.ui
     CommonSrc/Forms/AppletDownloads.ui
     CommonSrc/Forms/AppletEditAboutMe.ui
     CommonSrc/Forms/AppletEditAvatarImage.ui
@@ -916,6 +903,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/AppletHostNetworkStatus.ui
     CommonSrc/Forms/AppletHostSelect.ui
     CommonSrc/Forms/AppletIgnoredHosts.ui
+    CommonSrc/Forms/AppletInformation.ui
     CommonSrc/Forms/AppletInviteAccept.ui
     CommonSrc/Forms/AppletInviteCreate.ui
     CommonSrc/Forms/AppletIsPortOpenTest.ui

@@ -10,7 +10,7 @@
 
 #include "AppletUserIdentity.h"
 
-#include "ActivityCreateAccount.h"
+#include "AppletCreateAccount.h"
 #include "AppletMgr.h"
 
 #include "AppletEditAvatarImage.h"
@@ -300,7 +300,7 @@ void AppletUserIdentity::slotCreateNewAccount( void )
 
     if( QMessageBox::Yes == QMessageBox::question( this, title, msgText, QMessageBox::Yes | QMessageBox::No ) )
     {
-        ActivityCreateAccount * createAccountActivity = new ActivityCreateAccount( m_MyApp, &m_MyApp.getHomeWindow() );
+        AppletCreateAccount * createAccountActivity = new AppletCreateAccount( m_MyApp, &m_MyApp.getHomeWindow() );
         createAccountActivity->show();
         closeApplet();
     }

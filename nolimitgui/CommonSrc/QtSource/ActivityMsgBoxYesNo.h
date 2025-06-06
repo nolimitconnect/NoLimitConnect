@@ -39,6 +39,7 @@ protected:
     TitleBarWidget*				getTitleBarWidget( void ) override;
     BottomBarWidget*			getBottomBarWidget( void ) override;
 	QFrame*						getContentItemsFrame( void ) override;
+	void						onBackButtonClicked( void ) override;
 
 	//=== vars ===//
 	Ui::YesNoMsgBoxClass&		ui;

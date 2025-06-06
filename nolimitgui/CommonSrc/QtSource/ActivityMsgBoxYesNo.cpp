@@ -48,8 +48,6 @@ ActivityMsgBoxYesNo::ActivityMsgBoxYesNo(	AppCommon&		app,
 
 	connect( ui.m_AcceptButton, SIGNAL(clicked()), this, SLOT(accept()) );
 	connect( ui.m_CancelButton, SIGNAL(clicked()), this, SLOT(reject()) );
-    this->setFocus(); // required for android or just shuts down when prompting are you an adult
-    ui.m_AcceptButton->setFocus();
 }
 
 //============================================================================
@@ -80,4 +78,10 @@ void ActivityMsgBoxYesNo::makeNeverShowAgainVisible( bool makeVisible )
 bool ActivityMsgBoxYesNo::wasNeverShowAgainChecked( void )
 {
 	return ui.m_NeverShowAgainCheckBox->isChecked();
+}
+
+//============================================================================
+void ActivityMsgBoxYesNo::onBackButtonClicked( void )
+{
+	// do nothing.. must accept or cancel
 }

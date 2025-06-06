@@ -12,7 +12,7 @@
 
 #include "AppCommon.h"
 #include "AppGlobals.h"
-#include "ActivityInformation.h"
+#include "AppletInformation.h"
 #include "AppletBase.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
@@ -163,14 +163,15 @@ EFriendState PermissionListItem::getPermissionLevel( void )
 //============================================================================
 void PermissionListItem::slotShowPermissionInformation()
 {
-    ActivityInformation * activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypePermission );
+    AppletInformation * activityInfo = new AppletInformation( m_MyApp, this, eInfoTypePermission );
     activityInfo->show();
 }
 
 //============================================================================
 void PermissionListItem::slotShowPluginInformation()
 {
-    ActivityInformation * activityInfo = new ActivityInformation( m_MyApp, this, m_PluginType );
+    AppletInformation * activityInfo = new AppletInformation( m_MyApp, this );
+    activityInfo->setPluginType( m_PluginType );
     activityInfo->show();
 }
 

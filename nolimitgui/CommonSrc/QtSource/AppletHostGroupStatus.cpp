@@ -10,7 +10,7 @@
 
 #include "AppletHostGroupStatus.h"
 
-#include "ActivityInformation.h"
+#include "AppletInformation.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
@@ -106,7 +106,7 @@ void AppletHostGroupStatus::slotUpdateStatusTimeout()
 //============================================================================
 void AppletHostGroupStatus::slotHostRequirementsButtonClicked()
 {
-    ActivityInformation* activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeIgnoredList );
+    AppletInformation* activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeIgnoredList );
     if( activityInfo )
     {
         activityInfo->show();

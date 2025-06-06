@@ -351,5 +351,6 @@
         <file>Resources/teletext.ttf</file>
         <file>Resources/ic_cam_disabled.png</file>
         <file>Resources/friend-request-list.svg</file>
+        <file>Resources/hashtag.svg</file>
     </qresource>
 </RCC>

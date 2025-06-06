@@ -55,7 +55,6 @@
 class AccountMgr;
 
 class ActivityBase;
-class ActivityCreateAccount;
 class ActivityShowHelp;
 class ActivityOfferListDlg;
 
@@ -558,11 +557,11 @@ public:
     virtual void				toGuiFileList( VxGUID& appInstId, FileInfo& fileInfo ) override;
     virtual void				toGuiFileListCompleted( VxGUID& appInstId ) override;
     //=== to gui search ===//
-    virtual void				toGuiScanResultSuccess( EScanType eScanType, VxNetIdent* netIdent ) override;
-    virtual void				toGuiSearchResultError( EScanType eScanType, VxNetIdent* netIdent, int errCode ) override;
-    virtual void				toGuiScanSearchComplete( EScanType eScanType ) override;
+    //virtual void				toGuiScanResultSuccess( EScanType eScanType, VxNetIdent* netIdent ) override;
+    //virtual void				toGuiSearchResultError( EScanType eScanType, VxNetIdent* netIdent, int errCode ) override;
+    //virtual void				toGuiScanSearchComplete( EScanType eScanType ) override;
 
-    virtual void				toGuiSearchResultProfilePic( VxNetIdent* netIdent, uint8_t* pu8JpgData, uint32_t u32JpgDataLen ) override;
+    //virtual void				toGuiSearchResultProfilePic( VxNetIdent* netIdent, uint8_t* pu8JpgData, uint32_t u32JpgDataLen ) override;
 
     virtual void				toGuiSearchResultFileSearch( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo ) override;
 
@@ -714,9 +713,9 @@ signals:
     void                        signalInternalToGuiUpdateIdent( VxNetIdent netIdent );
     void                        signalInternalToGuiSaveMyIdent( VxNetIdent netIdent );
 
-    void                        signalInternalToGuiScanSearchComplete( EScanType eScanType );
-    void                        signalInternalToGuiScanResultSuccess( EScanType eScanType, VxNetIdent netIdent );
-    void                        signalInternalToGuiSearchResultError( EScanType eScanType, VxNetIdent netIdent, int errCode );
+    //void                        signalInternalToGuiScanSearchComplete( EScanType eScanType );
+    //void                        signalInternalToGuiScanResultSuccess( EScanType eScanType, VxNetIdent netIdent );
+    //void                        signalInternalToGuiSearchResultError( EScanType eScanType, VxNetIdent netIdent, int errCode );
 
     void                        signalInternalNetworkIsTested( bool requiresRelay, QString ipAddr, uint16_t ipPort );
 
@@ -783,10 +782,6 @@ private slots:
     void                        slotInternalToGuiUpdateIdent( VxNetIdent netIdent );
     void                        slotInternalToGuiSaveMyIdent( VxNetIdent netIdent );
 
-    void                        slotInternalToGuiScanSearchComplete( EScanType eScanType );
-    void                        slotInternalToGuiScanResultSuccess( EScanType eScanType, VxNetIdent netIdent );
-    void                        slotInternalToGuiSearchResultError( EScanType eScanType, VxNetIdent netIdent, int errCode );
-
     void						slotInternalWantMicrophoneRecording( EAppModule appModule, bool wantMicInput );
     void                        slotInternalWantUserVoiceMicrophone( EAppModule appModule, VxGUID onlineId, bool wantMicInput );
 
@@ -827,13 +822,14 @@ protected slots:
     void						slotNetworkStateChanged( ENetworkStateType eNetworkState );
 
     void						onMenuFileSelected( int iMenuId, PopupMenu* popupMenu, ActivityBase* contentFrame );
-    void						onMenuSearchSelected( int iMenuId, PopupMenu* popupMenu, ActivityBase* contentFrame );
 
     void						onOncePerSecond( void );
 
     void						onUpdateMyIdent( VxNetIdent* poMyIdent );
 
     void						slotGuiStartupTimer( void );
+
+    void						slotAccountCreated( bool wasCreated );
 
 protected:
     void                        connectSignals( void );
@@ -853,6 +849,8 @@ protected:
     bool                        isReadyToLaunchAfterLogonApplets( void );
 
     void                        checkReadyToConnectToLastConnectedHost( void );
+
+    void                        showCreateAccount( void );
 
     //=== vars ===//
     QApplication&               m_QApp;
@@ -896,7 +894,6 @@ protected:
 
     HomeWindow*					m_HomeWindow{ nullptr };
 
-    ActivityCreateAccount*      m_CreateAccountDlg{ nullptr };
     ActivityShowHelp*           m_ActivityShowHelpDlg{ nullptr };
 
     AppletMultiMessenger*       m_AppletMultiMessenger{ nullptr };

@@ -10,7 +10,6 @@
 
 #include "AppletSettingsHostNetwork.h"
 
-#include "ActivityInformation.h"
 #include "AppCommon.h"
 #include "GuiHelpers.h"
 

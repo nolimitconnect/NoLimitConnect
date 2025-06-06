@@ -20,7 +20,7 @@ namespace Ui {
 QT_END_NAMESPACE
 
 class AppCommon;
-class ActivityInformation;
+class AppletInformation;
 
 class InformationWidget : public QWidget
 {
@@ -41,6 +41,6 @@ protected:
 
     Ui::InformationWidgetUi&	ui;
     AppCommon&                  m_MyApp;
-    ActivityInformation *       m_ActivityInfo = nullptr;
+    AppletInformation *         m_ActivityInfo = nullptr;
     EPluginType                 m_PluginType = ePluginTypeInvalid;
 };

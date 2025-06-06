@@ -1044,7 +1044,7 @@ void ConnectionMgr::handleConnectSuccess( BigListInfo * bigListInfo, std::shared
 
         if( eConnectReasonRandomConnectJoin == connectReason )
         {
-            m_Engine.getToGui().toGuiScanResultSuccess( eScanTypeRandomConnect, bigListInfo );
+            //m_Engine.getToGui().toGuiScanResultSuccess( eScanTypeRandomConnect, bigListInfo );
         }
     }
 }

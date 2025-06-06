@@ -115,6 +115,7 @@ friend-request-list.svg (modified)
 flask.svg
 group-info.svg (modified)
 group-joined.svg
+hashtag.svg
 image-rotate.svg (modified)
 invite.svg
 key-disabled.svg

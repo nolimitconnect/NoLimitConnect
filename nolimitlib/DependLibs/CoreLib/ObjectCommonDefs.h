@@ -11,20 +11,14 @@
 
 #define OBJNAME_ACTIVITY_ABOUT							"ActivityAbout"
 #define OBJNAME_ACTIVITY_BROWSE_FILES					"ActivityBrowseFiles"
-#define OBJNAME_ACTIVITY_CREATE_ACCOUNT					"ActivityCreateAccount"
 #define OBJNAME_ACTIVITY_DOWNLOAD_ITEM_MENU				"ActivityDownloadItemMenu"
 #define OBJNAME_ACTIVITY_DOWNLOADS						"AppletDownloads"
 #define OBJNAME_ACTIVITY_FILE_SEARCH					"ActivityFileSearch"
 #define OBJNAME_ACTIVITY_GENERATE_HASH					"ActivityGenerateHash"
-#define OBJNAME_ACTIVITY_INFORMATION					"ActivityInformation"
 #define OBJNAME_ACTIVITY_MESSAGE_BOX					"ActivityMessageBox"
 #define OBJNAME_ACTIVITY_MSG_BOX_OK						"ActivityMsgBoxOk"
 #define OBJNAME_ACTIVITY_MSG_BOX_YES_NO					"ActivityMsgBoxYesNo"
 #define OBJNAME_ACTIVITY_PERSONAL_RECORDER				"ActivityPersonalRecorder"
-#define OBJNAME_ACTIVITY_PEOPLE_SEARCH					"ActivityScanPeopleSearch"
-#define OBJNAME_ACTIVITY_SCAN_PROFILES					"ActivityScanProfiles"
-#define OBJNAME_ACTIVITY_SCAN_STORYBOARDS				"ActivityScanStoryBoards"
-#define OBJNAME_ACTIVITY_SCAN_WEB_CAMS					"ActivityScanWebCams"
 #define OBJNAME_ACTIVITY_SELECT_FILE_TO_SEND			"ActivitySelectFileToSend"
 #define OBJNAME_ACTIVITY_SESSION_FILE_OFFER				"ActivitySessionFileOffer"
 #define OBJNAME_ACTIVITY_SESSION_OPTIONS				"ActivitySessionOptions"
@@ -54,7 +48,6 @@
 #define OBJNAME_APPLET_CAM_CLIP_PLAYER		            "AppletPlayerCamClip"
 #define OBJNAME_APPLET_CAM_CLIENT		                "AppletCamClient"
 #define OBJNAME_APPLET_CAM_SETTINGS		                "AppletCamSettings"
-
 #define OBJNAME_APPLET_CHAT_ROOM_CLIENT				    "AppletChatRoomClient"
 #define OBJNAME_APPLET_CHAT_ROOM_JOIN			        "AppletChatRoomJoin"
 #define OBJNAME_APPLET_CHAT_ROOM_JOIN_SEARCH			"AppletChatRoomJoinSearch"
@@ -63,6 +56,7 @@
 #define OBJNAME_APPLET_CHOOSE_THUMBNAIL					"AppletChooseThumbnail"
 #define OBJNAME_APPLET_CHOOSE_HOST						"AppletChooseHost"
 #define OBJNAME_APPLET_CHOOSE_HOST_ADMIN_OR_SEARCH		"AppletChooseHostAdminOrSearch"
+#define OBJNAME_APPLET_CREATE_ACCOUNT					"AppletCreateAccount"
 
 #define OBJNAME_APPLET_EDIT_ABOUT_ME					"AppletEditAboutMe"
 #define OBJNAME_APPLET_EDIT_AVATAR_IMAGE				"AppletEditAvatarImage"
@@ -99,6 +93,7 @@
 
 #define OBJNAME_APPLET_IGNORED_HOSTS					"AppletIgnoredHosts"
 
+#define OBJNAME_APPLET_INFORMATION						"AppletInformation"
 #define OBJNAME_APPLET_INVITE_CREATE					"AppletInviteCreate"
 #define OBJNAME_APPLET_INVITE_ACCEPT					"AppletInviteAccept"
 

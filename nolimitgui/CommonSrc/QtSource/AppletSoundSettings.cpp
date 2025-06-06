@@ -10,7 +10,6 @@
 
 #include "AppletSoundSettings.h"
 
-#include "ActivityInformation.h"
 #include "ActivityMessageBox.h"
 #include "ActivityMsgBoxOk.h"
 

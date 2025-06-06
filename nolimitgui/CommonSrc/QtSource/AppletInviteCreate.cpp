@@ -11,7 +11,7 @@
 #include "AppletInviteCreate.h"
 
 #include "AppletMgr.h"
-#include "ActivityInformation.h"
+#include "AppletInformation.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
@@ -101,6 +101,6 @@ bool AppletInviteCreate::setInviteType( EHostType hostType )
 //============================================================================
 void AppletInviteCreate::slotInviteInfoButtonClicked( void )
 {
-    ActivityInformation * activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeWhatIsAInvite );
+    AppletInformation * activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeWhatIsAInvite );
     activityInfo->show();
 }

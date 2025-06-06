@@ -10,7 +10,7 @@
 
 #include "AppletFriendList.h"
 
-#include "ActivityInformation.h"
+#include "AppletInformation.h"
 
 #include "AppCommon.h"
 #include "AppGlobals.h"
@@ -238,7 +238,7 @@ void AppletFriendList::slotOfflineButtonClicked( void )
 //============================================================================
 void AppletFriendList::slotIgnoredInfoButtonClicked( void )
 {
-    ActivityInformation* activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeIgnoredList );
+    AppletInformation* activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeIgnoredList );
     if( activityInfo )
     {
         activityInfo->show();
@@ -248,7 +248,7 @@ void AppletFriendList::slotIgnoredInfoButtonClicked( void )
 //============================================================================
 void AppletFriendList::slotFriendsInfoButtonClicked( void )
 {
-    ActivityInformation* activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeFriendsList );
+    AppletInformation* activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeFriendsList );
     if( activityInfo )
     {
         activityInfo->show();
@@ -258,7 +258,7 @@ void AppletFriendList::slotFriendsInfoButtonClicked( void )
 //============================================================================
 void AppletFriendList::slotOfflineInfoButtonClicked( void )
 {
-    ActivityInformation* activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeOfflineList );
+    AppletInformation* activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeOfflineList );
     if( activityInfo )
     {
         activityInfo->show();

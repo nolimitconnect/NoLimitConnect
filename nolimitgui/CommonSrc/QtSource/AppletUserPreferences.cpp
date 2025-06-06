@@ -10,7 +10,7 @@
 
 #include "AppletUserPreferences.h"
 
-#include "ActivityInformation.h"
+#include "AppletInformation.h"
 #include "AppGlobals.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
@@ -114,7 +114,7 @@ void AppletUserPreferences::slotCancel( void )
 //============================================================================
 void AppletUserPreferences::slotMaxMsgHistoryInfoButtonClicked( void )
 {
-    ActivityInformation* activityInfo = new ActivityInformation( m_MyApp, this, eInfoTypeMaxMessageHistory );
+    AppletInformation* activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeMaxMessageHistory );
     if( activityInfo )
     {
         activityInfo->show();

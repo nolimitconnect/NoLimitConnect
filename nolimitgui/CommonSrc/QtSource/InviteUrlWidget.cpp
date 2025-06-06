@@ -10,7 +10,7 @@
 
 #include "InviteUrlWidget.h"
 
-#include "ActivityInformation.h"
+#include "AppletInformation.h"
 #include "AppCommon.h"
 #include "AppletTestHostClient.h"
 #include "GuiHelpers.h"
@@ -94,7 +94,7 @@ void InviteUrlWidget::setupInvite( bool createInvite )
 //============================================================================
 void InviteUrlWidget::slotNetworkSettingsInfoButtonClicked( void )
 {
-    ActivityInformation* activityInfo = new ActivityInformation( m_MyApp, parentWidget(), eInfoTypeNetworkSettingsInvite );
+    AppletInformation* activityInfo = new AppletInformation( m_MyApp, parentWidget(), eInfoTypeNetworkSettingsInvite );
     activityInfo->show();
 }
 

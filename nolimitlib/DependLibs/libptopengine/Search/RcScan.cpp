@@ -280,7 +280,7 @@ void RcScan::onPktScanReply( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& s
 				|| ( eScanTypeMoodMsgSearch == m_eScanType )
 				|| ( eScanTypeCamServer == m_eScanType ) )
 			{
-				m_Engine.getToGui().toGuiScanResultSuccess( m_eScanType, netIdent );
+				//m_Engine.getToGui().toGuiScanResultSuccess( m_eScanType, netIdent );
 			}
 			else
 			{
@@ -335,7 +335,7 @@ void RcScan::onScanResultProfilePic( VxNetIdent* netIdent, std::shared_ptr<VxSkt
 void RcScan::scanComplete( void )
 {
 	fromGuiStopScan( m_eScanType );
-	m_Engine.getToGui().toGuiScanSearchComplete( m_eScanType );
+	//m_Engine.getToGui().toGuiScanSearchComplete( m_eScanType );
 }
 
 //============================================================================
