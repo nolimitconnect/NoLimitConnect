@@ -83,10 +83,6 @@ void InviteUrlWidget::setupInvite( bool createInvite )
     }
     else
     {
-        //ui.m_ChatRoomButton->setVisible( true );
-        //ui.m_GroupButton->setVisible( true );
-        //ui.m_RandomConnectButton->setVisible( true );
-        //ui.m_NetworkButton->setVisible( true );
         ui.m_InviteTextLabel->setText( QObject::tr( "Pasted invite text" ) );
     }
 }

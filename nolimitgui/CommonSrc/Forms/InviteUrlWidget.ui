@@ -75,13 +75,6 @@
       <item>
        <widget class="QCheckBox" name="m_PersonalCheckBox">
         <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="m_PersionalUrlLabel">
-        <property name="text">
          <string>Personal</string>
         </property>
        </widget>
@@ -119,13 +112,6 @@
       </property>
       <item>
        <widget class="QCheckBox" name="m_GroupCheckBox">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="m_GroupUrlLabel">
         <property name="text">
          <string>Group</string>
         </property>
@@ -165,13 +151,6 @@
       <item>
        <widget class="QCheckBox" name="m_ChatRoomCheckBox">
         <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="m_ChatRoomUrlLabel">
-        <property name="text">
          <string>Chat Room</string>
         </property>
        </widget>
@@ -209,13 +188,6 @@
       </property>
       <item>
        <widget class="QCheckBox" name="m_RandomConnectCheckBox">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="m_RandomConnectUrlLabel">
         <property name="text">
          <string>Random Connect</string>
         </property>
@@ -269,7 +241,7 @@
       <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
+         <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -297,7 +269,11 @@
     </widget>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="m_InviteTextEdit"/>
+    <widget class="QPlainTextEdit" name="m_InviteTextEdit">
+     <property name="backgroundVisible">
+      <bool>false</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

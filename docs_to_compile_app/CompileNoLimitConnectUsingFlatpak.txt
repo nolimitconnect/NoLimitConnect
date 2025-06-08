@@ -7,7 +7,7 @@ git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
 cd nolimitapp
 
 === allow flatpak submodules (required for GL/glu lib) ===
-git submodule add https://github.com/flathub/shared-modules.git -f
+git submodule add -f https://github.com/flathub/shared-modules.git
 
 === build nolimitconnect ===
 
