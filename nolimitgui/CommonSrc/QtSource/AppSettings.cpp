@@ -109,7 +109,7 @@ void AppSettings::setLastBrowseFilter( EFileFilterType fileFilterType )
 EFileFilterType AppSettings::getLastBrowseFilter( void )
 {
 	int32_t filterType = 0;
-	getIniValue( getAppShortName(), "LastBrowseFilter", filterType, (int)eFileFilterVideo );
+	getIniValue( getAppShortName(), "LastBrowseFilter", filterType, (int)eFileFilterAll );
 	return (EFileFilterType)filterType;	
 }
 
@@ -124,7 +124,7 @@ void AppSettings::setLastFileOfferFilter( EFileFilterType fileFilterType )
 EFileFilterType AppSettings::getLastFileOfferFilter( void )
 {
 	int32_t filterType = 0;
-	getIniValue( getAppShortName(), "LastFileOfferFilter", filterType, (int)eFileFilterVideo );
+	getIniValue( getAppShortName(), "LastFileOfferFilter", filterType, (int)eFileFilterAll );
 	return (EFileFilterType)filterType;	
 }
 
@@ -139,7 +139,7 @@ void AppSettings::setLastFileShareViewFilter( EFileFilterType fileFilterType )
 EFileFilterType AppSettings::getLastFileShareViewFilter( void )
 {
 	int32_t filterType = 0;
-	getIniValue( getAppShortName(), "LastShareViewFilter", filterType, (int)eFileFilterVideo );
+	getIniValue( getAppShortName(), "LastShareViewFilter", filterType, (int)eFileFilterAll );
 	return (EFileFilterType)filterType;	
 }
 
@@ -154,7 +154,7 @@ void AppSettings::setLastLibraryFilter( EFileFilterType fileFilterType )
 EFileFilterType AppSettings::getLastLibraryFilter( void )
 {
 	int32_t filterType = 0;
-	getIniValue( getAppShortName(), "LastLibraryFilter", filterType, (int)eFileFilterVideo );
+	getIniValue( getAppShortName(), "LastLibraryFilter", filterType, (int)eFileFilterAll );
 	return (EFileFilterType)filterType;	
 }
 

@@ -12,8 +12,12 @@ Note: Using Ubuntu 22.04 there seems to be some qt ssl issuses when configuring 
 	sudo apt install git	
 6.) Other Qt specifically required for online installer
 	a. sudo apt install build-essential
-	b. sudo apt install -y libxcb-xinerama0
-	c. sudo apt install -y libxcb-cursor0
+	b. to minimize install size you can try 
+		sudo apt install -y libxcb-xinerama0
+		sudo apt install -y libxcb-cursor0
+	  or to make sure you do not run into qt installer errors you can do
+	    sudo apt install libxcb-*
+	   
 7.) Optional if you plan on compiling using the docker image
 	a. sudo apt install docker
 	Give current user docker login privileges (optional)
@@ -30,7 +34,8 @@ Run the installer.
 When you see the installation folder dialog leave the path at default by check developement boxes
 
 You may need to run the maintenance tool and install the appropriate qt versions. 
-At the time of this writing Qt verion is 6.6.3
+At the time of this writing the prefered Qt verion is 6.6.3 (6.7.3 for Raspberry Pi only)
+Most versions of Qt higher than 6.6.3 are unsuitable for android because of bug QTBUG-137407
 	
 === compile enviroment issues ===
 NOTE: on Ubuntu you will likely see these errors. if packages are not found you are probably not running x11 and is normal
@@ -46,19 +51,17 @@ NOTE: on Ubuntu you will likely see these errors. if packages are not found you 
 	sudo apt install libxcb-* 
 
 === To build Android on Linux ===
-Java must be installed first and JAVA_HOME enviroment variable set
 According to qt the openjdk version can be from 11 or higher but really 11 breaks the qt configure so use 17
 
-mkdir Android
 sudo apt-get install openjdk-17-jdk
-export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-make JAVA_HOME permanent by adding export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 to your ~/.bashrc or appropriate file 
 
 The preferred method of setting up Android is within QCreator
+You can follow the prompts when QCreator is first opened.
+
+If you have dismissed the prompt then another way is:
 In QCreator pick a project from the Welcome screen (opengl2 is preferred as it will test that opengl works)
-In the configure page you will see Android has a yellow triangle.
-click android Details then click button Configure
-It should auto configure but if not you will have to try the manual steps you can find at the qt website
+Click Projects then Manage Kits then SDKs then Android Tab
+Follow the prompts
 
 
 

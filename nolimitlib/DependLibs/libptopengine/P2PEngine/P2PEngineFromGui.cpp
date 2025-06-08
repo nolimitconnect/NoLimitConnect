@@ -1,3 +1,4 @@
+
 //============================================================================
 // Copyright (C) 2009 Brett R. Jones 
 //
@@ -713,7 +714,7 @@ bool P2PEngine::isDirectConnectTested( void )
 }
 
 //============================================================================
-bool P2PEngine::getIsMyHostServiceEnabled( EHostServiceType hostService )
+bool P2PEngine::getIsMyHostServiceEnabled( enum EHostServiceType hostService )
 {
     switch( hostService )
     {
@@ -732,7 +733,7 @@ bool P2PEngine::getIsMyHostServiceEnabled( EHostServiceType hostService )
 }
 
 //============================================================================
-bool P2PEngine::getIsMyHostServiceEnabled( EHostType hostService )
+bool P2PEngine::getIsMyHostServiceEnabled( enum EHostType hostService )
 {
 	switch( hostService )
 	{

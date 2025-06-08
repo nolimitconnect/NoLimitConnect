@@ -22,6 +22,7 @@
 #include <UrlMgr/UrlMgr.h>
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxPtopUrl.h>
 #include <CoreLib/VxSktUtil.h>
 #include <CoreLib/VxTime.h>
 #include <CoreLib/VxUrl.h>
@@ -286,6 +287,28 @@ void ConnectionMgr::applyDefaultHostUrl( EHostType hostType, std::string& hostUr
     lockConnectionList();
     m_DefaultHostUrlList[hostType] = hostUrl;
     unlockConnectionList();
+
+    VxPtopUrl ptopUrl( hostUrlIn );
+    if( ptopUrl.isValid() && ptopUrl.getOnlineId().isVxGUIDValid() )
+    {
+        // the onlie id was given as part of the url.. no need to query the online id
+        VxUrl parsedUrl( hostUrl.c_str() );
+        if( parsedUrl.validateUrl( false ) )
+        {
+            VxGUID onlineId = ptopUrl.getOnlineId();
+            lockConnectionList();
+            m_DefaultHostIdList[hostType] = onlineId;
+            unlockConnectionList();
+            updateUrlCache( hostUrl, onlineId );
+            m_Engine.getUrlMgr().updateUrlCache( hostUrl, onlineId );
+            if( hostType != eHostTypeUnknown )
+            {
+                std::string resolvedUrl = m_Engine.getUrlMgr().resolveUrl( hostUrl );
+                m_Engine.getHostUrlListMgr().updateHostUrl( hostType, onlineId, resolvedUrl );
+                return;
+            }
+        }
+    }
 
     VxUrl parsedUrl( hostUrl.c_str() );
     if( parsedUrl.validateUrl( false ) )

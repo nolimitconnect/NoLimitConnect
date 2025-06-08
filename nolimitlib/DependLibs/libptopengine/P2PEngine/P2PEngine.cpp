@@ -422,7 +422,7 @@ bool P2PEngine::setPluginSetting( PluginSetting& pluginSetting )
 }
 
 //============================================================================
-bool P2PEngine::getPluginSetting( EPluginType pluginType, PluginSetting& pluginSetting )
+bool P2PEngine::getPluginSetting( enum EPluginType pluginType, PluginSetting& pluginSetting )
 {
     if( ( ePluginTypeInvalid < pluginType ) && ( eMaxPluginType > pluginType ) )
     {
@@ -608,7 +608,7 @@ void P2PEngine::onNetworkConnectionReady( bool requiresRelay, std::string& ipAdd
 
 //============================================================================
 // true if user is member of same host as I am
-bool P2PEngine::isMemberGuest( EPluginType pluginType, VxGUID& onlineId )
+bool P2PEngine::isMemberGuest( enum EPluginType pluginType, VxGUID& onlineId )
 {
 	// TODO BRJ determine if user is a guest member of either my hosted service or a hosted service I joined
 	return true;
