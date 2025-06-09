@@ -832,7 +832,7 @@ std::string EngineSettings::fromGuiQueryDefaultUrl( EHostType hostType )
 }
 
 //============================================================================
-bool EngineSettings::fromGuiSetDefaultUrl( EHostType hostType, std::string& hostUrl )
+bool EngineSettings::fromGuiSetDefaultUrl( enum EHostType hostType, std::string& hostUrl )
 {
     vx_assert( m_Initialized );
     if( hostUrl.empty() )

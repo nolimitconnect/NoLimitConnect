@@ -20,8 +20,8 @@
 #include <array>
 
 //============================================================================
-void P2PEngine::hackerOffense(  EHackerLevel	hackerLevel,
-                                EHackerReason   hackerReason,
+void P2PEngine::hackerOffense( enum EHackerLevel	hackerLevel,
+                                enum EHackerReason   hackerReason,
                                 InetAddress		ipAddr,					// ip address if identity not known
                                 VxGUID          signatureGuid,		// users identity info ( may be null if not known then use ipAddress )
                                 const char*     pMsg, ... )			// message about the offense
@@ -47,8 +47,8 @@ void P2PEngine::hackerOffense(  EHackerLevel	hackerLevel,
 
 //============================================================================
 //! called if hacker offense is detected
-void P2PEngine::hackerOffense(	EHackerLevel	hackerLevel,			
-                                EHackerReason	hackerReason,	
+void P2PEngine::hackerOffense( enum EHackerLevel	hackerLevel,
+                                enum EHackerReason	hackerReason,
                                 VxNetIdent*	    poContactIdent,			// users identity info ( may be null if not known then use ipAddress )                             
 								InetAddress		IpAddr,					// ip address if identity not known
 								const char*	    pMsg, ... )				// message about the offense
@@ -81,8 +81,8 @@ void P2PEngine::hackerOffense(	EHackerLevel	hackerLevel,
 
 //============================================================================
 //! called if hacker offense is detected
-void P2PEngine::hackerOffense(	EHackerLevel	hackerLevel,			    
-                                EHackerReason   hackerReason,
+void P2PEngine::hackerOffense( enum EHackerLevel	hackerLevel,
+                                enum EHackerReason   hackerReason,
                                 VxPktHdr*       pktHdr,		
                                 std::shared_ptr<VxSktBase>&      sktBase,
                                 const char*	    pMsg, ... )				// message about the offense

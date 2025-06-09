@@ -98,6 +98,12 @@ void PluginNetworkHost::fromGuiListAction( EListAction listAction )
 }
 
 //============================================================================
+int PluginNetworkHost::getAnnouncedHostCount( EHostType hostType )
+{
+    return m_HostServerMgr.getAnnouncedHostCount( hostType );
+}
+
+//============================================================================
 void PluginNetworkHost::onPktHostInviteSearchReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostServerMgr.onPktHostInviteSearchReq( sktBase, pktHdr, netIdent );

@@ -37,6 +37,8 @@ public:
     HostServerSearchMgr( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, PluginBase& pluginBase );
 	virtual ~HostServerSearchMgr() = default;
 
+    int                         getAnnouncedHostCount( EHostType hostType );
+
     void                        updateHostSearchList( EHostType hostType, PktHostInviteAnnounceReq* hostAnn, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 
     virtual ECommErr            searchRequest( SearchParams& searchParams, PktHostSearchReply& searchReply, std::string& searchStr, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );

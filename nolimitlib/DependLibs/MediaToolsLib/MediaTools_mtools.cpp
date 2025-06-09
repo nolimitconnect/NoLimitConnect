@@ -57,19 +57,19 @@ bool MediaTools::fromGuiIsNoLimitAudioFile( const char* fileName )
 }
 
 //============================================================================
-bool MediaTools::fromGuiSndRecord( ESndRecordState eRecState, VxGUID& feedId, const char* fileName )
+bool MediaTools::fromGuiSndRecord( enum ESndRecordState eRecState, VxGUID& feedId, const char* fileName )
 {
 	return m_AudioWriter.fromGuiSndRecord( eRecState, feedId, fileName );
 }
 
 //============================================================================
-bool MediaTools::fromGuiVideoRecord( EVideoRecordState eRecState, VxGUID& feedId, const char* fileName  )
+bool MediaTools::fromGuiVideoRecord( enum EVideoRecordState eRecState, VxGUID& feedId, const char* fileName  )
 {
 	return m_VideoWriter.fromGuiVideoRecord( eRecState, feedId, fileName );
 }
 
 //============================================================================
-bool MediaTools::fromGuiAssetAction( AssetBaseInfo& assetInfo, EAssetAction assetAction, int pos0to100000 )
+bool MediaTools::fromGuiAssetAction( AssetBaseInfo& assetInfo, enum EAssetAction assetAction, int pos0to100000 )
 {
 	bool result = false;
 	switch( assetAction )

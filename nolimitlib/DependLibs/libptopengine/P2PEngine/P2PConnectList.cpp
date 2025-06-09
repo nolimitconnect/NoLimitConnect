@@ -41,9 +41,9 @@ P2PConnectList::P2PConnectList( P2PEngine& engine )
 }
 
 //============================================================================
-void P2PConnectList::fromGuiChangeMyFriendshipToHim(	const VxGUID&	oOnlineId,
-														EFriendState	eMyFriendshipToHim,
-														EFriendState	eHisFriendshipToMe )
+void P2PConnectList::fromGuiChangeMyFriendshipToHim(	const VxGUID&		oOnlineId,
+														enum EFriendState	eMyFriendshipToHim,
+														enum EFriendState	eHisFriendshipToMe )
 {
 	connectListLock();
 	RcConnectInfo * poInfo = findConnection( oOnlineId, true );

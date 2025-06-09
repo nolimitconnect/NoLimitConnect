@@ -296,6 +296,7 @@ public:
 												const char*				testParam3 = nullptr ) = 0;
 
 	virtual int					fromGuiGetJoinedListCount( EPluginType pluginType ) = 0;
+	virtual int					fromGuiGetAnnouncedHostCount( EHostType hostType ) = 0;
 	virtual void				fromGuiListAction( EListAction listAction ) = 0;
 	virtual std::string			fromGuiQueryDefaultUrl( EHostType hostType, bool ignoreMyself = false ) = 0;
 	virtual bool				fromGuiSetDefaultUrl( EHostType hostType, std::string& hostUrl ) = 0;

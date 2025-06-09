@@ -138,7 +138,7 @@ void P2PEngine::broadcastSystemPkt( VxPktHdr* pkt, VxGUIDList& retIdsSentPktTo )
 }
 
 //============================================================================
-bool P2PEngine::txPluginPkt( 	EPluginType			pluginType, 
+bool P2PEngine::txPluginPkt( enum EPluginType			pluginType,
 								VxNetIdentBase *	netIdent, 
 								std::shared_ptr<VxSktBase>&			sktBase, 
 								VxPktHdr*			poPkt  )

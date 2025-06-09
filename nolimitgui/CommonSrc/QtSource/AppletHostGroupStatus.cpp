@@ -77,6 +77,12 @@ AppletHostGroupStatus::~AppletHostGroupStatus()
 void AppletHostGroupStatus::slotUpdateStatusTimeout()
 {
     bool haveOpenPort = m_MyApp.getEngine().getNetStatusAccum().isRxPortOpen();
+    if( haveOpenPort )
+    {
+        ui.m_VpnEvalLlabel->setVisible( false );
+        ui.m_WebsiteWidget->setVisible( false );
+    }
+
     bool groupHostEnabled = m_MyApp.getAppGlobals().getMyNetIdent()->getPluginPermission( ePluginTypeHostGroup ) != eFriendStateIgnore;
     bool connectTestEnabled = m_MyApp.getAppGlobals().getMyNetIdent()->getPluginPermission( ePluginTypeHostConnectTest ) != eFriendStateIgnore;
     ui.m_OpenPortCheckBox->setChecked( haveOpenPort );

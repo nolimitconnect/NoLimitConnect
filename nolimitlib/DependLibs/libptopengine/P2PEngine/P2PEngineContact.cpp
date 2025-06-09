@@ -222,7 +222,7 @@ int P2PEngine::toGuiSendIgnoreList( int iSentCnt, int iMaxSendCnt )
 
 //============================================================================
 //! send all friends for view
-void P2PEngine::fromGuiSendContactList( EFriendViewType eFriendView, int maxContactsToSend )
+void P2PEngine::fromGuiSendContactList( enum EFriendViewType eFriendView, int maxContactsToSend )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiSendContactList" );
 	if( m_eFriendView != eFriendView )

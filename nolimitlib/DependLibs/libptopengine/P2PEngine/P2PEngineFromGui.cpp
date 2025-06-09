@@ -37,6 +37,7 @@
 #include <Plugins/PluginFileShareServer.h>
 #include <Plugins/PluginFriendRequest.h>
 #include <Plugins/PluginNetServices.h>
+#include <Plugins/PluginNetworkHost.h>
 #include <Plugins/PluginMgr.h>
 
 #include <HostServerJoinMgr/HostServerJoinMgr.h>
@@ -220,7 +221,7 @@ bool P2PEngine::fromGuiOrientationEvent( float f32RotX, float f32RotY, float f32
 
 //============================================================================
 //! called after processed HandleMouseEvent for derived classes to override
-bool P2PEngine::fromGuiMouseEvent( EMouseButtonType eMouseButType, EMouseEventType eMouseEventType, int iMouseXPos, int iMouseYPos  )
+bool P2PEngine::fromGuiMouseEvent( enum EMouseButtonType eMouseButType, EMouseEventType eMouseEventType, int iMouseXPos, int iMouseYPos  )
 {
 	return false;
 }
@@ -234,7 +235,7 @@ bool P2PEngine::fromGuiMouseWheel( float f32MouseWheelDist )
 
 //============================================================================
 //! called after processed HandleKeyEvent for derived classes to override
-bool P2PEngine::fromGuiKeyEvent( EKeyEventType eKeyEventType, EKeyCode eKey, int iFlags )
+bool P2PEngine::fromGuiKeyEvent( enum EKeyEventType eKeyEventType, EKeyCode eKey, int iFlags )
 {
 	return false;
 }
@@ -276,13 +277,13 @@ void P2PEngine::fromGuiNativeGlDestroy( void )
 }
 
 //============================================================================
-bool P2PEngine::fromGuiSndRecord( ESndRecordState eRecState, VxGUID& feedId, const char* fileName )
+bool P2PEngine::fromGuiSndRecord( enum ESndRecordState eRecState, VxGUID& feedId, const char* fileName )
 {
 	return m_MediaProcessor.getMediaTools().fromGuiSndRecord( eRecState, feedId, fileName );
 }
 
 //============================================================================
-bool P2PEngine::fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 )
+bool P2PEngine::fromGuiAssetAction( enum EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 )
 {
 	AssetBaseInfo* createdAssetInfo = nullptr;
 	if( eAssetActionAddAssetAndSend == assetAction && assetInfo.getPluginType() == ePluginTypePersonalRecorder )
@@ -349,7 +350,7 @@ bool P2PEngine::fromGuiAssetAction( EAssetAction assetAction, AssetBaseInfo& ass
 }
 
 //============================================================================
-bool P2PEngine::fromGuiQueueAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 )
+bool P2PEngine::fromGuiQueueAssetAction( enum EAssetAction assetAction, AssetBaseInfo& assetInfo, int pos0to100000 )
 {
 	assetInfo.setAssetSendState( eAssetSendStateQueued );
 	AssetBaseInfo* createdAssetInfo = nullptr;
@@ -363,7 +364,7 @@ bool P2PEngine::fromGuiQueueAssetAction( EAssetAction assetAction, AssetBaseInfo
 }
 
 //============================================================================
-bool P2PEngine::fromGuiAssetAction( EPluginType pluginType, EAssetAction assetAction, VxGUID& assetId, int pos0to100000 )
+bool P2PEngine::fromGuiAssetAction( enum EPluginType pluginType, enum EAssetAction assetAction, VxGUID& assetId, int pos0to100000 )
 {
 	if( eAssetActionAddToAssetMgr == assetAction )
 	{
@@ -540,21 +541,21 @@ void P2PEngine::fromGuiUpdateWebPageProfile(	const char*	pProfileDir,	// directo
 }
 
 //============================================================================
-bool P2PEngine::fromGuiStartPluginSession( EPluginType pluginType, VxGUID oOnlineId, VxGUID lclSessionId )
+bool P2PEngine::fromGuiStartPluginSession( enum EPluginType pluginType, VxGUID oOnlineId, VxGUID lclSessionId )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiStartPluginSession" );
 	return m_PluginMgr.fromGuiStartPluginSession( pluginType, oOnlineId, lclSessionId );
 }
 
 //============================================================================
-void P2PEngine::fromGuiStopPluginSession( EPluginType pluginType, VxGUID oOnlineId, VxGUID lclSessionId )
+void P2PEngine::fromGuiStopPluginSession( enum EPluginType pluginType, VxGUID oOnlineId, VxGUID lclSessionId )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiStopPluginSession" );
 	m_PluginMgr.fromGuiStopPluginSession( pluginType, oOnlineId, lclSessionId );
 }
 
 //============================================================================
-bool P2PEngine::fromGuiIsPluginInSession( EPluginType pluginType,VxGUID& onlineId, VxGUID lclSessionId )
+bool P2PEngine::fromGuiIsPluginInSession( enum EPluginType pluginType,VxGUID& onlineId, VxGUID lclSessionId )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiIsPluginInSession" );
 	if( ( false == m_IsUserSpecificDirSet ) || VxIsAppShuttingDown() )
@@ -567,7 +568,7 @@ bool P2PEngine::fromGuiIsPluginInSession( EPluginType pluginType,VxGUID& onlineI
 }
 
 //============================================================================
-void P2PEngine::fromGuiSetPluginPermission( EPluginType pluginType, EFriendState eFriendState )
+void P2PEngine::fromGuiSetPluginPermission( enum EPluginType pluginType, enum EFriendState eFriendState )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiSetPluginPermission" );
 	EFriendState eCurFriendState = m_PktAnn.getPluginPermission( pluginType );
@@ -582,14 +583,14 @@ void P2PEngine::fromGuiSetPluginPermission( EPluginType pluginType, EFriendState
 }
 
 //============================================================================
-int P2PEngine::fromGuiGetPluginPermission( EPluginType pluginType )
+int P2PEngine::fromGuiGetPluginPermission( enum EPluginType pluginType )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiGetPluginPermission" );
 	return m_PktAnn.getPluginPermission( pluginType );
 }
 
 //============================================================================
-EPluginServerState P2PEngine::fromGuiGetPluginServerState( EPluginType pluginType )
+EPluginServerState P2PEngine::fromGuiGetPluginServerState( enum EPluginType pluginType )
 {
 	if( eFriendStateIgnore == m_PktAnn.getPluginPermission( pluginType ) )
 	{
@@ -642,7 +643,7 @@ bool P2PEngine::fromGuiToPluginOfferReply( VxGUID& onlineId, OfferBaseInfo& offe
 }
 
 //============================================================================
-EXferError P2PEngine::fromGuiFileXferControl( EPluginType pluginType, EXferAction xferAction, FileInfo& fileInfo )
+EXferError P2PEngine::fromGuiFileXferControl( enum EPluginType pluginType, EXferAction xferAction, FileInfo& fileInfo )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiFileXferControl" );
 	PluginBase* poPlugin = m_PluginMgr.getPlugin( pluginType );
@@ -658,7 +659,7 @@ EXferError P2PEngine::fromGuiFileXferControl( EPluginType pluginType, EXferActio
 }
 
 //============================================================================
-bool P2PEngine::fromGuiInstMsg(	EPluginType	pluginType, VxGUID&	onlineId, const char* pMsg )
+bool P2PEngine::fromGuiInstMsg( enum EPluginType	pluginType, VxGUID&	onlineId, const char* pMsg )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiInstMsg" );
 
@@ -814,7 +815,7 @@ bool P2PEngine::fromGuiIsSpeakerMuted( void )
 }
 
 //============================================================================
-void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaType, MediaCallbackInterface * callback, EAppModule appModule, VxGUID& mediaSessionId, bool wantInput )
+void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, MediaCallbackInterface * callback, enum EAppModule appModule, VxGUID& mediaSessionId, bool wantInput )
 {
 	if( false == VxIsAppShuttingDown() )
 	{
@@ -823,7 +824,7 @@ void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaTy
 }
 
 //============================================================================
-void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaType, EAppModule appModule, VxGUID& mediaSessionId, bool wantInput )
+void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, enum EAppModule appModule, VxGUID& mediaSessionId, bool wantInput )
 {
 	if( false == VxIsAppShuttingDown() )
 	{
@@ -843,9 +844,9 @@ void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, EMediaInputType mediaTy
 }
 
 //============================================================================
-bool P2PEngine::fromGuiChangeMyFriendshipToHim(	VxGUID&			onlineId, 
-											    EFriendState	myFriendshipToHim,
-											    EFriendState	hisFriendshipToMe )
+bool P2PEngine::fromGuiChangeMyFriendshipToHim(	VxGUID&				onlineId, 
+												enum EFriendState	myFriendshipToHim,
+												enum EFriendState	hisFriendshipToMe )
 {
 	if( false == VxIsAppShuttingDown() )
 	{
@@ -1026,7 +1027,7 @@ void P2PEngine::fromGuiSetFileShareSettings( FileShareSettings& fileShareSetting
 }
 
 //============================================================================
-bool P2PEngine::fromGuiSetGameValueVar(	EPluginType		pluginType, 
+bool P2PEngine::fromGuiSetGameValueVar( enum EPluginType		pluginType,
 										VxGUID&			onlineId, 
 										int32_t			varId, 
 										int32_t			varValue )
@@ -1046,7 +1047,7 @@ bool P2PEngine::fromGuiSetGameValueVar(	EPluginType		pluginType,
 }
 
 //============================================================================
-bool P2PEngine::fromGuiSetGameActionVar(	EPluginType		pluginType, 
+bool P2PEngine::fromGuiSetGameActionVar( enum EPluginType		pluginType,
 											VxGUID&			onlineId, 
 											int32_t			varId, 
 											int32_t			varValue )
@@ -1066,7 +1067,7 @@ bool P2PEngine::fromGuiSetGameActionVar(	EPluginType		pluginType,
 }
 
 //============================================================================
-bool P2PEngine::fromGuiTestCmd(	ETestParam1		eTestParam1, 
+bool P2PEngine::fromGuiTestCmd( enum ETestParam1		eTestParam1,
 								int				testParam2, 
 								const char*		testParam3 )
 {
@@ -1236,7 +1237,7 @@ void P2PEngine::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::st
 }
 
 //============================================================================
-void P2PEngine::fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread )
+void P2PEngine::fromGuiSearchHost( enum EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread )
 {
 	if( fromThread )
 	{
@@ -1258,7 +1259,7 @@ void P2PEngine::fromGuiSearchHost( EHostType hostType, SearchParams& searchParam
 }
 
 //============================================================================
-void P2PEngine::fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId )
+void P2PEngine::fromGuiSendAnnouncedList( enum EHostType hostType, VxGUID& sessionId )
 {
 	PluginBase* plugin = m_PluginMgr.findPlugin( ePluginTypeHostNetwork );
 	if( plugin )
@@ -1415,31 +1416,44 @@ bool P2PEngine::fromGuiSendAsset( AssetBaseInfo& assetInfo )
 }
 
 //============================================================================
-bool P2PEngine::fromGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000, VxGUID lclSessionId )
+bool P2PEngine::fromGuiMultiSessionAction( enum EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000, VxGUID lclSessionId )
 {
 	return m_PluginMgr.fromGuiMultiSessionAction( mSessionAction, onlineId, pos0to100000, lclSessionId );
 }
 
 //============================================================================
-int P2PEngine::fromGuiGetJoinedListCount( EPluginType pluginType )
+int P2PEngine::fromGuiGetAnnouncedHostCount( enum EHostType hostType )
+{
+	int count{ 0 };
+	PluginNetworkHost* networkHost = dynamic_cast<PluginNetworkHost*>( m_PluginMgr.getPlugin( ePluginTypeHostNetwork ) );
+	if( networkHost )
+	{
+		count = networkHost->getAnnouncedHostCount( hostType );
+	}
+
+	return count;
+}
+
+//============================================================================
+int P2PEngine::fromGuiGetJoinedListCount( enum EPluginType pluginType )
 {
 	return getHostJoinMgr().fromGuiGetJoinedListCount( pluginType );
 }
 
 //============================================================================
-EJoinState P2PEngine::fromGuiQueryJoinState( EHostType hostType, VxNetIdent& netIdent )
+EJoinState P2PEngine::fromGuiQueryJoinState( enum EHostType hostType, VxNetIdent& netIdent )
 {
 	return getHostJoinMgr().fromGuiQueryJoinState( hostType, netIdent );
 }
 
 //============================================================================
-void P2PEngine::fromGuiListAction( EListAction listAction )
+void P2PEngine::fromGuiListAction( enum EListAction listAction )
 {
 	m_PluginMgr.fromGuiListAction( listAction );
 }
 
 //============================================================================
-std::string P2PEngine::fromGuiQueryDefaultUrl( EHostType hostType, bool ignoreMyself )
+std::string P2PEngine::fromGuiQueryDefaultUrl( enum EHostType hostType, bool ignoreMyself )
 {
 	if( !ignoreMyself )
 	{
@@ -1571,7 +1585,7 @@ bool P2PEngine::fromGuiSetDefaultUrl( EHostType hostType, std::string& hostUrl )
 }
 
 //============================================================================
-bool P2PEngine::fromGuiQueryHosts( std::string& netHostUrlIn, EHostType hostType, std::vector<HostedInfo>& hostedInfoList, VxGUID& hostIdIfNullThenAll )
+bool P2PEngine::fromGuiQueryHosts( std::string& netHostUrlIn, enum EHostType hostType, std::vector<HostedInfo>& hostedInfoList, VxGUID& hostIdIfNullThenAll )
 {
 	bool result{ false };
 	VxPtopUrl netHostUrl( netHostUrlIn );
@@ -1609,7 +1623,7 @@ bool P2PEngine::fromGuiQueryGroupiesFromHosted( VxPtopUrl& hostedUrl, EHostType 
 }
 
 //============================================================================
-bool P2PEngine::fromGuiDownloadWebPage( EWebPageType webPageType, VxGUID& onlineId )
+bool P2PEngine::fromGuiDownloadWebPage( enum EWebPageType webPageType, VxGUID& onlineId )
 {
 	bool result{ false };
 	if( eWebPageTypeAboutMe == webPageType )
@@ -1645,7 +1659,7 @@ bool P2PEngine::fromGuiDownloadWebPage( EWebPageType webPageType, VxGUID& online
 }
 
 //============================================================================
-bool P2PEngine::fromGuiCancelWebPage( EWebPageType webPageType, VxGUID& onlineId )
+bool P2PEngine::fromGuiCancelWebPage( enum EWebPageType webPageType, VxGUID& onlineId )
 {
 	bool result{ false };
 	if( eWebPageTypeAboutMe == webPageType )
@@ -1681,7 +1695,7 @@ bool P2PEngine::fromGuiCancelWebPage( EWebPageType webPageType, VxGUID& onlineId
 }
 
 //============================================================================
-void P2PEngine::fromGuiUpdatePluginPermission( EPluginType pluginType, EFriendState pluginPermission )
+void P2PEngine::fromGuiUpdatePluginPermission( enum EPluginType pluginType, enum EFriendState pluginPermission )
 {
 	lockAnnouncePktAccess();
 	m_PktAnn.setPluginPermission( pluginType, pluginPermission );
@@ -1691,7 +1705,7 @@ void P2PEngine::fromGuiUpdatePluginPermission( EPluginType pluginType, EFriendSt
 }
 
 //============================================================================
-bool P2PEngine::fromGuiDownloadFileList( EPluginType pluginType, VxGUID& onlineId, VxGUID& sessionId, uint8_t fileTypes )
+bool P2PEngine::fromGuiDownloadFileList( enum EPluginType pluginType, VxGUID& onlineId, VxGUID& sessionId, uint8_t fileTypes )
 {
 	bool result{ false };
 	PluginBase* plugin = m_PluginMgr.findPlugin( pluginType );
@@ -1708,7 +1722,7 @@ bool P2PEngine::fromGuiDownloadFileList( EPluginType pluginType, VxGUID& onlineI
 }
 
 //============================================================================
-bool P2PEngine::fromGuiDownloadFileListCancel( EPluginType pluginType, VxGUID& onlineId, VxGUID& sessionId )
+bool P2PEngine::fromGuiDownloadFileListCancel( enum EPluginType pluginType, VxGUID& onlineId, VxGUID& sessionId )
 {
 	bool result{ false };
 
@@ -1754,7 +1768,7 @@ void P2PEngine::fromGuiFileHashGenerated( std::string& fileName, int64_t fileLen
 }
 
 //============================================================================
-bool P2PEngine::fromGuiDeleteDatabase( EDatabaseType databaseType )
+bool P2PEngine::fromGuiDeleteDatabase( enum EDatabaseType databaseType )
 {
 	bool result{ false };
     switch( databaseType )

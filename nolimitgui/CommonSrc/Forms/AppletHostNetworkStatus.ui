@@ -185,18 +185,18 @@
          </size>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Shadow::Plain</enum>
+         <enum>QFrame::Plain</enum>
         </property>
         <property name="lineWidth">
          <number>2</number>
         </property>
         <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="m_VpnEvalLlabel">
         <property name="text">
          <string>For author of NLC evaluation of VPNs that can open a port </string>
         </property>

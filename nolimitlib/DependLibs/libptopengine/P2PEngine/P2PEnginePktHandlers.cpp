@@ -1171,7 +1171,7 @@ void P2PEngine::onPktMembershipReply( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 }
 
 //============================================================================
-EMembershipState P2PEngine::getMembershipState( PktAnnounce& myPktAnn, VxNetIdent* netIdent, EPluginType pluginType, EFriendState myFriendshipToHim )
+EMembershipState P2PEngine::getMembershipState( PktAnnounce& myPktAnn, VxNetIdent* netIdent, enum EPluginType pluginType, enum EFriendState myFriendshipToHim )
 {
 	EMembershipState membershipState{ eMembershipStateNone };
 	if( myFriendshipToHim == eFriendStateIgnore )

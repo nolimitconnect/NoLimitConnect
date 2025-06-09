@@ -97,13 +97,13 @@ void FromGuiMgr::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::s
 }
 
 //============================================================================
-void FromGuiMgr::fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, EHostType hostType, VxGUID& hostIdIfNullThenAll, VxGUID& searchSessionId )
+void FromGuiMgr::fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, enum EHostType hostType, VxGUID& hostIdIfNullThenAll, VxGUID& searchSessionId )
 {
 	queFromGuiAction( new FromGuiQueryHostListFromNetworkHostAction( m_Engine, eFromGuiQueryHostListFromNetworkHost, netHostUrl, hostType, hostIdIfNullThenAll, searchSessionId ) );
 }
 
 //============================================================================
-void FromGuiMgr::fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable )
+void FromGuiMgr::fromGuiSearchHost( enum EHostType hostType, SearchParams& searchParams, bool enable )
 {
 	queFromGuiAction( new FromGuiSearchHostAction( m_Engine, eFromGuiSearchHost, hostType, searchParams, enable ) );
 }

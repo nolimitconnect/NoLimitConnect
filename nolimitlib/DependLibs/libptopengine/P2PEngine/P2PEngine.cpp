@@ -369,7 +369,7 @@ void P2PEngine::onBigListLoadComplete( RCODE rc )
 
 //============================================================================
 //! handle app state change
-void P2PEngine::doAppStateChange( EAppState eAppState )
+void P2PEngine::doAppStateChange( enum EAppState eAppState )
 {
 	m_PluginMgr.onAppStateChange( eAppState );
 }

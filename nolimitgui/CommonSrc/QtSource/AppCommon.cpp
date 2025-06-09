@@ -1245,9 +1245,6 @@ void AppCommon::toGuiAssetAdded( AssetBaseInfo* assetInfo )
 //============================================================================
 void AppCommon::slotInternalToGuiAssetAdded( AssetBaseInfo assetInfo )
 {
-	// when assets are added they might call wantToGuiActivityCallbacks and change the clientList
-	// make sure que is empty before attempting to use the activity interfaces
-	GuiHelpers::processQtEvents();
 	if( m_ToGuiActivityInterfaceBusy )
 	{
 		LogMsg( LOG_ERROR, "%s m_ToGuiActivityInterfaceBusy is true", __func__ );

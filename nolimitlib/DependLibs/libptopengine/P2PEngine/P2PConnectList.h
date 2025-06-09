@@ -67,9 +67,9 @@ public:
 	void						broadcastSystemPkt( VxPktHdr* pkt, bool onlyIncludeMyContacts );
 	void						broadcastSystemPkt( VxPktHdr* pkt, VxGUIDList& retIdsSentPktTo, bool onlyIncludeMyContacts = false );
 
-    void						fromGuiChangeMyFriendshipToHim(	const VxGUID&	oOnlineId,
-																EFriendState	eMyFriendshipToHim,
-																EFriendState	eHisFriendshipToMe );
+    void						fromGuiChangeMyFriendshipToHim(	const VxGUID&		onlineId,
+																enum EFriendState	eMyFriendshipToHim,
+																enum EFriendState	eHisFriendshipToMe );
 
 	void						onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );
 

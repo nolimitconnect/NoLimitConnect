@@ -369,6 +369,8 @@ public:
 
     void           				fromGuiQuerySessionHistory( GroupieId& groupieId ) override;
     bool           				fromGuiMultiSessionAction( enum EMSessionAction mSessionAction, VxGUID& onlineId, int pos0to100000, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+
+    int					        fromGuiGetAnnouncedHostCount( enum EHostType hostType ) override;
     int            				fromGuiGetJoinedListCount( enum EPluginType pluginType ) override;
     void                        fromGuiListAction( enum EListAction listAction ) override;
     std::string			        fromGuiQueryDefaultUrl( enum EHostType hostType, bool ignoreMyself = false ) override;
@@ -750,7 +752,7 @@ protected:
     bool                        onRelayedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
     bool						onUnexpectedPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
 
-    bool						onPktAnnounceCommonHandler( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
+    bool						onPktAnnounceCommonHandler( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
 
     EMembershipState            getMembershipState( PktAnnounce& myPktAnn, VxNetIdent* netIdent, enum EPluginType pluginType, enum EFriendState myFriendshipToHim );
 

@@ -44,6 +44,7 @@ AppletHostNetworkStatus::AppletHostNetworkStatus( AppCommon& app, QWidget* paren
     ui.m_OpenPortCheckBox->setEnabled( false );
     ui.m_HostPermissionCheckBox->setEnabled( false );
     ui.m_ConnectionTestPermissionCheckBox->setEnabled( false );
+    ui.m_GroupCountTitleLabel->setText( QObject::tr( "Hosts announced to network count:" ) );
 
     m_MyApp.activityStateChange( this, true );
 
@@ -72,6 +73,12 @@ void AppletHostNetworkStatus::slotHostRequirementsButtonClicked()
 void AppletHostNetworkStatus::slotUpdateStatusTimeout()
 {
     bool haveOpenPort = m_MyApp.getEngine().getNetStatusAccum().isRxPortOpen();
+    if( haveOpenPort )
+    {
+        ui.m_VpnEvalLlabel->setVisible( false );
+        ui.m_WebsiteWidget->setVisible( false );
+    }
+
     bool networkHostEnabled = m_MyApp.getAppGlobals().getMyNetIdent()->getPluginPermission( ePluginTypeHostNetwork ) != eFriendStateIgnore;
     bool connectTestEnabled = m_MyApp.getAppGlobals().getMyNetIdent()->getPluginPermission( ePluginTypeHostConnectTest ) != eFriendStateIgnore;
     ui.m_OpenPortCheckBox->setChecked( haveOpenPort );
@@ -94,8 +101,9 @@ void AppletHostNetworkStatus::slotUpdateStatusTimeout()
         ui.m_HostingStatusText->setText( QObject::tr( "Network Hosting Conditions Are Met" ) );
     }
 
-    int availGroupsCnt = m_MyApp.getFromGuiInterface().fromGuiGetJoinedListCount( ePluginTypeHostGroup );
+    int availGroupsCnt = m_MyApp.getFromGuiInterface().fromGuiGetAnnouncedHostCount( eHostTypeNetwork );
     ui.m_GroupListCountLabel->setText( QString::number( availGroupsCnt ) );
+    
     std::string url;
     m_MyApp.getFromGuiInterface().fromGuiGetNodeUrl( url );
     ui.m_UrlText->setText( url.c_str() );

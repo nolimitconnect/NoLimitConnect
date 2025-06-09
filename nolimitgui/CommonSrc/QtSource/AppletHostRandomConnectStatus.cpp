@@ -79,6 +79,12 @@ void AppletHostRandomConnectStatus::slotHostRequirementsButtonClicked()
 void AppletHostRandomConnectStatus::slotUpdateStatusTimeout()
 {
     bool haveOpenPort = m_MyApp.getEngine().getNetStatusAccum().isRxPortOpen();
+    if( haveOpenPort )
+    {
+        ui.m_VpnEvalLlabel->setVisible( false );
+        ui.m_WebsiteWidget->setVisible( false );
+    }
+
     bool networkHostEnabled = m_MyApp.getAppGlobals().getMyNetIdent()->getPluginPermission( ePluginTypeHostRandomConnect ) != eFriendStateIgnore;
     bool connectTestEnabled = m_MyApp.getAppGlobals().getMyNetIdent()->getPluginPermission( ePluginTypeHostConnectTest ) != eFriendStateIgnore;
     ui.m_OpenPortCheckBox->setChecked( haveOpenPort );

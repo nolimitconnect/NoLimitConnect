@@ -587,3 +587,27 @@ void HostServerSearchMgr::onHostInviteAnnounceUpdated( EHostType hostType, Hoste
     // NOTE: search mutex is still locked
     m_Engine.getHostedListMgr().onHostInviteAnnounceUpdated( hostType, hostedInfo, netIdent, sktBase, infoChanged );
 }
+
+//============================================================================
+int HostServerSearchMgr::getAnnouncedHostCount( EHostType hostType )
+{
+    int count{ 0 };
+    m_SearchMutex.lock();
+    switch( hostType )
+    {
+    case eHostTypeUnknown:
+        count = (int)(m_ChatRoomHostAnnList.size() + m_GroupHostAnnList.size() + m_RandConnectHostAnnList.size());
+        break;
+    case eHostTypeChatRoom:
+        count = (int)m_ChatRoomHostAnnList.size();;
+    case eHostTypeGroup:
+        count = (int)m_GroupHostAnnList.size();;
+    case eHostTypeRandomConnect:
+        count = (int)m_RandConnectHostAnnList.size();;
+    default:
+        break;
+    }
+
+    m_SearchMutex.unlock();
+    return count;
+}
