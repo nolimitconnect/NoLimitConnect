@@ -433,6 +433,21 @@ bool VxServerMgr::getUpnpEnable( void )
 }
 
 //============================================================================
+void VxServerMgr::setUseIpv6( bool enable )
+{
+    if( enable != VxPortForward::getUseIpv6() )
+    {
+        VxPortForward::setUseIpv6( enable );
+    }
+}
+
+//============================================================================
+bool VxServerMgr::getUseIpv6( void )
+{
+    return VxPortForward::getUseIpv6();
+}
+
+//============================================================================
 bool VxServerMgr::addPortForward( bool ipv6, uint16_t port )
 {
     m_PortForwardResult = false;
@@ -454,10 +469,16 @@ bool VxServerMgr::addPortForward( bool ipv6, uint16_t port )
         return false;
     }
 
+    if( ipv6 && !VxPortForward::getUseIpv6() )
+    {
+        LogModule( eLogPortForward, LOG_VERBOSE, "VxServerMgr::%s skip ipv6 port forward (not primary configuration)", __func__ );
+        return false;
+    }
+
     m_PortForwardResult = VxPortForward::addPortForward( ipv6, lclIp, port );
     if( !m_PortForwardResult )
     {
-        LogMsg( LOG_ERROR, "%s Add ipv6 port %d for ip %s FAILED", __func__, port, lclIp.c_str() );
+        LogMsg( LOG_ERROR, "VxServerMgr::%s Add ipv6 port %d for ip %s FAILED", __func__, port, lclIp.c_str() );
         return false;
     }
 

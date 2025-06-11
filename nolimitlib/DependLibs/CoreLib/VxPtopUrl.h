@@ -49,9 +49,11 @@ public:
 	bool						setUrlHostType( EHostType hostType, bool forceHostType = false ); 
 	static bool					setUrlHostType( std::string& url, EHostType hostType );
 
-	void						clear( void );
+    void						clear( void );
 
 protected:
+    void                         parseHostType( void );
+
     std::string					m_Url;
 	std::string					m_Protocol;
 	std::string					m_Host;

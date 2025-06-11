@@ -592,7 +592,7 @@ bool HostedListMgr::fromGuiQueryHostedInfoList( enum EHostType hostType, std::ve
 //============================================================================
 bool HostedListMgr::fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, enum EHostType hostType, VxGUID& hostIdIfNullThenAll )
 {
-    if( netHostUrl.isValid(hostType == eHostTypeNetwork) )
+    if( netHostUrl.isValid(  true ) )
     {
         m_SearchHostType = hostType;
         m_SearchSpecificOnlineId = hostIdIfNullThenAll;

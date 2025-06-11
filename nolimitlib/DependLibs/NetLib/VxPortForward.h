@@ -24,6 +24,9 @@ public:
 	static void setEnablePortForward( bool enable );
 	static bool getEnablePortForward( void );
 
+	static void setUseIpv6( bool enable );
+	static bool getUseIpv6( void );
+
 	static bool addPortForward( bool ipv6, std::string ipAddr, uint16_t port, bool runInThread = false );
 	static bool removePortForward( bool ipv6, uint16_t port, bool runInThread = false );
 
@@ -40,6 +43,7 @@ protected:
 	static bool m_ForwardEnable;
 
 	static bool m_IsIpv6;
+	static bool m_UseIpv6; // ipv6 is primary configureation
 	static std::string m_IpAddr;
 	static uint16_t m_Port;
 

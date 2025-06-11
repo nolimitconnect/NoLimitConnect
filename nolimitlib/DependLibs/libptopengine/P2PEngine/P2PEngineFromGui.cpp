@@ -1517,8 +1517,22 @@ std::string P2PEngine::fromGuiQueryDefaultUrl( enum EHostType hostType, bool ign
 			resolvedUrl += "/";
 			resolvedUrl += getMyOnlineId().toOnlineIdString();
 		}
+		else if( eHostTypeNetwork == hostType || eHostTypeConnectTest == hostType )
+		{
+			// if query host id was done we should have the online id for this host
+			VxGUID hostOnlineId;
+			if( getUrlMgr().lookupOnlineId( resolvedUrl, hostOnlineId ) )
+			{
+				if( hostOnlineId.isVxGUIDValid() )
+				{
+					resolvedUrl += "/";
+					resolvedUrl += hostOnlineId.toOnlineIdString();
+				}
+			}
+		}
 	}
 
+	ptopUrl.setUrlHostType( hostType );
 	Invite::appendHostTypeSuffix( hostType, resolvedUrl );
 	return resolvedUrl;
 }
@@ -1848,6 +1862,7 @@ void P2PEngine::fromGuiApplyNetHostSettings( NetHostSetting& netHostSetting )
 	}
 
 	getPeerMgr().setUpnpEnable( netHostSetting.getUseUpnpPortForward() );
+	getPeerMgr().setUseIpv6( netHostSetting.getUseIpv6() );
 
     NetHostSetting origSettings;
     m_EngineSettings.getNetHostSettings( origSettings );

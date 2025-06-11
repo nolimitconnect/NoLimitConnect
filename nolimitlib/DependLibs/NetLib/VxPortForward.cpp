@@ -79,6 +79,7 @@ namespace // anonymouse
 
 bool VxPortForward::m_ForwardEnable = false;
 bool VxPortForward::m_IsIpv6 = false;
+bool VxPortForward::m_UseIpv6 = false;
 std::string VxPortForward::m_IpAddr("");
 uint16_t VxPortForward::m_Port = 0;
 std::thread VxPortForward::runUpnpThread;
@@ -112,6 +113,19 @@ void VxPortForward::setEnablePortForward( bool enable )
 bool VxPortForward::getEnablePortForward( void )
 {
 	return m_ForwardEnable;
+}
+
+//============================================================================
+void VxPortForward::setUseIpv6( bool enable )
+{
+	LogModule( eLogPortForward, LOG_VERBOSE, "VxPortForward::setUseIpv6 %d ", enable );
+	m_UseIpv6 = enable;
+}
+
+//============================================================================
+bool VxPortForward::getUseIpv6( void )
+{
+	return m_UseIpv6;
 }
 
 //============================================================================

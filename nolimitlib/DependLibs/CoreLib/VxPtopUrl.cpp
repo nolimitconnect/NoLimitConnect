@@ -119,7 +119,15 @@ void VxPtopUrl::setUrl( const char* urlIn )
 //============================================================================
 void VxPtopUrl::setUrl( std::string& url )
 {
+    if( url.length() < 7 )
+    {
+        LogMsg( LOG_ERROR, "VxPtopUrl::%s invalid url length %d", __func__,  url.length() );
+        clear();
+        return;
+    }
+
     m_Url = url;
+    parseHostType();
 
     // protocol
     size_t iReadIdx = m_Url.find( PROTOCOL_DELIM );
@@ -309,4 +317,32 @@ void VxPtopUrl::clear( void )
     m_Port = 0;
     m_OnlineId.clear();
     m_HostType = eHostTypeUnknown;
+}
+
+//============================================================================
+void VxPtopUrl::parseHostType( void )
+{
+    char hostChar = m_Url[ m_Url.length() - 1 ];
+    char prevChar = m_Url[ m_Url.length() - 2 ];
+    if( !Invite::isValidHostTypeSuffix( hostChar ) )
+    {
+        return;
+    }
+
+    EHostType hostType = Invite::getHostTypeFromSuffix( hostChar );
+    if( eHostTypeConnectTest == hostType || eHostTypeNetwork == hostType )
+    {
+        // might or might not have online id
+        if( '!' == prevChar || std::isdigit( prevChar ) )
+        {
+            m_HostType = hostType;
+        }
+    }
+    else
+    {
+        if( '!' == prevChar )
+        {
+            m_HostType = hostType;
+        }
+    }
 }

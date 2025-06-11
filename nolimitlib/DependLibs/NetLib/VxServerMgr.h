@@ -50,6 +50,9 @@ public:
     void						setUpnpEnable( bool enable );
     bool						getUpnpEnable( void );
 
+    void						setUseIpv6( bool enable );
+    bool						getUseIpv6( void );
+
     void 						listenSktWasOpened( bool ipv6, SOCKET listenSkt );
     void 						listenSktWasClosed( bool ipv6, SOCKET listenSkt );
 
