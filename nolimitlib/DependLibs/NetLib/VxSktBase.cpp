@@ -680,12 +680,12 @@ RCODE VxSktBase::txEncrypted( const char* pDataIn, int iDataLen, bool sktMgrLock
         return -1;
     }
 
-    if( !iDataLen )
+    if( !iDataLen || ( 0 != ( iDataLen & 0x0f ) ) )
     {
         LogMsg( LOG_ERROR, "VxSktBase::txEncrypted invalid data len %d", iDataLen);
         closeSkt( eSktCloseCryptoInvalidLength, sktMgrLocked );
 
-        vx_assert( pDataIn );
+        vx_assert( false );
         return -2;
     }
 
@@ -695,13 +695,14 @@ RCODE VxSktBase::txEncrypted( const char* pDataIn, int iDataLen, bool sktMgrLock
 		return -5;
 	}
 
-	if( 0 != (iDataLen & 0x0f) )
+	VxPktHdr* pktHdr = ( (VxPktHdr*)pDataIn );
+	if( !pktHdr->isValidPktHdr() )
 	{
-		LogMsg( LOG_ERROR, "VxSktBase::txEncrypted invalid pkt len %d (pkt type %d)", iDataLen, ((VxPktHdr*)pDataIn)->getPktType() );
-        closeSkt( eSktClosePktLengthInvalid, sktMgrLocked );
+		LogMsg( LOG_ERROR, "VxSktBase::txEncrypted invalid pkt len %d (pkt type %d)", pktHdr->getPktLength(), pktHdr->getPktType() );
+		closeSkt( eSktClosePktLengthInvalid, sktMgrLocked );
 
-        vx_assert( 0 == (iDataLen & 0x0f) );
-        return -3;
+		vx_assert( false );
+		return -3;
 	}
 
     if( !m_TxCrypto.isKeyValid() )
@@ -853,6 +854,7 @@ RCODE VxSktBase::txPacketWithDestId( VxPktHdr* pktHdr, bool sktMgrLocked ) 		// 
 	vx_assert( pktHdr->getDestOnlineId().isVxGUIDValid() );
 	uint64_t timestamp = GetGmtTimeMs();
 	uint16_t pktType = pktHdr->getPktType();
+
 
 	if( !pktHdr->getSrcOnlineId().isVxGUIDValid() || !pktHdr->getDestOnlineId().isVxGUIDValid() )
 	{

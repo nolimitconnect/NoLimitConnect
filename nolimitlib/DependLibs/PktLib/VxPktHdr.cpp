@@ -75,10 +75,10 @@ bool VxPktHdrPrefix::isValidPktPrefix( bool logIfInvalid )
 	uint16_t u16PktLen = getPktLength();
 	uint16_t u16PktType = getPktType();
     if( (16 > u16PktLen) 
-		|| (u16PktLen > MAX_PKT_LEN ) 
-		|| (u16PktLen & 0x0f) 
-		|| (1 > u16PktType) 
-		|| (250 < u16PktType) )
+		|| ( u16PktLen > MAX_PKT_LEN ) 
+		|| ( u16PktLen & 0x0f ) 
+		|| ( 1 > u16PktType ) 
+		|| ( MAX_PKT_TYPE_CNT <= u16PktType ) )
     {
         if( logIfInvalid )
         {
@@ -450,7 +450,7 @@ bool VxPktHdr::isValidPktHdr( void )
 		|| (u16PktLen > MAX_PKT_LEN ) 
 		|| (u16PktLen & 0x0f) 
 		|| (1 > u16PktType) 
-		|| (250 < u16PktType) )
+		|| ( MAX_PKT_TYPE_CNT <= u16PktType ) )
     {
         LogMsg( LOG_ERROR, "%s invalid packet len %d type %d", __func__, u16PktLen, u16PktType );
 		return false;

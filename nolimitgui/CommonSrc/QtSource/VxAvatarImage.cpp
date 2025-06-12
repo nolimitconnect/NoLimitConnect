@@ -10,9 +10,14 @@
 
 #include "VxAvatarImage.h"
 
+#include "AppCommon.h"
+#include "GuiParams.h"
+#include "MyIcons.h"
+
 #include <CoreLib/VxDebug.h>
 
 #include <QTimer>
+#include <QPainter>
 #include <QPixmap>
 #include <QImage>
 
@@ -34,7 +39,23 @@ VxAvatarImage::VxAvatarImage(const QString &text, QWidget* parent, Qt::WindowFla
 //============================================================================
 void VxAvatarImage::initQAvatarImage( void )
 {
-	setImage( ":/AppRes/Resources/avatar.svg" );
+	setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
+	setIcon( eMyIconAvatarImage );
+}
+
+//============================================================================
+void VxAvatarImage::setIcon( enum EMyIcons myIcon )
+{
+	if( !m_HasThumbImage )
+	{
+		QColor iconColor = GetAppInstance().getAppTheme().getColor( eButtonForegroundNormal );
+		QPixmap avatarPixmap = GetAppInstance().getMyIcons().getIconPixmap( myIcon, GuiParams::getButtonSize( eButtonSizeLarge ), iconColor );
+		if( !avatarPixmap.isNull() )
+		{
+			m_AvatarImage = avatarPixmap.toImage();
+			update();
+		}
+	}
 }
 
 //============================================================================
@@ -42,13 +63,8 @@ void VxAvatarImage::setImage( const char* resourceUrl )
 {
 	if( !m_HasThumbImage )
 	{
-		setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-		QImage picImage( resourceUrl );
-		QPixmap avatarPixmap = QPixmap::fromImage( picImage ).scaled(geometry().size());
-		if( !avatarPixmap.isNull() )
-		{
-			setPixmap( avatarPixmap );
-		}
+		m_AvatarImage = QImage( resourceUrl );
+		update();
 	}
 }
 
@@ -57,12 +73,8 @@ void VxAvatarImage::setImage( QImage& avatarImage )
 {
 	if( !avatarImage.isNull() )
 	{
-		QPixmap avatarPixmap = QPixmap::fromImage( avatarImage ).scaled(geometry().size());
-		if( !avatarPixmap.isNull() )
-		{
-			m_HasThumbImage = true;
-			setPixmap( avatarPixmap );
-		}
+		m_AvatarImage = avatarImage;
+		update();
 	}
 }
 
@@ -73,16 +85,32 @@ QSize VxAvatarImage::sizeHint() const
 }
 
 //============================================================================
-void VxAvatarImage::mousePressEvent(QMouseEvent * event)
+void VxAvatarImage::mousePressEvent( QMouseEvent * ev )
 {
-	QWidget::mousePressEvent(event);
+	QWidget::mousePressEvent( ev );
 	emit clicked();
 }
 
-////============================================================================
-//void VxAvatarImage::updateImage( void )
-//{
-//	QSize screenSize( width(), height() );
-//	QImage picBitmap( ":/AppRes/Resources/spinner-clockwise.svg" ); 
-//	m_ProgressPixmap = picBitmap.scaled(screenSize, Qt::KeepAspectRatio);
-//}
+//============================================================================
+void VxAvatarImage::paintEvent( QPaintEvent* ev )
+{
+	if( m_AvatarImage.isNull() )
+	{
+		return;
+	}
+
+	QPainter painter( this );
+
+	const int IMAGE_PADDING = 1;
+	QRect drawRect( IMAGE_PADDING, IMAGE_PADDING, this->width() - ( IMAGE_PADDING * 2 ), this->height() - ( IMAGE_PADDING * 2 ) );
+	if( drawRect.width() < 8 )
+	{
+		LogMsg( LOG_ERROR, "VxAvatarImage::paintEvent invalid drawRect.width()  %d ", drawRect.width() );
+		return;
+	}
+
+	QImage resizedImage = m_AvatarImage.scaled( drawRect.size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation );
+	QPixmap pixmap = QPixmap::fromImage( resizedImage );
+
+	painter.drawPixmap( drawRect, QPixmap::fromImage( resizedImage ) );
+}

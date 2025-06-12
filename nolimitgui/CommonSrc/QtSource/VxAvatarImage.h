@@ -9,10 +9,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include "MyIconsDefs.h"
+
+#include <QImage>
 #include <QLabel>
 
 class QTimer;
-class QImage;
 
 class VxAvatarImage : public QLabel 
 {
@@ -22,7 +24,7 @@ public:
 	VxAvatarImage(const QString &text, QWidget* parent=nullptr, Qt::WindowFlags f= Qt::Widget);
 	virtual ~VxAvatarImage() = default;
 
-	QSize						sizeHint() const;
+	void						setIcon( enum EMyIcons myIcon );
 	void						setImage( const char* resourceUrl );
 	void						setImage( QImage& avatarImage );
 
@@ -30,9 +32,12 @@ signals:
 	void						clicked();
 
 protected:
-	virtual void				mousePressEvent(QMouseEvent * event);
+	QSize						sizeHint() const;
+	void						mousePressEvent( QMouseEvent * event ) override;
+	void				        paintEvent( QPaintEvent* ev ) override;
 
 	void						initQAvatarImage( void );
 	bool						m_HasThumbImage{ false };
+	QImage						m_AvatarImage;
 };
 

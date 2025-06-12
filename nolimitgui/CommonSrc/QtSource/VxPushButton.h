@@ -127,10 +127,10 @@ protected slots:
 protected:
 	void						initQButtonPro( void );
 
-	virtual void				mousePressEvent( QMouseEvent * event ) override;
-	virtual void				mouseReleaseEvent( QMouseEvent * event ) override;
-	virtual void				mouseMoveEvent( QMouseEvent * event ) override;
-    virtual void				paintEvent( QPaintEvent* ev ) override;
+	void				        mousePressEvent( QMouseEvent * event ) override;
+	void				        mouseReleaseEvent( QMouseEvent * event ) override;
+	void				        mouseMoveEvent( QMouseEvent * event ) override;
+    void				        paintEvent( QPaintEvent* ev ) override;
 
     void                        drawBorder( VxAppTheme& appTheme, QPainter& painter );
 

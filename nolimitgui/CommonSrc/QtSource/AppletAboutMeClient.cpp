@@ -16,7 +16,6 @@
 #include "MyIcons.h"
 #include "AppletSnapshot.h"
 #include "AppGlobals.h"
-#include "AppCommon.h"
 #include "AccountMgr.h"
 #include "GuiHelpers.h"
 
