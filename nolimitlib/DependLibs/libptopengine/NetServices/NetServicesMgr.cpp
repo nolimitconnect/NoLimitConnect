@@ -1567,7 +1567,18 @@ ENetCmdError NetServicesMgr::doRenewPortForward( void )
 
 	if( port && addrType != eIpAddrTypeUnknown )
     {
-		bool result = VxPortForward::addPortForward( isIpv6, ipAddr.c_str(), port, false );
+		bool result = VxPortForward::removePortForward( isIpv6, port );
+		if( !result )
+		{
+			LogMsg( LOG_ERROR, "NetServicesMgr::%s failed to remove port formard", __func__ );
+		}
+
+		result = VxPortForward::addPortForward( isIpv6, ipAddr.c_str(), port, false );
+		if( !result )
+		{
+			LogMsg( LOG_ERROR, "NetServicesMgr::%s failed to renew port formard", __func__ );
+		}
+
 		return result ? eNetCmdErrorNone : eNetCmdErrorConnectFailed;
     }
 	else

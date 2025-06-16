@@ -42,8 +42,7 @@ class AppCommon;
 class AudioIoMgr;
 class AudioSpeakerBuf;
 class MiniAudioMgr;
-class QAudioFormat;
-class QMutex;
+class VxAudioFormat;
 
 class AudioEchoCancelImpl : public QObject
 {

@@ -23,7 +23,6 @@
 #include <CoreLib/VxTimer.h>
 #include <CoreLib/VxDebug.h>
 
-#include <QAudioFormat>
 
 //============================================================================
 AudioEchoCancelImpl::AudioEchoCancelImpl( AppCommon& appCommon, MiniAudioMgr& audioIoMgr, QObject* parent )

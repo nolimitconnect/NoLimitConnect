@@ -825,7 +825,7 @@ bool AppSettings::getIsAutomatedHost( void )
 }
 
 //============================================================================
-void AppSettings::setDisableSoundEffects( bool disable )
+void AppSettings::setDisableAllSoundEffects( bool disable )
 {
 	m_DisableSoundEffectsValue = disable;
 	m_DisableSoundEffectsCached = true;
@@ -833,7 +833,7 @@ void AppSettings::setDisableSoundEffects( bool disable )
 }
 
 //============================================================================
-bool AppSettings::getDisableSoundEffects( void )
+bool AppSettings::getDisableAllSoundEffects( void )
 {
 	if( m_DisableSoundEffectsCached )
 	{
@@ -848,6 +848,61 @@ bool AppSettings::getDisableSoundEffects( void )
 	return disableSoundEffects;
 }
 
+//============================================================================
+void AppSettings::setDisableSndTrash( bool disable )
+{
+	setIniValue( getAppShortName(), "DisableSndTrash", disable );
+}
+
+//============================================================================
+bool AppSettings::getDisableSndTrash( void )
+{
+	bool disableSound = false;
+	getIniValue( getAppShortName(), "DisableSndTrash", disableSound, false );
+	return disableSound;
+}
+
+//============================================================================
+void AppSettings::setDisableSndKeyClick( bool disable )
+{
+	setIniValue( getAppShortName(), "DisableSndKeyClick", disable );
+}
+
+//============================================================================
+bool AppSettings::getDisableSndKeyClick( void )
+{
+	bool disableSound = false;
+	getIniValue( getAppShortName(), "DisableSndKeyClick", disableSound, false );
+	return disableSound;
+}
+
+//============================================================================
+void AppSettings::setDisableSndNotify( bool disable )
+{
+	setIniValue( getAppShortName(), "DisableSndNotify", disable );
+}
+
+//============================================================================
+bool AppSettings::getDisableSndNotify( void )
+{
+	bool disableSound = false;
+	getIniValue( getAppShortName(), "DisableSndNotify", disableSound, false );
+	return disableSound;
+}
+
+//============================================================================
+void AppSettings::setDisableSndMsgRx( bool disable )
+{
+	setIniValue( getAppShortName(), "DisableSndMsgRx", disable );
+}
+
+//============================================================================
+bool AppSettings::getDisableSndMsgRx( void )
+{
+	bool disableSound = false;
+	getIniValue( getAppShortName(), "DisableSndMsgRx", disableSound, false );
+	return disableSound;
+}
 
 //============================================================================
 void AppSettings::setUseSystemMediaPlayer( bool useSystemPlayer )

@@ -21,8 +21,6 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
-#include <QAudioInput>
-
 //============================================================================
 CamLogic::CamLogic(AppCommon& myApp, QObject *parent )
     : QObject(parent)

@@ -32,7 +32,7 @@ signals:
 	void						clicked();
 
 protected:
-	QSize						sizeHint() const;
+    QSize						sizeHint() const override;
 	void						mousePressEvent( QMouseEvent * event ) override;
 	void				        paintEvent( QPaintEvent* ev ) override;
 

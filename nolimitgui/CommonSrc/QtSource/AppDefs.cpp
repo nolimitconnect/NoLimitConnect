@@ -288,7 +288,7 @@ QString DescribeApplet( EApplet applet )
 
     case eAppletUserConnections:			return QObject::tr( "User Connections" );
     case eAppletUserIdentity:			    return QObject::tr( "User Identity" );
-    case eAppletUserPreferences:            return QObject::tr( "User Settings" );
+    case eAppletUserPreferences:            return QObject::tr( "User Prefernces" );
 
     case eAppletSettingsPage:				return QObject::tr( "Settings" );
 

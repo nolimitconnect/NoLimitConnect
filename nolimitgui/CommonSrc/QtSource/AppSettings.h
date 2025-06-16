@@ -180,14 +180,26 @@ public:
 	void						setIsAutomatedHost( bool enable );
 	bool						getIsAutomatedHost( void );
 
-	void						setDisableSoundEffects( bool disable );
-	bool						getDisableSoundEffects( void );
-
 	void						setUseSystemMediaPlayer( bool useSystemPlayer );
 	bool						getUseSystemMediaPlayer( void );
 
 	void						setLastPlayedMovie( std::string& movieFile );
 	void						getLastPlayedMovie( std::string& movieFile );
+
+	void						setDisableAllSoundEffects( bool disable );
+	bool						getDisableAllSoundEffects( void );
+
+	void						setDisableSndTrash( bool disable );
+	bool						getDisableSndTrash( void );
+
+	void						setDisableSndKeyClick( bool disable );
+	bool						getDisableSndKeyClick( void );
+
+	void						setDisableSndNotify( bool disable );
+	bool						getDisableSndNotify( void );
+
+	void						setDisableSndMsgRx( bool disable );
+	bool						getDisableSndMsgRx( void );
 
 protected:
     std::string                 getAppendedType( const char* key, ESearchType searchType );
@@ -196,5 +208,6 @@ protected:
 
 	bool						m_DisableSoundEffectsCached{ false };
 	bool						m_DisableSoundEffectsValue{ false };
+
 };
 

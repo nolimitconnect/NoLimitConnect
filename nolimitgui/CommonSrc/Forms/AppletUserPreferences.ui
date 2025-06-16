@@ -35,21 +35,6 @@
       <string/>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
-      <property name="spacing">
-       <number>2</number>
-      </property>
-      <property name="leftMargin">
-       <number>5</number>
-      </property>
-      <property name="topMargin">
-       <number>5</number>
-      </property>
-      <property name="rightMargin">
-       <number>5</number>
-      </property>
-      <property name="bottomMargin">
-       <number>5</number>
-      </property>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
@@ -89,13 +74,6 @@
          </size>
         </property>
        </spacer>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="m_DisableSoundEffectsCheckBox">
-        <property name="text">
-         <string>Diable Sound Effects (Key Click, Notify, Etc.)</string>
-        </property>
-       </widget>
       </item>
       <item>
        <widget class="QCheckBox" name="m_UseSystemPlayerCheckBox">
@@ -167,6 +145,68 @@
          </spacer>
         </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="m_DisableSoundEffectsCheckBox">
+        <property name="text">
+         <string>Diable All Sound Effects (Key Click, Notify, Etc.)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="m_SndDisableFrame">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <property name="topMargin">
+          <number>2</number>
+         </property>
+         <property name="rightMargin">
+          <number>2</number>
+         </property>
+         <property name="bottomMargin">
+          <number>2</number>
+         </property>
+         <item>
+          <widget class="QCheckBox" name="m_SndDisableTrashCheckBox">
+           <property name="text">
+            <string>Disable Trash Sound Effect</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="m_SndDisableButtonPressCheckBox">
+           <property name="text">
+            <string>Disable Button Press Sound</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="m_SndDisableNotifyCheckBox">
+           <property name="text">
+            <string>Dsiable Notify Sound</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="m_SndDisableMessageRxCheckBox">
+           <property name="text">
+            <string>Disable Message Received Sound</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </item>
       <item>
        <spacer name="verticalSpacer_2">

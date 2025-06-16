@@ -28,10 +28,8 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxGlobals.h>
 
-#include <QAudioSink>
 #include <QByteArray>
 #include <QComboBox>
-#include <QIODevice>
 #include <QLabel>
 #include <QMainWindow>
 #include <QObject>

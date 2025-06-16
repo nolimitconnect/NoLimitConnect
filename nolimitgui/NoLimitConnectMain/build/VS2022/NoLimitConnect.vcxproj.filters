@@ -1049,9 +1049,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\PlayControlWidget.h">
       <Filter>Source Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppCommon.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppModuleState.h">
       <Filter>Source Files</Filter>
     </QtMoc>
@@ -1147,6 +1144,9 @@
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInformation.h">
       <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppCommon.h">
+      <Filter>Source Files\AppCommon</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>

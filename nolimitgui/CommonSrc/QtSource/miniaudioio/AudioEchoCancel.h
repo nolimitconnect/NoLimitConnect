@@ -19,7 +19,7 @@ class AudioSpeakerBuf;
 
 class MiniAudioMgr;
 
-class QAudioFormat;
+
 class QMutex;
 
 class AudioEchoCancel : public QObject

@@ -118,7 +118,7 @@ VxSndInstance * SoundMgr::playSnd( ESndDef sndDef, bool loopContinuous  )
     return 0;
 #endif // DISABLE_AUDIO
 
-	if( m_MyApp.getAppSettings().getDisableSoundEffects() )
+	if( m_MyApp.getAppSettings().getDisableAllSoundEffects() )
 	{
 		return nullptr;
 	}

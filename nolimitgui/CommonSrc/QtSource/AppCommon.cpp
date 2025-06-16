@@ -486,6 +486,28 @@ void AppCommon::playSound( ESndDef sndDef )
 //============================================================================
 void AppCommon::slotPlaySound( ESndDef sndDef )
 {
+	if( m_AppSettings.getDisableAllSoundEffects() )
+	{
+		return;
+	}
+
+	if( ( sndDef == eSndDefPaperShredder || sndDef == eSndDefNeckSnap ) && m_AppSettings.getDisableSndTrash() )
+	{
+		return;
+	}
+	else if( sndDef == eSndDefButtonClick && m_AppSettings.getDisableSndKeyClick() )
+	{
+		return;
+	}
+	else if( ( sndDef == eSndDefNotify1 || sndDef == eSndDefNotify2 ) && m_AppSettings.getDisableSndNotify() )
+	{
+		return;
+	}
+	else if( sndDef == eSndDefUserBellMessage && m_AppSettings.getDisableSndMsgRx() )
+	{
+		return;
+	}
+
 	getSoundMgr().playSnd( sndDef );
 }
 
@@ -1251,6 +1273,7 @@ void AppCommon::slotInternalToGuiAssetAdded( AssetBaseInfo assetInfo )
         vx_assert( false );
 	}
 
+	playSound( eSndDefUserBellMessage );
 	m_ToGuiActivityInterfaceBusy = true;
 	for( auto& client : m_ToGuiActivityInterfaceList )
 	{

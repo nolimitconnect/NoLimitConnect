@@ -69,10 +69,15 @@ void AppletUserPreferences::hideEvent( QHideEvent* ev )
 //============================================================================
 void AppletUserPreferences::updateDlgFromSettings()
 {
-    ui.m_DisableSoundEffectsCheckBox->setChecked( m_MyApp.getAppSettings().getDisableSoundEffects() );
     ui.m_UseSystemPlayerCheckBox->setChecked( m_MyApp.getAppSettings().getUseSystemMediaPlayer() );
     ui.m_UnattendedHostCheckBox->setChecked( m_MyApp.getAppSettings().getIsAutomatedHost() );
     ui.m_MilitaryTimeCheckBox->setChecked( m_MyApp.getAppSettings().getUseMilitaryTime() );
+    ui.m_DisableSoundEffectsCheckBox->setChecked( m_MyApp.getAppSettings().getDisableAllSoundEffects() );
+    ui.m_SndDisableTrashCheckBox->setChecked( m_MyApp.getAppSettings().getDisableSndTrash() );
+    ui.m_SndDisableButtonPressCheckBox->setChecked( m_MyApp.getAppSettings().getDisableSndKeyClick() );
+    ui.m_SndDisableNotifyCheckBox->setChecked( m_MyApp.getAppSettings().getDisableSndNotify() );
+    ui.m_SndDisableMessageRxCheckBox->setChecked( m_MyApp.getAppSettings().getDisableSndMsgRx() );
+
 }
 
 //============================================================================
@@ -82,10 +87,15 @@ void AppletUserPreferences::updateSettingsFromDlg()
 
     m_MyApp.getAppSettings().setIsAutomatedHost( unattendedHost );
 
-    m_MyApp.getAppSettings().setDisableSoundEffects( ui.m_DisableSoundEffectsCheckBox->isChecked() );
     m_MyApp.getAppSettings().setUseSystemMediaPlayer( ui.m_UseSystemPlayerCheckBox->isChecked() );
     m_MyApp.getAppSettings().setUseMilitaryTime( ui.m_MilitaryTimeCheckBox->isChecked() );
     SetUseMilitaryTime( ui.m_MilitaryTimeCheckBox->isChecked() );
+
+    m_MyApp.getAppSettings().setDisableAllSoundEffects( ui.m_DisableSoundEffectsCheckBox->isChecked() );
+    m_MyApp.getAppSettings().setDisableSndTrash( ui.m_SndDisableTrashCheckBox->isChecked() );
+    m_MyApp.getAppSettings().setDisableSndKeyClick( ui.m_SndDisableButtonPressCheckBox->isChecked() );
+    m_MyApp.getAppSettings().setDisableSndNotify( ui.m_SndDisableNotifyCheckBox->isChecked() );
+    m_MyApp.getAppSettings().setDisableSndMsgRx( ui.m_SndDisableMessageRxCheckBox->isChecked() );
 
     GuiUser* guiUser = m_MyApp.getUserMgr().getMyIdent();
     bool sendToEngine = guiUser && guiUser->isAutomatedHost() != unattendedHost;
