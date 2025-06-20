@@ -31,8 +31,8 @@ public:
 	void						setRelayError( ERelayErr relayErr )		{ m_RelayError = (uint8_t)relayErr; }
 	ERelayErr					getRelayError( void )					{ return (ERelayErr)m_RelayError; }
 
-	void						setPktType( uint16_t pktType )			{ m_PktType = pktType; }
-	uint16_t					getPktType( void )						{ return m_PktType; }
+	void						setRelayedPktType( uint16_t pktType )	{ m_RelayedPktType = pktType; }
+	uint16_t					getRelayedPktType( void )				{ return m_RelayedPktType; }
 
 	//=== vars ===//
 	VxGUID						m_DestUserOnlineId;
@@ -41,7 +41,7 @@ public:
 private:
 	uint8_t						m_RelayError{ 0 };
 	uint8_t						m_u8Res1{ 0 };
-	uint16_t					m_PktType{ 0 };
+	uint16_t					m_RelayedPktType{ 0 };
 	uint32_t					m_u32Res3{ 0 };
 };
 

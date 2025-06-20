@@ -19,7 +19,7 @@
 #include <qendian.h>
 
 //============================================================================
-AudioTestGenerator::AudioTestGenerator( const QAudioFormat& format, qint64 durationUs, int toneHz )
+AudioTestGenerator::AudioTestGenerator( const VxAudioFormat& format, int64_t durationUs, int toneHz )
 {
     m_AudioFormat = format;
     if( format.isValid() )
@@ -29,7 +29,7 @@ AudioTestGenerator::AudioTestGenerator( const QAudioFormat& format, qint64 durat
 }
 
 //============================================================================
-void AudioTestGenerator::setAudioFormat( QAudioFormat& audioFormat ) 
+void AudioTestGenerator::setAudioFormat( VxAudioFormat& audioFormat ) 
 { 
     m_AudioFormat = audioFormat; 
     if( m_AudioFormat.isValid() )
@@ -39,25 +39,12 @@ void AudioTestGenerator::setAudioFormat( QAudioFormat& audioFormat )
 }
 
 //============================================================================
-void AudioTestGenerator::start()
-{
-    open( QIODevice::ReadOnly );
-}
-
-//============================================================================
-void AudioTestGenerator::stop()
-{
-    m_pos = 0;
-    close();
-}
-
-//============================================================================
-void AudioTestGenerator::generateData( const QAudioFormat &format, qint64 durationUs, int toneHz )
+void AudioTestGenerator::generateData( const VxAudioFormat &format, int64_t durationUs, int toneHz )
 {
     int rate = format.sampleRate();
     const int channelBytes = format.bytesPerSample();
     const int sampleBytes = format.channelCount() * channelBytes;
-    qint64 length = format.bytesForDuration( durationUs );
+    int64_t length = format.bytesForDuration( durationUs );
     Q_ASSERT(length % sampleBytes == 0);
     Q_UNUSED( sampleBytes ); // suppress warning in release builds
 
@@ -70,16 +57,16 @@ void AudioTestGenerator::generateData( const QAudioFormat &format, qint64 durati
         qreal x = qSin( 2 * M_PI * toneHz * qreal( sampleIndex++ % rate ) / rate );
         for( int i = 0; i < format.channelCount(); ++i ) {
             switch( format.sampleFormat() ) {
-            case QAudioFormat::UInt8:
+            case VxAudioFormat::UInt8:
                 *reinterpret_cast<quint8*>(ptr) = static_cast<quint8>((1.0 + x) / 2 * 255);
                 break;
-            case QAudioFormat::Int16:
+            case VxAudioFormat::Int16:
                 *reinterpret_cast<qint16*>(ptr) = static_cast<qint16>(x * 32767);
                 break;
-            case QAudioFormat::Int32:
+            case VxAudioFormat::Int32:
                 *reinterpret_cast<qint32*>(ptr) = static_cast<qint32>(x * std::numeric_limits<qint32>::max());
                 break;
-            case QAudioFormat::Float:
+            case VxAudioFormat::Float:
                 *reinterpret_cast<float*>(ptr) = x;
                 break;
             default:
@@ -93,14 +80,14 @@ void AudioTestGenerator::generateData( const QAudioFormat &format, qint64 durati
 }
 
 //============================================================================
-qint64 AudioTestGenerator::readData( char *data, qint64 len )
+int64_t AudioTestGenerator::readData( char *data, int64_t len )
 {
-    qint64 total = 0;
+    int64_t total = 0;
     if( !m_buffer.isEmpty() ) 
     {
         while( len - total > 0 ) 
         {
-            const qint64 chunk = qMin( ( m_buffer.size() - m_pos ), len - total );
+            const int64_t chunk = qMin( ( m_buffer.size() - m_pos ), len - total );
             memcpy( data + total, m_buffer.constData() + m_pos, chunk );
             m_pos = ( m_pos + chunk ) % m_buffer.size();
             total += chunk;
@@ -111,25 +98,10 @@ qint64 AudioTestGenerator::readData( char *data, qint64 len )
 }
 
 //============================================================================
-qint64 AudioTestGenerator::writeData( const char* data, qint64 len )
-{
-    Q_UNUSED( data );
-    Q_UNUSED( len );
-
-    return 0;
-}
-
-//============================================================================
-qint64 AudioTestGenerator::bytesAvailable() const
-{
-    return m_buffer.size() + QIODevice::bytesAvailable();
-}
-
-//============================================================================
 int16_t AudioTestGenerator::peekNextSample( void )
 {
     int16_t nextSample{ 0 };
-    if( !m_buffer.isEmpty() && m_AudioFormat.sampleFormat() == QAudioFormat::Int16 ) 
+    if( !m_buffer.isEmpty() && m_AudioFormat.sampleFormat() == VxAudioFormat::Int16 ) 
     {
         if( m_pos <= m_buffer.length() - 2 )
         {

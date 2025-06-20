@@ -190,7 +190,11 @@ bool CamLogic::canProcessCamCapture( void )
 {
     if( VxIsAppShuttingDown() || !isCamCaptureRequested() || m_CamProcessor.isStalled() )
     {
-        LogMsg( LOG_WARN, "%s cam que rgb %d jpg %d", __func__, (int)m_CamProcessor.getRgbQueueSize(), (int)(int)m_CamProcessor.getJpgQueueSize() );
+        if( isCamCaptureRequested() )
+        {
+            LogMsg( LOG_WARN, "CamLogic::%s cannot process cam que rgb %d jpg %d", __func__, (int)m_CamProcessor.getRgbQueueSize(), (int)(int)m_CamProcessor.getJpgQueueSize() );
+        }
+
         return false;
     }
 

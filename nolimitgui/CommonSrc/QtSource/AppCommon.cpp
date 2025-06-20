@@ -634,14 +634,19 @@ void AppCommon::toGuiUserMessage( const char* userMsg, ... )
 }
 
 //============================================================================
-void AppCommon::toGuiPluginMsg( EPluginType pluginType, VxGUID& onlineId, EPluginMsgType msgType, std::string& paramMsg )
+void AppCommon::toGuiPluginMsg( EPluginType pluginType, VxGUID& onlineId, EPluginMsgType msgType, const char* paramMsg )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return;
 	}
 
-	QString paramValue = paramMsg.empty() ? "" : paramMsg.c_str();
+	QString paramValue;
+	if( paramMsg )
+	{
+		paramValue = paramMsg;
+	}
+
 	emit signalInternalPluginMessage( pluginType, onlineId, msgType, paramValue );
 }
 

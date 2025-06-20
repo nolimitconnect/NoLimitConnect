@@ -459,7 +459,7 @@ void BottomBarWidget::launchJoinHostView( EHostType hostType )
 			}
 			else
 			{
-				m_MyApp.getHostedListMgr().launchClientAppletOfAlreadyConnectedHost( adminId, getParentPageFrame() );
+				m_MyApp.launchApplet( appleHostJoin, getParentPageFrame() );
 			}
 		}
 		else

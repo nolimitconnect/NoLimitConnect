@@ -56,12 +56,13 @@ void AppletCamClient::startCamFeed( void )
     {
         if( m_CamFeedIdent )
         {
-            if( ePluginTypeInvalid != m_ePluginType )
+            bool sessionStarted = m_FromGui.fromGuiStartPluginSession( m_ePluginType, m_CamFeedIdent->getMyOnlineId() );
+            setIsCamFeedStarted( sessionStarted );
+            if( sessionStarted && !m_VidPlayerIdentIsSet )
             {
-                m_FromGui.fromGuiStartPluginSession( m_ePluginType, m_CamFeedIdent->getMyOnlineId() );
+                m_VidPlayerIdentIsSet = true;
+                ui.m_CamVidWidget->setVideoFeedId( m_CamFeedIdent->getMyOnlineId(), eAppModuleCamClient );
             }
-
-            setIsCamFeedStarted( true );
         }
         else
         {
@@ -79,10 +80,7 @@ void AppletCamClient::stopCamFeed( void )
         setIsCamFeedStarted( false );
         if( m_CamFeedIdent )
         {
-            if( ePluginTypeInvalid != m_ePluginType )
-            {
-                m_FromGui.fromGuiStopPluginSession( m_ePluginType, m_CamFeedIdent->getMyOnlineId() );
-            }
+            m_FromGui.fromGuiStopPluginSession( m_ePluginType, m_CamFeedIdent->getMyOnlineId() );
         }
         else
         {

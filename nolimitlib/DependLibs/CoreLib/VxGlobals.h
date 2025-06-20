@@ -118,9 +118,6 @@ bool							VxIsNetworkLoopbackAllowed( void );
 int 							VxGlobalAccessLock( void );
 int 							VxGlobalAccessUnlock( void );
 
-void							VxSetLclIpAddress( const char* lclIpAddress );
-std::string						VxGetLclIpAddress( void );
-
 // set time format to military 24hr or AM/PM
 void							SetUseMilitaryTime( bool useMilitaryTime );
 bool							GetUseMilitaryTime( void );

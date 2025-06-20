@@ -64,6 +64,7 @@ protected:
     GuiUser*                    m_CamFeedIdent{ nullptr };
     VxGUID                      m_CamFeedId;
     bool                        m_CamFeedStarted{ false };
+    bool                        m_VidPlayerIdentIsSet{ false };
 };
 
 

@@ -793,8 +793,6 @@ void NetStatusAccum::threadedSetupListen( void )
 
     if( !useThisLocaIpAddr.empty() )
     {
-        VxSetLclIpAddress( useThisLocaIpAddr.c_str() ); // global
-
         m_Engine.getPeerMgr().setLocalIp( useThisLocaIpAddr );
 
         bool needPortForward = GetPtoPEngine().getEngineSettings().getUseUpnp();

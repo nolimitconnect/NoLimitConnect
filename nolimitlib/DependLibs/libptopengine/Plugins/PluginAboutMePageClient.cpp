@@ -51,7 +51,7 @@ void PluginAboutMePageClient::onFilesChanged( int64_t lastFileUpdateTime, int64_
 void PluginAboutMePageClient::onFileDownloadStart( bool started, VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string fileName, VxGUID& assetId )
 {
 	EPluginMsgType pluginMsgType = started ? ePluginMsgDownloading : ePluginMsgDownloadFailed;
-	m_Engine.getToGui().toGuiPluginMsg( getPluginType(), onlineId, pluginMsgType, fileName );
+	m_Engine.getToGui().toGuiPluginMsg( getPluginType(), onlineId, pluginMsgType, fileName.c_str() );
 }
 
 //============================================================================
@@ -109,12 +109,12 @@ bool PluginAboutMePageClient::onFileDownloadComplete( VxGUID& onlineId, std::sha
 				if( result )
 				{
 					// all done
-                    m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, indexFileInfo.getFileNameAndPath() );
+                    m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, indexFileInfo.getFileNameAndPath().c_str() );
 				}
 				else
 				{
 					// failed to find the web index file in downloaded files
-					m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed, "", 0 );
+					m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed );
 				}
 			}
 			else
@@ -124,12 +124,12 @@ bool PluginAboutMePageClient::onFileDownloadComplete( VxGUID& onlineId, std::sha
 		}
 		else
 		{
-			m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed, "", 0 );
+			m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed );
 		}
 	}
 	else
 	{
-		m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgInvalidParam, "", 0 );
+		m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgInvalidParam );
 	}
 
 	return result;
@@ -200,11 +200,11 @@ bool PluginAboutMePageClient::fromGuiDownloadWebPage( EWebPageType webPageType, 
 
 			if( diskFreeSpace && diskFreeSpace < VxFileUtil::SIZE_1GB )
 			{
-				m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgLowDiskSpace, "" );
+				m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgLowDiskSpace );
 			}
 			else
 			{
-				m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgConnecting, "" );
+				m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgConnecting );
 				result = connectForWebPageDownload( onlineId );
 			}
 		}
@@ -228,7 +228,7 @@ bool PluginAboutMePageClient::fromGuiCancelWebPage( EWebPageType webPageType, Vx
 	if( eWebPageTypeAboutMe == webPageType )
 	{
 		cancelDownload();
-		m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgCanceled, "" );
+		m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgCanceled );
 
 	}
 	else
@@ -273,10 +273,10 @@ void PluginAboutMePageClient::fileInfoSearchCompleted( VxGUID& searchSessionId, 
 
 		if( webIndexFileFound )
 		{
-			m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloading, "" );
+			m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloading );
 			if( !startDownload( searchSessionId, sktBase, m_HisOnlineId ) )
 			{
-				m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed, "" );
+				m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed );
 				cancelDownload();
 			}
 		}

@@ -721,13 +721,13 @@ libass.lib;libpcre.lib
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerBuf.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMixerInterface.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioSampleBuf.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioTestGenerator.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioTestGenerator.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioUtils.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioDevices.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioIn.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioInDevice.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioMgr.h" />
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioOut.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioOut.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioOutDevice.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\MyIcons.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\MyIconsDefs.h" />
@@ -1132,6 +1132,9 @@ libass.lib;libpcre.lib
     <Text Include="..\..\..\..\nolimitlib\NlcPtoPVersion.txt" />
     <Text Include="..\..\..\CMakeLists.txt" />
     <Text Include="..\..\..\CommonSrc\Resources\CreditsArt.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\..\android\AndroidManifest.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

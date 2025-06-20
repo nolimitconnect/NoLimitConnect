@@ -16,6 +16,7 @@
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
+#include <CoreLib/VxParse.h>
 #include <NetLib/VxSktBase.h>
 
 //============================================================================
@@ -51,7 +52,7 @@ void PluginFileShareClient::onFilesChanged( int64_t lastFileUpdateTime, int64_t 
 void PluginFileShareClient::onFileDownloadStart( bool started, VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string fileName, VxGUID& assetId )
 {
 	EPluginMsgType pluginMsgType = started ? ePluginMsgDownloading : ePluginMsgDownloadFailed;
-	m_Engine.getToGui().toGuiPluginMsg( getPluginType(), onlineId, pluginMsgType, fileName );
+	m_Engine.getToGui().toGuiPluginMsg( getPluginType(), onlineId, pluginMsgType, fileName.c_str() );
 }
 
 //============================================================================
@@ -112,12 +113,12 @@ bool PluginFileShareClient::onFileDownloadComplete( VxGUID& onlineId, std::share
 			if( result )
 			{
 				// all done
-				m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, foundFileInfo.getFileNameAndPath() );
+				m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, foundFileInfo.getFileNameAndPath().c_str() );
 			}
 			else
 			{
 				// failed to find the web index file in downloaded files
-				m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed, "", 0 );
+				m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed );
 			}
 
 			// do not start another
@@ -147,12 +148,12 @@ bool PluginFileShareClient::onFileDownloadComplete( VxGUID& onlineId, std::share
 				if( result )
 				{
 					// all done
-					m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, indexFileInfo.getFileNameAndPath() );
+					m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, indexFileInfo.getFileNameAndPath().c_str() );
 				}
 				else
 				{
 					// failed to find the web index file in downloaded files
-					m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed, "", 0 );
+					m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed );
 				}
 			}
 			else
@@ -162,12 +163,12 @@ bool PluginFileShareClient::onFileDownloadComplete( VxGUID& onlineId, std::share
 		}
 		else
 		{
-			m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed, "", 0 );
+			m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed );
 		}
 	}
 	else
 	{
-		m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgInvalidParam, "", 0 );
+		m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgInvalidParam );
 	}
 
 	return result;
@@ -309,7 +310,7 @@ void PluginFileShareClient::fileInfoSearchCompleted( VxGUID& searchSessionId, st
 	{
 		LogMsg( LOG_VERBOSE, "PluginFileShareClient::fileInfoSearchCompleted with no errors" );
 
-		m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgRetrieveInfoComplete, " %d", m_SearchFileInfoList.size() );
+		m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgRetrieveInfoComplete, StdStringFormat( " %d", m_SearchFileInfoList.size() ).c_str() );
 	}
 	else
 	{
@@ -404,7 +405,7 @@ bool PluginFileShareClient::fromGuiDownloadFileList( VxGUID& onlineId, VxGUID& s
 			}
 		}
 		
-		m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgRetrieveInfoComplete, " %d", resultCnt );
+		m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgRetrieveInfoComplete, StdStringFormat( " %d", resultCnt ).c_str() );
 		return true;
 	}
 	else

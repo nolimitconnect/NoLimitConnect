@@ -543,7 +543,6 @@ namespace
 
         "Max Announced Plugin ", // 18
 
-        "Plugin Reserved 18 ",
         "Plugin Reserved 19 ",
         "Plugin Reserved 20 ",
         "Plugin Reserved 21 ",

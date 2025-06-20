@@ -166,6 +166,14 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
 
         m_PluginMgr.onAfterUserLogOnThreaded();
         if(LogEnabled(eLogStartup))LogMsg( LOG_INFO, "P2PEngine PluginMgr onAfterUserLogOnThreaded done" );
+
+        if( m_NetworkConnectionReady && !m_PktMgrNetworkReadyWasCalled )
+        {
+            // network was ready before plugin manager initialized
+            m_PktMgrNetworkReadyWasCalled = true;
+            // fire up web cam, file share and other hosted services
+            m_PluginMgr.onNetworkConnectionReady( m_PktAnn.requiresRelay() );
+        }
     }
     else
     {

@@ -66,11 +66,11 @@ MiniAudioMgr::MiniAudioMgr( AppCommon& app, IAudioCallbacks& audioCallbacks, QOb
 
     m_AudioOutFormat.setSampleRate( AUDIO_DEVICE_SAMPLE_RATE );
     m_AudioOutFormat.setChannelCount( AUDIO_CHANNELS );
-    m_AudioOutFormat.setSampleFormat( QAudioFormat::Int16 );
+    m_AudioOutFormat.setSampleFormat( VxAudioFormat::Int16 );
 
     m_AudioInFormat.setSampleRate( AUDIO_DEVICE_SAMPLE_RATE );
     m_AudioInFormat.setChannelCount( AUDIO_CHANNELS );
-    m_AudioInFormat.setSampleFormat( QAudioFormat::Int16 );
+    m_AudioInFormat.setSampleFormat( VxAudioFormat::Int16 );
 
     MiniAudioMgr::setEchoCancelEnable( m_MyApp.getAppSettings().getEchoCancelEnable() ); // for now always enabled
 

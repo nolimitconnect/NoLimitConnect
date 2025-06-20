@@ -36,6 +36,7 @@ list(APPEND CoreLib_HEADERS
     Invite.h
     VFile.h
     VirtFileMgr.h
+    VxAudioFormat.h
     VxBuffer.h
     VxChop.h
     VxChopMap.h
@@ -119,6 +120,7 @@ list(APPEND CoreLib_SOURCES
     VFile.cpp
     VFileMgr.cpp
 
+    VxAudioFormat.cpp
     VxBuffer.cpp
     VxChop.cpp
     VxChopMap.cpp

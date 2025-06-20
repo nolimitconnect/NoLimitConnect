@@ -57,8 +57,8 @@ public:
 
     bool                        isAudioInitialized( void )                  { return m_AudioIoInitialized;  }
     IAudioCallbacks&            getAudioCallbacks( void )                   { return m_AudioCallbacks; }
-    QAudioFormat&               getAudioOutFormat( void )                   { return m_AudioOutFormat; }
-    QAudioFormat&               getAudioInFormat( void )                    { return m_AudioInFormat; }
+    VxAudioFormat&               getAudioOutFormat( void )                   { return m_AudioOutFormat; }
+    VxAudioFormat&               getAudioInFormat( void )                    { return m_AudioInFormat; }
 
     MiniAudioIn&                getAudioInIo( void )                        { return m_AudioInIo; }
     MiniAudioOut&               getAudioOutIo( void )                       { return m_AudioOutIo; }
@@ -266,16 +266,16 @@ protected:
 
     bool                        m_SpeakerTestToneEnable{ false };
 
-    QAudioFormat                m_AudioOutFormat;
+    VxAudioFormat                m_AudioOutFormat;
     MiniAudioOut                m_AudioOutIo;
 
-    QAudioFormat                m_AudioInFormat;
+    VxAudioFormat                m_AudioInFormat;
     MiniAudioIn                 m_AudioInIo;
 
     bool                        m_IsOutPaused{ false };
     bool                        m_IsTestMode{ false };
     int                         m_CacheAuidioLen = 0;
-    QMutex                      m_AudioQueueMutex;
+    VxMutex                     m_AudioQueueMutex;
     int                         m_OutWriteCount = 0;
 
     float                       m_MicrophoneVolume{ 100.0f };

@@ -16,23 +16,23 @@
 
 #include <stdint.h>
 
-class QAudioFormat;
+class VxAudioFormat;
 
 namespace AudioUtils
 {
-    qint64                      audioDurationUs(const QAudioFormat &format, qint64 bytes);
+    qint64                      audioDurationUs(const VxAudioFormat &format, qint64 bytes);
     int64_t                     audioDurationUs( int sampleRate, int sampleCnt );
 
-    int                         audioDurationMs( const QAudioFormat& format, int bytes );
+    int                         audioDurationMs( const VxAudioFormat& format, int bytes );
     int                         audioDurationMs( int sampleRate, int sampleCnt );
 
-    qint64                      audioLength(const QAudioFormat &format, qint64 microSeconds);
-    int                         audioSamplesRequiredForGivenMs( const QAudioFormat& format, qint64 milliSeconds );
+    qint64                      audioLength(const VxAudioFormat &format, qint64 microSeconds);
+    int                         audioSamplesRequiredForGivenMs( const VxAudioFormat& format, qint64 milliSeconds );
     int                         audioSamplesRequiredForGivenMs( int sampleRate, int milliSeconds );
 
-    QString                     formatToString(const QAudioFormat &format);
+    QString                     formatToString(const VxAudioFormat &format);
 
-    qreal                       nyquistFrequency(const QAudioFormat &format);
+    qreal                       nyquistFrequency(const VxAudioFormat &format);
 
     // Scale PCM value to [-1.0, 1.0]
     qreal                       pcmToReal(qint16 pcm);
@@ -43,10 +43,10 @@ namespace AudioUtils
     int16_t                     floatToPcm( float val );
 
     // Check whether the audio format is PCM
-    bool                        isPCM(const QAudioFormat &format);
+    bool                        isPCM(const VxAudioFormat &format);
 
     // Check whether the audio format is signed, little-endian, 16-bit PCM
-    bool                        isPCMS16LE(const QAudioFormat &format);
+    bool                        isPCMS16LE(const VxAudioFormat &format);
 
 //    // Compile-time calculation of powers of two
 
@@ -58,12 +58,12 @@ namespace AudioUtils
 
     void                        mixPcmAudio( int16_t * pcmData,  int16_t * outData, int toMixBytes );
 
-    //  contract pcm Audio data to disired number of samples using a divider.. typically PCM 48000Hz Stereo Channel to PCM 8000Hz Mono Channel 
+    //  contract pcm Audio data to disired number of samples using a divider.. typically PCM 48000Hz Stereo Channel to PCM 16000Hz Mono Channel 
     void                        dnsamplePcmAudio( int16_t* srcSamples, int resampledCnt, int dnResampleDivider, int16_t* destSamples );
 
-    //  expand pcm Audio data to desired number of samples using a multiplier.. typically PCM 8000Hz Mono Channel to PCM 48000Hz Stereo Channel
+    //  expand pcm Audio data to desired number of samples using a multiplier.. typically PCM 16000Hz Mono Channel to PCM 48000Hz Stereo Channel
     void                        upsamplePcmAudioLerpPrev( int16_t* srcSamples, int srcSampleCnt, int upResampleMultiplier, int16_t prevFrameSample, int16_t* destSamples );
-    //  expand pcm Audio data to desired number of samples using a multiplier.. typically PCM 8000Hz Mono Channel to PCM 48000Hz Stereo Channel
+    //  expand pcm Audio data to desired number of samples using a multiplier.. typically PCM 16000Hz Mono Channel to PCM 48000Hz Stereo Channel
     void                        upsamplePcmAudioLerpNext( int16_t* srcSamples, int srcSampleCnt, int upResampleMultiplier, int16_t nextFrameSample, int16_t* destSamples );
 
 

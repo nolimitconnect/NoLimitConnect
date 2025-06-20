@@ -75,13 +75,12 @@ void AppGlobals::launchWebBrowser( const char* pUri )
 //! update ident and save to database then send permission change to engine
 void  AppGlobals::updatePluginPermission( EPluginType pluginType, EFriendState ePluginPermission )
 {
+    m_MyApp.getEngine().setPluginPermission( pluginType, ePluginPermission );
 	getMyNetIdent()->setPluginPermission( pluginType, ePluginPermission );
 	if( false == m_MyApp.getAccountMgr().updateAccount( *getMyNetIdent() ) )
 	{
-		LogMsg( LOG_ERROR, "UpdatePluginPermissions: ERROR updating database");
+		LogMsg( LOG_ERROR, "UpdatePluginPermissions: ERROR updating database" );
 	}
-
-    m_MyApp.getEngine().setPluginPermission( pluginType, ePluginPermission );
 }
 
 //============================================================================

@@ -221,8 +221,8 @@ PktPluginHandlerBase::PktPluginHandlerBase()
 //! Handle Incoming packet.. use function jump table for speed
 void PktPluginHandlerBase::handlePkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PktPluginHandlerBase::handlePkt type %d len %d plugin %s from %s", pktHdr->getPktType(), pktHdr->getPktLength(),
-        DescribePluginType( (EPluginType)pktHdr->getPluginNum() ), sktBase->getRemoteIpAddress() );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PktPluginHandlerBase::handlePkt type %d len %d plugin #%d %s from %s", pktHdr->getPktType(), pktHdr->getPktLength(),
+        pktHdr->getPluginNum(), DescribePluginType( (EPluginType)pktHdr->getPluginNum() ), sktBase->getRemoteIpAddress() );
     if( pktHdr->getPktType() <= sizeof(  m_aBaseSysPktFuncTable ) / (sizeof( void *)) )
 		return (this->*m_aBaseSysPktFuncTable[ pktHdr->getPktType() ])(sktBase, pktHdr, netIdent);
 	return onPktInvalid(sktBase, pktHdr, netIdent);

@@ -598,8 +598,12 @@ void P2PEngine::onNetworkConnectionReady( bool requiresRelay, std::string& ipAdd
 	if( !m_NetworkConnectionReady )
 	{
 		m_NetworkConnectionReady = true;
-		// fire up web cam, file share and other hosted services
-		getPluginMgr().onNetworkConnectionReady( requiresRelay );
+		if( m_PluginMgr.isPluginMgrReady() )
+		{
+			// fire up web cam, file share and other hosted services
+			getPluginMgr().onNetworkConnectionReady( requiresRelay );
+		}
+
 		doPktAnnHasChanged( false );
 	}
 

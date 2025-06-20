@@ -566,18 +566,26 @@ void PluginCamClient::onPktVideoFeedStatus( std::shared_ptr<VxSktBase>& sktBase,
 void PluginCamClient::onPktVideoFeedPic( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	//LogMsg( LOG_VERBOSE, "PluginCamClient::onPktCastPic\n" );
+    // might be relayed. use source id instead of connection netIdent;
+    VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
+    if( !srcOnlineId.isVxGUIDValid() )
+    {
+        LogMsg( LOG_VERBOSE, "PluginCamClient::%s invalid source id", __func__ );
+        return;
+    }
+
 	PktVideoFeedPicAck oPkt;
-	m_PluginMgr.pluginApiTxPacket( m_ePluginType, netIdent->getMyOnlineId(), sktBase, &oPkt ); 
+    m_PluginMgr.pluginApiTxPacket( m_ePluginType, srcOnlineId, sktBase, &oPkt );
 
 	PktVideoFeedPic * poPktCastPic = ( PktVideoFeedPic * )pktHdr;
 	if( poPktCastPic->getTotalDataLen() == poPktCastPic->getThisDataLen() )
 	{
-		m_Engine.getMediaProcessor().processFriendVideoFeed( netIdent->getMyOnlineId(), poPktCastPic->getDataPayload(), poPktCastPic->getTotalDataLen(), poPktCastPic->getMotionDetect() );
+        m_Engine.getMediaProcessor().processFriendVideoFeed( srcOnlineId, poPktCastPic->getDataPayload(), poPktCastPic->getTotalDataLen(), poPktCastPic->getMotionDetect() );
 #if defined(DEBUG_PLUGIN_LOCK)
 		LogMsg( LOG_VERBOSE, "PluginCamClient::onPktVideoFeedPic lock" );
 #endif //defined(DEBUG_PLUGIN_LOCK)
 		PluginBase::AutoPluginLock pluginMutexLock( this );
-		RxSession * poSession = (RxSession *)m_PluginSessionMgr.findRxSessionByOnlineId( netIdent->getMyOnlineId(), true );
+        RxSession * poSession = (RxSession *)m_PluginSessionMgr.findRxSessionByOnlineId( srcOnlineId, true );
 		if( poSession )
 		{
 			if( poSession->getVideoFeedPkt() )
@@ -599,7 +607,7 @@ void PluginCamClient::onPktVideoFeedPic( std::shared_ptr<VxSktBase>& sktBase, Vx
 		// picture was too big for one packet
 		PluginBase::AutoPluginLock pluginMutexLock( this );
 
-		RxSession * poSession = (RxSession *)m_PluginSessionMgr.findRxSessionByOnlineId( netIdent->getMyOnlineId(), true );
+        RxSession * poSession = (RxSession *)m_PluginSessionMgr.findRxSessionByOnlineId( srcOnlineId, true );
 		if( poSession )
 		{
 			if( poSession->getVideoFeedPkt() )
@@ -610,8 +618,8 @@ void PluginCamClient::onPktVideoFeedPic( std::shared_ptr<VxSktBase>& sktBase, Vx
 		}
 		else
 		{
-			poSession = (RxSession *)m_PluginSessionMgr.findOrCreateRxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, true );
-			LogMsg( LOG_VERBOSE, "PluginCamClient::onPktVideoFeedPic: creating rx session because could not be found");
+            poSession = (RxSession *)m_PluginSessionMgr.findOrCreateRxSessionWithOnlineId( srcOnlineId, sktBase, true );
+            LogMsg( LOG_VERBOSE, "PluginCamClient::%s creating rx session because could not be found", __func__ );
 		}
 
 		PktVideoFeedPic * poPic = ( PktVideoFeedPic * ) new char[ sizeof( PktVideoFeedPic ) + 16 + poPktCastPic->getTotalDataLen() ];
@@ -629,14 +637,22 @@ void PluginCamClient::onPktVideoFeedPic( std::shared_ptr<VxSktBase>& sktBase, Vx
 //============================================================================
 void PluginCamClient::onPktVideoFeedPicChunk( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    // might be relayed. use source id instead of connection netIdent;
+    VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
+    if( !srcOnlineId.isVxGUIDValid() )
+    {
+        LogMsg( LOG_VERBOSE, "PluginCamClient::%s invalid source id", __func__ );
+        return;
+    }
+
 	PktVideoFeedPicChunk * poPktPicChunk = ( PktVideoFeedPicChunk * )pktHdr;
 #if defined(DEBUG_PLUGIN_LOCK)
 	LogMsg( LOG_VERBOSE, "PluginCamClient::onPktVideoFeedPicChunk lock" );
 #endif //defined(DEBUG_PLUGIN_LOCK)
 	PluginBase::AutoPluginLock pluginMutexLock( this );
 
-	RxSession * poSession = (RxSession *)m_PluginSessionMgr.findRxSessionByOnlineId( netIdent->getMyOnlineId(), true );
-	if( NULL == poSession )
+    RxSession * poSession = (RxSession *)m_PluginSessionMgr.findRxSessionByOnlineId( srcOnlineId, true );
+	if( !poSession )
 	{
 		// this may occur normally with dropped frames due to slow acknowledgment
 		//LogMsg( LOG_ERROR, "PluginCamClient::onPktVideoFeedPicChunk: could not find RxSession\n");
@@ -656,15 +672,17 @@ void PluginCamClient::onPktVideoFeedPicChunk( std::shared_ptr<VxSktBase>& sktBas
 			// all of picture arrived
 			PktVideoFeedPicAck oPkt;
 			m_PluginMgr.pluginApiTxPacket(	m_ePluginType, 
-				netIdent->getMyOnlineId(), 
+                srcOnlineId,
 				sktBase, 
-				&oPkt ); 
+                &oPkt );
 
-			std::shared_ptr<uint8_t> jpgData( new uint8_t[poPktCastPic->getTotalDataLen()] );
-			memcpy( jpgData.get(), poPktCastPic->getDataPayload(), poPktCastPic->getTotalDataLen() );
-			std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, poPktCastPic->getTotalDataLen(), poPktCastPic->getMotionDetect() ) );
+            m_Engine.getMediaProcessor().processFriendVideoFeed( srcOnlineId, poPktCastPic->getDataPayload(), poPktCastPic->getTotalDataLen(), poPktCastPic->getMotionDetect() );
 
-			m_PluginMgr.pluginApiPlayJpgVideo( m_ePluginType, netIdent, jpgVideo );
+            //std::shared_ptr<uint8_t> jpgData( new uint8_t[poPktCastPic->getTotalDataLen()] );
+            //memcpy( jpgData.get(), poPktCastPic->getDataPayload(), poPktCastPic->getTotalDataLen() );
+            //std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, poPktCastPic->getTotalDataLen(), poPktCastPic->getMotionDetect() ) );
+
+            //m_PluginMgr.pluginApiPlayJpgVideo( m_ePluginType, netIdent, jpgVideo );
 			
 			delete poSession->getVideoFeedPkt();
 			poSession->setVideoFeedPkt( NULL );

@@ -925,7 +925,7 @@ RCODE VxSktBase::decryptReceiveData( void )
 	if( false == isRxEncryptionKeySet() )
 	{
 		// no key to decrypt with
-		//LogMsg( LOG_INFO, "No Rx Crypto Key Set %s", describeSktType().c_str() );
+        LogMsg( LOG_ERROR, "VxSktBase::%s No Rx Crypto Key Set %s", __func__, describeSktType().c_str() );
 		return -1;
 	}
 
@@ -1303,11 +1303,9 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 
                     memcpy( sktBase->getSktWriteBuf(), as8Buf, iDataLen );
                     sktBase->sktBufAmountWrote( iDataLen );
-                    if( false == sktBase->isUdpSocket() )
-                    {
-                        // decrypt as much as possible
-                        sktBase->decryptReceiveData();
-                    }
+
+                    // decrypt as much as possible
+                    sktBase->decryptReceiveData();
 
                     sktBase->RxedPkt( iDataLen );
                     // call back user with the good news.. we have data

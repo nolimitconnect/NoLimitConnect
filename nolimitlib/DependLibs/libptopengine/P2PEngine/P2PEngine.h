@@ -827,6 +827,7 @@ protected:
     bool                        m_IsEngineCreated{ false };
     bool                        m_IsEngineReady{ false };
     bool                        m_NetworkConnectionReady{ false };
+    bool                        m_PktMgrNetworkReadyWasCalled{ false };
 
 	PktImAliveReq				m_PktImAliveReq;
 

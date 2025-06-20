@@ -32,7 +32,7 @@ MiniAudioOut::MiniAudioOut( MiniAudioMgr& mgr, QObject *parent )
 }
 
 //============================================================================
-bool MiniAudioOut::initAudioOut( QAudioFormat& audioFormat, int deviceIndex )
+bool MiniAudioOut::initAudioOut( VxAudioFormat& audioFormat, int deviceIndex )
 {
     m_AudioFormat = audioFormat;
     soundOutDeviceChanged( deviceIndex );

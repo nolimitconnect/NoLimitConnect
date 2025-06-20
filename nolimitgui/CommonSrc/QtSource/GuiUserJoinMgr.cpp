@@ -428,11 +428,14 @@ void GuiUserJoinMgr::announceUserJoinIsGranted( GroupieId& groupieId, GuiUserJoi
         client->callbackGuiUserJoinIsGranted( groupieId, guiUserJoin );
     }
 
-    VxPtopUrl ptopUrl( m_LastJoinAttemptedHostInviteUrl );
-    if( ptopUrl.isValid() && ptopUrl.getOnlineId() == groupieId.getHostOnlineId() )
+    if( !m_LastJoinAttemptedHostInviteUrl.empty() )
     {
-        m_MyApp.getAppSettings().setLastHostJoined( m_LastJoinAttemptedHostInviteUrl );
-        m_LastJoinAttemptedHostInviteUrl.clear();
+        VxPtopUrl ptopUrl( m_LastJoinAttemptedHostInviteUrl );
+        if( ptopUrl.isValid() && ptopUrl.getOnlineId() == groupieId.getHostOnlineId() )
+        {
+            m_MyApp.getAppSettings().setLastHostJoined( m_LastJoinAttemptedHostInviteUrl );
+            m_LastJoinAttemptedHostInviteUrl.clear();
+        }
     }
 }
 

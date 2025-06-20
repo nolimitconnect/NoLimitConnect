@@ -18,7 +18,7 @@ void P2PEngine::onPktRelayUserDisconnect( std::shared_ptr<VxSktBase>& sktBase, V
 {
 	PktRelayUserDisconnect* pktRelayErr = (PktRelayUserDisconnect*)pktHdr;
 	LogModule( eLogRelay, LOG_VERBOSE, "P2PEngine::onPktRelayUserDisconnect err %s relaying pkt type %d to %s by host %s",
-			   DescribeRelayError( pktRelayErr->getRelayError() ), pktRelayErr->getPktType(), 
+			   DescribeRelayError( pktRelayErr->getRelayError() ), pktRelayErr->getRelayedPktType(), 
 			   pktRelayErr->getDestOnlineId().toOnlineIdString().c_str(), pktRelayErr->getHostOnlineId().toOnlineIdString().c_str() );
 	// TODO manage hosted users online state
 }

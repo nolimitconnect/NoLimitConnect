@@ -275,6 +275,7 @@
     <ClInclude Include="..\..\VirtFile.h" />
     <ClInclude Include="..\..\VirtFileMgr.h" />
     <ClInclude Include="..\..\VxAppInfo.h" />
+    <ClInclude Include="..\..\VxAudioFormat.h" />
     <ClInclude Include="..\..\VxBuffer.h" />
     <ClInclude Include="..\..\VxChop.h" />
     <ClInclude Include="..\..\VxChopMap.h" />
@@ -362,6 +363,7 @@
     <ClCompile Include="..\..\VFile.cpp" />
     <ClCompile Include="..\..\VirtFile.cpp" />
     <ClCompile Include="..\..\VxAppInfo.cpp" />
+    <ClCompile Include="..\..\VxAudioFormat.cpp" />
     <ClCompile Include="..\..\VxBuffer.cpp" />
     <ClCompile Include="..\..\VxChop.cpp" />
     <ClCompile Include="..\..\VxChopMap.cpp" />

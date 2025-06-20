@@ -21,6 +21,8 @@ public:
 	VxPortForward();
 	~VxPortForward();
 
+	static void shutdownPortForward( void );
+
 	static void setEnablePortForward( bool enable );
 	static bool getEnablePortForward( void );
 
@@ -42,6 +44,7 @@ protected:
 
 	static bool m_ForwardEnable;
 
+	static bool m_IsShutdown;
 	static bool m_IsIpv6;
 	static bool m_UseIpv6; // ipv6 is primary configureation
 	static std::string m_IpAddr;

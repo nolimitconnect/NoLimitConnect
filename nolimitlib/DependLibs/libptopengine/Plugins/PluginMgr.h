@@ -146,6 +146,8 @@ public:
 
 	void						onNetworkConnectionReady( bool requiresRelay );
 
+	bool						isPluginMgrReady( void ) { return m_PluginMgrInitialized; }
+
 protected:
 	bool						isValidPluginNum( uint8_t u8PluginNum );
     PluginBase*                 hostClientToPlugin( EHostType hostType );

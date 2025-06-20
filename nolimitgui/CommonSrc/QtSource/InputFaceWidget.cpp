@@ -15,11 +15,8 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
-
-#include <QDebug>
-
-#include <time.h>
 
 #include "ui_InputFaceWidget.h"
 
@@ -35,69 +32,69 @@ InputFaceWidget::InputFaceWidget( QWidget* parent )
     ui.m_CancelFaceButton->setSquareButtonSize( eButtonSizeTiny );
 
 	connect( ui.m_FaceLabel1_1,		SIGNAL(clicked()),	this, SLOT(slotFace1LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_1 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_1 );
 	connect( ui.m_FaceLabel1_2,		SIGNAL(clicked()),	this, SLOT(slotFace2LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_2 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_2 );
 	connect( ui.m_FaceLabel1_3,		SIGNAL(clicked()),	this, SLOT(slotFace3LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_3 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_3 );
 	connect( ui.m_FaceLabel1_4,		SIGNAL(clicked()),	this, SLOT(slotFace4LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_4 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_4 );
 	connect( ui.m_FaceLabel1_5,		SIGNAL(clicked()),	this, SLOT(slotFace5LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_5 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_5 );
 	connect( ui.m_FaceLabel1_6,		SIGNAL(clicked()),	this, SLOT(slotFace6LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_6 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_6 );
 	connect( ui.m_FaceLabel1_7,		SIGNAL(clicked()),	this, SLOT(slotFace7LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_7 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_7 );
 	connect( ui.m_FaceLabel1_8,		SIGNAL(clicked()),	this, SLOT(slotFace8LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_8 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_8 );
 	connect( ui.m_FaceLabel1_9,		SIGNAL(clicked()),	this, SLOT(slotFace9LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_9 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_9 );
 	connect( ui.m_FaceLabel1_10,		SIGNAL(clicked()),	this, SLOT(slotFace10LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_10 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_10 );
 	connect( ui.m_FaceLabel1_11,		SIGNAL(clicked()),	this, SLOT(slotFace11LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_11 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_11 );
 	connect( ui.m_FaceLabel1_12,		SIGNAL(clicked()),	this, SLOT(slotFace12LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_12 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_12 );
 	connect( ui.m_FaceLabel1_13,		SIGNAL(clicked()),	this, SLOT(slotFace13LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_13 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_13 );
 	connect( ui.m_FaceLabel1_14,		SIGNAL(clicked()),	this, SLOT(slotFace14LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_14 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_14 );
 	connect( ui.m_FaceLabel1_15,		SIGNAL(clicked()),	this, SLOT(slotFace15LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_15 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_15 );
 	connect( ui.m_FaceLabel1_16,		SIGNAL(clicked()),	this, SLOT(slotFace16LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_16 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_16 );
 	connect( ui.m_FaceLabel1_17,		SIGNAL(clicked()),	this, SLOT(slotFace17LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_17 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_17 );
 	connect( ui.m_FaceLabel1_18,		SIGNAL(clicked()),	this, SLOT(slotFace18LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_18 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_18 );
 	connect( ui.m_FaceLabel1_19,		SIGNAL(clicked()),	this, SLOT(slotFace19LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_19 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_19 );
 	connect( ui.m_FaceLabel1_20,		SIGNAL(clicked()),	this, SLOT(slotFace20LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_20 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_20 );
 	connect( ui.m_FaceLabel1_21,		SIGNAL(clicked()),	this, SLOT(slotFace21LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_21 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_21 );
 	connect( ui.m_FaceLabel1_22,		SIGNAL(clicked()),	this, SLOT(slotFace22LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_22 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_22 );
 	connect( ui.m_FaceLabel1_23,		SIGNAL(clicked()),	this, SLOT(slotFace23LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_23 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_23 );
 	connect( ui.m_FaceLabel1_24,		SIGNAL(clicked()),	this, SLOT(slotFace24LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_24 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_24 );
 	connect( ui.m_FaceLabel1_25,		SIGNAL(clicked()),	this, SLOT(slotFace25LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_25 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_25 );
 	connect( ui.m_FaceLabel1_26,		SIGNAL(clicked()),	this, SLOT(slotFace26LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_26 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_26 );
 	connect( ui.m_FaceLabel1_27,		SIGNAL(clicked()),	this, SLOT(slotFace27LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_27 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_27 );
 	connect( ui.m_FaceLabel1_28,		SIGNAL(clicked()),	this, SLOT(slotFace28LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_28 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_28 );
 	connect( ui.m_FaceLabel1_29,		SIGNAL(clicked()),	this, SLOT(slotFace29LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_29 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_29 );
 	connect( ui.m_FaceLabel1_30,		SIGNAL(clicked()),	this, SLOT(slotFace30LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_30 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_30 );
 	connect( ui.m_FaceLabel1_31,		SIGNAL(clicked()),	this, SLOT(slotFace31LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_31 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_31 );
 	connect( ui.m_FaceLabel1_32,		SIGNAL(clicked()),	this, SLOT(slotFace32LabelClicked()) );
-	m_FaceList.push_back( ui.m_FaceLabel1_32 );
+    m_FaceList.emplace_back( ui.m_FaceLabel1_32 );
 
 	char resBuf[128];
 	QSize imageSize( GuiParams::getButtonSize( eButtonSizeSmall ) );
@@ -113,9 +110,22 @@ InputFaceWidget::InputFaceWidget( QWidget* parent )
             sprintf( resBuf, ":/AppRes/Resources/emoj0%d.svg", i + 1 );
         }
 
+        bool wasSet{false};
 		QPixmap faceImage( resBuf );
-		QPixmap picPixmap = faceImage.scaled(imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-		faceLabel->setPixmap( picPixmap );
+        if( !faceImage.isNull() )
+        {
+            QPixmap picPixmap = faceImage.scaled(imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+            if( !picPixmap.isNull() )
+            {
+                faceLabel->setPixmap( picPixmap );
+                wasSet = true;
+            }
+        }
+
+        if( !wasSet )
+        {
+            LogMsg( LOG_ERROR, "InputFaceWidget::InputFaceWidget invalid pixmap for %s", resBuf );
+        }
 	}
 
 	ui.m_CancelFaceButton->setIcons( eMyIconCancelNormal );

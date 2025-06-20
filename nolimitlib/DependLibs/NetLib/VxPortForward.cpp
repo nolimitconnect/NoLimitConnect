@@ -14,6 +14,7 @@
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
+#include <CoreLib/VxGlobals.h>
 
 #include <array>
 
@@ -83,6 +84,17 @@ bool VxPortForward::m_UseIpv6 = false;
 std::string VxPortForward::m_IpAddr("");
 uint16_t VxPortForward::m_Port = 0;
 std::thread VxPortForward::runUpnpThread;
+bool VxPortForward::m_IsShutdown = false;
+
+//============================================================================
+void VxPortForward::shutdownPortForward( void )
+{
+	if( !m_IsShutdown )
+	{
+		m_IsShutdown = true;
+		killThread();
+	}
+}
 
 //============================================================================
 void VxPortForward::waitForThreadToFinish( void )
@@ -131,6 +143,11 @@ bool VxPortForward::getUseIpv6( void )
 //============================================================================
 bool VxPortForward::addPortForward( bool ipv6, std::string ipAddr, uint16_t port, bool runInThread )
 {
+	if( m_IsShutdown || VxIsAppShuttingDown() )
+	{
+		return false;
+	}
+
 	if( !m_ForwardEnable )
 	{
 		LogModule( eLogPortForward, LOG_DEBUG, "VxPortForward::addPortForward not enabled " );
@@ -162,6 +179,11 @@ bool VxPortForward::addPortForward( bool ipv6, std::string ipAddr, uint16_t port
 //============================================================================
 bool VxPortForward::doAddPortForward( void )
 {
+	if( m_IsShutdown || VxIsAppShuttingDown() )
+	{
+		return false;
+	}
+
 	LogModule( eLogPortForward, LOG_DEBUG, "VxPortForward::%s removing old port mapping for port %d ", __func__, m_Port );
 	doRemovePortForward();
 

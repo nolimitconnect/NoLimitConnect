@@ -828,18 +828,7 @@ void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType me
 {
 	if( false == VxIsAppShuttingDown() )
 	{
-		BigListInfo * poInfo = m_BigListMgr.findBigListInfo( onlineId );
-		if( poInfo )
-		{
-			if( eMediaInputVideoJpg !=  mediaType ) // no need to activate cam if requesting other person's video feed
-			{			
-				m_MediaProcessor.wantMediaInput( onlineId, mediaType, this, appModule, mediaSessionId, wantInput );
-			}
-		}
-		else
-		{
-			m_MediaProcessor.wantMediaInput( onlineId, mediaType, this, appModule, mediaSessionId, wantInput );
-		}
+        m_MediaProcessor.wantMediaInput( onlineId, mediaType, this, appModule, mediaSessionId, wantInput );
 	}
 }
 

@@ -346,12 +346,26 @@ bool GetWord( std::string& csStr, int n, std::string& csRetToken )
 }
 
 //============================================================================
+//! return formatted std::string using printf style format	
+std::string	StdStringFormat( const char* pFormat, ... )
+{
+	std::array<char, FMT_BUF_SIZE> fmtBuf;
+
+	va_list argList;
+	va_start( argList, pFormat );
+	vsnprintf( fmtBuf.data(), FMT_BUF_SIZE, pFormat, argList );
+	va_end( argList );
+
+	fmtBuf.data()[FMT_BUF_SIZE - 1] = 0;
+	return fmtBuf.data();
+}
+
+//============================================================================
 //! format into std::string using printf style format
 void StdStringFormat(	std::string & csStr,	// std::string to return formated results in
 						const char* pFormat,	// string with format chars etc		
 						... )					// vars
 {
-
 	std::array<char, FMT_BUF_SIZE> fmtBuf;
 
     va_list argList;

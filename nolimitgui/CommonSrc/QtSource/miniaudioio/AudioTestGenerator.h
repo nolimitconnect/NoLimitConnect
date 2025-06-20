@@ -9,47 +9,34 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <QIODevice>
-#include <QtGlobal>
-#if QT_VERSION >= 0x050000
-    #include <QAudioOutput>
-    #include <QAudioFormat>
-#else
-    #include <QtMultimedia>
-#endif
+#include <CoreLib/VxAudioFormat.h>
 
+#include <QByteArray>
 
-class AudioTestGenerator : public QIODevice
+class AudioTestGenerator
 {
-    Q_OBJECT
 
 public:
     AudioTestGenerator() = default;
-    AudioTestGenerator( const QAudioFormat& format, qint64 durationUs, int toneHz );
+    AudioTestGenerator( const VxAudioFormat& format, int64_t durationUs, int toneHz );
     ~AudioTestGenerator() = default;
 
-    void                        setAudioFormat( QAudioFormat& audioFormat );
-    QAudioFormat                getAudioFormat( void )                      { return m_AudioFormat;  }
+    void                        setAudioFormat( VxAudioFormat& audioFormat );
+    VxAudioFormat               getAudioFormat( void )                      { return m_AudioFormat;  }
     bool                        isFormatSet( void )                         { return m_AudioFormat.isValid(); }
 
     void                        readToneSamples( int16_t* pcmData, int sampleCnt );
 
-    void                        start();
-    void                        stop();
-
-    qint64                      readData( char *data, qint64 maxlen ) override;
-    qint64                      writeData( const char*data, qint64 len ) override;
-    qint64                      bytesAvailable() const override;
-    qint64                      size() const override                       { return m_buffer.size(); }
+    int64_t                     size() const                                { return m_buffer.size(); }
 
     int16_t                     peekNextSample( void );
 
 private:
-    void                        generateData( const QAudioFormat &format, qint64 durationUs, int toneHz );
+    void                        generateData( const VxAudioFormat &format, int64_t durationUs, int toneHz );
+    int64_t                     readData( char* data, int64_t len );
 
-private:
-    qint64                      m_pos = 0;
+    int64_t                     m_pos = 0;
     QByteArray                  m_buffer;
-    QAudioFormat                m_AudioFormat;
+    VxAudioFormat               m_AudioFormat;
 };
 

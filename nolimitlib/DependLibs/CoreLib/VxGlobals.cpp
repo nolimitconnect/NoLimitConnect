@@ -79,7 +79,6 @@ namespace
 
 	bool				g_bIsAppShuttingDown			= false;
 	bool				g_bIsNetLoopbackAllowed			= false;
-	std::string			g_LclIpAddress					= "";
 
 	bool				g_UserMilitaryTime				= true;
 	int32_t				g_MaxMessageHistory				= 200;
@@ -305,25 +304,6 @@ void VxSetAppIsShuttingDown( bool bIsShuttingDown )
 bool VxIsAppShuttingDown( void )
 {
 	return g_bIsAppShuttingDown;
-}
-
-//============================================================================
-void VxSetLclIpAddress( const char* lclIpAddress )
-{
-	if( 0 != lclIpAddress )
-	{
-		g_LclIpAddress = lclIpAddress;
-	}
-	else
-	{
-		g_LclIpAddress = "";
-	}
-}
-
-//============================================================================
-std::string VxGetLclIpAddress( void )
-{
-	return g_LclIpAddress;
 }
 
 //============================================================================

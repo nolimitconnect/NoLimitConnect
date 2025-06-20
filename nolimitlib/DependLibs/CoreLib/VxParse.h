@@ -14,6 +14,8 @@
 #include <string>
 #include <vector>
 
+					
+
 //! replace \ with / and % with ?
 int								MakeStringSafeForSprintf( char * pStr, int iLen );
 
@@ -34,6 +36,9 @@ bool							GetWord( std::string& csStr, int n, std::string& csRetToken );
 const char*						StrStrNoCase( const char* strMain, const char* strSearch );
 //! find position of string p2 in p1.. return -1 if not found
 int								StrStrNoCasePosition( const char* strMain, const char* strSearch );
+
+//! return formatted std::string using printf style format	
+std::string						StdStringFormat( const char* pFormat, ... );
 //! format into std::string using printf style format
 void							StdStringFormat(	std::string & csStr,	// std::string to return formated results in
 													const char* pFormat,	// string with format chars etc		

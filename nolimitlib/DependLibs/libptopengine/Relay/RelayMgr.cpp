@@ -142,7 +142,7 @@ bool RelayMgr::sendRelayError( VxPktHdr* pktHdr, VxGUID& srcOnlineId, VxGUID& de
 	PktRelayUserDisconnect pktReply;
 	pktReply.setSrcOnlineId( m_Engine.getMyOnlineId() );
 
-	pktReply.setPktType( pktHdr->getPktType() );
+	pktReply.setRelayedPktType( pktHdr->getPktType() );
 	pktReply.setDestUserOnlineId( destOnlineId );
 	pktReply.setHostOnlineId( m_Engine.getMyOnlineId() );
 	pktReply.setRelayError( relayErr );

@@ -171,6 +171,8 @@ void VidWidget::setVideoFeedId( VxGUID& feedOnlineId, EAppModule appModule )
 		if( m_VideoFeedId.isVxGUIDValid() )
 		{
 			m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_VideoFeedId, this, true );
+            // trigger MediaProcessor to send jpgs
+            m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpg, m_AppModule, m_VideoFeedId, true );
 		}
 		else
 		{

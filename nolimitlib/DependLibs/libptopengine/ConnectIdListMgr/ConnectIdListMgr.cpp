@@ -1096,18 +1096,12 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestUserOnlineConnection( VxGUI
         return m_Engine.getSktLoopback();
     }
 
-    if( onlineId == m_Engine.getMyOnlineId() )
-    {
-        return m_Engine.getSktLoopback();
-    }
-
     EHostType hostType{ eHostTypeUnknown };
     if( IsPluginARelayForUser( pluginType ) )
     {
         hostType = PluginTypeToHostType( pluginType );
     }
  
-
     std::vector<ConnectId> connectIdList;
     #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
         LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
@@ -1120,7 +1114,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestUserOnlineConnection( VxGUI
     {
         if( const_cast< ConnectId& >( connectId ).getGroupieId().getUserOnlineId() == onlineId )
         {
-            connectIdList.push_back( connectId );
+            connectIdList.emplace_back( connectId );
         }
     }
 

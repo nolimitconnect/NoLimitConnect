@@ -51,7 +51,7 @@ void PluginStoryboardClient::onFilesChanged( int64_t lastFileUpdateTime, int64_t
 void PluginStoryboardClient::onFileDownloadStart( bool started, VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& lclSessionId, std::string fileName, VxGUID& assetId )
 {
 	EPluginMsgType pluginMsgType = started ? ePluginMsgDownloading : ePluginMsgDownloadFailed;
-	m_Engine.getToGui().toGuiPluginMsg( getPluginType(), onlineId, pluginMsgType, fileName );
+	m_Engine.getToGui().toGuiPluginMsg( getPluginType(), onlineId, pluginMsgType, fileName.c_str() );
 }
 
 //============================================================================
@@ -109,12 +109,12 @@ bool PluginStoryboardClient::onFileDownloadComplete( VxGUID& onlineId, std::shar
 				if( result )
 				{
 					// all done
-					m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, indexFileInfo.getFileNameAndPath() );
+					m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadComplete, indexFileInfo.getFileNameAndPath().c_str() );
 				}
 				else
 				{
 					// failed to find the web index file in downloaded files
-					m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed, "", 0 );
+					m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed );
 				}
 			}
 			else
@@ -124,12 +124,12 @@ bool PluginStoryboardClient::onFileDownloadComplete( VxGUID& onlineId, std::shar
 		}
 		else
 		{
-			m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed, "", 0 );
+			m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgDownloadFailed );
 		}
 	}
 	else
 	{
-		m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgInvalidParam, "", 0 );
+		m_Engine.getToGui().toGuiPluginMsg( getPluginType(), m_HisOnlineId, ePluginMsgInvalidParam );
 	}
 
 	return result;

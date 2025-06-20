@@ -370,43 +370,43 @@ public:
     int                         shaderGetUniCol()  override;
 
     // yuv shader
-    virtual void                shaderSetField( ESHADERMETHOD shader, int field )   override;
-    virtual void                shaderSetWidth( ESHADERMETHOD shader, int w )   override;
-    virtual void                shaderSetHeight( ESHADERMETHOD shader, int h )  override;
+    void                        shaderSetField( ESHADERMETHOD shader, int field )   override;
+    void                        shaderSetWidth( ESHADERMETHOD shader, int w )   override;
+    void                        shaderSetHeight( ESHADERMETHOD shader, int h )  override;
 
-    virtual void                shaderSetBlack( ESHADERMETHOD shader, float black ) override;
-    virtual void                shaderSetContrast( ESHADERMETHOD shader, float contrast ) override;
-    virtual void                shaderSetConvertFullColorRange( ESHADERMETHOD shader, bool convertFullRange ) override;
+    void                        shaderSetBlack( ESHADERMETHOD shader, float black ) override;
+    void                        shaderSetContrast( ESHADERMETHOD shader, float contrast ) override;
+    void                        shaderSetConvertFullColorRange( ESHADERMETHOD shader, bool convertFullRange ) override;
 
-    virtual int                 shaderGetVertexLoc( ESHADERMETHOD shader ) override;
-    virtual int                 shaderGetYcoordLoc( ESHADERMETHOD shader ) override;
-    virtual int                 shaderGetUcoordLoc( ESHADERMETHOD shader ) override;
-    virtual int                 shaderGetVcoordLoc( ESHADERMETHOD shader ) override;
+    int                         shaderGetVertexLoc( ESHADERMETHOD shader ) override;
+    int                         shaderGetYcoordLoc( ESHADERMETHOD shader ) override;
+    int                         shaderGetUcoordLoc( ESHADERMETHOD shader ) override;
+    int                         shaderGetVcoordLoc( ESHADERMETHOD shader ) override;
 
-    virtual void                shaderSetMatrices( ESHADERMETHOD shader, const float* p, const float* m ) override;
-    virtual void                shaderSetAlpha( ESHADERMETHOD shader, float alpha ) override;
+    void                        shaderSetMatrices( ESHADERMETHOD shader, const float* p, const float* m ) override;
+    void                        shaderSetAlpha( ESHADERMETHOD shader, float alpha ) override;
 
-    virtual void                shaderSetFlags( ESHADERMETHOD shader, unsigned int flags ) override;
-    virtual void                shaderSetFormat( ESHADERMETHOD shader, EShaderFormat format ) override;
-    virtual void                shaderSourceTexture( ESHADERMETHOD shader, int ytex ) override;
-    virtual void                shaderSetStepX( ESHADERMETHOD shader, float stepX ) override;
-    virtual void                shaderSetStepY( ESHADERMETHOD shader, float stepY )  override;
+    void                        shaderSetFlags( ESHADERMETHOD shader, unsigned int flags ) override;
+    void                        shaderSetFormat( ESHADERMETHOD shader, EShaderFormat format ) override;
+    void                        shaderSourceTexture( ESHADERMETHOD shader, int ytex ) override;
+    void                        shaderSetStepX( ESHADERMETHOD shader, float stepX ) override;
+    void                        shaderSetStepY( ESHADERMETHOD shader, float stepY )  override;
 
     // filter shader
-    virtual bool                shaderGetTextureFilter( ESHADERMETHOD shader, int& filter ) override;
-    virtual int                 shaderGetcoordLoc( ESHADERMETHOD shader ) override;
+    bool                        shaderGetTextureFilter( ESHADERMETHOD shader, int& filter ) override;
+    int                         shaderGetcoordLoc( ESHADERMETHOD shader ) override;
 
     // renderqt
-    virtual int                 shaderVertexAttribPointer( ESHADERMETHOD shader, unsigned int index, int size, int type, bool normalized, int stride, const void* pointer ) override;
-    virtual void                shaderEnableVertexAttribArray( ESHADERMETHOD shader, int arrayId ) override;
-    virtual void                shaderDisableVertexAttribArray( ESHADERMETHOD shader, int arrayId ) override;
+    int                         shaderVertexAttribPointer( ESHADERMETHOD shader, unsigned int index, int size, int type, bool normalized, int stride, const void* pointer ) override;
+    void                        shaderEnableVertexAttribArray( ESHADERMETHOD shader, int arrayId ) override;
+    void                        shaderDisableVertexAttribArray( ESHADERMETHOD shader, int arrayId ) override;
 
     // frame buffers
-    virtual void                frameBufferGen( int bufCount, unsigned int* fboId ) override;
-    virtual void                frameBufferDelete( int bufCount, unsigned int* fboId ) override;
-    virtual void                frameBufferTexture2D( int target, unsigned int texureId )  override;
-    virtual void                frameBufferBind( unsigned int fboId ) override;
-    virtual bool                frameBufferStatus() override;
+    void                        frameBufferGen( int bufCount, unsigned int* fboId ) override;
+    void                        frameBufferDelete( int bufCount, unsigned int* fboId ) override;
+    void                        frameBufferTexture2D( int target, unsigned int texureId )  override;
+    void                        frameBufferBind( unsigned int fboId ) override;
+    bool                        frameBufferStatus() override;
 
     // gl functions
     void                        glFuncDrawElements( GLenum mode, GLsizei count, GLenum type, const GLvoid* indices ) override;
@@ -415,25 +415,25 @@ public:
     void                        glFuncViewport( GLint x, GLint y, GLsizei width, GLsizei height ) override;
     void                        glFuncScissor( GLint x, GLint y, GLsizei width, GLsizei height ) override;
 
-    virtual void                glFuncGenTextures( GLsizei n, GLuint* textures ) override;
-    virtual void                glFuncDeleteTextures( GLsizei n, const GLuint* textures ) override;
-    virtual void                glFuncTexImage2D( GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const void* pixels ) override;
-    virtual void                glFuncTexParameteri( GLenum target, GLenum pname, GLint param ) override;
-    virtual void                glFuncReadPixels( GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid* pixels ) override;
-    virtual void                glFuncPixelStorei( GLenum pname, GLint param ) override;
-    virtual void                glFuncFinish() override;
+    void                        glFuncGenTextures( GLsizei n, GLuint* textures ) override;
+    void                        glFuncDeleteTextures( GLsizei n, const GLuint* textures ) override;
+    void                        glFuncTexImage2D( GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const void* pixels ) override;
+    void                        glFuncTexParameteri( GLenum target, GLenum pname, GLint param ) override;
+    void                        glFuncReadPixels( GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid* pixels ) override;
+    void                        glFuncPixelStorei( GLenum pname, GLint param ) override;
+    void                        glFuncFinish() override;
 
-    virtual void                glFuncEnable( GLenum cap ) override;
-    virtual void                glFuncTexSubImage2D( GLenum target, GLint level,
+    void                        glFuncEnable( GLenum cap ) override;
+    void                        glFuncTexSubImage2D( GLenum target, GLint level,
                                                      GLint xoffset, GLint yoffset,
                                                      GLsizei width, GLsizei height,
                                                      GLenum format, GLenum type,
                                                      const GLvoid* pixels ) override;
-    virtual void                glFuncBlendFunc( GLenum sfactor, GLenum dfactor ) override;
-    virtual void                glFuncVertexAttribPointer( GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* pointer ) override;
-    virtual void                glFuncDisableVertexAttribArray( GLuint index ) override;
-    virtual void                glFuncEnableVertexAttribArray( GLuint index ) override;
-    virtual void                glFuncDrawArrays( GLenum mode, GLint first, GLsizei count ) override;
+    void                        glFuncBlendFunc( GLenum sfactor, GLenum dfactor ) override;
+    void                        glFuncVertexAttribPointer( GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* pointer ) override;
+    void                        glFuncDisableVertexAttribArray( GLuint index ) override;
+    void                        glFuncEnableVertexAttribArray( GLuint index ) override;
+    void                        glFuncDrawArrays( GLenum mode, GLint first, GLsizei count ) override;
 
 
     //============================================================================
@@ -446,39 +446,39 @@ public:
     //=== to gui ===//
     //============================================================================
 
-    virtual void                toGuiSetIsAppModuleRunning( EAppModule appModule, bool isRunning ) override;
-    virtual bool                toGuiGetIsAppModuleRunning( EAppModule appModule ) override;
+    void                        toGuiSetIsAppModuleRunning( EAppModule appModule, bool isRunning ) override;
+    bool                        toGuiGetIsAppModuleRunning( EAppModule appModule ) override;
 
-    virtual bool                toGuiRunModule( EAppModule appModule ) override;
-    virtual bool                toGuiStopModule( EAppModule appModule ) override;
+    bool                        toGuiRunModule( EAppModule appModule ) override;
+    bool                        toGuiStopModule( EAppModule appModule ) override;
 
-    virtual void				toGuiPlayNlcMedia( AssetBaseInfo* assetInfo ) override;
-    virtual void				toGuiLog( int logFlags, const char* pMsg ) override;
-    virtual void				toGuiAppErr( EAppErr eAppErr, const char* errMsg = "" ) override;
-    virtual void				toGuiStatusMessage( const char* errMsg ) override;
+    void				        toGuiPlayNlcMedia( AssetBaseInfo* assetInfo ) override;
+    void				        toGuiLog( int logFlags, const char* pMsg ) override;
+    void				        toGuiAppErr( EAppErr eAppErr, const char* errMsg = "" ) override;
+    void				        toGuiStatusMessage( const char* errMsg ) override;
     // NOTE: toGuiUserMessage should be called from in gui on gui thread only
-    virtual void				toGuiUserMessage( const char* userMsg, ... );
-    virtual void				toGuiPluginMsg( EPluginType pluginType, VxGUID& onlineId, EPluginMsgType msgType, std::string& paramMsg ) override;
-    virtual void				toGuiPluginCommError( EPluginType pluginType, VxGUID& onlineId, EPluginMsgType msgType, ECommErr commErr ) override;
+    void				        toGuiUserMessage( const char* userMsg, ... );
+    void				        toGuiPluginMsg( EPluginType pluginType, VxGUID& onlineId, EPluginMsgType msgType, const char* paramMsg = "" ) override;
+    void				        toGuiPluginCommError( EPluginType pluginType, VxGUID& onlineId, EPluginMsgType msgType, ECommErr commErr ) override;
 
     /// Send Network available status to GUI for display
-    virtual void				toGuiNetAvailableStatus( ENetAvailStatus eNetAvailStatus ) override;
-    virtual void				toGuiNetworkState( ENetworkStateType eNetworkState, const char* stateMsg = "" ) override;
+    void				        toGuiNetAvailableStatus( ENetAvailStatus eNetAvailStatus ) override;
+    void				        toGuiNetworkState( ENetworkStateType eNetworkState, const char* stateMsg = "" ) override;
 
-    virtual void				toGuiHostAnnounceStatus( EHostType hostType, VxGUID& sessionId, EHostAnnounceStatus joinStatus, const char* msg = "" ) override;
-    virtual void				toGuiHostJoinStatus( EHostType hostType, VxGUID& sessionId, EHostJoinStatus joinStatus, const char* msg = "" ) override;
+    void				        toGuiHostAnnounceStatus( EHostType hostType, VxGUID& sessionId, EHostAnnounceStatus joinStatus, const char* msg = "" ) override;
+    void				        toGuiHostJoinStatus( EHostType hostType, VxGUID& sessionId, EHostJoinStatus joinStatus, const char* msg = "" ) override;
 
-    virtual void				toGuiHostSearchStatus( EHostType hostType, VxGUID& sessionId, EHostSearchStatus searchStatus, ECommErr commErr = eCommErrNone, const char* msg = "" ) override;
-    virtual void				toGuiHostSearchResult( EHostType hostType, VxGUID& sessionId, HostedInfo& hostedInfo ) override;
-    virtual void				toGuiHostSearchComplete( EHostType hostType, VxGUID& sessionId ) override;
+    void				        toGuiHostSearchStatus( EHostType hostType, VxGUID& sessionId, EHostSearchStatus searchStatus, ECommErr commErr = eCommErrNone, const char* msg = "" ) override;
+    void				        toGuiHostSearchResult( EHostType hostType, VxGUID& sessionId, HostedInfo& hostedInfo ) override;
+    void				        toGuiHostSearchComplete( EHostType hostType, VxGUID& sessionId ) override;
 
-    virtual void				toGuiGroupieSearchStatus( EHostType hostType, VxGUID& sessionId, EHostSearchStatus searchStatus, ECommErr commErr = eCommErrNone, const char* msg = "" ) override;
-    virtual void				toGuiGroupieSearchResult( EHostType hostType, VxGUID& sessionId, GroupieInfo& hostedInfo ) override;
-    virtual void				toGuiGroupieSearchComplete( EHostType hostType, VxGUID& sessionId ) override;
+    void				        toGuiGroupieSearchStatus( EHostType hostType, VxGUID& sessionId, EHostSearchStatus searchStatus, ECommErr commErr = eCommErrNone, const char* msg = "" ) override;
+    void				        toGuiGroupieSearchResult( EHostType hostType, VxGUID& sessionId, GroupieInfo& hostedInfo ) override;
+    void				        toGuiGroupieSearchComplete( EHostType hostType, VxGUID& sessionId ) override;
 
-    virtual void				toGuiIsPortOpenStatus( EIsPortOpenStatus eIsPortOpenStatus, const char* msg = "" ) override;
-    virtual void				toGuiRunTestStatus( const char* testName, ERunTestStatus eRunTestStatus, const char* msg = "" ) override;
-    virtual void				toGuiRandomConnectStatus( ERandomConnectStatus eRandomConnectStatus, const char* msg = "" ) override;
+    void				        toGuiIsPortOpenStatus( EIsPortOpenStatus eIsPortOpenStatus, const char* msg = "" ) override;
+    void				        toGuiRunTestStatus( const char* testName, ERunTestStatus eRunTestStatus, const char* msg = "" ) override;
+    void				        toGuiRandomConnectStatus( ERandomConnectStatus eRandomConnectStatus, const char* msg = "" ) override;
 
     // return true if any microphone device is available to be enabled
     virtual bool				toGuiIsMicrophoneDeviceAvailable( void ) override;
@@ -712,10 +712,6 @@ signals:
 
     void                        signalInternalToGuiUpdateIdent( VxNetIdent netIdent );
     void                        signalInternalToGuiSaveMyIdent( VxNetIdent netIdent );
-
-    //void                        signalInternalToGuiScanSearchComplete( EScanType eScanType );
-    //void                        signalInternalToGuiScanResultSuccess( EScanType eScanType, VxNetIdent netIdent );
-    //void                        signalInternalToGuiSearchResultError( EScanType eScanType, VxNetIdent netIdent, int errCode );
 
     void                        signalInternalNetworkIsTested( bool requiresRelay, QString ipAddr, uint16_t ipPort );
 

@@ -13,11 +13,9 @@
 #include <GuiInterface/IAudioDefs.h>
 
 #include <CoreLib/TimeIntervalEstimator.h>
+#include <CoreLib/VxAudioFormat.h>
 
 #include "MiniAudioOutDevice.h"
-
-#include <QAudioFormat>
-#include <QMutex>
 
 class AppCommon;
 class MiniAudioMgr;
@@ -25,13 +23,11 @@ class QTimer;
 
 class MiniAudioOut : public MiniAudioOutDevice
 {
-    Q_OBJECT
-
 public:
     explicit MiniAudioOut( MiniAudioMgr& mgr, QObject *parent = 0 );
     ~MiniAudioOut() = default;
 
-    bool                        initAudioOut( QAudioFormat& audioFormat, int deviceIndex );
+    bool                        initAudioOut( VxAudioFormat& audioFormat, int deviceIndex );
     bool                        soundOutDeviceChanged( int deviceIndex );
 
     void						audioOutShutdown( void ) { stopAudioOut(); }
@@ -60,7 +56,7 @@ protected:
     bool                        m_initialized{ false };
     bool                        m_SpeakerOutputEnabled{ false };
 
-    QAudioFormat                m_AudioFormat;
+    VxAudioFormat                m_AudioFormat;
     
     qint64                      m_ProccessedMs = 0;
 

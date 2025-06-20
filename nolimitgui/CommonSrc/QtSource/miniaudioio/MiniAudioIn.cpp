@@ -37,7 +37,7 @@ MiniAudioIn::MiniAudioIn( MiniAudioMgr& mgr, QObject *parent )
 }
 
 //============================================================================
-bool MiniAudioIn::initAudioIn( QAudioFormat& audioFormat, int deviceIndex )
+bool MiniAudioIn::initAudioIn( VxAudioFormat& audioFormat, int deviceIndex )
 {
     m_AudioFormat = audioFormat;
     soundInDeviceChanged( deviceIndex );

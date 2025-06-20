@@ -31,7 +31,7 @@ public:
     EPluginAccess               getAccessState( void )                          { return (EPluginAccess)m_AccessState; }
 
     void						setOfferMsg( const char* msg );
-    const char*				getOfferMsg( void );
+    const char*				    getOfferMsg( void );
 
 private:
     uint8_t					    m_HostType{ 0 };

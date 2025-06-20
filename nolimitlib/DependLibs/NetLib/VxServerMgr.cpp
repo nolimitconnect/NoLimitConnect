@@ -55,6 +55,7 @@ void VxServerMgr::sktMgrStartup( bool ipv6 )
 //============================================================================
 void VxServerMgr::sktMgrShutdown( void )
 {
+    VxPortForward::shutdownPortForward();
 	m_ListenLogicIpv4.sktMgrShutdown();
     m_ListenLogicIpv6.sktMgrShutdown();
 	VxSktBaseMgr::sktMgrShutdown();

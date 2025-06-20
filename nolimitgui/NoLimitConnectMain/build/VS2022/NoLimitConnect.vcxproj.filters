@@ -998,9 +998,6 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioMasterClock.h">
       <Filter>Header Files\miniaudioio</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioTestGenerator.h">
-      <Filter>Header Files\miniaudioio</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioIn.h">
       <Filter>Header Files\miniaudioio</Filter>
     </QtMoc>
@@ -1008,9 +1005,6 @@
       <Filter>Header Files\miniaudioio</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioMgr.h">
-      <Filter>Header Files\miniaudioio</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioOut.h">
       <Filter>Header Files\miniaudioio</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioOutDevice.h">
@@ -2649,6 +2643,12 @@
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiFriendRequest\GuiFriendRequestCallback.h">
       <Filter>Source Files\GuiFriendRequest</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\AudioTestGenerator.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioOut.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="..\..\..\CommonSrc\NoLimitConnect.qrc">
@@ -3216,5 +3216,10 @@
     <Text Include="..\..\..\..\nolimitlib\NlcPtoPVersion.txt">
       <Filter>CompilerConfig</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\..\android\AndroidManifest.xml">
+      <Filter>androidManifests\android</Filter>
+    </Xml>
   </ItemGroup>
 </Project>

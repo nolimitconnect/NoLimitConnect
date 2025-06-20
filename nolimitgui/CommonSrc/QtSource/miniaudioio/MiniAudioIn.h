@@ -13,11 +13,9 @@
 #include "AudioBitrate.h"
 
 #include <CoreLib/TimeIntervalEstimator.h>
+#include <CoreLib/VxAudioFormat.h>
 
 #include "MiniAudioInDevice.h"
-
-#include <QAudioFormat>
-#include <QMutex>
 
 class AppCommon;
 class MiniAudioMgr;
@@ -30,7 +28,7 @@ public:
     explicit MiniAudioIn( MiniAudioMgr& mgr, QObject *parent = 0 );
     ~MiniAudioIn() = default;
 
-    bool                        initAudioIn( QAudioFormat& audioFormat, int deviceIndex );
+    bool                        initAudioIn( VxAudioFormat& audioFormat, int deviceIndex );
     bool                        soundInDeviceChanged( int deviceIndex );
 
     void						audioInShutdown( void )             { stopAudioIn(); }
@@ -64,7 +62,7 @@ protected:
 
     bool                        m_WantAudioIn{ false };
     bool                        m_AudioInDeviceIsStarted{ false };
-    QAudioFormat                m_AudioFormat;
+    VxAudioFormat                m_AudioFormat;
 
     char                        m_MicSilence[ AUDIO_BUF_SIZE ];
     int                         m_DivideCnt{ 1 };

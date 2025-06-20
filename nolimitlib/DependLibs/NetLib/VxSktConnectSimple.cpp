@@ -28,7 +28,6 @@
 //============================================================================
 VxSktConnectSimple::VxSktConnectSimple()
 : m_Socket( INVALID_SOCKET )
-, m_LclIp( VxGetLclIpAddress().c_str() )
 {
 }
 
