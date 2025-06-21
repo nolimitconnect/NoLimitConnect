@@ -670,7 +670,7 @@ void MiniAudioMgr::callbackAudioDeviceWrite( int16_t* pcmDataMic, int sampleCntM
 //============================================================================
 void MiniAudioMgr::callbackToSpeakerRead( int16_t* pcmData, int sampleRequestCnt )
 {
-    if( !isAudioInitialized() || getIsSpeakerMuted() )
+    if( !isAudioInitialized() )
     {
         memset( pcmData, 0, sampleRequestCnt * AUDIO_BYTES_PER_SAMPLE );
         m_PeakAudioOutAmplitude = 0;
@@ -682,6 +682,11 @@ void MiniAudioMgr::callbackToSpeakerRead( int16_t* pcmData, int sampleRequestCnt
     if( availableCnt >= sampleRequestCnt)
     {
         m_SpeakerReadBuf.readSamples( pcmData, sampleRequestCnt );
+        if( getIsSpeakerMuted() )
+        {
+            memset( pcmData, 0, sampleRequestCnt * AUDIO_BYTES_PER_SAMPLE );
+            m_PeakAudioOutAmplitude = 0;
+        }
         //if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_ERROR, "MiniAudioMgr::callbackToSpeakerRead full read %d samples of %d",
         //           sampleRequestCnt, availableCnt );
     }
@@ -718,11 +723,6 @@ void MiniAudioMgr::callbackToSpeakerRead( int16_t* pcmData, int sampleRequestCnt
 
             setAudioTestSentTime( GetHighResolutionTimeMs() );
         }
-    }
-    else if( getIsSpeakerMuted() )
-    {
-        memset( pcmData, 0, sampleRequestCnt * AUDIO_BYTES_PER_SAMPLE );
-        m_PeakAudioOutAmplitude = 0;
     }
     else
     {
