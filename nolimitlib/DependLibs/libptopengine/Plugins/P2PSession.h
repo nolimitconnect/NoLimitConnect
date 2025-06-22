@@ -26,7 +26,7 @@ public:
 	void						setIsSendingPkts( bool isSending )			{ m_bSendingPkts = isSending; }
 	int							getIsSendingPkts( void )					{ return m_bSendingPkts; }
 
-	void						setVideoCastPkt( VxPktHdr* pktHdr )		{ m_VideoCastPkt = pktHdr; }
+	void						setVideoCastPkt( VxPktHdr* pktHdr )			{ m_VideoCastPkt = pktHdr; }
 	VxPktHdr*					getVideoCastPkt( void )						{ return m_VideoCastPkt; }
 
 protected:

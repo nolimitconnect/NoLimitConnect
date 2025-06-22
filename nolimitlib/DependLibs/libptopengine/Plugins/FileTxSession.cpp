@@ -18,10 +18,6 @@
 //============================================================================
 FileTxSession::FileTxSession()
 : FileShareXferSession()
-, m_iOutstandingAckCnt( 0 )
-, m_bSendingPkts( false )
-, m_bViewingFileList( false )
-, m_QuePosition( 0 )
 {
 	setXferDirection( eXferDirectionTx );
 }
@@ -29,10 +25,6 @@ FileTxSession::FileTxSession()
 //============================================================================
 FileTxSession::FileTxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
 : FileShareXferSession( sktBase, sendToId )
-, m_iOutstandingAckCnt( 0 )
-, m_bSendingPkts( false )
-, m_bViewingFileList( false )
-, m_QuePosition( 0 )
 {
 	setXferDirection( eXferDirectionTx );
 }
@@ -40,10 +32,6 @@ FileTxSession::FileTxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendT
 //============================================================================
 FileTxSession::FileTxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
 : FileShareXferSession( lclSessionId, sktBase, sendToId )
-, m_iOutstandingAckCnt(0)
-, m_bSendingPkts(false)
-, m_bViewingFileList(false)
-, m_QuePosition( 0 )
 {
 	setXferDirection( eXferDirectionTx );
 }

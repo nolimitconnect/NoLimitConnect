@@ -82,7 +82,7 @@ bool PluginBaseFilesClient::connectForFileListDownload( VxGUID& onlineId )
     VxNetIdent* netIdent = m_Engine.getBigListMgr().findNetIdent( onlineId );	// id of friend to look for
     if( netIdent )
     {
-        std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findBestHostOnlineConnection( onlineId );
+        std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( onlineId );
         if( sktBase )
         {
             result = onConnectForFileListDownload( sktBase, onlineId );

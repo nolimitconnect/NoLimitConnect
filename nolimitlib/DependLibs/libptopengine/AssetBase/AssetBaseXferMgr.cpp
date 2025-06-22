@@ -45,6 +45,8 @@
 
 namespace
 {
+    const int MAX_OUTSTANDING_STREAM_PKTS = 25;
+
     //============================================================================
     static void * AssetBaseXferMgrThreadFunc( void * pvContext )
     {
@@ -478,7 +480,23 @@ void AssetBaseXferMgr::onPktAssetBaseGetReq( std::shared_ptr<VxSktBase>& sktBase
         {
             // send first chunk
             assetMutex.unlock();
-            xferErr = txNextAssetBaseChunk( xferSession, 0, false );
+            if( xferSession->getIsStream() )
+            {
+                for( int i = 0; i < MAX_OUTSTANDING_STREAM_PKTS; i++ )
+                {
+                    // try to send more than acknowleged so video does not stutter so much
+                    xferErr = txNextAssetBaseChunk( xferSession, 0, false );
+                    if( eXferErrorNone != xferErr )
+                    {
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                xferErr = txNextAssetBaseChunk( xferSession, 0, false );
+            }
+            
             assetMutex.lock();
         }
     }
@@ -2011,6 +2029,16 @@ EXferError AssetBaseXferMgr::txNextAssetBaseChunk( AssetBaseTxSession* xferSessi
 
     // fill the packet with data from the file
     VxFileXferInfo& xferInfo = xferSession->getXferInfo();
+    if( !xferInfo.m_hFile )
+    {
+        // has already been sent
+        if( false == pluginIsLocked )
+        {
+            assetMutex.unlock();
+        }
+
+        return eXferErrorNone;
+    }
 
     std::shared_ptr<VxSktBase>& sktBase =  xferSession->getSkt();
     AssetBaseInfo& assetInfo = xferSession->getAssetBaseInfo();
@@ -2033,7 +2061,7 @@ EXferError AssetBaseXferMgr::txNextAssetBaseChunk( AssetBaseTxSession* xferSessi
 
     vx_assert( xferInfo.m_hFile );
     vx_assert( xferInfo.m_u64FileLen );
-    if( xferInfo.m_u64FileOffs >= xferInfo.m_u64FileLen )
+    if( xferInfo.m_u64FileOffs >= xferInfo.m_u64FileLen && xferInfo.m_hFile )
     {
         //we are done sending file
         if( xferInfo.m_hFile )

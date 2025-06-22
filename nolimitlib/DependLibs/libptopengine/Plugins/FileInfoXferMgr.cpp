@@ -42,6 +42,11 @@
 
 #include <array>
 
+namespace
+{
+	const int MAX_OUTSTANDING_STREAM_PKTS = 25;
+};
+
 //============================================================================
 FileInfoXferMgr::FileInfoXferMgr( P2PEngine& engine, PluginBase& plugin, FileInfoBaseMgr& fileInfoMgr )
 : m_Engine( engine )
@@ -1289,7 +1294,24 @@ EXferError FileInfoXferMgr::beginFileSend( FileTxSession* xferSession )
 			m_FileInfoMgr.toGuiFileUploadStart( xferSession->getSendToId(), xferInfo.getLclSessionId(), fileInfo );
 
 			// file is open and setup so send first chunk of data
-			return txNextFileChunk( xferSession );
+			if( xferSession->isStream() )
+			{
+				for( int i = 0; i < MAX_OUTSTANDING_STREAM_PKTS; i++ )
+				{
+					EXferError xferError = txNextFileChunk( xferSession );
+					if( xferError != eXferErrorNone )
+					{
+						LogMsg( LOG_ERROR, "FileInfoXferMgr::%s error %s txNextFileChunk multiple", __func__, DescribeXferError( xferError ) );
+						return xferError;
+					}
+				}
+
+				return eXferErrorNone;
+			}
+			else
+			{
+				return txNextFileChunk( xferSession );
+			}
 		}
 		else
 		{
