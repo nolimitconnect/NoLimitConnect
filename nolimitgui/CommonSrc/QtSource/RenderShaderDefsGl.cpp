@@ -24,7 +24,8 @@ static const char* gl_shader_vert =
 "}\n";
 
 // SM_DEFAULT
-#if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
+
+#if defined(TARGET_OS_ANDROID)
 static const char* gl_shader_default_frag =
 "precision mediump float;\n"
 #else
@@ -40,7 +41,7 @@ static const char* gl_shader_default_frag =
 
 
 // SM_TEXTURE shader
-#if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID)
 static const char* gl_shader_texture_frag =
 "precision mediump   float;\n"
 #else
@@ -60,7 +61,7 @@ static const char* gl_shader_texture_frag =
 "}\n";
 
 // SM_MULTI shader;
-#if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID)
 static const char* gl_shader_multi_frag =
 "precision mediump   float;\n"
 #else
@@ -81,7 +82,7 @@ static const char* gl_shader_multi_frag =
 "}\n";
 
 // SM_FONTS
-#if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID)
 static const char* gl_shader_fonts_frag =
 "precision mediump   float;\n"
 #else
@@ -104,7 +105,7 @@ static const char* gl_shader_fonts_frag =
 "}\n";
 
 // SM_TEXTURE_NOBLEND
-#if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID)
 static const char* gl_shader_texture_noblend_frag =
 "precision mediump   float;\n"
 #else
@@ -123,7 +124,7 @@ static const char* gl_shader_texture_noblend_frag =
 "}\n";
 
 // SM_MULTI_BLENDCOLOR shader
-#if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID)
 static const char* gl_shader_multi_blendcolor_frag =
 "precision mediump   float;\n"
 #else
@@ -169,7 +170,7 @@ static const char* gl_yuv2rgb_vert =
 "}\n";
 
 // most SM_VIDEO_XXXX_BASIC fragments
-#if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID)
 static const char* gl_yuv2rgb_basic_frag =
 "precision mediump float;\n"
 #else
@@ -250,7 +251,7 @@ static const char* gl_videofilter_vert =
 "}\n";
 
 // SM_VID_FILTER_DEFAULT
-#if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID)
 static const char* gl_videofilter_frag =
 "precision mediump float;\n"
 #else
@@ -264,7 +265,7 @@ static const char* gl_videofilter_frag =
 "}\n";
 
 // SM_VID_FILTER_CONVOLUTION_4X4_RGBA
-#if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID)
 static const char* gl_convolution_4x4_frag =
 "precision highp float;\n"
 #else
@@ -317,7 +318,7 @@ static const char* gl_convolution_4x4_frag =
 "}\n";
 
 // SM_VID_FILTER_CONVOLUTION_6X6_RGBA
-#if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID)
 static const char* gl_convolution_6x6_frag =
 "precision highp float;\n"
 #else

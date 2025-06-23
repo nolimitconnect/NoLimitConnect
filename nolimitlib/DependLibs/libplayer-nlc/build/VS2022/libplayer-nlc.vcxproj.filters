@@ -1038,6 +1038,9 @@
     <ClCompile Include="..\..\xbmc\utils\Speed.cpp">
       <Filter>utils</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\nolimitgui\CommonSrc\QtSource\RenderShaderDefsGl.cpp">
+      <Filter>rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(ProjectDir)..\..\xbmc\cores\DataCacheCore.h">
