@@ -87,6 +87,9 @@ public:
 	int64_t						getExpiresTime( void )						{ return m_OfferInfo.getExpiresTime(); }
 	bool						isExpiredOffer( void );
 
+	// return true if voice or video chat or truth or game
+	bool						isPhoneCall( void )							{ return m_OfferInfo.isPhoneTypePlugin(); }
+
 	void						updateOfferInfo( OfferBaseInfo& offerInfo );
 	bool						isAvailableAndActiveOffer( void );
 

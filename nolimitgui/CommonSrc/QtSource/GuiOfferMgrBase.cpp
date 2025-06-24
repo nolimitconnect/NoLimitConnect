@@ -337,7 +337,11 @@ void GuiOfferMgrBase::changeOfferState( std::shared_ptr<GuiOfferSession>& offerS
 		// always play notify sound
 		m_MyApp.playSound( eSndDefNotify1 );
 		m_MyApp.toGuiStatusMessage( offerSession->describeOffer().c_str() );
-		m_PhoneRinger.startRinging( offerSession );	
+		if( offerSession->isPhoneCall() )
+		{
+			m_PhoneRinger.startRinging( offerSession );
+		}
+		
 		break;
 
 	case eOfferStateInSession:			

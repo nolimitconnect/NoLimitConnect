@@ -115,7 +115,7 @@ bool RelayMgr::handleRelayPkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		return true;
 	}
 
-    LogModule( eLogRelay, LOG_VERBOSE, "handleRelayPkt sent relay pkt %s src %s %s dest %s %s", pktHdr->describePktHdr().c_str(),
+    if( LogEnabled( eLogRelay ) )LogModule( eLogRelay, LOG_VERBOSE, "handleRelayPkt sent relay pkt %s src %s %s dest %s %s", pktHdr->describePktHdr().c_str(),
 		srcOnlineId.toOnlineIdString().c_str(), sktBase->getPeerOnlineName().c_str(), destOnlineId.toOnlineIdString().c_str(), sktBaseRelay->getPeerOnlineName().c_str() );
 	return true;
 }
@@ -129,7 +129,7 @@ bool RelayMgr::isJoinedToRelayHost( VxGUID& onlineId )
 //============================================================================
 bool RelayMgr::onRelayPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, BigListInfo* srcBigInfo, BigListInfo* destBigInfo )
 {
-	LogModule( eLogRelay, LOG_VERBOSE, "RelayMgr::onRelayPktAnnounce from %s %s to %s %s", 
+	if( LogEnabled( eLogRelay ) )LogModule( eLogRelay, LOG_VERBOSE, "RelayMgr::onRelayPktAnnounce from %s %s to %s %s",
 			srcBigInfo->getOnlineName(), srcBigInfo->getMyOnlineId().toOnlineIdString().c_str(),
 			destBigInfo->getOnlineName(), destBigInfo->getMyOnlineId().toOnlineIdString().c_str() );
 	// TODO extra validation
