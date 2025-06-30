@@ -35,7 +35,7 @@ HostedPluginWidget::HostedPluginWidget( QWidget* parent )
 	ui.setupUi( this );
     setupIdentLogic();
     connect( ui.m_JoinButton,		SIGNAL(pressed()),	this, SLOT(slotJoinButtonPressed()) );
-    connect( ui.m_ConnectButton,    SIGNAL( pressed() ), this, SLOT( slotConnectButtonPressed() ) );
+    connect( ui.m_ConnectButton,    SIGNAL( pressed() ), this, SLOT(slotConnectButtonPressed() ) );
    
     ui.m_MenuButton->setFixedSize( GuiParams::getButtonSize( eButtonSizeMedium ) );
     ui.m_MenuButton->setIcon( eMyIconMenu );

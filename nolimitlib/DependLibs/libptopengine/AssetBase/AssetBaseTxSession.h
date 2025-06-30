@@ -26,10 +26,9 @@ public:
 	int							getQuePosition( void )						{ return m_QuePosition; }
 
 	//=== vars ===//
-	int							m_iOutstandingAckCnt; // how many receive acks are outstanding
-	bool						m_bSendingPkts;
-	bool						m_bViewingFileList;
-	int							m_QuePosition;
+	int							m_iOutstandingAckCnt{ 0 }; // how many receive acks are outstanding
+	bool						m_bSendingPkts{ false };
+	int							m_QuePosition{ 0 };
 	std::string					m_strOfferFile;
 	std::string					m_strViewDirectory;
 };

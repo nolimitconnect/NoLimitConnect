@@ -128,6 +128,7 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/AppletMgr.h
     CommonSrc/QtSource/AppletNetHostingPage.h
     CommonSrc/QtSource/AppletNetworkSettings.h
+    CommonSrc/QtSource/AppletOfferInfo.h
     CommonSrc/QtSource/AppletOfferList.h
     CommonSrc/QtSource/AppletOfferResponse.h
     CommonSrc/QtSource/AppletOfferResponseAccept.h
@@ -551,6 +552,8 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/AppletMultiMessenger.cpp
     CommonSrc/QtSource/AppletNetHostingPage.cpp
     CommonSrc/QtSource/AppletNetworkSettings.cpp
+
+    CommonSrc/QtSource/AppletOfferInfo.cpp
     CommonSrc/QtSource/AppletOfferList.cpp
     CommonSrc/QtSource/AppletOfferResponse.cpp
     CommonSrc/QtSource/AppletOfferResponseAccept.cpp
@@ -916,6 +919,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/AppletMultiMessenger.ui
     CommonSrc/Forms/AppletNetworkKey.ui
     CommonSrc/Forms/AppletNetworkSettings.ui
+    CommonSrc/Forms/AppletOfferInfo.ui
     CommonSrc/Forms/AppletOfferList.ui
     CommonSrc/Forms/AppletOfferResponse.ui
     CommonSrc/Forms/AppletOfferResponseAccept.ui

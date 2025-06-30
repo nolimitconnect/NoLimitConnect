@@ -35,14 +35,14 @@ AppletTestHostClient::AppletTestHostClient( AppCommon& app, QWidget* parent )
 	fillHostList( eHostTypeNetwork, ui.m_NetworkHostComboBox );
 	setNetworkHostIdFromNetHostComboBoxSelection();
 	
-	connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
-	connect( ui.m_NetworkHostComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotNetworkHostComboBoxSelectionChange( int ) ) );
-	connect( ui.m_HostTypeComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotHostTypeComboBoxSelectionChange( int ) ) );
-	connect( ui.m_HostListUrlComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotHostListUrlSelectionChange( int ) ) );
+	connect( this, SIGNAL(signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
+	connect( ui.m_NetworkHostComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT(slotNetworkHostComboBoxSelectionChange( int ) ) );
+	connect( ui.m_HostTypeComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT(slotHostTypeComboBoxSelectionChange( int ) ) );
+	connect( ui.m_HostListUrlComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT(slotHostListUrlSelectionChange( int ) ) );
 
-	connect( ui.m_GetNetworkHostIdentityButton, SIGNAL(clicked()), this, SLOT( slotNetworkHostIdentityButtonClicked() ) );
-	connect( ui.m_GetNetHostListButton, SIGNAL(clicked()), this, SLOT( slotQueryHostListFromNetworkHostButtonClicked() ) );
-	connect( ui.m_QueryHostedUsersButton, SIGNAL(clicked()), this, SLOT( slotQueryGroupiesButtonClicked() ) );
+	connect( ui.m_GetNetworkHostIdentityButton, SIGNAL(clicked()), this, SLOT(slotNetworkHostIdentityButtonClicked() ) );
+	connect( ui.m_GetNetHostListButton, SIGNAL(clicked()), this, SLOT(slotQueryHostListFromNetworkHostButtonClicked() ) );
+	connect( ui.m_QueryHostedUsersButton, SIGNAL(clicked()), this, SLOT(slotQueryGroupiesButtonClicked() ) );
 
 	m_MyApp.activityStateChange( this, true );
 	m_MyApp.getUserMgr().wantGuiUserUpdateCallbacks( this, true );

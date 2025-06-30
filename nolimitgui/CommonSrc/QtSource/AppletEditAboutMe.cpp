@@ -149,8 +149,8 @@ void AppletEditAboutMe::onSnapshotButClick( void )
         AppletSnapshot* appletSnapshot = dynamic_cast< AppletSnapshot* >( m_MyApp.getAppletMgr().launchApplet( eAppletSnapshot, this ) );
         if( appletSnapshot )
         {
-            //connect( appletSnapshot, SIGNAL( signalJpgSnapshot( uint8_t*, uint32_t, int, int ) ), this, SLOT( slotJpgSnapshot( uint8_t*, uint32_t, int, int ) ) );
-            connect( appletSnapshot, SIGNAL( signalSnapshotImage( QImage ) ), this, SLOT( slotImageSnapshot( QImage ) ) );
+            //connect( appletSnapshot, SIGNAL(signalJpgSnapshot( uint8_t*, uint32_t, int, int ) ), this, SLOT(slotJpgSnapshot( uint8_t*, uint32_t, int, int ) ) );
+            connect( appletSnapshot, SIGNAL(signalSnapshotImage( QImage ) ), this, SLOT(slotImageSnapshot( QImage ) ) );
         }
     }
     else

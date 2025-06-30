@@ -36,7 +36,7 @@ public:
 
     void						setStatusLabel( QString strMsg );
 
-    EOfferViewType              getListType( void )             { return m_ListViewType; }
+    EOfferViewType              getListType( void )             { return m_OfferViewType; }
     void                        clearList( void );
     void                        clearStatus( void );
 
@@ -53,6 +53,7 @@ private slots:
     void                        slotOfferListItemClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem );
     void                        slotAvatarButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem );
 
+    void                        slotOfferInfoButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem );
     void                        slotOfferViewButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem );
     void                        slotOfferAcceptButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem );
     void                        slotOfferRejectButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem );
@@ -81,5 +82,5 @@ protected:
 
     //=== vars ===//
     Ui::AppletOfferListUi&      ui;
-    EOfferViewType              m_ListViewType{ eOfferViewTypeNone };
+    EOfferViewType              m_OfferViewType{ eOfferViewTypeActive };
 };

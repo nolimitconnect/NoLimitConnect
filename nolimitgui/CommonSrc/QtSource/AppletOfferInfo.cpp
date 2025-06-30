@@ -8,7 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppletOfferView.h"
+#include "AppletOfferInfo.h"
 
 #include "AppCommon.h"
 #include "AppSettings.h"
@@ -37,102 +37,102 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTime.h>
 
-#include "ui_AppletOfferView.h"
+#include "ui_AppletOfferInfo.h"
 
 //============================================================================
-AppletOfferView::AppletOfferView( AppCommon& app, QWidget* parent, QString launchParam )
-    : AppletBase( OBJNAME_APPLET_OFFER_VIEW, app, parent )
-    , ui(*(new Ui::AppletOfferViewUi))
+AppletOfferInfo::AppletOfferInfo( AppCommon& app, QWidget* parent, QString launchParam )
+    : AppletBase( OBJNAME_APPLET_OFFER_INFO, app, parent )
+    , ui(*(new Ui::AppletOfferInfoUi))
 {
-    setAppletType( eAppletOfferView );
+    setAppletType( eAppletOfferInfo );
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( getAppletType() ) );
 
-    ui.m_OfferSendWidget->setCanViewOffer( false );
+    ui.m_FileIconButton->setFixedSize( eButtonSizeMedium );
+    ui.m_MsgGroupBox->setVisible( false );
+    ui.m_FileGroupBox->setVisible( false );
 
     m_MyApp.activityStateChange( this, true );
 }
 
 //============================================================================
-AppletOfferView::~AppletOfferView()
+AppletOfferInfo::~AppletOfferInfo()
 {
     m_MyApp.activityStateChange( this, false );
 }
 
 //============================================================================
-void AppletOfferView::statusMsg( QString strMsg )
+void AppletOfferInfo::statusMsg( QString strMsg )
 {
     //LogMsg( LOG_INFO, strMsg.toStdString().c_str() );
     ui.m_StatusMsgLabel->setText( strMsg );
 }
 
 //============================================================================
-bool AppletOfferView::verifyFile( void )
+bool AppletOfferInfo::verifyFile( void )
 {
     return true;
 }
 
 //============================================================================
-void AppletOfferView::setUser( GuiUser* guiUser )
+void AppletOfferInfo::setUser( GuiUser* guiUser )
 {
     if( guiUser )
     {
         AppletBase::setUser( guiUser );
         m_HisIdent = guiUser;
         ui.m_IdentWidget->updateIdentity( guiUser );
-        ui.m_OfferSendWidget->setUser( guiUser );
-        ui.m_OfferSendWidget->showIdentityWidget( false );
-        ui.m_OfferBarWidget->setUser( guiUser );
     }
 }
 
 //============================================================================
-void AppletOfferView::setPluginType( EPluginType pluginType )
+void AppletOfferInfo::setPluginType( EPluginType pluginType )
 {
     m_PluginType = pluginType;
-    ui.m_OfferSendWidget->setPluginType( pluginType );
-    ui.m_OfferBarWidget->setPluginType( pluginType );
 }
 
 //============================================================================
-void AppletOfferView::setOfferSessionId( VxGUID& offerSessionId )
+void AppletOfferInfo::setOfferSessionId( VxGUID& offerSessionId )
 {
     m_OfferSessionId = offerSessionId;
     m_OfferInfo.setOfferId( offerSessionId );
-    ui.m_OfferSendWidget->setOfferInfo( m_OfferInfo );
-    ui.m_OfferBarWidget->setOfferInfo( m_OfferInfo );
 }
 
 //============================================================================
-bool AppletOfferView::setOfferInfo( OfferBaseInfo& offerInfo )
+bool AppletOfferInfo::setOfferInfo( OfferBaseInfo& offerInfo )
 {
     m_OfferInfo = offerInfo;
-    ui.m_OfferSendWidget->setOfferInfo( offerInfo );
-    ui.m_OfferBarWidget->setOfferInfo( offerInfo );
-    if( m_OfferInfo.isValid() && m_OfferInfo.isFileAsset() )
+    if( !m_OfferInfo.isValid() )
     {
-        std::string fileName = m_OfferInfo.getAssetNameAndPath();
-        std::string justFileName;
-        std::string justPath;
-        if( 0 == VxFileUtil::seperatePathAndFile( fileName, justPath, justFileName ) )
-        {
-            ui.m_Path->setText( justPath.c_str() );
-            ui.m_FileName->setText( justFileName.c_str() );
-            statusMsg( justFileName.c_str() );
-        }
+        statusMsg( QObject::tr( "Invalid Offer. Please Decline Offer.") );
+        return false;
     }
 
-    if( m_OfferInfo.getExpiresTime() )
+    m_UserOnline = m_MyApp.getUserMgr().isUserOnline( m_OfferInfo.getFromOnlineId() );
+
+    QString offerStatus = GuiParams::describeOfferStatus( m_OfferInfo, m_UserOnline );
+    statusMsg( offerStatus );
+    TimeWithZone lclTime( (int64_t)offerInfo.getOfferTimestamp() );
+    ui.m_OfferTimeLabel->setText( lclTime.getLocalDateAndTimeWithNumberMonths().c_str() );
+
+    if( m_OfferInfo.isFileAsset() )
     {
-        TimeWithZone lclTime( (int64_t)m_OfferInfo.getExpiresTime() );
-        ui.m_OfferExpireTime->setText( lclTime.getLocalDateAndTimeWithNumberMonths().c_str() );
+        ui.m_FileGroupBox->setVisible( true );
+        std::string justFileName = m_OfferInfo.getFileName();     
+        ui.m_FileName->setText( justFileName.c_str() );
+        ui.m_FileSize->setText( GuiParams::describeFileLength( m_OfferInfo.getAssetLength() ) );
+        ui.m_FileIconButton->setIcon( m_MyApp.getMyIcons().getFileIcon( m_OfferInfo.getAssetType() ) );
     }
    
     return m_OfferInfo.isValid();
 }
 
 //============================================================================
-void AppletOfferView::setOfferMessage( QString msgText )
+void AppletOfferInfo::setOfferMessage( QString msgText )
 {
-    ui.m_OfferSendWidget->setOfferMessage( msgText );
+    if( !msgText.isEmpty() )
+    {
+        ui.m_MsgGroupBox->setVisible( true );
+        ui.m_MsgTextEdit->setPlainText( msgText );
+    }
 }

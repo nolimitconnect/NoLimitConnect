@@ -32,8 +32,8 @@ GuiHostedListWidget::GuiHostedListWidget( QWidget* parent )
 	// QListWidget::setSortingEnabled( true );
 	// sortItems( Qt::DescendingOrder );
 
-    connect( this, SIGNAL(itemClicked(QListWidgetItem*)),          this, SLOT( slotGuiHostedListItemClicked(QListWidgetItem*))) ;
-    connect( this, SIGNAL(itemDoubleClicked(QListWidgetItem*)),    this, SLOT( slotGuiHostedListItemClicked(QListWidgetItem*))) ;
+    connect( this, SIGNAL(itemClicked(QListWidgetItem*)),          this, SLOT(slotGuiHostedListItemClicked(QListWidgetItem*))) ;
+    connect( this, SIGNAL(itemDoubleClicked(QListWidgetItem*)),    this, SLOT(slotGuiHostedListItemClicked(QListWidgetItem*))) ;
     GetAppInstance().getUserMgr().wantGuiUserUpdateCallbacks( this, true );
 }
 
@@ -52,14 +52,14 @@ GuiHostedListItem* GuiHostedListWidget::sessionToWidget( GuiHostedListSession* h
 
     hostItem->setHostSession( hostSession );
 
-    connect( hostItem, SIGNAL( signalGuiHostedListItemClicked(QListWidgetItem*) ),	        this, SLOT( slotGuiHostedListItemClicked(QListWidgetItem*) ) );
-    connect( hostItem, SIGNAL( signalIconButtonClicked(GuiHostedListItem*) ),	            this, SLOT( slotIconButtonClicked(GuiHostedListItem*) ) );
-    connect( hostItem, SIGNAL( signalFriendshipButtonClicked(GuiHostedListItem*) ),         this, SLOT( slotFriendshipButtonClicked(GuiHostedListItem*) ) );
-    connect( hostItem, SIGNAL( signalMenuButtonClicked(GuiHostedListItem*) ),	            this, SLOT( slotMenuButtonClicked(GuiHostedListItem*) ) );
-    connect( hostItem, SIGNAL( signalJoinButtonClicked(GuiHostedListItem*) ),		        this, SLOT( slotJoinButtonClicked(GuiHostedListItem*) ) );
-    connect( hostItem, SIGNAL( signalConnectButtonClicked(GuiHostedListItem*) ),            this, SLOT( slotConnectButtonClicked(GuiHostedListItem*) ) );
-    connect( hostItem, SIGNAL( signalKickButtonClicked(GuiHostedListItem*) ),               this, SLOT( slotKickButtonClicked(GuiHostedListItem*) ) );
-    connect( hostItem, SIGNAL( signalIgnoreButtonClicked(GuiHostedListItem*) ),             this, SLOT( slotIgnoreButtonClicked(GuiHostedListItem*) ) );
+    connect( hostItem, SIGNAL(signalGuiHostedListItemClicked(QListWidgetItem*) ),	        this, SLOT(slotGuiHostedListItemClicked(QListWidgetItem*) ) );
+    connect( hostItem, SIGNAL(signalIconButtonClicked(GuiHostedListItem*) ),	            this, SLOT(slotIconButtonClicked(GuiHostedListItem*) ) );
+    connect( hostItem, SIGNAL(signalFriendshipButtonClicked(GuiHostedListItem*) ),         this, SLOT(slotFriendshipButtonClicked(GuiHostedListItem*) ) );
+    connect( hostItem, SIGNAL(signalMenuButtonClicked(GuiHostedListItem*) ),	            this, SLOT(slotMenuButtonClicked(GuiHostedListItem*) ) );
+    connect( hostItem, SIGNAL(signalJoinButtonClicked(GuiHostedListItem*) ),		        this, SLOT(slotJoinButtonClicked(GuiHostedListItem*) ) );
+    connect( hostItem, SIGNAL(signalConnectButtonClicked(GuiHostedListItem*) ),            this, SLOT(slotConnectButtonClicked(GuiHostedListItem*) ) );
+    connect( hostItem, SIGNAL(signalKickButtonClicked(GuiHostedListItem*) ),               this, SLOT(slotKickButtonClicked(GuiHostedListItem*) ) );
+    connect( hostItem, SIGNAL(signalIgnoreButtonClicked(GuiHostedListItem*) ),             this, SLOT(slotIgnoreButtonClicked(GuiHostedListItem*) ) );
 
 
     hostItem->updateWidgetFromInfo();

@@ -439,14 +439,14 @@ void HomeWindow::help( void )
 void HomeWindow::createAppletLaunchPage( void )
 {
 	m_AppletLaunchPage = new AppletLaunchPage( getMyApp(), m_HomeFrameUpperLeft, eAppletHomePage, OBJNAME_APPLET_LAUNCH_PAGE );
-	connect( m_AppletLaunchPage, SIGNAL( signalBackButtonClicked() ), this, SLOT( help() ) );
+	connect( m_AppletLaunchPage, SIGNAL(signalBackButtonClicked() ), this, SLOT( help() ) );
 }
 
 //============================================================================
 void HomeWindow::createMessengerPage( void )
 {
 	m_MessengerPage = new MessengerPage( getMyApp(), m_HomeFrameRight );
-	connect( m_MessengerPage, SIGNAL( signalBackButtonClicked() ), this, SLOT( help() ) );
+	connect( m_MessengerPage, SIGNAL(signalBackButtonClicked() ), this, SLOT( help() ) );
     m_AppletMultiMessenger = new AppletMultiMessenger( getMyApp(), m_MessengerPage );
     m_MyApp.setAppletMultiMessenger( m_AppletMultiMessenger );
 }

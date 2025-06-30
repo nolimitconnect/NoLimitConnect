@@ -27,22 +27,6 @@ AppletPeerSessionFileOffer::AppletPeerSessionFileOffer(	AppCommon& app, QWidget*
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
-    /*
-	ui.setupUi(this);
-	ui.m_TitleBarWidget->setTitleBarText( QObject::tr("Offer File"));
-
-
-    connectBarWidgets();
-
-	setupStyledDlg(	
-		poOffer->getHisIdent(), 		
-		ui.FriendIdentWidget,
-		m_ePluginType,
-		ui.PermissionButton, 
-		ui.PermissionLabel );
-	ui.progressBar->setValue( poOffer->getProgress() );
-    */
-
 	connect( ui.AcceptButton, SIGNAL(clicked()), this, SLOT(onAcceptButClick()) );
 	connect( ui.CancelButton, SIGNAL(clicked()), this, SLOT(onCancelButClick()) );
 }
@@ -51,14 +35,12 @@ AppletPeerSessionFileOffer::AppletPeerSessionFileOffer(	AppCommon& app, QWidget*
 //! Implement the OnClickListener callback    
 void AppletPeerSessionFileOffer::onAcceptButClick()
 {
-	accept();
+    closeApplet();
 }
 
 //============================================================================
 //! Implement the OnClickListener callback    
 void AppletPeerSessionFileOffer::onCancelButClick()
 {
-	//setOfferResponse( eOfferResponseCancelSession );
-
-	reject();
+    closeApplet();
 }

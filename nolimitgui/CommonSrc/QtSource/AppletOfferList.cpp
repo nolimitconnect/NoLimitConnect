@@ -54,6 +54,7 @@ AppletOfferList::AppletOfferList( AppCommon& app, QWidget* parent )
     connect( ui.m_OfferListWidget, SIGNAL(signalOfferListItemClicked(GuiOfferSession*,GuiOfferListItem*)), this, SLOT(slotOfferListItemClicked(GuiOfferSession*,GuiOfferListItem*)) );
     connect( ui.m_OfferListWidget, SIGNAL(signalAvatarButtonClicked(GuiOfferSession*,GuiOfferListItem*)), this, SLOT(slotAvatarButtonClicked(GuiOfferSession*,GuiOfferListItem*)) );
     connect( ui.m_OfferListWidget, SIGNAL(signalOfferViewButtonClicked(GuiOfferSession*,GuiOfferListItem*)), this, SLOT(slotOfferViewButtonClicked(GuiOfferSession*,GuiOfferListItem*)) );
+    connect( ui.m_OfferListWidget, SIGNAL(signalOfferInfoButtonClicked( GuiOfferSession*, GuiOfferListItem*)), this, SLOT(slotOfferInfoButtonClicked(GuiOfferSession*,GuiOfferListItem*)) );
     connect( ui.m_OfferListWidget, SIGNAL(signalOfferAcceptButtonClicked(GuiOfferSession*,GuiOfferListItem*)), this, SLOT(slotOfferAcceptButtonClicked(GuiOfferSession*,GuiOfferListItem*)) );
     connect( ui.m_OfferListWidget, SIGNAL(signalOfferRejectButtonClicked(GuiOfferSession*,GuiOfferListItem*)), this, SLOT(slotOfferRejectButtonClicked(GuiOfferSession*,GuiOfferListItem*)) );
     connect( ui.m_OfferListWidget, SIGNAL(signalPushToTalkButtonClicked(GuiOfferSession*,GuiOfferListItem*)), this, SLOT(slotPushToTalkButtonClicked(GuiOfferSession*,GuiOfferListItem*)) );
@@ -119,7 +120,7 @@ void AppletOfferList::infoMsg( const char* errMsg, ... )
 void AppletOfferList::clearList( void )
 {
     ui.m_OfferListWidget->clear();
-    setStatusLabel( GuiParams::describeOfferViewType( m_ListViewType ) + QObject::tr( "List" ) );
+    setStatusLabel( GuiParams::describeOfferViewType( m_OfferViewType ) + QObject::tr( "List" ) );
 }
 
 //============================================================================
@@ -160,7 +161,7 @@ void AppletOfferList::callbackUserRemoved( VxGUID& onlineId )
 //============================================================================
 void AppletOfferList::slotActiveOffersButtonClicked( void )
 {
-    if( m_ListViewType != eOfferViewTypeActive )
+    if( m_OfferViewType != eOfferViewTypeActive )
     {
         updateOfferList( eOfferViewTypeActive );
     }
@@ -169,7 +170,7 @@ void AppletOfferList::slotActiveOffersButtonClicked( void )
 //============================================================================
 void AppletOfferList::slotOfferHistoryButtonClicked( void )
 {
-    if( m_ListViewType != eOfferViewTypeHistory )
+    if( m_OfferViewType != eOfferViewTypeHistory )
     {
         updateOfferList( eOfferViewTypeHistory );
     }
@@ -202,8 +203,9 @@ void AppletOfferList::removeUser( VxGUID& onlineId )
 //============================================================================
 void AppletOfferList::updateOfferList( EOfferViewType offerViewType )
 {
-    m_ListViewType = offerViewType;
-    switch( m_ListViewType )
+    m_OfferViewType = offerViewType;
+    ui.m_OfferListWidget->setOfferViewType( offerViewType );
+    switch( m_OfferViewType )
     {
     case eOfferViewTypeActive:
         ui.m_ActiveOffersButton->setNotifyType( eNotifyOnline );
@@ -224,12 +226,12 @@ void AppletOfferList::updateOfferList( EOfferViewType offerViewType )
 void AppletOfferList::refreshOfferList( void )
 {
     ui.m_OfferListWidget->clearOfferList();
-    std::vector<std::shared_ptr<GuiOfferSession>>& offerList = m_ListViewType == eOfferViewTypeActive ? m_MyApp.getOfferMgr().getOfferList() : m_MyApp.getOfferMgr().getOfferHistoryList();
+    std::vector<std::shared_ptr<GuiOfferSession>>& offerList = m_OfferViewType == eOfferViewTypeActive ? m_MyApp.getOfferMgr().getOfferList() : m_MyApp.getOfferMgr().getOfferHistoryList();
     for( auto offerSession : offerList )
     {
         // do not show offers sent by myself if is active offer list
-        if( m_ListViewType == eOfferViewTypeHistory ||
-            (m_ListViewType == eOfferViewTypeActive && offerSession->getCreatorOnlineId() != m_MyApp.getMyOnlineId()) )
+        if( m_OfferViewType == eOfferViewTypeHistory ||
+            (m_OfferViewType == eOfferViewTypeActive && offerSession->getCreatorOnlineId() != m_MyApp.getMyOnlineId()) )
         {
             ui.m_OfferListWidget->addOrUpdateSession( offerSession.get() );
         }
@@ -249,6 +251,13 @@ void AppletOfferList::slotAvatarButtonClicked( GuiOfferSession* offerSession, Gu
 }
 
 //============================================================================
+void AppletOfferList::slotOfferInfoButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem )
+{
+    LogModule( eLogOffer, LOG_VERBOSE, "AppletOfferList::%s", __func__ );
+    m_MyApp.getOfferMgr().showOfferInfo( offerSession, getParentPageFrame() );
+}
+
+//============================================================================
 void AppletOfferList::slotOfferViewButtonClicked( GuiOfferSession* offerSession, GuiOfferListItem* userItem )
 {
     LogModule( eLogOffer, LOG_VERBOSE, "AppletOfferList::%s", __func__ );
@@ -260,6 +269,7 @@ void AppletOfferList::slotOfferAcceptButtonClicked( GuiOfferSession* offerSessio
 {
     LogModule( eLogOffer, LOG_VERBOSE, "AppletOfferList::%s", __func__ );
     m_MyApp.getOfferMgr().acceptOffer( offerSession, getParentPageFrame() );
+    refreshOfferList();
 }
 
 //============================================================================
@@ -267,6 +277,7 @@ void AppletOfferList::slotOfferRejectButtonClicked( GuiOfferSession* offerSessio
 {
     LogModule( eLogOffer, LOG_VERBOSE, "AppletOfferList::%s", __func__ );
     m_MyApp.getOfferMgr().rejectOffer( offerSession, getParentPageFrame() );
+    refreshOfferList();
 }
 
 //============================================================================

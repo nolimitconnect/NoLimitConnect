@@ -48,8 +48,8 @@ AppletHostNetworkStatus::AppletHostNetworkStatus( AppCommon& app, QWidget* paren
 
     m_MyApp.activityStateChange( this, true );
 
-    connect( ui.m_HostingRequirementsButton, SIGNAL(clicked()), this, SLOT( slotHostRequirementsButtonClicked() ) );
-    connect( m_UpdateStatusTimer, SIGNAL( timeout() ), this, SLOT( slotUpdateStatusTimeout() ) );
+    connect( ui.m_HostingRequirementsButton, SIGNAL(clicked()), this, SLOT(slotHostRequirementsButtonClicked() ) );
+    connect( m_UpdateStatusTimer, SIGNAL( timeout() ), this, SLOT(slotUpdateStatusTimeout() ) );
 
     ui.m_WebsiteWidget->setUrlType( eWebsiteUrlVpn );
 

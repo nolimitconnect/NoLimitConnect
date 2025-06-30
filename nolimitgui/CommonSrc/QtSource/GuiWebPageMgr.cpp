@@ -29,10 +29,10 @@ GuiWebPageMgr::GuiWebPageMgr( AppCommon& app )
 //============================================================================
 void GuiWebPageMgr::onAppCommonCreated( void )
 {
-    connect( this, SIGNAL( signalIInteralWebDownloadStarted( EWebPageType, VxGUID, QString, int ) ), this, SLOT( slotInternalWebDownloadStarted( EWebPageType, VxGUID, QString, int ) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalWebDownloadProgress( EWebPageType, VxGUID, int, int ) ), this, SLOT( slotInternalWebDownloadProgress( EWebPageType, VxGUID, int, int ) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalWebDownloadComplete( EWebPageType, VxGUID, QString ) ), this, SLOT( slotInternalWebDownloadComplete( EWebPageType, VxGUID, QString ) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalWebDownloadFailed( EWebPageType, VxGUID, QString, EXferError ) ), this, SLOT( slotInternalWebDownloadFailed( EWebPageType, VxGUID, QString, EXferError ) ), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalIInteralWebDownloadStarted( EWebPageType, VxGUID, QString, int ) ), this, SLOT(slotInternalWebDownloadStarted( EWebPageType, VxGUID, QString, int ) ), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalWebDownloadProgress( EWebPageType, VxGUID, int, int ) ), this, SLOT(slotInternalWebDownloadProgress( EWebPageType, VxGUID, int, int ) ), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalWebDownloadComplete( EWebPageType, VxGUID, QString ) ), this, SLOT(slotInternalWebDownloadComplete( EWebPageType, VxGUID, QString ) ), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalWebDownloadFailed( EWebPageType, VxGUID, QString, EXferError ) ), this, SLOT(slotInternalWebDownloadFailed( EWebPageType, VxGUID, QString, EXferError ) ), Qt::QueuedConnection );
 
     m_MyApp.getEngine().getWebPageMgr().wantWebPageMgrCallbacks( dynamic_cast< WebPageCallbackInterface* >( this ), true );
 }

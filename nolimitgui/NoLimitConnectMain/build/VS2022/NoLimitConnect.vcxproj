@@ -216,6 +216,7 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletMultiMessenger.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletNetHostingPage.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletNetworkSettings.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletOfferInfo.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletOfferList.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletOfferResponse.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletOfferResponseAccept.cpp" />
@@ -618,6 +619,7 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletFriendRequestList.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletCreateAccount.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletInformation.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletOfferInfo.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppProfile.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppSettings.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppTranslate.h" />
@@ -1006,6 +1008,7 @@ libass.lib;libpcre.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletMultiMessenger.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletNetworkKey.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletNetworkSettings.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\AppletOfferInfo.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletOfferList.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletOfferResponse.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletOfferResponseAccept.ui" />

@@ -73,6 +73,7 @@ public:
 	void						removePluginSessionOffer( EPluginType pluginType, GuiUser* guiUser );
 	void						removePluginSessionOffer( VxGUID& offerSessionId );
 
+	virtual void				showOfferInfo( GuiOfferSession* offerSessionIn, QWidget* contentFrame );
 	virtual void				viewOffer( GuiOfferSession* offerSession, QWidget* contentFrame );
 	virtual bool				acceptOffer( GuiOfferSession* offerSession, QWidget* contentFrame );
 	virtual bool				rejectOffer( GuiOfferSession* offerSession, QWidget* contentFrame );
@@ -142,6 +143,8 @@ protected:
     void                        announceOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& offerMsg );
 
 	void						moveToHistory( VxGUID& offerId );
+	void						removeOffer( VxGUID& offerId );
+	void						checkForExpiredOffers( void );
 
 	//=== vars ===//
 	AppCommon& 					m_MyApp;

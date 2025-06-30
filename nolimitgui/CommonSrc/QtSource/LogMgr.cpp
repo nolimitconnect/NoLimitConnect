@@ -31,8 +31,6 @@ LogMgr::LogMgr( QObject* parent )
     , m_MyApp( GetAppInstance() )
 {
     m_VerboseLog = m_MyApp.getAppSettings().getVerboseLog();
-
-    connect( this, SIGNAL(signalLogMsg(uint32_t,const QString&)), this, SLOT(slotLogMsg(uint32_t,const QString&)) );
 }
 
 //============================================================================

@@ -46,8 +46,6 @@
 
 #include "ui_AppletFileOfferSelect.h"
 
-//#include <PktLib/VxCommon.h>
-
 //============================================================================
 AppletFileOfferSelect::AppletFileOfferSelect( AppCommon& app, QWidget* parent, QString launchParam )
     : AppletBase( OBJNAME_APPLET_FILE_OFFER_SELECT, app, parent )
@@ -61,11 +59,13 @@ AppletFileOfferSelect::AppletFileOfferSelect( AppCommon& app, QWidget* parent, Q
     setTitleBarText( DescribeApplet( getAppletType() ) ); 
     setPluginType( ePluginTypePersonFileXfer );
 
+    ui.m_OfferSendWidget->setCancelVisible( false );
+
     m_eFileFilterType = GuiParams::fileFilterToEnum( launchParam );
     setFileFilter( m_eFileFilterType );
 
-    connect( ui.m_BrowseButton, SIGNAL(clicked()), this, SLOT( slotBrowseForFileButClick() ) );
-    connect( ui.m_OpenFolderButton, SIGNAL(clicked()), this, SLOT( slotBrowseFolderButClick() ) );
+    connect( ui.m_BrowseButton, SIGNAL(clicked()), this, SLOT(slotBrowseForFileButClick() ) );
+    connect( ui.m_OpenFolderButton, SIGNAL(clicked()), this, SLOT(slotBrowseFolderButClick() ) );
 
     connect( ui.m_FileFilterSelectWidget, SIGNAL(signalFileFilterChanged(EFileFilterType)), this, SLOT(slotApplyFileFilter(EFileFilterType)) );
     statusMsg( "Requesting File List " );
@@ -171,7 +171,7 @@ FileShareItemWidget* AppletFileOfferSelect::fileToWidget( FileInfo& fileInfo )
 
     FileItemInfo* poItemInfo = new FileItemInfo( fileInfo );
     item->QListWidgetItem::setData( Qt::UserRole + 1, QVariant( ( quint64 )poItemInfo ) );
-    connect( item, SIGNAL( signalFileShareItemClicked(QListWidgetItem*) ), this, SLOT( slotItemClicked(QListWidgetItem*) ) );
+    connect( item, SIGNAL(signalFileShareItemClicked(QListWidgetItem*) ), this, SLOT(slotItemClicked(QListWidgetItem*) ) );
 
     connect( item,
              SIGNAL(signalFileShareItemClicked(QListWidgetItem*)),
@@ -518,14 +518,17 @@ void AppletFileOfferSelect::onFileSelected( FileInfo& fileInfo )
     offerInfo.setOfferMgr( eOfferMgrHost );
 
     ui.m_OfferSendWidget->setOfferInfo( offerInfo );
+
+    std::string justFileName = offerInfo.getFileName();
+    ui.m_FileNameEdit->setText( justFileName.c_str() );
+    statusMsg( justFileName.c_str() );
+
     std::string fullFileName = offerInfo.getAssetNameAndPath();
-    std::string justFileName;
     std::string justPath;
     if( 0 == VxFileUtil::seperatePathAndFile( fullFileName, justPath, justFileName ) )
     {
         ui.m_Path->setText( justPath.c_str() );
-        ui.m_FileNameEdit->setText( justFileName.c_str() );
-        statusMsg( justFileName.c_str() );
+
     }
 }
 

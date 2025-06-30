@@ -60,7 +60,11 @@ public:
     virtual bool                isPhoneTypePlugin( void ); // behaves like phone with ringing
 
     virtual bool                isFileOffer( void )                     { return isFileAsset(); }
-    virtual bool				isExpiredOffer( void );
+
+    bool                        isAccepted( void );
+    bool                        isRejected( void );
+    bool                        isExpired( void );
+    bool                        isWaitingForResponse( void );
 
     virtual void				setIsSharedFileOffer( bool isSharedOffer ) { setIsSharedFileAsset( isSharedOffer ); }
     virtual bool				isSharedFileOffer( void )               { return isSharedFileAsset(); }
@@ -87,8 +91,11 @@ public:
     void						setOfferTimestamp( int64_t timems )     { m_OfferTimestamp = timems; }
 	int64_t						getOfferTimestamp( void )               { return m_OfferTimestamp; }
 
-    VxGUID                      getFromOnlineId( void ) { return m_OfferMgr == eOfferMgrHost ? getCreatorId() : getHistoryId(); }
-    VxGUID                      getToOnlineId( void ) { return m_OfferMgr == eOfferMgrHost ? getHistoryId() : getCreatorId(); }
+    void						setOfferResponseTimestamp( int64_t timems ) { m_OfferResponseTimestamp = timems; }
+    int64_t						getOfferResponseTimestamp( void )       { return m_OfferResponseTimestamp; }
+
+    VxGUID&                     getFromOnlineId( void )                 { return m_OfferMgr == eOfferMgrHost ? getCreatorId() : getHistoryId(); }
+    VxGUID&                     getToOnlineId( void )                   { return m_OfferMgr == eOfferMgrHost ? getHistoryId() : getCreatorId(); }
 
 protected:
     EOfferMgrType               m_OfferMgr{ eOfferMgrNotSet };
@@ -97,4 +104,6 @@ protected:
     std::string                 m_OfferMsg;
     EOfferResponse              m_OfferResponse{ eOfferResponseNotSet };
     int64_t                     m_OfferTimestamp{ 0 };
+    
+    int64_t                     m_OfferResponseTimestamp{ 0 }; // not sent over network
 };

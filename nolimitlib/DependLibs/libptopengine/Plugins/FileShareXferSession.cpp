@@ -10,6 +10,8 @@
 
 #include "FileShareXferSession.h"
 
+#include "OfferBase/OfferBaseInfo.h"
+
 #include <stdio.h>
 
 //============================================================================
@@ -74,4 +76,54 @@ bool FileShareXferSession::isXferingFile( void )
 		return true;
 	}
 	return false;
+}
+
+//============================================================================
+bool FileShareXferSession::offerAccepted( VxGUID& lclSessionId )
+{
+	bool nextFileAvail{ false };
+	if( !m_FileXferInfo.m_hFile )
+	{
+		for( auto iter = m_FilesToXferList.begin(); iter != m_FilesToXferList.end(); ++iter )
+		{
+			if( ( *iter ).getLclSessionId() == lclSessionId )
+			{
+				nextFileAvail  = fillXferFile( *iter );
+				m_FilesToXferList.erase( iter );
+				break;
+			}
+		}
+	}
+
+	return nextFileAvail;
+}
+
+//============================================================================
+bool FileShareXferSession::setupNextFile( void )
+{
+	bool nextFileAvail{ false };
+	if( m_FilesToXferList.size() )
+	{
+		nextFileAvail = fillXferFile( m_FilesToXferList[0] );
+		m_FilesToXferList.erase( m_FilesToXferList.begin() );
+	}
+
+	return nextFileAvail;
+}
+
+//============================================================================
+bool FileShareXferSession::fillXferFile( FileToXfer& fileToXfer )
+{
+	bool nextFileAvail{ false };
+	if( !m_FileXferInfo.m_hFile )
+	{
+
+		nextFileAvail = fileToXfer.fillFileXferInfo( m_FileXferInfo, getXferDirection() );
+		if( nextFileAvail )
+		{
+		}
+
+	}
+
+	return nextFileAvail;
 }

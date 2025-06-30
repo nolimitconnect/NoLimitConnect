@@ -57,7 +57,7 @@ public:
 
 	virtual void				fromGuiMakePluginOffer( QWidget* parent, EPluginType pluginType, GuiUser* guiUser, FileInfo& fileInfo ) {};
 
-	virtual	bool				hostedOfferExists( OfferBaseInfo& offerInfo );
+	virtual	bool				hostedOfferExists( OfferBaseInfo& offerInfo, bool updateResponse = false );
 	virtual	bool				clientOfferExists( OfferBaseInfo& offerInfo );
 
     virtual void                onQueryHistoryOffer( OfferBaseInfo* offerInfo ) {}; // should be overriden

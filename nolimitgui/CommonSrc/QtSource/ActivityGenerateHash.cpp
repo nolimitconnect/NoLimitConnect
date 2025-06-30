@@ -40,7 +40,7 @@ ActivityGenerateHash::ActivityGenerateHash(	AppCommon& app, QWidget* parent, std
 	ui.m_CancelButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
 	ui.m_CancelButton->setIcon( eMyIconCancelNormal );
 
-	connect( ui.m_CancelButton, SIGNAL(clicked()), this, SLOT( slotCancelButtonClicked()) );
+	connect( ui.m_CancelButton, SIGNAL(clicked()), this, SLOT(slotCancelButtonClicked()) );
 	this->setFocus();
 	ui.m_CancelButton->setFocus();
 

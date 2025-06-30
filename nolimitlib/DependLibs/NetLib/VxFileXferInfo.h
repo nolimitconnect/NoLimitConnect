@@ -70,6 +70,8 @@ public:
 
 	bool						useFileIo( void )						{ return eXferDirectionRx != m_XferDirection || !isStream(); }
 
+	void						clear( void );
+
 	//=== vars ===//
     VFile*						m_hFile{nullptr};
     uint64_t					m_u64FileOffs{0};					 // current offset into file we are at

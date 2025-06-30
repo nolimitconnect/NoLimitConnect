@@ -14,6 +14,7 @@
 #include "AppCommon.h"
 #include "AppletMgr.h"
 #include "AppletMultiMessenger.h"
+#include "AppletOfferInfo.h"
 #include "AppletOfferView.h"
 #include "AppletPeerVoicePhone.h"
 #include "AppletPeerVideoPhone.h"
@@ -305,7 +306,7 @@ void GuiOfferMgrBase::callbackOnlineStatusChange( GuiUser* guiUser, bool isOnlin
 				changeOfferState( offerSession, eOfferStateUserOffline );
 				for( auto& client : m_OfferCallbackList )
 				{
-					client->callbackGuiOfferRemoved( offerSession );
+					client->callbackGuiOfferRemoved( offerSession->getOfferId() );
 				}
 
 				offlineList.emplace_back( offerSession );
@@ -511,7 +512,7 @@ void GuiOfferMgrBase::removePluginSessionOffer( EPluginType pluginType, GuiUser*
 		{
 			for( auto& client : m_OfferCallbackList )
 			{
-				client->callbackGuiOfferRemoved( offerSession );
+				client->callbackGuiOfferRemoved( offerSession->getOfferId() );
 			}
 
             iter = m_OfferList.erase( iter );
@@ -552,7 +553,7 @@ void GuiOfferMgrBase::removePluginSessionOffer( VxGUID&  offerSessionId )
 			iter = m_OfferList.erase( iter );
 			for( auto& client : m_OfferCallbackList )
 			{
-				client->callbackGuiOfferRemoved( offerSession );
+				client->callbackGuiOfferRemoved( offerSessionId );
 			}
 
 			offerFound = true;
@@ -772,6 +773,8 @@ bool GuiOfferMgrBase::fromGuiToPluginOfferReply( EPluginType pluginType, GuiUser
 void GuiOfferMgrBase::updateActiveOfferCount( void )
 {
 	if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferMgrBase::%s ", __func__ );
+	checkForExpiredOffers();
+
 	int activeCnt = 0;
 	for( auto offerSession : m_OfferList )
 	{
@@ -788,6 +791,35 @@ void GuiOfferMgrBase::updateActiveOfferCount( void )
 		for( auto& client : m_OfferCallbackList )
 		{
             client->callbackActiveOfferCount( activeCnt, historyOfferCount );
+		}
+	}
+}
+
+//========================================================================
+void GuiOfferMgrBase::showOfferInfo( GuiOfferSession* offerSessionIn, QWidget* contentFrame )
+{
+	if( LogEnabled( eLogOffer ) )LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferMgrBase::%s ", __func__ );
+	std::shared_ptr<GuiOfferSession> offerSession = findOffer( offerSessionIn );
+	if( !offerSession.get() )
+	{
+		LogMsg( LOG_ERROR, "GuiOfferMgrBase::%s ", __func__, "failed to find offer" );
+		return;
+	}
+
+	if( validateOffer( offerSession, contentFrame ) )
+	{
+		AppletOfferInfo* applet = (AppletOfferInfo*)m_MyApp.getAppletMgr().launchApplet( eAppletOfferInfo, contentFrame );
+		if( applet )
+		{
+			applet->setPluginType( offerSession->getPluginType() );
+			applet->setUser( offerSession->getUser() );
+			if( !applet->setOfferInfo( offerSession->getOfferInfo() ) )
+			{
+				// invalid offer. do not allow accept
+				LogMsg( LOG_ERROR, "GuiOfferMgrBase::%s ", __func__, "Invalid Offer" );
+			}
+
+			applet->setOfferMessage( offerSession->getMessagesText().c_str() );
 		}
 	}
 }
@@ -827,12 +859,6 @@ bool GuiOfferMgrBase::acceptOffer( GuiOfferSession* offerSessionIn, QWidget* con
 		return false;
 	}
 
-	if( !offerSession->getUser() || !offerSession->getUser()->isOnline() )
-	{
-		GuiHelpers::errorMsgBox( eErrMsgUserUnavailable, contentFrame, offerSession->getUser() );
-		return false;
-	}
-
 	bool offerSent = false;
 	if( validateOffer( offerSession, contentFrame ) )
 	{
@@ -845,9 +871,27 @@ bool GuiOfferMgrBase::acceptOffer( GuiOfferSession* offerSessionIn, QWidget* con
 		}
 		else
 		{
+			if( GuiParams::requiresMoreSpace( offerInfo.getAssetLength() ) )
+			{
+				QString title = QObject::tr( "Not enough storage available" );
+				QString msg = QObject::tr( "Requires " ) + GuiParams::describeFileLength( offerInfo.getAssetLength() ) + QObject::tr( " but only " ) +
+					GuiParams::getAvailableStorageSpaceText() + QObject::tr( " available " );
+
+				ActivityMessageBox errMsgBox( m_MyApp, contentFrame, title, msg );
+				return false;
+			}
+
 			changeOfferState( offerSession, eOfferStateAccepted );
 			launchOfferResponseAccept( offerSession, contentFrame );
 		}
+	}
+
+	moveToHistory( offerSession->getOfferId() );
+
+	if( !offerSession->getUser() || !offerSession->getUser()->isOnline() )
+	{
+		GuiHelpers::errorMsgBox( eErrMsgUserUnavailable, contentFrame, offerSession->getUser() );
+		return false;
 	}
 
 	return offerSent;
@@ -864,12 +908,6 @@ bool GuiOfferMgrBase::rejectOffer( GuiOfferSession* offerSessionIn, QWidget* con
 		return false;
 	}
 
-	if( !offerSession->getUser() || !offerSession->getUser()->isOnline() )
-	{
-		GuiHelpers::errorMsgBox( eErrMsgUserUnavailable, contentFrame, offerSession->getUser() );
-		return false;
-	}
-
 	bool offerSent = false;
 	if( validateOffer( offerSession, contentFrame ) )
 	{
@@ -881,6 +919,20 @@ bool GuiOfferMgrBase::rejectOffer( GuiOfferSession* offerSessionIn, QWidget* con
 		{
 			GuiHelpers::errorMsgBox( eErrMsgUserUnavailable, contentFrame, offerSession->getUser() );
 		}
+
+		moveToHistory( offerSession->getOfferId() );
+	}
+	else
+	{
+		removeOffer( offerSession->getOfferId() );
+	}
+
+	checkForExpiredOffers();
+
+	if( !offerSession->getUser() || !offerSession->getUser()->isOnline() )
+	{
+		GuiHelpers::errorMsgBox( eErrMsgUserUnavailable, contentFrame, offerSession->getUser() );
+		return false;
 	}
 
 	return offerSent;
@@ -896,6 +948,14 @@ std::shared_ptr<GuiOfferSession> GuiOfferMgrBase::findOffer( GuiOfferSession* of
 	}
 
 	for( auto offer : m_OfferList )
+	{
+		if( offer->getOfferId() == offerSession->getOfferId() )
+		{
+			return offer;
+		}
+	}
+
+	for( auto offer : m_OfferHistory )
 	{
 		if( offer->getOfferId() == offerSession->getOfferId() )
 		{
@@ -1059,6 +1119,13 @@ bool GuiOfferMgrBase::launchOfferResponseAccept( std::shared_ptr<GuiOfferSession
 
 	break;
 
+	case ePluginTypePersonFileXfer:
+	{
+		m_MyApp.getAppletMgr().launchApplet( eAppletDownloads, GuiHelpers::getOppositePageFrame( contentFrame ) );
+	}
+
+	break;
+
 	default:
 		ActivityMessageBox errMsgBox( m_MyApp, contentFrame, LOG_ERROR, "GuiOfferMgrBase::%s UNKNOWN plugin type %d", 
 									  __func__, offerSession->getPluginType() );
@@ -1085,7 +1152,6 @@ void GuiOfferMgrBase::phoneRingTimeout( std::shared_ptr<GuiOfferSession>& offerS
 {
 	changeOfferState( offerSession, offerSession->getOfferMgr() == eOfferMgrClient ? eOfferStateMissedCall : eOfferStateNoResponse );
 	moveToHistory( offerSession->getOfferId() );
-	updateActiveOfferCount();
 }
 
 //============================================================================
@@ -1102,6 +1168,7 @@ void GuiOfferMgrBase::moveToHistory( VxGUID& offerId )
 	{
 		if( (*iter)->getOfferId() == offerId )
 		{
+			( *iter )->setOfferResponseTimestamp( GetTimeStampMs() );
 			offerSession = *iter;
 			movedToHistory = true;
 			m_OfferHistory.emplace_back( *iter );
@@ -1127,5 +1194,66 @@ void GuiOfferMgrBase::announceOfferMsg( GuiUser* guiUser, EPluginType pluginType
 	for( auto offerClient : m_OfferCallbackList )
 	{
 		offerClient->callbackToGuiOfferMsg( guiUser, pluginType, offerId, offerMsg );
+	}
+}
+
+//============================================================================
+void GuiOfferMgrBase::removeOffer( VxGUID& offerId )
+{
+	if( m_OfferHistory.size() >= MAX_OFFER_HISTORY_ENTRIES )
+	{
+		m_OfferHistory.erase( m_OfferHistory.begin() );
+	}
+
+	bool removed{ false };
+	for( auto iter = m_OfferList.begin(); iter != m_OfferList.end(); ++iter )
+	{
+		if( ( *iter )->getOfferId() == offerId )
+		{
+			removed = true;
+			m_OfferList.erase( iter );
+			break;
+		}
+	}
+
+	if( removed )
+	{
+		for( auto offerClient : m_OfferCallbackList )
+		{
+			offerClient->callbackGuiOfferRemoved( offerId );
+		}
+	}
+	else
+	{
+		// check history
+		for( auto iter = m_OfferHistory.begin(); iter != m_OfferHistory.end(); ++iter )
+		{
+			if( ( *iter )->getOfferId() == offerId )
+			{
+				removed = true;
+				m_OfferHistory.erase( iter );
+				break;
+			}
+		}
+	}
+
+	updateActiveOfferCount();
+}
+
+//============================================================================
+void GuiOfferMgrBase::checkForExpiredOffers( void )
+{
+	std::vector<VxGUID> toMoveList;
+	for( auto& offer : m_OfferList )
+	{
+		if( offer->isExpiredOffer() )
+		{
+			toMoveList.emplace_back( offer->getOfferId() );
+		}
+	}
+
+	for( auto& offerId : toMoveList )
+	{
+
 	}
 }

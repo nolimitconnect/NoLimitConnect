@@ -60,6 +60,8 @@ public:
 
 	void						setFocusOnText( void );
 
+	void						setCancelVisible( bool visible );
+
 signals:
     void						signalOfferSent( bool sendSuccess );
 	void						signalCancelButtonClicked( void );

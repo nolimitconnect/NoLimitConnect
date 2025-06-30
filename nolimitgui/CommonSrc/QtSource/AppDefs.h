@@ -204,6 +204,7 @@ enum EApplet
     eAppletStoryboardClient,
 
     eAppletFileOfferSelect,
+    eAppletOfferInfo,
     eAppletOfferSend,
     eAppletOfferResponse,
     eAppletOfferResponseAccept,

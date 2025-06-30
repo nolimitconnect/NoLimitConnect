@@ -50,12 +50,12 @@ HostJoinRequestListItem* HostJoinRequestListWidget::sessionToWidget( GuiHostJoin
 
     hostItem->setHostSession( hostSession );
 
-    connect( hostItem, SIGNAL( signalHostJoinRequestListItemClicked(QListWidgetItem*) ),	this, SLOT( slotHostJoinRequestListItemClicked(QListWidgetItem*) ) );
-    connect( hostItem, SIGNAL( signalAvatarButtonClicked(HostJoinRequestListItem*) ),	    this, SLOT( slotAvatarButtonClicked(HostJoinRequestListItem*) ) );
-    connect( hostItem, SIGNAL( signalFrienshipButtonClicked(HostJoinRequestListItem*) ),    this, SLOT( slotlFriendshipButtonClicked(HostJoinRequestListItem*) ) );
-    connect( hostItem, SIGNAL( signalMenuButtonClicked(HostJoinRequestListItem*) ),	        this, SLOT( slotMenuButtonClicked(HostJoinRequestListItem*) ) );
-    connect( hostItem, SIGNAL( signalAcceptButtonClicked(HostJoinRequestListItem*) ),       this, SLOT( slotAcceptButtonClicked(HostJoinRequestListItem*) ) );
-    connect( hostItem, SIGNAL( signalRejectButtonClicked(HostJoinRequestListItem*) ),       this, SLOT( slotRejectButtonClicked(HostJoinRequestListItem*) ) );
+    connect( hostItem, SIGNAL(signalHostJoinRequestListItemClicked(QListWidgetItem*) ),	this, SLOT(slotHostJoinRequestListItemClicked(QListWidgetItem*) ) );
+    connect( hostItem, SIGNAL(signalAvatarButtonClicked(HostJoinRequestListItem*) ),	    this, SLOT(slotAvatarButtonClicked(HostJoinRequestListItem*) ) );
+    connect( hostItem, SIGNAL(signalFrienshipButtonClicked(HostJoinRequestListItem*) ),    this, SLOT(slotlFriendshipButtonClicked(HostJoinRequestListItem*) ) );
+    connect( hostItem, SIGNAL(signalMenuButtonClicked(HostJoinRequestListItem*) ),	        this, SLOT(slotMenuButtonClicked(HostJoinRequestListItem*) ) );
+    connect( hostItem, SIGNAL(signalAcceptButtonClicked(HostJoinRequestListItem*) ),       this, SLOT(slotAcceptButtonClicked(HostJoinRequestListItem*) ) );
+    connect( hostItem, SIGNAL(signalRejectButtonClicked(HostJoinRequestListItem*) ),       this, SLOT(slotRejectButtonClicked(HostJoinRequestListItem*) ) );
 
     hostItem->updateWidgetFromInfo();
 

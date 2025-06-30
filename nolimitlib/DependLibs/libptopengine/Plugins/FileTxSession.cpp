@@ -40,11 +40,7 @@ FileTxSession::FileTxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& 
 void FileTxSession::reset( void )
 {
 	FileShareXferSession::reset();
-	m_iOutstandingAckCnt = 0;
-	m_bSendingPkts = false;
-	m_bViewingFileList = false;
-	m_strOfferFile = "";
-	m_strViewDirectory = "";
+	m_strViewDirectory.clear();
 }
 
 //============================================================================
@@ -55,8 +51,7 @@ void FileTxSession::cancelUpload( VxGUID& lclSessionId )
 		VFileClose( m_FileXferInfo.m_hFile );
 	}
 
-	std::vector<FileToXfer>::iterator iter;
-	for( iter = m_FilesToXferList.begin(); iter != m_FilesToXferList.end(); ++iter )
+	for( auto iter = m_FilesToXferList.begin(); iter != m_FilesToXferList.end(); ++iter )
 	{
 		if( (*iter).getLclSessionId() == lclSessionId )
 		{
@@ -64,7 +59,8 @@ void FileTxSession::cancelUpload( VxGUID& lclSessionId )
 			break;
 		}
 	}
-	for( iter = m_FilesXferedList.begin(); iter != m_FilesXferedList.end(); ++iter )
+
+	for( auto iter = m_FilesXferedList.begin(); iter != m_FilesXferedList.end(); ++iter )
 	{
 		if( (*iter).getLclSessionId() == lclSessionId )
 		{

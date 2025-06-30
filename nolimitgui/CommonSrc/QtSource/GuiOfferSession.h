@@ -105,6 +105,9 @@ public:
     void						setOfferTimestamp( int64_t timems )			{ m_OfferInfo.setOfferTimestamp( timems ); }
 	int64_t						getOfferTimestamp( void )					{ return m_OfferInfo.getOfferTimestamp(); }
 
+	void						setOfferResponseTimestamp( int64_t timems ) { m_OfferInfo.setOfferResponseTimestamp( timems ); }
+	int64_t						getOfferResponsTimestamp( void )			{ return m_OfferInfo.getOfferResponseTimestamp(); }
+
 signals:
 	void						signalOfferUpdated( void );
 

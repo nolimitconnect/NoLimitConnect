@@ -53,10 +53,10 @@ ThumbnailEditWidget::ThumbnailEditWidget( QWidget* parent )
     QSize frameSize( GuiParams::getThumbnailSize().width() + 20, GuiParams::getThumbnailSize().height() + 20 );
     ui.m_ThumbnailFrame->setFixedSize( frameSize );
 
-    connect( ui.m_ThumbGalleryButton, SIGNAL(clicked()), this, SLOT( slotThumbGalleryClick() ) );
-    connect( ui.m_EmoticonGalleryButton, SIGNAL(clicked()), this, SLOT( slotEmoticonGalleryClick() ) );
-    connect( ui.m_TakeSnapshotButton, SIGNAL(clicked()), this, SLOT( slotSnapShotButClick() ) );
-    connect( ui.m_BrowsePictureButton, SIGNAL(clicked()), this, SLOT( slotBrowseButClick() ) );
+    connect( ui.m_ThumbGalleryButton, SIGNAL(clicked()), this, SLOT(slotThumbGalleryClick() ) );
+    connect( ui.m_EmoticonGalleryButton, SIGNAL(clicked()), this, SLOT(slotEmoticonGalleryClick() ) );
+    connect( ui.m_TakeSnapshotButton, SIGNAL(clicked()), this, SLOT(slotSnapShotButClick() ) );
+    connect( ui.m_BrowsePictureButton, SIGNAL(clicked()), this, SLOT(slotBrowseButClick() ) );
 
     m_CameraSourceAvail = m_MyApp.getCamLogic().isCamAvailable();
 }
@@ -184,8 +184,8 @@ void ThumbnailEditWidget::slotSnapShotButClick( void )
         AppletSnapshot * appletSnapshot = dynamic_cast< AppletSnapshot * >( m_MyApp.getAppletMgr().launchApplet( eAppletSnapshot, m_ParentApplet ) );
         if( appletSnapshot )
         {
-            //connect( appletSnapshot, SIGNAL( signalJpgSnapshot( uint8_t*, uint32_t, int, int ) ), this, SLOT( slotJpgSnapshot( uint8_t*, uint32_t, int, int ) ) );
-            connect( appletSnapshot, SIGNAL( signalSnapshotImage( QImage ) ), this, SLOT( slotImageSnapshot( QImage ) ) );
+            //connect( appletSnapshot, SIGNAL(signalJpgSnapshot( uint8_t*, uint32_t, int, int ) ), this, SLOT(slotJpgSnapshot( uint8_t*, uint32_t, int, int ) ) );
+            connect( appletSnapshot, SIGNAL(signalSnapshotImage( QImage ) ), this, SLOT(slotImageSnapshot( QImage ) ) );
         }
     }
     else
@@ -253,7 +253,7 @@ void ThumbnailEditWidget::slotThumbGalleryClick( void )
     AppletGalleryThumb * galleryThumb = dynamic_cast< AppletGalleryThumb * >( m_MyApp.getAppletMgr().launchApplet( eAppletGalleryThumb, m_ParentApplet ) );
     if( galleryThumb )
     {
-        connect( galleryThumb, SIGNAL( signalThumbSelected( AppletBase *, ThumbnailViewWidget * ) ), this, SLOT( slotThumbSelected( AppletBase *, ThumbnailViewWidget * ) ) );
+        connect( galleryThumb, SIGNAL(signalThumbSelected( AppletBase *, ThumbnailViewWidget * ) ), this, SLOT(slotThumbSelected( AppletBase *, ThumbnailViewWidget * ) ) );
     }
 }
 
@@ -263,7 +263,7 @@ void ThumbnailEditWidget::slotEmoticonGalleryClick( void )
     AppletGalleryEmoticon * galleryEmoticon = dynamic_cast< AppletGalleryEmoticon* >( m_MyApp.getAppletMgr().launchApplet( eAppletGalleryEmoticon, m_ParentApplet ) );
     if( galleryEmoticon )
     {
-        connect( galleryEmoticon, SIGNAL( signalThumbSelected( AppletBase *, ThumbnailViewWidget * ) ), this, SLOT( slotThumbSelected( AppletBase *, ThumbnailViewWidget * ) ) );
+        connect( galleryEmoticon, SIGNAL(signalThumbSelected( AppletBase *, ThumbnailViewWidget * ) ), this, SLOT(slotThumbSelected( AppletBase *, ThumbnailViewWidget * ) ) );
     }
 }
 
@@ -282,7 +282,7 @@ void ThumbnailEditWidget::slotThumbSelected( AppletBase * thumbGallery, Thumbnai
             }
         }
 
-        disconnect( thumbGallery, SIGNAL( signalThumbSelected( AppletBase *, ThumbnailViewWidget * ) ), this, SLOT( slotThumbSelected( AppletBase *, ThumbnailViewWidget * ) ) );
+        disconnect( thumbGallery, SIGNAL(signalThumbSelected( AppletBase *, ThumbnailViewWidget * ) ), this, SLOT(slotThumbSelected( AppletBase *, ThumbnailViewWidget * ) ) );
         thumbGallery->closeApplet();
         emit signalImageChanged();
     }

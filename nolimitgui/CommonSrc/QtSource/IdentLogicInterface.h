@@ -55,6 +55,7 @@ public:
 	virtual VxPushButton*		getIdentAvatarButton( void ) = 0;
 	virtual VxPushButton*		getIdentFriendshipButton( void ) = 0;
 	virtual VxPushButton*		getIdentPushToTalkButton( void )			{ return nullptr; }
+	virtual VxPushButton*		getIdentOfferInfoButton( void )				{ return nullptr; }
 	virtual VxPushButton*		getIdentOfferViewButton( void )				{ return nullptr; }
 	virtual VxPushButton*		getIdentOfferAcceptButton( void )			{ return nullptr; }
 	virtual VxPushButton*		getIdentOfferRejectButton( void )			{ return nullptr; }
@@ -85,6 +86,7 @@ public:
 
 	void						setIdentAvatarButtonVisible( bool visible );
 	void						setIdentFriendshipButtonVisible( bool visible );
+	void						setIdentOfferInfoButtonVisible( bool visible );
 	void						setIdentOfferViewButtonVisible( bool visible );
 	void						setIdentOfferAcceptButtonVisible( bool visible );
 	void						setIdentOfferRejectButtonVisible( bool visible );
@@ -100,6 +102,7 @@ public:
 
 	virtual void				onIdentAvatarButtonClicked( void )		{};
 	virtual void				onIdentFriendshipButtonClicked( void );
+	virtual void				onIdentOfferInfoButtonClicked( void ) {};
 	virtual void				onIdentOfferViewButtonClicked( void )	{};
 	virtual void				onIdentOfferAcceptButtonClicked( void ) {};
 	virtual void				onIdentOfferRejectButtonClicked( void ) {};
@@ -112,6 +115,7 @@ public:
 signals:
 	void						signalIdentAvatarButtonClicked( void );
 	void						signalIdentFriendshipButtonClicked( void );
+	void						signalIdentOfferInfoButtonClicked( void );
 	void						signalIdentOfferViewButtonClicked( void );
 	void						signalIdentOfferAcceptButtonClicked( void );
 	void						signalIdentOfferRejectButtonClicked( void );
@@ -121,6 +125,7 @@ signals:
 protected slots:
 	void						slotIdentAvatarButtonClicked( void );
 	void						slotIdentFrienshipButtonClicked( void );
+	void						slotIdentOfferInfoButtonClicked( void );
 	void						slotIdentOfferViewButtonClicked( void );
 	void						slotIdentOfferAcceptButtonClicked( void );
 	void						slotIdentOfferRejectButtonClicked( void );

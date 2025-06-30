@@ -77,17 +77,17 @@ AppletUserIdentity::AppletUserIdentity( AppCommon& app, QWidget* parent )
     connect( ui.m_ApplyAgeButton, SIGNAL(clicked()), this, SLOT( onApplyAgeClick() ) );
     connect( ui.m_ApplyGenderButton, SIGNAL(clicked()), this, SLOT( onApplyGenderClick() ) );
 
-    connect( ui.m_EditAboutMeButton, SIGNAL(clicked()), this, SLOT( slotEditAboutMeButClick() ) );
-    connect( ui.m_ViewAboutMeButton, SIGNAL(clicked()), this, SLOT( slotViewAboutMeButClick() ) );
-    connect( ui.m_EditAvatarImageButton, SIGNAL(clicked()), this, SLOT( slotEditAvatarButClick() ) );
-    connect( ui.m_AvatarImageButton, SIGNAL(clicked()), this, SLOT( slotEditAvatarButClick() ) );
-    connect( ui.m_EditStoryboardButton, SIGNAL(clicked()), this, SLOT( slotEditStoryboardButClick() ) );
-    connect( ui.m_ViewStoryboardButton, SIGNAL(clicked()), this, SLOT( slotViewStoryboardButClick() ) );
+    connect( ui.m_EditAboutMeButton, SIGNAL(clicked()), this, SLOT(slotEditAboutMeButClick() ) );
+    connect( ui.m_ViewAboutMeButton, SIGNAL(clicked()), this, SLOT(slotViewAboutMeButClick() ) );
+    connect( ui.m_EditAvatarImageButton, SIGNAL(clicked()), this, SLOT(slotEditAvatarButClick() ) );
+    connect( ui.m_AvatarImageButton, SIGNAL(clicked()), this, SLOT(slotEditAvatarButClick() ) );
+    connect( ui.m_EditStoryboardButton, SIGNAL(clicked()), this, SLOT(slotEditStoryboardButClick() ) );
+    connect( ui.m_ViewStoryboardButton, SIGNAL(clicked()), this, SLOT(slotViewStoryboardButClick() ) );
 
-    connect( ui.m_CreateNewAccountButton, SIGNAL(clicked()), this, SLOT( slotCreateNewAccount() ) );
-    connect( ui.m_DeleteAccountButton, SIGNAL(clicked()), this, SLOT( slotDeleteAccount() ) );
+    connect( ui.m_CreateNewAccountButton, SIGNAL(clicked()), this, SLOT(slotCreateNewAccount() ) );
+    connect( ui.m_DeleteAccountButton, SIGNAL(clicked()), this, SLOT(slotDeleteAccount() ) );
 
-    connect( ui.m_AccountComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotAccountSelectionChanged( int ) ) );
+    connect( ui.m_AccountComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT(slotAccountSelectionChanged( int ) ) );
 
     resetComboIdxToOriginalAccount();
 
@@ -263,8 +263,8 @@ void AppletUserIdentity::slotEditAvatarButClick( void )
     AppletEditAvatarImage* editAvatarImage = dynamic_cast<AppletEditAvatarImage*>(m_MyApp.getAppletMgr().launchApplet( eAppletEditAvatarImage, this ));
     if( editAvatarImage )
     {
-        connect( editAvatarImage, SIGNAL( signalAvatarImageChanged( ThumbInfo* ) ), this, SLOT( slotAvatarImageChanged( ThumbInfo* ) ) );
-        connect( editAvatarImage, SIGNAL( signalAvatarImageRemoved() ), this, SLOT( slotAvatarImageRemoved() ) );
+        connect( editAvatarImage, SIGNAL(signalAvatarImageChanged( ThumbInfo* ) ), this, SLOT(slotAvatarImageChanged( ThumbInfo* ) ) );
+        connect( editAvatarImage, SIGNAL(signalAvatarImageRemoved() ), this, SLOT(slotAvatarImageRemoved() ) );
     }
 }
 

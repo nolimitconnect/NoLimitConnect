@@ -87,6 +87,14 @@ void GuiUserListItem::onIdentAvatarButtonClicked()
 //    emit signalFriendshipButtonClicked( this );
 //}
 
+
+//============================================================================
+void GuiUserListItem::onIdentOfferInfoButtonClicked()
+{
+    LogMsg( LOG_VERBOSE, "GuiUserListItem::onIdentOfferInfoButtonClicked" );
+    emit signalOfferInfoButtonClicked( this );
+}
+
 //============================================================================
 void GuiUserListItem::onIdentOfferViewButtonClicked()
 {

@@ -37,14 +37,14 @@ AppletIgnoredHosts::AppletIgnoredHosts( AppCommon& app, QWidget* parent )
 	ui.m_GuiHostedListWidget->setIsIgnoredHostsView( true );
 
 	// so is actually destroyed
-	connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
+	connect( this, SIGNAL(signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
 
-	connect( ui.m_GuiHostedListWidget, SIGNAL( signalIconButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ),		this, SLOT( slotIconButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ) );
-	connect( ui.m_GuiHostedListWidget, SIGNAL( signalMenuButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ),		this, SLOT( slotMenuButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ) );
-	connect( ui.m_GuiHostedListWidget, SIGNAL( signalJoinButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ),		this, SLOT( slotJoinButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ) );
-	connect( ui.m_GuiHostedListWidget, SIGNAL( signalConnectButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ),	this, SLOT( slotConnectButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ) );
-	connect( ui.m_GuiHostedListWidget, SIGNAL( signalKickButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ),		this, SLOT( slotKickButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ) );
-	connect( ui.m_GuiHostedListWidget, SIGNAL( signalIgnoreButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ), this, SLOT( slotIgnoreButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ) );
+	connect( ui.m_GuiHostedListWidget, SIGNAL(signalIconButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ),		this, SLOT(slotIconButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ) );
+	connect( ui.m_GuiHostedListWidget, SIGNAL(signalMenuButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ),		this, SLOT(slotMenuButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ) );
+	connect( ui.m_GuiHostedListWidget, SIGNAL(signalJoinButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ),		this, SLOT(slotJoinButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ) );
+	connect( ui.m_GuiHostedListWidget, SIGNAL(signalConnectButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ),	this, SLOT(slotConnectButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ) );
+	connect( ui.m_GuiHostedListWidget, SIGNAL(signalKickButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ),		this, SLOT(slotKickButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ) );
+	connect( ui.m_GuiHostedListWidget, SIGNAL(signalIgnoreButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ), this, SLOT(slotIgnoreButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ) );
 
 
 	m_MyApp.activityStateChange( this, true );

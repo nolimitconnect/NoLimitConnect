@@ -30,7 +30,7 @@ public:
 	virtual void				callbackToGuiOfferMovedToHistory( std::shared_ptr<GuiOfferSession>& offerSession ) {};
 
 	virtual void				callbackGuiUpdatePluginOffer( std::shared_ptr<GuiOfferSession>& offerSession ) {};
-	virtual void				callbackGuiOfferRemoved( std::shared_ptr<GuiOfferSession>& offerSession ) {};
+	virtual void				callbackGuiOfferRemoved( VxGUID& offerId ) {};
 
 	virtual void				callbackGuiAllOffersRemoved( void ) {};
 

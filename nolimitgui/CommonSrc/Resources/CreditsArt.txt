@@ -130,10 +130,18 @@ mediacontrol-play.svg
 mediacontrol-repeat.svg
 mediacontrol-stop.svg
 mediatype-audio.svg
+mediatype-image.svg
+mediatype-other.svg (modified)
+mediatype-text.svg
 mediatype-video.svg
+menu.svg
+menu_more_horiz.svg
+menu_more_vert.svg
 messenger-settings.svg (modified)
 microphone.svg
 microphone-muted.svg (modified)
+motion-alarm.svg (modified)
+music-stream-player.svg (modified)
 network-host-info.svg (modified)
 networking.svg
 notify-dot.svg (modified)

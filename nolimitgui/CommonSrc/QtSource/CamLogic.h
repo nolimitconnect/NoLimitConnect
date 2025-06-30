@@ -35,7 +35,7 @@ class CamLogic : public QObject {
     Q_OBJECT
 
 public:
-    static const int64_t CAM_SNAPSHOT_INTERVAL_MS = 30; // 60 = approx 15 frames per second 30 = approx 30 fps
+    static const int64_t CAM_SNAPSHOT_INTERVAL_MS = 60; // 60 = approx 15 frames per second 30 = approx 30 fps
 
     CamLogic( AppCommon& myApp, QObject* parent = nullptr );
     ~CamLogic();

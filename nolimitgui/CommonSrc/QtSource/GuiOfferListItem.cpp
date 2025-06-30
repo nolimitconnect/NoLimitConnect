@@ -88,6 +88,13 @@ void GuiOfferListItem::onIdentAvatarButtonClicked()
 //}
 
 //============================================================================
+void GuiOfferListItem::onIdentOfferInfoButtonClicked()
+{
+    LogMsg( LOG_DEBUG, "GuiOfferListItem::onIdentOfferInfoButtonClicked" );
+    emit signalOfferInfoButtonClicked( this );
+}
+
+//============================================================================
 void GuiOfferListItem::onIdentOfferViewButtonClicked()
 {
     LogMsg( LOG_DEBUG, "GuiOfferListItem::onIdentOfferViewButtonClicked" );

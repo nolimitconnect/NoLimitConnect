@@ -304,3 +304,10 @@ void OfferSendWidget::showEvent( QShowEvent* ev )
         ui.m_OfferMsgEdit->setFocus();
     }
 }
+
+//============================================================================
+void OfferSendWidget::setCancelVisible( bool visible )
+{
+    ui.m_CancelLabel->setVisible( visible );
+    ui.m_OfferCancelButton->setVisible( visible );
+}

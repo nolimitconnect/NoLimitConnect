@@ -10,10 +10,21 @@
 
 #include "PluginPersonFileXfer.h"
 
+#include <CoreLib/VxDebug.h>
+
 //============================================================================
 PluginPersonFileXfer::PluginPersonFileXfer( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
 : PluginBaseFiles( engine, pluginMgr, myIdent, pluginType, m_FileInfoPersonFileXferMgr )
 , m_FileInfoPersonFileXferMgr( engine, *this, "PersonFileXfer.db3" )
 {
     setPluginType( ePluginTypePersonFileXfer );
+}
+
+
+//============================================================================
+//! packet with remote users reply to offer
+void PluginPersonFileXfer::onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	LogMsg( LOG_VERBOSE, "PluginPersonFileXfer::onPktPluginOfferReply" );
+	m_FileInfoXferMgr.onPktPluginOfferReply( sktBase, pktHdr, netIdent );
 }

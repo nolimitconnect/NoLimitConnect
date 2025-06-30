@@ -25,6 +25,7 @@ OfferBaseInfo::OfferBaseInfo( const OfferBaseInfo& rhs )
 	, m_OfferMsg( rhs.m_OfferMsg )
 	, m_OfferResponse( rhs.m_OfferResponse )
 	, m_OfferTimestamp( rhs.m_OfferTimestamp )
+	, m_OfferResponseTimestamp( rhs.m_OfferResponseTimestamp )
 {
 }
 
@@ -58,6 +59,7 @@ OfferBaseInfo& OfferBaseInfo::operator=( const OfferBaseInfo& rhs )
 		m_OfferMsg = rhs.m_OfferMsg;
 		m_OfferResponse = rhs.m_OfferResponse;
 		m_OfferTimestamp = rhs.m_OfferTimestamp;
+		m_OfferResponseTimestamp = rhs.m_OfferResponseTimestamp;
 	}
 
 	return *this;
@@ -117,12 +119,6 @@ void OfferBaseInfo::fillOfferSend( EPluginType pluginType, VxNetIdent& netIdent 
 }
 
 //============================================================================
-bool OfferBaseInfo::isExpiredOffer( void )
-{
-	return m_OfferExpireTime && GetGmtTimeMs() < m_OfferExpireTime;
-}
-
-//============================================================================
 bool OfferBaseInfo::isValid( bool logErrIfInvalid )
 {
 	return ePluginTypeInvalid != m_PluginType && eOfferMgrNotSet != m_OfferMgr && m_UniqueId.isVxGUIDValid() && m_OfferId.isVxGUIDValid() && getOnlineId().isVxGUIDValid();
@@ -140,4 +136,28 @@ bool OfferBaseInfo::isPhoneTypePlugin( void )
 	return m_PluginType == ePluginTypeVoicePhone ||
 			m_PluginType == ePluginTypeVideoPhone ||
 			m_PluginType == ePluginTypeTruthOrDare; 
+}
+
+//============================================================================
+bool OfferBaseInfo::isExpired( void )
+{
+	return m_OfferExpireTime && GetGmtTimeMs() < m_OfferExpireTime;
+}
+
+//============================================================================
+bool OfferBaseInfo::isAccepted( void )
+{
+	return eOfferResponseAccept == m_OfferResponse;
+}
+
+//============================================================================
+bool OfferBaseInfo::isRejected( void )
+{
+	return eOfferResponseReject == m_OfferResponse;
+}
+
+//============================================================================
+bool OfferBaseInfo::isWaitingForResponse( void )
+{
+	return !isExpired() && eOfferResponseNotSet == m_OfferResponse;
 }

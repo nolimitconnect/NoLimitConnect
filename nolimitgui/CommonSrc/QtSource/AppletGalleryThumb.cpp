@@ -45,7 +45,7 @@ AppletGalleryThumb::AppletGalleryThumb(	AppCommon& app, QWidget* parent )
     setTitleBarText( DescribeApplet( m_EAppletType ) );
     ui.m_ThumbDirLabel->setText( VxGetAppDirectory( eAppDirThumbs ).c_str() );
 
-    connect( ui.m_ImageListWidget, SIGNAL( signalImageClicked( ThumbnailViewWidget * ) ), this, SLOT( slotImageClicked( ThumbnailViewWidget * ) ) );
+    connect( ui.m_ImageListWidget, SIGNAL(signalImageClicked( ThumbnailViewWidget * ) ), this, SLOT(slotImageClicked( ThumbnailViewWidget * ) ) );
 
     m_MyApp.activityStateChange( this, true );
 }

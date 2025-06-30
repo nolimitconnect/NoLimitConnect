@@ -44,7 +44,7 @@ AppletGalleryEmoticon::AppletGalleryEmoticon(	AppCommon& app, QWidget* parent )
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
-    connect( ui.m_ImageListWidget, SIGNAL( signalImageClicked( ThumbnailViewWidget * ) ), this, SLOT( slotImageClicked( ThumbnailViewWidget * ) ) );
+    connect( ui.m_ImageListWidget, SIGNAL(signalImageClicked( ThumbnailViewWidget * ) ), this, SLOT(slotImageClicked( ThumbnailViewWidget * ) ) );
 
     m_MyApp.activityStateChange( this, true );
 }

@@ -30,7 +30,7 @@ AppletHelpNetSignalBars::AppletHelpNetSignalBars( AppCommon& app, QWidget* paren
     ui.setupUi( getContentItemsFrame() );
     setAppletType( eAppletHelpNetSignalBars );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
-    connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
+    connect( this, SIGNAL(signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
 
     ui.m_Pic_1->setFixedSize( GuiParams::getButtonSize( eButtonSizeMedium ) );
     ui.m_Pic_1->setResourceImage( ":/AppRes/Resources/bars_1_internet.png", true );

@@ -75,9 +75,10 @@ void GuiPlayerMgr::toGuiPlayJpgVideo( VxGUID& vidFeedId, std::shared_ptr<CamJpgV
 {
     if( m_JpgCntInSignal > 2 )
     {
-        LogMsg( LOG_ERROR, "GuiPlayerMgr::%s to many in signal/slots", __func__ );
+        if( LogEnabled( eLogWebCam ) )LogModule( eLogWebCam, LOG_ERROR, "GuiPlayerMgr::%s too many in signal/slots", __func__ );
         return;
     }
+
     m_JpgCntInSignal++;
 
     emit signalInternalPlayCamJpg( vidFeedId, camJpg );
@@ -93,7 +94,7 @@ void GuiPlayerMgr::slotInternalPlayCamJpg( VxGUID feedOnlineId, std::shared_ptr<
 
     if( m_JpgCntInSignal )
     {
-        LogModule( eLogWebCam, LOG_ERROR, "GuiPlayerMgr::%s now %d in signal/slots", __func__, m_JpgCntInSignal );
+        if( LogEnabled( eLogWebCam ))LogModule( eLogWebCam, LOG_ERROR, "GuiPlayerMgr::%s now %d in signal/slots", __func__, m_JpgCntInSignal );
     }
 
     if( feedOnlineId == GetAppInstance().getMyOnlineId() )
@@ -141,7 +142,7 @@ void GuiPlayerMgr::callbackVideoJpg( VxGUID& vidFeedId, std::shared_ptr<CamJpgVi
 {
     if( m_JpgCntInSignal > 2 )
     {
-        LogMsg( LOG_ERROR, "GuiPlayerMgr::%s to many in signal/slots", __func__ );
+		if( LogEnabled( eLogWebCam ) )LogModule( eLogWebCam, LOG_ERROR, "GuiPlayerMgr::%s too many in signal/slots", __func__ );
         return;
     }
     m_JpgCntInSignal++;

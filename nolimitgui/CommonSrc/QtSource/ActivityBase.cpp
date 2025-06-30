@@ -93,7 +93,7 @@ ActivityBase::ActivityBase( const char* objName, AppCommon& app, QWidget* parent
         m_WindowFlags = Qt::Dialog | Qt::WindowStaysOnTopHint;
         setWindowFlags( m_WindowFlags );
 
-        connect( &m_MyApp, SIGNAL( signalMainWindowMoved() ), this, SLOT( slotRepositionToParent() ) );
+        connect( &m_MyApp, SIGNAL(signalMainWindowMoved()), this, SLOT(slotRepositionToParent()) );
 
         LogMsg( LOG_DEBUG, "ActivityBase::ActivityBase: Activity Popup %s\n", objectName().toUtf8().constData() );
     }
@@ -117,13 +117,13 @@ ActivityBase::ActivityBase( const char* objName, AppCommon& app, QWidget* parent
             m_ParentWidget = getParentPageFrame();
         }
 
-        connect( &m_MyApp, SIGNAL( signalMainWindowMoved() ), this, SLOT( slotRepositionToParent() ) );
+        connect( &m_MyApp, SIGNAL(signalMainWindowMoved() ), this, SLOT(slotRepositionToParent() ) );
 
         LogMsg( LOG_DEBUG, "ActivityBase::ActivityBase: Activity Dialog %s\n", objectName().toUtf8().constData() );
     }
 
-	connect( &m_MyApp,			SIGNAL( signalMainWindowResized() ),			this, SLOT( slotRepositionToParent() ) );
-    connect( &m_MyApp,          SIGNAL( signalMainWindowMoved() ),              this, SLOT( slotRepositionToParent() ) );
+	connect( &m_MyApp,			SIGNAL(signalMainWindowResized() ),			this, SLOT(slotRepositionToParent() ) );
+    connect( &m_MyApp,          SIGNAL(signalMainWindowMoved() ),              this, SLOT(slotRepositionToParent() ) );
 
 	connect( &m_MyApp,			SIGNAL(signalStatusMsg(QString)),				this, SLOT(slotStatusMsg(QString)) );
 	connect( this,				SIGNAL(signalShowShouldExitMsgBox(QString)),	this, SLOT(slotShowShouldExitMsgBox(QString)), Qt::QueuedConnection );
@@ -178,7 +178,7 @@ void ActivityBase::connectTitleBarWidget( TitleBarWidget * titleBar, bool remove
 		VxPushButton* titleButton = titleBar->getAppIconPushButton();
         if( titleButton )
         {
-            connect( titleButton, SIGNAL( signalAppIconSpecialClick() ), this, SLOT( slotAppIconSpecialClick() ) );
+            connect( titleButton, SIGNAL(signalAppIconSpecialClick() ), this, SLOT(slotAppIconSpecialClick() ) );
         }
 	}
 	else
@@ -202,31 +202,31 @@ void ActivityBase::connectBottomBarWidget( BottomBarWidget * bottomBar, bool rem
     //=== bottom bar signals ===// 
 	if( !removeConnections )
 	{
-		connect( bottomBar, SIGNAL( signalArrowLeftButtonClicked() ), this, SLOT( slotArrowLeftButtonClicked() ) );
-		connect( bottomBar, SIGNAL( signal30SecBackwardButtonClicked() ), this, SLOT( slot30SecBackwardButtonClicked() ) );
-		connect( bottomBar, SIGNAL( signalMediaPlayButtonClicked() ), this, SLOT( slotMediaPlayButtonClicked() ) );
-		connect( bottomBar, SIGNAL( signalMediaTrashButtonClicked() ), this, SLOT( slotMediaTrashButtonClicked() ) );
-		connect( bottomBar, SIGNAL( signalMediaFileShareClicked() ), this, SLOT( slotMediaFileShareClicked() ) );
-		connect( bottomBar, SIGNAL( signalMediaLibraryButtonClicked() ), this, SLOT( slotMediaLibraryButtonClicked() ) );
-		connect( bottomBar, SIGNAL( signal30SecForwardButtonClicked() ), this, SLOT( slot30SecForwardButtonClicked() ) );
-		connect( bottomBar, SIGNAL( signalArrowRightButtonClicked() ), this, SLOT( slotArrowRightButtonClicked() ) );
-		connect( bottomBar, SIGNAL( signalMediaRepeatButtonClicked() ), this, SLOT( slotMediaRepeatButtonClicked() ) );
-		connect( bottomBar, SIGNAL( signalMenuBottomButtonClicked() ), this, SLOT( slotMenuBottomButtonClicked() ) );
-		connect( bottomBar, SIGNAL( signalExpandWindowButtonClicked() ), this, SLOT( slotExpandWindowButtonClicked() ) );
+		connect( bottomBar, SIGNAL(signalArrowLeftButtonClicked() ), this, SLOT(slotArrowLeftButtonClicked() ) );
+		connect( bottomBar, SIGNAL(signal30SecBackwardButtonClicked() ), this, SLOT(slot30SecBackwardButtonClicked() ) );
+		connect( bottomBar, SIGNAL(signalMediaPlayButtonClicked() ), this, SLOT(slotMediaPlayButtonClicked() ) );
+		connect( bottomBar, SIGNAL(signalMediaTrashButtonClicked() ), this, SLOT(slotMediaTrashButtonClicked() ) );
+		connect( bottomBar, SIGNAL(signalMediaFileShareClicked() ), this, SLOT(slotMediaFileShareClicked() ) );
+		connect( bottomBar, SIGNAL(signalMediaLibraryButtonClicked() ), this, SLOT(slotMediaLibraryButtonClicked() ) );
+		connect( bottomBar, SIGNAL(signal30SecForwardButtonClicked() ), this, SLOT(slot30SecForwardButtonClicked() ) );
+		connect( bottomBar, SIGNAL(signalArrowRightButtonClicked() ), this, SLOT(slotArrowRightButtonClicked() ) );
+		connect( bottomBar, SIGNAL(signalMediaRepeatButtonClicked() ), this, SLOT(slotMediaRepeatButtonClicked() ) );
+		connect( bottomBar, SIGNAL(signalMenuBottomButtonClicked() ), this, SLOT(slotMenuBottomButtonClicked() ) );
+		connect( bottomBar, SIGNAL(signalExpandWindowButtonClicked() ), this, SLOT(slotExpandWindowButtonClicked() ) );
 	}
 	else
 	{
-		disconnect( bottomBar, SIGNAL( signalArrowLeftButtonClicked() ), this, SLOT( slotArrowLeftButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL( signal30SecBackwardButtonClicked() ), this, SLOT( slot30SecBackwardButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL( signalMediaPlayButtonClicked() ), this, SLOT( slotMediaPlayButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL( signalMediaTrashButtonClicked() ), this, SLOT( slotMediaTrashButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL( signalMediaFileShareClicked() ), this, SLOT( slotMediaFileShareClicked() ) );
-		disconnect( bottomBar, SIGNAL( signalMediaLibraryButtonClicked() ), this, SLOT( slotMediaLibraryButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL( signal30SecForwardButtonClicked() ), this, SLOT( slot30SecForwardButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL( signalArrowRightButtonClicked() ), this, SLOT( slotArrowRightButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL( signalMediaRepeatButtonClicked() ), this, SLOT( slotMediaRepeatButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL( signalMenuBottomButtonClicked() ), this, SLOT( slotMenuBottomButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL( signalExpandWindowButtonClicked() ), this, SLOT( slotExpandWindowButtonClicked() ) );
+		disconnect( bottomBar, SIGNAL(signalArrowLeftButtonClicked() ), this, SLOT(slotArrowLeftButtonClicked() ) );
+		disconnect( bottomBar, SIGNAL(signal30SecBackwardButtonClicked() ), this, SLOT(slot30SecBackwardButtonClicked() ) );
+		disconnect( bottomBar, SIGNAL(signalMediaPlayButtonClicked() ), this, SLOT(slotMediaPlayButtonClicked() ) );
+		disconnect( bottomBar, SIGNAL(signalMediaTrashButtonClicked() ), this, SLOT(slotMediaTrashButtonClicked() ) );
+		disconnect( bottomBar, SIGNAL(signalMediaFileShareClicked() ), this, SLOT(slotMediaFileShareClicked() ) );
+		disconnect( bottomBar, SIGNAL(signalMediaLibraryButtonClicked() ), this, SLOT(slotMediaLibraryButtonClicked() ) );
+		disconnect( bottomBar, SIGNAL(signal30SecForwardButtonClicked() ), this, SLOT(slot30SecForwardButtonClicked() ) );
+		disconnect( bottomBar, SIGNAL(signalArrowRightButtonClicked() ), this, SLOT(slotArrowRightButtonClicked() ) );
+		disconnect( bottomBar, SIGNAL(signalMediaRepeatButtonClicked() ), this, SLOT(slotMediaRepeatButtonClicked() ) );
+		disconnect( bottomBar, SIGNAL(signalMenuBottomButtonClicked() ), this, SLOT(slotMenuBottomButtonClicked() ) );
+		disconnect( bottomBar, SIGNAL(signalExpandWindowButtonClicked() ), this, SLOT(slotExpandWindowButtonClicked() ) );
 	}
 }
 
@@ -1186,8 +1186,8 @@ void ActivityBase::setTitleBarAppletIcon( EMyIcons appletIcon )
         if( titleButton )
         {
             titleButton->setAppIcon( appletIcon, this );
-            disconnect( titleButton, SIGNAL( signalAppIconSpecialClick() ), this, SLOT( slotAppIconSpecialClick() ) );
-            connect( titleButton, SIGNAL( signalAppIconSpecialClick() ), this, SLOT( slotAppIconSpecialClick() ) );
+            disconnect( titleButton, SIGNAL(signalAppIconSpecialClick() ), this, SLOT(slotAppIconSpecialClick() ) );
+            connect( titleButton, SIGNAL(signalAppIconSpecialClick() ), this, SLOT(slotAppIconSpecialClick() ) );
         }
     }
 }
@@ -1219,41 +1219,7 @@ void ActivityBase::closeApplet( void )
 //============================================================================
 bool ActivityBase::confirmDeleteFile( QString fileName, bool shredFile )
 {
-	bool acceptAction = true;
-	bool isConfirmDisabled = m_MyApp.getAppSettings().getIsConfirmDeleteDisabled();
-	if( false == isConfirmDisabled )
-	{        
-		QString title = shredFile ? QObject::tr( "Confirm Shred File" ) : QObject::tr( "Confirm Delete File" );
-		QString bodyText = "";
-		if( shredFile )
-		{
-			bodyText = QObject::tr( "Are You Sure You Want To Write Random Data Into The File Then Delete From The Device?" );
-		}
-		else
-		{
-			bodyText = QObject::tr( "Are You Sure To Delete The File From The Device?" );
-		}
-
-		if( !fileName.isEmpty() )
-		{
-			bodyText += "\n";
-			bodyText += fileName;
-		}
-
-		ActivityMsgBoxYesNo dlg( m_MyApp, &m_MyApp, title, bodyText );
-		dlg.makeNeverShowAgainVisible( false );
-		if( false == (QDialog::Accepted == dlg.exec()) )
-		{
-			acceptAction = false;
-		}
-
-		if( dlg.wasNeverShowAgainChecked() )
-		{
-			m_MyApp.getAppSettings().setIsConfirmDeleteDisabled( true );
-		}
-	}
-
-	return acceptAction;
+	return GuiHelpers::confirmDeleteFile( m_MyApp, getContentItemsFrame(), shredFile, fileName );
 }
 
 //============================================================================

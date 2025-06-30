@@ -19,10 +19,6 @@
 //============================================================================
 AssetBaseTxSession::AssetBaseTxSession( P2PEngine& engine )
 : AssetBaseXferSession( engine )
-, m_iOutstandingAckCnt( 0 )
-, m_bSendingPkts( false )
-, m_bViewingFileList( false )
-, m_QuePosition( 0 )
 {
 	setXferDirection( eXferDirectionTx );
 }
@@ -30,10 +26,6 @@ AssetBaseTxSession::AssetBaseTxSession( P2PEngine& engine )
 //============================================================================
 AssetBaseTxSession::AssetBaseTxSession( P2PEngine& engine, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
 : AssetBaseXferSession( engine, sktBase, sendToId )
-, m_iOutstandingAckCnt( 0 )
-, m_bSendingPkts( false )
-, m_bViewingFileList( false )
-, m_QuePosition( 0 )
 {
 	setXferDirection( eXferDirectionTx );
 }
@@ -41,10 +33,6 @@ AssetBaseTxSession::AssetBaseTxSession( P2PEngine& engine, std::shared_ptr<VxSkt
 //============================================================================
 AssetBaseTxSession::AssetBaseTxSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId )
 : AssetBaseXferSession( engine, lclSessionId, sktBase, sendToId )
-, m_iOutstandingAckCnt(0)
-, m_bSendingPkts(false)
-, m_bViewingFileList(false)
-, m_QuePosition( 0 )
 {
 	setXferDirection( eXferDirectionTx );
 }
@@ -55,9 +43,8 @@ void AssetBaseTxSession::reset( void )
 	AssetBaseXferSession::reset();
 	m_iOutstandingAckCnt = 0;
 	m_bSendingPkts = false;
-	m_bViewingFileList = false;
-	m_strOfferFile = "";
-	m_strViewDirectory = "";
+	m_strOfferFile.clear();
+	m_strViewDirectory.clear();
 }
 
 //============================================================================

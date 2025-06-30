@@ -116,7 +116,7 @@ void ImageListWidget::addAsset( ThumbInfo* asset )
                     LogMsg( LOG_ERROR, "ImageListWidget failed load of asset %s %s", asset->getAssetUniqueId().toOnlineIdString().c_str(), asset->getAssetName().c_str() );
                 }
 
-                connect( thumbnail, SIGNAL( signalImageClicked( ThumbnailViewWidget * ) ), this, SLOT( slotImageClicked( ThumbnailViewWidget * ) ) );
+                connect( thumbnail, SIGNAL(signalImageClicked( ThumbnailViewWidget * ) ), this, SLOT(slotImageClicked( ThumbnailViewWidget * ) ) );
                 listRow->addThumbnail( thumbnail );
             }
             else
@@ -178,7 +178,7 @@ ImageListRow * ImageListWidget::getRowWithRoomForThumbnail( void )
             listRow->setRowNum( count() );
 
             setItemWidget( lineItem, lineWidget );
-            connect( listRow, SIGNAL( signalImageClicked( ThumbnailViewWidget* ) ), this, SLOT( slotImageClicked( ThumbnailViewWidget* ) ) );
+            connect( listRow, SIGNAL(signalImageClicked( ThumbnailViewWidget* ) ), this, SLOT(slotImageClicked( ThumbnailViewWidget* ) ) );
         }
     }
 

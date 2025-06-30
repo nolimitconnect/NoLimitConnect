@@ -34,13 +34,13 @@ InputAllWidget::InputAllWidget( QWidget* parent )
 	ui.m_VideoAllButton->setSquareButtonSize( eButtonSizeTiny );
 	ui.m_MicAllButton->setSquareButtonSize( eButtonSizeTiny );
 
-	connect( ui.m_TextAllButton, SIGNAL(clicked()), this, SLOT( slotTextButtonClicked() ) );
-	connect( ui.m_SelectFaceAllButton, SIGNAL(clicked()), this, SLOT( slotEmoteButtonClicked() ) );
-	connect( ui.m_CameraAllButton, SIGNAL(clicked()), this, SLOT( slotCameraButtonClicked() ) );
-	connect( ui.m_GalleryAllButton, SIGNAL(clicked()), this, SLOT( slotGalleryButtonClicked() ) );
-	connect( ui.m_VideoAllButton, SIGNAL(clicked()), this, SLOT( slotVideoButtonClicked() ) );
-	connect( ui.m_MicAllButton, SIGNAL( pressed() ), this, SLOT( slotMicButtonPressed() ) );
-	connect( ui.m_MicAllButton, SIGNAL( released() ), this, SLOT( slotMicButtonReleased() ) );
+	connect( ui.m_TextAllButton, SIGNAL(clicked()), this, SLOT(slotTextButtonClicked() ) );
+	connect( ui.m_SelectFaceAllButton, SIGNAL(clicked()), this, SLOT(slotEmoteButtonClicked() ) );
+	connect( ui.m_CameraAllButton, SIGNAL(clicked()), this, SLOT(slotCameraButtonClicked() ) );
+	connect( ui.m_GalleryAllButton, SIGNAL(clicked()), this, SLOT(slotGalleryButtonClicked() ) );
+	connect( ui.m_VideoAllButton, SIGNAL(clicked()), this, SLOT(slotVideoButtonClicked() ) );
+	connect( ui.m_MicAllButton, SIGNAL( pressed() ), this, SLOT(slotMicButtonPressed() ) );
+	connect( ui.m_MicAllButton, SIGNAL( released() ), this, SLOT(slotMicButtonReleased() ) );
 }
 
 //============================================================================

@@ -74,14 +74,15 @@ GuiOfferListItem* GuiOfferListWidget::sessionToWidget( GuiOfferSession* offerSes
 
     offerItem->setOfferSession( offerSession );
 
-    //connect( offerItem, SIGNAL( signalGuiOfferListItemClicked(GuiOfferListItem*) ), this, SLOT( slotUserListItemClicked(GuiOfferListItem*) ) );
-    connect( offerItem, SIGNAL( signalAvatarButtonClicked(GuiOfferListItem*) ), this, SLOT( slotAvatarButtonClicked(GuiOfferListItem*) ) );
-    connect( offerItem, SIGNAL( signalFriendshipButtonClicked(GuiOfferListItem*) ), this, SLOT( slotFriendshipButtonClicked(GuiOfferListItem*) ) );
-    connect( offerItem, SIGNAL( signalOfferViewButtonClicked(GuiOfferListItem*) ), this, SLOT( slotOfferViewButtonClicked(GuiOfferListItem*) ) );
-    connect( offerItem, SIGNAL( signalOfferAcceptButtonClicked(GuiOfferListItem*) ), this, SLOT( slotOfferAcceptButtonClicked(GuiOfferListItem*) ) );
-    connect( offerItem, SIGNAL( signalOfferRejectButtonClicked(GuiOfferListItem*) ), this, SLOT( slotOfferRejectButtonClicked(GuiOfferListItem*) ) );
-    connect( offerItem, SIGNAL( signalPushToTalkButtonClicked(GuiOfferListItem*) ), this, SLOT( slotPushToTalkButtonClicked(GuiOfferListItem*) ) );
-    connect( offerItem, SIGNAL( signalMenuButtonClicked(GuiOfferListItem*) ), this, SLOT( slotMenuButtonClicked(GuiOfferListItem*) ) );
+    //connect( offerItem, SIGNAL(signalGuiOfferListItemClicked(GuiOfferListItem*) ), this, SLOT(slotUserListItemClicked(GuiOfferListItem*) ) );
+    connect( offerItem, SIGNAL(signalAvatarButtonClicked(GuiOfferListItem*)), this, SLOT(slotAvatarButtonClicked(GuiOfferListItem*)) );
+    connect( offerItem, SIGNAL(signalFriendshipButtonClicked(GuiOfferListItem*)), this, SLOT(slotFriendshipButtonClicked(GuiOfferListItem*)) );
+    connect( offerItem, SIGNAL(signalOfferInfoButtonClicked( GuiOfferListItem*)), this, SLOT(slotOfferInfoButtonClicked( GuiOfferListItem*)) );
+    connect( offerItem, SIGNAL(signalOfferViewButtonClicked(GuiOfferListItem*)), this, SLOT(slotOfferViewButtonClicked(GuiOfferListItem*)) );
+    connect( offerItem, SIGNAL(signalOfferAcceptButtonClicked(GuiOfferListItem*)), this, SLOT(slotOfferAcceptButtonClicked(GuiOfferListItem*)) );
+    connect( offerItem, SIGNAL(signalOfferRejectButtonClicked(GuiOfferListItem*)), this, SLOT(slotOfferRejectButtonClicked(GuiOfferListItem*)) );
+    connect( offerItem, SIGNAL(signalPushToTalkButtonClicked(GuiOfferListItem*)), this, SLOT(slotPushToTalkButtonClicked(GuiOfferListItem*)) );
+    connect( offerItem, SIGNAL(signalMenuButtonClicked(GuiOfferListItem*)), this, SLOT(slotMenuButtonClicked(GuiOfferListItem*)) );
 
     offerItem->updateWidgetFromInfo();
 
@@ -283,6 +284,18 @@ void GuiOfferListWidget::slotFriendshipButtonClicked( GuiOfferListItem* offerIte
 }
 
 //============================================================================
+void GuiOfferListWidget::slotOfferInfoButtonClicked( GuiOfferListItem* offerItem )
+{
+    if( 300 > m_ClickEventTimer.elapsedMs() ) // avoid duplicate clicks
+    {
+        return;
+    }
+
+    m_ClickEventTimer.startTimer();
+    onOfferInfoButtonClicked( offerItem );
+}
+
+//============================================================================
 void GuiOfferListWidget::slotOfferViewButtonClicked( GuiOfferListItem* offerItem )
 {
     if( 300 > m_ClickEventTimer.elapsedMs()  ) // avoid duplicate clicks
@@ -388,6 +401,12 @@ void GuiOfferListWidget::callbackThumbRemoved( VxGUID& thumbId )
 //============================================================================
 GuiOfferListItem* GuiOfferListWidget::addOrUpdateSession( GuiOfferSession* offerSession )
 {
+    if( !isOfferSessionMatch( offerSession ) )
+    {
+        LogMsg( LOG_ERROR, "%s GuiOfferSession not a match", __func__ );
+        return nullptr;
+    }
+
     GuiOfferListItem* offerItem = findListEntryWidgetBySessionId( offerSession->getOfferId() );
     if( offerItem )
     {
@@ -465,6 +484,20 @@ void GuiOfferListWidget::onFriendshipButtonClicked( GuiOfferListItem* offerItem 
         if( offerSession )
         {
             emit signalFriendshipButtonClicked( offerSession, offerItem );
+        }
+    }
+}
+
+//============================================================================
+void GuiOfferListWidget::onOfferInfoButtonClicked( GuiOfferListItem* offerItem )
+{
+    LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferListWidget::%s", __func__ );
+    if( offerItem )
+    {
+        GuiOfferSession* offerSession = offerItem->getOfferSession();
+        if( offerSession )
+        {
+            emit signalOfferInfoButtonClicked( offerSession, offerItem );
         }
     }
 }
@@ -596,4 +629,22 @@ void GuiOfferListWidget::callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiO
     {
 
     }
+}
+
+//============================================================================
+bool GuiOfferListWidget::isOfferSessionMatch( GuiOfferSession* offerSession )
+{
+    bool isMatch{ false };
+    bool isActive = offerSession->isAvailableAndActiveOffer();
+    if( isActive && m_OfferViewType == eOfferViewTypeActive )
+    {
+        isMatch = true;
+    }
+    
+    if( !isActive && m_OfferViewType == eOfferViewTypeHistory )
+    {
+        isMatch = true;
+    }
+    
+    return isMatch;
 }

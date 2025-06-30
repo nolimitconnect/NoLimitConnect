@@ -352,5 +352,7 @@
         <file>Resources/ic_cam_disabled.png</file>
         <file>Resources/friend-request-list.svg</file>
         <file>Resources/hashtag.svg</file>
+        <file>Resources/info-offer.svg</file>
+        <file>Resources/mediatype-other.svg</file>
     </qresource>
 </RCC>

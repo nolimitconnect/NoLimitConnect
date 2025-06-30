@@ -25,6 +25,7 @@
 #include <QCamera>
 
 class GuiUser;
+class OfferBaseInfo;
 
 class GuiParams
 {
@@ -112,6 +113,7 @@ public:
     static QString              describeFileTypes( uint8_t fileTypeFlags );
 
     static QString				describeOfferState( EOfferState offerState );
+    static QString				describeOfferStatus( OfferBaseInfo& offerInfo, bool isOnline );
     static QString				describeOfferType( EOfferType offerType );
     static QString				describeOrientation( Qt::Orientation qtOrientation );
 
@@ -150,6 +152,10 @@ public:
     static bool                 requestPermission( QString permissionName );
 
     static bool                 requestAllDangerousPermissions( void ); // returns false if user denies any permission
+
+    static QString              getAvailableStorageSpaceText( void );
+    static int64_t              getAvailableStorageSpace( void );
+    static bool                 requiresMoreSpace( int64_t requiredSpace );
 
 protected:
 

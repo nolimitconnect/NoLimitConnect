@@ -52,7 +52,7 @@ AppletPermissionList::~AppletPermissionList()
 //============================================================================
 void AppletPermissionList::connectSignals( void )
 {
-   // connect( ui.m_NetworkHostButton, SIGNAL(clicked()), this, SLOT( slotShowNetworkHostInformation() ) );
+   // connect( ui.m_NetworkHostButton, SIGNAL(clicked()), this, SLOT(slotShowNetworkHostInformation() ) );
 }
 
 //============================================================================

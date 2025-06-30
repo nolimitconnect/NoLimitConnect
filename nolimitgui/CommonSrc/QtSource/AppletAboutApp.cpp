@@ -60,7 +60,7 @@ void AppletAboutApp::setupDeviceInfo( void )
     ui.m_DeviceInfoTextEdit->appendPlainText( QString( "OS: %1" ).arg( OsDetect::getOsName().c_str() ) );
     ui.m_DeviceInfoTextEdit->appendPlainText( QString( "CPU: %1" ).arg( OsDetect::getCpuName().c_str() ) );
     ui.m_DeviceInfoTextEdit->appendPlainText( QString( "Is Big Endian CPU: %1" ).arg( IsBigEndianCpu() ? "true" : "false" ) );
-    ui.m_DeviceInfoTextEdit->appendPlainText( QString( "Available Storage Space: %1" ).arg( GuiHelpers::getAvailableStorageSpaceText() ) );
+    ui.m_DeviceInfoTextEdit->appendPlainText( QString( "Available Storage Space: %1" ).arg( GuiParams::getAvailableStorageSpaceText() ) );
 
     ui.m_DeviceInfoTextEdit->appendPlainText( QString( "Qt Version %1" ).arg( qVersion() ) );
 

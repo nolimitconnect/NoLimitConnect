@@ -32,6 +32,9 @@ public:
     void						setAppletType( EApplet appletType )     { m_AppletType = appletType; };
     EApplet						getAppletType( void )                   { return m_AppletType; };
 
+    void                        setOfferViewType( EOfferViewType offerViewType )    { m_OfferViewType = offerViewType; }
+    EOfferViewType              getOfferViewType( void )                            { return m_OfferViewType; }
+
     void                        clearOfferList( void );
 
     GuiOfferListItem*           addOrUpdateSession( GuiOfferSession* userSession );
@@ -51,6 +54,7 @@ signals:
 
     void                        signalAvatarButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
     void                        signalFriendshipButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
+    void                        signalOfferInfoButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
     void                        signalOfferViewButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
     void                        signalOfferAcceptButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
     void                        signalOfferRejectButtonClicked( GuiOfferSession* userSession, GuiOfferListItem* userItem );
@@ -62,6 +66,7 @@ protected slots:
     void                        slotUserListItemClicked( GuiOfferListItem* userItem );
     void                        slotAvatarButtonClicked( GuiOfferListItem* userItem );
     void                        slotFriendshipButtonClicked( GuiOfferListItem* userItem );
+    void                        slotOfferInfoButtonClicked( GuiOfferListItem* userItem );
     void                        slotOfferViewButtonClicked( GuiOfferListItem* userItem );
     void                        slotOfferAcceptButtonClicked( GuiOfferListItem* userItem );
     void                        slotOfferRejectButtonClicked( GuiOfferListItem* userItem );
@@ -87,6 +92,7 @@ protected:
     virtual void                onOfferListItemClicked( GuiOfferListItem* userItem );
     virtual void                onAvatarButtonClicked( GuiOfferListItem* userItem );
     virtual void                onFriendshipButtonClicked( GuiOfferListItem* userItem );
+    virtual void                onOfferInfoButtonClicked( GuiOfferListItem* userItem );
     virtual void                onOfferViewButtonClicked( GuiOfferListItem* userItem );
     virtual void                onOfferAcceptButtonClicked( GuiOfferListItem* userItem );
     virtual void                onOfferRejectButtonClicked( GuiOfferListItem* userItem );
@@ -100,8 +106,10 @@ protected:
 
     void                        updateThumb( GuiThumb* guiThumb );
 
+    bool                        isOfferSessionMatch( GuiOfferSession* offerSession );
+
 	//=== vars ===//
     EApplet						m_AppletType{ eAppletUnknown };
-    EUserViewType               m_ViewType{ eUserViewTypeNone };
+    EOfferViewType              m_OfferViewType{ eOfferViewTypeActive };
 };
 

@@ -202,6 +202,15 @@ JNIEXPORT void JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_pro
         LogMsg( LOG_ERROR, "%s invalid param width %d height %d", __func__, width, height );
     }
 
+    static int64_t lastCapTimeMs = 0;
+    int64_t timeNowMs = GetGmtTimeMs();
+    if( timeNowMs - lastCapTimeMs < CamLogic::CAM_SNAPSHOT_INTERVAL_MS ) // limit to 15 frames per second
+    {
+        lastCapTimeMs = timeNowMs;
+        return;
+    }
+
+    lastCapTimeMs = timeNowMs;
     uint8_t* y = 0;
     uint8_t* u = 0;
     uint8_t* v = 0;

@@ -11,6 +11,8 @@
 
 #include "FileInfo.h"
 
+#include <NetLib/VxFileXferInfo.h>
+
 class FileToXfer : public FileInfo
 {
 public:
@@ -26,6 +28,8 @@ public:
 
 	void						setFileOffset( uint64_t fileOffset )		{ m_FileOffset = fileOffset; }
 	uint64_t					getFileOffset( void )						{ return m_FileOffset; }
+
+	bool						fillFileXferInfo( VxFileXferInfo& xferInfo, EXferDirection dir );
 
 protected:
 	//=== vars ===//

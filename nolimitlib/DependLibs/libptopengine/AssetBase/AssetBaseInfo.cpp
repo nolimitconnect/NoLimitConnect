@@ -85,6 +85,7 @@ AssetBaseInfo::AssetBaseInfo( FileInfo& rhs )
 	, m_CreationTime( rhs.getFileTime() )
 {
 	m_u16AssetType = rhs.getFileType();
+	m_u8FileType = rhs.getFileType(); // TODO is this needed anymore?
 	m_UniqueId.assureIsValidGUID();
 	assureValidTimes();
 }

@@ -36,12 +36,12 @@ namespace
 			":/AppRes/Resources/snd_notify2.wav",			// eSndDefNotify2,10
 			":/AppRes/Resources/snd_papershredder1.wav",	// eSndDefPaperShredder,11
 			":/AppRes/Resources/snd_phone_ring1.wav",		// eSndDefPhoneRing1,12
-			":/AppRes/Resources/snd_stomp_hall.wav",		// eSndDefLibrary,13
+			":/AppRes/Resources/snd_stomp_hall.wav",		// eSndDefReject,13
 			":/AppRes/Resources/snd_ouhouh.wav",			// eSndDefShare,14
 			":/AppRes/Resources/snd_byebye.wav",			// eSndDefByeBye,15
 			":/AppRes/Resources/snd_beep_spring.wav",		// eSndDefMessageArrived,16
 			":/AppRes/Resources/snd_microwave_beep.wav",	// eSndDefOfferAccepted,17
-			":/AppRes/Resources/snd_joshua_no.wav",			// eSndDefOfferRejected,18
+			":/AppRes/Resources/snd_notify2.wav",			// eSndDefOfferRejected,18
 			":/AppRes/Resources/snd_camera_snapshot.wav",	// eSndDefCameraClick,19
 			":/AppRes/Resources/snd_busy_phone_signal.wav",	// eSndDefBusy,20
 			":/AppRes/Resources/snd_sonar.wav",				// eSndDefOfferStillWaiting,21
@@ -49,6 +49,7 @@ namespace
 			":/AppRes/Resources/snd_bike_bell.wav",			// eSndDefUserBellMessage,23
 			":/AppRes/Resources/snd_neck_snap.wav",			// eSndDefNeckSnap,24
 			":/AppRes/Resources/snd_yes.wav",				// eSndDefYes,25
+
 			":/AppRes/Resources/snd_byebye.wav",			// eSndDefAppShutdown,26
 	};
 };

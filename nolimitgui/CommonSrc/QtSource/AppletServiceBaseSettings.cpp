@@ -73,7 +73,7 @@ void AppletServiceBaseSettings::setupServiceBaseApplet( EApplet applet, EPluginT
 //============================================================================
 void AppletServiceBaseSettings::connectServiceWidgets()
 {
-    connect( getApplyButton(), SIGNAL(clicked()), this, SLOT( slotApplyButtonClicked() ) );
+    connect( getApplyButton(), SIGNAL(clicked()), this, SLOT(slotApplyButtonClicked() ) );
 }
 
 //============================================================================

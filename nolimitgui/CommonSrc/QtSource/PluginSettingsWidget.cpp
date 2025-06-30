@@ -54,7 +54,7 @@ PluginSettingsWidget::PluginSettingsWidget( QWidget* parent )
     m_ParentApplet = GuiHelpers::findParentApplet( parent );
 
     ui.setupUi( this );
-    connect( ui.m_ThumbnailChooseWidget, SIGNAL( signalThumbnailAssetChanged( ThumbInfo* ) ), this, SLOT( slotThumbnailAssetChanged( ThumbInfo* ) ) );
+    connect( ui.m_ThumbnailChooseWidget, SIGNAL(signalThumbnailAssetChanged( ThumbInfo* ) ), this, SLOT(slotThumbnailAssetChanged( ThumbInfo* ) ) );
     connect( ui.m_RunOnStartupCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotRunOnStartupCheckBoxChange(int)) );
 
     ui.m_DescriptionEdit->setFixedHeight( GuiParams::getButtonSize( eButtonSizeSmall ).height() );
@@ -112,7 +112,7 @@ void PluginSettingsWidget::setupSettingsWidget( EApplet applet, EPluginType plug
 //============================================================================
 void PluginSettingsWidget::connectServiceWidgets()
 {
-    connect( ui.m_ApplyButton, SIGNAL(clicked()), this, SLOT( slotApplyServiceSettings() ) );
+    connect( ui.m_ApplyButton, SIGNAL(clicked()), this, SLOT(slotApplyServiceSettings() ) );
 }
 
 //============================================================================

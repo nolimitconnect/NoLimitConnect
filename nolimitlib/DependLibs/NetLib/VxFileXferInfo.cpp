@@ -59,3 +59,23 @@ std::string VxFileXferInfo::getDownloadCompleteFileName( void )
 
 	return completedFileName;
 }
+
+//============================================================================
+void VxFileXferInfo::clear( void )
+{
+	m_hFile = nullptr;
+	m_u64FileOffs = 0;
+	m_u64FileLen = 0;                     // total file length
+	m_AssetId.clear();
+	m_AssetType = eAssetTypeUnknown;
+	m_IsOpened = false;
+	m_LclSessionId.clear();
+	m_RmtSessionId.clear();
+	m_FileHashId.clear();
+	m_strRemoteFileName.clear();
+	m_strLocalFileName.clear();
+	m_LclFileNameAndPath.clear();
+	m_XferDirection = eXferDirectionRx;
+	m_PercentProgress = 0;
+	m_IsStreaming = false;
+}

@@ -74,15 +74,15 @@ void AppletPlayerCamClip::initAppletCamClipPlayer( void )
 	ui.m_PlayPauseButton->setPressedSound( eSndDefNone );
 	ui.m_PlayPosSlider->setRange( 0, 100000 );
 
-	connect( ui.m_PlayPauseButton, SIGNAL(clicked()), this, SLOT( slotPlayButtonClicked() ) );
-	connect( ui.m_LeftAvatarBar, SIGNAL( signalShredAsset() ), this, SLOT( slotShredAsset() ) );
-	connect( ui.m_RightAvatarBar, SIGNAL( signalShredAsset() ), this, SLOT( slotShredAsset() ) );
-	connect( ui.m_PlayPosSlider, SIGNAL( sliderPressed() ), this, SLOT( slotSliderPressed() ) );
-	connect( ui.m_PlayPosSlider, SIGNAL( sliderReleased() ), this, SLOT( slotSliderReleased() ) );
+	connect( ui.m_PlayPauseButton, SIGNAL(clicked()), this, SLOT(slotPlayButtonClicked() ) );
+	connect( ui.m_LeftAvatarBar, SIGNAL(signalShredAsset() ), this, SLOT(slotShredAsset() ) );
+	connect( ui.m_RightAvatarBar, SIGNAL(signalShredAsset() ), this, SLOT(slotShredAsset() ) );
+	connect( ui.m_PlayPosSlider, SIGNAL( sliderPressed() ), this, SLOT(slotSliderPressed() ) );
+	connect( ui.m_PlayPosSlider, SIGNAL( sliderReleased() ), this, SLOT(slotSliderReleased() ) );
 
-	connect( this, SIGNAL( signalPlayProgress( int ) ), this, SLOT( slotPlayProgress( int ) ) );
-	connect( this, SIGNAL( signalPlayEnd() ), this, SLOT( slotPlayEnd() ) );
-	connect( ui.m_LeftAvatarBar, SIGNAL( signalResendAsset() ), this, SLOT( slotResendAsset() ) );
+	connect( this, SIGNAL(signalPlayProgress( int ) ), this, SLOT(slotPlayProgress( int ) ) );
+	connect( this, SIGNAL(signalPlayEnd() ), this, SLOT(slotPlayEnd() ) );
+	connect( ui.m_LeftAvatarBar, SIGNAL(signalResendAsset() ), this, SLOT(slotResendAsset() ) );
 	ui.m_VidWidget->setVidImageRotation( 0 );
 
 	// should not need this

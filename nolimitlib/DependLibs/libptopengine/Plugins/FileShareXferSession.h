@@ -57,6 +57,10 @@ public:
 	RCODE						getErrorCode( void )						{ return m_Error; }
 	void						clearErrorCode( void )						{ m_Error = 0; }
 
+	bool						offerAccepted( VxGUID& lclSessionId );
+	bool						setupNextFile( void );
+	bool						fillXferFile( FileToXfer& fileToXfer );
+
 	//=== vars ===//
 	std::vector<FileToXfer>		m_FilesToXferList;		// list of files to send
 	std::vector<FileToXfer>		m_FilesXferedList;		// list of files sent

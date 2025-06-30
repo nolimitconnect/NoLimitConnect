@@ -27,6 +27,7 @@ public:
 	VxPushButton*				getIdentAvatarButton( void ) override;
 	VxPushButton*				getIdentFriendshipButton( void ) override;
 	VxPushButton*				getIdentPushToTalkButton( void ) override;
+	VxPushButton*				getIdentOfferInfoButton( void ) override;
 	VxPushButton*				getIdentOfferViewButton( void ) override;
 	VxPushButton*				getIdentOfferAcceptButton( void ) override;
 	VxPushButton*				getIdentOfferRejectButton( void ) override;

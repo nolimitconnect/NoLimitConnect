@@ -32,8 +32,8 @@ void InformationWidget::initInformationWidget( void )
 
     ui.m_InfoButton->setIcon( eMyIconInformation );
 
-    connect( ui.m_ContextButton, SIGNAL(clicked()), this, SLOT( slotShowInformation() ) );
-    connect( ui.m_InfoButton, SIGNAL(clicked()), this, SLOT( slotShowInformation() ) );
+    connect( ui.m_ContextButton, SIGNAL(clicked()), this, SLOT(slotShowInformation() ) );
+    connect( ui.m_InfoButton, SIGNAL(clicked()), this, SLOT(slotShowInformation() ) );
 }
 
 //============================================================================

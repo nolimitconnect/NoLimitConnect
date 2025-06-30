@@ -810,15 +810,20 @@ bool OfferBaseMgr::getFileFullName( VxSha1Hash& fileHashId, std::string& retFile
 }
 
 //============================================================================
-bool OfferBaseMgr::hostedOfferExists( OfferBaseInfo& offerInfo )
+bool OfferBaseMgr::hostedOfferExists( OfferBaseInfo& offerInfo, bool updateResponse )
 {
 	if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "OfferBaseMgr::%s", __func__ );
 	bool offerExists{ false };
 	lockResources();
-	for( auto offerInfoitem : m_OfferBaseInfoList )
+	for( auto& offerInfoitem : m_OfferBaseInfoList )
 	{
 		if( eOfferMgrHost == offerInfoitem->getOfferMgr() && offerInfoitem->getOfferId() == offerInfo.getOfferId() )
 		{
+			if( updateResponse )
+			{
+				offerInfoitem->setOfferResponse( offerInfo.getOfferResponse() );
+			}
+
 			offerExists = true;
 			break;
 		}
@@ -853,7 +858,11 @@ bool OfferBaseMgr::clientOfferExists( OfferBaseInfo& offerInfo )
 void OfferBaseMgr::updateDatabase( OfferBaseInfo* offerInfo )
 {
 	if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "OfferBaseMgr::%s", __func__ );
-	m_OfferBaseInfoDb.addOffer( offerInfo );
+    if( offerInfo->getPluginType() != ePluginTypePersonFileXfer )
+    {
+        // personal file offers go away on reboot
+        m_OfferBaseInfoDb.addOffer( offerInfo );
+    }
 }
 
 //============================================================================

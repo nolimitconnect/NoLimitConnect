@@ -133,7 +133,7 @@ void HistoryListWidget::toGuiAssetSessionHistory( AssetBaseInfo& assetInfo )
 			AssetBaseWidget* assetWidget = createAssetWidget( &assetInfo );
 			if( assetWidget )
 			{
-				connect( assetWidget, SIGNAL( signalShreddingAsset( AssetBaseWidget* ) ), this, SLOT( slotShreddingAsset( AssetBaseWidget* ) ) );
+				connect( assetWidget, SIGNAL(signalShreddingAsset( AssetBaseWidget* ) ), this, SLOT(slotShreddingAsset( AssetBaseWidget* ) ) );
 				int insertAtIndex = determinInsertIndex( &assetInfo );
 				if( 0 <= insertAtIndex )
 				{

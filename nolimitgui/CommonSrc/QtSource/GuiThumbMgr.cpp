@@ -58,9 +58,9 @@ void GuiThumbMgr::onAppCommonCreated( void )
 
     m_MyApp.getEngine().getThumbMgr().unlockResources();
 
-    connect( this, SIGNAL( signalInternalThumbAdded(ThumbInfo) ),	this, SLOT( slotInternalThumbAdded(ThumbInfo) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalThumbUpdated(ThumbInfo) ), this, SLOT( slotInternalThumbUpdated(ThumbInfo) ), Qt::QueuedConnection );
-    connect( this, SIGNAL( signalInternalThumbRemoved(VxGUID) ),	this, SLOT( slotInternalThumbRemoved(VxGUID) ), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalThumbAdded(ThumbInfo) ),	this, SLOT(slotInternalThumbAdded(ThumbInfo) ), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalThumbUpdated(ThumbInfo) ), this, SLOT(slotInternalThumbUpdated(ThumbInfo) ), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalThumbRemoved(VxGUID) ),	this, SLOT(slotInternalThumbRemoved(VxGUID) ), Qt::QueuedConnection );
 
     m_MyApp.getEngine().getThumbMgr().addThumbMgrClient( this, true );
 }

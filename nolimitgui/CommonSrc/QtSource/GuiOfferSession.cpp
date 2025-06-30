@@ -164,7 +164,7 @@ bool GuiOfferSession::isAvailableAndActiveOffer( void )
 //============================================================================
 bool GuiOfferSession::isExpiredOffer( void )
 {
-	bool offerExpired = m_OfferInfo.isExpiredOffer();
+	bool offerExpired = m_OfferInfo.isExpired();
 	if( offerExpired != m_OfferExpired )
 	{
 		m_OfferExpired = offerExpired;
@@ -183,21 +183,13 @@ VxGUID& GuiOfferSession::getOnlineId( void )
 //============================================================================
 QString GuiOfferSession::getActiveDescription( void )
 {
-	QString activeDesc;
-	bool offerExpired = m_OfferInfo.isExpiredOffer();
-	if( offerExpired )
+	bool userOnline{ false };
+	if( getUser() )
 	{
-		activeDesc = QObject::tr( "Expired " );
-		activeDesc += getExpireDate();
-		activeDesc = QObject::tr( " " );
+		userOnline = getUser()->isOnline();
 	}
 
-	if( !getUser()->isOnline() )
-	{
-		activeDesc = QObject::tr( "User Offline " );
-	}
-
-	return activeDesc;
+	return GuiParams::describeOfferStatus( m_OfferInfo, userOnline );
 }
 
 //============================================================================

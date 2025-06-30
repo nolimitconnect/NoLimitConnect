@@ -57,6 +57,12 @@ void IdentLogicInterface::setupIdentLogic( void ) // call after derived class ui
 		}
 
 		m_IsSignalsConnected = true;
+		if( getIdentOfferInfoButton() )
+		{
+			getIdentOfferInfoButton()->setVisible( false );
+			connect( getIdentOfferInfoButton(), SIGNAL(clicked()), this, SLOT(slotIdentOfferInfoButtonClicked()) );
+		}
+
 		if( getIdentOfferViewButton() )
 		{
 			getIdentOfferViewButton()->setVisible( false );
@@ -124,6 +130,12 @@ void IdentLogicInterface::setIdentWidgetSize( enum EButtonSize buttonSize )
 	setIdentAvatarIcon( eMyIconAvatarImage );
 	getIdentFriendshipButton()->setFixedSize( buttonSize );
 	setIdentFriendshipIcon( eMyIconAnonymous );
+	if( getIdentOfferInfoButton() )
+	{
+		getIdentOfferInfoButton()->setFixedSize( buttonSize );
+		getIdentOfferInfoButton()->setIcon( eMyIconInfoOffer );
+	}
+
 	if( getIdentOfferViewButton() )
 	{
 		getIdentOfferViewButton()->setFixedSize( buttonSize );
@@ -377,6 +389,12 @@ void IdentLogicInterface::setIdentFriendshipButtonVisible( bool visible )
 }
 
 //============================================================================
+void IdentLogicInterface::setIdentOfferInfoButtonVisible( bool visible )
+{
+	getIdentOfferInfoButton()->setVisible( visible );
+}
+
+//============================================================================
 void IdentLogicInterface::setIdentOfferViewButtonVisible( bool visible )
 {
 	getIdentOfferViewButton()->setVisible( visible );
@@ -492,6 +510,14 @@ void IdentLogicInterface::slotIdentFrienshipButtonClicked( void )
 	LogModule( eLogUserEvent, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
 	emit signalIdentFriendshipButtonClicked();
 	onIdentFriendshipButtonClicked();
+}
+
+//============================================================================
+void IdentLogicInterface::slotIdentOfferInfoButtonClicked( void )
+{
+	LogModule( eLogUserEvent, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
+	emit signalIdentOfferInfoButtonClicked();
+	onIdentOfferInfoButtonClicked();
 }
 
 //============================================================================
@@ -629,11 +655,12 @@ void IdentLogicInterface::updateGroupie( GuiGroupie* guiGroupie )
 void IdentLogicInterface::updateOffer( GuiOfferSession* offerSession )
 {
 	m_OfferSession = offerSession;
+	getIdentOfferInfoButton()->setVisible( true );
 	getIdentOfferViewButton()->setVisible( true );
 
 	getIdentOfferViewButton()->setIcon( m_MyApp.getMyIcons().getOfferIcon( m_OfferSession->getOfferInfo(), m_OfferSession->getPluginType() ) );
 	bool isActive = m_OfferSession->isAvailableAndActiveOffer();
-	getIdentOfferAcceptButton()->setVisible( isActive );
+	getIdentOfferAcceptButton()->setVisible( isActive && m_OfferSession->getOfferInfo().isValid() );
 	getIdentOfferRejectButton()->setVisible( isActive );
 
 	if( m_OfferSession->hasMessages() )

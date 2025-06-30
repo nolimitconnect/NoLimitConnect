@@ -164,6 +164,8 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 		return ":/AppRes/Resources/hashtag.svg";
     case eMyIconInformation:
         return ":/AppRes/Resources/info.svg";
+	case eMyIconInfoOffer:
+		return ":/AppRes/Resources/info-offer.svg";
 	case eMyIconPeople:
 		return ":/AppRes/Resources/friend.svg";
 
@@ -358,7 +360,7 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 	case eMyIconArcOrIso:
 		return ":/AppRes/Resources/file-zip.svg";
 	case eMyIconOther:
-		return ":/AppRes/Resources/mediatype-text.svg";
+		return ":/AppRes/Resources/mediatype-other.svg";
 
 	case eMyIconUpOneDirectory:
 		return ":/AppRes/Resources/file-folder-up-directory.svg";
@@ -1608,6 +1610,37 @@ EMyIcons MyIcons::getFileIcon( uint8_t u8FileType )
 		return eMyIconArcOrIso;
 	case VXFILE_TYPE_DIRECTORY:	
 		return eMyIconFolder;
+	default:
+		return eMyIconOther;
+	}
+}
+
+//============================================================================
+EMyIcons MyIcons::getAssetIcon( EAssetType assetType )
+{
+	switch( assetType )
+	{
+	case eAssetTypePhoto:
+		return eMyIconPhoto;
+	case eAssetTypeAudio:
+		return eMyIconMusic;
+	case eAssetTypeVideo:
+		return eMyIconVideo;
+	case eAssetTypeDocument:
+		return eMyIconDocument;
+	case eAssetTypeArchives:
+		return eMyIconArcOrIso;
+	case eAssetTypeDirectory:
+		return eMyIconFolder;
+	case eAssetTypeThumbnail:
+		return eMyIconPhoto;
+	case eAssetTypeChatText:
+		return eMyIconMessenger;
+	case eAssetTypeChatFace:
+		return eMyIconPhoto;
+	case eAssetTypeCamRecord:
+		return eMyIconVideo;
+	case eAssetTypeExe:
 	default:
 		return eMyIconOther;
 	}

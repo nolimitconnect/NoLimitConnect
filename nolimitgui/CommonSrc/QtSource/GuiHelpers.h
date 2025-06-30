@@ -81,8 +81,6 @@ class QWidget;
 class GuiHelpers
 {
 public:
-    static QString				getAvailableStorageSpaceText();
-
 	static std::string			browseForDirectory( QString startDir = "", QWidget* parent = nullptr );
 
     static bool                 browseForFile( QWidget* parent, enum EMediaFileType mediaFileType, FileInfo& retFileInfo, QString startDir = "" );
@@ -222,6 +220,8 @@ public:
     static void                 showRequiresFriendshipError( QWidget* parent = nullptr );
 
     static void                 showCreateInvite( EHostType hostType, QWidget* parent = nullptr );
+
+    static bool                 confirmDeleteFile( AppCommon& appCommon, QFrame* contentFrame, bool shredFile, QString fileName = "" );
 
     // android permissions
     static bool                 havePermission( QString permissionName );

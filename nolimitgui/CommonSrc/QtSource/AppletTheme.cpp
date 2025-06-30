@@ -39,9 +39,9 @@ AppletTheme::AppletTheme( AppCommon& app, QWidget* parent )
 	ui.m_ExampleProgressBar->setRange( 0, 100000 );
 	ui.m_VertProgressBar->setRange( 0, 100000 );
 
-	connect( ui.m_AcceptCancelFrame, SIGNAL( signalAccepted() ), this, SLOT(slotThemeAccepted()) );
+	connect( ui.m_AcceptCancelFrame, SIGNAL(signalAccepted() ), this, SLOT(slotThemeAccepted()) );
 	connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(slotThemeCanceled()) );
-	connect( ui.m_AcceptCancelFrame, SIGNAL( signalCanceled() ), this, SLOT(slotThemeCanceled()) );
+	connect( ui.m_AcceptCancelFrame, SIGNAL(signalCanceled() ), this, SLOT(slotThemeCanceled()) );
     connect( ui.m_ExampleCheckBox, SIGNAL(stateChanged(int) ), this, SLOT(slotCheckBoxClicked(int)) );
 	connect( ui.horizontalSlider, SIGNAL(valueChanged(int)), this, SLOT(slotSliderValueChanged(int)) );
 	connect( ui.m_ThemeExampleButton, SIGNAL(clicked()), this, SLOT(slotExampleButtonClicked()) );
@@ -109,7 +109,7 @@ void AppletTheme::fillThemeCombo( void )
 		ui.m_ThemeComboBox->setCurrentIndex( (int)(m_CurTheme - 1) );
 	}
 
-	connect( ui.m_ThemeComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT( slotThemeSelectionChanged( int ) ) );
+	connect( ui.m_ThemeComboBox, SIGNAL( currentIndexChanged( int ) ), this, SLOT(slotThemeSelectionChanged( int ) ) );
 }
 
 //============================================================================

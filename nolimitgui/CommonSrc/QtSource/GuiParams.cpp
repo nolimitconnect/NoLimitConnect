@@ -14,6 +14,7 @@
 #include "AppTranslate.h"
 #include "GuiParams.h"
 #include "GuiUser.h"
+#include "GuiOfferInfo.h"
 
 #include <QApplication>
 #include <QScreen>
@@ -26,6 +27,9 @@
 #endif //defined (Q_OS_ANDROID)
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxFileUtil.h>
+#include <CoreLib/VxGlobals.h>
+#include <CoreLib/VxTime.h>
 
 namespace
 {
@@ -1775,6 +1779,47 @@ QString GuiParams::describeOfferType( EOfferType offerType )
 }
 
 //============================================================================
+QString GuiParams::describeOfferStatus( OfferBaseInfo& offerInfo, bool isOnline )
+{
+    bool hasExpires{ false };
+    QString status = QObject::tr( "Unknown" );
+    if( offerInfo.isAccepted() )
+    {
+        status = QObject::tr( "Accepted" );
+    }
+    else if( offerInfo.isRejected() )
+    {
+        status = QObject::tr( "Rejected" );
+    }
+    else if( !isOnline )
+    {
+        status = QObject::tr( "User Offline" );
+    }
+    else if( offerInfo.isExpired() )
+    {
+        status = QObject::tr( "Expired" );
+    }
+    else if( offerInfo.isWaitingForResponse() )
+    {
+        status = QObject::tr( "Waiting for response" );
+    }
+    else if( offerInfo.getExpiresTime() )
+    {
+        hasExpires = true;
+        TimeWithZone lclTime( (int64_t)offerInfo.getExpiresTime() );
+        status = QObject::tr( "Expires " ) + lclTime.getLocalDateAndTimeWithNumberMonths().c_str();
+    }
+
+    if( !hasExpires && offerInfo.getOfferResponseTimestamp() )
+    {
+        TimeWithZone lclTime( (int64_t)offerInfo.getOfferResponseTimestamp() );
+        status += QObject::tr( " " ) + lclTime.getLocalDateAndTimeWithNumberMonths().c_str();
+    }
+
+    return status;
+}
+
+//============================================================================
 QString GuiParams::describeOrientation( Qt::Orientation qtOrientation )
 {
     switch( qtOrientation )
@@ -2269,4 +2314,23 @@ bool GuiParams::requestAllDangerousPermissions( void ) // returns false if user 
 #endif // defined (Q_OS_ANDROID)
 
     return true;
+}
+
+
+//============================================================================
+QString GuiParams::getAvailableStorageSpaceText( void )
+{
+    return describeFileLength( getAvailableStorageSpace() );
+}
+
+//============================================================================
+int64_t GuiParams::getAvailableStorageSpace( void )
+{
+    return VxFileUtil::getDiskFreeSpace( VxGetAppDirectory( eAppDirRootDataStorage ).c_str() );
+}
+
+//============================================================================
+bool GuiParams::requiresMoreSpace( int64_t requiredSpace )
+{
+    return getAvailableStorageSpace() <= requiredSpace;
 }

@@ -47,7 +47,7 @@ AppletChooseThumbnail::AppletChooseThumbnail( AppCommon& app, QWidget* parent )
     infoText += QObject::tr( " pixels. " );
     ui.m_InfoLabel->setText( infoText );
 
-    connect( ui.m_ThumbnailEditWidget, SIGNAL( signalImageChanged() ), this, SLOT( slotImageChanged() ) );
+    connect( ui.m_ThumbnailEditWidget, SIGNAL(signalImageChanged() ), this, SLOT(slotImageChanged() ) );
 
 	m_MyApp.activityStateChange( this, true );
 }

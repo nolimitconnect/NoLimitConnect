@@ -52,8 +52,8 @@ AppletGroupJoinSearch::AppletGroupJoinSearch(	AppCommon&		    app,
     connect( this,					    SIGNAL(signalSearchComplete()),				this, SLOT(slotSearchComplete()) );
     connect( this,					    SIGNAL(signalSearchResult(VxNetIdent*)),	this, SLOT(slotSearchResult(VxNetIdent*)) ); 
 
-    connect( this, SIGNAL( signalLogMsg( const QString& ) ), this, SLOT( slotInfoMsg( const QString& ) ) );
-    connect( this, SIGNAL( signalInfoMsg( const QString& ) ), this, SLOT( slotInfoMsg( const QString& ) ) );
+    connect( this, SIGNAL(signalLogMsg( const QString& ) ), this, SLOT(slotInfoMsg( const QString& ) ) );
+    connect( this, SIGNAL(signalInfoMsg( const QString& ) ), this, SLOT(slotInfoMsg( const QString& ) ) );
 
     connect( &m_MyApp, SIGNAL(signalHostJoinStatus(EHostType,VxGUID,EHostJoinStatus,QString)),
         this, SLOT(slotHostJoinStatus(EHostType,VxGUID,EHostJoinStatus,QString)) );

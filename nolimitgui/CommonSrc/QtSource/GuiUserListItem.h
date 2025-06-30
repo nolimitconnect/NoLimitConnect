@@ -35,6 +35,7 @@ public:
     VxPushButton*               getAvatarButton( void )                 { return getIdentAvatarButton(); }
     VxPushButton*               getFriendshipButton( void )             { return getIdentFriendshipButton(); }
     VxPushButton*               getPushToTalkButton( void )             { return getIdentPushToTalkButton(); }
+    VxPushButton*               getOfferInfoButton( void )              { return getIdentOfferInfoButton(); }
     VxPushButton*               getOfferViewButton( void )              { return getIdentOfferViewButton(); }
     VxPushButton*               getOfferAcceptButton( void )            { return getIdentOfferAcceptButton(); }
     VxPushButton*               getOfferRejectButton( void )            { return getIdentOfferRejectButton(); }
@@ -43,6 +44,7 @@ public:
     void						onIdentAvatarButtonClicked( void ) override;
     //void                        onIdentFriendshipButtonClicked( void ) override; // commented out to allow default behavior
     void						onIdentPushToTalkButtonClicked( void ) override;
+    void						onIdentOfferInfoButtonClicked( void ) override;
     void						onIdentOfferViewButtonClicked( void ) override;
     void						onIdentOfferAcceptButtonClicked( void ) override;
     void						onIdentOfferRejectButtonClicked( void ) override;
@@ -59,6 +61,7 @@ signals:
     void						signalGuiUserListItemClicked( GuiUserListItem * poItemWidget );
 	void						signalAvatarButtonClicked( GuiUserListItem* listEntryWidget );
     void						signalFriendshipButtonClicked( GuiUserListItem* listEntryWidget );
+    void						signalOfferInfoButtonClicked( GuiUserListItem* listEntryWidget );
     void						signalOfferViewButtonClicked( GuiUserListItem* listEntryWidget );
     void						signalOfferAcceptButtonClicked( GuiUserListItem* listEntryWidget );
     void						signalOfferRejectButtonClicked( GuiUserListItem* listEntryWidget );

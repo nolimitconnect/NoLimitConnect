@@ -59,7 +59,7 @@ ThumbnailChooseWidget::ThumbnailChooseWidget( QWidget* parent )
     ui.m_ThumbnailFrame->setFixedSize( frameSize );
     setFixedHeight( GuiParams::getThumbnailSize().height() + 30 );
 
-    connect( ui.m_ChooseThumbButton, SIGNAL(clicked()), this, SLOT( slotChooseThumb() ) );
+    connect( ui.m_ChooseThumbButton, SIGNAL(clicked()), this, SLOT(slotChooseThumb() ) );
 }
 
 //============================================================================
@@ -68,7 +68,7 @@ void ThumbnailChooseWidget::slotChooseThumb()
     AppletChooseThumbnail* galleryThumb = dynamic_cast< AppletChooseThumbnail * >( m_MyApp.getAppletMgr().launchApplet( eAppletChooseThumbnail, m_ParentApplet ) );
     if( galleryThumb )
     {
-        connect( galleryThumb, SIGNAL( signalThumbSelected( AppletBase*, ThumbnailEditWidget* ) ), this, SLOT( slotThumbSelected( AppletBase*, ThumbnailEditWidget* ) ) );
+        connect( galleryThumb, SIGNAL(signalThumbSelected( AppletBase*, ThumbnailEditWidget* ) ), this, SLOT(slotThumbSelected( AppletBase*, ThumbnailEditWidget* ) ) );
     }
 }
 
@@ -106,7 +106,7 @@ void ThumbnailChooseWidget::slotThumbSelected( AppletBase * thumbGallery, Thumbn
         }
 
         /*
-        disconnect( thumbGallery, SIGNAL( signalThumbSelected( AppletBase *, ThumbnailViewWidget * ) ), this, SLOT( slotThumbSelected( AppletBase *, ThumbnailViewWidget * ) ) );
+        disconnect( thumbGallery, SIGNAL(signalThumbSelected( AppletBase *, ThumbnailViewWidget * ) ), this, SLOT(slotThumbSelected( AppletBase *, ThumbnailViewWidget * ) ) );
         thumbGallery->closeApplet();
         */
     }

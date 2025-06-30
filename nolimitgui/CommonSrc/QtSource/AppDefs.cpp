@@ -131,6 +131,8 @@ EMyIcons GetAppletIcon( EApplet applet )
 
     case eAppletFileOfferSelect:            return eMyIconServiceShareFiles;
     case eAppletFileShareClientView:        return eMyIconDebug;
+
+    case eAppletOfferInfo:                  return eMyIconInfoOffer;
     case eAppletOfferSend:                  return eMyIconOfferEye;
     case eAppletOfferResponse:              return eMyIconOfferEye;
     case eAppletOfferResponseAccept:        return eMyIconOfferEye;
@@ -346,6 +348,8 @@ QString DescribeApplet( EApplet applet )
     case eAppletPeerVideoPhone:             return QObject::tr( "Video Chat" );
     case eAppletFileShareClientView:        return QObject::tr( "View Shared Files" );
     case eAppletFileOfferSelect:            return QObject::tr( "Offer File" );
+
+    case eAppletOfferInfo:                  return QObject::tr( "Offer Information" );
     case eAppletOfferSend:                  return QObject::tr( "Send Offer" );
     case eAppletOfferResponse:              return QObject::tr( "Respond To Offer" );
     case eAppletOfferResponseAccept:        return QObject::tr( "Accept Offer Response" );

@@ -42,7 +42,7 @@ void AppletPlayerPhoto::initAppletPlayerPhoto( void )
 {
 	setAppletType( eAppletPlayerPhoto );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
-	connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
+	connect( this, SIGNAL(signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
 
 	ui.setupUi( getContentItemsFrame() );
 	ui.m_PlayPosSlider->setVisible( false );
@@ -61,11 +61,11 @@ void AppletPlayerPhoto::initAppletPlayerPhoto( void )
 
 	ui.m_PlayPosSlider->setRange( 0, 100000 );
 
-	connect( ui.m_PlayPosSlider, SIGNAL( sliderPressed() ), this, SLOT( slotSliderPressed() ) );
-	connect( ui.m_PlayPosSlider, SIGNAL( sliderReleased() ), this, SLOT( slotSliderReleased() ) );
+	connect( ui.m_PlayPosSlider, SIGNAL( sliderPressed() ), this, SLOT(slotSliderPressed() ) );
+	connect( ui.m_PlayPosSlider, SIGNAL( sliderReleased() ), this, SLOT(slotSliderReleased() ) );
 
-	connect( this, SIGNAL( signalPlayProgress( int ) ), this, SLOT( slotPlayProgress( int ) ) );
-	connect( this, SIGNAL( signalPlayEnd() ), this, SLOT( slotPlayEnd() ) );
+	connect( this, SIGNAL(signalPlayProgress( int ) ), this, SLOT(slotPlayProgress( int ) ) );
+	connect( this, SIGNAL(signalPlayEnd() ), this, SLOT(slotPlayEnd() ) );
 
 	m_MyApp.activityStateChange( this, true );
 }
@@ -82,8 +82,8 @@ void AppletPlayerPhoto::setupBottomMenu( VxMenuButton * menuButton )
         menuButton->addMenuItem( eMenuItemBrowse );
     }
 
-    connect( menuButton, SIGNAL( signalMenuItemSelected( int, EMenuItemType ) ), 
-                this, SLOT( slotMenuItemSelected( int, EMenuItemType ) ) );
+    connect( menuButton, SIGNAL(signalMenuItemSelected( int, EMenuItemType ) ), 
+                this, SLOT(slotMenuItemSelected( int, EMenuItemType ) ) );
 }
 
 //============================================================================

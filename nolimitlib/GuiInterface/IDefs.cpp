@@ -2020,6 +2020,9 @@ EPluginType HostPluginToClientPluginType( enum EPluginType pluginType )
     case ePluginTypeMessenger:
         return ePluginTypeMessenger;
 
+    case ePluginTypePersonFileXfer:
+        return ePluginTypePersonFileXfer;
+
     case ePluginTypeTruthOrDare:
         return ePluginTypeTruthOrDare;
 
@@ -2052,9 +2055,6 @@ EPluginType HostPluginToClientPluginType( enum EPluginType pluginType )
         return ePluginTypeClientConnectTest;
 
     case ePluginTypeInvalid:
-        LogMsg( LOG_ERROR, "HostPluginToClientPluginType invalid plugin type %d", pluginType );
-        vx_assert( false );
-        return pluginType;
     default:
         LogMsg( LOG_ERROR, "HostPluginToClientPluginType unknown plugin type %d", pluginType );
         vx_assert( false );

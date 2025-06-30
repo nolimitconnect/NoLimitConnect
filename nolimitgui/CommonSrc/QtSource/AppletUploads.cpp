@@ -327,35 +327,7 @@ void AppletUploads::slotShredButtonClicked( QListWidgetItem* item )
 //============================================================================
 bool AppletUploads::confirmDeleteFile( bool shredFile )
 {
-	bool acceptAction = true;
-	bool isConfirmDisabled = m_MyApp.getAppSettings().getIsConfirmDeleteDisabled();
-	if( false == isConfirmDisabled )
-	{
-		QString title = shredFile ?  QObject::tr("Confirm Shred File") :  QObject::tr("Confirm Delete File");
-		QString bodyText = "";
-		if( shredFile )
-		{
-			bodyText =  QObject::tr("Are You Sure You Want To Write Random Data Into The File Then Delete From The Device?");
-		}
-		else
-		{
-			bodyText =  QObject::tr("Are You Sure To Delete The File From The Device?");
-		}
-
-		ActivityMsgBoxYesNo dlg( m_MyApp, &m_MyApp, title, bodyText );
-		dlg.makeNeverShowAgainVisible( true );
-		if( false == (QDialog::Accepted == dlg.exec()))
-		{
-			acceptAction = false;
-		}
-
-		if( dlg.wasNeverShowAgainChecked() )
-		{
-			m_MyApp.getAppSettings().setIsConfirmDeleteDisabled( true );
-		}
-	}
-
-	return acceptAction;
+	return GuiHelpers::confirmDeleteFile( m_MyApp, getContentItemsFrame(), shredFile );
 }
 
 //============================================================================

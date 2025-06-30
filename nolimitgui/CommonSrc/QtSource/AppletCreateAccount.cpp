@@ -42,7 +42,7 @@ AppletCreateAccount::AppletCreateAccount( AppCommon& app, QWidget* parent )
     GuiHelpers::fillContentRating( ui.m_ContentComboBox );
     GuiHelpers::fillAge( ui.m_AgeComboBox );
 
-    connect( ui.m_LoginButton, SIGNAL(clicked()), this, SLOT( slotButtonLoginClicked() ) );
+    connect( ui.m_LoginButton, SIGNAL(clicked()), this, SLOT(slotButtonLoginClicked() ) );
 }
 
 //============================================================================

@@ -12,6 +12,7 @@
 #include "MyIconsDefs.h"
 
 #include <GuiInterface/IDefs.h>
+#include <CoreLib/AssetDefs.h>
 
 #include <QIcon>
 
@@ -51,6 +52,8 @@ public:
     EMyIcons					getDisabledPluginIcon( enum EPluginType pluginType );
 	//! get disabled plugin icon
     EMyIcons					getIgnoredPluginIcon( enum EPluginType pluginType );
+	//! get icon of given asset type
+	EMyIcons					getAssetIcon( EAssetType assetType );
 	//! get icon of given file type
 	EMyIcons					getFileIcon( uint8_t u8FileType );
 	//! get icon of offer

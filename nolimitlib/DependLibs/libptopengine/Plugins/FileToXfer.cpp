@@ -10,6 +10,9 @@
 
 #include "FileToXfer.h"
 
+#include <CoreLib/VxDebug.h>
+#include <CoreLib/VxFileUtil.h>
+
 //============================================================================
 FileToXfer::FileToXfer( FileInfo& fileInfo, VxGUID& lclSessionId, VxGUID& rmtSessionId )
 : FileInfo( fileInfo )
@@ -43,3 +46,26 @@ FileToXfer& FileToXfer::operator=(const FileToXfer& rhs)
 	return *this;
 }
 
+//============================================================================
+bool FileToXfer::fillFileXferInfo( VxFileXferInfo& xferInfo, EXferDirection dir )
+{
+	xferInfo.clear();
+	xferInfo.setXferDirection( dir );
+	xferInfo.setLclSessionId( m_LclSessionId );
+	xferInfo.setRmtSessionId( m_RmtSessionId );
+
+	xferInfo.setAssetId( getAssetId() );
+	xferInfo.setFileHashId( getFileHashId() );
+	xferInfo.setFileLength( getFileLength() );
+
+	xferInfo.setRmtFileName( getFileName().c_str());
+	xferInfo.setLclFileName( getFileName().c_str() );
+	if( dir == eXferDirectionTx && !VxFileUtil::fileExists( getFileNameAndPath().c_str() ) )
+	{
+		LogMsg( LOG_ERROR, "FileToXfer::fillFileXferInfo file no longer exists %s", getFileNameAndPath().c_str() );
+		return false;
+	}
+
+	xferInfo.setLclFileNameAndPath( getFileNameAndPath().c_str() );
+	return true;
+}

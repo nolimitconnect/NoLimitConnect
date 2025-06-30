@@ -111,7 +111,7 @@ FileXferWidget* AppletPersonOfferList::sessionToWidget( GuiFileXferSession* poSe
 
 	connect( item, SIGNAL(signalFileXferItemClicked(QListWidgetItem*)),	this, SLOT(slotFileXferItemClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalFileIconButtonClicked(QListWidgetItem*)),	this, SLOT(slotFileIconButtonClicked(QListWidgetItem*)) );
-	connect( item, SIGNAL( signalAcceptButtonClicked(QListWidgetItem*) ), this, SLOT( slotAcceptButtonClicked(QListWidgetItem*) ) );
+	connect( item, SIGNAL(signalAcceptButtonClicked(QListWidgetItem*) ), this, SLOT(slotAcceptButtonClicked(QListWidgetItem*) ) );
 	connect( item, SIGNAL(signalCancelButtonClicked(QListWidgetItem*)),	this, SLOT(slotCancelButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalPlayButtonClicked(QListWidgetItem*)),		this, SLOT(slotPlayButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalPlayExternButtonClicked(QListWidgetItem*)),		this, SLOT(slotPlayExternButtonClicked(QListWidgetItem*)) );
@@ -366,34 +366,6 @@ void AppletPersonOfferList::slotShredButtonClicked( QListWidgetItem* item )
 //============================================================================
 bool AppletPersonOfferList::confirmDeleteFile( bool shredFile )
 {
-	bool acceptAction = true;
-	bool isConfirmDisabled = m_MyApp.getAppSettings().getIsConfirmDeleteDisabled();
-	if( false == isConfirmDisabled )
-	{
-		QString title = shredFile ?  "Confirm Shred File" : "Confirm Delete File";
-		QString bodyText = "";
-		if( shredFile )
-		{
-			bodyText = "Are You Sure You Want To Write Random Data Into The File Then Delete From The Device?";
-		}
-		else
-		{
-			bodyText = "Are You Sure To Delete The File From The Device?";
-		}
-
-		ActivityMsgBoxYesNo dlg( m_MyApp, &m_MyApp, title, bodyText );
-		dlg.makeNeverShowAgainVisible( true );
-		if( false == (QDialog::Accepted == dlg.exec()))
-		{
-			acceptAction = false;
-		}
-
-		if( dlg.wasNeverShowAgainChecked() )
-		{
-			m_MyApp.getAppSettings().setIsConfirmDeleteDisabled( true );
-		}
-	}
-
-	return acceptAction;
+	return GuiHelpers::confirmDeleteFile( m_MyApp, getContentItemsFrame(), shredFile );
 }
 */

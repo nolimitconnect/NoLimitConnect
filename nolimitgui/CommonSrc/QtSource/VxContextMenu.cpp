@@ -90,7 +90,7 @@ void VxContextMenu::showMenu( const QPoint & globalPoint )
             menuAction->setDefaultWidget( label );
             menuAction->setShortcuts( QKeySequence::New );
             menuAction->setStatusTip( menuItemText);
-            connect( menuAction, SIGNAL( triggered() ), this, SLOT( slotMenuItemTriggered() ) );
+            connect( menuAction, SIGNAL( triggered() ), this, SLOT(slotMenuItemTriggered() ) );
 
             m_NewMenu->addAction( menuAction);
             //menuAction->setEnabled( true );

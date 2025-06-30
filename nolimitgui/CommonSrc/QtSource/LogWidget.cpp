@@ -38,10 +38,10 @@ LogWidget::LogWidget( QWidget* parent )
     getLogEdit()->setMaximumBlockCount( MAX_LOG_EDIT_BLOCK_CNT );
     getLogEdit()->setReadOnly( true );
 
-    connect( ui.m_VerboseCheckBox, SIGNAL(clicked()), this, SLOT( slotVerboseCheckBoxClicked() ) );
-    connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT( slotCopyToClipboardClicked() ) );
+    connect( ui.m_VerboseCheckBox, SIGNAL(clicked()), this, SLOT(slotVerboseCheckBoxClicked() ) );
+    connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT(slotCopyToClipboardClicked() ) );
 
-    connect( this, SIGNAL( signalLogMsg( const QString& ) ), this, SLOT( slotLogMsg( const QString& ) ) );
+    connect( this, SIGNAL(signalLogMsg( const QString& ) ), this, SLOT(slotLogMsg( const QString& ) ) );
 
 }
 

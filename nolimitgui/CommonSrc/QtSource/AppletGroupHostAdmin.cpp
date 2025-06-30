@@ -38,7 +38,7 @@ AppletGroupHostAdmin::AppletGroupHostAdmin( AppCommon& app, QWidget* parent )
 	ui.m_ChatRoomWidget->setInputClientCallback( this );
     ui.m_UserListWidget->setHostAdminId( hostAdminId );
 
-    connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
+    connect( this, SIGNAL(signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
 
     ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup );
 

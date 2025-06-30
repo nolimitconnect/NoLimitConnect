@@ -42,7 +42,7 @@ AppletChatRoomHostAdmin::AppletChatRoomHostAdmin( AppCommon& app, QWidget* paren
     ui.m_UserListWidget->setHostAdminId( hostAdminId );
     ui.m_UserListWidget->setUserViewType( eUserViewTypeChatRoom );
 
-    connect( this, SIGNAL( signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
+    connect( this, SIGNAL(signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
 
     m_MyApp.activityStateChange( this, true );
 }

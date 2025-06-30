@@ -34,6 +34,7 @@ enum EMyIcons
 
 	eMyIconHashtag,
     eMyIconInformation,
+	eMyIconInfoOffer,
     eMyIconPeople,
 	eMyIconServers,
     eMyIconSettingsGear,

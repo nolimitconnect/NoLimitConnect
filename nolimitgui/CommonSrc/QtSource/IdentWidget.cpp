@@ -33,6 +33,8 @@ VxPushButton* IdentWidget::getIdentFriendshipButton( void ) { return ui.m_Friend
 //============================================================================
 VxPushButton* IdentWidget::getIdentPushToTalkButton( void ) { return ui.m_PushToTalkButton; }
 //============================================================================
+VxPushButton* IdentWidget::getIdentOfferInfoButton( void ) { return ui.m_OfferInfoButton; }
+//============================================================================
 VxPushButton* IdentWidget::getIdentOfferViewButton( void ) { return ui.m_OfferViewButton; }
 //============================================================================
 VxPushButton* IdentWidget::getIdentOfferAcceptButton( void ) { return ui.m_OfferAcceptButton; }

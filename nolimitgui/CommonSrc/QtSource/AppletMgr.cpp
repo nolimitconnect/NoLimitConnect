@@ -78,6 +78,7 @@
 #include "AppletNetHostingPage.h"
 #include "AppletNetworkSettings.h"
 
+#include "AppletOfferInfo.h"
 #include "AppletOfferResponse.h"
 #include "AppletOfferResponseAccept.h"
 #include "AppletOfferSend.h"
@@ -345,6 +346,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
         }
         break;
 
+    case eAppletOfferInfo:                  if( launchAppletAllowed( eAppletOfferInfo ) ) appletDialog = new AppletOfferInfo( m_MyApp, parent ); break;
     case eAppletOfferResponse:              if( launchAppletAllowed( eAppletOfferResponse ) ) appletDialog = new AppletOfferResponse( m_MyApp, parent ); break;
     case eAppletOfferResponseAccept:        if( launchAppletAllowed( eAppletOfferResponseAccept ) ) appletDialog = new AppletOfferResponseAccept( m_MyApp, parent ); break;
     case eAppletOfferSend:                  if( launchAppletAllowed( eAppletOfferSend ) ) appletDialog = new AppletOfferSend( m_MyApp, parent ); break;

@@ -42,7 +42,7 @@ void ImageListRow::addThumbnail( ThumbnailViewWidget * thumbnail )
     {
         ui.m_RowFrame->layout()->addWidget( thumbnail );
         m_ThumbnailCnt++;
-        connect( thumbnail, SIGNAL( signalImageClicked( ThumbnailViewWidget * ) ), this, SLOT( slotImageClicked( ThumbnailViewWidget * ) ) );
+        connect( thumbnail, SIGNAL(signalImageClicked( ThumbnailViewWidget * ) ), this, SLOT(slotImageClicked( ThumbnailViewWidget * ) ) );
     }
 }
 

@@ -14,11 +14,13 @@
 #include "GuiUser.h"
 
 #include "ActivityBase.h"
+#include "ActivityMsgBoxYesNo.h"
 #include "AppletBase.h"
 #include "AppletInviteCreate.h"
 #include "AppletMgr.h"
 #include "AppCommon.h"
 #include "AppDefs.h"
+#include "AppSettings.h"
 #include "AppTranslate.h"
 #include "HomeWindow.h"
 #include "MyIconsDefs.h"
@@ -52,12 +54,6 @@
 #include <QUrl>
 
 #include <QFileSystemModel>
-
-//============================================================================
-QString GuiHelpers::getAvailableStorageSpaceText()
-{
-    return GuiParams::describeFileLength( VxFileUtil::getDiskFreeSpace( VxGetAppDirectory( eAppDirRootDataStorage ).c_str() ) );
-}
 
 //============================================================================
 std::string GuiHelpers::browseForDirectory( QString startDir, QWidget* parent )
@@ -2282,4 +2278,47 @@ void GuiHelpers::showCreateInvite( EHostType hostType, QWidget* parent )
 	{
 		appletInvite->setInviteType( hostType );
 	}
+}
+
+//============================================================================
+bool GuiHelpers::confirmDeleteFile( AppCommon& appCommon, QFrame* contentFrame, bool shredFile, QString fileName )
+{
+    
+    bool isConfirmDisabled = appCommon.getAppSettings().getIsConfirmDeleteDisabled();
+    if( isConfirmDisabled )
+    {
+        return true;
+    }
+
+    bool acceptAction = true;
+    QString title = shredFile ? QObject::tr( "Confirm Shred File" ) : QObject::tr( "Confirm Delete File" );
+    QString bodyText = "";
+    if( shredFile )
+    {
+        bodyText = QObject::tr( "Are You Sure You Want To Write Random Data Into The File Then Delete From The Device?" );
+    }
+    else
+    {
+        bodyText = QObject::tr( "Are You Sure To Delete The File From The Device?" );
+    }
+
+    if( !fileName.isEmpty() )
+    {
+        bodyText += "\n";
+        bodyText += fileName;
+    }
+
+    ActivityMsgBoxYesNo dlg( appCommon, contentFrame, title, bodyText );
+    dlg.makeNeverShowAgainVisible( false );
+    if( false == ( QDialog::Accepted == dlg.exec() ) )
+    {
+        acceptAction = false;
+    }
+
+    if( dlg.wasNeverShowAgainChecked() )
+    {
+        appCommon.getAppSettings().setIsConfirmDeleteDisabled( true );
+    }
+
+    return acceptAction;
 }

@@ -20,7 +20,7 @@ namespace
 {
 	std::string 		TABLE_OFFERS	 				= "tblOffers";
 
-    std::string 		CREATE_COLUMNS_OFFERS			= " (offerId TEXT PRIMARY KEY, creatorId TEXT, historyId TEXT, thumbId TEXT, sendToId TEXT, assetId TEXT, assetName TEXT, length BIGINT, type INTEGER, hashId BLOB, locFlags INTEGER, attribFlags INTEGER, creationTime BIGINT, modifiedTime BIGINT, accessedTime BIGINT, assetTag TEXT, sendState INTEGER, pluginType INTEGER, offerMsg TEXT, offerExpires BIGINT, isTemp INTEGER, offerResponse INTEGER, offerMgr INTEGER ) ";
+    std::string 		CREATE_COLUMNS_OFFERS			= " (offerId TEXT PRIMARY KEY, creatorId TEXT, historyId TEXT, thumbId TEXT, sendToId TEXT, assetId TEXT, assetName TEXT, fileNameAndPath TEXT, length BIGINT, type INTEGER, hashId BLOB, locFlags INTEGER, attribFlags INTEGER, creationTime BIGINT, modifiedTime BIGINT, accessedTime BIGINT, assetTag TEXT, sendState INTEGER, pluginType INTEGER, offerMsg TEXT, offerExpires BIGINT, isTemp INTEGER, offerResponse INTEGER, offerMgr INTEGER ) ";
 
 	const int			COLUMN_OFFER_ID					= 0;	
 	const int			COLUMN_OFFER_CREATOR_ID			= 1;
@@ -155,31 +155,30 @@ void OfferBaseInfoDb::addOffer( VxGUID&			offerId,
 	std::string sendToIdStr = sendToId.toHexString();
 	std::string assetIdStr = assetId.toHexString();
 
-    DbBindList bindList( offerIdStr.c_str() );
-    bindList.add( creatorIdStr.c_str() );
-    bindList.add( historyIdStr.c_str() );
-    bindList.add( thumbIdStr.c_str() );
-	bindList.add( sendToIdStr.c_str() );
-	bindList.add( assetIdStr.c_str() );
-    bindList.add( assetName );
-	bindList.add( fileNameAndPath );
-    bindList.add( assetLen );
-    bindList.add( (int)assetType );
-    bindList.add( (void *)hashId.getHashData(), 20 );
-    bindList.add( locationFlags );
-    bindList.add( attibuteFlags );
-    bindList.add( (uint64_t)creationTimeStamp );
-    bindList.add( (uint64_t)modifiedTimeStamp );
-    bindList.add( (uint64_t)accessedTimeStamp );
-    bindList.add( assetTag );
-    bindList.add( (int)sendState );
-    bindList.add( (int)pluginType );
-    bindList.add( offerMsg );
-    bindList.add( (uint64_t)offerExpires);
-    bindList.add( isTemp);
-	bindList.add( (int)offerResponse );
-	bindList.add( offerIdStr.c_str() );
-	bindList.add( (int)offerMgr );
+    DbBindList bindList( offerIdStr.c_str() );  // 1 offerId
+    bindList.add( creatorIdStr.c_str() );       // 2 creatorId
+    bindList.add( historyIdStr.c_str() );       // 3 historyId
+    bindList.add( thumbIdStr.c_str() );         // 4 thumbId
+    bindList.add( sendToIdStr.c_str() );        // 5 sendToId
+    bindList.add( assetIdStr.c_str() );         // 6 assetId
+    bindList.add( assetName );                  // 7 assetName
+    bindList.add( fileNameAndPath );            // 8 fileNameAndPath
+    bindList.add( assetLen );                   // 9 length
+    bindList.add( (int)assetType );                   // 10 type
+    bindList.add( (void *)hashId.getHashData(), 20 ); // 11 hashId
+    bindList.add( locationFlags );              // 12 locFlags
+    bindList.add( attibuteFlags );              // 13 attribFlags
+    bindList.add( (uint64_t)creationTimeStamp );// 14 creationTime
+    bindList.add( (uint64_t)modifiedTimeStamp );// 15 modifiedTime
+    bindList.add( (uint64_t)accessedTimeStamp );// 16 accessedTime
+    bindList.add( assetTag );                   // 17 assetTag
+    bindList.add( (int)sendState );             // 18 sendState
+    bindList.add( (int)pluginType );            // 19 pluginType
+    bindList.add( offerMsg );                   // 20 offerMsg
+    bindList.add( (uint64_t)offerExpires);      // 21 offerExpires
+    bindList.add( isTemp);                      // 22 isTemp
+    bindList.add( (int)offerResponse );         // 23 offerResponse
+    bindList.add( (int)offerMgr );              // 24 offerMgr
 
     RCODE rc = sqlExec( "INSERT INTO tblOffers (offerId,creatorId,historyId,thumbId,sendToId,assetId,assetName,fileNameAndPath,length,type,hashId,locFlags,attribFlags,creationTime,modifiedTime,accessedTime,assetTag,sendState,pluginType,offerMsg,offerExpires,isTemp,offerResponse,offerMgr) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         bindList );
