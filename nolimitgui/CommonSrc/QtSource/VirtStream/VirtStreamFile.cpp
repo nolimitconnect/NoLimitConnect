@@ -14,9 +14,13 @@
 void VirtStreamFile::clear( void )
 {
 	removeConnection();
-	setError( 0 );
+	m_StreamSessionId.clear();
 	m_FileTail.clear();
 	m_StreamCache.clearCache( false );
+	//m_FileName.clear();
+	//m_FileMode.clear();
+	//m_StreamAssetInfo.clear();
+	//m_ServerSessionId.clear();
 }
 
 //============================================================================

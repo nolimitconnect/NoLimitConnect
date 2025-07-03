@@ -2165,33 +2165,57 @@ bool VxFileUtil::deleteFilesInFolder( std::string fileFolder, bool folderNameEnd
 }
 
 //============================================================================
-bool VxFileUtil::incrementFileName( std::string& strFileName )
+// Extract base name and numeric suffix if it exists
+std::pair<std::string, int> parseFileNameIncrement( const std::string& baseName ) 
 {
-	std::string strRetFileNamePart;
-	std::string strRetExtensionPart;
-	seperateFileNameAndExtension(	strFileName,		// file name with extension				
-									strRetFileNamePart,		// return file name part without .ext
-									strRetExtensionPart );	// return .ext part
-	if( strRetExtensionPart.size() && strRetExtensionPart.size() )
-	{
-		const char* fileNamePart = strRetFileNamePart.c_str();
-		char lastChar = fileNamePart[ strRetFileNamePart.size() - 1 ];
-		if( isdigit( lastChar ) && ( '9' > lastChar ))
-		{
-			// safe to just increment the char
-			*( (char *)&fileNamePart[ strRetFileNamePart.size() - 1 ] ) = lastChar + 1;
-			strFileName = strRetFileNamePart + strRetExtensionPart;
-		}
-		else
-		{
-			strRetFileNamePart += "_1";
-			strFileName = strRetFileNamePart + strRetExtensionPart;
-		}
+	std::regex re( R"(^(.*)\s\((\d+)\)$)" );
+	std::smatch match;
 
-		return true;
+	if( std::regex_match( baseName, match, re ) ) 
+	{
+		std::string name = match[1];
+		int number = std::stoi( match[2] );
+		return { name, number };
 	}
 
-	return false;
+	return { baseName, 0 };
+}
+
+//============================================================================
+bool VxFileUtil::incrementFileName( std::string& strFileName )
+{
+	std::string fileNamePart;
+	std::string extensionPart;
+	seperateFileNameAndExtension(	strFileName,		// file name with extension				
+		fileNamePart,		// return file name part without .ext
+		extensionPart );	// return .ext part
+	if( fileNamePart.empty() )
+	{
+		return false;
+	}
+
+	// Parse for existing (n) suffix
+	std::pair<std::string, int> suffixPair = parseFileNameIncrement( fileNamePart );
+	std::string namePart = suffixPair.first;
+
+	int incNum = suffixPair.second;
+	if( 0 == incNum )
+	{
+		// does not have a (n) suffix
+		strFileName = fileNamePart + " (1)" + extensionPart;
+	}
+	else
+	{
+		if( namePart.empty() )
+		{
+			return false;
+		}
+
+		incNum++;
+		strFileName = namePart + " (" + std::to_string( incNum ) + ")" + extensionPart;
+	}
+
+	return true;
 }
 
 //============================================================================

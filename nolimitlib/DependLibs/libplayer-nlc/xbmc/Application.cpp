@@ -1807,71 +1807,6 @@ namespace
 
 bool CApplication::PlayMedia( CFileItem& item, const std::string& player, PLAYLIST::Id playlistId )
 {
-
-    //if( item.IsSmartPlayList() )
-    //{
-    //    CFileItemList items;
-    //    CUtil::GetRecursiveListing( item.GetPath(), items, "", DIR_FLAG_NO_FILE_DIRS );
-    //    if( items.Size() )
-    //    {
-    //        CSmartPlaylist smartpl;
-    //        //get name and type of smartplaylist, this will always succeed as GetDirectory also did this.
-    //        smartpl.OpenAndReadName( item.GetURL() );
-    //        PLAYLIST::CPlayList playlist;
-    //        playlist.Add( items );
-    //        PLAYLIST::Id smartplPlaylistId = PLAYLIST::TYPE_VIDEO;
-
-    //        if( smartpl.GetType() == "songs" || smartpl.GetType() == "albums" ||
-    //            smartpl.GetType() == "artists" )
-    //            smartplPlaylistId = PLAYLIST::TYPE_MUSIC;
-
-    //        return ProcessAndStartPlaylist( smartpl.GetName(), playlist, smartplPlaylistId );
-    //    }
-    //}
-    //else if( item.IsPlayList() || item.IsInternetStream() )
-    //{
-    //    //// Not owner. Dialog auto-deletes itself.
-    //    //CGUIDialogCache* dlgCache =
-    //    //    new CGUIDialogCache( 5s, g_localizeStrings.Get( 10214 ), item.GetLabel() );
-
-    //    ////is or could be a playlist
-    //    //std::unique_ptr<PLAYLIST::CPlayList> playlist;
-    //    //CCreateAndLoadPlayList getPlaylist( item, playlist );
-    //    //bool cancelled = !CGUIDialogBusy::Wait( &getPlaylist, 100, true );
-
-    //    //if( dlgCache )
-    //    //{
-    //    //    dlgCache->Close();
-    //    //    if( dlgCache->IsCanceled() )
-    //    //        cancelled = true;
-    //    //}
-
-    //    //if( cancelled )
-    //        return true;
-
-    //    //if( playlist )
-    //    //{
-
-    //    //    if( playlistId != PLAYLIST::TYPE_NONE )
-    //    //    {
-    //    //        int track = 0;
-    //    //        if( item.HasProperty( "playlist_starting_track" ) )
-    //    //            track = (int)item.GetProperty( "playlist_starting_track" ).asInteger();
-    //    //        return ProcessAndStartPlaylist( item.GetPath(), *playlist, playlistId, track );
-    //    //    }
-    //    //    else
-    //    //    {
-    //    //        CLog::Log( LOGWARNING,
-    //    //                   "CApplication::PlayMedia called to play a playlist %s but no idea which playlist "
-    //    //                   "to use, playing first item",
-    //    //                   item.GetPath().c_str() );
-    //    //        if( playlist->size() )
-    //    //            return PlayFile( *(*playlist)[0], "", false );
-    //    //    }
-    //    //}
-    //}
-
-
     //nothing special just play
     return PlayFile( item, player, false );
 }
@@ -1993,9 +1928,6 @@ bool CApplication::IsPlayingFullScreenVideo() const
 
 bool CApplication::IsFullScreen()
 {
-    //return IsPlayingFullScreenVideo() ||
-    //    (CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow() == WINDOW_VISUALISATION) ||
-    //    CServiceBroker::GetGUI()->GetWindowManager().GetActiveWindow() == WINDOW_SLIDESHOW;
     return false;
 }
 
@@ -2088,18 +2020,6 @@ bool CApplication::OnMessage( CGUIMessage& message )
 
         CServiceBroker::GetAnnouncementManager()->Announce( ANNOUNCEMENT::Player, "OnPlay",
                                                             m_itemCurrentFile, param );
-
-        // we don't want a busy dialog when switching channels
-        //const auto appPlayer = GetComponent<CApplicationPlayer>();
-        //if( !m_itemCurrentFile->IsLiveTV() ||
-        //    (!appPlayer->IsPlayingVideo() && !appPlayer->IsPlayingAudio()) )
-        //{
-        //    CGUIDialogBusy* dialog =
-        //        CServiceBroker::GetGUI()->GetWindowManager().GetWindow<CGUIDialogBusy>(
-        //            WINDOW_DIALOG_BUSY );
-        //    if( dialog && !dialog->IsDialogRunning() )
-        //        dialog->WaitOnEvent( m_playerEvent );
-        //}
 
         onPlayStarted();
         return true;
@@ -2776,16 +2696,6 @@ void CApplication::CloseNetworkShares()
 bool CApplication::SwitchToFullScreen( bool fullScreen )
 {
     const auto appPlayer = GetComponent<CApplicationPlayer>();
-    // CServiceBroker::GetWinSystem()->GetGfxContext().ToggleFullScreen();
-    //CGUIComponent* gui = CServiceBroker::GetGUI();
-    //if( gui )
-    //{
-    //    if( gui->GetWindowManager().SwitchToFullScreen( fullScreen ) )
-    //    {
-    //        //GetComponent<CApplicationPowerHandling>()->m_navigationTimer.StartZero();
-    //        return true;
-    //    }
-    //}
 
     appPlayer->TriggerUpdateResolution();
     return true;

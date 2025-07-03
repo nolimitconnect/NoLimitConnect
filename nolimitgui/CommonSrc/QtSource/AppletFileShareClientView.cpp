@@ -369,14 +369,7 @@ void AppletFileShareClientView::addFile( GuiUser* guiUser, EPluginType pluginTyp
 //============================================================================
 void AppletFileShareClientView::slotItemClicked(QListWidgetItem* item)
 {
-	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->data(Qt::UserRole + 1).toLongLong();
-	if( xferSession )
-	{
-		if( -1 == m_FromGui.fromGuiGetFileDownloadState( xferSession->getFileHashId().getHashData() ) )
-		{
-			promptForDownload( xferSession );
-		}
-	}
+
 }
 
 //============================================================================
@@ -519,32 +512,29 @@ void AppletFileShareClientView::beginDownload( GuiFileXferSession* xferSession, 
 //============================================================================
 void AppletFileShareClientView::removeDownload( GuiFileXferSession* xferSession, QListWidgetItem* item  )
 {
-	ui.FileItemList->removeItemWidget( item );
+	// do not remove because we are viewing shared file
+	( (FileXferWidget*)item )->resetXferState();
 }
 
 //============================================================================
 void AppletFileShareClientView::cancelDownload( GuiFileXferSession* xferSession, QListWidgetItem* item )
 {
-    xferSession->setXferState(  eXferStateUserCanceledDownload, eXferErrorNone, 0 );
-    ((FileXferWidget*)item)->setXferState( eXferStateUserCanceledDownload, eXferErrorNone, 0 );
+    ((FileXferWidget*)item)->resetXferState();
 	m_MyApp.getFileXferMgr().cancelDownload( getAppletType(), xferSession );
     if( xferSession->isStream() )
 	{
 		xferSession->setIsStream( false );
-		removeDownload( xferSession, item );
 	}
 	else
 	{
 		std::string fileName = xferSession->getFileInfo().getFileNameAndPath();
 		if( VxFileUtil::fileExists( fileName.c_str() ) )
 		{
-			if( confirmDeleteFile( true ) )
-			{
-				removeDownload( xferSession, item );
-				m_MyApp.getEngine().fromGuiDeleteFile( fileName, true );
-			}
+			m_MyApp.getEngine().fromGuiDeleteFile( fileName, true );
 		}
 	}
+
+	removeDownload( xferSession, item );
 }
 
 //============================================================================
@@ -624,22 +614,6 @@ void AppletFileShareClientView::slotShredButtonClicked( QListWidgetItem* item )
 bool AppletFileShareClientView::confirmDeleteFile( bool shredFile )
 {
 	return GuiHelpers::confirmDeleteFile( m_MyApp, getContentItemsFrame(), shredFile );
-}
-
-//============================================================================
-void AppletFileShareClientView::promptForDownload( GuiFileXferSession* poInfo )
-{
-	/*
-	m_SelectedFileInfo = poInfo;
-	PopupMenu popupMenu( m_MyApp, this );
-    popupMenu.setTitleBarWidget( this->getTitleBarWidget() );
-    popupMenu.setBottomBarWidget( this->getBottomBarWidget() );
-    popupMenu.setTitle( QObject::tr( "Download A File" ) );
-    popupMenu.addMenuItem( 1, getMyIcons().getIcon(eMyIconFileDownload), QObject::tr( "Download A File" ) );
-    popupMenu.addMenuItem( 2, getMyIcons().getIcon(getMyIcons().getFileIcon(poInfo->getFileType())), poInfo->getFileName() );
-    connect( &popupMenu, SIGNAL(menuItemClicked(int, PopupMenu *, ActivityBase*)), this, SLOT(slotDownloadFileSelected(int, PopupMenu *, ActivityBase*)));
-
-    popupMenu.exec();*/
 }
 
 //============================================================================

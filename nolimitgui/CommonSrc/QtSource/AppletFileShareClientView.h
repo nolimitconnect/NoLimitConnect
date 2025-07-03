@@ -72,7 +72,7 @@ protected:
 
 	void						clearFileList( void );
 	void						moveUpOneFolder( void );
-	void						promptForDownload( GuiFileXferSession* xferSession );
+
 	void						beginDownload( GuiFileXferSession* xferSession, QListWidgetItem* item );
 	void						cancelDownload( GuiFileXferSession* xferSession, QListWidgetItem* item );
 	void						cancelUpload( GuiFileXferSession* xferSession, QListWidgetItem* item );

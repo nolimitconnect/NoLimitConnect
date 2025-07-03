@@ -117,3 +117,11 @@ bool GuiFileXferSession::getAssetInfo( AssetBaseInfo& assetInfo, bool asStream )
 	assetInfo = assetBaseInfo;
 	return assetInfo.isValid();
 }
+
+//============================================================================
+void GuiFileXferSession::resetXferState( void )
+{
+	m_XferState = eXferStateUnknown;
+	m_XferError = eXferErrorNone;
+	m_XferProgress = 0;
+}

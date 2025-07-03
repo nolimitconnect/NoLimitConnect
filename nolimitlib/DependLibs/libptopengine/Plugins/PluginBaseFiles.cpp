@@ -321,6 +321,12 @@ void PluginBaseFiles::onPktFileSendCompleteReply( std::shared_ptr<VxSktBase>& sk
 }
 
 //============================================================================
+void PluginBaseFiles::onPktFileXferCancel( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	m_FileInfoXferMgr.onPktFileXferCancel( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
 void PluginBaseFiles::onPktFindFileReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	m_FileInfoXferMgr.onPktFindFileReq( sktBase, pktHdr, netIdent );

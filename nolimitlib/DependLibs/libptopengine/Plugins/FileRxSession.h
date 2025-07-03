@@ -17,7 +17,7 @@ public:
 	FileRxSession();
 	FileRxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
 	FileRxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID& sendToId );
-	virtual ~FileRxSession();
+	virtual ~FileRxSession() = default;
 
 	void cancelDownload( VxGUID& lclSessionId );
 };

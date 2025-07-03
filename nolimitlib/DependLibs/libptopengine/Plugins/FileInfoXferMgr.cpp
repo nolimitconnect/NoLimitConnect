@@ -191,6 +191,7 @@ void FileInfoXferMgr::fileAboutToBeDeleted( std::string& fileName )
 		FileTxSession* xferSession = ( *iter );
 		if( xferSession->getXferInfo().getLclFileName() == fileName )
 		{
+			sendFileXferCancel( xferSession );
 			xferSession->cancelUpload( xferSession->getXferInfo().getLclSessionId() );
 			delete xferSession;
 			m_TxSessions.erase( iter );
@@ -203,14 +204,15 @@ void FileInfoXferMgr::fileAboutToBeDeleted( std::string& fileName )
 void FileInfoXferMgr::fromGuiCancelDownload( VxGUID& lclSessionId )
 {
 	if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "FileInfoXferMgr::%s", __func__ );
-	std::map<VxGUID, FileRxSession*>::iterator iter;
+
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
-	iter = m_RxSessions.find( lclSessionId );
+	auto iter = m_RxSessions.find( lclSessionId );
 	if( iter != m_RxSessions.end() )
 	{
 		FileRxSession* xferSession = iter->second;
 		if( xferSession->getLclSessionId() == lclSessionId )
 		{
+			sendFileXferCancel( xferSession );
 			xferSession->cancelDownload( lclSessionId );
 			delete xferSession;
 			m_RxSessions.erase( iter );
@@ -223,12 +225,12 @@ void FileInfoXferMgr::fromGuiCancelUpload( VxGUID& lclSessionId )
 {
 	if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "FileInfoXferMgr::%s", __func__ );
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
-	FileTxIter iter;
-	for( iter = m_TxSessions.begin(); iter != m_TxSessions.end(); ++iter )
+	for( auto iter = m_TxSessions.begin(); iter != m_TxSessions.end(); ++iter )
 	{
 		FileTxSession* xferSession = ( *iter );
 		if( xferSession->getLclSessionId() == lclSessionId )
 		{
+			sendFileXferCancel( xferSession );
 			xferSession->cancelUpload( lclSessionId );
 			delete xferSession;
 			m_TxSessions.erase( iter );
@@ -734,6 +736,43 @@ void FileInfoXferMgr::onPktFileSendCompleteReply( std::shared_ptr<VxSktBase>& sk
 {
 	if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "FileInfoXferMgr::%s", __func__ );
     announcePkt( sktBase, pktHdr );
+}
+
+//============================================================================
+void FileInfoXferMgr::onPktFileXferCancel( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	if( LogEnabled( eLogFileXfer ) ) LogModule( eLogFileXfer, LOG_VERBOSE, "FileInfoXferMgr::%s", __func__ );
+	PktFileXferCancel* pktXferCancel = (PktFileXferCancel*)pktHdr;
+	VxGUID lclSessionId = pktXferCancel->getRmtSessionId();
+	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
+
+	for( auto iter = m_RxSessions.begin(); iter != m_RxSessions.end(); ++iter )
+	{
+		FileRxSession* xferSession = ( *iter ).second;
+		if( xferSession->getLclSessionId() == lclSessionId )
+		{
+			sendFileXferCancel( sktBase, xferSession  );
+			xferSession->cancelDownload( lclSessionId );
+			delete xferSession;
+			m_RxSessions.erase( iter );
+			return;
+		}
+	}
+
+	for( auto iter = m_TxSessions.begin(); iter != m_TxSessions.end(); ++iter )
+	{
+		FileTxSession* xferSession = ( *iter );
+		if( xferSession->getLclSessionId() == lclSessionId )
+		{
+			sendFileXferCancel( sktBase, xferSession );
+			xferSession->cancelUpload( lclSessionId );
+			delete xferSession;
+			m_TxSessions.erase( iter );
+			return;
+		}
+	}
+
+	announcePkt( sktBase, pktHdr );
 }
 
 //============================================================================
@@ -1964,8 +2003,7 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID&
 					else
 					{
 						// we have valid file so seek to end so we can resume if partial file exists
-						RCODE rc = 0;
-						if( 0 != (rc = VFileSeek64( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
+                        if( 0 != VFileSeek64( xferInfo.m_hFile, xferInfo.m_u64FileOffs ) )
 						{
 							xferErr = eXferErrorFileOpenAppendError;
 							// seek failed
@@ -2133,4 +2171,36 @@ void FileInfoXferMgr::announcePkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr
     }
 
     unlockClientList();
+}
+
+//============================================================================
+void FileInfoXferMgr::sendFileXferCancel( FileShareXferSession* xferSession )
+{
+	if( xferSession->getSkt().get() && xferSession->getSkt()->isConnected() && xferSession->getSendToId().isVxGUIDValid() )
+	{
+		sendFileXferCancel( xferSession->getSkt(), xferSession );
+	}
+	else
+	{
+		if( LogEnabled( eLogFileXfer ) ) LogModule( eLogFileXfer, LOG_VERBOSE, "FileInfoXferMgr::%s no connection", __func__ );
+	}
+}
+
+//============================================================================
+void FileInfoXferMgr::sendFileXferCancel( std::shared_ptr<VxSktBase>& sktBase, FileShareXferSession* xferSession )
+{
+	if( sktBase.get() && sktBase->isConnected() && xferSession->getSendToId().isVxGUIDValid() )
+	{
+		PktFileXferCancel pktXferCancel;
+		VxFileXferInfo& xferInfo = xferSession->getXferInfo();
+		pktXferCancel.setLclSessionId( xferInfo.getLclSessionId() );
+		pktXferCancel.setRmtSessionId( xferInfo.getRmtSessionId() );
+		pktXferCancel.setAssetId( xferInfo.getAssetId() );
+		pktXferCancel.setIsStream( xferSession->isStream() );
+		m_Plugin.txPacket( xferSession->getSendToId(), sktBase, &pktXferCancel );
+	}
+	else
+	{
+		if( LogEnabled( eLogFileXfer ) ) LogModule( eLogFileXfer, LOG_VERBOSE, "FileInfoXferMgr::%s no connection", __func__ );
+	}
 }

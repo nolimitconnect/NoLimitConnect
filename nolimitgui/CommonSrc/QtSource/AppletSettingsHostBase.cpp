@@ -35,7 +35,7 @@ AppletSettingsHostBase::AppletSettingsHostBase( const char* ObjName, AppCommon& 
     getPluginSettingsWidget()->getPermissionWidget()->getPluginSettingsButton()->setVisible( false );
 
     connect( getPluginSettingsWidget()->getApplyButton(), SIGNAL(clicked()), this, SLOT(slotApplyServiceSettings() ) );
-    connect( ui.m_HostingRequirementsButton, SIGNAL(clicked()), this, SLOT(slotHostRequirementsButtonClicked() ) );
+    connect( ui.m_HostingRequirementsButton, SIGNAL(clicked()), this, SLOT(slotHostRequirementsButtonClicked()) );
 }
 
 //============================================================================

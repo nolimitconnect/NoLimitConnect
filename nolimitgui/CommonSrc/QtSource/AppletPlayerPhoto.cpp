@@ -42,7 +42,7 @@ void AppletPlayerPhoto::initAppletPlayerPhoto( void )
 {
 	setAppletType( eAppletPlayerPhoto );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
-	connect( this, SIGNAL(signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
+	connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT( closeApplet() ) );
 
 	ui.setupUi( getContentItemsFrame() );
 	ui.m_PlayPosSlider->setVisible( false );

@@ -875,7 +875,7 @@ void AppletPopupMenu::onDeleteDbSelected( int menuId )
 	errMsgBox.showCancelButton( true );
     errMsgBox.exec();
 
-	if( !errMsgBox.wasOkButtonClicked() )
+	if( !errMsgBox.wasOkButtonClicked())
 	{
 		return;
 	}

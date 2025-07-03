@@ -17,7 +17,7 @@
 #include "ApplicationComponents.h"
 #include "ApplicationEnums.h"
 #include "ApplicationPlayerCallback.h"
-//#include "ApplicationSettingsHandling.h"
+
 #include "guilib/IMsgTargetCallback.h"
 #include "guilib/IWindowManagerCallback.h"
 #include "messaging/IMessageTarget.h"
@@ -125,9 +125,6 @@ public:
     void                        fromGuiMouseReleaseEvent( EAppModule appModule, int mouseXPos, int mouseYPos, int mouseButton ) override;
     void                        fromGuiMouseMoveEvent( EAppModule appModule, int mouseXPos, int mouseYPos ) override;
 
-    //void                        fromGuiResizeBegin( EAppModule appModule, int winWidth, int winHeight ) override;
-    //void                        fromGuiResizeEvent( EAppModule appModule, int winWidth, int winHeight ) override;
-    //void                        fromGuiResizeEnd( EAppModule appModule, int winWidth, int winHeight ) override;
     void                        fromGuiRenderWindowResize( EAppModule appModule, int winWidth, int winHeight ); // override;
 
     void                        fromGuiCloseEvent( EAppModule appModule ) override;

@@ -31,7 +31,7 @@ AppletInformation::AppletInformation( AppCommon& app, QWidget* parent, EInfoType
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
-    connect( ui.m_ClipboardCopyWidget, SIGNAL( clicked() ), this, SLOT(slotCopyToClipboardButtonClicked() ) );
+    connect( ui.m_ClipboardCopyWidget, SIGNAL( clicked() ), this, SLOT(slotCopyToClipboardButtonClicked()) );
 }
 
 //============================================================================

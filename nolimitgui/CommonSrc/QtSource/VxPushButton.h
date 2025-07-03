@@ -84,6 +84,8 @@ public:
 
 	void						setIcon( EMyIcons myIcon );
 	void						setIconOverrideColor( QColor iconColor );
+    void						clearIconOverrideColor( void );
+
     void						setIconOverrideImage( QImage& iconImage );
     void                        clearIconOverrideImage( void );
     bool                        hasImage( void )                                    { return !m_IconOverrideImage.isNull(); }

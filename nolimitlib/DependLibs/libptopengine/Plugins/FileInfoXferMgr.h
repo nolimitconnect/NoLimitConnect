@@ -24,6 +24,7 @@
 
 class FileInfo;
 class FileRxSession;
+class FileShareXferSession;
 class FileTxSession;
 class FileInfoBaseMgr;
 class FileLibraryMgr;
@@ -109,6 +110,8 @@ public:
 	virtual void				onPktFileGetCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 	virtual void				onPktFileSendCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 	virtual void				onPktFileSendCompleteReply	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+	virtual void				onPktFileXferCancel         ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+
 	virtual void				onPktFindFileReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 	virtual void				onPktFindFileReply			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 	virtual void				onPktFileListReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
@@ -171,6 +174,9 @@ protected:
 
 	void						lockClientList( void )		{ m_FileXferCallbackMutex.lock(); }
 	void						unlockClientList( void )	{ m_FileXferCallbackMutex.unlock(); }
+
+	void						sendFileXferCancel( FileShareXferSession* xferSession );
+	void						sendFileXferCancel( std::shared_ptr<VxSktBase>& sktBase, FileShareXferSession* xferSession );
 
 	//=== vars ====//
 	P2PEngine&					m_Engine;

@@ -10,6 +10,7 @@
 //============================================================================
 
 #include "GuiFileXferSession.h"
+#include "MyIconsDefs.h"
 
 #include <QListWidgetItem>
 
@@ -37,6 +38,7 @@ public:
     GuiFileXferSession*         getFileItemInfo( void );
 
     void						setXferState( EXferState xferState, EXferError xferErr, int param1 );
+	void						resetXferState( void );
 
 	void						setIsSharedFile( bool isShared );
 	bool						getIsShared( void );
@@ -78,6 +80,7 @@ protected:
     virtual void				mousePressEvent( QMouseEvent * event ) override;
     virtual void				resizeEvent( QResizeEvent* resizeEvent ) override;
 	virtual void				updateXferInfo( void );
+	void						setCancelIcon( EMyIcons cancelIcon );
 
 	Ui::FileXferWidgetClass&	ui;
 	AppCommon&					m_MyApp;

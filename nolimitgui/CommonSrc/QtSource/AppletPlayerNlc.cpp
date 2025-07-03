@@ -263,10 +263,6 @@ void AppletPlayerNlc::slotReplayButtonClick( void )
 	{
         playSelectedMedia( movieFile );
 	}
-	//else if( ui.m_FilesComboBox->currentIndex() >= 0 && ui.m_FilesComboBox->currentIndex() < m_RecentFiles.size() )
-	//{
- //       playSelectedMedia( m_RecentFiles.getFileNameAndPathAtIndex( ui.m_FilesComboBox->currentIndex() ) );
-	//}
 }
 
 //============================================================================
@@ -370,15 +366,6 @@ bool AppletPlayerNlc::isMediaPlayerReady( bool notifyIfNotReady )
 //============================================================================
 void AppletPlayerNlc::updateRecentListVisibility( void )
 {
-	//if( m_RecentFiles.size() && m_MediaPlayerReady )
-	//{
-	//	ui.m_FilesComboBox->setVisible( true );
-	//}
-	//else
-	//{
-	//	ui.m_FilesComboBox->setVisible( false );
-	//}
-
 	if( m_MediaPlayerReady )
 	{
 		ui.m_BrowseButton->setVisible( true );

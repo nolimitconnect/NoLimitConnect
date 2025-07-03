@@ -171,7 +171,7 @@ void ActivityBase::connectTitleBarWidget( TitleBarWidget * titleBar, bool remove
 	if( !removeConnections )
 	{
 		connect( titleBar, SIGNAL(signalPowerButtonClicked()), this, SLOT(slotPowerButtonClicked()) );
-		connect( titleBar, SIGNAL(signalCameraSnapshotButtonClicked() ), this, SLOT(slotCameraSnapshotButtonClicked()) );
+		connect( titleBar, SIGNAL(signalCameraSnapshotButtonClicked()), this, SLOT(slotCameraSnapshotButtonClicked()) );
 		connect( titleBar, SIGNAL(signalCamPreviewClicked()), this, SLOT(slotCamPreviewClicked()) );
 		connect( titleBar, SIGNAL(signalMenuTopButtonClicked()), this, SLOT(slotMenuTopButtonClicked()) );
 		connect( titleBar, SIGNAL(signalBackButtonClicked()), this, SLOT(slotBackButtonClicked()) );
@@ -202,31 +202,31 @@ void ActivityBase::connectBottomBarWidget( BottomBarWidget * bottomBar, bool rem
     //=== bottom bar signals ===// 
 	if( !removeConnections )
 	{
-		connect( bottomBar, SIGNAL(signalArrowLeftButtonClicked() ), this, SLOT(slotArrowLeftButtonClicked() ) );
-		connect( bottomBar, SIGNAL(signal30SecBackwardButtonClicked() ), this, SLOT(slot30SecBackwardButtonClicked() ) );
-		connect( bottomBar, SIGNAL(signalMediaPlayButtonClicked() ), this, SLOT(slotMediaPlayButtonClicked() ) );
-		connect( bottomBar, SIGNAL(signalMediaTrashButtonClicked() ), this, SLOT(slotMediaTrashButtonClicked() ) );
+		connect( bottomBar, SIGNAL(signalArrowLeftButtonClicked()), this, SLOT(slotArrowLeftButtonClicked()) );
+		connect( bottomBar, SIGNAL(signal30SecBackwardButtonClicked()), this, SLOT(slot30SecBackwardButtonClicked()) );
+		connect( bottomBar, SIGNAL(signalMediaPlayButtonClicked()), this, SLOT(slotMediaPlayButtonClicked()) );
+		connect( bottomBar, SIGNAL(signalMediaTrashButtonClicked()), this, SLOT(slotMediaTrashButtonClicked()) );
 		connect( bottomBar, SIGNAL(signalMediaFileShareClicked() ), this, SLOT(slotMediaFileShareClicked() ) );
-		connect( bottomBar, SIGNAL(signalMediaLibraryButtonClicked() ), this, SLOT(slotMediaLibraryButtonClicked() ) );
-		connect( bottomBar, SIGNAL(signal30SecForwardButtonClicked() ), this, SLOT(slot30SecForwardButtonClicked() ) );
-		connect( bottomBar, SIGNAL(signalArrowRightButtonClicked() ), this, SLOT(slotArrowRightButtonClicked() ) );
-		connect( bottomBar, SIGNAL(signalMediaRepeatButtonClicked() ), this, SLOT(slotMediaRepeatButtonClicked() ) );
-		connect( bottomBar, SIGNAL(signalMenuBottomButtonClicked() ), this, SLOT(slotMenuBottomButtonClicked() ) );
-		connect( bottomBar, SIGNAL(signalExpandWindowButtonClicked() ), this, SLOT(slotExpandWindowButtonClicked() ) );
+		connect( bottomBar, SIGNAL(signalMediaLibraryButtonClicked()), this, SLOT(slotMediaLibraryButtonClicked()) );
+		connect( bottomBar, SIGNAL(signal30SecForwardButtonClicked()), this, SLOT(slot30SecForwardButtonClicked()) );
+		connect( bottomBar, SIGNAL(signalArrowRightButtonClicked()), this, SLOT(slotArrowRightButtonClicked()) );
+		connect( bottomBar, SIGNAL(signalMediaRepeatButtonClicked()), this, SLOT(slotMediaRepeatButtonClicked()) );
+		connect( bottomBar, SIGNAL(signalMenuBottomButtonClicked()), this, SLOT(slotMenuBottomButtonClicked()) );
+		connect( bottomBar, SIGNAL(signalExpandWindowButtonClicked()), this, SLOT(slotExpandWindowButtonClicked()) );
 	}
 	else
 	{
-		disconnect( bottomBar, SIGNAL(signalArrowLeftButtonClicked() ), this, SLOT(slotArrowLeftButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL(signal30SecBackwardButtonClicked() ), this, SLOT(slot30SecBackwardButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL(signalMediaPlayButtonClicked() ), this, SLOT(slotMediaPlayButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL(signalMediaTrashButtonClicked() ), this, SLOT(slotMediaTrashButtonClicked() ) );
+		disconnect( bottomBar, SIGNAL(signalArrowLeftButtonClicked()), this, SLOT(slotArrowLeftButtonClicked()) );
+		disconnect( bottomBar, SIGNAL(signal30SecBackwardButtonClicked()), this, SLOT(slot30SecBackwardButtonClicked()) );
+		disconnect( bottomBar, SIGNAL(signalMediaPlayButtonClicked()), this, SLOT(slotMediaPlayButtonClicked()) );
+		disconnect( bottomBar, SIGNAL(signalMediaTrashButtonClicked()), this, SLOT(slotMediaTrashButtonClicked()) );
 		disconnect( bottomBar, SIGNAL(signalMediaFileShareClicked() ), this, SLOT(slotMediaFileShareClicked() ) );
-		disconnect( bottomBar, SIGNAL(signalMediaLibraryButtonClicked() ), this, SLOT(slotMediaLibraryButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL(signal30SecForwardButtonClicked() ), this, SLOT(slot30SecForwardButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL(signalArrowRightButtonClicked() ), this, SLOT(slotArrowRightButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL(signalMediaRepeatButtonClicked() ), this, SLOT(slotMediaRepeatButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL(signalMenuBottomButtonClicked() ), this, SLOT(slotMenuBottomButtonClicked() ) );
-		disconnect( bottomBar, SIGNAL(signalExpandWindowButtonClicked() ), this, SLOT(slotExpandWindowButtonClicked() ) );
+		disconnect( bottomBar, SIGNAL(signalMediaLibraryButtonClicked()), this, SLOT(slotMediaLibraryButtonClicked()) );
+		disconnect( bottomBar, SIGNAL(signal30SecForwardButtonClicked()), this, SLOT(slot30SecForwardButtonClicked()) );
+		disconnect( bottomBar, SIGNAL(signalArrowRightButtonClicked()), this, SLOT(slotArrowRightButtonClicked()) );
+		disconnect( bottomBar, SIGNAL(signalMediaRepeatButtonClicked()), this, SLOT(slotMediaRepeatButtonClicked()) );
+		disconnect( bottomBar, SIGNAL(signalMenuBottomButtonClicked()), this, SLOT(slotMenuBottomButtonClicked()) );
+		disconnect( bottomBar, SIGNAL(signalExpandWindowButtonClicked()), this, SLOT(slotExpandWindowButtonClicked()) );
 	}
 }
 

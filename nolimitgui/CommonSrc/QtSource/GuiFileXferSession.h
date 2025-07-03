@@ -85,6 +85,7 @@ public:
 	void						setXferState( EXferState xferState, EXferError xferErr ) { m_XferState = xferState; m_XferError = xferErr; }
 	void						setXferState( EXferState xferState, EXferError xferErr, int xferProgress ) { m_XferState = xferState; m_XferError = xferErr; m_XferProgress = xferProgress; }
 	EXferState					getXferState( void ) const					{ return m_XferState; }
+	void						resetXferState( void );
 
 	void						setXferProgress( int xferProgress )			{ m_XferProgress = xferProgress; }
 	int							getXferProgress( void ) const				{ return m_XferProgress; }

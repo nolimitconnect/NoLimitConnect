@@ -37,24 +37,18 @@ FileRxSession::FileRxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& 
 }
 
 //============================================================================
-FileRxSession::~FileRxSession()
-{
-}
-
-//============================================================================
 void FileRxSession::cancelDownload( VxGUID& lclSessionId )
 {
 	VxFileXferInfo& xferInfo = getXferInfo();
 	if( xferInfo.m_hFile )
 	{
 		VFileClose( xferInfo.m_hFile );
+		xferInfo.m_hFile = nullptr;
 	}
 
 	VxFileUtil::deleteFile( xferInfo.getLclFileNameAndPath().c_str() );
 
-	std::vector<FileToXfer>::iterator iter;
-
-	for( iter = m_FilesToXferList.begin(); iter != m_FilesToXferList.end(); ++iter )
+	for( auto iter = m_FilesToXferList.begin(); iter != m_FilesToXferList.end(); ++iter )
 	{
 		if( (*iter).getLclSessionId() == lclSessionId )
 		{
@@ -63,7 +57,7 @@ void FileRxSession::cancelDownload( VxGUID& lclSessionId )
 		}
 	}
 
-	for( iter = m_FilesXferedList.begin(); iter != m_FilesXferedList.end(); ++iter )
+	for( auto iter = m_FilesXferedList.begin(); iter != m_FilesXferedList.end(); ++iter )
 	{
 		if( (*iter).getLclSessionId() == lclSessionId )
 		{

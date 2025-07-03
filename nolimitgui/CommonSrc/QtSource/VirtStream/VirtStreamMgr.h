@@ -141,6 +141,8 @@ protected:
 
 	virtual void				onPktFileSendCompleteReq	( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
+	virtual void				onPktFileXferCancel			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+
 	virtual void				onPktFileShareErr			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
 	virtual void				onPktStreamCtrlReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );

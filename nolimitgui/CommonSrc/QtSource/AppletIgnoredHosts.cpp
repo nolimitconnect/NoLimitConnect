@@ -37,7 +37,7 @@ AppletIgnoredHosts::AppletIgnoredHosts( AppCommon& app, QWidget* parent )
 	ui.m_GuiHostedListWidget->setIsIgnoredHostsView( true );
 
 	// so is actually destroyed
-	connect( this, SIGNAL(signalBackButtonClicked() ), this, SLOT( closeApplet() ) );
+	connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT( closeApplet() ) );
 
 	connect( ui.m_GuiHostedListWidget, SIGNAL(signalIconButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ),		this, SLOT(slotIconButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ) );
 	connect( ui.m_GuiHostedListWidget, SIGNAL(signalMenuButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ),		this, SLOT(slotMenuButtonClicked(GuiHostedListSession*,GuiHostedListItem*) ) );

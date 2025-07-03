@@ -12,6 +12,9 @@
 
 #include "OfferBase/OfferBaseInfo.h"
 
+#include <NetLib/VxSktBase.h>
+#include <PktLib/PktsFileShare.h>
+
 #include <stdio.h>
 
 //============================================================================

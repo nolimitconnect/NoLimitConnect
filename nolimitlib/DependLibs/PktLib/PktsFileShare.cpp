@@ -225,6 +225,13 @@ PktFileGetCompleteReply::PktFileGetCompleteReply()
 }
 
 //============================================================================
+PktFileXferCancel::PktFileXferCancel()
+{
+	setPktType( PKT_TYPE_FILE_XFER_CANCEL );
+	setPktLength( (uint16_t)sizeof( PktFileXferCancel ) );
+}
+
+//============================================================================
 PktFileShareErr::PktFileShareErr()
 {
 	setPktType( PKT_TYPE_FILE_SHARE_ERR ); 

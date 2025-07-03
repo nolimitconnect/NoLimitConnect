@@ -173,7 +173,12 @@ bool VirtStreamMgr::sendStreamSeek( int64_t newPos )
 
 	pktReq.setStartOffset( newPos );
 	pktReq.setStreamCtrl( eStreamSeek );
-	return m_LiveStream.getConnection()->txPacketWithDestId( &pktReq ) == 0;
+	if( m_LiveStream.getConnection().get() && m_LiveStream.getConnection()->isConnected() )
+	{
+		return m_LiveStream.getConnection()->txPacketWithDestId( &pktReq ) == 0;
+	}
+
+	return false;
 }
 
 //============================================================================
@@ -199,6 +204,10 @@ void VirtStreamMgr::onFileXferPktRxed( std::shared_ptr<VxSktBase>& sktBase, VxPk
 
 	case  PKT_TYPE_FILE_SEND_COMPLETE_REQ:
 		onPktFileSendCompleteReq( sktBase, pktHdr );
+		break;
+
+	case  PKT_TYPE_FILE_XFER_CANCEL:
+		onPktFileXferCancel( sktBase, pktHdr );
 		break;
 
 	case  PKT_TYPE_FILE_SHARE_ERR:
@@ -239,6 +248,12 @@ void VirtStreamMgr::onPktFileGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPk
 //============================================================================
 void VirtStreamMgr::onPktFileChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
+	if( !m_LiveStream.m_StreamSessionId.isVxGUIDValid() )
+	{
+		if( LogEnabled( eLogStreams ) ) LogModule( eLogStreams, LOG_ERROR, "VirtStreamMgr::%s null m_LiveStream.m_StreamSessionId", __func__ );
+		return;
+	}
+
 	PktFileChunkReq* pktReq = (PktFileChunkReq*)pktHdr;
 	VxGUID rmtSessionId = pktReq->getRmtSessionId();
 	if( rmtSessionId != m_LiveStream.m_StreamSessionId )
@@ -271,6 +286,20 @@ void VirtStreamMgr::onPktFileSendCompleteReq( std::shared_ptr<VxSktBase>& sktBas
 {
 	if( LogEnabled( eLogStreams ) ) LogModule( eLogStreams, LOG_VERBOSE, "VirtStreamMgr::%s", __func__ );
     //PktFileSendCompleteReq* pktReply = (PktFileSendCompleteReq*)pktHdr;
+}
+
+//============================================================================
+void VirtStreamMgr::onPktFileXferCancel( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	if( LogEnabled( eLogStreams ) ) LogModule( eLogStreams, LOG_VERBOSE, "VirtStreamMgr::%s", __func__ );
+	PktFileXferCancel* pktReq = (PktFileXferCancel*)pktHdr;
+    VxGUID rmtSessionId = pktReq->getRmtSessionId();
+	if( rmtSessionId != m_LiveStream.m_StreamSessionId )
+	{
+		return;
+	}
+
+	onStreamStop();
 }
 
 //============================================================================

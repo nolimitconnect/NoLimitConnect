@@ -62,6 +62,7 @@ PktPluginHandlerBase::PktPluginHandlerBase()
 	m_aBaseSysPktFuncTable[ PKT_TYPE_FILE_GET_COMPLETE_REPLY ]			= &PktPluginHandlerBase::onPktFileGetCompleteReply;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_FILE_SEND_COMPLETE_REQ ]			= &PktPluginHandlerBase::onPktFileSendCompleteReq;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_FILE_SEND_COMPLETE_REPLY ]			= &PktPluginHandlerBase::onPktFileSendCompleteReply;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_FILE_XFER_CANCEL ]					= &PktPluginHandlerBase::onPktFileXferCancel;
 
 	m_aBaseSysPktFuncTable[ PKT_TYPE_FILE_FIND_REQ ]					= &PktPluginHandlerBase::onPktFindFileReq;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_FILE_FIND_REPLY ]					= &PktPluginHandlerBase::onPktFindFileReply;
@@ -381,6 +382,12 @@ void PktPluginHandlerBase::onPktFileGetCompleteReq( std::shared_ptr<VxSktBase>& 
 
 //============================================================================
 void PktPluginHandlerBase::onPktFileGetCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktFileXferCancel( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	onPktUnhandled( sktBase, pktHdr, netIdent );
 }

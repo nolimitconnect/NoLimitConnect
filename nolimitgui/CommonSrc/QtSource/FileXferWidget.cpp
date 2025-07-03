@@ -75,10 +75,22 @@ void FileXferWidget::mousePressEvent(QMouseEvent * event)
 //============================================================================
 void FileXferWidget::setXferState( EXferState xferState, EXferError xferErr, int param1 )
 {
-	GuiFileXferSession* sessionInfo = getFileItemInfo();
-	if( sessionInfo )
+	GuiFileXferSession* xferSession = getFileItemInfo();
+	if( xferSession )
 	{
-        sessionInfo->setXferState( xferState, xferErr, param1 );
+		xferSession->setXferState( xferState, xferErr, param1 );
+		updateXferInfo();
+	}
+}
+
+//============================================================================
+void FileXferWidget::resetXferState( void )
+{
+	GuiFileXferSession* xferSession = getFileItemInfo();
+	if( xferSession )
+	{
+		xferSession->resetXferState();
+		xferSession->setXferState( eXferStateDownloadNotStarted );
 		updateXferInfo();
 	}
 }
@@ -269,11 +281,11 @@ void FileXferWidget::updateXferInfo( void )
 		ui.m_FileStatus->setText( GuiParams::describeEXferError( xferError ) );
 		if( eXferDirectionRx == xferSession->getXferDirection() )
 		{
-			ui.m_FileCancelButton->setIcons( eMyIconFileDownloadCancel );
+			setCancelIcon( eMyIconFileDownloadCancel );
 		}
 		else
 		{
-			ui.m_FileCancelButton->setIcons( eMyIconSendFileCancel );
+			setCancelIcon( eMyIconSendFileCancel );
 		}
 
 		return;
@@ -297,7 +309,7 @@ void FileXferWidget::updateXferInfo( void )
         ui.m_FileAcceptButton->setVisible( false );
         ui.m_FileCancelButton->setVisible( true );
         ui.m_FileProgressBar->setVisible( false );
-		ui.m_FileCancelButton->setIcons( eMyIconFileDownloadNormal );
+		setCancelIcon( eMyIconFileDownloadNormal );
 
 		// back to default state
 		xferState = eXferStateDownloadNotStarted;
@@ -316,6 +328,8 @@ void FileXferWidget::updateXferInfo( void )
 	case eXferStateInUploadXfer:
 		enableProgress = true;
 		ui.m_FileProgressBar->setValue( xferSession->getXferProgress() );
+		// do not allow streaming while downloading
+		ui.m_StreamButton->setVisible( false );
 		break;
 
 	case eXferStateUploadError:
@@ -357,27 +371,31 @@ void FileXferWidget::updateXferInfo( void )
 
 	if( enableCancel )
 	{
-		ui.m_FileCancelButton->setIcon( eMyIconCancelNormal );
+		setCancelIcon( eMyIconCancelNormal );
 	}
 	else if( !enableCompleted )
 	{
 		if( eXferStateDownloadNotStarted == xferState )
 		{
-			ui.m_FileCancelButton->setIcons( eMyIconFileDownloadNormal );
+			setCancelIcon( eMyIconFileDownloadNormal );
 			if( xferSession->isStremable() )
 			{
 				ui.m_StreamButton->setVisible( true );
 				ui.m_StreamButton->setEnabled( true );
 				ui.m_StreamButton->setNotifyType( eNotifyNone );
 			}
+			else
+			{
+				ui.m_StreamButton->setVisible( false );
+			}
 		}
 		else if( eXferStateUploadNotStarted == xferState )
 		{
-			ui.m_FileCancelButton->setIcons( eMyIconSendFileNormal );
+			setCancelIcon( eMyIconSendFileNormal );
 		}
 		else
 		{
-			ui.m_FileCancelButton->setIcons( eMyIconCancelNormal );
+			setCancelIcon( eMyIconCancelNormal );
 		}
 	}
 
@@ -399,4 +417,19 @@ void FileXferWidget::updateXferInfo( void )
 	{
 		ui.m_FileProgressBar->setVisible( false );
 	}
+}
+
+//============================================================================
+void FileXferWidget::setCancelIcon( EMyIcons cancelIcon )
+{
+	if( cancelIcon == eMyIconCancelNormal )
+	{
+		ui.m_FileCancelButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
+	}
+	else
+	{
+		ui.m_FileCancelButton->clearIconOverrideColor();
+	}
+
+	ui.m_FileCancelButton->setIcon( cancelIcon );
 }

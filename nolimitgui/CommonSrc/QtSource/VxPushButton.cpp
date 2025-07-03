@@ -474,6 +474,13 @@ void VxPushButton::setIconOverrideColor( QColor iconColor )
 }
 
 //============================================================================
+void VxPushButton::clearIconOverrideColor( void )
+{
+    m_IconOverrideColorWasSet = false;
+    update();
+}
+
+//============================================================================
 void VxPushButton::setIconOverrideImage( QImage& iconImage )
 {
     if( !iconImage.isNull() )

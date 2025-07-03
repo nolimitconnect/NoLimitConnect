@@ -261,7 +261,7 @@ bool FileInfoBaseMgr::addFileToDbAndList( FileInfo& fileInfoIn )
 	{
 		// needs file hash then save
 		lockFileList();
-		m_FileInfoNeedHashAndSaveList.push_back( fileInfoIn );
+		m_FileInfoNeedHashAndSaveList.emplace_back( fileInfoIn );
 		unlockFileList();
 		addFileToGenHashQue( fileInfoIn.getAssetId(), fileInfoIn.getFileName(), fileInfoIn.getFileNameAndPath() );
 		result = true;

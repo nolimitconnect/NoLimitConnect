@@ -136,7 +136,7 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr,
     m_PeerMgr.setSktLoopback( m_SktLoopback );
     m_NetStatusAccum.addNetStatusCallback( &m_ConnectionMgr );
     int maxPktType = MAX_PKT_TYPE_CNT;
-    vx_assert( 154 == maxPktType ); // just to make sure our packet types are not mismatched
+    vx_assert( 155 == maxPktType ); // just to make sure our packet types are not mismatched
 
 	// loadAccountSpecificSettings in gui calls this for get getTcpIpPort so need to be created right now 
 	std::string strEngineSettingDbFileName = VxGetAppNoLimitDataDirectory();
@@ -675,4 +675,5 @@ std::string P2PEngine::describeUser( VxGUID& onlineId )
 void P2PEngine::onStreamStop( VxGUID& streamId )
 {
 	getToGui().toGuiFileXferState( ePluginTypeFileShareClient, streamId, eXferDirectionRx, eXferStateStreamStopped, eXferErrorNone, 0 );
+	fromGuiCancelDownload( streamId );
 }

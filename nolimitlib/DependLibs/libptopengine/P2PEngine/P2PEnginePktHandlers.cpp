@@ -478,6 +478,14 @@ void P2PEngine::onPktFileGetCompleteReply( std::shared_ptr<VxSktBase>& sktBase, 
 }
 
 //============================================================================
+void P2PEngine::onPktFileXferCancel( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	if( LogEnabled( eLogPkt ) ) LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileXferCancel" );
+
+	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
+}
+
+//============================================================================
 void P2PEngine::onPktFileShareErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "P2PEngine::onPktFileShareErr" );

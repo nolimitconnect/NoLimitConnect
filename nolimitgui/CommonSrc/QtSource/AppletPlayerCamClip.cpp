@@ -74,7 +74,7 @@ void AppletPlayerCamClip::initAppletCamClipPlayer( void )
 	ui.m_PlayPauseButton->setPressedSound( eSndDefNone );
 	ui.m_PlayPosSlider->setRange( 0, 100000 );
 
-	connect( ui.m_PlayPauseButton, SIGNAL(clicked()), this, SLOT(slotPlayButtonClicked() ) );
+	connect( ui.m_PlayPauseButton, SIGNAL(clicked()), this, SLOT(slotPlayButtonClicked()) );
 	connect( ui.m_LeftAvatarBar, SIGNAL(signalShredAsset() ), this, SLOT(slotShredAsset() ) );
 	connect( ui.m_RightAvatarBar, SIGNAL(signalShredAsset() ), this, SLOT(slotShredAsset() ) );
 	connect( ui.m_PlayPosSlider, SIGNAL( sliderPressed() ), this, SLOT(slotSliderPressed() ) );

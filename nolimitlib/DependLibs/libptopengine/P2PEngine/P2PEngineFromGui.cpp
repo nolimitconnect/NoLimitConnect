@@ -929,16 +929,16 @@ InetAddress P2PEngine::fromGuiGetMyIPv6Address( void )
 void P2PEngine::fromGuiCancelDownload( VxGUID& fileInstance )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiCancelDownload" );
-	m_PluginMgr.getPlugin(ePluginTypePersonFileXfer)->fromGuiCancelDownload( fileInstance );
-	m_PluginMgr.getPlugin(ePluginTypeFileShareServer)->fromGuiCancelDownload( fileInstance );
+	m_PluginMgr.getPlugin( ePluginTypeFileShareClient )->fromGuiCancelDownload( fileInstance );
+	m_PluginMgr.getPlugin( ePluginTypePersonFileXfer )->fromGuiCancelDownload( fileInstance );
 }
 
 //============================================================================
 void P2PEngine::fromGuiCancelUpload( VxGUID& fileInstance )
 {
 	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiCancelUpload" );
-	m_PluginMgr.getPlugin(ePluginTypePersonFileXfer)->fromGuiCancelUpload( fileInstance );
-	m_PluginMgr.getPlugin(ePluginTypeFileShareServer)->fromGuiCancelUpload( fileInstance );
+	m_PluginMgr.getPlugin( ePluginTypeFileShareServer )->fromGuiCancelUpload( fileInstance );
+	m_PluginMgr.getPlugin( ePluginTypePersonFileXfer )->fromGuiCancelUpload( fileInstance );
 }
 
 //============================================================================

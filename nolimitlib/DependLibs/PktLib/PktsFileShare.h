@@ -516,9 +516,46 @@ private:
 };
 
 //============================================================================
+// PktFileXferCancel
+//============================================================================
+class PktFileXferCancel : public VxPktHdr
+{
+public:
+	PktFileXferCancel();
+
+	void						setRmtSessionId( VxGUID& instanceGuid ) { m_RmtSessionId = instanceGuid; }
+	VxGUID&						getRmtSessionId( void ) { return m_RmtSessionId; }
+	void						setLclSessionId( VxGUID& instanceGuid ) { m_LclSessionId = instanceGuid; }
+	VxGUID&						getLclSessionId( void ) { return m_LclSessionId; }
+
+	void						setAssetId( VxGUID& assetId ) { m_AssetId = assetId; }
+	VxGUID&						getAssetId( void ) { return m_AssetId; }
+
+	void						setError( uint16_t error ) { m_u16Err = htons( error ); }
+	uint16_t					getError( void ) { return ntohs( m_u16Err ); }
+
+	void						setIsStream( bool isStream ) { m_IsStream = isStream; }
+	bool						getIsStream( void ) { return m_IsStream; }
+
+private:
+	uint16_t					m_u16Err{ 0xffff };
+	uint8_t						m_IsStream{ 0 };
+	uint8_t						m_u8Res1{ 0 };
+	uint32_t					m_u32ResP1{ 0 };
+	uint32_t					m_u32ResP2{ 0 };
+	uint32_t					m_u32ResP3{ 0 };
+
+	VxGUID						m_RmtSessionId;
+	VxGUID						m_LclSessionId;
+	VxGUID						m_AssetId;
+	uint32_t					m_u32Res1{ 0 };
+	uint32_t					m_u32Res2{ 0 };
+};
+
+
+//============================================================================
 // PktShareErr
 //============================================================================
-
 
 class PktFileShareErr : public VxPktHdr
 {
