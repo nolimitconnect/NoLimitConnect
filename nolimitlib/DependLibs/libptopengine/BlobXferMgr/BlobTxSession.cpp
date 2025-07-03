@@ -66,6 +66,7 @@ void BlobTxSession::cancelUpload( VxGUID& lclSessionId )
 	if( m_FileXferInfo.m_hFile )
 	{
 		VFileClose( m_FileXferInfo.m_hFile );
+		m_FileXferInfo.m_hFile = nullptr;
 	}
 
 	setBlobStateSendFail();

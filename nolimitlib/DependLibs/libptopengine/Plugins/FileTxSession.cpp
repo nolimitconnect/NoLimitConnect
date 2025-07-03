@@ -49,6 +49,7 @@ void FileTxSession::cancelUpload( VxGUID& lclSessionId )
 	if( m_FileXferInfo.m_hFile )
 	{
 		VFileClose( m_FileXferInfo.m_hFile );
+		m_FileXferInfo.m_hFile = nullptr;
 	}
 
 	for( auto iter = m_FilesToXferList.begin(); iter != m_FilesToXferList.end(); ++iter )
