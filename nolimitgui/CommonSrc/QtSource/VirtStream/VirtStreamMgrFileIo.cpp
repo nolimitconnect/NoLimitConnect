@@ -339,8 +339,18 @@ int VirtStreamMgr::fileClose( VFile* fp )
 		return providerFileClose( fp );
 	}
 
-	int result = fclose( fp->m_FILE );
-	fp->m_Error = VxGetLastError();
+	int result{ 0 };
+	if( fp->m_FILE )
+	{
+        result = fclose( fp->m_FILE );
+		fp->m_FILE = nullptr;
+		fp->m_Error = VxGetLastError();
+	}
+	else
+	{
+		LogModule( eLogStreams, LOG_VERBOSE, "VirtStreamMgr::%s fp %p possible attempt to close file twice", __func__, fp );
+	}
+
 	LogModule( eLogStreams, LOG_VERBOSE, "VirtStreamMgr::%s fp %p", __func__, fp );
 	free( fp );
 	return result;
@@ -700,7 +710,7 @@ size_t VirtStreamMgr::virtFileRead( void* buf, size_t size, size_t count, VFile*
 	{
 		LogMsg( LOG_ERROR, "VirtStreamMgr::%s lost connection", __func__ );
 		unlockStreamMgr();
-		return m_LiveStream.getError();
+		return -99;
 	}
 
 	if( m_LiveStream.getError() )

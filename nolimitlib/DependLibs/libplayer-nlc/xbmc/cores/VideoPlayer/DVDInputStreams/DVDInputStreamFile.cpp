@@ -100,8 +100,16 @@ int CDVDInputStreamFile::Read(uint8_t* buf, int buf_size)
 
   ssize_t ret = m_pFile->Read(buf, buf_size);
 
-  if (ret < 0)
+  if( ret < 0 )
+  {
+    if( ret == -99 )
+    {
+        // lost connection.. just say eof so will not attempt any mover
+        m_eof = true;
+    }
+
     return -1; // player will retry read in case of error until playback is stopped
+  }
 
   /* we currently don't support non completing reads */
   if (ret == 0) 
