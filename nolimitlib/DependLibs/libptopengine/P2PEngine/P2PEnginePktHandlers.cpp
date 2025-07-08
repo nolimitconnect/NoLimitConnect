@@ -106,6 +106,13 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 	{
 		isFirstAnnounce = true;
 	}
+
+	if( isFirstAnnounce && pktAnn->getIsPktAnnTempConnection() )
+	{
+		sktBase->setIsTempConnection( true );
+		pktAnn->setIsPktAnnTempConnection( false );
+		if( LogEnabled( eLogConnect ) ) LogModule( eLogConnect, LOG_WARN, "P2PEngine::%s temp connection", __func__ );
+	}
 	
 	if( getConnectIdListMgr().isUserExcluded( contactOnlineId ) )
 	{
@@ -196,7 +203,8 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 				sktBase,
 				false,
 				false,
-				false ) )
+                false,
+                false ) )
 		{
 			LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s from %s at %s send pktAnn reply failed",
 					   sktBase->describeSktType().c_str(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
@@ -735,7 +743,8 @@ void P2PEngine::onPktTcpPunch( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 												poNewSkt,
 												true,
 												false,
-												false );
+                                                false,
+                                                false );
 		}
 	}
 	else

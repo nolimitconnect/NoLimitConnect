@@ -23,6 +23,7 @@
 #define FLAG_PKT_ANN_REQ_REPLY					0x01
 #define FLAG_PKT_ANN_REQ_REV_CONNECT			0x02
 #define FLAG_PKT_ANN_REQ_STUN					0x04
+#define FLAG_PKT_ANN_TEMP_CONNECT				0x08
 
 // +  40 bytes VxPktHdr
 // + 400 bytes VxNetIdent
@@ -53,6 +54,8 @@ public:
     bool						getIsPktAnnRevConnectRequested( void );
     void						setIsPktAnnStunRequested( bool bReqStun );
     bool						getIsPktAnnStunRequested( void );
+    void						setIsPktAnnTempConnection( bool isTemp );
+    bool						getIsPktAnnTempConnection( void );
 
     void						setTTL( uint8_t timeToLive )                { m_TimeToLive = timeToLive; }
     uint8_t						getTTL( void )                              { return m_TimeToLive; }

@@ -136,6 +136,7 @@ void MiniAudioMgr::toGuiWantUserVoiceMicrophone( EAppModule appModule, VxGUID& o
  // update microphone output
 void MiniAudioMgr::enableMicrophone( bool enable )
 {
+    if( LogEnabled( eLogVoice ) ) LogModule( eLogVoice, LOG_DEBUG, "MiniAudioMgr::%s enable mic %d", __func__, enable );
     if( enable )
     {
         resetMicrophoneBuffers();
@@ -185,6 +186,7 @@ void MiniAudioMgr::toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onli
 
     if( ( enableSpeaker != m_WantSpeakerOutput ) && isSpeakerDeviceAvailable() )
     {
+
         m_WantSpeakerOutput = enableSpeaker;
         enableSpeakers( appModule, m_WantSpeakerOutput );
     }

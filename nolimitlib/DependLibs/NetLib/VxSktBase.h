@@ -113,7 +113,9 @@ public:
 	virtual ESktCallbackReason	getCallbackReason( void )						{ return m_eSktCallbackReason; }
 	virtual void				setConnectReason( EConnectReason connectReason );
 	virtual EConnectReason		getConnectReason( void )						{ return m_ConnectReason; }
-	virtual bool				isTempConnection( void );
+
+	virtual void				setIsTempConnection( bool isTemp )				{ m_IsTempConnection = isTemp; }
+	virtual bool				isTempConnection( void )						{ return m_IsTempConnection; }
 
 	virtual void				setRxCallbackUserData( void * pvData )			{ m_pvRxCallbackUserData = pvData; }
 	virtual void *				getRxCallbackUserData( void )					{ return m_pvRxCallbackUserData; }
@@ -390,6 +392,7 @@ protected:
 	int64_t			    		m_RxPktAnnTimeMs{ 0 };
 
 	bool						m_IsInEraseList{ false };
+	bool						m_IsTempConnection{ false };
 
 	std::vector<enum EConnectReason> m_ConnectReasonList;
 };

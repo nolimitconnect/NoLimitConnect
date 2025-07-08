@@ -69,7 +69,8 @@ public:
                                                     std::shared_ptr<VxSktBase>&		sktBase,
                                                     bool				            requestAnnReply,
                                                     bool				            requestReverseConnection,
-                                                    bool				            requestSTUN );
+                                                    bool				            requestSTUN,
+                                                    bool                            isTempConnection );
 
     bool                        connectToContact(   VxConnectInfo&		            connectInfo,
                                                     std::shared_ptr<VxSktBase>&		ppoRetSkt,

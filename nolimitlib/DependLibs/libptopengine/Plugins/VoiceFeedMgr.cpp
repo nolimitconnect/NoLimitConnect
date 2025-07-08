@@ -36,8 +36,6 @@ VoiceFeedMgr::VoiceFeedMgr( P2PEngine& engine, PluginBase& plugin, PluginSession
 , m_SessionMgr( sessionMgr )
 , m_Enabled( false )
 , m_CamServerEnabled( false )
-, m_AudioPktsRequested( false )
-, m_MixerInputRequesed( false )
 {
 }
 
@@ -57,111 +55,25 @@ void VoiceFeedMgr::fromGuiStopPluginSession( bool pluginIsLocked, EAppModule app
 //============================================================================
 void VoiceFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule appModule, bool wantAudioCapture )
 {
+	int prevNeedTxCount = m_Plugin.needVoiceTxCount( m_Plugin.getPluginType() );
 	bool isMyself = onlineId == m_PluginMgr.getEngine().getMyOnlineId(); 
 	if( enable )
 	{
-		if( m_GuidList.addGuidIfDoesntExist( onlineId ) )
+		if( !m_Plugin.addVoicePairTx( m_Plugin.getPluginType(), onlineId ) )
 		{
-			m_Enabled = true;
-
-			if( ePluginTypeCamServer == m_Plugin.getPluginType() )
-			{
-				if( isMyself )
-				{
-					// web cam server.. need audio packets to send out but not mixer input
-					m_CamServerEnabled = true;
-					if( !m_AudioPktsRequested )
-					{
-						m_AudioPktsRequested = true;
-						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, onlineId, true );
-					}
-				}
-				else
-				{
-					if( !m_MixerInputRequesed )
-					{
-						m_MixerInputRequesed = true;
-						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, onlineId, true );
-					}
-				}
-			}
-			else
-			{
-				if( wantAudioCapture && !m_AudioPktsRequested )
-				{
-					//LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture eMediaInputAudioPkts %d\n", enable );
-					m_AudioPktsRequested = true;
-					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, onlineId, true );
-				}
-
-				//LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture eMediaInputMixer %d\n", enable );
-				if( !m_MixerInputRequesed )
-				{
-					m_MixerInputRequesed = true;
-					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, onlineId, true );
-					//LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture done\n" );
-				}
-			}
-		}
-		else
-		{
-            LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture true GUID already in list %s", m_Engine.describeUser( onlineId ).c_str() );
+            LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::enableAudioCapture add GUID already in list %s", m_Engine.describeUser( onlineId ).c_str() );
 		}
 	}
 	else
 	{
-		if( m_GuidList.removeGuid( onlineId ) )
+		if( !m_Plugin.removeVoicePairTx( m_Plugin.getPluginType(), onlineId ) )
 		{
-			if( ePluginTypeCamServer == m_Plugin.getPluginType() )
-			{
-				if( isMyself )
-				{
-					m_CamServerEnabled = false;
-					// web cam server.. need audio packets to send out but not mixer input
-					if( m_AudioPktsRequested && ( 0 == m_GuidList.size() ) )
-					{
-						m_AudioPktsRequested = false;
-						m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, onlineId, false );
-					}
-				}
-				else
-				{
-					if( m_MixerInputRequesed )
-					{
-						if(  ( 0 == m_GuidList.size() ) 
-							|| ( m_CamServerEnabled && ( 1 == m_GuidList.size() ) ) )
-						{
-							m_MixerInputRequesed = false;
-							m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, onlineId, false );
-						}
-					}
-				}
-			}
-			else
-			{
-				if( 0 == m_GuidList.size() ) 
-				{
-					m_Enabled = false;
-
-                    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture false eMediaInputAudioPkts %d", enable );
-					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, onlineId, false );
-					m_AudioPktsRequested = false;
-                    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture false eMediaInputMixer %d", enable );
-					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, appModule, onlineId, false );
-					m_MixerInputRequesed = false;
-                    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture false done" );
-				}
-				else
-				{
-                    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture false GUID list not empty %s", m_Engine.describeUser( onlineId ).c_str() );
-				}
-			}
-		}
-		else
-		{
-            LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::enableCapture false GUID not found %s", m_Engine.describeUser( onlineId ).c_str() );
+			LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::enableAudioCapture remove GUID not found %s", m_Engine.describeUser( onlineId ).c_str() );
 		}
 	}
+
+	int needTxCount = m_Plugin.needVoiceTxCount( m_Plugin.getPluginType() );
+	m_Plugin.updateRequestMicrophone( m_Plugin.getPluginType(), prevNeedTxCount, needTxCount );
 }
 
 //============================================================================
@@ -169,56 +81,66 @@ void VoiceFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr*
 {
 	if( false == m_Enabled )
 	{
+		if( LogEnabled( eLogVoice ) ) LogModule( eLogVoice, LOG_DEBUG, "VoiceFeedMgr::%s  not enabled %s", __func__, m_Plugin.describePlugin() );
 		return;
 	}
 
+	PktVoiceReq* pktReq = (PktVoiceReq*)pktHdr;
+	VxGUID srcOnlineId = pktReq->getSrcOnlineId();
+
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq PluginBase::AutoPluginLock autoLock start" );
+    LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq PluginBase::AutoPluginLock autoLock start" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 	PluginBase::AutoPluginLock autoLock( &m_Plugin );
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams,  LOG_INFO, "VoiceFeedMgr::onPktVoiceReq PluginBase::AutoPluginLock autoLock done" );
+    LogModule( eLogVoice,  LOG_INFO, "VoiceFeedMgr::onPktVoiceReq PluginBase::AutoPluginLock autoLock done" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 
-	PluginSessionMgr::SessionIter iter;
 	std::map<VxGUID, PluginSessionBase*>&	sessionList = m_SessionMgr.getSessions();
-	for( iter = sessionList.begin(); iter != sessionList.end(); ++iter )
+	for( auto iter = sessionList.begin(); iter != sessionList.end(); ++iter )
 	{
 		PluginSessionBase* poSession = iter->second;
-		if( netIdent->getMyOnlineId() == poSession->getSendToId() )
+		if( poSession->isRxSession() && srcOnlineId == poSession->getSendToId() )
 		{
-			AudioJitterBuffer& jitterBuf = poSession->getJitterBuffer();
-			//LogMsg( LOG_INFO, "VoiceFeedMgr::onPktVoiceReq jitterBuf.lockResource\n" );
-			jitterBuf.lockResource();
-
-			char * audioBuf = poSession->getJitterBuffer().getBufToFill();
-			if( audioBuf )
+			if( m_Plugin.isFirstVoicePairRx( m_Plugin.getPluginType(), srcOnlineId ) )
 			{
-				PktVoiceReq* pktReq = (PktVoiceReq * )pktHdr;
-				std::vector<uint16_t> opusEncodedLenList;
-				opusEncodedLenList.push_back( pktReq->getFrame1Len() );
-				opusEncodedLenList.push_back( pktReq->getFrame2Len() );
-				opusEncodedLenList.push_back( pktReq->getFrame3Len() );
-				opusEncodedLenList.push_back( pktReq->getFrame4Len() );
-				bool result = poSession->getAudioDecoder()->decodeToPcmData( pktReq->getCompressedData(), opusEncodedLenList, (int16_t *)audioBuf, (int32_t)MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
-				if( !result )
+				if( LogEnabled( eLogVoice ) ) LogModule( eLogVoice, LOG_DEBUG, "VoiceFeedMgr::%s  %s", __func__, m_Engine.describeUser( srcOnlineId ).c_str() );
+
+				AudioJitterBuffer& jitterBuf = poSession->getJitterBuffer();
+				jitterBuf.lockResource();
+
+				char* audioBuf = poSession->getJitterBuffer().getBufToFill();
+				if( audioBuf )
 				{
-					LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq failed to decode opus" );
+					std::vector<uint16_t> opusEncodedLenList;
+					opusEncodedLenList.emplace_back( pktReq->getFrame1Len() );
+					opusEncodedLenList.emplace_back( pktReq->getFrame2Len() );
+					opusEncodedLenList.emplace_back( pktReq->getFrame3Len() );
+					opusEncodedLenList.emplace_back( pktReq->getFrame4Len() );
+					bool result = poSession->getAudioDecoder()->decodeToPcmData( pktReq->getCompressedData(), opusEncodedLenList, (int16_t*)audioBuf, (int32_t)MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
+					if( !result )
+					{
+						LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq failed to decode opus" );
+					}
 				}
-			}
-			else
-			{
-				LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq failed to get jitter buffer" );
-			}
+				else
+				{
+					LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq failed to get jitter buffer" );
+				}
 
-			//LogMsg( LOG_INFO, "VoiceFeedMgr::onPktVoiceReq jitterBuf.unlockResource\n" );
-			jitterBuf.unlockResource();
-			break;
+				//LogMsg( LOG_INFO, "VoiceFeedMgr::onPktVoiceReq jitterBuf.unlockResource\n" );
+				jitterBuf.unlockResource();
+				break;
+			}
+			else if( LogEnabled( eLogVoice ) )
+			{
+				LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::%s not first rx pair for online id %s", __func__, m_Engine.describeUser( srcOnlineId ).c_str() );
+			}
 		}
 	}
 
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq PluginBase::AutoPluginLock autoLock destroy" );
+    LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::onPktVoiceReq PluginBase::AutoPluginLock autoLock destroy" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 }
 
@@ -226,17 +148,15 @@ void VoiceFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr*
 void VoiceFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
 {
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock start" );
+    LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock start" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 	PluginBase::AutoPluginLock autoLock( &m_Plugin );
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock done" );
+    LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock done" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 
-    //int sessionIdx = 0;
-	PluginSessionMgr::SessionIter iter;
 	std::map<VxGUID, PluginSessionBase*>&	sessionList = m_SessionMgr.getSessions();
-	for( iter = sessionList.begin(); iter != sessionList.end(); ++iter )
+	for( auto iter = sessionList.begin(); iter != sessionList.end(); ++iter )
 	{
 		AudioJitterBuffer& jitterBuf = ((PluginSessionBase*)iter->second)->getJitterBuffer();
 		//LogMsg( LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail jitterBuf.lockResource sessionIdx %d\n", sessionIdx );
@@ -254,7 +174,7 @@ void VoiceFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
 		}
 		else
 		{
-			LogModule( eLogStreams, LOG_VERBOSE, "VoiceFeedMgr::callbackAudioOutSpaceAvail no buffer to read" );
+			LogModule( eLogVoice, LOG_VERBOSE, "VoiceFeedMgr::callbackAudioOutSpaceAvail no buffer to read" );
 		}
 
 		//LogMsg( LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail jitterBuf.unlockResource sessionIdx %d\n", sessionIdx );
@@ -263,42 +183,60 @@ void VoiceFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
 	}
 
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams,  LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock destroy" );
+    LogModule( eLogVoice,  LOG_INFO, "VoiceFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock destroy" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 }
 
 //============================================================================
 void VoiceFeedMgr::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+	if( LogEnabled( eLogVoice ) )
+	{
+		VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
+		LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::%s from %s", __func__, m_Engine.describeUser( srcOnlineId ).c_str() );
+	}
 }
 
 //============================================================================
 void VoiceFeedMgr::callbackOpusPkt( PktVoiceReq* pktOpusAudio )
 {
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock start" );
+    LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock start" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 	PluginBase::AutoPluginLock autoLock( &m_Plugin );
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock done" );
+    LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock done" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 
 	std::map<VxGUID, PluginSessionBase*>&	sessionList = m_SessionMgr.getSessions();
 	for( auto iter = sessionList.begin(); iter != sessionList.end(); ++iter )
 	{
 		PluginSessionBase* poSession = iter->second;
-		if( false == poSession->isRxSession() )
+		if( poSession->isRxSession() )
 		{
-			bool result = m_Plugin.txPacket( poSession->getSendToId(), poSession->getSkt(), pktOpusAudio );
-			if( false == result )
+			if( m_Plugin.isFirstVoicePairTx( m_Plugin.getPluginType(), poSession->getSendToId() ) )
 			{
-				// TODO handle lost connection
+				bool result = m_Plugin.txPacket( poSession->getSendToId(), poSession->getSkt(), pktOpusAudio );
+				if( LogEnabled( eLogVoice ) )
+				{
+					LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::%s result %d to %s", __func__, result, m_Engine.describeUser( poSession->getSendToId() ).c_str() );
+				}
+
+				if( false == result )
+				{
+					// TODO handle lost connection
+				}
+			}
+			else if( LogEnabled( eLogVoice ) )
+			{
+				LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::%s Plugin %s not first tx pair for id %s", __func__, 
+					DescribePluginType( m_Plugin.getPluginType() ), m_Engine.describeUser(poSession->getSendToId()).c_str());
 			}
 		}
 	}
 
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VoiceFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock destroy" );
+    LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock destroy" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 }
 
@@ -307,12 +245,18 @@ void VoiceFeedMgr::stopAllSessions( EAppModule appModule, EPluginType pluginType
 {
 	if( pluginType == m_Plugin.getPluginType() )
 	{
+		std::vector<VxGUID> onlineIdList;
+		m_Plugin.getVoiceTxList( m_Plugin.getPluginType(), onlineIdList );
 		PluginBase::AutoPluginLock autoLock( &m_Plugin );
-		for( auto onlineId : m_GuidList.getGuidList() )
+		for( auto& onlineId : onlineIdList )
 		{
 			fromGuiStopPluginSession( true, appModule, onlineId );
 		}
 
-		m_GuidList.clearList();
+		m_Plugin.getVoiceRxList( m_Plugin.getPluginType(), onlineIdList );
+		for( auto& onlineId : onlineIdList )
+		{
+			fromGuiStopPluginSession( true, appModule, onlineId );
+		}
 	}
 }

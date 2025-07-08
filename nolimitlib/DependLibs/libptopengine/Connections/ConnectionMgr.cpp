@@ -818,7 +818,7 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
 
         LogModule( eLogSktData, LOG_VERBOSE, "ConnectionMgr::%s connect success.. sending announce", __func__ );
 
-        if( false == sendMyPktAnnounce( onlineId, sktBase, true, false, false ) )
+        if( false == sendMyPktAnnounce( onlineId, sktBase, true, false, false, IsConnectReasonTemporary( connectReason ) ) )
         {
             LogModule( eLogConnect, LOG_DEBUG, "ConnectionMgr::%s connect failed sending announce", __func__ );
             unlockConnectionList();
@@ -981,7 +981,8 @@ bool ConnectionMgr::sendMyPktAnnounce(  VxGUID&				destinationId,
                                         std::shared_ptr<VxSktBase>&			sktBase, 
                                         bool				requestAnnReply,
                                         bool				requestReverseConnection,
-                                        bool				requestSTUN )
+                                        bool				requestSTUN,
+                                        bool                isTempConnection )
 {
     PktAnnounce pktAnn;
     m_Engine.copyMyPktAnnounce(pktAnn);
@@ -990,6 +991,7 @@ bool ConnectionMgr::sendMyPktAnnounce(  VxGUID&				destinationId,
     pktAnn.setIsPktAnnReplyRequested( requestAnnReply );
     pktAnn.setIsPktAnnRevConnectRequested( requestReverseConnection );
     pktAnn.setIsPktAnnStunRequested( requestSTUN );
+    pktAnn.setIsPktAnnTempConnection( isTempConnection );
 
     BigListInfo * poInfo = m_Engine.getBigListMgr().findBigListInfo( destinationId, true );	// id of friend to look for
     if( poInfo )

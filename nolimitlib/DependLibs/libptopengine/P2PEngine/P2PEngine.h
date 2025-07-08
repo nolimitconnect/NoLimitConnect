@@ -724,6 +724,10 @@ public:
 
     EFriendRequestState         sendFriendRequest( VxGUID& onlineId );
 
+
+    bool                        isMyAccessAllowedFromHim( VxGUID& onlineId, EPluginType pluginType );
+    bool                        isHisAccessAllowedFromMe( VxGUID& onlineId, EPluginType pluginType );
+
 protected:
     //========================================================================
     //========================================================================

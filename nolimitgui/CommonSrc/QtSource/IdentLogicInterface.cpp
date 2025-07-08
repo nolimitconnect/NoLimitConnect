@@ -584,21 +584,7 @@ void IdentLogicInterface::toggleIdentPushToTalk( void )
 {
 	if( m_GuiUser )
 	{
-        EPushToTalkStatus status = m_MyApp.getPushToTalkMgr().getPushToTalkStatus( m_UserOnlineId );
-        if( status == ePushToTalkStatusTxEnabled || status == ePushToTalkStatusDuplexEnabled )
-		{
-			if( !m_MyApp.getFromGuiInterface().fromGuiPushToTalk( m_UserOnlineId, false ) )
-			{
-				m_MyApp.getSoundMgr().playSnd( eSndDefBusy );
-			}
-		}
-		else
-		{
-			if( !m_MyApp.getFromGuiInterface().fromGuiPushToTalk( m_UserOnlineId, true ) )
-			{
-				m_MyApp.getSoundMgr().playSnd( eSndDefBusy );
-			}
-		}
+		m_MyApp.getPushToTalkMgr().togglePushToTalk( m_GuiUser->getMyOnlineId() );
 	}
 	else
 	{

@@ -15,10 +15,14 @@
 #include "GuiPushToTalkMgr.h"
 
 #include "AppCommon.h"
+#include "GuiUserMgr.h"
+#include "SoundMgr.h"
 
-#include <P2PEngine/P2PEngine.h>
 #include <PushToTalk/PushToTalkMgr.h>
 
+#include <P2PEngine/P2PEngine.h>
+
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
 //============================================================================
@@ -32,6 +36,7 @@ void GuiPushToTalkMgr::onSystemReady( void )
 {
 	connect( this, SIGNAL(signalInternalPushToTalkStatus(VxGUID,EPushToTalkStatus) ), this, SLOT(slotInternalPushToTalkStatus(VxGUID,EPushToTalkStatus)), Qt::QueuedConnection );
 	GetAppInstance().getEngine().getPushToTalkMgr().wantPushToTalkCallbacks(this, true);
+	GetAppInstance().getUserMgr().wantGuiUserUpdateCallbacks( this, true );
 }
 
 //============================================================================
@@ -58,6 +63,26 @@ void GuiPushToTalkMgr::slotInternalPushToTalkStatus( VxGUID onlineId, EPushToTal
 	for( auto& client : m_PushToTalkClients )
 	{
 		client->callbackPushToTalkStatus( onlineId, pushToTalkStatus );
+	}
+}
+
+//========================================================================
+void GuiPushToTalkMgr::callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline )
+{
+	if( !isOnline )
+	{
+		VxGUID onlineId = guiUser->getMyOnlineId();
+		setUserOffline( onlineId );
+	}
+}
+
+//========================================================================
+void GuiPushToTalkMgr::setUserOffline( VxGUID& onlineId )
+{
+	auto iter = m_PushToTalkStatusMap.find( onlineId );
+	if( iter != m_PushToTalkStatusMap.end() )
+	{
+		iter->second = ePushToTalStatusNoConnection;
 	}
 }
 
@@ -110,3 +135,37 @@ EPushToTalkStatus GuiPushToTalkMgr::getPushToTalkStatus( VxGUID& onlineId )
 
 	return pushToTalkStatus;
 };
+
+//============================================================================
+void GuiPushToTalkMgr::togglePushToTalk( VxGUID& onlineId )
+{
+	if( onlineId.isVxGUIDValid() )
+	{
+		if( GetAppInstance().getUserMgr().isUserOnline( onlineId ) )
+		{
+			EPushToTalkStatus status = getPushToTalkStatus( onlineId );
+			if( status == ePushToTalkStatusTxEnabled || status == ePushToTalkStatusDuplexEnabled )
+			{
+				if( !GetAppInstance().getFromGuiInterface().fromGuiPushToTalk( onlineId, false ) )
+				{
+					GetAppInstance().getSoundMgr().playSnd( eSndDefBusy );
+				}
+			}
+			else
+			{
+				if( !GetAppInstance().getFromGuiInterface().fromGuiPushToTalk( onlineId, true ) )
+				{
+					GetAppInstance().getSoundMgr().playSnd( eSndDefBusy );
+				}
+			}
+		}
+		else
+		{
+			setUserOffline( onlineId );
+		}
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "GuiPushToTalkMgr::%s invalid online id", __func__ );
+	}
+}

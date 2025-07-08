@@ -118,7 +118,7 @@ bool PluginPushToTalk::fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk )
 	else
 	{
 
-		sktBase = m_Engine.getConnectIdListMgr().findBestHostOnlineConnection( onlineId );
+        sktBase = m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( onlineId );
 	}
 
 	if( !sktBase || !sktBase->isConnected() )

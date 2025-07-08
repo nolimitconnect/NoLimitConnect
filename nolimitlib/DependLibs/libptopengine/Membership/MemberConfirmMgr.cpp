@@ -51,7 +51,6 @@ void MemberConfirmMgr::onOncePerSecond( void )
 {
     if( m_MemberList.size() )
     {
-       
         lockMemberList();
         std::pair<std::shared_ptr<VxSktBase>, VxGUID> pair = m_MemberList.front();
         m_MemberList.erase( m_MemberList.begin() );
@@ -60,7 +59,7 @@ void MemberConfirmMgr::onOncePerSecond( void )
         if( pair.first && pair.first->isConnected() )
         {
             PktAnnounce pktAnn;
-            GetPtoPEngine().getConnectionMgr().sendMyPktAnnounce( pair.second, pair.first, true, false, false );
+            GetPtoPEngine().getConnectionMgr().sendMyPktAnnounce( pair.second, pair.first, true, false, false, false );
         }
     }
 }

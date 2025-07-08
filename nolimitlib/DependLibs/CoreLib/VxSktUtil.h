@@ -141,9 +141,8 @@ NLC_BEGIN_CDECLARES
 
 RCODE							VxSetSktBlocking( SOCKET sktHandle, bool bBlock );
 
-void							VxFlushThenCloseSkt( SOCKET oSocket );
-void							VxCloseSktNow( SOCKET oSocket );
-void							VxCloseSkt( SOCKET oSocket );
+void							VxCloseSktNow( SOCKET& oSocket );
+void							VxCloseSkt( SOCKET& oSocket );
 
 socklen_t						VxGetSktAddressLength( struct sockaddr_storage * poAddr );
 void							VxSetSktAddressPort( struct sockaddr_storage * poAddr, uint16_t u16Port );

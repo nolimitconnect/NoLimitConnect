@@ -1234,7 +1234,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 
 					if( iDataLen < 0 && VxIsFatalSktError( VxGetLastError() ) )
 					{
-						LogMsg( LOG_ERROR, "%s fatal socket error %d", __func__, VxGetLastError() );
+						LogMsg( LOG_ERROR, "%s fatal socket error %d %s", __func__, VxGetLastError(), VxDescribeSktError( VxGetLastError() ) );
 						sktBase->setLastSktError( VxGetLastError() );
 						sktBase->setCallbackReason( eSktCallbackReasonClosing );
                         goto closed_skt_exit;
@@ -1562,12 +1562,6 @@ const std::string& VxSktBase::describeSktDirection( void )
     case eSktTypeNone: return m_SktDirUnknown;
     default: return m_SktDirUnknown;
     }
-}
-
-//============================================================================
-bool VxSktBase::isTempConnection( void )
-{
-	return IsConnectReasonTemporary( m_ConnectReason ) && m_ConnectReasonList.empty();
 }
 
 //============================================================================

@@ -115,7 +115,7 @@ void P2PEngine::fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fro
         // ANDROID crashes if attempt to close an unowned socket so is excluded
         // instead must restart the android device
         #if !defined( TARGET_OS_ANDROID )
-            int64_t listenSocket = getEngineParams().getLastListenSocket();
+            SOCKET listenSocket = (SOCKET)getEngineParams().getLastListenSocket();
             if( listenSocket > 0 )
             {
                 VxCloseSktNow( listenSocket );

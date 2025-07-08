@@ -44,8 +44,10 @@ public:
     virtual void				callbackOpusPkt( PktVoiceReq* pktOpusAudio );
 	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen );
 
-	virtual bool				addPushToTalkUser( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, bool rxOnly = false );
-	virtual bool				removePushToTalkUser( VxGUID& onlineId, bool txOnly = false, bool rxOnly = false );
+	virtual bool				addPushToTalkUserTx( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase );
+	virtual bool				addPushToTalkUserRx( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase );
+	virtual bool				removePushToTalkUserTx( VxGUID& onlineId );
+	virtual bool				removePushToTalkUserRx( VxGUID& onlineId);
 	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 
 	void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) {};
@@ -57,16 +59,11 @@ public:
 protected:
 	bool						enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule appModule, std::shared_ptr<VxSktBase>& sktBase );
 	void						updatePushToTalkStatus( VxGUID& onlineId );
+	void						startRxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId );
 
     P2PEngine&                  m_Engine;
 	PluginBase&					m_Plugin;
 	PluginMgr&					m_PluginMgr;
 	PluginSessionMgr&			m_SessionMgr;
-
-	VxGUIDList					m_TxOnlineIdList;
-	VxGUIDList					m_RxOnlineIdList;
-
-	bool						m_AudioPktsRequested{ false };
-	bool						m_MixerInputRequesed{ false };
 };
 

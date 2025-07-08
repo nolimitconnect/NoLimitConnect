@@ -9,13 +9,16 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "GuiPushToTalkCallback.h"
-
 #include <QObject>
+
+#include "GuiPushToTalkCallback.h"
+#include "GuiUserUpdateCallback.h"
 
 #include <CoreLib/VxGUID.h>
 
-class GuiPushToTalkMgr : public QObject, public PushToTalkCallback
+class GuiUser;
+
+class GuiPushToTalkMgr : public QObject, public PushToTalkCallback, public GuiUserUpdateCallback
 {
     Q_OBJECT
 public:
@@ -28,6 +31,7 @@ public:
 
     void                        setPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus );
     EPushToTalkStatus           getPushToTalkStatus( VxGUID& onlineId );
+    void                        togglePushToTalk( VxGUID& onlineId );
 
 signals:
     void                        signalInternalPushToTalkStatus( VxGUID onlineId, EPushToTalkStatus pushToTalkStatus );
@@ -36,8 +40,9 @@ protected slots:
     void                        slotInternalPushToTalkStatus( VxGUID onlineId, EPushToTalkStatus pushToTalkStatus );
 
 protected:
-    virtual void				callbackPushToTalkStatus( VxGUID& onlineId, enum EPushToTalkStatus pushToTalkStatus );
-
+    void				        callbackPushToTalkStatus( VxGUID& onlineId, enum EPushToTalkStatus pushToTalkStatus ) override;
+    void				        callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline ) override;
+    void                        setUserOffline( VxGUID& onlineId );
 
     std::vector<GuiPushToTalkCallback*> m_PushToTalkClients;
     std::map<VxGUID, enum EPushToTalkStatus> m_PushToTalkStatusMap;

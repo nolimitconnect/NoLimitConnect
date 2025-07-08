@@ -786,7 +786,7 @@ void HostClientMgr::announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAn
             else
             {
                 // send our pkt ann through host to peer user and request response pkt ann
-                m_Engine.getConnectionMgr().sendMyPktAnnounce( pktAnn->getMyOnlineId(), sktBase, true, false, false );
+                m_Engine.getConnectionMgr().sendMyPktAnnounce( pktAnn->getMyOnlineId(), sktBase, true, false, false, false );
             }
         }
 

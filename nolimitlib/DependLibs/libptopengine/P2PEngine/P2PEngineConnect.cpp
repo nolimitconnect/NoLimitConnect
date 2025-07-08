@@ -42,6 +42,7 @@ bool P2PEngine::connectToContact(	VxConnectInfo&		connectInfo,
 	{
 		if( retIsNewConnection )
 		{
+			ppoRetSkt->setIsTempConnection( IsConnectReasonTemporary( connectReason ) );
 			// handle success connect
 			BigListInfo * bigListInfo = 0;
 			int retryCnt = 0;
@@ -139,9 +140,9 @@ void P2PEngine::broadcastSystemPkt( VxPktHdr* pkt, VxGUIDList& retIdsSentPktTo )
 
 //============================================================================
 bool P2PEngine::txPluginPkt( enum EPluginType			pluginType,
-								VxNetIdentBase *	netIdent, 
-								std::shared_ptr<VxSktBase>&			sktBase, 
-								VxPktHdr*			poPkt  )
+								VxNetIdentBase *		netIdent, 
+								std::shared_ptr<VxSktBase>&	sktBase, 
+								VxPktHdr*				poPkt )
 {
 	bool bSendSuccess = false;
 	if( 0 == (poPkt->getPktLength() & 0xf ) )
@@ -279,7 +280,6 @@ bool P2PEngine::updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigLi
     EFriendState eMyFriendshipToHim = poInfo->getMyFriendshipToHim();
     EFriendState eHisFriendshipToMe = poInfo->getHisFriendshipToMe();
 
-
     if( eMyFriendshipToHim != eFriendStateAnonymous || eHisFriendshipToMe != eFriendStateAnonymous )
     {
         LogModule( eLogConnect, LOG_DEBUG, "P2PEngine::updateOnFirstConnect myFriendship %s hisFriendship %s name %s id %s",
@@ -306,4 +306,48 @@ bool P2PEngine::updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigLi
 	}
 
     return true;
+}
+
+//============================================================================
+bool P2PEngine::isMyAccessAllowedFromHim( VxGUID& onlineId, EPluginType pluginType )
+{
+	bool isAllowed{ false };
+	bool isOnline = getUserOnlineMgr().isUserOnline( onlineId );
+	if( isOnline )
+	{
+		VxNetIdent* netIdent = getBigListMgr().findNetIdent( onlineId );
+		if( netIdent )
+		{
+			isAllowed = netIdent->isMyAccessAllowedFromHim( pluginType );
+		}
+	}
+
+	if( !isAllowed )
+	{
+		LogMsg( LOG_WARN, "P2PEngine::%s not allowed %s by him", __func__, DescribePluginType( pluginType ) );
+	}
+
+	return isAllowed;
+}
+
+//============================================================================
+bool P2PEngine::isHisAccessAllowedFromMe( VxGUID& onlineId, EPluginType pluginType )
+{
+	bool isAllowed{ false };
+	bool isOnline = getUserOnlineMgr().isUserOnline( onlineId );
+	if( isOnline )
+	{
+		VxNetIdent* netIdent = getBigListMgr().findNetIdent( onlineId );
+		if( netIdent )
+		{
+			isAllowed = netIdent->isHisAccessAllowedFromMe( pluginType );
+		}
+	}
+
+	if( !isAllowed )
+	{
+		LogMsg( LOG_WARN, "P2PEngine::%s not allowed %s from me", __func__, DescribePluginType( pluginType ) );
+	}
+
+	return isAllowed;
 }

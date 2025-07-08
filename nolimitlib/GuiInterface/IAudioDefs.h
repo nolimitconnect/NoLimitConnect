@@ -59,16 +59,3 @@ enum EAudioTestState
 
 	eMaxAudioTestState
 };
-
-enum EPushToTalkStatus
-{
-    ePushToTalkStatusInvalid,
-    ePushToTalkStatusNotActive,
-    ePushToTalkStatusTxEnabled,
-    ePushToTalkStatusRxEnabled,
-    ePushToTalkStatusDuplexEnabled,
-
-    ePushToTalStatusNoConnection,
-
-    eMaxStatusPushToTalk
-};

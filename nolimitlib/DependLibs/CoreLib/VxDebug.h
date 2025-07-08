@@ -61,7 +61,7 @@ enum ELogModule
 	eLogPkt				= 0x0400, // 11
 	eLogUserEvent		= 0x0800, // 12 
 
-	eLogNetAccessStatus = 0x1000, // 13
+	eLogVoice			= 0x1000, // 13
 	eLogNetworkState	= 0x2000, // 14
 	eLogNetworkMgr		= 0x4000, // 15
 	eLogNetService		= 0x8000, // 16

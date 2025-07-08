@@ -15,6 +15,7 @@
 #include "RxSession.h"
 #include "TxSession.h"
 
+#include <GuiInterface/IDefs.h>
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxDebug.h>
@@ -26,6 +27,22 @@
 #include <PktLib/PktsPluginOffer.h>
 
 #include <NetLib/VxSktBase.h>
+
+VxMutex	PluginBase::m_VoicePairTxMutex;
+std::vector<std::pair<EPluginType, VxGUID>>	PluginBase::m_VoiceTxList;
+VxMutex	PluginBase::m_VoicePairRxMutex;
+std::vector<std::pair<EPluginType, VxGUID>>	PluginBase::m_VoiceRxList;
+
+//============================================================================
+bool PluginBase::isVoicePlugin( void ) 
+{
+    return m_ePluginType == ePluginTypeCamServer ||
+        m_ePluginType == ePluginTypeCamClient ||
+        m_ePluginType == ePluginTypeTruthOrDare ||
+        m_ePluginType == ePluginTypeVideoPhone ||
+        m_ePluginType == ePluginTypeVoicePhone ||
+        m_ePluginType == ePluginTypePushToTalk;
+}
 
 //============================================================================
 std::string PluginBase::getThumbXferDbName( EPluginType pluginType )
@@ -56,6 +73,7 @@ PluginBase::PluginBase( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myI
 , m_ThumbXferInterface( *this )
 , m_ThumbXferMgr( engine, engine.getThumbMgr(), m_ThumbXferInterface )
 {
+    m_MediaSessionId.initializeWithNewVxGUID();
     m_PluginSetting.setPluginType( pluginType );
 }
 
@@ -79,6 +97,12 @@ void PluginBase::pluginStartup( void )
     {
         m_Engine.getPluginSetting( getPluginType(), m_PluginSetting );
     }
+}
+
+//============================================================================
+const char* PluginBase::describePlugin( void )
+{
+    return DescribePluginType( getPluginType() );
 }
 
 //============================================================================
@@ -791,4 +815,325 @@ bool PluginBase::assureIdentityExist( HostedInfo& hostedInfo )
     }
 
     return hasIdent;
+}
+
+//============================================================================
+bool PluginBase::addVoicePairTx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool found{ false };
+    m_VoicePairTxMutex.lock();
+    for( auto& pair : m_VoiceTxList )
+    {
+        if( pair.first == pluginType && pair.second == onlineId )
+        {
+            found = true;
+            break;
+        }
+    }
+
+    if( !found )
+    {
+        m_VoiceTxList.emplace_back( std::make_pair( pluginType, onlineId ) );
+    }
+
+    m_VoicePairTxMutex.unlock();
+    if( found && LogEnabled( eLogVoice ) )
+    {
+        LogModule( eLogVoice, LOG_ERROR, "PluginBase::%s online id %s already exists", __func__, onlineId.toHexString().c_str() );
+    }
+
+    return !found;
+}
+
+//============================================================================
+bool PluginBase::removeVoicePairTx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool found{ false };
+    m_VoicePairTxMutex.lock();
+    for( auto iter = m_VoiceTxList.begin(); iter != m_VoiceTxList.end(); ++iter )
+    {
+        if( pluginType == iter->first && onlineId == iter->second )
+        {
+            found = true;
+            m_VoiceTxList.erase( iter );
+            break;
+        }
+    }
+
+    m_VoicePairTxMutex.unlock();
+    if( !found && LogEnabled( eLogVoice ) )
+    {
+        LogModule( eLogVoice, LOG_ERROR, "PluginBase::%s online id %s not found %s", __func__, onlineId.toHexString().c_str(), DescribePluginType( pluginType ) );
+    }
+
+    return found;
+}
+
+//============================================================================
+bool PluginBase::userNeedsVoicePairTx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool needsTx{ false };
+    m_VoicePairTxMutex.lock();
+    for( auto& pair : m_VoiceTxList )
+    {
+        if( pair.first == pluginType && pair.second == onlineId )
+        {
+            needsTx = true;
+            break;
+        }
+    }
+
+    m_VoicePairTxMutex.unlock();
+    return needsTx;
+}
+
+//============================================================================
+int PluginBase::needVoiceTxCount( EPluginType pluginType )
+{
+    int needCnt{ 0 };
+    m_VoicePairTxMutex.lock();
+    for( auto& pair : m_VoiceTxList )
+    {
+        if( pair.first == pluginType )
+        {
+            needCnt++;
+        }
+    }
+
+    m_VoicePairTxMutex.unlock();
+    return needCnt;
+}
+
+//============================================================================
+bool PluginBase::getVoiceTxList( EPluginType pluginType, std::vector<VxGUID>& onlineIdList )
+{
+    onlineIdList.clear();
+    m_VoicePairTxMutex.lock();
+    for( auto& pair : m_VoiceTxList )
+    {
+        if( pair.first == pluginType )
+        {
+            onlineIdList.emplace_back( pair.second );
+        }
+    }
+
+    m_VoicePairTxMutex.unlock();
+    return !onlineIdList.empty();
+}
+
+//============================================================================
+bool PluginBase::isFirstVoicePairTx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool isFirst{ false };
+    m_VoicePairTxMutex.lock();
+    for( auto& pair : m_VoiceTxList )
+    {
+        if( pair.second == onlineId )
+        {
+            if( pair.first == pluginType )
+            {
+                isFirst = true;
+            }
+
+            break;
+        }
+    }
+
+    m_VoicePairTxMutex.unlock();
+    return isFirst;
+}
+
+//============================================================================
+bool PluginBase::addVoicePairRx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool found{ false };
+    m_VoicePairRxMutex.lock();
+    for( auto& pair : m_VoiceRxList )
+    {
+        if( pair.first == pluginType && pair.second == onlineId )
+        {
+            found = true;
+            break;
+        }
+    }
+
+    if( !found )
+    {
+        m_VoiceRxList.emplace_back( std::make_pair( pluginType, onlineId ) );
+    }
+
+    m_VoicePairRxMutex.unlock();
+    if( found && LogEnabled( eLogVoice ) )
+    {
+        LogModule( eLogVoice, LOG_ERROR, "PluginBase::%s online id %s already exists", __func__, onlineId.toHexString().c_str() );
+    }
+
+    return !found;
+
+}
+
+//============================================================================
+bool PluginBase::removeVoicePairRx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool found{ false };
+    m_VoicePairRxMutex.lock();
+    for( auto iter = m_VoiceRxList.begin(); iter != m_VoiceRxList.end(); ++iter )
+    {
+        if( pluginType == iter->first && onlineId == iter->second )
+        {
+            found = true;
+            m_VoiceRxList.erase( iter );
+            break;
+        }
+    }
+
+    m_VoicePairRxMutex.unlock();
+    if( !found && LogEnabled( eLogVoice ) )
+    {
+        LogModule( eLogVoice, LOG_ERROR, "PluginBase::%s online id %s not found %s", __func__, onlineId.toHexString().c_str(), DescribePluginType( pluginType ) );
+    }
+
+    return found;
+}
+
+//============================================================================
+bool PluginBase::userNeedsVoicePairRx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool needsRx{ false };
+    m_VoicePairRxMutex.lock();
+    for( auto& pair : m_VoiceRxList )
+    {
+        if( pair.first == pluginType && pair.second == onlineId )
+        {
+            needsRx = true;
+            break;
+        }
+    }
+
+    m_VoicePairRxMutex.unlock();
+    return needsRx;
+}
+
+//============================================================================
+int PluginBase::needVoiceRxCount( EPluginType pluginType )
+{
+    int needCnt{ 0 };
+    m_VoicePairRxMutex.lock();
+    for( auto& pair : m_VoiceRxList )
+    {
+        if( pair.first == pluginType )
+        {
+            needCnt++;
+        }
+    }
+
+    m_VoicePairRxMutex.unlock();
+    return needCnt;
+}
+
+//============================================================================
+bool PluginBase::getVoiceRxList( EPluginType pluginType, std::vector<VxGUID>& onlineIdList )
+{
+    onlineIdList.clear();
+    m_VoicePairRxMutex.lock();
+    for( auto& pair : m_VoiceRxList )
+    {
+        if( pair.first == pluginType )
+        {
+            onlineIdList.emplace_back( pair.second );
+        }
+    }
+
+    m_VoicePairRxMutex.unlock();
+    return !onlineIdList.empty();
+}
+
+//============================================================================
+bool PluginBase::isFirstVoicePairRx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool isFirst{ false };
+    m_VoicePairRxMutex.lock();
+    for( auto& pair : m_VoiceRxList )
+    {
+        if( pair.second == onlineId )
+        {
+            if( pair.first == pluginType )
+            {
+                isFirst = true;
+            }
+
+            break;
+        }
+    }
+
+    m_VoicePairRxMutex.unlock();
+    return isFirst;
+}
+
+//============================================================================
+void PluginBase::updateRequestMicrophone( EPluginType pluginType, int prevNeedCnt, int needCnt )
+{
+    if( prevNeedCnt != needCnt )
+    {
+        if( prevNeedCnt == 0 && needCnt == 1 )
+        {
+            if( !m_AudioPktsRequested )
+            {
+                m_AudioPktsRequested = true;
+                m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputAudioPkts, eAppModuleMicrophone, m_MediaSessionId, true );
+                IAudioRequests::getIAudioRequests().toGuiWantUserVoiceMicrophone( eAppModuleMicrophone, m_MediaSessionId, true );
+                LogModule( eLogVoice, LOG_INFO, "PluginBase::%s requested microphone %s", __func__, DescribePluginType( getPluginType() ) );
+            }
+        }
+        else if( prevNeedCnt == 1 && needCnt == 0 )
+        {
+            if( m_AudioPktsRequested )
+            {
+                m_AudioPktsRequested = false;
+                m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputAudioPkts, eAppModuleMicrophone, m_MediaSessionId, false );
+                IAudioRequests::getIAudioRequests().toGuiWantUserVoiceMicrophone( eAppModuleMicrophone, m_MediaSessionId, false );
+                LogModule( eLogVoice, LOG_INFO, "PluginBase::%s NO longer requesting microphone %s", __func__, DescribePluginType( getPluginType() ) );
+            }
+        }
+    }
+}
+
+//============================================================================
+void PluginBase::updateRequestMixer( EPluginType pluginType, int prevNeedCnt, int needCnt )
+{
+    if( prevNeedCnt != needCnt )
+    {
+        if( prevNeedCnt == 0 && needCnt == 1 )
+        {
+            if( !m_MixerInputRequesed )
+            {
+                m_MixerInputRequesed = true;
+                m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputMixer, eAppModuleVoiceRx, m_MediaSessionId, true );
+                IAudioRequests::getIAudioRequests().toGuiWantUserVoiceSpeaker( eAppModuleVoiceRx, m_MediaSessionId, true );
+                LogModule( eLogVoice, LOG_INFO, "PluginBase::%s requested speaker %s", __func__, DescribePluginType( getPluginType() ) );
+            }
+        }
+        else if( prevNeedCnt == 1 && needCnt == 0 )
+        {
+            if( m_MixerInputRequesed )
+            {
+                m_MixerInputRequesed = false;
+                m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputMixer, eAppModuleVoiceRx, m_MediaSessionId, false );
+                IAudioRequests::getIAudioRequests().toGuiWantUserVoiceSpeaker( eAppModuleVoiceRx, m_MediaSessionId, false );
+                LogModule( eLogVoice, LOG_INFO, "PluginBase::%s NO longer requesting speaker %s", __func__, DescribePluginType( getPluginType() ) );
+            }
+        }
+    }
+}
+
+//============================================================================
+bool PluginBase::isMyAccessAllowedFromHim( VxGUID& onlineId, EPluginType pluginType )
+{
+    return m_Engine.isMyAccessAllowedFromHim( onlineId, pluginType );
+}
+
+//============================================================================
+bool PluginBase::isHisAccessAllowedFromMe( VxGUID& onlineId, EPluginType pluginType )
+{
+    return m_Engine.isHisAccessAllowedFromMe( onlineId, pluginType );
 }

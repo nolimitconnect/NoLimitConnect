@@ -49,11 +49,8 @@ protected:
 	PluginBase&					m_Plugin;
 	PluginMgr&					m_PluginMgr;
 	PluginSessionMgr&			m_SessionMgr;
-	bool						m_Enabled;
-	VxGUIDList					m_GuidList;
-	bool						m_CamServerEnabled;
-	bool						m_AudioPktsRequested;
-	bool						m_MixerInputRequesed;
+	bool						m_Enabled{ false };
+	bool						m_CamServerEnabled{ false };
 
 };
 

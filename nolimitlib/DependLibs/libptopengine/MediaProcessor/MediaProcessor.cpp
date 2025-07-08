@@ -320,7 +320,6 @@ void MediaProcessor::processFriendAudioFeed( VxGUID& onlineId, int16_t * pcmData
 {
 	if( m_AudioPcmList.size() )
 	{
-		std::vector<MediaClient>::iterator iter;
 		if( !dontLock )
 		{
 			#ifdef DEBUG_AUDIO_PROCESSOR_LOCK
@@ -332,9 +331,8 @@ void MediaProcessor::processFriendAudioFeed( VxGUID& onlineId, int16_t * pcmData
 			#endif // DEBUG_AUDIO_PROCESSOR_LOCK
 		}
 
-		for( iter = m_AudioPcmList.begin(); iter != m_AudioPcmList.end(); ++iter )
+		for( auto& client : m_AudioPcmList )
 		{
-			MediaClient& client = (*iter);
 			client.m_Callback->callbackPcm( onlineId, pcmData, pcmDataLen );
 		}
 
@@ -1109,11 +1107,10 @@ void MediaProcessor::fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int s
 		return;
 	}
 
-	//if( samplesHeadTimeMs - m_MicInputLastSampleTime > 200 )
-	//{
-	//	// microphone was paused or changed or something.. throw out previous samples
-	//	m_MicInputSamples.clear();
-	//}
+	if( isMicrophoneMuted() )
+	{
+		memset( pcmData, 0, sampleCnt * AUDIO_BYTES_PER_SAMPLE );
+	}
 
 	if( m_ProcessAudioQue.size() < 5 )
 	{

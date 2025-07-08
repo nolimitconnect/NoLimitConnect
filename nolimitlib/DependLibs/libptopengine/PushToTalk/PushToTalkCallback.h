@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <GuiInterface/IAudioDefs.h>
+#include <GuiInterface/IDefs.h>
 
 class VxGUID;
 

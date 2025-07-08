@@ -42,6 +42,11 @@ bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnno
 
         if( sktBase->setPeerPktAnn( *pktAnn ) )
         {
+            if( pktAnn->getIsPktAnnTempConnection() )
+            {
+                sktBase->setIsTempConnection( true );
+            }
+
             if( !sktBase->isTempConnection() )
             {
 

@@ -54,7 +54,7 @@ public:
 	virtual void				setSessionType( EPluginSessionType sessionType );
 	virtual EPluginSessionType	getSessionType( void );
 	virtual OpusAudioDecoder *	getAudioDecoder( void ); // will create decoder if doesn't already exist
-	virtual AudioJitterBuffer&  getJitterBuffer( void )			{ return m_JitterBuffer; }
+	virtual AudioJitterBuffer&  getJitterBuffer( void )						{ return m_JitterBuffer; }
 
 	virtual bool				isP2PSession( void );
 	virtual bool				isTxSession( void );

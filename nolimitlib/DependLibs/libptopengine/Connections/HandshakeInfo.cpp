@@ -21,8 +21,6 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxTime.h>
 
-#include <algorithm>
-
 //============================================================================
 HandshakeInfo::HandshakeInfo(std::shared_ptr<VxSktBase>&sktBase, VxGUID& sessionId, VxGUID onlineId, IConnectRequestCallback* callback, 
                               EConnectReason connectReason, uint64_t timeStamp, EHostType hostType )

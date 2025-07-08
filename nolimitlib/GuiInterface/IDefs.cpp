@@ -948,44 +948,63 @@ const char* DescribeAppModule( enum EAppModule eAppModule )
         return "eAppModuleInvalid";
     case eAppModuleAll:
         return "eAppModuleAll";
-    case eAppModulePlayerNlc:
-        return "eAppModulePlayerNlc";
-    case eAppModulePtoP:
-        return "eAppModulePtoP";
-    case eAppModulePushToTalk:
-        return "eAppModulePushToTalk";
-    case eAppModuleMediaReader:
-        return "eAppModuleMediaReader";
-    case eAppModuleMediaWriter:
-        return "eAppModuleMediaWriter";
     case eAppModuleCamServer:
         return "eAppModuleCamServer";
     case eAppModuleCamClient:
         return "eAppModuleCamClient";
-    case eAppModuleVideoChat:
-        return "eAppModuleVideoChat";
-    case eAppModulePersonalNotes:
-        return "eAppModulePersonalNotes";
     case eAppModuleChatRoomClient:
         return "eAppModuleChatRoomClient";
+    case eAppModuleChatRoomHost:
+        return "eAppModuleChatRoomHost";
+    case eAppModuleGroupClient:
+        return "eAppModuleGroupClient";
+    case eAppModuleGroupHost:
+        return "eAppModuleGroupHost";
+
+    case eAppModuleMediaPlayer:
+        return "eAppModuleMediaPlayer";
+    case eAppModuleMediaReader:
+        return "eAppModuleMediaReader";
+    case eAppModuleMediaWriter:
+        return "eAppModuleMediaReader";
     case eAppModuleMessenger:
         return "eAppModuleMessenger";
+    case eAppModuleMicrophone:
+        return "eAppModuleMicrophone";
+
+    case eAppModulePtoP:
+        return "eAppModulePtoP";
+    case eAppModulePeerUserClient:
+        return "eAppModulePeerUserClient";
+    case eAppModulePeerUsertHost:
+        return "eAppModulePeerUsertHost";
+    case eAppModulePersonalNotes:
+        return "eAppModulePersonalNotes";
+    case eAppModulePlayerNlc:
+        return "eAppModulePlayerNlc";
+    case eAppModulePushToTalk:
+        return "eAppModulePushToTalk";
+
+    case eAppModuleRandomConnectClient:
+        return "eAppModuleRandomConnectClient";
+    case eAppModuleRandomConnectHost:
+        return "eAppModulePeerUsertHost";
+    case eAppModuleSoundEffects:
+        return "eAppModuleSoundEffects";
+    case eAppModuleSnapshot:
+        return "eAppModuleSnapshot";
+
+    case eAppModuleTest:
+        return "eAppModuleTest";
+    case eAppModuleTruthOrDare:
+        return "eAppModuleTruthOrDare";
     case eAppModuleVideoPhone:
         return "eAppModuleVideoPhone";
     case eAppModuleVoicePhone:
         return "eAppModuleVoicePhone";
-    case eAppModuleTruthOrDare:
-        return "eAppModuleTruthOrDare";
-    case eAppModuleSnapshot:
-        return "eAppModuleSnapshot";
-    case eAppModuleMediaPlayer:
-        return "eAppModuleMediaPlayer";
-    case eAppModuleTest:
-        return "eAppModuleTest";
-    case eAppModuleMicrophone:
-        return "eAppModuleMicrophone";
-    case eAppModuleSoundEffects:
-        return "eAppModuleSoundEffects";
+    case eAppModuleVoiceRx:
+        return "eAppModuleVoiceRx";
+
     default:
         return "UNKNOWN EAppModule";
     }
@@ -1427,6 +1446,33 @@ const char* DescribePortOpenStatus( enum EIsPortOpenStatus ePortOpenStatus )
     }
 
     return PortOpenStatusEnumStrings[ ePortOpenStatus ];
+}
+
+//============================================================================
+const char* DescribePushToTalkStatus( enum EPushToTalkStatus pushToTalkStatus )
+{
+    if( pushToTalkStatus < 0 || eMaxStatusPushToTalk <= pushToTalkStatus )
+    {
+        return ENUM_BAD_PARM;
+    }
+
+    switch( pushToTalkStatus )
+    {
+    case ePushToTalkStatusInvalid:
+        return "Push To Talk Invalid ";
+    case ePushToTalkStatusNotActive:
+        return "Push To Talk Not Active ";
+    case ePushToTalkStatusTxEnabled:
+        return "Push To Talk Tx ";
+    case ePushToTalkStatusRxEnabled:
+        return "Push To Talk Rx ";
+    case ePushToTalkStatusDuplexEnabled:
+        return "Push To Talk Duplex ";
+    case ePushToTalStatusNoConnection:
+        return "Push To Talk No Connection ";
+    default:
+        return "Push To Talk status Unknown ";
+    }
 }
 
 //============================================================================

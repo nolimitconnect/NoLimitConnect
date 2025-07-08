@@ -2033,86 +2033,7 @@ RCODE VxSetSktBlocking( SOCKET sktHandle, bool bBlock )
 }
 
 //============================================================================
-void VxFlushThenCloseSkt( SOCKET oSocket )
-{
-	// flush then close leaves socket in WAIT_CLOSE state.. always close now
-	VxCloseSktNow( oSocket );
-	return;
-	
-	if( INVALID_SOCKET != oSocket )
-	{
-		#ifdef TARGET_OS_WINDOWS
-			// set linger time to give socket time to send
-			linger oLinger;
-			oLinger.l_linger = 20; // how long to linger
-			oLinger.l_onoff = 1;
-			setsockopt(	oSocket,                 
-				(int) IPPROTO_TCP,   //level             
-				(int) SO_LINGER,              
-				(const char*)&oLinger,  
-				(int)sizeof( linger ) );
-			// windows crap is broken .. this is the workaround
-			// from http://msdn.microsoft.com/en-us/library/ms738547(VS.85).aspx
-
-			//Anyone who wants to do a graceful shutdown (with IOCP in my case) should
-			//look at bug 4468997 on the Sun Developers Network.
-			//Windows closesocket() is completely broken and actually doesn't work properly.
-			//The SO_LINGER and SO_DONTLINGER options also do not work.
-			//See:
-			//http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4468997
-			//What DOES work is it do a
-			//DisconnectEx(sock, NULL, 0, 0);
-			//closesocket(sock)
-			//and this is the only way to get a proper shutdown without clipping trailing
-			//bytes from the stream you have just written.
-		/*
-			LPFN_DISCONNECTEX pdisc = NULL; 
-			DWORD dwBytesReturned; 
-			GUID guidDisconnectEx = WSAID_DISCONNECTEX; 
-			WSAIoctl( oSocket, 
-				SIO_GET_EXTENSION_FUNCTION_POINTER, 
-				&guidDisconnectEx, 
-				sizeof(GUID), 
-				&pdisc, 
-				sizeof(pdisc), 
-				&dwBytesReturned, 
-				NULL, 
-				NULL); 
-
-			if( pdisc )
-			{
-				//pdisc(oSocket, NULL, TF_REUSE_SOCKET, NULL); 
-				pdisc(oSocket, NULL, TF_WRITE_BEHIND, NULL);		
-			}
-			*/
-			shutdown (oSocket, SD_SEND );
-		#else
-			//LogMsg( LOG_INFO, "VxSktBase::closeSkt: Skt %d setting linger", m_SktNumber );
-			// set linger time to give socket time to send
-			linger oLinger;
-			oLinger.l_linger = 1;
-			oLinger.l_onoff = 1;
-			setsockopt(	oSocket,                 
-				(int) IPPROTO_TCP,   //level             
-				(int) SO_LINGER,              
-				(const char*)&oLinger,  
-				(int)sizeof( linger ) );
-			//The shutdown command has three options: 0 = done receiving, 1 = done sending, 2 = both
-			//LogMsg( LOG_INFO, "VxSktBase::closeSkt: Skt %d done setting linger", m_SktNumber );
-			shutdown(oSocket,0);
-			//LogMsg( LOG_INFO, "VxSktBase::closeSkt: Skt %d shutdown complete", m_SktNumber );
-		#endif
-		if( g_SktStatCallback )
-		{
-			g_SktStatCallback->sktClosed( oSocket );
-		}
-
-		oSocket = INVALID_SOCKET;
-	}
-}
-
-//============================================================================
-void VxCloseSktNow( SOCKET oSocket )
+void VxCloseSktNow( SOCKET& oSocket )
 {
 	if( INVALID_SOCKET != oSocket )
 	{
@@ -2148,7 +2069,7 @@ void VxCloseSktNow( SOCKET oSocket )
 }
 
 //============================================================================
-void VxCloseSkt( SOCKET oSocket )
+void VxCloseSkt( SOCKET& oSocket )
 {
 	if( INVALID_SOCKET != oSocket )
 	{

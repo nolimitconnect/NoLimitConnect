@@ -159,6 +159,17 @@ bool		PktAnnBase::getIsPktAnnRevConnectRequested( void )			    { return (m_u8Req
 void		PktAnnBase::setIsPktAnnStunRequested( bool bReqStun )			{ if( bReqStun )(m_u8RequestFlags |= FLAG_PKT_ANN_REQ_STUN); else m_u8RequestFlags &= (~FLAG_PKT_ANN_REQ_STUN); }
 bool		PktAnnBase::getIsPktAnnStunRequested( void )					{ return (m_u8RequestFlags & FLAG_PKT_ANN_REQ_STUN)?true:false; }
 
+void		PktAnnBase::setIsPktAnnTempConnection( bool isTemp )
+{
+    if( isTemp )
+        ( m_u8RequestFlags |= FLAG_PKT_ANN_TEMP_CONNECT );
+    else m_u8RequestFlags &= ( ~FLAG_PKT_ANN_TEMP_CONNECT );
+}
+bool		PktAnnBase::getIsPktAnnTempConnection( void )
+{
+    return ( m_u8RequestFlags & FLAG_PKT_ANN_TEMP_CONNECT ) ? true : false;
+}
+
 //============================================================================
 PktAnnBase::PktAnnBase( const PktAnnBase& rhs )
     : VxPktHdr( rhs )

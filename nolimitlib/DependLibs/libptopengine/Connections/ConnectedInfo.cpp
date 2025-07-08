@@ -80,7 +80,7 @@ std::shared_ptr<VxSktBase> ConnectedInfo::getSktBase( void )
 //============================================================================
 void ConnectedInfo::addConnectReason( HandshakeInfo& shakeInfo )
 {
-    m_CallbackList.push_back( shakeInfo );
+    m_CallbackList.emplace_back( shakeInfo );
 }
 
 //============================================================================
@@ -99,7 +99,7 @@ bool ConnectedInfo::removeConnectReason( VxGUID& sessionId, IConnectRequestCallb
         if( iter->getSessionId() == sessionId && iter->getCallback() == callback && iter->getConnectReason() == connectReason )
         {
             iter->onContactSessionDone();
-            completedList.push_back( *iter );
+            completedList.emplace_back( *iter );
             iter = m_CallbackList.erase(iter);
             break;
         }

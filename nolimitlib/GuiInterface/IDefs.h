@@ -50,9 +50,9 @@ enum EAppModule
     eAppModuleSoundEffects,
     eAppModuleTest,
     eAppModuleTruthOrDare,
-    eAppModuleVideoChat,
     eAppModuleVideoPhone,
     eAppModuleVoicePhone,
+    eAppModuleVoiceRx,
 
     eMaxAppModule // must be last
 };
@@ -1047,6 +1047,19 @@ enum EPluginType
     eMaxPluginType	
 };
 
+enum EPushToTalkStatus
+{
+    ePushToTalkStatusInvalid,
+    ePushToTalkStatusNotActive,
+    ePushToTalkStatusTxEnabled,
+    ePushToTalkStatusRxEnabled,
+    ePushToTalkStatusDuplexEnabled,
+
+    ePushToTalStatusNoConnection,
+
+    eMaxStatusPushToTalk
+};
+
 enum ERelayErr
 {
     eRelayErrNone = 0,
@@ -1431,6 +1444,8 @@ const char* DescribePluginAccess( enum EPluginAccess pluginAccess );
 const char* DescribePluginType( enum EPluginType pluginType );
 //! Describe Direct Connect test state as text
 const char* DescribePortOpenStatus( enum EIsPortOpenStatus ePortOpenStatus );
+//! Describe walkie talkie push to talk status as text
+const char* DescribePushToTalkStatus( enum EPushToTalkStatus pushToTalkStatus );
 //! Describe connect by shaking phone ( or press simulate phone shake ) status as text
 const char* DescribeRandomConnectStatus( enum ERandomConnectStatus ePortOpenStatus );
 //! Describe relay error as text

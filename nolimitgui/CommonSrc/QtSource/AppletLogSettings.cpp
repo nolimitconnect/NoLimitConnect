@@ -35,7 +35,7 @@ static QString describeLogModule( ELogModule logModule )
     case eLogRelay : return QObject::tr( "Log Relay" );
 
     case eLogSkt: return QObject::tr( "Log Skt" );
-    case eLogNetAccessStatus: return QObject::tr( "Log Net Access Status" );
+    case eLogVoice: return QObject::tr( "Log Voice (VOIP)" );
     case eLogNetworkState: return QObject::tr( "Log Network State" );
     case eLogNetworkMgr: return QObject::tr( "Log Network Mgr" );
 

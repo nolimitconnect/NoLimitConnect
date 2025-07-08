@@ -10,6 +10,8 @@
 
 #include "PushToTalkMgr.h"
 
+#include <P2PEngine/P2PEngine.h>
+
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
@@ -54,10 +56,19 @@ void PushToTalkMgr::pushToTalkStatusChange( VxGUID& onlineId, enum EPushToTalkSt
         return;
     }
 
+    if( !onlineId.isVxGUIDValid() )
+    {
+        LogMsg( LOG_ERROR, "PushToTalkMgr::%s invalid online id", __func__ );
+        vx_assert( false );
+        return;
+    }
+
     EPushToTalkStatus beforeStatus = getPushToTalkStatus( onlineId );
 
     if( beforeStatus != pushToTalkStatus )
     {
+        if( LogEnabled( eLogVoice ) ) LogModule( eLogVoice, LOG_DEBUG, "PushToTalkMgr::%s from %s to %s", __func__,
+                      DescribePushToTalkStatus( beforeStatus ), DescribePushToTalkStatus( pushToTalkStatus ), GetPtoPEngine().describeUser( onlineId ).c_str() );
         setPushToTalkStatus( onlineId, pushToTalkStatus );
         lockClientList();
         for( auto& client : m_PushToTalkClients )

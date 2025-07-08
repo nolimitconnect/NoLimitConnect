@@ -292,7 +292,7 @@ void GroupieListMgr::updateAndRequestInfoIfNeeded( VxGUID& groupieOnlineId, VxGU
         requiresSendGroupieInfoRequest = true;
         GroupieInfo groupieInfo( groupieOnlineId, hostOnlineId, hostType, nodeUrl );
         groupieInfo.setConnectedTimestamp( sktBase->getLastActiveTimeMs() );
-        m_GroupieInfoList.push_back( groupieInfo );
+        m_GroupieInfoList.emplace_back( groupieInfo );
     }
 
     unlockList();

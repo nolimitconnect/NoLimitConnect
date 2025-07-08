@@ -90,6 +90,26 @@ public:
 	virtual void				setIsServerInSession( bool inSession )					{ m_ServerIsInSession = inSession; }
 	virtual bool				getIsServerInSession( void )							{ return m_ServerIsInSession; }
 
+	const char*					describePlugin( void );
+
+	bool						isVoicePlugin( void );
+
+	virtual bool				addVoicePairTx( EPluginType pluginType, VxGUID & onlineId );
+	virtual bool				removeVoicePairTx( EPluginType pluginType, VxGUID & onlineId );
+	virtual bool				userNeedsVoicePairTx( EPluginType pluginType, VxGUID& onlineId );
+	virtual int					needVoiceTxCount( EPluginType pluginType ); 
+	virtual bool				getVoiceTxList( EPluginType pluginType, std::vector<VxGUID>& onlineIdList );
+	virtual bool				isFirstVoicePairTx( EPluginType pluginType, VxGUID & onlineId );
+	virtual void				updateRequestMicrophone( EPluginType pluginType, int prevNeedCnt, int needCnt );
+
+	virtual bool				addVoicePairRx( EPluginType pluginType, VxGUID & onlineId );
+	virtual bool				removeVoicePairRx( EPluginType pluginType, VxGUID & onlineId );
+	virtual bool				userNeedsVoicePairRx( EPluginType pluginType, VxGUID& onlineId );
+	virtual int					needVoiceRxCount( EPluginType pluginType );
+	virtual bool				getVoiceRxList( EPluginType pluginType, std::vector<VxGUID>& onlineIdList );
+	virtual bool				isFirstVoicePairRx( EPluginType pluginType, VxGUID & onlineId );
+	virtual void				updateRequestMixer( EPluginType pluginType, int prevNeedCnt, int needCnt );
+
 	//=== getter/setters ===//
 	virtual P2PEngine&			getEngine( void )										{ return m_Engine; }
     virtual IToGui&			    getToGui( void );
@@ -287,6 +307,9 @@ public:
 	virtual	void				broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterOnlineId, std::shared_ptr<VxSktBase>& sktBaseRequester, bool includeRequester = true ) {};
 	virtual	void				broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOnlineId ) {};
 
+	virtual	bool				isMyAccessAllowedFromHim( VxGUID& onlineId, EPluginType pluginType );
+	virtual	bool				isHisAccessAllowedFromMe( VxGUID& onlineId, EPluginType pluginType );
+
 protected:
 	virtual void				makeShortFileName( const char* pFullFileName, std::string& strShortFileName );
 
@@ -321,4 +344,12 @@ protected:
 
 	bool						m_bPluginIsInSession = false;
 	bool						m_ServerIsInSession = false;
+
+	static VxMutex				m_VoicePairTxMutex;
+	static std::vector<std::pair<EPluginType, VxGUID>>	m_VoiceTxList;
+	static VxMutex				m_VoicePairRxMutex;
+	static std::vector<std::pair<EPluginType, VxGUID>>	m_VoiceRxList;
+	bool						m_AudioPktsRequested{ false };
+	bool						m_MixerInputRequesed{ false };
+	VxGUID						m_MediaSessionId;
 };

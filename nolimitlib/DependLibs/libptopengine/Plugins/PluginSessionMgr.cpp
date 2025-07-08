@@ -1184,6 +1184,11 @@ void PluginSessionMgr::removeTxSessionByOnlineId( VxGUID& onlineId, bool pluginI
 		if( session->isTxSession()
 			&& ( session->getSendToId() == onlineId ) )
 		{
+			if( m_Plugin.isVoicePlugin() )
+			{
+
+			}
+
 			LogMsg( LOG_VERBOSE, "PluginSessionMgr::removeTxSessionByOnlineId %s session id %s connect info %s", 
 					m_Engine.describeUser( session->getSendToId() ).c_str(), session->getLclSessionId().toHexString().c_str(), session->getSkt()->describeSktType().c_str() );
 			delete session;

@@ -93,10 +93,9 @@ RcConnectInfo * P2PConnectList::addConnection( const VxGUID& oOnlineId, RcConnec
 		m_ConnectList.insert(std::make_pair(oOnlineId, poInfoIn));
 		poInfo = poInfoIn;
 	}
-	else
+	else 
 	{
 		// already exists
-
 
 		poInfo->m_BigListInfo = poInfoIn->m_BigListInfo;
 		if( poInfo->m_SktBase->isConnected() )
@@ -246,7 +245,11 @@ void P2PConnectList::removeSocket( std::shared_ptr<VxSktBase>& sktBase, bool isL
 		RcConnectInfo* connectInfo = iter->second;
 		if( connectInfo->m_SktBase == sktBase )
 		{
-			m_Engine.onContactDisconnected( connectInfo, true );
+			if( !sktBase->isTempConnection() )
+			{
+				m_Engine.onContactDisconnected( connectInfo, true );
+			}
+
 			iter = m_ConnectList.erase( iter );
 			delete connectInfo;
 		}

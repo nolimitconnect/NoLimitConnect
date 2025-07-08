@@ -177,7 +177,7 @@ void NetStatusAccum::onNetStatusChange( void )
 
         m_AccumCallbackMutex.unlock();
 
-        LogModule( eLogNetAccessStatus, LOG_VERBOSE, "Internet Status %s", DescribeInternetStatus( internetStatus ) );
+        LogModule( eLogNetworkState, LOG_VERBOSE, "Internet Status %s", DescribeInternetStatus( internetStatus ) );
     }
 
     if( !( eFirewallTestAssumeNoFirewall == m_FirewallTestType ) )
@@ -245,7 +245,7 @@ void NetStatusAccum::onNetStatusChange( void )
             m_Engine.getMyPktAnnounce().setRequiresRelay( false );
         }
 
-        LogModule( eLogNetAccessStatus, LOG_VERBOSE, "Net Avail Status %s", DescribeNetAvailStatus( netAvailStatus ) );
+        LogModule( eLogNetworkState, LOG_VERBOSE, "Net Avail Status %s", DescribeNetAvailStatus( netAvailStatus ) );
         m_Engine.getToGui().toGuiNetAvailableStatus( netAvailStatus );
     }   
 }
@@ -302,7 +302,7 @@ void NetStatusAccum::setInternetAvail( bool avail )
     if( avail != m_InternetAvail )
     {
         m_InternetAvail = avail;
-        LogModule( eLogNetAccessStatus, LOG_VERBOSE, "Internet available %d", avail );
+        LogModule( eLogNetworkState, LOG_VERBOSE, "Internet available %d", avail );
 
         onNetStatusChange();
     }
@@ -314,7 +314,7 @@ void NetStatusAccum::setNetHostAvail( bool avail )
     if( avail != m_NetworkHostAvail )
     {
         m_NetworkHostAvail = avail;
-        LogModule( eLogNetAccessStatus, LOG_VERBOSE, "Network Host available %d", avail );
+        LogModule( eLogNetworkState, LOG_VERBOSE, "Network Host available %d", avail );
         onNetStatusChange();
     }
 }
@@ -325,7 +325,7 @@ void NetStatusAccum::setConnectionTestAvail( bool avail )
     if( avail != m_ConnectionTestAvail )
     {
         m_ConnectionTestAvail = avail;
-        LogModule( eLogNetAccessStatus, LOG_VERBOSE, "Connection Test available %d", avail );
+        LogModule( eLogNetworkState, LOG_VERBOSE, "Connection Test available %d", avail );
         onNetStatusChange();
     }
 }
@@ -388,7 +388,7 @@ void NetStatusAccum::setConnectToRelay( bool connectedToRelay )
     if( connectedToRelay != m_ConnectedToRelay )
     {
         m_ConnectedToRelay = connectedToRelay;
-        LogModule( eLogNetAccessStatus, LOG_VERBOSE, "Connected to relay %d", connectedToRelay );
+        LogModule( eLogNetworkState, LOG_VERBOSE, "Connected to relay %d", connectedToRelay );
         onNetStatusChange();
     }
 }

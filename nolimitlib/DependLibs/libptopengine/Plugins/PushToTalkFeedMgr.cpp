@@ -47,61 +47,58 @@ bool PushToTalkFeedMgr::fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk, st
 //============================================================================
 bool PushToTalkFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule appModule, std::shared_ptr<VxSktBase>& sktBase )
 {
-	if( enable && sktBase )
+	bool result{ false };
+	int prevNeedCnt = m_Plugin.needVoiceTxCount( m_Plugin.getPluginType() );
+	if( enable )
 	{
-		if( m_TxOnlineIdList.addGuidIfDoesntExist( onlineId ) )
+		if( m_Plugin.addVoicePairTx( m_Plugin.getPluginType(), onlineId ) )
 		{
 			if( sendPushToTalkReq( onlineId, sktBase ) )
 			{
-				if( !m_AudioPktsRequested )
-				{
-					//LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::enableCapture eMediaInputAudioPkts %d\n", enable );
-					m_AudioPktsRequested = true;
-					m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, appModule, onlineId, true );
-					IAudioRequests::getIAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, true );
-				}
-
+				m_SessionMgr.findOrCreateTxSessionWithOnlineId( onlineId, sktBase, false );
+				sendPushToTalkStart( onlineId, sktBase );
 				updatePushToTalkStatus( onlineId );
+				result = true;
 			}
 			else
 			{
+				m_Plugin.removeVoicePairTx( m_Plugin.getPluginType(), onlineId );
 				m_Engine.getPushToTalkMgr().pushToTalkStatusChange( onlineId, ePushToTalStatusNoConnection );
-				LogModule( eLogStreams, LOG_VERBOSE, "PushToTalkFeedMgr::enableCapture failed sendPushToTalkReq %s", m_Engine.describeUser( onlineId ).c_str() );
+				LogModule( eLogVoice, LOG_VERBOSE, "PushToTalkFeedMgr::enableCapture failed sendPushToTalkReq %s", m_Engine.describeUser( onlineId ).c_str() );
 			}
 		}
 		else
 		{
-            LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::enableCapture true GUID already in list %s", m_Engine.describeUser( onlineId ).c_str() );
+            LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::enableCapture true GUID already in list %s", m_Engine.describeUser( onlineId ).c_str() );
 		}
-
-		m_SessionMgr.findOrCreateTxSessionWithOnlineId( onlineId, sktBase, false );
-		sendPushToTalkStart( onlineId, sktBase );
-		updatePushToTalkStatus( onlineId );
-		return true;
 	}
 	else
 	{
-		IAudioRequests::getIAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, false );
-		sendPushToTalkStop( onlineId, sktBase );
-		removePushToTalkUser( onlineId, true );
-		updatePushToTalkStatus( onlineId );
-		return true;
+		result = true;
+		if( m_Plugin.removeVoicePairTx( m_Plugin.getPluginType(), onlineId ) )
+		{
+			m_SessionMgr.removeTxSessionByOnlineId( onlineId, false );
+			sendPushToTalkStop( onlineId, sktBase );
+			updatePushToTalkStatus( onlineId );
+		}
 	}
+	
+	int needCnt = m_Plugin.needVoiceTxCount( m_Plugin.getPluginType() );
+	m_Plugin.updateRequestMicrophone( m_Plugin.getPluginType(), prevNeedCnt, needCnt );
 
-
-    LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::enableCapture %d done %s", enable, m_Engine.describeUser( onlineId ).c_str() );
-	return false;
+    LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::enableCapture %d done %s", enable, m_Engine.describeUser( onlineId ).c_str() );
+	return result;
 }
 
 //============================================================================
 void PushToTalkFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
 {
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock start" );
+    LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock start" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 	PluginBase::AutoPluginLock autoLock( &m_Plugin );
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock done" );
+    LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock done" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 
 	std::map<VxGUID, PluginSessionBase*>& sessionList = m_SessionMgr.getSessions();
@@ -131,67 +128,51 @@ void PushToTalkFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
 	}
 
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams,  LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock destroy" );
+    LogModule( eLogVoice,  LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock destroy" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 }
 
 //============================================================================
 void PushToTalkFeedMgr::onPktPushToTalkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
-	bool allowed = netIdent->isMyAccessAllowedFromHim( ePluginTypePushToTalk ) && netIdent->isHisAccessAllowedFromMe( ePluginTypePushToTalk );
-	if( !allowed )
-	{
-		// should this be a hack offence?
-        LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr user %s insufficient permaision", m_Engine.describeUser( srcOnlineId ).c_str() );
-		return;
-	}
-
-	if( m_RxOnlineIdList.addGuidIfDoesntExist( netIdent->getMyOnlineId() ) )
-	{
-		m_SessionMgr.findOrCreateRxSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, false );
-
-		//LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::enableCapture eMediaInputMixer %d\n", enable );
-		if( !m_MixerInputRequesed )
-		{
-			m_MixerInputRequesed = true;
-			m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, eAppModulePushToTalk, netIdent->getMyOnlineId(), true );
-            IAudioRequests::getIAudioRequests().toGuiWantUserVoiceSpeaker( eAppModulePushToTalk, srcOnlineId, true );
-			//LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::enableCapture done\n" );
-		}
-
-        updatePushToTalkStatus( srcOnlineId );
-	}
-	else
-	{
-        LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::enableCapture true GUID already in list %s", m_Engine.describeUser( srcOnlineId ).c_str() );
-	}
+	VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
+	startRxSession( sktBase, srcOnlineId );
 }
 
 //============================================================================
 void PushToTalkFeedMgr::onPktPushToTalkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+	static int rxCnt{ 0 };
+	if( LogEnabled( eLogVoice ) )
+	{
+		rxCnt++;
+		VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
+		LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s %d from %s", __func__, rxCnt, m_Engine.describeUser( srcOnlineId ).c_str() );
+	}
 }
 
 //============================================================================
 void PushToTalkFeedMgr::onPktPushToTalkStart( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
-    if( addPushToTalkUser( srcOnlineId, sktBase, true ) )
+    if( addPushToTalkUserRx( srcOnlineId, sktBase ) )
 	{
         updatePushToTalkStatus( srcOnlineId );
 	}
-	//m_Engine.getToGui().toGuiPushToTalkStop( netIdent->getMyOnlineId() );
+
+	if( LogEnabled( eLogVoice ) )LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s %s", __func__, m_Engine.describeUser( srcOnlineId ).c_str() );
 }
 
 //============================================================================
 void PushToTalkFeedMgr::onPktPushToTalkStop( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
-    if( removePushToTalkUser( srcOnlineId, false, true ) )
+    if( removePushToTalkUserRx( srcOnlineId ) )
 	{
         updatePushToTalkStatus( srcOnlineId );
 	}
+
+	if( LogEnabled( eLogVoice ) )LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s %s", __func__, m_Engine.describeUser( srcOnlineId ).c_str() );
 }
 
 //============================================================================
@@ -202,25 +183,33 @@ void PushToTalkFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 	if( !allowed )
 	{
 		// should this be a hack offence?
-        LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::%s user %s insufficient permission", __func__, m_Engine.describeUser( srcOnlineId ).c_str() );
+        LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s user %s insufficient permission", __func__, m_Engine.describeUser( srcOnlineId ).c_str() );
 		return;
 	}
 
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-	LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::%s PluginBase::AutoPluginLock autoLock start", __func__ );
+	LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s PluginBase::AutoPluginLock autoLock start", __func__ );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 	PluginBase::AutoPluginLock autoLock( &m_Plugin );
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-	LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::%s PluginBase::AutoPluginLock autoLock done", __func__ );
+	LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s PluginBase::AutoPluginLock autoLock done", __func__ );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 
-	PluginSessionMgr::SessionIter iter;
+	bool found{ false };
 	std::map<VxGUID, PluginSessionBase*>& sessionList = m_SessionMgr.getSessions();
-	for( iter = sessionList.begin(); iter != sessionList.end(); ++iter )
+	for( auto iter = sessionList.begin(); iter != sessionList.end(); ++iter )
 	{
 		PluginSessionBase* poSession = iter->second;
         if( poSession->isRxSession() && srcOnlineId == poSession->getSendToId() )
 		{
+			if( !m_Plugin.isFirstVoicePairRx( m_Plugin.getPluginType(), srcOnlineId ) )
+			{
+				LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s %s NOT first user %s", __func__, DescribePluginType( m_Plugin.getPluginType() ), m_Engine.describeUser( srcOnlineId ).c_str() );
+				continue;
+			}
+
+			found = true;
+			// LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s %s IS first user %s", __func__, DescribePluginType( m_Plugin.getPluginType() ), m_Engine.describeUser( srcOnlineId ).c_str() );
 			AudioJitterBuffer& jitterBuf = poSession->getJitterBuffer();
 			//LogMsg( LOG_INFO, "PushToTalkFeedMgr::%s jitterBuf.lockResource", __func__ );
 			jitterBuf.lockResource();
@@ -237,12 +226,16 @@ void PushToTalkFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 				bool result = poSession->getAudioDecoder()->decodeToPcmData( pktReq->getCompressedData(), opusEncodedLenList, (int16_t*)audioBuf, (int32_t)MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
 				if( !result )
 				{
-					LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::%s failed to decode opus", __func__ );
+					LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s failed to decode opus", __func__ );
+				}
+				else
+				{
+					if( LogEnabled( eLogVoice ) ) LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s decoded from %s", __func__, m_Engine.describeUser( srcOnlineId ).c_str() );
 				}
 			}
 			else
 			{
-				LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::%s failed to get jitter buffer", __func__ );
+				LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s failed to get jitter buffer", __func__ );
 			}
 
 			//LogMsg( LOG_INFO, "PushToTalkFeedMgr::%s jitterBuf.unlockResource" );
@@ -251,8 +244,15 @@ void PushToTalkFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 		}
 	}
 
+	if( LogEnabled( eLogVoice ) && !found )
+	{
+		// should this be a hack offence?
+		LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s NOT FOUND user %s", __func__, m_Engine.describeUser( srcOnlineId ).c_str() );
+		return;
+	}
+
 #ifdef DEBUG_AUTOPLUGIN_LOCK
-	LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::%s PluginBase::AutoPluginLock autoLock destroy", __func__ );
+	LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s PluginBase::AutoPluginLock autoLock destroy", __func__ );
 #endif // DEBUG_AUTOPLUGIN_LOCK
 }
 
@@ -266,21 +266,32 @@ void PushToTalkFeedMgr::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, Vx
 void PushToTalkFeedMgr::callbackOpusPkt( PktVoiceReq * pktOpusAudio )
 {
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock start" );
+    LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock start" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 	PluginBase::AutoPluginLock autoLock( &m_Plugin );
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock done" );
+    LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock done" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 
-	PluginSessionMgr::SessionIter iter;
 	std::map<VxGUID, PluginSessionBase*>&	sessionList = m_SessionMgr.getSessions();
-	for( iter = sessionList.begin(); iter != sessionList.end(); ++iter )
+	for( auto& session : sessionList )
 	{
-		PluginSessionBase* poSession = iter->second;
+		PluginSessionBase* poSession = session.second;
 		if( poSession->isTxSession() )
 		{
 			bool result = m_Plugin.txPacket( poSession->getSendToId(), poSession->getSkt(), pktOpusAudio );
+			if( LogEnabled( eLogVoice ) )
+			{
+				if( result )
+				{
+					LogModule( eLogVoice, LOG_DEBUG, "PushToTalkFeedMgr::%s sent to %s", __func__, m_Engine.describeUser( poSession->getSendToId() ).c_str() );
+				}
+				else
+				{
+					LogModule( eLogVoice, LOG_DEBUG, "PushToTalkFeedMgr::%s failed sent to %s", __func__, m_Engine.describeUser( poSession->getSendToId() ).c_str() );
+				}				
+			}
+
 			if( false == result )
 			{
 				// TODO handle lost connection
@@ -289,92 +300,90 @@ void PushToTalkFeedMgr::callbackOpusPkt( PktVoiceReq * pktOpusAudio )
 	}
 
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock destroy" );
+    LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock destroy" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 }
 
 //============================================================================
 void PushToTalkFeedMgr::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
-	removePushToTalkUser( netIdent->getMyOnlineId() );
+	removePushToTalkUserTx( netIdent->getMyOnlineId() );
+	removePushToTalkUserRx( netIdent->getMyOnlineId() );
 	//m_PushToTalkFeedMgr.onContactWentOffline( netIdent, sktBase );
 	//m_PushToTalkFeedMgr.fromGuiStopPluginSession( false, netIdent );
 	//m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
+	if( LogEnabled( eLogVoice ) )LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s %s", __func__, m_Engine.describeUser( netIdent->getMyOnlineId() ).c_str() );
 }
 
 //============================================================================
-bool PushToTalkFeedMgr::addPushToTalkUser( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase, bool rxOnly )
+bool PushToTalkFeedMgr::addPushToTalkUserTx( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase )
 {
 	bool userAdded{ false };
-	if( m_RxOnlineIdList.addGuidIfDoesntExist( onlineId ) )
-	{
-		userAdded = true;
-		m_SessionMgr.findOrCreateRxSessionWithOnlineId( onlineId, sktBase, false );
 
-		if( 1 == m_RxOnlineIdList.size() )
-		{
-			m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, eAppModulePushToTalk, onlineId, false );
-			m_AudioPktsRequested = false;
-			m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, eAppModulePushToTalk, onlineId, false );
-			m_MixerInputRequesed = false;
-			IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( eAppModulePushToTalk, false );
-			LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::removePushToTalkUser false done" );
-		}
-	}
-
-	if( !rxOnly && m_TxOnlineIdList.addGuidIfDoesntExist( onlineId ) )
+	int prevTxCount = m_Plugin.needVoiceTxCount( m_Plugin.getPluginType() );
+	if( m_Plugin.addVoicePairTx( m_Plugin.getPluginType(), onlineId ) )
 	{
 		userAdded = true;
 		m_SessionMgr.findOrCreateTxSessionWithOnlineId( onlineId, sktBase, false );
 
-		if( 1 == m_TxOnlineIdList.size() )
-		{
-			m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, eAppModulePushToTalk, onlineId, false );
-			m_AudioPktsRequested = false;
-			m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, eAppModulePushToTalk, onlineId, false );
-			m_MixerInputRequesed = false;
-			IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( eAppModulePushToTalk, false );
-			LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::removePushToTalkUser false done" );
-		}
+		int txCount = m_Plugin.needVoiceTxCount( m_Plugin.getPluginType() );
+		m_Plugin.updateRequestMicrophone( m_Plugin.getPluginType(), prevTxCount, txCount );
+
+		LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s add rx from %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
 	}
 
 	return userAdded;
 }
 
 //============================================================================
-bool PushToTalkFeedMgr::removePushToTalkUser( VxGUID& onlineId, bool txOnly, bool rxOnly )
+bool PushToTalkFeedMgr::addPushToTalkUserRx( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase )
+{
+	bool userAdded{ false };
+	int prevRxCount = m_Plugin.needVoiceRxCount( m_Plugin.getPluginType() );
+	if( m_Plugin.addVoicePairRx( m_Plugin.getPluginType(), onlineId ) )
+	{
+		userAdded = true;
+		m_SessionMgr.findOrCreateRxSessionWithOnlineId( onlineId, sktBase, false );
+
+		int rxCount = m_Plugin.needVoiceRxCount( m_Plugin.getPluginType() );
+		m_Plugin.updateRequestMixer( m_Plugin.getPluginType(), prevRxCount, rxCount );
+
+		LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s add tx from %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
+	}
+
+	return userAdded;
+}
+
+//============================================================================
+bool PushToTalkFeedMgr::removePushToTalkUserTx( VxGUID& onlineId )
 {
 	bool userRemoved{ false };
-	if( !rxOnly && m_TxOnlineIdList.removeGuid( onlineId ) )
+	int prevTxCount = m_Plugin.needVoiceTxCount( m_Plugin.getPluginType() );
+	if( m_Plugin.removeVoicePairTx( m_Plugin.getPluginType(), onlineId ) )
 	{
 		userRemoved = true;
 		m_SessionMgr.removeTxSessionByOnlineId( onlineId, false );
 
-		if( 0 == m_TxOnlineIdList.size() )
-		{
-			m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, eAppModulePushToTalk, onlineId, false );
-			m_AudioPktsRequested = false;
-			m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, eAppModulePushToTalk, onlineId, false );
-			m_MixerInputRequesed = false;
-			IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( eAppModulePushToTalk, false );
-			LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::removePushToTalkUser false done" );
-		}
+		int txCount = m_Plugin.needVoiceTxCount( m_Plugin.getPluginType() );
+		m_Plugin.updateRequestMicrophone( m_Plugin.getPluginType(), prevTxCount, txCount );
 	}
 
-	if( !txOnly && m_RxOnlineIdList.removeGuid( onlineId ) )
+	return userRemoved;
+}
+
+//============================================================================
+bool PushToTalkFeedMgr::removePushToTalkUserRx( VxGUID& onlineId )
+{
+	bool userRemoved{ false };
+
+	int prevRxCount = m_Plugin.needVoiceRxCount( m_Plugin.getPluginType() );
+	if( m_Plugin.removeVoicePairRx( m_Plugin.getPluginType(), onlineId ) )
 	{
 		userRemoved = true;
 		m_SessionMgr.removeRxSessionByOnlineId( onlineId, false );
 
-		if( 0 == m_RxOnlineIdList.size() )
-		{
-			m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputAudioPkts, eAppModulePushToTalk, onlineId, false );
-			m_AudioPktsRequested = false;
-			m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputMixer, eAppModulePushToTalk, onlineId, false );
-			m_MixerInputRequesed = false;
-			IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( eAppModulePushToTalk, false );
-			LogModule( eLogStreams, LOG_INFO, "PushToTalkFeedMgr::removePushToTalkUser false done" );
-		}
+		int rxCount = m_Plugin.needVoiceRxCount( m_Plugin.getPluginType() );
+		m_Plugin.updateRequestMixer( m_Plugin.getPluginType(), prevRxCount, rxCount );
 	}
 
 	return userRemoved;
@@ -383,6 +392,7 @@ bool PushToTalkFeedMgr::removePushToTalkUser( VxGUID& onlineId, bool txOnly, boo
 //============================================================================
 bool PushToTalkFeedMgr::sendPushToTalkStart( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase )
 {
+	LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
 	PktPushToTalkStart pktStop;
 	return m_Plugin.txPacket( onlineId, sktBase, &pktStop );
 }
@@ -390,6 +400,7 @@ bool PushToTalkFeedMgr::sendPushToTalkStart( VxGUID& onlineId, std::shared_ptr<V
 //============================================================================
 bool PushToTalkFeedMgr::sendPushToTalkStop( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase )
 {
+	LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
 	PktPushToTalkStop pktStop;
 	return m_Plugin.txPacket( onlineId, sktBase, &pktStop );
 }
@@ -397,6 +408,7 @@ bool PushToTalkFeedMgr::sendPushToTalkStop( VxGUID& onlineId, std::shared_ptr<Vx
 //============================================================================
 bool PushToTalkFeedMgr::sendPushToTalkReq( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase )
 {
+	LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
 	PktPushToTalkReq pktReq;
 	return m_Plugin.txPacket( onlineId, sktBase, &pktReq );
 }
@@ -406,8 +418,8 @@ void PushToTalkFeedMgr::updatePushToTalkStatus( VxGUID& onlineId )
 {
 	EPushToTalkStatus prevStatus = m_Engine.getPushToTalkMgr().getPushToTalkStatus( onlineId );
 	EPushToTalkStatus status{ ePushToTalkStatusInvalid };
-	bool isTx = m_TxOnlineIdList.doesGuidExist( onlineId );
-	bool isRx = m_RxOnlineIdList.doesGuidExist( onlineId );
+	bool isTx = m_Plugin.userNeedsVoicePairTx( m_Plugin.getPluginType(), onlineId );
+	bool isRx = m_Plugin.userNeedsVoicePairRx( m_Plugin.getPluginType(), onlineId );
 	if( isTx && isRx )
 	{
 		status = ePushToTalkStatusDuplexEnabled;
@@ -428,18 +440,35 @@ void PushToTalkFeedMgr::updatePushToTalkStatus( VxGUID& onlineId )
 	if( !m_Engine.isUserConnected( onlineId ) )
 	{
 		status = ePushToTalStatusNoConnection;
-		IAudioRequests::getIAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, false );
-		IAudioRequests::getIAudioRequests().toGuiWantUserVoiceSpeaker( eAppModulePushToTalk, onlineId, false );
+	}
+
+    m_Engine.getPushToTalkMgr().pushToTalkStatusChange( onlineId, status );
+}
+
+//============================================================================
+void PushToTalkFeedMgr::startRxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId )
+{
+	bool allowed = m_Plugin.isMyAccessAllowedFromHim( onlineId, ePluginTypePushToTalk ) && m_Plugin.isHisAccessAllowedFromMe( onlineId, ePluginTypePushToTalk );
+	if( !allowed )
+	{
+		// should this be a hack offence?
+		LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s user %s insufficient permaision", __func__, m_Engine.describeUser( onlineId ).c_str() );
+		return;
+	}
+
+	int prevRxCount = m_Plugin.needVoiceRxCount( m_Plugin.getPluginType() );
+	if( m_Plugin.addVoicePairRx( m_Plugin.getPluginType(), onlineId ) )
+	{
+		m_SessionMgr.findOrCreateRxSessionWithOnlineId( onlineId, sktBase, false );
+
+		updatePushToTalkStatus( onlineId );
 	}
 	else
 	{
-		IAudioRequests::getIAudioRequests().toGuiWantUserVoiceMicrophone( eAppModulePushToTalk, onlineId, isTx );
-		IAudioRequests::getIAudioRequests().toGuiWantUserVoiceSpeaker( eAppModulePushToTalk, onlineId, isRx );
-	}	
-
-	if( status != prevStatus )
-	{
-		m_Engine.getPushToTalkMgr().pushToTalkStatusChange( onlineId, status );
+		LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s true GUID already in list %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
 	}
-}
 
+	int rxCount = m_Plugin.needVoiceRxCount( m_Plugin.getPluginType() );
+	if( LogEnabled( eLogVoice ) )LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s prev cnt %d new cnt %d %s", __func__, prevRxCount, rxCount, m_Engine.describeUser( onlineId ).c_str() );
+	m_Plugin.updateRequestMixer( m_Plugin.getPluginType(), prevRxCount, rxCount );
+}
