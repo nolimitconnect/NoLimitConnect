@@ -32,6 +32,7 @@ AppletCamClient::AppletCamClient( AppCommon& app, QWidget* parent )
 	setAppletType( eAppletCamClient );
 	setPluginType( ePluginTypeCamClient );
     ui.setupUi( getContentItemsFrame() );
+    ui.m_CamVidWidget->setMediaModule( eMediaModuleCamClient );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
 	connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );
 
@@ -61,7 +62,7 @@ void AppletCamClient::startCamFeed( void )
             if( sessionStarted && !m_VidPlayerIdentIsSet )
             {
                 m_VidPlayerIdentIsSet = true;
-                ui.m_CamVidWidget->setVideoFeedId( m_CamFeedIdent->getMyOnlineId(), eAppModuleCamClient );
+                ui.m_CamVidWidget->setVideoFeedId( m_CamFeedIdent->getMyOnlineId(), eMediaModuleCamClient );
             }
         }
         else
@@ -203,7 +204,7 @@ void AppletCamClient::setupCamFeed( GuiUser* feedNetIdent )
     ui.m_CamVidWidget->enableCamSourceControls( false );
     ui.m_CamVidWidget->setRecordFilePath( VxGetDownloadsDirectory().c_str() );
     ui.m_CamVidWidget->setRecordFriendName( m_CamFeedIdent->getOnlineName().c_str() );
-    ui.m_CamVidWidget->setVideoFeedId( m_CamFeedId, eAppModuleCamClient );
+    ui.m_CamVidWidget->setVideoFeedId( m_CamFeedId, eMediaModuleCamClient );
 
     startCamFeed();
 }

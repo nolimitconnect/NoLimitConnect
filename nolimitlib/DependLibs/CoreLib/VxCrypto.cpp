@@ -8,11 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "config_corelib.h"
-
 #include "VxCrypto.h"
 #include "VxDebug.h"
-#include "VxMutex.h"
 
 #include <memory.h>
 #include <string>
@@ -23,8 +20,6 @@
 #endif // _MSC_VER
 
 #include "VxMd5.h"
-
-#include "VxParse.h"
 
 //===========================================//
 //=== cheezy crypto with known weeknesses ===//

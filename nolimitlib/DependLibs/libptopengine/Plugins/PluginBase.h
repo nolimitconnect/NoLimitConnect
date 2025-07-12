@@ -71,6 +71,8 @@ public:
 	PluginBase(	P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* netIdent, EPluginType pluginType );
 	virtual ~PluginBase() override = default;
 
+	virtual	EMediaModule		getMediaModule( void ) = 0; // for subscriptions to audio and video capture/play
+
 	virtual void				lockPlugin( void )										{ m_PluginMutex.lock(); }
 	virtual void				unlockPlugin( void )									{ m_PluginMutex.unlock(); }
 
@@ -349,7 +351,5 @@ protected:
 	static std::vector<std::pair<EPluginType, VxGUID>>	m_VoiceTxList;
 	static VxMutex				m_VoicePairRxMutex;
 	static std::vector<std::pair<EPluginType, VxGUID>>	m_VoiceRxList;
-	bool						m_AudioPktsRequested{ false };
-	bool						m_MixerInputRequesed{ false };
 	VxGUID						m_MediaSessionId;
 };

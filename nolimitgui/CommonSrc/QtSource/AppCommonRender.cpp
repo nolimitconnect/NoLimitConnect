@@ -53,14 +53,14 @@ RenderGlWidget* AppCommon::getRenderConsumer( void )
 }
 
 //============================================================================
-void AppCommon::toGuiModuleState( EAppModule moduleNum, EModuleState moduleState )
+void AppCommon::toGuiModuleState( EMediaModule moduleNum, EModuleState moduleState )
 {
     if( eModuleStateInitError == moduleState )
     {
-        LogMsg( LOG_ERROR, "ERROR App Module %s failed to initialize", DescribeAppModule( moduleNum ) );
+        LogMsg( LOG_ERROR, "ERROR App Module %s failed to initialize", DescribeMediaModule( moduleNum ) );
     }
 
-	if( moduleNum == eAppModulePlayerNlc )
+	if( moduleNum == eMediaModulePlayerNlc )
 	{
 		RenderGlWidget * glWidget = getRenderConsumer();
 		if( glWidget )

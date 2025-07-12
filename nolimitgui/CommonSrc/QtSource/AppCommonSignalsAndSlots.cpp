@@ -33,7 +33,7 @@ void  AppCommon::registerMetaData( void )
 
 	qRegisterMetaType<EAppErr>( "EAppErr" );
 	qRegisterMetaType<EApplet>( "EApplet" );
-	qRegisterMetaType<EAppModule>( "EAppModule" );
+	qRegisterMetaType<EMediaModule>( "EMediaModule" );
 	qRegisterMetaType<EAssetAction>( "EAssetAction" );
 	qRegisterMetaType<EAssetSendState>( "EAssetSendState" );
 	qRegisterMetaType<EAssetType>( "EAssetType" );
@@ -117,13 +117,13 @@ void AppCommon::connectSignals( void )
 
     connect( this, SIGNAL(signalToGuiInstMsg(VxGUID,EPluginType,QString)), this, SLOT(slotToGuiInstMsg(VxGUID,EPluginType,QString)), Qt::QueuedConnection );
 
-    connect( this, SIGNAL(signalInternalWantMicrophoneRecording(EAppModule,bool)), this, SLOT(slotInternalWantMicrophoneRecording(EAppModule,bool)), Qt::QueuedConnection );
-	connect( this, SIGNAL(signalInternalWantUserVoiceMicrophone(EAppModule,VxGUID,bool)), this, SLOT(slotInternalWantUserVoiceMicrophone(EAppModule,VxGUID,bool)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalWantMicrophoneRecording(EMediaModule,bool)), this, SLOT(slotInternalWantMicrophoneRecording(EMediaModule,bool)), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalWantUserVoiceMicrophone(EMediaModule,VxGUID,bool)), this, SLOT(slotInternalWantUserVoiceMicrophone(EMediaModule,VxGUID,bool)), Qt::QueuedConnection );
 
-    connect( this, SIGNAL(signalInternalWantSpeakerOutput(EAppModule,bool)), this, SLOT(slotInternalWantSpeakerOutput(EAppModule,bool)), Qt::QueuedConnection );
-	connect( this, SIGNAL(signalInternalWantUserVoiceSpeaker(EAppModule,VxGUID,bool)), this, SLOT(slotInternalWantUserVoiceSpeaker(EAppModule,VxGUID,bool)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalWantSpeakerOutput(EMediaModule,bool)), this, SLOT(slotInternalWantSpeakerOutput(EMediaModule,bool)), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalWantUserVoiceSpeaker(EMediaModule,VxGUID,bool)), this, SLOT(slotInternalWantUserVoiceSpeaker(EMediaModule,VxGUID,bool)), Qt::QueuedConnection );
 
-	connect( this, SIGNAL(signalInternalWantVideoCapture(EAppModule,bool)), this, SLOT(slotInternalWantVideoCapture(EAppModule,bool)), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalWantVideoCapture(EMediaModule,bool)), this, SLOT(slotInternalWantVideoCapture(EMediaModule,bool)), Qt::QueuedConnection );
 
     connect( this, SIGNAL(signalSetRelayHelpButtonVisibility(bool)), this, SLOT(slotSetRelayHelpButtonVisibility(bool)));
     connect( this, SIGNAL(signalInternalPluginMessage(EPluginType,VxGUID,EPluginMsgType,QString)), this, SLOT(slotInternalPluginMessage(EPluginType,VxGUID,EPluginMsgType,QString)), Qt::QueuedConnection );
@@ -194,8 +194,8 @@ void AppCommon::connectSignals( void )
 	connect( this, SIGNAL(signalInternalToGuiPluginSessionEnded(VxGUID,EPluginType,VxGUID)), this,
 		SLOT(slotInternalToGuiPluginSessionEnded(VxGUID,EPluginType,VxGUID)), Qt::QueuedConnection );
 
-	connect( this, SIGNAL(signalInternalMediaAction(EAppModule,EMediaPlayerAction,int,QString)), this,
-		SLOT(slotInternalMediaAction(EAppModule,EMediaPlayerAction,int,QString)), Qt::QueuedConnection );
-	connect( this, SIGNAL(signalInternalMediaError(EAppModule,EMediaError,QString)), this,
-		SLOT(slotInternalMediaError(EAppModule,EMediaError,QString)), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalMediaAction(EMediaModule,EMediaPlayerAction,int,QString)), this,
+		SLOT(slotInternalMediaAction(EMediaModule,EMediaPlayerAction,int,QString)), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalMediaError(EMediaModule,EMediaError,QString)), this,
+		SLOT(slotInternalMediaError(EMediaModule,EMediaError,QString)), Qt::QueuedConnection );
 }

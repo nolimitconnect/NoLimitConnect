@@ -120,7 +120,7 @@ void AppletPlayerNlcBase::setReadyForCallbacks( bool isReady )
 //============================================================================
 bool AppletPlayerNlcBase::playMedia( AssetPlaySession& assetPlaySession, bool useExternalPlayer )
 {
-	if( !IMediaPlayerRequests::getNlcPlayer().fromGuiIsModuleRunning( eAppModulePlayerNlc ) )
+	if( !IMediaPlayerRequests::getNlcPlayer().fromGuiIsModuleRunning( eMediaModulePlayerNlc ) )
 	{
 		// player not ready so queue for play when ready
 		m_PlayAssetQue.emplace_back( assetPlaySession );
@@ -191,7 +191,7 @@ bool AppletPlayerNlcBase::playMediaFile( VxGUID& sessionId, std::string mediaFil
 bool AppletPlayerNlcBase::waitForPlayerThread( void )
 {
 	m_ElapsedTimer.start();
-	while( !IMediaPlayerRequests::getNlcPlayer().fromGuiIsModuleRunning( eAppModulePlayerNlc ) )
+	while( !IMediaPlayerRequests::getNlcPlayer().fromGuiIsModuleRunning( eMediaModulePlayerNlc ) )
 	{
 		GuiHelpers::processQtEvents( 100 );
 		if( m_ElapsedTimer.elapsed() > 6000 )
@@ -614,7 +614,7 @@ void AppletPlayerNlcBase::updateLastPlayedFile( void )
 void AppletPlayerNlcBase::onAboutToDestroyApplet( void )
 {
     getRenderConsumer()->aboutToDestroy();
-	IMediaPlayerRequests::getNlcPlayer().fromGuiStopModule( eAppModulePlayerNlc );
+	IMediaPlayerRequests::getNlcPlayer().fromGuiStopModule( eMediaModulePlayerNlc );
 }
 
 //============================================================================

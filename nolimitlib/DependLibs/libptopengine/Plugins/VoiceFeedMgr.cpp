@@ -34,41 +34,25 @@ VoiceFeedMgr::VoiceFeedMgr( P2PEngine& engine, PluginBase& plugin, PluginSession
 , m_Plugin( plugin )
 , m_PluginMgr( engine.getPluginMgr() )
 , m_SessionMgr( sessionMgr )
-, m_Enabled( false )
-, m_CamServerEnabled( false )
 {
 }
 
 //============================================================================
-bool VoiceFeedMgr::fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantAudioCapture )
-{
-	enableAudioCapture( true, onlineId, appModule, wantAudioCapture );
-    return true;
-}
-
-//============================================================================
-void VoiceFeedMgr::fromGuiStopPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantAudioCapture )
-{
-	enableAudioCapture( false, onlineId, appModule, wantAudioCapture );
-}
-
-//============================================================================
-void VoiceFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule appModule, bool wantAudioCapture )
+void VoiceFeedMgr::enableAudioCapture( bool enable, VxGUID onlineId )
 {
 	int prevNeedTxCount = m_Plugin.needVoiceTxCount( m_Plugin.getPluginType() );
-	bool isMyself = onlineId == m_PluginMgr.getEngine().getMyOnlineId(); 
 	if( enable )
 	{
 		if( !m_Plugin.addVoicePairTx( m_Plugin.getPluginType(), onlineId ) )
 		{
-            LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::enableAudioCapture add GUID already in list %s", m_Engine.describeUser( onlineId ).c_str() );
+            LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::%s add GUID already in list %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
 		}
 	}
 	else
 	{
 		if( !m_Plugin.removeVoicePairTx( m_Plugin.getPluginType(), onlineId ) )
 		{
-			LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::enableAudioCapture remove GUID not found %s", m_Engine.describeUser( onlineId ).c_str() );
+			LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::%s remove GUID not found %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
 		}
 	}
 
@@ -77,14 +61,31 @@ void VoiceFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule
 }
 
 //============================================================================
-void VoiceFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+void VoiceFeedMgr::enableAudioReceive( bool enable, VxGUID onlineId )
 {
-	if( false == m_Enabled )
+	int prevNeedRxCount = m_Plugin.needVoiceRxCount( m_Plugin.getPluginType() );
+	if( enable )
 	{
-		if( LogEnabled( eLogVoice ) ) LogModule( eLogVoice, LOG_DEBUG, "VoiceFeedMgr::%s  not enabled %s", __func__, m_Plugin.describePlugin() );
-		return;
+		if( !m_Plugin.addVoicePairRx( m_Plugin.getPluginType(), onlineId ) )
+		{
+			LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::%s add GUID already in list %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
+		}
+	}
+	else
+	{
+		if( !m_Plugin.removeVoicePairRx( m_Plugin.getPluginType(), onlineId ) )
+		{
+			LogModule( eLogVoice, LOG_INFO, "VoiceFeedMgr::%s remove GUID not found %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
+		}
 	}
 
+	int needRxCount = m_Plugin.needVoiceRxCount( m_Plugin.getPluginType() );
+	m_Plugin.updateRequestMixer( m_Plugin.getPluginType(), prevNeedRxCount, needRxCount );
+}
+
+//============================================================================
+void VoiceFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
 	PktVoiceReq* pktReq = (PktVoiceReq*)pktHdr;
 	VxGUID srcOnlineId = pktReq->getSrcOnlineId();
 
@@ -212,7 +213,7 @@ void VoiceFeedMgr::callbackOpusPkt( PktVoiceReq* pktOpusAudio )
 	for( auto iter = sessionList.begin(); iter != sessionList.end(); ++iter )
 	{
 		PluginSessionBase* poSession = iter->second;
-		if( poSession->isRxSession() )
+		if( poSession->isTxSession() || poSession->isP2PSession() )
 		{
 			if( m_Plugin.isFirstVoicePairTx( m_Plugin.getPluginType(), poSession->getSendToId() ) )
 			{
@@ -241,22 +242,19 @@ void VoiceFeedMgr::callbackOpusPkt( PktVoiceReq* pktOpusAudio )
 }
 
 //============================================================================
-void VoiceFeedMgr::stopAllSessions( EAppModule appModule, EPluginType pluginType )
+void VoiceFeedMgr::stopAllSessions( void )
 {
-	if( pluginType == m_Plugin.getPluginType() )
+	std::vector<VxGUID> onlineIdList;
+	m_Plugin.getVoiceTxList( m_Plugin.getPluginType(), onlineIdList );
+	PluginBase::AutoPluginLock autoLock( &m_Plugin );
+	for( auto& onlineId : onlineIdList )
 	{
-		std::vector<VxGUID> onlineIdList;
-		m_Plugin.getVoiceTxList( m_Plugin.getPluginType(), onlineIdList );
-		PluginBase::AutoPluginLock autoLock( &m_Plugin );
-		for( auto& onlineId : onlineIdList )
-		{
-			fromGuiStopPluginSession( true, appModule, onlineId );
-		}
+		enableAudioCapture( false, onlineId );
+	}
 
-		m_Plugin.getVoiceRxList( m_Plugin.getPluginType(), onlineIdList );
-		for( auto& onlineId : onlineIdList )
-		{
-			fromGuiStopPluginSession( true, appModule, onlineId );
-		}
+	m_Plugin.getVoiceRxList( m_Plugin.getPluginType(), onlineIdList );
+	for( auto& onlineId : onlineIdList )
+	{
+		enableAudioReceive( false, onlineId );
 	}
 }

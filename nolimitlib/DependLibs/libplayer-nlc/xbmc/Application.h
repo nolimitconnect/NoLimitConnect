@@ -100,7 +100,7 @@ public:
     ~CApplication( void ) override;
 
 
-    virtual enum EAppModule     getAppModule( void ) { return eAppModuleMediaPlayer; }
+    virtual enum EMediaModule   getMediaModule( void ) { return eMediaModuleMediaPlayer; }
     virtual bool                testQuitFlag() { return false; }
 
     virtual void                setRenderGui(bool renderGui) { m_RenderGui = renderGui; }
@@ -118,17 +118,17 @@ public:
     //============================================================================
     //=== nlc events ===//
     //============================================================================
-    void                        fromGuiKeyPressEvent( EAppModule appModule, int key, int mod ) override;
-    void                        fromGuiKeyReleaseEvent( EAppModule appModule, int key, int mod ) override;
+    void                        fromGuiKeyPressEvent( EMediaModule mediaModule, int key, int mod ) override;
+    void                        fromGuiKeyReleaseEvent( EMediaModule mediaModule, int key, int mod ) override;
 
-    void                        fromGuiMousePressEvent( EAppModule appModule, int mouseXPos, int mouseYPos, int mouseButton ) override;
-    void                        fromGuiMouseReleaseEvent( EAppModule appModule, int mouseXPos, int mouseYPos, int mouseButton ) override;
-    void                        fromGuiMouseMoveEvent( EAppModule appModule, int mouseXPos, int mouseYPos ) override;
+    void                        fromGuiMousePressEvent( EMediaModule mediaModule, int mouseXPos, int mouseYPos, int mouseButton ) override;
+    void                        fromGuiMouseReleaseEvent( EMediaModule mediaModule, int mouseXPos, int mouseYPos, int mouseButton ) override;
+    void                        fromGuiMouseMoveEvent( EMediaModule mediaModule, int mouseXPos, int mouseYPos ) override;
 
-    void                        fromGuiRenderWindowResize( EAppModule appModule, int winWidth, int winHeight ); // override;
+    void                        fromGuiRenderWindowResize( EMediaModule mediaModule, int winWidth, int winHeight ); // override;
 
-    void                        fromGuiCloseEvent( EAppModule appModule ) override;
-    void                        fromGuiVisibleEvent( EAppModule appModule, bool isVisible ) override;
+    void                        fromGuiCloseEvent( EMediaModule mediaModule ) override;
+    void                        fromGuiVisibleEvent( EMediaModule mediaModule, bool isVisible ) override;
 
     bool                        toGuiMediaAction( EMediaPlayerAction playerAction, int actionVal, const char* fileName );
     void                        toGuiMediaError( EMediaError mediaError, const char* msg );

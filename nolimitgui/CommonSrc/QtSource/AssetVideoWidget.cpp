@@ -77,7 +77,7 @@ void AssetVideoWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 
 	ui.m_FileNameLabel->setText( getAssetInfo().getRemoteAssetName().c_str() );
 
-	ui.m_VidWidget->setVideoFeedId( m_AssetInfo.getAssetUniqueId(), getAppModule() );
+	ui.m_VidWidget->setVideoFeedId( m_AssetInfo.getAssetUniqueId(), getMediaModule() );
 	this->setSizeHint( QSize( 100 * GuiParams::getGuiScale(), 224 * GuiParams::getGuiScale() ) );
 
 	ui.m_LeftAvatarBar->setOnlineId( m_AssetInfo.getOnlineId() );

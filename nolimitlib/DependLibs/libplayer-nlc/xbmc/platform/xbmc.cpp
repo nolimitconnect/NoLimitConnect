@@ -87,11 +87,11 @@ extern "C" int XBMC_Run( bool renderGUI )
 
     g_KodiIsRunning = true;
 
-    IToGui::getIToGui().toGuiSetIsAppModuleRunning( eAppModulePlayerNlc, true );
+    IToGui::getIToGui().toGuiSetIsAppModuleRunning( eMediaModulePlayerNlc, true );
 
     status = g_application.Run();
 
-    IToGui::getIToGui().toGuiSetIsAppModuleRunning( eAppModulePlayerNlc, false );
+    IToGui::getIToGui().toGuiSetIsAppModuleRunning( eMediaModulePlayerNlc, false );
 
 #if defined(TARGET_WINDOWS_DESKTOP) && !defined(ENABLE_NLC_PLAYER)
     // the end

@@ -31,26 +31,22 @@ class VoiceFeedMgr
 public:
 	VoiceFeedMgr( P2PEngine& engine, PluginBase& plugin, PluginSessionMgr& sessionMgr );
 
-    virtual bool                fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantAudioCapture = true );
-    virtual void				fromGuiStopPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantAudioCapture = true );
-
 	virtual void				onPktVoiceReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 	virtual void				onPktVoiceReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 
 	virtual void				callbackOpusPkt( PktVoiceReq * pktOpusAudio );
 	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen );
 
-	void						stopAllSessions( EAppModule appModule, EPluginType pluginType );
+	void						stopAllSessions( void );
+
+	void						enableAudioCapture( bool enable, VxGUID onlineId );
+
+	void						enableAudioReceive( bool enable, VxGUID onlineId );
 
 protected:
-	void						enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule appModule, bool wantAudioCapture = true );
-
     P2PEngine&                  m_Engine;
 	PluginBase&					m_Plugin;
 	PluginMgr&					m_PluginMgr;
 	PluginSessionMgr&			m_SessionMgr;
-	bool						m_Enabled{ false };
-	bool						m_CamServerEnabled{ false };
-
 };
 

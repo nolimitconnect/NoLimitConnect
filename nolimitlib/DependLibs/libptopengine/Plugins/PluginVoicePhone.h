@@ -21,6 +21,8 @@ public:
 	PluginVoicePhone( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginVoicePhone() = default;
 
+	EMediaModule			    getMediaModule( void ) override { return eMediaModuleVoicePhone; }
+
 	virtual bool				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
 	virtual bool				fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
 

@@ -32,7 +32,7 @@ int	AudioMixerBuf::writeSamples( int16_t* samplesBuf, int sampleCnt, bool isSile
 		{
 			int timeInterval = (int)(m_TimeNow - m_LastMixerPcmTime);
 			LogMsg( LOG_VERBOSE, "AudioMixerBuf::writeSamples Frame call cnt %d  module %s elapsed %d ms overrrun ", m_FuncCallCnt,
-				DescribeAppModule( m_AppModule ), timeInterval );
+				DescribeMediaModule( m_MediaModule ), timeInterval );
 		}
 	}
 

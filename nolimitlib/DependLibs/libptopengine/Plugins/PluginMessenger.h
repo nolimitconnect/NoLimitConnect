@@ -23,7 +23,7 @@ public:
 	PluginMessenger( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginMessenger() = default;
 
-    virtual EAppModule			getAppModule( void ) override		{ return eAppModuleMessenger; }
+    EMediaModule				getMediaModule( void ) override		{ return eMediaModuleMessenger; }
 
 	void						wantAssetXferCallbacks( AssetXferCallback* client, bool enable );
 

@@ -15,10 +15,13 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
+#include "ui_AppletCamClient.h"
+
 //============================================================================
 AppletCamServerViewMine::AppletCamServerViewMine( AppCommon& app, QWidget* parent )
 : AppletCamClient( app, parent )
 {
+	ui.m_CamVidWidget->setMediaModule( eMediaModuleCamServer );
 }
 
 //============================================================================

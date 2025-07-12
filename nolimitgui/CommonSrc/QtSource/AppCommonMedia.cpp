@@ -27,50 +27,50 @@
 #include <QMessageBox>
 
 //============================================================================
-bool AppCommon::toGuiMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal, const char* fileName )
+bool AppCommon::toGuiMediaAction( EMediaModule mediaModule, EMediaPlayerAction playerAction, int actionVal, const char* fileName )
 {
 	if( VxIsAppShuttingDown() )
 	{
         return false;
 	}
 
-	emit signalInternalMediaAction( appModule, playerAction, actionVal, fileName );
+	emit signalInternalMediaAction( mediaModule, playerAction, actionVal, fileName );
 	return true;
 }
 
 //============================================================================
-void AppCommon::toGuiMediaError( EAppModule appModule, EMediaError mediaError, const char* msg )
+void AppCommon::toGuiMediaError( EMediaModule mediaModule, EMediaError mediaError, const char* msg )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return;
 	}
 
-	emit signalInternalMediaError( appModule, mediaError, msg );
+	emit signalInternalMediaError( mediaModule, mediaError, msg );
 }
 
 //============================================================================
-void AppCommon::toGuiSetIsAppModuleRunning( EAppModule appModule, bool isRunning )
+void AppCommon::toGuiSetIsAppModuleRunning( EMediaModule mediaModule, bool isRunning )
 {
-	m_AppModuleState.toGuiSetIsAppModuleRunning( appModule, isRunning );
+	m_AppModuleState.toGuiSetIsAppModuleRunning( mediaModule, isRunning );
 }
 
 //============================================================================
-bool AppCommon::toGuiGetIsAppModuleRunning( EAppModule appModule )
+bool AppCommon::toGuiGetIsAppModuleRunning( EMediaModule mediaModule )
 {
-	return m_AppModuleState.toGuiGetIsAppModuleRunning( appModule );
+	return m_AppModuleState.toGuiGetIsAppModuleRunning( mediaModule );
 }
 
 //============================================================================
-bool AppCommon::toGuiRunModule( EAppModule appModule )
+bool AppCommon::toGuiRunModule( EMediaModule mediaModule )
 {
-	return m_AppModuleState.toGuiRunModule( appModule );
+	return m_AppModuleState.toGuiRunModule( mediaModule );
 }
 
 //============================================================================
-bool AppCommon::toGuiStopModule( EAppModule appModule )
+bool AppCommon::toGuiStopModule( EMediaModule mediaModule )
 {
-    return m_AppModuleState.toGuiStopModule( appModule );
+    return m_AppModuleState.toGuiStopModule( mediaModule );
 }
 
 //============================================================================
@@ -93,22 +93,22 @@ void AppCommon::slotInternalPlayNlcMedia( AssetBaseInfo assetInfo )
 }
 
 //============================================================================
-void AppCommon::toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture )
+void AppCommon::toGuiWantVideoCapture( EMediaModule mediaModule, bool wantVidCapture )
 {
-	LogModule( eLogWebCam, LOG_INFO, "#### AppCommon::toGuiWantVideoCapture %s wantCapture %d", DescribeAppModule( appModule ), wantVidCapture );
+	LogModule( eLogWebCam, LOG_INFO, "#### AppCommon::toGuiWantVideoCapture %s wantCapture %d", DescribeMediaModule( mediaModule ), wantVidCapture );
 	if( VxIsAppShuttingDown() )
 	{
 		return;
 	}
 
-	emit signalInternalWantVideoCapture( appModule, wantVidCapture );
+	emit signalInternalWantVideoCapture( mediaModule, wantVidCapture );
 }
 
 //============================================================================
-void AppCommon::slotInternalWantVideoCapture( EAppModule appModule, bool wantVidCapture )
+void AppCommon::slotInternalWantVideoCapture( EMediaModule mediaModule, bool wantVidCapture )
 {
 	bool wasCamEnabled = m_CamLogic.isCamCaptureRunning();
-	m_CamLogic.toGuiWantVideoCapture( appModule, wantVidCapture );
+	m_CamLogic.toGuiWantVideoCapture( mediaModule, wantVidCapture );
 	bool isCamEnabled = m_CamLogic.isCamCaptureRunning();
 
     if( wasCamEnabled != isCamEnabled )
@@ -158,13 +158,13 @@ void AppCommon::toGuiPlayJpgVideo( VxGUID& feedOnlineId, std::shared_ptr<CamJpgV
 }
 
 //============================================================================
-void AppCommon::slotInternalMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal, QString fileName )
+void AppCommon::slotInternalMediaAction( EMediaModule mediaModule, EMediaPlayerAction playerAction, int actionVal, QString fileName )
 {
 	LogMsg( LOG_VERBOSE, "Media Action %d val %d fileName %s", playerAction, actionVal, fileName.toUtf8().constData() );
 }
 
 //============================================================================
-void AppCommon::slotInternalMediaError( EAppModule appModule, EMediaError mediaError, QString msg )
+void AppCommon::slotInternalMediaError( EMediaModule mediaModule, EMediaError mediaError, QString msg )
 {
     static bool isBusy{false};
 	LogMsg( LOG_ERROR, "Media Error %d %s", mediaError, msg.toUtf8().constData() );

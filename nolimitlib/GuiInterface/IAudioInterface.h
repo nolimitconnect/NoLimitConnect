@@ -39,24 +39,24 @@ public:
     virtual bool				toGuiIsMicrophoneDeviceAvailable( void ) = 0;
 
     // enable disable fromGuiMicrophoneData callback
-    virtual void				toGuiWantMicrophoneRecording( EAppModule appModule, bool wantMicInput ) = 0;
+    virtual void				toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput ) = 0;
     // enable disable microphone for specific user communicaion (usually push to talk)
-    virtual void				toGuiWantUserVoiceMicrophone( EAppModule appModule, VxGUID& onlineId, bool wantMicInput ) = 0;
+    virtual void				toGuiWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID& onlineId, bool wantMicInput ) = 0;
 
     // enable disable speaker sound out
-    virtual void				toGuiWantSpeakerOutput( EAppModule appModule, bool wantSpeakerOutput ) = 0;
+    virtual void				toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput ) = 0;
     // enable disable speaker for specific user communicaion (usually push to talk)
-    virtual void				toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onlineId, bool wantSpeakerOutput ) = 0;
+    virtual void				toGuiWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID& onlineId, bool wantSpeakerOutput ) = 0;
 
     // add audio data to play.. assumes pcm mono 
-    virtual int				    toGuiModuleAudioFrame( EAppModule appModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence ) = 0;
+    virtual int				    toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence ) = 0;
 
     // add audio data to play.. assumes float 2 channel 48000 Hz
-    virtual int				    toGuiPlayerNlcAudio( EAppModule appModule, float * audioSamples48000, int dataLenInBytes ) = 0;
+    virtual int				    toGuiPlayerNlcAudio( EMediaModule mediaModule, float * audioSamples48000, int dataLenInBytes ) = 0;
 
-    virtual float               toGuiGetAudioDelaySeconds( EAppModule appModule ) = 0;
+    virtual float               toGuiGetAudioDelaySeconds( EMediaModule mediaModule ) = 0;
 
-    virtual float               toGuiGetAudioCacheFreeSpace( EAppModule appModule ) = 0;
+    virtual float               toGuiGetAudioCacheFreeSpace( EMediaModule mediaModule ) = 0;
 
-    virtual float               toGuiGetAudioCacheTotalSeconds( EAppModule appModule ) = 0;
+    virtual float               toGuiGetAudioCacheTotalSeconds( EMediaModule mediaModule ) = 0;
 };

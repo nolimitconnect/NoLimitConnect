@@ -41,11 +41,11 @@ PushToTalkFeedMgr::PushToTalkFeedMgr( P2PEngine& engine, PluginBase& plugin, Plu
 //============================================================================
 bool PushToTalkFeedMgr::fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk, std::shared_ptr<VxSktBase>& sktBase )
 {
-	return enableAudioCapture( enableTalk, onlineId, eAppModulePushToTalk, sktBase );
+	return enableAudioCapture( enableTalk, onlineId, eMediaModulePushToTalk, sktBase );
 }
 
 //============================================================================
-bool PushToTalkFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule appModule, std::shared_ptr<VxSktBase>& sktBase )
+bool PushToTalkFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EMediaModule mediaModule, std::shared_ptr<VxSktBase>& sktBase )
 {
 	bool result{ false };
 	int prevNeedCnt = m_Plugin.needVoiceTxCount( m_Plugin.getPluginType() );

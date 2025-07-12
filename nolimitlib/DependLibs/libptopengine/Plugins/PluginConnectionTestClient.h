@@ -21,6 +21,8 @@ public:
     PluginConnectionTestClient() = delete; // don't allow default constructor
     PluginConnectionTestClient( const PluginConnectionTestClient& ) = delete; // don't allow copy constructor
 
+    EMediaModule			    getMediaModule( void ) override { return eMediaModuleInvalid; }
+
     virtual RCODE				handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr ) override;
 
     void						testIsMyPortOpen( void );

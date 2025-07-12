@@ -935,78 +935,76 @@ const char* DescribeCommError( enum ECommErr commErr )
 }
 
 //============================================================================
-const char* DescribeAppModule( enum EAppModule eAppModule )
+const char* DescribeMediaModule( enum EMediaModule eMediaModule )
 {
-    if( eAppModule < 0 || eMaxAppModule <= eAppModule )
+    if( eMediaModule < 0 || eMaxMediaModule <= eMediaModule )
     {
         return ENUM_BAD_PARM;
     }
 
-    switch( eAppModule )
+    switch( eMediaModule )
     {
-    case eAppModuleInvalid:
-        return "eAppModuleInvalid";
-    case eAppModuleAll:
-        return "eAppModuleAll";
-    case eAppModuleCamServer:
-        return "eAppModuleCamServer";
-    case eAppModuleCamClient:
-        return "eAppModuleCamClient";
-    case eAppModuleChatRoomClient:
-        return "eAppModuleChatRoomClient";
-    case eAppModuleChatRoomHost:
-        return "eAppModuleChatRoomHost";
-    case eAppModuleGroupClient:
-        return "eAppModuleGroupClient";
-    case eAppModuleGroupHost:
-        return "eAppModuleGroupHost";
+    case eMediaModuleInvalid:
+        return "eMediaModuleInvalid";
+    case eMediaModuleAll:
+        return "eMediaModuleAll";
+    case eMediaModuleCamServer:
+        return "eMediaModuleCamServer";
+    case eMediaModuleCamClient:
+        return "eMediaModuleCamClient";
+    case eMediaModuleChatRoomClient:
+        return "eMediaModuleChatRoomClient";
+    case eMediaModuleChatRoomHost:
+        return "eMediaModuleChatRoomHost";
+    case eMediaModuleGroupClient:
+        return "eMediaModuleGroupClient";
+    case eMediaModuleGroupHost:
+        return "eMediaModuleGroupHost";
 
-    case eAppModuleMediaPlayer:
-        return "eAppModuleMediaPlayer";
-    case eAppModuleMediaReader:
-        return "eAppModuleMediaReader";
-    case eAppModuleMediaWriter:
-        return "eAppModuleMediaReader";
-    case eAppModuleMessenger:
-        return "eAppModuleMessenger";
-    case eAppModuleMicrophone:
-        return "eAppModuleMicrophone";
+    case eMediaModuleMediaPlayer:
+        return "eMediaModuleMediaPlayer";
+    case eMediaModuleMediaReader:
+        return "eMediaModuleMediaReader";
+    case eMediaModuleMediaWriter:
+        return "eMediaModuleMediaReader";
+    case eMediaModuleMessenger:
+        return "eMediaModuleMessenger";
+    case eMediaModuleMicrophone:
+        return "eMediaModuleMicrophone";
 
-    case eAppModulePtoP:
-        return "eAppModulePtoP";
-    case eAppModulePeerUserClient:
-        return "eAppModulePeerUserClient";
-    case eAppModulePeerUsertHost:
-        return "eAppModulePeerUsertHost";
-    case eAppModulePersonalNotes:
-        return "eAppModulePersonalNotes";
-    case eAppModulePlayerNlc:
-        return "eAppModulePlayerNlc";
-    case eAppModulePushToTalk:
-        return "eAppModulePushToTalk";
+    case eMediaModulePtoP:
+        return "eMediaModulePtoP";
+    case eMediaModulePeerUserClient:
+        return "eMediaModulePeerUserClient";
+    case eMediaModulePeerUsertHost:
+        return "eMediaModulePeerUsertHost";
+    case eMediaModulePersonalNotes:
+        return "eMediaModulePersonalNotes";
+    case eMediaModulePlayerNlc:
+        return "eMediaModulePlayerNlc";
+    case eMediaModulePushToTalk:
+        return "eMediaModulePushToTalk";
 
-    case eAppModuleRandomConnectClient:
-        return "eAppModuleRandomConnectClient";
-    case eAppModuleRandomConnectHost:
-        return "eAppModulePeerUsertHost";
-    case eAppModuleSoundEffects:
-        return "eAppModuleSoundEffects";
-    case eAppModuleSnapshot:
-        return "eAppModuleSnapshot";
+    case eMediaModuleRandomConnectClient:
+        return "eMediaModuleRandomConnectClient";
+    case eMediaModuleRandomConnectHost:
+        return "eMediaModulePeerUsertHost";
+    case eMediaModuleSoundEffects:
+        return "eMediaModuleSoundEffects";
+    case eMediaModuleSnapshot:
+        return "eMediaModuleSnapshot";
 
-    case eAppModuleTest:
-        return "eAppModuleTest";
-    case eAppModuleTruthOrDare:
-        return "eAppModuleTruthOrDare";
-    case eAppModuleVideoPhone:
-        return "eAppModuleVideoPhone";
-    case eAppModuleVoicePhone:
-        return "eAppModuleVoicePhone";
-    case eAppModuleVoiceRx:
-        return "eAppModuleVoiceRx";
+    case eMediaModuleTest:
+        return "eMediaModuleTest";
+    case eMediaModuleTruthOrDare:
+        return "eMediaModuleTruthOrDare";
+    case eMediaModuleVideoPhone:
+        return "eMediaModuleVideoPhone";
+    case eMediaModuleVoicePhone:
+        return "eMediaModuleVoicePhone";
 
     default:
-        return "UNKNOWN EAppModule";
+        return "UNKNOWN EMediaModule";
     }
 }
 

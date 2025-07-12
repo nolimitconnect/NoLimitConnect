@@ -22,7 +22,7 @@ public:
     PluginChatRoomHost( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginChatRoomHost() override = default;
 
-    virtual EAppModule			getAppModule( void ) override { return eAppModuleChatRoomHost; }
+    EMediaModule			    getMediaModule( void ) override { return eMediaModuleChatRoomHost; }
 
     virtual void				pluginStartup( void ) override;
 

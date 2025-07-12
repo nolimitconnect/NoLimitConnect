@@ -14,19 +14,19 @@
 class INlcEvents
 {
 public:
-    virtual void                fromGuiKeyPressEvent( EAppModule appModule, int key, int mod ) = 0;
-    virtual void                fromGuiKeyReleaseEvent( EAppModule appModule, int key, int mod ) = 0;
+    virtual void                fromGuiKeyPressEvent( EMediaModule mediaModule, int key, int mod ) = 0;
+    virtual void                fromGuiKeyReleaseEvent( EMediaModule mediaModule, int key, int mod ) = 0;
 
-    virtual void                fromGuiMousePressEvent( EAppModule appModule, int mouseXPos, int mouseYPos, int mouseButton ) = 0;
-    virtual void                fromGuiMouseReleaseEvent( EAppModule appModule, int mouseXPos, int mouseYPos, int mouseButton ) = 0;
-    virtual void                fromGuiMouseMoveEvent( EAppModule appModule, int mouseXPos, int mouseYPos ) = 0;
+    virtual void                fromGuiMousePressEvent( EMediaModule mediaModule, int mouseXPos, int mouseYPos, int mouseButton ) = 0;
+    virtual void                fromGuiMouseReleaseEvent( EMediaModule mediaModule, int mouseXPos, int mouseYPos, int mouseButton ) = 0;
+    virtual void                fromGuiMouseMoveEvent( EMediaModule mediaModule, int mouseXPos, int mouseYPos ) = 0;
 
-	//virtual void                fromGuiResizeBegin( EAppModule appModule, int winWidth, int winHeight ) = 0;
-	//virtual void                fromGuiResizeEvent( EAppModule appModule, int winWidth, int winHeight ) = 0;
-	//virtual void                fromGuiResizeEnd( EAppModule appModule, int winWidth, int winHeight ) = 0;
-    //virtual void                fromGuiRenderWindowResize( EAppModule appModule, int winWidth, int winHeight ) = 0;
+	//virtual void                fromGuiResizeBegin( EMediaModule mediaModule, int winWidth, int winHeight ) = 0;
+	//virtual void                fromGuiResizeEvent( EMediaModule mediaModule, int winWidth, int winHeight ) = 0;
+	//virtual void                fromGuiResizeEnd( EMediaModule mediaModule, int winWidth, int winHeight ) = 0;
+    //virtual void                fromGuiRenderWindowResize( EMediaModule mediaModule, int winWidth, int winHeight ) = 0;
 
-    virtual void                fromGuiCloseEvent( EAppModule appModule ) = 0;
-    virtual void                fromGuiVisibleEvent( EAppModule appModule, bool isVisible ) = 0;
+    virtual void                fromGuiCloseEvent( EMediaModule mediaModule ) = 0;
+    virtual void                fromGuiVisibleEvent( EMediaModule mediaModule, bool isVisible ) = 0;
 
 };

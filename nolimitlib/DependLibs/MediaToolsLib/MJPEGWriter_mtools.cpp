@@ -147,8 +147,8 @@ bool MJPEGWriter::startAviWrite( const char* fileName, uint32_t timeBetweenFrame
 
 	setIsRecordingPaused( beginInPausedState );
 	setIsRecording( true );
-    m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputVideoJpg, this, eAppModuleMediaWriter, m_MediaSessionId, true );
-    m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputAudioPcm, this, eAppModuleMediaWriter, m_MediaSessionId, true );
+    m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputVideoJpg, this, eMediaModuleMediaWriter, m_MediaSessionId, true );
+    m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputAudioPcm, this, eMediaModuleMediaWriter, m_MediaSessionId, true );
 	return true;
 }
 
@@ -158,8 +158,8 @@ void MJPEGWriter::stopAviWrite( bool deleteFile )
 	if( getIsRecording() )
 	{
 		setIsRecordingPaused( true );
-        m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputAudioPcm, this, eAppModuleMediaWriter, m_MediaSessionId, false );
-        m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputVideoJpg, this, eAppModuleMediaWriter, m_MediaSessionId, false );
+        m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputAudioPcm, this, eMediaModuleMediaWriter, m_MediaSessionId, false );
+        m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), eMediaInputVideoJpg, this, eMediaModuleMediaWriter, m_MediaSessionId, false );
 
 		if( deleteFile )
 		{

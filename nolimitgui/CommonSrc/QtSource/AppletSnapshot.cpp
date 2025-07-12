@@ -73,7 +73,7 @@ AppletSnapshot::AppletSnapshot(	AppCommon& app, QWidget* parent )
 
     if( m_MyApp.getCamLogic().getCameraCount() )
     {
-        m_MyApp.getEngine().fromGuiWantMediaInput( m_MyApp.getMyOnlineId(), eMediaInputVideoJpg, this, eAppModuleSnapshot, m_MediaSessionId, true );
+        m_MyApp.getEngine().fromGuiWantMediaInput( m_MyApp.getMyOnlineId(), eMediaInputVideoJpg, this, eMediaModuleSnapshot, m_MediaSessionId, true );
         VxLabel* camScreen = ui.m_ImageScreen;
         if( camScreen )
         {
@@ -154,7 +154,7 @@ void AppletSnapshot::onCamFrontBackButClick( void )
 //============================================================================
 void AppletSnapshot::onCloseEvent( void )
 {
-    m_MyApp.getEngine().fromGuiWantMediaInput( m_MyApp.getMyOnlineId(), eMediaInputVideoJpg, this, eAppModuleSnapshot, m_MediaSessionId, false );
+    m_MyApp.getEngine().fromGuiWantMediaInput( m_MyApp.getMyOnlineId(), eMediaInputVideoJpg, this, eMediaModuleSnapshot, m_MediaSessionId, false );
     AppletBase::onCloseEvent();
 }
 

@@ -18,6 +18,8 @@ public:
 	PluginInvalid( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginInvalid();
 
+	EMediaModule				getMediaModule( void ) override { return eMediaModuleInvalid;  }
+
 	//! handle app state change
 	virtual void				onAppStateChange( EAppState eAppState );
 	//! called to start service or session with remote friend

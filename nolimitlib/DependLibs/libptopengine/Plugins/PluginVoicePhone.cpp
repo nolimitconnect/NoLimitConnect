@@ -71,14 +71,17 @@ bool PluginVoicePhone::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSes
 //! called to start service or session with remote friend
 bool PluginVoicePhone::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID )
 {
-    return m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleVoicePhone, onlineId );
+	m_VoiceFeedMgr.enableAudioCapture( true, onlineId );
+	m_VoiceFeedMgr.enableAudioReceive( true, onlineId );
+	return true;
 }
 
 //============================================================================
 //! called to stop service or session with remote friend
 void PluginVoicePhone::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID )
 {
-	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleVoicePhone, onlineId );
+	m_VoiceFeedMgr.enableAudioCapture( false, onlineId );
+	m_VoiceFeedMgr.enableAudioReceive( false, onlineId );
 	m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId );
 }
 
@@ -162,13 +165,15 @@ void PluginVoicePhone::onPktChatReq( std::shared_ptr<VxSktBase>& sktBase, VxPktH
 void PluginVoicePhone::onSessionStart( PluginSessionBase* session, bool pluginIsLocked )
 {
 	PluginBase::onSessionStart( session, pluginIsLocked ); // mark user session time so contact list is sorted with latest used on top
-	m_VoiceFeedMgr.fromGuiStartPluginSession( pluginIsLocked, eAppModuleVoicePhone, session->getSendToId() );
+	m_VoiceFeedMgr.enableAudioCapture( true, session->getSendToId() );
+	m_VoiceFeedMgr.enableAudioReceive( true, session->getSendToId() );
 }
 
 //============================================================================
 void PluginVoicePhone::onSessionEnded( PluginSessionBase* session, bool pluginIsLocked, EOfferResponse offerResponse )
 {
-	m_VoiceFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eAppModuleVoicePhone, session->getSendToId() );
+	m_VoiceFeedMgr.enableAudioCapture( false, session->getSendToId() );
+	m_VoiceFeedMgr.enableAudioReceive( false, session->getSendToId() );
 }
 
 //============================================================================
@@ -186,7 +191,8 @@ void PluginVoicePhone::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 //============================================================================
 void PluginVoicePhone::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
-	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleVoicePhone, netIdent->getMyOnlineId() );
+	m_VoiceFeedMgr.enableAudioCapture( false, netIdent->getMyOnlineId() );
+	m_VoiceFeedMgr.enableAudioReceive( false, netIdent->getMyOnlineId() );
 	m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
 }
 

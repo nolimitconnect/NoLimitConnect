@@ -26,6 +26,7 @@ AppletPeerVideoPhone::AppletPeerVideoPhone(	AppCommon& app, QWidget* parent )
     setPluginType( ePluginTypeVideoPhone );
     setAppletType( eAppletPeerVideoPhone );
     ui.setupUi( getContentItemsFrame() );
+	ui.m_CamVidWidget->setMediaModule( eMediaModuleVideoPhone );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
 	ui.m_PermissionButton->setFixedSize( eButtonSizeMedium );
@@ -77,7 +78,7 @@ bool AppletPeerVideoPhone::setOfferSession( std::shared_ptr<GuiOfferSession> off
 
 		ui.m_InstMsgWidget->setInstMsgWidgets( m_ePluginType, m_HisIdent );
 
-		ui.m_CamVidWidget->setVideoFeedId( m_HisIdent->getMyOnlineId(), eAppModuleVideoPhone );
+		ui.m_CamVidWidget->setVideoFeedId( m_HisIdent->getMyOnlineId(), eMediaModuleVideoPhone );
 		ui.m_CamVidWidget->setRecordFriendName( m_HisIdent->getOnlineName().c_str() );	
 	}
 

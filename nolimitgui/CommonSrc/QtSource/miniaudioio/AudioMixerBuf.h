@@ -24,13 +24,13 @@ public:
 
     void						setAudioIoMgr( MiniAudioMgr* audioIoMgr )	{ m_AudioIoMgr = audioIoMgr; }
 
-    void						setAppModule( EAppModule appModule )	    { m_AppModule = appModule; }
-    EAppModule                  getAppModule( void )	                    { return m_AppModule; }
+    void						setMediaModule( EMediaModule mediaModule )	{ m_MediaModule = mediaModule; }
+    EMediaModule                getMediaModule( void )	                    { return m_MediaModule; }
     
     int					        writeSamples( int16_t* samplesBuf, int sampleCnt, bool isSilent = false ) override;
 
     MiniAudioMgr*				m_AudioIoMgr{ nullptr };
-    EAppModule                  m_AppModule{ eAppModuleInvalid };
+    EMediaModule                m_MediaModule{ eMediaModuleInvalid };
     int64_t                     m_TimeNow{ 0 };
 	int64_t                     m_LastMixerPcmTime{ 0 };
     int                         m_FuncCallCnt{ 0 };

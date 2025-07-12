@@ -185,7 +185,7 @@ using namespace XbmcThreads;
 #define MAX_FFWD_SPEED 5
 
 //============================================================================
-void CApplication::fromGuiKeyPressEvent( EAppModule appModule, int key, int mod )
+void CApplication::fromGuiKeyPressEvent( EMediaModule mediaModule, int key, int mod )
 {
     if( CServiceBroker::GetWinSystem() )
     {
@@ -204,7 +204,7 @@ void CApplication::fromGuiKeyPressEvent( EAppModule appModule, int key, int mod 
 }
 
 //============================================================================
-void CApplication::fromGuiKeyReleaseEvent( EAppModule appModule, int key, int mod )
+void CApplication::fromGuiKeyReleaseEvent( EMediaModule mediaModule, int key, int mod )
 {
     if( CServiceBroker::GetWinSystem() )
     {
@@ -222,7 +222,7 @@ void CApplication::fromGuiKeyReleaseEvent( EAppModule appModule, int key, int mo
 }
 
 //============================================================================
-void CApplication::fromGuiMousePressEvent( EAppModule appModule, int mouseXPos, int mouseYPos, int mouseButton )
+void CApplication::fromGuiMousePressEvent( EMediaModule mediaModule, int mouseXPos, int mouseYPos, int mouseButton )
 {
     if( CServiceBroker::GetWinSystem() )
     {
@@ -238,7 +238,7 @@ void CApplication::fromGuiMousePressEvent( EAppModule appModule, int mouseXPos, 
 }
 
 //============================================================================
-void CApplication::fromGuiMouseReleaseEvent( EAppModule appModule, int mouseXPos, int mouseYPos, int mouseButton )
+void CApplication::fromGuiMouseReleaseEvent( EMediaModule mediaModule, int mouseXPos, int mouseYPos, int mouseButton )
 {
     if( CServiceBroker::GetWinSystem() )
     {
@@ -254,7 +254,7 @@ void CApplication::fromGuiMouseReleaseEvent( EAppModule appModule, int mouseXPos
 }
 
 //============================================================================
-void CApplication::fromGuiMouseMoveEvent( EAppModule appModule, int mouseXPos, int mouseYPos )
+void CApplication::fromGuiMouseMoveEvent( EMediaModule mediaModule, int mouseXPos, int mouseYPos )
 {
     XBMC_Event msg{ XBMC_MOUSEMOTION };
     msg.motion.x = (uint16_t)mouseXPos;
@@ -267,7 +267,7 @@ void CApplication::fromGuiMouseMoveEvent( EAppModule appModule, int mouseXPos, i
 }
 
 //============================================================================
-void CApplication::fromGuiRenderWindowResize( EAppModule appModule, int winWidth, int winHeight )
+void CApplication::fromGuiRenderWindowResize( EMediaModule mediaModule, int winWidth, int winHeight )
 {
     setRenderWindowSize( winWidth, winHeight );
 	if( CServiceBroker::GetWinSystem() )
@@ -284,7 +284,7 @@ void CApplication::fromGuiRenderWindowResize( EAppModule appModule, int winWidth
 }
 
 //============================================================================
-void CApplication::fromGuiCloseEvent( EAppModule appModule )
+void CApplication::fromGuiCloseEvent( EMediaModule mediaModule )
 {
     if( CServiceBroker::GetWinSystem() )
     {
@@ -298,7 +298,7 @@ void CApplication::fromGuiCloseEvent( EAppModule appModule )
 }
 
 //============================================================================
-void CApplication::fromGuiVisibleEvent( EAppModule appModule, bool isVisible )
+void CApplication::fromGuiVisibleEvent( EMediaModule mediaModule, bool isVisible )
 {
 
 }
@@ -306,13 +306,13 @@ void CApplication::fromGuiVisibleEvent( EAppModule appModule, bool isVisible )
 //============================================================================
 bool CApplication::toGuiMediaAction( EMediaPlayerAction playerAction, int actionVal, const char* fileName )
 {
-    return IToGui::getIToGui().toGuiMediaAction( eAppModulePlayerNlc, playerAction, actionVal, fileName );
+    return IToGui::getIToGui().toGuiMediaAction( eMediaModulePlayerNlc, playerAction, actionVal, fileName );
 }
 
 //============================================================================
 void CApplication::toGuiMediaError( EMediaError mediaError, const char* msg )
 {
-    IToGui::getIToGui().toGuiMediaError( eAppModulePlayerNlc, mediaError, msg );
+    IToGui::getIToGui().toGuiMediaError( eMediaModulePlayerNlc, mediaError, msg );
 }
 
 //============================================================================

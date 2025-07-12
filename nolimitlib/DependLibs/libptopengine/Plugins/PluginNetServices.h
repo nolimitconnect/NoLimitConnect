@@ -21,6 +21,8 @@ public:
     PluginNetServices() = delete; // don't allow default constructor
     PluginNetServices( const PluginNetServices& ) = delete; // don't allow copy constructor
 
+	EMediaModule			    getMediaModule( void ) override { return eMediaModuleInvalid; }
+
 	void						testIsMyPortOpen( void );
 
 protected:

@@ -209,6 +209,6 @@ void VxSndInstance::wantAudioCallbacks( bool wantCallbacks )
 	if( m_AudioCallbacksRequested != wantCallbacks )
 	{
 		m_AudioCallbacksRequested = wantCallbacks;
-		m_MediaProcessor->wantMediaInput( m_MyOnlineId, eMediaInputMixer, this, eAppModuleSoundEffects, m_MediaSessionId, wantCallbacks );
+		m_MediaProcessor->wantMediaInput( m_MyOnlineId, eMediaInputMixer, this, eMediaModuleSoundEffects, m_MediaSessionId, wantCallbacks );
 	}
 }

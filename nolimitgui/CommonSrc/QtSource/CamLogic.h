@@ -55,7 +55,7 @@ public:
     bool                        isCamCaptureRequested( void );
     bool                        isCamCaptureRunning( void ) { return m_CaptureRunning; }
 
-    void                        toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture );
+    void                        toGuiWantVideoCapture( EMediaModule mediaModule, bool wantVidCapture );
 
     void                        updateCameraDevices( void );
     void                        getAvailableCameras( std::vector<QString>& retCamList );
@@ -94,7 +94,7 @@ protected:
 
     CamProcessor                m_CamProcessor;
 
-    bool                        m_WantCamInput[ eMaxAppModule ];
+    bool                        m_WantCamInput[ eMaxMediaModule ];
     bool                        m_CameraEnabled{ false };
     bool                        m_CaptureRunning{ false };
 

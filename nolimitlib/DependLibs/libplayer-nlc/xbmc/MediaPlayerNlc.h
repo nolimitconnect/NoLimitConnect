@@ -23,7 +23,7 @@ public:
 
 	void						wantMediaPlayerCallback( IMediaPlayerCallback* client, bool wantCallback );
 
-	enum EAppModule				getAppModule( void ) override;
+	enum EMediaModule			getMediaModule( void ) override;
     bool						testQuitFlag() override;
 
 	void						setIsPlayingMedia( bool isPlaying ) { m_IsPlayingMedia = isPlaying; }
@@ -31,9 +31,9 @@ public:
 	void						setIsPlayingVideo( bool isPlaying ) { m_IsPlayingVideo = isPlaying; }
 	bool						getIsPlayingVideo( void ) override { return m_IsPlayingVideo; }
 
-	bool						fromThreadStartModule( EAppModule appModule ) override;
-	bool						fromGuiStopModule( EAppModule appModule ) override;
-	bool						fromGuiIsModuleRunning( EAppModule appModule ) override;
+	bool						fromThreadStartModule( EMediaModule mediaModule ) override;
+	bool						fromGuiStopModule( EMediaModule mediaModule ) override;
+	bool						fromGuiIsModuleRunning( EMediaModule mediaModule ) override;
 
 	bool						fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to100000 ) override;
 	bool						fromGuiMediaPlayerAction( EMediaPlayerAction playerAction ) override;

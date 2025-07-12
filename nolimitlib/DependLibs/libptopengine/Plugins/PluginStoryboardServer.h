@@ -17,6 +17,8 @@ public:
 	PluginStoryboardServer( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginStoryboardServer() = default;
 
+	EMediaModule			    getMediaModule( void ) override { return eMediaModuleInvalid; }
+
 protected:
 	virtual void				onAfterUserLogOnThreaded( void ) override;
 	virtual void				onLoadedFilesReady( int64_t lastFileUpdateTime, int64_t totalBytes, uint16_t fileTypes ) override;

@@ -24,7 +24,7 @@ public:
     PluginGroupClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginGroupClient() override = default;
 
-    virtual EAppModule			getAppModule( void ) override { return eAppModuleGroupClient; }
+    EMediaModule			    getMediaModule( void ) override { return eMediaModuleGroupClient; }
 
     //=== hosting ===//
     virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl ) override;

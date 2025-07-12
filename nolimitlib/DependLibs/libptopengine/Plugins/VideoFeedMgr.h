@@ -32,8 +32,8 @@ public:
 	VideoFeedMgr( P2PEngine& engine, PluginBase& plugin, PluginSessionMgr& sessionMgr );
 	virtual ~VideoFeedMgr() = default;
 
-    virtual bool                fromGuiStartPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantCamCapture = true );
-    virtual void				fromGuiStopPluginSession( bool pluginIsLocked, EAppModule appModule, VxGUID onlineId, bool wantCamCapture = true );
+    virtual bool                fromGuiStartPluginSession( bool pluginIsLocked, EMediaModule mediaModule, VxGUID onlineId, bool wantCamCapture = true );
+    virtual void				fromGuiStopPluginSession( bool pluginIsLocked, EMediaModule mediaModule, VxGUID onlineId, bool wantCamCapture = true );
 
 	virtual void				onPktVideoFeedReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 	virtual void				onPktVideoFeedStatus		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
@@ -45,10 +45,10 @@ public:
 	virtual void				callbackVideoPktPic( VxGUID& feedId, PktVideoFeedPic * pktVid, int pktsInSequence, int thisPktNum );
 	virtual void				callbackVideoPktPicChunk( VxGUID& feedId, PktVideoFeedPicChunk * pktVid, int pktsInSequence, int thisPktNum );
 
-	void						stopAllSessions( EAppModule appModule, EPluginType pluginType );
+	void						stopAllSessions( EMediaModule mediaModule, EPluginType pluginType );
 
 protected:
-	void						enableVideoCapture( bool bStart, VxGUID& onlineId, EAppModule appModule, bool wantCamCapture );
+	void						enableVideoCapture( bool bStart, VxGUID& onlineId, EMediaModule mediaModule, bool wantCamCapture );
 
     P2PEngine&                  m_Engine;
 	PluginBase&					m_Plugin;

@@ -134,11 +134,11 @@ int AudioLoopback::readRequestFromSpeaker( int16_t* readReqPcmBuf, int reqSpeake
 }
 
 //============================================================================
-int AudioLoopback::toGuiAudioFrameThreaded( EAppModule appModule, int16_t* pcmData, bool isSilenceIn )
+int AudioLoopback::toGuiAudioFrameThreaded( EMediaModule mediaModule, int16_t* pcmData, bool isSilenceIn )
 {
 	lockMixer();
 	AudioLoopbackFrame& audioFrame = getAudioWriteFrame();
-	int result = audioFrame.toMixerPcm8000HzMonoChannel( eAppModuleMicrophone, pcmData, isSilenceIn );
+	int result = audioFrame.toMixerPcm8000HzMonoChannel( eMediaModuleMicrophone, pcmData, isSilenceIn );
 	unlockMixer();
 	return result;
 }
@@ -160,7 +160,7 @@ void AudioLoopback::fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int sa
 		LogMsg( LOG_VERBOSE, "fromGuiEchoCanceledSamplesThreaded samples %d elapsed %d ms", sampleCnt, timeElapsed );
 	}
 
-	toGuiAudioFrameThreaded( eAppModuleMicrophone, pcmData, isSilence );
+	toGuiAudioFrameThreaded( eMediaModuleMicrophone, pcmData, isSilence );
 }
 
 //============================================================================

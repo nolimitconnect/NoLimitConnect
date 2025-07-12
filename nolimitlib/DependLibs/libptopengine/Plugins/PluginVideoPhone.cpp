@@ -94,9 +94,9 @@ bool PluginVideoPhone::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSes
 //============================================================================
 bool PluginVideoPhone::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
-    bool result = m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleVideoPhone, onlineId );
-    result &= m_VideoFeedMgr.fromGuiStartPluginSession( false, eAppModuleVideoPhone, getEngine().getMyOnlineId() );
-    return result;
+	m_VoiceFeedMgr.enableAudioCapture( true, onlineId );
+	m_VoiceFeedMgr.enableAudioReceive( true, onlineId );
+    return m_VideoFeedMgr.fromGuiStartPluginSession( false, eMediaModuleVideoPhone, getEngine().getMyOnlineId() );
 }
 
 //============================================================================
@@ -105,9 +105,10 @@ void PluginVideoPhone::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSes
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogMsg( LOG_INFO, "PluginVideoPhone::fromGuiStopPluginSession %s start", netIdent->getOnlineName() );
 #endif // DEBUG_AUTOPLUGIN_LOCK
-	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleVideoPhone, onlineId );
-	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleVideoPhone, onlineId );
-	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleVideoPhone, getEngine().getMyOnlineId() );
+	m_VoiceFeedMgr.enableAudioCapture( false, onlineId );
+	m_VoiceFeedMgr.enableAudioReceive( false, onlineId );
+	m_VideoFeedMgr.fromGuiStopPluginSession( false, eMediaModuleVideoPhone, onlineId );
+	m_VideoFeedMgr.fromGuiStopPluginSession( false, eMediaModuleVideoPhone, getEngine().getMyOnlineId() );
 	m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId, lclSessionId );
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogMsg( LOG_INFO, "PluginVideoPhone::fromGuiStopPluginSession %s done", netIdent->getOnlineName() );
@@ -260,9 +261,10 @@ void PluginVideoPhone::onSessionStart( PluginSessionBase* session, bool pluginIs
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogMsg( LOG_INFO, "PluginVideoPhone::onSessionStart %s starting voice feed", session->getSendToId()->getOnlineName() );
 #endif // DEBUG_AUTOPLUGIN_LOCK
-	m_VoiceFeedMgr.fromGuiStartPluginSession( pluginIsLocked, eAppModuleVideoPhone, session->getSendToId() );
+	m_VoiceFeedMgr.enableAudioCapture( true, session->getSendToId() );
+	m_VoiceFeedMgr.enableAudioReceive( true, session->getSendToId() );
 	// in order to get my video packets to send out the ident has to be myself
-	m_VideoFeedMgr.fromGuiStartPluginSession( pluginIsLocked, eAppModuleVideoPhone, getEngine().getMyOnlineId() );
+	m_VideoFeedMgr.fromGuiStartPluginSession( pluginIsLocked, eMediaModuleVideoPhone, getEngine().getMyOnlineId() );
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogMsg( LOG_INFO, "PluginVideoPhone::onSessionStart %s done\n", session->getSendToId()->getOnlineName() );
 #endif // DEBUG_AUTOPLUGIN_LOCK
@@ -274,9 +276,10 @@ void PluginVideoPhone::onSessionEnded( PluginSessionBase* session, bool pluginIs
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogMsg( LOG_INFO, "PluginVideoPhone::onSessionStart %s STOP voice feed", session->getSendToId()->getOnlineName() );
 #endif // DEBUG_AUTOPLUGIN_LOCK
-	m_VoiceFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eAppModuleVideoPhone, session->getSendToId() );
-	m_VideoFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eAppModuleVideoPhone, session->getSendToId() );
-	m_VideoFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eAppModuleVideoPhone, getEngine().getMyOnlineId() );
+	m_VoiceFeedMgr.enableAudioCapture( false, session->getSendToId() );
+	m_VoiceFeedMgr.enableAudioReceive( false, session->getSendToId() );
+	m_VideoFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eMediaModuleVideoPhone, session->getSendToId() );
+	m_VideoFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eMediaModuleVideoPhone, getEngine().getMyOnlineId() );
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogMsg( LOG_INFO, "PluginVideoPhone::onSessionStart %s done", session->getSendToId()->getOnlineName() );
 #endif // DEBUG_AUTOPLUGIN_LOCK
@@ -297,8 +300,9 @@ void PluginVideoPhone::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 //============================================================================
 void PluginVideoPhone::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
-	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleVideoPhone, netIdent->getMyOnlineId() );
-	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleVideoPhone, netIdent->getMyOnlineId() );
-	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleVideoPhone, getEngine().getMyOnlineId() );
+	m_VoiceFeedMgr.enableAudioCapture( false, netIdent->getMyOnlineId() );
+	m_VoiceFeedMgr.enableAudioReceive( false, netIdent->getMyOnlineId() );
+	m_VideoFeedMgr.fromGuiStopPluginSession( false, eMediaModuleVideoPhone, netIdent->getMyOnlineId() );
+	m_VideoFeedMgr.fromGuiStopPluginSession( false, eMediaModuleVideoPhone, getEngine().getMyOnlineId() );
 	m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
 }

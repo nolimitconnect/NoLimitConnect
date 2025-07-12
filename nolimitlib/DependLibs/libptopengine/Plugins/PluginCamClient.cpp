@@ -158,15 +158,20 @@ bool PluginCamClient::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSes
 			lclSessionId = rxSession->getLclSessionId();
 		}
 
-		requestCamSession( rxSession, false );
-
-        result = m_VideoFeedMgr.fromGuiStartPluginSession( true, eAppModuleCamClient, onlineId, false );
-        result &= m_VoiceFeedMgr.fromGuiStartPluginSession( true, eAppModuleCamClient, onlineId, false );
-		setIsPluginInSession( true );
+        bool reqSent = requestCamSession( rxSession, false );
+        if( reqSent )
+        {
+            setIsPluginInSession( true );
+            result = true;
+        }
+        else
+        {
+            LogMsg( LOG_VERBOSE, "PluginCamClient::%s request send failed to %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
+        }
 	}
 	else
 	{
-		LogMsg( LOG_VERBOSE, "PluginCamClient::fromGuiStartPluginSession could not connect to %s", m_Engine.describeUser( onlineId ).c_str() );
+        LogMsg( LOG_VERBOSE, "PluginCamClient::%s could not connect to %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
 	}
 
     return result;
@@ -177,14 +182,14 @@ bool PluginCamClient::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSes
 void PluginCamClient::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	LogMsg( LOG_VERBOSE, "PluginCamClient::fromGuiStopPluginSession" );
+	m_VoiceFeedMgr.enableAudioReceive( false, onlineId );
 	PluginBase::AutoPluginLock pluginMutexLock( this );
 	bool isMyself = onlineId == m_MyIdent->getMyOnlineId();
 	if( isMyself )
 	{
 		m_Engine.setHasSharedWebCam(false);
-		m_VoiceFeedMgr.fromGuiStopPluginSession( true, eAppModuleCamClient, onlineId, false );
 		// don't want video capture anymore
-		m_VideoFeedMgr.fromGuiStopPluginSession( true, eAppModuleCamClient, onlineId, false );
+		m_VideoFeedMgr.fromGuiStopPluginSession( true, eMediaModuleCamClient, onlineId, false );
 		if( true == fromGuiIsPluginInSession() )
 		{
 			setIsPluginInSession( false );
@@ -246,7 +251,6 @@ void PluginCamClient::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSess
 	}
 	else
 	{
-		m_VoiceFeedMgr.fromGuiStopPluginSession( true, eAppModuleCamClient, onlineId, false );
 		PktSessionStopReq oPkt;
 
 		RxSession * poSession = (RxSession *)m_PluginSessionMgr.findRxSessionByOnlineId( onlineId, true );
@@ -322,6 +326,7 @@ bool PluginCamClient::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& o
                                                         sktBase,
                                                         &pktReq ) )
             {
+                m_VoiceFeedMgr.enableAudioReceive( getPluginType(), rxSession->getSendToId() );
                 LogMsg( LOG_VERBOSE, " PluginCamClient::fromGuiMakePluginOffer success");
                 return true;
             }
@@ -344,24 +349,29 @@ bool PluginCamClient::requestCamSession( RxSession* rxSession, bool	bWaitForSucc
 {
 	PktSessionStartReq oPkt;
 	oPkt.setLclSessionId( rxSession->getLclSessionId() );
-	bool bSuccess = m_PluginMgr.pluginApiTxPacket(	m_ePluginType, 
+    bool result = m_PluginMgr.pluginApiTxPacket(	m_ePluginType,
 													rxSession->getSendToId(), 
 													rxSession->getSkt(), 
 													&oPkt );
-	if( ( true == bSuccess ) && bWaitForSuccess )
+    if( result )
+    {
+        m_VoiceFeedMgr.enableAudioReceive( getPluginType(), rxSession->getSendToId() );
+    }
+
+    if( ( true == result ) && bWaitForSuccess )
 	{
-		bSuccess = false;
+        result = false;
 		bool bResponseReceived = rxSession->waitForResponse( 9000 );
 		if( bResponseReceived )
 		{
 			if( rxSession->getIsSessionStarted() )
 			{
-				bSuccess = true;
+                result = true;
 			}
 		}
 	}
 	
-	return bSuccess;
+    return result;
 }
 
 //============================================================================
@@ -812,8 +822,8 @@ void PluginCamClient::stopAllSessions( void )
 		}
 	}
 
-	m_VideoFeedMgr.stopAllSessions( eAppModuleCamClient, getPluginType() );
-	m_VoiceFeedMgr.stopAllSessions( eAppModuleCamClient, getPluginType() );
+	m_VideoFeedMgr.stopAllSessions( eMediaModuleCamClient, getPluginType() );
+	m_VoiceFeedMgr.stopAllSessions();
 }
 
 //============================================================================
@@ -830,16 +840,13 @@ void PluginCamClient::enableCamServerService( bool enable )
 	{
 		m_Engine.setHasSharedWebCam( true );
 		// request video capture
-		m_VideoFeedMgr.fromGuiStartPluginSession( false, eAppModuleCamClient, m_Engine.getMyOnlineId(), false);
-		m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleCamClient, m_Engine.getMyOnlineId(), false );
+		m_VideoFeedMgr.fromGuiStartPluginSession( false, eMediaModuleCamClient, m_Engine.getMyOnlineId(), false);
 		setIsPluginInSession( true );
-
 	}
 	else
 	{
 		// stop video capture
-		m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleCamClient, m_Engine.getMyOnlineId(), false );
-		m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleCamClient, m_Engine.getMyOnlineId(), false );
+		m_VideoFeedMgr.fromGuiStopPluginSession( false, eMediaModuleCamClient, m_Engine.getMyOnlineId(), false );
 		m_Engine.setHasSharedWebCam( false );
 		stopAllSessions();
 		setIsPluginInSession( false );

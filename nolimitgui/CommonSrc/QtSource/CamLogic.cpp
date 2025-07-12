@@ -52,7 +52,7 @@ CamLogic::~CamLogic() {
 bool CamLogic::isCamCaptureRequested( void )
 {
     bool isRequested{ false };
-    for( int i = 0; i < eMaxAppModule; i++ )
+    for( int i = 0; i < eMaxMediaModule; i++ )
     {
         if( m_WantCamInput[i] )
         {
@@ -316,7 +316,7 @@ bool CamLogic::setCamera( const QCameraDevice& cameraDevice )
 }
 
 //============================================================================
-void CamLogic::toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture )
+void CamLogic::toGuiWantVideoCapture( EMediaModule mediaModule, bool wantVidCapture )
 {
     if( VxIsAppShuttingDown() )
     {
@@ -324,7 +324,7 @@ void CamLogic::toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture 
     }
 
     bool isWanted = isCamCaptureRequested();
-    m_WantCamInput[appModule] = wantVidCapture;
+    m_WantCamInput[mediaModule] = wantVidCapture;
     bool isWantedAfter = isCamCaptureRequested();
     if( isWanted != isWantedAfter )
     {

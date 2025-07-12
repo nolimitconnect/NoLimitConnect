@@ -19,6 +19,8 @@ public:
 	PluginFileShareServer( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* netIdent, EPluginType pluginType );
 	virtual ~PluginFileShareServer() = default;
 
+	EMediaModule			    getMediaModule( void ) override { return eMediaModuleInvalid; }
+
 	virtual void				onNetworkConnectionReady( bool requiresRelay ) override;
 
 	virtual void				updateSharedFilesInfo( void );

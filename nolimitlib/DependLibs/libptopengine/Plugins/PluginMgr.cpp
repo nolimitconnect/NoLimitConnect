@@ -260,8 +260,7 @@ EAppState PluginMgr::getPluginState( EPluginType pluginType )
 //============================================================================
 PluginBase* PluginMgr::getPlugin( EPluginType pluginType )
 {
-	std::vector<PluginBase*>::iterator iter;
-	for( iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
+	for( auto iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
 	{
 		PluginBase* plugin = *iter;
 		if( pluginType == plugin->getPluginType() )
@@ -852,7 +851,7 @@ bool PluginMgr::fromGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUI
 //! return true if access ok
 bool PluginMgr::canAccessPlugin( EPluginType pluginType, VxNetIdent* netIdent )
 {
-	LogMsg( LOG_VERBOSE, "PluginMgr::canAccessPlugin" );
+	LogMsg( LOG_VERBOSE, "PluginMgr::%s", __func__ );
 	EFriendState eHisFriendshipToMe = netIdent->getHisFriendshipToMe();
 	EFriendState ePluginPermission = netIdent->getPluginPermission(pluginType);
 	if( ( ePluginPermission != eFriendStateIgnore ) &&
@@ -872,12 +871,12 @@ void PluginMgr::pluginApiPlayJpgVideo( EPluginType pluginType, VxNetIdent* netId
 }
 
 //============================================================================
-void PluginMgr::pluginApiWantMediaInput( EPluginType pluginType, EMediaInputType mediaType, EAppModule appModule, VxGUID& mediaSessionId, bool wantInput )
+void PluginMgr::pluginApiWantMediaInput( EPluginType pluginType, EMediaInputType mediaType, EMediaModule mediaModule, VxGUID& mediaSessionId, bool wantInput )
 {
 	PluginBase* plugin = getPlugin( pluginType );
 	if( plugin )
 	{
-		m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), mediaType, plugin, appModule, mediaSessionId, wantInput );
+		m_Engine.getMediaProcessor().wantMediaInput( m_Engine.getMyOnlineId(), mediaType, plugin, mediaModule, mediaSessionId, wantInput );
 	}
 }
 

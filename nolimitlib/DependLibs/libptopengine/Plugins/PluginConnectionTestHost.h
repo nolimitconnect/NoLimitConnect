@@ -22,6 +22,8 @@ public:
     PluginConnectionTestHost( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginConnectionTestHost() override = default;
 
+    EMediaModule			    getMediaModule( void ) override { return eMediaModuleInvalid; }
+
     void                        testIsMyPortOpen( void );
     RCODE                       handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr ) override;
     RCODE                       internalHandlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );

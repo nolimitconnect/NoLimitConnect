@@ -17,6 +17,8 @@ public:
 	PluginAboutMePageServer( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginAboutMePageServer() = default;
 
+	EMediaModule					getMediaModule( void ) override { return eMediaModuleInvalid; }
+
     void						onNetworkConnectionReady( bool requiresRelay ) override;
 
 protected:

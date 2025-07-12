@@ -57,7 +57,7 @@ public:
 	virtual bool				sendPushToTalkReq( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase );
 
 protected:
-	bool						enableAudioCapture( bool enable, VxGUID& onlineId, EAppModule appModule, std::shared_ptr<VxSktBase>& sktBase );
+	bool						enableAudioCapture( bool enable, VxGUID& onlineId, EMediaModule mediaModule, std::shared_ptr<VxSktBase>& sktBase );
 	void						updatePushToTalkStatus( VxGUID& onlineId );
 	void						startRxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId );
 

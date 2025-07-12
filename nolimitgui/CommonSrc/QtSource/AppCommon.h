@@ -250,15 +250,15 @@ public:
     //============================================================================
     //=== to palayer-nlc lib events ===//
     //============================================================================
-    virtual void                fromGuiKeyPressEvent( EAppModule appModule, int key, int mod ) override;
-    virtual void                fromGuiKeyReleaseEvent( EAppModule appModule, int key, int mod ) override;
+    virtual void                fromGuiKeyPressEvent( EMediaModule mediaModule, int key, int mod ) override;
+    virtual void                fromGuiKeyReleaseEvent( EMediaModule mediaModule, int key, int mod ) override;
 
-    virtual void                fromGuiMousePressEvent( EAppModule appModule, int mouseXPos, int mouseyPos, int mouseButton ) override;
-    virtual void                fromGuiMouseReleaseEvent( EAppModule appModule, int mouseXPos, int mouseyPos, int mouseButton ) override;
-    virtual void                fromGuiMouseMoveEvent( EAppModule appModule, int mouseXPos, int mouseyPos ) override;
+    virtual void                fromGuiMousePressEvent( EMediaModule mediaModule, int mouseXPos, int mouseyPos, int mouseButton ) override;
+    virtual void                fromGuiMouseReleaseEvent( EMediaModule mediaModule, int mouseXPos, int mouseyPos, int mouseButton ) override;
+    virtual void                fromGuiMouseMoveEvent( EMediaModule mediaModule, int mouseXPos, int mouseyPos ) override;
 
-    virtual void                fromGuiCloseEvent( EAppModule appModule ) override;
-    virtual void                fromGuiVisibleEvent( EAppModule appModule, bool isVisible ) override;
+    virtual void                fromGuiCloseEvent( EMediaModule mediaModule ) override;
+    virtual void                fromGuiVisibleEvent( EMediaModule mediaModule, bool isVisible ) override;
 
     //============================================================================
     //=== from gui audio/camera callbacks ===//
@@ -283,8 +283,8 @@ public:
     //=== to gui media/render ===//
     //============================================================================
 
-    bool                        toGuiMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal = 0, const char* fileName = "" ) override;
-    void                        toGuiMediaError( EAppModule appModule, EMediaError mediaError, const char* msg ) override;
+    bool                        toGuiMediaAction( EMediaModule mediaModule, EMediaPlayerAction playerAction, int actionVal = 0, const char* fileName = "" ) override;
+    void                        toGuiMediaError( EMediaModule mediaModule, EMediaError mediaError, const char* msg ) override;
 
     virtual void                verifyGlState( const char* msg = nullptr ) override; // show gl error if any
 
@@ -446,11 +446,11 @@ public:
     //=== to gui ===//
     //============================================================================
 
-    void                        toGuiSetIsAppModuleRunning( EAppModule appModule, bool isRunning ) override;
-    bool                        toGuiGetIsAppModuleRunning( EAppModule appModule ) override;
+    void                        toGuiSetIsAppModuleRunning( EMediaModule mediaModule, bool isRunning ) override;
+    bool                        toGuiGetIsAppModuleRunning( EMediaModule mediaModule ) override;
 
-    bool                        toGuiRunModule( EAppModule appModule ) override;
-    bool                        toGuiStopModule( EAppModule appModule ) override;
+    bool                        toGuiRunModule( EMediaModule mediaModule ) override;
+    bool                        toGuiStopModule( EMediaModule mediaModule ) override;
 
     void				        toGuiPlayNlcMedia( AssetBaseInfo* assetInfo ) override;
     void				        toGuiLog( int logFlags, const char* pMsg ) override;
@@ -483,25 +483,25 @@ public:
     // return true if any microphone device is available to be enabled
     virtual bool				toGuiIsMicrophoneDeviceAvailable( void ) override;
 
-    virtual void				toGuiWantMicrophoneRecording( EAppModule appModule, bool wantMicInput ) override;
+    virtual void				toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput ) override;
     // enable disable microphone for specific user communicaion (usually push to talk)
-    virtual void				toGuiWantUserVoiceMicrophone( EAppModule appModule, VxGUID& onlineId, bool wantMicInput ) override;
+    virtual void				toGuiWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID& onlineId, bool wantMicInput ) override;
 
-    virtual void				toGuiWantSpeakerOutput( EAppModule appModule, bool wantSpeakerOutput ) override;
+    virtual void				toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput ) override;
     // enable disable speaker for specific user communicaion (usually push to talk)
-    virtual void				toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onlineId, bool wantSpeakerOutput ) override;
+    virtual void				toGuiWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID& onlineId, bool wantSpeakerOutput ) override;
 
-    virtual int				    toGuiModuleAudioFrame( EAppModule appModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
+    virtual int				    toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
 
-    virtual int				    toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFload, int audioDataLenInBytes ) override;
+    virtual int				    toGuiPlayerNlcAudio( EMediaModule mediaModule, float* audioDataFload, int audioDataLenInBytes ) override;
 
-    virtual float               toGuiGetAudioDelaySeconds( EAppModule appModule ) override;
+    virtual float               toGuiGetAudioDelaySeconds( EMediaModule mediaModule ) override;
 
-    virtual float               toGuiGetAudioCacheFreeSpace( EAppModule appModule ) override;
+    virtual float               toGuiGetAudioCacheFreeSpace( EMediaModule mediaModule ) override;
 
-    virtual float               toGuiGetAudioCacheTotalSeconds( EAppModule appModule ) override;
+    virtual float               toGuiGetAudioCacheTotalSeconds( EMediaModule mediaModule ) override;
 
-    virtual void				toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture ) override;
+    virtual void				toGuiWantVideoCapture( EMediaModule mediaModule, bool wantVidCapture ) override;
     virtual void				toGuiPlayJpgVideo( VxGUID& onlineId, std::shared_ptr<CamJpgVideo>& jpgVideo ) override;
 
     // user update interface
@@ -582,7 +582,7 @@ public:
     virtual void				toGuiBlobAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) override;
 
     /// a module has changed state
-    virtual void				toGuiModuleState( EAppModule moduleNum, EModuleState moduleState )  override;
+    virtual void				toGuiModuleState( EMediaModule moduleNum, EModuleState moduleState )  override;
 
     virtual void				toGuiNetworkIsTested( bool requiresRelay, std::string& ipAddr, uint16_t ipPort )  override;
 
@@ -654,13 +654,13 @@ signals:
 
     void						signalMicrophonePeak( int peekVal0to32768 );
 
-    void						signalInternalWantMicrophoneRecording( EAppModule appModule, bool enableMicInput );
-    void                        signalInternalWantUserVoiceMicrophone( EAppModule appModule, VxGUID onlineId, bool wantMicInput );
+    void						signalInternalWantMicrophoneRecording( EMediaModule mediaModule, bool enableMicInput );
+    void                        signalInternalWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID onlineId, bool wantMicInput );
 
-    void						signalInternalWantSpeakerOutput( EAppModule appModule, bool wantSpeakerOutput );
-    void						signalInternalWantUserVoiceSpeaker( EAppModule appModule, VxGUID onlineId, bool wantSpeakerOutput );
+    void						signalInternalWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput );
+    void						signalInternalWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID onlineId, bool wantSpeakerOutput );
 
-    void						signalInternalWantVideoCapture( EAppModule appModule, bool enableCapture );
+    void						signalInternalWantVideoCapture( EMediaModule mediaModule, bool enableCapture );
 
     void						signalSetRelayHelpButtonVisibility( bool isVisible );
 
@@ -725,8 +725,8 @@ signals:
 
     void                        signalInternalToGuiPluginSessionEnded( VxGUID onlineId, EPluginType pluginType, VxGUID lclSessionId );
 
-    void                        signalInternalMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal, QString fileName );
-    void                        signalInternalMediaError( EAppModule appModule, EMediaError mediaError, QString msg );
+    void                        signalInternalMediaAction( EMediaModule mediaModule, EMediaPlayerAction playerAction, int actionVal, QString fileName );
+    void                        signalInternalMediaError( EMediaModule mediaModule, EMediaError mediaError, QString msg );
 
     void						signalExpandWindowChanged( bool isMessengerFrame, bool isMaxScreenSize );
 
@@ -778,13 +778,13 @@ private slots:
     void                        slotInternalToGuiUpdateIdent( VxNetIdent netIdent );
     void                        slotInternalToGuiSaveMyIdent( VxNetIdent netIdent );
 
-    void						slotInternalWantMicrophoneRecording( EAppModule appModule, bool wantMicInput );
-    void                        slotInternalWantUserVoiceMicrophone( EAppModule appModule, VxGUID onlineId, bool wantMicInput );
+    void						slotInternalWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput );
+    void                        slotInternalWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID onlineId, bool wantMicInput );
 
-    void						slotInternalWantSpeakerOutput( EAppModule appModule, bool wantSpeakerOutput );
-    void						slotInternalWantUserVoiceSpeaker( EAppModule appModule, VxGUID onlineId, bool wantSpeakerOutput );
+    void						slotInternalWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput );
+    void						slotInternalWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID onlineId, bool wantSpeakerOutput );
 
-    void						slotInternalWantVideoCapture( EAppModule appModule, bool enableCapture );
+    void						slotInternalWantVideoCapture( EMediaModule mediaModule, bool enableCapture );
 
     void                        slotInternalNetworkIsTested( bool requiresRelay, QString ipAddr, uint16_t ipPort );
 
@@ -798,8 +798,8 @@ private slots:
 
     void                        slotInternalToGuiPluginSessionEnded( VxGUID onlineId, EPluginType pluginType, VxGUID lclSessionId );
 
-    void                        slotInternalMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal, QString fileName );
-    void                        slotInternalMediaError( EAppModule appModule, EMediaError mediaError, QString msg );
+    void                        slotInternalMediaAction( EMediaModule mediaModule, EMediaPlayerAction playerAction, int actionVal, QString fileName );
+    void                        slotInternalMediaError( EMediaModule mediaModule, EMediaError mediaError, QString msg );
 
 protected slots:
     void						slotMainWindowResized( void );

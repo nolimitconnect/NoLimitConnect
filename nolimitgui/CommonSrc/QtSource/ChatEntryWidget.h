@@ -38,8 +38,8 @@ public:
 	void						setEntryMode( EAssetType inputMode );
 	void						setIsPersonalRecorder( bool isPersonal );
 
-	void						setAppModule( EAppModule appModule );
-	EAppModule					getAppModule( void )						{ return  m_AppModule; }
+	void						setMediaModule( EMediaModule mediaModule );
+	EMediaModule				getMediaModule( void )						{ return  m_MediaModule; }
 
 	void						setPluginType( EPluginType pluginType );
 	EPluginType					getPluginType( void )						{ return  m_PluginType; }
@@ -73,7 +73,7 @@ private:
 	EAssetType					m_InputMode{ eAssetTypeUnknown };
 	GroupieId					m_GroupieId;
 
-	EAppModule					m_AppModule{ eAppModuleInvalid };
+	EMediaModule					m_MediaModule{ eMediaModuleInvalid };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
 
 	bool						m_IsPersonalRecorder{ false };

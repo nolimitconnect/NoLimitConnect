@@ -1077,23 +1077,13 @@ void PluginBase::updateRequestMicrophone( EPluginType pluginType, int prevNeedCn
     {
         if( prevNeedCnt == 0 && needCnt == 1 )
         {
-            if( !m_AudioPktsRequested )
-            {
-                m_AudioPktsRequested = true;
-                m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputAudioPkts, eAppModuleMicrophone, m_MediaSessionId, true );
-                IAudioRequests::getIAudioRequests().toGuiWantUserVoiceMicrophone( eAppModuleMicrophone, m_MediaSessionId, true );
-                LogModule( eLogVoice, LOG_INFO, "PluginBase::%s requested microphone %s", __func__, DescribePluginType( getPluginType() ) );
-            }
+            m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputAudioPkts, getMediaModule(), m_MediaSessionId, true);
+            LogModule( eLogVoice, LOG_INFO, "PluginBase::%s requested microphone %s", __func__, DescribePluginType( getPluginType() ) );
         }
         else if( prevNeedCnt == 1 && needCnt == 0 )
         {
-            if( m_AudioPktsRequested )
-            {
-                m_AudioPktsRequested = false;
-                m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputAudioPkts, eAppModuleMicrophone, m_MediaSessionId, false );
-                IAudioRequests::getIAudioRequests().toGuiWantUserVoiceMicrophone( eAppModuleMicrophone, m_MediaSessionId, false );
-                LogModule( eLogVoice, LOG_INFO, "PluginBase::%s NO longer requesting microphone %s", __func__, DescribePluginType( getPluginType() ) );
-            }
+            m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputAudioPkts, getMediaModule(), m_MediaSessionId, false );
+            LogModule( eLogVoice, LOG_INFO, "PluginBase::%s NO longer requesting microphone %s", __func__, DescribePluginType( getPluginType() ) );
         }
     }
 }
@@ -1105,23 +1095,13 @@ void PluginBase::updateRequestMixer( EPluginType pluginType, int prevNeedCnt, in
     {
         if( prevNeedCnt == 0 && needCnt == 1 )
         {
-            if( !m_MixerInputRequesed )
-            {
-                m_MixerInputRequesed = true;
-                m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputMixer, eAppModuleVoiceRx, m_MediaSessionId, true );
-                IAudioRequests::getIAudioRequests().toGuiWantUserVoiceSpeaker( eAppModuleVoiceRx, m_MediaSessionId, true );
-                LogModule( eLogVoice, LOG_INFO, "PluginBase::%s requested speaker %s", __func__, DescribePluginType( getPluginType() ) );
-            }
+            m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputMixer, getMediaModule(), m_MediaSessionId, true );
+            LogModule( eLogVoice, LOG_INFO, "PluginBase::%s requested speaker %s", __func__, DescribePluginType( getPluginType() ) );
         }
         else if( prevNeedCnt == 1 && needCnt == 0 )
         {
-            if( m_MixerInputRequesed )
-            {
-                m_MixerInputRequesed = false;
-                m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputMixer, eAppModuleVoiceRx, m_MediaSessionId, false );
-                IAudioRequests::getIAudioRequests().toGuiWantUserVoiceSpeaker( eAppModuleVoiceRx, m_MediaSessionId, false );
-                LogModule( eLogVoice, LOG_INFO, "PluginBase::%s NO longer requesting speaker %s", __func__, DescribePluginType( getPluginType() ) );
-            }
+            m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputMixer, getMediaModule(), m_MediaSessionId, false );
+            LogModule( eLogVoice, LOG_INFO, "PluginBase::%s NO longer requesting speaker %s", __func__, DescribePluginType( getPluginType() ) );
         }
     }
 }

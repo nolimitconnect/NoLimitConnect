@@ -41,7 +41,7 @@ public:
 	void						setFrameIndex( int frameIndex )				{ m_FrameIndex = frameIndex; }
 	int							getFrameIndex( void )						{ return m_FrameIndex; }
 
-	bool						hasModuleAudio( EAppModule appModule )		{ return std::find( m_InputIds.begin(), m_InputIds.end(), appModule ) != m_InputIds.end(); }
+	bool						hasModuleAudio( EMediaModule mediaModule )		{ return std::find( m_InputIds.begin(), m_InputIds.end(), mediaModule ) != m_InputIds.end(); }
 	bool						hasAnyAudio( void )							{ return !m_InputIds.empty(); }
 
 	bool						isProcessed( void )							{ return m_IsProcessed; }
@@ -56,7 +56,7 @@ public:
 												 AudioSampleBuf& echoFarBuf, int echoSamplesRequested, int& retEchoSamplesRead, int& retPeakValue0to100 );
 
 	// add audio data to mixer.. assumes pcm signed short mono channel 8000 Hz.. return total written to buffer
-	int							toMixerPcm8000HzMonoChannel( EAppModule appModule, int16_t* pcmData, bool isSilenceIn );
+	int							toMixerPcm8000HzMonoChannel( EMediaModule mediaModule, int16_t* pcmData, bool isSilenceIn );
 
 	int							audioLenInUse( void ); // how many bytes is available and not read by audio out
 	int							audioSamplesInUse()							{ return audioLenInUse() / 2; }
@@ -78,7 +78,7 @@ public:
 	int16_t						m_MixerBuf[ AUDIO_SAMPLES_PER_FRAME ];
 	int							m_MixerSamplesRead{ 0 };
 	int							m_MixerSamplesWrote{ 0 };
-	std::vector<EAppModule>		m_InputIds;
+	std::vector<EMediaModule>		m_InputIds;
 
 	// after processed to prepare for speakerRead
 	bool						m_IsProcessed{ false };

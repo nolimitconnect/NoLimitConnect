@@ -44,7 +44,7 @@ AppletMultiMessenger::AppletMultiMessenger(	AppCommon& app, QWidget* parent )
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
-	ui.m_SessionWidget->setAppModule( eAppModuleMessenger );
+	ui.m_SessionWidget->setMediaModule( eMediaModuleMessenger );
 	ui.m_SessionWidget->setPluginType( getPluginType() );
 	ui.m_SessionWidget->setInputClientCallback( this );
 
@@ -61,7 +61,7 @@ AppletMultiMessenger::AppletMultiMessenger(	AppCommon& app, QWidget* parent )
     ui.m_SessionWidget->setIsPersonalRecorder( false );
 
     ui.m_SessionWidget->setEntryMode( eAssetTypeUnknown );
-	ui.m_SessionWidget->setAppModule( eAppModuleMessenger );
+	ui.m_SessionWidget->setMediaModule( eMediaModuleMessenger );
 	ui.m_SessionWidget->setPluginType( ePluginTypeMessenger );
 	ui.m_SessionWidget->setInputClientCallback( this );
 
@@ -94,8 +94,8 @@ void AppletMultiMessenger::setupMultiSessionActivity( GuiUser* hisIdent )
 {
 	m_HisIdent = hisIdent;
 
-	m_VidChatWidget->setVideoFeedId( m_HisIdent->getMyOnlineId(), eAppModuleMessenger );
-	m_TodGameWidget->getVidWidget()->setVideoFeedId( m_HisIdent->getMyOnlineId(), eAppModuleMessenger );
+	m_VidChatWidget->setVideoFeedId( m_HisIdent->getMyOnlineId(), eMediaModuleMessenger );
+	m_TodGameWidget->getVidWidget()->setVideoFeedId( m_HisIdent->getMyOnlineId(), eMediaModuleMessenger );
 
 	m_VidChatWidget->setRecordFriendName( m_HisIdent->getOnlineName().c_str() );
 

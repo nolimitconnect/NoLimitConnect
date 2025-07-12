@@ -25,7 +25,7 @@ public:
     PluginPeerUserHost( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
     virtual ~PluginPeerUserHost() override = default;
 
-    virtual EAppModule			getAppModule( void ) override { return eAppModulePeerUsertHost; }
+    virtual EMediaModule	    getMediaModule( void ) override { return eMediaModulePeerUsertHost; }
 
     virtual void				pluginStartup( void ) override;
 

@@ -44,6 +44,7 @@ void AppletPlayerVideo::initAppletPlayerVideo( void )
 	connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT( closeApplet() ) );
 
 	ui.setupUi( getContentItemsFrame() );
+	ui.m_VidWidget->setMediaModule( eMediaModuleMediaPlayer );
     setMenuBottomVisibility( true );
 
     BottomBarWidget * bottomBar = getBottomBarWidget();
@@ -107,7 +108,7 @@ void AppletPlayerVideo::setAssetInfo( AssetInfo& assetInfo )
 {
 	AppletPlayerBase::setAssetInfo( assetInfo );
 
-    ui.m_VidWidget->setVideoFeedId( m_AssetInfo.getAssetUniqueId(), eAppModuleMediaPlayer );
+    ui.m_VidWidget->setVideoFeedId( m_AssetInfo.getAssetUniqueId(), eMediaModuleMediaPlayer );
 }
 
 //============================================================================

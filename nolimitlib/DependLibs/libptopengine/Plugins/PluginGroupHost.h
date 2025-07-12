@@ -22,7 +22,7 @@ public:
     PluginGroupHost( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
     virtual ~PluginGroupHost() override = default;
 
-    virtual EAppModule			getAppModule( void ) override { return eAppModuleGroupHost; }
+    EMediaModule			    getMediaModule( void ) override { return eMediaModuleGroupHost; }
 
     virtual void				pluginStartup( void ) override;
 

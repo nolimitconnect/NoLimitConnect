@@ -37,8 +37,8 @@ public:
 	void						setIsPersonalRecorder( bool isPersonal );
     void                        setIsChatRoom( bool isChatRoom );
 
-	void						setAppModule( EAppModule appModule )		{ m_AppModule = appModule; }
-	EAppModule					getAppModule( void )						{ return  m_AppModule; }
+	void						setMediaModule( EMediaModule mediaModule )		{ m_MediaModule = mediaModule; }
+	EMediaModule				getMediaModule( void )						{ return  m_MediaModule; }
 
 	void						setPluginType( EPluginType pluginType )		{ m_PluginType = pluginType; }
 	EPluginType					getPluginType( void )						{ return  m_PluginType; }
@@ -77,7 +77,7 @@ protected:
     int64_t						m_TimeRecCurrent{ 0 };
 	QTimer *					m_ElapseTimer{ nullptr };
     bool						m_IsPersonalRecorder{ false };
-	EAppModule					m_AppModule{ eAppModuleInvalid };
+	EMediaModule					m_MediaModule{ eMediaModuleInvalid };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
 
     GroupieId                   m_GroupieId;

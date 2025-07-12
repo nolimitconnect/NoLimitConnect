@@ -18,6 +18,8 @@ public:
     PluginNetworkHost( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginNetworkHost() override = default;
 
+    EMediaModule			    getMediaModule( void ) override { return eMediaModuleInvalid; }
+
     void                        updateHostSearchList( EHostType hostType, PktHostInviteAnnounceReq* hostAnn, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override;
     void				        fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId ) override;
     void				        fromGuiListAction( EListAction listAction ) override;

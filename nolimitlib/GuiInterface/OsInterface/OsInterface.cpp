@@ -260,13 +260,13 @@ bool CopyIfRequiredApkDirectory( std::string apkFileDir, std::string destDir, bo
 
 
 //============================================================================
-bool OsInterface::doRun( EAppModule appModule )
+bool OsInterface::doRun( EMediaModule mediaModule )
 {
     LogModule( eLogStartup, LOG_VERBOSE, "OsInterface::doRun");
 
-    if( !IToGui::getIToGui().toGuiGetIsAppModuleRunning( appModule ) )
+    if( !IToGui::getIToGui().toGuiGetIsAppModuleRunning( mediaModule ) )
     {
-        if( eAppModulePlayerNlc == appModule )
+        if( eMediaModulePlayerNlc == mediaModule )
         { 
             #if defined(TARGET_OS_ANDROID)
                 int attachedThreadState = CJNIContext::getJniContext().attachThread();
@@ -280,7 +280,7 @@ bool OsInterface::doRun( EAppModule appModule )
                 CJNIContext::getJniContext().detachThread( attachedThreadState );
             #endif //  TARGET_OS_ANDROID
 
-            IToGui::getIToGui().toGuiSetIsAppModuleRunning( appModule, false );
+            IToGui::getIToGui().toGuiSetIsAppModuleRunning( mediaModule, false );
 
             //CAppEnvironment::TearDown();
         }

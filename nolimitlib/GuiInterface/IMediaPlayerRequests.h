@@ -27,9 +27,9 @@ public:
     static MediaPlayerNlc&      getNlcPlayer( void );
     static OsInterface&         getOsInterface( void );
 
-    virtual bool				fromThreadStartModule( EAppModule appModule ) = 0;
-    virtual bool				fromGuiStopModule( EAppModule appModule ) = 0;
-    virtual bool				fromGuiIsModuleRunning( EAppModule appModule ) = 0;
+    virtual bool				fromThreadStartModule( EMediaModule mediaModule ) = 0;
+    virtual bool				fromGuiStopModule( EMediaModule mediaModule ) = 0;
+    virtual bool				fromGuiIsModuleRunning( EMediaModule mediaModule ) = 0;
 
     virtual bool				fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to100000 ) = 0;
     virtual bool				fromGuiMediaPlayerAction( EMediaPlayerAction playerAction ) = 0;

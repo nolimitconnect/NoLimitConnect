@@ -161,14 +161,14 @@ void CAESinkQt::Stop()
 void CAESinkQt::GetDelay( AEDelayStatus& status )
 {
     // return current cached data duration in seconds 
-    status.SetDelay( IAudioRequests::getIAudioRequests().toGuiGetAudioDelaySeconds(eAppModulePlayerNlc));
+    status.SetDelay( IAudioRequests::getIAudioRequests().toGuiGetAudioDelaySeconds(eMediaModulePlayerNlc));
 }
 
 //============================================================================
 double CAESinkQt::GetCacheTotal( )
 {
     // return total possible cached data duration in seconds 
-    return  IAudioRequests::getIAudioRequests().toGuiGetAudioCacheTotalSeconds( eAppModulePlayerNlc );
+    return  IAudioRequests::getIAudioRequests().toGuiGetAudioCacheTotalSeconds( eMediaModulePlayerNlc );
 }
 
 extern bool movieStarted;
@@ -195,9 +195,9 @@ unsigned int CAESinkQt::AddPackets( uint8_t **data, unsigned int frames, unsigne
     //}
 
 	int retryCnt = 0;
-    while( ( IAudioRequests::getIAudioRequests().toGuiGetAudioCacheFreeSpace( eAppModulePlayerNlc ) < totalBytes ) && ( retryCnt < 50 ) )
+    while( ( IAudioRequests::getIAudioRequests().toGuiGetAudioCacheFreeSpace( eMediaModulePlayerNlc ) < totalBytes ) && ( retryCnt < 50 ) )
     {
-        int requiredSpace = totalBytes - IAudioRequests::getIAudioRequests().toGuiGetAudioCacheFreeSpace( eAppModulePlayerNlc );
+        int requiredSpace = totalBytes - IAudioRequests::getIAudioRequests().toGuiGetAudioCacheFreeSpace( eMediaModulePlayerNlc );
         if( requiredSpace > 0 )
         {
             VxSleep( 10 );
@@ -212,7 +212,7 @@ unsigned int CAESinkQt::AddPackets( uint8_t **data, unsigned int frames, unsigne
 //#ifdef DEBUG_KODI_AUDIO
 	if( retryCnt >= 50 )
 	{
-		LogMsg( LOG_DEBUG, "CAESinkQt::AddPackets timeout snd buf needs %d free space but has %d", totalBytes, IAudioRequests::getIAudioRequests().toGuiGetAudioCacheFreeSpace( eAppModulePlayerNlc )  );
+		LogMsg( LOG_DEBUG, "CAESinkQt::AddPackets timeout snd buf needs %d free space but has %d", totalBytes, IAudioRequests::getIAudioRequests().toGuiGetAudioCacheFreeSpace( eMediaModulePlayerNlc )  );
 	}
 //#endif // DEBUG_KODI_AUDIO
 
@@ -281,7 +281,7 @@ unsigned int CAESinkQt::AddPackets( uint8_t **data, unsigned int frames, unsigne
 
     // if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "CAESinkQt toGuiPlayerNlcAudio %d bytes", totalBytes );
 
-    int wrote = IAudioRequests::getIAudioRequests().toGuiPlayerNlcAudio( eAppModulePlayerNlc, (float *)audioBuffer, totalBytes );
+    int wrote = IAudioRequests::getIAudioRequests().toGuiPlayerNlcAudio( eMediaModulePlayerNlc, (float *)audioBuffer, totalBytes );
     if( wrote < 0 )
     {
         CLog::Log( LOGERROR, "CAESinkQt::AddPackets - Failed to write" );

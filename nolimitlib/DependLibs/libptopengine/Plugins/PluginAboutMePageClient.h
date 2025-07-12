@@ -17,7 +17,9 @@ public:
     PluginAboutMePageClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginAboutMePageClient() = default;
 
-	bool						getIsInitialized( void )			{ return m_WebPageClientReady; }
+	EMediaModule				getMediaModule( void ) override { return eMediaModuleInvalid; }
+
+	bool						getIsInitialized( void )		{ return m_WebPageClientReady; }
 
 	virtual bool				fromGuiDownloadWebPage( EWebPageType webPageType, VxGUID& onlineId ) override;
 	virtual bool				fromGuiCancelWebPage( EWebPageType webPageType, VxGUID& onlineId ) override;

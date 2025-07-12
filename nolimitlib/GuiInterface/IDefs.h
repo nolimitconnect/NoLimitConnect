@@ -23,38 +23,37 @@
 
 // NOTE: if you add or remove a enum then must update corresponding DescribeXXX( enumXXX )
 
-enum EAppModule
+enum EMediaModule
 {
-    eAppModuleInvalid = 0,
-    eAppModuleAll,
-    eAppModuleCamClient,
-    eAppModuleCamServer,
-    eAppModuleChatRoomClient,
-    eAppModuleChatRoomHost,
-    eAppModuleGroupClient,
-    eAppModuleGroupHost,
-    eAppModuleMediaPlayer,
-    eAppModuleMediaReader,
-    eAppModuleMediaWriter,
-    eAppModuleMessenger,
-    eAppModuleMicrophone,
-    eAppModulePtoP,
-    eAppModulePeerUserClient,
-    eAppModulePeerUsertHost,
-    eAppModulePersonalNotes,
-    eAppModulePlayerNlc,
-    eAppModulePushToTalk,
-    eAppModuleRandomConnectClient,
-    eAppModuleRandomConnectHost,
-    eAppModuleSnapshot,
-    eAppModuleSoundEffects,
-    eAppModuleTest,
-    eAppModuleTruthOrDare,
-    eAppModuleVideoPhone,
-    eAppModuleVoicePhone,
-    eAppModuleVoiceRx,
+    eMediaModuleInvalid = 0,
+    eMediaModuleAll,
+    eMediaModuleCamClient,
+    eMediaModuleCamServer,
+    eMediaModuleChatRoomClient,
+    eMediaModuleChatRoomHost,
+    eMediaModuleGroupClient,
+    eMediaModuleGroupHost,
+    eMediaModuleMediaPlayer,
+    eMediaModuleMediaReader,
+    eMediaModuleMediaWriter,
+    eMediaModuleMessenger,
+    eMediaModuleMicrophone,
+    eMediaModulePtoP,
+    eMediaModulePeerUserClient,
+    eMediaModulePeerUsertHost,
+    eMediaModulePersonalNotes,
+    eMediaModulePlayerNlc,
+    eMediaModulePushToTalk,
+    eMediaModuleRandomConnectClient,
+    eMediaModuleRandomConnectHost,
+    eMediaModuleSnapshot,
+    eMediaModuleSoundEffects,
+    eMediaModuleTest,
+    eMediaModuleTruthOrDare,
+    eMediaModuleVideoPhone,
+    eMediaModuleVoicePhone,
 
-    eMaxAppModule // must be last
+    eMaxMediaModule // must be last
 };
 
 enum EAgeType
@@ -1374,7 +1373,7 @@ enum EXferAction
 
 ESktCloseReason ConnectReasonToCloseReason( enum EConnectReason connectReason );
 
-const char* DescribeAppModule( enum EAppModule appModule );
+const char* DescribeMediaModule( enum EMediaModule mediaModule );
 const char* DescribeAge( enum EAgeType ageType );
 const char* DescribeCommError( enum ECommErr commErr );
 

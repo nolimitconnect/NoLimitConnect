@@ -494,24 +494,31 @@ bool MediaProcessor::isAudioMediaType( EMediaInputType mediaType )
 void MediaProcessor::wantMediaInput(	VxGUID&						onlineId,
 										EMediaInputType				mediaType, 
 										MediaCallbackInterface *	callback, 
-										EAppModule					appModule,
+										EMediaModule				mediaModule,
 										VxGUID&						sessionId,
 										bool						wantInput )
 {
+    if( eMediaModuleInvalid == mediaModule )
+	{
+		LogMsg( LOG_ERROR, "MediaProcessor::%s cannot subscribe with invalid media type", __func__ );
+		vx_assert( false );
+		return;
+	}
+
 	if( isAudioMediaType( mediaType ) )
 	{
 		if( eMediaInputMixer == mediaType )
 		{
-			wantMixerMediaInput( onlineId, mediaType, callback, appModule, sessionId, wantInput );
+			wantMixerMediaInput( onlineId, mediaType, callback, mediaModule, sessionId, wantInput );
 		}
 		else
 		{
-			wantAudioMediaInput( onlineId, mediaType, callback, appModule, sessionId, wantInput );
+			wantAudioMediaInput( onlineId, mediaType, callback, mediaModule, sessionId, wantInput );
 		}
 	}
 	else
 	{
-		wantVideoMediaInput( onlineId, mediaType, callback, appModule, sessionId, wantInput );
+		wantVideoMediaInput( onlineId, mediaType, callback, mediaModule, sessionId, wantInput );
 	}
 }
 
@@ -612,18 +619,18 @@ bool MediaProcessor::clientToRemoveRemoveFromList(	std::vector<ClientToRemove>&	
 void MediaProcessor::wantMixerMediaInput(	VxGUID&						onlineId,
 											EMediaInputType				mediaType, 
 											MediaCallbackInterface *	callback, 
-											EAppModule					appModule,
+											EMediaModule					mediaModule,
 											VxGUID&						sessionId,
 											bool						wantInput )
 {
-	if(  false == wantInput )
+    if( false == wantInput )
 	{
 		// user wants to be removed but is probably being called from a callback function.
 		// if we remove now it might crash because iterator may expect more items in array
 		m_MixerRemoveMutex.lock();
 		if( !clientToRemoveExistsInList( m_MixerClientRemoveList, onlineId, mediaType, sessionId, callback ) )
 		{
-			m_MixerClientRemoveList.emplace_back( ClientToRemove( onlineId, mediaType, callback, appModule, sessionId ) );
+			m_MixerClientRemoveList.emplace_back( ClientToRemove( onlineId, mediaType, callback, mediaModule, sessionId ) );
 		}
 
 		m_MixerRemoveMutex.unlock();
@@ -633,9 +640,12 @@ void MediaProcessor::wantMixerMediaInput(	VxGUID&						onlineId,
 		if( stopSpeakerOutput )
 		{
 			m_SpeakerOutputEnabled = false;
-			if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo,LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput stoping speaker output module %s", DescribeAppModule( appModule ) );
-			IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( appModule, false );
-			IAudioRequests::getIAudioRequests().toGuiWantMicrophoneRecording( appModule, false );
+            if( mediaModule != eMediaModuleSoundEffects && ( LogEnabled(eLogVoice) || LogEnabled(eLogAudioIo) ) )
+            {
+                LogMsg( LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput stoping speaker output module %s", DescribeMediaModule( mediaModule ) );
+            }
+
+            IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( mediaModule, false );
 		}
 		return;
 	}
@@ -689,8 +699,12 @@ void MediaProcessor::wantMixerMediaInput(	VxGUID&						onlineId,
 
 	if( startSpeakerOutput )
 	{
-		if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput starting speaker output module %s", DescribeAppModule( appModule ) );
-		IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( appModule, true );	
+        if( mediaModule != eMediaModuleSoundEffects && ( LogEnabled(eLogVoice) || LogEnabled(eLogAudioIo) ) )
+        {
+            LogMsg( LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput starting speaker output module %s", DescribeMediaModule( mediaModule ) );
+        }
+
+		IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( mediaModule, true );	
 	}
 }
 
@@ -705,7 +719,7 @@ void MediaProcessor::doMixerClientRemovals( std::vector<ClientToRemove>& clientR
 			VxGUID&						onlineId = clientRemoveList[i].m_OnlineId;
 			EMediaInputType				mediaType = clientRemoveList[i].m_MediaType;
 			MediaCallbackInterface*		callback = clientRemoveList[i].m_Callback;
-			EAppModule					appModule = clientRemoveList[i].m_AppModule;
+			EMediaModule					mediaModule = clientRemoveList[i].m_MediaModule;
 			VxGUID						sessionId = clientRemoveList[i].m_SessionId;
 
 			std::vector<MediaClient>* clientList = 0;
@@ -736,7 +750,7 @@ void MediaProcessor::doMixerClientRemovals( std::vector<ClientToRemove>& clientR
 				continue;
 			}
 
-			std::vector<EAppModule> appModuleList;
+			std::vector<EMediaModule> appModuleList;
 			std::vector<MediaClient>::iterator iter;
 			for( iter = clientList->begin(); iter != clientList->end(); ++iter )
 			{
@@ -756,8 +770,8 @@ void MediaProcessor::doMixerClientRemovals( std::vector<ClientToRemove>& clientR
 			if( stopSpeakerOutput )
 			{
 				m_SpeakerOutputEnabled = false;
-				LogMsg( LOG_VERBOSE, "MediaProcessor::doMixerClientRemovals stopping speaker output module %s", DescribeAppModule( appModule ) );
-				IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( appModule, false );
+				LogMsg( LOG_VERBOSE, "MediaProcessor::doMixerClientRemovals stopping speaker output module %s", DescribeMediaModule( mediaModule ) );
+				IAudioRequests::getIAudioRequests().toGuiWantSpeakerOutput( mediaModule, false );
 			}
 		}
 
@@ -770,7 +784,7 @@ void MediaProcessor::doMixerClientRemovals( std::vector<ClientToRemove>& clientR
 void MediaProcessor::wantAudioMediaInput(	VxGUID&						onlineId,
 											EMediaInputType				mediaType, 
 											MediaCallbackInterface *	callback, 
-											EAppModule					appModule,
+											EMediaModule					mediaModule,
 											VxGUID&						sessionId,
 											bool						wantInput )
 {
@@ -781,7 +795,7 @@ void MediaProcessor::wantAudioMediaInput(	VxGUID&						onlineId,
 		m_AudioRemoveMutex.lock();
 		if( m_MicCaptureEnabled && !clientToRemoveExistsInList( m_AudioClientRemoveList, onlineId, mediaType, sessionId, callback ) )
 		{
-			m_AudioClientRemoveList.emplace_back( ClientToRemove( onlineId, mediaType, callback, appModule, sessionId ) );
+			m_AudioClientRemoveList.emplace_back( ClientToRemove( onlineId, mediaType, callback, mediaModule, sessionId ) );
 		}
 
 		m_AudioRemoveMutex.unlock();
@@ -854,7 +868,7 @@ void MediaProcessor::wantAudioMediaInput(	VxGUID&						onlineId,
 	if( startMicInput )
 	{
 		LogMsg( LOG_INFO, "starting microphone input" );
-		IAudioRequests::getIAudioRequests().toGuiWantMicrophoneRecording( appModule, true );
+		IAudioRequests::getIAudioRequests().toGuiWantMicrophoneRecording( mediaModule, true );
 	}
 }
 
@@ -869,7 +883,7 @@ void MediaProcessor::doAudioClientRemovals( std::vector<ClientToRemove>& clientR
 			VxGUID&						onlineId = clientRemoveList[i].m_OnlineId;
 			EMediaInputType				mediaType = clientRemoveList[i].m_MediaType;
 			MediaCallbackInterface*		callback = clientRemoveList[i].m_Callback;
-			EAppModule					appModule = clientRemoveList[i].m_AppModule;
+			EMediaModule					mediaModule = clientRemoveList[i].m_MediaModule;
 			VxGUID						sessionId = clientRemoveList[i].m_SessionId;
 
 			std::vector<MediaClient>* clientList = 0;
@@ -920,7 +934,7 @@ void MediaProcessor::doAudioClientRemovals( std::vector<ClientToRemove>& clientR
 			{
 				m_MicCaptureEnabled = false;
 				LogMsg( LOG_INFO, "stopping microphone input" );
-				IAudioRequests::getIAudioRequests().toGuiWantMicrophoneRecording( appModule, false );
+				IAudioRequests::getIAudioRequests().toGuiWantMicrophoneRecording( mediaModule, false );
 			}
 		}
 
@@ -933,12 +947,12 @@ void MediaProcessor::doAudioClientRemovals( std::vector<ClientToRemove>& clientR
 void MediaProcessor::wantVideoMediaInput(	VxGUID&						onlineId,
 										    EMediaInputType				mediaType, 
 											MediaCallbackInterface *	callback, 
-											EAppModule					appModule,
+											EMediaModule				mediaModule,
 											VxGUID&						sessionId,
 											bool						wantInput )
 {
-	LogModule( eLogWebCam, LOG_DEBUG, "%s %s wantInput %d", __func__, DescribeAppModule( appModule ), wantInput );
-	if( appModule == eAppModuleMediaPlayer && wantInput )
+	LogModule( eLogWebCam, LOG_DEBUG, "%s %s wantInput %d", __func__, DescribeMediaModule( mediaModule ), wantInput );
+	if( mediaModule == eMediaModuleMediaPlayer && wantInput )
 	{
 		// gui media player wants all jpg streams and is never removed and we do not want it to trigger video capture
 		m_GuiPlayerCallback = callback;
@@ -952,7 +966,7 @@ void MediaProcessor::wantVideoMediaInput(	VxGUID&						onlineId,
 		m_VideoRemoveMutex.lock();
 		if( m_VidCaptureEnabled && !clientToRemoveExistsInList( m_VideoClientRemoveList, onlineId, mediaType, sessionId, callback ) )
 		{
-			m_VideoClientRemoveList.emplace_back( ClientToRemove( onlineId, mediaType, callback, appModule, sessionId ) );
+			m_VideoClientRemoveList.emplace_back( ClientToRemove( onlineId, mediaType, callback, mediaModule, sessionId ) );
 		}
 
 		m_VideoRemoveMutex.unlock();
@@ -979,11 +993,11 @@ void MediaProcessor::wantVideoMediaInput(	VxGUID&						onlineId,
 	{
 	case eMediaInputVideoPkts:
 		clientList = &m_VideoPktsList;
-		LogModule( eLogWebCam, LOG_DEBUG, "%s eMediaInputVideoPkts %s want %d cnt %d", __func__, DescribeAppModule( appModule ), wantInput, clientList->size() );
+		LogModule( eLogWebCam, LOG_DEBUG, "%s eMediaInputVideoPkts %s want %d cnt %d", __func__, DescribeMediaModule( mediaModule ), wantInput, clientList->size() );
 		break;
 	case eMediaInputVideoJpg:
 		clientList = &m_VideoJpgList;
-		LogModule( eLogWebCam, LOG_DEBUG, "%s eMediaInputVideoJpg %s want %d cnt %d", __func__, DescribeAppModule( appModule ), wantInput, clientList->size() );
+		LogModule( eLogWebCam, LOG_DEBUG, "%s eMediaInputVideoJpg %s want %d cnt %d", __func__, DescribeMediaModule( mediaModule ), wantInput, clientList->size() );
 		break;
 
 	default:
@@ -1021,7 +1035,7 @@ void MediaProcessor::wantVideoMediaInput(	VxGUID&						onlineId,
 		#endif // TEST_JPG_SPEED
 		m_VidCaptureEnabled = true;
 		LogModule( eLogWebCam, LOG_INFO, "starting video capture" );
-		IToGui::getIToGui().toGuiWantVideoCapture( appModule, true );
+		IToGui::getIToGui().toGuiWantVideoCapture( mediaModule, true );
 	}
 }
 
@@ -1036,7 +1050,7 @@ void MediaProcessor::doVideoClientRemovals( std::vector<ClientToRemove>& clientR
 			VxGUID&						onlineId = clientRemoveList[i].m_OnlineId;
 			EMediaInputType				mediaType = clientRemoveList[i].m_MediaType;
 			MediaCallbackInterface*		callback = clientRemoveList[i].m_Callback;
-			EAppModule					appModule = clientRemoveList[i].m_AppModule;
+			EMediaModule				mediaModule = clientRemoveList[i].m_MediaModule;
 			VxGUID						sessionId = clientRemoveList[i].m_SessionId;
 
 			std::vector<MediaClient>* clientList = 0;
@@ -1087,7 +1101,7 @@ void MediaProcessor::doVideoClientRemovals( std::vector<ClientToRemove>& clientR
 			{
 				m_VidCaptureEnabled = false;
 				LogMsg( LOG_INFO, "stopping video capture" );
-				IToGui::getIToGui().toGuiWantVideoCapture( appModule, false );
+				IToGui::getIToGui().toGuiWantVideoCapture( mediaModule, false );
 			}
 		}
 
@@ -1114,7 +1128,7 @@ void MediaProcessor::fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int s
 
 	if( m_ProcessAudioQue.size() < 5 )
 	{
-		RawAudio* rawAudio = new RawAudio( pcmData, AUDIO_BUF_SIZE, eAppModuleMicrophone );
+		RawAudio* rawAudio = new RawAudio( pcmData, AUDIO_BUF_SIZE, eMediaModuleMicrophone );
 
 		m_AudioQueInMutex.lock();
 		m_ProcessAudioQue.emplace_back( rawAudio );
@@ -1156,11 +1170,11 @@ void MediaProcessor::fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen )
 	m_MixerBufferMutex.lock();
 	if( !m_MixerBufUsed || m_MuteSpeaker )
 	{
-		IAudioRequests::getIAudioRequests().toGuiModuleAudioFrame( eAppModulePtoP, (int16_t*)m_QuietAudioBuf, AUDIO_BUF_SIZE, true );
+		IAudioRequests::getIAudioRequests().toGuiModuleAudioFrame( eMediaModulePtoP, (int16_t*)m_QuietAudioBuf, AUDIO_BUF_SIZE, true );
 	}
 	else
 	{
-		IAudioRequests::getIAudioRequests().toGuiModuleAudioFrame( eAppModulePtoP, (int16_t*)m_MixerBuf, AUDIO_BUF_SIZE, false );
+		IAudioRequests::getIAudioRequests().toGuiModuleAudioFrame( eMediaModulePtoP, (int16_t*)m_MixerBuf, AUDIO_BUF_SIZE, false );
 	}
 
 	m_MixerBufUsed = false;

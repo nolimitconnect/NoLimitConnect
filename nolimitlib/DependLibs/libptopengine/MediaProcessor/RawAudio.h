@@ -15,18 +15,18 @@
 class RawAudio
 {
 public:
-	RawAudio( int16_t *	pcmData, uint16_t pcmDataLen, EAppModule appModule )
+	RawAudio( int16_t *	pcmData, uint16_t pcmDataLen, EMediaModule mediaModule )
 		: m_PcmData( (int16_t*)new uint8_t[ pcmDataLen ] )
 		, m_PcmDataLen( pcmDataLen )
-		, m_AppModule( appModule )
+		, m_MediaModule( mediaModule )
 	{
 		memcpy( m_PcmData, pcmData, pcmDataLen );
 	}
 
-	RawAudio( int16_t pcmDataLen, bool clearData, EAppModule appModule )
+	RawAudio( int16_t pcmDataLen, bool clearData, EMediaModule mediaModule )
 		: m_PcmData( (int16_t*)new uint8_t[ pcmDataLen ] )
 		, m_PcmDataLen( pcmDataLen )
-		, m_AppModule( appModule )
+		, m_MediaModule( mediaModule )
 	{
 		if( clearData )
 		{
@@ -39,7 +39,7 @@ public:
 		delete m_PcmData;
 	}
 
-	EAppModule					getAppModule( void )		{ return m_AppModule; };
+	EMediaModule				getMediaModule( void )		{ return m_MediaModule; };
 	int16_t *					getDataBuf( void )			{ return m_PcmData; }
 	bool						getIsSilence( void )		{ return m_IsSilence; }
 
@@ -48,6 +48,6 @@ public:
 	//=== vars ===//
 	int16_t *					m_PcmData;
 	uint16_t					m_PcmDataLen; 
-	EAppModule					m_AppModule{ eAppModuleInvalid };
+	EMediaModule				m_MediaModule{ eMediaModuleInvalid };
 	bool						m_IsSilence{ false };
 };

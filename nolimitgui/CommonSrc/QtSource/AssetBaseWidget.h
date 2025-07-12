@@ -33,8 +33,8 @@ public:
 	MyIcons&					getMyIcons( void );
 	P2PEngine&					getEngine( void )								{ return m_Engine; }
 
-	void						setAppModule( EAppModule appModule )			{ m_AppModule = appModule; }
-	EAppModule					getAppModule( void )							{ return m_AppModule; }
+	void						setMediaModule( EMediaModule mediaModule )		{ m_MediaModule = mediaModule; }
+	EMediaModule				getMediaModule( void )							{ return m_MediaModule; }
 
     virtual void				setAssetInfo( AssetBaseInfo& assetInfo )		{ m_AssetInfo = assetInfo; }
     virtual AssetBaseInfo&		getAssetInfo( void )                            { return m_AssetInfo; }
@@ -83,7 +83,7 @@ protected:
 	QProgressBar*				m_XferProgressBar{ nullptr };
 	bool						m_ProgressBarShouldBeVisible{ false };
 	bool						m_ProgressBarIsVisible{ false };
-	EAppModule					m_AppModule{ eAppModuleInvalid };
+	EMediaModule					m_MediaModule{ eMediaModuleInvalid };
 	bool						m_HasBeenShown{ false };
 	QTimer*						m_AssetWidgetReadyTimer{ nullptr };
 	bool						m_AssetReadyForCallbacks{ false };

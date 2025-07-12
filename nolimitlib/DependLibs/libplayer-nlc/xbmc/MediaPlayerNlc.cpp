@@ -81,9 +81,9 @@ void MediaPlayerNlc::wantMediaPlayerCallback( IMediaPlayerCallback* client, bool
 }
 
 //============================================================================
-enum EAppModule MediaPlayerNlc::getAppModule( void )
+enum EMediaModule MediaPlayerNlc::getMediaModule( void )
 { 
-	return EAppModule::eAppModulePlayerNlc; 
+	return EMediaModule::eMediaModulePlayerNlc; 
 }
 
 //============================================================================
@@ -95,9 +95,9 @@ bool MediaPlayerNlc::testQuitFlag()
 
 //============================================================================
 /// NOTE: called from RenderPlayerNlcThread::run()
-bool MediaPlayerNlc::fromThreadStartModule( EAppModule appModule )
+bool MediaPlayerNlc::fromThreadStartModule( EMediaModule mediaModule )
 {
-	if( eAppModulePlayerNlc == appModule && !m_ModuleIsRunning )
+	if( eMediaModulePlayerNlc == mediaModule && !m_ModuleIsRunning )
 	{
 		if( !m_ModuleIsInitialized )
 		{
@@ -107,7 +107,7 @@ bool MediaPlayerNlc::fromThreadStartModule( EAppModule appModule )
 
 		m_ModuleIsRunning = true;
 		m_ModuleStopCalled = false;
-		getOsInterface().doRun( appModule ); // will stay in this function until kodi is shutdown
+		getOsInterface().doRun( mediaModule ); // will stay in this function until kodi is shutdown
 		m_ModuleIsRunning = false;
 	}
 
@@ -115,9 +115,9 @@ bool MediaPlayerNlc::fromThreadStartModule( EAppModule appModule )
 }
 
 //============================================================================
-bool MediaPlayerNlc::fromGuiStopModule( EAppModule appModule )
+bool MediaPlayerNlc::fromGuiStopModule( EMediaModule mediaModule )
 {
-	if( eAppModulePlayerNlc == appModule && m_ModuleIsRunning )
+	if( eMediaModulePlayerNlc == mediaModule && m_ModuleIsRunning )
 	{
         StopPlaying();
 		if( !m_ModuleStopCalled )
@@ -135,7 +135,7 @@ bool MediaPlayerNlc::fromGuiStopModule( EAppModule appModule )
 }
 
 //============================================================================
-bool MediaPlayerNlc::fromGuiIsModuleRunning( EAppModule appModule )
+bool MediaPlayerNlc::fromGuiIsModuleRunning( EMediaModule mediaModule )
 {
 	return m_ServiceManager && m_ServiceManager->GetInitLevel() >= 3;
 }

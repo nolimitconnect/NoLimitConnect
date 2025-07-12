@@ -23,7 +23,7 @@ public:
     PluginRandomConnectHost( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginRandomConnectHost() override = default;
 
-    virtual EAppModule			getAppModule( void ) override		{ return eAppModuleRandomConnectHost; }
+    EMediaModule			    getMediaModule( void ) override		{ return eMediaModuleRandomConnectHost; }
 
     virtual void				pluginStartup( void ) override;
 

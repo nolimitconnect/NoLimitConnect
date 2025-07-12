@@ -27,30 +27,30 @@ AppModuleState::~AppModuleState()
 }
 
 //============================================================================
-void AppModuleState::toGuiSetIsAppModuleRunning( EAppModule appModule, bool isRunning )
+void AppModuleState::toGuiSetIsAppModuleRunning( EMediaModule mediaModule, bool isRunning )
 { 
-    m_IsRunning[ appModule ] = isRunning; 
+    m_IsRunning[ mediaModule ] = isRunning; 
 }
 
 //============================================================================
-bool AppModuleState::toGuiGetIsAppModuleRunning( EAppModule appModule )
+bool AppModuleState::toGuiGetIsAppModuleRunning( EMediaModule mediaModule )
 { 
-    return m_IsRunning[ appModule ]; 
+    return m_IsRunning[ mediaModule ]; 
 }
 
 //============================================================================
-bool AppModuleState::toGuiRunModule( EAppModule appModule )
+bool AppModuleState::toGuiRunModule( EMediaModule mediaModule )
 {
-     m_IsRunning[ appModule ] = true; 
+     m_IsRunning[ mediaModule ] = true; 
      return true;
 }
 
 //============================================================================
-bool AppModuleState::toGuiStopModule( EAppModule appModule )
+bool AppModuleState::toGuiStopModule( EMediaModule mediaModule )
 {
-    if( eAppModulePlayerNlc == appModule )
+    if( eMediaModulePlayerNlc == mediaModule )
     {
-        IMediaPlayerRequests::getNlcPlayer().fromGuiStopModule(appModule);
+        IMediaPlayerRequests::getNlcPlayer().fromGuiStopModule(mediaModule);
         return true;
     }
 

@@ -70,7 +70,7 @@ int AudioLoopbackFrame::audioLenFreeSpace( void )
 }
 
 //============================================================================
-int AudioLoopbackFrame::toMixerPcm8000HzMonoChannel( EAppModule appModule, int16_t* pcmData, bool isSilenceIn )
+int AudioLoopbackFrame::toMixerPcm8000HzMonoChannel( EMediaModule mediaModule, int16_t* pcmData, bool isSilenceIn )
 {
 	static int64_t timeNow = 0;
 	static int64_t lastMixerPcmTime{ 0 };
@@ -78,7 +78,7 @@ int AudioLoopbackFrame::toMixerPcm8000HzMonoChannel( EAppModule appModule, int16
 	lastMixerPcmTime = timeNow;
 	timeNow = GetHighResolutionTimeMs();
 
-	if( hasModuleAudio( appModule ) )
+	if( hasModuleAudio( mediaModule ) )
 	{
 		if( m_AudioIoMgr->getFrameTimingEnable() )
 		{		
@@ -88,13 +88,13 @@ int AudioLoopbackFrame::toMixerPcm8000HzMonoChannel( EAppModule appModule, int16
 			{
 				int timeInterval = (int)(timeNow - lastMixerPcmTime);
 				LogMsg( LOG_VERBOSE, "W Frame %d call cnt %d toMixerPcm8000HzMonoChannel module %s elapsed %d ms overrrun ", getFrameIndex(), funcCallCnt,
-					DescribeAppModule( appModule ), timeInterval );
+					DescribeMediaModule( mediaModule ), timeInterval );
 			}
 		}
 		else
 		{
 			int timeInterval = (int)(timeNow - lastMixerPcmTime);
-			LogMsg( LOG_WARNING, "W Frame %d AudioLoopbackFrame::toMixerPcm8000HzMonoChannel module %s elapsed %d ms overrun", getFrameIndex(), DescribeAppModule( appModule ), timeInterval );
+			LogMsg( LOG_WARNING, "W Frame %d AudioLoopbackFrame::toMixerPcm8000HzMonoChannel module %s elapsed %d ms overrun", getFrameIndex(), DescribeMediaModule( mediaModule ), timeInterval );
 		}
 		
 		return 0;
@@ -121,7 +121,7 @@ int AudioLoopbackFrame::toMixerPcm8000HzMonoChannel( EAppModule appModule, int16
 		m_MixerSamplesWrote = AUDIO_SAMPLES_PER_FRAME;
 	}
 	
-	m_InputIds.push_back( appModule );
+	m_InputIds.push_back( mediaModule );
 
 	if( m_AudioIoMgr->getFrameTimingEnable() )
 	{
@@ -133,7 +133,7 @@ int AudioLoopbackFrame::toMixerPcm8000HzMonoChannel( EAppModule appModule, int16
 		{
 			int timeInterval = (int)(timeNow - lastMixerPcmTime);
 			LogMsg( LOG_VERBOSE, "W Frame %d call cnt %d toMixerPcm8000HzMonoChannel module %s elapsed %d ms", getFrameIndex(), funcCallCnt,
-				DescribeAppModule( appModule ), timeInterval );
+				DescribeMediaModule( mediaModule ), timeInterval );
 		}
 
 		lastMixerPcmTime = timeNow;

@@ -16,5 +16,5 @@
 class AudioMixerInterface
 {
 public:
-	virtual int					toGuiAudioFrameThreaded( EAppModule appModule, int16_t* pcmData, bool isSilenceIn ) = 0;
+	virtual int					toGuiAudioFrameThreaded( EMediaModule mediaModule, int16_t* pcmData, bool isSilenceIn ) = 0;
 };

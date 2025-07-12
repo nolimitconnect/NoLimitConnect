@@ -102,7 +102,7 @@ public:
     virtual void                shaderEnableVertexAttribArray( ESHADERMETHOD shader, int arrayId ) override;
     virtual void                shaderDisableVertexAttribArray( ESHADERMETHOD shader, int arrayId ) override;
 
-	void						onModuleState( EAppModule moduleNum, EModuleState moduleState );
+	void						onModuleState( EMediaModule moduleNum, EModuleState moduleState );
 
 
     //============================================================================

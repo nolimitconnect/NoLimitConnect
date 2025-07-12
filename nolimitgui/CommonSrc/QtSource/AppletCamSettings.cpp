@@ -93,7 +93,7 @@ void AppletCamSettings::setupCamFeed( VxNetIdent* feedNetIdent )
     ui.m_CamVidWidget->enableCamSourceControls( false );
     ui.m_CamVidWidget->setRecordFilePath( VxGetDownloadsDirectory().c_str() );
     ui.m_CamVidWidget->setRecordFriendName( m_CamFeedIdent->getOnlineName() );
-    ui.m_CamVidWidget->setVideoFeedId( m_CamFeedId, eAppModuleCamClient );
+    ui.m_CamVidWidget->setVideoFeedId( m_CamFeedId, eMediaModuleCamClient );
 
     QString bkgFile = m_MyApp.getCamLogic().getCameraBackgroundFile();
     ui.m_CamVidWidget->setImageFromFile( bkgFile );
@@ -102,13 +102,13 @@ void AppletCamSettings::setupCamFeed( VxNetIdent* feedNetIdent )
 //============================================================================
 void AppletCamSettings::startCamFeed( void )
 {
-    m_MyApp.getCamLogic().toGuiWantVideoCapture( eAppModuleCamClient, true );
+    m_MyApp.getCamLogic().toGuiWantVideoCapture( eMediaModuleCamClient, true );
 }
 
 //============================================================================
 void AppletCamSettings::stopCamFeed( void )
 {
-    m_MyApp.getCamLogic().toGuiWantVideoCapture( eAppModuleCamClient, false );
+    m_MyApp.getCamLogic().toGuiWantVideoCapture( eMediaModuleCamClient, false );
 }
 
 //============================================================================

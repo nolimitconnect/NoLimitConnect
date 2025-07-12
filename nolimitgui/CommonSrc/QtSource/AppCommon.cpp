@@ -380,7 +380,7 @@ void AppCommon::shutdownAppCommon( void )
 			VxSetAppIsShuttingDown( true );
 			m_CamLogic.shutdownCamLogic();
 			m_SoundMgr.sndMgrShutdown();
-			fromGuiCloseEvent( eAppModuleAll );
+			fromGuiCloseEvent( eMediaModuleAll );
 			ActivityBase* appPlayer = m_AppletMgr.findAppletDialog( eAppletPlayerNlc );
 			if( appPlayer )
 			{

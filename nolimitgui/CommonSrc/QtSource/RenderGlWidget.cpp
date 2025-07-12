@@ -132,7 +132,7 @@ void RenderGlWidget::handleGlResize( int width, int height )
 
             setSurfaceSize( m_ScreenSize );
  
-            IMediaPlayerRequests::getNlcPlayer().fromGuiRenderWindowResize( eAppModulePlayerNlc, m_ScreenSize.width(), m_ScreenSize.height() );
+            IMediaPlayerRequests::getNlcPlayer().fromGuiRenderWindowResize( eMediaModulePlayerNlc, m_ScreenSize.width(), m_ScreenSize.height() );
         }
     }
 }
@@ -169,14 +169,14 @@ void RenderGlWidget::resizeEvent( QResizeEvent* ev )
     {
         handleGlResize( ev->size().width(), ev->size().height() );
         m_ScreenSize = QSize( ev->size().width(), ev->size().height() );
-        IMediaPlayerRequests::getNlcPlayer().fromGuiRenderWindowResize( eAppModulePlayerNlc, m_ScreenSize.width(), m_ScreenSize.height() );
+        IMediaPlayerRequests::getNlcPlayer().fromGuiRenderWindowResize( eMediaModulePlayerNlc, m_ScreenSize.width(), m_ScreenSize.height() );
     }
 }
 
 //============================================================================
-void RenderGlWidget::onModuleState( EAppModule moduleNum, EModuleState moduleState )
+void RenderGlWidget::onModuleState( EMediaModule moduleNum, EModuleState moduleState )
 {
-	if( ( moduleNum == eAppModulePlayerNlc ) && ( moduleState == eModuleStateInitialized ) )
+	if( ( moduleNum == eMediaModulePlayerNlc ) && ( moduleState == eModuleStateInitialized ) )
 	{
 		// send a resize message so kodi will resize to fit window
 		//m_QtToPlayerNlc.fromGuiResizeEnd( m_ScreenSize.width(), m_ScreenSize.height() );

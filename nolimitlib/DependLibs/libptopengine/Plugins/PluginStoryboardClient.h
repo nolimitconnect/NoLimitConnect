@@ -17,6 +17,8 @@ public:
 	PluginStoryboardClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginStoryboardClient() = default;
 
+	EMediaModule			    getMediaModule( void ) override { return eMediaModuleInvalid; }
+
 	bool						getIsInitialized( void ) { return m_WebPageClientReady; }
 
 	virtual bool				fromGuiDownloadWebPage( EWebPageType webPageType, VxGUID& onlineId ) override;

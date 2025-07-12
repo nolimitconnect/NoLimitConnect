@@ -59,7 +59,7 @@ public:
 
 	virtual void				frame80msElapsed( void ) override;
 	// assumes 80 ms of pcm 8000hz mono audio
-	virtual int					toGuiAudioFrameThreaded( EAppModule appModule, int16_t* pcmData, bool isSilenceIn ) override;
+	virtual int					toGuiAudioFrameThreaded( EMediaModule mediaModule, int16_t* pcmData, bool isSilenceIn ) override;
 
 	virtual void				fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int sampleCnts, bool isSilence ) override;
 	virtual void				fromGuiAudioOutSpaceAvaiThreaded( int sampleCnt );

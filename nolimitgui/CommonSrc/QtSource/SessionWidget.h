@@ -48,7 +48,7 @@ public:
 	void						setCanSend( bool canSend );
 	void						setInputClientCallback( InputClientBaseCallback* clientCallback );
 
-	void						setAppModule( EAppModule appModule );
+	void						setMediaModule( EMediaModule mediaModule );
 
 	void						setPluginType( EPluginType pluginType );
 	EPluginType					getPluginType( void )						{ return  m_PluginType; }

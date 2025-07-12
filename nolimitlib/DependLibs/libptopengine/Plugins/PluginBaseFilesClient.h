@@ -30,6 +30,8 @@ public:
 	PluginBaseFilesClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType, std::string fileInfoDbName );
 	virtual ~PluginBaseFilesClient() = default;
 
+	EMediaModule				getMediaModule( void ) override { return eMediaModuleInvalid; }
+
 	bool						connectForWebPageDownload( VxGUID& onlineId );
 	bool						onConnectForWebPageDownload( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId );
 

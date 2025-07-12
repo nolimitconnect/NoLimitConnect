@@ -100,9 +100,9 @@ void SessionWidget::setInputClientCallback( InputClientBaseCallback* clientCallb
 }
 
 //============================================================================
-void SessionWidget::setAppModule( EAppModule appModule )
+void SessionWidget::setMediaModule( EMediaModule mediaModule )
 {
-	ui.m_ChatEntry->setAppModule( appModule );
+	ui.m_ChatEntry->setMediaModule( mediaModule );
 }
 
 //============================================================================

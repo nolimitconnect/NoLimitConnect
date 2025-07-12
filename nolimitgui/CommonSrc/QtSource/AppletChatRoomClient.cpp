@@ -35,7 +35,7 @@ AppletChatRoomClient::AppletChatRoomClient( AppCommon& app, QWidget* parent )
 
 	manageUsers( ui.m_UserListWidget );
 
-	ui.m_ChatRoomWidget->setAppModule( eAppModuleChatRoomClient );
+	ui.m_ChatRoomWidget->setMediaModule( eMediaModuleChatRoomClient );
 	ui.m_ChatRoomWidget->setPluginType( getPluginType() );
 	ui.m_ChatRoomWidget->setInputClientCallback( this );
 

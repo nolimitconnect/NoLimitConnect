@@ -11,61 +11,61 @@
 #include "AppCommon.h"	
 
 //============================================================================
-void AppCommon::fromGuiKeyPressEvent( EAppModule appModule, int key, int mod )
+void AppCommon::fromGuiKeyPressEvent( EMediaModule mediaModule, int key, int mod )
 {
-    //m_Nlc.fromGuiKeyPressEvent( appModule, key, mod );
+    //m_Nlc.fromGuiKeyPressEvent( mediaModule, key, mod );
 }
 
 //============================================================================
-void AppCommon::fromGuiKeyReleaseEvent( EAppModule appModule, int key, int mod )
+void AppCommon::fromGuiKeyReleaseEvent( EMediaModule mediaModule, int key, int mod )
 {
-    //m_Nlc.fromGuiKeyReleaseEvent( appModule, key, mod );
+    //m_Nlc.fromGuiKeyReleaseEvent( mediaModule, key, mod );
 }
 
 //============================================================================
-void AppCommon::fromGuiMousePressEvent( EAppModule appModule, int mouseXPos, int mouseYPos, int mouseButton )
+void AppCommon::fromGuiMousePressEvent( EMediaModule mediaModule, int mouseXPos, int mouseYPos, int mouseButton )
 {
-    //m_Nlc.fromGuiMousePressEvent( appModule, mouseXPos, mouseYPos, mouseButton );
+    //m_Nlc.fromGuiMousePressEvent( mediaModule, mouseXPos, mouseYPos, mouseButton );
 }
 
 //============================================================================
-void AppCommon::fromGuiMouseReleaseEvent( EAppModule appModule, int mouseXPos, int mouseYPos, int mouseButton )
+void AppCommon::fromGuiMouseReleaseEvent( EMediaModule mediaModule, int mouseXPos, int mouseYPos, int mouseButton )
 {
-    //m_Nlc.fromGuiMouseReleaseEvent( appModule, mouseXPos, mouseYPos, mouseButton );
+    //m_Nlc.fromGuiMouseReleaseEvent( mediaModule, mouseXPos, mouseYPos, mouseButton );
 }
 
 //============================================================================
-void AppCommon::fromGuiMouseMoveEvent( EAppModule appModule, int mouseXPos, int mouseYPos )
+void AppCommon::fromGuiMouseMoveEvent( EMediaModule mediaModule, int mouseXPos, int mouseYPos )
 {
-    //m_Nlc.fromGuiMouseMoveEvent( appModule, mouseXPos, mouseYPos );
+    //m_Nlc.fromGuiMouseMoveEvent( mediaModule, mouseXPos, mouseYPos );
 }
 
 ////============================================================================
-//void AppCommon::fromGuiResizeBegin( EAppModule appModule, int winWidth, int winHeight )
+//void AppCommon::fromGuiResizeBegin( EMediaModule mediaModule, int winWidth, int winHeight )
 //{
-//	//m_Nlc.fromGuiResizeBegin( appModule, winWidth, winHeight );
+//	//m_Nlc.fromGuiResizeBegin( mediaModule, winWidth, winHeight );
 //}
 //
 ////============================================================================
-//void AppCommon::fromGuiResizeEvent( EAppModule appModule, int winWidth, int winHeight )
+//void AppCommon::fromGuiResizeEvent( EMediaModule mediaModule, int winWidth, int winHeight )
 //{
-//    //m_Nlc.fromGuiResizeEvent( appModule, winWidth, winHeight );
+//    //m_Nlc.fromGuiResizeEvent( mediaModule, winWidth, winHeight );
 //}
 //
 ////============================================================================
-//void AppCommon::fromGuiResizeEnd( EAppModule appModule, int winWidth, int winHeight )
+//void AppCommon::fromGuiResizeEnd( EMediaModule mediaModule, int winWidth, int winHeight )
 //{
-//	//m_Nlc.fromGuiResizeEnd( appModule, winWidth, winHeight );
+//	//m_Nlc.fromGuiResizeEnd( mediaModule, winWidth, winHeight );
 //}
 
 //============================================================================
-void AppCommon::fromGuiCloseEvent( EAppModule appModule )
+void AppCommon::fromGuiCloseEvent( EMediaModule mediaModule )
 {
-    //m_Nlc.fromGuiCloseEvent( appModule );
+    //m_Nlc.fromGuiCloseEvent( mediaModule );
 }
 
 //============================================================================
-void AppCommon::fromGuiVisibleEvent( EAppModule appModule, bool isVisible )
+void AppCommon::fromGuiVisibleEvent( EMediaModule mediaModule, bool isVisible )
 {
-    //m_Nlc.fromGuiVisibleEvent( appModule, isVisible );
+    //m_Nlc.fromGuiVisibleEvent( mediaModule, isVisible );
 }

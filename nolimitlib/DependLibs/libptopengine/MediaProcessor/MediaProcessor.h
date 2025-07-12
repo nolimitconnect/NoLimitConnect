@@ -41,12 +41,12 @@ public:
 	ClientToRemove( VxGUID&						onlineId,
 					EMediaInputType				mediaType, 
 					MediaCallbackInterface *	callback,
-					EAppModule					appModule,
+					EMediaModule					mediaModule,
 					VxGUID&						sessionId)
 	: m_OnlineId( onlineId )
 	, m_MediaType( mediaType )
 	, m_Callback( callback )
-	, m_AppModule( appModule )
+	, m_MediaModule( mediaModule )
 	, m_SessionId( sessionId )
 	{
 	}
@@ -66,7 +66,7 @@ public:
 			m_OnlineId = rhs.m_OnlineId;
 			m_MediaType = rhs.m_MediaType;
 			m_Callback = rhs.m_Callback;
-			m_AppModule = rhs.m_AppModule;
+			m_MediaModule = rhs.m_MediaModule;
 			m_SessionId = rhs.m_SessionId;
 		}
 		return *this;
@@ -75,7 +75,7 @@ public:
 	VxGUID						m_OnlineId;
 	EMediaInputType				m_MediaType;
 	MediaCallbackInterface *	m_Callback;
-	EAppModule					m_AppModule{ eAppModuleInvalid };
+	EMediaModule					m_MediaModule{ eMediaModuleInvalid };
 	VxGUID						m_SessionId;
 };
 
@@ -150,7 +150,7 @@ public:
 	virtual void				wantMediaInput( VxGUID&						onlineId,
 												EMediaInputType				mediaType, 
 												MediaCallbackInterface *	callback, 
-												EAppModule					appModule,
+												EMediaModule				mediaModule,
 												VxGUID&						sessionId,
 												bool						wantInput );
 
@@ -187,21 +187,21 @@ protected:
 	void						wantAudioMediaInput(	VxGUID&						onlineId,
 														EMediaInputType				mediaType, 
 														MediaCallbackInterface *	callback, 
-														EAppModule					appModule,
+														EMediaModule					mediaModule,
 														VxGUID&						sessionId,
 														bool						wantInput );
 
 	void						wantMixerMediaInput(	VxGUID&						onlineId,
 														EMediaInputType				mediaType, 
 														MediaCallbackInterface *	callback, 
-														EAppModule					appModule,
+														EMediaModule					mediaModule,
 														VxGUID&						sessionId,
 														bool						wantInput );
 
 	void						wantVideoMediaInput(	VxGUID&						onlineId,
 														EMediaInputType				mediaType, 
 														MediaCallbackInterface *	callback, 
-														EAppModule					appModule,
+														EMediaModule					mediaModule,
 														VxGUID&						sessionId,
 														bool						wantInput );
 	

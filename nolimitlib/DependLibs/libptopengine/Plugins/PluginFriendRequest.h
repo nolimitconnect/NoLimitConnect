@@ -17,6 +17,8 @@ public:
 	PluginFriendRequest( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* netIdent, EPluginType pluginType );
 	virtual ~PluginFriendRequest() = default;
 
+	EMediaModule			    getMediaModule( void ) override { return eMediaModuleInvalid; }
+
 	void						onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override {};
 	void						onConnectionLost(std::shared_ptr<VxSktBase> &) override {};
 	void						onContactOnlineStatusChange(VxGUID &,bool) override {};

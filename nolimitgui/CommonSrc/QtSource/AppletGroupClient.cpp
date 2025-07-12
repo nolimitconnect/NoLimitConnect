@@ -35,7 +35,7 @@ AppletGroupClient::AppletGroupClient( AppCommon& app, QWidget* parent )
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
     setPluginType( ePluginTypeClientGroup );
 
-    ui.m_SessionWidget->setAppModule( eAppModuleChatRoomClient );
+    ui.m_SessionWidget->setMediaModule( eMediaModuleChatRoomClient );
 	ui.m_SessionWidget->setPluginType( getPluginType() );
     ui.m_SessionWidget->setInputClientCallback( this );
 

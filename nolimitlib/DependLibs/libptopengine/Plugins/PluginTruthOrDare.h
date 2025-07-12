@@ -22,7 +22,7 @@ public:
 	PluginTruthOrDare( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginTruthOrDare() = default;
 
-    virtual EAppModule			getAppModule( void ) override { return eAppModuleTruthOrDare; }
+    EMediaModule			    getMediaModule( void ) override { return eMediaModuleTruthOrDare; }
 
 	virtual bool				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
     virtual bool				fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;

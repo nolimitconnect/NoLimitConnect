@@ -57,8 +57,8 @@ public:
 
     bool                        isAudioInitialized( void )                  { return m_AudioIoInitialized;  }
     IAudioCallbacks&            getAudioCallbacks( void )                   { return m_AudioCallbacks; }
-    VxAudioFormat&               getAudioOutFormat( void )                   { return m_AudioOutFormat; }
-    VxAudioFormat&               getAudioInFormat( void )                    { return m_AudioInFormat; }
+    VxAudioFormat&              getAudioOutFormat( void )                   { return m_AudioOutFormat; }
+    VxAudioFormat&              getAudioInFormat( void )                    { return m_AudioInFormat; }
 
     MiniAudioIn&                getAudioInIo( void )                        { return m_AudioInIo; }
     MiniAudioOut&               getAudioOutIo( void )                       { return m_AudioOutIo; }
@@ -131,23 +131,23 @@ public:
     // return true if any microphone device is available to be enabled
     virtual bool				toGuiIsMicrophoneDeviceAvailable( void ) override;
     // enable disable microphone data callback
-    virtual void				toGuiWantMicrophoneRecording( EAppModule appModule, bool wantMicInput ) override;
+    virtual void				toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput ) override;
     // enable disable sound out
-    virtual void				toGuiWantSpeakerOutput( EAppModule appModule, bool wantSpeakerOutput ) override;
+    virtual void				toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput ) override;
     // add audio data to play.. assumes pcm mono 16000 Hz of mixer buffer length
-    virtual int				    toGuiModuleAudioFrame( EAppModule appModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
+    virtual int				    toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
     // enable disable microphone for specific user communicaion (usually push to talk)
-    virtual void				toGuiWantUserVoiceMicrophone( EAppModule appModule, VxGUID& onlineId, bool wantMicInput ) override;
+    virtual void				toGuiWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID& onlineId, bool wantMicInput ) override;
     // enable disable speaker for specific user communicaion (usually push to talk)
-    virtual void				toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onlineId, bool wantSpeakerOutput ) override;
+    virtual void				toGuiWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID& onlineId, bool wantSpeakerOutput ) override;
 
-    virtual int				    toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFloat, int audioDataLenInBytes ) override;
+    virtual int				    toGuiPlayerNlcAudio( EMediaModule mediaModule, float* audioDataFloat, int audioDataLenInBytes ) override;
 
-    virtual float               toGuiGetAudioDelaySeconds( EAppModule appModule ) override;
+    virtual float               toGuiGetAudioDelaySeconds( EMediaModule mediaModule ) override;
 
-    virtual float               toGuiGetAudioCacheFreeSpace( EAppModule appModule ) override;
+    virtual float               toGuiGetAudioCacheFreeSpace( EMediaModule mediaModule ) override;
 
-    virtual float               toGuiGetAudioCacheTotalSeconds( EAppModule appModule ) override;
+    virtual float               toGuiGetAudioCacheTotalSeconds( EMediaModule mediaModule ) override;
 
     void						fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int sampleCnts, bool isSilence );
     virtual void				fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen );
@@ -205,9 +205,6 @@ public:
 	void						setNeedAudioOutDeviceStop( bool needAudioOutStop ) { m_NeedAudioOutStop = needAudioOutStop; }
 	bool						getNeedAudioOutDeviceStop( void ) {  return m_NeedAudioOutStop; }
 
-    // bool                        isAudioDevicesInitialized( void ) { return m_AudioDevicesInitialized; }
-    //bool                        isAudioIoInitialized( void ) { return m_AudioIoInitialized; }
-
 signals:
     void                        signalNeedMoreAudioData( int requiredLen );
     void                        signalAudioTestState( EAudioTestState audioTestState );
@@ -220,7 +217,7 @@ protected slots:
 protected:
     void                        aboutToDestroy();
     // update speakers to current mode and output
-    void                        enableSpeakers( EAppModule appModule, bool enable );
+    void                        enableSpeakers( EMediaModule mediaModule, bool enable );
     // update microphone output
     void                        enableMicrophone( bool enable );
 
@@ -233,9 +230,9 @@ protected:
     bool                        handleAudioTestResult( int64_t soundOutTimeMs, int64_t soundDetectTimeMs, int peakVal0to100 );
 
     void                        resetMicrophoneBuffers( void );
-    void                        resetSpeakerBuffers( EAppModule appModule );
+    void                        resetSpeakerBuffers( EMediaModule mediaModule );
 
-    AudioMixerBuf&              getAudioMixerBuf( EAppModule appModule );
+    AudioMixerBuf&              getAudioMixerBuf( EMediaModule mediaModule );
 
     void                        calculateMicWriteBufferSize( int micSampleCnt );
 
@@ -251,13 +248,13 @@ protected:
     bool                        m_MicrophoneMuted{ false };
     bool                        m_WantMicrophone{ false };
     int                         m_PeakAudioInAmplitude{ 0 };
-    std::vector<std::pair<EAppModule, VxGUID>> m_WantMicList;
+    std::vector<std::pair<EMediaModule, VxGUID>> m_WantMicList;
     VxMutex                     m_WantMicMutex;
 
     bool                        m_SpeakersMuted{ false };
     bool                        m_WantSpeakerOutput{ false };
     int                         m_PeakAudioOutAmplitude{ 0 };   
-    std::vector<std::pair<EAppModule, VxGUID>> m_WantSpeakerList;
+    std::vector<std::pair<EMediaModule, VxGUID>> m_WantSpeakerList;
     VxMutex                     m_WantSpeakerMutex;
 
     bool                        m_EchoCancelEnabled{ false };
@@ -280,7 +277,7 @@ protected:
 
     float                       m_MicrophoneVolume{ 100.0f };
 
-    int16_t                     m_MyLastAudioOutSample[ eMaxAppModule ];
+    int16_t                     m_MyLastAudioOutSample[ eMaxMediaModule ];
 
     AudioEchoCancel             m_AudioEchoCancel;
 
@@ -319,7 +316,7 @@ protected:
     AudioSampleBuf              m_SpeakerReadBuf;
     VxMutex                     m_SpeakerReadMutex;
 
-    std::map<EAppModule, AudioMixerBuf> m_AppModuleToSpeakerMap;
+    std::map<EMediaModule, AudioMixerBuf> m_AppModuleToSpeakerMap;
     VxMutex                     m_ModuleMixerMutex;
 
     AudioSampleBuf              m_PlayerCacheBuf;

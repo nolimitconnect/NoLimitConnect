@@ -33,7 +33,7 @@ public:
 	AppletPlayerNlcBase( const char* ObjName, AppCommon& app, QWidget* parent );
 	virtual ~AppletPlayerNlcBase();
 
-	virtual EAppModule			getAppModule( void ) { return m_AppModule; }
+	virtual EMediaModule		getMediaModule( void ) { return m_MediaModule; }
 
 	virtual RenderGlWidget*		getRenderConsumer( void ) = 0;
 	virtual QSlider*			getPlayPosSlider( void ) = 0;
@@ -154,7 +154,7 @@ protected:
 private:
 
 	//=== vars ===//
-	EAppModule					m_AppModule{ eAppModulePlayerNlc };
+	EMediaModule					m_MediaModule{ eMediaModulePlayerNlc };
 	bool						m_ActivityCallbacksEnabled{ false };
 	bool						m_IsPlaying{ false };
 	bool						m_SliderIsPressed{ false };

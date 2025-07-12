@@ -117,8 +117,9 @@ bool PluginBaseMultimedia::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID l
 void PluginBaseMultimedia::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	//LogMsg( LOG_INFO, "PluginBaseMultimedia::fromGuiStopPluginSession start\n" );
-	m_VoiceFeedMgr.fromGuiStopPluginSession( true, getAppModule(), onlineId );
-	m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), getEngine().getMyOnlineId() );
+	m_VoiceFeedMgr.enableAudioCapture( false, onlineId );
+	m_VoiceFeedMgr.enableAudioReceive( false, onlineId );
+	m_VideoFeedMgr.fromGuiStopPluginSession( true, getMediaModule(), getEngine().getMyOnlineId() );
 
 	m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId, lclSessionId );
 	//LogMsg( LOG_INFO, "PluginBaseMultimedia::fromGuiStopPluginSession done\n" );
@@ -135,17 +136,15 @@ bool PluginBaseMultimedia::fromGuiMultiSessionAction( VxGUID& onlineId, EMSessio
 		switch( pos0to100000 )
 		{
 		case eMSessionTypePhone:
-			m_VoiceFeedMgr.fromGuiStartPluginSession( true, getAppModule(), onlineId );
+			m_VoiceFeedMgr.enableAudioCapture( true, onlineId );
+			m_VoiceFeedMgr.enableAudioReceive( true, onlineId );
 			break;
 
 		case eMSessionTypeVidChat:
-			m_VoiceFeedMgr.fromGuiStartPluginSession( true, getAppModule(), onlineId );
-			m_VideoFeedMgr.fromGuiStartPluginSession( true, getAppModule(), getEngine().getMyOnlineId() );
-			break;
-
 		case eMSessionTypeTruthOrDare:
-			m_VoiceFeedMgr.fromGuiStartPluginSession( true, getAppModule(), onlineId );
-			m_VideoFeedMgr.fromGuiStartPluginSession( true, getAppModule(), getEngine().getMyOnlineId() );
+			m_VoiceFeedMgr.enableAudioCapture( true, onlineId );
+			m_VoiceFeedMgr.enableAudioReceive( true, onlineId );
+			m_VideoFeedMgr.fromGuiStartPluginSession( true, getMediaModule(), getEngine().getMyOnlineId() );
 			break;
 		}
 	}
@@ -154,19 +153,16 @@ bool PluginBaseMultimedia::fromGuiMultiSessionAction( VxGUID& onlineId, EMSessio
 		switch( pos0to100000 )
 		{
 		case eMSessionTypePhone:
-			m_VoiceFeedMgr.fromGuiStopPluginSession( true, getAppModule(), onlineId );
+			m_VoiceFeedMgr.enableAudioCapture( false, onlineId );
+			m_VoiceFeedMgr.enableAudioReceive( false, onlineId );
 			break;
 
 		case eMSessionTypeVidChat:
-			m_VoiceFeedMgr.fromGuiStopPluginSession( true, getAppModule(), onlineId );
-			m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), onlineId );
-			m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), getEngine().getMyOnlineId() );
-			break;
-
 		case eMSessionTypeTruthOrDare:
-			m_VoiceFeedMgr.fromGuiStopPluginSession( true, getAppModule(), onlineId );
-			m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), onlineId );
-			m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), getEngine().getMyOnlineId() );
+			m_VoiceFeedMgr.enableAudioCapture( false, onlineId );
+			m_VoiceFeedMgr.enableAudioReceive( false, onlineId );
+			m_VideoFeedMgr.fromGuiStopPluginSession( true, getMediaModule(), onlineId );
+			m_VideoFeedMgr.fromGuiStopPluginSession( true, getMediaModule(), getEngine().getMyOnlineId() );
 			break;
 		}
 	}
@@ -416,23 +412,22 @@ void PluginBaseMultimedia::onPktMultiSessionReq( std::shared_ptr<VxSktBase>& skt
 	PktMultiSessionReq * pktReq			= (PktMultiSessionReq *)pktHdr;
 	EMSessionAction eMSessionAction		= ( EMSessionAction )pktReq->getMSessionAction();
 	EMSessionType eMSessionType			= ( EMSessionType )pktReq->getMSessionParam(); 
+	VxGUID onlineId = pktReq->getSrcOnlineId();
 
 	if( eMSessionActionAccept == eMSessionAction )
 	{
 		switch( eMSessionType )
 		{
 		case eMSessionTypePhone:
-			m_VoiceFeedMgr.fromGuiStartPluginSession( true, getAppModule(), pktReq->getSrcOnlineId() );
+			m_VoiceFeedMgr.enableAudioCapture( true, onlineId );
+			m_VoiceFeedMgr.enableAudioReceive( true, onlineId );
 			break;
 
 		case eMSessionTypeVidChat:
-			m_VoiceFeedMgr.fromGuiStartPluginSession( true, getAppModule(), pktReq->getSrcOnlineId() );
-			m_VideoFeedMgr.fromGuiStartPluginSession( true, getAppModule(), getEngine().getMyOnlineId() );
-			break;
-
 		case eMSessionTypeTruthOrDare:
-			m_VoiceFeedMgr.fromGuiStartPluginSession( true, getAppModule(), pktReq->getSrcOnlineId() );
-			m_VideoFeedMgr.fromGuiStartPluginSession( true, getAppModule(), getEngine().getMyOnlineId() );
+			m_VoiceFeedMgr.enableAudioCapture( true, onlineId );
+			m_VoiceFeedMgr.enableAudioReceive( true, onlineId );
+			m_VideoFeedMgr.fromGuiStartPluginSession( true, getMediaModule(), getEngine().getMyOnlineId() );
 			break;
 		default:
 			break;
@@ -443,26 +438,22 @@ void PluginBaseMultimedia::onPktMultiSessionReq( std::shared_ptr<VxSktBase>& skt
 		switch( eMSessionType )
 		{
 		case eMSessionTypePhone:
-			m_VoiceFeedMgr.fromGuiStopPluginSession( true, getAppModule(), pktReq->getSrcOnlineId() );
+			m_VoiceFeedMgr.enableAudioCapture( false, onlineId );
+			m_VoiceFeedMgr.enableAudioReceive( false, onlineId );
 			break;
 
 		case eMSessionTypeVidChat:
-			m_VoiceFeedMgr.fromGuiStopPluginSession( true, getAppModule(), pktReq->getSrcOnlineId() );
-			m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), pktReq->getSrcOnlineId() );
-			m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), getEngine().getMyOnlineId() );
-			break;
-
 		case eMSessionTypeTruthOrDare:
-			m_VoiceFeedMgr.fromGuiStopPluginSession( true, getAppModule(), pktReq->getSrcOnlineId() );
-			m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), pktReq->getSrcOnlineId() );
-			m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), getEngine().getMyOnlineId() );
+			m_VoiceFeedMgr.enableAudioCapture( false, onlineId );
+			m_VoiceFeedMgr.enableAudioReceive( false, onlineId );
+			m_VideoFeedMgr.fromGuiStopPluginSession( true, getMediaModule(), onlineId );
 			break;
 		default:
 			break;
 		}
 	}
 
-	IToGui::getIToGui().toGuiMultiSessionAction( eMSessionAction, pktReq->getSrcOnlineId(), pktReq->getMSessionParam() );
+	IToGui::getIToGui().toGuiMultiSessionAction( eMSessionAction, onlineId, pktReq->getMSessionParam() );
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktMultiSessionReq autoLock start" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
@@ -470,7 +461,7 @@ void PluginBaseMultimedia::onPktMultiSessionReq( std::shared_ptr<VxSktBase>& skt
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktMultiSessionReq autoLock done" );
 #endif // DEBUG_AUTOPLUGIN_LOCK
-	P2PSession* poSession = m_PluginSessionMgr.findOrCreateP2PSessionWithOnlineId( pktReq->getSrcOnlineId(), sktBase, true );
+	P2PSession* poSession = m_PluginSessionMgr.findOrCreateP2PSessionWithOnlineId( onlineId, sktBase, true );
 	poSession->setSkt( sktBase );
 
 #ifdef DEBUG_AUTOPLUGIN_LOCK
@@ -528,9 +519,10 @@ void PluginBaseMultimedia::onSessionStart( PluginSessionBase* session, bool plug
 //============================================================================
 void PluginBaseMultimedia::onSessionEnded( PluginSessionBase* session, bool pluginIsLocked, EOfferResponse offerResponse )
 {
-	m_VoiceFeedMgr.fromGuiStopPluginSession( true, getAppModule(), session->getSendToId() );
-	m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), session->getSendToId() );
-	m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), getEngine().getMyOnlineId() );
+	m_VoiceFeedMgr.enableAudioCapture( false, session->getSendToId() );
+	m_VoiceFeedMgr.enableAudioReceive( false, session->getSendToId() );
+	m_VideoFeedMgr.fromGuiStopPluginSession( true, getMediaModule(), session->getSendToId() );
+	m_VideoFeedMgr.fromGuiStopPluginSession( true, getMediaModule(), getEngine().getMyOnlineId() );
 }
 
 //============================================================================
@@ -570,9 +562,11 @@ void PluginBaseMultimedia::onContactWentOffline( VxNetIdent* netIdent, std::shar
 {
 	if( !netIdent->isMyself() )
 	{
+		VxGUID onlineId = netIdent->getMyOnlineId();
         LogModule( eLogUsers, LOG_INFO, "PluginBaseMultimedia::%s %s start", __func__, netIdent->getOnlineName() );
-		m_VoiceFeedMgr.fromGuiStopPluginSession( true, getAppModule(), netIdent->getMyOnlineId() );
-		m_VideoFeedMgr.fromGuiStopPluginSession( true, getAppModule(), netIdent->getMyOnlineId() );
+		m_VoiceFeedMgr.enableAudioCapture( false, onlineId );
+		m_VoiceFeedMgr.enableAudioReceive( false, onlineId );
+		m_VideoFeedMgr.fromGuiStopPluginSession( true, getMediaModule(), netIdent->getMyOnlineId() );
 		m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
         LogModule( eLogUsers, LOG_INFO, "PluginBaseMultimedia::%s %s done", __func__, netIdent->getOnlineName() );
 	}

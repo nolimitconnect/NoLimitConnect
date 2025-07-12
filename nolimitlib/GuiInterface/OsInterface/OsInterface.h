@@ -31,7 +31,7 @@ public:
     virtual bool                doStartup( void ) = 0;
 
     //=== stages of run ===//
-    virtual bool                doRun( EAppModule appModule );
+    virtual bool                doRun( EMediaModule mediaModule );
 
     //=== stages of destroy ===//
     virtual void                doPreShutdown( void ) = 0;

@@ -18,6 +18,8 @@ public:
 	PluginBaseFilesServer( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType, std::string fileInfoDbName );
 	virtual ~PluginBaseFilesServer() = default;
 
+	EMediaModule				getMediaModule( void ) override { return eMediaModuleInvalid; }
+
 protected:
 	FileInfoSharedFilesMgr		m_FileInfoSharedFilesMgr;
 };

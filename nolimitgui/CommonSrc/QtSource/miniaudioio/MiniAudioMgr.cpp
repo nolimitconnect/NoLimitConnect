@@ -93,20 +93,20 @@ bool MiniAudioMgr::toGuiIsMicrophoneDeviceAvailable( void )
 
 //============================================================================
 // enable disable microphone data callback
-void MiniAudioMgr::toGuiWantMicrophoneRecording( EAppModule appModule, bool wantMicInput )
+void MiniAudioMgr::toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput )
 {
     static VxGUID nullGuid;
-    toGuiWantUserVoiceMicrophone( appModule, nullGuid, wantMicInput );
+    toGuiWantUserVoiceMicrophone( mediaModule, nullGuid, wantMicInput );
 }
 
 //============================================================================
-void MiniAudioMgr::toGuiWantUserVoiceMicrophone( EAppModule appModule, VxGUID& onlineId, bool wantMicInput )
+void MiniAudioMgr::toGuiWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID& onlineId, bool wantMicInput )
 {
     bool found{ false };
     m_WantMicMutex.lock();
     for( auto iter = m_WantMicList.begin(); iter != m_WantMicList.end(); iter++ )
     {
-        if( iter->first == appModule && iter->second == onlineId )
+        if( iter->first == mediaModule && iter->second == onlineId )
         {
             found = true;
             if( !wantMicInput )
@@ -119,7 +119,7 @@ void MiniAudioMgr::toGuiWantUserVoiceMicrophone( EAppModule appModule, VxGUID& o
 
     if( wantMicInput && !found )
     {
-        m_WantMicList.emplace_back( std::make_pair( appModule, onlineId ) );
+        m_WantMicList.emplace_back( std::make_pair( mediaModule, onlineId ) );
     }
 
     bool enableMic = !m_WantMicList.empty();
@@ -152,20 +152,20 @@ void MiniAudioMgr::enableMicrophone( bool enable )
 
 //============================================================================
 // enable disable sound out
-void MiniAudioMgr::toGuiWantSpeakerOutput( EAppModule appModule, bool wantSpeakerOutput )
+void MiniAudioMgr::toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput )
 {
     static VxGUID nullGuid;
-    toGuiWantUserVoiceSpeaker( appModule, nullGuid, wantSpeakerOutput );
+    toGuiWantUserVoiceSpeaker( mediaModule, nullGuid, wantSpeakerOutput );
 }
 
 //============================================================================
-void MiniAudioMgr::toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onlineId, bool wantSpeakerOutput )
+void MiniAudioMgr::toGuiWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID& onlineId, bool wantSpeakerOutput )
 {
     bool found{ false };
     m_WantSpeakerMutex.lock();
     for( auto iter = m_WantSpeakerList.begin(); iter != m_WantSpeakerList.end(); iter++ )
     {
-        if( iter->first == appModule && iter->second == onlineId )
+        if( iter->first == mediaModule && iter->second == onlineId )
         {
             found = true;
             if( !wantSpeakerOutput )
@@ -178,7 +178,7 @@ void MiniAudioMgr::toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onli
 
     if( wantSpeakerOutput && !found )
     {
-        m_WantSpeakerList.emplace_back( std::make_pair( appModule, onlineId ) );
+        m_WantSpeakerList.emplace_back( std::make_pair( mediaModule, onlineId ) );
     }
 
     bool enableSpeaker = !m_WantSpeakerList.empty();
@@ -188,17 +188,22 @@ void MiniAudioMgr::toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onli
     {
 
         m_WantSpeakerOutput = enableSpeaker;
-        enableSpeakers( appModule, m_WantSpeakerOutput );
+        enableSpeakers( mediaModule, m_WantSpeakerOutput );
     }
 }
 
 //============================================================================
 // enable disable sound out
-void MiniAudioMgr::enableSpeakers( EAppModule appModule, bool enable )
+void MiniAudioMgr::enableSpeakers( EMediaModule mediaModule, bool enable )
 {
     if( enable )
     {
-        resetSpeakerBuffers(appModule);
+        resetSpeakerBuffers(mediaModule);
+    }
+
+    if( eMediaModuleSoundEffects != mediaModule )
+    {
+        LogMsg( LOG_DEBUG, "MiniAudioMgr::%s enable %d", __func__, enable );
     }
 
     m_AudioOutIo.wantSpeakerOutput( enable );
@@ -451,7 +456,7 @@ void MiniAudioMgr::setAudioTestState( EAudioTestState audioTestState )
         m_DelayTestDetectList.clear();
         setAudioTestSentTime( 0 );
         resetMicrophoneBuffers();
-        resetSpeakerBuffers( eAppModuleAll );
+        resetSpeakerBuffers( eMediaModuleAll );
     }
 
     emit signalAudioTestState( audioTestState );
@@ -499,7 +504,7 @@ void MiniAudioMgr::setEchoCancelEnable( bool enable )
     if( m_EchoCancelEnabled != enable )
     {
         resetMicrophoneBuffers();
-        resetSpeakerBuffers( eAppModuleAll );
+        resetSpeakerBuffers( eMediaModuleAll );
         m_EchoCancelEnabled = enable; 
         m_AudioEchoCancel.enableEchoCancel( m_EchoCancelEnabled );
         if( m_MyApp.getAppSettings().getIsAppSettingInitialized() )
@@ -867,13 +872,13 @@ void MiniAudioMgr::resetMicrophoneBuffers( void )
 }
 
 //============================================================================
-void MiniAudioMgr::resetSpeakerBuffers( EAppModule appModule )
+void MiniAudioMgr::resetSpeakerBuffers( EMediaModule mediaModule )
 {
     lockSpeakerRead();
     m_SpeakerReadBuf.clear();
     unlockSpeakerRead();
 
-    if(eAppModuleMediaPlayer == appModule || eAppModuleAll == appModule)
+    if(eMediaModuleMediaPlayer == mediaModule || eMediaModuleAll == mediaModule)
     {
         lockPlayerCache();
         m_PlayerCacheBuf.clear();
@@ -881,9 +886,9 @@ void MiniAudioMgr::resetSpeakerBuffers( EAppModule appModule )
     }
 
     lockModuleMixerBuffer();
-    if( eAppModuleInvalid != appModule )
+    if( eMediaModuleInvalid != mediaModule )
     {
-        if( eAppModuleAll == appModule )
+        if( eMediaModuleAll == mediaModule )
         {
             for( auto& buf : m_AppModuleToSpeakerMap )
             {
@@ -892,7 +897,7 @@ void MiniAudioMgr::resetSpeakerBuffers( EAppModule appModule )
         }
         else
         {
-            AudioMixerBuf& mixerBuf = getAudioMixerBuf( appModule );
+            AudioMixerBuf& mixerBuf = getAudioMixerBuf( mediaModule );
             mixerBuf.clear();
         }
     }
@@ -918,7 +923,7 @@ void MiniAudioMgr::processToSpeakerThreaded( void )
 
     // move player cache into module mixer so can be mixed and sent to speaker
     lockModuleMixerBuffer();
-    AudioMixerBuf& mixerBuf = getAudioMixerBuf( eAppModulePlayerNlc );
+    AudioMixerBuf& mixerBuf = getAudioMixerBuf( eMediaModulePlayerNlc );
     int mixerFreeSpace = mixerBuf.freeSpaceSampleCount();
  
     lockPlayerCache();
@@ -1098,13 +1103,13 @@ void MiniAudioMgr::setPlayerNlcActive( bool isActive )
 
             lockModuleMixerBuffer();
 
-            AudioMixerBuf& mixerBuf = getAudioMixerBuf( eAppModulePlayerNlc );
+            AudioMixerBuf& mixerBuf = getAudioMixerBuf( eMediaModulePlayerNlc );
             mixerBuf.clear();
 
             unlockModuleMixerBuffer();
         }
         
-        toGuiWantSpeakerOutput( eAppModulePlayerNlc, m_PlayerNlcActive );
+        toGuiWantSpeakerOutput( eMediaModulePlayerNlc, m_PlayerNlcActive );
     }
 }
 
@@ -1119,12 +1124,12 @@ void  MiniAudioMgr::clearAllBuffers()
     m_EchoCanceledBuf.clear();
     m_EchoCanceledBufMutex.unlock();
 
-    resetSpeakerBuffers( eAppModuleAll );
+    resetSpeakerBuffers( eMediaModuleAll );
 
 }
 
 //============================================================================
-int MiniAudioMgr::toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFloat, int audioDataLenInBytes )
+int MiniAudioMgr::toGuiPlayerNlcAudio( EMediaModule mediaModule, float* audioDataFloat, int audioDataLenInBytes )
 {
     // this assumes 20ms of stereo 48000 hz at a time from kodi based player
     // unfortunately there is no good way to down sample stereo to mono so we have to pick a channel 
@@ -1138,7 +1143,7 @@ int MiniAudioMgr::toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFlo
         return 0;
     }
 
-    if( eAppModulePlayerNlc == appModule )
+    if( eMediaModulePlayerNlc == mediaModule )
     {
         // vx_assert( AUDIO_FRAME_SIZE_KODI == audioDataLenInBytes );
 
@@ -1170,8 +1175,8 @@ int MiniAudioMgr::toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFlo
 /*
         if( LogEnabled( eLogAudioIo ) )
         {
-            float cachedTime = toGuiGetAudioDelaySeconds( appModule );
-            float totalCache = toGuiGetAudioCacheTotalSeconds( appModule );
+            float cachedTime = toGuiGetAudioDelaySeconds( mediaModule );
+            float totalCache = toGuiGetAudioCacheTotalSeconds( mediaModule );
 
             if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "MiniAudioMgr::toGuiPlayerNlcAudio player-nlc samples %d cached sec %3.3f total cache %3.3f sec percent %d", 
                        totalSamples, cachedTime, totalCache, (int)((cachedTime / totalCache )*100) );
@@ -1180,21 +1185,21 @@ int MiniAudioMgr::toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFlo
     }
     else
     {
-        LogMsg( LOG_ERROR, "MiniAudioMgr::toGuiPlayerNlcAudio unknown module %s ", DescribeAppModule( appModule ) );
+        LogMsg( LOG_ERROR, "MiniAudioMgr::toGuiPlayerNlcAudio unknown module %s ", DescribeMediaModule( mediaModule ) );
     }
 
     return audioDataLenInBytes;
 }
 
 //============================================================================
-float MiniAudioMgr::toGuiGetAudioDelaySeconds( EAppModule appModule )
+float MiniAudioMgr::toGuiGetAudioDelaySeconds( EMediaModule mediaModule )
 {
     if( VxIsAppShuttingDown() )
     {
         return 0;
     }
 
-    if( eAppModulePlayerNlc == appModule )
+    if( eMediaModulePlayerNlc == mediaModule )
     {
         lockPlayerCache();
         int cachedPcmSamples = m_PlayerCacheBuf.getSampleCnt();
@@ -1204,21 +1209,21 @@ float MiniAudioMgr::toGuiGetAudioDelaySeconds( EAppModule appModule )
     }
 
     lockModuleMixerBuffer();
-    int usedPcmSamples = getAudioMixerBuf( appModule ).getSampleCnt();
+    int usedPcmSamples = getAudioMixerBuf( mediaModule ).getSampleCnt();
     unlockModuleMixerBuffer();
 
     return calculateMsOfSamples( usedPcmSamples ) * 1000;
 }
 
 //============================================================================
-float MiniAudioMgr::toGuiGetAudioCacheFreeSpace( EAppModule appModule )
+float MiniAudioMgr::toGuiGetAudioCacheFreeSpace( EMediaModule mediaModule )
 {
     if( VxIsAppShuttingDown() )
     {
         return 0;
     }
 
-    if( eAppModulePlayerNlc == appModule )
+    if( eMediaModulePlayerNlc == mediaModule )
     {
         lockPlayerCache();
         int availPcmSamplesCache = m_PlayerCacheBuf.freeSpaceSampleCount();
@@ -1228,21 +1233,21 @@ float MiniAudioMgr::toGuiGetAudioCacheFreeSpace( EAppModule appModule )
     }
 
     lockModuleMixerBuffer();
-    int availablePcmSampleSpace = getAudioMixerBuf( appModule ).freeSpaceSampleCount();
+    int availablePcmSampleSpace = getAudioMixerBuf( mediaModule ).freeSpaceSampleCount();
     unlockModuleMixerBuffer();
 
     return availablePcmSampleSpace;
 }
 
 //============================================================================
-float MiniAudioMgr::toGuiGetAudioCacheTotalSeconds( EAppModule appModule )
+float MiniAudioMgr::toGuiGetAudioCacheTotalSeconds( EMediaModule mediaModule )
 {
     if( VxIsAppShuttingDown() )
     {
         return 0;
     }
 
-    if( eAppModulePlayerNlc == appModule )
+    if( eMediaModulePlayerNlc == mediaModule )
     {
         lockPlayerCache();
         int maxPcmSamplesCache = m_PlayerCacheBuf.getMaxSamples();
@@ -1252,20 +1257,20 @@ float MiniAudioMgr::toGuiGetAudioCacheTotalSeconds( EAppModule appModule )
     }
 
     lockModuleMixerBuffer();
-    float mixerMaxSamples = getAudioMixerBuf( appModule ).getMaxSamples();
+    float mixerMaxSamples = getAudioMixerBuf( mediaModule ).getMaxSamples();
     unlockModuleMixerBuffer();
 
     return calculateMsOfSamples( mixerMaxSamples ) * 1000;
 }
 
 //============================================================================
-int MiniAudioMgr::toGuiModuleAudioFrame( EAppModule appModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence )
+int MiniAudioMgr::toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence )
 {
     // assumes must be 80 ms of pcm mono
     vx_assert( pcmDataLenInBytes == AUDIO_BUF_SIZE)
     lockModuleMixerBuffer();
 
-    AudioMixerBuf& mixerBuf = getAudioMixerBuf( appModule );
+    AudioMixerBuf& mixerBuf = getAudioMixerBuf( mediaModule );
     int wroteSamples = mixerBuf.writeSamples( pu16PcmData, pcmDataLenInBytes / 2, isSilence );
 
     unlockModuleMixerBuffer();
@@ -1273,9 +1278,9 @@ int MiniAudioMgr::toGuiModuleAudioFrame( EAppModule appModule, int16_t* pu16PcmD
  }
 
 //============================================================================
-AudioMixerBuf& MiniAudioMgr::getAudioMixerBuf( EAppModule appModule )
+AudioMixerBuf& MiniAudioMgr::getAudioMixerBuf( EMediaModule mediaModule )
 {
-    auto iter = m_AppModuleToSpeakerMap.find( appModule );
+    auto iter = m_AppModuleToSpeakerMap.find( mediaModule );
     if( iter != m_AppModuleToSpeakerMap.end() ) 
     {
         // found
@@ -1285,10 +1290,10 @@ AudioMixerBuf& MiniAudioMgr::getAudioMixerBuf( EAppModule appModule )
     // not found
     AudioMixerBuf mixBuf;
     mixBuf.setAudioIoMgr( this );
-    mixBuf.setAppModule( appModule );
-    m_AppModuleToSpeakerMap.insert( std::make_pair(appModule, mixBuf ));
+    mixBuf.setMediaModule( mediaModule );
+    m_AppModuleToSpeakerMap.insert( std::make_pair(mediaModule, mixBuf ));
 
-    auto newIter = m_AppModuleToSpeakerMap.find( appModule );
+    auto newIter = m_AppModuleToSpeakerMap.find( mediaModule );
 
     return newIter->second;
 }

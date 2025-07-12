@@ -27,7 +27,7 @@ public:
     PluginPeerUserClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginPeerUserClient() override = default;
 
-    virtual EAppModule			getAppModule( void ) override { return eAppModulePeerUserClient; }
+    EMediaModule			    getMediaModule( void ) override { return eMediaModulePeerUserClient; }
 
     //=== hosting ===//
     virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl ) override;

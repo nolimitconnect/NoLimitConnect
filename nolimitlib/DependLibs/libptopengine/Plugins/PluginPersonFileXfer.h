@@ -20,10 +20,12 @@ public:
     PluginPersonFileXfer( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginPersonFileXfer() override = default;
 
-   void				            onContactWentOnline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override {};
-   void				            onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override {};
-   void				            replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ) override {};
-   void				            onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) override {};
+    EMediaModule			    getMediaModule( void ) override { return eMediaModuleInvalid; }
+
+    void				        onContactWentOnline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override {};
+    void				        onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override {};
+    void				        replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ) override {};
+    void				        onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) override {};
 
     void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override {};
 

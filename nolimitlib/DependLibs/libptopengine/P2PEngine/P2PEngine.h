@@ -262,8 +262,8 @@ public:
     bool           				fromGuiAssetAction( enum EPluginType pluginType, enum EAssetAction assetAction, VxGUID& assetId, int pos0to100000 = 0 ) override;
     bool           				fromGuiSendAsset( AssetBaseInfo& assetInfo ) override;
 
-    void           				fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, MediaCallbackInterface * callback, enum EAppModule appModule, VxGUID& mediaSessionId, bool wantInput ) override;
-    void           				fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, enum EAppModule appModule, VxGUID& mediaSessionId, bool wantInput ) override;
+    void           				fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, MediaCallbackInterface * callback, enum EMediaModule mediaModule, VxGUID& mediaSessionId, bool wantInput ) override;
+    void           				fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, enum EMediaModule mediaModule, VxGUID& mediaSessionId, bool wantInput ) override;
 
     void           				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
     void           				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;

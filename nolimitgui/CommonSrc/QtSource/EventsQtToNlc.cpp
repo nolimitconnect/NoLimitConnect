@@ -641,7 +641,7 @@ bool EventsQtToNlc::fromGuiKeyPressEvent( int key )
     int mod = 0;
     int kodiKey = TranslateKeyQt( key, mod );
 
-    m_MyApp.fromGuiKeyPressEvent( eAppModulePlayerNlc, kodiKey, mod );
+    m_MyApp.fromGuiKeyPressEvent( eMediaModulePlayerNlc, kodiKey, mod );
 
     return false;
 }
@@ -652,7 +652,7 @@ bool EventsQtToNlc::fromGuiKeyReleaseEvent( int key )
     int mod = 0;
     int kodiKey = TranslateKeyQt( key, mod );
 
-    m_MyApp.fromGuiKeyPressEvent( eAppModulePlayerNlc, kodiKey, mod );
+    m_MyApp.fromGuiKeyPressEvent( eMediaModulePlayerNlc, kodiKey, mod );
 
     return false;
 }
@@ -660,7 +660,7 @@ bool EventsQtToNlc::fromGuiKeyReleaseEvent( int key )
 //============================================================================
 bool EventsQtToNlc::fromGuiMousePressEvent( int mouseXPos, int mouseyPos, int mouseButton )
 {
-    m_MyApp.fromGuiMousePressEvent( eAppModulePlayerNlc, mouseXPos, mouseyPos, TranslateMouseButtonQt( mouseButton ) );
+    m_MyApp.fromGuiMousePressEvent( eMediaModulePlayerNlc, mouseXPos, mouseyPos, TranslateMouseButtonQt( mouseButton ) );
 
     return false;
 }
@@ -668,7 +668,7 @@ bool EventsQtToNlc::fromGuiMousePressEvent( int mouseXPos, int mouseyPos, int mo
 //============================================================================
 bool EventsQtToNlc::fromGuiMouseReleaseEvent( int mouseXPos, int mouseyPos, int mouseButton )
 {
-    m_MyApp.fromGuiMouseReleaseEvent( eAppModulePlayerNlc, mouseXPos, mouseyPos, TranslateMouseButtonQt( mouseButton ) );
+    m_MyApp.fromGuiMouseReleaseEvent( eMediaModulePlayerNlc, mouseXPos, mouseyPos, TranslateMouseButtonQt( mouseButton ) );
 
     return false;
 }
@@ -676,7 +676,7 @@ bool EventsQtToNlc::fromGuiMouseReleaseEvent( int mouseXPos, int mouseyPos, int 
 //============================================================================
 bool EventsQtToNlc::fromGuiMouseMoveEvent( int mouseXPos, int mouseyPos )
 {
-    m_MyApp.fromGuiMouseMoveEvent( eAppModulePlayerNlc, mouseXPos, mouseyPos );
+    m_MyApp.fromGuiMouseMoveEvent( eMediaModulePlayerNlc, mouseXPos, mouseyPos );
 
     return false;
 }
@@ -684,29 +684,29 @@ bool EventsQtToNlc::fromGuiMouseMoveEvent( int mouseXPos, int mouseyPos )
 ////============================================================================
 //void EventsQtToNlc::fromGuiResizeBegin( int winWidth, int winHeight )
 //{
-//	m_MyApp.fromGuiResizeBegin( eAppModulePlayerNlc, winWidth, winHeight );
+//	m_MyApp.fromGuiResizeBegin( eMediaModulePlayerNlc, winWidth, winHeight );
 //}
 //
 ////============================================================================
 //void EventsQtToNlc::fromGuiResizeEvent( int winWidth, int winHeight )
 //{
-//    m_MyApp.fromGuiResizeEvent( eAppModulePlayerNlc, winWidth, winHeight );
+//    m_MyApp.fromGuiResizeEvent( eMediaModulePlayerNlc, winWidth, winHeight );
 //}
 //
 ////============================================================================
 //void EventsQtToNlc::fromGuiResizeEnd( int winWidth, int winHeight )
 //{
-//	m_MyApp.fromGuiResizeEnd( eAppModulePlayerNlc, winWidth, winHeight );
+//	m_MyApp.fromGuiResizeEnd( eMediaModulePlayerNlc, winWidth, winHeight );
 //}
 
 //============================================================================
 void EventsQtToNlc::fromGuiCloseEvent( )
 {
-    m_MyApp.fromGuiCloseEvent( eAppModulePlayerNlc );
+    m_MyApp.fromGuiCloseEvent( eMediaModulePlayerNlc );
 }
 
 //============================================================================
 void EventsQtToNlc::fromGuiVisibleEvent( bool isVisible )
 {
-    m_MyApp.fromGuiVisibleEvent( eAppModulePlayerNlc, isVisible );
+    m_MyApp.fromGuiVisibleEvent( eMediaModulePlayerNlc, isVisible );
 }

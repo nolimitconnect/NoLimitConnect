@@ -33,8 +33,9 @@ public:
 	PluginBaseFileShare( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType,  std::string fileShareDbName );
 	virtual ~PluginBaseFileShare() = default;
 
+	EMediaModule				getMediaModule( void ) override { return eMediaModuleInvalid; }
 
-	virtual void				onSharedFilesUpdated( uint16_t u16FileTypes );
+    virtual void				onSharedFilesUpdated( uint16_t u16FileTypes ) override;
 
 protected:
 	FileInfoSharedFilesMgr		m_FileInfoSharedFilesMgr;

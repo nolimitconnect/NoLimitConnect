@@ -70,7 +70,7 @@ void RenderPlayerNlcThread::run()
         qDebug() << "worker thread done " << VxGetCurrentThreadId();
 #else
         // will not return from doRun until kodi is shutdown
-        IMediaPlayerRequests::getNlcPlayer().fromThreadStartModule( eAppModulePlayerNlc );
+        IMediaPlayerRequests::getNlcPlayer().fromThreadStartModule( eMediaModulePlayerNlc );
 
 #endif // RENDER_LOGO_INSTEAD_OF_KODI
         isKodiRunning = false;

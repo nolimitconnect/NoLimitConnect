@@ -24,14 +24,14 @@ public:
     AppModuleState( void );
     ~AppModuleState( void );
 
-    void                        toGuiSetIsAppModuleRunning( EAppModule appModule, bool isRunning );
-    bool                        toGuiGetIsAppModuleRunning( EAppModule appModule );
+    void                        toGuiSetIsAppModuleRunning( EMediaModule mediaModule, bool isRunning );
+    bool                        toGuiGetIsAppModuleRunning( EMediaModule mediaModule );
 
-    bool                        toGuiRunModule( EAppModule appModule );
+    bool                        toGuiRunModule( EMediaModule mediaModule );
 
-    bool                        toGuiStopModule( EAppModule appModule );
+    bool                        toGuiStopModule( EMediaModule mediaModule );
 
 protected:
-    bool                        m_IsRunning[ eMaxAppModule ];
+    bool                        m_IsRunning[ eMaxMediaModule ];
 };
 

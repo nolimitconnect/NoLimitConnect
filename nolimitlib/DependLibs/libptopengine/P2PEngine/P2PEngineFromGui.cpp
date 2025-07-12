@@ -693,6 +693,12 @@ bool P2PEngine::fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk )
 //============================================================================
 bool P2PEngine::isUserConnected( VxGUID& onlineId )
 {
+	if( onlineId == m_MyOnlineId )
+	{
+		// just assume connected because is ourself
+		return true;
+	}
+
 	return m_ConnectIdListMgr.isUserOnline( onlineId );
 }
 
@@ -815,20 +821,20 @@ bool P2PEngine::fromGuiIsSpeakerMuted( void )
 }
 
 //============================================================================
-void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, MediaCallbackInterface * callback, enum EAppModule appModule, VxGUID& mediaSessionId, bool wantInput )
+void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, MediaCallbackInterface * callback, enum EMediaModule mediaModule, VxGUID& mediaSessionId, bool wantInput )
 {
 	if( false == VxIsAppShuttingDown() )
 	{
-		m_MediaProcessor.wantMediaInput( onlineId, mediaType, callback, appModule, mediaSessionId, wantInput );
+		m_MediaProcessor.wantMediaInput( onlineId, mediaType, callback, mediaModule, mediaSessionId, wantInput );
 	}
 }
 
 //============================================================================
-void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, enum EAppModule appModule, VxGUID& mediaSessionId, bool wantInput )
+void P2PEngine::fromGuiWantMediaInput( VxGUID& onlineId, enum EMediaInputType mediaType, enum EMediaModule mediaModule, VxGUID& mediaSessionId, bool wantInput )
 {
 	if( false == VxIsAppShuttingDown() )
 	{
-        m_MediaProcessor.wantMediaInput( onlineId, mediaType, this, appModule, mediaSessionId, wantInput );
+        m_MediaProcessor.wantMediaInput( onlineId, mediaType, this, mediaModule, mediaSessionId, wantInput );
 	}
 }
 

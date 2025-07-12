@@ -514,7 +514,11 @@ int DbBase::readDatabaseVersion( void )
 		int iResult = sqlite3_prepare_v2( m_Db, prepString.c_str(), (int)( prepString.length() + 1 ), &poSqlStatement, NULL );
 		if( SQLITE_OK != iResult ) 
 		{
-			handleSqlError( 0, "DbBase::readDatabaseVersion: error %s db %s", sqlite3_errmsg(m_Db), m_strDbFileName.c_str() );
+            handleSqlError( 0, "DbBase::%s error %s db %s", __func__, sqlite3_errmsg(m_Db), m_strDbFileName.c_str() );
+            dbClose();
+            m_DbMutex.unlock();
+            LogMsg( LOG_ERROR, "DbBase::%s possible corrupt db %s", __func__, m_strDbFileName.c_str() );
+            vx_assert( false );
 			return 0;
 		}
 

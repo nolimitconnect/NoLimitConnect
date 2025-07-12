@@ -90,7 +90,7 @@ public:
 
 	virtual void				pluginApiPlayJpgVideo( EPluginType pluginType, VxNetIdent* netIdent, std::shared_ptr<CamJpgVideo>& jpgVideo );
 
-	virtual void				pluginApiWantMediaInput( EPluginType pluginType, EMediaInputType mediaType, EAppModule appModule, VxGUID& mediaSessionId, bool wantInput );
+	virtual void				pluginApiWantMediaInput( EPluginType pluginType, EMediaInputType mediaType, EMediaModule mediaModule, VxGUID& mediaSessionId, bool wantInput );
 
 	virtual bool				pluginApiSktConnectTo(	EPluginType			pluginType,		// plugin id
 														VxNetIdentBase *	netIdent,			// identity of contact to connect to

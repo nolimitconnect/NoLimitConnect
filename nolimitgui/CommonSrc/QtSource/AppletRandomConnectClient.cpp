@@ -35,7 +35,7 @@ AppletRandomConnectClient::AppletRandomConnectClient( AppCommon& app, QWidget* p
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
     setPluginType( ePluginTypeClientRandomConnect );
 
-    ui.m_SessionWidget->setAppModule( eAppModuleRandomConnectClient );
+    ui.m_SessionWidget->setMediaModule( eMediaModuleRandomConnectClient );
     ui.m_SessionWidget->setPluginType( ePluginTypeClientRandomConnect );
 	ui.m_SessionWidget->setInputClientCallback( this );
 

@@ -37,14 +37,14 @@ class IToGui
 public:
 	static IToGui&				getIToGui( void );
 
-	virtual bool                toGuiMediaAction( EAppModule appModule, EMediaPlayerAction playerAction, int actionVal = 0, const char* fileName = "" ) = 0;
-	virtual void                toGuiMediaError( EAppModule appModule, EMediaError mediaError, const char* msg ) = 0;
+	virtual bool                toGuiMediaAction( EMediaModule mediaModule, EMediaPlayerAction playerAction, int actionVal = 0, const char* fileName = "" ) = 0;
+	virtual void                toGuiMediaError( EMediaModule mediaModule, EMediaError mediaError, const char* msg ) = 0;
 
-	virtual void                toGuiSetIsAppModuleRunning( EAppModule appModule, bool isRunning ) = 0;
-	virtual bool                toGuiGetIsAppModuleRunning( EAppModule appModule ) = 0;
+	virtual void                toGuiSetIsAppModuleRunning( EMediaModule mediaModule, bool isRunning ) = 0;
+	virtual bool                toGuiGetIsAppModuleRunning( EMediaModule mediaModule ) = 0;
 
-	virtual bool                toGuiRunModule( EAppModule appModule ) = 0;
-	virtual bool                toGuiStopModule( EAppModule appModule ) = 0;
+	virtual bool                toGuiRunModule( EMediaModule mediaModule ) = 0;
+	virtual bool                toGuiStopModule( EMediaModule mediaModule ) = 0;
 
     virtual void				toGuiPlayNlcMedia( AssetBaseInfo* assetInfo ) = 0;
 
@@ -57,10 +57,10 @@ public:
 	virtual void				toGuiPluginMsg( EPluginType pluginType, VxGUID& onlineId, EPluginMsgType msgType, const char* paramMsg = "" ) = 0;
 	virtual void				toGuiPluginCommError( EPluginType pluginType, VxGUID& onlineId, EPluginMsgType msgType, ECommErr commErr ) {};
     /// a module has changed state
-    virtual void				toGuiModuleState( EAppModule moduleNum, EModuleState moduleState ) = 0;
+    virtual void				toGuiModuleState( EMediaModule moduleNum, EModuleState moduleState ) = 0;
 
 	/// Start/Stop camera capture
-	virtual void				toGuiWantVideoCapture( EAppModule appModule, bool wantVidCapture ) = 0;
+	virtual void				toGuiWantVideoCapture( EMediaModule mediaModule, bool wantVidCapture ) = 0;
 	/// Send video feed frame to GUI for playback.. includes amount of motion detected
 	virtual void				toGuiPlayJpgVideo( VxGUID& onlineId, std::shared_ptr<CamJpgVideo>& jpgVideo ) = 0;
 

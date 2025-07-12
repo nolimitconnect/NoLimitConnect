@@ -30,7 +30,7 @@ bool AppCommon::toGuiIsMicrophoneDeviceAvailable( void )
 }
 
 //============================================================================
-void AppCommon::toGuiWantMicrophoneRecording( EAppModule appModule, bool wantMicInput )
+void AppCommon::toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput )
 {
 	if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "AppCommon::%s %d", __func__, wantMicInput );
 	if( VxIsAppShuttingDown() )
@@ -38,18 +38,18 @@ void AppCommon::toGuiWantMicrophoneRecording( EAppModule appModule, bool wantMic
 		return;
 	}
 
-	emit signalInternalWantMicrophoneRecording( appModule, wantMicInput );
+	emit signalInternalWantMicrophoneRecording( mediaModule, wantMicInput );
 }
 
 //============================================================================
-void AppCommon::slotInternalWantMicrophoneRecording( EAppModule appModule, bool wantMicInput )
+void AppCommon::slotInternalWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput )
 {
 	VxGUID nullGuid;
-	slotInternalWantUserVoiceMicrophone( appModule, nullGuid, wantMicInput );
+	slotInternalWantUserVoiceMicrophone( mediaModule, nullGuid, wantMicInput );
 }
 
 //============================================================================
-void AppCommon::toGuiWantUserVoiceMicrophone( EAppModule appModule, VxGUID& onlineId, bool wantMicInput )
+void AppCommon::toGuiWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID& onlineId, bool wantMicInput )
 {
 	if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "AppCommon::%s %d", __func__, wantMicInput );
 	if( VxIsAppShuttingDown() )
@@ -57,11 +57,11 @@ void AppCommon::toGuiWantUserVoiceMicrophone( EAppModule appModule, VxGUID& onli
 		return;
 	}
 
-	emit signalInternalWantUserVoiceMicrophone( appModule, onlineId, wantMicInput );
+	emit signalInternalWantUserVoiceMicrophone( mediaModule, onlineId, wantMicInput );
 }
 
 //============================================================================
-void AppCommon::slotInternalWantUserVoiceMicrophone( EAppModule appModule, VxGUID onlineId, bool wantMicInput )
+void AppCommon::slotInternalWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID onlineId, bool wantMicInput )
 {
 	if( VxIsAppShuttingDown() )
 	{
@@ -69,7 +69,7 @@ void AppCommon::slotInternalWantUserVoiceMicrophone( EAppModule appModule, VxGUI
 	}
 
 	bool wasMicAvailable = m_SoundMgr.isMicrophoneEnabled();
-	m_SoundMgr.toGuiWantUserVoiceMicrophone( appModule, onlineId, wantMicInput );
+	m_SoundMgr.toGuiWantUserVoiceMicrophone( mediaModule, onlineId, wantMicInput );
 	bool isMicAvailable = m_SoundMgr.isMicrophoneEnabled();
 	if( wasMicAvailable != isMicAvailable )
 	{
@@ -85,7 +85,7 @@ void AppCommon::slotInternalWantUserVoiceMicrophone( EAppModule appModule, VxGUI
 }
 
 //============================================================================
-void AppCommon::toGuiWantSpeakerOutput( EAppModule appModule, bool wantSpeakerOutput )
+void AppCommon::toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput )
 {
 	if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "AppCommon::%s %d", __func__, wantSpeakerOutput );
 	if( VxIsAppShuttingDown() )
@@ -93,18 +93,18 @@ void AppCommon::toGuiWantSpeakerOutput( EAppModule appModule, bool wantSpeakerOu
 		return;
 	}
 
-	emit signalInternalWantSpeakerOutput( appModule, wantSpeakerOutput );
+	emit signalInternalWantSpeakerOutput( mediaModule, wantSpeakerOutput );
 }
 
 //============================================================================
-void AppCommon::slotInternalWantSpeakerOutput( EAppModule appModule, bool wantSpeakerOutput )
+void AppCommon::slotInternalWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput )
 {
 	VxGUID nullGuid;
-	slotInternalWantUserVoiceSpeaker( appModule, nullGuid, wantSpeakerOutput );
+	slotInternalWantUserVoiceSpeaker( mediaModule, nullGuid, wantSpeakerOutput );
 }
 
 //============================================================================
-void AppCommon::toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onlineId, bool wantSpeakerOutput )
+void AppCommon::toGuiWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID& onlineId, bool wantSpeakerOutput )
 {
 	if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "AppCommon::%s %d", __func__, wantSpeakerOutput );
 	if( VxIsAppShuttingDown() )
@@ -112,11 +112,11 @@ void AppCommon::toGuiWantUserVoiceSpeaker( EAppModule appModule, VxGUID& onlineI
 		return;
 	}
 
-	emit signalInternalWantUserVoiceSpeaker( appModule, onlineId, wantSpeakerOutput );
+	emit signalInternalWantUserVoiceSpeaker( mediaModule, onlineId, wantSpeakerOutput );
 }
 
 //============================================================================
-void AppCommon::slotInternalWantUserVoiceSpeaker( EAppModule appModule, VxGUID onlineId, bool wantSpeakerOutput )
+void AppCommon::slotInternalWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID onlineId, bool wantSpeakerOutput )
 {
 	if( VxIsAppShuttingDown() )
 	{
@@ -124,7 +124,7 @@ void AppCommon::slotInternalWantUserVoiceSpeaker( EAppModule appModule, VxGUID o
 	}
 
 	bool wasSpeakerAvailable = m_SoundMgr.isSpeakerEnabled();
-	m_SoundMgr.toGuiWantUserVoiceSpeaker( appModule, onlineId, wantSpeakerOutput );
+	m_SoundMgr.toGuiWantUserVoiceSpeaker( mediaModule, onlineId, wantSpeakerOutput );
 	bool isSpeakerAvailable = m_SoundMgr.isSpeakerEnabled();
 
 	if( wasSpeakerAvailable != isSpeakerAvailable )
@@ -147,59 +147,59 @@ void AppCommon::slotInternalWantUserVoiceSpeaker( EAppModule appModule, VxGUID o
 
 //============================================================================
 //! playback audio
-int AppCommon::toGuiModuleAudioFrame( EAppModule appModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence )
+int AppCommon::toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence )
 {
     if( VxIsAppShuttingDown() )
     {
         return 0;
     }
 
-    return m_SoundMgr.toGuiModuleAudioFrame( appModule, pu16PcmData, pcmDataLenInBytes, isSilence );
+    return m_SoundMgr.toGuiModuleAudioFrame( mediaModule, pu16PcmData, pcmDataLenInBytes, isSilence );
 }
 
 //============================================================================
 //! playback audio
-int AppCommon::toGuiPlayerNlcAudio( EAppModule appModule, float* audioDataFloat, int audioDataLenInBytes )
+int AppCommon::toGuiPlayerNlcAudio( EMediaModule mediaModule, float* audioDataFloat, int audioDataLenInBytes )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return 0;
 	}
 
-	return m_SoundMgr.toGuiPlayerNlcAudio( appModule, audioDataFloat, audioDataLenInBytes );
+	return m_SoundMgr.toGuiPlayerNlcAudio( mediaModule, audioDataFloat, audioDataLenInBytes );
 }
 
 //============================================================================
-float AppCommon::toGuiGetAudioDelaySeconds( EAppModule appModule )
+float AppCommon::toGuiGetAudioDelaySeconds( EMediaModule mediaModule )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return 0.0f;
 	}
 
-	return m_SoundMgr.toGuiGetAudioDelaySeconds( appModule );
+	return m_SoundMgr.toGuiGetAudioDelaySeconds( mediaModule );
 }
 
 //============================================================================
-float AppCommon::toGuiGetAudioCacheFreeSpace( EAppModule appModule )
+float AppCommon::toGuiGetAudioCacheFreeSpace( EMediaModule mediaModule )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return 0.0f;
 	}
 
-	return m_SoundMgr.toGuiGetAudioCacheFreeSpace( appModule );
+	return m_SoundMgr.toGuiGetAudioCacheFreeSpace( mediaModule );
 }
 
 //============================================================================
-float AppCommon::toGuiGetAudioCacheTotalSeconds( EAppModule appModule )
+float AppCommon::toGuiGetAudioCacheTotalSeconds( EMediaModule mediaModule )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return 0.0f;
 	}
 
-	return m_SoundMgr.toGuiGetAudioCacheTotalSeconds( appModule );
+	return m_SoundMgr.toGuiGetAudioCacheTotalSeconds( mediaModule );
 }
 
 //============================================================================

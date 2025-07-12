@@ -14,15 +14,11 @@
 #include "VoiceFeedMgr.h"
 #include "VideoFeedMgr.h"
 
-
-
 class PluginBaseMultimedia : public PluginBase
 {
 public:
 	PluginBaseMultimedia( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );
 	virtual ~PluginBaseMultimedia() = default;
-
-    virtual EAppModule          getAppModule( void ) = 0;
 
     EHostType                   getHostType( void ) override        { return m_HostType; }
     HostedId&                   getHostedId( void )                 { return m_HostedId; }

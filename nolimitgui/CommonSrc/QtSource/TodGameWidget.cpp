@@ -28,6 +28,7 @@ TodGameWidget::TodGameWidget(QWidget* parent)
 , ui(*(new Ui::TodGameWidgetUi))
 {
 	ui.setupUi(this);
+	ui.TruthOrDareWidget->setMediaModule( eMediaModuleTruthOrDare );
 
 	connect( ui.m_DareButton, SIGNAL(clicked()), this, SIGNAL(dareButtonClicked()));
 	connect( ui.m_TruthButton, SIGNAL(clicked()), this, SIGNAL(truthButtonClicked()));

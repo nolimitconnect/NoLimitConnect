@@ -54,6 +54,11 @@ void P2PEngine::onConnectionClosing( std::shared_ptr<VxSktBase>& sktBase )
 //! socket became disconnected
 void P2PEngine::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {
+    if( sktBase->isTempConnection() )
+    {
+        return; // ignore
+    }
+
 	bool possibleMemberConnection = getConnectIdListMgr().onConnectionLost( sktBase );
 
 	if( possibleMemberConnection )

@@ -76,18 +76,19 @@ bool PluginTruthOrDare::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSe
 //! called to start service or session with remote friend
 bool PluginTruthOrDare::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
-    bool result = m_VoiceFeedMgr.fromGuiStartPluginSession( false, eAppModuleTruthOrDare, onlineId );
-    result &= m_VideoFeedMgr.fromGuiStartPluginSession( false, eAppModuleTruthOrDare, onlineId );
-    return result;
+	m_VoiceFeedMgr.enableAudioCapture( true, onlineId );
+	m_VoiceFeedMgr.enableAudioReceive( true, onlineId );
+    return m_VideoFeedMgr.fromGuiStartPluginSession( false, eMediaModuleTruthOrDare, onlineId );
 }
 
 //============================================================================
 //! called to stop service or session with remote friend
 void PluginTruthOrDare::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
-	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, onlineId );
-	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, onlineId );
-	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, getEngine().getMyOnlineId() );
+	m_VoiceFeedMgr.enableAudioCapture( false, onlineId );
+	m_VoiceFeedMgr.enableAudioReceive( false, onlineId );
+	m_VideoFeedMgr.fromGuiStopPluginSession( false, eMediaModuleTruthOrDare, onlineId );
+	m_VideoFeedMgr.fromGuiStopPluginSession( false, eMediaModuleTruthOrDare, getEngine().getMyOnlineId() );
 	m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId, lclSessionId );
 }
 
@@ -261,17 +262,19 @@ void PluginTruthOrDare::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, Vx
 void PluginTruthOrDare::onSessionStart( PluginSessionBase* session, bool pluginIsLocked )
 {
 	PluginBase::onSessionStart( session, pluginIsLocked ); // mark user session time so contact list is sorted with latest used on top
-	m_VoiceFeedMgr.fromGuiStartPluginSession( pluginIsLocked, eAppModuleTruthOrDare, session->getSendToId() );
+	m_VoiceFeedMgr.enableAudioCapture( true, session->getSendToId() );
+	m_VoiceFeedMgr.enableAudioReceive( true, session->getSendToId() );
 	// in order to get my video packets to send out the ident has to be myself
-	m_VideoFeedMgr.fromGuiStartPluginSession( pluginIsLocked, eAppModuleTruthOrDare, getEngine().getMyOnlineId() );
+	m_VideoFeedMgr.fromGuiStartPluginSession( pluginIsLocked, eMediaModuleTruthOrDare, getEngine().getMyOnlineId() );
 }
 
 //============================================================================
 void PluginTruthOrDare::onSessionEnded( PluginSessionBase* session, bool pluginIsLocked, EOfferResponse offerResponse )
 {
-	m_VoiceFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eAppModuleTruthOrDare, session->getSendToId() );
-	m_VideoFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eAppModuleTruthOrDare, session->getSendToId() );
-	m_VideoFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eAppModuleTruthOrDare, getEngine().getMyOnlineId() );
+	m_VoiceFeedMgr.enableAudioCapture( false, session->getSendToId() );
+	m_VoiceFeedMgr.enableAudioReceive( false, session->getSendToId() );
+	m_VideoFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eMediaModuleTruthOrDare, session->getSendToId() );
+	m_VideoFeedMgr.fromGuiStopPluginSession( pluginIsLocked, eMediaModuleTruthOrDare, getEngine().getMyOnlineId() );
 }
 
 //============================================================================
@@ -283,9 +286,10 @@ void PluginTruthOrDare::replaceConnection( VxNetIdent* netIdent, std::shared_ptr
 //============================================================================
 void PluginTruthOrDare::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
-	m_VoiceFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, netIdent->getMyOnlineId() );
-	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, netIdent->getMyOnlineId() );
-	m_VideoFeedMgr.fromGuiStopPluginSession( false, eAppModuleTruthOrDare, getEngine().getMyOnlineId() );
+	m_VoiceFeedMgr.enableAudioCapture( false, netIdent->getMyOnlineId() );
+	m_VoiceFeedMgr.enableAudioReceive( false, netIdent->getMyOnlineId() );
+	m_VideoFeedMgr.fromGuiStopPluginSession( false, eMediaModuleTruthOrDare, netIdent->getMyOnlineId() );
+	m_VideoFeedMgr.fromGuiStopPluginSession( false, eMediaModuleTruthOrDare, getEngine().getMyOnlineId() );
 	m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
 }
 
