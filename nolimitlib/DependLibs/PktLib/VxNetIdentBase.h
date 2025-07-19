@@ -10,7 +10,9 @@
 //============================================================================
 
 #include "VxConnectInfo.h"
-#include "VxOnlineStatusFlags.h"
+#include "VxOnlineStatusFlags.h"	
+
+#include <GuiInterface/IDefs.h>
 
 #pragma pack(push)
 #pragma pack(1)
@@ -19,7 +21,7 @@
 //! size
 //!   320 bytes VxConnectInfo
 // +    1 byte  VxOnlineStatusFlags
-// +    1 byte  m_IsOnline
+// +    1 byte  m_JoinedFlags
 // +    1 byte  m_u8OfferCnt
 // +    1 byte  m_u8ReplyCnt
 // +    4 bytes m_u32TruthCnt;		
@@ -48,6 +50,11 @@ public:
 
 	bool						canDirectConnectToUser( void );
 
+	void						clearIsJoined( void );
+	void						setIsJoined( EHostType hostType, bool isJoined );
+	bool						getIsJoined( EHostType hostType );
+	bool						isJoinedAny( void );
+
 	void						setTruthCount( uint32_t truthCnt );
 	uint32_t					getTruthCount( void );
 	void						setDareCount( uint32_t dareCnt );
@@ -61,7 +68,7 @@ public:
 
 protected:
 	//=== vars ===//
-    uint8_t						m_u8NetIdentRes{ 0 }; // used to be is online
+    uint8_t						m_JoinedFlags{ 0 };
 	uint8_t						m_u8OfferCnt{ 0 };							// offer count ( used as part of rating )
 	uint8_t						m_u8ReplyCnt{ 0 };					        // reply count ( used as part of rating )
 	uint32_t					m_u32TruthCnt{ 0 };					

@@ -1017,3 +1017,10 @@ bool NetStatusAccum::hasDefaultNetworkUrl( void )
 {
     return (getNetworkHostUrl() == NET_DEFAULT_NET_HOST_URL_IPV4 || getNetworkHostUrl() == NET_DEFAULT_NET_HOST_URL_IPV6);
 }
+
+//============================================================================
+bool NetStatusAccum::isLocalAndExternIpsTheSame( void )
+{
+    std::string ipExternAddr = getExternalIpAddress();
+    return !ipExternAddr.empty() && getLocalIpAddress() == ipExternAddr;
+}

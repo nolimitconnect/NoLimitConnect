@@ -93,6 +93,7 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		return;
 	}
 
+	pktAnn->clearIsJoined();
 	bool isFirstAnnounce = false;
 	if( false == sktBase->m_TxCrypto.isKeyValid() )
 	{
@@ -144,6 +145,7 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		if( pktAnn->getHostOnlineId() == sktBase->getPeerOnlineId() && pktAnn->getMyOnlineId() != sktBase->getPeerOnlineId() && IsHostARelayForUsers( pktAnn->getHostType() ) )
 		{
 			isHostedUserPktAnnounce = true;
+			pktAnn->setIsJoined( pktAnn->getHostType(), true );
 		}
 		else if( pktAnn->getMyOnlineId() == sktBase->getPeerOnlineId() )
 		{
@@ -181,10 +183,10 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		return;
 	}
 
-	if( isFirstAnnounce && IsConnectReasonJoin( sktBase->getConnectReason() ) )
-	{
-		getBigListMgr().updateMemberFriendship( bigListInfo );
-	}
+	//if( isFirstAnnounce && IsConnectReasonJoin( sktBase->getConnectReason() ) )
+	//{
+	//	getBigListMgr().updateMemberFriendship( bigListInfo );
+	//}
 
 	bool pktAnnReplyRequested = pktAnn->getIsPktAnnReplyRequested();
 	bool reverseConnectionRequested = pktAnn->getIsPktAnnRevConnectRequested();

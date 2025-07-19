@@ -10,7 +10,6 @@
 //============================================================================
 
 #include "VxNetIdentBase.h"
-#include <GuiInterface/IDefs.h>
 
 #include <memory>
 #include <memory.h>
@@ -66,11 +65,8 @@ public:
     bool                        extractFromBlob( PktBlobEntry& blob );
     PluginPermission&           operator =( const PluginPermission &rhs );
 
-    bool						isPluginEnabled( enum EPluginType ePlugin );
 	//! set type of permission user has set for given plugin
     void						setPluginPermission( enum EPluginType pluginType, enum EFriendState eFriendState );
-	//! get type of permission user has set for given plugin
-    EFriendState				getPluginPermission( enum EPluginType pluginType, bool inGroup = false );
 
 	void						setPluginPermissions( uint8_t * permissions )	{ memcpy( m_au8Permissions, permissions, PERMISSION_ARRAY_SIZE ); }
 	uint8_t *					getPluginPermissions( void )					{ return m_au8Permissions; }
@@ -78,7 +74,7 @@ public:
 	//! reset permissions to default values
 	void						setPluginPermissionsToDefaultValues( void );
 
-private:
+protected:
 	//=== vars ===//
 	uint8_t						m_au8Permissions[ PERMISSION_ARRAY_SIZE ];
 };
@@ -106,11 +102,62 @@ public:
     bool                        extractFromBlob( PktBlobEntry& blob );
     VxNetIdent&                 operator =( const VxNetIdent &rhs );
 
-    EPluginAccess			    getHisAccessPermissionFromMe( enum EPluginType pluginType, bool inGroup = false );
-    bool						isHisAccessAllowedFromMe( enum EPluginType pluginType, bool inGroup = false );
+	bool						isPluginEnabled( enum EPluginType ePlugin );
+	//! get type of permission user has set for given plugin
+	EFriendState				getPluginPermission( enum EPluginType pluginType );
 
-    EPluginAccess			    getMyAccessPermissionFromHim( enum EPluginType pluginType, bool inGroup = false );
-    bool						isMyAccessAllowedFromHim( enum EPluginType pluginType, bool inGroup = false );
+    EPluginAccess			    getHisAccessPermissionFromMe( enum EPluginType pluginType );
+    bool						isHisAccessAllowedFromMe( enum EPluginType pluginType );
+
+    EPluginAccess			    getMyAccessPermissionFromHim( enum EPluginType pluginType );
+    bool						isMyAccessAllowedFromHim( enum EPluginType pluginType );
+
+
+	//! if was anonymouse upgrade to guest friendship
+	void                        upgradeToGuestFriendship( void );
+
+	bool						isIgnored();
+	bool						isAnonymous();
+	bool						isGuest();
+	bool						isFriend();
+	bool						isAdministrator();
+	//! set my permissions to him as ignored
+	void						makeIgnored();
+	//! set my permissions to him as Anonymous
+	void						makeAnonymous();
+	//! set my permissions to him as Guest
+	void						makeGuest();
+	//! set my permissions to him as Friend
+	void						makeFriend();
+	//! set my permissions to him as Administrator
+	void						makeAdministrator();
+	//! wants to be friend
+	bool						wantsToBeFriend();
+	//! wants to be Administrator
+	bool						wantsToBeAdministrator();
+
+
+	//! set permission level I have given to friend
+	void						setMyFriendshipToHim( enum EFriendState eFriendState );
+	//! get permission level I have given to friend
+	EFriendState				getMyFriendshipToHim( void );
+
+	//! set permission level he has given to me
+	void						setHisFriendshipToMe( EFriendState eFriendState );
+
+	//! get permission level he has given to me
+	EFriendState				getHisFriendshipToMe( void );
+
+	//! reverse the permissions
+	void						reversePermissions( void );
+	//! return string with friend state He has given Me
+	void						describeHisFriendshipToMe( std::string& strRetPermission );
+	//! return string with friend state He has given Me
+	const char*					describeHisFriendshipToMe( void );
+	//! return string with friend state I have given Him
+	void						describeMyFriendshipToHim( std::string& strRetPermission );
+	//! return string with friend state I have given Him
+	const char*					describeMyFriendshipToHim( void );
 
 	void						setPingTimeMs( uint16_t pingTime );
 	uint16_t					getPingTimeMs( void );
@@ -129,7 +176,7 @@ public:
     bool						canRequestJoin( enum EHostType hostType );
     bool						canJoinImmediate( enum EHostType hostType ); // request to join will be granted immediate because have sufficient permission
 
-	EPluginAccess			    getPluginAccessState( enum EPluginType pluginType, enum EFriendState eFriendState, bool inGroup = false );
+	EPluginAccess			    getPluginAccessState( enum EPluginType pluginType, enum EFriendState eFriendState );
 
 	std::string					describeUser( void );
 

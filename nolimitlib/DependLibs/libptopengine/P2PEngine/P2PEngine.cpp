@@ -435,14 +435,14 @@ bool P2PEngine::getPluginSetting( enum EPluginType pluginType, PluginSetting& pl
 //============================================================================
 EFriendState P2PEngine::getPluginPermission( EPluginType pluginType )
 {
-    EFriendState iPermission = eFriendStateIgnore;
+    EFriendState permission = eFriendStateIgnore;
 	if( ( ePluginTypeInvalid < pluginType ) && 
 		( eMaxPermissionPluginType > pluginType ) )
 	{
-		iPermission = m_PluginMgr.getPluginPermission(pluginType);
+		permission = m_PluginMgr.getPluginPermission(pluginType);
 	}
 
-	return iPermission;
+	return permission;
 }
 
 //============================================================================

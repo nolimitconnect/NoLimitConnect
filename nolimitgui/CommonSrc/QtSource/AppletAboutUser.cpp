@@ -14,7 +14,6 @@
 #include "AppSettings.h"
 #include "MyIconsDefs.h"
 #include "AppGlobals.h"
-#include "AppCommon.h"
 #include "GuiHelpers.h"
 
 #include <CoreLib/ObjectCommonDefs.h>
@@ -112,6 +111,14 @@ void AppletAboutUser::fillUserDetails( GuiUser* guiUser )
     {
         infoMsg( QObject::tr( "Can Direct Connect" ) );
     }
+
+    QString isMemberOf = QObject::tr( "Is member of " );
+    QString yes = QObject::tr( " : Yes" );
+    QString no = QObject::tr( " : No" );
+
+    infoMsg( isMemberOf +  GuiParams::describeHostType( eHostTypeChatRoom ) + ( guiUser->getIsJoined( eHostTypeChatRoom ) ? yes : no ) );
+    infoMsg( isMemberOf + GuiParams::describeHostType( eHostTypeGroup ) + ( guiUser->getIsJoined( eHostTypeGroup ) ? yes : no ) );
+    infoMsg( isMemberOf + GuiParams::describeHostType( eHostTypeRandomConnect ) + ( guiUser->getIsJoined( eHostTypeRandomConnect ) ? yes : no ) );
 
     bool hadDisabledPlugins{ false };
     for( int i = 1; i < eMaxPermissionPluginType; i++ )

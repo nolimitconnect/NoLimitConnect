@@ -773,6 +773,11 @@ bool GroupieListMgr::updateGroupieInfo( EHostType hostType, GroupieInfo& groupie
 void GroupieListMgr::onHostJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
     GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), sessionInfo.getHostType() );
+    if( !netIdent->getIsJoined( sessionInfo.getHostType() ) )
+    {
+        netIdent->setIsJoined( sessionInfo.getHostType(), true );
+        m_Engine.toGuiContactAnythingChange( netIdent );
+    }
 
     std::string groupieUrl = netIdent->getMyOnlineUrl();
     std::string groupieTitle = netIdent->getOnlineName();
@@ -786,7 +791,11 @@ void GroupieListMgr::onHostJoinedByUser( std::shared_ptr<VxSktBase>& sktBase, Vx
 //============================================================================
 void GroupieListMgr::onHostLeftByUser( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
-    // probably could be removed. host join state is managed by HostServerJoinMgr
+    if( netIdent->getIsJoined( sessionInfo.getHostType() ) )
+    {
+        netIdent->setIsJoined( sessionInfo.getHostType(), false );
+        m_Engine.toGuiContactAnythingChange( netIdent );
+    }
 }
 
 //============================================================================

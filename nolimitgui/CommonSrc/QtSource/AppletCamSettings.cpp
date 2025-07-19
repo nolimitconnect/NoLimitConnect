@@ -32,6 +32,7 @@ AppletCamSettings::AppletCamSettings( AppCommon& app, QWidget* parent )
     setAppletType( eAppletCamSettings );
     setPluginType( ePluginTypeCamServer );
     ui.setupUi( getContentItemsFrame() );
+    ui.m_CamVidWidget->setMediaModule( eMediaModuleCamSettings );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
     if( !m_MyApp.getCamLogic().isCamAvailable() )
@@ -158,8 +159,13 @@ void AppletCamSettings::webCamSourceOffline()
 //============================================================================
 void AppletCamSettings::slotToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession> offerReply )
 {
+    if( !m_CamFeedIdent )
+    {
+        return;
+    }
+
     if( ( ePluginTypeCamServer == offerReply->getPluginType() )
-        && ( m_HisIdent->getMyOnlineId() == offerReply->getUserIdent()->getMyOnlineId() ) )
+        && ( m_CamFeedIdent->getMyOnlineId() == offerReply->getUserIdent()->getMyOnlineId() ) )
     {
         if( eOfferResponseBusy == offerReply->getOfferResponse() )
         {
@@ -176,8 +182,13 @@ void AppletCamSettings::slotToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession
 //============================================================================
 void AppletCamSettings::slotToGuiSessionEnded( std::shared_ptr<GuiOfferSession> offer )
 {
+    if( !m_CamFeedIdent )
+    {
+        return;
+    }
+
     if( ( ePluginTypeCamServer == offer->getPluginType() )
-        && ( m_HisIdent->getMyOnlineId() == offer->getUserIdent()->getMyOnlineId() ) )
+        && ( m_CamFeedIdent->getMyOnlineId() == offer->getUserIdent()->getMyOnlineId() ) )
     {
         webCamSourceOffline();
     }
@@ -186,7 +197,12 @@ void AppletCamSettings::slotToGuiSessionEnded( std::shared_ptr<GuiOfferSession> 
 //============================================================================
 void AppletCamSettings::callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline )
 {
-    if( m_HisIdent->getMyOnlineId() == guiUser->getMyOnlineId() )
+    if( !m_CamFeedIdent )
+    {
+        return;
+    }
+
+    if( m_CamFeedIdent->getMyOnlineId() == guiUser->getMyOnlineId() )
     {
         webCamSourceOffline();
     }

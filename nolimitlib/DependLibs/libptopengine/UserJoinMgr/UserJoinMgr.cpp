@@ -192,14 +192,14 @@ void UserJoinMgr::announceUserJoinRequested( UserJoinInfo* userJoinInfo )
 {
     if( userJoinInfo )
     {
+        updateUserIsJoined( userJoinInfo );
+
         LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::announceUserJoinRequested state %s %s", DescribeJoinState( userJoinInfo->getJoinState() ),
                 userJoinInfo->getGroupieId().describeGroupieId().c_str() );
 
         lockClientList();
-        std::vector<UserJoinCallbackInterface*>::iterator iter;
-        for( iter = m_UserJoinClients.begin(); iter != m_UserJoinClients.end(); ++iter )
+        for( auto client : m_UserJoinClients )
         {
-            UserJoinCallbackInterface* client = *iter;
             client->callbackUserJoinAdded( userJoinInfo );
         }
 
@@ -216,6 +216,8 @@ void UserJoinMgr::announceUserJoinUpdated( UserJoinInfo * userJoinInfo )
 {
     if( userJoinInfo )
     {
+        updateUserIsJoined( userJoinInfo );
+
         EJoinState joinState = userJoinInfo->getJoinState();
         if( eJoinStateJoinIsGranted == joinState )
         {
@@ -225,11 +227,10 @@ void UserJoinMgr::announceUserJoinUpdated( UserJoinInfo * userJoinInfo )
 
         LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::announceUserJoinUpdated state %s %s", DescribeJoinState( joinState ),
                 userJoinInfo->getGroupieId().describeGroupieId().c_str() );
+
         lockClientList();
-        std::vector<UserJoinCallbackInterface *>::iterator iter;
-        for( iter = m_UserJoinClients.begin();	iter != m_UserJoinClients.end(); ++iter )
+        for( auto client : m_UserJoinClients )
         {
-            UserJoinCallbackInterface * client = *iter;
             client->callbackUserJoinUpdated( userJoinInfo );
         }
 
@@ -237,7 +238,7 @@ void UserJoinMgr::announceUserJoinUpdated( UserJoinInfo * userJoinInfo )
     }
     else
     {
-        LogMsg( LOG_ERROR, "UserJoinMgr::announceUserJoinRemoved null" );
+        LogMsg( LOG_ERROR, "UserJoinMgr::%s null", __func__ );
     }
 }
 
@@ -246,13 +247,13 @@ void UserJoinMgr::announceUserUnJoinUpdated( UserJoinInfo* userJoinInfo )
 {
     if( userJoinInfo )
     {
+        updateUserIsJoined( userJoinInfo );
+
         LogMsg( LOG_VERBOSE, "UserJoinMgr::announceUserUnJoinUpdated state %s %s", DescribeJoinState( userJoinInfo->getJoinState() ),
                 userJoinInfo->getGroupieId().describeGroupieId().c_str() );
         lockClientList();
-        std::vector<UserJoinCallbackInterface*>::iterator iter;
-        for( iter = m_UserJoinClients.begin(); iter != m_UserJoinClients.end(); ++iter )
+        for( auto client : m_UserJoinClients )
         {
-            UserJoinCallbackInterface* client = *iter;
             client->callbackUserUnJoinUpdated( userJoinInfo );
         }
 
@@ -266,7 +267,7 @@ void UserJoinMgr::announceUserUnJoinUpdated( UserJoinInfo* userJoinInfo )
 
 //============================================================================
 void UserJoinMgr::announceUserJoinRemoved( GroupieId& groupieId )
-{
+{    
     removeFromDatabase( groupieId, false );
     LogMsg( LOG_VERBOSE, "UserJoinMgr::announceUserJoinRemoved %s", groupieId.describeGroupieId().c_str() );
 	lockClientList();
@@ -309,6 +310,7 @@ void UserJoinMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktB
         LogMsg( LOG_ERROR, "UserJoinMgr::onUserJoinedHost invalid groupieId" );
     }
 
+    bool updatedHostIdentNeeded = false;
     bool wasAdded = false;
     lockResources();
     UserJoinInfo* joinInfo = findUserJoinInfo( groupieId );
@@ -320,6 +322,15 @@ void UserJoinMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktB
 
         joinInfo->setHostType( sessionInfo.getHostType() );
         wasAdded = true;
+        if( netIdent->getMyOnlineId() == groupieId.getHostOnlineId() )
+        {
+            if( !netIdent->getIsJoined( groupieId.getHostType() ) )
+            {
+                // mark is joined so will have guest privelege if applicable
+                netIdent->setIsJoined( groupieId.getHostType(), true );
+                updatedHostIdentNeeded = true;
+            }
+        }
     }
 
     joinInfo->setNetIdent( netIdent );
@@ -343,6 +354,11 @@ void UserJoinMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktB
     saveToDatabase( joinInfo, true );
 
     unlockResources();
+
+    if( updatedHostIdentNeeded )
+    {
+        m_Engine.toGuiContactAnythingChange( netIdent );
+    }
 
     if( groupieId.getHostOnlineId() != m_Engine.getMyOnlineId()
             && groupieId.getUserOnlineId() == m_Engine.getMyOnlineId())
@@ -580,7 +596,7 @@ bool UserJoinMgr::getLastJoinedHostUrl( EHostType hostType, std::string& retHost
     }
     else
     {
-        LogMsg( LOG_ERROR, "UserJoinMgr::getLastJoinedHostUrl no last joined host url for host type %d", hostType );
+        LogMsg( LOG_ERROR, "UserJoinMgr::%s no last joined host url for host type %d", __func__, hostType );
     }
 
     return result;
@@ -633,5 +649,33 @@ void UserJoinMgr::queryUserListFromHost( GroupieId& groupieId )
     if( plugin )
     {
         plugin->queryUserListFromHost( groupieId );
+    }
+}
+
+//============================================================================
+void UserJoinMgr::updateUserIsJoined( UserJoinInfo * userJoinInfo )
+{
+    if( !userJoinInfo )
+    {
+        LogMsg( LOG_ERROR, "UserJoinMgr::%s null userJoinInfo", __func__ );
+        vx_assert( false );
+        return;
+    }
+
+    EHostType hostType = userJoinInfo->getHostType();
+    if( eHostTypeUnknown == hostType )
+    {
+        LogMsg( LOG_ERROR, "UserJoinMgr::%s Invalid Host Type", __func__ );
+        vx_assert( false );
+        return;
+    }
+
+    EJoinState joinState = userJoinInfo->getJoinState();
+    bool isJoinedGranted = eJoinStateJoinIsGranted == joinState;
+    VxNetIdent* netIdent = userJoinInfo->getNetIdent();
+    if( netIdent && isJoinedGranted != netIdent->getIsJoined( hostType ) )
+    {
+        netIdent->setIsJoined( hostType, isJoinedGranted );
+        m_Engine.toGuiContactAnythingChange( netIdent );
     }
 }

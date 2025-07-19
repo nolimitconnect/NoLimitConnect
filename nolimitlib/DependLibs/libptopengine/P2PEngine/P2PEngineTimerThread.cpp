@@ -218,13 +218,18 @@ void P2PEngine::onOncePer30Minutes( void )
 //============================================================================
 void P2PEngine::onOncePerHour( void )
 {
-    if( !m_PktAnn.requiresRelay() )
+    if( !m_PktAnn.requiresRelay() && !getNetStatusAccum().isLocalAndExternIpsTheSame() )
     {
         if( getEngineSettings().getUseUpnp() )
         {
             // even if you give upnp a lease of 0 (forever) some routers do not honor this
             // periodically update upnp
+            // 
+            // TODO running port forward causes connection drop and/or connection problems
+            // FIXME BRJ
+#if !defined(TARGET_OS_WINDOWS)
             m_NetServicesMgr.addNetActionToQueue( eNetActionRenewPortForward );
+#endif // !defined(TARGET_OS_WINDOWS)
         }
     }
 }

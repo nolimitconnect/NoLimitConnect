@@ -23,6 +23,16 @@
 #include <memory>
 #include <vector>
 
+enum EMediaInputCategory
+{
+	eMediaInputCategoryUnknown,
+	eMediaInputCategoryMixer,
+	eMediaInputCategoryAudio,
+	eMediaInputCategoryVideo,
+
+	eMaxMediaInputCategory
+};
+
 class PluginBase;
 class IToGui;
 class MediaTools;
@@ -41,7 +51,7 @@ public:
 	ClientToRemove( VxGUID&						onlineId,
 					EMediaInputType				mediaType, 
 					MediaCallbackInterface *	callback,
-					EMediaModule					mediaModule,
+					EMediaModule				mediaModule,
 					VxGUID&						sessionId)
 	: m_OnlineId( onlineId )
 	, m_MediaType( mediaType )
@@ -75,7 +85,7 @@ public:
 	VxGUID						m_OnlineId;
 	EMediaInputType				m_MediaType;
 	MediaCallbackInterface *	m_Callback;
-	EMediaModule					m_MediaModule{ eMediaModuleInvalid };
+	EMediaModule				m_MediaModule{ eMediaModuleInvalid };
 	VxGUID						m_SessionId;
 };
 
@@ -134,28 +144,56 @@ public:
 		VxMutex&				m_Mutex;
 	};
 
+	class MixerProcessorLock
+	{
+	public:
+		MixerProcessorLock( MediaProcessor* processor ) : m_Mutex( processor->getMixerMutex() )
+		{
+#ifdef DEBUG_PROCESSOR_LOCK
+			LogMsg( LOG_INFO, "MixerProcessorLock Lock start" );
+#endif //DEBUG_PROCESSOR_LOCK
+			m_Mutex.lock();
+#ifdef DEBUG_PROCESSOR_LOCK
+			LogMsg( LOG_INFO, "MixerProcessorLock Lock complete" );
+#endif //DEBUG_PROCESSOR_LOCK
+		}
+
+		~MixerProcessorLock()
+		{
+#ifdef DEBUG_PROCESSOR_LOCK
+			LogMsg( LOG_INFO, "MixerProcessorLock Unlock" );
+#endif //DEBUG_PROCESSOR_LOCK
+			m_Mutex.unlock();
+		}
+
+		VxMutex& m_Mutex;
+	};
+
+
 	MediaProcessor( P2PEngine& engine );
 	virtual ~MediaProcessor();
 	
 	void						shutdownMediaProcessor( void );
 
+	MediaTools&					getMediaTools( void ) { return m_MediaTools; }
+
+	VxMutex&					getMixerMutex( void )				{ return m_MixerClientsMutex; }
 	VxMutex&					getAudioMutex( void )				{ return m_AudioMutex; }
 	VxMutex&					getVideoMutex( void )				{ return m_VideoMutex; }
-	MediaTools&					getMediaTools( void )				{ return m_MediaTools; }
 
 	bool						isSpeakerOutputEnabled( void )		{ return m_SpeakerOutputEnabled; }
 	bool						isMicrophoneCaptureEnabled( void )	{ return m_MicCaptureEnabled; }
 	bool						isVideoCaptureEnabled( void )		{ return m_VidCaptureEnabled; }
 
-	virtual void				wantMediaInput( VxGUID&						onlineId,
+	void						wantMediaInput( VxGUID&						onlineId,
 												EMediaInputType				mediaType, 
 												MediaCallbackInterface *	callback, 
 												EMediaModule				mediaModule,
 												VxGUID&						sessionId,
 												bool						wantInput );
 
-	virtual void				fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int sampleCnt, bool isSilence );
-	virtual void				fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen );
+	void						fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int sampleCnt, bool isSilence );
+	void						fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen );
 
 	void						increasePcmSampleVolume( int16_t * pcmData, uint16_t pcmDataLen, float volumePercent0To100 );
 	void						playAudio( int16_t * pcmData, int dataLenInBytes );
@@ -187,21 +225,21 @@ protected:
 	void						wantAudioMediaInput(	VxGUID&						onlineId,
 														EMediaInputType				mediaType, 
 														MediaCallbackInterface *	callback, 
-														EMediaModule					mediaModule,
+														EMediaModule				mediaModule,
 														VxGUID&						sessionId,
 														bool						wantInput );
 
 	void						wantMixerMediaInput(	VxGUID&						onlineId,
 														EMediaInputType				mediaType, 
 														MediaCallbackInterface *	callback, 
-														EMediaModule					mediaModule,
+														EMediaModule				mediaModule,
 														VxGUID&						sessionId,
 														bool						wantInput );
 
 	void						wantVideoMediaInput(	VxGUID&						onlineId,
 														EMediaInputType				mediaType, 
 														MediaCallbackInterface *	callback, 
-														EMediaModule					mediaModule,
+														EMediaModule				mediaModule,
 														VxGUID&						sessionId,
 														bool						wantInput );
 	
@@ -211,27 +249,42 @@ protected:
 
 	bool						clientExistsInList(	std::vector<MediaClient>&		clientList, 
 													VxGUID&							onlineId,
+													EMediaModule					mediaModule,
 													EMediaInputType					mediaType, 
 													VxGUID&							sessionId,
 													MediaCallbackInterface *		callback );
 
 	bool						removeClientFromListist( std::vector<MediaClient>&		clientList,
 														 VxGUID&						onlineId,
+														 EMediaModule					mediaModule,
 														 EMediaInputType				mediaType,
 														 VxGUID&						sessionId,
 														 MediaCallbackInterface*		callback );
 
 	bool						clientToRemoveExistsInList(	std::vector<ClientToRemove>&	clientRemoveList, 
 															VxGUID&							onlineId,
+															EMediaModule					mediaModule,
 															EMediaInputType					mediaType, 
 															VxGUID&							sessionId,
 															MediaCallbackInterface *		callback );
 
 	bool						clientToRemoveRemoveFromList(	std::vector<ClientToRemove>&	clientRemoveList, 
 																VxGUID&							onlineId,
+																EMediaModule					mediaModule,
 																EMediaInputType					mediaType, 
 																VxGUID&							sessionId,
 																MediaCallbackInterface *		callback );
+
+	std::vector<MediaClient>*	getClientList( EMediaInputType mediaInputType );
+
+	EMediaInputCategory			getMediaInputCategory( EMediaInputType mediaInputType );
+
+	void						lockClientList( EMediaInputCategory mediaCategory );
+	void						unlockClientList( EMediaInputCategory mediaCategory );
+
+	int							countMediaModuleRequests( EMediaInputType mediaType, EMediaModule mediaModule );
+    int							countClientModuleTypeRequests( EMediaModule mediaModule, std::vector<MediaClient>* clientList );
+
 
 	//=== vars ===//
 	P2PEngine&					m_Engine;
@@ -242,20 +295,21 @@ protected:
 
 	std::vector<PluginBase*>	m_aoWantAppIdle;				// list of plugins that want called on app idle
 
-	std::vector<MediaClient>	m_AudioPcmList;	
-	std::vector<MediaClient>	m_AudioOpusList;	
-	std::vector<MediaClient>	m_AudioPktsList;
-
 	std::vector<RawAudio *>		m_ProcessAudioQue;
 	VxMutex						m_AudioQueInMutex;
 	VxThread					m_ProcessAudioInThread;
 	VxSemaphore					m_AudioInSemaphore;
 	PktVoiceReq					m_PktVoiceReq;
 
-	std::vector<MediaClient>	m_VideoJpgList;
-	std::vector<MediaClient>	m_VideoPktsList;
 	std::vector<MediaClient>	m_MixerList;
 	VxMutex						m_MixerClientsMutex;
+
+	std::vector<MediaClient>	m_AudioPcmList;
+	std::vector<MediaClient>	m_AudioOpusList;
+	std::vector<MediaClient>	m_AudioPktsList;
+
+	std::vector<MediaClient>	m_VideoJpgList;
+	std::vector<MediaClient>	m_VideoPktsList;
 
 	std::vector<ClientToRemove>	m_MixerClientRemoveList;
 	VxMutex						m_MixerRemoveMutex;

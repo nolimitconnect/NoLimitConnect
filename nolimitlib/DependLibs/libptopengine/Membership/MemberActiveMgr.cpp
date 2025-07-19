@@ -12,6 +12,7 @@
 
 #include "MemberActiveCallback.h"
 #include <P2PEngine/P2PEngine.h>
+#include <BigListLib/BigListMgr.h>
 
 #include <CoreLib/VxDebug.h>
 
@@ -115,6 +116,13 @@ bool MemberActiveMgr::isActiveMemberOfAny( VxGUID& onlineId )
 void MemberActiveMgr::announceMemberActive( GroupieId& groupieId, bool memberActive )
 {
     LogModule( eLogMembership, LOG_INFO, "MemberActiveMgr::announceMemberActive %d %s", memberActive, GetPtoPEngine().describeGroupieId( groupieId ).c_str() );
+    VxNetIdent* netIdent = GetPtoPEngine().getBigListMgr().findNetIdent( groupieId.getUserOnlineId() );
+    if( netIdent && memberActive != netIdent->getIsJoined( groupieId.getHostType() ) )
+    {
+        netIdent->setIsJoined( groupieId.getHostType(), memberActive );
+        GetPtoPEngine().toGuiContactAnythingChange( netIdent );
+    }
+
     lockClientList();
 
     for( auto& client : m_MemberClients )

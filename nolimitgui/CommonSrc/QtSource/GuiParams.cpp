@@ -1868,13 +1868,8 @@ QString GuiParams::describeUserViewType( EUserViewType showFriendType )
 }
 
 //============================================================================
-QString GuiParams::describeFriendship( EFriendState friendState, bool inGroup )
+QString GuiParams::describeFriendship( EFriendState friendState )
 {
-    if( inGroup && eFriendStateAnonymous == friendState )
-    {
-        friendState = eFriendStateGuest;
-    }
-
     switch( friendState )
     {
     case eFriendStateAnonymous:	// anonymous user

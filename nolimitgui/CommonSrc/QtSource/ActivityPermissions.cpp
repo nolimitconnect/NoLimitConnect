@@ -38,8 +38,8 @@ ActivityPermissions::ActivityPermissions( AppCommon& app, QWidget* parent )
 void ActivityPermissions::setPluginType( EPluginType ePluginType )
 {
 	m_ePluginType = ePluginType;
-	int iPluginPermission = m_Engine.getPluginPermission( m_ePluginType );
-	setPluginIcon( m_ePluginType, (EFriendState)iPluginPermission );
+	EFriendState pluginPermission = m_Engine.getPluginPermission( m_ePluginType );
+	setPluginIcon( m_ePluginType, pluginPermission );
 	setCheckedPermission( (EFriendState)iPluginPermission );
 
 	switch( ePluginType )

@@ -21,7 +21,6 @@
 
 namespace
 {
-
 	const char* g_SndResourcePaths[] = {
 			":/AppRes/Resources/snd_joshua_no.wav",			// eSndDefNone, 0
 			":/AppRes/Resources/snd_joshua_no.wav",			// eSndDefIgnore,1
@@ -45,20 +44,87 @@ namespace
 			":/AppRes/Resources/snd_camera_snapshot.wav",	// eSndDefCameraClick,19
 			":/AppRes/Resources/snd_busy_phone_signal.wav",	// eSndDefBusy,20
 			":/AppRes/Resources/snd_sonar.wav",				// eSndDefOfferStillWaiting,21
-			":/AppRes/Resources/snd_file_xfer_complete.wav",	// eSndDefFileXferComplete,22
+			":/AppRes/Resources/snd_file_xfer_complete.wav",// eSndDefFileXferComplete,22
 			":/AppRes/Resources/snd_bike_bell.wav",			// eSndDefUserBellMessage,23
 			":/AppRes/Resources/snd_neck_snap.wav",			// eSndDefNeckSnap,24
 			":/AppRes/Resources/snd_yes.wav",				// eSndDefYes,25
 
 			":/AppRes/Resources/snd_byebye.wav",			// eSndDefAppShutdown,26
 	};
+
+	const char* DescribeSnd( ESndDef sndDef )
+	{
+		switch( sndDef )
+		{
+		case eSndDefNone:
+			return "Snd None";
+		case eSndDefIgnore:
+			return "Snd Ignore";
+		case eSndDefCancel:
+			return "Snd Cance";
+		case eSndDefAlarmPleasant:
+			return "Snd AlarmPleasant";
+		case eSndDefAlarmAnoying:
+			return "Snd AlarmAnoying";
+		case eSndDefButtonClick:
+			return "Snd ButtonClick";
+		case eSndDefChoice1:
+			return "Snd Choice1";
+		case eSndDefChoice2:
+			return "Snd Choice2";
+		case eSndDefSending:
+			return "Snd Sendin";
+		case eSndDefNotify1:
+			return "Snd Notify1";
+		case eSndDefNotify2:
+			return "Snd Notify2";
+		case eSndDefPaperShredder:
+			return "Snd PaperShredder";
+		case eSndDefPhoneRing1:
+			return "Snd PhoneRing1";
+		case eSndDefReject:
+			return "Snd Reject";
+		case eSndDefShare:
+			return "Snd Share";
+		case eSndDefByeBye:
+			return "Snd ByeBye";
+		case eSndDefMessageArrived:
+			return "Snd MessageArrived";
+		case eSndDefOfferAccepted:
+			return "Snd OfferAccepted";
+		case eSndDefOfferRejected:
+			return "Snd OfferRejected";
+		case eSndDefCameraClick:
+			return "Snd CameraClick";
+		case eSndDefBusy:
+			return "Snd Busy";
+		case eSndDefOfferStillWaiting:
+			return "Snd StillWaiting";
+		case eSndDefFileXferComplete:
+			return "Snd XferComplete";
+		case eSndDefUserBellMessage:
+			return "Snd BellMessage";
+		case eSndDefNeckSnap:
+			return "Snd NeckSnap";
+		case eSndDefYes:
+			return "Snd Yes";
+		case eSndDefAppShutdown:
+			return "Snd AppShutdown";
+		default:
+			return "Snd Invalid";			
+		}
+	}
 };
+
+//bool VxSndInstance::m_EffectsAudioCallbacksRequested = false;
+//VxGUID VxSndInstance::m_MediaSessionId{ 10829536479529703172U, 16456368824930512292U };
 
 //============================================================================
 VxSndInstance::VxSndInstance( ESndDef sndDef, QObject* parent )
 : QObject( parent )
 , m_SndDef( sndDef )
 {
+	m_MediaSessionId.initializeWithNewVxGUID();
 }
 
 //============================================================================
@@ -184,13 +250,15 @@ bool VxSndInstance::initSndInstance( void )
 //============================================================================
 void VxSndInstance::callbackAudioOutSpaceAvail( int freeSpaceLen )
 {
-	int samplesRequired = freeSpaceLen / AUDIO_BYTES_PER_SAMPLE;
-	if( samplesRequired <= m_WavSamples.size() - m_PlaySndIdx )
+	int samplesRequested = freeSpaceLen / AUDIO_BYTES_PER_SAMPLE;
+	// only play same length as samplesRequested
+	int samplesAvailable = m_WavSamples.size() - m_PlaySndIdx;
+	if( samplesAvailable >= samplesRequested )
 	{
 		int16_t* buf = m_WavSamples.data();
 		buf += m_PlaySndIdx;
 		m_MediaProcessor->playAudio( buf, freeSpaceLen );
-		m_PlaySndIdx += samplesRequired;
+		m_PlaySndIdx += samplesRequested;
 		if( m_PlaySndIdx < m_WavSamples.size() )
 		{
 			// still more to be read
@@ -206,9 +274,21 @@ void VxSndInstance::callbackAudioOutSpaceAvail( int freeSpaceLen )
 //============================================================================
 void VxSndInstance::wantAudioCallbacks( bool wantCallbacks )
 {
-	if( m_AudioCallbacksRequested != wantCallbacks )
+	if( m_EffectsAudioCallbacksRequested != wantCallbacks )
 	{
-		m_AudioCallbacksRequested = wantCallbacks;
+		if( !m_MyOnlineId.isVxGUIDValid() || !m_MediaSessionId.isVxGUIDValid() )
+		{
+			LogMsg( LOG_ERROR, " VxSndInstance::%s %s m_MyOnlineId or m_MediaSessionId is invalid", __func__, DescribeSnd( m_SndDef ), wantCallbacks );
+			return;
+		}
+
+		m_EffectsAudioCallbacksRequested = wantCallbacks;
+		if( LogEnabled( eLogVoice ) )LogModule( eLogVoice, LOG_VERBOSE, "# VxSndInstance::%s %s requesting %d", __func__, DescribeSnd( m_SndDef ), wantCallbacks );
 		m_MediaProcessor->wantMediaInput( m_MyOnlineId, eMediaInputMixer, this, eMediaModuleSoundEffects, m_MediaSessionId, wantCallbacks );
+	}
+	else
+	{
+		// this happens when callbackAudioOutSpaceAvail finishes wav play and then again when stopPlay occurs
+		// LogMsg( LOG_VERBOSE, "# VxSndInstance::%s %s allready requested %d", __func__, DescribeSnd( m_SndDef ), wantCallbacks );
 	}
 }

@@ -185,6 +185,9 @@ public:
 
     QApplication&               getQApplication( void ) { return m_QApp; }
 
+    void                        setGuiThreadId( unsigned int threadId ) { m_GuiThreadId = threadId; }
+    unsigned int                getGuiThreadId( void ) { return m_GuiThreadId; }
+
     void						setCamCaptureRotation( uint32_t rot )  { m_CamCaptureRotation = rot; }
     int							getCamCaptureRotation( void ) { return m_CamCaptureRotation; }
 
@@ -484,12 +487,8 @@ public:
     virtual bool				toGuiIsMicrophoneDeviceAvailable( void ) override;
 
     virtual void				toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput ) override;
-    // enable disable microphone for specific user communicaion (usually push to talk)
-    virtual void				toGuiWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID& onlineId, bool wantMicInput ) override;
 
     virtual void				toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput ) override;
-    // enable disable speaker for specific user communicaion (usually push to talk)
-    virtual void				toGuiWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID& onlineId, bool wantSpeakerOutput ) override;
 
     virtual int				    toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
 
@@ -593,8 +592,8 @@ public:
     bool						userCanceled( void );
 
     // returns true if showed activity
-    bool 						offerToFriendPluginSession( GuiUser* guiUser, EPluginType pluginType, bool inGroup = false, QWidget* parent = nullptr );
-    void						offerToFriendSendFile( GuiUser* guiUser, bool inGroup = false, QWidget* parent = nullptr );
+    bool 						offerToFriendPluginSession( GuiUser* guiUser, EPluginType pluginType, QWidget* parent = nullptr );
+    void						offerToFriendSendFile( GuiUser* guiUser, QWidget* parent = nullptr );
 
     void						createAccountForUser( std::string& strUserName, VxNetIdent& userAccountIdent, const char* moodMsg, int gender,
                                                       EAgeType age, int primaryLanguage, int contentType );
@@ -629,7 +628,7 @@ signals:
 
     void						signalFinishedLoadingGui( void );
     void						signalFinishedLoadingEngine( void );
-    void						signalPlaySound( ESndDef sndDef );
+
     void						signalLog( int iPluginNum, QString strMsg );
     void						signalAppErr( EAppErr eAppErr, QString errMsg );
     void						signalStatusMsg( QString strMsg );
@@ -655,10 +654,8 @@ signals:
     void						signalMicrophonePeak( int peekVal0to32768 );
 
     void						signalInternalWantMicrophoneRecording( EMediaModule mediaModule, bool enableMicInput );
-    void                        signalInternalWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID onlineId, bool wantMicInput );
 
     void						signalInternalWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput );
-    void						signalInternalWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID onlineId, bool wantSpeakerOutput );
 
     void						signalInternalWantVideoCapture( EMediaModule mediaModule, bool enableCapture );
 
@@ -779,10 +776,8 @@ private slots:
     void                        slotInternalToGuiSaveMyIdent( VxNetIdent netIdent );
 
     void						slotInternalWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput );
-    void                        slotInternalWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID onlineId, bool wantMicInput );
 
     void						slotInternalWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput );
-    void						slotInternalWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID onlineId, bool wantSpeakerOutput );
 
     void						slotInternalWantVideoCapture( EMediaModule mediaModule, bool enableCapture );
 
@@ -805,7 +800,6 @@ protected slots:
     void						slotMainWindowResized( void );
     void						slotMainWindowMoved( void );
 
-    void						slotPlaySound( ESndDef sndDef );
     void						slotStatusMsg( QString strMsg );
     void						slotAppErr( EAppErr eAppErr, QString errMsg );
 
@@ -941,6 +935,8 @@ protected:
     bool                        m_ConnectToLastConnectedHost{ false };
 
     VxThread                    m_AudioDevicesThread;
+
+    unsigned int                m_GuiThreadId{ 0 };
 };
 
 AppCommon& CreateAppInstance( QApplication* myApp, AppSettings& appSettings );

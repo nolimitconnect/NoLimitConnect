@@ -128,7 +128,7 @@ protected:
 	void						launchUserDetails( void );
 	void						launchSendFriendRequest( GuiUser* selectedFriend );
 
-	bool						isMyAccessAllowed( GuiUser* guiUser, EPluginType pluginType, bool inGroup );
+	bool						isMyAccessAllowed( GuiUser* guiUser, EPluginType pluginType );
 
 	void						addUserAction( enum EUserAction userAction );
 	bool						canPerformAction( enum EUserAction userAction, EPluginAccess& retPluginAccess );
@@ -145,6 +145,5 @@ protected:
 	QFrame*						m_ContentItemsFrame{ nullptr };
 	EPopupMenuType				m_MenuType{ EPopupMenuType::ePopupMenuUnknown };
 	EApplet						m_AppletType{ eAppletUnknown };
-	bool						m_InGroup{ false };
 	GuiUser*					m_SelectedUserDetails{ nullptr };
 };

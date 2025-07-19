@@ -186,10 +186,9 @@ void AppletPopupMenu::showFriendMenu( GuiUser* poSelectedFriend )
 {
 	setMenuType( EPopupMenuType::ePopupMenuFriend );
 	m_SelectedFriend = poSelectedFriend;
-	m_InGroup = m_MyApp.getMemberActiveMgr().isActiveMemberOfAny( m_SelectedFriend->getMyOnlineId() );
 	bool isMyself = poSelectedFriend->isMyself();
 	// populate title
-	QString strTitle = poSelectedFriend->describeMyFriendshipToHim( m_InGroup );
+	QString strTitle = poSelectedFriend->describeMyFriendshipToHim();
 	if( isMyself )
 	{
 		strTitle = GuiParams::describeFriendship( eFriendStateAdmin );
@@ -325,46 +324,46 @@ bool AppletPopupMenu::canPerformAction( enum EUserAction userAction, EPluginAcce
 	{
 		if( m_SelectedFriend->hasAboutMeContent() )
 		{
-			pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeAboutMePageServer, m_InGroup );
+			pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeAboutMePageServer );
 		}	
 	}
     else if( userAction == eUserActionStoryboard )
 	{
 		if( m_SelectedFriend->hasStoryboardContent() )
 		{
-			pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeStoryboardServer, m_InGroup );
+			pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeStoryboardServer );
 		}
 	}
     else if( userAction == eUserActionCamServer )
 	{
 		if( m_SelectedFriend->hasSharedWebCam() )
 		{
-			pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeCamServer, m_InGroup );
+			pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeCamServer );
 		}
 	}
     else if( userAction == eUserActionViewSharedFiles )
 	{
-		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeFileShareServer, m_InGroup );
+		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeFileShareServer );
 	}
     else if( userAction == eUserActionOfferFile )
 	{
-		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypePersonFileXfer, m_InGroup );
+		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypePersonFileXfer );
 	}
     else if( userAction == eUserActionMessenger )
 	{
-		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeMessenger, m_InGroup );
+		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeMessenger);
 	}
     else if( userAction == eUserActionVideoPhone )
 	{
-		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeVideoPhone, m_InGroup );
+		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeVideoPhone );
 	}
     else if( userAction == eUserActionVoicePhone )
 	{
-		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeVoicePhone, m_InGroup );
+		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeVoicePhone );
 	}
     else if( userAction == eUserActionTruthOrDare )
 	{
-		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeTruthOrDare, m_InGroup );
+		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeTruthOrDare );
 	}
     else if( userAction == eUserActionSetUnsetPreferred )
 	{
@@ -451,35 +450,35 @@ void AppletPopupMenu::onFriendActionSelected( int iMenuId )
 	
 	case eUserActionOfferFile:
 		{
-			m_MyApp.offerToFriendSendFile( m_SelectedFriend, m_InGroup, getParentPageFrame() );
+			m_MyApp.offerToFriendSendFile( m_SelectedFriend, getParentPageFrame() );
 		}
 
 		break;
 
 	case eUserActionMessenger:
 		{
-			m_MyApp.offerToFriendPluginSession( m_SelectedFriend, ePluginTypeMessenger, m_InGroup, getParentPageFrame() );
+			m_MyApp.offerToFriendPluginSession( m_SelectedFriend, ePluginTypeMessenger, getParentPageFrame() );
 		}
 
 		break;
 
 	case eUserActionVoicePhone:
 		{
-			m_MyApp.offerToFriendPluginSession( m_SelectedFriend, ePluginTypeVoicePhone, m_InGroup, getParentPageFrame() );
+			m_MyApp.offerToFriendPluginSession( m_SelectedFriend, ePluginTypeVoicePhone, getParentPageFrame() );
 		}
 
 		break;
 
 	case eUserActionVideoPhone:
 		{
-			m_MyApp.offerToFriendPluginSession( m_SelectedFriend, ePluginTypeVideoPhone, m_InGroup, getParentPageFrame() );
+			m_MyApp.offerToFriendPluginSession( m_SelectedFriend, ePluginTypeVideoPhone, getParentPageFrame() );
 		}
 
 		break;
 
 	case eUserActionTruthOrDare:
 		{
-			m_MyApp.offerToFriendPluginSession( m_SelectedFriend, ePluginTypeTruthOrDare, m_InGroup, getParentPageFrame() );
+			m_MyApp.offerToFriendPluginSession( m_SelectedFriend, ePluginTypeTruthOrDare, getParentPageFrame() );
 		}
 
 		break;
@@ -645,7 +644,7 @@ void AppletPopupMenu::onGroupieSessionActionSelected( int iMenuId )
 void AppletPopupMenu::showPersonOfferMenu( GuiUser* poSelectedFriend )
 {
 	m_SelectedFriend = poSelectedFriend;
-	m_InGroup = m_MyApp.getMemberActiveMgr().isActiveMemberOfAny( m_SelectedFriend->getMyOnlineId() );
+
 	setMenuType( EPopupMenuType::ePopupMenuOfferFriendship );
 	setTitle( QObject::tr( "Offer Friendship" ) );
 	addMenuItem( 0, getMyIcons().getIcon( eMyIconFriend ), QObject::tr( "Offer Friendship" ) );
@@ -998,7 +997,7 @@ void AppletPopupMenu::launchUserDetails( void )
 }
 
 //============================================================================
-bool AppletPopupMenu::isMyAccessAllowed( GuiUser* guiUser, EPluginType pluginType, bool inGroup )
+bool AppletPopupMenu::isMyAccessAllowed( GuiUser* guiUser, EPluginType pluginType )
 {
 	if( !guiUser )
 	{
@@ -1006,7 +1005,7 @@ bool AppletPopupMenu::isMyAccessAllowed( GuiUser* guiUser, EPluginType pluginTyp
 		return false;
 	}
 
-	if( guiUser->isMyAccessAllowedFromHim( pluginType, m_InGroup ) )
+	if( guiUser->isMyAccessAllowedFromHim( pluginType ) )
 	{
 		return true;
 	}

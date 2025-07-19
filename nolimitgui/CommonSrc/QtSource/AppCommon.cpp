@@ -216,6 +216,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_GuiStartupTimer( new QTimer( this ) )
 {
     g_AppCommon = this; // need a global instance that can accessed immediately with GetAppInstance() for objects created in ui files
+	setGuiThreadId( VxGetCurrentThreadId() );
 
 #if !defined(TARGET_OS_WINDOWS)
 	// make your application ignore SIGPIPE. that sometimes happens when socket connection is broken
@@ -480,12 +481,13 @@ void AppCommon::applySoundSettings( bool useDefaultsInsteadOfSettings )
 //============================================================================
 void AppCommon::playSound( ESndDef sndDef )
 {
-	emit signalPlaySound( sndDef );
-}
+	if( getGuiThreadId() != VxGetCurrentThreadId() )
+	{
+		LogMsg( LOG_ERROR, "AppCommon::playSound cannot play from another thread" );
+		vx_assert( false );
+		return;
+	}
 
-//============================================================================
-void AppCommon::slotPlaySound( ESndDef sndDef )
-{
 	if( m_AppSettings.getDisableAllSoundEffects() )
 	{
 		return;

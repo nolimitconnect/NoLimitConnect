@@ -14,17 +14,22 @@
 
 #include <P2PEngine/P2PEngine.h>
 
-#include <CoreLib/VxParse.h>
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
+#include <CoreLib/VxParse.h>
 
 #include <memory.h>
 #include <stdio.h>
+
+#define IS_JOINED_CHAT_ROOM_FLAG				0x01	
+#define IS_JOINED_GROUP_FLAG					0x02	
+#define IS_JOINED_RANDOM_CONNECT_FLAG			0x04	
 
 //============================================================================
 VxNetIdentBase::VxNetIdentBase( const VxNetIdentBase &rhs )
     : VxConnectInfo( rhs )
     , VxOnlineStatusFlags( rhs )
-    , m_u8NetIdentRes( rhs.m_u8NetIdentRes )
+    , m_JoinedFlags( rhs.m_JoinedFlags )
     , m_u8OfferCnt( rhs.m_u8OfferCnt )
     , m_u8ReplyCnt( rhs.m_u8ReplyCnt )
     , m_u32TruthCnt( rhs.m_u32TruthCnt )
@@ -41,7 +46,7 @@ VxNetIdentBase&  VxNetIdentBase::operator = ( const VxNetIdentBase& rhs )
     {
         *((VxConnectInfo*)this) = *((VxConnectInfo*)&rhs);
         *((VxOnlineStatusFlags*)this) = *((VxOnlineStatusFlags*)&rhs);
-        m_u8NetIdentRes = rhs.m_u8NetIdentRes;
+        m_JoinedFlags = rhs.m_JoinedFlags;
         m_u8OfferCnt = rhs.m_u8OfferCnt;
         m_u8ReplyCnt = rhs.m_u8ReplyCnt;
         m_u32TruthCnt = rhs.m_u32TruthCnt;
@@ -58,7 +63,7 @@ bool VxNetIdentBase::addToBlob( PktBlobEntry& blob )
 {
     bool result = VxConnectInfo::addToBlob( blob );
     result &= VxOnlineStatusFlags::addToBlob( blob );
-    result &= blob.setValue( m_u8NetIdentRes );
+    result &= blob.setValue( m_JoinedFlags );
     result &= blob.setValue( m_u8OfferCnt );
     result &= blob.setValue( m_u8ReplyCnt );
     result &= blob.setValue( m_u32TruthCnt );
@@ -73,7 +78,7 @@ bool VxNetIdentBase::extractFromBlob( PktBlobEntry& blob )
 {
     bool result = VxConnectInfo::extractFromBlob( blob );
     result &= VxOnlineStatusFlags::extractFromBlob( blob );
-    result &= blob.getValue( m_u8NetIdentRes );
+    result &= blob.getValue( m_JoinedFlags );
     result &= blob.getValue( m_u8OfferCnt );
     result &= blob.getValue( m_u8ReplyCnt );
     result &= blob.getValue( m_u32TruthCnt );
@@ -158,7 +163,7 @@ void VxNetIdentBase::setRejectedDareCount( uint16_t rejectedCnt )
 }
 
 //============================================================================
-uint16_t	VxNetIdentBase::getRejectedDareCount()
+uint16_t VxNetIdentBase::getRejectedDareCount()
 {
 	return ntohs( m_u16RejectedDaresCnt );
 }
@@ -170,7 +175,82 @@ void VxNetIdentBase::setTruthCount( uint32_t truthCnt )
 }
 
 //============================================================================
-uint32_t	VxNetIdentBase::getTruthCount( void )
+uint32_t VxNetIdentBase::getTruthCount( void )
 {
 	return ntohl( m_u32TruthCnt );
+}
+
+//============================================================================
+void VxNetIdentBase::clearIsJoined( void )
+{
+    m_JoinedFlags = 0;
+}
+
+//============================================================================
+void VxNetIdentBase::setIsJoined( EHostType hostType, bool isJoined )
+{
+    uint8_t hostFlag{ 0 };
+    switch( hostType )
+    {
+    case eHostTypeChatRoom:
+        hostFlag = IS_JOINED_CHAT_ROOM_FLAG;
+        break;
+    case eHostTypeGroup:
+        hostFlag = IS_JOINED_GROUP_FLAG;
+        break;
+    case eHostTypeRandomConnect:
+        hostFlag = IS_JOINED_RANDOM_CONNECT_FLAG;
+        break;
+    default:
+        LogMsg( LOG_ERROR, "VxNetIdentBase::setIsJoined invalid host type %d", hostType );
+        return;
+    }
+
+    if( hostFlag )
+    {
+        if( isJoined )
+        {
+            if( !( m_JoinedFlags & hostFlag ) )
+            {
+                m_JoinedFlags |= hostFlag;
+                LogMsg( LOG_VERBOSE, "VxNetIdentBase::setIsJoined joined host type %s", DescribeHostType( hostType ) );
+            }
+        }
+        else
+        {
+            if( m_JoinedFlags & hostFlag )
+            {
+                m_JoinedFlags &= ~hostFlag;
+                LogMsg( LOG_VERBOSE, "VxNetIdentBase::setIsJoined NOT joined host type %s", DescribeHostType( hostType ) );
+            }
+        }
+    }
+}
+
+//============================================================================
+bool VxNetIdentBase::getIsJoined( EHostType hostType )
+{
+    uint8_t hostFlag{ 0 };
+    switch( hostType )
+    {
+    case eHostTypeChatRoom:
+        hostFlag = IS_JOINED_CHAT_ROOM_FLAG;
+        break;
+    case eHostTypeGroup:
+        hostFlag = IS_JOINED_GROUP_FLAG;
+        break;
+    case eHostTypeRandomConnect:
+        hostFlag = IS_JOINED_RANDOM_CONNECT_FLAG;
+        break;
+    default:
+        LogMsg( LOG_ERROR, "VxNetIdentBase::getIsJoined invalid host type %d", hostType );
+    }
+
+    return hostFlag & m_JoinedFlags;
+}
+
+//============================================================================
+bool VxNetIdentBase::isJoinedAny( void )
+{
+    return m_JoinedFlags != 0;
 }

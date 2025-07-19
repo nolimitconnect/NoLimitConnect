@@ -211,9 +211,9 @@ void AppletPeerBase::toGuiSetGameActionVar(	EPluginType     pluginType,
 }
 
 //============================================================================
-void AppletPeerBase::setOfferToIdentity( GuiUser* guiUser, bool inGroup )
+void AppletPeerBase::setOfferToIdentity( GuiUser* guiUser )
 {
-	m_MyApp.offerToFriendPluginSession( guiUser, getPluginType(), inGroup, getParentPageFrame() );
+	m_MyApp.offerToFriendPluginSession( guiUser, getPluginType(), getParentPageFrame() );
 }
 
 //============================================================================

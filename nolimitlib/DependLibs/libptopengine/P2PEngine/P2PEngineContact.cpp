@@ -246,10 +246,6 @@ void P2PEngine::sendToGuiTheContactList( int maxContactsToSend )
 {
 	int iSentContactsCnt = 0;
 
-	//LogMsg( LOG_INFO, "fromGuiSendContactList: announceToWeb view type %d max cnt %d" ,
-	//	eFriendView, 
-	//	MaxContactsToSend );
-
 	LogMsg( LOG_INFO, "fromGuiSendContactList: view type %d max cnt %d administrators %d friends %d guests %d anon %d ignore %d" ,
 			m_eFriendView, 
 			maxContactsToSend,
@@ -312,49 +308,6 @@ void P2PEngine::sendToGuiStatusMessage( const char* statusMsg, ... )
 	va_end( argList );
 	getToGui().toGuiStatusMessage( as8Buf );
 }
-
-////============================================================================
-//void P2PEngine::toGuiContactNameChange( VxNetIdent* netIdent )
-//{
-//	if( shouldNotifyGui( netIdent ) )
-//	{
-//		LogMsg( LOG_INFO, "toGuiContactNameChange:");
-//		IToGui::getIToGui().toGuiContactNameChange( netIdent );
-//	}
-//}
-//
-////============================================================================
-////! called when description changes
-//void P2PEngine::toGuiContactDescChange( VxNetIdent* netIdent )
-//{
-//	if( shouldNotifyGui( netIdent ) )
-//	{
-//		LogMsg( LOG_INFO, "toGuiContactDescChange:" );
-//		IToGui::getIToGui().toGuiContactDescChange( netIdent );
-//	}
-//}
-//
-////============================================================================
-////! called when his friendship to me changes
-//void P2PEngine::toGuiContactFriendshipChange( VxNetIdent* netIdent )
-//{
-//	if( shouldNotifyGui( netIdent ) )
-//	{
-//		LogMsg( LOG_INFO, "toGuiContactFriendshipChange:" );
-//		IToGui::getIToGui().toGuiContactFriendshipChange( netIdent );
-//	}
-//}
-//
-////============================================================================
-////! called when plugin permission changes
-//void P2PEngine::toGuiPluginPermissionChange( VxNetIdent* netIdent )
-//{
-//	if( shouldNotifyGui( netIdent ) )
-//	{
-//		LogMsg( LOG_INFO, "toGuiPluginPermissionChange:" );
-//		IToGui::getIToGui().toGuiPluginPermissionChange( netIdent );
-//	}
-//}
 
 //============================================================================
 //! called when any contact info changes ( including any of the above )

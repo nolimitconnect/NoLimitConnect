@@ -150,9 +150,7 @@ public:
 	void						setNetStatusVisibility( bool visible );
 	void						setOfferListButtonVisibility( bool visible );
 	void						setHostJoinRequestListButtonVisibility( bool visible );
-	void						setMuteSpeakerVisibility( bool visible );
-	void						setMuteMicrophoneVisibility( bool visible );
-	void						setMicrophoneVolumeVisibility( bool visible );
+
 	void						setCameraButtonVisibility( bool visible );
 	void						setCamPreviewVisibility( bool visible );
 	void						setCamViewerCountVisibility( bool visible );

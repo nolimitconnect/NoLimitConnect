@@ -42,6 +42,9 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
 {
 	ui.setupUi( this );
 
+    ui.m_WantMicCountLabel->setVisible( false );
+    ui.m_WantSpeakerCountLabel->setVisible( false );
+
     setFixedHeight( GuiParams::getButtonSize( eButtonSizeSmall ).height() + 6 );
     ui.m_NoLimitAppButton->setFixedSize( eButtonSizeSmall );
     ui.m_PowerOffButton->setFixedSize( eButtonSizeSmall );
@@ -88,9 +91,6 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
     setCameraIcon();
     setTopMenuButtonIcon();
     setBackButtonIcon();
-
-    enableAudioControls( true );
-    enableVideoControls( true );
 
     setCameraButtonVisibility( false );
     setMenuTopButtonVisibility( false );
@@ -314,22 +314,6 @@ void TitleBarWidget::updateWebServerClientCount( void )
 }
 
 //============================================================================
-void TitleBarWidget::enableVideoControls( bool enable )
-{
-	//ui.m_CamPreviewScreen->setVisible( enable );
-	//ui.m_CamClientCountLabel->setVisible( enable );
-}
-
-//============================================================================
-void TitleBarWidget::enableAudioControls( bool enable )
-{
-	ui.m_MuteMicButton->setVisible( enable );
-    ui.m_MicVolPeakBar->setVisible( !m_MutedMic );
-    ui.m_MicVolPeakBar->setValue( 0 );
-	ui.m_MuteSpeakerButton->setVisible( enable );
-}
-
-//============================================================================
 void TitleBarWidget::slotPowerButtonClicked( void )
 {
 	emit signalPowerButtonClicked();
@@ -445,24 +429,6 @@ void TitleBarWidget::setMenuTopButtonVisibility( bool visible )
 void TitleBarWidget::setMenuListButtonVisibility( bool visible )
 {
     ui.m_MenuButton->setVisible( visible );
-}
-
-//============================================================================
-void TitleBarWidget::setMuteSpeakerVisibility( bool visible )
-{
-	ui.m_MuteSpeakerButton->setVisible( visible );
-}
-
-//============================================================================
-void TitleBarWidget::setMuteMicrophoneVisibility( bool visible )
-{
-	ui.m_MuteMicButton->setVisible( visible );
-}
-
-//============================================================================
-void TitleBarWidget::setMicrophoneVolumeVisibility( bool visible )
-{
-    ui.m_MicVolPeakBar->setVisible( visible );
 }
 
 //============================================================================
@@ -668,14 +634,7 @@ void TitleBarWidget::callbackToGuiWantMicrophoneRecording( bool wantMicInput )
         m_MicrophonePlaying = wantMicInput;
         if( wantMicInput )
         {
-            ui.m_MuteMicButton->setVisible( true );
-            ui.m_MicVolPeakBar->setVisible( true );
             ui.m_MicVolPeakBar->setValue( 0 );
-        }
-        else
-        {
-            ui.m_MuteMicButton->setVisible( false );
-            ui.m_MicVolPeakBar->setVisible( false );
         }
 
         checkTitleBarIconsFit();
@@ -683,16 +642,9 @@ void TitleBarWidget::callbackToGuiWantMicrophoneRecording( bool wantMicInput )
 }
 
 //============================================================================
-void TitleBarWidget::callbackToGuiWantSpeakerOutput( bool wantSpeakerOutput )
-{
-
-}
-
-//============================================================================
 void TitleBarWidget::callbackToGuiWantVideoCapture( bool wantVideoCapture )
 {
     m_CamPlaying = wantVideoCapture;
-    enableVideoControls( wantVideoCapture );
     if( wantVideoCapture )
     {
         m_CamTimer->start( 500 );
@@ -844,6 +796,8 @@ void TitleBarWidget::updateAudioLevelCallbackRequests( void )
             {
                 m_AudioLevelCallbacksRequested = true;
                 m_MyApp.getSoundMgr().wantMicrophoneLevelCallbacks( this, true );
+                setWantMicrophoneCount( m_MyApp.getSoundMgr().getWantMicrophoneCount() );
+                setWantSpeakerCount( m_MyApp.getSoundMgr().getWantSpeakerCount() );
             }
         }
         else
@@ -862,6 +816,18 @@ void TitleBarWidget::callbackGuiMicrophoneLevel( int micLevel )
         m_LastMicLevel = micLevel;
         ui.m_MicVolPeakBar->setValue( micLevel );
     }
+}
+
+//============================================================================
+void TitleBarWidget::callbackWantMicrophoneCount( int wantMicCount )
+{
+    setWantMicrophoneCount( wantMicCount );
+}
+
+//============================================================================
+void TitleBarWidget::callbackWantSpeakerCount( int wantSpeakerCount )
+{
+    setWantSpeakerCount( wantSpeakerCount );
 }
 
 //============================================================================
@@ -889,4 +855,18 @@ void TitleBarWidget::updateFriendRequestNotify( void )
     ENotifyType notifyType = haveRequests ? eNotifyOnline : eNotifyOffline;
 
     ui.m_FriendRequestListButton->setNotifyType( notifyType );
+}
+
+//============================================================================
+void TitleBarWidget::setWantMicrophoneCount( int wantMicCount )
+{
+    ui.m_WantMicCountLabel->setVisible( wantMicCount != 0 );
+    ui.m_WantMicCountLabel->setText( QString::number( wantMicCount ) );
+}
+
+//============================================================================
+void TitleBarWidget::setWantSpeakerCount( int wantSpeakerCount )
+{
+    ui.m_WantSpeakerCountLabel->setVisible( wantSpeakerCount != 0 );
+    ui.m_WantSpeakerCountLabel->setText( QString::number( wantSpeakerCount ) );
 }

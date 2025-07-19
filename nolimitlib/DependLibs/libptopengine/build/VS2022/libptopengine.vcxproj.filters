@@ -1550,12 +1550,6 @@
     <Filter Include="Source Files\GroupieListMgr">
       <UniqueIdentifier>{26198458-8e0f-4ffc-bca9-924f271970a1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\GuiInterface">
-      <UniqueIdentifier>{a7d7cf01-9fe8-4738-89a1-b8f9e2826363}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\GuiInterface\OsInterface">
-      <UniqueIdentifier>{e837defc-6b40-4d1a-a09c-13ce9d0a5057}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Relay">
       <UniqueIdentifier>{55109772-14b2-4267-901c-e08847444ab4}</UniqueIdentifier>
     </Filter>

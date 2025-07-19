@@ -13,6 +13,7 @@
 #include "AudioUtils.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
+#include "SoundMgr.h"
 
 #include <QSurface>
 #include <qmath.h>
@@ -46,7 +47,6 @@ MiniAudioMgr::MiniAudioMgr( AppCommon& app, IAudioCallbacks& audioCallbacks, QOb
     , m_MiniAudioDevices()
     , m_MyApp( app )
     , m_AudioCallbacks( audioCallbacks )
-    //, m_AudioOutMixer( *this, audioCallbacks, this )
     , m_AudioInIo( *this, this )
     , m_AudioOutIo( *this,this )
     , m_AudioEchoCancel( app, *this, this )
@@ -74,9 +74,8 @@ MiniAudioMgr::MiniAudioMgr( AppCommon& app, IAudioCallbacks& audioCallbacks, QOb
 
     MiniAudioMgr::setEchoCancelEnable( m_MyApp.getAppSettings().getEchoCancelEnable() ); // for now always enabled
 
-    // setDirectLoopbackEnable( true );
-
     // debug testing flages
+    // setDirectLoopbackEnable( true );
     // setAudioTimingEnable( true ); // log audio timing
     // setFrameTimingEnable( true ); // log audio frames and timing
     // setFrameIndexDebugEnable( true ); // log audio frame indexes and when incremented
@@ -95,18 +94,13 @@ bool MiniAudioMgr::toGuiIsMicrophoneDeviceAvailable( void )
 // enable disable microphone data callback
 void MiniAudioMgr::toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput )
 {
-    static VxGUID nullGuid;
-    toGuiWantUserVoiceMicrophone( mediaModule, nullGuid, wantMicInput );
-}
-
-//============================================================================
-void MiniAudioMgr::toGuiWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID& onlineId, bool wantMicInput )
-{
+    if( LogEnabled( eLogVoice ) ) LogModule( eLogVoice, LOG_DEBUG, "MiniAudioMgr::%s want mic? %d module %s", __func__, wantMicInput, DescribeMediaModule( mediaModule ) );
     bool found{ false };
     m_WantMicMutex.lock();
+    size_t prevWantMicCnt = m_WantMicList.size();
     for( auto iter = m_WantMicList.begin(); iter != m_WantMicList.end(); iter++ )
     {
-        if( iter->first == mediaModule && iter->second == onlineId )
+        if( *iter == mediaModule )
         {
             found = true;
             if( !wantMicInput )
@@ -119,11 +113,17 @@ void MiniAudioMgr::toGuiWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUI
 
     if( wantMicInput && !found )
     {
-        m_WantMicList.emplace_back( std::make_pair( mediaModule, onlineId ) );
+        m_WantMicList.emplace_back( mediaModule );
     }
 
     bool enableMic = !m_WantMicList.empty();
+    size_t wantMicCnt = m_WantMicList.size();
     m_WantMicMutex.unlock();
+
+    if( prevWantMicCnt != wantMicCnt )
+    {
+        m_MyApp.getSoundMgr().wantMicrophoneCountChanged( wantMicCnt );
+    }
 
     if( ( enableMic != m_WantMicrophone ) && isMicrophoneDeviceAvailable() )
     {
@@ -154,18 +154,12 @@ void MiniAudioMgr::enableMicrophone( bool enable )
 // enable disable sound out
 void MiniAudioMgr::toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput )
 {
-    static VxGUID nullGuid;
-    toGuiWantUserVoiceSpeaker( mediaModule, nullGuid, wantSpeakerOutput );
-}
-
-//============================================================================
-void MiniAudioMgr::toGuiWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID& onlineId, bool wantSpeakerOutput )
-{
     bool found{ false };
     m_WantSpeakerMutex.lock();
+    size_t prevWantSpeakerCnt = getWantSpeakerCount( true ); 
     for( auto iter = m_WantSpeakerList.begin(); iter != m_WantSpeakerList.end(); iter++ )
     {
-        if( iter->first == mediaModule && iter->second == onlineId )
+        if( *iter == mediaModule )
         {
             found = true;
             if( !wantSpeakerOutput )
@@ -178,15 +172,22 @@ void MiniAudioMgr::toGuiWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID& 
 
     if( wantSpeakerOutput && !found )
     {
-        m_WantSpeakerList.emplace_back( std::make_pair( mediaModule, onlineId ) );
+        m_WantSpeakerList.emplace_back( mediaModule );
     }
 
     bool enableSpeaker = !m_WantSpeakerList.empty();
+    size_t wantSpeakerCnt = getWantSpeakerCount( true );
     m_WantSpeakerMutex.unlock();
+
+    if( prevWantSpeakerCnt != wantSpeakerCnt )
+    {
+        m_MyApp.getSoundMgr().wantSpeakerCountChanged( wantSpeakerCnt );
+    }
+
+    if( LogEnabled( eLogVoice ) ) LogModule( eLogVoice, LOG_DEBUG, "MiniAudioMgr::%s want speaker? %d module %s cnt %d", __func__, wantSpeakerOutput, DescribeMediaModule( mediaModule ), wantSpeakerCnt );
 
     if( ( enableSpeaker != m_WantSpeakerOutput ) && isSpeakerDeviceAvailable() )
     {
-
         m_WantSpeakerOutput = enableSpeaker;
         enableSpeakers( mediaModule, m_WantSpeakerOutput );
     }
@@ -1338,4 +1339,21 @@ void MiniAudioMgr::calculateMicWriteBufferSize( int micSampleCnt )
 void MiniAudioMgr::onAudioDevicesInitialized( bool hasDevices )
 {
     m_AudioDevicesInitialized = true;
+}
+
+//============================================================================
+size_t MiniAudioMgr::getWantSpeakerCount( bool excludeSndEffects )
+{
+    size_t cnt{ 0 };
+    for( auto mediaModule : m_WantSpeakerList )
+    {
+        if( excludeSndEffects && mediaModule == eMediaModuleSoundEffects )
+        {
+            continue;
+        }
+
+        cnt++;
+    }
+
+    return cnt;
 }

@@ -129,7 +129,7 @@ void GuiConnectIdListMgr::slotInternalConnectionStatusChange( ConnectId connectI
 {
     LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::%s user %s isConnect %d to %s",
             __func__, m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str(), isConnected,
-            GuiParams::describeHostType( connectId.getHostType() ).toUtf8().constData() );
+            DescribeHostType( connectId.getHostType() ) );
     if( isConnected )
     {
         if( m_ConnectIdList.find( connectId ) == m_ConnectIdList.end() )

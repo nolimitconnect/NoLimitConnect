@@ -44,53 +44,34 @@ void AppCommon::toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool wan
 //============================================================================
 void AppCommon::slotInternalWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput )
 {
-	VxGUID nullGuid;
-	slotInternalWantUserVoiceMicrophone( mediaModule, nullGuid, wantMicInput );
-}
+    bool wasMicAvailable = m_SoundMgr.isMicrophoneEnabled();
+    m_SoundMgr.toGuiWantMicrophoneRecording( mediaModule, wantMicInput );
+    bool isMicAvailable = m_SoundMgr.isMicrophoneEnabled();
+    if( wasMicAvailable != isMicAvailable )
+    {
+        m_ToGuiHardwareCtrlBusy = true;
+        for( auto toGuiClient : m_ToGuiHardwareCtrlList )
+        {
+            toGuiClient->callbackToGuiWantMicrophoneRecording( wantMicInput );
+        }
 
-//============================================================================
-void AppCommon::toGuiWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID& onlineId, bool wantMicInput )
-{
-	if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "AppCommon::%s %d", __func__, wantMicInput );
-	if( VxIsAppShuttingDown() )
-	{
-		return;
-	}
-
-	emit signalInternalWantUserVoiceMicrophone( mediaModule, onlineId, wantMicInput );
-}
-
-//============================================================================
-void AppCommon::slotInternalWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID onlineId, bool wantMicInput )
-{
-	if( VxIsAppShuttingDown() )
-	{
-		return;
-	}
-
-	bool wasMicAvailable = m_SoundMgr.isMicrophoneEnabled();
-	m_SoundMgr.toGuiWantUserVoiceMicrophone( mediaModule, onlineId, wantMicInput );
-	bool isMicAvailable = m_SoundMgr.isMicrophoneEnabled();
-	if( wasMicAvailable != isMicAvailable )
-	{
-		m_ToGuiHardwareCtrlBusy = true;
-		for( auto toGuiClient : m_ToGuiHardwareCtrlList )
-		{
-			toGuiClient->callbackToGuiWantMicrophoneRecording( wantMicInput );
-		}
-
-		m_ToGuiHardwareCtrlBusy = false;
-		if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "AppCommon::%s %d done", __func__, isMicAvailable );
-	}
+        m_ToGuiHardwareCtrlBusy = false;
+        if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "AppCommon::%s %d done", __func__, isMicAvailable );
+    }
 }
 
 //============================================================================
 void AppCommon::toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput )
 {
-	if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "AppCommon::%s %d", __func__, wantSpeakerOutput );
+	
 	if( VxIsAppShuttingDown() )
 	{
 		return;
+	}
+
+	if( mediaModule != eMediaModuleSoundEffects )
+	{
+		if( LogEnabled( eLogVoice ) ) LogModule( eLogVoice, LOG_VERBOSE, "AppCommon::%s want speaker? %d module %s", __func__, wantSpeakerOutput, DescribeMediaModule( mediaModule ) );
 	}
 
 	emit signalInternalWantSpeakerOutput( mediaModule, wantSpeakerOutput );
@@ -99,50 +80,31 @@ void AppCommon::toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeak
 //============================================================================
 void AppCommon::slotInternalWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput )
 {
-	VxGUID nullGuid;
-	slotInternalWantUserVoiceSpeaker( mediaModule, nullGuid, wantSpeakerOutput );
-}
+    if( VxIsAppShuttingDown() )
+    {
+        return;
+    }
 
-//============================================================================
-void AppCommon::toGuiWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID& onlineId, bool wantSpeakerOutput )
-{
-	if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "AppCommon::%s %d", __func__, wantSpeakerOutput );
-	if( VxIsAppShuttingDown() )
-	{
-		return;
-	}
+    bool wasSpeakerAvailable = m_SoundMgr.isSpeakerEnabled();
+    m_SoundMgr.toGuiWantSpeakerOutput( mediaModule, wantSpeakerOutput );
+    bool isSpeakerAvailable = m_SoundMgr.isSpeakerEnabled();
 
-	emit signalInternalWantUserVoiceSpeaker( mediaModule, onlineId, wantSpeakerOutput );
-}
+    if( wasSpeakerAvailable != isSpeakerAvailable )
+    {
+        if( m_ToGuiHardwareCtrlBusy )
+        {
+            LogMsg( LOG_ERROR, "AppCommon::%s ToGuiHardware busy", __func__ );
+            vx_assert( false );
+        }
 
-//============================================================================
-void AppCommon::slotInternalWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID onlineId, bool wantSpeakerOutput )
-{
-	if( VxIsAppShuttingDown() )
-	{
-		return;
-	}
+        m_ToGuiHardwareCtrlBusy = true;
+        for( auto toGuiClient : m_ToGuiHardwareCtrlList )
+        {
+            toGuiClient->callbackToGuiWantSpeakerOutput( isSpeakerAvailable );
+        }
 
-	bool wasSpeakerAvailable = m_SoundMgr.isSpeakerEnabled();
-	m_SoundMgr.toGuiWantUserVoiceSpeaker( mediaModule, onlineId, wantSpeakerOutput );
-	bool isSpeakerAvailable = m_SoundMgr.isSpeakerEnabled();
-
-	if( wasSpeakerAvailable != isSpeakerAvailable )
-	{	
-		if( m_ToGuiHardwareCtrlBusy )
-		{
-			LogMsg( LOG_ERROR, "AppCommon::%s ToGuiHardware busy", __func__ );
-			vx_assert( false );
-		}
-
-		m_ToGuiHardwareCtrlBusy = true;
-		for( auto toGuiClient : m_ToGuiHardwareCtrlList )
-		{
-			toGuiClient->callbackToGuiWantSpeakerOutput( isSpeakerAvailable );
-		}
-
-		m_ToGuiHardwareCtrlBusy = false;
-	}
+        m_ToGuiHardwareCtrlBusy = false;
+    }
 }
 
 //============================================================================

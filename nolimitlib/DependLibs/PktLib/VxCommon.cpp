@@ -36,6 +36,57 @@ void VxSetHackReportCallback( IHackReportCallbackInterface* hackReportCallback )
 }
 
 //============================================================================
+RCODE VxReportHack( EHackerLevel hackerLevel, EHackerReason hackerReason, std::shared_ptr<VxSktBase>& sktBase, const char* pDescription, ... )
+{
+	char as8Buf[2048];
+	va_list argList;
+	va_start( argList, pDescription );
+	vsnprintf( as8Buf, sizeof( as8Buf ), pDescription, argList );
+	as8Buf[sizeof( as8Buf ) - 1] = 0;
+	va_end( argList );
+
+	std::string ipAddr = sktBase ? sktBase->getRemoteIpAddress() : "";
+
+	if( g_IHackReportCallback )
+	{
+		g_IHackReportCallback->reportHackOffense( hackerLevel, hackerReason, ipAddr, as8Buf );
+	}
+	else
+	{
+		LogModule( eLogHackers, LOG_ERROR, "%s %s %s %s", DescribeHackerLevel( hackerLevel ), DescribeHackerReason( hackerReason ),
+			sktBase->describeSktConnection().c_str(),
+			as8Buf );
+	}
+
+	return 0;
+}
+
+//============================================================================
+RCODE VxReportHack( EHackerLevel hackerLevel, EHackerReason hackerReason, SOCKET skt, const char* ipAddr, const char* pDescription, ... )
+{
+	char as8Buf[2048];
+	va_list argList;
+	va_start( argList, pDescription );
+	vsnprintf( as8Buf, sizeof( as8Buf ), pDescription, argList );
+	as8Buf[sizeof( as8Buf ) - 1] = 0;
+	va_end( argList );
+
+	if( g_IHackReportCallback )
+	{
+		g_IHackReportCallback->reportHackOffense( hackerLevel, hackerReason, ipAddr, as8Buf );
+	}
+	else
+	{
+		LogModule( eLogHackers, LOG_ERROR, "%s %s handle %d ip %s %s", DescribeHackerLevel( hackerLevel ), DescribeHackerReason( hackerReason ),
+			skt,
+			ipAddr,
+			as8Buf );
+	}
+
+	return 0;
+}
+
+//============================================================================
 //! generate connection key from network identity
 bool GenerateConnectionKey(  VxKey *				poRetKey,		// set this key
                              VxConnectId *			poConnectId,	// network identity
@@ -115,49 +166,6 @@ PluginPermission& PluginPermission::operator = ( const PluginPermission& rhs )
     }
 
     return *this;
-}
-
-//============================================================================
-bool PluginPermission::isPluginEnabled( EPluginType ePlugin )		
-{ 
-	return (eFriendStateIgnore == getPluginPermission(ePlugin))?0:1; 
-}
-
-//============================================================================
-//! get type of permission user has set for givin plugin
-EFriendState PluginPermission::getPluginPermission( EPluginType pluginType, bool inGroup )
-{
-    if(( pluginType > 0 ) && ( pluginType < eMaxPermissionPluginType ) )
-	{
-		int pluginNum = (int)(pluginType - 1);
-		int byteIdx = pluginNum >> 1;
-		int byteShift = pluginNum & 0x01 ? 4 : 0;
-		uint8_t byteWithPerm = m_au8Permissions[ byteIdx ];
-
-		EFriendState friendState = (EFriendState)( ( byteWithPerm >> byteShift ) & 0xf );
-		if( eFriendStateAnonymous == friendState && inGroup )
-		{
-			friendState = eFriendStateGuest;
-		}
-
-		return friendState;
-	}
-    else
-    {
-        if( pluginType == ePluginTypeClientChatRoom ||
-            pluginType == ePluginTypeClientGroup ||
-            pluginType == ePluginTypeClientRandomConnect )
-        {
-            // not a published permission but assume has at least guest if in group
-            if( inGroup )
-            {
-                return eFriendStateGuest;
-            }
-
-        }
-    }
-
-	return eFriendStateIgnore;
 }
 
 //============================================================================
@@ -383,25 +391,17 @@ uint16_t VxNetIdent::getPingTimeMs( void )
 }
 
 //============================================================================
-EPluginAccess	VxNetIdent::getHisAccessPermissionFromMe( EPluginType pluginType, bool inGroup )
+EPluginAccess	VxNetIdent::getHisAccessPermissionFromMe( EPluginType pluginType )
 {
 	EFriendState friendState = getMyFriendshipToHim();
-	if( inGroup && friendState == eFriendStateAnonymous )
-	{
-		friendState = eFriendStateGuest;
-	}
 
 	return getPluginAccessState( pluginType, friendState );
 }
 
 //============================================================================
-EPluginAccess VxNetIdent::getMyAccessPermissionFromHim( EPluginType pluginType, bool inGroup )
+EPluginAccess VxNetIdent::getMyAccessPermissionFromHim( EPluginType pluginType )
 {
 	EFriendState friendState = getHisFriendshipToMe();
-	if( inGroup && friendState == eFriendStateAnonymous )
-	{
-		friendState = eFriendStateGuest;
-	}
 
 	EPluginAccess accessState = getPluginAccessState( pluginType, friendState );
 	if( ePluginAccessOk == accessState )
@@ -441,7 +441,7 @@ EPluginAccess VxNetIdent::getMyAccessPermissionFromHim( EPluginType pluginType, 
 }
 
 //============================================================================
-bool VxNetIdent::isHisAccessAllowedFromMe( EPluginType pluginType, bool inGroup )
+bool VxNetIdent::isHisAccessAllowedFromMe( EPluginType pluginType )
 {
 	if( GetPtoPEngine().getIsPluginInTestState( pluginType, getMyOnlineId() ) )
 	{
@@ -449,16 +449,12 @@ bool VxNetIdent::isHisAccessAllowedFromMe( EPluginType pluginType, bool inGroup 
 	}
 
 	EFriendState friendState = this->getMyFriendshipToHim();
-	if( eFriendStateAnonymous == friendState && inGroup )
-	{
-		friendState = eFriendStateGuest;
-	}
 
-    return ( ePluginAccessOk == GetPtoPEngine().getMyPktAnnounce().getPluginAccessState( pluginType, friendState, inGroup ) );
+    return ( ePluginAccessOk == GetPtoPEngine().getMyPktAnnounce().getPluginAccessState( pluginType, friendState ) );
 }
 
 //============================================================================
-bool VxNetIdent::isMyAccessAllowedFromHim( EPluginType pluginType, bool inGroup )
+bool VxNetIdent::isMyAccessAllowedFromHim( EPluginType pluginType )
 {
 	if( GetPtoPEngine().getIsPluginInTestState( pluginType, getMyOnlineId() ) )
 	{
@@ -466,23 +462,18 @@ bool VxNetIdent::isMyAccessAllowedFromHim( EPluginType pluginType, bool inGroup 
 	}
 
 	EFriendState friendState = this->getHisFriendshipToMe();
-	if( eFriendStateAnonymous == friendState && inGroup )
-	{
-		friendState = eFriendStateGuest;
-	}
-
 	return ( ePluginAccessOk == getPluginAccessState( pluginType, friendState ) );
 }
 
 //============================================================================
-EPluginAccess VxNetIdent::getPluginAccessState( EPluginType pluginType, EFriendState eHisPermissionToMe, bool inGroup )
+EPluginAccess VxNetIdent::getPluginAccessState( EPluginType pluginType, EFriendState eHisPermissionToMe )
 {
 	if( eFriendStateIgnore == eHisPermissionToMe )
 	{
 		return ePluginAccessIgnored;
 	}
 
-	EFriendState ePermissionLevel = this->getPluginPermission( pluginType, inGroup );
+	EFriendState ePermissionLevel = this->getPluginPermission( pluginType );
 	if( eFriendStateIgnore == ePermissionLevel )
 	{
 		return ePluginAccessDisabled;
@@ -599,53 +590,131 @@ bool VxNetIdent::requiresAnOpenPort( void )
 }
 
 //============================================================================
-RCODE VxReportHack(	EHackerLevel hackerLevel, EHackerReason hackerReason, std::shared_ptr<VxSktBase>& sktBase, const char* pDescription, ... )	
+bool VxNetIdent::isPluginEnabled( EPluginType ePlugin )
 {
-	char as8Buf[ 2048 ];
-	va_list argList;
-	va_start( argList, pDescription );
-	vsnprintf( as8Buf, sizeof( as8Buf ), pDescription, argList );
-	as8Buf[sizeof( as8Buf ) - 1] = 0;
-	va_end( argList );
-
-	std::string ipAddr = sktBase ? sktBase->getRemoteIpAddress() : "";
-
-	if( g_IHackReportCallback )
-	{
-		g_IHackReportCallback->reportHackOffense( hackerLevel, hackerReason, ipAddr, as8Buf );
-	}
-	else
-	{
-		LogModule( eLogHackers, LOG_ERROR, "%s %s %s %s", DescribeHackerLevel( hackerLevel ), DescribeHackerReason( hackerReason ),
-			sktBase->describeSktConnection().c_str(),
-			as8Buf );
-	}
-
-	return 0;
+	return ( eFriendStateIgnore == getPluginPermission( ePlugin ) ) ? false : true;
 }
 
 //============================================================================
-RCODE VxReportHack(	EHackerLevel hackerLevel, EHackerReason hackerReason, SOCKET skt, const char* ipAddr, const char* pDescription, ... )
+//! get type of permission user has set for givin plugin
+EFriendState VxNetIdent::getPluginPermission( EPluginType pluginType )
 {
-	char as8Buf[ 2048 ];
-	va_list argList;
-	va_start( argList, pDescription );
-	vsnprintf( as8Buf, sizeof( as8Buf ), pDescription, argList );
-	as8Buf[sizeof( as8Buf ) - 1] = 0;
-	va_end( argList );
-
-	if( g_IHackReportCallback )
+	if( ( pluginType > 0 ) && ( pluginType < eMaxPermissionPluginType ) )
 	{
-		g_IHackReportCallback->reportHackOffense( hackerLevel, hackerReason, ipAddr, as8Buf );
+		int pluginNum = (int)( pluginType - 1 );
+		int byteIdx = pluginNum >> 1;
+		int byteShift = pluginNum & 0x01 ? 4 : 0;
+		uint8_t byteWithPerm = m_au8Permissions[byteIdx];
+
+		EFriendState friendState = (EFriendState)( ( byteWithPerm >> byteShift ) & 0xf );
+		if( eFriendStateAnonymous == friendState && isJoinedAny() )
+		{
+			friendState = eFriendStateGuest;
+		}
+
+		return friendState;
 	}
 	else
 	{
-		LogModule( eLogHackers, LOG_ERROR, "%s %s handle %d ip %s %s", DescribeHackerLevel( hackerLevel ), DescribeHackerReason( hackerReason ),
-			skt,
-			ipAddr,
-			as8Buf );
+		if( pluginType == ePluginTypeClientChatRoom ||
+			pluginType == ePluginTypeClientGroup ||
+			pluginType == ePluginTypeClientRandomConnect )
+		{
+			// not a published permission but assume has at least guest if in group
+			if( isJoinedAny() )
+			{
+				return eFriendStateGuest;
+			}
+		}
 	}
 
-	return 0;
+	return eFriendStateIgnore;
 }
 
+//============================================================================
+//! if was anonymouse upgrade to guest friendship
+void VxNetIdent::upgradeToGuestFriendship( void )
+{
+	if( isAnonymous() )
+	{
+		setMyFriendshipToHim( eFriendStateGuest );
+	}
+}
+
+//! return true if is ignored
+bool			VxNetIdent::isIgnored() { return eFriendStateIgnore == getMyFriendshipToHim(); }
+//! return true if is Anonymous
+bool			VxNetIdent::isAnonymous() { return eFriendStateAnonymous == getMyFriendshipToHim(); }
+//! return true if is VxNetIdent
+bool			VxNetIdent::isGuest() { return eFriendStateGuest == getMyFriendshipToHim(); }
+//! return true if is Friend
+bool			VxNetIdent::isFriend() { return eFriendStateFriend == getMyFriendshipToHim(); }
+//! return true if is Administrator
+bool			VxNetIdent::isAdministrator() { return eFriendStateAdmin == getMyFriendshipToHim(); }
+//! set my permissions to him as ignored
+void			VxNetIdent::makeIgnored() { setMyFriendshipToHim( eFriendStateIgnore ); }
+//! set my permissions to him as Anonymous
+void			VxNetIdent::makeAnonymous() { setMyFriendshipToHim( eFriendStateAnonymous ); }
+//! set my permissions to him as Guest
+void			VxNetIdent::makeGuest() { setMyFriendshipToHim( eFriendStateGuest ); }
+//! set my permissions to him as Friend
+void			VxNetIdent::makeFriend() { setMyFriendshipToHim( eFriendStateFriend ); }
+//! set my permissions to him as Administrator
+void			VxNetIdent::makeAdministrator() { setMyFriendshipToHim( eFriendStateAdmin ); }
+//! wants to be friend
+bool			VxNetIdent::wantsToBeFriend() { return eFriendStateFriend == getHisFriendshipToMe(); }
+//! wants to be friend
+bool			VxNetIdent::wantsToBeAdministrator() { return eFriendStateAdmin == getHisFriendshipToMe(); }
+
+//! set permission level I have given to friend
+void			VxNetIdent::setMyFriendshipToHim( EFriendState eFriendState )
+{
+	m_u8FriendMatch &= 0xf0;
+	m_u8FriendMatch |= eFriendState;
+}
+
+//! get permission level I have given to friend
+EFriendState VxNetIdent::getMyFriendshipToHim( void )
+{
+	EFriendState friendState = (EFriendState)( m_u8FriendMatch & 0x0f );
+	if( eFriendStateAnonymous == friendState && isJoinedAny() )
+	{
+		friendState = eFriendStateGuest;
+	}
+
+	return friendState;
+}
+
+//! set permission level he has given to me
+void VxNetIdent::setHisFriendshipToMe( EFriendState eFriendState )
+{
+	m_u8FriendMatch &= 0x0f;
+	m_u8FriendMatch |= ( eFriendState << 4 );
+}
+
+//! get permission level he has given to me
+EFriendState VxNetIdent::getHisFriendshipToMe( void )
+{
+	EFriendState friendState = (EFriendState)( ( m_u8FriendMatch >> 4 ) & 0x0f );
+	if( eFriendStateAnonymous == friendState && isJoinedAny() )
+	{
+		friendState = eFriendStateGuest;
+	}
+
+	return friendState;
+}
+
+//! reverse the permissions
+void VxNetIdent::reversePermissions( void )
+{
+	uint8_t u8TmpPermission = m_u8FriendMatch << 4;
+	m_u8FriendMatch = u8TmpPermission | ( ( m_u8FriendMatch >> 4 ) & 0x0f );
+}
+//! return string with friend state He has given Me
+void VxNetIdent::describeHisFriendshipToMe( std::string& strRetPermission ) { strRetPermission = DescribeFriendState( getHisFriendshipToMe() ); }
+//! return string with friend state He has given Me
+const char* VxNetIdent::describeHisFriendshipToMe( void ) { return DescribeFriendState( getHisFriendshipToMe() ); }
+//! return string with friend state I have given Him
+void VxNetIdent::describeMyFriendshipToHim( std::string& strRetPermission ) { strRetPermission = DescribeFriendState( getMyFriendshipToHim() ); }
+//! return string with friend state I have given Him
+const char* VxNetIdent::describeMyFriendshipToHim( void ) { return DescribeFriendState( getMyFriendshipToHim() ); }

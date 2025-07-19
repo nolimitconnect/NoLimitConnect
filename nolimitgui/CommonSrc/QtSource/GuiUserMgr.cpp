@@ -207,7 +207,8 @@ bool GuiUserMgr::onGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline )
         GuiUser* guiUser = findUser( onlineId );
         if( guiUser )
         {
-            LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::toGuiOnlineStatusChange user %s online %d id %s", guiUser->getOnlineName().c_str(), isOnline, guiUser->getMyOnlineId().toOnlineIdString().c_str() );
+            LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::%s user %s online %d id %s", 
+                __func__, guiUser->getOnlineName().c_str(), isOnline, guiUser->getMyOnlineId().toOnlineIdString().c_str() );
             if( m_ClientListBusy )
             {
                 LogMsg( LOG_ERROR, "GuiUserMgr::%s m_ClientListBusy", __func__ );
@@ -228,7 +229,7 @@ bool GuiUserMgr::onGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline )
         }
         else
         {
-            LogMsg( LOG_ERROR, "GuiUserMgr::toGuiOnlineStatusChange user not found %s", onlineId.toOnlineIdString().c_str() );
+            LogMsg( LOG_ERROR, "GuiUserMgr::%s user not found %s", __func__, onlineId.toOnlineIdString().c_str() );
         }
     }
 
@@ -853,11 +854,11 @@ void GuiUserMgr::sendUserUpdatedToCallbacks( GuiUser* guiUser )
 {
     if( guiUser )
     {
-        LogMsg( LOG_ERROR, "GuiUserMgr::sendUserUpdatedToCallbacks to %d clients user %s %s",
+        LogMsg( LOG_VERBOSE, "GuiUserMgr::%s to %d clients user %s %s", __func__,
                m_GuiUserUpdateClientList.size(), guiUser->getOnlineName().c_str(), guiUser->getMyOnlineId().toOnlineIdString().c_str() );
         if( guiUser->isMyself() )
         {
-            LogMsg( LOG_ERROR, "GuiUserMgr::sendUserUpdatedToCallbacks updating myself" );
+            LogMsg( LOG_ERROR, "GuiUserMgr::%s updating myself", __func__ );
         }
 
         if( m_ClientListBusy )

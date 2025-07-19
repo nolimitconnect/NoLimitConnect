@@ -123,7 +123,7 @@ public:
     static QString              describeStatus( EHostJoinStatus hostStatus );
     static QString              describeStatus( EHostSearchStatus hostStatus );
     static QString				describeResponse( EOfferResponse offerResponse );
-    static QString				describeFriendship( EFriendState friendState, bool inGroup = false );
+    static QString				describeFriendship( EFriendState friendState );
 
     static QString				describeJoinState( EJoinState joinState );
 

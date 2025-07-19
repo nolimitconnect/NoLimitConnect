@@ -66,9 +66,6 @@ public:
 	VxPushButton*				getAppIconPushButton( void );
 	VxPushButton*				getBackButton( void );
 
-	void						enableAudioControls( bool enable );
-	void						enableVideoControls( bool enable );
-
 	//=== button visiblility ====//
 	void						setPopupVisibility( bool hideBackButton = false );// for popup dialogs
 
@@ -78,9 +75,7 @@ public:
 	void						setCameraButtonVisibility( bool visible );
 
 	void						setNetStatusVisibility( bool visible );
-    void						setMuteSpeakerVisibility( bool visible );
-    void						setMuteMicrophoneVisibility( bool visible );
-	void						setMicrophoneVolumeVisibility( bool visible );
+
     void						setMenuTopButtonVisibility( bool visible );
 	void						setMenuListButtonVisibility( bool visible );
     void						setPowerButtonVisibility( bool visible );
@@ -152,9 +147,11 @@ protected:
 	void						checkTitleBarIconsFit( void );
 
 	void						callbackGuiMicrophoneLevel( int micLevel ) override;
+	virtual void				callbackWantMicrophoneCount( int wantMicCount ) override;
+	virtual void				callbackWantSpeakerCount( int wantSpeakerCount ) override;
 
 	void						callbackToGuiWantMicrophoneRecording( bool wantMicInput ) override;
-	void						callbackToGuiWantSpeakerOutput( bool wantSpeakerOutput ) override;
+
 	void						callbackToGuiWantVideoCapture( bool wantVideoCapture ) override;
 	void						callbackToGuiMicrophoneMuted( bool isMuted ) override;
 	void						callbackToGuiSpeakerMuted( bool isMuted ) override;
@@ -179,6 +176,9 @@ protected:
 	void						updateCamCallbackRequests( void );
 	void						updateAudioLevelCallbackRequests( void );
 	void						updateFriendRequestNotify( void );
+
+	void						setWantMicrophoneCount( int wantMicCount );
+	void						setWantSpeakerCount( int wantSpeakerCount );
 
 	Ui::TitleBarWidgetClass&	ui;
 	AppCommon&					m_MyApp;

@@ -21,6 +21,7 @@
 //============================================================================
 bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo )
 {
+    pktAnn->clearIsJoined();
     if( pktAnn->getMyOnlineId() == getMyOnlineId() )
     {
         VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::%s", __func__ );
@@ -102,11 +103,11 @@ bool P2PEngine::onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, Pk
 
     bool updateOk{ true };
 
-    getBigListMgr().updateMemberFriendship( bigListInfo );
-
     GroupieId groupieId( pktAnn->getMyOnlineId(), pktAnn->getHostOnlineId(), pktAnn->getHostType() );
     if( !sktBase->isTempConnection() )
     {
+        pktAnn->setIsJoined( pktAnn->getHostType(), true );
+
         LogModule( eLogConnect, LOG_VERBOSE, "onHostedUserPktAnnounce %s %s at ip %s",
                    bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
         LogModule( eLogUserEvent, LOG_VERBOSE, "onHostedUserPktAnnounce %s %s", pktAnn->describeUser().c_str(), describeGroupieId( groupieId ).c_str() );

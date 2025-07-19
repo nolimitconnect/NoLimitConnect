@@ -50,6 +50,7 @@ void SoundMgr::slotStopPhoneRinging( void )
 		&& ( eSndDefPhoneRing1 == m_CurSndPlaying->getSndDef() ) )
 	{
 		m_CurSndPlaying->stopPlay();
+		m_CurSndPlaying = nullptr;
 	}
 }
 
@@ -89,8 +90,6 @@ bool SoundMgr::sndMgrStartup( void )
         VxSndInstance* sndInstance = new VxSndInstance( (ESndDef)i, this );
         m_SndList.emplace_back( sndInstance );
     }
-
-    //audioIoSystemStartup();
 
 	m_MyApp.wantToGuiHardwareCtrlCallbacks( this, true );
 
@@ -146,6 +145,7 @@ VxSndInstance * SoundMgr::playSnd( ESndDef sndDef, bool loopContinuous  )
 		if( m_CurSndPlaying )
 		{
 			m_CurSndPlaying->stopPlay();
+			m_CurSndPlaying = nullptr;
 		}
 
 		m_CurSndPlaying = m_SndList[ sndDef ];
@@ -165,7 +165,7 @@ void SoundMgr::stopSnd( ESndDef sndDef )
 		&& ( sndDef == m_CurSndPlaying->getSndDef() ) )
 	{
 		m_CurSndPlaying->stopPlay();
-		m_CurSndPlaying = 0;
+		m_CurSndPlaying = nullptr;
 	}
 }
 
@@ -174,7 +174,7 @@ void SoundMgr::slotSndFinished( VxSndInstance * sndInstance )
 {
 	if( m_CurSndPlaying == sndInstance )
 	{
-		m_CurSndPlaying = 0;
+		m_CurSndPlaying = nullptr;
 	}
 }
 
@@ -265,5 +265,25 @@ void SoundMgr::slotAudioPeekTimeout( void )
 	for( auto& client : m_AudioLevelClientList )
 	{
 		client->callbackGuiMicrophoneLevel( micLevel );
+	}
+}
+
+//============================================================================
+void SoundMgr::wantMicrophoneCountChanged( int wantMicCnt )
+{
+	m_WantMicCnt = wantMicCnt;
+	for( auto& client : m_AudioLevelClientList )
+	{
+		client->callbackWantMicrophoneCount( m_WantMicCnt );
+	}
+}
+
+//============================================================================
+void SoundMgr::wantSpeakerCountChanged( int wantSpeakerCnt )
+{
+	m_WantSpeakerCnt = wantSpeakerCnt;
+	for( auto& client : m_AudioLevelClientList )
+	{
+		client->callbackWantSpeakerCount( m_WantSpeakerCnt );
 	}
 }

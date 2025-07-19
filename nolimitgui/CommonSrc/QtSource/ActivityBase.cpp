@@ -711,24 +711,6 @@ void ActivityBase::setHostJoinRequestListButtonVisibility( bool visible )
 }
 
 //============================================================================
-void ActivityBase::setMuteSpeakerVisibility( bool visible )
-{
-	getTitleBarWidget()->setMuteSpeakerVisibility( visible );
-}
-
-//============================================================================
-void ActivityBase::setMuteMicrophoneVisibility( bool visible )
-{
-	getTitleBarWidget()->setMuteMicrophoneVisibility( visible );
-}
-
-//============================================================================
-void ActivityBase::setMicrophoneVolumeVisibility( bool visible )
-{
-	getTitleBarWidget()->setMicrophoneVolumeVisibility( visible );
-}
-
-//============================================================================
 void ActivityBase::setCameraButtonVisibility( bool visible )
 {
 	getTitleBarWidget()->setCameraButtonVisibility( visible );

@@ -75,20 +75,20 @@ public:
     void                        setMyFriendshipToHim( EFriendState friendState ) { m_NetIdent.setMyFriendshipToHim( friendState ); }
     EFriendState                getMyFriendshipToHim( void )            { return m_NetIdent.getMyFriendshipToHim(); }
     EFriendState                getHisFriendshipToMe( void )            { return m_NetIdent.getHisFriendshipToMe(); }
-    EPluginAccess               getMyAccessPermissionFromHim( EPluginType pluginType, bool inGroup = false );
+    EPluginAccess               getMyAccessPermissionFromHim( EPluginType pluginType );
     EFriendState                getPluginPermission( EPluginType pluginType ) { return m_NetIdent.getPluginPermission( pluginType ); }
     int64_t					    getLastSessionTimeMs( void )            { return m_NetIdent.getLastSessionTimeMs(); }
 
-    QString				        describeMyFriendshipToHim( bool inGroup  );
-    QString				        describeHisFriendshipToMe( bool inGroup );
+    QString				        describeMyFriendshipToHim( void );
+    QString				        describeHisFriendshipToMe( void );
 
     uint32_t                    getTruthCount( void )                   { return m_NetIdent.getTruthCount(); }
     uint32_t                    getDareCount( void )                    { return m_NetIdent.getDareCount(); }
     void		                setHasTextOffers( bool hasOffers )	    { m_NetIdent.setHasTextOffers( hasOffers ); }
     bool		                getHasTextOffers( void )				{ return m_NetIdent.getHasTextOffers(); }
 
-    bool                        isMyAccessAllowedFromHim( enum EPluginType pluginType, bool inGroup = false );
-    bool						isHisAccessAllowedFromMe( enum EPluginType pluginType, bool inGroup = false ) { return m_NetIdent.isHisAccessAllowedFromMe( pluginType, inGroup ); }
+    bool                        isMyAccessAllowedFromHim( enum EPluginType pluginType );
+    bool						isHisAccessAllowedFromMe( enum EPluginType pluginType ) { return m_NetIdent.isHisAccessAllowedFromMe( pluginType ); }
 
     void                        setLastUpdateTime( uint64_t updateTimeMs ) { m_LastUpdateTime = updateTimeMs; }
     uint64_t                    getLastUpdateTime( void )               { return m_LastUpdateTime; }
@@ -96,6 +96,9 @@ public:
     void						emitUserUpdated( void )                 { emit signalUserUpdated(); };
 
     virtual QString             describeUser( bool verbose = false );
+
+    void                        setIsJoined( EHostType hostType, bool isJoined ) { m_NetIdent.setIsJoined( hostType, isJoined ); }
+    bool                        getIsJoined( EHostType hostType )       { return m_NetIdent.getIsJoined( hostType ); }
 
 signals:
     void						signalUserUpdated( void );

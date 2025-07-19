@@ -189,14 +189,10 @@ void AppletCamClient::setupCamFeed( GuiUser* feedNetIdent )
     m_IsMyself = m_CamFeedId == m_MyApp.getMyOnlineId();
     if( m_IsMyself )
     {
-        setMuteSpeakerVisibility( false );
-        setMuteMicrophoneVisibility( true );
         setCameraButtonVisibility( true );
     }
     else
     {
-        setMuteSpeakerVisibility( true );
-        setMuteMicrophoneVisibility( false );
         setCameraButtonVisibility( false );
     }
 

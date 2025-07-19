@@ -49,6 +49,11 @@ public:
 
 	void						setEchoCancelEnable( bool enable ) override;
 
+	void						wantMicrophoneCountChanged( int wantMicCnt );
+	int							getWantMicrophoneCount( void ) { return m_WantMicCnt; }
+	void						wantSpeakerCountChanged( int wantSpeakerCnt );
+	int							getWantSpeakerCount( void ) { return m_WantSpeakerCnt; }
+
 signals:
 	void						signalSndFinished( VxSndInstance* sndInstance );
 
@@ -70,6 +75,9 @@ protected:
 	//=== vars ===//
 	bool						m_MutePhoneRing{ false };
 	bool						m_MuteNotifySnd{ false };
+
+	int							m_WantMicCnt{ 0 };
+	int							m_WantSpeakerCnt{ 0 };
 
 	QVector<VxSndInstance *>	m_SndList;
 	VxSndInstance *			    m_CurSndPlaying{ nullptr };

@@ -40,13 +40,9 @@ public:
 
     // enable disable fromGuiMicrophoneData callback
     virtual void				toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput ) = 0;
-    // enable disable microphone for specific user communicaion (usually push to talk)
-    virtual void				toGuiWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID& onlineId, bool wantMicInput ) = 0;
 
     // enable disable speaker sound out
     virtual void				toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput ) = 0;
-    // enable disable speaker for specific user communicaion (usually push to talk)
-    virtual void				toGuiWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID& onlineId, bool wantSpeakerOutput ) = 0;
 
     // add audio data to play.. assumes pcm mono 
     virtual int				    toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence ) = 0;

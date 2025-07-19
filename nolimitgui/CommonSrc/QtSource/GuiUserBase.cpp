@@ -95,7 +95,7 @@ bool GuiUserBase::isRandomConnectHosted( void )
 }
 
 //============================================================================
-EPluginAccess GuiUserBase::getMyAccessPermissionFromHim( EPluginType pluginType, bool inGroup )
+EPluginAccess GuiUserBase::getMyAccessPermissionFromHim( EPluginType pluginType )
 { 
     if( m_MyApp.getMyOnlineId() == m_NetIdent.getMyOnlineId() )
     {
@@ -105,12 +105,8 @@ EPluginAccess GuiUserBase::getMyAccessPermissionFromHim( EPluginType pluginType,
     // cannot override a object that is sent over the network so this is mostly a copy of NetIdent::getMyAccessPermissionFromHim
     // this is so that do not have to constantly update the net ident online state
 	EFriendState friendState = getHisFriendshipToMe();
-	if( inGroup && friendState == eFriendStateAnonymous )
-	{
-		friendState = eFriendStateGuest;
-	}
 
-	EPluginAccess accessState = m_NetIdent.getPluginAccessState( pluginType, friendState, inGroup );
+	EPluginAccess accessState = m_NetIdent.getPluginAccessState( pluginType, friendState );
 	if( ePluginAccessOk == accessState )
 	{
 		if( ( ePluginTypeFileShareServer == pluginType ) 
@@ -148,26 +144,26 @@ EPluginAccess GuiUserBase::getMyAccessPermissionFromHim( EPluginType pluginType,
 }
 
 //============================================================================
-bool GuiUserBase::isMyAccessAllowedFromHim( enum EPluginType pluginType, bool inGroup )
+bool GuiUserBase::isMyAccessAllowedFromHim( enum EPluginType pluginType )
 { 
-    if( m_MyApp.getMyOnlineId() == m_NetIdent.getMyOnlineId() && eFriendStateIgnore != m_NetIdent.getPluginPermission( pluginType, inGroup ) )
+    if( m_MyApp.getMyOnlineId() == m_NetIdent.getMyOnlineId() && eFriendStateIgnore != m_NetIdent.getPluginPermission( pluginType ) )
     {
         return true;
     }
 
-    return m_NetIdent.isMyAccessAllowedFromHim( pluginType, inGroup ); 
+    return m_NetIdent.isMyAccessAllowedFromHim( pluginType ); 
 }
 
 //============================================================================
-QString GuiUserBase::describeMyFriendshipToHim( bool inGroup )
+QString GuiUserBase::describeMyFriendshipToHim( void )
 {
-    return GuiParams::describeFriendship( m_NetIdent.getMyFriendshipToHim( inGroup ) );
+    return GuiParams::describeFriendship( m_NetIdent.getMyFriendshipToHim() );
 }
 
 //============================================================================
-QString GuiUserBase::describeHisFriendshipToMe( bool inGroup )
+QString GuiUserBase::describeHisFriendshipToMe( void )
 {
-    return GuiParams::describeFriendship( m_NetIdent.getHisFriendshipToMe( inGroup ) );
+    return GuiParams::describeFriendship( m_NetIdent.getHisFriendshipToMe() );
 }
 
 //============================================================================
@@ -195,9 +191,9 @@ QString GuiUserBase::describeUser( bool verbose )
 {
     QString descUser( m_NetIdent.describeUser().c_str() );
     descUser += " -> ";
-    descUser += describeMyFriendshipToHim( false );
+    descUser += describeMyFriendshipToHim();
     descUser += " <- ";
-    descUser += describeHisFriendshipToMe( false );
+    descUser += describeHisFriendshipToMe();
 
     return descUser;
 }

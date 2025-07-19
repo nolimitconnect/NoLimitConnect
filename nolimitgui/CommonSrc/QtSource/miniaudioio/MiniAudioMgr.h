@@ -136,10 +136,6 @@ public:
     virtual void				toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput ) override;
     // add audio data to play.. assumes pcm mono 16000 Hz of mixer buffer length
     virtual int				    toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
-    // enable disable microphone for specific user communicaion (usually push to talk)
-    virtual void				toGuiWantUserVoiceMicrophone( EMediaModule mediaModule, VxGUID& onlineId, bool wantMicInput ) override;
-    // enable disable speaker for specific user communicaion (usually push to talk)
-    virtual void				toGuiWantUserVoiceSpeaker( EMediaModule mediaModule, VxGUID& onlineId, bool wantSpeakerOutput ) override;
 
     virtual int				    toGuiPlayerNlcAudio( EMediaModule mediaModule, float* audioDataFloat, int audioDataLenInBytes ) override;
 
@@ -238,6 +234,8 @@ protected:
 
     void                        onAudioDevicesInitialized( bool hasDevices ) override;
 
+    size_t                      getWantSpeakerCount( bool excludeSndEffects = false );
+
     AppCommon&                  m_MyApp;
 
     IAudioCallbacks&            m_AudioCallbacks;
@@ -248,13 +246,13 @@ protected:
     bool                        m_MicrophoneMuted{ false };
     bool                        m_WantMicrophone{ false };
     int                         m_PeakAudioInAmplitude{ 0 };
-    std::vector<std::pair<EMediaModule, VxGUID>> m_WantMicList;
+    std::vector<EMediaModule>   m_WantMicList;
     VxMutex                     m_WantMicMutex;
 
     bool                        m_SpeakersMuted{ false };
     bool                        m_WantSpeakerOutput{ false };
     int                         m_PeakAudioOutAmplitude{ 0 };   
-    std::vector<std::pair<EMediaModule, VxGUID>> m_WantSpeakerList;
+    std::vector<EMediaModule>   m_WantSpeakerList;
     VxMutex                     m_WantSpeakerMutex;
 
     bool                        m_EchoCancelEnabled{ false };

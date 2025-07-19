@@ -85,6 +85,8 @@ protected:
     bool                        saveToJoinedLastDatabase( UserJoinInfo* joinInfo, bool isLocked = false );
     void                        removeFromJoinedLastDatabase( GroupieId& groupieId, bool isLocked );
 
+    void                        updateUserIsJoined( UserJoinInfo * userJoinInfo );
+
     P2PEngine&					m_Engine;
     UserJoinInfoDb              m_UserJoinInfoDb;
     UserJoinedLastDb            m_UserJoinedLastDb;

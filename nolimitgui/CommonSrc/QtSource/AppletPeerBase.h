@@ -34,7 +34,7 @@ public:
 	virtual OfferBaseInfo&		getOfferInfo( void )                                    { return m_OfferSessionLogic.getOfferInfo(); }
     virtual void                onOfferWasSet( void ) {};
 
-    virtual void                setOfferToIdentity( GuiUser* guiUser, bool inGroup );
+    virtual void                setOfferToIdentity( GuiUser* guiUser );
 
 	void						setupBaseWidgets(	GuiUser*	        guiUser, 
                                                     IdentWidget *		friendIdentWidget = nullptr, 

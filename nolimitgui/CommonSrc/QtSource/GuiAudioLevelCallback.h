@@ -13,5 +13,7 @@ class GuiAudioLevelCallback
 {
 public:
 	virtual void				callbackGuiMicrophoneLevel( int micLevel ) = 0;
+	virtual void				callbackWantMicrophoneCount( int wantMicCount ) {};
+	virtual void				callbackWantSpeakerCount( int wantSpeakerCount ) {};
 };
 

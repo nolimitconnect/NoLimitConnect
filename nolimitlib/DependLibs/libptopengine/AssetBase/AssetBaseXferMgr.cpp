@@ -673,8 +673,7 @@ void AssetBaseXferMgr::onPktAssetBaseSendReq( std::shared_ptr<VxSktBase>& sktBas
             pktReply->getLclSessionId().toHexString().c_str(), pktReply->getRmtSessionId().toHexString().c_str());
     if( eAssetTypeThumbnail != assetType )
     {
-        bool isMemberGuest = m_Engine.isMemberGuest( getPluginType(), netIdent->getMyOnlineId() );
-        bool isAllowed = netIdent->isHisAccessAllowedFromMe( getPluginType(), isMemberGuest );
+        bool isAllowed = netIdent->isHisAccessAllowedFromMe( getPluginType() );
         if( !isAllowed )
         {
             LogMsg( LOG_INFO, "AssetBaseXferMgr::onPktAssetSendReq: permission denied" );

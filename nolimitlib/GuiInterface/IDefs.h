@@ -29,6 +29,7 @@ enum EMediaModule
     eMediaModuleAll,
     eMediaModuleCamClient,
     eMediaModuleCamServer,
+    eMediaModuleCamSettings,
     eMediaModuleChatRoomClient,
     eMediaModuleChatRoomHost,
     eMediaModuleGroupClient,

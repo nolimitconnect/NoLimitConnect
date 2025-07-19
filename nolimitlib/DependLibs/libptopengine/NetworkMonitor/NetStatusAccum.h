@@ -167,6 +167,8 @@ public:
 
     void                        threadedSetupListen( void );
 
+    bool                        isLocalAndExternIpsTheSame( void );
+
 protected:
     void                        onNetStatusChange( void );
 

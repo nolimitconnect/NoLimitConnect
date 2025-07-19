@@ -22,10 +22,10 @@
 #include <CoreLib/VxDebug.h>
 
 //============================================================================
-bool AppCommon::offerToFriendPluginSession( GuiUser* guiUser, EPluginType pluginType, bool inGroup, QWidget* parent )
+bool AppCommon::offerToFriendPluginSession( GuiUser* guiUser, EPluginType pluginType, QWidget* parent )
 {
 	bool showedApplet = false;
-	if( guiUser->isMyAccessAllowedFromHim( pluginType, inGroup ) )
+	if( guiUser->isMyAccessAllowedFromHim( pluginType ) )
 	{
 		showedApplet = launchOfferSendApplet( pluginType, guiUser, parent );
 	}
@@ -42,9 +42,9 @@ bool AppCommon::offerToFriendPluginSession( GuiUser* guiUser, EPluginType plugin
 
 //============================================================================
 // offer to send a file
-void AppCommon::offerToFriendSendFile( GuiUser* guiUser, bool inGroup, QWidget* parent )
+void AppCommon::offerToFriendSendFile( GuiUser* guiUser, QWidget* parent )
 {
-	if( guiUser->isMyAccessAllowedFromHim( ePluginTypePersonFileXfer, inGroup ) )
+	if( guiUser->isMyAccessAllowedFromHim( ePluginTypePersonFileXfer ) )
 	{
 		AppletFileOfferSelect* applet = dynamic_cast<AppletFileOfferSelect*>(getAppletMgr().launchApplet( eAppletFileOfferSelect, parent ));
 		if( applet )
@@ -55,7 +55,7 @@ void AppCommon::offerToFriendSendFile( GuiUser* guiUser, bool inGroup, QWidget* 
 	}
 	else
 	{
-		EPluginAccess ePluginAccess = guiUser->getMyAccessPermissionFromHim( ePluginTypePersonFileXfer, inGroup );
+		EPluginAccess ePluginAccess = guiUser->getMyAccessPermissionFromHim( ePluginTypePersonFileXfer );
 		ActivityMessageBox errMsgBox( GetAppInstance(), parent, LOG_INFO, "%s's %s", guiUser->getOnlineName().c_str(), 
 			GuiParams::describePluginAction( guiUser, ePluginTypePersonFileXfer, ePluginAccess ).toStdString().c_str() );
 		errMsgBox.exec();

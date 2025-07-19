@@ -150,7 +150,7 @@ bool BigListMgr::getOnlineName( VxGUID& hisOnlineId, std::string& onlineName )
 		return true;
 	}
 
-	onlineName = "";
+    onlineName.clear();
 	return false;
 }
 
@@ -246,7 +246,6 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 			poPktAnnIn->setMyFriendshipToHim( poInfo->getMyFriendshipToHim() );
 			if( friendshipChanged )
 			{
-				//m_Engine.toGuiContactFriendshipChange( poInfo );
 				eUpdateType = ePktAnnUpdateTypeContactChanged;
 			}
 
@@ -254,7 +253,6 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 			if( 0 != strcmp( poPktAnnIn->getOnlineName(), poInfo->getOnlineName() ) )
 			{
 				memcpy( poInfo->getOnlineName(), poPktAnnIn->getOnlineName(), MAX_ONLINE_NAME_LEN );
-				//m_Engine.toGuiContactNameChange( poInfo );
 				eUpdateType = ePktAnnUpdateTypeContactChanged;
 			}
 
@@ -262,7 +260,6 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 			if( 0 != strcmp( poPktAnnIn->getOnlineDescription(), poInfo->getOnlineDescription() ) )
 			{
 				memcpy( poInfo->getOnlineDescription(), poPktAnnIn->getOnlineDescription(), MAX_ONLINE_DESC_LEN );
-				//m_Engine.toGuiContactDescChange( poInfo );
 				eUpdateType = ePktAnnUpdateTypeContactChanged;
 			}
 
@@ -275,17 +272,14 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 			if( 0 != memcmp( poPktAnnIn->getPluginPermissions(), poInfo->getPluginPermissions(), PERMISSION_ARRAY_SIZE ) )
 			{
 				memcpy( poInfo->getPluginPermissions(), poPktAnnIn->getPluginPermissions(), PERMISSION_ARRAY_SIZE );
-				//m_Engine.toGuiPluginPermissionChange( poInfo );
 				eUpdateType = ePktAnnUpdateTypeContactChanged;
 			}
 
-			bool contactInfoChanged = false;
 			if( ( poPktAnnIn->m_DirectConnectId != poInfo->m_DirectConnectId ) ||
 				( poPktAnnIn->m_u8RelayFlags != poInfo->m_u8RelayFlags ) || 
 				( poPktAnnIn->getSearchFlags() != poInfo->getSearchFlags() ) ||
 				( poPktAnnIn->getSharedFileTypes() != poInfo->getSharedFileTypes() ) )
 			{
-				contactInfoChanged = true;
 				eUpdateType = ePktAnnUpdateTypeContactChanged;
 			}
 
@@ -348,8 +342,13 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 
 	if( ePktAnnUpdateTypeContactIsSame != eUpdateType )
 	{
-		LogMsg( LOG_DEBUG, "Update BigListInfo %s for %s", DescribePktAnnUpdateType( eUpdateType ),  poInfo->getOnlineName() );
-	}
+        LogMsg( LOG_DEBUG, "BigListMgr::updatePktAnn %s for %s", DescribePktAnnUpdateType( eUpdateType ),  poInfo->getOnlineName() );
+        if( ePktAnnUpdateTypeNewContact == eUpdateType )
+        {
+            // make sure gui gets the new contact before the online status change is called
+            m_Engine.getToGui().toGuiContactAdded( poInfo );
+        }
+    }
 
 	return eUpdateType;
 }
@@ -530,85 +529,6 @@ void BigListMgr::onMyFriendshipChanged( EFriendState prevMyFriendship, VxNetIden
 				netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
 		vx_assert( false );
 	}
-}
-
-//============================================================================
-bool BigListMgr::updateMemberFriendship( VxGUID& onlineId, bool isMember )
-{
-    if( onlineId == m_Engine.getMyOnlineId() )
-    {
-        LogMsg( LOG_ERROR, "BigListMgr::updateMemberFriendship isMyself true" );
-        vx_assert( false );
-        return false;
-    }
-
-	BigListInfo* bigListInfo = findBigListInfo( onlineId );
-	if( bigListInfo )
-	{
-		return updateMemberFriendship( bigListInfo, isMember );
-	}
-
-    LogMsg( LOG_ERROR, "BigListMgr::updateMemberFriendship invalid param null BigListInfo for id %s", onlineId.toOnlineIdString().c_str() );
-	vx_assert( false );
-	return false;
-}
-
-//============================================================================
-bool BigListMgr::updateMemberFriendship( BigListInfo* bigListInfo, bool isMember )
-{
-	if( !isMember )
-	{
-		// TODO should we downgrade to anonymouse
-		return true;
-	}
-
-	if( !bigListInfo )
-	{
-		LogMsg( LOG_ERROR, "BigListMgr::updateMemberFriendship invalid param null BigListInfo" );
-		vx_assert( false );
-		return false;
-	}
-
-	if( bigListInfo->isIgnored() )
-	{
-		LogMsg( LOG_ERROR, "BigListMgr::updateMemberFriendship ignore BigListInfo for %s id %s", 
-			bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str());
-		return false;
-	}
-
-	
-	if( bigListInfo->isMyself() )
-	{
-		LogMsg( LOG_ERROR, "BigListMgr::updateMemberFriendship isMyself true" );
-		bigListInfo->setMyFriendshipToHim( eFriendStateFriend );
-		bigListInfo->setHisFriendshipToMe( eFriendStateFriend );
-
-		return true;
-	}
-
-	EFriendState prevMyFriendship = bigListInfo->getMyFriendshipToHim();
-	EFriendState curMyFriendship = prevMyFriendship;
-	if( prevMyFriendship == eFriendStateAnonymous )
-	{
-		curMyFriendship = eFriendStateGuest;
-		bigListInfo->setMyFriendshipToHim( curMyFriendship );
-		updateVectorList( prevMyFriendship, bigListInfo );
-	}
-
-	EFriendState prevHisFriendship = bigListInfo->getHisFriendshipToMe();
-	EFriendState curHisFriendship = prevHisFriendship;
-	if( prevMyFriendship == eFriendStateAnonymous )
-	{
-		curMyFriendship = eFriendStateGuest;
-		bigListInfo->setHisFriendshipToMe( curMyFriendship );
-	}
-
-	if( prevMyFriendship != curMyFriendship || prevHisFriendship != curHisFriendship )
-	{
-		m_Engine.getToGui().toGuiContactAnythingChange( bigListInfo->getVxNetIdent() );
-	}
-
-	return true;
 }
 
 //============================================================================

@@ -9,16 +9,12 @@
 //============================================================================
 
 #include "AppletSoundSettings.h"
-
-#include "ActivityMessageBox.h"
 #include "ActivityMsgBoxOk.h"
 
 #include "AppCommon.h"
 #include "AppGlobals.h"
 #include "AppSettings.h"
 
-#include "GuiHostSession.h"
-#include "GuiParams.h"
 #include "GuiHelpers.h"
 #include "SoundMgr.h"
 

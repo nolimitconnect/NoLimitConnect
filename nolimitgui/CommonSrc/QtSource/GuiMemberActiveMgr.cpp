@@ -10,9 +10,10 @@
 
 #include "GuiMemberActiveMgr.h"
 
-#include "GuiMemberActiveCallback.h"
-#include "GuiHelpers.h"
 #include "AppCommon.h"
+#include "GuiHelpers.h"
+#include "GuiMemberActiveCallback.h"
+#include "GuiUserMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <Membership/MemberActiveMgr.h>
@@ -192,6 +193,12 @@ void GuiMemberActiveMgr::announceMemberActive( GroupieId& groupieId, bool isActi
 //============================================================================
 void GuiMemberActiveMgr::announceMemberIsJoinedToHost( VxGUID& onlineId, EHostType host, bool isJoined )
 {
+    GuiUser* guiUser = GetAppInstance().getUserMgr().getUser( onlineId );
+    if( guiUser )
+    {
+        guiUser->setIsJoined( host, isJoined );
+    }
+
     for( auto& client : m_MemberClients )
     {
         client->callbackGuiMemberIsJoinedToHost( onlineId, host, isJoined );

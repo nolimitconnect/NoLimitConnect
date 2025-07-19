@@ -948,10 +948,12 @@ const char* DescribeMediaModule( enum EMediaModule eMediaModule )
         return "eMediaModuleInvalid";
     case eMediaModuleAll:
         return "eMediaModuleAll";
-    case eMediaModuleCamServer:
-        return "eMediaModuleCamServer";
     case eMediaModuleCamClient:
         return "eMediaModuleCamClient";
+    case eMediaModuleCamServer:
+        return "eMediaModuleCamServer";
+    case eMediaModuleCamSettings:
+        return "eMediaModuleCamSettings";
     case eMediaModuleChatRoomClient:
         return "eMediaModuleChatRoomClient";
     case eMediaModuleChatRoomHost:
