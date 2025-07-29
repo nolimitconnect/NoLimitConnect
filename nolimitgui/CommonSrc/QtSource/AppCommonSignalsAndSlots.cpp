@@ -188,6 +188,8 @@ void AppCommon::connectSignals( void )
 	connect( this, SIGNAL(signalInternalToGuiRxedOfferReply(VxGUID,OfferBaseInfo)), this,
 		SLOT(slotInternalToGuiRxedOfferReply(VxGUID,OfferBaseInfo)), Qt::QueuedConnection );
 
+	connect( this, SIGNAL( signalInternalToGuiPluginSessionStarted( VxGUID, EPluginType, VxGUID ) ), this,
+		SLOT( slotInternalToGuiPluginSessionStarted( VxGUID, EPluginType, VxGUID ) ), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalToGuiPluginSessionEnded(VxGUID,EPluginType,VxGUID)), this,
 		SLOT(slotInternalToGuiPluginSessionEnded(VxGUID,EPluginType,VxGUID)), Qt::QueuedConnection );
 

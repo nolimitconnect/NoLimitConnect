@@ -113,14 +113,16 @@ public:
 	virtual void				toGuiRxedPluginOffer( VxGUID onlineId, OfferBaseInfo& offerInfo ) = 0;
 	//! Contact has responded to offer
 	virtual void				toGuiRxedOfferReply( VxGUID onlineId, OfferBaseInfo& offerInfo ) = 0;
+	//! Plugin session has started
+	virtual void				toGuiPluginSessionStarted( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId ) = 0;
 	//! Plugin session has stopped
-	virtual void				toGuiPluginSessionEnded( VxNetIdent* netIdent, EPluginType pluginType, VxGUID& lclSessionId ) = 0;
+	virtual void				toGuiPluginSessionEnded( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId ) = 0;
 	//! Plugin session status or variable value
 	virtual void				toGuiPluginStatus(	EPluginType		pluginType,
 													int				statusType,
 													int				statusValue ) = 0;
 	//! Received text message from contact
-	virtual void				toGuiInstMsg( VxNetIdent* netIdent, EPluginType	pluginType, const char* pMsg ) = 0;
+	virtual void				toGuiInstMsg( VxGUID& onlineId, EPluginType	pluginType, const char* pMsg ) = 0;
 
 	//! Send list of contacts shared files to GUI
 	virtual void				toGuiFileListReply( VxGUID& onlineId, EPluginType pluginType, FileInfo& fileInfo ) = 0;

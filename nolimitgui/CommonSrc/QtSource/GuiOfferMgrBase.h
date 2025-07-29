@@ -53,6 +53,8 @@ public:
 	virtual void                toGuiRxedPluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo );
 	virtual void                toGuiRxedOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo );
 	virtual void                toGuiRxedOfferUpdated( OfferBaseInfo* offerInfo );
+
+	virtual void				toGuiPluginSessionStarted( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId );
 	virtual void				toGuiPluginSessionEnded( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId );
 
 	virtual bool				fromGuiMakePluginOffer( QWidget* parent, EPluginType pluginType, GuiUser* guiUser, FileInfo& fileInfo );
@@ -86,6 +88,8 @@ public:
 
 	void						updateRxedOffer( GuiUser* guiUser, std::shared_ptr<GuiOfferSession>& offerSession, OfferBaseInfo& offerInfo );
 
+	bool						haveActiveOffer( VxGUID& onlineId, EPluginType pluginType );
+
 signals:
 	void						signalCallbackFileWasShredded( QString fileName );
 
@@ -116,7 +120,7 @@ protected:
 	void						changeOfferState( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState newOfferState );
 
 	std::shared_ptr<GuiOfferSession>	createOfferSession( GuiUser* guiUser, OfferBaseInfo& offerInfo );
-    std::shared_ptr<GuiOfferSession>	findOfferSession( EPluginType pluginType, VxGUID sessionId, GuiUser* guiUser );
+    std::shared_ptr<GuiOfferSession>	findOfferSession( EPluginType pluginType, VxGUID sessionId, GuiUser* guiUser, bool activeOffer, bool historyOffer, bool logNotFound = true );
 
 	void						checkAndUpdateIfEmptyOfferList( void );
 	void						updateActiveOfferCount( void );
@@ -144,7 +148,8 @@ protected:
 
 	void						moveToHistory( VxGUID& offerId );
 	void						removeOffer( VxGUID& offerId );
-	void						checkForExpiredOffers( void );
+
+	void						checkMaxHistory( void );
 
 	//=== vars ===//
 	AppCommon& 					m_MyApp;

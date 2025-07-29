@@ -518,25 +518,26 @@ public:
     virtual void				toGuiUpdateMyIdent( VxNetIdent* netIdent ) override;
     virtual void				toGuiSaveMyIdent( VxNetIdent* netIdent ) override;
 
-    virtual void				toGuiRxedPluginOffer( VxGUID onlineId, OfferBaseInfo& offerInfo ) override;
-    virtual void				toGuiRxedOfferReply( VxGUID onlineId, OfferBaseInfo& offerInfo ) override;
-
-    virtual void				toGuiPluginSessionEnded( VxNetIdent* netIdent, EPluginType pluginType, VxGUID& lclSessionId ) override;
-
     virtual void				toGuiPluginStatus( EPluginType		pluginType,
                                                    int				statusType,
                                                    int				statusValue ) override;
 
-    virtual void				toGuiInstMsg( VxNetIdent* netIdent, EPluginType	pluginType, const char* pMsg ) override;
+    //=== to gui session ===//
+    virtual void				toGuiRxedPluginOffer( VxGUID onlineId, OfferBaseInfo& offerInfo ) override;
+    virtual void				toGuiRxedOfferReply( VxGUID onlineId, OfferBaseInfo& offerInfo ) override;
 
+    virtual void				toGuiPluginSessionStarted( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId ) override;
+    virtual void				toGuiPluginSessionEnded( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId ) override;
+
+    virtual void				toGuiInstMsg( VxGUID& onlineId, EPluginType	pluginType, const char* pMsg ) override;
 
     virtual void				toGuiSetGameValueVar( EPluginType	    pluginType,
-                                                      VxGUID& onlineId,
+                                                      VxGUID&           onlineId,
                                                       int32_t			s32VarId,
                                                       int32_t			s32VarValue ) override;
 
     virtual void				toGuiSetGameActionVar( EPluginType	    pluginType,
-                                                       VxGUID& onlineId,
+                                                       VxGUID&          onlineId,
                                                        int32_t			s32VarId,
                                                        int32_t			s32VarValue ) override;
 
@@ -555,13 +556,8 @@ public:
 
     virtual void				toGuiFileList( VxGUID& appInstId, FileInfo& fileInfo ) override;
     virtual void				toGuiFileListCompleted( VxGUID& appInstId ) override;
+    
     //=== to gui search ===//
-    //virtual void				toGuiScanResultSuccess( EScanType eScanType, VxNetIdent* netIdent ) override;
-    //virtual void				toGuiSearchResultError( EScanType eScanType, VxNetIdent* netIdent, int errCode ) override;
-    //virtual void				toGuiScanSearchComplete( EScanType eScanType ) override;
-
-    //virtual void				toGuiSearchResultProfilePic( VxNetIdent* netIdent, uint8_t* pu8JpgData, uint32_t u32JpgDataLen ) override;
-
     virtual void				toGuiSearchResultFileSearch( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo ) override;
 
     //=== to gui asset ===//
@@ -720,6 +716,7 @@ signals:
     void                        signalInternalToGuiRxedPluginOffer( VxGUID onlineId, OfferBaseInfo offerInfo );
     void                        signalInternalToGuiRxedOfferReply( VxGUID onlineId, OfferBaseInfo offerInfo );
 
+    void                        signalInternalToGuiPluginSessionStarted( VxGUID onlineId, EPluginType pluginType, VxGUID lclSessionId );
     void                        signalInternalToGuiPluginSessionEnded( VxGUID onlineId, EPluginType pluginType, VxGUID lclSessionId );
 
     void                        signalInternalMediaAction( EMediaModule mediaModule, EMediaPlayerAction playerAction, int actionVal, QString fileName );
@@ -791,6 +788,7 @@ private slots:
     void                        slotInternalToGuiRxedPluginOffer( VxGUID onlineId, OfferBaseInfo offerInfo );
     void                        slotInternalToGuiRxedOfferReply( VxGUID onlineId, OfferBaseInfo offerInfo );
 
+    void                        slotInternalToGuiPluginSessionStarted( VxGUID onlineId, EPluginType pluginType, VxGUID lclSessionId );
     void                        slotInternalToGuiPluginSessionEnded( VxGUID onlineId, EPluginType pluginType, VxGUID lclSessionId );
 
     void                        slotInternalMediaAction( EMediaModule mediaModule, EMediaPlayerAction playerAction, int actionVal, QString fileName );

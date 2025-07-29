@@ -477,6 +477,9 @@ namespace
         "Offer Session Complete ",
         "Offer Session Failed ",
 
+        "Offer No Response ",
+        "Offer Missed Call ",
+
         "Max Offer State ",
     };
 

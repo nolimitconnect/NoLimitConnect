@@ -68,7 +68,11 @@ protected:
     void				        callbackUserRemoved( VxGUID& onlineId ) override;
 
     void				        callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState oldOfferState, EOfferState newOfferState ) override;
+
+    void				        callbackToGuiRxedPluginOffer( std::shared_ptr<GuiOfferSession>& offerSession ) override;
+    void				        callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession>& offerSession ) override;
     void				        callbackToGuiOfferMovedToHistory( std::shared_ptr<GuiOfferSession>& offerSession ) override;
+    void                        callbackGuiOfferRemoved( VxGUID& offerId ) override;
 
     void						showEvent( QShowEvent* ev ) override;
     void						hideEvent( QHideEvent* ev ) override;

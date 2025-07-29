@@ -14,6 +14,11 @@
 
 #include <stdarg.h>
 
+#undef LOG_DEBUG
+#undef LOG_INFO
+#undef LOG_WARNING
+#undef LOG_CRIT
+
 #define LOG_NONE    (0x0000)
 #define LOG_VERBOSE (0x0001)
 #define LOG_FATAL	(0x0002)
@@ -63,7 +68,7 @@ enum ELogModule
 
 	eLogVoice			= 0x1000, // 13
 	eLogNetworkState	= 0x2000, // 14
-	eLogNetworkMgr		= 0x4000, // 15
+	eLogSession			= 0x4000, // 15
 	eLogNetService		= 0x8000, // 16
 
 	eLogIsPortOpenTest 	= 0x00010000, // 17

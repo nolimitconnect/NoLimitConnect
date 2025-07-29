@@ -62,6 +62,12 @@ bool PluginPushToTalk::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& 
 }
 
 //============================================================================
+bool PluginPushToTalk::fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo )
+{
+	return m_PluginSessionMgr.fromGuiOfferReply( false, onlineId, offerInfo );
+}
+
+//============================================================================
 bool PluginPushToTalk::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
 	return m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, lclSessionId );
@@ -81,13 +87,6 @@ void PluginPushToTalk::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID )
 {
 	//m_PushToTalkFeedMgr.fromGuiStopPluginSession( false, onlineId );
 	//m_PluginSessionMgr.fromGuiStopPluginSession( false, onlineId );
-}
-
-//============================================================================
-//! handle reply to offer
-bool PluginPushToTalk::fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo )
-{
-	return m_PluginSessionMgr.fromGuiOfferReply( false, onlineId, offerInfo );
 }
 
 //============================================================================
@@ -216,17 +215,20 @@ void PluginPushToTalk::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, VxP
 void PluginPushToTalk::onPktChatReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktChatReq* poPkt = (PktChatReq *)pktHdr;
+	VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
 	PluginBase::AutoPluginLock pluginMutexLock( this );
-	P2PSession* poSession = (P2PSession*)m_PluginSessionMgr.findP2PSessionByOnlineId( netIdent->getMyOnlineId(), true );
+	P2PSession* poSession = (P2PSession*)m_PluginSessionMgr.findP2PSessionByOnlineId( srcOnlineId, true );
 	if( poSession )
 	{
-		IToGui::getIToGui().toGuiInstMsg( netIdent, m_ePluginType, (const char*)poPkt->getDataPayload() );
+		IToGui::getIToGui().toGuiInstMsg( srcOnlineId, m_ePluginType, (const char*)poPkt->getDataPayload() );
 	}
 }
 
 //============================================================================
 void PluginPushToTalk::onSessionStart( PluginSessionBase* session, bool pluginIsLocked )
 {
+	if( LogEnabled( eLogSession ) ) LogModule( eLogSession, LOG_VERBOSE, "PluginPushToTalk::%s for %s", __func__,
+		m_Engine.describeUser( session->getSendToId() ).c_str() );
 	PluginBase::onSessionStart( session, pluginIsLocked ); // mark user session time so contact list is sorted with latest used on top
 	//m_PushToTalkFeedMgr.fromGuiStartPluginSession( pluginIsLocked, session->getSendToId() );
 }
@@ -234,6 +236,8 @@ void PluginPushToTalk::onSessionStart( PluginSessionBase* session, bool pluginIs
 //============================================================================
 void PluginPushToTalk::onSessionEnded( PluginSessionBase* session, bool pluginIsLocked, EOfferResponse offerResponse )
 {
+	if( LogEnabled( eLogSession ) ) LogModule( eLogSession, LOG_VERBOSE, "PluginPushToTalk::%s for %s", __func__,
+		m_Engine.describeUser( session->getSendToId() ).c_str() );
 	//m_PushToTalkFeedMgr.fromGuiStopPluginSession( pluginIsLocked, session->getSendToId() );
 }
 

@@ -101,13 +101,13 @@ void PushToTalkFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
     LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock done" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 
-	std::map<VxGUID, PluginSessionBase*>& sessionList = m_SessionMgr.getSessions();
+	auto sessionList = m_SessionMgr.getSessions();
 	for( auto iter = sessionList.begin(); iter != sessionList.end(); ++iter )
 	{
-		PluginSessionBase* sessionBase = iter->second;
-		if( sessionBase->isRxSession() )
+		PluginSessionBase* sessionBase = *iter;
+		if( sessionBase->isRxSession() || sessionBase->isP2PSession() )
 		{
-			AudioJitterBuffer& jitterBuf = ((PluginSessionBase*)iter->second)->getJitterBuffer();
+			AudioJitterBuffer& jitterBuf = sessionBase->getJitterBuffer();
 			//LogMsg( LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail jitterBuf.lockResource sessionIdx %d\n", sessionIdx );
 			jitterBuf.lockResource();
 			char* audioBuf = jitterBuf.getBufToRead();
@@ -116,7 +116,7 @@ void PushToTalkFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
 				//LogMsg( LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail playAudio %d\n", sessionIdx );
 				m_PluginMgr.getEngine().getMediaProcessor().playAudio( (int16_t*)audioBuf, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
 				//VxGUID onlineId = iter->first; // local session id
-				VxGUID onlineId = ((PluginSessionBase*)iter->second)->getSendToId();
+				VxGUID onlineId = sessionBase->getSendToId();
 				// processor mutex was already locked by call to processor fromGuiAudioOutSpaceAvail which calls callbackAudioOutSpaceAvail
 				//LogMsg( LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail processFriendAudioFeed %d\n", sessionIdx );
 				m_PluginMgr.getEngine().getMediaProcessor().processFriendAudioFeed( onlineId, (int16_t*)audioBuf, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN, true );
@@ -196,10 +196,10 @@ void PushToTalkFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 #endif // DEBUG_AUTOPLUGIN_LOCK
 
 	bool found{ false };
-	std::map<VxGUID, PluginSessionBase*>& sessionList = m_SessionMgr.getSessions();
+	auto sessionList = m_SessionMgr.getSessions();
 	for( auto iter = sessionList.begin(); iter != sessionList.end(); ++iter )
 	{
-		PluginSessionBase* poSession = iter->second;
+		PluginSessionBase* poSession = *iter;
         if( poSession->isRxSession() && srcOnlineId == poSession->getSendToId() )
 		{
 			if( !m_Plugin.isFirstVoicePairRx( m_Plugin.getPluginType(), srcOnlineId ) )
@@ -273,22 +273,21 @@ void PushToTalkFeedMgr::callbackOpusPkt( PktVoiceReq * pktOpusAudio )
     LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::callbackOpusPkt PluginBase::AutoPluginLock autoLock done" );
 	#endif // DEBUG_AUTOPLUGIN_LOCK
 
-	std::map<VxGUID, PluginSessionBase*>&	sessionList = m_SessionMgr.getSessions();
+	auto sessionList = m_SessionMgr.getSessions();
 	for( auto& session : sessionList )
 	{
-		PluginSessionBase* poSession = session.second;
-		if( poSession->isTxSession() )
+		if( session->isTxSession() )
 		{
-			bool result = m_Plugin.txPacket( poSession->getSendToId(), poSession->getSkt(), pktOpusAudio );
+			bool result = m_Plugin.txPacket( session->getSendToId(), session->getSkt(), pktOpusAudio );
 			if( LogEnabled( eLogVoice ) )
 			{
 				if( result )
 				{
-					LogModule( eLogVoice, LOG_DEBUG, "PushToTalkFeedMgr::%s sent to %s", __func__, m_Engine.describeUser( poSession->getSendToId() ).c_str() );
+					LogModule( eLogVoice, LOG_DEBUG, "PushToTalkFeedMgr::%s sent to %s", __func__, m_Engine.describeUser( session->getSendToId() ).c_str() );
 				}
 				else
 				{
-					LogModule( eLogVoice, LOG_DEBUG, "PushToTalkFeedMgr::%s failed sent to %s", __func__, m_Engine.describeUser( poSession->getSendToId() ).c_str() );
+					LogModule( eLogVoice, LOG_DEBUG, "PushToTalkFeedMgr::%s failed sent to %s", __func__, m_Engine.describeUser( session->getSendToId() ).c_str() );
 				}				
 			}
 

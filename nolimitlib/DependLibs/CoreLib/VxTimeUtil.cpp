@@ -31,7 +31,7 @@ std::string	VxTimeUtil::getFileNameCompatibleDate( int64_t timeGmtMs )
     time_t timeSec = (time_t)(timeGmtMs / 1000);
 	struct tm * structTime;
 	structTime = gmtime( &timeSec );
-	char lclBuf[16];
+	char lclBuf[48];
 	sprintf( lclBuf, "%04d_%02d_%02d", 
 						structTime->tm_year + 1900, 
 						structTime->tm_mon + 1, 
@@ -45,7 +45,7 @@ std::string	VxTimeUtil::getFileNameCompatibleDateAndTime( int64_t timeGmtMs )
     time_t timeSec = ( time_t )( timeGmtMs / 1000 );
 	struct tm * structTime;
 	structTime = gmtime( &timeSec );
-	char lclBuf[32];
+	char lclBuf[64];
 	sprintf( lclBuf, "%04d_%02d_%02d_%02d-%02d-%02d", 
 		structTime->tm_year + 1900, 
 		structTime->tm_mon + 1, 
@@ -80,7 +80,7 @@ std::string VxTimeUtil::getLocalTime( void )
 	time_t timeNow = time( NULL );
 	struct tm * structTime;
 	structTime = localtime( &timeNow );
-	char timeBuf[32];
+	char timeBuf[64];
 	if( GetUseMilitaryTime() )
 	{
 		sprintf( timeBuf, "%02d:%02d:%02d",
@@ -115,7 +115,7 @@ std::string VxTimeUtil::getChatHourMinTimeStamp( void )
 	time_t timeNow = time( NULL );
 	struct tm * structTime;
 	structTime = localtime( &timeNow );
-	char timeBuf[32];
+	char timeBuf[64];
 	if( GetUseMilitaryTime() )
 	{
 		sprintf( timeBuf, " %02d:%02d ",
@@ -394,7 +394,7 @@ std::string VxTimeUtil::formatTimeStampIntoHoursAndMinutes( int64_t timeSinceJan
     time_t timeSec = ( time_t )( timeSinceJan1970GmtMs / 1000 );
 	struct tm * structTime;
 	structTime = localtime( &timeSec );
-	char timeBuf[32];
+	char timeBuf[64];
 	if( GetUseMilitaryTime() )
 	{
 		sprintf( timeBuf, "%02d:%02d",
@@ -426,7 +426,7 @@ std::string VxTimeUtil::formatGmtTimeStampIntoHoursAndMinutes( int64_t timeSince
     time_t timeSec = ( time_t )( timeSinceJan1970GmtMs / 1000 );
     struct tm * structTime;
     structTime = gmtime( &timeSec );
-    char timeBuf[ 32 ];
+    char timeBuf[64];
     if( GetUseMilitaryTime() )
     {
         sprintf( timeBuf, "%02d:%02d",
@@ -458,7 +458,7 @@ std::string VxTimeUtil::formatTimeStampIntoHoursAndMinutesAndSeconds( int64_t ti
     time_t timeSec = ( time_t )( timeSinceJan1970GmtMs / 1000 );
 	struct tm * structTime;
 	structTime = localtime( &timeSec );
-    char timeBuf[ 32 ];
+    char timeBuf[64];
 
     if( structTime )
     {
@@ -502,7 +502,7 @@ std::string VxTimeUtil::formatGmtTimeStampIntoHoursAndMinutesAndSeconds( int64_t
     time_t timeSec = ( time_t )( timeSinceJan1970GmtMs / 1000 );
     struct tm * structTime;
     structTime = gmtime( &timeSec );
-    char timeBuf[ 32 ];
+    char timeBuf[64];
 
     if( structTime )
     {

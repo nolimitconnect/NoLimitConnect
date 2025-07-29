@@ -65,8 +65,8 @@ enum EMediaInputType
 	eMediaInputAudioOpus,
 	eMediaInputAudioPcm,
 
-	eMediaInputVideoPkts,
-	eMediaInputVideoJpg,   // 320x240 jpg video
+	eMediaInputVideoPkts,  // video packets send
+	eMediaInputVideoJpg,   // 320x240 jpg video play
 
 	eMediaInputMixer,
 

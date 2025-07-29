@@ -460,9 +460,7 @@ QString GuiParams::describePluginAction( GuiUser* guiUser, EPluginType pluginTyp
             break;
         case ePluginAccessLocked:		// insufficient Friend permission level
             strAction = QObject::tr("View About Me Requires ");
-#if !defined(SANDBOX_APP)
             strAction += describeFriendState(  guiUser->getPluginPermission( ePluginTypeAboutMePageServer ) );
-#endif // !defined(SANDBOX_APP)
             strAction += QObject::tr(" permission");
             break;
         case ePluginAccessDisabled:		// plugin disabled or no files shared or no web cam broadcast
@@ -496,9 +494,7 @@ QString GuiParams::describePluginAction( GuiUser* guiUser, EPluginType pluginTyp
             break;
         case ePluginAccessLocked:		// insufficient Friend permission level
             strAction = QObject::tr("View Story Board Requires ");
-#if !defined(SANDBOX_APP)
             strAction += describeFriendState(  guiUser->getPluginPermission( ePluginTypeStoryboardServer ) );
-#endif // !defined(SANDBOX_APP)
             strAction += QObject::tr(" permission");
             break;
         case ePluginAccessDisabled:		// plugin disabled or no files shared or no web cam broadcast
@@ -534,9 +530,7 @@ QString GuiParams::describePluginAction( GuiUser* guiUser, EPluginType pluginTyp
 
         case ePluginAccessLocked:		// insufficient Friend permission level
             strAction = QObject::tr("Send A File Requires ");
-#if !defined(SANDBOX_APP)
             strAction += describeFriendState( guiUser->getPluginPermission( ePluginTypePersonFileXfer ) );
-#endif // !defined(SANDBOX_APP)
             strAction += QObject::tr(" permission");
             break;
 
@@ -571,9 +565,7 @@ QString GuiParams::describePluginAction( GuiUser* guiUser, EPluginType pluginTyp
             break;
         case ePluginAccessLocked:		// insufficient Friend permission level
             strAction = QObject::tr("Shared Files Requires ");
-#if !defined(SANDBOX_APP)
             strAction += describeFriendState(  guiUser->getPluginPermission( ePluginTypeFileShareServer ) );
-#endif // !defined(SANDBOX_APP)
             strAction += QObject::tr(" permission");
             break;
         case ePluginAccessInactive:		// no shared files
@@ -607,9 +599,7 @@ QString GuiParams::describePluginAction( GuiUser* guiUser, EPluginType pluginTyp
             break;
         case ePluginAccessLocked:		// insufficient Friend permission level
             strAction = QObject::tr("Shared Web Cam Requires ");
-#if !defined(SANDBOX_APP)
             strAction += describeFriendState(  guiUser->getPluginPermission( ePluginTypeCamServer ) );
-#endif // !defined(SANDBOX_APP)
             strAction += QObject::tr(" permission");
             break;
         case ePluginAccessDisabled:		// plugin disabled or no files shared or no web cam broadcast
@@ -643,9 +633,7 @@ QString GuiParams::describePluginAction( GuiUser* guiUser, EPluginType pluginTyp
             break;
         case ePluginAccessLocked:		// insufficient Friend permission level
             strAction = QObject::tr("Voice Call Requires ");
-#if !defined(SANDBOX_APP)
             strAction += describeFriendState(  guiUser->getPluginPermission( ePluginTypeVoicePhone ) );
-#endif // !defined(SANDBOX_APP)
             strAction += QObject::tr(" permission");
             break;
         case ePluginAccessDisabled:		// plugin disabled or no files shared or no web cam broadcast
@@ -675,13 +663,11 @@ QString GuiParams::describePluginAction( GuiUser* guiUser, EPluginType pluginTyp
         switch( ePluginAccess )
         {
         case ePluginAccessOk:			// plugin access allowed
-            strAction = QObject::tr("Offer To Play Truth Or Dare");
+            strAction = QObject::tr("Offer Play Truth Or Dare");
             break;
         case ePluginAccessLocked:		// insufficient Friend permission level
             strAction = QObject::tr("Truth Or Dare Requires ");
-#if !defined(SANDBOX_APP)
             strAction += describeFriendState( guiUser->getPluginPermission( ePluginTypeTruthOrDare ) );
-#endif // !defined(SANDBOX_APP)
             strAction += QObject::tr(" permission");
             break;
         case ePluginAccessDisabled:		// plugin disabled or no files shared or no web cam broadcast
@@ -715,9 +701,7 @@ QString GuiParams::describePluginAction( GuiUser* guiUser, EPluginType pluginTyp
             break;
         case ePluginAccessLocked:		// insufficient Friend permission level
             strAction = QObject::tr("Text Chat Requires ");
-#if !defined(SANDBOX_APP)
             strAction += describeFriendState( guiUser->getPluginPermission( ePluginTypeMessenger ) );
-#endif // !defined(SANDBOX_APP)
             strAction += QObject::tr(" permission");
             break;
         case ePluginAccessDisabled:		// plugin disabled or no files shared or no web cam broadcast
@@ -752,9 +736,7 @@ QString GuiParams::describePluginAction( GuiUser* guiUser, EPluginType pluginTyp
             break;
         case ePluginAccessLocked:		// insufficient Friend permission level
             strAction = QObject::tr("Video Chat Requires ");
-#if !defined(SANDBOX_APP)
             strAction += describeFriendState( guiUser->getPluginPermission( ePluginTypeVideoPhone ) );
-#endif // !defined(SANDBOX_APP)
             strAction += QObject::tr(" permission");
             break;
         case ePluginAccessDisabled:		// plugin disabled or no files shared or no web cam broadcast

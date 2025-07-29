@@ -18,11 +18,12 @@
 #include <GuiInterface/IToGui.h>
 
 #include <CoreLib/VxDebug.h>
+
 #include <NetLib/VxSktBase.h>
 
-#include <PktLib/PktsVideoFeed.h>
-#include <PktLib/PktsSession.h>
 #include <PktLib/PktsPluginOffer.h>
+#include <PktLib/PktsSession.h>
+#include <PktLib/PktsVideoFeed.h>
 
 #include <memory.h>
 
@@ -74,14 +75,11 @@ void PluginCamClient::sendVidPkt( VxPktHdr* vidPkt, bool requiresAck )
 {
 	if( m_PluginSessionMgr.getSessionCount() )
 	{
-		std::map<VxGUID, PluginSessionBase*>&	sessionList = m_PluginSessionMgr.getSessions();
-		#if defined(DEBUG_PLUGIN_LOCK)
-			LogMsg( LOG_VERBOSE, "PluginCamClient::sendVidPkt lock" );
-        #endif //defined(DEBUG_PLUGIN_LOCK)
+		auto sessionList = m_PluginSessionMgr.getSessions();
 		PluginBase::AutoPluginLock pluginMutexLock( this );
 		for( auto iter = sessionList.begin(); iter != sessionList.end(); ++iter )
 		{
-			PluginSessionBase* sessionBase = iter->second;
+			PluginSessionBase* sessionBase = *iter;
 			if( sessionBase->isTxSession() )
 			{
 				TxSession * poSession = (TxSession *)sessionBase;
@@ -197,10 +195,10 @@ void PluginCamClient::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSess
 			PktVideoFeedStatus oPkt;
 			oPkt.setFeedStatus( eFeedStatusOffline );
 
-			std::map<VxGUID, PluginSessionBase*>& sessionList = m_PluginSessionMgr.getSessions();
+			auto sessionList = m_PluginSessionMgr.getSessions();
 			for( auto iter = sessionList.begin(); iter != sessionList.end(); )
 			{
-				PluginSessionBase* sessionBase = iter->second;
+				PluginSessionBase* sessionBase = *iter;
 				if( sessionBase->isTxSession() )
 				{
 					TxSession* poSession = (TxSession*)sessionBase;
@@ -300,7 +298,6 @@ EPluginAccess PluginCamClient::canAcceptNewSession( VxNetIdent* netIdent )
 //! user wants to send offer to friend.. return false if cannot connect
 bool PluginCamClient::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo )	
 {
-
 	LogMsg( LOG_VERBOSE, " PluginCamClient::fromGuiMakePluginOffer %s", m_Engine.describeUser( onlineId ).c_str() );
 
 	std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( onlineId );
@@ -795,10 +792,10 @@ void PluginCamClient::stopAllSessions( void )
 		PktVideoFeedStatus oPkt;
 		oPkt.setFeedStatus( eFeedStatusOffline );
 
-		std::map<VxGUID, PluginSessionBase*>& sessionList = m_PluginSessionMgr.getSessions();
+		auto sessionList = m_PluginSessionMgr.getSessions();
 		for( auto iter = sessionList.begin(); iter != sessionList.end(); )
 		{
-			PluginSessionBase* sessionBase = iter->second;
+			PluginSessionBase* sessionBase = *iter;
 			if( sessionBase->isTxSession() )
 			{
 				TxSession* poSession = (TxSession*)sessionBase;
@@ -822,7 +819,7 @@ void PluginCamClient::stopAllSessions( void )
 		}
 	}
 
-	m_VideoFeedMgr.stopAllSessions( eMediaModuleCamClient, getPluginType() );
+	m_VideoFeedMgr.stopAllSessions( getMediaModule(), getPluginType() );
 	m_VoiceFeedMgr.stopAllSessions();
 }
 
@@ -840,13 +837,13 @@ void PluginCamClient::enableCamServerService( bool enable )
 	{
 		m_Engine.setHasSharedWebCam( true );
 		// request video capture
-		m_VideoFeedMgr.fromGuiStartPluginSession( false, eMediaModuleCamClient, m_Engine.getMyOnlineId(), false);
+		m_VideoFeedMgr.fromGuiStartPluginSession( false, getMediaModule(), m_Engine.getMyOnlineId(), false);
 		setIsPluginInSession( true );
 	}
 	else
 	{
 		// stop video capture
-		m_VideoFeedMgr.fromGuiStopPluginSession( false, eMediaModuleCamClient, m_Engine.getMyOnlineId(), false );
+		m_VideoFeedMgr.fromGuiStopPluginSession( false, getMediaModule(), m_Engine.getMyOnlineId(), false );
 		m_Engine.setHasSharedWebCam( false );
 		stopAllSessions();
 		setIsPluginInSession( false );

@@ -10,9 +10,6 @@
 
 #include "PluginPeerUserClient.h"
 #include "PluginMgr.h"
-#include "P2PSession.h"
-#include "RxSession.h"
-#include "TxSession.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <P2PEngine/P2PConnectList.h>

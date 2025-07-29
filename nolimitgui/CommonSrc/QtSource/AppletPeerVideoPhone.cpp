@@ -40,14 +40,14 @@ AppletPeerVideoPhone::AppletPeerVideoPhone(	AppCommon& app, QWidget* parent )
 //! called by base class with in session state
 void AppletPeerVideoPhone::onInSession( bool isInSession )
 {
-	//if( isInSession )
-	//{
-	//	setStatusText( tr( "In Video Chat Session" ) );
-	//}
-	//else
-	//{
-	//	setStatusText( tr( "Video Phone Chat Ended" ) );
-	//}
+	if( isInSession )
+	{
+		setStatusText( QObject::tr( "In Video Phone Session" ) );
+	}
+	else
+	{
+		setStatusText( QObject::tr( "Video Phone Session Ended" ) );
+	}
 }
 
 //============================================================================
@@ -68,7 +68,7 @@ void AppletPeerVideoPhone::callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType 
 }
 
 //============================================================================
-bool AppletPeerVideoPhone::setOfferSession( std::shared_ptr<GuiOfferSession> offerSession )
+bool AppletPeerVideoPhone::setOfferSession( std::shared_ptr<GuiOfferSession>& offerSession )
 {
 	bool setupSessionResult{ false };
     m_HisIdent = offerSession->getUser();
@@ -104,4 +104,32 @@ void AppletPeerVideoPhone::onOfferWasSet( void )
 void AppletPeerVideoPhone::onStateTextChanged( QString& stateText )
 {
 	ui.m_StateText->setText( stateText );
+}
+
+//============================================================================
+void AppletPeerVideoPhone::callbackToGuiPluginSessionStarted( std::shared_ptr<GuiOfferSession>& offer )
+{
+	if( isOfferMatch( offer ) )
+	{
+		LogMsg( LOG_VERBOSE, "AppletPeerVideoPhone::%s match", __func__ );
+		ui.m_StateText->setText( QObject::tr( "Session Started" ) );
+	}
+	else
+	{
+		LogMsg( LOG_VERBOSE, "AppletPeerVideoPhone::%s NOT match", __func__ );
+	}
+}
+
+//============================================================================
+void AppletPeerVideoPhone::callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offer )
+{
+	if( isOfferMatch( offer ) )
+	{
+		LogMsg( LOG_VERBOSE, "AppletPeerVideoPhone::%s match", __func__ );
+		ui.m_StateText->setText( QObject::tr( "Session Ended" ) );
+	}
+	else
+	{
+		LogMsg( LOG_VERBOSE, "AppletPeerVideoPhone::%s NOT match", __func__ );
+	}
 }

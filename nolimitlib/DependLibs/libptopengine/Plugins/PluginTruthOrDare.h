@@ -9,14 +9,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <PktLib/VxCommon.h>
-
-#include "PluginBaseMultimedia.h"
+#include "PluginBase.h"
 #include "PluginSessionMgr.h"
 #include "VoiceFeedMgr.h"
 #include "VideoFeedMgr.h"
 
-class PluginTruthOrDare : public PluginBaseMultimedia
+class PluginTruthOrDare : public PluginBase
 {
 public:
 	PluginTruthOrDare( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType );

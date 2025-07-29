@@ -95,13 +95,27 @@ void PhoneRinger::startRinging( std::shared_ptr<GuiOfferSession>& offerSession )
 void PhoneRinger::stopRinging( std::shared_ptr<GuiOfferSession>& offerSession )
 {
 	if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferMgrBase::%s ", __func__ );
-	removeSession( offerSession->getOfferId() );
+	stopRinging( offerSession->getOfferId() );	
+}
+
+//========================================================================
+void PhoneRinger::stopRinging( VxGUID& offerId )
+{
+	if( LogEnabled( eLogOffer ) )LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferMgrBase::%s ", __func__ );
+	removeSession( offerId );
 	if( m_OfferSessions.empty() )
 	{
-		m_RingTimer->stop();
-		m_RingTimerCycleCnt					= 0;
-		m_RingTimerSecondCnt				= 0;
-	}		
+		resetPhoneRingTimer();
+	}
+}
+
+//========================================================================
+void PhoneRinger::resetPhoneRingTimer( void )
+{
+	if( LogEnabled( eLogOffer ) )LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferMgrBase::%s ", __func__ );
+	m_RingTimer->stop();
+	m_RingTimerCycleCnt = 0;
+	m_RingTimerSecondCnt = 0;
 }
 
 //========================================================================
@@ -125,6 +139,11 @@ bool PhoneRinger::removeSession( VxGUID& offerId )
 	{
 		if( (*iter)->getOfferId() == offerId )
 		{
+			if( ( *iter )->isAvailableAndActiveOffer() )
+			{
+				resetPhoneRingTimer();
+			}
+
 			m_OfferSessions.erase( iter );
 			return true;
 		}
@@ -156,6 +175,10 @@ bool PhoneRinger::checkForRingTimeout( void )
 		// keep ringing till all expire
 		m_RingTimerSecondCnt	= RING_ELAPSE_SEC;	
 		m_RingTimerCycleCnt		= 1;
+	}
+	else
+	{
+		resetPhoneRingTimer();
 	}
 
 	return m_OfferSessions.empty();

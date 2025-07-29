@@ -29,7 +29,8 @@ public:
 
     virtual void				setPluginType( EPluginType pluginType ) override    { m_ePluginType = pluginType; m_OfferSessionLogic.setPluginType( pluginType ); }
 
-    virtual bool                setOfferSession( std::shared_ptr<GuiOfferSession> offerSession );
+    virtual bool                setOfferSession( std::shared_ptr<GuiOfferSession>& offerSession );
+    virtual bool                isOfferMatch( std::shared_ptr<GuiOfferSession>& offerSession );
 
 	virtual OfferBaseInfo&		getOfferInfo( void )                                    { return m_OfferSessionLogic.getOfferInfo(); }
     virtual void                onOfferWasSet( void ) {};
@@ -62,6 +63,8 @@ protected:
     void				        callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession>& offerReply ) override;
     void				        callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg ) override {};
     void				        callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState oldOfferState, EOfferState newOfferState ) override;
+
+    void				        callbackToGuiPluginSessionStarted( std::shared_ptr<GuiOfferSession>& offer ) override;
     void				        callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offer ) override;
 
 	void				        callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 ) override;

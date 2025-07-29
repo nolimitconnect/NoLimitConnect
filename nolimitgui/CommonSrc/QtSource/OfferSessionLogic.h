@@ -90,9 +90,10 @@ public:
 	void						handleSessionEnded( std::shared_ptr<GuiOfferSession> offerSession );
 	void						handleSessionEnded( EOfferResponse responseCode );
 	void						handleUserWentOffline( void );
-	void						startPhoneRinging( void );
-	void						stopPhoneRinging( void );
+
 	void						showOfflineMsg( bool bExitWhenClicked = true );
+
+	void						userEndedSession( void );
 
 private:
 	AppCommon& 				    m_MyApp;

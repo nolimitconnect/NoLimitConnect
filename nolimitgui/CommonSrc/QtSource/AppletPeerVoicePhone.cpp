@@ -77,7 +77,7 @@ void AppletPeerVoicePhone::onOfferWasSet( void )
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "AppletPeerVoicePhone::%s user not found %s", __func__ );
+		LogMsg( LOG_ERROR, "AppletPeerVoicePhone::%s user not found %s", __func__, offerInfo.getFromOnlineId().toHexString().c_str() );
 	}
 }
 

@@ -175,36 +175,27 @@ void OfferSessionLogic::callbackToGuiRxedPluginOffer( std::shared_ptr<GuiOfferSe
 
 //======================================================================== 
 void OfferSessionLogic::callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession>& offerSession )
-{
-	if( isOurSessionType( offerSession ) )
-	{			
-		if( isOurSessionInstance( offerSession ) )
+{		
+	if( isOurSessionInstance( offerSession ) )
+	{
+		EOfferResponse offerResponse		= offerSession->getOfferResponse();			
+		VxGUID offerSessionId				= offerSession->getOfferId();			
+		if( eOfferResponseAccept == offerResponse )
 		{
-			EOfferResponse offerResponse		= offerSession->getOfferResponse();			
-			VxGUID offerSessionId				= offerSession->getOfferId();			
-			if( eOfferResponseAccept == offerResponse )
-			{
-				m_MyApp.playSound( eSndDefOfferAccepted );
-				postStatusMsg( (getHisOnlineName() + " Accepted Offer " + describePlugin()).c_str() );
+			m_MyApp.playSound( eSndDefOfferAccepted );
+			postStatusMsg( (getHisOnlineName() + " Accepted Offer " + describePlugin()).c_str() );
 
-				if( !m_IsInSession )
-				{
-					m_IsInSession = true;
-					m_MyApp.getEngine().fromGuiStartPluginSession( m_ePluginType, m_HisIdent->getMyOnlineId(),
-						offerSessionId );
-					m_OfferMgr.startedSessionInReply( m_ePluginType, offerSessionId, m_HisIdent );
-					onInSession( true );
-				}
-			}
-			else 
+			if( !m_IsInSession )
 			{
-				handleSessionEnded( offerResponse );
+				m_IsInSession = true;
+				m_MyApp.getEngine().fromGuiStartPluginSession( m_ePluginType, m_HisIdent->getMyOnlineId(),
+					offerSessionId );
+				onInSession( true );
 			}
-
-			if( GuiHelpers::isPluginSingleSession( m_ePluginType ) )
-			{
-				m_OfferMgr.removePluginSessionOffer( m_ePluginType, m_HisIdent );
-			}
+		}
+		else 
+		{
+			handleSessionEnded( offerResponse );
 		}
 	}
 }
@@ -212,15 +203,12 @@ void OfferSessionLogic::callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSes
 //======================================================================== 
 void OfferSessionLogic::toGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offerSession )
 {
-	/*
 	if( isOurSessionInstance( offerSession ) )
 	{
 		EOfferResponse offerResponse = offerSession->getOfferResponse();	
-
-        m_OfferMgr.recievedSessionEnd( m_ePluginType, m_OfferId, m_HisIdent, offerResponse );
 		handleSessionEnded( offerResponse );
+		onInSession( false );
 	}
-	*/
 }
 
 //======================================================================== 
@@ -228,8 +216,8 @@ void OfferSessionLogic::toGuiContactOffline( GuiUser* friendIdent )
 {
 	if( m_HisIdent && ( friendIdent->getMyOnlineId() == m_HisIdent->getMyOnlineId() ) )
 	{
-		//m_OfferMgr.contactWentOffline( m_HisIdent );
 		handleSessionEnded( eOfferResponseUserOffline );
+		onInSession( false );
 	}
 }
 
@@ -338,7 +326,7 @@ void OfferSessionLogic::onStop()
 			{
 				m_SessionEndIsHandled = true;
 				setIsInSession( false );
-				if( 0 != m_HisIdent )
+				if( m_HisIdent )
 				{
                     if( m_ePluginType != ePluginTypeInvalid )
 					{
@@ -353,7 +341,7 @@ void OfferSessionLogic::onStop()
 				}
 			}
 
-			if( 0 != m_HisIdent )
+			if( m_HisIdent )
 			{
                 if( m_ePluginType < eMaxNetUsePluginType )
 				{
@@ -401,14 +389,12 @@ void OfferSessionLogic::setCallState( int eCallState )
 	switch( eCallState )
 	{
 	case eCallStateCalling:
-		startPhoneRinging();
 		break;
 
 	case eCallStateInCall:
 		break;
 
 	case eCallStateHangedUp:
-		stopPhoneRinging();
 		break;
 
 	default:
@@ -423,7 +409,6 @@ bool OfferSessionLogic::handleOfferResponse( GuiOfferSession  poSession )
 	if( ( poSession.getPluginType() == m_ePluginType ) &&
 		( poSession.getUserIdent()->getMyOnlineId() == m_HisIdent->getMyOnlineId() )) 
 	{
-		stopPhoneRinging();
 		bResponesOk = handleOfferResponseCode( poSession.getOfferResponse()  );
 	}
 
@@ -605,18 +590,6 @@ void OfferSessionLogic::handleUserWentOffline()
 }
 
 //========================================================================
-void OfferSessionLogic::startPhoneRinging()
-{
-
-}
-
-//========================================================================
-void OfferSessionLogic::stopPhoneRinging()
-{
-
-}
-
-//========================================================================
 void OfferSessionLogic::showOfflineMsg( bool bExitWhenClicked )
 {
 	std::string offlineMsg = m_HisIdent->getOnlineName();
@@ -629,3 +602,10 @@ void OfferSessionLogic::showOfflineMsg( bool bExitWhenClicked )
 	}
 }
 
+
+//========================================================================
+void OfferSessionLogic::userEndedSession( void )
+{
+	// user canceled and applet is about to close
+	onStop();
+}

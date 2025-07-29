@@ -17,9 +17,12 @@
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxDebug.h>
+#include <NetLib/VxSktBase.h>
+
 #include <PktLib/PktVoiceReq.h>
 #include <PktLib/PktVoiceReply.h>
 #include <PktLib/PktChatReq.h>
+#include <PktLib/PktsPluginOffer.h>
 
 #include <memory.h>
 #ifdef _MSC_VER
@@ -39,26 +42,53 @@ PluginVoicePhone::PluginVoicePhone( P2PEngine& engine, PluginMgr& pluginMgr, VxN
 //! user wants to send offer to friend.. return false if cannot connect
 bool PluginVoicePhone::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo )
 {
-	P2PSession* poSession = nullptr;
-	VxGUID& lclSessionId = offerInfo.getOfferId();
-	PluginBase::AutoPluginLock pluginMutexLock( this );
-	if( lclSessionId.isVxGUIDValid() )
+	LogMsg( LOG_VERBOSE, " PluginVoicePhone::fromGuiMakePluginOffer %s", m_Engine.describeUser( onlineId ).c_str() );
+
+	std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( onlineId );
+	if( sktBase && sktBase->isConnected() )
 	{
-		poSession = (P2PSession*)m_PluginSessionMgr.findP2PSessionBySessionId( lclSessionId, true  );
-	}
-	else
-	{
-		poSession = (P2PSession*)m_PluginSessionMgr.findP2PSessionByOnlineId( onlineId, true );
+		VxGUID& lclSessionId = offerInfo.getOfferId();
+
+		PluginBase::AutoPluginLock pluginMutexLock( this );
+
+		PktPluginOfferReq pktReq;
+		pktReq.setLclSessionId( lclSessionId );
+		pktReq.setRmtSessionId( lclSessionId );
+		pktReq.setPluginType( getPluginType() );
+		offerInfo.addToBlob( pktReq.getBlobEntry() );
+		pktReq.calcPktLen();
+
+		// force session to be created so have session to lookup on reply
+		P2PSession* p2pSession = m_PluginSessionMgr.findOrCreateP2PSessionWithSessionId( lclSessionId, sktBase, onlineId, true );
+		if( p2pSession )
+		{
+			if( true == m_PluginMgr.pluginApiTxPacket( m_ePluginType,
+				onlineId,
+				sktBase,
+				&pktReq ) )
+			{
+				LogMsg( LOG_VERBOSE, " PluginCamClient::fromGuiMakePluginOffer success" );
+				return true;
+			}
+			else
+			{
+				LogMsg( LOG_VERBOSE, " PluginCamClient::fromGuiMakePluginOffer failed to send pkt" );
+			}
+		}
+		else
+		{
+			LogMsg( LOG_ERROR, " PluginCamClient::fromGuiMakePluginOffer failed to create session" );
+		}
 	}
 
-	if( poSession )
-	{
-		LogMsg( LOG_ERROR, "PluginVoicePhone already in session");
-		// assume some error in logic
-		m_PluginSessionMgr.removeSessionBySessionId( true, onlineId );
-	}
+	return false;
+}
 
-	return m_PluginSessionMgr.fromGuiMakePluginOffer( true, onlineId, offerInfo );
+//============================================================================
+//! handle reply to offer
+bool PluginVoicePhone::fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo )
+{
+	return m_PluginSessionMgr.fromGuiOfferReply( false, onlineId, offerInfo );
 }
 
 //============================================================================
@@ -71,8 +101,6 @@ bool PluginVoicePhone::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSes
 //! called to start service or session with remote friend
 bool PluginVoicePhone::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID )
 {
-	m_VoiceFeedMgr.enableAudioCapture( true, onlineId );
-	m_VoiceFeedMgr.enableAudioReceive( true, onlineId );
 	return true;
 }
 
@@ -86,22 +114,21 @@ void PluginVoicePhone::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID )
 }
 
 //============================================================================
-//! handle reply to offer
-bool PluginVoicePhone::fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo )
+bool PluginVoicePhone::fromGuiInstMsg( VxGUID& onlineId, const char* msg )
 {
-	return m_PluginSessionMgr.fromGuiOfferReply( false, onlineId, offerInfo );
-}
-
-//============================================================================
-bool PluginVoicePhone::fromGuiInstMsg( VxGUID& onlineId, const char* pMsg )
-{
+	LogMsg( LOG_VERBOSE, "PluginVoicePhone::fromGuiInstMsg" );
 	PluginBase::AutoPluginLock pluginMutexLock( this );
 	P2PSession* poSession = m_PluginSessionMgr.findP2PSessionByOnlineId( onlineId, true );
 	if( poSession )
 	{
-		PktChatReq oPkt;
-		oPkt.addMsg( pMsg );
-		return m_PluginMgr.pluginApiTxPacket( m_ePluginType, onlineId, poSession->getSkt(), &oPkt );
+		PktChatReq pkt;
+		pkt.addMsg( msg );
+		return m_PluginMgr.pluginApiTxPacket( m_ePluginType, onlineId, poSession->getSkt(), &pkt );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "PluginVideoPhone::fromGuiInstMsg session not found" );
+		return false;
 	}
 
 	return false;
@@ -153,17 +180,20 @@ void PluginVoicePhone::onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, VxP
 void PluginVoicePhone::onPktChatReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktChatReq* poPkt = (PktChatReq *)pktHdr;
+	VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
 	PluginBase::AutoPluginLock pluginMutexLock( this );
-	P2PSession* poSession = (P2PSession*)m_PluginSessionMgr.findP2PSessionByOnlineId( netIdent->getMyOnlineId(), true );
+	P2PSession* poSession = (P2PSession*)m_PluginSessionMgr.findP2PSessionByOnlineId( srcOnlineId, true );
 	if( poSession )
 	{
-		IToGui::getIToGui().toGuiInstMsg( netIdent, m_ePluginType, (const char*)poPkt->getDataPayload() );
+		IToGui::getIToGui().toGuiInstMsg( srcOnlineId, m_ePluginType, (const char*)poPkt->getDataPayload() );
 	}
 }
 
 //============================================================================
 void PluginVoicePhone::onSessionStart( PluginSessionBase* session, bool pluginIsLocked )
 {
+	if( LogEnabled( eLogSession ) ) LogModule( eLogSession, LOG_VERBOSE, "PluginVoicePhone::%s for %s", __func__,
+		m_Engine.describeUser( session->getSendToId() ).c_str() );
 	PluginBase::onSessionStart( session, pluginIsLocked ); // mark user session time so contact list is sorted with latest used on top
 	m_VoiceFeedMgr.enableAudioCapture( true, session->getSendToId() );
 	m_VoiceFeedMgr.enableAudioReceive( true, session->getSendToId() );
@@ -172,6 +202,8 @@ void PluginVoicePhone::onSessionStart( PluginSessionBase* session, bool pluginIs
 //============================================================================
 void PluginVoicePhone::onSessionEnded( PluginSessionBase* session, bool pluginIsLocked, EOfferResponse offerResponse )
 {
+	if( LogEnabled( eLogSession ) ) LogModule( eLogSession, LOG_VERBOSE, "PluginVoicePhone::%s for %s", __func__,
+		m_Engine.describeUser( session->getSendToId() ).c_str() );
 	m_VoiceFeedMgr.enableAudioCapture( false, session->getSendToId() );
 	m_VoiceFeedMgr.enableAudioReceive( false, session->getSendToId() );
 }
@@ -195,4 +227,6 @@ void PluginVoicePhone::onContactWentOffline( VxNetIdent* netIdent, std::shared_p
 	m_VoiceFeedMgr.enableAudioReceive( false, netIdent->getMyOnlineId() );
 	m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
 }
+
+
 

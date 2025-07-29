@@ -356,14 +356,26 @@ bool AppletPopupMenu::canPerformAction( enum EUserAction userAction, EPluginAcce
     else if( userAction == eUserActionVideoPhone )
 	{
 		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeVideoPhone );
+		if( pluginAccess == ePluginAccessOk && m_MyApp.getOfferMgr().haveActiveOffer( m_SelectedFriend->getMyOnlineId(), ePluginTypeVideoPhone ) )
+		{
+			pluginAccess = ePluginAccessBusy;
+		}
 	}
     else if( userAction == eUserActionVoicePhone )
 	{
 		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeVoicePhone );
+		if( pluginAccess == ePluginAccessOk && m_MyApp.getOfferMgr().haveActiveOffer( m_SelectedFriend->getMyOnlineId(), ePluginTypeVoicePhone ) )
+		{
+			pluginAccess = ePluginAccessBusy;
+		}
 	}
     else if( userAction == eUserActionTruthOrDare )
 	{
 		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeTruthOrDare );
+		if( pluginAccess == ePluginAccessOk && m_MyApp.getOfferMgr().haveActiveOffer( m_SelectedFriend->getMyOnlineId(), ePluginTypeTruthOrDare ) )
+		{
+			pluginAccess = ePluginAccessBusy;
+		}
 	}
     else if( userAction == eUserActionSetUnsetPreferred )
 	{

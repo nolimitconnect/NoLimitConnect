@@ -477,7 +477,9 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
     LogModule( eLogHostConnect, LOG_VERBOSE, "ConnectionMgr::%s %s url %s", __func__, DescribeConnectReason( connectReason ), url.c_str() );
     std::shared_ptr<VxSktBase> sktBase( nullptr );
 
-    if( !IsConnectReasonTemporary( connectReason ) )
+    bool isTempConnectReason = IsConnectReasonTemporary( connectReason );
+
+    if( !isTempConnectReason )
     {
         // first see if we already have a connection to the requested onlineId
         bool isDisconnected = false;
@@ -540,6 +542,11 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
     if( sktBase )
     {
         retSktBase = sktBase;
+        if( isTempConnectReason )
+        {
+            sktBase->setIsTempConnection( true );
+        }
+
         onConnectStatusChange( sessionId, eConnectStatusReady, connectReason, hostType );
         return eConnectStatusReady;
     }
@@ -569,6 +576,10 @@ EConnectStatus ConnectionMgr::attemptConnection( VxGUID& sessionId, std::string 
             if( !IsConnectReasonTemporary( connectReason ) )
             {
                 retSktBase->addConnectReason( connectReason );
+            }
+            else
+            {
+                retSktBase->setIsTempConnection( true );
             }
         }
 

@@ -26,6 +26,7 @@ public:
 
     void                        startRinging( std::shared_ptr<GuiOfferSession>& offerSession );
     void                        stopRinging( std::shared_ptr<GuiOfferSession>& offerSession );
+    void                        stopRinging( VxGUID& offerId );
 
 signals:
     void                        signalRingerTimeout( void );
@@ -37,6 +38,7 @@ protected:
     bool                        doesSessionExist( VxGUID& offerId );
     bool                        removeSession( VxGUID& offerId );
     bool                        checkForRingTimeout( void );
+    void                        resetPhoneRingTimer( void );
     
 	//=== vars ===//
 

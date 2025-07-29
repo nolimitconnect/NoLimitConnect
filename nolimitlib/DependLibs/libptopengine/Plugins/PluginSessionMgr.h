@@ -22,11 +22,15 @@ class OfferBaseInfo;
 class PluginSessionMgr : public SessionMgrBase
 {
 public:
-	PluginSessionMgr( P2PEngine& engine, PluginBase& plugin, PluginMgr& pluginMgr );
-	virtual ~PluginSessionMgr();
+	PluginSessionMgr() = delete; // don't allow default constructor
+	PluginSessionMgr( const PluginSessionMgr& ) = delete; // don't allow copy constructor
 
-	std::map<VxGUID, PluginSessionBase*>&	getSessions( void )			{ return m_aoSessions; }
-	size_t						getSessionCount( void )					{ return m_aoSessions.size(); }
+	PluginSessionMgr( P2PEngine& engine, PluginBase& plugin, PluginMgr& pluginMgr );
+	virtual ~PluginSessionMgr() = default;
+
+	std::vector<PluginSessionBase*>&	getSessions( void )			{ return m_aoSessions; }
+	size_t						getSessionCount( void )				{ return m_aoSessions.size(); }
+	int							getTxSessionCount( bool pluginIsLocked = false );
 
 	virtual void				replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt );
 	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
@@ -36,9 +40,7 @@ public:
 	virtual void				onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline );
 
     virtual bool				fromGuiIsPluginInSession( bool pluginIsLocked, VxGUID& onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() );
-
 	virtual void				fromGuiStopPluginSession( bool pluginIsLocked, VxGUID& onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() );
-
 	virtual bool				fromGuiMakePluginOffer(	bool pluginIsLocked, VxGUID& onlineId, OfferBaseInfo& offerInfo );
 	virtual bool				fromGuiOfferReply( bool pluginIsLocked, VxGUID& onlineId, OfferBaseInfo& offerInfo );
 
@@ -62,7 +64,6 @@ public:
 	TxSession *					findOrCreateTxSessionWithSessionId( VxGUID& sessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, bool pluginIsLocked );
     TxSession *					findOrCreateTxSessionWithOnlineId( VxGUID onlineId, std::shared_ptr<VxSktBase>& sktBase,
 																		bool pluginIsLocked, VxGUID lclSessionId = VxGUID::nullVxGUID() );
-	int							getTxSessionCount( bool pluginIsLocked = false );
 
 	RxSession *					findRxSessionBySessionId( VxGUID& sessionId, bool pluginIsLocked );
 	RxSession *					findRxSessionByOnlineId( VxGUID& onlineId, bool pluginIsLocked );
@@ -83,16 +84,10 @@ public:
 	bool						removeSession( bool pluginIsLocked, VxGUID& onlineId, VxGUID& sessionId, EOfferResponse offerResponse, bool fromGui = false );
 	void						removeAllSessions( bool testSessionsOnly = false );
 
-	typedef std::map<VxGUID, PluginSessionBase*>::iterator SessionIter;
-
 protected:
 	void						doEndAndEraseSession( PluginSessionBase* sessionBase, EOfferResponse offerResponse, bool pluginIsLocked );
 
 	//=== vars ===//
-	std::map<VxGUID, PluginSessionBase*>	m_aoSessions;
-
-private:
-	PluginSessionMgr(); // don't allow default constructor
-	PluginSessionMgr(const PluginSessionMgr&); // don't allow copy constructor
+	std::vector<PluginSessionBase*>	m_aoSessions;
 };
 

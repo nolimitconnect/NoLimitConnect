@@ -169,6 +169,13 @@ void AppletPeerBase::callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSessio
     m_OfferSessionLogic.callbackToGuiRxedOfferReply( offerReply );
 }; 
 
+
+//============================================================================
+void AppletPeerBase::callbackToGuiPluginSessionStarted( std::shared_ptr<GuiOfferSession>& offer )
+{
+	//handleSessionEnded( offerResponse, this );
+};
+
 //============================================================================
 void AppletPeerBase::callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offer )
 {
@@ -191,6 +198,7 @@ void AppletPeerBase::toGuiSetGameValueVar(	EPluginType     pluginType,
 											int32_t			s32VarValue )
 {
 	if( ( pluginType == m_ePluginType )
+		&& m_HisIdent
 		&& ( onlineId == m_HisIdent->getMyOnlineId() ) )
 	{
 		//emit signalToGuiSetGameValueVar( s32VarId, s32VarValue );
@@ -204,6 +212,7 @@ void AppletPeerBase::toGuiSetGameActionVar(	EPluginType     pluginType,
 											int32_t			s32VarValue )
 {
 	if( ( pluginType == m_ePluginType )
+		&& m_HisIdent
 		&& ( onlineId == m_HisIdent->getMyOnlineId() ) )
 	{
 		//emit signalToGuiSetGameActionVar( s32VarId, s32VarValue );
@@ -217,7 +226,7 @@ void AppletPeerBase::setOfferToIdentity( GuiUser* guiUser )
 }
 
 //============================================================================
-bool AppletPeerBase::setOfferSession( std::shared_ptr<GuiOfferSession> offerSession )   
+bool AppletPeerBase::setOfferSession( std::shared_ptr<GuiOfferSession>& offerSession )   
 { 
 	m_OfferSessionLogic.setGuiOfferSession( offerSession );
 	onOfferWasSet();
@@ -227,8 +236,17 @@ bool AppletPeerBase::setOfferSession( std::shared_ptr<GuiOfferSession> offerSess
 }
 
 //============================================================================
+bool AppletPeerBase::isOfferMatch( std::shared_ptr<GuiOfferSession>& offerSession )
+{
+	return m_HisIdent &&
+		m_HisIdent->getMyOnlineId() == offerSession->getMyOnlineId() &&
+		m_ePluginType == offerSession->getPluginType();
+}
+
+//============================================================================
 void AppletPeerBase::slotEndSession( void )
 {
+	m_OfferSessionLogic.userEndedSession();
 	onActivityFinish();
 	closeApplet();
 }

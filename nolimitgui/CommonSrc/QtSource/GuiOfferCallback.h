@@ -26,6 +26,8 @@ public:
 	virtual void				callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession>& offerSession ) {};
 	virtual void				callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg ) {};
 	virtual void				callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState oldOfferState, EOfferState newOfferState ) {};
+
+	virtual void				callbackToGuiPluginSessionStarted( std::shared_ptr<GuiOfferSession>& offerSession ) {};
 	virtual void				callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offerSession ) {};
 	virtual void				callbackToGuiOfferMovedToHistory( std::shared_ptr<GuiOfferSession>& offerSession ) {};
 

@@ -12,6 +12,10 @@
 
 #include <MediaToolsLib/OpusAudioDecoder.h>
 
+#include <NetLib/VxSktBase.h>
+
+#include <PktLib/PktsSession.h>
+
 namespace
 {
 	const int AUDIO_JITTER_QUEUE_DEPTH = 20; // 20 * 60ms = 1.2 seconds of audio buffering

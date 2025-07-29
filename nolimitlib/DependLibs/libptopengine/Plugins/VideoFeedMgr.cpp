@@ -60,23 +60,16 @@ void VideoFeedMgr::fromGuiStopPluginSession( bool pluginIsLocked, EMediaModule m
 	PktVideoFeedStatus oPkt;
 	oPkt.m_u8Status = 1;
 
-	PluginSessionMgr::SessionIter iter;
 	VxMutex& pluginMutex = m_Plugin.getPluginMutex();
 	if( false == pluginIsLocked )
 	{ 
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-        LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::fromGuiStopPluginSession PluginBase::AutoPluginLock autoLock start" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
-		pluginMutex.lock(); 
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-        LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::fromGuiStopPluginSession PluginBase::AutoPluginLock autoLock done" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
+		m_Plugin.lockPlugin();
 	}
 
-	std::map<VxGUID, PluginSessionBase*>&	sessionList = m_SessionMgr.getSessions();
-	for( iter = sessionList.begin(); iter != sessionList.end(); ++iter )
+	auto sessionList = m_SessionMgr.getSessions();
+	for( auto iter = sessionList.begin(); iter != sessionList.end(); ++iter )
 	{
-		PluginSessionBase* sessionBase = iter->second;
+		PluginSessionBase* sessionBase = *iter;
 		if( sessionBase->isP2PSession() )
 		{
 			P2PSession* poSession = (P2PSession*)sessionBase;
@@ -89,10 +82,7 @@ void VideoFeedMgr::fromGuiStopPluginSession( bool pluginIsLocked, EMediaModule m
 
 	if( false == pluginIsLocked )
 	{ 
-		#ifdef DEBUG_AUTOPLUGIN_LOCK
-        LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::fromGuiStopPluginSession sessions done" );
-		#endif // DEBUG_AUTOPLUGIN_LOCK
-		pluginMutex.unlock(); 
+		m_Plugin.unlockPlugin();
 	}
 }
 
@@ -265,13 +255,8 @@ void VideoFeedMgr::onPktVideoFeedPic( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 	else
 	{
 		// picture was too big for one packet
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-        LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::onPktVideoFeedPic autoLock start" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
+
 		PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-        LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::onPktVideoFeedPic autoLock done" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
 
 		P2PSession* poSession = m_SessionMgr.findOrCreateP2PSessionWithOnlineId( netIdent->getMyOnlineId(), sktBase, true );
 		if( poSession )
@@ -288,10 +273,6 @@ void VideoFeedMgr::onPktVideoFeedPic( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 
 			// wait for rest of picture to arrive
 		}
-
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-        LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::onPktVideoFeedPic autoLock destroy" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
 	}
 }
 
@@ -304,13 +285,7 @@ void VideoFeedMgr::onPktVideoFeedPicChunk( std::shared_ptr<VxSktBase>& sktBase, 
 									sktBase, 
 									&oPkt ); 
 
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams,  LOG_INFO, "VideoFeedMgr::onPktVideoFeedPicChunk autoLock start" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::onPktVideoFeedPicChunk autoLock done" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
 
 	PktVideoFeedPicChunk * poPktPicChunk = ( PktVideoFeedPicChunk * )pktHdr;
 	P2PSession* poSession = m_SessionMgr.findP2PSessionByOnlineId( netIdent->getMyOnlineId(), true );
@@ -330,70 +305,39 @@ void VideoFeedMgr::onPktVideoFeedPicChunk( std::shared_ptr<VxSktBase>& sktBase, 
 				m_Plugin.getEngine().getMediaProcessor().processFriendVideoFeed(	netIdent->getMyOnlineId(),
 																					poPktCastPic->getDataPayload(), 
 																					poPktCastPic->getTotalDataLen(),
-																					poPktCastPic->getMotionDetect() );
-								
-
-/*				if( false == m_Plugin.isAppPaused() )
-				{
-					m_PluginMgr.pluginApiPlayJpgVideo(	m_Plugin.getPluginType(), 
-															poPktCastPic->getDataPayload(), 
-															poPktCastPic->getTotalDataLen(), 
-															netIdent,
-															poPktCastPic->getMotionDetect() );
-				}*/
+																					poPktCastPic->getMotionDetect() );								
 
 				delete poSession->getVideoCastPkt();
 				poSession->setVideoCastPkt( NULL );
 			}
 		}
 	}
-
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::onPktVideoFeedPicChunk autoLock destroy" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
 }
 
 //============================================================================
 void VideoFeedMgr::onPktVideoFeedPicAck( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::onPktVideoFeedPicAck autoLock start" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::onPktVideoFeedPicAck autoLock done" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
 
 	P2PSession* poSession = m_SessionMgr.findP2PSessionByOnlineId( netIdent->getMyOnlineId(), true );
 	if( poSession )
 	{
 		poSession->decrementOutstandingAckCnt();
 	}
-
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::onPktVideoFeedPicAck autoLock destroy" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
 }
 
 //============================================================================
 void VideoFeedMgr::callbackVideoPktPic( VxGUID& feedId, PktVideoFeedPic * pktVid, int pktsInSequence, int thisPktNum )
 {
-	PluginSessionMgr::SessionIter iter;
-	std::map<VxGUID, PluginSessionBase*>&sessionList = m_SessionMgr.getSessions();
+	auto sessionList = m_SessionMgr.getSessions();
 
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::callbackVideoPktPic autoLock start" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::callbackVideoPktPic autoLock done" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
-	for( iter = sessionList.begin(); iter != sessionList.end(); ++iter )
+
+	for( auto session : sessionList )
 	{
-		PluginSessionBase* sessionBase = iter->second;
-		if( sessionBase->isP2PSession() )
+		if( session->isP2PSession() )
 		{
-			P2PSession* poSession = (P2PSession*)iter->second;
+			P2PSession* poSession = (P2PSession*)session;
 			int ackCnt = poSession->getOutstandingAckCnt();
 			if( poSession && ( MAX_OUTSTANDING_VID_ACKS > ackCnt ) )
 			{
@@ -422,51 +366,40 @@ void VideoFeedMgr::callbackVideoPktPic( VxGUID& feedId, PktVideoFeedPic * pktVid
 				poSession->setIsSendingPkts( false );
 			}
 		}
-		else if( sessionBase->isTxSession() )
+		else if( session->isTxSession() )
 		{
-			TxSession * poSession = (TxSession *)iter->second;
-			int ackCnt = poSession->getOutstandingAckCnt();
-			if( poSession && ( MAX_OUTSTANDING_VID_ACKS > ackCnt ) )
+			TxSession * txSession = (TxSession *)session;
+			int ackCnt = txSession->getOutstandingAckCnt();
+			if( txSession && ( MAX_OUTSTANDING_VID_ACKS > ackCnt ) )
 			{
 				if( m_PluginMgr.pluginApiTxPacket(	m_Plugin.getPluginType(), 
-													poSession->getSendToId(), 
-													poSession->getSkt(), 
+					txSession->getSendToId(),
+					txSession->getSkt(),
 													pktVid ) )
 				{
-					poSession->incrementOutstandingAckCnt();
+					txSession->incrementOutstandingAckCnt();
 				}
 			}
 			else
 			{
-				poSession->setIsSendingPkts( false );
+				txSession->setIsSendingPkts( false );
 			}
 		}
 	}
-
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::callbackVideoPktPic autoLock destroy" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
 }
 
 //============================================================================
 void VideoFeedMgr::callbackVideoPktPicChunk( VxGUID& feedId, PktVideoFeedPicChunk * pktVid, int pktsInSequence, int thisPktNum )
 {
-	PluginSessionMgr::SessionIter iter;
-	std::map<VxGUID, PluginSessionBase*>&sessionList = m_SessionMgr.getSessions();
+	auto sessionList = m_SessionMgr.getSessions();
 
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::callbackVideoPktPicChunk autoLock start" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::callbackVideoPktPicChunk autoLock done" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
-	for( iter = sessionList.begin(); iter != sessionList.end(); ++iter )
+
+	for( auto session : sessionList )
 	{
-		PluginSessionBase* sessionBase = iter->second;
-		if( sessionBase->isP2PSession() )
+		if( session->isP2PSession() )
 		{
-			P2PSession* poSession = (P2PSession*)iter->second;
+			P2PSession* poSession = (P2PSession*)session;
 			if( m_PluginMgr.pluginApiTxPacket(	m_Plugin.getPluginType(), 
 					                            poSession->getSendToId(), 
 					                            poSession->getSkt(), 
@@ -475,9 +408,9 @@ void VideoFeedMgr::callbackVideoPktPicChunk( VxGUID& feedId, PktVideoFeedPicChun
 				poSession->setOutstandingAckCnt( poSession->getOutstandingAckCnt() + 1 );
 			}
 		}
-		else if( sessionBase->isTxSession() )
+		else if( session->isTxSession() )
 		{
-			TxSession * poSession = (TxSession *)iter->second;
+			TxSession * poSession = (TxSession *)session;
 			if( m_PluginMgr.pluginApiTxPacket(	m_Plugin.getPluginType(), 
 											    poSession->getSendToId(), 
 											    poSession->getSkt(), 
@@ -487,10 +420,6 @@ void VideoFeedMgr::callbackVideoPktPicChunk( VxGUID& feedId, PktVideoFeedPicChun
 			}
 		}
 	}
-
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-    LogModule( eLogStreams, LOG_INFO, "VideoFeedMgr::callbackVideoPktPicChunk autoLock destroy" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
 }
 
 //============================================================================

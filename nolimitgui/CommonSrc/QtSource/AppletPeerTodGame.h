@@ -29,7 +29,7 @@ public:
 	AppletPeerTodGame( AppCommon& app, QWidget* parent = nullptr );
 	virtual ~AppletPeerTodGame() override = default;
 
-    bool                        setOfferSession( std::shared_ptr<GuiOfferSession> offerSession ) override;
+    bool                        setOfferSession( std::shared_ptr<GuiOfferSession>& offerSession ) override;
 	//! called by base class with in session state
     virtual void				onInSession( bool isInSession ) override;
 

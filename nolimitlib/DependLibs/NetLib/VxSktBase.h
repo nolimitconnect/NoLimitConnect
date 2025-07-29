@@ -114,7 +114,7 @@ public:
 	virtual void				setConnectReason( EConnectReason connectReason );
 	virtual EConnectReason		getConnectReason( void )						{ return m_ConnectReason; }
 
-	virtual void				setIsTempConnection( bool isTemp )				{ m_IsTempConnection = isTemp; }
+	virtual void				setIsTempConnection( bool isTemp );
 	virtual bool				isTempConnection( void )						{ return m_IsTempConnection; }
 
 	virtual void				setRxCallbackUserData( void * pvData )			{ m_pvRxCallbackUserData = pvData; }

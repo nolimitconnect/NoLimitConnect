@@ -25,6 +25,7 @@
 
 #include <PktLib/PktsHostInvite.h>
 #include <PktLib/PktsPluginOffer.h>
+#include <PktLib/PktsSession.h>
 
 #include <NetLib/VxSktBase.h>
 
@@ -32,6 +33,11 @@ VxMutex	PluginBase::m_VoicePairTxMutex;
 std::vector<std::pair<EPluginType, VxGUID>>	PluginBase::m_VoiceTxList;
 VxMutex	PluginBase::m_VoicePairRxMutex;
 std::vector<std::pair<EPluginType, VxGUID>>	PluginBase::m_VoiceRxList;
+
+VxMutex	PluginBase::m_VideoPairTxMutex;
+std::vector<std::pair<EPluginType, VxGUID>>	PluginBase::m_VideoTxList;
+VxMutex	PluginBase::m_VideoPairRxMutex;
+std::vector<std::pair<EPluginType, VxGUID>>	PluginBase::m_VideoRxList;
 
 //============================================================================
 bool PluginBase::isVoicePlugin( void ) 
@@ -383,49 +389,42 @@ EPluginAccess PluginBase::canAcceptNewSession( VxNetIdent* netIdent )
 //============================================================================ 
 P2PSession* PluginBase::createP2PSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
-    P2PSession* p2pSession = new P2PSession( sktBase, onlineId, m_ePluginType );
-	p2pSession->setPluginType( m_ePluginType );
-	return p2pSession;
+    if( LogEnabled( eLogSession ) ) LogModule( eLogSession, LOG_VERBOSE, "PluginBase::%s no session user %s", __func__,
+        m_Engine.describeUser( onlineId ).c_str() );
+    return new P2PSession( sktBase, onlineId, m_ePluginType );
 }
 
 //============================================================================ 
 P2PSession* PluginBase::createP2PSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
-    P2PSession* p2pSession = new P2PSession( lclSessionId, sktBase, onlineId, m_ePluginType );
-	p2pSession->setPluginType( m_ePluginType );
-	return p2pSession;
+    if( LogEnabled( eLogSession ) ) LogModule( eLogSession, LOG_VERBOSE, "PluginBase::%s lclSession %s user %s", __func__,
+        lclSessionId.toHexString().c_str(),
+        m_Engine.describeUser( onlineId ).c_str() );
+    return new P2PSession( lclSessionId, sktBase, onlineId, m_ePluginType );
 }
 
 //============================================================================ 
 RxSession *	PluginBase::createRxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
-    RxSession * rxSession = new RxSession( sktBase, onlineId, m_ePluginType );
-	rxSession->setPluginType( m_ePluginType );
-	return rxSession;
+    return new RxSession( sktBase, onlineId, m_ePluginType );
 }
 
 //============================================================================ 
 RxSession *	PluginBase::createRxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
-    RxSession * rxSession =  new RxSession( lclSessionId, sktBase, onlineId, m_ePluginType );
-	rxSession->setPluginType( m_ePluginType );
-	return rxSession;
+    return  new RxSession( lclSessionId, sktBase, onlineId, m_ePluginType );
 }
 
 //============================================================================ 
 TxSession *	PluginBase::createTxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
-    TxSession * txSession = new TxSession( sktBase, onlineId, m_ePluginType );
-	txSession->setPluginType( m_ePluginType );
-	return txSession;
+    return new TxSession( sktBase, onlineId, m_ePluginType );
 }
 
 //============================================================================ 
 TxSession *	PluginBase::createTxSession( VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
-    TxSession * txSession = new TxSession( lclSessionId, sktBase, onlineId, m_ePluginType );
-	txSession->setPluginType( m_ePluginType );
-	return txSession;
+    return new TxSession( lclSessionId, sktBase, onlineId, m_ePluginType );
 }
 
 //============================================================================ 
@@ -1116,4 +1115,313 @@ bool PluginBase::isMyAccessAllowedFromHim( VxGUID& onlineId, EPluginType pluginT
 bool PluginBase::isHisAccessAllowedFromMe( VxGUID& onlineId, EPluginType pluginType )
 {
     return m_Engine.isHisAccessAllowedFromMe( onlineId, pluginType );
+}
+
+//============================================================================
+// Video
+//============================================================================
+
+//============================================================================
+bool PluginBase::addVideoPairTx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool found{ false };
+    m_VideoPairTxMutex.lock();
+    for( auto& pair : m_VideoTxList )
+    {
+        if( pair.first == pluginType && pair.second == onlineId )
+        {
+            found = true;
+            break;
+        }
+    }
+
+    if( !found )
+    {
+        m_VideoTxList.emplace_back( std::make_pair( pluginType, onlineId ) );
+    }
+
+    m_VideoPairTxMutex.unlock();
+    if( found && LogEnabled( eLogWebCam ) )
+    {
+        LogModule( eLogWebCam, LOG_ERROR, "PluginBase::%s online id %s already exists", __func__, onlineId.toHexString().c_str() );
+    }
+
+    return !found;
+}
+
+//============================================================================
+bool PluginBase::removeVideoPairTx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool found{ false };
+    m_VideoPairTxMutex.lock();
+    for( auto iter = m_VideoTxList.begin(); iter != m_VideoTxList.end(); ++iter )
+    {
+        if( pluginType == iter->first && onlineId == iter->second )
+        {
+            found = true;
+            m_VideoTxList.erase( iter );
+            break;
+        }
+    }
+
+    m_VideoPairTxMutex.unlock();
+    if( !found && LogEnabled( eLogWebCam ) )
+    {
+        LogModule( eLogWebCam, LOG_ERROR, "PluginBase::%s online id %s not found %s", __func__, onlineId.toHexString().c_str(), DescribePluginType( pluginType ) );
+    }
+
+    return found;
+}
+
+//============================================================================
+bool PluginBase::userNeedsVideoPairTx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool needsTx{ false };
+    m_VideoPairTxMutex.lock();
+    for( auto& pair : m_VideoTxList )
+    {
+        if( pair.first == pluginType && pair.second == onlineId )
+        {
+            needsTx = true;
+            break;
+        }
+    }
+
+    m_VideoPairTxMutex.unlock();
+    return needsTx;
+}
+
+//============================================================================
+int PluginBase::needVideoTxCount( EPluginType pluginType )
+{
+    int needCnt{ 0 };
+    m_VideoPairTxMutex.lock();
+    for( auto& pair : m_VideoTxList )
+    {
+        if( pair.first == pluginType )
+        {
+            needCnt++;
+        }
+    }
+
+    m_VideoPairTxMutex.unlock();
+    return needCnt;
+}
+
+//============================================================================
+bool PluginBase::getVideoTxList( EPluginType pluginType, std::vector<VxGUID>& onlineIdList )
+{
+    onlineIdList.clear();
+    m_VideoPairTxMutex.lock();
+    for( auto& pair : m_VideoTxList )
+    {
+        if( pair.first == pluginType )
+        {
+            onlineIdList.emplace_back( pair.second );
+        }
+    }
+
+    m_VideoPairTxMutex.unlock();
+    return !onlineIdList.empty();
+}
+
+//============================================================================
+bool PluginBase::isFirstVideoPairTx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool isFirst{ false };
+    m_VideoPairTxMutex.lock();
+    for( auto& pair : m_VideoTxList )
+    {
+        if( pair.second == onlineId )
+        {
+            if( pair.first == pluginType )
+            {
+                isFirst = true;
+            }
+
+            break;
+        }
+    }
+
+    m_VideoPairTxMutex.unlock();
+    return isFirst;
+}
+
+//============================================================================
+bool PluginBase::addVideoPairRx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool found{ false };
+    m_VideoPairRxMutex.lock();
+    for( auto& pair : m_VideoRxList )
+    {
+        if( pair.first == pluginType && pair.second == onlineId )
+        {
+            found = true;
+            break;
+        }
+    }
+
+    if( !found )
+    {
+        m_VideoRxList.emplace_back( std::make_pair( pluginType, onlineId ) );
+    }
+
+    m_VideoPairRxMutex.unlock();
+    if( found && LogEnabled( eLogWebCam ) )
+    {
+        LogModule( eLogWebCam, LOG_ERROR, "PluginBase::%s online id %s already exists", __func__, onlineId.toHexString().c_str() );
+    }
+
+    return !found;
+
+}
+
+//============================================================================
+bool PluginBase::removeVideoPairRx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool found{ false };
+    m_VideoPairRxMutex.lock();
+    for( auto iter = m_VideoRxList.begin(); iter != m_VideoRxList.end(); ++iter )
+    {
+        if( pluginType == iter->first && onlineId == iter->second )
+        {
+            found = true;
+            m_VideoRxList.erase( iter );
+            break;
+        }
+    }
+
+    m_VideoPairRxMutex.unlock();
+    if( !found && LogEnabled( eLogWebCam ) )
+    {
+        LogModule( eLogWebCam, LOG_ERROR, "PluginBase::%s online id %s not found %s", __func__, onlineId.toHexString().c_str(), DescribePluginType( pluginType ) );
+    }
+
+    return found;
+}
+
+//============================================================================
+bool PluginBase::userNeedsVideoPairRx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool needsRx{ false };
+    m_VideoPairRxMutex.lock();
+    for( auto& pair : m_VideoRxList )
+    {
+        if( pair.first == pluginType && pair.second == onlineId )
+        {
+            needsRx = true;
+            break;
+        }
+    }
+
+    m_VideoPairRxMutex.unlock();
+    return needsRx;
+}
+
+//============================================================================
+int PluginBase::needVideoRxCount( EPluginType pluginType )
+{
+    int needCnt{ 0 };
+    m_VideoPairRxMutex.lock();
+    for( auto& pair : m_VideoRxList )
+    {
+        if( pair.first == pluginType )
+        {
+            needCnt++;
+        }
+    }
+
+    m_VideoPairRxMutex.unlock();
+    return needCnt;
+}
+
+//============================================================================
+bool PluginBase::getVideoRxList( EPluginType pluginType, std::vector<VxGUID>& onlineIdList )
+{
+    onlineIdList.clear();
+    m_VideoPairRxMutex.lock();
+    for( auto& pair : m_VideoRxList )
+    {
+        if( pair.first == pluginType )
+        {
+            onlineIdList.emplace_back( pair.second );
+        }
+    }
+
+    m_VideoPairRxMutex.unlock();
+    return !onlineIdList.empty();
+}
+
+//============================================================================
+bool PluginBase::isFirstVideoPairRx( EPluginType pluginType, VxGUID& onlineId )
+{
+    bool isFirst{ false };
+    m_VideoPairRxMutex.lock();
+    for( auto& pair : m_VideoRxList )
+    {
+        if( pair.second == onlineId )
+        {
+            if( pair.first == pluginType )
+            {
+                isFirst = true;
+            }
+
+            break;
+        }
+    }
+
+    m_VideoPairRxMutex.unlock();
+    return isFirst;
+}
+
+//============================================================================
+void PluginBase::updateRequestVideoCapture( EPluginType pluginType, int prevNeedCnt, int needCnt )
+{
+    if( prevNeedCnt != needCnt )
+    {
+        if( prevNeedCnt == 0 && needCnt == 1 )
+        {
+            m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputVideoPkts, getMediaModule(), m_MediaSessionId, true );
+            LogModule( eLogWebCam, LOG_INFO, "PluginBase::%s requested cam send pkts %s", __func__, DescribePluginType( getPluginType() ) );
+        }
+        else if( prevNeedCnt == 1 && needCnt == 0 )
+        {
+            m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputVideoPkts, getMediaModule(), m_MediaSessionId, false );
+            LogModule( eLogWebCam, LOG_INFO, "PluginBase::%s NO longer requesting cam send pkts %s", __func__, DescribePluginType( getPluginType() ) );
+        }
+    }
+}
+
+//============================================================================
+void PluginBase::updateRequestVideoPlay( EPluginType pluginType, int prevNeedCnt, int needCnt )
+{
+    if( prevNeedCnt != needCnt )
+    {
+        if( prevNeedCnt == 0 && needCnt == 1 )
+        {
+            m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputVideoJpg, getMediaModule(), m_MediaSessionId, true );
+            LogModule( eLogWebCam, LOG_INFO, "PluginBase::%s requested cam play %s", __func__, DescribePluginType( getPluginType() ) );
+        }
+        else if( prevNeedCnt == 1 && needCnt == 0 )
+        {
+            m_PluginMgr.pluginApiWantMediaInput( getPluginType(), eMediaInputVideoJpg, getMediaModule(), m_MediaSessionId, false );
+            LogModule( eLogWebCam, LOG_INFO, "PluginBase::%s NO longer requesting cam play %s", __func__, DescribePluginType( getPluginType() ) );
+        }
+    }
+}
+
+//============================================================================
+void PluginBase::sendSessionStop( std::shared_ptr<VxSktBase>& sktBase, PluginSessionBase* sessionBase )
+{
+    if( sessionBase && sktBase.get() && sktBase->isConnected() )
+    {
+        PktSessionStopReq pktStop;
+        VxGUID srcOnlineId = sessionBase->getSendToId();
+
+        pktStop.setLclSessionId( sessionBase->getLclSessionId() );
+        pktStop.setRmtSessionId( sessionBase->getRmtSessionId() );
+        if( LogEnabled( eLogSession ) ) LogModule( eLogSession, LOG_VERBOSE, "PluginBase::%s lcl session id %s rmt session id %s to %s", __func__,
+            sessionBase->getLclSessionId().toHexString().c_str(), sessionBase->getRmtSessionId().toHexString().c_str(), m_Engine.describeUser( sessionBase->getSendToId() ).c_str() );
+        txPacket( srcOnlineId, sktBase, &pktStop, getPluginType() );
+    }
 }

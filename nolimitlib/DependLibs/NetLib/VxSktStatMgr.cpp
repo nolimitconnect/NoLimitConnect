@@ -89,7 +89,7 @@ void VxSktStatMgr::sktConnected2( SOCKET skt, std::string ipAddr )
 	//}
 
 	m_SktStatMutex.unlock();
-	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktConnected2 skt %d connected cnt %d", skt, m_SktStatList.size() );
+	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktConnected2 skt handle %d connected cnt %d", skt, m_SktStatList.size() );
 }
 
 //============================================================================
@@ -97,13 +97,13 @@ void VxSktStatMgr::sktConnected4( SOCKET skt, std::string ipAddr, ESktType sktTy
 {
 	if( skt <= 0 )
 	{
-		LogMsg( LOG_ERROR, "VxSktStatMgr::%s invalid socket %d", __func__, skt );
+		LogMsg( LOG_ERROR, "VxSktStatMgr::%s invalid skt handle %d", __func__, skt );
 		return;
 	}
 
 	if( ipAddr.empty() )
 	{
-		LogModule( eLogConnect, LOG_ERROR, "VxSktStatMgr::%s socket %d ipAddr empty", __func__, skt );
+		LogModule( eLogConnect, LOG_ERROR, "VxSktStatMgr::%s skt handle %d ipAddr empty", __func__, skt );
 		return;
 	}
 
@@ -119,7 +119,7 @@ void VxSktStatMgr::sktConnected4( SOCKET skt, std::string ipAddr, ESktType sktTy
 	//}
 
 	m_SktStatMutex.unlock();
-	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktConnected3 skt %d connected cnt %d", skt, m_SktStatList.size() );
+	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktConnected3 skt handle %d connected cnt %d", skt, m_SktStatList.size() );
 }
 
 //============================================================================

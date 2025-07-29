@@ -112,6 +112,22 @@ public:
 	virtual bool				isFirstVoicePairRx( EPluginType pluginType, VxGUID & onlineId );
 	virtual void				updateRequestMixer( EPluginType pluginType, int prevNeedCnt, int needCnt );
 
+	virtual bool				addVideoPairTx( EPluginType pluginType, VxGUID& onlineId );
+	virtual bool				removeVideoPairTx( EPluginType pluginType, VxGUID& onlineId );
+	virtual bool				userNeedsVideoPairTx( EPluginType pluginType, VxGUID& onlineId );
+	virtual int					needVideoTxCount( EPluginType pluginType );
+	virtual bool				getVideoTxList( EPluginType pluginType, std::vector<VxGUID>& onlineIdList );
+	virtual bool				isFirstVideoPairTx( EPluginType pluginType, VxGUID& onlineId );
+	virtual void				updateRequestVideoCapture( EPluginType pluginType, int prevNeedCnt, int needCnt );
+
+	virtual bool				addVideoPairRx( EPluginType pluginType, VxGUID& onlineId );
+	virtual bool				removeVideoPairRx( EPluginType pluginType, VxGUID& onlineId );
+	virtual bool				userNeedsVideoPairRx( EPluginType pluginType, VxGUID& onlineId );
+	virtual int					needVideoRxCount( EPluginType pluginType );
+	virtual bool				getVideoRxList( EPluginType pluginType, std::vector<VxGUID>& onlineIdList );
+	virtual bool				isFirstVideoPairRx( EPluginType pluginType, VxGUID& onlineId );
+	virtual void				updateRequestVideoPlay( EPluginType pluginType, int prevNeedCnt, int needCnt );
+
 	//=== getter/setters ===//
 	virtual P2PEngine&			getEngine( void )										{ return m_Engine; }
     virtual IToGui&			    getToGui( void );
@@ -312,6 +328,8 @@ public:
 	virtual	bool				isMyAccessAllowedFromHim( VxGUID& onlineId, EPluginType pluginType );
 	virtual	bool				isHisAccessAllowedFromMe( VxGUID& onlineId, EPluginType pluginType );
 
+	virtual void				sendSessionStop( std::shared_ptr<VxSktBase>& sktBase, PluginSessionBase* sessionBase );
+
 protected:
 	virtual void				makeShortFileName( const char* pFullFileName, std::string& strShortFileName );
 
@@ -351,5 +369,11 @@ protected:
 	static std::vector<std::pair<EPluginType, VxGUID>>	m_VoiceTxList;
 	static VxMutex				m_VoicePairRxMutex;
 	static std::vector<std::pair<EPluginType, VxGUID>>	m_VoiceRxList;
+
+	static VxMutex				m_VideoPairTxMutex;
+	static std::vector<std::pair<EPluginType, VxGUID>>	m_VideoTxList;
+	static VxMutex				m_VideoPairRxMutex;
+	static std::vector<std::pair<EPluginType, VxGUID>>	m_VideoRxList;
+
 	VxGUID						m_MediaSessionId;
 };

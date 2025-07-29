@@ -454,19 +454,11 @@ void PluginBaseMultimedia::onPktMultiSessionReq( std::shared_ptr<VxSktBase>& skt
 	}
 
 	IToGui::getIToGui().toGuiMultiSessionAction( eMSessionAction, onlineId, pktReq->getMSessionParam() );
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktMultiSessionReq autoLock start" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
+
 	PluginBase::AutoPluginLock pluginMutexLock( this );
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktMultiSessionReq autoLock done" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
+
 	P2PSession* poSession = m_PluginSessionMgr.findOrCreateP2PSessionWithOnlineId( onlineId, sktBase, true );
 	poSession->setSkt( sktBase );
-
-#ifdef DEBUG_AUTOPLUGIN_LOCK
-	LogMsg( LOG_INFO, "PluginBaseMultimedia::onPktMultiSessionReq autoLock destroy" );
-#endif // DEBUG_AUTOPLUGIN_LOCK
 }
 
 //============================================================================
@@ -508,6 +500,8 @@ void PluginBaseMultimedia::onPktTodGameValue( std::shared_ptr<VxSktBase>& sktBas
 //============================================================================
 void PluginBaseMultimedia::onSessionStart( PluginSessionBase* session, bool pluginIsLocked )
 {
+	if( LogEnabled( eLogSession ) ) LogModule( eLogSession, LOG_VERBOSE, "PluginBaseMultimedia::%s for %s", __func__,
+		m_Engine.describeUser( session->getSendToId() ).c_str() );
 	PluginBase::onSessionStart( session, pluginIsLocked ); // mark user session time so contact list is sorted with latest used on top
 
 	//NOTE: for chat session the video and audio is started/stopped through MSession commands
@@ -519,6 +513,8 @@ void PluginBaseMultimedia::onSessionStart( PluginSessionBase* session, bool plug
 //============================================================================
 void PluginBaseMultimedia::onSessionEnded( PluginSessionBase* session, bool pluginIsLocked, EOfferResponse offerResponse )
 {
+	if( LogEnabled( eLogSession ) ) LogModule( eLogSession, LOG_VERBOSE, "PluginBaseMultimedia::%s for %s", __func__,
+		m_Engine.describeUser( session->getSendToId() ).c_str() );
 	m_VoiceFeedMgr.enableAudioCapture( false, session->getSendToId() );
 	m_VoiceFeedMgr.enableAudioReceive( false, session->getSendToId() );
 	m_VideoFeedMgr.fromGuiStopPluginSession( true, getMediaModule(), session->getSendToId() );
@@ -528,27 +524,15 @@ void PluginBaseMultimedia::onSessionEnded( PluginSessionBase* session, bool plug
 //============================================================================
 void PluginBaseMultimedia::replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt )
 {
-#ifdef DEBUG_SKT_CONNECTIONS
-	LogMsg( LOG_INFO, "PluginBaseMultimedia::replaceConnection start" );
-#endif // DEBUG_SKT_CONNECTIONS
 	m_AssetXferMgr.replaceConnection( netIdent, poOldSkt, poNewSkt );
 	m_PluginSessionMgr.replaceConnection( netIdent, poOldSkt, poNewSkt );
-#ifdef DEBUG_SKT_CONNECTIONS
-    LogMsg( LOG_INFO, "PluginBaseMultimedia::replaceConnection done" );
-#endif // DEBUG_SKT_CONNECTIONS
 }
 
 //============================================================================
 void PluginBaseMultimedia::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {
-#ifdef DEBUG_SKT_CONNECTIONS
-    LogMsg( LOG_INFO, "PluginBaseMultimedia::onConnectionLost start" );
-#endif // DEBUG_SKT_CONNECTIONS
 	m_AssetXferMgr.onConnectionLost( sktBase );
 	m_PluginSessionMgr.onConnectionLost( sktBase );
-#ifdef DEBUG_SKT_CONNECTIONS
-    LogMsg( LOG_INFO, "PluginBaseMultimedia::onConnectionLost done" );
-#endif // DEBUG_SKT_CONNECTIONS
 }
 
 //============================================================================
@@ -593,13 +577,9 @@ void PluginBaseMultimedia::broadcastToClients( VxPktHdr* pktHdr, VxGUID& request
                 VxGUID memberOnlineId = const_cast<ConnectId&>(connectId).getUserOnlineId();
                 VxGUID socketId = const_cast<ConnectId&>(connectId).getSocketId();
                 GroupieId groupieId = const_cast<ConnectId&>(connectId).getGroupieId();
-				#if defined(DEBUG_SKT_MGR_LOCK)
-					LogMsg( LOG_DEBUG, "PluginBaseMultimedia::%s lockSktBaseMgr", __func__ );
-				#endif // defined(DEBUG_SKT_MGR_LOCK)
+
                 m_Engine.getPeerMgr().lockSktBaseMgr();
-				#if defined(DEBUG_SKT_MGR_LOCK)
-					LogMsg( LOG_DEBUG, "PluginBaseMultimedia::%s lockSktBaseMgr locked", __func__ );
-				#endif // defined(DEBUG_SKT_MGR_LOCK)
+
                 std::shared_ptr<VxSktBase> sktBase = m_Engine.getPeerMgr().findSktBase( socketId, true );
                 if( sktBase && sktBase->isConnected() )
                 {

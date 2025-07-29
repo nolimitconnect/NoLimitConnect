@@ -61,12 +61,14 @@ AppletOfferList::AppletOfferList( AppCommon& app, QWidget* parent )
 
     m_MyApp.activityStateChange( this, true );
     m_UserMgr.wantGuiUserUpdateCallbacks( this, true );
+    m_MyApp.getOfferMgr().wantGuiOfferCallbacks( this, true );
     updateOfferList( eOfferViewTypeActive );
 }
 
 //============================================================================
 AppletOfferList::~AppletOfferList()
 {
+    m_MyApp.getOfferMgr().wantGuiOfferCallbacks( this, false );
     m_UserMgr.wantGuiUserUpdateCallbacks( this, false );
     m_MyApp.activityStateChange( this, false );
 }
@@ -293,8 +295,26 @@ void AppletOfferList::callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOffe
 }
 
 //============================================================================
+void AppletOfferList::callbackToGuiRxedPluginOffer( std::shared_ptr<GuiOfferSession>& offerSession )
+{
+    refreshOfferList();
+}
+
+//============================================================================
+void AppletOfferList::callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSession>& offerSession )
+{
+    refreshOfferList();
+}
+
+//============================================================================
 void AppletOfferList::callbackToGuiOfferMovedToHistory( std::shared_ptr<GuiOfferSession>& offerSession )
 {
     refreshOfferList();
 }
 
+
+//============================================================================
+void AppletOfferList::callbackGuiOfferRemoved( VxGUID& offerId )
+{
+    refreshOfferList();
+}

@@ -74,10 +74,10 @@ void AppletPeerTodGame::onInSession( bool isInSession )
 		m_TodGameLogic.beginGame( ! m_OfferSessionLogic.isHost() );
 		//m_Engine.fromGuiStartPluginSession( VxGUID& onlineId, void * pvUserData )
 	}
-	//else
-	//{
-	//	setStatusText( tr( "Truth Or Dare Session Ended" ) );
-	//}
+	else
+	{
+		setStatusText( tr( "Truth Or Dare Session Ended" ) );
+	}
 }
 
 //============================================================================
@@ -98,7 +98,7 @@ void AppletPeerTodGame::callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType plu
 }
 
 //============================================================================
-bool AppletPeerTodGame::setOfferSession( std::shared_ptr<GuiOfferSession> offerSession )
+bool AppletPeerTodGame::setOfferSession( std::shared_ptr<GuiOfferSession>& offerSession )
 {
 	bool setupSessionResult{ false };
     m_HisIdent = offerSession->getUser();

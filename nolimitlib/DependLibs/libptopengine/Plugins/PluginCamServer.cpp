@@ -74,11 +74,10 @@ void PluginCamServer::sendVidPkt( VxPktHdr* vidPkt, bool requiresAck )
 {
 	// LogModule( eLogWebCam, LOG_INFO, "PluginCamServer::%s %d sessions", __func__, m_PluginSessionMgr.getSessionCount() );
 
-	std::map<VxGUID, PluginSessionBase*>&	sessionList = m_PluginSessionMgr.getSessions();
+	auto sessionList = m_PluginSessionMgr.getSessions();
 	PluginBase::AutoPluginLock pluginMutexLock( this );
-	for( auto sessionPair : sessionList )
+	for( auto sessionBase : sessionList )
 	{
-		PluginSessionBase* sessionBase = sessionPair.second;
 		if( sessionBase->isTxSession() )
 		{
 			TxSession * poSession = (TxSession *)sessionBase;
@@ -206,34 +205,26 @@ void PluginCamServer::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSess
 			PktVideoFeedStatus oPkt;
 			oPkt.setFeedStatus( eFeedStatusOffline );
 
-			std::map<VxGUID, PluginSessionBase*>&	sessionList = m_PluginSessionMgr.getSessions();
+			auto sessionList = m_PluginSessionMgr.getSessions();
 			for( auto iter = sessionList.begin(); iter != sessionList.end(); )
 			{
-				PluginSessionBase* sessionBase = iter->second;
+				PluginSessionBase* sessionBase = *iter;
 				if( sessionBase->isTxSession() )
 				{
-					PluginSessionBase* sessionBase = iter->second;
-					if( sessionBase->isTxSession() )
+					TxSession * poSession = (TxSession *)sessionBase;
+					if( poSession->getSkt() )
 					{
-						TxSession * poSession = (TxSession *)sessionBase;
-						if( poSession->getSkt() )
-						{
-							oPkt.setLclSessionId( poSession->getLclSessionId() );
-							oPkt.setRmtSessionId( poSession->getRmtSessionId() );
-							m_PluginMgr.pluginApiTxPacket( m_ePluginType, poSession->getSendToId(), poSession->getSkt(), &oPkt );
-							iter = sessionList.erase( iter );
-							delete poSession;
-							break;
-						}
-						else
-						{
-							++iter;
-						}
+						oPkt.setLclSessionId( poSession->getLclSessionId() );
+						oPkt.setRmtSessionId( poSession->getRmtSessionId() );
+						m_PluginMgr.pluginApiTxPacket( m_ePluginType, poSession->getSendToId(), poSession->getSkt(), &oPkt );
+						iter = sessionList.erase( iter );
+						delete poSession;
+						break;
 					}
 					else
 					{
 						++iter;
-					}
+					}	
 				}
 			}
 		}
@@ -779,11 +770,10 @@ void PluginCamServer::stopAllSessions( void )
 		// tell everyone we are no longer online
 		PktVideoFeedStatus oPkt;
 		oPkt.setFeedStatus( eFeedStatusOffline );
-
-		std::map<VxGUID, PluginSessionBase*>& sessionList = m_PluginSessionMgr.getSessions();
+		auto sessionList = m_PluginSessionMgr.getSessions();
 		for( auto iter = sessionList.begin(); iter != sessionList.end(); )
 		{
-			PluginSessionBase* sessionBase = iter->second;
+			PluginSessionBase* sessionBase = *iter;
 			if( sessionBase->isTxSession() )
 			{
 				TxSession* poSession = (TxSession*)sessionBase;

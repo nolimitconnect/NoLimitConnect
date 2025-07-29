@@ -13,7 +13,7 @@
 #include "PluginMgr.h"
 #include <GuiInterface/IToGui.h>
 
-
+//============================================================================
 SessionMgrBase::SessionMgrBase( P2PEngine& engine, PluginBase& plugin, PluginMgr& pluginMgr )
 : m_Engine( engine )
 , m_Plugin( plugin )

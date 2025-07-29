@@ -66,7 +66,7 @@ void AppCommon::slotInternalToGuiRxedOfferReply( VxGUID onlineId, OfferBaseInfo 
 }
 
 //============================================================================
-void AppCommon::toGuiPluginSessionEnded( VxNetIdent* netIdent, EPluginType pluginType, VxGUID& lclSessionId )
+void AppCommon::toGuiPluginSessionStarted( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId )
 {
 	if( VxIsAppShuttingDown() )
 	{
@@ -74,7 +74,25 @@ void AppCommon::toGuiPluginSessionEnded( VxNetIdent* netIdent, EPluginType plugi
 	}
 
 	LogMsg( LOG_VERBOSE, "AppCommon::%s plugin %s", __func__, DescribePluginType( pluginType ) );
-	emit signalInternalToGuiPluginSessionEnded( netIdent->getMyOnlineId(), pluginType, lclSessionId );
+	emit signalInternalToGuiPluginSessionStarted( onlineId, pluginType, lclSessionId );
+}
+
+//============================================================================
+void AppCommon::slotInternalToGuiPluginSessionStarted( VxGUID onlineId, EPluginType pluginType, VxGUID lclSessionId )
+{
+	getOfferMgr().toGuiPluginSessionStarted( onlineId, pluginType, lclSessionId );
+}
+
+//============================================================================
+void AppCommon::toGuiPluginSessionEnded( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId )
+{
+	if( VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
+	LogMsg( LOG_VERBOSE, "AppCommon::%s plugin %s", __func__, DescribePluginType( pluginType ) );
+	emit signalInternalToGuiPluginSessionEnded( onlineId, pluginType, lclSessionId );
 }
 
 //============================================================================
@@ -92,14 +110,14 @@ void AppCommon::toGuiPluginStatus( EPluginType pluginType, int statusType, int s
 }
 
 //============================================================================
-void AppCommon::toGuiInstMsg( VxNetIdent* netIdent, EPluginType	pluginType, const char*	pMsg )
+void AppCommon::toGuiInstMsg( VxGUID& onlineId, EPluginType	pluginType, const char*	pMsg )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return;
 	}
 
-	emit signalToGuiInstMsg( netIdent->getMyOnlineId(), pluginType, pMsg );
+	emit signalToGuiInstMsg( onlineId, pluginType, pMsg );
 }
 
 //============================================================================

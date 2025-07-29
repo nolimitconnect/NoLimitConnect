@@ -22,6 +22,69 @@
 #include <QDebug>
 #include <QMessageBox>
 
+const char* DescribeSnd( ESndDef sndDef )
+{
+	switch( sndDef )
+	{
+	case eSndDefNone:
+		return "Snd None";
+	case eSndDefIgnore:
+		return "Snd Ignore";
+	case eSndDefCancel:
+		return "Snd Cance";
+	case eSndDefAlarmPleasant:
+		return "Snd AlarmPleasant";
+	case eSndDefAlarmAnoying:
+		return "Snd AlarmAnoying";
+	case eSndDefButtonClick:
+		return "Snd ButtonClick";
+	case eSndDefChoice1:
+		return "Snd Choice1";
+	case eSndDefChoice2:
+		return "Snd Choice2";
+	case eSndDefSending:
+		return "Snd Sendin";
+	case eSndDefNotify1:
+		return "Snd Notify1";
+	case eSndDefNotify2:
+		return "Snd Notify2";
+	case eSndDefPaperShredder:
+		return "Snd PaperShredder";
+	case eSndDefPhoneRing1:
+		return "Snd PhoneRing1";
+	case eSndDefReject:
+		return "Snd Reject";
+	case eSndDefShare:
+		return "Snd Share";
+	case eSndDefByeBye:
+		return "Snd ByeBye";
+	case eSndDefMessageArrived:
+		return "Snd MessageArrived";
+	case eSndDefOfferAccepted:
+		return "Snd OfferAccepted";
+	case eSndDefOfferRejected:
+		return "Snd OfferRejected";
+	case eSndDefCameraClick:
+		return "Snd CameraClick";
+	case eSndDefBusy:
+		return "Snd Busy";
+	case eSndDefOfferStillWaiting:
+		return "Snd StillWaiting";
+	case eSndDefFileXferComplete:
+		return "Snd XferComplete";
+	case eSndDefUserBellMessage:
+		return "Snd BellMessage";
+	case eSndDefNeckSnap:
+		return "Snd NeckSnap";
+	case eSndDefYes:
+		return "Snd Yes";
+	case eSndDefAppShutdown:
+		return "Snd AppShutdown";
+	default:
+		return "Snd Invalid";
+	}
+}
+
 //============================================================================
 SoundMgr& GetSndMgrInstance( void )
 {
@@ -127,6 +190,11 @@ VxSndInstance * SoundMgr::playSnd( ESndDef sndDef, bool loopContinuous  )
         return nullptr;
     }
 
+	if( sndDef != eSndDefButtonClick )
+	{
+		LogMsg( LOG_VERBOSE, "SoundMgr::%s play sound %s", __func__, DescribeSnd( sndDef ) );
+	}
+
 	if( m_MutePhoneRing 
 		&& ( eSndDefPhoneRing1 == sndDef ) )
 	{
@@ -148,6 +216,7 @@ VxSndInstance * SoundMgr::playSnd( ESndDef sndDef, bool loopContinuous  )
 			m_CurSndPlaying = nullptr;
 		}
 
+		if( LogEnabled( eLogOffer ) )LogModule( eLogOffer, LOG_VERBOSE, "SoundMgr::%s play sound %s", __func__, DescribeSnd( sndDef ) );
 		m_CurSndPlaying = m_SndList[ sndDef ];
 		m_CurSndPlaying->startPlay( loopContinuous );
 		return m_CurSndPlaying;

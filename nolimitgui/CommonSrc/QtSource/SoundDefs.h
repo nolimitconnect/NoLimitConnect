@@ -43,3 +43,5 @@ enum ESndDef
 
 	eMaxSndDef
 };
+
+const char* DescribeSnd( enum ESndDef sndDef );

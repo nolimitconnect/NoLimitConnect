@@ -34,9 +34,11 @@
 //============================================================================
 void P2PEngine::replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt )
 {
-	LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::replaceConnection: old skt %d new skt %d handle %d",
+	LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::replaceConnection: old skt num %d tmp %d new skt num %d tmp %d handle %d",
 				poOldSkt->m_SktNumber,
+				poOldSkt->isTempConnection(),
 				poNewSkt->m_SktNumber,
+				poNewSkt->isTempConnection(),
 				poNewSkt->m_Socket );
 
 	m_RcScan.replaceConnection( netIdent, poOldSkt, poNewSkt );

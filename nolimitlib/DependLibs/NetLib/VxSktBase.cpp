@@ -75,7 +75,7 @@ VxSktBase::VxSktBase()
 	m_LclIp.setToInvalid();
 	m_RmtIp.setToInvalid();
 
-	LogModule( eLogSkt, LOG_VERBOSE, "skt %d created", m_SktNumber );
+	LogModule( eLogSkt, LOG_VERBOSE, "skt num %d created", m_SktNumber );
 #if !defined(TARGET_OS_WINDOWS)
 	signal(SIGPIPE, SIG_IGN);
 #endif // !defined(TARGET_OS_WINDOWS)
@@ -381,7 +381,7 @@ RCODE VxSktBase::connectTo(	InetAddress&	oLclIp,
 	std::string strVxThreadName;
 	StdStringFormat( strVxThreadName, "VxSktBaseTCPa_%d", m_SktNumber );
 	startReceiveThread( strVxThreadName.c_str() );
-    LogModule( eLogConnect, LOG_VERBOSE,  "skt %d connected to %s:%d", m_SktNumber, pIpUrlOrIp, u16Port );
+    LogModule( eLogConnect, LOG_VERBOSE,  "VxSktBase::%s skt num %d connected to %s:%d", __func__, m_SktNumber, pIpUrlOrIp, u16Port );
 
 	return 0;
 }
@@ -429,7 +429,7 @@ RCODE VxSktBase::doConnectTo( void )
         m_strLclIp = m_LclIp.toString();
         m_strRmtIp = m_RmtIp.toString();
 
-        LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::doConnectTo: SUCCESS %s", describeSktConnection().c_str() );
+        LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::doConnectTo: SUCCESS reason %s desc %s", DescribeConnectReason( getConnectReason() ), describeSktConnection().c_str() );
 		m_bIsConnected = true;
 		if( VxGetSktStatCallback() )
 		{
@@ -951,7 +951,12 @@ RCODE VxSktBase::decryptReceiveData( void )
 //============================================================================
 void VxSktBase::setConnectReason( EConnectReason connectReason ) 
 { 
-	m_ConnectReason = connectReason; 
+    m_ConnectReason = connectReason;
+    if( IsConnectReasonTemporary( connectReason ) )
+    {
+        setIsTempConnection( true );
+    }
+
 	if( isConnected() && VxGetSktStatCallback() )
 	{
 		VxGetSktStatCallback()->sktConnected4( m_Socket, m_strRmtIp, getSktType(), getConnectReason() );
@@ -1610,8 +1615,8 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId, bool sktMgrLocked )
 	int64_t timeAliveTx( getLastImAliveTimeTxMs() );
 	if( timeAliveTx && timeNow - timeAliveRx > IM_ALIVE_TIMEOUT_MS )
 	{
-        LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds im alive timeout skt handle %d num %d id %s peer %s desc %s",
-				getSktHandle(), getSktNumber(), getSocketIdText().c_str(),
+        LogMsg( LOG_VERBOSE, "VxSktBase::onOncePer30Seconds im alive timeout skt handle %d num %d tmp %d id %s peer %s desc %s",
+				getSktHandle(), getSktNumber(), isTempConnection(), getSocketIdText().c_str(),
 				describePeerUser().c_str(), describeSktConnection().c_str() );
         closeSkt( eSktCloseImAliveTimeout, sktMgrLocked );
 	}
@@ -1709,4 +1714,17 @@ bool VxSktBase::removeConnectReason( enum EConnectReason connectReason )
 	bool reasonsAreEmpty = m_ConnectReasonList.empty();
 	unlockTimeAccess();
 	return reasonsAreEmpty;
+}
+
+//============================================================================
+void VxSktBase::setIsTempConnection( bool isTemp ) 
+{ 
+	if( m_IsTempConnection != isTemp )
+	{
+		m_IsTempConnection = isTemp;
+		if( isTemp && LogEnabled( eLogSkt ) )
+		{
+			LogModule( eLogSkt, LOG_VERBOSE, "VxSktBase::%s tmp skt num %d handle %d", __func__, m_SktNumber, m_Socket );
+		}
+	}
 }
