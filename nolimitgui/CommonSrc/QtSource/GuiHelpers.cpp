@@ -1337,11 +1337,7 @@ bool GuiHelpers::validateUserName( QWidget* curWidget, QString strUserName )
     if( strUserName.contains( "NoLimitConnect" )
         || strUserName.contains( "nolimitconnect" )
         || strUserName.contains( "No Limit Connect" )
-        || strUserName.contains( "no limit connect" )
-        || strUserName.contains( "NoLimitConnectWeb" )
-        || strUserName.contains( "NlcPtoP" )
-        || strUserName.contains( "Nlc PtoP Web" )
-        || strUserName.contains( "gotv ptop web" ) )
+        || strUserName.contains( "no limit connect" ) )
     {
         QMessageBox::warning( curWidget, QObject::tr( "Invalid User Name" ), QObject::tr( "User Name cannot have NoLimitConnect in name." ) );
         return false;
@@ -1371,9 +1367,9 @@ bool GuiHelpers::validateUserName( QWidget* curWidget, QString strUserName )
         return false;
     }
 
-    if( strUserName.length() > 27 )
+    if( strUserName.length() > 31 )
     {
-        QMessageBox::warning( curWidget, QObject::tr( "Invalid User Name" ), QObject::tr( "User Name is too long (maximum 27 chars)." ) );
+        QMessageBox::warning( curWidget, QObject::tr( "Invalid User Name" ), QObject::tr( "User Name is too long (maximum 31 chars)." ) );
         return false;
     }
 
@@ -1396,9 +1392,9 @@ bool GuiHelpers::validateMoodMessage( QWidget* curWidget, QString strMoodMsg )
     //}
 
     int iLen = strMoodMsg.length();
-    if( iLen > 27 )
+    if( iLen > 31 )
     {
-        QMessageBox::warning( curWidget, QObject::tr( "Application" ), QObject::tr( "Mood Message is too long (maximum 27 chars)" ) );
+        QMessageBox::warning( curWidget, QObject::tr( "Application" ), QObject::tr( "Mood Message is too long (maximum 31 chars)" ) );
         return false;
     }
 
