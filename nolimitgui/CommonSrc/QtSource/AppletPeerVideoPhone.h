@@ -38,6 +38,7 @@ public:
 	void				        callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offer ) override;
 
 protected:
+	void						onResizeEvent( QSize& newSize ) override;
     void						toGuiInstMsg( GuiUser* friendIdent, EPluginType pluginType, QString instMsg ) override;
 
 	void						onOfferWasSet( void ) override;

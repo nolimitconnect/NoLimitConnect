@@ -10,63 +10,125 @@
 
 #include "TodGameDefs.h"
 
+#include "GuiUser.h"
+#include "TodStatsWidget.h"
+
+#include <CoreLib/VxDebug.h>
+
 //============================================================================
-TodPlayerStats::TodPlayerStats()
-: m_s32DareChallengeCnt(0)
-, m_s32DareAcceptedCnt(0)
-, m_s32DareRejectedCnt(0)
-, m_s32TruthChallengeCnt(0)
-, m_s32TruthAcceptedCnt(0)
-, m_s32TruthRejectedCnt(0)
+void TodPlayerStats::setStatsWidget( GuiUser* guiUser, TodStatsWidget* statsWidget )
 {
+	vx_assert( guiUser );
+	vx_assert( statsWidget );
+
+	m_StatsWidget = statsWidget;
+	m_GuiUser = guiUser;
+	m_StatsWidget->setUserName( guiUser->getOnlineName() );
+	m_DareAcceptedCnt = guiUser->getDareAcceptCount();
+	m_DareRejectedCnt = guiUser->getDareRejectCount();
+	m_TruthAcceptedCnt = guiUser->getTruthAcceptCount();
+	m_TruthRejectedCnt = guiUser->getTruthRejectCount();
+
+	updateStatsWidget();
 }
 
 //============================================================================
-int32_t TodPlayerStats::getVar( ETodGameVarId eVarId )
+uint32_t TodPlayerStats::getVar( ETodGameVarId eVarId )
 {
 	switch(eVarId)
 	{
-	case eTodGameVarIdDareChallengeCnt:
-		return m_s32DareChallengeCnt;
-	case eTodGameVarIdDareAcceptedCnt:
-		return m_s32DareAcceptedCnt;
-	case eTodGameVarIdDareRejectedCnt:
-		return m_s32DareRejectedCnt;
-	case eTodGameVarIdTruthChallengeCnt:
-		return m_s32TruthChallengeCnt;
+	case eTodGameVarIdTruthChoiceCnt:
+		return m_TruthChallengeCnt;
 	case eTodGameVarIdTruthAcceptedCnt:
-		return m_s32TruthAcceptedCnt;
+		return m_TruthAcceptedCnt;
 	case eTodGameVarIdTruthRejectedCnt:
-		return m_s32TruthRejectedCnt;
+		return m_TruthRejectedCnt;
+
+	case eTodGameVarIdDareChoiceCnt:
+		return m_DareChallengeCnt;
+	case eTodGameVarIdDareAcceptedCnt:
+		return m_DareAcceptedCnt;
+	case eTodGameVarIdDareRejectedCnt:
+		return m_DareRejectedCnt;
+
 	default:
 		return 0;
 	}
 }
 
 //============================================================================
-void TodPlayerStats::setVar( ETodGameVarId eVarId, int32_t s32Value )
+bool TodPlayerStats::setVar( ETodGameVarId eVarId, uint32_t s32Value )
 {
+	vx_assert( m_GuiUser );
+	vx_assert( m_StatsWidget );
+
+	bool needUserUpdate{ false };
 	switch(eVarId)
 	{
-	case eTodGameVarIdDareChallengeCnt:
-		m_s32DareChallengeCnt = s32Value;
-		break;
-	case eTodGameVarIdDareAcceptedCnt:
-		m_s32DareAcceptedCnt = s32Value;
-		break;
-	case eTodGameVarIdDareRejectedCnt:
-		m_s32DareRejectedCnt = s32Value;
-		break;
-	case eTodGameVarIdTruthChallengeCnt:
-		m_s32TruthChallengeCnt = s32Value;
+	case eTodGameVarIdTruthChoiceCnt:
+		m_TruthChallengeCnt = s32Value;
 		break;
 	case eTodGameVarIdTruthAcceptedCnt:
-		m_s32TruthAcceptedCnt = s32Value;
+		m_TruthAcceptedCnt = s32Value;
+		needUserUpdate = true;
 		break;
 	case eTodGameVarIdTruthRejectedCnt:
-		m_s32TruthRejectedCnt = s32Value;
+		m_TruthRejectedCnt = s32Value;
+		needUserUpdate = true;
 		break;
+
+	case eTodGameVarIdDareChoiceCnt:
+		m_DareChallengeCnt = s32Value;
+		break;
+	case eTodGameVarIdDareAcceptedCnt:
+		m_DareAcceptedCnt = s32Value;
+		needUserUpdate = true;
+		break;
+	case eTodGameVarIdDareRejectedCnt:
+		m_DareRejectedCnt = s32Value;
+		needUserUpdate = true;
+		break;
+
 	default:
 		break;
 	}
+
+	updateStatsWidget();
+
+	if( needUserUpdate )
+	{
+		m_StatsHaveChanged = true;
+	}
+
+	return needUserUpdate;
+}
+
+//============================================================================
+void TodPlayerStats::updateStatsWidget( void )
+{
+	//LogMsg( LOG_VERBOSE, "TodPlayerStats::%s %s %s truth challenges %d truths %d rejects %d", __func__, m_GuiUser->getOnlineName().c_str(),
+	//	m_StatsWidget->getUserName().toUtf8().constData(), m_TruthChallengeCnt, m_TruthAcceptedCnt, m_TruthRejectedCnt );
+	//LogMsg( LOG_VERBOSE, "TodPlayerStats::%s %s %s dares challenges %d dares %d rejects %d", __func__, m_GuiUser->getOnlineName().c_str(),
+	//	m_StatsWidget->getUserName().toUtf8().constData(), m_DareChallengeCnt, m_DareAcceptedCnt, m_DareRejectedCnt );
+	m_StatsWidget->setTruthChallengeCnt( m_TruthChallengeCnt );
+	m_StatsWidget->setTruthAcceptCnt( m_TruthAcceptedCnt );
+	m_StatsWidget->setTruthRejectCnt( m_TruthRejectedCnt );
+	m_StatsWidget->setDareChallengeCnt( m_DareChallengeCnt );
+	m_StatsWidget->setDareAcceptCnt( m_DareAcceptedCnt );
+	m_StatsWidget->setDareRejectCnt( m_DareRejectedCnt );
+	m_StatsWidget->update();
+	m_StatsWidget->repaint();
+}
+
+//============================================================================
+void TodPlayerStats::clear( void )
+{
+	m_StatsHaveChanged = false;
+	m_TruthChallengeCnt = 0;
+	m_TruthAcceptedCnt = 0;
+	m_TruthRejectedCnt = 0;
+
+	m_DareChallengeCnt = 0;
+	m_DareAcceptedCnt = 0;
+	m_DareRejectedCnt = 0;
 }

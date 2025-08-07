@@ -86,6 +86,7 @@ class MediaPlayerNlc;
 class MyIcons;
 class PopupMenu;
 class RenderGlWidget;
+class TodGameMgr;
 
 class VxPeerMgr;
 class VxTilePositioner;
@@ -99,24 +100,25 @@ class AppCommon : public QWidget, public IToGui, public INlcRender, public INlcE
 
 public:
     AppCommon( QApplication& myQApp,
-               AppModuleState& appModuleState,
-               AppSettings& appSettings,
-               AccountMgr& myDataHelper,
-               GuiFavoriteMgr& favoritMgr,
-               GuiMemberActiveMgr& memberActiveMgr,
-               GuiPlayerMgr& playerMgr,
-               GuiPluginMgr& pluginMgr,
-               GuiPushToTalkMgr& pushToTalkMgr,
-               GuiRandConnectMgr& randConnectMgr,
-               GuiSendQueueMgr& sendQueueMgr,
-               MyIcons& myIcons );
+        AppModuleState& appModuleState,
+        AppSettings& appSettings,
+        AccountMgr& myDataHelper,
+        GuiFavoriteMgr& favoritMgr,
+        GuiMemberActiveMgr& memberActiveMgr,
+        GuiPlayerMgr& playerMgr,
+        GuiPluginMgr& pluginMgr,
+        GuiPushToTalkMgr& pushToTalkMgr,
+        GuiRandConnectMgr& randConnectMgr,
+        GuiSendQueueMgr& sendQueueMgr,
+        MyIcons& myIcons,
+        TodGameMgr& todGameMgr );
 
     AppCommon( const AppCommon& rhs ) = delete;
     virtual ~AppCommon() override = default;
 
-    INlcRender&                 getINlcRender( void ) { return *this; }
-    IToGui&                     getIToGui( void ) { return *this; }
-    IAudioRequests&             getIAudioRequests( void ) { return *this; }
+    INlcRender& getINlcRender( void ) { return *this; }
+    IToGui& getIToGui( void ) { return *this; }
+    IAudioRequests& getIAudioRequests( void ) { return *this; }
 
     // elapsed high resolution timer
     int                         elapsedMilliseconds( void );
@@ -149,6 +151,7 @@ public:
     CamLogic&                   getCamLogic( void ) { return m_CamLogic; }
     P2PEngine&                  getEngine( void );
     IFromGui&                   getFromGuiInterface( void );
+    TodGameMgr&                 getTodGameMgr( void ) { return m_TodGameMgr; }
 
     HomeWindow&                 getHomeWindow( void ) { return *m_HomeWindow; }
     bool						getIsVidCaptureEnabled( void ) { return m_VidCaptureEnabled; }
@@ -531,15 +534,7 @@ public:
 
     virtual void				toGuiInstMsg( VxGUID& onlineId, EPluginType	pluginType, const char* pMsg ) override;
 
-    virtual void				toGuiSetGameValueVar( EPluginType	    pluginType,
-                                                      VxGUID&           onlineId,
-                                                      int32_t			s32VarId,
-                                                      int32_t			s32VarValue ) override;
-
-    virtual void				toGuiSetGameActionVar( EPluginType	    pluginType,
-                                                       VxGUID&          onlineId,
-                                                       int32_t			s32VarId,
-                                                       int32_t			s32VarValue ) override;
+    void				        toGuiTodGameAction( EPluginType	pluginType, VxGUID& onlineId, ETodGameAction todGameAction ) override;
 
     //=== to gui file ===//
     virtual void				toGuiFileListReply( VxGUID& onlineId, EPluginType pluginType, FileInfo& fileInfo ) override;
@@ -673,8 +668,7 @@ signals:
     void                        signalInternalToGuiFileList( VxGUID appInstId, FileInfo fileInfo );
     void                        signalInternalToGuiFileListCompleted( VxGUID appInstId );
 
-    void                        signalInternalToGuiSetGameValueVar( EPluginType pluginType, VxGUID onlineId, int32_t s32VarId, int32_t s32VarValue );
-    void                        signalInternalToGuiSetGameActionVar( EPluginType pluginType, VxGUID onlineId, int32_t s32VarId, int32_t s32VarValue );
+    void                        signalInternalToGuiTodGameAction( EPluginType  pluginType, VxGUID onlineId, ETodGameAction todGameAction );
 
     void				        signalInternalToGuiAssetAdded( AssetBaseInfo assetInfo );
     void				        signalInternalToGuiAssetUpdated( AssetBaseInfo assetInfo );
@@ -739,8 +733,7 @@ private slots:
     void                        slotInternalToGuiFileList( VxGUID appInstId, FileInfo fileInfo );
     void                        slotInternalToGuiFileListCompleted( VxGUID appInstId );
 
-    void                        slotInternalToGuiSetGameValueVar( EPluginType pluginType, VxGUID onlineId, int32_t s32VarId, int32_t s32VarValue );
-    void                        slotInternalToGuiSetGameActionVar( EPluginType pluginType, VxGUID onlineId, int32_t s32VarId, int32_t s32VarValue );
+    void                        slotInternalToGuiTodGameAction( EPluginType  pluginType, VxGUID onlineId, ETodGameAction todGameAction );
 
     void				        slotInternalToGuiAssetAdded( AssetBaseInfo assetInfo );
     void				        slotInternalToGuiAssetUpdated( AssetBaseInfo assetInfo );
@@ -850,6 +843,7 @@ protected:
     QString						m_AppShortName;
     QString						m_AppTitle;
     AccountMgr&                 m_AccountMgr;
+    TodGameMgr&                 m_TodGameMgr;
 
     GuiConnectIdListMgr			m_ConnectIdListMgr;
     GuiFavoriteMgr&			    m_FavoriteMgr;

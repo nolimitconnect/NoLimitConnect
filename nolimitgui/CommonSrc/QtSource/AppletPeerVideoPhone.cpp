@@ -37,7 +37,12 @@ AppletPeerVideoPhone::AppletPeerVideoPhone(	AppCommon& app, QWidget* parent )
 }
 
 //============================================================================
-//! called by base class with in session state
+void AppletPeerVideoPhone::onResizeEvent( QSize& newSize )
+{
+	ui.m_InstMsgWidget->setMaximumHeight( newSize.height() / 4 );
+}
+
+//============================================================================
 void AppletPeerVideoPhone::onInSession( bool isInSession )
 {
 	if( isInSession )
@@ -92,6 +97,7 @@ void AppletPeerVideoPhone::onOfferWasSet( void )
 	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( offerInfo.getFromOnlineId() );
 	if( guiUser )
 	{
+		m_HisIdent = guiUser;
 		setupBaseWidgets( guiUser, ui.m_FriendIdentWidget, ui.m_PermissionButton, ui.m_PermissionLabel );
 	}
 	else

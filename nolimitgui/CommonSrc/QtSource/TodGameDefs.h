@@ -10,29 +10,29 @@
 //============================================================================
 
 #include "TodGameWidget.h"
+
 #include <PktLib/PktsTodGame.h>
 #include <PktLib/VxCommon.h>
 
 enum EGameStatus
 {
-	eWaitingForChallengeRx,
-	eRxedDareChallenge,
+	eWaitingForChoiceRx,
+	eRxedDareChoice,
 	eRxedDareAccepted,
 	eRxedDareRejected,
-	eRxedTruthChallenge,
+	eRxedTruthChoice,
 	eRxedTruthAccepted,
 	eRxedTruthRejected,
 
-	eWaitingForChallengeTx,
-	eTxedDareChallenge,
-	eTxedDareAccepted,
-	eTxedDareRejected,
-	eTxedTruthChallenge,
-	eTxedTruthAccepted,
-	eTxedTruthRejected,
+	eWaitingForChoiceTx,
+	eTxedChoiceDare,
+	eTxedChoiceTruth,
 
-	eTxedOffer,
-	eOfferRejected,
+	eTxedEvaluation,
+
+
+	eWaitingGameStart,
+	eGameEnded,
 
 	eMaxGameStatus // must be last
 };
@@ -41,30 +41,44 @@ enum EGameButton
 {
 	eGameButtonDare,
 	eGameButtonTruth,
+
 	eMaxGameButton
 };
+
+class GuiUser;
 
 class TodPlayerStats
 {
 public:
-	TodPlayerStats();
+	TodPlayerStats() = default;
+	void                        setStatsWidget( GuiUser* guiUser, TodStatsWidget* statsWidget );
 
-	int32_t						getVar( ETodGameVarId eVarId );
-	void					setVar( ETodGameVarId eVarId, int32_t s32Value );
+	uint32_t					getVar( ETodGameVarId varId );
+	bool						setVar( ETodGameVarId varId, uint32_t varValue ); // return true if user values changed
+
+	void						updateStatsWidget( void );
+
+	bool						statsHaveChanged( void ) { return m_StatsHaveChanged; }
+	void						clear( void );
 
 	//=== vars ===//
-	int32_t						m_s32DareChallengeCnt;
-	int32_t						m_s32DareAcceptedCnt;
-	int32_t						m_s32DareRejectedCnt;
-	int32_t						m_s32TruthChallengeCnt;
-	int32_t						m_s32TruthAcceptedCnt;
-	int32_t						m_s32TruthRejectedCnt;
+	GuiUser*					m_GuiUser{ nullptr };
+	TodStatsWidget*				m_StatsWidget{ nullptr };
+	bool						m_StatsHaveChanged{ false };
+
+	uint32_t					m_TruthChallengeCnt{ 0 };
+	uint32_t					m_TruthAcceptedCnt{ 0 };
+	uint32_t					m_TruthRejectedCnt{ 0 };
+
+	uint32_t					m_DareChallengeCnt{ 0 };
+	uint32_t					m_DareAcceptedCnt{ 0 };
+	uint32_t					m_DareRejectedCnt{ 0 };
 };
 
 class TodGameStats
 {
 public:
 	//=== vars ===//
-	TodPlayerStats			m_MyPlayerStats;
-	TodPlayerStats			m_FriendPlayerStats;
+	TodPlayerStats				m_MyStats;
+	TodPlayerStats				m_HisStats;
 };

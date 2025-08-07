@@ -183,8 +183,7 @@ public:
 	virtual bool				fromGuiInstMsg( VxGUID& onlineId, const char*	pMsg );
 	virtual bool				fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk );
 
-	virtual bool				fromGuiSetGameValueVar(	VxGUID& onlineId, int32_t varId, int32_t varValue )			{ return false; };
-	virtual bool				fromGuiSetGameActionVar( VxGUID& onlineId, int32_t	actionId, int32_t actionValue )	{ return false; };
+	virtual bool				fromGuiTodGameActionSend( VxGUID& onlineId, ETodGameAction todGameAction )			{ return false; };
 
 	virtual void				fromGuiRelayPermissionCount( int userPermittedCount, int anonymousCount )				{};
 

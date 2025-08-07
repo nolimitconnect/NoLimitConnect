@@ -399,7 +399,9 @@ list(APPEND nlc_HEADERS
     CommonSrc/QtSource/ThumbnailViewWidget.h
     CommonSrc/QtSource/TodGameDefs.h
     CommonSrc/QtSource/TodGameLogic.h
+    CommonSrc/QtSource/TodGameMgr.h
     CommonSrc/QtSource/TodGameWidget.h
+    CommonSrc/QtSource/TodStatsWidget.h
     CommonSrc/QtSource/ToGuiActivityInterface.h
     CommonSrc/QtSource/ToGuiFileXferInterface.h
     CommonSrc/QtSource/ToGuiHardwareControlInterface.h
@@ -812,7 +814,9 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/TitleBarWidget.cpp
     CommonSrc/QtSource/TodGameDefs.cpp
     CommonSrc/QtSource/TodGameLogic.cpp
+    CommonSrc/QtSource/TodGameMgr.cpp
     CommonSrc/QtSource/TodGameWidget.cpp
+    CommonSrc/QtSource/TodStatsWidget.cpp
     CommonSrc/QtSource/ThumbnailEditWidget.cpp
     CommonSrc/QtSource/ThumbnailChooseWidget.cpp
     CommonSrc/QtSource/ThumbnailViewWidget.cpp
@@ -1017,6 +1021,7 @@ list(APPEND nlc_FORMS
     CommonSrc/Forms/ThumbnailChooseWidget.ui
     CommonSrc/Forms/TitleBarWidget.ui
     CommonSrc/Forms/TodGameWidget.ui
+    CommonSrc/Forms/TodStatsWidget.ui
     CommonSrc/Forms/VidWidget.ui
     CommonSrc/Forms/WebsiteWidget.ui
     CommonSrc/NoLimitConnect.qrc

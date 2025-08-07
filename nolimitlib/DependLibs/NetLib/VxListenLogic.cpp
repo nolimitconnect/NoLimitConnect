@@ -270,6 +270,9 @@ bool VxListenLogic::createNewListenSocket( SOCKET& retListenSock )
         return false;
     }
 
+    VxCloseSkt( dummySock );
+    dummySock = -1;
+
     NetStatusAccum& netStatusAccum = GetPtoPEngine().getNetStatusAccum();
 
     std::string bindLclIp; // seems that VPNs work better without the bind to a specific address
@@ -319,13 +322,8 @@ bool VxListenLogic::createNewListenSocket( SOCKET& retListenSock )
         {
             VxGetSktStatCallback()->sktConnected4( listenSock, lclIpAddr, eSktTypeListen, eConnectReasonUnknown );
         }
-        //else
-        //{
-        //    LogMsg( LOG_WARN, "VxListenLogic::%s could not get local address", __func__ );
-        //}
     }
 
-    VxCloseSkt( dummySock );
     return true;
 }
 
@@ -346,7 +344,6 @@ void VxListenLogic::closeListenSocket( void )
     SOCKET sktToClose = getListenSkt();
     if( INVALID_SOCKET != sktToClose )
     {
-        setListenSkt( INVALID_SOCKET );
         setIsReadyToAcceptConnections( false );
         VxSetSktBlocking( sktToClose, false ); // so should release accept but seems to hang sometimes
 
@@ -358,6 +355,7 @@ void VxListenLogic::closeListenSocket( void )
         setsockopt( sktToClose, SOL_SOCKET, SO_REUSEADDR, &setTrue, sizeof( char ) );
 
         ::VxCloseSkt( sktToClose );
+        setListenSkt( INVALID_SOCKET );
 
         m_ServerMgr.listenSktWasClosed( m_IsIpv6, sktToClose );
     }

@@ -128,27 +128,9 @@ void AppletPeerBase::closeEvent( QCloseEvent * ev )
 }
 
 //============================================================================
-bool AppletPeerBase::fromGuiSetGameValueVar( int32_t s32VarId, int32_t s32VarValue )
+bool AppletPeerBase::fromGuiTodGameActionSend( ETodGameAction todGameAction )
 {
-	bool bResult = m_FromGui.fromGuiSetGameValueVar(	m_ePluginType, 
-														m_HisIdent->getMyOnlineId(),
-														s32VarId,
-														s32VarValue );
-	if( false == bResult )
-	{
-		m_OfferSessionLogic.handleUserWentOffline();
-	}
-
-	return bResult;
-}
-
-//============================================================================
-bool AppletPeerBase::fromGuiSetGameActionVar( int32_t s32VarId, int32_t s32VarValue )
-{
-	bool bResult = m_FromGui.fromGuiSetGameActionVar(	m_ePluginType, 
-														m_HisIdent->getMyOnlineId(),
-														s32VarId,
-														s32VarValue );
+	bool bResult = m_FromGui.fromGuiTodGameActionSend( m_ePluginType, m_HisIdent->getMyOnlineId(), todGameAction );
 	if( false == bResult )
 	{
 		m_OfferSessionLogic.handleUserWentOffline();
@@ -168,7 +150,6 @@ void AppletPeerBase::callbackToGuiRxedOfferReply( std::shared_ptr<GuiOfferSessio
 {
     m_OfferSessionLogic.callbackToGuiRxedOfferReply( offerReply );
 }; 
-
 
 //============================================================================
 void AppletPeerBase::callbackToGuiPluginSessionStarted( std::shared_ptr<GuiOfferSession>& offer )
@@ -192,34 +173,6 @@ void AppletPeerBase::callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QIma
 }
 
 //============================================================================
-void AppletPeerBase::toGuiSetGameValueVar(	EPluginType     pluginType, 
-											VxGUID&		    onlineId, 
-											int32_t			s32VarId, 
-											int32_t			s32VarValue )
-{
-	if( ( pluginType == m_ePluginType )
-		&& m_HisIdent
-		&& ( onlineId == m_HisIdent->getMyOnlineId() ) )
-	{
-		//emit signalToGuiSetGameValueVar( s32VarId, s32VarValue );
-	}
-}
-
-//============================================================================
-void AppletPeerBase::toGuiSetGameActionVar(	EPluginType     pluginType, 
-											VxGUID&		    onlineId, 
-											int32_t			s32VarId, 
-											int32_t			s32VarValue )
-{
-	if( ( pluginType == m_ePluginType )
-		&& m_HisIdent
-		&& ( onlineId == m_HisIdent->getMyOnlineId() ) )
-	{
-		//emit signalToGuiSetGameActionVar( s32VarId, s32VarValue );
-	}
-}
-
-//============================================================================
 void AppletPeerBase::setOfferToIdentity( GuiUser* guiUser )
 {
 	m_MyApp.offerToFriendPluginSession( guiUser, getPluginType(), getParentPageFrame() );
@@ -231,6 +184,11 @@ bool AppletPeerBase::setOfferSession( std::shared_ptr<GuiOfferSession>& offerSes
 	m_OfferSessionLogic.setGuiOfferSession( offerSession );
 	onOfferWasSet();
 	showState( offerSession->getOfferState() );
+	OfferBaseInfo& offerInfo = getOfferInfo();
+	if( offerInfo.getOfferMgr() == eOfferMgrClient && offerInfo.getOfferResponse() == eOfferResponseAccept )
+	{
+		m_OfferSessionLogic.onInSession( true );
+	}
 
 	return true;
 }
@@ -261,12 +219,19 @@ void AppletPeerBase::showState( EOfferState offerState )
 //============================================================================
 void AppletPeerBase::callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState oldOfferState, EOfferState newOfferState )
 {
-	showState( newOfferState );
-	if( eOfferStateRxedByUser == newOfferState || eOfferStateAccepted )
+	if( isOfferMatch( offerSession ) )
 	{
-		if( m_MyApp.getFromGuiInterface().fromGuiStartPluginSession( getPluginType(), offerSession->getMyOnlineId(), offerSession->getOfferId() ) )
+		showState( newOfferState );
+		if( eOfferStateAccepted == newOfferState )
 		{
+			if( m_MyApp.getFromGuiInterface().fromGuiStartPluginSession( getPluginType(), offerSession->getMyOnlineId(), offerSession->getOfferId() ) )
+			{
 
+			}
+		}
+		else if( eOfferStateSessionComplete == newOfferState )
+		{
+			m_OfferSessionLogic.onInSession( false );
 		}
 	}
 }

@@ -43,7 +43,6 @@ GuiUserBase::GuiUserBase( const GuiUserBase& rhs )
     , m_NetIdent( rhs.m_NetIdent )
     , m_OnlineId( rhs.m_OnlineId )
     , m_SessionId( rhs.m_SessionId )
-    , m_NearbyTimeOrZero( rhs.m_NearbyTimeOrZero )
 {
 }
 

@@ -91,9 +91,6 @@
     <ClInclude Include="..\..\VxFriendMatch.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\VxNetIdentBase.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\VxOnlineStatusFlags.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -262,9 +259,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\VxFriendMatch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\VxNetIdentBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\VxOnlineStatusFlags.cpp">

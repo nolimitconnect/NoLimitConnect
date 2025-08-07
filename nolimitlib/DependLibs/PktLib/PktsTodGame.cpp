@@ -14,65 +14,55 @@
 
 //============================================================================
 PktTodGameStats::PktTodGameStats()
-: m_s32DareChallengeCnt(0)
-, m_s32DareAcceptedCnt(0)
-, m_s32DareRejectedCnt(0)
-, m_s32TruthChallengeCnt(0)
-, m_s32TruthAcceptedCnt(0)
-, m_s32TruthRejectedCnt(0)
-, m_u32Res1(0)
-, m_u32Res2(0)
-, m_u32Res3(0)
-, m_u32Res4(0)
 {
 	setPktLength( sizeof( PktTodGameStats ) ); 
 	setPktType( PKT_TYPE_TOD_GAME_STATS ); 
 }
 
 //============================================================================
-int32_t PktTodGameStats::getVar( ETodGameVarId eVarId )
+uint32_t PktTodGameStats::getVar( ETodGameVarId eVarId )
 {
 	switch(eVarId)
 	{
-	case eTodGameVarIdDareChallengeCnt:
-		return ntohl( m_s32DareChallengeCnt );
+	case eTodGameVarIdDareChoiceCnt:
+		return ntohl( m_DareChallengeCnt );
 	case eTodGameVarIdDareAcceptedCnt:
-		return ntohl( m_s32DareAcceptedCnt );
+		return ntohl( m_DareAcceptedCnt );
 	case eTodGameVarIdDareRejectedCnt:
-		return ntohl( m_s32DareRejectedCnt );
-	case eTodGameVarIdTruthChallengeCnt:
-		return ntohl( m_s32TruthChallengeCnt );
+		return ntohl( m_DareRejectedCnt );
+	case eTodGameVarIdTruthChoiceCnt:
+		return ntohl( m_TruthChallengeCnt );
 	case eTodGameVarIdTruthAcceptedCnt:
-		return ntohl( m_s32TruthAcceptedCnt );
+		return ntohl( m_TruthAcceptedCnt );
 	case eTodGameVarIdTruthRejectedCnt:
-		return ntohl( m_s32TruthRejectedCnt );
+		return ntohl( m_TruthRejectedCnt );
 	default:
 		return 0;
 	}
 }
 
 //============================================================================
-void PktTodGameStats::setVar( ETodGameVarId eVarId, int32_t s32Value )
+void PktTodGameStats::setVar( ETodGameVarId eVarId, uint32_t s32Value )
 {
 	switch(eVarId)
 	{
-	case eTodGameVarIdDareChallengeCnt:
-		m_s32DareChallengeCnt = htonl( s32Value );
+	case eTodGameVarIdDareChoiceCnt:
+		m_DareChallengeCnt = htonl( s32Value );
 		break;
 	case eTodGameVarIdDareAcceptedCnt:
-		m_s32DareAcceptedCnt = htonl( s32Value );
+		m_DareAcceptedCnt = htonl( s32Value );
 		break;
 	case eTodGameVarIdDareRejectedCnt:
-		m_s32DareRejectedCnt = htonl( s32Value );
+		m_DareRejectedCnt = htonl( s32Value );
 		break;
-	case eTodGameVarIdTruthChallengeCnt:
-		m_s32TruthChallengeCnt = htonl( s32Value );
+	case eTodGameVarIdTruthChoiceCnt:
+		m_TruthChallengeCnt = htonl( s32Value );
 		break;
 	case eTodGameVarIdTruthAcceptedCnt:
-		m_s32TruthAcceptedCnt = htonl( s32Value );
+		m_TruthAcceptedCnt = htonl( s32Value );
 		break;
 	case eTodGameVarIdTruthRejectedCnt:
-		m_s32TruthRejectedCnt = htonl( s32Value );
+		m_TruthRejectedCnt = htonl( s32Value );
 		break;
 	default:
 		break;
@@ -81,12 +71,6 @@ void PktTodGameStats::setVar( ETodGameVarId eVarId, int32_t s32Value )
 
 //============================================================================
 PktTodGameAction::PktTodGameAction()
-	: m_s32ActionId(0)
-	, m_s32ActionVal(0)
-	, m_u32Res1(0)
-	, m_u32Res2(0)
-	, m_u32Res3(0)
-	, m_u32Res4(0)
 {
 	setPktLength( sizeof( PktTodGameAction ) ); 
 	setPktType( PKT_TYPE_TOD_GAME_ACTION ); 
@@ -113,12 +97,6 @@ int32_t PktTodGameAction::getActionVarValue( void )
 
 //============================================================================
 PktTodGameValue::PktTodGameValue()
-: m_s32GameValueId(0)
-, m_s32GameValueVar(0)
-, m_u32Res1(0)
-, m_u32Res2(0)
-, m_u32Res3(0)
-, m_u32Res4(0)
 {
 	setPktLength( sizeof( PktTodGameValue ) ); 
 	setPktType( PKT_TYPE_TOD_GAME_VALUE ); 

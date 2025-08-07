@@ -12,56 +12,47 @@
 #include "PktTypes.h"
 #include "VxCommon.h"
 
+#include <GuiInterface/IDefs.h>
+
 #define PIC_TYPE_JPEG				0x01
 
 enum ETodGameVarId
 {
-	eTodGameVarIdDareChallengeCnt,
+	eTodGameVarIdDareChoiceCnt,
 	eTodGameVarIdDareAcceptedCnt,
 	eTodGameVarIdDareRejectedCnt,
-	eTodGameVarIdTruthChallengeCnt,
+	eTodGameVarIdTruthChoiceCnt,
 	eTodGameVarIdTruthAcceptedCnt,
 	eTodGameVarIdTruthRejectedCnt,
+
 	eMaxTodGameStatId,
 	eMaxTodGameVarId
-};
-
-enum ETodGameAction
-{
-	eTodGameActionSendStats,
-	eTodGameActionChallengeDare,
-	eTodGameActionDareAccepted,
-	eTodGameActionDareRejected,
-	eTodGameActionChallengeTruth,
-	eTodGameActionTruthAccepted,
-	eTodGameActionTruthRejected,
-	eMaxTodGameAction // must be last
 };
 
 #pragma pack(push)
 #pragma pack(1)
 
+// NOTE: no longer used
 class PktTodGameStats : public VxPktHdr
 {
 public:
 	PktTodGameStats();
 
-    void                            setVar( enum ETodGameVarId eVarId, int32_t s32Value );
-    int32_t							getVar( enum ETodGameVarId eVarId );
+    void                            setVar( enum ETodGameVarId varId, uint32_t varValue );
+    uint32_t						getVar( enum ETodGameVarId varId );
 
 private:
 	//=== vars ===//
-	int32_t							m_s32DareChallengeCnt;
-	int32_t							m_s32DareAcceptedCnt;
-	int32_t							m_s32DareRejectedCnt;
-	int32_t							m_s32TruthChallengeCnt;
-	int32_t							m_s32TruthAcceptedCnt;
-	int32_t							m_s32TruthRejectedCnt;
-	uint32_t							m_u32Res1;
-	uint32_t							m_u32Res2;
-	uint32_t							m_u32Res3;
-	uint32_t							m_u32Res4;
-
+	uint32_t						m_DareChallengeCnt{ 0 };
+	uint32_t						m_DareAcceptedCnt{ 0 };
+	uint32_t						m_DareRejectedCnt{ 0 };
+	uint32_t						m_TruthChallengeCnt{ 0 };
+	uint32_t						m_TruthAcceptedCnt{ 0 };
+	uint32_t						m_TruthRejectedCnt{ 0 };
+	uint32_t						m_u32Res1{ 0 };
+	uint32_t						m_u32Res2{ 0 };
+	uint32_t						m_u32Res3{ 0 };
+	uint32_t						m_u32Res4{ 0 };
 };
 
 class PktTodGameAction : public VxPktHdr
@@ -75,15 +66,15 @@ public:
 
 private:
 	//=== vars ===//
-    int32_t						m_s32ActionId;
-    int32_t						m_s32ActionVal;
-    uint32_t					m_u32Res1;
-    uint32_t					m_u32Res2;
-    uint32_t					m_u32Res3;
-    uint32_t					m_u32Res4;
-
+    int32_t						m_s32ActionId{ 0 };
+    int32_t						m_s32ActionVal{ 0 };
+    uint32_t					m_u32Res1{ 0 };
+    uint32_t					m_u32Res2{ 0 };
+    uint32_t					m_u32Res3{ 0 };
+    uint32_t					m_u32Res4{ 0 };
 };
 
+// NOTE: no longer used
 class PktTodGameValue : public VxPktHdr
 {
 public:
@@ -97,13 +88,12 @@ public:
 
 private:
 	//=== vars ===//
-    int32_t						m_s32GameValueId;
-    int32_t						m_s32GameValueVar;
-    uint32_t					m_u32Res1;
-    uint32_t					m_u32Res2;
-    uint32_t					m_u32Res3;
-    uint32_t					m_u32Res4;
-
+    int32_t						m_s32GameValueId{ 0 };
+    int32_t						m_s32GameValueVar{ 0 };
+    uint32_t					m_u32Res1{ 0 };
+    uint32_t					m_u32Res2{ 0 };
+    uint32_t					m_u32Res3{ 0 };
+    uint32_t					m_u32Res4{ 0 };
 };
 
 #pragma pack(pop)

@@ -31,8 +31,7 @@ public:
 
     virtual bool				fromGuiInstMsg( VxGUID& onlineId, const char* pMsg ) override;
 
-    virtual bool				fromGuiSetGameValueVar(	VxGUID& onlineId, int32_t varId, int32_t varValue ) override;
-    virtual bool				fromGuiSetGameActionVar( VxGUID& onlineId, int32_t	actionId, int32_t actionValue ) override;
+    virtual bool				fromGuiTodGameActionSend( VxGUID& onlineId, ETodGameAction todGameAction ) override;
 
 protected:
     virtual void				onPktPluginOfferReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;

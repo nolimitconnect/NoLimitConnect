@@ -12,15 +12,13 @@
 
 #include "ui_TodGameWidget.h"
 
+#include <QFrame>
+
+QFrame*						TodGameWidget::getButtonFrame( void ) { return ui.m_ButtonFrame; }
 VxPushButton*				TodGameWidget::getTruthButton( void ) { return ui.m_TruthButton; }
 VxPushButton*				TodGameWidget::getDareButton( void ) { return ui.m_DareButton; }
-VxLabel*					TodGameWidget::getChallengeImageLabel( void ) { return ui.m_ChallengeImageLabel; }
-QLabel*						TodGameWidget::getChallengeTextLabel( void ) { return ui.m_ChallengeTextLabel; }
-QLabel*						TodGameWidget::getMyDaresLabel( void ) { return ui.MyDaresLabel; }
-QLabel*						TodGameWidget::getMyTruthsLabel( void ) { return ui.MyTruthsLabel; }
-QLabel*						TodGameWidget::getFriendDaresLabel( void ) { return ui.FriendDaresLabel; }
-QLabel*						TodGameWidget::getFriendTruthsLabel( void ) { return ui.FriendTruthsLabel; }
-QLabel*						TodGameWidget::getTodStatusLabel( void ) { return ui.m_TodStatusLabel; }
+VxPushButton*				TodGameWidget::getChallengeEmoticon( void ) { return ui.m_EmoticonButton; }
+QLabel*						TodGameWidget::getChallengeTextLabel( void ) { return ui.m_InstructLabel; }
 
 //============================================================================
 TodGameWidget::TodGameWidget(QWidget* parent)
@@ -28,7 +26,8 @@ TodGameWidget::TodGameWidget(QWidget* parent)
 , ui(*(new Ui::TodGameWidgetUi))
 {
 	ui.setupUi(this);
-	ui.TruthOrDareWidget->setMediaModule( eMediaModuleTruthOrDare );
+	ui.m_VidWidget->setMediaModule( eMediaModuleTruthOrDare );
+	ui.m_EmoticonButton->setFixedSize( eButtonSizeSmall );
 
 	connect( ui.m_DareButton, SIGNAL(clicked()), this, SIGNAL(dareButtonClicked()));
 	connect( ui.m_TruthButton, SIGNAL(clicked()), this, SIGNAL(truthButtonClicked()));
@@ -37,7 +36,7 @@ TodGameWidget::TodGameWidget(QWidget* parent)
 //============================================================================
 void TodGameWidget::callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 )
 {
-	ui.TruthOrDareWidget->callbackGuiPlayMotionVideoFrame( feedOnlineId, vidFrame, motion0To100000 );
+	ui.m_VidWidget->callbackGuiPlayMotionVideoFrame( feedOnlineId, vidFrame, motion0To100000 );
 }
 
 //============================================================================
@@ -48,7 +47,19 @@ void TodGameWidget::enableGameButtons( bool bEnable )
 }
 
 //============================================================================
-VidWidget * TodGameWidget::getVidWidget( void )
+VidWidget* TodGameWidget::getVidWidget( void )
 {
-	return ui.TruthOrDareWidget;
+	return ui.m_VidWidget;
+}
+
+//============================================================================
+TodStatsWidget* TodGameWidget::getMyStatsWidget( void )
+{
+	return ui.m_MyStats;
+}
+
+//============================================================================
+TodStatsWidget* TodGameWidget::getHisStatsWidget( void )
+{
+	return ui.m_HisStats;
 }

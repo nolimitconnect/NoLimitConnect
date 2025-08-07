@@ -475,7 +475,9 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\CommonSrc\QtSource\TitleBarWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameDefs.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameLogic.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameMgr.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameWidget.cpp" />
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\TodStatsWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VideoFrameProcessor.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VidWidget.cpp" />
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtProviderFile.cpp" />
@@ -749,6 +751,8 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\CommonSrc\QtSource\SoundMgr.h" />
     <QtMoc Include="..\..\..\CommonSrc\QtSource\TestWidget.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\TodGameDefs.h" />
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\TodStatsWidget.h" />
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\TodGameMgr.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\ToGuiActivityInterface.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\ToGuiFileXferInterface.h" />
     <ClInclude Include="..\..\..\CommonSrc\QtSource\ToGuiHardwareControlInterface.h" />
@@ -1109,6 +1113,7 @@ libass.lib;libpcre.lib
     <QtUic Include="..\..\..\CommonSrc\Forms\ThumbnailEditWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\TitleBarWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\TodGameWidget.ui" />
+    <QtUic Include="..\..\..\CommonSrc\Forms\TodStatsWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\VidWidget.ui" />
     <QtUic Include="..\..\..\CommonSrc\Forms\WebsiteWidget.ui" />
   </ItemGroup>

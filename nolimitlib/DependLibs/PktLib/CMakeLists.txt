@@ -56,7 +56,6 @@ list(APPEND pktlib_SOURCES
     VxConnectId.cpp
     VxConnectInfo.cpp
     VxFriendMatch.cpp
-    VxNetIdentBase.cpp
     VxOnlineStatusFlags.cpp
     VxPktHdr.cpp
     VxRelayFlags.cpp

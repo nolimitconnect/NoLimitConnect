@@ -100,8 +100,8 @@ void AppletAboutUser::fillUserDetails( GuiUser* guiUser )
     ui.m_ContentText->setText( GuiParams::describeContentRating( netIdent.getPreferredContent() ) );
     ui.m_MyFriendship->setText( GuiParams::describeFriendship( netIdent.getMyFriendshipToHim() ) );
     ui.m_UsersFrienshipText->setText( GuiParams::describeFriendship( netIdent.getHisFriendshipToMe() ) );
-    ui.m_TruthsText->setText( QString::number( netIdent.getTruthCount() ) );
-    ui.m_DaresText->setText( QString::number( netIdent.getDareCount() ) );
+    ui.m_TruthsText->setText( QString::number( netIdent.getTruthAcceptCount() ) );
+    ui.m_DaresText->setText( QString::number( netIdent.getDareAcceptCount() ) );
     infoMsg( "URL: %s", guiUser->getMyOnlineUrl().c_str() );
     if( netIdent.requiresRelay() )
     {

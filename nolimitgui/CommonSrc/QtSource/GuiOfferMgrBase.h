@@ -44,12 +44,11 @@ public:
 	virtual bool                isMessengerReady( void );
 	virtual void                onSystemReady( bool ready ) { }
 
-	virtual int					getActiveOfferCount( void )					{ return (int)m_OfferList.size(); }
+	virtual int					getActiveOfferCount( void )					{ return (int)m_LastActiveOfferCount; }
 	virtual int					getHistoryOfferCount( void )				{ return (int)m_OfferHistory.size(); }
 
 	virtual std::shared_ptr<GuiOfferSession>	getTopGuiOfferSession( void ); // returns null if no session offers
 
-// from engine
 	virtual void                toGuiRxedPluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo );
 	virtual void                toGuiRxedOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo );
 	virtual void                toGuiRxedOfferUpdated( OfferBaseInfo* offerInfo );

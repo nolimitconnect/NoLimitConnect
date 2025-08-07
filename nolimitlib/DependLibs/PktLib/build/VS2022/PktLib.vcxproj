@@ -232,7 +232,6 @@
     <ClInclude Include="..\..\VxConnectId.h" />
     <ClInclude Include="..\..\VxConnectInfo.h" />
     <ClInclude Include="..\..\VxFriendMatch.h" />
-    <ClInclude Include="..\..\VxNetIdentBase.h" />
     <ClInclude Include="..\..\VxOnlineStatusFlags.h" />
     <ClInclude Include="..\..\VxPktHdr.h" />
     <ClInclude Include="..\..\VxRelayFlags.h" />
@@ -290,7 +289,6 @@
     <ClCompile Include="..\..\VxConnectId.cpp" />
     <ClCompile Include="..\..\VxConnectInfo.cpp" />
     <ClCompile Include="..\..\VxFriendMatch.cpp" />
-    <ClCompile Include="..\..\VxNetIdentBase.cpp" />
     <ClCompile Include="..\..\VxOnlineStatusFlags.cpp" />
     <ClCompile Include="..\..\VxPktHdr.cpp" />
     <ClCompile Include="..\..\VxRelayFlags.cpp" />

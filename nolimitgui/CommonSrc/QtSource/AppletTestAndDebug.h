@@ -84,6 +84,8 @@ protected slots:
     void                        slotFastHostAnnounceClicked( void );
     void                        slotCanDeleteUserClicked( void );
 
+    void                        slotResetTodStatsClicked( void );
+
 protected:
     void						updateDlgFromSettings( void );
     void						updateSettingsFromDlg( void );

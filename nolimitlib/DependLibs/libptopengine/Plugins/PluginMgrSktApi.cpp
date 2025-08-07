@@ -18,7 +18,7 @@
 
 //============================================================================
 bool PluginMgr::pluginApiSktConnectTo(		EPluginType			pluginType,	// plugin id
-											VxNetIdentBase *	netIdent,		// identity of contact to connect to
+											VxNetIdent*	        netIdent,		// identity of contact to connect to
 											int					pvUserData,		// plugin defined data
 											std::shared_ptr<VxSktBase>&		    ppoRetSkt, 		// returned Socket
 											EConnectReason		connectReason )

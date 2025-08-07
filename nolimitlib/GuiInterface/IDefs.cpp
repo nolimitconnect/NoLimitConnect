@@ -1728,6 +1728,34 @@ const char* DescribeSktType( enum ESktType sktType )
 }
 
 //============================================================================
+const char* DescribeTodGameAction( enum ETodGameAction todGameAction )
+{
+    if( todGameAction < 0 || eMaxTodGameAction <= todGameAction )
+    {
+        return ENUM_BAD_PARM;
+    }
+
+    switch( todGameAction )
+    {
+    case eTodGameActionChoiceDare:
+        return "eTodGameActionChoiceDare";
+    case eTodGameActionDareAccepted:
+        return "eTodGameActionDareAccepted";
+    case eTodGameActionDareRejected:
+        return "eTodGameActionDareRejected";
+    case eTodGameActionChoiceTruth:
+        return "eTodGameActionChoiceTruth";
+    case eTodGameActionTruthAccepted:
+        return "eTodGameActionTruthAccepted";
+    case eTodGameActionTruthRejected:
+        return "eTodGameActionTruthRejected";
+     case eTodGameActionNone:
+    default:
+        return "Tod Game Action Unknown";
+    }
+}
+
+//============================================================================
 const char* DescribeUserViewType( enum EUserViewType sktType )
 {
     if(  sktType < 0 || eMaxUserViewType <= sktType )

@@ -293,20 +293,19 @@ static bool firstTime = true;
         size_t connectBaseInfo = sizeof( VxConnectBaseInfo );
         size_t connectInfo = sizeof( VxConnectInfo );
 
-        size_t identBase = sizeof( VxNetIdentBase );
         size_t netIdent = sizeof( VxNetIdent );
         size_t pktAnnBase = sizeof( PktAnnBase );  
         size_t pktAnn = sizeof( PktAnnounce );
         uint16_t remainder = sizeof( PktAnnounce ) & 0x0f;
         if( remainder )
         {
-            LogMsg( LOG_ERROR, "ERROR Invalid PktAnn len %d hdr %d baseinfo %d connectinfo %d base ident %d ident %d annbase %d pktann %d remainder %d",
-                    sizeof( PktAnnounce ), hdr, connectBaseInfo, connectInfo, identBase, netIdent, pktAnnBase, pktAnn, remainder );
+            LogMsg( LOG_ERROR, "ERROR Invalid PktAnn len %d hdr %d baseinfo %d connectinfo %d ident %d annbase %d pktann %d remainder %d",
+                    sizeof( PktAnnounce ), hdr, connectBaseInfo, connectInfo, netIdent, pktAnnBase, pktAnn, remainder );
         }
         else
         {
-            LogMsg( LOG_DEBUG, "OK PktAnn len %d hdr %d baseinfo %d connectinfo %d ident base %d ident %d pktann %d remainder %d",
-                    sizeof( PktAnnounce ), hdr, connectBaseInfo, connectInfo, identBase, netIdent, pktAnn, remainder );
+            LogMsg( LOG_DEBUG, "OK PktAnn len %d hdr %d baseinfo %d connectinfo %d ident %d pktann %d remainder %d",
+                    sizeof( PktAnnounce ), hdr, connectBaseInfo, connectInfo, netIdent, pktAnn, remainder );
         }
     }
 #endif // defined(DEBUG)

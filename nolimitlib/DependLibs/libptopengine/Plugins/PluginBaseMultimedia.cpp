@@ -56,7 +56,7 @@ bool PluginBaseMultimedia::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseIn
 	P2PSession* poSession = nullptr;
 	//LogMsg( LOG_INFO, "PluginBaseMultimedia::fromGuiMakePluginOffer autoLock start\n" );
 	PluginBase::AutoPluginLock pluginMutexLock( this );
-	//LogMsg( LOG_INFO, "PluginBaseMultimedia::fromGuiSetGameValueVar autoLock done\n" );
+	//LogMsg( LOG_INFO, "PluginBaseMultimedia::fromGuiTodGameActionSend autoLock done\n" );
 
 	poSession = (P2PSession*)m_PluginSessionMgr.findP2PSessionByOnlineId( onlineId, true );
 	if( poSession )
@@ -194,32 +194,7 @@ bool PluginBaseMultimedia::fromGuiMultiSessionAction( VxGUID& onlineId, EMSessio
 }
 
 //============================================================================
-bool PluginBaseMultimedia::fromGuiSetGameValueVar( VxGUID& onlineId, int32_t varId, int32_t varValue )
-{
-	#ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_INFO, "PluginBaseMultimedia::fromGuiSetGameValueVar autoLock start" );
-	#endif //DEBUG_AUTOPLUGIN_LOCK
-	bool sendSucces = false;
-	PluginBase::AutoPluginLock pluginMutexLock( this );
-	#ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_INFO, "PluginBaseMultimedia::fromGuiSetGameValueVar autoLock done" );
-	#endif //DEBUG_AUTOPLUGIN_LOCK
-	PluginSessionBase* poSession = m_PluginSessionMgr.findPluginSessionByOnlineId( onlineId, true );
-	if( poSession )
-	{
-		PktTodGameValue pktGameValue;
-		pktGameValue.setValue( (ETodGameVarId) varId, varValue );
-		sendSucces = m_PluginMgr.pluginApiTxPacket( m_ePluginType, onlineId, poSession->getSkt(), &pktGameValue );
-	}
-
-	#ifdef DEBUG_AUTOPLUGIN_LOCK
-		LogMsg( LOG_INFO, "PluginBaseMultimedia::fromGuiSetGameValueVar autoLock destroy" );
-	#endif //DEBUG_AUTOPLUGIN_LOCK
-	return sendSucces;
-}
-
-//============================================================================
-bool PluginBaseMultimedia::fromGuiSetGameActionVar( VxGUID& onlineId, int32_t actionId, int32_t actionValue )
+bool PluginBaseMultimedia::fromGuiTodGameActionSend( VxGUID& onlineId, ETodGameAction todGameAction )
 {
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
 		LogMsg( LOG_INFO, "PluginBaseMultimedia::fromGuiSetGameActionVar autoLock start" );
@@ -230,7 +205,7 @@ bool PluginBaseMultimedia::fromGuiSetGameActionVar( VxGUID& onlineId, int32_t ac
 	if( poSession )
 	{
 		PktTodGameAction pktGameAction;
-		pktGameAction.setAction( (ETodGameAction) actionId, actionValue );
+		pktGameAction.setAction( todGameAction, 0 );
 		sendSucces = m_PluginMgr.pluginApiTxPacket( m_ePluginType, onlineId, poSession->getSkt(), &pktGameAction );
 	}
 
@@ -474,27 +449,28 @@ void PluginBaseMultimedia::onPktMultiSessionReply( std::shared_ptr<VxSktBase>& s
 //============================================================================
 void PluginBaseMultimedia::onPktTodGameStats( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-	PktTodGameStats * poPkt = (PktTodGameStats *)pktHdr;
-	for( int i = 0; i < eMaxTodGameStatId; ++i )
-	{
-		IToGui::getIToGui().toGuiSetGameValueVar( m_ePluginType, netIdent->getMyOnlineId(), i, poPkt->getVar((ETodGameVarId)i) );
-	}
+	//PktTodGameStats * poPkt = (PktTodGameStats *)pktHdr;
+	//for( int i = 0; i < eMaxTodGameStatId; ++i )
+	//{
+	//	IToGui::getIToGui().toGuiSetGameValueVar( m_ePluginType, netIdent->getMyOnlineId(), i, poPkt->getVar((ETodGameVarId)i) );
+	//}
 
-	IToGui::getIToGui().toGuiSetGameActionVar( m_ePluginType, netIdent->getMyOnlineId(), eTodGameActionSendStats, 1 );
+	//IToGui::getIToGui().toGuiSetGameActionVar( m_ePluginType, netIdent->getMyOnlineId(), eTodGameActionSendStats, 1 );
 }
 
 //============================================================================
 void PluginBaseMultimedia::onPktTodGameAction( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktTodGameAction * poPkt = (PktTodGameAction *)pktHdr;
-	IToGui::getIToGui().toGuiSetGameActionVar( m_ePluginType, netIdent->getMyOnlineId(), poPkt->getActionVarId(), poPkt->getActionVarValue() );
+	VxGUID srcOnlineId = poPkt->getSrcOnlineId();
+	IToGui::getIToGui().toGuiTodGameAction( m_ePluginType, srcOnlineId, poPkt->getActionVarId() );
 }
 
 //============================================================================
 void PluginBaseMultimedia::onPktTodGameValue( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-	PktTodGameValue * poPkt = (PktTodGameValue *)pktHdr;
-	IToGui::getIToGui().toGuiSetGameValueVar( m_ePluginType, netIdent->getMyOnlineId(), poPkt->getValueVarId(), poPkt->getValueVar() );
+	//PktTodGameValue * poPkt = (PktTodGameValue *)pktHdr;
+	//IToGui::getIToGui().toGuiSetGameValueVar( m_ePluginType, netIdent->getMyOnlineId(), poPkt->getValueVarId(), poPkt->getValueVar() );
 }
 
 //============================================================================

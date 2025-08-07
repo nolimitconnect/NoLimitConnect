@@ -247,6 +247,9 @@ void PluginPermission::setPluginPermissionsToDefaultValues( void )
 
 //============================================================================
 //============================================================================
+#define IS_JOINED_CHAT_ROOM_FLAG				0x01	
+#define IS_JOINED_GROUP_FLAG					0x02	
+#define IS_JOINED_RANDOM_CONNECT_FLAG			0x04	
 //============================================================================
 VxNetIdent::VxNetIdent()
 : m_u16AppVersion( htons( VxGetAppVersionShort() ) )	
@@ -255,83 +258,254 @@ VxNetIdent::VxNetIdent()
 
 //============================================================================
 VxNetIdent::VxNetIdent(const VxNetIdent &rhs )
-: VxNetIdentBase( rhs )
+: VxConnectInfo( rhs )
 , PluginPermission( rhs )
+, VxOnlineStatusFlags( rhs )
+, m_JoinedFlags( rhs.m_JoinedFlags )
 , m_u16AppVersion( rhs.m_u16AppVersion )
 , m_u16PingTimeMs( rhs.m_u16PingTimeMs )
 , m_NetIdentRes1( rhs.m_NetIdentRes1 )
+, m_LastSessionTimeGmtMs( rhs.m_LastSessionTimeGmtMs )
+, m_GroupieInfoModifiedTimeMs( rhs.m_GroupieInfoModifiedTimeMs )
+
+, m_TruthAcceptCnt( rhs.m_TruthAcceptCnt )
+, m_TruthRejectCnt( rhs.m_TruthRejectCnt )
+, m_DareAcceptCnt( rhs.m_DareAcceptCnt )
+, m_DareRejectCnt( rhs.m_DareRejectCnt )
+
 , m_NetIdentRes2( rhs.m_NetIdentRes2 )  
 , m_NetIdentRes3( rhs.m_NetIdentRes3 )
-, m_LastSessionTimeGmtMs( rhs.m_LastSessionTimeGmtMs )
+, m_NetIdentRes4( rhs.m_NetIdentRes4 )
+, m_NetIdentRes5( rhs.m_NetIdentRes4 )
 {
 }
+
 
 //============================================================================
 bool VxNetIdent::addToBlob( PktBlobEntry& blob )
 {
-    uint8_t startMagicNum = 98;
-    bool result = blob.setValue( startMagicNum );
-    result &= VxNetIdentBase::addToBlob( blob );
-    result &= PluginPermission::addToBlob( blob );
-    result &= blob.setValue( m_u16AppVersion );
-    result &= blob.setValue( m_u16PingTimeMs );
-    result &= blob.setValue( m_NetIdentRes1 );
-    result &= blob.setValue( m_NetIdentRes2 );
-    result &= blob.setValue( m_NetIdentRes3 );
-    result &= blob.setValue( m_LastSessionTimeGmtMs );
-    uint8_t stopMagicNum = 99;
-    result &= blob.setValue( stopMagicNum );
-    return result;
+	uint8_t startMagicNum = 98;
+	bool result = blob.setValue( startMagicNum );
+	result &= VxConnectInfo::addToBlob( blob );
+	result &= PluginPermission::addToBlob( blob );
+	result &= VxOnlineStatusFlags::addToBlob( blob );
+
+	result &= blob.setValue( m_JoinedFlags );
+	result &= blob.setValue( m_u16AppVersion );
+	result &= blob.setValue( m_u16PingTimeMs );
+	result &= blob.setValue( m_NetIdentRes1 );
+
+	result &= blob.setValue( m_LastSessionTimeGmtMs );
+	result &= blob.setValue( m_GroupieInfoModifiedTimeMs );
+
+	result &= blob.setValue( m_TruthAcceptCnt );
+	result &= blob.setValue( m_TruthRejectCnt );
+	result &= blob.setValue( m_DareAcceptCnt );
+	result &= blob.setValue( m_DareRejectCnt );
+
+	result &= blob.setValue( m_NetIdentRes2 );
+	result &= blob.setValue( m_NetIdentRes3 );
+	result &= blob.setValue( m_NetIdentRes4 );
+	result &= blob.setValue( m_NetIdentRes5 );
+
+	uint8_t stopMagicNum = 99;
+	result &= blob.setValue( stopMagicNum );
+	return result;
 }
 
 //============================================================================
 bool VxNetIdent::extractFromBlob( PktBlobEntry& blob )
 {
-    uint8_t startMagicNum;
-    bool result = blob.getValue( startMagicNum );
-    if( !result || startMagicNum != 98 )
-    {
-        LogMsg( LOG_ERROR, "VxNetIdent::%s startMagicNum not valid", __func__ );
-        return false;
-    }
+	uint8_t startMagicNum;
+	bool result = blob.getValue( startMagicNum );
+	if( !result || startMagicNum != 98 )
+	{
+		LogMsg( LOG_ERROR, "VxNetIdent::%s startMagicNum not valid", __func__ );
+		vx_assert( false );
+		return false;
+	}
 
-    result &= VxNetIdentBase::extractFromBlob( blob );
-    result &= PluginPermission::extractFromBlob( blob );
-    result &= blob.getValue( m_u16AppVersion );
-    result &= blob.getValue( m_u16PingTimeMs );
-    result &= blob.getValue( m_NetIdentRes1 );
-    result &= blob.getValue( m_NetIdentRes2 );
-    result &= blob.getValue( m_NetIdentRes3 );
-    result &= blob.getValue( m_LastSessionTimeGmtMs );
+	result &= VxConnectInfo::extractFromBlob( blob );
+	result &= PluginPermission::extractFromBlob( blob );
+	result &= VxOnlineStatusFlags::extractFromBlob( blob );
 
-    uint8_t stopMagicNum;
-    result &= blob.getValue( stopMagicNum );
-    if( !result || stopMagicNum != 99 )
-    {
-        LogMsg( LOG_ERROR, "VxNetIdent::%s stopMagicNum not valid", __func__ );
-        return false;
-    }
+	result &= blob.getValue( m_JoinedFlags );
+	result &= blob.getValue( m_u16AppVersion );
+	result &= blob.getValue( m_u16PingTimeMs );
+	result &= blob.getValue( m_NetIdentRes1 );
 
-    return result;
+	result &= blob.getValue( m_LastSessionTimeGmtMs );
+	result &= blob.getValue( m_GroupieInfoModifiedTimeMs );
+
+	result &= blob.getValue( m_TruthAcceptCnt );
+	result &= blob.getValue( m_TruthRejectCnt );
+	result &= blob.getValue( m_DareAcceptCnt );
+	result &= blob.getValue( m_DareRejectCnt );
+
+	result &= blob.getValue( m_NetIdentRes2 );
+	result &= blob.getValue( m_NetIdentRes3 );
+	result &= blob.getValue( m_NetIdentRes4 );
+	result &= blob.getValue( m_NetIdentRes5 );
+
+	uint8_t stopMagicNum;
+	result &= blob.getValue( stopMagicNum );
+	if( !result || stopMagicNum != 99 )
+	{
+		LogMsg( LOG_ERROR, "VxNetIdent::%s stopMagicNum not valid", __func__ );
+		return false;
+	}
+
+	return result;
 }
 
 //============================================================================
 //! copy operator
-VxNetIdent& VxNetIdent::operator =( const VxNetIdent& rhs  )
+VxNetIdent& VxNetIdent::operator =( const VxNetIdent& rhs )
 {
-    if( this != &rhs )
-    {
-        *( (VxNetIdentBase*)this ) = *( (VxNetIdentBase*)&rhs );
-        *( (PluginPermission*)this ) = *( (PluginPermission*)&rhs );
-        m_u16AppVersion = rhs.m_u16AppVersion;
-        m_u16PingTimeMs = rhs.m_u16PingTimeMs;
-        m_NetIdentRes1 = rhs.m_NetIdentRes1;
-        m_NetIdentRes2 = rhs.m_NetIdentRes2;
-        m_NetIdentRes3 = rhs.m_NetIdentRes3;
-        m_LastSessionTimeGmtMs = rhs.m_LastSessionTimeGmtMs;
-    }
+	if( this != &rhs )
+	{
+		*( (VxConnectInfo*)this ) = *( (VxConnectInfo*)&rhs );
+		*( (PluginPermission*)this ) = *( (PluginPermission*)&rhs );
+		*( (VxOnlineStatusFlags*)this ) = *( (VxOnlineStatusFlags*)&rhs );
 
-    return *this;
+		m_JoinedFlags = rhs.m_JoinedFlags;
+		m_u16AppVersion = rhs.m_u16AppVersion;
+		m_u16PingTimeMs = rhs.m_u16PingTimeMs;
+		m_NetIdentRes1 = rhs.m_NetIdentRes1;
+
+		m_TruthAcceptCnt = rhs.m_TruthAcceptCnt;
+		m_TruthRejectCnt = rhs.m_TruthRejectCnt;
+		m_DareAcceptCnt = rhs.m_DareAcceptCnt;
+		m_DareRejectCnt = rhs.m_DareRejectCnt;
+
+		m_NetIdentRes2 = rhs.m_NetIdentRes2;
+		m_NetIdentRes3 = rhs.m_NetIdentRes3;
+		m_NetIdentRes4 = rhs.m_NetIdentRes4;
+		m_NetIdentRes5 = rhs.m_NetIdentRes5;
+		m_LastSessionTimeGmtMs = rhs.m_LastSessionTimeGmtMs;
+	}
+
+	return *this;
+}
+
+
+//============================================================================
+bool VxNetIdent::isMyself( void )
+{
+	return GetPtoPEngine().getMyOnlineId() == getMyOnlineId();
+}
+
+//============================================================================
+bool VxNetIdent::isDirectConnected( void )
+{
+	return GetPtoPEngine().getConnectIdListMgr().isDirectConnected( getMyOnlineId() );
+}
+
+//============================================================================
+bool VxNetIdent::isRelayed( void )
+{
+	return GetPtoPEngine().getConnectIdListMgr().isRelayed( getMyOnlineId() );
+}
+
+//============================================================================
+bool VxNetIdent::canDirectConnectToUser( void )
+{
+	return !requiresRelay() || isDirectConnected();
+}
+
+//============================================================================
+//! return true if identity matches
+bool VxNetIdent::isVxNetIdentMatch( const VxNetIdent& oOtherIdent ) const
+{
+	return ( *( (VxGUID*)&oOtherIdent.m_DirectConnectId ) == *( (VxGUID*)&m_DirectConnectId ) );
+}
+
+//============================================================================
+bool VxNetIdent::operator ==( const VxNetIdent& a ) const
+{
+	return this->isVxNetIdentMatch( a );
+}
+
+//============================================================================
+//! not equal operator
+bool VxNetIdent::operator != ( const VxNetIdent& a ) const
+{
+	return !( this->isVxNetIdentMatch( a ) );
+}
+
+//============================================================================
+void VxNetIdent::clearIsJoined( void )
+{
+	m_JoinedFlags = 0;
+}
+
+//============================================================================
+void VxNetIdent::setIsJoined( EHostType hostType, bool isJoined )
+{
+	uint8_t hostFlag{ 0 };
+	switch( hostType )
+	{
+	case eHostTypeChatRoom:
+		hostFlag = IS_JOINED_CHAT_ROOM_FLAG;
+		break;
+	case eHostTypeGroup:
+		hostFlag = IS_JOINED_GROUP_FLAG;
+		break;
+	case eHostTypeRandomConnect:
+		hostFlag = IS_JOINED_RANDOM_CONNECT_FLAG;
+		break;
+	default:
+		LogMsg( LOG_ERROR, "VxNetIdent:setIsJoined invalid host type %d", hostType );
+		return;
+	}
+
+	if( hostFlag )
+	{
+		if( isJoined )
+		{
+			if( !( m_JoinedFlags & hostFlag ) )
+			{
+				m_JoinedFlags |= hostFlag;
+				LogMsg( LOG_VERBOSE, "VxNetIdent:setIsJoined joined host type %s", DescribeHostType( hostType ) );
+			}
+		}
+		else
+		{
+			if( m_JoinedFlags & hostFlag )
+			{
+				m_JoinedFlags &= ~hostFlag;
+				LogMsg( LOG_VERBOSE, "VxNetIdent:setIsJoined NOT joined host type %s", DescribeHostType( hostType ) );
+			}
+		}
+	}
+}
+
+//============================================================================
+bool VxNetIdent::getIsJoined( EHostType hostType )
+{
+	uint8_t hostFlag{ 0 };
+	switch( hostType )
+	{
+	case eHostTypeChatRoom:
+		hostFlag = IS_JOINED_CHAT_ROOM_FLAG;
+		break;
+	case eHostTypeGroup:
+		hostFlag = IS_JOINED_GROUP_FLAG;
+		break;
+	case eHostTypeRandomConnect:
+		hostFlag = IS_JOINED_RANDOM_CONNECT_FLAG;
+		break;
+	default:
+		LogMsg( LOG_ERROR, "VxNetIdent:getIsJoined invalid host type %d", hostType );
+	}
+
+	return hostFlag & m_JoinedFlags;
+}
+
+//============================================================================
+bool VxNetIdent::isJoinedAny( void )
+{
+	return m_JoinedFlags != 0;
 }
 
 //============================================================================

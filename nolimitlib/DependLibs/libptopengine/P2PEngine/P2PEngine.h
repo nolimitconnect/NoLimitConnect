@@ -332,9 +332,7 @@ public:
     void           				fromGuiCancelDownload( VxGUID& fileInstance ) override;
     void           				fromGuiCancelUpload( VxGUID& fileInstance ) override;
 
-	bool           				fromGuiSetGameValueVar( enum EPluginType	pluginType, VxGUID& onlineId, int32_t varId, int32_t varValue ) override;
-														                                            
-	bool           				fromGuiSetGameActionVar( enum EPluginType pluginType, VxGUID& onlineId, int32_t actionId, int32_t actionValue ) override;
+	bool           				fromGuiTodGameActionSend( enum EPluginType	pluginType, VxGUID& onlineId, ETodGameAction todGameAction ) override;
 
 	bool           				fromGuiTestCmd(	enum ETestParam1 testParam1, int	testParam2 = 0, const char* testParam3 = nullptr ) override;                                            
 
@@ -734,7 +732,7 @@ protected:
     void						iniitializePtoPEngine( void );
 
 	bool           				txPluginPkt( 	enum EPluginType			pluginType, 
-												VxNetIdentBase *	        netIdent, 
+												VxNetIdent*	                netIdent, 
 												std::shared_ptr<VxSktBase>&	sktBase, 
 												VxPktHdr*			        poPkt );
 

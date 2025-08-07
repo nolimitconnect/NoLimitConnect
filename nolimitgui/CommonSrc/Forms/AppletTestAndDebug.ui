@@ -239,6 +239,13 @@
          </widget>
         </item>
         <item>
+         <widget class="QPushButton" name="m_ResetTodButton">
+          <property name="text">
+           <string>Reset Truth Or Dare Count</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="m_GenerateGuidButton">
           <property name="text">
            <string notr="true">Generate A GUID</string>

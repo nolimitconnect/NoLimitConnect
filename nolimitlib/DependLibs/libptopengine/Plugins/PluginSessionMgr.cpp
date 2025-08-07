@@ -433,6 +433,9 @@ void PluginSessionMgr::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase,
 		return;
 	}
 
+	// since we are recieving offer then we are client
+	offerInfo.setIsRemoteInitiated( true );
+
 	if( IsPluginSingleSession( offerInfo.getPluginType() ) && m_Plugin.getIsPluginInSession() )
 	{
 		offerInfo.setOfferResponse( eOfferResponseBusy );
@@ -452,7 +455,6 @@ void PluginSessionMgr::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase,
 
 		// for call missed
 		IToGui::getIToGui().toGuiRxedPluginOffer(srcOnlineId, offerInfo );
-
 		return;
 	}
 

@@ -45,8 +45,7 @@ public:
 	void						setVidCamWidget( VidWidget * camWidget )			{ m_VidCamWidget = camWidget; }
 	VidWidget *					getVidCamWidget( void )								{ return m_VidCamWidget; }
 
-	virtual bool				fromGuiSetGameValueVar(	int32_t varId, int32_t varValue );
-	virtual bool				fromGuiSetGameActionVar( int32_t actionId, int32_t actionValue );
+	virtual bool				fromGuiTodGameActionSend( ETodGameAction todGameAction );
 
     virtual void				onActivityFinish( void ) override;
 
@@ -64,20 +63,10 @@ protected:
     void				        callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg ) override {};
     void				        callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOfferSession>& offerSession, EOfferState oldOfferState, EOfferState newOfferState ) override;
 
-    void				        callbackToGuiPluginSessionStarted( std::shared_ptr<GuiOfferSession>& offer ) override;
-    void				        callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offer ) override;
+    void				        callbackToGuiPluginSessionStarted( std::shared_ptr<GuiOfferSession>& offerSession ) override;
+    void				        callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offerSession ) override;
 
 	void				        callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 ) override;
-
-    void				        toGuiSetGameValueVar(	EPluginType     pluginType,
-                                                        VxGUID&         onlineId,
-														int32_t			s32VarId, 
-                                                        int32_t			s32VarValue ) override;
-
-    void				        toGuiSetGameActionVar(	EPluginType     pluginType,
-                                                        VxGUID&         onlineId,
-														int32_t			s32VarId, 
-                                                        int32_t			s32VarValue ) override;
 
     void				        showEvent( QShowEvent* ev ) override;
     void				        hideEvent( QHideEvent* ev ) override;
@@ -90,6 +79,4 @@ protected:
     bool						m_bFirstMsg{false};
     VidWidget *					m_VidCamWidget{nullptr};
 	OfferSessionLogic			m_OfferSessionLogic;
-
-
 };

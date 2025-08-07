@@ -435,7 +435,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletShareServicesPage:          if( launchAppletAllowed( eAppletShareServicesPage ) ) appletDialog = new AppletShareServicesPage( m_MyApp, parent ); break;
 
     case eAppletServiceAboutMe:             if( launchAppletAllowed( eAppletServiceAboutMe ) ) appletDialog = new AppletServiceAboutMe( m_MyApp, parent ); break;
-    //case eAppletServiceAvatarImage:         if( launchAppletAllowed( eAppletServiceAvatarImage ) ) appletDialog = new AppletServiceAvatarImage( m_MyApp, parent ); break;
+
     case eAppletServiceConnectionTest:      if( launchAppletAllowed( eAppletServiceConnectionTest ) ) appletDialog = new AppletServiceConnectionTest( m_MyApp, parent ); break;
 
     case eAppletPermissionList:             if( launchAppletAllowed( eAppletPermissionList ) ) appletDialog = new AppletPermissionList( m_MyApp, parent ); break;
@@ -500,34 +500,6 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
 
     case eAppletUserConnections:            if( launchAppletAllowed( eAppletUserConnections ) ) appletDialog = new AppletUserConnections( m_MyApp, parent ); break;
 
-//	case eAppletPlayerMusic:
-//		m_MyApp.errMessageBox( appletMissingTitle, "MusicPlayer Not Implemented" );
-//		return;
-	//case eAppletStreamViewerVideo:
-	//	m_MyApp.errMessageBox( appletMissingTitle, "VideoStreamViewer Not Implemented" );
-	//	return;
-	//case eAppletStreamViewerCam:
-	//	m_MyApp.errMessageBox( appletMissingTitle, "CamStreamViewer Not Implemented" );
-	//	return;
-	//case eAppletStreamViewerMusic:
-	//	m_MyApp.errMessageBox( appletMissingTitle, "MusicStreamViewer Not Implemented" );
-	//	return;
-	//case eAppletRemoteControl:
-	//	appletDialog = new AppletRemoteControl( m_MyApp, parent );
-	//	break;
-	//case eAppletPlugins:
-	//	m_MyApp.errMessageBox( appletMissingTitle, "Applet Plugins Not Implemented" );
-	//	return;
-
-//	case ePluginAppletCamProvider:
-//		m_MyApp.errMessageBox( appletMissingTitle, "Cam Provider Not Implemented" );
-//		return;
-//	case ePluginAppletNlcStation:
-//		m_MyApp.errMessageBox( appletMissingTitle, "Video Player Not Implemented" );
-//		return;
-//	case ePluginAppletNlcNetworkHost:
-//		m_MyApp.errMessageBox( appletMissingTitle, "Network Host Not Implemented" );
-//		return;
 	default:
 		m_MyApp.errMessageBox2( QObject::tr( "AppCommon::launchApplet").toUtf8().constData(), QObject::tr( "Invalid Applet enum %d" ).toUtf8().constData(), applet );
 		return nullptr;

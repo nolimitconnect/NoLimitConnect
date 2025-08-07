@@ -9,7 +9,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <QBitmap>
 #include <QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -18,6 +17,8 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
+class TodStatsWidget;
+class QFrame;
 class QImage;
 class QLabel;
 class VidWidget;
@@ -32,22 +33,18 @@ class TodGameWidget : public QWidget
 public:
 	TodGameWidget( QWidget* parent = nullptr );
 
-	VidWidget *					getVidWidget( void );
+	VidWidget*					getVidWidget( void );
+	TodStatsWidget*				getMyStatsWidget( void );
+	TodStatsWidget*				getHisStatsWidget( void );
+
+	QFrame*						getButtonFrame( void );
+	VxPushButton*				getTruthButton( void );
+	VxPushButton*				getDareButton( void );
+	VxPushButton*				getChallengeEmoticon( void );
+	QLabel*						getChallengeTextLabel( void );
 
 	void						callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 );
 	void						enableGameButtons( bool bEnable );
-
-	VxPushButton*				getTruthButton( void );
-	VxPushButton*				getDareButton( void );
-	VxLabel*					getChallengeImageLabel( void );
-	QLabel*						getChallengeTextLabel( void );
-
-	QLabel*						getMyDaresLabel( void );
-	QLabel*						getMyTruthsLabel( void );
-	QLabel*						getFriendDaresLabel( void );
-	QLabel*						getFriendTruthsLabel( void );
-
-	QLabel*						getTodStatusLabel( void );
 
 signals:
 	void						truthButtonClicked();

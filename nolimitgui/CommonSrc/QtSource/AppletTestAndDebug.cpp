@@ -17,7 +17,6 @@
 #include "AppSettings.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
-#include "GuiParams.h"
 #include "WaitingSpinnerWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -143,6 +142,8 @@ AppletTestAndDebug::AppletTestAndDebug( AppCommon& app, QWidget* parent )
     connect( ui.m_ShowMyselfCheckBox, SIGNAL(clicked()), this, SLOT(slotShowMyselfClicked()) );
     connect( ui.m_FastHostAnnounceCheckBox, SIGNAL(clicked()), this, SLOT(slotFastHostAnnounceClicked()) );
     connect( ui.m_AllowDeleteUserCheckBox, SIGNAL(clicked()), this, SLOT(slotCanDeleteUserClicked()) );
+
+    connect( ui.m_ResetTodButton, SIGNAL( clicked() ), this, SLOT( slotResetTodStatsClicked() ) );
 
     updateDlgFromSettings();
 
@@ -567,4 +568,19 @@ void AppletTestAndDebug::slotFastHostAnnounceClicked( void )
 void AppletTestAndDebug::slotCanDeleteUserClicked( void )
 {
     VxSetCanDeleteUserFromDb( ui.m_AllowDeleteUserCheckBox->isChecked() );
+}
+
+//============================================================================
+void AppletTestAndDebug::slotResetTodStatsClicked( void )
+{
+    VxNetIdent* myIdent = m_MyApp.getMyNetIdent();
+
+    myIdent->setDareAcceptCount( 0 );
+    myIdent->setDareRejectCount( 0 );
+
+    myIdent->setTruthAcceptCount( 0 );
+    myIdent->setTruthRejectCount( 0 );
+
+    m_MyApp.updateMyIdent( myIdent, true );
+    LogMsg( LOG_VERBOSE, "Tod Status reset to 0" );
 }

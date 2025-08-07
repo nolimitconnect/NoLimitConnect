@@ -33,8 +33,11 @@ public:
 	//! called by base class with in session state
     virtual void				onInSession( bool isInSession ) override;
 
-protected:
+protected slots:
+	void						slotGameStatus( QString statusText );
 
+protected:
+	void						onResizeEvent( QSize& newSize ) override;
     void						toGuiInstMsg( GuiUser* friendIdent, EPluginType pluginType, QString instMsg ) override;
 	void				        callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg ) override;
 

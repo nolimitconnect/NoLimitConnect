@@ -222,6 +222,12 @@
     <Filter Include="Source Files\GuiFriendRequest">
       <UniqueIdentifier>{4d381fe0-0556-4418-b7d7-baed63d37ee9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TodGame">
+      <UniqueIdentifier>{11a0b59a-a5a6-4b21-9997-1d578cddd0a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Offer">
+      <UniqueIdentifier>{afb8f662-f4c0-4144-b5d5-d549d6b112ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AssetBaseWidget.h">
@@ -1145,6 +1151,9 @@
     <QtMoc Include="..\..\..\CommonSrc\QtSource\AppletOfferInfo.h">
       <Filter>Source Files\Applets</Filter>
     </QtMoc>
+    <QtMoc Include="..\..\..\CommonSrc\QtSource\TodStatsWidget.h">
+      <Filter>Source Files\TodGame</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AcceptCancelWidget.cpp">
@@ -1325,15 +1334,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\ThumbnailViewWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameDefs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameLogic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\VxAppDisplay.cpp">
@@ -1622,15 +1622,6 @@
       <Filter>Source Files\IdentWidget</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\TestWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\OfferBarWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\OfferSendWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\CommonSrc\QtSource\OfferSessionLogic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\GuiOfferMgr.cpp">
@@ -2305,6 +2296,30 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppletOfferInfo.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameDefs.cpp">
+      <Filter>Source Files\TodGame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameLogic.cpp">
+      <Filter>Source Files\TodGame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameMgr.cpp">
+      <Filter>Source Files\TodGame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\TodGameWidget.cpp">
+      <Filter>Source Files\TodGame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\TodStatsWidget.cpp">
+      <Filter>Source Files\TodGame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\OfferBarWidget.cpp">
+      <Filter>Source Files\Offer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\OfferSendWidget.cpp">
+      <Filter>Source Files\Offer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\CommonSrc\QtSource\OfferSessionLogic.cpp">
+      <Filter>Source Files\Offer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AppDefs.h">
@@ -2654,6 +2669,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\miniaudioio\MiniAudioOut.h">
       <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\CommonSrc\QtSource\TodGameMgr.h">
+      <Filter>Source Files\TodGame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3167,6 +3185,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\CommonSrc\Forms\AppletOfferInfo.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\CommonSrc\Forms\TodStatsWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

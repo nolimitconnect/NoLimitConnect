@@ -162,16 +162,8 @@ public:
     virtual void				toGuiBlobAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) = 0;
     virtual void				toGuiBlobSessionHistory( BlobInfo * assetInfo ) = 0;
 
-	/// Game variable has changed ( Used by Truth Or Dare video chat game )
-	virtual void				toGuiSetGameValueVar(	EPluginType	    pluginType,
-														VxGUID&		    oOnlineId, 
-														int32_t			s32VarId, 
-														int32_t			s32VarValue ) = 0;
-	/// Game action has occurred ( Used by Truth Or Dare video chat game )
-	virtual void				toGuiSetGameActionVar(	EPluginType	    pluginType,
-														VxGUID&		    oOnlineId, 
-														int32_t			s32VarId, 
-														int32_t			s32VarValue ) = 0;
+	/// Game action ( Used by Truth Or Dare video chat game )
+	virtual void				toGuiTodGameAction( EPluginType	pluginType, VxGUID& onlineId, ETodGameAction todGameAction ) = 0;
 
 	///============================================================================
 	/// Scan network for user shared resources

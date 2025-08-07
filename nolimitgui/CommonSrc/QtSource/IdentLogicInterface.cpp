@@ -49,13 +49,6 @@ void IdentLogicInterface::setupIdentLogic( void ) // call after derived class ui
 {
 	if( !m_IsSignalsConnected )
 	{
-		if( m_GuiUser && ShouldDebugUser( m_GuiUser->getOnlineName().c_str() ) )
-		{
-			LogModule( eLogUserEvent, LOG_VERBOSE, " IdentLogicInterface::%s %s %s my friendship %s his friendship %s ptr %p", __func__,
-						m_GuiUser->getOnlineName().c_str(), m_GuiUser->getMyOnlineId().toOnlineIdString().c_str(),
-						DescribeFriendState( m_GuiUser->getMyFriendshipToHim() ), DescribeFriendState( m_GuiUser->getHisFriendshipToMe() ), this );
-		}
-
 		m_IsSignalsConnected = true;
 		if( getIdentOfferInfoButton() )
 		{
@@ -235,7 +228,7 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 			{
 				QString truths = QObject::tr( "Truths: " );
 				QString dares = QObject::tr( " Dares: " );
-				getIdentLine3()->setText( QString( truths + "%1" + dares + "%2" ).arg( m_GuiUser->getTruthCount() ).arg( m_GuiUser->getDareCount() ) );
+				getIdentLine3()->setText( QString( truths + "%1" + dares + "%2" ).arg( m_GuiUser->getTruthAcceptCount() ).arg( m_GuiUser->getDareAcceptCount() ) );
 			}
 
 			bool isMyself = m_GuiUser->getMyOnlineId() == m_MyApp.getMyOnlineId();

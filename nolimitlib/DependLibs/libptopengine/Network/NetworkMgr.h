@@ -23,7 +23,7 @@ class P2PEngine;
 class VxPeerMgr;
 class BigListMgr;
 class EngineSettings;
-class VxNetIdentBase;
+class VxNetIdent;
 class VxSktBase;
 class VxGUID;
 class InetAddress;

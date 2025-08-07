@@ -11,194 +11,188 @@
 #include "TodGameLogic.h"
 
 #include "AppCommon.h"
-#include "MyIcons.h"
-#include "AppGlobals.h"
 #include "TodGameWidget.h"
 
 #include "VxLabel.h"
 #include "VxPushButton.h"
 
 #include <P2PEngine/P2PEngine.h>
-#include <P2PEngine/EngineSettings.h>
 
+#include <CoreLib/VxDebug.h>
+
+#include <vector>
+
+#include <QFrame>
 #include <QLabel>
 
 namespace
 {
-	#define GAME_SETTINGS_KEY "TODGAME"
-}
+	std::vector<VxGUID>	g_EmoticonIdList{
+{ 3913462368200503545U, 2760340527898317750U },	  // 1 !364F694A1A7330F9264EB315D07E53B6! // 0 thumbs up
+{ 13999558228189016709U, 7413105485242018473U },  // 2 !C2486C09239A728566E0A4299A59AAA9! // 1 thumbs down
+{ 10829822772292086897U, 16991265692937849009U }, // 3 !964B426EBAE7EC71EBCD1A1FC7D788B1! // 2 smile
+{ 7945445069844048192U, 12229757484046445461U },  // 4 !6E43E431BA6EE940A9B8D3A2BDC36B95! // 3 sun glasses
+{ 2324257314457588032U, 17711723986212541605U },  // 5 !20416BB68AD91140F5CCAF1FEDF6D4A5! // 4 angel
+{ 10756322002679464500U, 16760991902078506408U }, // 6 !954621DF3B6D8234E89B0154D69695A8! // 5 devil
+{ 3837853253425696308U, 1553238764248287121U },   // 34 !3542CB333E840E34158E366D3A62C791! // 6 hand on chin (thinking)
+{ 13352407061259212155U, 13577725499120930184U }, // 16 !B94D477A66C5D57BBC6DC56750DDCD88! // 7 poop
+	};
+
+	VxGUID getEmoticonGuid( ETodEmoticon emoticon )
+	{
+		switch( emoticon )
+		{
+		case eTodEmiticonSmile:
+			return g_EmoticonIdList[2];
+		case eTodEmoticonThumbsUp:
+			return g_EmoticonIdList[0];
+		case eTodEmoticonThumbsDown:
+			return g_EmoticonIdList[1];
+		case eTodEmiticonAngel:
+			return g_EmoticonIdList[4];
+		case eTodEmiticonDevil:
+			return g_EmoticonIdList[5];
+		case eTodEmiticonThinking:
+			return g_EmoticonIdList[6];
+		default:
+			return g_EmoticonIdList[7];
+		}
+	}
+
+	const char* DescribeGameStatus( EGameStatus gameStatus )
+	{
+		switch( gameStatus )
+		{
+		case eWaitingForChoiceRx:
+			return "eWaitingForChoiceRx";
+		case eRxedDareChoice:
+			return "eRxedDareChoice";
+		case eRxedDareAccepted:
+			return "eRxedDareAccepted";		
+		case eRxedDareRejected:
+			return "eRxedDareRejected";		
+		case eRxedTruthChoice:
+			return "eRxedTruthChoice";		
+		case eRxedTruthAccepted:
+			return "eRxedTruthAccepted";		
+		case eRxedTruthRejected:
+			return "eRxedTruthRejected";		
+		case eWaitingForChoiceTx:
+			return "eWaitingForChoiceTx";		
+		case eTxedChoiceDare:
+			return "eTxedChoiceDare";
+		case eTxedChoiceTruth:
+			return "eTxedChoiceTruth";
+		case eTxedEvaluation:
+			return "eTxedEvaluation";
+		case eWaitingGameStart:
+			return "eWaitingGameStart";
+		case eGameEnded:
+			return "eGameEnded";
+		default:
+			return "GameStatus UNKNOWN";
+		}
+	}
+};
 
 //============================================================================
 TodGameLogic::TodGameLogic( AppCommon& myApp, P2PEngine& engine, EPluginType pluginType, QWidget* parent )
 : QWidget( parent )
 , m_MyApp( myApp )
 , m_Engine( engine )
-, m_ePluginType( pluginType )
+, m_PluginType( pluginType )
 , m_MySettings( myApp.getEngine().getEngineSettings() )
-, m_HisIdent( 0 )
-, m_TodGameWidget( 0 )
-, m_eGameStatus( eWaitingForChallengeRx )
-, m_IsChallenger( false )
 {
+	m_CallbacksRequested = true;
+	m_MyApp.getTodGameMgr().wantTodGamCallbacks( this, true );
 }
 
 //============================================================================
-void TodGameLogic::setGuiWidgets(	GuiUser*	hisIdent,
-									TodGameWidget *	todGameWidget )
+TodGameLogic::~TodGameLogic()
 {
-	m_HisIdent			= hisIdent;
-	m_TodGameWidget		= todGameWidget;
-	loadMyGameStats();
-	updateMyStats();
+	if( m_CallbacksRequested )
+	{
+		m_MyApp.getTodGameMgr().wantTodGamCallbacks( this, false );
+	}
+}
+
+//============================================================================
+void TodGameLogic::setGuiWidgets( GuiUser* hisIdent, TodGameWidget* todGameWidget, TodStatsWidget* myStatsWidget, TodStatsWidget* hisStatsWidget )
+{
+	m_HisIdent = hisIdent;
+	m_TodGameWidget	= todGameWidget;
+	m_MyStats.setStatsWidget( m_MyApp.getUserMgr().getMyIdent(), myStatsWidget );
+	m_HisStats.setStatsWidget( hisIdent, hisStatsWidget );
 
 	connect( m_TodGameWidget->getTruthButton(), SIGNAL(clicked()), this, SLOT(slotTruthButtonClicked()));
 	connect( m_TodGameWidget->getDareButton(), SIGNAL(clicked()), this, SLOT(slotDareButtonClicked()));
+	setGameStatus( eWaitingGameStart );
 }
 
 //============================================================================
-void TodGameLogic::setVisible( bool visible )
+void TodGameLogic::setChallengeStatus( ETodEmoticon emoticon, QString statusText )
 {
-	if( 0 != m_TodGameWidget )
+	VxGUID thumbId = getEmoticonGuid( emoticon );
+	QImage emoteImage;
+	m_MyApp.getThumbMgr().getThumbImage( thumbId, emoteImage );
+	if( !emoteImage.isNull() )
 	{
-		m_TodGameWidget->setVisible( visible );
+		m_TodGameWidget->getChallengeEmoticon()->setIconOverrideImage( emoteImage );
 	}
 
-	QWidget::setVisible( visible );
-}
-
-//============================================================================
-void TodGameLogic::showChallengeStatus( bool showChallenge )
-{
-	m_TodGameWidget->getChallengeImageLabel()->setVisible(showChallenge);
-	m_TodGameWidget->getChallengeTextLabel()->setVisible(showChallenge);
-}
-
-//============================================================================
-void TodGameLogic::setChallengeStatus( QString statusIcon, QString statusText )
-{
-	m_TodGameWidget->getChallengeImageLabel()->setResourceImage(statusIcon);
 	m_TodGameWidget->getChallengeTextLabel()->setText(statusText);
-}
-
-//============================================================================
-void TodGameLogic::loadMyGameStats( void )
-{
-	VxNetIdent* myIdent = m_MyApp.getMyNetIdent();
-	//int32_t val;
-	//m_MySettings.getIniValue( GAME_SETTINGS_KEY, "eTodGameVarIdDareChallengeCnt", val );
-	m_TodGameStats.m_MyPlayerStats.setVar( eTodGameVarIdDareChallengeCnt, myIdent->getDareCount() + myIdent->getRejectedDareCount() );
-	//m_MySettings.getIniValue( GAME_SETTINGS_KEY, "eTodGameVarIdDareAcceptedCnt", val );
-	m_TodGameStats.m_MyPlayerStats.setVar( eTodGameVarIdDareAcceptedCnt, myIdent->getDareCount() );
-	//m_MySettings.getIniValue( GAME_SETTINGS_KEY, "eTodGameVarIdDareRejectedCnt", val );
-	m_TodGameStats.m_MyPlayerStats.setVar( eTodGameVarIdDareRejectedCnt, myIdent->getRejectedDareCount() );
-	//m_MySettings.getIniValue( GAME_SETTINGS_KEY, "eTodGameVarIdTruthChallengeCnt", val );
-	m_TodGameStats.m_MyPlayerStats.setVar( eTodGameVarIdTruthChallengeCnt, myIdent->getTruthCount() + myIdent->getRejectedTruthCount() );
-	//m_MySettings.getIniValue( GAME_SETTINGS_KEY, "eTodGameVarIdTruthAcceptedCnt", val );
-	m_TodGameStats.m_MyPlayerStats.setVar( eTodGameVarIdTruthAcceptedCnt, myIdent->getTruthCount() );
-	//m_MySettings.getIniValue( GAME_SETTINGS_KEY, "eTodGameVarIdTruthRejectedCnt", val );
-	m_TodGameStats.m_MyPlayerStats.setVar( eTodGameVarIdTruthRejectedCnt, myIdent->getRejectedTruthCount() );
+	if( m_eGameStatus != eWaitingGameStart )
+	{
+		emit signalGameStatus( statusText );
+	}
 }
 
 //============================================================================
 void TodGameLogic::saveMyGameStats( void )
 {
-	VxNetIdent* myIdent = m_MyApp.getAppGlobals().getMyNetIdent();
+	VxNetIdent* myIdent = m_MyApp.getMyNetIdent();
 
-	//int32_t val = m_TodGameStats.m_MyPlayerStats.getVar( eTodGameVarIdDareChallengeCnt);
-	//m_MySettings.setIniValue( GAME_SETTINGS_KEY, "eTodGameVarIdDareChallengeCnt", val );
-	int32_t val = m_TodGameStats.m_MyPlayerStats.getVar( eTodGameVarIdDareAcceptedCnt);
-	//m_MySettings.setIniValue( GAME_SETTINGS_KEY, "eTodGameVarIdDareAcceptedCnt", val );
-	myIdent->setDareCount( val );
-	int32_t rejectedCnt = m_TodGameStats.m_MyPlayerStats.getVar( eTodGameVarIdDareRejectedCnt);
-	//m_MySettings.setIniValue( GAME_SETTINGS_KEY, "eTodGameVarIdDareRejectedCnt", rejectedCnt );
-	myIdent->setRejectedDareCount( val );
+	uint32_t val = m_MyStats.getVar( eTodGameVarIdDareAcceptedCnt );
+	myIdent->setDareAcceptCount( val );
+	uint32_t rejectedCnt = m_MyStats.getVar( eTodGameVarIdDareRejectedCnt );
+	myIdent->setDareRejectCount( rejectedCnt );
 
-	//val = m_TodGameStats.m_MyPlayerStats.getVar( eTodGameVarIdTruthChallengeCnt);
-	//m_MySettings.setIniValue( GAME_SETTINGS_KEY, "eTodGameVarIdTruthChallengeCnt", val );
-	val = m_TodGameStats.m_MyPlayerStats.getVar( eTodGameVarIdTruthAcceptedCnt);
-	//m_MySettings.setIniValue( GAME_SETTINGS_KEY, "eTodGameVarIdTruthAcceptedCnt", val );
-	myIdent->setTruthCount( val );
-	rejectedCnt = m_TodGameStats.m_MyPlayerStats.getVar( eTodGameVarIdTruthRejectedCnt);
-	//m_MySettings.setIniValue( GAME_SETTINGS_KEY, "eTodGameVarIdTruthRejectedCnt", val );
-	myIdent->setRejectedTruthCount( rejectedCnt );
+	val = m_MyStats.getVar( eTodGameVarIdTruthAcceptedCnt );
+	myIdent->setTruthAcceptCount( val );
+	rejectedCnt = m_MyStats.getVar( eTodGameVarIdTruthRejectedCnt );
+	myIdent->setTruthRejectCount( rejectedCnt );
 
     m_MyApp.updateMyIdent( myIdent, true );
 }
 
 //============================================================================
-bool TodGameLogic::sendGameStats( void )
+void TodGameLogic::showGameButtons( bool show )
 {
-	IFromGui& poFromGui = m_Engine.getFromGuiInterface();
-	bool bResult = poFromGui.fromGuiSetGameValueVar(	m_ePluginType, 
-														m_HisIdent->getMyOnlineId(), 
-														eTodGameVarIdDareChallengeCnt, 
-														m_TodGameStats.m_MyPlayerStats.getVar( eTodGameVarIdDareChallengeCnt ));
-	if( bResult )
-	{
-		bResult = poFromGui.fromGuiSetGameValueVar(	m_ePluginType, 
-													m_HisIdent->getMyOnlineId(), 
-													eTodGameVarIdDareAcceptedCnt, 
-													m_TodGameStats.m_MyPlayerStats.getVar( eTodGameVarIdDareAcceptedCnt ));
-	}
-	if( bResult )
-	{
-		bResult = poFromGui.fromGuiSetGameValueVar(	m_ePluginType, 
-													m_HisIdent->getMyOnlineId(), 
-													eTodGameVarIdDareRejectedCnt, 
-													m_TodGameStats.m_MyPlayerStats.getVar( eTodGameVarIdDareRejectedCnt ));
-	}
-	if( bResult )
-	{
-		bResult = poFromGui.fromGuiSetGameValueVar(	m_ePluginType, 
-													m_HisIdent->getMyOnlineId(), 
-													eTodGameVarIdTruthChallengeCnt, 
-													m_TodGameStats.m_MyPlayerStats.getVar( eTodGameVarIdTruthChallengeCnt ));
-	}
-	if( bResult )
-	{
-		bResult = poFromGui.fromGuiSetGameValueVar(	m_ePluginType, 
-													m_HisIdent->getMyOnlineId(), 
-													eTodGameVarIdTruthAcceptedCnt, 
-													m_TodGameStats.m_MyPlayerStats.getVar( eTodGameVarIdTruthAcceptedCnt ));
-	}
-	if( bResult )
-	{
-		bResult = poFromGui.fromGuiSetGameValueVar(	m_ePluginType, 
-													m_HisIdent->getMyOnlineId(), 
-													eTodGameVarIdTruthRejectedCnt, 
-													m_TodGameStats.m_MyPlayerStats.getVar( eTodGameVarIdTruthRejectedCnt ));
-	}
-	if( bResult )
-	{
-		bResult = poFromGui.fromGuiSetGameActionVar(	m_ePluginType, 
-														m_HisIdent->getMyOnlineId(), 
-														eTodGameActionSendStats, 
-														1 );
-	}
-
-	if( false == bResult )
-	{
-		handleUserWentOffline();
-	}
-
-	return bResult;
+	m_TodGameWidget->getButtonFrame()->setVisible(show);
 }
 
 //============================================================================
-void TodGameLogic::enableGameButton( EGameButton eButton, bool bEnable )
+void TodGameLogic::setGameButtonsText( ETodButtonText todButtonText )
 {
-	switch( eButton )
+	switch( todButtonText )
 	{
-	case eGameButtonDare:
-		m_TodGameWidget->getDareButton()->setVisible(bEnable);
+	case eTodButtonTextSendChoice:
+		setGameButtonText( eGameButtonTruth, QObject::tr( "Choose Truth" ) );
+		setGameButtonText( eGameButtonDare, QObject::tr( "Choose Dare" ) );
 		break;
-	case eGameButtonTruth:
-		m_TodGameWidget->getTruthButton()->setVisible(bEnable);
+	case eTodButtonTextEvaluateDarePerformance:
+		setGameButtonText( eGameButtonTruth, QObject::tr( "Dare Performed" ) );
+		setGameButtonText( eGameButtonDare, QObject::tr( "Dare NOT Performed" ) );
+		break;
+	case eTodButtonTextEvaluateTruthPerformance:
+		setGameButtonText( eGameButtonTruth, QObject::tr( "I Believe" ) );
+		setGameButtonText( eGameButtonDare, QObject::tr( "I Do NOT Believe" ) );
 		break;
 	default:
 		break;
 	}
 }
+
 //============================================================================
 void TodGameLogic::setGameButtonText( EGameButton eButton, QString strText )
 {
@@ -219,271 +213,126 @@ void TodGameLogic::setGameButtonText( EGameButton eButton, QString strText )
 void TodGameLogic::setGameStatus( EGameStatus eGameStatus )
 {
 	m_eGameStatus = eGameStatus;
+	LogMsg( LOG_VERBOSE, "TodGameLogic::%s %s", __func__, DescribeGameStatus( m_eGameStatus ) );
 	switch( m_eGameStatus )
 	{
-	case eTxedOffer:
-		enableGameButton( eGameButtonDare, false );
-		enableGameButton( eGameButtonTruth, false );
-		setTodStatusMsg( "Waiting for Offer Response" );
-		showChallengeStatus( true );
-		setChallengeStatus( ":/AppRes/Resources/face18.png", QObject::tr( "Waiting for Offer Response" ) );
+	case eWaitingGameStart:
+		showGameButtons( false );
+		setChallengeStatus( eTodEmiticonSmile, QObject::tr( "Waiting for Game Start" ) );
 		break;
 
-	case eOfferRejected:
-		enableGameButton( eGameButtonDare, false );
-		enableGameButton( eGameButtonTruth, false );
-		setTodStatusMsg( "Offer Rejected" );
-		showChallengeStatus( true );
-		setChallengeStatus( ":/AppRes/Resources/face18.png", QObject::tr( "Offer Was Rejected" ) );
+	case eGameEnded:
+		showGameButtons( false );
+		setChallengeStatus( eTodEmiticonSmile, QObject::tr( "Game Ended" ) );
 		break;
 
 		// WAITING
-	case eWaitingForChallengeRx:
-		setGameButtonText( eGameButtonDare, QObject::tr("Waiting for Challenge") );
-		enableGameButton( eGameButtonDare, false );
-		setGameButtonText( eGameButtonTruth, QObject::tr("Waiting for Challenge") );
-		enableGameButton( eGameButtonTruth, false );
-		setTodStatusMsg( QObject::tr("Waiting for Challenge Truth Or Dare") );
-		showChallengeStatus( true );
-		setChallengeStatus( ":/AppRes/Resources/face18.png", QObject::tr("Wait for Challenge") );
+	case eWaitingForChoiceRx:
+		showGameButtons( false );
+		setChallengeStatus( eTodEmiticonThinking, QObject::tr("Wait for Truth or Dare Choice") );
 		break;
 
-	case eWaitingForChallengeTx:
-		setGameButtonText( eGameButtonDare, QObject::tr("Send Challenge Dare") );
-		enableGameButton( eGameButtonDare, true );
-		setGameButtonText( eGameButtonTruth, QObject::tr("Send Challenge Truth") );
-		enableGameButton( eGameButtonTruth, true );
-		setTodStatusMsg( QObject::tr("Press Challenge Truth Button Or Challenge Dare Button") );
-		showChallengeStatus( false );
+	case eTxedEvaluation:
+	case eWaitingForChoiceTx:
+		showGameButtons( true );
+		setGameButtonsText( eTodButtonTextSendChoice );
+		setChallengeStatus( eTodEmiticonThinking, QObject::tr("Press Choose Truth Or Dare Button") );
+		break;
+
+		// TXED
+	case eTxedChoiceDare:
+		showGameButtons( false );
+		setChallengeStatus( eTodEmiticonDevil, QObject::tr( "Perform Dare" ) );
+		break;
+
+	case eTxedChoiceTruth:
+		showGameButtons( false );
+		setChallengeStatus( eTodEmiticonAngel, QObject::tr( "Tell Truth" ) );
 		break;
 
 		// RXED
 		// dare
-	case eRxedDareChallenge:
+	case eRxedDareChoice:
 		m_MyApp.playSound( eSndDefUserBellMessage );
-		enableGameButton( eGameButtonDare, false );
-		enableGameButton( eGameButtonTruth, false );
-		setTodStatusMsg( m_HisIdent->getOnlineName().c_str() + QObject::tr(" Dares You"));
-		setGameButtonText( eGameButtonDare, QObject::tr("Perform Dare") );
-		setGameButtonText( eGameButtonTruth, QObject::tr("Perform Dare") );
-		m_TodGameStats.m_MyPlayerStats.m_s32DareChallengeCnt++;
-		updateMyStats();
-		sendGameStats();
-		saveMyGameStats();
-		showChallengeStatus( true );
-		setChallengeStatus( ":/AppRes/Resources/face15.png", QObject::tr("Perform Dare") );
+		showGameButtons( true );
+		setGameButtonsText( eTodButtonTextEvaluateDarePerformance );
+		setChallengeStatus( eTodEmiticonDevil, QObject::tr("Evaluate Dare") );
 		break;
 
 	case eRxedDareAccepted:
 		m_MyApp.playSound( eSndDefYes );
-		enableGameButton( eGameButtonDare, true );
-		setGameButtonText( eGameButtonDare, QObject::tr("Send Challenge Dare") );
-		enableGameButton( eGameButtonTruth, true );
-		setGameButtonText( eGameButtonTruth, QObject::tr("Send Challenge Truth") );
-		setTodStatusMsg( m_HisIdent->getOnlineName().c_str() + QObject::tr(" has given you 1 Dare Point"));
-		m_TodGameStats.m_MyPlayerStats.m_s32DareAcceptedCnt++;
-		updateMyStats();
-		sendGameStats();
+		showGameButtons( false );
+		m_MyStats.setVar( eTodGameVarIdDareAcceptedCnt, m_MyStats.getVar( eTodGameVarIdDareAcceptedCnt ) + 1 );
+		setChallengeStatus( eTodEmiticonThinking, QObject::tr( "You have gained 1 Dare Point" ) );
 		saveMyGameStats();
-		showChallengeStatus( false );
 		break;
 
 	case eRxedDareRejected:
 		m_MyApp.playSound( eSndDefOfferRejected );
-		enableGameButton( eGameButtonDare, true );
-		setGameButtonText( eGameButtonDare, QObject::tr("Challenge Dare") );
-		enableGameButton( eGameButtonTruth, true );
-		setGameButtonText( eGameButtonTruth, QObject::tr("Challenge Truth") );
-		setTodStatusMsg( m_HisIdent->getOnlineName().c_str() + QObject::tr( " REJECTED your Dare performance" ) );
-		m_TodGameStats.m_MyPlayerStats.m_s32DareRejectedCnt++;
-		updateMyStats();
-		sendGameStats();
+		showGameButtons( false );
+		m_MyStats.setVar( eTodGameVarIdDareRejectedCnt, m_MyStats.getVar( eTodGameVarIdDareRejectedCnt ) + 1 );
+		setChallengeStatus( eTodEmiticonThinking, QObject::tr( "Dare Perfomance was Rejected" ) );
 		saveMyGameStats();
-		showChallengeStatus( false );
 		break;
 
 		// truth
-	case eRxedTruthChallenge:
+	case eRxedTruthChoice:
 		m_MyApp.playSound( eSndDefUserBellMessage );
-		enableGameButton( eGameButtonDare, false );
-		enableGameButton( eGameButtonTruth, false );
-		setTodStatusMsg(  m_HisIdent->getOnlineName().c_str() + QObject::tr( " Says tell truth" ) );
-		setGameButtonText( eGameButtonDare, QObject::tr("Tell Truth") );
-		setGameButtonText( eGameButtonTruth, QObject::tr("Tell Truth") );
-		m_TodGameStats.m_MyPlayerStats.m_s32TruthChallengeCnt++;
-		updateMyStats();
-		sendGameStats();
-		saveMyGameStats();
-		showChallengeStatus( true );
-		setChallengeStatus( ":/AppRes/Resources/face20.png", QObject::tr("Tell Truth") );
+		showGameButtons( true );
+		setGameButtonsText( eTodButtonTextEvaluateTruthPerformance );
+		m_HisStats.setVar( eTodGameVarIdTruthChoiceCnt, m_HisStats.getVar( eTodGameVarIdTruthChoiceCnt ) + 1 );
+		setChallengeStatus( eTodEmiticonAngel, QObject::tr("Evaluate Truth") );
 		break;
 
 	case eRxedTruthAccepted:
 		m_MyApp.playSound( eSndDefYes );
-		enableGameButton( eGameButtonDare, true );
-		setGameButtonText( eGameButtonDare, QObject::tr("Send Challenge Dare") );
-		enableGameButton( eGameButtonTruth, true );
-		setGameButtonText( eGameButtonTruth, QObject::tr("Send Challenge Truth") );
-		setTodStatusMsg( m_HisIdent->getOnlineName().c_str() + QObject::tr(" has given you 1 Truth Point" ));
-		m_TodGameStats.m_MyPlayerStats.m_s32TruthAcceptedCnt++;
-		updateMyStats();
-		sendGameStats();
+		showGameButtons( false );
+		m_MyStats.setVar( eTodGameVarIdTruthAcceptedCnt, m_MyStats.getVar( eTodGameVarIdTruthAcceptedCnt ) + 1 );
+		setChallengeStatus( eTodEmiticonThinking, QObject::tr( "You have gained 1 Truth Point" ) );
 		saveMyGameStats();
-		showChallengeStatus( false );
 		break;
 
 	case eRxedTruthRejected:
 		m_MyApp.playSound( eSndDefOfferRejected );
-		enableGameButton( eGameButtonDare, true );
-		setGameButtonText( eGameButtonDare, tr("Challenge Dare") );
-		enableGameButton( eGameButtonTruth, true );
-		setGameButtonText( eGameButtonTruth, tr("Challenge Truth") );
-		setTodStatusMsg( m_HisIdent->getOnlineName().c_str() + QObject::tr(" REJECTED your Truth speech") );
-		m_TodGameStats.m_MyPlayerStats.m_s32TruthRejectedCnt++;
-		updateMyStats();
-		sendGameStats();
+		showGameButtons( false );
+		m_MyStats.setVar( eTodGameVarIdTruthRejectedCnt, m_MyStats.getVar( eTodGameVarIdTruthRejectedCnt ) + 1 );
+		setChallengeStatus( eTodEmiticonThinking, QObject::tr( "Your Truth was not believed" ) );
 		saveMyGameStats();
-		showChallengeStatus( false );
-		break;
-
-		//TXed
-	case eTxedDareChallenge:
-		setTodStatusMsg( QString(" Daring ") + m_HisIdent->getOnlineName().c_str() );
-		enableGameButton( eGameButtonTruth, true );
-		setGameButtonText( eGameButtonTruth, QObject::tr("Dare Performed")  );
-		enableGameButton( eGameButtonDare, true );
-		setGameButtonText( eGameButtonDare, QObject::tr("Dare NOT Performed")  );
-		showChallengeStatus( false );
-		break;
-
-	case eTxedTruthChallenge:
-		setTodStatusMsg( QString(" Challenging ") + m_HisIdent->getOnlineName().c_str() + QObject::tr(" to tell truth") );
-		enableGameButton( eGameButtonTruth, true );
-		setGameButtonText( eGameButtonTruth, QObject::tr("User Told Truth") );
-		enableGameButton( eGameButtonDare, true );
-		setGameButtonText( eGameButtonDare, QObject::tr( "Failed Tell Truth" ) );
-		showChallengeStatus( false );
 		break;
 
 	default:
 		break;
 	}
-}
-
-//============================================================================
-void TodGameLogic::setTodStatusMsg( QString strStatus )
-{
-	m_TodGameWidget->getTodStatusLabel()->setText(strStatus);
-}
-
-//============================================================================
-void TodGameLogic::setGameValueVar( long s32VarId, long s32VarValue )
-{
-	m_TodGameStats.m_FriendPlayerStats.setVar( (ETodGameVarId)s32VarId, s32VarValue );
-	updateFriendStats();
-}
-
-//============================================================================
-void TodGameLogic::setGameActionVar( long s32VarId, long s32VarValue )
-{
-	switch(s32VarId)
-	{
-	case eTodGameActionChallengeDare:
-		setGameStatus( eRxedDareChallenge );
-		break;
-
-	case eTodGameActionDareAccepted:
-		setGameStatus( eRxedDareAccepted );
-		break;
-
-	case eTodGameActionDareRejected:
-		setGameStatus( eRxedDareRejected );
-		break;
-
-	case eTodGameActionChallengeTruth:
-		setGameStatus( eRxedTruthChallenge );
-		break;
-
-	case eTodGameActionTruthAccepted:
-		setGameStatus( eRxedTruthAccepted );
-		break;
-
-	case eTodGameActionTruthRejected:
-		setGameStatus( eRxedTruthRejected );
-		break;
-	}
-}
-
-//============================================================================
-void TodGameLogic::updateMyStats( void )
-{
-	m_TodGameWidget->getMyDaresLabel()->setText(QString(tr(" My Dares Accepted %1 Rejected %2 Challenges %3")).
-		arg(m_TodGameStats.m_MyPlayerStats.getVar(eTodGameVarIdDareAcceptedCnt)).
-		arg(m_TodGameStats.m_MyPlayerStats.getVar(eTodGameVarIdDareRejectedCnt)).
-		arg(m_TodGameStats.m_MyPlayerStats.getVar(eTodGameVarIdDareChallengeCnt)) );
-
-	m_TodGameWidget->getMyTruthsLabel()->setText(QString(tr(" My Truths Accepted %1 Rejected %2 Challenges %3")).
-		arg(m_TodGameStats.m_MyPlayerStats.getVar(eTodGameVarIdTruthAcceptedCnt)).
-		arg(m_TodGameStats.m_MyPlayerStats.getVar(eTodGameVarIdTruthRejectedCnt)).
-		arg(m_TodGameStats.m_MyPlayerStats.getVar(eTodGameVarIdTruthChallengeCnt)) );
-}
-
-//============================================================================
-void TodGameLogic::updateFriendStats( void )
-{
-	m_TodGameWidget->getFriendDaresLabel()->setText(QString(tr(" %1 Dares Accepted %2 Rejected %3 Challenges %4")).
-		arg(m_HisIdent->getOnlineName().c_str() ).
-		arg(m_TodGameStats.m_FriendPlayerStats.getVar(eTodGameVarIdDareChallengeCnt)).
-		arg(m_TodGameStats.m_FriendPlayerStats.getVar(eTodGameVarIdDareAcceptedCnt)).
-		arg(m_TodGameStats.m_FriendPlayerStats.getVar(eTodGameVarIdDareRejectedCnt)) );
-
-	m_TodGameWidget->getFriendTruthsLabel()->setText(QString(tr(" %1 Truths Accepted %2 Rejected %3 Challenges %4")).
-		arg(m_HisIdent->getOnlineName().c_str() ).
-		arg(m_TodGameStats.m_FriendPlayerStats.getVar(eTodGameVarIdTruthAcceptedCnt)).
-		arg(m_TodGameStats.m_FriendPlayerStats.getVar(eTodGameVarIdTruthRejectedCnt)).
-		arg(m_TodGameStats.m_FriendPlayerStats.getVar(eTodGameVarIdTruthChallengeCnt)) );
 }
 
 //============================================================================
 void TodGameLogic::slotTruthButtonClicked( void )
 {
+	LogMsg( LOG_VERBOSE, "TodGameLogic::%s %s", __func__, DescribeGameStatus( m_eGameStatus ) );
 	switch( m_eGameStatus )
 	{
-	case eWaitingForChallengeRx:
-		break;
-	case eRxedDareChallenge:
-		break;
-	case eRxedDareAccepted:
-	case eRxedDareRejected:
-	case eRxedTruthChallenge:
-	case eRxedTruthAccepted:
-	case eRxedTruthRejected:
-	case eWaitingForChallengeTx:
-		fromGuiSetGameActionVar( eTodGameActionChallengeTruth, 1);
-		setGameStatus( eTxedTruthChallenge );
+	case eWaitingForChoiceRx:
 		break;
 
-	case eTxedDareChallenge:
-		fromGuiSetGameActionVar( eTodGameActionDareAccepted, 1);
-		setGameStatus( eWaitingForChallengeRx );
+	case eRxedDareChoice:
+		m_HisStats.setVar( eTodGameVarIdDareAcceptedCnt, m_HisStats.getVar( eTodGameVarIdDareAcceptedCnt ) + 1 );
+		sendGameAction( eTodGameActionDareAccepted );
+		setGameStatus( eWaitingForChoiceTx );
 		break;
 
-	case eTxedDareAccepted:
+	case eRxedTruthChoice:
+		m_HisStats.setVar( eTodGameVarIdTruthAcceptedCnt, m_HisStats.getVar( eTodGameVarIdTruthAcceptedCnt ) + 1 );
+		sendGameAction( eTodGameActionTruthAccepted );
+		setGameStatus( eWaitingForChoiceTx );
 		break;
 
-	case eTxedDareRejected:
+	case eWaitingForChoiceTx:
+		sendGameAction( eTodGameActionChoiceTruth );
+		setGameStatus( eTxedChoiceTruth );
 		break;
 
-	case eTxedTruthChallenge:
-		fromGuiSetGameActionVar( eTodGameActionTruthAccepted, 1);
-		setGameStatus( eWaitingForChallengeRx );
-		break;
-
-	case eTxedTruthAccepted:
-		break;
-
-	case eTxedTruthRejected:
 	default:
+		LogMsg( LOG_ERROR, "odGameLogic::%s unhandled status %s", __func__, DescribeGameStatus( m_eGameStatus ) );
 		break;
 	};
 }
@@ -491,118 +340,34 @@ void TodGameLogic::slotTruthButtonClicked( void )
 //============================================================================
 void TodGameLogic::slotDareButtonClicked( void )
 {
+	LogMsg( LOG_VERBOSE, "TodGameLogic::%s %s", __func__, DescribeGameStatus( m_eGameStatus ) );
 	switch( m_eGameStatus )
 	{
-	case eWaitingForChallengeRx:
+	case eWaitingForChoiceRx:
 		break;
 
-	case eRxedDareChallenge:
-	case eRxedDareAccepted:
-	case eRxedDareRejected:
-	case eRxedTruthChallenge:
-	case eRxedTruthAccepted:
-	case eRxedTruthRejected:
-	case eWaitingForChallengeTx:
-		fromGuiSetGameActionVar( eTodGameActionChallengeDare, 1);
-		setGameStatus( eTxedDareChallenge );
+	case eRxedDareChoice:
+		m_HisStats.setVar( eTodGameVarIdDareRejectedCnt, m_HisStats.getVar( eTodGameVarIdDareRejectedCnt ) + 1 );
+		sendGameAction( eTodGameActionDareRejected );
+		setGameStatus( eWaitingForChoiceTx );
 		break;
 
-	case eTxedDareChallenge:
-		fromGuiSetGameActionVar( eTodGameActionDareRejected, 1);
-		setGameStatus( eWaitingForChallengeRx );
+	case eRxedTruthChoice:
+		m_HisStats.setVar( eTodGameVarIdTruthRejectedCnt, m_HisStats.getVar( eTodGameVarIdTruthRejectedCnt ) + 1 );
+		sendGameAction( eTodGameActionTruthRejected );
+		setGameStatus( eWaitingForChoiceTx );
 		break;
 
-	case eTxedDareAccepted:
+
+	case eWaitingForChoiceTx:
+		sendGameAction( eTodGameActionChoiceDare );
+		setGameStatus( eTxedChoiceDare );
 		break;
 
-	case eTxedDareRejected:
-		break;
-
-	case eTxedTruthChallenge:
-		fromGuiSetGameActionVar( eTodGameActionTruthRejected, 1);
-		setGameStatus( eWaitingForChallengeRx );
-		break;
-
-	case eTxedTruthAccepted:
-		break;
-
-	case eTxedTruthRejected:
 	default:
+		LogMsg( LOG_ERROR, "odGameLogic::%s unhandled status %s", __func__, DescribeGameStatus( m_eGameStatus ) );
 		break;
 	};
-}
-
-//============================================================================
-void TodGameLogic::slotToGuiSetGameValueVar( long s32VarId, long s32VarValue )
-{
-	m_TodGameStats.m_FriendPlayerStats.setVar( (ETodGameVarId)s32VarId, s32VarValue );
-	updateFriendStats();
-}
-
-//============================================================================
-void TodGameLogic::slotToGuiSetGameActionVar( long s32VarId, long s32VarValue )
-{
-	switch(s32VarId)
-	{
-	case eTodGameActionChallengeDare:
-		setGameStatus( eRxedDareChallenge );
-		break;
-
-	case eTodGameActionDareAccepted:
-		setGameStatus( eRxedDareAccepted );
-		break;
-
-	case eTodGameActionDareRejected:
-		setGameStatus( eRxedDareRejected );
-		break;
-
-	case eTodGameActionChallengeTruth:
-		setGameStatus( eRxedTruthChallenge );
-		break;
-
-	case eTodGameActionTruthAccepted:
-		setGameStatus( eRxedTruthAccepted );
-		break;
-
-	case eTodGameActionTruthRejected:
-		setGameStatus( eRxedTruthRejected );
-		break;
-
-	default:
-		break;
-	}
-}
-
-//============================================================================
-bool TodGameLogic::fromGuiSetGameValueVar(	int32_t s32VarId, int32_t s32VarValue )
-{
-	bool bResult = m_Engine.fromGuiSetGameValueVar( 
-		m_ePluginType, 
-		m_HisIdent->getMyOnlineId(),
-		s32VarId,
-		s32VarValue );
-	if( false == bResult )
-	{
-		handleUserWentOffline();
-	}
-
-	return bResult;
-}
-
-//============================================================================
-bool TodGameLogic::fromGuiSetGameActionVar(	int32_t s32VarId, int32_t s32VarValue )
-{
-	bool bResult = m_Engine.fromGuiSetGameActionVar( 
-		m_ePluginType, 
-		m_HisIdent->getMyOnlineId(),
-		s32VarId,
-		s32VarValue );
-	if( false == bResult )
-	{
-		handleUserWentOffline();
-	}
-
-	return bResult;
 }
 
 //============================================================================
@@ -612,22 +377,82 @@ void TodGameLogic::handleUserWentOffline( void )
 }
 
 //============================================================================
-bool TodGameLogic::beginGame( bool isChallenger )
+void TodGameLogic::beginGame( bool isChallenger )
 {
 	m_IsChallenger = isChallenger;
-	setGameStatus( m_IsChallenger ? eWaitingForChallengeRx : eWaitingForChallengeTx );
-	bool result = sendGameStats();
-	if( result )
+    setGameStatus( m_IsChallenger ? eWaitingForChoiceTx : eWaitingForChoiceRx );
+	if( !m_CallbacksRequested )
 	{
-
+		m_CallbacksRequested = true;
+		m_MyApp.getTodGameMgr().wantTodGamCallbacks( this, true );
 	}
-
-	return result;
 }
 
 //============================================================================
 void TodGameLogic::endGame( void )
 {
+	if( m_CallbacksRequested )
+	{
+		m_CallbacksRequested = false;
+		m_MyApp.getTodGameMgr().wantTodGamCallbacks( this, false );
+	}
+
 	saveMyGameStats();
-	setGameStatus( m_IsChallenger ? eWaitingForChallengeRx : eWaitingForChallengeTx );
+    setGameStatus( eGameEnded );
+}
+
+//============================================================================
+void TodGameLogic::toGuiTodGameAction( EPluginType pluginType, VxGUID& onlineId, ETodGameAction todGameAction )
+{
+	if( pluginType != m_PluginType ||
+		!m_HisIdent ||
+		!( onlineId == m_HisIdent->getMyOnlineId() ) )
+	{
+		LogMsg( LOG_VERBOSE, "TodGameLogic::%s not for us", __func__ );
+		return;
+	}
+
+	LogMsg( LOG_VERBOSE, "TodGameLogic::%s plugin %s action %s", __func__, DescribePluginType( pluginType ), DescribeTodGameAction( todGameAction ) );
+	switch( todGameAction )
+	{
+	case eTodGameActionChoiceDare:
+		setGameStatus( eRxedDareChoice );
+		break;
+
+	case eTodGameActionDareAccepted:
+		setGameStatus( eRxedDareAccepted );
+		break;
+
+	case eTodGameActionDareRejected:
+		setGameStatus( eRxedDareRejected );
+		break;
+
+	case eTodGameActionChoiceTruth:
+		setGameStatus( eRxedTruthChoice );
+		break;
+
+	case eTodGameActionTruthAccepted:
+		setGameStatus( eRxedTruthAccepted );
+		break;
+
+	case eTodGameActionTruthRejected:
+		setGameStatus( eRxedTruthRejected );
+		break;
+
+	default:
+		break;
+	}
+}
+
+//============================================================================
+bool TodGameLogic::sendGameAction( ETodGameAction todGameAction )
+{
+	IFromGui& poFromGui = m_Engine.getFromGuiInterface();
+	bool bResult = poFromGui.fromGuiTodGameActionSend( m_PluginType, m_HisIdent->getMyOnlineId(), todGameAction );
+	if( false == bResult )
+	{
+		handleUserWentOffline();
+	}
+
+	return bResult;
 }

@@ -9,7 +9,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "VxNetIdentBase.h"
+#include "VxConnectInfo.h"
+#include "VxOnlineStatusFlags.h"	
 
 #include <memory>
 #include <memory.h>
@@ -81,26 +82,70 @@ protected:
 
 //  size
 // +   24 bytes PluginPermission
+// +    1 byte VxOnlineStatusFlags
+// +    1 byte m_JoinedFlags
 // +    2 bytes m_u16AppVersion;	
 // +    2 bytes m_u16PingTimeMs;	
 // +    2 bytes m_NetIdentRes1;	
-// +    1 bytes m_NetIdentRes2;
-// +    1 bytes m_NetIdentRes3;
-// +    8 bytes m_NetIdentRes4;	
+// 
 // +    8 bytes m_LastSessionTime;
-// =   48 bytes
-// +  352 bytes VxNetIdentBase   
-// =  400 bytes total
+// +    8 bytes m_GroupieInfoModifiedTimeMs
+// 48 bytes to here
+
+// +    4 bytes m_TruthAcceptCnt;
+// +    4 bytes m_TruthRejectCnt;
+// +    4 bytes m_DareAcceptCnt;	
+// +    4 bytes m_DareRejectCnt;	
+// 64 bytes to here
+
+// +    8 bytes m_NetIdentRes2;
+// +    8 bytes m_NetIdentRes3;
+// +    8 bytes m_NetIdentRes4;	
+// +    8 bytes m_NetIdentRes5;	
+// =   96 bytes bytes total
+// 
+// 336 bytes VxConnectInfo + 96
+// = 432 bytes total // 400 bytes total
 
 /// network indentiy of contact
-class VxNetIdent : public VxNetIdentBase, public PluginPermission
+class VxNetIdent : public VxConnectInfo, public PluginPermission, public VxOnlineStatusFlags
 {
 public:
 	VxNetIdent();
 	VxNetIdent(const VxNetIdent &rhs );
     bool                        addToBlob( PktBlobEntry& blob );
     bool                        extractFromBlob( PktBlobEntry& blob );
-    VxNetIdent&                 operator =( const VxNetIdent &rhs );
+
+	VxNetIdent&					operator =( const VxNetIdent& rhs );
+	bool                        operator ==( const VxNetIdent& rhs ) const;
+	bool                        operator != ( const VxNetIdent& rhs ) const;
+
+	VxConnectInfo&				getConnectInfo( void ) { return *this; }
+
+	bool                        isMyself( void );
+
+	bool						isOnline( void ) { return isDirectConnected() || isRelayed(); }
+	bool						isDirectConnected( void );
+	bool						isRelayed( void );
+
+	bool						canDirectConnectToUser( void );
+
+	void						clearIsJoined( void );
+	void						setIsJoined( EHostType hostType, bool isJoined );
+	bool						getIsJoined( EHostType hostType );
+	bool						isJoinedAny( void );
+
+	void						setTruthAcceptCount( uint32_t truthCnt )	{ m_TruthAcceptCnt = truthCnt; }
+	uint32_t					getTruthAcceptCount( void )					{ return m_TruthAcceptCnt; }
+	void						setTruthRejectCount( uint32_t truthCnt )	{ m_TruthRejectCnt = truthCnt; }
+	uint32_t					getTruthRejectCount( void )					{ return m_TruthRejectCnt; }
+
+	void						setDareAcceptCount( uint32_t dareCnt )		{ m_DareAcceptCnt = dareCnt; }
+	uint32_t					getDareAcceptCount( void )					{ return m_DareAcceptCnt; }
+	void						setDareRejectCount( uint32_t dareCnt )		{ m_DareRejectCnt = dareCnt; }
+	uint32_t					getDareRejectCount( void )					{ return m_DareRejectCnt; }
+
+	bool						isVxNetIdentMatch( const VxNetIdent& oOtherIdent ) const;
 
 	bool						isPluginEnabled( enum EPluginType ePlugin );
 	//! get type of permission user has set for given plugin
@@ -187,13 +232,26 @@ public:
 private:
 
 	//=== vars ===//
+	uint8_t						m_JoinedFlags{ 0 };
+
     uint16_t					m_u16AppVersion{ 0 };
 	uint16_t					m_u16PingTimeMs{ 0 };	
-    uint16_t					m_NetIdentRes1{ 0 };  
-    uint8_t					    m_NetIdentRes2{ 0 };     
-    uint8_t						m_NetIdentRes3{ 0 };
-    int64_t                     m_GroupieInfoModifiedTimeMs{ 0 };
-    int64_t					    m_LastSessionTimeGmtMs{ 0 };
+
+	uint16_t					m_NetIdentRes1{ 0 };
+
+	int64_t					    m_LastSessionTimeGmtMs{ 0 };
+	int64_t                     m_GroupieInfoModifiedTimeMs{ 0 };
+
+	uint32_t					m_TruthAcceptCnt{ 0 };
+	uint32_t					m_TruthRejectCnt{ 0 };
+	uint32_t					m_DareAcceptCnt{ 0 };
+	uint32_t					m_DareRejectCnt{ 0 };
+    
+	// for future use
+	int64_t					    m_NetIdentRes2{ 0 };
+	int64_t						m_NetIdentRes3{ 0 };
+	int64_t					    m_NetIdentRes4{ 0 };
+	int64_t						m_NetIdentRes5{ 0 };
 };
 
 #pragma pack(pop)

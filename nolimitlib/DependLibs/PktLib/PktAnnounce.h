@@ -26,8 +26,8 @@
 #define FLAG_PKT_ANN_TEMP_CONNECT				0x08
 
 // +  40 bytes VxPktHdr
-// + 400 bytes VxNetIdent
-// = 440 bytes
+// + 432 bytes VxNetIdent
+// = 472 bytes
 // 
 // +  1 m_u8TimeToLive
 // +  1 m_u8RequestFlags
@@ -38,7 +38,7 @@
 // + 16 m_AnnRes 1-4
 // = 40 bytes
 // 
-// 40 + 440 = 480 bytes
+// 40 + 472 = 512 bytes
 class PktAnnBase : public VxPktHdr, public VxNetIdent
 {
 public:

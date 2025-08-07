@@ -1332,6 +1332,19 @@ enum ESubCatagory
     eMaxSubCatagory
 };
 
+enum ETodGameAction
+{
+    eTodGameActionNone,
+    eTodGameActionChoiceDare,
+    eTodGameActionDareAccepted,
+    eTodGameActionDareRejected,
+    eTodGameActionChoiceTruth,
+    eTodGameActionTruthAccepted,
+    eTodGameActionTruthRejected,
+
+    eMaxTodGameAction // must be last
+};
+
 enum EUserViewType
 {
     eUserViewTypeNone,
@@ -1462,6 +1475,8 @@ const char* DescribeSha1GenResult( enum ESha1GenResult sha1GenerateResult );
 const char* DescribeSktCloseReason( enum ESktCloseReason closeReason );
 //! Describe skt type
 const char* DescribeSktType( enum ESktType sktType );
+//! Describe skt type
+const char* DescribeTodGameAction( enum ETodGameAction todGameAction );
 //! Describe user view type
 const char* DescribeUserViewType( enum EUserViewType sktType );
 
@@ -1524,5 +1539,3 @@ bool IsPluginARelayForUser( enum EPluginType pluginType );
 //! return true if only one user can access at a time. example ePluginTypeVideoPhone
 bool IsPluginSingleSession( EPluginType pluginType );
 
-//! return true if currently have special debugging for given name or test
-bool ShouldDebugUser( const char* userName );

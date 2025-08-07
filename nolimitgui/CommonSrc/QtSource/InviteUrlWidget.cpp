@@ -356,7 +356,7 @@ bool InviteUrlWidget::populateNetSettingUrl( EHostType hostType, std::string& pt
     if( !ptopUrl.empty() )
     {
         std::string url = ptopUrl.c_str();
-        url += Invite::getHostTypeSuffix( hostType );
+        Invite::appendHostTypeSuffix( hostType, url );
         ui.m_InviteTextEdit->appendPlainText( url.c_str() );
     }
 

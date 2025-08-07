@@ -82,8 +82,11 @@ public:
     QString				        describeMyFriendshipToHim( void );
     QString				        describeHisFriendshipToMe( void );
 
-    uint32_t                    getTruthCount( void )                   { return m_NetIdent.getTruthCount(); }
-    uint32_t                    getDareCount( void )                    { return m_NetIdent.getDareCount(); }
+    uint32_t                    getTruthAcceptCount( void )             { return m_NetIdent.getTruthAcceptCount(); }
+    uint32_t                    getTruthRejectCount( void )             { return m_NetIdent.getTruthRejectCount(); }
+    uint32_t                    getDareAcceptCount( void )              { return m_NetIdent.getDareAcceptCount(); }
+    uint32_t                    getDareRejectCount( void )              { return m_NetIdent.getDareRejectCount(); }
+
     void		                setHasTextOffers( bool hasOffers )	    { m_NetIdent.setHasTextOffers( hasOffers ); }
     bool		                getHasTextOffers( void )				{ return m_NetIdent.getHasTextOffers(); }
 
@@ -109,5 +112,4 @@ protected:
     VxGUID                      m_OnlineId;
     VxGUID                      m_SessionId;
     uint64_t                    m_LastUpdateTime{ 0 };
-    int64_t                     m_NearbyTimeOrZero{ 0 };
 };

@@ -373,32 +373,6 @@ void AppletMultiMessenger::setStatusMsg( QString strStatus )
 }
 
 //============================================================================
-void AppletMultiMessenger::toGuiSetGameValueVar(	EPluginType pluginType, 
-													VxGUID&		onlineId, 
-													int32_t		s32VarId, 
-													int32_t		s32VarValue )
-{
-	if( ( pluginType == m_ePluginType )
-		&& ( onlineId == m_HisIdent->getMyOnlineId() ) )
-	{
-		// emit signalToGuiSetGameValueVar( s32VarId, s32VarValue );
-	}
-}
-
-//============================================================================
-void AppletMultiMessenger::toGuiSetGameActionVar(	EPluginType     pluginType, 
-													VxGUID&		    onlineId, 
-													int32_t			s32VarId, 
-													int32_t			s32VarValue )
-{
-	if( ( pluginType == m_ePluginType )
-		&& ( onlineId == m_HisIdent->getMyOnlineId() ) )
-	{
-		// emit signalToGuiSetGameActionVar( s32VarId, s32VarValue );
-	}
-}
-
-//============================================================================
 void AppletMultiMessenger::slotSetSessionVisible( bool visible )
 {
     if( ui.m_SessionFrame->isVisible() )

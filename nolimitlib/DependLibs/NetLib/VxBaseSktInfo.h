@@ -15,7 +15,7 @@
 #include <memory>
 
 class VxSktBase;
-class VxNetIdentBase;
+class VxNetIdent;
 
 class VxBaseSktInfo
 {
@@ -37,7 +37,7 @@ protected:
 	uint32_t					m_u32LocalIp{0};		// our ip in binary form
 	uint32_t					m_u32LastRxTime{0};		// last time received a packet
 	//=== identity vars ===//
-	VxNetIdentBase *			m_Ident;				// network identity
+	VxNetIdent*					m_Ident;				// network identity
 	std::string					m_csUserName;			// users login name
 
 	//=== file tx/rx vars ===//

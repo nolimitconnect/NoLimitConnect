@@ -35,8 +35,7 @@ public:
 	virtual bool				fromGuiSendAsset( AssetBaseInfo& assetInfo ) override;
     virtual bool				fromGuiMultiSessionAction( VxGUID& onlineId, EMSessionAction mSessionAction, int pos0to100000, VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 
-    virtual bool				fromGuiSetGameValueVar(	VxGUID& onlineId, int32_t varId, int32_t varValue ) override;
-    virtual bool				fromGuiSetGameActionVar( VxGUID& onlineId, int32_t	actionId, int32_t actionValue ) override;
+    virtual bool				fromGuiTodGameActionSend( VxGUID& onlineId, ETodGameAction todGameAction ) override;
 
     void                        broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterOnlineId, std::shared_ptr<VxSktBase>& sktBaseRequester, bool includeRequester = true ) override;
     void                        broadcastToClients( VxPktHdr* pktHdr, VxGUID& excludedOnlineId ) override;

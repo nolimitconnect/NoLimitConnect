@@ -66,7 +66,7 @@ bool OfferSessionLogic::isHost( void )
 bool OfferSessionLogic::isOurSessionType( std::shared_ptr<GuiOfferSession>& offerSession )
 {
 	if( ( offerSession->getPluginType() == m_ePluginType )
-		&& ( 0 != m_HisIdent ) )
+		&& ( nullptr != m_HisIdent ) )
 	{
 		return true;
 	}

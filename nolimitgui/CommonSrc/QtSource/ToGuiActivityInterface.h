@@ -55,9 +55,6 @@ public:
 	virtual void				toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ){};
 	virtual void				toGuiMultiSessionAction( EMSessionAction mSessionAction, VxGUID onlineId, int pos0to100000 ){};
 
-	virtual void				toGuiSetGameValueVar( EPluginType pluginType, VxGUID& onlineId, int32_t varId, int32_t varValue ){};
-	virtual void				toGuiSetGameActionVar( EPluginType pluginType, VxGUID& onlineId, int32_t actionId, int32_t varValue ){};
-
     virtual void				toGuiClientBlobAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ){};
     virtual void				toGuiBlobAdded( BlobInfo& blobInfo ){};
     virtual void				toGuiBlobSessionHistory( BlobInfo& blobInfo ){};

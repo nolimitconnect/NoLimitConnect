@@ -75,19 +75,6 @@ protected:
 	void						setupMultiSessionActivity( GuiUser* hisIdent );
 	void						setStatusMsg( QString strStatus );
 
-	void						toGuiSetGameValueVar(	EPluginType     pluginType, 
-														VxGUID&		    onlineId, 
-														int32_t			s32VarId, 
-                                                        int32_t			s32VarValue ) override;
-
-	void						toGuiSetGameActionVar(	EPluginType     pluginType, 
-														VxGUID&		    onlineId, 
-														int32_t			s32VarId, 
-                                                        int32_t			s32VarValue ) override;
-
-	//virtual bool				handleOfferResponse( EOfferResponse offerResponse, QWidget* parent );
-    //void						onInSessionResponse( bool bResponseOk );
-
 	MultiSessionState *			getMSessionState( EMSessionType sessionType );
 	void						onSelectedUserChanged( GuiUser* guiUser );
 

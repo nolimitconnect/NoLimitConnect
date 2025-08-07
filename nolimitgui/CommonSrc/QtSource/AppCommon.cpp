@@ -18,6 +18,7 @@
 #include "LogMgr.h"
 #include "MyIcons.h"
 #include "SoundMgr.h"
+#include "TodGameMgr.h"
 
 #include "AppletCreateAccount.h"
 #include "ActivityShowHelp.h"
@@ -37,7 +38,6 @@
 #include "GuiFavoriteMgr.h"
 #include "GuiMemberActiveMgr.h"
 #include "GuiOfferSession.h"
-#include "GuiParams.h"
 #include "GuiPlayerMgr.h"
 #include "GuiPluginMgr.h"
 #include "GuiPushToTalkMgr.h"
@@ -131,6 +131,7 @@ static GuiPushToTalkMgr pushToTalkMgr;
 static GuiRandConnectMgr randConnectMgr;
 static GuiSendQueueMgr sendQueueMgr;
 static MyIcons myIcons;
+static TodGameMgr todGameMgr;
     if( !g_AppCommon )
     {
 		// need sockets right away so can check for port in use when creating new account
@@ -139,7 +140,7 @@ static MyIcons myIcons;
         // constructor of AppCommon will set g_AppCommon
         new AppCommon( *myApp, appModuleState, appSettings, accountMgr, favoritMgr,
 					   memberActiveMgr, playerMgr, pluginMgr, pushToTalkMgr, randConnectMgr, 
-					   sendQueueMgr, myIcons );
+					   sendQueueMgr, myIcons, todGameMgr );
     }
 
     return *g_AppCommon;
@@ -165,12 +166,13 @@ AppCommon::AppCommon(	QApplication&	myQApp,
                         AccountMgr&	    accountMgr,
 						GuiFavoriteMgr& favoritMgr,
 						GuiMemberActiveMgr& memberActiveMgr,
-					    GuiPlayerMgr& playerMgr,
-						GuiPluginMgr& pluginMgr,
+					    GuiPlayerMgr&	playerMgr,
+						GuiPluginMgr&	pluginMgr,
 						GuiPushToTalkMgr& pushToTalkMgr,
 						GuiRandConnectMgr& randConnectMgr,
 						GuiSendQueueMgr& sendQueueMgr,
-						MyIcons& myIcons )
+						MyIcons&		myIcons,
+						TodGameMgr&		todGameMgr )
 : QWidget()
 , m_QApp( myQApp )
 , m_AppModuleState(appModuleState)
@@ -179,6 +181,8 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_AppShortName( GetAppShortName() )
 , m_AppTitle( GetAppTitle() )
 , m_AccountMgr( accountMgr )
+, m_TodGameMgr( todGameMgr )
+
 , m_ConnectIdListMgr( *this )
 , m_FavoriteMgr( favoritMgr )
 , m_FileXferMgr( *this )
@@ -1177,74 +1181,25 @@ void AppCommon::slotAppErr( EAppErr eAppErr, QString errMsg )
 }
 
 //============================================================================
-void AppCommon::toGuiSetGameValueVar( EPluginType pluginType, VxGUID& onlineId, int32_t s32VarId, int32_t s32VarValue )
+void AppCommon::toGuiTodGameAction( EPluginType	pluginType, VxGUID& onlineId, ETodGameAction todGameAction )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return;
 	}
 
-	emit signalInternalToGuiSetGameValueVar( pluginType, onlineId, s32VarId, s32VarValue );
+	emit signalInternalToGuiTodGameAction( pluginType, onlineId, todGameAction );
 }
 
 //============================================================================
-void AppCommon::slotInternalToGuiSetGameValueVar( EPluginType pluginType, VxGUID onlineId, int32_t s32VarId, int32_t s32VarValue )
+void AppCommon::slotInternalToGuiTodGameAction( EPluginType  pluginType, VxGUID onlineId, ETodGameAction todGameAction )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return;
 	}
 
-    if( m_ToGuiActivityInterfaceBusy )
-    {
-        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
-        vx_assert( false );
-    }
-
-	m_ToGuiActivityInterfaceBusy = true;
-	for( auto& client : m_ToGuiActivityInterfaceList )
-	{
-		client->toGuiSetGameValueVar( pluginType, onlineId, s32VarId, s32VarValue );
-	}
-
-	m_ToGuiActivityInterfaceBusy = false;
-}
-
-//============================================================================
-void AppCommon::toGuiSetGameActionVar(	EPluginType	pluginType, 
-										VxGUID&		onlineId, 
-										int32_t		s32VarId, 
-										int32_t		s32VarValue )
-{
-	if( VxIsAppShuttingDown() )
-	{
-		return;
-	}
-
-	emit signalInternalToGuiSetGameActionVar( pluginType, onlineId, s32VarId, s32VarValue );
-}
-
-//============================================================================
-void AppCommon::slotInternalToGuiSetGameActionVar( EPluginType pluginType, VxGUID onlineId, int32_t s32VarId, int32_t s32VarValue )
-{
-	if( VxIsAppShuttingDown() )
-	{
-		return;
-	}
-
-    if( m_ToGuiActivityInterfaceBusy )
-    {
-        LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
-        vx_assert( false );
-    }
-
-	m_ToGuiActivityInterfaceBusy = true;
-	for( auto& client : m_ToGuiActivityInterfaceList )
-	{
-		client->toGuiSetGameActionVar( pluginType, onlineId, s32VarId, s32VarValue );
-	}
-
-	m_ToGuiActivityInterfaceBusy = false;
+	getTodGameMgr().toGuiTodGameAction( pluginType, onlineId, todGameAction );
 }
 
 //============================================================================

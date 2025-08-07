@@ -25,11 +25,6 @@
 
 #include "ui_AppletPeerTodGame.h"
 
-namespace
-{
-	#define GAME_SETTINGS_KEY "TODGAME"
-}
-
 //============================================================================
 AppletPeerTodGame::AppletPeerTodGame( AppCommon& app, QWidget* parent )
 : AppletPeerBase( OBJNAME_ACTIVITY_TO_FRIEND_TOD_GAME, app, parent )
@@ -49,19 +44,13 @@ AppletPeerTodGame::AppletPeerTodGame( AppCommon& app, QWidget* parent )
 
 	ui.m_TodGameWidget->getVidWidget()->setRecordFilePath( VxGetDownloadsDirectory().c_str() );
 	setVidCamWidget( ui.m_TodGameWidget->getVidWidget() );
-	connectBarWidgets();
+	connect( &m_TodGameLogic, SIGNAL(signalGameStatus(QString)), this, SLOT(slotGameStatus(QString)) );
+}
 
-	//m_OfferSessionLogic.sendOfferOrResponse();
-	//bool bSentMsg = m_FromGui.fromGuiMakePluginOffer(	EPluginType pluginType, VxGUID& onlineId, OfferBaseInfo& offerInfo, VxGUID& lclSessionId );
-	//if( false == bSentMsg )
-	//{
-	//	handleUserWentOffline();
-	//}
-	//else
-	//{
-	//	setStatusText( tr( "Waiting For Offer Reply" ) );
-	//}
-	// m_TodGameLogic.setGameStatus( eTxedOffer );
+//============================================================================
+void AppletPeerTodGame::onResizeEvent( QSize& newSize )
+{
+	ui.m_InstMsgWidget->setMaximumHeight( newSize.height() / 4 );
 }
 
 //============================================================================
@@ -70,12 +59,11 @@ void AppletPeerTodGame::onInSession( bool isInSession )
 {
 	if( isInSession )
 	{
-		//setStatusText( tr( "In Truth Or Dare Session" ) );
-		m_TodGameLogic.beginGame( ! m_OfferSessionLogic.isHost() );
-		//m_Engine.fromGuiStartPluginSession( VxGUID& onlineId, void * pvUserData )
+        m_TodGameLogic.beginGame( m_OfferSessionLogic.isHost() );
 	}
 	else
 	{
+		m_TodGameLogic.endGame();
 		setStatusText( tr( "Truth Or Dare Session Ended" ) );
 	}
 }
@@ -104,13 +92,13 @@ bool AppletPeerTodGame::setOfferSession( std::shared_ptr<GuiOfferSession>& offer
     m_HisIdent = offerSession->getUser();
 	if( m_HisIdent )
 	{
-		setupSessionResult = AppletPeerBase::setOfferSession( offerSession );
-
-		m_TodGameLogic.setGuiWidgets( m_HisIdent, ui.m_TodGameWidget );
+		m_TodGameLogic.setGuiWidgets( m_HisIdent, ui.m_TodGameWidget, ui.m_TodGameWidget->getMyStatsWidget(), ui.m_TodGameWidget->getHisStatsWidget() );
 		ui.m_InstMsgWidget->setInstMsgWidgets( m_ePluginType, m_HisIdent );
 
 		ui.m_TodGameWidget->getVidWidget()->setVideoFeedId( m_HisIdent->getMyOnlineId(), eMediaModuleTruthOrDare );
-		ui.m_TodGameWidget->getVidWidget()->setRecordFriendName( m_HisIdent->getOnlineName().c_str() );	
+		ui.m_TodGameWidget->getVidWidget()->setRecordFriendName( m_HisIdent->getOnlineName().c_str() );
+
+		setupSessionResult = AppletPeerBase::setOfferSession( offerSession );
 	}
 
 	return setupSessionResult;
@@ -135,4 +123,10 @@ void AppletPeerTodGame::onOfferWasSet( void )
 void AppletPeerTodGame::onStateTextChanged( QString& stateText )
 {
 	ui.m_StateText->setText( stateText );
+}
+
+//============================================================================
+void AppletPeerTodGame::slotGameStatus( QString statusText )
+{
+	ui.m_StateText->setText( statusText );
 }

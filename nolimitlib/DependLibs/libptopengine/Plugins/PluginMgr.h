@@ -63,18 +63,11 @@ public:
 
 	virtual void				fromGuiUserLoggedOn( void );
 
-	virtual bool                fromGuiStartPluginSession( EPluginType pluginType, VxGUID& oOnlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() );
-	virtual void				fromGuiStopPluginSession( EPluginType pluginType, VxGUID& oOnlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() );
+	virtual bool                fromGuiStartPluginSession( EPluginType pluginType, VxGUID& onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() );
+	virtual void				fromGuiStopPluginSession( EPluginType pluginType, VxGUID& onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 	virtual bool				fromGuiIsPluginInSession( EPluginType pluginType, VxGUID& onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 
-	virtual bool				fromGuiSetGameValueVar( EPluginType	    pluginType, 
-														VxGUID&		    oOnlineId,
-														int32_t			s32VarId, 
-														int32_t			s32VarValue );
-	virtual bool				fromGuiSetGameActionVar(	EPluginType	    pluginType, 
-															VxGUID&		    oOnlineId,
-															int32_t			s32VarId, 
-															int32_t			s32VarValue );
+	virtual bool				fromGuiTodGameActionSend( EPluginType pluginType, VxGUID& onlineId, ETodGameAction todGameAction );
 
 	virtual int					fromGuiDeleteFile( std::string& fileName, bool shredFile );
 
@@ -93,7 +86,7 @@ public:
 	virtual void				pluginApiWantMediaInput( EPluginType pluginType, EMediaInputType mediaType, EMediaModule mediaModule, VxGUID& mediaSessionId, bool wantInput );
 
 	virtual bool				pluginApiSktConnectTo(	EPluginType			pluginType,		// plugin id
-														VxNetIdentBase *	netIdent,			// identity of contact to connect to
+														VxNetIdent*			netIdent,			// identity of contact to connect to
 														int					pvUserData,			// plugin defined data
 														std::shared_ptr<VxSktBase>&		ppoRetSkt, 			// returned Socket
 														EConnectReason		connectReason = eConnectReasonPlugin );	

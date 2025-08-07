@@ -104,6 +104,7 @@ void  AppCommon::registerMetaData( void )
 	qRegisterMetaType<EMediaPlayerAction>( "EMediaPlayerAction" );
 	qRegisterMetaType<EMediaError>( "EMediaError" );
 	qRegisterMetaType<SendQueInfo>( "SendQueInfo" );	
+	qRegisterMetaType<ETodGameAction>( "ETodGameAction" );
 }
 
 //============================================================================
@@ -125,9 +126,6 @@ void AppCommon::connectSignals( void )
     connect( this, SIGNAL(signalSetRelayHelpButtonVisibility(bool)), this, SLOT(slotSetRelayHelpButtonVisibility(bool)));
     connect( this, SIGNAL(signalInternalPluginMessage(EPluginType,VxGUID,EPluginMsgType,QString)), this, SLOT(slotInternalPluginMessage(EPluginType,VxGUID,EPluginMsgType,QString)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalPluginErrorMsg(EPluginType,VxGUID,EPluginMsgType,ECommErr)), this, SLOT(slotInternalPluginErrorMsg(EPluginType,VxGUID,EPluginMsgType,ECommErr)), Qt::QueuedConnection );
-
-    connect( this, SIGNAL(signalInternalToGuiSetGameValueVar(EPluginType,VxGUID,int32_t,int32_t)), this, SLOT(slotInternalToGuiSetGameValueVar(EPluginType,VxGUID,int32_t,int32_t)), Qt::QueuedConnection );
-    connect( this, SIGNAL(signalInternalToGuiSetGameActionVar(EPluginType,VxGUID,int32_t,int32_t)), this, SLOT(slotInternalToGuiSetGameActionVar(EPluginType,VxGUID,int32_t,int32_t)), Qt::QueuedConnection );
 
     connect( this, SIGNAL(signalInternalToGuiAssetAdded(AssetBaseInfo)), this, SLOT(slotInternalToGuiAssetAdded(AssetBaseInfo)), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalToGuiAssetUpdated(AssetBaseInfo)), this, SLOT(slotInternalToGuiAssetUpdated(AssetBaseInfo)), Qt::QueuedConnection );
@@ -197,4 +195,7 @@ void AppCommon::connectSignals( void )
 		SLOT(slotInternalMediaAction(EMediaModule,EMediaPlayerAction,int,QString)), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalMediaError(EMediaModule,EMediaError,QString)), this,
 		SLOT(slotInternalMediaError(EMediaModule,EMediaError,QString)), Qt::QueuedConnection );
+
+	connect( this, SIGNAL(signalInternalToGuiTodGameAction(EPluginType,VxGUID,ETodGameAction)), this, SLOT(slotInternalToGuiTodGameAction(EPluginType,VxGUID,ETodGameAction)), Qt::QueuedConnection );
+	connect( this, SIGNAL( signalInternalToGuiSetGameActionVar( EPluginType, VxGUID, int32_t, int32_t ) ), this, SLOT( slotInternalToGuiSetGameActionVar( EPluginType, VxGUID, int32_t, int32_t ) ), Qt::QueuedConnection );
 }

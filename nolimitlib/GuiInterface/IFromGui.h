@@ -217,16 +217,8 @@ public:
 	/// Cancel a upload
 	virtual void				fromGuiCancelUpload( VxGUID& fileInstance ) = 0;
 
-	/// Set game variable ( used for Truth Or Dare video chat game )
-	virtual bool				fromGuiSetGameValueVar( EPluginType		pluginType, 
-														VxGUID&			onlineId, 
-														int32_t			varId, 
-														int32_t			varValue ) = 0;
 	/// Set game action ( used for Truth Or Dare video chat game )
-	virtual bool				fromGuiSetGameActionVar(	EPluginType		pluginType, 
-															VxGUID&			onlineId, 
-															int32_t			actionId, 
-															int32_t			actionValue ) = 0;
+	virtual bool				fromGuiTodGameActionSend( EPluginType pluginType, VxGUID& onlineId, ETodGameAction todGameAction ) = 0;
 
 	/// Send directory listing to GUI
 	virtual bool				fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY ) = 0;

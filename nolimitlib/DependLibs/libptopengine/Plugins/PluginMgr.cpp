@@ -938,32 +938,13 @@ bool PluginMgr::fromGuiIsPluginInSession( EPluginType pluginType, VxGUID& online
 }
 
 //============================================================================
-bool PluginMgr::fromGuiSetGameValueVar(	    EPluginType	    pluginType, 
-											VxGUID&	        onlineId, 
-											int32_t			s32VarId, 
-											int32_t			s32VarValue )
+bool PluginMgr::fromGuiTodGameActionSend( EPluginType pluginType, VxGUID& onlineId, ETodGameAction todGameAction )
 {
 	bool bResult = false;
 	PluginBase* plugin = getPlugin( pluginType );
 	if( plugin )
 	{
-		bResult = plugin->fromGuiSetGameValueVar( onlineId, s32VarId, s32VarValue );	
-	}
-
-	return bResult;
-}
-
-//============================================================================
-bool PluginMgr::fromGuiSetGameActionVar(	EPluginType	    pluginType, 
-											VxGUID&		    onlineId,
-											int32_t			s32VarId, 
-											int32_t			s32VarValue )
-{
-	bool bResult = false;
-	PluginBase* plugin = getPlugin( pluginType );
-	if( plugin )
-	{
-		bResult = plugin->fromGuiSetGameActionVar( onlineId, s32VarId, s32VarValue );	
+		bResult = plugin->fromGuiTodGameActionSend( onlineId, todGameAction );
 	}
 
 	return bResult;

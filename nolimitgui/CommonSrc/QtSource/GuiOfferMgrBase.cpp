@@ -309,6 +309,7 @@ void GuiOfferMgrBase::toGuiPluginSessionEnded( VxGUID& onlineId, EPluginType plu
     if( !offerSession )
 	{
         LogMsg( LOG_WARNING, "GuiOfferMgrBase::%s offer from %s not found", __func__, guiUser->getOnlineName().c_str() );
+		updateActiveOfferCount();
 		return;
 	}
 
@@ -562,11 +563,16 @@ void GuiOfferMgrBase::removePluginSessionOffer( EPluginType pluginType, GuiUser*
 		if( pluginType == offerSession->getPluginType() && offerSession->getUser() == guiUser )
 		{
 			m_PhoneRinger.stopRinging( offerSession->getOfferId() );
+
+			for( auto& client : m_OfferCallbackList )
+			{
+				client->callbackToGuiPluginSessionEnded( offerSession );
+			}		
+
 			for( auto& client : m_OfferCallbackList )
 			{
 				client->callbackGuiOfferRemoved( offerSession->getOfferId() );
 			}
-
 
 			if( LogEnabled( eLogOffer ) )LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferMgrBase::%s ** remove session user %s plugin %s session id %s", __func__,
 				guiUser->getOnlineName().c_str(), DescribePluginType( offerSession->getPluginType() ), offerSession->getOfferId().toHexString().c_str() );

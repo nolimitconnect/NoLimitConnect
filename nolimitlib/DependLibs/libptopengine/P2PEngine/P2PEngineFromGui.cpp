@@ -173,10 +173,10 @@ void P2PEngine::fromGuiUpdateMyIdent( VxNetIdent* netIdent, bool permissionAndSt
 	if( permissionAndStatsOnly )
 	{	
 		memcpy( m_PktAnn.getPluginPermissions(), netIdent->getPluginPermissions(), PERMISSION_ARRAY_SIZE );
-		m_PktAnn.setDareCount( netIdent->getDareCount() );
-		m_PktAnn.setTruthCount( netIdent->getTruthCount() );
-		m_PktAnn.setRejectedTruthCount( netIdent->getRejectedTruthCount() );
-		m_PktAnn.setRejectedDareCount( netIdent->getRejectedDareCount() );
+		m_PktAnn.setTruthAcceptCount( netIdent->getTruthAcceptCount() );
+		m_PktAnn.setTruthRejectCount( netIdent->getTruthRejectCount() );
+		m_PktAnn.setDareAcceptCount( netIdent->getDareAcceptCount() );
+		m_PktAnn.setDareRejectCount( netIdent->getDareRejectCount() );
 	}
 	else
 	{
@@ -894,7 +894,6 @@ void P2PEngine::fromGuiRequireRelay( bool bRequireRelay )
 {
 	if( false == VxIsAppShuttingDown() )
 	{
-		//assureUserSpecificDirIsSet( "P2PEngine::fromGuiRequireRelay" );
 		if( m_PktAnn.requiresRelay() != bRequireRelay )
 		{
 			 lockAnnouncePktAccess();
@@ -908,7 +907,6 @@ void P2PEngine::fromGuiRequireRelay( bool bRequireRelay )
 //============================================================================
 void P2PEngine::fromGuiRelayPermissionCount( int userPermittedCount, int anonymousCount )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiRelayPermissionCount" );
 	m_PluginMgr.fromGuiRelayPermissionCount( userPermittedCount, anonymousCount );
 }
 
@@ -934,7 +932,6 @@ InetAddress P2PEngine::fromGuiGetMyIPv6Address( void )
 //============================================================================
 void P2PEngine::fromGuiCancelDownload( VxGUID& fileInstance )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiCancelDownload" );
 	m_PluginMgr.getPlugin( ePluginTypeFileShareClient )->fromGuiCancelDownload( fileInstance );
 	m_PluginMgr.getPlugin( ePluginTypePersonFileXfer )->fromGuiCancelDownload( fileInstance );
 }
@@ -942,7 +939,6 @@ void P2PEngine::fromGuiCancelDownload( VxGUID& fileInstance )
 //============================================================================
 void P2PEngine::fromGuiCancelUpload( VxGUID& fileInstance )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiCancelUpload" );
 	m_PluginMgr.getPlugin( ePluginTypeFileShareServer )->fromGuiCancelUpload( fileInstance );
 	m_PluginMgr.getPlugin( ePluginTypePersonFileXfer )->fromGuiCancelUpload( fileInstance );
 }
@@ -950,7 +946,6 @@ void P2PEngine::fromGuiCancelUpload( VxGUID& fileInstance )
 //============================================================================
 void P2PEngine::fromGuiGetNetSettings( NetSettings& netSettings )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiGetNetSettings" );
 	m_EngineSettings.getNetSettings( netSettings );
 }
 
@@ -997,7 +992,6 @@ void P2PEngine::updateMyNetworkServiceUrl( EHostType hostType )
 //============================================================================
 void P2PEngine::fromGuiSetNetSettings( NetSettings& netSettings )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiSetNetSettings" );
 	m_EngineSettings.setNetSettings( netSettings );
 }
 
@@ -1010,52 +1004,26 @@ void P2PEngine::fromGuiSetRelaySettings( int userRelayMaxCnt, int systemRelayMax
 //============================================================================
 void P2PEngine::fromGuiGetFileShareSettings( FileShareSettings& fileShareSettings )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiGetFileShareSettings" );
 	m_PluginMgr.getPlugin(ePluginTypeFileShareServer)->fromGuiGetFileShareSettings( fileShareSettings );
 }
 
 //============================================================================
 void P2PEngine::fromGuiSetFileShareSettings( FileShareSettings& fileShareSettings )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiSetFileShareSettings" );
 	m_PluginMgr.getPlugin(ePluginTypeFileShareServer)->fromGuiSetFileShareSettings( fileShareSettings );
 }
 
 //============================================================================
-bool P2PEngine::fromGuiSetGameValueVar( enum EPluginType		pluginType,
-										VxGUID&			onlineId, 
-										int32_t			varId, 
-										int32_t			varValue )
+bool P2PEngine::fromGuiTodGameActionSend( enum EPluginType	pluginType, VxGUID& onlineId, ETodGameAction todGameAction )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiSetGameValueVar" );
 	PluginBase* poPlugin = m_PluginMgr.getPlugin( pluginType );
 	if( poPlugin )
 	{
-		return poPlugin->fromGuiSetGameValueVar( onlineId, varId, varValue );
+		return poPlugin->fromGuiTodGameActionSend( onlineId, todGameAction );
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "P2PEngine::fromGuiSetGameValueVar: could not locate idenitiy");
-	}
-
-	return false;
-}
-
-//============================================================================
-bool P2PEngine::fromGuiSetGameActionVar( enum EPluginType		pluginType,
-											VxGUID&			onlineId, 
-											int32_t			varId, 
-											int32_t			varValue )
-{
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiSetGameActionVar" );
-	PluginBase* poPlugin = m_PluginMgr.getPlugin( pluginType );
-	if( poPlugin )
-	{
-		return poPlugin->fromGuiSetGameActionVar( onlineId, varId, varValue );
-	}
-	else
-	{
-		LogMsg( LOG_ERROR, "P2PEngine::fromGuiSetGameActionVar: could not locate idenitiy");
+		LogMsg( LOG_ERROR, "P2PEngine::fromGuiTodGameActionSend: could not locate idenitiy");
 	}
 
 	return false;
@@ -1066,7 +1034,6 @@ bool P2PEngine::fromGuiTestCmd( enum ETestParam1		eTestParam1,
 								int				testParam2, 
 								const char*		testParam3 )
 {
-	//assureUserSpecificDirIsSet( "P2PEngine::fromGuiTestCmd" );
 	bool result = false;
 	switch( eTestParam1 )
 	{
