@@ -94,8 +94,8 @@ public:
     void						setOfferResponseTimestamp( int64_t timems ) { m_OfferResponseTimestamp = timems; }
     int64_t						getOfferResponseTimestamp( void )       { return m_OfferResponseTimestamp; }
 
-    VxGUID&                     getFromOnlineId( void )                 { return m_OfferMgr == eOfferMgrHost ? getCreatorId() : getHistoryId(); }
-    VxGUID&                     getToOnlineId( void )                   { return m_OfferMgr == eOfferMgrHost ? getHistoryId() : getCreatorId(); }
+    VxGUID&                     getToOnlineId( void )                   { return m_OfferMgr == eOfferMgrHost ? getCreatorId() : getHistoryId(); }
+    VxGUID&                     getFromOnlineId( void )                 { return m_OfferMgr == eOfferMgrHost ? getHistoryId() : getCreatorId(); }
 
 protected:
     EOfferMgrType               m_OfferMgr{ eOfferMgrNotSet };

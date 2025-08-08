@@ -577,7 +577,7 @@ void VxThread::threadAboutToExit( bool bExitThreadNow )
 //! end a thread
 RCODE VxThread::killThread( void )
 {
-	if( false == isThreadCreated() )
+    if( false == isThreadRunning() )
 	{
 		return 0;
 	}

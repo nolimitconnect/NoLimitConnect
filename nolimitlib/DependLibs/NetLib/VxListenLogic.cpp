@@ -37,8 +37,8 @@ namespace
     const int MAX_LISTEN_BACKLOG = 4;
     const int INACTIVE_LISTEN_RESTART_MS = 15 * 60 * 1000; // if no listen activity for 15 minutes reopen listen socket
 
-    void * VxListenLogicVxThreadFunc( void * pvContext )
-	{
+    void* VxListenLogicVxThreadFunc( void* pvContext )
+    {
         if( pvContext )
         {
             VxThread* vxThread = (VxThread*)pvContext;
@@ -46,12 +46,12 @@ namespace
             VxListenLogic* listenLogic = (VxListenLogic*)vxThread->getThreadUserParam();
             if( listenLogic )
             {
-                LogModule( eLogConnect, LOG_INFO, "#### VxListenLogic: ipv6 %d Listen port %d thread started thread 0x%x", 
-                           listenLogic->getIsIpv6(), listenLogic->getListenPort(), VxGetCurrentThreadId());
+                LogModule( eLogConnect, LOG_INFO, "#### VxListenLogic: ipv6 %d Listen port %d thread started thread 0x%x",
+                    listenLogic->getIsIpv6(), listenLogic->getListenPort(), VxGetCurrentThreadId() );
                 listenLogic->listenForConnectionsToAccept();
                 // quitting
-                LogModule( eLogConnect, LOG_INFO, "#### VxListenLogic: ipv6 %d Listen port %d thread 0x%x tid %d quiting", 
-                           listenLogic->getIsIpv6(), listenLogic->getListenPort(), VxGetCurrentThreadId(), vxThread->getThreadTid() );
+                LogModule( eLogConnect, LOG_INFO, "#### VxListenLogic: ipv6 %d Listen port %d thread 0x%x tid %d quiting",
+                    listenLogic->getIsIpv6(), listenLogic->getListenPort(), VxGetCurrentThreadId(), vxThread->getThreadTid() );
             }
 
             //! VxThread calls this just before exit
@@ -59,13 +59,13 @@ namespace
         }
 
         return nullptr;
-	}
+    }
 }
 
 //============================================================================
 VxListenLogic::VxListenLogic( VxServerMgr& serverMgr, bool ipv6 )
-: m_ServerMgr(serverMgr)
-, m_IsIpv6(ipv6)
+    : m_ServerMgr( serverMgr )
+    , m_IsIpv6( ipv6 )
 {
 }
 
@@ -94,7 +94,7 @@ void VxListenLogic::stopListeningThread( void )
     setIsReadyToAcceptConnections( false );
     // set thread to abort
     m_ListenThread.abortThreadRun( true );
-     
+
     if( m_ListenThread.isThreadRunning() )
     {
         closeListenSocket();
@@ -111,7 +111,7 @@ void VxListenLogic::stopListeningThread( void )
 //============================================================================
 void VxListenLogic::sktMgrShutdown( void )
 {
-	stopListeningThread();
+    stopListeningThread();
 }
 
 //============================================================================
@@ -136,8 +136,8 @@ void VxListenLogic::stopListening( void )
 }
 
 //============================================================================
-bool VxListenLogic::getIsListening( void )							
-{ 
+bool VxListenLogic::getIsListening( void )
+{
     if( !m_ListenPort )
     {
         return false;
@@ -150,7 +150,7 @@ bool VxListenLogic::getIsListening( void )
 // called from thread
 void VxListenLogic::listenForConnectionsToAccept( void )
 {
-	LogMsg( LOG_INFO, "VxListenLogic::%s port %d ipv6 %d started", __func__, m_ListenPort, m_IsIpv6  ); 
+    LogMsg( LOG_INFO, "VxListenLogic::%s port %d ipv6 %d started", __func__, m_ListenPort, m_IsIpv6 );
 
 start_over:
     closeListenSocket();
@@ -176,15 +176,15 @@ start_over:
 
     m_LastListenActivityMs = GetGmtTimeMs();
 
-	// for some unknown reason select code that works on mac/windows/linux does not work on android
-	// on android when use select the select seems to work but in the accept it gets error 22 (invalid param) .. so do this crap
-	while( !shouldListenAbort() )
-	{
+    // for some unknown reason select code that works on mac/windows/linux does not work on android
+    // on android when use select the select seems to work but in the accept it gets error 22 (invalid param) .. so do this crap
+    while( !shouldListenAbort() )
+    {
         RCODE rc = 0;
 
-        int listenResult = listen( listenSock, MAX_LISTEN_BACKLOG );
+        int listenResult = listen( getListenSkt(), MAX_LISTEN_BACKLOG );
         if( 0 > listenResult )
-		{
+        {
             rc = VxGetLastError();
 #if defined(TARGET_OS_WINDOWS)
             if( rc == WSAEWOULDBLOCK )
@@ -192,14 +192,14 @@ start_over:
                 rc = EAGAIN;
             }
 #endif // defined(TARGET_OS_WINDOWS)
-		}	
+        }
 
-		if( shouldListenAbort() )
-		{
+        if( shouldListenAbort() )
+        {
             LogModule( eLogConnect, LOG_DEBUG, "%s: aborting1", __func__ );
-			break;
-		}
-		
+            break;
+        }
+
         if( rc )
         {
             if( rc == EAGAIN )
@@ -209,7 +209,7 @@ start_over:
                 if( listenErrCnt > 50 )
                 {
                     listenErrCnt = 0;
-                    LogModule( eLogConnect, LOG_DEBUG, "%s: try again: listen ipv6 %d port %d skt %d error %d thread 0x%x", __func__, m_IsIpv6, m_ListenPort, getListenSkt(), rc, VxGetCurrentThreadId());
+                    LogModule( eLogConnect, LOG_DEBUG, "%s: try again: listen ipv6 %d port %d skt %d error %d thread 0x%x", __func__, m_IsIpv6, m_ListenPort, getListenSkt(), rc, VxGetCurrentThreadId() );
                 }
 
                 VxSleep( 200 );
@@ -221,7 +221,7 @@ start_over:
 
                 continue;
             }
-            else 
+            else
             {
                 LogMsg( LOG_DEBUG, "listen: ERROR %s", VxDescribeSktError( rc ) );
 
@@ -237,14 +237,20 @@ start_over:
             }
         }
 
-		RCODE acceptResult = m_ServerMgr.acceptConnection( m_IsIpv6, &m_ListenThread, listenSock, m_ListenPort );
+        if( shouldListenAbort() || INVALID_SOCKET == getListenSkt() )
+        {
+            LogModule( eLogConnect, LOG_DEBUG, "%s: aborting5", __func__ );
+            break;
+        }
+
+        RCODE acceptResult = m_ServerMgr.acceptConnection( m_IsIpv6, &m_ListenThread, listenSock, m_ListenPort );
         if( acceptResult )
         {
             LogMsg( LOG_DEBUG, "ListenLogic::%s acceptConnection ERROR %d %s", __func__, acceptResult, VxDescribeSktError( acceptResult ) );
         }
-	}	
-	
-	m_ServerMgr.setIsReadyToAcceptConnections( m_IsIpv6, false );
+    }
+
+    m_ServerMgr.setIsReadyToAcceptConnections( m_IsIpv6, false );
 
     closeListenSocket();
 
@@ -258,7 +264,7 @@ bool VxListenLogic::createNewListenSocket( SOCKET& retListenSock )
     SOCKET dummySock = socket( m_IsIpv6 ? AF_INET6 : AF_INET, SOCK_STREAM, 0 );               // creates IP based TCP socket
     if( dummySock <= 0 )
     {
-        LogMsg( LOG_ERROR, "VxListenLogic::%s failed", __func__  );
+        LogMsg( LOG_ERROR, "VxListenLogic::%s failed", __func__ );
         return false;
     }
 
@@ -277,7 +283,7 @@ bool VxListenLogic::createNewListenSocket( SOCKET& retListenSock )
 
     std::string bindLclIp; // seems that VPNs work better without the bind to a specific address
 
-    if( ( netStatusAccum.getIsConnectTestHost() || netStatusAccum.getIsNetworkHost() )  &&
+    if( ( netStatusAccum.getIsConnectTestHost() || netStatusAccum.getIsNetworkHost() ) &&
         eFirewallTestAssumeNoFirewall == netStatusAccum.getFirewallTestType() )
     {
         // if we are a connection service or network host service and assumed no firewall
@@ -287,7 +293,7 @@ bool VxListenLogic::createNewListenSocket( SOCKET& retListenSock )
     }
 
     struct sockaddr_storage sockAddrStorage;
-    struct sockaddr* sockAddr = reinterpret_cast<sockaddr*>(&sockAddrStorage);
+    struct sockaddr* sockAddr = reinterpret_cast<sockaddr*>( &sockAddrStorage );
 
     socklen_t sockAddrLen = VxSktAddrInit( m_IsIpv6, sockAddrStorage, bindLclIp, m_ListenPort );
 
@@ -304,7 +310,7 @@ bool VxListenLogic::createNewListenSocket( SOCKET& retListenSock )
         }
 
         VxSleep( 500 );
-        bindStatus = bind( listenSock,  (struct sockaddr*)&sockAddr, sockAddrLen );
+        bindStatus = bind( listenSock, (struct sockaddr*)&sockAddr, sockAddrLen );
     }
 
     VxSetSktAllowReuseAddress( listenSock );
@@ -348,7 +354,7 @@ void VxListenLogic::closeListenSocket( void )
         VxSetSktBlocking( sktToClose, false ); // so should release accept but seems to hang sometimes
 
         LogModule( eLogConnect, LOG_INFO, "VxListenLogic:listenForConnectionsToAccept closing listen skt %d", sktToClose );
-        
+
         // set the socket to reuse or even though closed the system may not allow another listen on that port to be done
         // until the system has completely cleaned it up
         char setTrue = 1;
@@ -372,10 +378,10 @@ uint16_t VxListenLogic::getListenPort( void )
 }
 
 //============================================================================
-void VxListenLogic::setListenSkt( SOCKET skt )       
-{ 
+void VxListenLogic::setListenSkt( SOCKET skt )
+{
     lockListenSettings();
-    m_ListenSocket = skt; 
+    m_ListenSocket = skt;
     unlockListenSettings();
 }
 
@@ -396,7 +402,7 @@ SOCKET VxListenLogic::getListenSkt( bool setExistingSktToInvalid )
 
 //============================================================================
 void VxListenLogic::setIsReadyToAcceptConnections( bool isReady )
-{ 
+{
     lockListenSettings();
     m_IsReadyToAcceptConnections = isReady;
     unlockListenSettings();
@@ -406,7 +412,7 @@ void VxListenLogic::setIsReadyToAcceptConnections( bool isReady )
 
 //============================================================================
 bool VxListenLogic::getIsReadyToAcceptConnections( void )
-{ 
+{
     lockListenSettings();
     bool isReadyToAccept = m_IsReadyToAcceptConnections;
     unlockListenSettings();

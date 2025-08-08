@@ -29,9 +29,7 @@ public:
 	AppletPeerTodGame( AppCommon& app, QWidget* parent = nullptr );
 	virtual ~AppletPeerTodGame() override = default;
 
-    bool                        setOfferSession( std::shared_ptr<GuiOfferSession>& offerSession ) override;
-	//! called by base class with in session state
-    virtual void				onInSession( bool isInSession ) override;
+	bool                        setOfferSession( std::shared_ptr<GuiOfferSession>& offerSession ) override;
 
 protected slots:
 	void						slotGameStatus( QString statusText );
@@ -39,9 +37,12 @@ protected slots:
 protected:
 	void						onResizeEvent( QSize& newSize ) override;
     void						toGuiInstMsg( GuiUser* friendIdent, EPluginType pluginType, QString instMsg ) override;
+
 	void				        callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg ) override;
 
 	void						onOfferWasSet( void ) override;
+	void						onInSession( bool isInSession ) override;
+
 	void						onStateTextChanged( QString& stateText ) override;
 
 	//=== vars ===//

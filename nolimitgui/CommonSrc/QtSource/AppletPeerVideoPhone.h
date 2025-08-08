@@ -28,20 +28,19 @@ public:
 	AppletPeerVideoPhone( AppCommon& app, QWidget* parent = nullptr );
 	virtual ~AppletPeerVideoPhone() override = default;
 
-	//! called by base class with in session state
-    void						onInSession( bool isInSession ) override;
-	void				        callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg ) override;
-
 	bool						setOfferSession( std::shared_ptr<GuiOfferSession>& offerSession ) override;
-
-	void				        callbackToGuiPluginSessionStarted( std::shared_ptr<GuiOfferSession>& offer ) override;
-	void				        callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offer ) override;
 
 protected:
 	void						onResizeEvent( QSize& newSize ) override;
     void						toGuiInstMsg( GuiUser* friendIdent, EPluginType pluginType, QString instMsg ) override;
 
+	void				        callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType pluginType, VxGUID& offerId, std::string& msg ) override;
+	void				        callbackToGuiPluginSessionStarted( std::shared_ptr<GuiOfferSession>& offer ) override;
+	void				        callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offer ) override;
+
 	void						onOfferWasSet( void ) override;
+	void						onInSession( bool isInSession ) override;
+
 	void						onStateTextChanged( QString& stateText ) override;
 
 	//=== vars ===//

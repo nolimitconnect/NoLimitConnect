@@ -67,6 +67,21 @@ void AppletPeerVoicePhone::callbackToGuiOfferMsg( GuiUser* guiUser, EPluginType 
 }
 
 //============================================================================
+bool AppletPeerVoicePhone::setOfferSession( std::shared_ptr<GuiOfferSession>& offerSession )
+{
+	bool setupSessionResult{ false };
+	m_HisIdent = offerSession->getUser();
+	if( m_HisIdent )
+	{
+		setupSessionResult = AppletPeerBase::setOfferSession( offerSession );
+
+		ui.m_InstMsgWidget->setInstMsgWidgets( m_ePluginType, m_HisIdent );
+	}
+
+	return setupSessionResult;
+}
+
+//============================================================================
 void AppletPeerVoicePhone::onOfferWasSet( void )
 {
 	OfferBaseInfo& offerInfo = getOfferInfo();
@@ -85,4 +100,32 @@ void AppletPeerVoicePhone::onOfferWasSet( void )
 void AppletPeerVoicePhone::onStateTextChanged( QString& stateText )
 {
 	ui.m_StateText->setText( stateText );
+}
+
+//============================================================================
+void AppletPeerVoicePhone::callbackToGuiPluginSessionStarted( std::shared_ptr<GuiOfferSession>& offer )
+{
+	if( isOfferMatch( offer ) )
+	{
+		LogMsg( LOG_VERBOSE, "AppletPeerVideoPhone::%s match", __func__ );
+		ui.m_StateText->setText( QObject::tr( "Session Started" ) );
+	}
+	else
+	{
+		LogMsg( LOG_VERBOSE, "AppletPeerVideoPhone::%s NOT match", __func__ );
+	}
+}
+
+//============================================================================
+void AppletPeerVoicePhone::callbackToGuiPluginSessionEnded( std::shared_ptr<GuiOfferSession>& offer )
+{
+	if( isOfferMatch( offer ) )
+	{
+		LogMsg( LOG_VERBOSE, "AppletPeerVideoPhone::%s match", __func__ );
+		ui.m_StateText->setText( QObject::tr( "Session Ended" ) );
+	}
+	else
+	{
+		LogMsg( LOG_VERBOSE, "AppletPeerVideoPhone::%s NOT match", __func__ );
+	}
 }
