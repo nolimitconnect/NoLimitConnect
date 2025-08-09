@@ -440,15 +440,15 @@ bool HostClientMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionI
                 if( !m_Plugin.txPacket( onlineId, sktBase, &searchReq, m_Plugin.getDestinationPluginOverride( hostType ) ) )
                 {
                     LogModule( eLogHostSearch, LOG_DEBUG, "HostClientMgr::onConnectToHostSuccess failed send PktHostSearchReq" );
-                }
-                else
-                {
-                    result = true;
+                    stopHostSearch( hostType, sessionId, sktBase, onlineId );
+                    return false;
                 }
             }
             else
             {
                 LogMsg( LOG_ERROR, "HostServerMgr PktHostSearchReq is invalid" );
+                stopHostSearch( hostType, sessionId, sktBase, onlineId );
+                return false;
             }
 
             // not done with connection.. wait for search results
@@ -612,7 +612,6 @@ void HostClientMgr::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBas
 void HostClientMgr::onPktHostUserListReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListReq" );
-
 }
 
 //============================================================================
@@ -732,11 +731,26 @@ void HostClientMgr::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase,
 
         PktBlobEntry& blobEntry = pktReply->getBlobEntry();
         blobEntry.resetRead();
-        PktAnnounce pktAnn;
-        bool readResult = pktAnn.extractFromBlob( blobEntry );
-        if( readResult )
+        if( blobEntry.getBlobLen() && !pktReply->getCommError() )
         {
-            announceUserInfo( sktBase, &pktAnn, pktReply->getSessionId(), pktReply->getHostType() );
+            PktAnnounce pktAnn;
+            bool readResult = pktAnn.extractFromBlob( blobEntry );
+            if( readResult )
+            {
+                announceUserInfo( sktBase, &pktAnn, pktReply->getSessionId(), pktReply->getHostType() );
+            }
+        }
+        else
+        {
+            if( pktReply->getCommError() )
+            {
+                LogMsg( LOG_INFO, "HostClientMgr::%s comm error %s", __func__,
+                       DescribeCommError( pktReply->getCommError() ) );
+            }
+            else
+            {
+                LogMsg( LOG_ERROR, "HostClientMgr::%s 0 length blobEntry", __func__ );
+            }
         }
 
         if( !userInfoReqListEmpty )

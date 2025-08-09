@@ -26,6 +26,11 @@
 #include <CoreLib/VxPtopUrl.h>
 #include <NetLib/VxSktBase.h>
 
+namespace
+{
+    const bool CAN_JOIN_MULTIPLE_HOSTS = true;
+}
+
 //============================================================================
 UserJoinMgr::UserJoinMgr( P2PEngine& engine, const char* dbName, const char* dbJoinedLastName )
 : m_Engine( engine )
@@ -363,7 +368,7 @@ void UserJoinMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktB
     if( groupieId.getHostOnlineId() != m_Engine.getMyOnlineId()
             && groupieId.getUserOnlineId() == m_Engine.getMyOnlineId())
     {
-        if( m_LastJoinedGroupieId.isValid() && m_LastJoinedGroupieId != groupieId )
+        if( !CAN_JOIN_MULTIPLE_HOSTS && m_LastJoinedGroupieId.isValid() && m_LastJoinedGroupieId != groupieId )
         {
             m_Engine.getPluginMgr().leavePreviousHost( groupieId );
             m_Engine.getConnectIdListMgr().disconnectIfIsOnlyUser( groupieId );
