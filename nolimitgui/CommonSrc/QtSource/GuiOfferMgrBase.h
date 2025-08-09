@@ -69,7 +69,7 @@ public:
 
 	// called if starting new session to know if responding to existing offer
 	std::shared_ptr<GuiOfferSession>	findActiveAndAvailableOffer( GuiUser* guiUser, EPluginType pluginType );
-	void						sentOffer( EPluginType pluginType, VxGUID offerSessionId, GuiUser* guiUser );
+	void						sentOffer( std::shared_ptr<GuiOfferSession>& offerSession );
 	void						sentOfferReply( EPluginType pluginType, VxGUID offerSessionId, GuiUser* guiUser, EOfferResponse offerResponse );
 	void						removePluginSessionOffer( EPluginType pluginType, GuiUser* guiUser );
 	void						removePluginSessionOffer( VxGUID& offerSessionId );
@@ -155,8 +155,6 @@ protected:
 
 	bool						m_UserIsInSession{ false };
     int							m_LastActiveOfferCount{ 0 };
-
-	//std::vector<OfferBaseInfo>	m_ResponseSentList;
 
 	std::vector<std::shared_ptr<GuiOfferSession>> m_OfferList;
 	std::vector<std::shared_ptr<GuiOfferSession>> m_OfferHistory;

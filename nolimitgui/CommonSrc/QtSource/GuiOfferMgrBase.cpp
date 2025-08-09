@@ -638,9 +638,13 @@ void GuiOfferMgrBase::recievedOffer( EPluginType pluginType, VxGUID offerSession
 }
 
 //========================================================================
-void GuiOfferMgrBase::sentOffer( EPluginType pluginType, VxGUID offerSessionId, GuiUser* guiUser )
+void GuiOfferMgrBase::sentOffer( std::shared_ptr<GuiOfferSession>& offerSession )
 {
 	if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "GuiOfferMgrBase::%s ", __func__ );
+	if( offerSession->isPhoneCall() )
+	{
+		m_PhoneRinger.startRinging( offerSession );
+	}
 }
 
 //========================================================================
@@ -795,6 +799,7 @@ bool GuiOfferMgrBase::fromGuiMakePluginOffer( QWidget* parent, EPluginType plugi
 					guiUser->getOnlineName().c_str(), DescribePluginType( pluginType ), offerInfo.getOfferId().toHexString().c_str());
 				m_OfferList.emplace_back( offerSession );
 				appletPeerBase->setOfferSession( offerSession );
+				sentOffer( offerSession );
 				updateActiveOfferCount();
 			}
 		}

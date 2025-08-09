@@ -229,7 +229,7 @@ void AppletPeerBase::callbackToGuiRxedOfferStateChange( std::shared_ptr<GuiOffer
 
 			}
 		}
-		else if( eOfferStateSessionComplete == newOfferState )
+        else if( eOfferStateSessionComplete == newOfferState || eOfferStateNoResponse == newOfferState )
 		{
 			m_OfferSessionLogic.onInSession( false );
 		}

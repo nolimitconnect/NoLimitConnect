@@ -148,12 +148,20 @@ RCODE VxServerMgr::acceptConnection( bool ipv6, VxThread* poVxThread, SOCKET lis
     struct sockaddr* acceptAddr = reinterpret_cast<sockaddr*>( &acceptAddrStorage );
     socklen_t acceptAddrLen = sizeof( struct sockaddr_storage );
 
+    if( poVxThread->isAborted() )
+    {
+        LogModule( eLogConnect, LOG_ERROR, "VxServerMgr::%s aborted accept2 thread 0x%x", __func__, VxGetCurrentThreadId() );
+        return -5;
+    }
+
+    // TODO can still hang the thread if calls accept at the exact right moment of close listen socket
+
     // NOTE: in android the return to blocking on listen doesn't work so we just set it once before start listening so accept does not get hung
     SOCKET acceptSkt = accept( listenSkt, acceptAddr, &acceptAddrLen );
 
     if( poVxThread->isAborted() )
     {
-        LogModule( eLogConnect, LOG_ERROR, "VxServerMgr::%s aborted accept2 thread 0x%x", __func__, VxGetCurrentThreadId() );
+        LogModule( eLogConnect, LOG_ERROR, "VxServerMgr::%s aborted accept3 thread 0x%x", __func__, VxGetCurrentThreadId() );
         return -4;
     }
 

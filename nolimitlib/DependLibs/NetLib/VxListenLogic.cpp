@@ -97,6 +97,7 @@ void VxListenLogic::stopListeningThread( void )
 
     if( m_ListenThread.isThreadRunning() )
     {
+        VxSleep( 300 ); // give accept time to abort before closing the listen socket
         closeListenSocket();
         // give thread a while to exit
         m_ListenThread.killThread();
@@ -131,8 +132,9 @@ bool VxListenLogic::startListening( uint16_t port )
 void VxListenLogic::stopListening( void )
 {
     m_ListenThread.abortThreadRun( true );
-    closeListenSocket();
+
     stopListeningThread();
+    closeListenSocket();
 }
 
 //============================================================================
@@ -243,7 +245,7 @@ start_over:
             break;
         }
 
-        RCODE acceptResult = m_ServerMgr.acceptConnection( m_IsIpv6, &m_ListenThread, listenSock, m_ListenPort );
+        RCODE acceptResult = m_ServerMgr.acceptConnection( m_IsIpv6, &m_ListenThread, getListenSkt(), m_ListenPort );
         if( acceptResult )
         {
             LogMsg( LOG_DEBUG, "ListenLogic::%s acceptConnection ERROR %d %s", __func__, acceptResult, VxDescribeSktError( acceptResult ) );

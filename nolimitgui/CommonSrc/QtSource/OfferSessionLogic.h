@@ -15,6 +15,7 @@
 
 #include <CoreLib/VxSha1Hash.h>
 
+#include <memory>
 #include <string>
 
 class ActivityBase;

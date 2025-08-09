@@ -270,7 +270,11 @@ bool OfferSessionLogic::sendOfferOrResponse()
 			}
 			else
 			{
-				m_OfferMgr.sentOffer( m_ePluginType, getOfferInfo().getOfferId(), m_HisIdent );
+				if( m_GuiOfferSession )
+				{
+					m_OfferMgr.sentOffer( m_GuiOfferSession );
+				}
+
 				postStatusMsg( "Waiting Reply Offer %s From %s", describePlugin().c_str(),  getHisOnlineName().c_str() );
 			}
 		}
@@ -447,7 +451,12 @@ void OfferSessionLogic::handleSessionEnded( std::shared_ptr<GuiOfferSession> off
 //============================================================================
 std::string OfferSessionLogic::getHisOnlineName( void )
 {
-	return m_HisIdent->getOnlineName();
+    if( m_HisIdent )
+    {
+        return m_HisIdent->getOnlineName();
+    }
+
+    return "";
 }
 
 //============================================================================

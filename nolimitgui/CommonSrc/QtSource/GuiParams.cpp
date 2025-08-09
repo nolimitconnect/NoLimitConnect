@@ -1722,6 +1722,10 @@ QString GuiParams::describeOfferState( EOfferState offerState )
         return QObject::tr( "Offer Session Complete" );
     case eOfferStateSessionFailed:
         return QObject::tr( "Offer Session Failed" );
+    case eOfferStateNoResponse:        // offer timed out without response
+        return QObject::tr( "Offer No Response" );
+    case eOfferStateMissedCall:          // offer rxed but timed out before response
+        return QObject::tr( "Missed Call" );
     default:
         return QObject::tr( "Unknown Offer Type" );
     }
