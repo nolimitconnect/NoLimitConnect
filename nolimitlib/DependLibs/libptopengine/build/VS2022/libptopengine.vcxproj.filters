@@ -697,6 +697,9 @@
     <ClCompile Include="..\..\FriendRequestMgr\FriendRequestMgr.cpp">
       <Filter>Source Files\FriendRequestMgr</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\UserJoinMgr\LastJoined.cpp">
+      <Filter>Source Files\UserJoinMgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AssetMgr\AssetCallbackInterface.h">
@@ -1460,6 +1463,9 @@
     </ClInclude>
     <ClInclude Include="..\..\FriendRequestMgr\FriendRequestMgr.h">
       <Filter>Source Files\FriendRequestMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\UserJoinMgr\LastJoined.h">
+      <Filter>Source Files\UserJoinMgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

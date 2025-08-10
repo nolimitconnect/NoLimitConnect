@@ -90,6 +90,34 @@ void UserJoinMgr::fromGuiUserLoggedOn( void )
             }
         }
 
+        GroupieId lastJoinedGroupieId;
+        if( getLastJoinedGroupieIdFromDb( eHostTypeChatRoom, lastJoinedGroupieId ) )
+        {
+            if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::%s last joined host %s", __func__,
+                lastJoinedGroupieId.describeGroupieId().c_str() );
+            setLastJoined( lastJoinedGroupieId );
+        }
+
+        if( getLastJoinedGroupieIdFromDb( eHostTypeGroup, lastJoinedGroupieId ) )
+        {
+            if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::%s last joined host %s", __func__,
+                lastJoinedGroupieId.describeGroupieId().c_str() );
+            setLastJoined( lastJoinedGroupieId );
+        }
+
+        if( getLastJoinedGroupieIdFromDb( eHostTypeRandomConnect, lastJoinedGroupieId ) )
+        {
+            if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::%s last joined host %s", __func__,
+                lastJoinedGroupieId.describeGroupieId().c_str() );
+            setLastJoined( lastJoinedGroupieId );
+        }
+
+        EHostType lastHostType{ eHostTypeUnknown };
+        if( m_UserJoinedLastDb.getJoinedLastHostType( lastHostType ) )
+        {
+            setLastJoinedHostType( lastHostType );
+        }
+
         m_UserJoinListInitialized = true;
         unlockResources();
     }
@@ -199,7 +227,7 @@ void UserJoinMgr::announceUserJoinRequested( UserJoinInfo* userJoinInfo )
     {
         updateUserIsJoined( userJoinInfo );
 
-        LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::announceUserJoinRequested state %s %s", DescribeJoinState( userJoinInfo->getJoinState() ),
+        if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::%s state %s %s", __func__, DescribeJoinState( userJoinInfo->getJoinState() ),
                 userJoinInfo->getGroupieId().describeGroupieId().c_str() );
 
         lockClientList();
@@ -230,7 +258,7 @@ void UserJoinMgr::announceUserJoinUpdated( UserJoinInfo * userJoinInfo )
             m_Engine.getMemberActiveMgr().updateMemberActive( userJoinInfo->getGroupieId(), true );
         }
 
-        LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::announceUserJoinUpdated state %s %s", DescribeJoinState( joinState ),
+        if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::%s state %s %s", __func__, DescribeJoinState( joinState ),
                 userJoinInfo->getGroupieId().describeGroupieId().c_str() );
 
         lockClientList();
@@ -248,25 +276,25 @@ void UserJoinMgr::announceUserJoinUpdated( UserJoinInfo * userJoinInfo )
 }
 
 //============================================================================
-void UserJoinMgr::announceUserUnJoinUpdated( UserJoinInfo* userJoinInfo )
+void UserJoinMgr::announceUserUnJoin( UserJoinInfo* userJoinInfo )
 {
     if( userJoinInfo )
     {
         updateUserIsJoined( userJoinInfo );
 
-        LogMsg( LOG_VERBOSE, "UserJoinMgr::announceUserUnJoinUpdated state %s %s", DescribeJoinState( userJoinInfo->getJoinState() ),
+        if(LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::%s state %s %s", __func__, DescribeJoinState( userJoinInfo->getJoinState() ),
                 userJoinInfo->getGroupieId().describeGroupieId().c_str() );
         lockClientList();
         for( auto client : m_UserJoinClients )
         {
-            client->callbackUserUnJoinUpdated( userJoinInfo );
+            client->callbackUserUnJoin( userJoinInfo );
         }
 
         unlockClientList();
     }
     else
     {
-        LogMsg( LOG_ERROR, "UserJoinMgr::announceUserUnJoinUpdated null" );
+        LogMsg( LOG_ERROR, "UserJoinMgr::announceUserUnJoin null" );
     }
 }
 
@@ -368,13 +396,22 @@ void UserJoinMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktB
     if( groupieId.getHostOnlineId() != m_Engine.getMyOnlineId()
             && groupieId.getUserOnlineId() == m_Engine.getMyOnlineId())
     {
-        if( !CAN_JOIN_MULTIPLE_HOSTS && m_LastJoinedGroupieId.isValid() && m_LastJoinedGroupieId != groupieId )
+        // we joined a host as a client but we can only join one of each host type
+        GroupieId prevLastJoined = getLastJoined( groupieId.getHostType() );
+
+        if( prevLastJoined.isValid() && prevLastJoined != groupieId )
         {
-            m_Engine.getPluginMgr().leavePreviousHost( groupieId );
-            m_Engine.getConnectIdListMgr().disconnectIfIsOnlyUser( groupieId );
+            if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::%s leaving previous host %s", __func__, 
+                prevLastJoined.describeGroupieId().c_str() );
+
+            m_Engine.getPluginMgr().leavePreviousHost( prevLastJoined );
+            if( prevLastJoined.getHostOnlineId() != groupieId.getHostOnlineId() )
+            {
+                m_Engine.getConnectIdListMgr().disconnectIfIsOnlyUser( prevLastJoined );
+            }
         }
 
-        m_LastJoinedGroupieId = groupieId;
+        setLastJoined( groupieId );
     }
 
     m_Engine.getThumbMgr().queryThumbIfNeeded( sktBase, netIdent, sessionInfo.getHostPluginType() );
@@ -467,7 +504,7 @@ void UserJoinMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSk
 
         unlockResources();
 
-        announceUserUnJoinUpdated( joinInfo );
+        announceUserUnJoin( joinInfo );
     }
 }
 
@@ -585,7 +622,7 @@ void UserJoinMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase, VxGUID&
 }
 
 //============================================================================
-bool UserJoinMgr::getLastJoinedHostUrl( EHostType hostType, std::string& retHostUrl )
+bool UserJoinMgr::getLastJoinedHostUrlFromDb( EHostType hostType, std::string& retHostUrl )
 {
     VxGUID onlineId;
     int64_t lastJoinMs;
@@ -596,16 +633,47 @@ bool UserJoinMgr::getLastJoinedHostUrl( EHostType hostType, std::string& retHost
         result = ptopUrl.isValid();
         if( !result )
         {
-            LogMsg( LOG_ERROR, "UserJoinMgr::getLastJoinedHostUrl invalid url for host type %d", hostType );
+            LogMsg( LOG_ERROR, "UserJoinMgr::%s invalid url for host type %s", __func__, DescribeHostType( hostType ) );
         }
     }
     else
     {
-        LogMsg( LOG_ERROR, "UserJoinMgr::%s no last joined host url for host type %d", __func__, hostType );
+        LogMsg( LOG_ERROR, "UserJoinMgr::%s no last joined host url for host type %s", __func__, DescribeHostType( hostType ) );
     }
 
     return result;
 }
+
+
+//============================================================================
+bool UserJoinMgr::getLastJoinedGroupieIdFromDb( EHostType hostType, GroupieId& retGroupieId )
+{
+    VxGUID onlineId;
+    int64_t lastJoinMs;
+    std::string hostUrl;
+    bool result = m_UserJoinedLastDb.getJoinedLast( hostType, onlineId, lastJoinMs, hostUrl );
+    if( result )
+    {
+        VxPtopUrl ptopUrl( hostUrl );
+        result = ptopUrl.isValid();
+        if( !result )
+        {
+            LogMsg( LOG_ERROR, "UserJoinMgr::%s invalid url for host type %s", __func__, DescribeHostType( hostType ) );
+        }
+        else
+        {
+            retGroupieId = GroupieId( m_Engine.getMyOnlineId(), onlineId, hostType );
+            return true;
+        }
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "UserJoinMgr::%s no last joined host url for host type %s", __func__, DescribeHostType( hostType ) );
+    }
+
+    return false;
+}
+
 
 //============================================================================
 void UserJoinMgr::changeJoinState( GroupieId& groupieId, EJoinState joinState )

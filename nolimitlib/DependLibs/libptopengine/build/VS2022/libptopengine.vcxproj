@@ -705,6 +705,7 @@
     <ClCompile Include="..\..\ThumbMgr\ThumbXferPktCreate.cpp" />
     <ClCompile Include="..\..\ThumbMgr\ThumbXferSession.cpp" />
     <ClCompile Include="..\..\UrlMgr\UrlMgr.cpp" />
+    <ClCompile Include="..\..\UserJoinMgr\LastJoined.cpp" />
     <ClCompile Include="..\..\UserJoinMgr\UserJoinedLastDb.cpp" />
     <ClCompile Include="..\..\UserJoinMgr\UserJoinInfo.cpp" />
     <ClCompile Include="..\..\UserJoinMgr\UserJoinInfoDb.cpp" />
@@ -956,6 +957,7 @@
     <ClInclude Include="..\..\ThumbMgr\ThumbXferMgr.h" />
     <ClInclude Include="..\..\ThumbMgr\ThumbXferSession.h" />
     <ClInclude Include="..\..\UrlMgr\UrlMgr.h" />
+    <ClInclude Include="..\..\UserJoinMgr\LastJoined.h" />
     <ClInclude Include="..\..\UserJoinMgr\UserJoinCallbackInterface.h" />
     <ClInclude Include="..\..\UserJoinMgr\UserJoinedLastDb.h" />
     <ClInclude Include="..\..\UserJoinMgr\UserJoinInfo.h" />

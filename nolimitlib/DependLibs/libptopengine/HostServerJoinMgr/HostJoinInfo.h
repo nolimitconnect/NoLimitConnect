@@ -27,8 +27,6 @@ public:
     bool                        isValid( void )                                     { return m_NetIdent != nullptr;  }
     bool                        isUrlValid( void );
 
-    void			            setHostType( enum EHostType hostType ) override;
-
     virtual void			    setNetIdent( VxNetIdent* netIdent )                 { m_NetIdent = netIdent; }
     virtual VxNetIdent*         getNetIdent( void )                                 { return m_NetIdent; }
 
@@ -53,6 +51,8 @@ public:
     virtual VxGUID&				getConnectionId( void )                             { return m_ConnectionId; }
     virtual void				setSessionId( VxGUID& sessionId )                   { m_SessionId = sessionId; }
     virtual VxGUID&				getSessionId( void )                                { return m_SessionId; }
+
+    virtual std::string         describeHostJoin( void );
 
 protected:
 	//=== vars ===//

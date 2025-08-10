@@ -9,11 +9,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include "LastJoined.h"
+
 #include "UserJoinInfoDb.h"
 #include "UserJoinedLastDb.h"
 
 #include <CoreLib/VxMutex.h>
-#include <CoreLib/GroupieId.h>
 
 #include <map>
 #include <memory>
@@ -28,7 +29,7 @@ class P2PEngine;
 class VxSktBase;
 class VxNetIdent;
 
-class UserJoinMgr 
+class UserJoinMgr : public LastJoined
 {
     const int USER_JOIN_DB_VERSION = 1;
     const int USER_JOINED_LAST_DB_VERSION = 1;
@@ -43,7 +44,8 @@ public:
 
     void                        callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline );
 
-    bool                        getLastJoinedHostUrl( EHostType hostType, std::string& retHostUrl );
+    bool                        getLastJoinedHostUrlFromDb( EHostType hostType, std::string& retHostUrl );
+    bool                        getLastJoinedGroupieIdFromDb( EHostType hostType, GroupieId& retGroupieId );
 
     void                        addUserJoinMgrClient( UserJoinCallbackInterface * client, bool enable );
 
@@ -56,7 +58,7 @@ public:
 
     virtual void				announceUserJoinRequested( UserJoinInfo* userHostInfo );
     virtual void				announceUserJoinUpdated( UserJoinInfo * userJoinInfo );
-    virtual void				announceUserUnJoinUpdated( UserJoinInfo* userJoinInfo );
+    virtual void				announceUserUnJoin( UserJoinInfo* userJoinInfo );
     virtual void				announceUserJoinRemoved( GroupieId& groupieId );
 
     virtual void				announceUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus );
@@ -99,6 +101,4 @@ protected:
 
     std::vector<UserJoinCallbackInterface *> m_UserJoinClients;
     VxMutex						m_UserJoinClientMutex;
-    GroupieId                   m_LastJoinedGroupieId;
 };
-

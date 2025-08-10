@@ -8,20 +8,17 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <config_appcorelibs.h>
+
 #include "HostJoinInfo.h"
 
-#include <PktLib/VxSearchDefs.h>
+#include <PktLib/VxCommon.h>
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileLists.h>
 #include <CoreLib/VxFileIsTypeFunctions.h>
 #include <CoreLib/VxFileUtil.h>
-#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxPtopUrl.h>
-
-#include <sys/types.h>
-#include <sys/stat.h>
 
 //============================================================================
 HostJoinInfo::HostJoinInfo()
@@ -68,7 +65,20 @@ bool HostJoinInfo::isUrlValid( void )
 }
 
 //============================================================================
-void HostJoinInfo::setHostType( enum EHostType hostType )
+std::string HostJoinInfo::describeHostJoin( void )
 {
-    BaseJoinInfo::setHostType( hostType );
+    std::string desc = m_GroupieId.describeGroupieId();
+    desc += " ";
+    if( m_NetIdent )
+    {
+        desc += m_NetIdent->getOnlineName();
+        desc += " state ";
+    }
+    else
+    {
+        desc += "null NetIdent state ";
+    }
+    
+    desc += DescribeJoinState( getJoinState() );
+    return desc;
 }

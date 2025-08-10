@@ -9,6 +9,7 @@
 //============================================================================
 
 #include "HostServerJoinMgr.h"
+
 #include "HostJoinInfo.h"
 #include "HostJoinInfoDb.h"
 #include "HostJoinCallbackInterface.h"
@@ -44,7 +45,6 @@ bool HostServerJoinMgr::deleteDatabase( void )
 //============================================================================
 void HostServerJoinMgr::fromGuiUserLoggedOn( void )
 {
-    // dont call HostBaseMgr::fromGuiUserLoggedOn because we never generate sha hash for thumbnails
     if( !m_Initialized )
     {
         m_Initialized = true;
@@ -101,58 +101,60 @@ void HostServerJoinMgr::wantHostJoinMgrCallbacks( HostJoinCallbackInterface * cl
 
     if( enable )
     {
-        m_HostJoinClients.push_back( client );
+        m_HostJoinClients.emplace_back( client );
     }
 
     unlockClientList();
 }
 
 //============================================================================
-void HostServerJoinMgr::announceHostJoinRequested( HostJoinInfo * hostInfo )
+void HostServerJoinMgr::announceHostJoinRequested( HostJoinInfo* hostJoinInfo )
 {
-    HostJoinInfo * userHostInfo = dynamic_cast<HostJoinInfo *>(hostInfo);
-    if( userHostInfo )
+    if( hostJoinInfo )
     {
-	    LogMsg( LOG_INFO, "HostServerJoinMgr::announceHostJoinRequested start" );
+        if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_INFO, "HostServerJoinMgr::%s %s", __func__, hostJoinInfo->describeHostJoin().c_str() );
 	
 	    lockClientList();
         for( auto& client : m_HostJoinClients )
         {
-		    client->callbackHostJoinRequested( userHostInfo );
+		    client->callbackHostJoinRequested( hostJoinInfo );
 	    }
 
 	    unlockClientList();
-	    LogMsg( LOG_INFO, "HostServerJoinMgr::announceHostJoinRequested done" );
+        if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_INFO, "HostServerJoinMgr::%s done", __func__ );
     }
     else
     {
-        LogMsg( LOG_ERROR, "HostServerJoinMgr::announceHostJoinRequested dynamic_cast failed" );
+        LogMsg( LOG_ERROR, "HostServerJoinMgr::%s null hostJoinInfo", __func__ );
     }
 }
 
 //============================================================================
-void HostServerJoinMgr::announceHostJoinUpdated( HostJoinInfo * hostInfo )
+void HostServerJoinMgr::announceHostJoinUpdated( HostJoinInfo* hostJoinInfo )
 {
-    HostJoinInfo * userHostInfo = dynamic_cast<HostJoinInfo *>(hostInfo);
-    if( userHostInfo )
+    if( hostJoinInfo )
     {
+        if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_INFO, "HostServerJoinMgr::%s %s", __func__, hostJoinInfo->describeHostJoin().c_str() );
+
         lockClientList();
         for( auto& client : m_HostJoinClients )
         {
-            client->callbackHostJoinUpdated( userHostInfo );
+            client->callbackHostJoinUpdated( hostJoinInfo );
         }
 
         unlockClientList();
     }
     else
     {
-        LogMsg( LOG_ERROR, "HostServerJoinMgr::announceHostJoinUpdated dynamic_cast failed" );
+        LogModule( eLogHostJoin, LOG_ERROR, "HostServerJoinMgr::%s null hostJoinInfo", __func__ );
     }
 }
 
 //============================================================================
 void HostServerJoinMgr::announceHostUnJoin( GroupieId& groupieId )
 {
+    if(LogEnabled( eLogHostJoin))LogModule( eLogHostJoin, LOG_ERROR, "HostServerJoinMgr::%s %s", __func__, groupieId.describeGroupieId().c_str() );
+
     lockClientList();
     for( auto& client : m_HostJoinClients )
     {
@@ -165,6 +167,8 @@ void HostServerJoinMgr::announceHostUnJoin( GroupieId& groupieId )
 //============================================================================
 void HostServerJoinMgr::announceHostJoinRemoved( GroupieId& groupieId )
 {
+    if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_ERROR, "HostServerJoinMgr::%s %s", __func__, groupieId.describeGroupieId().c_str() );
+
     removeFromDatabase( groupieId, false );
 	lockClientList();
     for( auto& client : m_HostJoinClients )
@@ -238,6 +242,10 @@ void HostServerJoinMgr::onHostJoinRequestedByUser( std::shared_ptr<VxSktBase>& s
             announceHostJoinUpdated( joinInfo );
         }
     }
+    else
+    {
+        LogModule( eLogHostJoin, LOG_ERROR, "HostServerJoinMgr::%s null netIdent", __func__ );
+    }
 }
 
 //============================================================================
@@ -252,6 +260,7 @@ void HostServerJoinMgr::onHostUnJoinRequestedByUser( std::shared_ptr<VxSktBase>&
         if( !joinInfo )
         {
             unlockHostJoinInfoList();
+            LogModule( eLogHostJoin, LOG_ERROR, "HostServerJoinMgr::%s null joinInfo", __func__ );
             return;
         }
 
@@ -470,11 +479,12 @@ void HostServerJoinMgr::removeFromDatabase( GroupieId& groupieId, bool resources
 void HostServerJoinMgr::fromGuiGetJoinedStateList( EPluginType pluginType, EJoinState joinState, std::vector<HostJoinInfo*>& hostJoinList )
 {
     // NOTE: assumes resources have been locked
+    hostJoinList.clear();
     for( auto iter = m_HostJoinInfoList.begin(); iter != m_HostJoinInfoList.end(); ++iter )
     {
         if( iter->second->getHostType() == PluginTypeToHostType( pluginType ) && iter->second->getJoinState() == joinState )
         {
-            hostJoinList.push_back( iter->second );
+            hostJoinList.emplace_back( iter->second );
         }
     }
 }

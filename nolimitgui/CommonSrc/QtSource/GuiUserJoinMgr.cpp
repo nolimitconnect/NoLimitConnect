@@ -39,7 +39,7 @@ void GuiUserJoinMgr::onAppCommonCreated( void )
 {
     connect( this, SIGNAL(signalInternalUserJoinRequested(UserJoinInfo*)), this, SLOT(slotInternalUserJoinRequested(UserJoinInfo*)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalUserJoinUpdated(UserJoinInfo*)), this, SLOT(slotInternalUserJoinUpdated(UserJoinInfo*)), Qt::QueuedConnection );
-    connect( this, SIGNAL(signalInternalUserUnJoinUpdated(UserJoinInfo*)), this, SLOT(slotInternalUserUnJoinUpdated(UserJoinInfo*)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalUserUnJoin(UserJoinInfo*)), this, SLOT(slotInternalUserUnJoin(UserJoinInfo*)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalUserJoinRemoved(GroupieId)), this, SLOT(slotInternalUserJoinRemoved(GroupieId)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalUserJoinOfferState(GroupieId,EJoinState)), this, SLOT(slotInternalUserJoinOfferState(GroupieId,EJoinState)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalUserJoinOnlineState(GroupieId,EOnlineState,VxGUID)), this, SLOT(slotInternalUserJoinOnlineState(GroupieId,EOnlineState,VxGUID)), Qt::QueuedConnection );
@@ -60,53 +60,11 @@ void GuiUserJoinMgr::callbackUserJoinAdded( UserJoinInfo* userJoinInfo )
 {
     if( !userJoinInfo )
     {
-        LogMsg( LOG_ERROR, "GuiUserJoinMgr::callbackUserJoinAdded null userJoinInfo" );
+        LogMsg( LOG_ERROR, "GuiUserJoinMgr::%s null userJoinInfo", __func__ );
         return;
     }
 
     emit signalInternalUserJoinRequested( new UserJoinInfo( *userJoinInfo ) );
-}
-
-//============================================================================
-void GuiUserJoinMgr::callbackUserJoinUpdated( UserJoinInfo* userJoinInfo )
-{
-    if( !userJoinInfo )
-    {
-        LogMsg( LOG_ERROR, "GuiUserJoinMgr::callbackUserJoinAdded null userJoinInfo" );
-        return;
-    }
-
-    emit signalInternalUserJoinUpdated( new UserJoinInfo(*userJoinInfo) );
-}
-
-//============================================================================
-void GuiUserJoinMgr::callbackUserUnJoinUpdated( UserJoinInfo* userJoinInfo )
-{
-    if( !userJoinInfo )
-    {
-        LogMsg( LOG_ERROR, "GuiUserJoinMgr::callbackUserJoinAdded null userJoinInfo" );
-        return;
-    }
-
-    emit signalInternalUserUnJoinUpdated( new UserJoinInfo( *userJoinInfo ) );
-}
-
-//============================================================================
-void GuiUserJoinMgr::callbackUserJoinRemoved( GroupieId& groupieId )
-{
-    emit signalInternalUserJoinRemoved( groupieId );
-}
-
-//============================================================================
-void GuiUserJoinMgr::callbackUserJoinOfferState( GroupieId& groupieId, EJoinState userOfferState )
-{
-    emit signalInternalUserJoinOfferState( groupieId, userOfferState );
-}
-
-//============================================================================
-void GuiUserJoinMgr::callbackUserJoinOnlineState( GroupieId& groupieId, EOnlineState onlineState, VxGUID& connectionId )
-{
-    emit signalInternalUserJoinOnlineState( groupieId, onlineState, connectionId );
 }
 
 //============================================================================
@@ -118,6 +76,18 @@ void GuiUserJoinMgr::slotInternalUserJoinRequested( UserJoinInfo* userJoinInfo )
 }
 
 //============================================================================
+void GuiUserJoinMgr::callbackUserJoinUpdated( UserJoinInfo* userJoinInfo )
+{
+    if( !userJoinInfo )
+    {
+        LogMsg( LOG_ERROR, "GuiUserJoinMgr::%s null userJoinInfo", __func__ );
+        return;
+    }
+
+    emit signalInternalUserJoinUpdated( new UserJoinInfo(*userJoinInfo) );
+}
+
+//============================================================================
 void GuiUserJoinMgr::slotInternalUserJoinUpdated( UserJoinInfo* userJoinInfo )
 {
     stopReconnectToLastConnectedHost();
@@ -126,11 +96,29 @@ void GuiUserJoinMgr::slotInternalUserJoinUpdated( UserJoinInfo* userJoinInfo )
 }
 
 //============================================================================
-void GuiUserJoinMgr::slotInternalUserUnJoinUpdated( UserJoinInfo* userJoinInfo )
+void GuiUserJoinMgr::callbackUserUnJoin( UserJoinInfo* userJoinInfo )
+{
+    if( !userJoinInfo )
+    {
+        LogMsg( LOG_ERROR, "GuiUserJoinMgr::%s null userJoinInfo", __func__ );
+        return;
+    }
+
+    emit signalInternalUserUnJoin( new UserJoinInfo( *userJoinInfo ) );
+}
+
+//============================================================================
+void GuiUserJoinMgr::slotInternalUserUnJoin( UserJoinInfo* userJoinInfo )
 {
     stopReconnectToLastConnectedHost();
-    updateUserJoin( userJoinInfo, true  );
+    updateUserJoin( userJoinInfo, true );
     delete userJoinInfo;
+}
+
+//============================================================================
+void GuiUserJoinMgr::callbackUserJoinRemoved( GroupieId& groupieId )
+{
+    emit signalInternalUserJoinRemoved( groupieId );
 }
 
 //============================================================================
@@ -150,6 +138,12 @@ void GuiUserJoinMgr::slotInternalUserJoinRemoved( GroupieId groupieId )
 }
 
 //============================================================================
+void GuiUserJoinMgr::callbackUserJoinOfferState( GroupieId& groupieId, EJoinState userOfferState )
+{
+    emit signalInternalUserJoinOfferState( groupieId, userOfferState );
+}
+
+//============================================================================
 void GuiUserJoinMgr::slotInternalUserJoinOfferState( GroupieId groupieId, EJoinState joinOfferState )
 {
     stopReconnectToLastConnectedHost();
@@ -164,6 +158,12 @@ void GuiUserJoinMgr::slotInternalUserJoinOfferState( GroupieId groupieId, EJoinS
 }
 
 //============================================================================
+void GuiUserJoinMgr::callbackUserJoinOnlineState( GroupieId& groupieId, EOnlineState onlineState, VxGUID& connectionId )
+{
+    emit signalInternalUserJoinOnlineState( groupieId, onlineState, connectionId );
+}
+
+//============================================================================
 void GuiUserJoinMgr::slotInternalUserJoinOnlineState( GroupieId groupieId, EOnlineState onlineState, VxGUID connectionId )
 {
     stopReconnectToLastConnectedHost();
@@ -171,7 +171,6 @@ void GuiUserJoinMgr::slotInternalUserJoinOnlineState( GroupieId groupieId, EOnli
     bool isOnline = onlineState == eOnlineStateOnline ? true : false;
     if( guiUserJoin && isOnline != guiUserJoin->isOnline() )
     {
-        // guiUserJoin->setOnlineStatus( isOnline );
         emit signalUserJoinOnlineStatus( guiUserJoin, isOnline );
     }
 }
@@ -253,11 +252,12 @@ GuiUserJoin* GuiUserJoinMgr::updateUserJoin( UserJoinInfo* userJoinInfo, bool un
             {
                 LogModule( eLogHostJoin, LOG_VERBOSE, "GuiUserJoinMgr::updateUserJoin unjoin state %s %s", DescribeJoinState( guiUserJoin->getJoinState() ),
                         m_MyApp.describeGroupieId( guiUserJoin->getGroupieId() ).c_str() );
-                onUserUnJoinUpdated( guiUserJoin );
+                onUserUnJoin( guiUserJoin );
             }
             else
             {
-                LogModule( eLogHostJoin, LOG_VERBOSE, "GuiUserJoinMgr::updateUserJoin update state %s %s", DescribeJoinState( guiUserJoin->getJoinState() ),         m_MyApp.describeGroupieId( guiUserJoin->getGroupieId() ).c_str() );
+                LogModule( eLogHostJoin, LOG_VERBOSE, "GuiUserJoinMgr::updateUserJoin update state %s %s", DescribeJoinState( guiUserJoin->getJoinState() ),         
+                    m_MyApp.describeGroupieId( guiUserJoin->getGroupieId() ).c_str() );
                 onUserJoinUpdated( guiUserJoin );
             }
         }
@@ -370,7 +370,7 @@ void GuiUserJoinMgr::announceUserJoinState( EJoinState joinState, GuiUserJoin* g
 }
 
 //============================================================================
-void GuiUserJoinMgr::onUserUnJoinUpdated( GuiUserJoin* guiUserJoin )
+void GuiUserJoinMgr::onUserUnJoin( GuiUserJoin* guiUserJoin )
 {
     announceUserJoinState( guiUserJoin->getJoinState(), guiUserJoin );
 }
@@ -398,7 +398,7 @@ void GuiUserJoinMgr::wantUserJoinCallbacks( GuiUserJoinCallback* client, bool en
 
     if( enable )
     {
-        m_UserJoinClients.push_back( client );
+        m_UserJoinClients.emplace_back( client );
     }
 }
 

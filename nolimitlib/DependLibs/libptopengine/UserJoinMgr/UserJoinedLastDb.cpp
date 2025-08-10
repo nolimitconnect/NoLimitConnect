@@ -170,11 +170,11 @@ bool UserJoinedLastDb::setJoinedLast( EHostType hostType, VxGUID& onlineId, int6
 }
 
 //============================================================================
-bool UserJoinedLastDb::getJoinedLast( EHostType hostType, VxGUID& onlineId, int64_t& lastJoinMs, std::string hostUrl )
+bool UserJoinedLastDb::getJoinedLast( EHostType hostType, VxGUID& onlineId, int64_t& lastJoinMs, std::string& hostUrl )
 {
     bool result{ false };
 
-    m_DbMutex.lock();
+    lockDb();
     char queryStatement[512];
     sprintf( queryStatement, "SELECT * FROM tblUserJoinedLast WHERE hostType=%d", hostType );
 
@@ -184,9 +184,10 @@ bool UserJoinedLastDb::getJoinedLast( EHostType hostType, VxGUID& onlineId, int6
         if( cursor->getNextRow() )
         {
             onlineId.fromVxGUIDHexString( cursor->getString( COLUMN_ONLINE_ID ) );
-            if( hostType != ( EHostType )cursor->getS32( COLUMN_HOST_TYPE ) )
+            EHostType dbHostType = (EHostType)cursor->getS32( COLUMN_HOST_TYPE );
+            if( hostType != dbHostType )
             {
-                LogMsg( LOG_ERROR, "UserJoinedLastDb::getJoinedLast invalid plugin type" );
+                LogMsg( LOG_VERBOSE, "UserJoinedLastDb::getJoinedLast not the right host type %s", DescribeHostType( dbHostType ) );
             }
             else
             {
@@ -203,6 +204,6 @@ bool UserJoinedLastDb::getJoinedLast( EHostType hostType, VxGUID& onlineId, int6
         cursor->close();
     }
 
-    m_DbMutex.unlock();
+    unlockDb();
     return result;
 } 

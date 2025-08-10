@@ -38,7 +38,7 @@ void MemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool memberActiv
             found = true;
             if( !memberActive )
             {
-                m_MemberList.erase( iter );
+                iter = m_MemberList.erase( iter );
                 wasUpdated = true;
             }
 

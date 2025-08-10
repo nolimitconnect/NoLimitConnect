@@ -19,7 +19,7 @@ class UserJoinCallbackInterface
 public:
     virtual void				callbackUserJoinAdded( UserJoinInfo* hostJoinInfo ) {};
     virtual void				callbackUserJoinUpdated( UserJoinInfo* hostJoinInfo ) {};
-    virtual void				callbackUserUnJoinUpdated( UserJoinInfo* hostJoinInfo ) {};
+    virtual void				callbackUserUnJoin( UserJoinInfo* hostJoinInfo ) {};
     virtual void				callbackUserJoinRemoved( GroupieId& groupieId ) {};
 
     virtual void				callbackUserJoinOfferState( GroupieId& groupieId, EJoinState userOfferState ) {};
