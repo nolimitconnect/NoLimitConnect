@@ -36,7 +36,8 @@ public:
 
     EPluginType                 getPluginType( void );
     EHostType                   getHostType( void );
-    virtual HostedId&           getHostId( void )       { return m_HostId; }
+    void                        setHostId( HostedId& hostedId )       { m_HostId = hostedId; }
+    virtual HostedId&           getHostId( void )                     { return m_HostId; }
 
     //=== hosting ===//
     virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl );

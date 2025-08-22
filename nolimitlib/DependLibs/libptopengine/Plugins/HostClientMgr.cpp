@@ -221,31 +221,38 @@ void HostClientMgr::onPktHostSearchReply( std::shared_ptr<VxSktBase>& sktBase, V
 //============================================================================
 void HostClientMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
-    m_ServerListMutex.lock();
-    m_ServerList.insert( groupieId );
-    m_ServerListMutex.unlock();
-
-    m_Engine.getUserJoinMgr().onUserJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
-    m_Engine.getUserOnlineMgr().onUserJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
-    m_Engine.getThumbMgr().queryThumbIfNeeded( sktBase, netIdent, sessionInfo.getHostPluginType() );
-}
-
-//============================================================================
-void HostClientMgr::onUserJoinHostGranted( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
-{
-    m_ServerListMutex.lock();
-    m_ServerList.insert( groupieId );
-    m_ServerListMutex.unlock();
-
     if( !netIdent->getIsJoined( groupieId.getHostType() ) )
     {
         netIdent->setIsJoined( groupieId.getHostType(), true );
         m_Engine.toGuiContactAnythingChange( netIdent );
     }
 
+    if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_INFO, "HostClientMgr::%s joined %s", __func__,
+              groupieId.describeGroupieId().c_str() );
+
+    if(groupieId.getUserOnlineId() == m_Engine.getMyOnlineId())
+    {
+        setHostId( groupieId.getHostedId() );
+    }
+
+    m_ServerListMutex.lock();
+    m_ServerList.insert( groupieId );
+    m_ServerListMutex.unlock();
+
     m_Engine.getUserJoinMgr().onUserJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
     m_Engine.getUserOnlineMgr().onUserJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
     m_Engine.getThumbMgr().queryThumbIfNeeded( sktBase, netIdent, sessionInfo.getHostPluginType() );
+
+    if( sessionInfo.getJoineState() == eJoinStateJoinIsGranted )
+    {
+        m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
+    }
+}
+
+//============================================================================
+void HostClientMgr::onUserJoinHostGranted( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
+{
+    onUserJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
 
     m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinSuccess );
     if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
@@ -598,14 +605,12 @@ void HostClientMgr::onPktHostUserInfoReq( std::shared_ptr<VxSktBase>& sktBase, V
 void HostClientMgr::onPktHostUserStatusReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserStatusReq" );
-
 }
 
 //============================================================================
 void HostClientMgr::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserStatusReply" );
-
 }
 
 //============================================================================
@@ -624,7 +629,10 @@ void HostClientMgr::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase,
         PktBlobEntry& blobEntry = pktReply->getBlobEntry();
         blobEntry.resetRead();
         bool writeResult{ true };
-        for( int i = 0; i < pktReply->getHostUserCountThisPkt(); i++ )
+        int userCnt = pktReply->getHostUserCountThisPkt();
+        if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_VERBOSE, "HostClientMgr::%s member cnt %d", __func__, userCnt );
+
+        for( int i = 0; i < userCnt; i++ )
         {
             VxGUID onlineId;
             if( !blobEntry.getValue( onlineId ) )
@@ -632,6 +640,9 @@ void HostClientMgr::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase,
                 LogMsg( LOG_ERROR, "HostClientMgr::onPktHostUserListReply failed read online id" );
                 break;
             }
+
+            if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_VERBOSE, "HostClientMgr::%s list item %d - user %s", __func__,
+                         i + 1, m_Engine.describeUser( onlineId ).c_str() );
 
             if( onlineId == m_Engine.getMyOnlineId() )
             {
@@ -646,13 +657,13 @@ void HostClientMgr::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase,
 //============================================================================
 void HostClientMgr::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListMoreReq" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::$s", __func__ );
 }
 
 //============================================================================
 void HostClientMgr::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserListMoreReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::%s", __func__ );
 }
 
 //============================================================================
@@ -660,18 +671,12 @@ void HostClientMgr::requestHostUserInfo( std::shared_ptr<VxSktBase>& sktBase, Vx
 {
     if( onlineId == m_Engine.getMyOnlineId() )
     {
-        return;
-    }
-
-    BigListInfo* bigListInfo = m_Engine.getBigListMgr().findBigListInfo( onlineId );
-    if( bigListInfo )
-    {
-        announceUserInfo( sktBase, bigListInfo, sessionId );
+        clearLastHostUserInfoRequestTime();
         return;
     }
 
     m_ClientMutex.lock();
-    m_UserInfoReqList.addGuid( onlineId );
+    m_UserInfoReqList.addGuidIfDoesntExist( onlineId );
     m_ClientMutex.unlock();
 
     // space out requests to avoid flooding the network
@@ -679,13 +684,22 @@ void HostClientMgr::requestHostUserInfo( std::shared_ptr<VxSktBase>& sktBase, Vx
     {
         sendNextUserInfoRequest( sktBase, netIdentHost, onlineId, sessionId );
     }
+    else
+    {
+        if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_VERBOSE, "HostClientMgr::%s NOT requesting info for user %s", __func__,
+                      m_Engine.describeUser( onlineId ).c_str() );
+    }
 }
 
 //============================================================================
 void HostClientMgr::sendNextUserInfoRequest( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdentHost, VxGUID& onlineId, VxGUID& sessionId )
 {
     PktHostUserInfoReq pktReq;
-    GroupieId groupieId( onlineId, getHostId() );
+    GroupieId groupieId( onlineId, netIdentHost->getMyOnlineId(), getHostType() );
+
+    ConnectId connectId( sktBase->getSocketId(), groupieId );
+    m_Engine.getConnectIdListMgr().addUnconfirmedConnection( connectId, true );
+
     pktReq.setGroupieId( groupieId );
     pktReq.setSessionId( sessionId );
 
@@ -695,20 +709,39 @@ void HostClientMgr::sendNextUserInfoRequest( std::shared_ptr<VxSktBase>& sktBase
 
     if( !m_Plugin.txPacket( netIdentHost->getMyOnlineId(), sktBase, &pktReq) )
     {
-        clearUserInfoRequests();
+        clearLastHostUserInfoRequestTime();
         LogModule( eLogHostedUser, LOG_VERBOSE, "HostClientMgr::requestHostUserInfo failed send" );
+    }
+    else
+    {
+        if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_VERBOSE, "HostClientMgr::%s sent user %s groupie %s", __func__,
+                      m_Engine.describeUser( onlineId ).c_str(), groupieId.describeGroupieId().c_str() );
     }
 }
 
 //============================================================================
 bool HostClientMgr::shouldRequestUserInfo( void )
 {
-    return !m_SentUserInfoReqTime;
+    bool shouldRequest = !m_SentUserInfoReqTime || ( GetGmtTimeMs() - m_SentUserInfoReqTime > 50 );
+    if( LogEnabled(eLogHostJoin) )
+    {
+        if( !shouldRequest  )
+        {
+            LogModule( eLogHostJoin, LOG_VERBOSE, "HostClientMgr::%s to soon to send request info for user", __func__ );
+        }
+        else
+        {
+             LogModule( eLogHostJoin, LOG_VERBOSE, "HostClientMgr::%s SHOULD send request info for user", __func__ );
+        }
+    }
+
+    return shouldRequest;
 }
 
 //============================================================================
 void HostClientMgr::clearUserInfoRequests( void )
 {
+    LogModule( eLogHostedUser, LOG_VERBOSE, "HostClientMgr::%s", __func__ );
     m_ClientMutex.lock();
     m_UserInfoReqList.clearList();
     m_SentUserInfoReqTime = 0;
@@ -720,14 +753,24 @@ void HostClientMgr::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase,
 {
     if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserInfoReply" );
     PktHostUserInfoReply* pktReply = (PktHostUserInfoReply*)pktHdr;
+    VxGUID srcOnlineId = pktReply->getSrcOnlineId();
+    clearLastHostUserInfoRequestTime();
+
     if( pktReply->isValidPktPrefix() )
     {
+        VxGUID groupieUserId = pktReply->getGroupieId().getUserOnlineId();
+
         m_ClientMutex.lock();
-        m_SentUserInfoReqTime = 0;
-        m_UserInfoReqList.removeGuid( pktReply->getGroupieId().getUserOnlineId() );
+        m_UserInfoReqList.removeGuid( groupieUserId );
         bool userInfoReqListEmpty = m_UserInfoReqList.isEmpty();
         VxGUID nextOnlineId = m_UserInfoReqList.getAnyGuid();
         m_ClientMutex.unlock();
+
+        if(!userInfoReqListEmpty)
+        {
+            if(LogEnabled(eLogHostedUser))LogModule( eLogHostedUser, LOG_VERBOSE, "HostClientMgr::%s next online id %s", __func__,
+                          m_Engine.describeUser( nextOnlineId ).c_str() );
+        }
 
         PktBlobEntry& blobEntry = pktReply->getBlobEntry();
         blobEntry.resetRead();
@@ -737,7 +780,21 @@ void HostClientMgr::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase,
             bool readResult = pktAnn.extractFromBlob( blobEntry );
             if( readResult )
             {
-                announceUserInfo( sktBase, &pktAnn, pktReply->getSessionId(), pktReply->getHostType() );
+                VxGUID memberId = pktAnn.getMyOnlineId();
+                if(LogEnabled(eLogHostedUser))LogModule( eLogHostedUser, LOG_VERBOSE, "HostClientMgr::%s extracted user %s, next user %s", __func__,
+                              m_Engine.describeUser( memberId ).c_str(),   m_Engine.describeUser( nextOnlineId ).c_str() );
+
+                if( memberId != groupieUserId )
+                {
+                    LogMsg( LOG_ERROR, "HostClientMgr::%s groupieUserId is %s but pktAnn id %s name %s ", __func__,
+                           groupieUserId.toOnlineIdString().c_str(), memberId.toOnlineIdString().c_str(), pktAnn.getOnlineName() );
+                }
+
+                announceUserInfo( sktBase, &pktAnn, pktReply->getSessionId(), srcOnlineId, pktReply->getHostType() );
+            }
+            else
+            {
+                LogMsg( LOG_ERROR, "HostClientMgr::%s failed extract PktAnn", __func__ );
             }
         }
         else
@@ -757,21 +814,34 @@ void HostClientMgr::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase,
         {
             sendNextUserInfoRequest( sktBase, netIdent, nextOnlineId, pktReply->getSessionId() );
         }
+        else if(LogEnabled(eLogHostedUser))
+        {
+            LogModule( eLogHostedUser, LOG_VERBOSE, "HostClientMgr::%s list is empty", __func__ );
+        }
+    }
+    else
+    {
+         LogMsg( LOG_ERROR, "HostClientMgr::%s invalid header prefix", __func__ );
     }
 }
 
 //============================================================================
-void HostClientMgr::announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, VxGUID& sessionId, EHostType hostType )
+void HostClientMgr::announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, VxGUID& sessionId, VxGUID& hostOnlineId, EHostType hostType )
 {
-    if( m_Engine.getMyOnlineId() == pktAnn->getMyOnlineId() )
+    VxGUID memberOnlineId = pktAnn->getMyOnlineId();
+    GroupieId groupieId( memberOnlineId, hostOnlineId, hostType );
+    if(LogEnabled(eLogHostedUser))LogModule( eLogHostedUser, LOG_VERBOSE, "HostClientMgr::%s for user %s", __func__,
+                  m_Engine.describeUser( memberOnlineId ).c_str() );
+    if( m_Engine.getMyOnlineId() == memberOnlineId )
     {
         LogMsg( LOG_VERBOSE, "HostClientMgr::announceUserInfo got myself.. ERROR ?" );
         return;
     }
 
-    if( m_Engine.getBigListMgr().isUserIgnored( pktAnn->getMyOnlineId() ) )
+    if( m_Engine.getBigListMgr().isUserIgnored( memberOnlineId ) )
     {
-        LogMsg( LOG_VERBOSE, "HostClientMgr::announceUserInfo ignored user %s %s", pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str() );
+        LogMsg( LOG_VERBOSE, "HostClientMgr::%s ignored user %s %s", __func__, 
+            pktAnn->getOnlineName(), memberOnlineId.toOnlineIdString().c_str() );
         return;
     }
 
@@ -783,37 +853,45 @@ void HostClientMgr::announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAn
         EPktAnnUpdateType updateType = m_Engine.getBigListMgr().updatePktAnn( pktAnn, &bigListInfo, hostType );		
         if( !bigListInfo || !bigListInfo->isValidNetIdent() )
         {
-            LogMsg( LOG_ERROR, "HostClientMgr::announceUserInfo INVALID" );
+            LogMsg( LOG_ERROR, "HostClientMgr::%s INVALID", __func__ );
+            return;
+        }
+
+        if( ePktAnnUpdateTypeIgnored == updateType )
+        {
+            LogMsg( LOG_INFO, "HostClientMgr::%s ignored user %s", __func__,
+                   m_Engine.describeUser( memberOnlineId ).c_str() );
             return;
         }
 
         if( !m_Engine.getUserOnlineMgr().isUserOnline( pktAnn->getMyOnlineId() ) )
         {
-            // we need to exchange PktAnn to get current friendship from peer user
-            // if possible connect directly
-            if( pktAnn->canDirectConnectToUser() )
-            {
-                std::shared_ptr<VxSktBase> sktBase;
-                VxGUID sessionId;
-                sessionId.initializeWithNewVxGUID();
 
-                m_Engine.getConnectionMgr().connectUsingTcp( pktAnn->getConnectInfo(), sktBase, sessionId );
-            }
-            else
-            {
-                // send our pkt ann through host to peer user and request response pkt ann
-                m_Engine.getConnectionMgr().sendMyPktAnnounce( pktAnn->getMyOnlineId(), sktBase, true, false, false, false );
-            }
+            // we need to exchange PktAnn to get current friendship from peer user
+            // also when pktAnn is recieved it will confirm the connection
+            ConnectId connectId( sktBase->getSocketId(), groupieId );
+            bool isRelayed = groupieId.getUserOnlineId() != sktBase->getPeerOnlineId();
+            m_Engine.getConnectIdListMgr().addUnconfirmedConnection( connectId, isRelayed );
+
+            if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_VERBOSE, "HostClientMgr::%s sending pktann to %s", __func__,
+                          m_Engine.describeUser( memberOnlineId ).c_str() );
+
+            // send our pkt ann through host to peer user and request response pkt ann
+            m_Engine.getConnectionMgr().sendMyPktAnnounce( memberOnlineId, sktBase, true, false, false, false );
         }
 
         pktAnn = bigListInfo;
     }
+    else
+    {
+        LogMsg( LOG_ERROR, "HostClientMgr::%s NOT a relay Host %s", __func__, DescribeHostType( hostType ) );
+    }
 
-    GroupieId groupieId( pktAnn->getMyOnlineId(), getHostId() );
     HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, sessionId );
     BaseSessionInfo sessionInfo( hostUserSessionId );
     sessionInfo.setOnlineState( eOnlineStateOnline );
     sessionInfo.setJoinState( eJoinStateJoinIsGranted );
+
     onUserJoinedHost( groupieId, sktBase, pktAnn, sessionInfo );
 }
 

@@ -374,14 +374,15 @@ void HostServerMgr::onPktHostUserInfoReq( std::shared_ptr<VxSktBase>& sktBase, V
 {
     if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostServerMgr::%s", __func__ );
     PktHostUserInfoReq* pktReq = (PktHostUserInfoReq*)pktHdr;
+    VxGUID srcOnlineId = pktReq->getSrcOnlineId();
     if( pktReq->isValidPktPrefix() )
     {
         bool userOnline{ false };
         PktHostUserInfoReply pktReply;
         pktReply.setSessionId( pktReq->getSessionId() );
         pktReply.setGroupieId( pktReq->getGroupieId() );
-
-        if( isMemberOnline( pktReq->getGroupieId().getUserOnlineId() ) )
+        VxGUID onlineId = pktReq->getGroupieId().getUserOnlineId();
+        if( isMemberOnline( onlineId ) )
         {        
             BigListInfo* bigListInfo = m_Engine.getBigListMgr().findBigListInfo( pktReq->getGroupieId().getUserOnlineId() );
             if( bigListInfo )
@@ -391,12 +392,14 @@ void HostServerMgr::onPktHostUserInfoReq( std::shared_ptr<VxSktBase>& sktBase, V
                 {
                     userAnn->setHostId( getHostId() );
                     userOnline = userAnn->addToBlob( pktReply.getBlobEntry() );
+                    if( LogEnabled( eLogHostedUser ) )LogModule( eLogHostedUser, LOG_ERROR, "HostServerMgr::%s send ann %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
                 }
             }
         }
 
         if( !userOnline )
         {
+            if( LogEnabled( eLogHostedUser ) )LogModule( eLogHostedUser, LOG_ERROR, "HostServerMgr::%s not online %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
             pktReply.setCommError( eCommErrNotFound );
         }
 
@@ -455,6 +458,7 @@ void HostServerMgr::onPktHostUserListReq( std::shared_ptr<VxSktBase>& sktBase, V
                     continue;
                 }
 
+                if(LogEnabled( eLogHostedUser ))LogModule( eLogHostedUser, LOG_ERROR, "HostServerMgr::%s adding %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
                 if( blobEntry.getRemainingStorageLen() >= sizeof( VxGUID ) )
                 {
                     writeResult &= blobEntry.setValue( onlineId );
@@ -471,6 +475,7 @@ void HostServerMgr::onPktHostUserListReq( std::shared_ptr<VxSktBase>& sktBase, V
                 }
                 else
                 {
+                    if( LogEnabled( eLogHostedUser ) )LogModule( eLogHostedUser, LOG_ERROR, "HostServerMgr::%s no room for %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
                     pktReply.setMoreHostUsersExist( true );
                     pktReply.setNextSearchOnlineId( onlineId );
                     break;
@@ -503,7 +508,7 @@ void HostServerMgr::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBas
         PktHostUserListMoreReply pktReply;
         if( pktReq->getHostType() != getHostType() )
         {
-            LogMsg( LOG_ERROR, "HostServerMgr::onPktHostUserListReq invalid host type" );
+            LogMsg( LOG_ERROR, "HostServerMgr::%s invalid host type", __func__ );
             pktReply.setCommError( eCommErrInvalidHostType );
         }
         else
@@ -535,6 +540,7 @@ void HostServerMgr::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBas
                 {
                     if( blobEntry.getRemainingStorageLen() >= sizeof( VxGUID ) )
                     {
+                        if( LogEnabled( eLogHostedUser ) )LogModule( eLogHostedUser, LOG_ERROR, "HostServerMgr::%s adding %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
                         writeResult &= blobEntry.setValue( onlineId );
                         if( writeResult )
                         {
@@ -542,7 +548,7 @@ void HostServerMgr::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBas
                         }
                         else
                         {
-                            LogMsg( LOG_ERROR, "HostServerMgr::onPktHostUserListReq failed blob write" );
+                            LogMsg( LOG_ERROR, "HostServerMgr::%s failed blob write", __func__ );
                             pktReply.setCommError( eCommErrInvalidParam );
                             break;
                         }
@@ -560,7 +566,7 @@ void HostServerMgr::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBas
         pktReply.calcPktLen();
         if( !m_Plugin.txPacket( pktReq->getSrcOnlineId(), sktBase, &pktReply) )
         {
-            LogMsg( LOG_ERROR, "HostServerMgr::onPktHostUserListReq failed to send" );
+            LogMsg( LOG_ERROR, "HostServerMgr::%s failed to send", __func__ );
         }
     }
 }
@@ -568,7 +574,7 @@ void HostServerMgr::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>& sktBas
 //============================================================================
 void HostServerMgr::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostServerMgr::onPktHostUserListMoreReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostServerMgr::%s", __func__ );
 }
 
 //============================================================================

@@ -224,6 +224,7 @@ public:
     static bool                 confirmDeleteFile( AppCommon& appCommon, QFrame* contentFrame, bool shredFile, QString fileName = "" );
 
     // android permissions
+    static int                  getAndroidSDKVersion( void );
     static bool                 havePermission( QString permissionName );
     static bool                 requestFilePermission( enum EMediaFileType permissionType, bool showUserMsgIfDenied = true );
 

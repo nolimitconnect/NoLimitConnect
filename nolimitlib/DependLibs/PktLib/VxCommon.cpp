@@ -466,7 +466,7 @@ void VxNetIdent::setIsJoined( EHostType hostType, bool isJoined )
 			if( !( m_JoinedFlags & hostFlag ) )
 			{
 				m_JoinedFlags |= hostFlag;
-				LogMsg( LOG_VERBOSE, "VxNetIdent:setIsJoined joined host type %s", DescribeHostType( hostType ) );
+                LogMsg( LOG_VERBOSE, "VxNetIdent:setIsJoined %s joined host type %s", getOnlineName(), DescribeHostType( hostType ) );
 			}
 		}
 		else
@@ -474,7 +474,7 @@ void VxNetIdent::setIsJoined( EHostType hostType, bool isJoined )
 			if( m_JoinedFlags & hostFlag )
 			{
 				m_JoinedFlags &= ~hostFlag;
-				LogMsg( LOG_VERBOSE, "VxNetIdent:setIsJoined NOT joined host type %s", DescribeHostType( hostType ) );
+                LogMsg( LOG_VERBOSE, "VxNetIdent:setIsJoined %s NOT joined host type %s", getOnlineName(), DescribeHostType( hostType ) );
 			}
 		}
 	}

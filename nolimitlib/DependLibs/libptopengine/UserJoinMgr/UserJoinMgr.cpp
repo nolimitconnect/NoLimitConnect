@@ -227,8 +227,8 @@ void UserJoinMgr::announceUserJoinRequested( UserJoinInfo* userJoinInfo )
     {
         updateUserIsJoined( userJoinInfo );
 
-        if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::%s state %s %s", __func__, DescribeJoinState( userJoinInfo->getJoinState() ),
-                userJoinInfo->getGroupieId().describeGroupieId().c_str() );
+        if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::%s state %s %s", __func__,
+                      DescribeJoinState( userJoinInfo->getJoinState() ), userJoinInfo->getGroupieId().describeGroupieId().c_str() );
 
         lockClientList();
         for( auto client : m_UserJoinClients )
@@ -364,6 +364,11 @@ void UserJoinMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktB
                 updatedHostIdentNeeded = true;
             }
         }
+        else
+        {
+            // joined a different host
+
+        }
     }
 
     joinInfo->setNetIdent( netIdent );
@@ -409,6 +414,10 @@ void UserJoinMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktB
             {
                 m_Engine.getConnectIdListMgr().disconnectIfIsOnlyUser( prevLastJoined );
             }
+        }
+        else
+        {
+            m_Engine.getConnectIdListMgr().userJoinedHost( sktBase->getSocketId(), groupieId );
         }
 
         setLastJoined( groupieId );

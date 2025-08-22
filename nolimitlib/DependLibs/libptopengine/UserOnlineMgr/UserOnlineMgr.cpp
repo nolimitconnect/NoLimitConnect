@@ -18,8 +18,6 @@
 #include <CoreLib/VxTime.h>
 #include <NetLib/VxSktBase.h>
 
-#include <time.h>
-
 //============================================================================
 UserOnlineMgr::UserOnlineMgr( P2PEngine& engine )
 : m_Engine( engine )
@@ -146,7 +144,7 @@ void UserOnlineMgr::announceUserOnlineAdded( std::shared_ptr<User> userInfo, Bas
 {
     if( userInfo.get() )
     {
-	    LogModule( eLogUsers, LOG_INFO, "UserOnlineMgr::%s start", __func__ );
+        //LogModule( eLogUsers, LOG_INFO, "UserOnlineMgr::%s start", __func__ );
         #if defined(DEBUG_USER_ONLINE_MGR_LOCK)
             LogMsg( LOG_DEBUG, "UserOnlineMgr::%s lockClientList", __func__ );
         #endif // defined(DEBUG_SKT_MGR_LOCK)
@@ -167,11 +165,11 @@ void UserOnlineMgr::announceUserOnlineAdded( std::shared_ptr<User> userInfo, Bas
             LogMsg( LOG_DEBUG, "UserOnlineMgr::%s unlockClientList", __func__ );
         #endif // defined(DEBUG_SKT_MGR_LOCK)
 	    unlockClientList();
-	    LogModule( eLogUsers, LOG_INFO, "UserOnlineMgr::%s done user %s", __func__, userInfo->getNetIdent()->getOnlineName() );
+        //LogModule( eLogUsers, LOG_INFO, "UserOnlineMgr::%s done user %s", __func__, userInfo->getNetIdent()->getOnlineName() );
     }
     else
     {
-        LogMsg( LOG_ERROR, "UserOnlineMgr::%s null usr" );
+        LogMsg( LOG_ERROR, "UserOnlineMgr::%s null user" );
     }
 }
 
@@ -348,14 +346,7 @@ void UserOnlineMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<Vx
 //============================================================================
 void UserOnlineMgr::updateUserSession( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo, bool leftHost )
 {
-    if( IsHostPluginType( sessionInfo.getHostPluginType() ) )
-    {
-        updateUserSession( sessionInfo.getGroupieId(), sktBase, netIdent, sessionInfo, leftHost );
-    }
-    else
-    {
-        updateUserSession( sessionInfo.getGroupieId(), sktBase, netIdent, sessionInfo, leftHost );
-    }
+    updateUserSession( sessionInfo.getGroupieId(), sktBase, netIdent, sessionInfo, leftHost );
 }
 
 //============================================================================

@@ -55,7 +55,18 @@ bool GuiUserBase::isMyself( void )
 //============================================================================
 bool GuiUserBase::isOnline( void )
 {
-    return m_MyApp.getConnectIdListMgr().isOnline( getMyOnlineId() );
+    bool online = m_MyApp.getConnectIdListMgr().isOnline( getMyOnlineId() );
+    if( !online )
+    {
+        bool userOnline = m_MyApp.getUserMgr().isUserOnline( getMyOnlineId() );
+        if( userOnline != online )
+        {
+            LogMsg( LOG_ERROR, "GuiUserBase::isOnline conflict ConnectIdListMgr isOnline %d UserMgr isOnline %d",
+                   online, userOnline );
+        }
+    }
+
+    return online;
 }
 
 //============================================================================

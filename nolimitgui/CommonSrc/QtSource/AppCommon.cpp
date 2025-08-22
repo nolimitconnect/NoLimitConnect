@@ -1798,9 +1798,8 @@ void AppCommon::wantToGuiUserUpdateCallbacks( ToGuiUserUpdateInterface * callbac
 
     if( wantCallback )
     {
-        for( auto iter = m_ToGuiUserUpdateClientList.begin(); iter != m_ToGuiUserUpdateClientList.end(); ++iter )
+        for( auto client : m_ToGuiUserUpdateClientList )
         {
-            ToGuiUserUpdateInterface* client = *iter;
             if( client == callback )
             {
                 LogMsg( LOG_INFO, "WARNING. Ignoring New wantToGuiUserUpdateCallbacks because already in list" );
@@ -1808,7 +1807,7 @@ void AppCommon::wantToGuiUserUpdateCallbacks( ToGuiUserUpdateInterface * callbac
             }
         }
 
-        m_ToGuiUserUpdateClientList.push_back( callback );
+        m_ToGuiUserUpdateClientList.emplace_back( callback );
         return;
     }
 

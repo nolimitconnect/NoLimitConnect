@@ -38,9 +38,8 @@ void AppCommon::slotInternalToGuiIndentListUpdate( EUserViewType listType, VxGUI
 {
     if(LogEnabled(eLogUsers))LogMsg( LOG_INFO, "AppCommon::toGuiIndentListUpdate %d", listType );
     m_ToGuiUserUpdateClientBusy = true;
-    for( auto iter = m_ToGuiUserUpdateClientList.begin(); iter != m_ToGuiUserUpdateClientList.end(); ++iter )
+    for( auto client : m_ToGuiUserUpdateClientList )
     {
-        ToGuiUserUpdateInterface* client = *iter;
         client->toGuiIndentListUpdate( listType, onlineId, timestamp );
     }
 
@@ -69,9 +68,8 @@ void AppCommon::slotInternalToGuiIndentListRemove( EUserViewType listType, VxGUI
     }
 
     m_ToGuiUserUpdateClientBusy = true;
-    for( auto iter = m_ToGuiUserUpdateClientList.begin(); iter != m_ToGuiUserUpdateClientList.end(); ++iter )
+    for( auto client : m_ToGuiUserUpdateClientList )
     {
-        ToGuiUserUpdateInterface* client = *iter;
         client->toGuiIndentListRemove( listType, onlineId);
     }
 
@@ -234,9 +232,8 @@ void AppCommon::slotInternalToGuiContactLastSessionTimeChange( VxNetIdent netIde
 {
 	LogMsg( LOG_INFO, "AppCommon::toGuiContactLastSessionTimeChange %s", netIdent.getOnlineName());
     m_ToGuiUserUpdateClientBusy = true;
-    for( auto iter = m_ToGuiUserUpdateClientList.begin(); iter != m_ToGuiUserUpdateClientList.end(); ++iter )
+    for( auto client : m_ToGuiUserUpdateClientList )
     {
-        ToGuiUserUpdateInterface* client = *iter;
         client->toGuiContactLastSessionTimeChange( &netIdent );
     }
 

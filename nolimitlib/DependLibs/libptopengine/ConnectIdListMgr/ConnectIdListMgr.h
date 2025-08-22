@@ -96,6 +96,10 @@ public:
 
     void                        wantConnectIdListCallback( ConnectIdListCallback* client, bool enable );
 
+    void                        addUnconfirmedConnection( ConnectId& connectId, bool isRelayed );
+    void                        addUnconfirmedConnection( std::vector<std::pair<int64_t,ConnectId>>& unonfirmedIdList, ConnectId& connectId );
+
+
 protected:
     void                        announceOnlineStatus( VxGUID& onlineId, bool isOnline );
     void                        announceConnectionStatus( ConnectId& connectId, bool isConnected );
@@ -125,6 +129,13 @@ protected:
 
     void						lockConnectReasonList( void )           { m_ConnectReasonListMutex.lock(); }
     void						unlockConnectReasonList( void )         { m_ConnectReasonListMutex.unlock(); }
+
+    void                        checkUnconfirmedConnections( VxGUID& sktConnectId, VxGUID& onlineId );
+    void                        checkUnconfirmedList( VxGUID& sktConnectId, VxGUID& onlineId, bool relayed, std::vector<std::pair<int64_t,ConnectId>>& unconfirmedIdList );
+
+    std::vector<std::pair<int64_t,ConnectId>> m_UnconfirmedConnectIdList;
+    std::vector<std::pair<int64_t,ConnectId>> m_UnonfirmedRelayedIdList;
+    VxMutex						m_UnonfirmedConnectIdListMutex;
 
     std::set<ConnectId>         m_ConnectIdList;
     std::set<ConnectId>         m_RelayedIdList;

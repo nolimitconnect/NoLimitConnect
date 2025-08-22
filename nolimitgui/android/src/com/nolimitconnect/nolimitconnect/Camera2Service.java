@@ -23,7 +23,7 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class Camera2Service extends Service {
-    private static final String TAG = "Camera2Service";
+    private static final String TAG = "NLC Camera2Service";
 
     private Handler m_MainThreadHandler = null;
 
@@ -40,6 +40,7 @@ public class Camera2Service extends Service {
     protected CameraDevice m_CameraDevice = null;
     protected ImageReader m_ImageReader = null;
     protected String m_CameraId;
+    private CameraCaptureSession m_CaptureSession = null;
 
     public Camera2Service()
     {
@@ -108,9 +109,18 @@ public class Camera2Service extends Service {
         internalStopCameraCapture();
         camServiceStopped();
 
+        if (m_MainThreadHandler != null) {
+            m_MainThreadHandler.removeCallbacksAndMessages(null);
+            m_MainThreadHandler = null;
+        }
+
         super.onDestroy();   
     }
 
+    public void onConfigured(CameraCaptureSession session) {
+        Log.d(TAG, "capture session onConfigured");
+        m_CaptureSession = session;
+    }
 
     public int getValue() {
         return 10;
@@ -183,6 +193,22 @@ public class Camera2Service extends Service {
             m_CameraDevice.close();
             m_CameraDevice = null;
         }
+
+        if (m_ImageReader != null) {
+            m_ImageReader.close();
+            m_ImageReader = null;
+        }
+
+        if (m_CaptureSession != null) {
+            try {
+                m_CaptureSession.stopRepeating();
+                m_CaptureSession.abortCaptures();
+                m_CaptureSession.close();
+            } catch (CameraAccessException e) {
+                Log.e(TAG, "Error stopping capture session", e);
+            }
+            m_CaptureSession = null;
+        }
     }
 
     private final CameraDevice.StateCallback m_CameraStateCallback = new CameraDevice.StateCallback() {
@@ -240,41 +266,51 @@ public class Camera2Service extends Service {
             e.printStackTrace();
         }
     }
-
     protected CaptureRequest createCameraCaptureRequest() {
         try {
             CaptureRequest.Builder builder = m_CameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
             CameraCharacteristics characteristics = m_CameraManager.getCameraCharacteristics(m_CameraId);
 
-            // Get the available FPS ranges
             Range<Integer>[] fpsRanges = characteristics.get(CameraCharacteristics.CONTROL_AE_AVAILABLE_TARGET_FPS_RANGES);
+            Range<Integer> selectedRange = null;
 
-            // If FPS ranges are available, loop through and log or choose a suitable one
             if (fpsRanges != null) {
-                for (Range<Integer> fpsRange : fpsRanges) {
-                    int minFps = fpsRange.getLower(); // Minimum FPS in the range
-                    int maxFps = fpsRange.getUpper(); // Maximum FPS in the range
-
-                    // Log or print each range
-                    System.out.println("Supported FPS Range: " + minFps + " - " + maxFps);
-                }
-
-                for (Range<Integer> fpsRange : fpsRanges) {
-                    int minFps = fpsRange.getLower(); // Minimum FPS in the range
-                    int maxFps = fpsRange.getUpper(); // Maximum FPS in the range
-                    // Here, you could choose to set the FPS to a specific range, for example:
-                    if (minFps >= 15 && maxFps <= 30) {
-                        builder.set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, fpsRange);
-                        System.out.println("Selected FPS Range: " + minFps + " - " + maxFps);
+                for (Range<Integer> range : fpsRanges) {
+                    if (range.getLower() <= 15 && range.getUpper() >= 15) {
+                        selectedRange = Range.create(15, 15); // Fix to 15 FPS
                         break;
                     }
                 }
+
+                if (selectedRange == null) {
+                    // Fallback: pick the closest range below 30
+                    for (Range<Integer> range : fpsRanges) {
+                        if (range.getLower() >= 15 && range.getUpper() <= 30) {
+                            selectedRange = range;
+                            break;
+                        }
+                    }
+                }
+
+                if (selectedRange != null) {
+                    builder.set(CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE, selectedRange);
+                    Log.d(TAG, "Selected FPS Range: " + selectedRange);
+                } else {
+                    Log.w(TAG, "No suitable FPS range found. Using default.");
+                }
             }
 
+            builder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
+            builder.set(CaptureRequest.NOISE_REDUCTION_MODE, CaptureRequest.NOISE_REDUCTION_MODE_OFF);
+            builder.set(CaptureRequest.EDGE_MODE, CaptureRequest.EDGE_MODE_OFF);
+            builder.set(CaptureRequest.COLOR_CORRECTION_ABERRATION_MODE, CaptureRequest.COLOR_CORRECTION_ABERRATION_MODE_OFF);
+            builder.set(CaptureRequest.CONTROL_VIDEO_STABILIZATION_MODE, CaptureRequest.CONTROL_VIDEO_STABILIZATION_MODE_OFF);
+
             builder.addTarget(m_ImageReader.getSurface());
+
             return builder.build();
         } catch (CameraAccessException e) {
-            Log.e(TAG, e.getMessage());
+            Log.e(TAG, "CameraAccessException in createCameraCaptureRequest: " + e.getMessage());
             return null;
         }
     }
@@ -337,5 +373,6 @@ public class Camera2Service extends Service {
                         uPlane.getRowStride(),
                         vPlane.getPixelStride(),
                         vPlane.getRowStride() );
+        image.close();
     }
 }

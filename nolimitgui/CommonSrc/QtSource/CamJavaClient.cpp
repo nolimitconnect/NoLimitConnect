@@ -30,7 +30,7 @@
 
 namespace {
 CamJavaClient* g_CamClient = nullptr;
-CamJavaClient& GetCamClient() {
+CamJavaClient& GetCamJavaClient() {
     vx_assert( g_CamClient != nullptr );
     return *g_CamClient;
 }
@@ -59,7 +59,7 @@ jobject g_CamObj = nullptr;
 unsigned int g_CamServiceThreadId = 0;
 bool g_CamServiceReady = false;
 
-std::vector<std::pair<unsigned int, JNIEnv*>> g_JavaEnvList;
+static std::vector<std::pair<unsigned int, JNIEnv*>> g_JavaEnvList;
 
 JNIEnv* GetJniEnv( void )
 {
@@ -90,30 +90,121 @@ JNIEnv* GetJniEnv( void )
     }
 }
 
-//============================================================================
-void AndroidYUV420SPtoRGB(  uint8_t* rgbImage, int width, int height,
-                            const uint8_t* yPlane, const uint8_t* uPlane, const uint8_t* vPlane,
-                            int yPixelStride, int yRowStride,
-                            int uPixelStride, int uRowStride,
-                            int vPixelStride, int vRowStride )
-{
+#if defined(TARGET_CPU_ARM64) && defined(TARGET_OS_ANDROID)
+#include <arm_neon.h>
+#include <stdint.h>
+
+static inline uint8x8_t clamp_u8(int16x8_t val) {
+    return vqmovun_s16(vcombine_s16(vqmovn_s32(vmovl_s16(vget_low_s16(val))),
+                                    vqmovn_s32(vmovl_s16(vget_high_s16(val)))));
+}
+// optimized for neon
+void AndroidYUV420SPtoRGB(uint8_t* rgbImage, int width, int height,
+                               const uint8_t* yPlane, const uint8_t* uPlane, const uint8_t* vPlane,
+                               int yPixelStride, int yRowStride,
+                               int uPixelStride, int uRowStride,
+                               int vPixelStride, int vRowStride) {
     for (int row = 0; row < height; row++) {
-        for (int col = 0; col < width; col++) {
-            int Y = yPlane[col * yPixelStride + row * yRowStride];
-            int U = uPlane[col / 2 * uPixelStride + row / 2 * uRowStride];
-            int V = vPlane[col / 2 * vPixelStride + row / 2 * vRowStride];
+        const uint8_t* pY = yPlane + row * yRowStride;
+        const uint8_t* pU = uPlane + (row / 2) * uRowStride;
+        const uint8_t* pV = vPlane + (row / 2) * vRowStride;
+        uint8_t* pRGB = rgbImage + row * width * 3;
 
-            int R = (Y + (V - 128));
-            int G = (Y - (U - 128) - (V - 128));
-            int B = (Y + (U - 128));
+        int col = 0;
+        for (; col <= width - 8; col += 8) {
+            // Load Y values
+            uint8x8_t y = vld1_u8(pY + col * yPixelStride);
 
-            rgbImage[0] = (uint8_t)(R & 0xff);
-            rgbImage[1] = (uint8_t)(G & 0xff);
-            rgbImage[2] = (uint8_t)(B & 0xff);
-            rgbImage += 3;
+            // Load U and V (subsampled every 2 pixels)
+            uint8x8_t u = vld1_u8(pU + (col / 2) * uPixelStride);
+            uint8x8_t v = vld1_u8(pV + (col / 2) * vPixelStride);
+
+            int16x8_t u_s16 = vreinterpretq_s16_u16(vmovl_u8(u));
+            int16x8_t v_s16 = vreinterpretq_s16_u16(vmovl_u8(v));
+            int16x8_t y_s16 = vreinterpretq_s16_u16(vmovl_u8(y));
+
+            u_s16 = vsubq_s16(u_s16, vdupq_n_s16(128));
+            v_s16 = vsubq_s16(v_s16, vdupq_n_s16(128));
+
+            // Integer approximation of:
+            // R = Y + 1.402 * V
+            // G = Y - 0.344136 * U - 0.714136 * V
+            // B = Y + 1.772 * U
+
+            int16x8_t r = vaddq_s16(y_s16, vshrq_n_s16(vqdmulhq_s16(v_s16, vdupq_n_s16(22970)), 1)); // 1.402 * 2^14 ≈ 22970
+            int16x8_t g = vsubq_s16(y_s16, vshrq_n_s16(vqdmulhq_s16(u_s16, vdupq_n_s16(11277)), 1)); // 0.344136 * 2^14 ≈ 11277
+            g = vsubq_s16(g, vshrq_n_s16(vqdmulhq_s16(v_s16, vdupq_n_s16(23401)), 1)); // 0.714136 * 2^14 ≈ 23401
+            int16x8_t b = vaddq_s16(y_s16, vshrq_n_s16(vqdmulhq_s16(u_s16, vdupq_n_s16(29032)), 1)); // 1.772 * 2^14 ≈ 29032
+
+            // Clamp to [0, 255]
+            uint8x8_t r_u8 = vqmovun_s16(r);
+            uint8x8_t g_u8 = vqmovun_s16(g);
+            uint8x8_t b_u8 = vqmovun_s16(b);
+
+            // Interleave and store RGB
+            uint8x8x3_t rgb;
+            rgb.val[0] = r_u8;
+            rgb.val[1] = g_u8;
+            rgb.val[2] = b_u8;
+            vst3_u8(pRGB + col * 3, rgb);
+        }
+
+        // Fallback for remaining pixels (non-NEON)
+        for (; col < width; col++) {
+            int Y = pY[col * yPixelStride];
+            int U = pU[(col / 2) * uPixelStride] - 128;
+            int V = pV[(col / 2) * vPixelStride] - 128;
+
+            int R = Y + (1.402 * V);
+            int G = Y - (0.344136 * U) - (0.714136 * V);
+            int B = Y + (1.772 * U);
+
+            R = R < 0 ? 0 : (R > 255 ? 255 : R);
+            G = G < 0 ? 0 : (G > 255 ? 255 : G);
+            B = B < 0 ? 0 : (B > 255 ? 255 : B);
+
+            pRGB[col * 3 + 0] = (uint8_t)R;
+            pRGB[col * 3 + 1] = (uint8_t)G;
+            pRGB[col * 3 + 2] = (uint8_t)B;
         }
     }
 }
+#else
+static inline uint8_t clamp(int value) {
+    return (value < 0) ? 0 : ((value > 255) ? 255 : value);
+}
+
+void AndroidYUV420SPtoRGB(uint8_t* rgbImage, int width, int height,
+                          const uint8_t* yPlane, const uint8_t* uPlane, const uint8_t* vPlane,
+                          int yPixelStride, int yRowStride,
+                          int uPixelStride, int uRowStride,
+                          int vPixelStride, int vRowStride) {
+    for (int row = 0; row < height; row++) {
+        const uint8_t* pYRow = yPlane + row * yRowStride;
+        const uint8_t* pURow = uPlane + (row / 2) * uRowStride;
+        const uint8_t* pVRow = vPlane + (row / 2) * vRowStride;
+
+        for (int col = 0; col < width; col++) {
+            int yIndex = col * yPixelStride;
+            int uvIndex = (col / 2) * uPixelStride;
+
+            int Y = pYRow[yIndex];
+            int U = pURow[uvIndex] - 128;
+            int V = pVRow[uvIndex] - 128;
+
+            int y1024 = Y << 10;
+
+            int R = (y1024 + 1436 * V) >> 10;
+            int G = (y1024 - 352 * U - 731 * V) >> 10;
+            int B = (y1024 + 1814 * U) >> 10;
+
+            *rgbImage++ = clamp(R);
+            *rgbImage++ = clamp(G);
+            *rgbImage++ = clamp(B);
+        }
+    }
+}
+#endif
 
 } // namespace
 
@@ -157,7 +248,7 @@ JNIEXPORT void JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_cam
     LogMsg( LOG_VERBOSE, "%s Received value: %d", __func__, value );
 
     g_CamServiceReady = true;
-    GetCamClient().onCamServiceStarted();
+    GetCamJavaClient().onCamServiceStarted();
 }
 
 JNIEXPORT void JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_camServiceStopped(JNIEnv *env, jobject obj) {
@@ -166,7 +257,7 @@ JNIEXPORT void JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_cam
 }
 
 JNIEXPORT bool JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_canProcessCamCapture(JNIEnv *env, jobject obj) {
-    return GetCamClient().canProcessCamCapture();
+    return GetCamJavaClient().canProcessCamCapture();
 }
 
 bool GetJBufInfo( jobject byteBuffer, uint8_t*& byteBuf )
@@ -202,15 +293,6 @@ JNIEXPORT void JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_pro
         LogMsg( LOG_ERROR, "%s invalid param width %d height %d", __func__, width, height );
     }
 
-    static int64_t lastCapTimeMs = 0;
-    int64_t timeNowMs = GetGmtTimeMs();
-    if( timeNowMs - lastCapTimeMs < CamLogic::CAM_SNAPSHOT_INTERVAL_MS ) // limit to 15 frames per second
-    {
-        lastCapTimeMs = timeNowMs;
-        return;
-    }
-
-    lastCapTimeMs = timeNowMs;
     uint8_t* y = 0;
     uint8_t* u = 0;
     uint8_t* v = 0;
@@ -225,7 +307,7 @@ JNIEXPORT void JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_pro
                               uPixelStride, uRowStride,
                               vPixelStride, vRowStride );
 
-        GetCamClient().processCamCapture(width, height, rgbData, dataLen);
+        GetCamJavaClient().processCamCapture(width, height, rgbData, dataLen);
     }
     else
     {
@@ -285,7 +367,7 @@ bool CamJavaClient::canProcessCamCapture( void )
     int64_t timeNow = GetGmtTimeMs();
     if( timeNow < lastTimeMs + CamLogic::CAM_SNAPSHOT_INTERVAL_MS )
     {
-        //LogMsg( LOG_VERBOSE, "%s time ok %d ms", __func__, (int)(timeNow - lastTimeMs) );
+        //LogMsg( LOG_VERBOSE, "%s time too short %d ms", __func__, (int)(timeNow - lastTimeMs) );
         return false;
     }
     
@@ -294,6 +376,10 @@ bool CamJavaClient::canProcessCamCapture( void )
     {
         lastTimeMs = timeNow;
     }
+//    else
+//    {
+//        LogMsg( LOG_VERBOSE, "%s CamLogic returned false", __func__ );
+//    }
 
     return result;
 }

@@ -186,8 +186,8 @@ void AppCommon::connectSignals( void )
 	connect( this, SIGNAL(signalInternalToGuiRxedOfferReply(VxGUID,OfferBaseInfo)), this,
 		SLOT(slotInternalToGuiRxedOfferReply(VxGUID,OfferBaseInfo)), Qt::QueuedConnection );
 
-	connect( this, SIGNAL( signalInternalToGuiPluginSessionStarted( VxGUID, EPluginType, VxGUID ) ), this,
-		SLOT( slotInternalToGuiPluginSessionStarted( VxGUID, EPluginType, VxGUID ) ), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalToGuiPluginSessionStarted(VxGUID,EPluginType,VxGUID)), this,
+        SLOT(slotInternalToGuiPluginSessionStarted(VxGUID,EPluginType,VxGUID)), Qt::QueuedConnection );
 	connect( this, SIGNAL(signalInternalToGuiPluginSessionEnded(VxGUID,EPluginType,VxGUID)), this,
 		SLOT(slotInternalToGuiPluginSessionEnded(VxGUID,EPluginType,VxGUID)), Qt::QueuedConnection );
 
@@ -196,6 +196,6 @@ void AppCommon::connectSignals( void )
 	connect( this, SIGNAL(signalInternalMediaError(EMediaModule,EMediaError,QString)), this,
 		SLOT(slotInternalMediaError(EMediaModule,EMediaError,QString)), Qt::QueuedConnection );
 
-	connect( this, SIGNAL(signalInternalToGuiTodGameAction(EPluginType,VxGUID,ETodGameAction)), this, SLOT(slotInternalToGuiTodGameAction(EPluginType,VxGUID,ETodGameAction)), Qt::QueuedConnection );
-	connect( this, SIGNAL( signalInternalToGuiSetGameActionVar( EPluginType, VxGUID, int32_t, int32_t ) ), this, SLOT( slotInternalToGuiSetGameActionVar( EPluginType, VxGUID, int32_t, int32_t ) ), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalToGuiTodGameAction(EPluginType,VxGUID,ETodGameAction)), this,
+            SLOT(slotInternalToGuiTodGameAction(EPluginType,VxGUID,ETodGameAction)), Qt::QueuedConnection );
 }

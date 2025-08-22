@@ -69,9 +69,11 @@ protected:
     bool                        shouldRequestUserInfo( void );
     virtual void                requestHostUserInfo( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& onlineId, VxGUID& sessionId );
     virtual void                sendNextUserInfoRequest( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& onlineId, VxGUID& sessionId );
-    void                        announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, VxGUID& sessionId, EHostType hostType = eHostTypeUnknown );
+    void                        announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, VxGUID& sessionId, VxGUID& hostOnlineId, EHostType hostType );
 
     enum EConnectReason         hostTypeToConnectReason( EHostType hostType );
+
+    void                        clearLastHostUserInfoRequestTime( void ) { m_SentUserInfoReqTime = 0; };
 
     VxMutex                     m_ClientMutex;
     VxGUIDList                  m_UserInfoReqList;

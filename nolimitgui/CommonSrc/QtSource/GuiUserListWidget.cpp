@@ -857,8 +857,15 @@ void GuiUserListWidget::callbackGuiMemberActive( GroupieId& groupieId, bool isAc
         VxGUID onlineId = groupieId.getUserOnlineId();
         if( onlineId != groupieId.getHostOnlineId() )
         {
+            LogModule( eLogMembership, LOG_VERBOSE, "GuiUserListWidget::%s MATCH groupieId %s active %d", __func__,
+                GetAppInstance().describeGroupieId( groupieId ).c_str(), isActive );
             updateUser( onlineId );
         }
+    }
+    else
+    {
+        LogModule( eLogMembership, LOG_VERBOSE, "GuiUserListWidget::%s NO MATCH groupieId %s active %d", __func__,
+            GetAppInstance().describeGroupieId( groupieId ).c_str(), isActive );
     }
 }
 

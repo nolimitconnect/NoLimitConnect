@@ -98,7 +98,7 @@ void VxGUIDList::copyTo( VxGUIDList& destGuidList )
 	std::vector<VxGUID>& guidList = destGuidList.getGuidList();
 	for( auto& guid : m_GuidList )
 	{
-		guidList.push_back( guid );
+		guidList.emplace_back( guid );
 	}
 }
 

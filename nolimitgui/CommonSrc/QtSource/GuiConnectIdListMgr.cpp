@@ -14,7 +14,6 @@
 
 #include "AppCommon.h"
 #include "GuiUserBase.h"
-#include "GuiParams.h"
 
 #include <ConnectIdListMgr/ConnectIdListMgr.h>
 #include <P2PEngine/P2PEngine.h>
@@ -59,44 +58,13 @@ void GuiConnectIdListMgr::callbackRelayStatusChange( ConnectId& connectId, bool 
 }
 
 //============================================================================
-void GuiConnectIdListMgr::callbackConnectionStatusChange( ConnectId& connectId, bool isConnected )
-{
-    if( connectId.getUserOnlineId() == m_MyApp.getMyOnlineId() )
-    {
-        LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackConnectionStatusChange updating myself" );
-    }
-
-    emit signalInternalConnectionStatusChange( connectId, isConnected );
-}
-
-//============================================================================
-void GuiConnectIdListMgr::callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline )
-{
-    if( onlineId == m_MyApp.getMyOnlineId() )
-    {
-        LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackConnectionStatusChange updating myself" );
-    }
-
-    emit signalInternalOnlineStatusChange( onlineId, isOnline );
-}
-
-//============================================================================
-void GuiConnectIdListMgr::callbackConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason, bool enableReason )
-{
-    emit signalInternalConnectionReason( sktConnectId, connectReason, enableReason );
-}
-
-//============================================================================
-void GuiConnectIdListMgr::callbackConnectionLost( VxGUID& sktConnectId )
-{
-    emit signalInternalConnectionLost( sktConnectId );
-}
-
-//============================================================================
 void GuiConnectIdListMgr::slotInternalRelayStatusChange( ConnectId connectId, bool isNowRelayed )
 {
-    LogModule( eLogRelay, LOG_VERBOSE, "GuiConnectIdListMgr::slotInternalRelayStatusChange user %s isRelayed %d", 
-            m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str(), isNowRelayed );
+    LogModule( eLogRelay, LOG_VERBOSE, "GuiConnectIdListMgr::slotInternalRelayStatusChange user %s isRelayed %d",
+              m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str(), isNowRelayed );
+    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_INFO, "*** GuiConnectIdListMgr::%s is relayed %d connectId %s user %s", __func__,
+                  isNowRelayed, connectId.describeConnectId().c_str(), m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str() );
+
     auto iter = m_RelayedIdList.find( connectId );
     if( iter != m_RelayedIdList.end() )
     {
@@ -117,26 +85,24 @@ void GuiConnectIdListMgr::slotInternalRelayStatusChange( ConnectId connectId, bo
 }
 
 //============================================================================
-void GuiConnectIdListMgr::slotInternalOnlineStatusChange( VxGUID onlineId, bool isOnline )
+void GuiConnectIdListMgr::callbackConnectionStatusChange( ConnectId& connectId, bool isConnected )
 {
-    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::%s user %s isOnline %d",
-            __func__, m_MyApp.describeUser( onlineId ).c_str(), isOnline );
-    m_MyApp.getUserMgr().onGuiOnlineStatusChange( onlineId, isOnline );
+    if( connectId.getUserOnlineId() == m_MyApp.getMyOnlineId() )
+    {
+        LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackConnectionStatusChange updating myself" );
+    }
+
+    emit signalInternalConnectionStatusChange( connectId, isConnected );
 }
 
 //============================================================================
 void GuiConnectIdListMgr::slotInternalConnectionStatusChange( ConnectId connectId, bool isConnected )
 {
-    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::%s user %s isConnect %d to %s",
-            __func__, m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str(), isConnected,
-            DescribeHostType( connectId.getHostType() ) );
+    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_INFO, "GuiConnectIdListMgr::%s is connected %d connectId %s user %s", __func__,
+                  isConnected, connectId.describeConnectId().c_str(), m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str() );
+
     if( isConnected )
     {
-        if( m_ConnectIdList.find( connectId ) == m_ConnectIdList.end() )
-        {
-            m_ConnectIdList.insert( connectId );
-        }
-
         onConnectionStatusChange( connectId, isConnected );
     }
     else
@@ -152,9 +118,37 @@ void GuiConnectIdListMgr::slotInternalConnectionStatusChange( ConnectId connectI
 }
 
 //============================================================================
-void GuiConnectIdListMgr::slotInternalConnectionReason( VxGUID socketId, EConnectReason connectReason, bool enableReason )
+void GuiConnectIdListMgr::callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline )
 {
-    auto iter = m_ConnectReasonList.find( socketId );
+    if( onlineId == m_MyApp.getMyOnlineId() )
+    {
+        LogMsg( LOG_ERROR, "GuiConnectIdListMgr::callbackConnectionStatusChange updating myself" );
+    }
+
+    emit signalInternalOnlineStatusChange( onlineId, isOnline );
+}
+
+//============================================================================
+void GuiConnectIdListMgr::slotInternalOnlineStatusChange( VxGUID onlineId, bool isOnline )
+{
+    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_INFO, "GuiConnectIdListMgr::%s is online %d user %s", __func__,
+                  isOnline, m_MyApp.describeUser( onlineId ).c_str() );
+
+    m_MyApp.getUserMgr().onGuiOnlineStatusChange( onlineId, isOnline );
+}
+
+//============================================================================
+void GuiConnectIdListMgr::callbackConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason, bool enableReason )
+{
+    emit signalInternalConnectionReason( sktConnectId, connectReason, enableReason );
+}
+
+//============================================================================
+void GuiConnectIdListMgr::slotInternalConnectionReason( VxGUID sktConnectId, EConnectReason connectReason, bool enableReason )
+{
+    //if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_INFO, "GuiConnectIdListMgr::%s enable reason %d %s sktConnectId %s", __func__,
+    //              enableReason, DescribeConnectReason( connectReason ), sktConnectId.toHexString().c_str() );
+    auto iter = m_ConnectReasonList.find( sktConnectId );
     if( iter != m_ConnectReasonList.end() )
     {
         if( enableReason )
@@ -173,14 +167,22 @@ void GuiConnectIdListMgr::slotInternalConnectionReason( VxGUID socketId, EConnec
     else
     {
         std::set<EConnectReason> reasonSet{ connectReason };
-        m_ConnectReasonList[socketId] = reasonSet;
+        m_ConnectReasonList[sktConnectId] = reasonSet;
     }
 }
 
 //============================================================================
-void GuiConnectIdListMgr::slotInternalConnectionLost( VxGUID socketId )
+void GuiConnectIdListMgr::callbackConnectionLost( VxGUID& sktConnectId )
 {
-    auto iter = m_ConnectReasonList.find( socketId );
+    emit signalInternalConnectionLost( sktConnectId );
+}
+
+//============================================================================
+void GuiConnectIdListMgr::slotInternalConnectionLost( VxGUID sktConnectId )
+{
+    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_INFO, "GuiConnectIdListMgr::%s sktConnectId %s", __func__,
+                  sktConnectId.toHexString().c_str() );
+    auto iter = m_ConnectReasonList.find( sktConnectId );
     if( iter != m_ConnectReasonList.end() )
     {
         m_ConnectReasonList.erase( iter );
@@ -260,7 +262,7 @@ void GuiConnectIdListMgr::onConnectionStatusChange( ConnectId& connectId, bool i
 //============================================================================
 void GuiConnectIdListMgr::announceConnectionStatusChange( ConnectId& connectId, bool isConnected )
 {
-    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::announceConnectionStatusChange user %s isConnected %d", 
+    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiConnectIdListMgr::%s user %s isConnected %d", __func__,
                 m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str(), isConnected );
     if( connectId.isValid() )
     {
@@ -273,7 +275,7 @@ void GuiConnectIdListMgr::announceConnectionStatusChange( ConnectId& connectId, 
             }
             else
             {
-                LogMsg( LOG_ERROR, "GuiConnectIdListMgr::announceConnectionStatusChange invalid callback" );
+                LogMsg( LOG_ERROR, "GuiConnectIdListMgr::%s invalid callback", __func__ );
             }
         }
     }
@@ -281,7 +283,6 @@ void GuiConnectIdListMgr::announceConnectionStatusChange( ConnectId& connectId, 
     {
         LogMsg( LOG_ERROR, "GuiConnectIdListMgr::announceConnectionStatusChange invalid connectId" );
     }
-
 }
 
 //============================================================================
@@ -368,7 +369,6 @@ void GuiConnectIdListMgr::wantGuiOnlineStatusCallbacks( GuiOnlineStatusCallback*
     }
 
     LogMsg( LOG_INFO, "WARNING. %s remove not found in list", __func__ );
-    return;
 }
 
 //============================================================================
@@ -472,4 +472,38 @@ bool GuiConnectIdListMgr::isConnected( GroupieId& groupieId )
     }
 
     return isConnected;
+}
+
+//============================================================================
+bool GuiConnectIdListMgr::isOnline( VxGUID& onlineId )
+{
+    bool isOnline =  isDirectConnect( onlineId ) || isRelayed( onlineId );
+//    if( !isOnline && LogEnabled( eLogUsers ) )
+//    {
+//        dumpOnlineUsers();
+//    }
+
+    return isOnline;
+}
+
+//============================================================================
+void GuiConnectIdListMgr::dumpOnlineUsers()
+{
+    LogMsg( LOG_VERBOSE, "GuiConnectIdListMgr::%s connnected %d",  __func__, m_ConnectIdList.size() );
+    int idCnt = 0;
+    for( auto& connectId : m_ConnectIdList )
+    {
+        idCnt++;
+        LogMsg( LOG_VERBOSE, "GuiConnectIdListMgr::%s connected %d - %s %s",  __func__,
+               idCnt, connectId.describeConnectId().c_str(), m_MyApp.describeUser( ((ConnectId)connectId).getUserOnlineId() ).c_str() );
+    }
+
+    LogMsg( LOG_VERBOSE, "GuiConnectIdListMgr::%s relayed %d",  __func__, m_RelayedIdList.size() );
+    int relayCnt = 0;
+    for( auto& connectId : m_RelayedIdList )
+    {
+        relayCnt++;
+        LogMsg( LOG_VERBOSE, "GuiConnectIdListMgr::%s relayed %d - %s %s",  __func__,
+               idCnt, connectId.describeConnectId().c_str(), m_MyApp.describeUser( ((ConnectId)connectId).getUserOnlineId() ).c_str() );
+    }
 }

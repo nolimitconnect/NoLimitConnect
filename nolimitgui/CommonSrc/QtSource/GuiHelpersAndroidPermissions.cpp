@@ -27,8 +27,20 @@
 #  include <QtAndroid>
 # else
 #  include <QtCore/private/qandroidextras_p.h>
+#  include <QJniObject>
 # endif
 #endif //defined (Q_OS_ANDROID)
+
+//============================================================================
+int GuiHelpers::getAndroidSDKVersion( void )
+{
+#if defined (Q_OS_ANDROID)
+    return QJniObject::getStaticField<jint>(
+        "android/os/Build$VERSION", "SDK_INT");
+#endif // defined (Q_OS_ANDROID)
+
+    return 0;
+}
 
 //============================================================================
 bool GuiHelpers::havePermission( QString permissionName ) // returns false if user denies permission to use android hardware
@@ -69,28 +81,35 @@ bool GuiHelpers::requestFilePermission( enum EMediaFileType permissionType, bool
     bool result{true};
 
     QStringList permissionList;
-    switch(permissionType)
+    if( getAndroidSDKVersion() >= 33 )
     {
-    case eMediaFileAny:
-        permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_VIDEO"));
-        permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_AUDIO"));
-        permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_IMAGES"));
-        break;
+        switch(permissionType)
+        {
+        case eMediaFileAny:
+            permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_VIDEO"));
+            permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_AUDIO"));
+            permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_IMAGES"));
+            break;
 
-    case eMediaFileImage:
-        permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_IMAGES"));
-        break;
+        case eMediaFileImage:
+            permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_IMAGES"));
+            break;
 
-    case eMediaFileAudio:
-        permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_AUDIO"));
-        break;
+        case eMediaFileAudio:
+            permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_AUDIO"));
+            break;
 
-    case eMediaFileVideo:
-        permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_VIDEO"));
-        break;
+        case eMediaFileVideo:
+            permissionList.emplace_back(QLatin1String("android.permission.READ_MEDIA_VIDEO"));
+            break;
 
-    default:
-        break;
+        default:
+            break;
+        }
+    }
+    else
+    {
+        permissionList.emplace_back(QLatin1String("android.permission.READ_EXTERNAL_STORAGE"));
     }
 
     for( auto permission : permissionList )

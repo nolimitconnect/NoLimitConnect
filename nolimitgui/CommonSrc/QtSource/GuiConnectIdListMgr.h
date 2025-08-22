@@ -51,7 +51,7 @@ public:
     virtual void				callbackConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason, bool enableReason ) override;
     virtual void				callbackConnectionLost( VxGUID& sktConnectId ) override;
 
-    bool                        isOnline( VxGUID& onlineId )                { return isDirectConnect( onlineId ) || isRelayed( onlineId ); }
+    bool                        isOnline( VxGUID& onlineId );
     bool                        isDirectConnect( VxGUID& onlineId );
     bool                        isRelayed( VxGUID& onlineId );
     bool                        isConnected( GroupieId& groupieId );
@@ -78,6 +78,8 @@ protected:
     void                        announceRelayStatusChange( VxGUID& onlineId, bool isRelayed );
     void                        announceOnlineStatusChange( VxGUID& onlineId, bool isOnline );
     void                        announceConnectionStatusChange( ConnectId& connectId, bool isConnected );
+
+    void                        dumpOnlineUsers( void );
 
     AppCommon&                  m_MyApp;
 

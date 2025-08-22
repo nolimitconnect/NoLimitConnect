@@ -285,7 +285,8 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 	}
     else
     {
-        LogMsg( LOG_VERBOSE, "P2PEngine::%s ignoring temp connection to %s", __func__, sktBase->getRemoteIp().c_str() );
+        LogMsg( LOG_VERBOSE, "P2PEngine::%s ignoring temp connection %s to %s", __func__,
+               sktBase->getSocketIdText().c_str(), sktBase->getRemoteIp().c_str() );
     }
 }
 

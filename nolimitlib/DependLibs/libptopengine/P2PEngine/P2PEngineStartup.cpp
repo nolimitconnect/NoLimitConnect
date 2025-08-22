@@ -139,7 +139,6 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
 {
     if( fromThread )
     {
-        //assureUserSpecificDirIsSet( "P2PEngine::fromGuiUserLoggedOn" );
         if(LogEnabled(eLogStartup))LogMsg( LOG_INFO, "P2PEngine fromGuiUserLoggedOn" );
         memcpy( ( VxNetIdent* )&m_PktAnn, netIdent, sizeof( VxNetIdent ) );
         m_PktAnn.setSrcOnlineId( netIdent->getMyOnlineId() );
@@ -157,7 +156,6 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
         m_AssetMgr.onPluginsInitialized();
         m_OfferMgr.fromGuiUserLoggedOn();
         m_OfferMgr.onPluginsInitialized();
-        // m_BlobMgr.fromGuiUserLoggedOn();
         m_ThumbMgr.onPluginsInitialized();
 
         m_SendQueueMgr.fromGuiUserLoggedOn();

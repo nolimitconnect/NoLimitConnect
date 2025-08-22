@@ -143,13 +143,6 @@ bool P2PEngine::onRelayedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, P
         LogModule( eLogUserEvent, LOG_VERBOSE, "onRelayedUserPktAnnounce %s from %s", pktAnn->describeUser().c_str(), bigListInfo->describeUser().c_str() );
     }
 
-    // TODO determine host type so can add hosted connection
-    //GroupieId groupieId( pktAnn->getMyOnlineId(), pktAnn->getHostOnlineId(), pktAnn->getHostType() );
-    //getConnectIdListMgr().addConnection( sktBase->getSocketId(), groupieId, true );
-
-    // again request thumbs in case they have changed
-    getThumbMgr().requestThumbs( sktBase, bigListInfo->getVxNetIdent() );
-
     GetMemberConfirmMgr().pktAnnRecieved( pktAnn->getMyOnlineId() );
 
     return onPktAnnounceCommonHandler( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
