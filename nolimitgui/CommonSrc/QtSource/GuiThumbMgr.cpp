@@ -503,7 +503,8 @@ void GuiThumbMgr::generateEmoticonsIfNeeded( AppletBase * applet )
 bool GuiThumbMgr::getEmoticonImage( int emoticonNum, QSize imageSize, QPixmap& retImage )
 {
     char resBuf[128];
-    if( emoticonNum > 0 && emoticonNum <= 40)
+    size_t emojCnt = m_MyApp.getEngine().getThumbMgr().getEmoticonIdList().size();
+    if( emoticonNum > 0 && emoticonNum <= emojCnt )
     {
         if( emoticonNum > 9 )
         {
@@ -520,6 +521,7 @@ bool GuiThumbMgr::getEmoticonImage( int emoticonNum, QSize imageSize, QPixmap& r
     }
     else
     {
+        LogMsg( LOG_ERROR, "GuiThumbMgr::%s invalid icon number %d", __func__, emoticonNum );
         return false;
     }   
 }

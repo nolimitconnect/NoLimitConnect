@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+    xmlns:ns1="http://sozi.baierouge.fr"
+    xmlns:cc="http://web.resource.org/cc/"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    viewBox="0 0 898 911"
+  >
+  <path
+      style="fill:#ffffff"
+      d="m0 0v911h898v-911h-898z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m119 18v1h660l-18-1h-39-135-468z"
+  />
+  <path
+      style="fill:#ff0145"
+      d="m124 774v118h650v-118c9.73-0.03 22.29-1.63 27.58-11.02 6.3-11.17 3.42-27.62 3.42-39.98v-87-455-127c0-16.882-6.2-34.061-26-34.961-56.41-2.564-113.53-0.039-170-0.039h-341-119c-19.72 0-38.25-3.217-51.211 15-8.54 12.005-4.789 32-4.789 46v110 422 95c0 14.86-2.591 32.53 1.044 47 3.296 13.12 17.436 19.74 29.956 20z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m783.67 19.333l0.66 0.334-0.66-0.334m-675.67 3.667l1 1-1-1m688 3l1 1-1-1z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m804.33 40.667l0.34 0.666-0.34-0.666z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m93.333 42.667l0.334 0.666-0.334-0.666z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m805 45v704h1v-499-144-42l-1-19z"
+  />
+  <path
+      style="fill:#ff376d"
+      d="m131 47v1h636l-18-1h-37-130-451z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m131 48v700h1v-496-143-41l-1-20z"
+  />
+  <path
+      style="fill:#ffffff"
+      d="m132 48v700h635v-700h-635z"
+  />
+  <path
+      style="fill:#ff0145"
+      d="m205 104.52c-33.36 7.24-23 57.63-23 82.48v221 47c0 12.32-0.13 24.32 9.44 33.53 10.19 9.82 24.6 7.47 37.56 7.47h86 260 80c12.63 0 27.75 2.24 40-1.02 31.16-8.28 21-57.46 21-81.98v-223-50c0-11.3 0.34-21.59-9.04-29.67-9.89-8.53-25.86-6.33-37.96-6.33h-88-255-81c-12.67 0-27.61-2.17-40 0.52z"
+  />
+  <path
+      style="fill:#ff376d"
+      d="m691 104v1h3l-3-1z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m697.67 105.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m194 109l1 1-1-1m-11.67 16.67l0.34 0.66-0.34-0.66m35.67 4.33v337h1v-238-69l-1-30z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m219 130v1h460c-10.5-4.41-28.58-1-40-1h-94-326z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m679 130v337h1v-238-69l-1-30z"
+  />
+  <path
+      style="fill:#ffffff"
+      d="m219 131v335h460v-335h-460z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m306 197v1h13l-13-1m51 0v1h16l-16-1m167 15h1v-14h16c-13.75-5.77-17 2.39-17 14m55-15v1h13v14c5.24-12.49-2.61-15-13-15z"
+  />
+  <path
+      style="fill:#ff0145"
+      d="m306 198c0 13.4 5.02 22.94 18 29-8.34 12.6-18 16.96-18 33l16-2.15 17-11.87 16 11.99 18 2.03c0-17.01-10.89-20.07-20-33 13.71-6.11 20-14.61 20-29-16.1 0-23.86 5.19-33 19-11.03-10.94-18.16-19-34-19z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m373 198v14h1l-1-14z"
+  />
+  <path
+      style="fill:#ff0145"
+      d="m525 198c0 14.39 6.29 22.89 20 29-9.06 12.86-20 16.16-20 33l18-2.03 15-12.09 17 11.19 17 2.93c0-14.37-7.19-22.68-19-31v-1c12.65-8.37 19-14.89 19-30-14.64 0-24.38 6.78-33 19l-19-18.4-15-0.6z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m541 198l1 1-1-1z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m568 207l1 1-1-1m-237 2l1 1-1-1m220 0l1 1-1-1m-208 3l1 1-1-1m25 3l1 1-1-1z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m312 217l1 1-1-1z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m585 217l1 1-1-1m-222 2l1 1-1-1m-5 4l1 1-1-1m219 1l1 1-1-1m-258 9l1 1-1-1m46 7l1 1-1-1z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m366 241l1 1-1-1z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m529 243l1 1-1-1m-196 5l1 1-1-1m40 0v12h1l-1-12z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m524 248v12h1l-1-12m68 0v12h1l-1-12z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m543 257l1 1-1-1z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m578 259l1 1-1-1z"
+  />
+  <path
+      style="fill:#ff0145"
+      d="m511 290c-4.34-0.2-13.76-5.26-17.3-2.93-3.34 2.2-4.61 9.42-6.13 12.93-3.45 8-8.6 16.72-15.61 22.07-27.7 21.14-64.87-5.55-64.96-37.07-4.53 1.05-14.11 2.62-16.97 6.56-2.4 3.3-0.47 9.02 0.64 12.44 3.67 11.31 10.03 21.96 19.33 29.53 37.57 30.58 94.17 2.09 101-43.53z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m493.67 285.33l0.66 0.34-0.66-0.34m-101 4l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m505.67 289.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m388 290v8h1l1-8h-2m19 1v3h1l-1-3m1.33 5.67l0.34 0.66-0.34-0.66m91.67 17.33l1 1-1-1m-81 2l1 1-1-1m1 1l1 1-1-1z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m496 320l1 1-1-1m-59.33 7.33l0.66 0.34-0.66-0.34m4 1l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m456 328v1h3l-3-1z"
+  />
+  <path
+      style="fill:#ff376d"
+      d="m445 329v1h9l-9-1z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m483 334l1 1-1-1z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m429.67 343.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m466.67 343.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m433.67 344.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m462.67 344.33l0.66 0.34-0.66-0.34m-24.67 0.67v1h3l-3-1z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m456 345v1h3l-3-1z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m429 376v1h5l-5-1z"
+  />
+  <path
+      style="fill:#ff376d"
+      d="m434 376v1h8l-8-1z"
+  />
+  <path
+      style="fill:#ff0145"
+      d="m335 440c4.76 0.11 12.39 4.81 16.58 3.29 3.96-1.43 7.05-11.82 9.46-15.29 6.24-8.98 14.3-16.09 23.96-21.22 34.26-18.2 82.82-18.41 119-5.78 18.83 6.57 39.11 21.49 41 43l18-2c-2.32-26.46-29.6-48.46-53-56.33-41.33-13.92-97.18-15.47-136 6.76-16.7 9.55-35.46 27.71-39 47.57z"
+  />
+  <path
+      style="fill:#ff376d"
+      d="m455 376v1h9l-9-1z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m464 376v1h3l-3-1m-43 1v1h3l-3-1m52 0v1h3l-3-1z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m415.67 378.33l0.66 0.34-0.66-0.34m64 0l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m409.67 379.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m485 379v1h3l-3-1m-79.33 1.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m491.67 380.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m401.67 381.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m495.67 381.33l0.66 0.34-0.66-0.34m4 1l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m506.67 384.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m437 393v1h27l-27-1m-10 1v1h3l-3-1m45 0v1h3l-3-1z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m418 395v1h3l-3-1z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m480.67 395.33l0.66 0.34-0.66-0.34m-67 1l0.66 0.34-0.66-0.34m72.33-0.33v1h3l-3-1m-77.33 1.33l0.66 0.34-0.66-0.34m83 0l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ff376d"
+      d="m496.67 398.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m401.67 399.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m526 412l1 1-1-1z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m549 413l1 1-1-1m-179 3l1 1-1-1z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m366 420l1 1-1-1z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m544.33 439.67l0.34 0.66-0.34-0.66z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m340.67 440.33l0.66 0.34-0.66-0.34m213.33 1.67v1h4l-4-1z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m558 442v1h5l-5-1z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m549.67 443.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m351.67 444.33l0.66 0.34-0.66-0.34m194 0l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m219 466v1h460c-10.5-4.41-28.58-1-40-1h-94-326z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m182.33 471.67l0.34 0.66-0.34-0.66z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m715 471v3h1l-1-3z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m709 486l1 1-1-1z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m190 487l1 1-1-1m517 1l1 1-1-1z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m192 489l1 1-1-1m504.67 5.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m209 496v1h479c-10.98-4.61-30.06-1-42-1h-98-339z"
+  />
+  <path
+      style="fill:#ff0145"
+      d="m450 611v25h236v-25h-236z"
+  />
+  <path
+      style="fill:#ff376d"
+      d="m686 611v25h1l-1-25z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m131 748v1h636l-18-1h-37-130-451z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m93 751v3h1l-1-3z"
+  />
+  <path
+      style="fill:#ffbacc"
+      d="m803.33 758.67l0.34 0.66-0.34-0.66z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m97 761l1 1-1-1m8 7l1 1-1-1m682.67 4.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m116.67 773.33l0.66 0.34-0.66-0.34z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m782 773v1h3l-3-1m-659 1v118h1v-82l-1-36z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m774 774v118h1v-82l-1-36z"
+  />
+  <path
+      style="fill:#ff376d"
+      d="m152 780v1h595l-17-1h-35-121-422z"
+  />
+  <path
+      style="fill:#ff6c94"
+      d="m151 781v80h1v-55l-1-25z"
+  />
+  <path
+      style="fill:#ffffff"
+      d="m152 781v80h594v-80h-594z"
+  />
+  <path
+      style="fill:#ff91af"
+      d="m746 781v80h-594v1h595v-56l-1-25z"
+  />
+  <metadata
+    >
+    <rdf:RDF
+      >
+      <cc:Work
+        >
+        <dc:format
+          >image/svg+xml</dc:format
+        >
+        <dc:type
+            rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+        />
+        <cc:license
+            rdf:resource="http://creativecommons.org/licenses/publicdomain/"
+        />
+        <dc:publisher
+          >
+          <cc:Agent
+              rdf:about="http://openclipart.org/"
+            >
+            <dc:title
+              >Openclipart</dc:title
+            >
+          </cc:Agent
+          >
+        </dc:publisher
+        >
+      </cc:Work
+      >
+      <cc:License
+          rdf:about="http://creativecommons.org/licenses/publicdomain/"
+        >
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#Reproduction"
+        />
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#Distribution"
+        />
+        <cc:permits
+            rdf:resource="http://creativecommons.org/ns#DerivativeWorks"
+        />
+      </cc:License
+      >
+    </rdf:RDF
+    >
+  </metadata
+  >
+</svg
+>

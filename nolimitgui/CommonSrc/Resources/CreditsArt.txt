@@ -27,9 +27,22 @@ Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
  zoom-out.svg 			    ( modified )
   
  https://commons.wikimedia.org
- all emoticons are from creative commons
+ most emoticons emoj01.svg to emoj40.svg are from creative commons
  By Emoji One, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=37428538
  or 	https://github.com/emojione/emojione/graphs/contributors
+
+ other emoticons are public domain  
+ https://freesvg.org
+ emoj41.svg (tongue out raspberry)
+ emoj42.svg (linux penguin)
+ emoj43.svg (raspberry pi penquin)
+ emoj44.svg (ubuntu)
+ emoj45.svg (linux mint)
+ emoj46.svg (freebsd)
+ emoj47.svg (android)
+ emoj48.svg (windows ladybug)
+ emoj49.svg (apple)
+ emoj50.svg (old computer)
  
  
  https://thenounproject.com/edward/
