@@ -49,7 +49,7 @@ bool GuiThumbList::addThumbIfDoesntExist( GuiThumb* guiThumb )
 //============================================================================
 void GuiThumbList::addThumb( GuiThumb* guiThumb )
 {
-    m_ThumbList.push_back( guiThumb );
+    m_ThumbList.emplace_back( guiThumb );
 }
 
 //============================================================================

@@ -363,8 +363,9 @@ GuiThumb* GuiThumbMgr::generateEmoticon( VxGUID& thumbId, bool checkIfExists )
         }
     }
 
-    // see if engine guiThumb manager has it
+    // validate is emoticon thumbnail
     ThumbMgr& thumbMgr = m_MyApp.getEngine().getThumbMgr();
+    // see if engine thumbMgr manager has it
     thumbMgr.lockResources();
     ThumbInfo* existingThumbInfo = dynamic_cast< ThumbInfo* >( thumbMgr.findAsset( thumbId ) );
     if( existingThumbInfo && existingThumbInfo->isValidThumbnail() )
@@ -382,25 +383,43 @@ GuiThumb* GuiThumbMgr::generateEmoticon( VxGUID& thumbId, bool checkIfExists )
         thumbMgr.unlockResources();
     }
 
+    QString errMsgText = QObject::tr( "Error occured creating emoticon file" );
     // see if file exists and we just need to create the info
     QString fileName;
     if( !GuiHelpers::createThumbFileName( thumbId, fileName ) )
     {
-        QString msgText = QObject::tr( "Could create emoticon file name" );
-        QMessageBox::warning( &m_MyApp.getHomeWindow(), QObject::tr( "Error occured creating emoticon file " ), msgText, QMessageBox::Ok );
+        QMessageBox::warning( &m_MyApp.getHomeWindow(), errMsgText, errMsgText, QMessageBox::Ok );
         return nullptr;
     }
 
+    int64_t timeNow = GetTimeStampMs();
     VxFileInfoBase fileInfo;
     if( VxFileUtil::getFileInfo( fileName.toUtf8().constData(), fileInfo ) )
     {
         // file exists so create a thumbnail instance
         ThumbInfo thumbInfo( fileInfo );
-        return updateThumb( thumbInfo );
-    }
+        thumbInfo.setAssetUniqueId( thumbId );
+        thumbInfo.setCreatorId( m_MyApp.getEngine().getMyOnlineId() );
+        thumbInfo.setCreationTime( timeNow );
+        thumbInfo.setModifiedTime( timeNow );
+        guiThumb = updateThumb( thumbInfo );
+        if( guiThumb )
+        {
+            thumbMgr.lockResources();
+            ThumbInfo* existingThumbInfo = dynamic_cast<ThumbInfo*>( thumbMgr.findAsset( thumbId ) );
+            if( existingThumbInfo && existingThumbInfo->isValidThumbnail() )
+            {
+                thumbMgr.unlockResources();
+                return guiThumb;
+            }
+            else
+            {
+                QMessageBox::warning( &m_MyApp.getHomeWindow(), errMsgText, errMsgText, QMessageBox::Ok );
+            }
 
-    // create and new emoticon thumbnail
-    const int emoteMargin = 20;
+            thumbMgr.unlockResources();
+        }
+    }
 
     // static member so no need to make copy
     std::vector<VxGUID>& emoticonIdList = thumbMgr.getEmoticonIdList();
@@ -424,6 +443,9 @@ GuiThumb* GuiThumbMgr::generateEmoticon( VxGUID& thumbId, bool checkIfExists )
         QMessageBox::warning( &m_MyApp.getHomeWindow(), QObject::tr( "Invalid emoticon id " ), msgText + thumbId.toOnlineIdString().c_str(), QMessageBox::Ok );
     }
 
+    // create and new emoticon thumbnail
+    const int emoteMargin = 20;
+
     QPixmap image;
     QSize imageSize( GuiParams::getThumbnailSize().width() - emoteMargin * 2, GuiParams::getThumbnailSize().height() - emoteMargin * 2 );
     if( m_MyApp.getThumbMgr().getEmoticonImage( emoticonNum, imageSize, image ) )
@@ -446,8 +468,8 @@ GuiThumb* GuiThumbMgr::generateEmoticon( VxGUID& thumbId, bool checkIfExists )
                 ThumbInfo assetInfo( fileInfo );
                 assetInfo.setAssetUniqueId( thumbId );
                 assetInfo.setCreatorId( m_MyApp.getEngine().getMyOnlineId() );
-                assetInfo.setCreationTime( GetTimeStampMs() );
-                assetInfo.setModifiedTime( assetInfo.getCreationTime() );
+                assetInfo.setCreationTime( timeNow );
+                assetInfo.setModifiedTime( timeNow );
                 guiThumb = updateThumb( assetInfo );
 
                 if( !thumbMgr.fromGuiThumbCreated( assetInfo ) )

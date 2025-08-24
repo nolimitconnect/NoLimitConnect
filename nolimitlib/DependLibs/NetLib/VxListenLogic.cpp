@@ -99,6 +99,7 @@ void VxListenLogic::stopListeningThread( void )
     {
         VxSleep( 300 ); // give accept time to abort before closing the listen socket
         closeListenSocket();
+        VxSleep( 300 ); // give accept time to abort before closing the listen socket
         // give thread a while to exit
         m_ListenThread.killThread();
     }

@@ -251,7 +251,7 @@ AssetBaseInfo* AssetBaseMgr::findAsset( VxSha1Hash& fileHashId )
 {
 	if( false == fileHashId.isHashValid() )
 	{
-		LogMsg( LOG_ERROR, "AssetBaseMgr::findAsset: invalid file hash id\n" );
+		LogMsg( LOG_ERROR, "AssetBaseMgr::findAsset: invalid file hash id" );
 		return 0;
 	}
 
