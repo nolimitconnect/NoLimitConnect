@@ -114,7 +114,7 @@ public class Camera2Service extends Service {
             m_MainThreadHandler = null;
         }
 
-        super.onDestroy();   
+        super.onDestroy();
     }
 
     public void onConfigured(CameraCaptureSession session) {
@@ -276,9 +276,18 @@ public class Camera2Service extends Service {
 
             if (fpsRanges != null) {
                 for (Range<Integer> range : fpsRanges) {
-                    if (range.getLower() <= 15 && range.getUpper() >= 15) {
-                        selectedRange = Range.create(15, 15); // Fix to 15 FPS
+                    if (range.getLower() <= 10 && range.getUpper() >= 10) {
+                        selectedRange = Range.create(10, 10); // Fix to 10 FPS
                         break;
+                    }
+                }
+
+                if (selectedRange == null) {
+                    for (Range<Integer> range : fpsRanges) {
+                        if (range.getLower() <= 15 && range.getUpper() >= 15) {
+                            selectedRange = Range.create(15, 15); // Fix to 15 FPS
+                            break;
+                        }
                     }
                 }
 
@@ -323,7 +332,7 @@ public class Camera2Service extends Service {
             {
                 if (canProcessCamCapture())
                 {
-                    processImage(img);       
+                    processImage(img);
                 }
 
                 img.close();
@@ -373,6 +382,5 @@ public class Camera2Service extends Service {
                         uPlane.getRowStride(),
                         vPlane.getPixelStride(),
                         vPlane.getRowStride() );
-        image.close();
     }
 }
