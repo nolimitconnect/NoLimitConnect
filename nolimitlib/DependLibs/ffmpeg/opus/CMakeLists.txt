@@ -305,8 +305,8 @@ add_library(ffmpegopus STATIC ${ffmpegopus_SOURCES} ${ffmpegopus_HEADERS})
 
 # Override optimization flags for this library
 target_compile_options(ffmpegopus PRIVATE
+    $<$<CONFIG:Debug>:-O2 -g>
     $<$<CONFIG:Release>:-O3>
-    $<$<CONFIG:Debug>:-O0>
 )
 
 if(DEFINED TARGET_CPU_X86_64)

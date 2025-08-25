@@ -338,7 +338,7 @@ public class Camera2Service extends Service {
 
             if( m_ImageReader == null )
             {
-                m_ImageReader = ImageReader.newInstance(320, 240, ImageFormat.YUV_420_888, 2 /* number of images buffered */);
+                m_ImageReader = ImageReader.newInstance(320, 240, ImageFormat.YUV_420_888, 1 /* number of images buffered */);
                 m_ImageReader.setOnImageAvailableListener(onImageAvailableListener, null);
             }
 

@@ -60,8 +60,8 @@ add_library(jpg STATIC ${jpg_SOURCES})
 
 # Override optimization flags for this library
 target_compile_options(jpg PRIVATE
+    $<$<CONFIG:Debug>:-O2 -g>
     $<$<CONFIG:Release>:-O3>
-    $<$<CONFIG:Debug>:-O0>
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
