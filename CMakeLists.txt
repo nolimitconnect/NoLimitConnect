@@ -59,11 +59,6 @@ set(BUILD_SYSTEM_CI_PIPELINE false)
 
 project(nolimitconnect LANGUAGES C CXX ASM)
 
-# not using libjpeg-turbo because nasm build is difficult and the speed advantage on arm processor is not very big
-# set if want to use libturbo-jpeg instead of libjpeg
-#set(USE_LIBJPEG_TURBO true)
-#add_compile_definitions(USE_LIBJPEG_TURBO=1)
-
 # if linux we can use the arch command to determine host cpu and assuming it is not cross compiled then set default
 set(NLC_BUILD_HOST_ARCH "")
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux" AND NOT DEFINED MAKE_ENV)
@@ -855,6 +850,10 @@ else()
         add_compile_definitions(ARCH_32_BITS=0)
         set(ARCH_64_BITS true)
         add_compile_definitions(ARCH_64_BITS=1)
+        # libjpeg-turbo has speed advantage over libjpeg
+        # set if want to use libturbo-jpeg instead of libjpeg
+        set(USE_LIBJPEG_TURBO true)
+        add_compile_definitions(USE_LIBJPEG_TURBO=1)
     endif()
     if(DEFINED TARGET_CPU_X86)
         message(STATUS "TARGET_CPU_X86 is defined")
@@ -873,6 +872,10 @@ else()
         add_compile_definitions(ARCH_32_BITS=0)
         set(ARCH_64_BITS true)
         add_compile_definitions(ARCH_64_BITS=1)
+        # libjpeg-turbo has speed advantage over libjpeg
+        # set if want to use libturbo-jpeg instead of libjpeg
+        set(USE_LIBJPEG_TURBO true)
+        add_compile_definitions(USE_LIBJPEG_TURBO=1)
     endif()
     if(DEFINED TARGET_CPU_ARM32)
         message(STATUS "TARGET_CPU_ARM32 is defined")

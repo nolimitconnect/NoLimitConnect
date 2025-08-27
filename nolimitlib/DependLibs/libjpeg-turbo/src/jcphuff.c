@@ -647,8 +647,7 @@ encode_mcu_AC_first(j_compress_ptr cinfo, JBLOCKROW *MCU_data)
   UJCOEF *values;
   const UJCOEF *cvalue;
   size_t zerobits;
-  //BRJ does not compile size_t bits[16 / SIZEOF_SIZE_T];
-  size_t bits[4];
+  size_t bits[8 / SIZEOF_SIZE_T];
   int max_coef_bits = cinfo->data_precision + 2;
 
 #ifdef ZERO_BUFFERS
@@ -919,8 +918,7 @@ encode_mcu_AC_refine(j_compress_ptr cinfo, JBLOCKROW *MCU_data)
   UJCOEF *absvalues;
   const UJCOEF *cabsvalue, *EOBPTR;
   size_t zerobits, signbits;
-  //BRJ does not compile size_t bits[16 / SIZEOF_SIZE_T];
-  size_t bits[4];
+  size_t bits[16 / SIZEOF_SIZE_T];
 
 #ifdef ZERO_BUFFERS
   memset(absvalues_unaligned, 0, sizeof(absvalues_unaligned));

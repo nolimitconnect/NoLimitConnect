@@ -3,182 +3,33 @@ cmake_minimum_required (VERSION 3.22.1)
 
 project(jpegturbo, LANGUAGES C CXX ASM)
 
-if(DEFINED TARGET_OS_ANDROID)
-    #android/aarch64 uses clang as assembler
-elseif(DEFINED TARGET_OS_WINDOWS)
-    enable_language(ASM_NASM)
-    string(APPEND CMAKE_ASM_NASM_FLAGS "-Pconfig_x86.asm")
-
-elseif(DEFINED TARGET_OS_LINUX)  
-    if(DEFINED TARGET_CPU_ARM64)
-        enable_language(ASM_NASM)
-        string(APPEND CMAKE_ASM_NASM_FLAGS "-Fdwarf -DPIC -DARCH_AARCH64=1")
-    else()
-        enable_language(ASM_NASM)
-        string(APPEND CMAKE_ASM_NASM_FLAGS "-Pconfig_x86.asm -Fdwarf -DPIC -DARCH_X86_64=1")
-    endif()
-
-else()
-    enable_language(ASM_NASM)
-    string(APPEND CMAKE_ASM_NASM_FLAGS "-Pconfig_x86.asm -Fdwarf -DPIC -DARCH_X86_64=1")
-endif()
-
-set(jpegturbo_DEFINES)
-list(APPEND jpegturbo_DEFINES
-	# common to all builds
-
-    RGB_RED=0 
-    RGB_GREEN=1
-    RGB_BLUE=2 
-    RGB_PIXELSIZE=3
-
-    JPEG_NUMCS=17
-
-    EXT_RGB_RED=0
-    EXT_RGB_GREEN=1
-    EXT_RGB_BLUE=2
-    EXT_RGB_PIXELSIZE=3
-
-    EXT_RGBX_RED=0
-    EXT_RGBX_GREEN=1
-    EXT_RGBX_BLUE=2
-    EXT_RGBX_PIXELSIZE=4
-
-    EXT_BGR_RED=2
-    EXT_BGR_GREEN=1
-    EXT_BGR_BLUE=0
-    EXT_BGR_PIXELSIZE=3
-
-    EXT_BGRX_RED=2
-    EXT_BGRX_GREEN=1
-    EXT_BGRX_BLUE=0
-    EXT_BGRX_PIXELSIZE=4
-
-    EXT_XBGR_RED=3
-    EXT_XBGR_GREEN=2
-    EXT_XBGR_BLUE=1
-    EXT_XBGR_PIXELSIZE=4
-
-    EXT_XRGB_RED=1
-    EXT_XRGB_GREEN=2
-    EXT_XRGB_BLUE=3
-    EXT_XRGB_PIXELSIZE=4
-)
-
 if(DEFINED TARGET_CPU_X86_64)
-    list(APPEND jpegturbo_DEFINES
-            #it seems the nasm -P does not work in flatpak so add all the defines here for ffmpeg etc.
-
-            )
-elseif(DEFINED TARGET_CPU_ARM64)
-    list(APPEND jpegturbo_DEFINES
-            #it seems the nasm -P does not work in flatpak so add all the defines here for ffmpeg etc.
-
-            )
-endif() # if(DEFINED TARGET_CPU_X86_64)
-
-if(DEFINED TARGET_CPU_ARM64)
-    list(APPEND jpegturbo_DEFINES
-        HAVE_ARMV8_INLINE=1
-        #do not know if these are correct
-        HAVE_VLD1_S16_X3=1
-        HAVE_VLD1_U16_X2=1
-        HAVE_VLD1Q_U8_X4=1
+    enable_language(ASM_NASM)
+    set(CMAKE_ASM_NASM_FLAGS "-DELF -D__x86_64__ -DPIC -D__CET__")
+    set(NASM_INCLUDE_DIRS
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}/simd
+        ${CMAKE_CURRENT_SOURCE_DIR}/simd/nasm
+        ${CMAKE_CURRENT_SOURCE_DIR}/simd/x86_64
     )
 
-    if(DEFINED TARGET_OS_ANDROID)
-        list(APPEND jpegturbo_DEFINES
-            HAVE_NEON_INLINE=1
-            HAVE_VFP_INLINE=1
-            HAVE_INTRINSICS_NEON=1
-        )
+    foreach(nasmdir ${NASM_INCLUDE_DIRS})
+        list(APPEND NASM_INCLUDE_FLAGS "-I${nasmdir}")
+    endforeach()
+    message(STATUS "NASM include flags ${NASM_INCLUDE_FLAGS}")
 
-    else()
-        list(APPEND jpegturbo_DEFINES
-            HAVE_NEON_INLINE=0
-            HAVE_VFP_INLINE=0
-            HAVE_INTRINSICS_NEON=0
-        )
+    foreach(nasmflag ${NASM_INCLUDE_FLAGS})
+        set(CMAKE_ASM_NASM_FLAGS "${CMAKE_ASM_NASM_FLAGS} ${nasmflag}")
+    endforeach()
+    message(STATUS "Final NASM flags: ${CMAKE_ASM_NASM_FLAGS}")
 
-    endif()
+    set(CMAKE_ASM_NASM_OBJECT_FORMAT elf64)
+    set(CMAKE_ASM_NASM_SOURCE_FILE_EXTENSIONS asm)
 
-
-elseif(DEFINED TARGET_CPU_ARM32)
-    list(APPEND jpegturbo_DEFINES
-        HAVE_ARMV8_INLINE=0
-        #do not know if these are correct
-        HAVE_VLD1_S16_X3=0
-        HAVE_VLD1_U16_X2=0
-        HAVE_VLD1Q_U8_X4=0
-    )
-
-    if(DEFINED TARGET_OS_ANDROID)
-        list(APPEND jpegturbo_DEFINES
-            HAVE_NEON_INLINE=1
-            HAVE_VFP_INLINE=1
-            HAVE_INTRINSICS_NEON=1
-        )
-
-    else()
-        list(APPEND jpegturbo_DEFINES
-            HAVE_NEON_INLINE=0
-            HAVE_VFP_INLINE=0
-            HAVE_INTRINSICS_NEON=0
-        )
-
-    endif()
-
-elseif(DEFINED TARGET_CPU_X86_64)
-    list(APPEND jpegturbo_DEFINES
-        HAVE_ARMV8_INLINE=0
-        HAVE_NEON_INLINE=0
-        HAVE_VFP_INLINE=0
-    )
-
+    set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER>  <FLAGS> -f ${CMAKE_ASM_NASM_OBJECT_FORMAT} -o <OBJECT> <SOURCE>")
+    set(CMAKE_DEPFILE_FLAGS_ASM_NASM "-MD <DEP_FILE> -MT <DEP_TARGET>")
 endif()
 
-
-if(DEFINED TARGET_POSIX)
-    list(APPEND jpegturbo_DEFINES
-        HAVE_ARPA_INET_H=1
-    )
-
-else()
-    list(APPEND jpegturbo_DEFINES
-        HAVE_ARPA_INET_H=0
-    )
-
-endif()
-
-if(DEFINED TARGET_OS_ANDROID)
-    list(APPEND jpegturbo_DEFINES
-
-    )
-
-    if(DEFINED TARGET_CPU_ARM32)
-        list(APPEND jpegturbo_DEFINES
-
-        )
-    else()
-        list(APPEND jpegturbo_DEFINES
-
-        )
-    endif()
-
-elseif(DEFINED TARGET_OS_LINUX)
-    list(APPEND jpegturbo_DEFINES
-
-    )
-
-elseif(DEFINED TARGET_OS_WINDOWS)
-    list(APPEND jpegturbo_DEFINES
-
-    )
-
-
-endif()
-
-# config_jpegturbo_w64.asm
 set(jpegturbo_SOURCES)
 
 list(APPEND jpegturbo_SOURCES 
@@ -283,7 +134,7 @@ list(APPEND jpegturbo_SOURCES
     #src/jstdhuff.c #included by others
     src/jutils.c
     src/libjpeg.map.in
-    #src/md5
+    #src/md5 # included in CoreLib
     src/rdbmp.c
     src/rdcolmap.c
     src/rdgif.c
@@ -307,38 +158,41 @@ list(APPEND jpegturbo_SOURCES
     src/wrppm.c
 
     simd/jsimd.h
-    #simd/nasm/config_jpegturbo_w64.asm
-    simd/nasm/jcolsamp.inc
-    simd/nasm/jdct.inc
-    simd/nasm/jsimdcfg.inc
-    simd/nasm/jsimdcfg.inc.h
-    simd/nasm/jsimdext.inc
+
     VxJpgLib.h
     VxJpg.cpp
 )
 
 if(DEFINED TARGET_CPU_X86_64)
+
     list(APPEND jpegturbo_SOURCES
-    simd/x86_64/jccolext-avx2.asm
-    simd/x86_64/jccolext-sse2.asm
+
+    simd/nasm/jcolsamp.inc
+    simd/nasm/jdct.inc
+    simd/nasm/jsimdcfg.inc
+    simd/nasm/jsimdcfg.inc.h
+    simd/nasm/jsimdext.inc
+
+    #simd/x86_64/jccolext-avx2.asm
+    #simd/x86_64/jccolext-sse2.asm
     simd/x86_64/jccolor-avx2.asm
     simd/x86_64/jccolor-sse2.asm
     simd/x86_64/jcgray-avx2.asm
     simd/x86_64/jcgray-sse2.asm
-    simd/x86_64/jcgryext-avx2.asm
-    simd/x86_64/jcgryext-sse2.asm
+    #simd/x86_64/jcgryext-avx2.asm
+    #simd/x86_64/jcgryext-sse2.asm
     simd/x86_64/jchuff-sse2.asm
     simd/x86_64/jcphuff-sse2.asm
     simd/x86_64/jcsample-avx2.asm
     simd/x86_64/jcsample-sse2.asm
-    simd/x86_64/jdcolext-avx2.asm
-    simd/x86_64/jdcolext-sse2.asm
+    #simd/x86_64/jdcolext-avx2.asm
+    #simd/x86_64/jdcolext-sse2.asm
     simd/x86_64/jdcolor-avx2.asm
     simd/x86_64/jdcolor-sse2.asm
     simd/x86_64/jdmerge-avx2.asm
     simd/x86_64/jdmerge-sse2.asm
-    simd/x86_64/jdmrgext-avx2.asm
-    simd/x86_64/jdmrgext-sse2.asm
+    #simd/x86_64/jdmrgext-avx2.asm
+    #simd/x86_64/jdmrgext-sse2.asm
     simd/x86_64/jdsample-avx2.asm
     simd/x86_64/jdsample-sse2.asm
     simd/x86_64/jfdctflt-sse.asm
@@ -364,7 +218,6 @@ if(DEFINED TARGET_CPU_ARM64 OR DEFINED TARGET_CPU_ARM32)
         simd/arm/align.h
         #simd/arm/jccolor-neon.c
         simd/arm/jcgray-neon.c
-        #simd/arm/jcgryext-neon.c #included by others
         simd/arm/jchuff.h
         simd/arm/jcphuff-neon.c
         simd/arm/jcsample-neon.c
@@ -374,27 +227,23 @@ if(DEFINED TARGET_CPU_ARM64 OR DEFINED TARGET_CPU_ARM32)
         #simd/arm/jdmrgext-neon.c #included by others
         simd/arm/jdsample-neon.c
         simd/arm/jfdctfst-neon.c
-        #simd/arm/jfdctint-neon.c
         simd/arm/jidctfst-neon.c
-        #simd/arm/jidctint-neon.c
+        #simd/arm/jfdctint-neon.c
+
         simd/arm/jidctred-neon.c
-        simd/arm/jquanti-neon.c
-        simd/arm/neon-compat.h.in
-        simd/arm/neon-compat.h
+        simd/arm/jquanti-neon.c     
      )
 endif()
 
 if(DEFINED TARGET_CPU_ARM64)
     list(APPEND jpegturbo_SOURCES 
-        #simd/arm/aarch64/jccolext-neon.c #included by others
-        #simd/arm/aarch64/jchuff-neon.c
+        #simd/arm/aarch64/jchuff-neon.c # implemented in jsimd_neon.S
         simd/arm/aarch64/jsimd.c
         simd/arm/aarch64/jsimd_neon.S
      )
 elseif(DEFINED TARGET_CPU_ARM32)
     list(APPEND jpegturbo_SOURCES
-        #simd/arm/aarch32/jccolext-neon.c #included by others
-        simd/arm/aarch32/jchuff-neon.c
+        #simd/arm/aarch32/jchuff-neon.c
         simd/arm/aarch32/jsimd.c
         simd/arm/aarch32/jsimd_neon.S
     )

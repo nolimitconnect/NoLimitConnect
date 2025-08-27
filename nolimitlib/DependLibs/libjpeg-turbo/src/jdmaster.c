@@ -735,7 +735,7 @@ master_selection(j_decompress_ptr cinfo)
 #if defined(SUPPORT_JPEG_HIGH_PRECISION)
     else if (cinfo->data_precision <= 12)
       j12init_d_main_controller(cinfo,
-                                FALSE /* never need full buffer here */);    
+                                FALSE /* never need full buffer here */);
     else
 #ifdef D_LOSSLESS_SUPPORTED
       j16init_d_main_controller(cinfo,
