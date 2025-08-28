@@ -89,10 +89,10 @@ std::string VxPtopUrl::stripHost( const std::string& url ) const // remove suffi
 }
 
 //============================================================================
-bool VxPtopUrl::isValid( bool isNetworkUrl )
+bool VxPtopUrl::isValid( bool doesNotRequireOnlineId )
 {
     bool isValid = m_Port && !m_Protocol.empty() && isHostIpValid();
-    if( !isNetworkUrl )
+    if( !doesNotRequireOnlineId )
     {
         isValid &= m_OnlineId.isVxGUIDValid();
     }

@@ -889,22 +889,34 @@ bool NetServiceUtils::rxNetServiceCmd( ENetCmdType expectedRxNetCmd, ///< which 
 
 	if( !netServConn->isConnected() )
 	{
-		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d connection to %s:%d closed abruptly",
+		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd skt %d connection to %s:%d closed abruptly",
 				netServConn->getSktHandle(), netServConn->getRemoteIpAddress().c_str(), netServConn->getRemotePort() );
+		if( iRxed == 0 )
+		{
+			LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd you are probably marked as Hacker by %s",
+				netServConn->getRemoteIpAddress().c_str() );
+		}
+
 		return false;
 	}
 
 	if( iRxed != pktHdrLen )
 	{
-		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d hdr timeout %3.3f sec rxed data len %d",
+		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd skt %d hdr timeout %3.3f sec rxed data len %d",
 				netServConn->getSktHandle(), rxCmdTimer.elapsedSec(), iRxed );
+		if( iRxed == 0 && rxCmdTimer.elapsedSec() >= rxHdrTimeout )
+		{
+			LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd you are probably marked as Hacker by %s",
+				netServConn->getRemoteIpAddress().c_str() );
+		}
+
 		return false;
 	}
 
 	// decrypt the pkt header
 	if( 0 != rxCrypto->decrypt( (uint8_t*)rxPktBuf.data(), iRxed ) )
 	{
-		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d hdr timeout %3.3f failed to decrypt pkt hdr len %d",
+		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd skt %d hdr timeout %3.3f failed to decrypt pkt hdr len %d",
 				netServConn->getSktHandle(), rxCmdTimer.elapsedSec(), iRxed );
 		return false;
 	}
@@ -916,7 +928,7 @@ bool NetServiceUtils::rxNetServiceCmd( ENetCmdType expectedRxNetCmd, ///< which 
 
 	if( pktLen & 0x0f || pktLen < pktHdrLen || pktLen > MAX_PKT_LEN || remainingLen < 0 || remainingLen & 0x0f )
 	{
-		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd: skt %d timeout %3.3f invalid pkt len %d", 
+		LogMsg( LOG_ERROR, "### ERROR NetServiceUtils::rxNetServiceCmd skt %d timeout %3.3f invalid pkt len %d", 
 			netServConn->getSktHandle(), rxCmdTimer.elapsedSec(), pktLen );
 		return false;
 	}

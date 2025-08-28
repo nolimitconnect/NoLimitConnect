@@ -39,9 +39,25 @@ AppletJoinBase::AppletJoinBase( const char*name, AppCommon& app, QWidget* parent
     m_NetworkHostUrl = m_MyApp.getFromGuiInterface().fromGuiQueryDefaultUrl( eHostTypeNetwork, !VxGetShowMyselfInLists() );
     VxPtopUrl netHostUrl( m_NetworkHostUrl );
     m_NetHostPtopUrl = netHostUrl;
-    if( m_NetHostPtopUrl.isValid() )
+    m_NetworkHostOnlineId = m_NetHostPtopUrl.getOnlineId();
+    if( !m_NetworkHostOnlineId.isVxGUIDValid() )
     {
-        m_NetworkHostOnlineId = m_NetHostPtopUrl.getOnlineId();
+        QString title = QObject::tr( "Network Host URL was not resolved" );
+        QString msg = m_NetworkHostUrl.c_str();
+        msg += "\n";
+        if( m_NetHostPtopUrl.isValid( true ) )
+        {
+            msg += QObject::tr( "Online Id query failed" );
+        }
+        else
+        {
+            msg += QObject::tr( "Failed to resolve into valid ptop url" );
+        }
+
+        m_IsClosing = true;
+        errMessageBox( title, msg );
+        closeApplet();
+        return;
     }
 
 	m_JoinedHostSession.initializeWithNewVxGUID();
@@ -87,7 +103,12 @@ AppletJoinBase::~AppletJoinBase()
 
 //============================================================================
 void AppletJoinBase::setHostType( EHostType hostType ) 
-{ 
+{
+    if( m_IsClosing )
+    {
+        return;
+    }
+
 	m_HostType = hostType; 
 	if( m_UserListMode )
 	{
@@ -122,6 +143,7 @@ void AppletJoinBase::queryHostedList( void )
 	m_ConnectStatus = eConnectStatusUnknown;
 	if( isNetworkHostUrlValid() )
 	{
+
 		setStatusMsg( QObject::tr( "Network Host list request is queued" ) );
 		VxGUID nullGuid;
         bool result = m_MyApp.getFromGuiInterface().fromGuiQueryHostListFromNetworkHost( m_NetHostPtopUrl, getHostType(), nullGuid );

@@ -23,7 +23,7 @@ public:
     VxPtopUrl&                  operator = ( const VxPtopUrl& rhs );
     bool                        operator == ( const VxPtopUrl& rhs ) const;
 
-	bool						isValid( bool isNetworkUrl = false );
+    bool						isValid( bool doesNotRequireOnlineId = false );
 	bool						isHostIpValid( void );
 	bool						isHostTypeValid( void )						{ return m_HostType != eHostTypeUnknown; }
 

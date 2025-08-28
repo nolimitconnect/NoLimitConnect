@@ -60,16 +60,15 @@ void NetActionResolveNetworkHostUrl::doAction( void )
 
 	m_Engine.getConnectionMgr().applyDefaultHostUrl( eHostTypeNetwork, networkHostUrl );
 
-	wasResolved = false;
 	int waitCnt = 0;
 
 	while( waitCnt < 20 )
 	{
-		if( m_Engine.getConnectionMgr().getDefaultHostOnlineId( eHostTypeConnectTest, hostOnlineId ) )
+        if( m_Engine.getConnectionMgr().getDefaultHostOnlineId( eHostTypeNetwork, hostOnlineId ) )
 		{
 			if( hostOnlineId.isVxGUIDValid() )
 			{
-				LogMsg( LOG_INFO, "NetActionResolveNetworkHostUrl:%s resolved with id %s", __func__, hostOnlineId.toOnlineIdString().c_str() );
+                LogMsg( LOG_INFO, "NetActionResolveNetworkHostUrl::%s resolved with id %s", __func__, hostOnlineId.toOnlineIdString().c_str() );
 				m_Engine.getNetStatusAccum().setNetHostAvail( true );
 				return;
 			}
@@ -81,7 +80,6 @@ void NetActionResolveNetworkHostUrl::doAction( void )
 
 	LogMsg( LOG_ERROR, "NetActionResolveNetworkHostUrl:%s timed out waiting to resolve %s", __func__, networkHostUrl.c_str() );
 	m_Engine.getNetStatusAccum().setNetHostAvail( false );
-
 }
 
 

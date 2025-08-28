@@ -116,6 +116,8 @@ protected:
 
 	EHostType                   m_HostType{ eHostTypeUnknown };
     EConnectStatus              m_ConnectStatus{ eConnectStatusUnknown };
+
+    bool                        m_IsClosing{false};
 };
 
 
