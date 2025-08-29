@@ -30,7 +30,6 @@ list(APPEND netlib_SOURCES
     VxSktConnect.cpp
     VxSktConnectSimple.cpp
     VxSktCrypto.cpp
-    VxSktStatMgr.cpp
     VxSktStatRecord.cpp
     VxSktThrottle.cpp
     VxSktUdp.cpp

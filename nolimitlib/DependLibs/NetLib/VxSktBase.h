@@ -16,17 +16,16 @@
 
 #include "VxSktDefs.h"
 #include "VxSktBuf.h"
+#include "VxSktStatRecord.h"
 #include "VxSktThrottle.h"
-#include <CoreLib/InetAddress.h>
-
-#include <PktLib/PktAnnounce.h>
 
 #include <CoreLib/GroupieId.h>
-#include <CoreLib/VxThread.h>
-#include <CoreLib/VxSemaphore.h>
-#include <CoreLib/VxMutex.h>
+#include <CoreLib/InetAddress.h>
 #include <CoreLib/VxCrypto.h>
+#include <CoreLib/VxMutex.h>
+#include <CoreLib/VxThread.h>
 
+#include <PktLib/PktAnnounce.h>
 
 #ifdef TARGET_OS_WINDOWS
 	#include <WinSock2.h>
@@ -275,25 +274,6 @@ public:
 	static void					decrementRunningRxSktThreadCnt( void )				{ m_RunningRxThreadCnt--; }
 	static int					getRunningRxSktThreadCnt( void )					{ return m_RunningRxThreadCnt; }
 
-protected:
-	bool						toSocketAddrInfo(	int sockType, 
-													const char*addr, 
-													int port, 
-													struct addrinfo **addrInfo, 
-													bool isBindAddr );
-
-	bool						toSocketAddrIn(		const char*addr, 
-													int port, 
-													struct sockaddr_in *sockaddr, 
-													bool isBindAddr );
-
-
-    const std::string&          describeSktDirection( void );
-
-	void						lockTimeAccess( void ) { m_TimeAccessMutex.lock(); }
-	void						unlockTimeAccess( void ) { m_TimeAccessMutex.unlock(); }
-
-public:
 	void						doCloseThisSocketHandle( void );
 
 	void						setRxStartTimeMs( int64_t rxStartTime ) { m_RxStartTimeMs = rxStartTime; }
@@ -309,6 +289,7 @@ public:
 	// done with this connect reason.. return true if no other connect reasons
 	bool						removeConnectReason( enum EConnectReason connectReason );
 
+	VxSktStatRecord				getSktStatRecord( void );
 
     SOCKET						m_Socket{ INVALID_SOCKET };	    // handle to socket
     int							m_SktNumber{ 0 };				// socket unique id
@@ -344,10 +325,24 @@ public:
     VxMutex                     m_TxMutex;                      // tx thread mutex
 	uint8_t						m_u8TxSeqNum; // not initialized on purpose	// sequence number used to thwart replay attacks
     
-	VxSemaphore					m_RelayEventSemaphore;
     VX_SKT_CALLBACK				m_pfnReceive{ nullptr };			// receive function must be set by user
 
 protected:
+	bool						toSocketAddrInfo( int sockType,
+												const char* addr,
+												int port,
+												struct addrinfo** addrInfo,
+												bool isBindAddr );
+
+	bool						toSocketAddrIn( const char* addr,
+												int port,
+												struct sockaddr_in* sockaddr,
+												bool isBindAddr );
+
+	const std::string&			describeSktDirection( void );
+
+	void						lockTimeAccess( void ) { m_TimeAccessMutex.lock(); }
+	void						unlockTimeAccess( void ) { m_TimeAccessMutex.unlock(); }
 
     int							m_iConnectTimeout{ 0 };	            // how long to try to connect
 	bool						m_bIsConnected{ false };			// return true if is connected

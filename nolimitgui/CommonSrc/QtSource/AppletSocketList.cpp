@@ -55,14 +55,15 @@ AppletSocketList::AppletSocketList( AppCommon& app, QWidget* parent )
 
     QStandardItemModel* model = new QStandardItemModel( 0, 4, parent );
     ui.m_TreeView->setRootIsDecorated( false );
-    ui.m_TreeView->setAlternatingRowColors( true );
+    ui.m_TreeView->setAlternatingRowColors( false ); // TODO fix pink color on alternate rows in windows
     ui.m_TreeView->setModel( model );
     ui.m_TreeView->setSortingEnabled( true );
 
     model->setHeaderData( 0, Qt::Horizontal, QObject::tr( "Socket" ) );
-    model->setHeaderData( 1, Qt::Horizontal, QObject::tr( "Socket Type" ) );
-    model->setHeaderData( 2, Qt::Horizontal, QObject::tr( "IP Address" ) );
-    model->setHeaderData( 3, Qt::Horizontal, QObject::tr( "Reason" ) );
+    model->setHeaderData( 1, Qt::Horizontal, QObject::tr( "IP Address" ) );
+    model->setHeaderData( 2, Qt::Horizontal, QObject::tr( "Txed" ) );
+    model->setHeaderData( 3, Qt::Horizontal, QObject::tr( "Rxed" ) );
+    model->setHeaderData( 4, Qt::Horizontal, QObject::tr( "Peer User" ) );
 
     refreshSktList();
 }
@@ -109,11 +110,22 @@ void AppletSocketList::addSocketStat( VxSktStatRecord& sktStat )
     QStandardItemModel* model = dynamic_cast<QStandardItemModel *>( ui.m_TreeView->model() );
     if( model )
     {
+        QString peerName{ "Unknown" };
+        if( sktStat.getPeerOnlineId().isVxGUIDValid() )
+        {
+            GuiUser* guiUser = m_MyApp.getUserMgr().getUser( sktStat.getPeerOnlineId() );
+            if( guiUser )
+            {
+                peerName = guiUser->getOnlineName().c_str();
+            }
+        }
+
         int rowNum = model->rowCount();
         model->insertRow( rowNum );
         model->setData( model->index( rowNum, 0 ), QString::number( sktStat.getSktHandle() ) );
-        model->setData( model->index( rowNum, 1 ), QString( DescribeSktType( sktStat.getSktType() ) ) );
-        model->setData( model->index( rowNum, 2 ), QString( sktStat.getIpAddr().c_str() ) );
-        model->setData( model->index( rowNum, 3 ), QString( DescribeConnectReason( sktStat.getConnectReason() ) ) );
+        model->setData( model->index( rowNum, 1 ), QString( sktStat.getIpAddr().c_str() ) );
+        model->setData( model->index( rowNum, 2 ), QString( GuiParams::describeFileLength( sktStat.getTxedBytes() ) ) );
+        model->setData( model->index( rowNum, 3 ), QString( GuiParams::describeFileLength( sktStat.getRxedBytes() ) ) );
+        model->setData( model->index( rowNum, 4 ), peerName );
     }
 }

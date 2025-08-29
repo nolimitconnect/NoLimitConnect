@@ -64,7 +64,22 @@ void AppletChooseHost::setChooseUserReason( EChooseUserReason chooseUserReason )
 	m_ChooseUserReason = chooseUserReason; 
 	if( chooseUserReason == eChooseUserReasonChatRoomHost )
 	{
+		setPluginType( ePluginTypeClientChatRoom );
 		setTitleBarText( QObject::tr("Choose Chat Room Host") );
+	}
+	else if( chooseUserReason == eChooseUserReasonGroupHost )
+	{
+		setPluginType( ePluginTypeClientGroup );
+		setTitleBarText( QObject::tr( "Choose Group Host" ) );
+	}
+	else if( chooseUserReason == eChooseUserReasonRandomConnectHost )
+	{
+		setPluginType( ePluginTypeClientRandomConnect );
+		setTitleBarText( QObject::tr( "Choose Random Connect Host" ) );
+	}
+	else
+	{
+		setTitleBarText( QObject::tr( "Unknown Host Type" ) );
 	}
 }
 

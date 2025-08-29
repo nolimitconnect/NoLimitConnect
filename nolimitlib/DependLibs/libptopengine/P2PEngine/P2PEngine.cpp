@@ -132,7 +132,6 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr,
 {
 	m_SktLoopback->setThisSkt( m_SktLoopback ); // so skt can do callbacks without look up in manager
 
-	VxSetSktStatCallback( &m_PeerMgr );
     m_PeerMgr.setSktLoopback( m_SktLoopback );
     m_NetStatusAccum.addNetStatusCallback( &m_ConnectionMgr );
     int maxPktType = MAX_PKT_TYPE_CNT;

@@ -576,7 +576,7 @@ void GuiHostedListWidget::callbackGuiUserJoinRequested( GroupieId& groupieId, Gu
 {
     if( !getIsHostView() )
     {
-        LogModule( eLogHostJoin, LOG_VERBOSE, "AppletGroupJoin::%s", __func__ );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
         updateUserJoinState( groupieId.getHostedId(), eJoinStateJoinRequested );
     }
 }
@@ -586,7 +586,7 @@ void GuiHostedListWidget::callbackGuiUserJoinWasGranted( GroupieId& groupieId, G
 {
     if( !getIsHostView() )
     {
-        LogModule( eLogHostJoin, LOG_VERBOSE, "AppletGroupJoin::%s", __func__ );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
         updateUserJoinState( groupieId.getHostedId(), eJoinStateJoinWasGranted );
     }
 }
@@ -596,7 +596,7 @@ void GuiHostedListWidget::callbackGuiUserJoinIsGranted( GroupieId& groupieId, Gu
 {
     if( !getIsHostView() )
     {
-        LogModule( eLogHostJoin, LOG_VERBOSE, "AppletGroupJoin::%s", __func__ );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
         updateUserJoinState( groupieId.getHostedId(), eJoinStateJoinIsGranted );
     }
 }
@@ -606,7 +606,7 @@ void GuiHostedListWidget::callbackGuiUserUnJoinGranted( GroupieId& groupieId, Gu
 {
     if( !getIsHostView() )
     {
-        LogModule( eLogHostJoin, LOG_VERBOSE, "AppletGroupJoin::%s", __func__ );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
         updateUserJoinState( groupieId.getHostedId(), eJoinStateJoinLeaveHost );
     }
 }
@@ -616,7 +616,7 @@ void GuiHostedListWidget::callbackGuiUserJoinDenied( GroupieId& groupieId, GuiUs
 {
     if( !getIsHostView() )
     {
-        LogModule( eLogHostJoin, LOG_VERBOSE, "AppletGroupJoin::%s", __func__ );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
         updateUserJoinState( groupieId.getHostedId(), eJoinStateJoinDenied );
     }
 }
@@ -626,7 +626,7 @@ void GuiHostedListWidget::callbackGuiUserJoinLeaveHost( GroupieId& groupieId )
 {
     if( !getIsHostView() )
     {
-        LogModule( eLogHostJoin, LOG_VERBOSE, "AppletGroupJoin::%s", __func__ );
+        LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
         updateUserJoinState( groupieId.getHostedId(), eJoinStateJoinLeaveHost );
     }
 }
@@ -634,7 +634,7 @@ void GuiHostedListWidget::callbackGuiUserJoinLeaveHost( GroupieId& groupieId )
 //============================================================================
 void GuiHostedListWidget::callbackGuiUserJoinRemoved( GroupieId& groupieId )
 {
-    LogModule( eLogHostJoin, LOG_VERBOSE, "AppletGroupJoin::%s", __func__ );
+    LogModule( eLogHostJoin, LOG_VERBOSE, "GuiHostedListWidget::%s", __func__ );
     if( !getIsHostView() )
     {
         removeFromList( groupieId.getHostedId() );

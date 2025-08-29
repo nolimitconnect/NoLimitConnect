@@ -254,7 +254,6 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\..\VxSktCrypto.cpp" />
-    <ClCompile Include="..\..\VxSktStatMgr.cpp" />
     <ClCompile Include="..\..\VxSktStatRecord.cpp" />
     <ClCompile Include="..\..\VxSktThrottle.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -307,7 +306,6 @@
     <ClInclude Include="..\..\VxSktDefs.h" />
     <ClInclude Include="..\..\VxSktInfo.h" />
     <ClInclude Include="..\..\VxSktRandomData.h" />
-    <ClInclude Include="..\..\VxSktStatMgr.h" />
     <ClInclude Include="..\..\VxSktStatRecord.h" />
     <ClInclude Include="..\..\VxSktThrottle.h" />
     <ClInclude Include="..\..\VxSktUdp.h" />

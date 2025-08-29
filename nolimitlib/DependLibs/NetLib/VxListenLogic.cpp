@@ -324,14 +324,6 @@ bool VxListenLogic::createNewListenSocket( SOCKET& retListenSock )
     m_ServerMgr.listenSktWasOpened( m_IsIpv6, listenSock );
 
     retListenSock = listenSock;
-    if( VxGetSktStatCallback() )
-    {
-        std::string lclIpAddr = VxGetLclIpAddress( listenSock );
-        if( !lclIpAddr.empty() )
-        {
-            VxGetSktStatCallback()->sktConnected4( listenSock, lclIpAddr, eSktTypeListen, eConnectReasonUnknown );
-        }
-    }
 
     return true;
 }

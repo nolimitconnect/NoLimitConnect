@@ -259,14 +259,14 @@ void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBas
                 m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
                 // even though friendship not high enough if admin has accepted then send accepted
                 joinReply.setAccessState( ePluginAccessOk );
-                LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseHostService from %s %s host %s %s join granted", 
+                LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseHostService from %s %s host %s join granted", 
                             netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(), DescribeHostType( getHostType() ) );
             }
             else
             {
                 m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
                 sendPkt = true;
-                LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseHostService from %s %s host %s %s join requested", 
+                LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseHostService from %s %s host %s join requested", 
                             netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(), DescribeHostType( getHostType() ) );
             }
         }

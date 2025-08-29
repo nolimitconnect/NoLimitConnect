@@ -11,14 +11,12 @@
 
 #include "VxHackerMgr.h"
 #include "VxListenLogic.h"
-#include "VxSktStatMgr.h"
-#include "VxSktThrottle.h"
 #include "VxSktBaseMgr.h"
 
 #include <vector>
 
 // implements a manager to manage accept sockets
-class VxServerMgr : public VxSktBaseMgr, public VxHackerMgr, public VxSktStatMgr 
+class VxServerMgr : public VxSktBaseMgr, public VxHackerMgr
 {
 public:
 	VxServerMgr();

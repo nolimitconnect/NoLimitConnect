@@ -1729,3 +1729,9 @@ void VxSktBase::setIsTempConnection( bool isTemp )
 		}
 	}
 }
+
+//============================================================================
+VxSktStatRecord	 VxSktBase::getSktStatRecord( void )
+{
+	return VxSktStatRecord( m_Socket, m_strRmtIp, m_ConnectionId, GetBytesSent(), GetBytesReceived(), m_LastActiveTimeGmtMs, isTempConnection(), getPeerOnlineId() );
+}

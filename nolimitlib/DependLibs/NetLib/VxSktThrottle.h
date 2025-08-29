@@ -71,10 +71,7 @@ public:
 	virtual void	            TxedPkt( int iPktLen );
 	//! packet was received
 	virtual void	            RxedPkt( int iPktLen );
-	//! packet could not be sent
-	virtual void	            DroppedTxedPkt( int iPktLen );
-	//! packet could not be received
-	virtual void	            DroppedRxedPkt( int iPktLen );
+
 	//! update current transmit speed
 	virtual void	            UpdateTxSpeed( void )			{m_f32TxCurrentSpeed = (float)((double)m_iTxSamplesBytes/m_TxTimer.elapsedSec());}
 	//! update current transmit speed
@@ -99,8 +96,6 @@ protected:
 	int64_t				        m_s64BytesTxed;
 	int64_t				        m_s64BytesRxed;
 
-	int64_t				        m_s64TxPktsDropped;
-	int64_t				        m_s64RxPktsDropped;
 	int64_t				        m_s64TxPktCnt;
 	int64_t				        m_s64RxPktCnt;
 };

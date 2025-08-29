@@ -256,3 +256,11 @@ void VxPeerMgr::onOncePer30Seconds( VxGUID& myOnlineId )
 	VxSktBaseMgr::onOncePer30Seconds( myOnlineId );
 	m_ClientMgr.onOncePer30Seconds( myOnlineId );
 }
+
+//============================================================================
+void VxPeerMgr::getSktStatRecords( std::vector<VxSktStatRecord>& sktStatList )
+{
+	sktStatList.clear();
+	VxSktBaseMgr::getSktStatRecords( sktStatList );
+	m_ClientMgr.getSktStatRecords( sktStatList );
+}

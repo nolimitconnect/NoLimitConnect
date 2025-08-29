@@ -343,13 +343,6 @@ std::shared_ptr<VxSktBase> VxSktBaseMgr::makeNewAcceptSkt( void )
 }
 
 //============================================================================
-//! handle transmit callbacks from sockets
-void VxSktBaseMgr::doTransmitCallback( std::shared_ptr<VxSktBase>& sktBase )
-{
-	TxedPkt( sktBase->m_iLastTxLen );
-}
-
-//============================================================================
 void VxSktBaseMgr::doReceiveCallback( std::shared_ptr<VxSktBase>& sktBase )
 {
 	ESktCallbackReason eCallbackReason = sktBase->getCallbackReason();
@@ -683,4 +676,17 @@ void VxSktBaseMgr::sktWasClosed( VxSktBase* sktBaseIn, bool sktMgrLocked )
 		#endif // defined(DEBUG_SKT_MGR_LOCK)
         unlockSktBaseMgr();
     }
+}
+
+//============================================================================
+void VxSktBaseMgr::getSktStatRecords( std::vector<VxSktStatRecord>& retSktStatList )
+{
+	retSktStatList.clear();
+	lockSktBaseMgr();
+	for( auto sktBase : m_aoSkts )
+	{
+		retSktStatList.emplace_back( sktBase->getSktStatRecord() );
+	}
+
+	unlockSktBaseMgr();
 }

@@ -9,9 +9,10 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "VxSktThrottle.h"
-#include "VxSktDefs.h"
 #include "VxSktBase.h"
+#include "VxSktDefs.h"
+#include "VxSktStatRecord.h"
+#include "VxSktThrottle.h"
 
 #include <CoreLib/InetAddress.h>
 #include <CoreLib/VxMutex.h>
@@ -71,8 +72,6 @@ public:
 	//=== functions that should only be called by derived classes ===//
 	//! handle callbacks from sockets
 	virtual	void				doReceiveCallback( std::shared_ptr<VxSktBase>& sktBase );
-	//! handle transmit callbacks from sockets
-	virtual	void				doTransmitCallback( std::shared_ptr<VxSktBase>& sktBase );
 
 	//! add a new socket to manage
 	virtual void				addSkt( std::shared_ptr<VxSktBase>& sktBase );
@@ -96,6 +95,8 @@ public:
 	virtual void				onOncePer30Seconds( VxGUID& myOnlineId );
 
     virtual void                sktWasClosed( VxSktBase* sktBase, bool sktMgrLocked );
+
+	virtual void                getSktStatRecords( std::vector<VxSktStatRecord>& sktStatList );
 
 	//=== vars ===//
 	RCODE						m_rcLastError{ 0 };

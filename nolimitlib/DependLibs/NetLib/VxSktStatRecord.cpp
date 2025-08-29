@@ -10,51 +10,29 @@
 
 #include "VxSktStatRecord.h"
 
-#include <CoreLib/VxTime.h>
-
 //============================================================================
-VxSktStatRecord::VxSktStatRecord( SOCKET skt )
-	: m_SktHandle( skt )
-{
-	m_TimeMs = GetGmtTimeMs();
-}
-
-//============================================================================
-VxSktStatRecord::VxSktStatRecord( SOCKET skt, std::string& ipAddr )
-	: m_SktHandle( skt )
-	, m_IpAddr( ipAddr )
-{
-	m_TimeMs = GetGmtTimeMs();
-}
-
-//============================================================================
-VxSktStatRecord::VxSktStatRecord( SOCKET skt, std::string& ipAddr, ESktType sktType, EConnectReason connectReason )
-	: m_SktHandle( skt )
-	, m_SktType( sktType )
-	, m_ConnectReason( connectReason )
-	, m_IpAddr( ipAddr )
-{
-	m_TimeMs = GetGmtTimeMs();
-}
-
-//============================================================================
-VxSktStatRecord::VxSktStatRecord( SOCKET skt, ESktType sktType, std::string& ipAddr, VxGUID signatureId )
+VxSktStatRecord::VxSktStatRecord( SOCKET skt, std::string& ipAddr, VxGUID& connectionId, int64_t txedBytes, int64_t rxedBytes, int64_t lastActive, bool isTemp, VxGUID& peerOnlineId )
 : m_SktHandle( skt )
-, m_SktType( sktType )
 , m_IpAddr( ipAddr )
-, m_SignatureId( signatureId )
+, m_ConnectId( connectionId )
+, m_TxedBytes( txedBytes )
+, m_RxedBytes( rxedBytes )
+, m_LastActiveTimeMs( lastActive )
+, m_IsTemp( isTemp )
+, m_PeerOnlineId( peerOnlineId )
 {
-	m_TimeMs = GetGmtTimeMs();
 }
 
 //============================================================================
 VxSktStatRecord::VxSktStatRecord( const VxSktStatRecord& rhs )
 	: m_SktHandle( rhs.m_SktHandle )
-	, m_SktType( rhs.m_SktType )
-	, m_ConnectReason( rhs.m_ConnectReason )
 	, m_IpAddr( rhs.m_IpAddr )
-	, m_TimeMs( rhs.m_TimeMs )
-	, m_SignatureId( rhs.m_SignatureId )
+	, m_ConnectId( rhs.m_ConnectId )
+	, m_TxedBytes( rhs.m_TxedBytes )
+	, m_RxedBytes( rhs.m_RxedBytes )
+	, m_LastActiveTimeMs( rhs.m_LastActiveTimeMs )
+	, m_IsTemp( rhs.m_IsTemp )
+	, m_PeerOnlineId( rhs.m_PeerOnlineId )
 {
 }
 
@@ -64,11 +42,13 @@ VxSktStatRecord& VxSktStatRecord::operator=( const VxSktStatRecord& rhs )
 	if( this != &rhs )
 	{
 		m_SktHandle = rhs.m_SktHandle;
-		m_SktType = rhs.m_SktType;
-		m_ConnectReason = rhs.m_ConnectReason;
 		m_IpAddr = rhs.m_IpAddr;
-		m_TimeMs = rhs.m_TimeMs;
-		m_SignatureId = rhs.m_SignatureId;
+		m_ConnectId = rhs.m_ConnectId;
+		m_TxedBytes = rhs.m_TxedBytes;
+		m_RxedBytes = rhs.m_RxedBytes;
+		m_LastActiveTimeMs = rhs.m_LastActiveTimeMs;
+		m_IsTemp = rhs.m_IsTemp;
+		m_PeerOnlineId = rhs.m_PeerOnlineId;
 	}
 
 	return *this;

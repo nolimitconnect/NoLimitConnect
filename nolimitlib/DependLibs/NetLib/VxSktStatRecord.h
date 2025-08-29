@@ -18,30 +18,29 @@ class VxSktStatRecord
 {
 public:
 	VxSktStatRecord() = default;
-	VxSktStatRecord( SOCKET skt );
-	VxSktStatRecord( SOCKET skt, std::string& ipAddr );
-	VxSktStatRecord( SOCKET skt, std::string& ipAddr, ESktType sktType, EConnectReason connectReason );
-	VxSktStatRecord( SOCKET skt, ESktType sktType, std::string& ipAddr, VxGUID signatureId = VxGUID::nullVxGUID() );
+	VxSktStatRecord( SOCKET skt, std::string& ipAddr, VxGUID& connectionId, int64_t txedBytes, int64_t rxedBytes, int64_t lastActive, bool isTemp, VxGUID& peerOnlineId );
 	VxSktStatRecord( const VxSktStatRecord& rhs );
 	virtual ~VxSktStatRecord() = default;
 
 	VxSktStatRecord&			operator=( const VxSktStatRecord& rhs );
 
-	SOCKET						getSktHandle( void )			{ return m_SktHandle; };
-	void						setIpAddr( std::string& ipAddr ) { m_IpAddr = ipAddr; }
-	std::string&				getIpAddr( void )				{ return m_IpAddr; }
-	void						setSktType( ESktType sktType )	{ m_SktType = sktType; }
-	ESktType					getSktType( void )				{ return m_SktType; }
-	EConnectReason				getConnectReason( void )		{ return m_ConnectReason; }
-	int64_t						getActiveTimestampMs( void )	{ return m_TimeMs; }
-	VxGUID&						getSignature( void )			{ return m_SignatureId; }
+	SOCKET						getSktHandle( void )				{ return m_SktHandle; };
+	std::string&				getIpAddr( void )					{ return m_IpAddr; }
+	VxGUID&						getConnectionId( void )				{ return m_ConnectId; }
+	int64_t						getTxedBytes( void )				{ return m_TxedBytes; }
+	int64_t						getRxedBytes( void )				{ return m_RxedBytes; }
+	int64_t						getLastActiveTimestampMs( void )	{ return m_LastActiveTimeMs; }
+	VxGUID&						getPeerOnlineId( void )				{ return m_PeerOnlineId; }
 
 protected:
 	SOCKET						m_SktHandle{ INVALID_SOCKET };
-	ESktType					m_SktType{ eSktTypeNone };
-	EConnectReason				m_ConnectReason{ eConnectReasonUnknown };
-	std::string					m_IpAddr{ "" };
-	int64_t						m_TimeMs{ 0 };
-	VxGUID						m_SignatureId;
+	std::string					m_IpAddr;
+	VxGUID						m_ConnectId;
+	int64_t						m_TxedBytes{ 0 };
+	int64_t						m_RxedBytes{ 0 };
+	int64_t						m_LastActiveTimeMs{ 0 };
+	bool						m_IsTemp{ false };
+	VxGUID						m_PeerOnlineId;
+
 };
 

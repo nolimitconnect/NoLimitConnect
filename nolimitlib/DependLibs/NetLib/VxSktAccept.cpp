@@ -62,11 +62,6 @@ RCODE VxSktAccept::doAccept( VxServerMgr * poMgr, struct sockaddr& oAcceptAddr )
 		m_RmtIp.getPort(),
 		m_RmtIp.getPort(), VxGetCurrentThreadId() );
 
-	if( VxGetSktStatCallback() )
-	{
-		VxGetSktStatCallback()->sktConnected4( m_Socket, m_strRmtIp, eSktTypeTcpAccept, eConnectReasonUnknown );
-	}
-
     // tell user we connecting
 	//VerifyCodePtr( m_pfnReceive );
 	m_pfnReceive( m_ThisSkt, getRxCallbackUserData() );

@@ -63,6 +63,8 @@ public:
 
     virtual void				onOncePer30Seconds( VxGUID& myOnlineId ) override;
 
+	void						getSktStatRecords( std::vector<VxSktStatRecord>& sktStatList ) override;
+
 protected:
 
 	VxClientMgr					m_ClientMgr;
