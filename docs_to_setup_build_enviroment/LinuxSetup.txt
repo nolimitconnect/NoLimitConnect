@@ -39,10 +39,10 @@ Most versions of Qt higher than 6.6.3 are unsuitable for android because of bug 
 	
 === compile enviroment issues ===
 NOTE: on Ubuntu you will likely see these errors. if packages are not found you are probably not running x11 and is normal
-1.) ~/nolimitapp/nolimitlib/DependLibs/ffmpeg/libavdevice/x11grab.c:58: error: X11/extensions/shape.h: No such file or directory
+1.) ~/nolimitapp/libs/ffmpeg/libavdevice/x11grab.c:58: error: X11/extensions/shape.h: No such file or directory
 	a.) apt-file search X11/extensions/shape.h
 	b.) sudo apt install libxext-dev
-2.)  ~/nolimitapp/nolimitconnect/DependLibs/ffmpeg/libavdevice/x11grab.c:59: error: X11/extensions/Xfixes.h: No such file or directory
+2.)  ~/nolimitapp/nolimitconnect/libs/ffmpeg/libavdevice/x11grab.c:59: error: X11/extensions/Xfixes.h: No such file or directory
 	a.) apt-file search X11/extensions/Xfixes.h
 	b.) sudo apt install libxfixes-dev
 3.) if error "Could NOT find XKB (missing: XKB_LIBRARY XKB_INCLUDE_DIR)"

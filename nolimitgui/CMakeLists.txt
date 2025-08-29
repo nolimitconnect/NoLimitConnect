@@ -854,8 +854,8 @@ list(APPEND nlc_SOURCES
     CommonSrc/QtSource/VirtStream/VirtStreamMgr.cpp
     CommonSrc/QtSource/VirtStream/VirtStreamMgrFileIo.cpp
     CommonSrc/QtSource/VirtStream/VirtStreamMgrProvider.cpp
-    ../nolimitlib/GuiInterface/ILog.cpp
-    ../nolimitlib/GuiInterface/IDefs.cpp
+    ../libs/GuiInterface/ILog.cpp
+    ../libs/GuiInterface/IDefs.cpp
    )
 
 set(nlc_FORMS)
@@ -1068,12 +1068,12 @@ target_compile_definitions(nolimitconnect
 target_include_directories(nolimitconnect PUBLIC
     CommonSrc/QtSource
     ../nolimitlib
-    ../nolimitlib/DependLibs
-    ../nolimitlib/DependLibs/libplayer-nlc/xbmc
-    ../nolimitlib/DependLibs/ffmpeg
-    ../nolimitlib/DependLibs/libechocancel
-    ../nolimitlib/GuiInterface
-    ../nolimitlib/DependLibs/libptopengine
+    ../libs
+    ../libs/libplayer-nlc/xbmc
+    ../libs/ffmpeg
+    ../libs/libechocancel
+    ../libs/GuiInterface
+    ../libs/libptopengine
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
     ${PROJECT_STATIC_LIB_DIR}

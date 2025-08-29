@@ -172,8 +172,8 @@ if(DEFINED FLATPAKBUILD)
     set(CMAKE_DEPFILE_FLAGS_ASM_NASM "-MD <DEP_FILE> -MT <DEP_TARGET>")
     set(CMAKE_ASM_NASM_FLAGS "${CMAKE_ASM_NASM_FLAGS} -DPIC -F dwarf --DARCH_X86_64=1 ")
 
-    message(STATUS "Adding subdir nolimitlib")
-    add_subdirectory(nolimitlib)
+    message(STATUS "Adding subdir libs")
+    add_subdirectory(libs)
 
     message(STATUS "Adding subdir nolimitgui")
     add_subdirectory(nolimitgui)
@@ -911,7 +911,7 @@ else()
         message(STATUS "ARCH_32_BITS is true")
     endif()
 
-    add_subdirectory(nolimitlib)
+    add_subdirectory(libs)
 
     message(STATUS "project nlc dependant libs were added with prefix ${CMAKE_PREFIX_PATH}")
 

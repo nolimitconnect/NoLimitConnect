@@ -1,6 +1,0 @@
-{
-    "cmake.buildVerbose": true,
-    "cmake.configureSettings": {
-    "CMAKE_VERBOSE_MAKEFILE": true
-  }
-}

@@ -1,9 +1,0 @@
-[options]
-enable_tools = false
-enable_tests = false
-prefix = /home/nolimit/ffmpeg_build
-libdir = /home/nolimit/ffmpeg_build/lib
-default_library = static
-
-[properties]
-
