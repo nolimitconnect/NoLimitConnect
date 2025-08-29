@@ -2155,10 +2155,10 @@
     <ClCompile Include="..\..\..\CommonSrc\QtSource\PlayControlWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\nolimitlib\GuiInterface\IDefs.cpp">
+    <ClCompile Include="..\..\..\..\libs\GuiInterface\IDefs.cpp">
       <Filter>Source Files\GuiInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\nolimitlib\GuiInterface\ILog.cpp">
+    <ClCompile Include="..\..\..\..\libs\GuiInterface\ILog.cpp">
       <Filter>Source Files\GuiInterface</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\CommonSrc\QtSource\AppModuleState.cpp">
@@ -2412,13 +2412,13 @@
     <ClInclude Include="..\..\..\CommonSrc\QtSource\AccountDb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\NlcRenderFrame.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\NlcRenderFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\OsInterface\AssetDirectoryList.hh">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\OsInterface\AssetDirectoryList.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\OsInterface\OsInterface.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\OsInterface\OsInterface.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\AppCompilerConfig.h">
@@ -2433,55 +2433,55 @@
     <ClInclude Include="..\..\..\AppTargetOsConfig.h">
       <Filter>CompilerConfig</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\NlcCommonConfig.h">
+    <ClInclude Include="..\..\..\..\libs\NlcCommonConfig.h">
       <Filter>CompilerConfig</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\NlcCompilerConfig.h">
+    <ClInclude Include="..\..\..\..\libs\NlcCompilerConfig.h">
       <Filter>CompilerConfig</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\NlcCpuArchDefines.h">
+    <ClInclude Include="..\..\..\..\libs\NlcCpuArchDefines.h">
       <Filter>CompilerConfig</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\NlcDependLibrariesConfig.h">
+    <ClInclude Include="..\..\..\..\libs\NlcDependLibrariesConfig.h">
       <Filter>CompilerConfig</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\NlcTargetOsConfig.h">
+    <ClInclude Include="..\..\..\..\libs\NlcTargetOsConfig.h">
       <Filter>CompilerConfig</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\EventsQtToNlc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IAudioDefs.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IAudioDefs.h">
       <Filter>Header Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IAudioInterface.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IAudioInterface.h">
       <Filter>Header Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IDefs.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IDefs.h">
       <Filter>Header Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IFromGui.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IFromGui.h">
       <Filter>Header Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\ILog.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\ILog.h">
       <Filter>Header Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\INlcEvents.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\INlcEvents.h">
       <Filter>Header Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\INlcGeometry.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\INlcGeometry.h">
       <Filter>Header Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\INlcRender.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\INlcRender.h">
       <Filter>Header Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IScan.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IScan.h">
       <Filter>Header Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\ITimeDefs.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\ITimeDefs.h">
       <Filter>Header Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IToGui.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IToGui.h">
       <Filter>Header Files\GuiInterface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\AppInterface\OsAndroid\IAndroid.h">
@@ -2616,16 +2616,16 @@
     <ClInclude Include="..\..\..\CommonSrc\QtSource\GuiPlayerCallback.h">
       <Filter>Source Files\GuiPlayerMgr</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IFromGuiDefs.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IFromGuiDefs.h">
       <Filter>Source Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IMediaPlayerCallback.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IMediaPlayerCallback.h">
       <Filter>Source Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IMediaPlayerInterface.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IMediaPlayerInterface.h">
       <Filter>Source Files\GuiInterface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\nolimitlib\GuiInterface\IMediaPlayerRequests.h">
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IMediaPlayerRequests.h">
       <Filter>Source Files\GuiInterface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\CommonSrc\QtSource\VirtStream\VirtProviderFile.h">
@@ -3228,9 +3228,6 @@
     <Text Include="..\..\..\CMakeLists.txt">
       <Filter>QtBuild</Filter>
     </Text>
-    <Text Include="..\..\..\..\nolimitlib\DependLibs\libminiaudio\CMakeLists.txt">
-      <Filter>Source Files\miniaudioio\Qt</Filter>
-    </Text>
     <Text Include="..\..\..\..\docs_to_compile_app\HowToCompileNoLimitConnect.txt">
       <Filter>docs_to_compile_app</Filter>
     </Text>
@@ -3243,9 +3240,8 @@
     <Text Include="..\..\..\..\CMakeLists.txt">
       <Filter>RootCmake</Filter>
     </Text>
-    <Text Include="..\..\..\..\nolimitlib\NlcPtoPVersion.txt">
-      <Filter>CompilerConfig</Filter>
-    </Text>
+    <Text Include="..\..\..\..\libs\libminiaudio\CMakeLists.txt" />
+    <Text Include="..\..\..\..\libs\NlcPtoPVersion.txt" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\..\android\AndroidManifest.xml">

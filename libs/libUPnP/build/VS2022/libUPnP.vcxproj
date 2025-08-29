@@ -88,7 +88,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Platinum\Source\Platinum;..\..\Platinum\Source\Core;..\..\Platinum\Source\Extras;..\..\Platinum\Source\Devices\MediaServer;..\..\Platinum\Source\Devices\MediaRenderer;..\..\Platinum\Source\Devices\MediaConnect;..\..\Neptune\Source\Core;..\..\Neptune\Source\System\Win32;$(ProjectDir)..\..\;$(ProjectDir)..\..\..\;$(ProjectDir)..\..\..\..\;$(ProjectDir)..\..\..\..\sysheaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Platinum\Source\Platinum;..\..\Platinum\Source\Core;..\..\Platinum\Source\Extras;..\..\Platinum\Source\Devices\MediaServer;..\..\Platinum\Source\Devices\MediaRenderer;..\..\Platinum\Source\Devices\MediaConnect;..\..\Neptune\Source\Core;..\..\Neptune\Source\System\Win32;$(ProjectDir)..\..\;$(ProjectDir)..\..\..\;$(ProjectDir)..\..\..\..\sysheaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>TARGET_OS_WINDOWS;WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -124,7 +124,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\Platinum\Source\Platinum;..\..\Platinum\Source\Core;..\..\Platinum\Source\Extras;..\..\Platinum\Source\Devices\MediaServer;..\..\Platinum\Source\Devices\MediaRenderer;..\..\Platinum\Source\Devices\MediaConnect;..\..\Neptune\Source\Core;..\..\Neptune\Source\System\Win32;$(ProjectDir)..\..\;$(ProjectDir)..\..\..\;$(ProjectDir)..\..\..\..\;$(ProjectDir)..\..\..\..\sysheaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Platinum\Source\Platinum;..\..\Platinum\Source\Core;..\..\Platinum\Source\Extras;..\..\Platinum\Source\Devices\MediaServer;..\..\Platinum\Source\Devices\MediaRenderer;..\..\Platinum\Source\Devices\MediaConnect;..\..\Neptune\Source\Core;..\..\Neptune\Source\System\Win32;$(ProjectDir)..\..\;$(ProjectDir)..\..\..\;$(ProjectDir)..\..\..\..\sysheaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>TARGET_OS_WINDOWS;WIN64;_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -181,7 +181,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>..\..\Platinum\Source\Platinum;..\..\Platinum\Source\Core;..\..\Platinum\Source\Extras;..\..\Platinum\Source\Devices\MediaServer;..\..\Platinum\Source\Devices\MediaRenderer;..\..\Platinum\Source\Devices\MediaConnect;..\..\Neptune\Source\Core;..\..\Neptune\Source\System\Win32;$(ProjectDir)..\..\;$(ProjectDir)..\..\..\;$(ProjectDir)..\..\..\..\;$(ProjectDir)..\..\..\..\sysheaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Platinum\Source\Platinum;..\..\Platinum\Source\Core;..\..\Platinum\Source\Extras;..\..\Platinum\Source\Devices\MediaServer;..\..\Platinum\Source\Devices\MediaRenderer;..\..\Platinum\Source\Devices\MediaConnect;..\..\Neptune\Source\Core;..\..\Neptune\Source\System\Win32;$(ProjectDir)..\..\;$(ProjectDir)..\..\..\;$(ProjectDir)..\..\..\..\sysheaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>TARGET_OS_WINDOWS;WIN64;NDEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>
