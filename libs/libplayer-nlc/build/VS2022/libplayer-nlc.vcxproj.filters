@@ -1038,7 +1038,7 @@
     <ClCompile Include="..\..\xbmc\utils\Speed.cpp">
       <Filter>utils</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\nolimitgui\CommonSrc\QtSource\RenderShaderDefsGl.cpp">
+    <ClCompile Include="..\..\..\..\nolimitgui\src\RenderShaderDefsGl.cpp">
       <Filter>rendering</Filter>
     </ClCompile>
   </ItemGroup>

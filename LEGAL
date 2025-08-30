@@ -13,7 +13,7 @@ Here is a listing of LICENSE locations for your convenience.
 This might not be a complete list.
 
  nolimitapp/LICENSE
- nolimitapp/nolimitgui/CommonSrc/Resources/CreditsArt.txt
+ nolimitapp/nolimitgui/src/Resources/CreditsArt.txt
 
  
  nolimitapp/libs/bzlib/LICENSE

@@ -10,12 +10,11 @@
 
 #include "AppletEditStoryboard.h"
 
-#include "AppletStoryboardClient.h"
-#include "AppCommon.h"
-#include "AppSettings.h"
-#include "AppGlobals.h"
-#include "AppCommon.h"
 #include "AccountMgr.h"
+#include "AppCommon.h"
+#include "AppGlobals.h"
+#include "AppletStoryboardClient.h"
+#include "AppSettings.h"
 #include "GuiHelpers.h"
 #include "MyIcons.h"
 #include "PermissionWidget.h"

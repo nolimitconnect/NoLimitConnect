@@ -15,10 +15,10 @@
 #include "GuiThreadSettingsLoader.h"
 #include "NlcCommonConfig.h"
 
-#include <CommonSrc/QtSource/AppCommon.h>
-#include <CommonSrc/QtSource/AppSettings.h>
-#include <CommonSrc/QtSource/HomeWindow.h>
-#include <CommonSrc/QtSource/GuiParams.h>
+#include <src/AppCommon.h>
+#include <src/AppSettings.h>
+#include <src/HomeWindow.h>
+#include <src/GuiParams.h>
 
 #include <QApplication>
 #include <QCommandLineParser>

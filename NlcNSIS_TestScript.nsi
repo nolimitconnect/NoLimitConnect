@@ -6,7 +6,7 @@
 Name "No Limit Connect Installer"
 !include MUI.nsh
 
-!define MUI_ICON "F:\nolimitapp\nolimitgui\CommonSrc\Resources\NlcP2P.ico"
+!define MUI_ICON "F:\nolimitapp\nolimitgui\src\Resources\NlcP2P.ico"
 
 
 Section "create test directories"
