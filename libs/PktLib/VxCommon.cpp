@@ -647,6 +647,12 @@ EPluginAccess VxNetIdent::getPluginAccessState( EPluginType pluginType, EFriendS
 		return ePluginAccessIgnored;
 	}
 
+	if( eFriendStateAnonymous == eHisPermissionToMe && isJoinedAny() )
+	{
+		// upgrade to guest since is joined
+		eHisPermissionToMe = eFriendStateGuest;
+	}
+
 	EFriendState ePermissionLevel = this->getPluginPermission( pluginType );
 	if( eFriendStateIgnore == ePermissionLevel )
 	{
@@ -781,10 +787,6 @@ EFriendState VxNetIdent::getPluginPermission( EPluginType pluginType )
 		uint8_t byteWithPerm = m_au8Permissions[byteIdx];
 
 		EFriendState friendState = (EFriendState)( ( byteWithPerm >> byteShift ) & 0xf );
-		if( eFriendStateAnonymous == friendState && isJoinedAny() )
-		{
-			friendState = eFriendStateGuest;
-		}
 
 		return friendState;
 	}
@@ -892,3 +894,17 @@ const char* VxNetIdent::describeHisFriendshipToMe( void ) { return DescribeFrien
 void VxNetIdent::describeMyFriendshipToHim( std::string& strRetPermission ) { strRetPermission = DescribeFriendState( getMyFriendshipToHim() ); }
 //! return string with friend state I have given Him
 const char* VxNetIdent::describeMyFriendshipToHim( void ) { return DescribeFriendState( getMyFriendshipToHim() ); }
+
+void VxNetIdent::dumpPermissions( bool justHosts )
+{
+    for( int i = 1; i < eMaxPermissionPluginType; i++ )
+    {
+        EPluginType pluginType = (EPluginType)i;
+        if( !justHosts || (justHosts && PluginShouldAnnounceToNetwork( pluginType ) ) )
+        {
+			EFriendState permission = getPluginPermission( pluginType );
+            LogMsg( LOG_VERBOSE, "VxNetIdent::dumpPermissions %d - %s permission %s",
+                    i, DescribePluginType( pluginType ), DescribeFriendState( permission ) );
+        }
+    }
+}

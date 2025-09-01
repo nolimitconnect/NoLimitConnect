@@ -229,6 +229,8 @@ public:
 
 	bool						requiresAnOpenPort( void );
 
+    void 						dumpPermissions( bool justHosts = false );
+
 private:
 
 	//=== vars ===//

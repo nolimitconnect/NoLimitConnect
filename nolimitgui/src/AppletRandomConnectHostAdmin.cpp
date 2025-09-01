@@ -36,13 +36,14 @@ AppletRandomConnectHostAdmin::AppletRandomConnectHostAdmin( AppCommon& app, QWid
     connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );
 
     GroupieId hostAdminId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeRandomConnect );
-	ui.m_ChatRoomWidget->setPluginType( ePluginTypeClientRandomConnect );
+	ui.m_ChatRoomWidget->setPluginType( getPluginType() );
 	ui.m_ChatRoomWidget->setHostAdminId( hostAdminId );
 	ui.m_ChatRoomWidget->setInputClientCallback( this );
 
 	ui.m_UserListWidget->setHostAdminId( hostAdminId );
-
     ui.m_UserListWidget->setUserViewType( eUserViewTypeRandomConnect );
+
+
 
     HostedId hostId( m_MyApp.getMyOnlineId(), eHostTypeRandomConnect );
     std::set<VxGUID> memberList;
@@ -64,25 +65,7 @@ AppletRandomConnectHostAdmin::~AppletRandomConnectHostAdmin()
 //============================================================================
 bool AppletRandomConnectHostAdmin::checkIfCanSend( void )
 {
-	HostedId hostId =  ui.m_UserListWidget->getHostAdminId().getHostedId();
-
-	if( !hostId.isValid() )
-	{
-		okMessageBox( QObject::tr( "Invalid Host Id" ),
-						QObject::tr( "Host Id has not been set" ) );
-		return false;
-	}
-
-	std::set<VxGUID> memberList;
-	getMyApp().getMemberActiveMgr().getActiveMembers( hostId, memberList );
-	if( memberList.empty() )
-	{
-		okMessageBox( QObject::tr( "No Members Online" ),
-						QObject::tr( "There are no members online to send to" ) );
-		return false;
-	}
-
-	return true;
+    return AppletBase::checkIfCanSend( ui.m_UserListWidget->getHostAdminId().getHostedId() );
 }
 
 //============================================================================

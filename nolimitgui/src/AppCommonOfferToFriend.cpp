@@ -15,9 +15,11 @@
 #include "AppletMultiMessenger.h"
 #include "AppletOfferSend.h"
 #include "AppletMgr.h"
+#include "GuiHelpers.h"
 #include "GuiOfferMgr.h"
 #include "GuiOfferSession.h"
 #include "GuiParams.h"
+#include "GuiUserMgr.h"
 
 #include <CoreLib/VxDebug.h>
 
@@ -92,4 +94,29 @@ bool AppCommon::launchOfferSendSession( EPluginType pluginType, GuiUser* guiUser
 	}
 
 	return result;
+}
+
+//============================================================================
+bool AppCommon::iAmHostAdmin( EPluginType pluginType, bool showErrMsg )
+{
+	GuiUser* myIdent = getUserMgr().getMyIdent();
+	if( !myIdent )
+	{
+		LogMsg( LOG_ERROR, "AppletBase::%s null myIdent", __func__ );
+		return false;
+	}
+
+	bool isHosting = myIdent->getNetIdent().userIsHosting( PluginTypeToHostType( pluginType ) );
+
+	if( !isHosting )
+	{
+		if( showErrMsg )
+		{
+			GuiHelpers::showHostIsDisabledError( PluginTypeToHostType( pluginType ) );
+		}
+
+		return false;
+	}
+
+	return isHosting;
 }

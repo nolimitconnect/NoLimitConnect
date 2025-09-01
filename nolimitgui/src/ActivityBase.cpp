@@ -747,55 +747,6 @@ void ActivityBase::setBackButtonVisibility( bool visible )
 }
 
 //=== bottom bar button visibility ===// 
-
-//============================================================================
-void ActivityBase::setArrowLeftVisibility( bool visible )
-{
-	getBottomBarWidget()->setArrowLeftVisibility( visible );
-}
-
-//============================================================================
-void ActivityBase::set30SecBackwardVisibility( bool visible )
-{
-	getBottomBarWidget()->set30SecBackwardVisibility( visible );
-}
-
-//============================================================================
-void ActivityBase::setMediaPlayVisibility( bool visible )
-{
-	getBottomBarWidget()->setMediaPlayVisibility( visible );
-}
-
-//============================================================================
-void ActivityBase::setMediaFileShareVisibility( bool visible )
-{
-	getBottomBarWidget()->setMediaFileShareVisibility( visible );
-}
-
-//============================================================================
-void ActivityBase::setMediaLibraryVisibility( bool visible )
-{
-	getBottomBarWidget()->setMediaLibraryVisibility( visible );
-}
-
-//============================================================================
-void ActivityBase::set30SecForwardVisibility( bool visible )
-{
-	getBottomBarWidget()->set30SecForwardVisibility( visible );
-}
-
-//============================================================================
-void ActivityBase::setArrowRightVisibility( bool visible )
-{
-	getBottomBarWidget()->setArrowRightVisibility( visible );
-}
-
-//============================================================================
-void ActivityBase::setMediaRepeatVisibility( bool visible )
-{
-	getBottomBarWidget()->setMediaRepeatVisibility( visible );
-}
-
 //============================================================================
 void ActivityBase::setMenuBottomVisibility( bool visible )
 {
@@ -847,60 +798,6 @@ void ActivityBase::setBackButtonIcon( EMyIcons myIcon )
 }
 
 //=== bottom bar button icon ===// 
-//============================================================================
-void ActivityBase::setArrowLeftButtonIcon( EMyIcons myIcon )
-{
-	getBottomBarWidget()->setArrowLeftButtonIcon( myIcon );
-}
-
-//============================================================================
-void ActivityBase::set30SecBackwardButtonIcon( EMyIcons myIcon )
-{
-	getBottomBarWidget()->setArrowLeftButtonIcon( myIcon );
-}
-
-//============================================================================
-void ActivityBase::setMediaPlayButtonIcon( EMyIcons myIcon )
-{
-	getBottomBarWidget()->setMediaPlayButtonIcon( myIcon );
-}
-
-//============================================================================
-void ActivityBase::setMediaTrashButtonIcon( EMyIcons myIcon )
-{
-	getBottomBarWidget()->setMediaTrashButtonIcon( myIcon );
-}
-
-//============================================================================
-void ActivityBase::setMediaFileShareButtonIcon( EMyIcons myIcon )
-{
-	getBottomBarWidget()->setMediaFileShareButtonIcon( myIcon );
-}
-
-//============================================================================
-void ActivityBase::setMediaLibraryButtonIcon( EMyIcons myIcon )
-{
-	getBottomBarWidget()->setMediaLibraryButtonIcon( myIcon );
-}
-
-//============================================================================
-void ActivityBase::set30SecForwardButtonIcon( EMyIcons myIcon )
-{
-	getBottomBarWidget()->set30SecForwardButtonIcon( myIcon );
-}
-
-//============================================================================
-void ActivityBase::setArrowRightButtonIcon( EMyIcons myIcon )
-{
-	getBottomBarWidget()->setArrowLeftButtonIcon( myIcon );
-}
-
-//============================================================================
-void ActivityBase::setMediaRepeatButtonIcon( EMyIcons myIcon )
-{
-	getBottomBarWidget()->setMediaRepeatButtonIcon( myIcon );
-}
-
 //============================================================================
 void ActivityBase::setMenuBottomButtonIcon( EMyIcons myIcon )
 {
@@ -954,65 +851,6 @@ void ActivityBase::setBackButtonColor( QColor iconColor )
 //============================================================================
 //=== bottom bar icon color ===//
 //============================================================================
-void ActivityBase::setPlayProgressBarColor( QColor iconColor ) 
-{
-	getBottomBarWidget()->setPlayProgressBarColor( iconColor );
-}
-
-//============================================================================
-void ActivityBase::setArrowLeftButtonColor( QColor iconColor )
-{
-	getBottomBarWidget()->setArrowLeftButtonColor( iconColor );
-}
-
-//============================================================================
-void ActivityBase::set30SecBackwardButtonColor( QColor iconColor )
-{
-	getBottomBarWidget()->set30SecBackwardButtonColor( iconColor );
-}
-
-//============================================================================
-void ActivityBase::setMediaPlayButtonColor( QColor iconColor )
-{
-	getBottomBarWidget()->setMediaPlayButtonColor( iconColor );
-}
-
-//============================================================================
-void ActivityBase::setMediaTrashButtonColor( QColor iconColor )
-{
-	getBottomBarWidget()->setMediaTrashButtonColor( iconColor );
-}
-
-//============================================================================
-void ActivityBase::setMediaFileShareButtonColor( QColor iconColor )
-{
-	getBottomBarWidget()->setMediaFileShareButtonColor( iconColor );
-}
-
-//============================================================================
-void ActivityBase::setMediaLibraryButtonColor( QColor iconColor )
-{
-	getBottomBarWidget()->setMediaLibraryButtonColor( iconColor );
-}
-
-//============================================================================
-void ActivityBase::set30SecForwardButtonColor( QColor iconColor )
-{
-	getBottomBarWidget()->set30SecForwardButtonColor( iconColor );
-}
-
-//============================================================================
-void ActivityBase::setArrowRightButtonColor( QColor iconColor )
-{
-	getBottomBarWidget()->setArrowRightButtonColor( iconColor );
-}
-
-//============================================================================
-void ActivityBase::setMediaRepeatButtonColor( QColor iconColor )
-{
-	getBottomBarWidget()->setMediaRepeatButtonColor( iconColor );
-}
-
 //============================================================================
 void ActivityBase::setMenuBottomButtonColor( QColor iconColor )
 {

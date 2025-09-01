@@ -1675,8 +1675,15 @@ void P2PEngine::fromGuiUpdatePluginPermission( enum EPluginType pluginType, enum
 {
 	lockAnnouncePktAccess();
 	m_PktAnn.setPluginPermission( pluginType, pluginPermission );
+	PktAnnounce* myPktAnn = ( PktAnnounce * )m_PktAnn.makeCopy();
 	unlockAnnouncePktAccess();
+
+	LogMsg( LOG_VERBOSE, "P2PEngine::%s Plugin %s permission %s", __func__, DescribePluginType( pluginType ), DescribeFriendState( pluginPermission ) );
+	myPktAnn->dumpPermissions( true );
+
 	getPluginMgr().fromGuiUpdatePluginPermission( pluginType, pluginPermission );
+	getToGui().toGuiUpdateMyIdent( myPktAnn );
+	delete myPktAnn;
 	doPktAnnHasChanged( false );
 }
 

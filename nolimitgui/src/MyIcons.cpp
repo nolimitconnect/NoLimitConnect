@@ -146,6 +146,8 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
         return ":/AppRes/Resources/notify-offer.svg";
     case eMyIconNotifyForbbidenOverlay:		
         return ":/AppRes/Resources/notify-offer.svg";
+	case eMyIconNotifyAdminOverlay:
+		return ":/AppRes/Resources/overlay-admin.svg";
 
 	case eMyIconEyeOverlay:
 		return ":/AppRes/Resources/overlay-eye.svg";

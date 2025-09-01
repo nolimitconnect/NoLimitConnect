@@ -344,6 +344,22 @@ void VxPushButton::setRandAction( enum ERandAction randAction )
 }
 
 //============================================================================
+void VxPushButton::setNotifyAdminEnabled( bool enabled, EMyIcons eNotifyIcon )
+{
+    m_NotifyAdminEnabled = enabled;
+    if( enabled )
+    {
+        if( eMyIconNone != eNotifyIcon )
+        {
+            m_NotifyAdminIcon = eNotifyIcon;
+            m_NotifyIconAdminColor = m_MyApp.getAppTheme().getNotifyColor( eNotifyRelayed );
+        }
+    }
+
+    update();
+}
+
+//============================================================================
 void VxPushButton::setNotifyDirectConnectEnabled( bool enabled, EMyIcons eNotifyIcon )
 {
     m_NotifyDirectConnectEnabled = enabled;
@@ -848,6 +864,31 @@ void VxPushButton::paintEvent( QPaintEvent* ev )
         if( !m_EyeOverlayImage.isNull() )
         {
             painter.drawPixmap( drawRect, m_EyeOverlayImage );
+        }
+    }
+
+    if( m_NotifyAdminEnabled && ( eMyIconNone != m_NotifyAdminIcon ) )
+    {
+        // draw online notify dot
+        iconColor = m_NotifyIconAdminColor;
+
+        if( ( m_NotifyLastIconAdminColor != iconColor )
+            || m_NotifyIconAdminImage.isNull()
+            || ( drawRect.size() != m_NotifyLastIconAdminSize )
+            || ( m_NotifyAdminIcon != m_LastNotifyAdminIcon ) )
+        {
+            m_NotifyIconAdminImage = getMyIcons().getIconPixmap( m_NotifyAdminIcon, drawRect.size(), iconColor );
+            if( !m_NotifyIconAdminImage.isNull() )
+            {
+                m_LastNotifyDirectConnectIcon = m_NotifyDirectConnectIcon;
+                m_NotifyLastIconAdminColor = iconColor;
+                m_NotifyLastIconAdminSize = drawRect.size();
+            }
+        }
+
+        if( !m_NotifyIconAdminImage.isNull() )
+        {
+            painter.drawPixmap( drawRect, m_NotifyIconAdminImage );
         }
     }
 

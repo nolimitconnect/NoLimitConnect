@@ -73,7 +73,6 @@ list(APPEND nlc_HEADERS
     src/AppletChatRoomHostAdmin.h
     src/AppletChatRoomJoinSearch.h
     src/AppletChatRoomListLocalView.h
-    src/AppletChooseHostAdminOrSearch.h
     src/AppletChooseThumbnail.h
     src/AppletChooseHost.h
     src/AppletClientAvatarImage.h
@@ -499,7 +498,6 @@ list(APPEND nlc_SOURCES
     src/AppletChatRoomJoin.cpp
     src/AppletChatRoomJoinSearch.cpp
     src/AppletChatRoomListLocalView.cpp
-    src/AppletChooseHostAdminOrSearch.cpp
     src/AppletChooseThumbnail.cpp
     src/AppletChooseHost.cpp
     src/AppletClientAvatarImage.cpp
@@ -883,7 +881,7 @@ list(APPEND nlc_FORMS
     src/Forms/AppletChatRoomClient.ui
     src/Forms/AppletChatRoomJoinSearch.ui
     src/Forms/AppletChatRoomListLocalView.ui
-    src/Forms/AppletChooseHostAdminOrSearch.ui
+
     src/Forms/AppletChooseThumbnail.ui
     src/Forms/AppletChooseHost.ui
     src/Forms/AppletCreateAccount.ui

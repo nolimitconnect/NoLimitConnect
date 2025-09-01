@@ -215,9 +215,15 @@ public:
     static void                 showRequiresOpenPort( QWidget* parent = nullptr );
     static void                 showInviteInvalidError( QWidget* parent = nullptr );
     static void                 showInviteMyselfError( QWidget* parent = nullptr );
+
     static void                 showUserNotFoundError( QWidget* parent = nullptr );
     static void                 showUserNotOnlineError( QWidget* parent = nullptr );
     static void                 showRequiresFriendshipError( QWidget* parent = nullptr );
+    static void                 showInvalidHostIdError( QWidget* parent = nullptr );
+    static void                 showNoMembersOnlineError( QWidget* parent = nullptr );
+
+    static void                 showAddAssetFailedError( void );
+    static void                 showHostIsDisabledError( EHostType hostType );
 
     static void                 showCreateInvite( EHostType hostType, QWidget* parent = nullptr );
 

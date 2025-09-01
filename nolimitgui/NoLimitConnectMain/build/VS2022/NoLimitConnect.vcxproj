@@ -167,7 +167,6 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\src\AppletChatRoomJoinSearch.cpp" />
     <ClCompile Include="..\..\..\src\AppletChatRoomListLocalView.cpp" />
     <ClCompile Include="..\..\..\src\AppletChooseHost.cpp" />
-    <ClCompile Include="..\..\..\src\AppletChooseHostAdminOrSearch.cpp" />
     <ClCompile Include="..\..\..\src\AppletChooseThumbnail.cpp" />
     <ClCompile Include="..\..\..\src\AppletClientAvatarImage.cpp" />
     <ClCompile Include="..\..\..\src\AppletClientBase.cpp" />
@@ -616,7 +615,6 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\src\AppletFriendList.h" />
     <QtMoc Include="..\..\..\src\AppletSettingsFriendRequest.h" />
     <QtMoc Include="..\..\..\src\AppletFriendRequest.h" />
-    <QtMoc Include="..\..\..\src\AppletChooseHostAdminOrSearch.h" />
     <QtMoc Include="..\..\..\src\AppletChooseHost.h" />
     <QtMoc Include="..\..\..\src\AppletFriendRequestList.h" />
     <QtMoc Include="..\..\..\src\AppletCreateAccount.h" />
@@ -974,7 +972,6 @@ libass.lib;libpcre.lib
     <QtUic Include="..\..\..\src\Forms\AppletChatRoomJoinSearch.ui" />
     <QtUic Include="..\..\..\src\Forms\AppletChatRoomListLocalView.ui" />
     <QtUic Include="..\..\..\src\Forms\AppletChooseHost.ui" />
-    <QtUic Include="..\..\..\src\Forms\AppletChooseHostAdminOrSearch.ui" />
     <QtUic Include="..\..\..\src\Forms\AppletChooseThumbnail.ui" />
     <QtUic Include="..\..\..\src\Forms\AppletCreateAccount.ui" />
     <QtUic Include="..\..\..\src\Forms\AppletDownloads.ui" />

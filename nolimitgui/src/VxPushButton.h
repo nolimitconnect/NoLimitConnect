@@ -68,6 +68,11 @@ public:
     void                        setRandAction( enum ERandAction randAction );
     enum ERandAction			getRandAction( void )                               { return m_RandActionType; }
 
+    void						setNotifyAdminEnabled( bool enabled, EMyIcons eNotifyIcon = eMyIconNotifyAdminOverlay );
+    bool						getNotifyAdminEnabled( void ) { return m_NotifyAdminEnabled; }
+    void						setNotifyAdminColor( QColor onlineColor ) { m_NotifyIconAdminColor = onlineColor; update(); }
+    QColor						getNotifyAdminColor( void ) { return m_NotifyIconAdminColor; }
+
     void						setNotifyDirectConnectEnabled( bool enabled, EMyIcons eNotifyIcon = eMyIconNotifyDirectConnectOverlay );
     bool						getNotifyDirectConnectEnabled( void )               { return m_NotifyDirectConnectEnabled; }
     void						setNotifyDirectConnectColor( QColor onlineColor )   { m_NotifyIconnDirectConnectColor = onlineColor; }
@@ -173,6 +178,14 @@ protected:
     QColor						m_RandActionColor;
 	QColor						m_RandActionLastIconColor;
 	QSize						m_RandActionLastIconSize{ 0, 0 };
+
+    bool						m_NotifyAdminEnabled{ false };
+    EMyIcons					m_NotifyAdminIcon{ eMyIconNone };
+    EMyIcons					m_LastNotifyAdminIcon{ eMyIconNone };
+    QPixmap						m_NotifyIconAdminImage;
+    QColor						m_NotifyIconAdminColor;
+    QColor						m_NotifyLastIconAdminColor;
+    QSize						m_NotifyLastIconAdminSize{ 0, 0 };
 
     bool						m_NotifyDirectConnectEnabled{ false };
     EMyIcons					m_NotifyDirectConnectIcon{ eMyIconNone };

@@ -19,6 +19,7 @@
 class ActivityBase;
 class AppCommon;
 class AppletLaunchWidget;
+class AppletMgrCallback;
 class GuiHosted;
 class HomeWindow;
 class RenderGlWidget;
@@ -44,6 +45,8 @@ public:
 
 	QFrame*                     getLaunchParentFrame( ELaunchFrame launchFrame );
 
+	void						wantAppletMgrCallback( AppletMgrCallback* appletMgrCallback, bool wantCallback );
+
 protected:
 	void						addApplet( ActivityBase* activity );
 	void						removeApplet( EApplet applet );
@@ -60,8 +63,12 @@ protected:
 	bool						launchAppletAllowed( EApplet applet );
 	bool						isServiceEnabled( EPluginType pluginType );
 
+	void						announceAppletState( EApplet applet, bool isOpen );
+
 	AppCommon&					m_MyApp;
     QVector<AppletLaunchWidget *>	m_AppletList;
 	QVector<ActivityBase*>		m_ActivityList;
+	QVector<AppletMgrCallback*> m_AppletMgrClients;
+
 };
 

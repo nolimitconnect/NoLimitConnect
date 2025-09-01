@@ -30,7 +30,6 @@ enum EApplet
     eAppletRandomConnectJoin,
     eAppletInviteCreate,
     eAppletInviteAccept,
-    // eAppletSearchPage, // Removed from home page until can be fully implemented
     eAppletUserIdentity,
     eAppletPersonalRecorder,
     eAppletLibrary,
@@ -80,7 +79,6 @@ enum EApplet
     eAppletHostChatRoomStatus,	   
 
     eAppletRandomConnectHostAdmin,
-
     eAppletSettingsHostRandomConnect,     // connect to random person service
     eAppletHostRandomConnectStatus,
 
@@ -128,7 +126,6 @@ enum EApplet
 
     eAppletGroupClient,	            // client of joined group host. provide search and relay services for group users
     eAppletChatRoomClient,	        // use chat room
-    eAppletChooseHostAdminOrSearch, // when bottom bar host clicked and user is admin of host, let user change between admin or join a different host
     eAppletRandomConnectClient,     // connect to random person relay service for users without a open port
 
     eAppletClientRelay,             // network relay service for users without a open port

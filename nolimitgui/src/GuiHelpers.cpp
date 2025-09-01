@@ -2254,6 +2254,42 @@ void GuiHelpers::showRequiresFriendshipError( QWidget* parent )
 }
 
 //============================================================================
+void GuiHelpers::showInvalidHostIdError( QWidget* parent )
+{
+    QString title = QObject::tr( "Invalid Host Id" );
+    QString msg = QObject::tr( "Host Id has not been set"  );
+    QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok );
+    warnMsg.exec();
+}
+
+//============================================================================
+void GuiHelpers::showNoMembersOnlineError( QWidget* parent )
+{
+    QString title = QObject::tr( "No Members Online" );
+    QString msg = QObject::tr( "There are no members online to send to" );
+    QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok );
+    warnMsg.exec();
+}
+
+//============================================================================
+void GuiHelpers::showAddAssetFailedError()
+{
+    QString title = QObject::tr( "Failed to add asset" );
+    QString msg = QObject::tr( "Failed to add asset. Please check disk space" );
+    QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok );
+    warnMsg.exec();
+}
+
+//============================================================================
+void GuiHelpers::showHostIsDisabledError( EHostType hostType )
+{
+    QString title = QObject::tr( "Failed to add asset" );
+    QString msg = QObject::tr( "Failed to add asset. Please check disk space" );
+    QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok );
+    warnMsg.exec();
+}
+
+//============================================================================
 void GuiHelpers::processQtEvents( int ms )
 {
 	QCoreApplication::processEvents( QEventLoop::AllEvents, ms );

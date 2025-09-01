@@ -38,8 +38,6 @@ AppletPermissionList::AppletPermissionList( AppCommon& app, QWidget* parent )
 
     initializePermissionList();
 
-    connectSignals();
-
 	m_MyApp.activityStateChange( this, true );
 }
 
@@ -47,12 +45,6 @@ AppletPermissionList::AppletPermissionList( AppCommon& app, QWidget* parent )
 AppletPermissionList::~AppletPermissionList()
 {
     m_MyApp.activityStateChange( this, false );
-}
-
-//============================================================================
-void AppletPermissionList::connectSignals( void )
-{
-   // connect( ui.m_NetworkHostButton, SIGNAL(clicked()), this, SLOT(slotShowNetworkHostInformation() ) );
 }
 
 //============================================================================

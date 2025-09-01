@@ -24,6 +24,7 @@ enum EMyIcons
 	eMyIconNotifyInGroupOverlay,	// in group overlay
     eMyIconNotifyOfferOverlay,		// hand offer overlay
     eMyIconNotifyForbbidenOverlay,	// permission denied
+	eMyIconNotifyAdminOverlay,		// is host administrator
 
 	eMyIconEyeOverlay,				// eye overlay
 	eMyIconPlusOverlay,				// add to shared or library icon overlay

@@ -226,7 +226,6 @@ QString DescribeApplet( EApplet applet )
     case eAppletChatRoomJoinSearch:			return QObject::tr( "Search For Chat Room To Join" );
     case eAppletChatRoomListLocalView:		return QObject::tr( "Chat Room Hosts Announced To Network" );
 
-    case eAppletChooseHostAdminOrSearch:    return QObject::tr( "Choose Admin Or Search Join" );
     case eAppletChooseThumbnail:		    return QObject::tr( "Choose Thumbnail" );
     case eAppletChooseHost:		            return QObject::tr( "Choose Host" );
 

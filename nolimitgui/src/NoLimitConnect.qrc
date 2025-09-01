@@ -364,5 +364,6 @@
         <file>Resources/hashtag.svg</file>
         <file>Resources/info-offer.svg</file>
         <file>Resources/mediatype-other.svg</file>
+        <file>Resources/overlay-admin.svg</file>
     </qresource>
 </RCC>

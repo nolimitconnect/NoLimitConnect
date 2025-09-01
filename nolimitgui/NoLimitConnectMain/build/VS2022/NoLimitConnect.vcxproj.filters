@@ -1103,9 +1103,6 @@
     <QtMoc Include="..\..\..\src\AppletFriendRequest.h">
       <Filter>Source Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\src\AppletChooseHostAdminOrSearch.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\src\AppletChooseHost.h">
       <Filter>Source Files\Applets</Filter>
     </QtMoc>
@@ -2248,9 +2245,6 @@
     <ClCompile Include="..\..\..\src\AppletFriendRequest.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\AppletChooseHostAdminOrSearch.cpp">
-      <Filter>Source Files\Applets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\AppletChooseHost.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
@@ -3152,9 +3146,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\src\Forms\AppletFriendRequest.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\src\Forms\AppletChooseHostAdminOrSearch.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\src\Forms\AppletChooseHost.ui">

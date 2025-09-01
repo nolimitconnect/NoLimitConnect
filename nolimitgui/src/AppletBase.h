@@ -30,6 +30,7 @@ signals:
 
 protected:
 	bool						handleGroupieAssetAction( GroupieId& adminId, EAssetAction assetAction, AssetBaseInfo& assetInfo );
+	bool						checkIfCanSend( HostedId hostId );
 
 	//=== vars ===//
 	AssetInfo					m_AssetInfo;

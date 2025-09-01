@@ -277,6 +277,9 @@ void GuiUserMgr::toGuiContactLastSessionTimeChange( VxNetIdent* netIdent )
 //============================================================================
 void GuiUserMgr::toGuiUpdateMyIdent( VxNetIdent* netIdent )
 {
+    LogMsg( LOG_VERBOSE, "GuiUserMgr::%s name %s", __func__, netIdent->getOnlineName() );
+    netIdent->dumpPermissions( true );
+
     updateMyIdent( netIdent );
 }
 

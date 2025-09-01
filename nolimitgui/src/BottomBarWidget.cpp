@@ -12,7 +12,6 @@
 
 #include "AppletMgr.h"
 #include "AppCommon.h"
-#include "AppletChooseHostAdminOrSearch.h"
 #include "AppletChooseHost.h"
 #include "GuiHelpers.h"
 #include "GuiHostedListMgr.h"
@@ -34,100 +33,75 @@ BottomBarWidget::BottomBarWidget( QWidget* parent )
 , m_MyApp( GetAppInstance() )
 {
     ui.setupUi( this );
-	ui.m_ArrowLeftButton->setFixedSize( eButtonSizeSmall );
-	ui.m_30SecBackButton->setFixedSize( eButtonSizeSmall );
-	ui.m_MediaPlayButton->setFixedSize( eButtonSizeSmall );
-	ui.m_MediaTrashButton->setFixedSize( eButtonSizeSmall );
-	ui.m_MediaFileShareButton->setFixedSize( eButtonSizeSmall );
-	ui.m_MediaLibraryButton->setFixedSize( eButtonSizeSmall );
-	ui.m_30SecForwardButton->setFixedSize( eButtonSizeSmall );
-	ui.m_ArrowRightButton->setFixedSize( eButtonSizeSmall );
-	ui.m_MediaRepeatButton->setFixedSize( eButtonSizeSmall );
 	ui.m_MenuBottomButton->setFixedSize( eButtonSizeSmall );
 	ui.m_ExpandButton->setFixedSize( eButtonSizeSmall );
 
 	ui.m_MessengerButton->setFixedSize( eButtonSizeSmall );
+
     ui.m_GroupHostButton->setFixedSize( eButtonSizeSmall );
-	ui.m_ChatRoomButton->setFixedSize( eButtonSizeSmall );
+	ui.m_ChatRoomHostButton->setFixedSize( eButtonSizeSmall );
     ui.m_RandomConnectHostButton->setFixedSize( eButtonSizeSmall );
+	ui.m_GroupJoinButton->setFixedSize( eButtonSizeSmall );
+	ui.m_ChatRoomJoinButton->setFixedSize( eButtonSizeSmall );
+	ui.m_RandomConnectJoinButton->setFixedSize( eButtonSizeSmall );
 
 	ui.m_SettingsButton->setFixedSize( eButtonSizeSmall );
 
 	ui.m_MessengerButton->setIcon( eMyIconMessenger );
+
 	ui.m_GroupHostButton->setIcon( eMyIconGroupClient );
-	ui.m_ChatRoomButton->setIcon( eMyIconChatRoomClient );
+	ui.m_GroupHostButton->setNotifyAdminEnabled( true );
+	ui.m_ChatRoomHostButton->setIcon( eMyIconChatRoomClient );
+	ui.m_ChatRoomHostButton->setNotifyAdminEnabled( true );
 	ui.m_RandomConnectHostButton->setIcon( eMyIconRandomConnectClient );
+	ui.m_RandomConnectHostButton->setNotifyAdminEnabled( true );
+
+	ui.m_GroupJoinButton->setIcon( eMyIconGroupClient );
+	ui.m_ChatRoomJoinButton->setIcon( eMyIconChatRoomClient );
+	ui.m_RandomConnectJoinButton->setIcon( eMyIconRandomConnectClient );
 
 	ui.m_SettingsButton->setIcon( eMyIconSettingsGear );
 
-	setArrowLeftButtonIcon();
-	set30SecBackwardButtonIcon();
-	setMediaPlayButtonIcon();
-	setMediaTrashButtonIcon();
-	setMediaFileShareButtonIcon();
-	setMediaLibraryButtonIcon();
-	set30SecForwardButtonIcon();
-	setArrowRightButtonIcon();
-	setMediaRepeatButtonIcon();
 	setMenuBottomButtonIcon();
 	setExpandWindowButtonIcon();
 
-	setArrowLeftVisibility( false );
-	set30SecBackwardVisibility( false );
-	setMediaPlayVisibility( false );
-	setMediaTrashVisibility( false );
-	setMediaFileShareVisibility( false );
-	setMediaLibraryVisibility( false );
-	set30SecForwardVisibility( false );
-	setArrowRightVisibility( false );
-	setMediaRepeatVisibility( false );
 	setMenuBottomVisibility( false );
 	setExpandWindowVisibility( true );
 
-	connect( ui.m_ArrowLeftButton,			SIGNAL(clicked()),	this, SLOT(slotArrowLeftButtonClicked()) );
-	connect( ui.m_30SecBackButton,			SIGNAL(clicked()),	this, SLOT(slot30SecBackwardButtonClicked()) );
-	connect( ui.m_MediaPlayButton,			SIGNAL(clicked()),	this, SLOT(slotMediaPlayButtonClicked()) );
-	connect( ui.m_MediaTrashButton,			SIGNAL(clicked()),	this, SLOT(slotMediaTrashButtonClicked()));
-	connect( ui.m_MediaFileShareButton,		SIGNAL(clicked()),	this, SLOT(slotMediaFileShareClicked()));
-	connect( ui.m_MediaLibraryButton,		SIGNAL(clicked()),	this, SLOT(slotMediaLibraryButtonClicked()) );
-	connect( ui.m_30SecForwardButton,		SIGNAL(clicked()),	this, SLOT(slot30SecForwardButtonClicked()) );
-	connect( ui.m_ArrowRightButton,			SIGNAL(clicked()),	this, SLOT(slotArrowRightButtonClicked()) );
-	connect( ui.m_MediaRepeatButton,		SIGNAL(clicked()),	this, SLOT(slotMediaRepeatButtonClicked()) );
 	connect( ui.m_MenuBottomButton,			SIGNAL(clicked()),	this, SLOT(slotMenuBottomButtonClicked()) );
 	connect( ui.m_ExpandButton,				SIGNAL(clicked()),	this, SLOT(slotExpandWindowButtonClicked()) );
 
 	connect( ui.m_MessengerButton,			SIGNAL(clicked()), this, SLOT(slotMessengerButtonClicked()) );
 	connect( ui.m_GroupHostButton,			SIGNAL(clicked()), this, SLOT(slotGroupHostButtonClicked()) );
-	connect( ui.m_ChatRoomButton,			SIGNAL(clicked()), this, SLOT(slotChatRoomHostButtonClicked()) );
+	connect( ui.m_ChatRoomHostButton,		SIGNAL(clicked()), this, SLOT(slotChatRoomHostButtonClicked()) );
 	connect( ui.m_RandomConnectHostButton,	SIGNAL(clicked()), this, SLOT(slotRandomConnectHostButtonClicked()) );
+
+	connect( ui.m_GroupJoinButton,			SIGNAL(clicked()), this, SLOT(slotGroupJoinButtonClicked()) );
+	connect( ui.m_ChatRoomJoinButton,		SIGNAL(clicked()), this, SLOT(slotChatRoomJoinButtonClicked()) );
+	connect( ui.m_RandomConnectJoinButton,	SIGNAL(clicked()), this, SLOT(slotRandomConnectJoinButtonClicked()) );
 
 	connect( ui.m_SettingsButton,			SIGNAL(clicked()), this, SLOT(slotSettingsButtonClicked()) );
 
     setFixedHeight( GuiParams::getButtonSize(eButtonSizeSmall).height() + 6 );
 
+	connect( &m_MyApp, SIGNAL(signalSystemReady(bool) ), this, SLOT(slotSystemReady(bool)) );
+
 	refreshUserJoinedToHostStates();
 
 	m_MyApp.getMemberActiveMgr().wantMemberActiveCallback( this, true );
+	m_MyApp.getAppletMgr().wantAppletMgrCallback( this, true );
 }
 
 //============================================================================
 BottomBarWidget::~BottomBarWidget() 
 {
+	m_MyApp.getAppletMgr().wantAppletMgrCallback( this, false );
 	m_MyApp.getMemberActiveMgr().wantMemberActiveCallback( this, false );
 };
 
 //============================================================================
 //=== bottom bar button visibility ===// 
 //============================================================================
-void BottomBarWidget::setArrowLeftVisibility( bool visible )		{ ui.m_ArrowLeftButton->setVisible( visible ); }
-void BottomBarWidget::set30SecBackwardVisibility( bool visible )	{ ui.m_30SecBackButton->setVisible( visible ); }
-void BottomBarWidget::setMediaPlayVisibility( bool visible )		{ ui.m_MediaPlayButton->setVisible( visible ); }
-void BottomBarWidget::setMediaTrashVisibility( bool visible )		{ ui.m_MediaTrashButton->setVisible( visible ); }
-void BottomBarWidget::setMediaFileShareVisibility( bool visible )	{ ui.m_MediaFileShareButton->setVisible( visible ); }
-void BottomBarWidget::setMediaLibraryVisibility( bool visible )		{ ui.m_MediaLibraryButton->setVisible( visible ); }
-void BottomBarWidget::set30SecForwardVisibility( bool visible )		{ ui.m_30SecForwardButton->setVisible( visible ); }
-void BottomBarWidget::setArrowRightVisibility( bool visible )		{ ui.m_ArrowRightButton->setVisible( visible ); }
-void BottomBarWidget::setMediaRepeatVisibility( bool visible )		{ ui.m_MediaRepeatButton->setVisible( visible ); }
 void BottomBarWidget::setMenuBottomVisibility( bool visible )		{ ui.m_MenuBottomButton->setVisible( visible ); }
 void BottomBarWidget::setExpandWindowVisibility( bool visible )		{ ui.m_ExpandButton->setVisible( visible ); }
 
@@ -144,59 +118,6 @@ VxMenuButton * BottomBarWidget::getMenuButton( void )
 }
 
 //============================================================================
-void BottomBarWidget::setArrowLeftButtonIcon( EMyIcons myIcon )
-{
-	ui.m_ArrowLeftButton->setIcon( myIcon );
-}
-
-//============================================================================
-void BottomBarWidget::set30SecBackwardButtonIcon( EMyIcons myIcon )
-{
-	ui.m_30SecBackButton->setIcon( myIcon );
-}
-
-//============================================================================
-void BottomBarWidget::setMediaPlayButtonIcon( EMyIcons myIcon )
-{
-	ui.m_MediaPlayButton->setIcon( myIcon );
-}
-//============================================================================
-void BottomBarWidget::setMediaTrashButtonIcon( EMyIcons myIcon )
-{
-	ui.m_MediaTrashButton->setIcon( myIcon );
-}
-
-//============================================================================
-void BottomBarWidget::setMediaFileShareButtonIcon( EMyIcons myIcon )
-{
-	ui.m_MediaFileShareButton->setIcon( myIcon );
-}
-
-//============================================================================
-void BottomBarWidget::setMediaLibraryButtonIcon( EMyIcons myIcon )
-{
-	ui.m_MediaLibraryButton->setIcon( myIcon );
-}
-
-//============================================================================
-void BottomBarWidget::set30SecForwardButtonIcon( EMyIcons myIcon )
-{
-	ui.m_30SecForwardButton->setIcon( myIcon );
-}
-
-//============================================================================
-void BottomBarWidget::setArrowRightButtonIcon( EMyIcons myIcon )
-{
-	ui.m_ArrowRightButton->setIcon( myIcon );
-}
-
-//============================================================================
-void BottomBarWidget::setMediaRepeatButtonIcon( EMyIcons myIcon )
-{
-	ui.m_MediaRepeatButton->setIcon( myIcon );
-}
-
-//============================================================================
 void BottomBarWidget::setMenuBottomButtonIcon( EMyIcons myIcon )
 {
 	ui.m_MenuBottomButton->setIcon( myIcon );
@@ -210,65 +131,6 @@ void BottomBarWidget::setExpandWindowButtonIcon( EMyIcons myIcon )
 
 //=== bottom bar button color ===// 
 //============================================================================
-void BottomBarWidget::setPlayProgressBarColor( QColor iconColor )
-{
-	//ui.m_ArrowLeftButton->setIconColor( iconColor );
-}
-
-//============================================================================
-void BottomBarWidget::setArrowLeftButtonColor( QColor iconColor )
-{
-	ui.m_ArrowLeftButton->setIconOverrideColor( iconColor );
-}
-
-//============================================================================
-void BottomBarWidget::set30SecBackwardButtonColor( QColor iconColor )
-{
-	ui.m_30SecBackButton->setIconOverrideColor( iconColor );
-}
-
-//============================================================================
-void BottomBarWidget::setMediaPlayButtonColor( QColor iconColor )
-{
-	ui.m_MediaPlayButton->setIconOverrideColor( iconColor );
-}
-//============================================================================
-void BottomBarWidget::setMediaTrashButtonColor( QColor iconColor )
-{
-	ui.m_MediaTrashButton->setIconOverrideColor( iconColor );
-}
-
-//============================================================================
-void BottomBarWidget::setMediaFileShareButtonColor( QColor iconColor )
-{
-	ui.m_MediaFileShareButton->setIconOverrideColor( iconColor );
-}
-
-//============================================================================
-void BottomBarWidget::setMediaLibraryButtonColor( QColor iconColor )
-{
-	ui.m_MediaLibraryButton->setIconOverrideColor( iconColor );
-}
-
-//============================================================================
-void BottomBarWidget::set30SecForwardButtonColor( QColor iconColor )
-{
-	ui.m_30SecForwardButton->setIconOverrideColor( iconColor );
-}
-
-//============================================================================
-void BottomBarWidget::setArrowRightButtonColor( QColor iconColor )
-{
-	ui.m_ArrowRightButton->setIconOverrideColor( iconColor );
-}
-
-//============================================================================
-void BottomBarWidget::setMediaRepeatButtonColor( QColor iconColor )
-{
-	ui.m_MediaRepeatButton->setIconOverrideColor( iconColor );
-}
-
-//============================================================================
 void BottomBarWidget::setMenuBottomButtonColor( QColor iconColor )
 {
 	ui.m_MenuBottomButton->setIconOverrideColor( iconColor );
@@ -281,60 +143,6 @@ void BottomBarWidget::setExpandWindowButtonColor( QColor iconColor )
 }
 
 //=== bottom bar button clicked ===// 
-//============================================================================
-void BottomBarWidget::slotArrowLeftButtonClicked( void )
-{
-	emit signalArrowLeftButtonClicked();
-}
-
-//============================================================================
-void BottomBarWidget::slot30SecBackwardButtonClicked( void )
-{
-	emit signal30SecBackwardButtonClicked();
-}
-
-//============================================================================
-void BottomBarWidget::slotMediaPlayButtonClicked( void )
-{
-	emit signalMediaPlayButtonClicked();
-}
-
-//============================================================================
-void BottomBarWidget::slotMediaTrashButtonClicked( void )
-{
-    emit signalMediaTrashButtonClicked();
-}
-
-//============================================================================
-void BottomBarWidget::slot30SecForwardButtonClicked( void )
-{
-    emit signal30SecForwardButtonClicked();
-}
-
-//============================================================================
-void BottomBarWidget::slotMediaFileShareClicked( void )
-{
-	emit signalMediaFileShareClicked();
-}
-
-//============================================================================
-void BottomBarWidget::slotMediaLibraryButtonClicked( void )
-{
-	emit signalMediaLibraryButtonClicked();
-}
-
-//============================================================================
-void BottomBarWidget::slotArrowRightButtonClicked( void )
-{
-	emit signalArrowRightButtonClicked();
-}
-
-//============================================================================
-void BottomBarWidget::slotMediaRepeatButtonClicked( void )
-{
-	emit signalMediaRepeatButtonClicked();
-}
-
 //============================================================================
 void BottomBarWidget::slotMenuBottomButtonClicked( void )
 {
@@ -379,15 +187,21 @@ void BottomBarWidget::slotMessengerButtonClicked( void )
 }
 
 //============================================================================
-void BottomBarWidget::slotGroupHostButtonClicked( void )
+void BottomBarWidget::slotGroupJoinButtonClicked( void )
 {
 	launchJoinHostView( eHostTypeGroup );
 }
 
 //============================================================================
-void BottomBarWidget::slotChatRoomHostButtonClicked( void )
+void BottomBarWidget::slotChatRoomJoinButtonClicked( void )
 {
 	launchJoinHostView( eHostTypeChatRoom );
+}
+
+//============================================================================
+void BottomBarWidget::slotRandomConnectJoinButtonClicked( void )
+{
+	launchJoinHostView( eHostTypeRandomConnect );
 }
 
 //============================================================================
@@ -404,27 +218,19 @@ void BottomBarWidget::launchJoinHostView( EHostType hostType )
         return;
 	}
 
-	EChooseUserReason chooseUserReason{ eChooseUserReasonUnknown };
-	EApplet appletHostAdmin{ eAppletUnknown };
 	EApplet appleHostJoin{ eAppletUnknown };
 
 	switch( hostType )
 	{
 	case eHostTypeGroup:
-		chooseUserReason = eChooseUserReasonGroupHost;
-		appletHostAdmin = eAppletGroupHostAdmin;
 		appleHostJoin = eAppletGroupJoin;
 		break;
 
 	case eHostTypeChatRoom:
-		chooseUserReason = eChooseUserReasonChatRoomHost;
-		appletHostAdmin = eAppletChatRoomHostAdmin;
 		appleHostJoin = eAppletChatRoomJoin;
 		break;
 
 	case eHostTypeRandomConnect:
-		chooseUserReason = eChooseUserReasonRandomConnectHost;
-		appletHostAdmin = eAppletRandomConnectHostAdmin;
 		appleHostJoin = eAppletRandomConnectJoin;
 		break;
 
@@ -432,89 +238,78 @@ void BottomBarWidget::launchJoinHostView( EHostType hostType )
 		return;
 	}
 
-	if( m_MyApp.getUserJoinMgr().isUserJoinedToHost( hostType ) )
+	if( eAppletUnknown != appleHostJoin )
 	{
-		VxGUID hostAdminOnlineId = m_MyApp.getUserJoinMgr().getUserJoinedHostOnlineId( hostType );
-		HostedId adminId( hostAdminOnlineId, hostType );
-		if( adminId.isValid() )
-		{
-
-			if( m_MyApp.getUserMgr().getMyIdent()->getNetIdent().userIsHosting( hostType ) )
-			{
-				// we are both an admin of our chat room and a member of another chat room.
-				// prompt user to choose which chat room to show
-				ActivityBase* activity = m_MyApp.getAppletMgr().launchApplet( eAppletChooseHost, getParentPageFrame() );
-				AppletChooseHost* appletChooseHost = dynamic_cast<AppletChooseHost*>(activity);
-				if( appletChooseHost )
-				{
-					appletChooseHost->setChooseUserReason( chooseUserReason );
-
-					appletChooseHost->addUser( hostAdminOnlineId );
-					appletChooseHost->addUser( m_MyApp.getMyOnlineId() );
-				}
-				else
-				{
-					LogMsg( LOG_ERROR, "BottomBarWidget::%s launch eAppletChooseHost null", __func__ );
-				}
-			}
-			else
-			{
-				m_MyApp.launchApplet( appleHostJoin, getParentPageFrame() );
-			}
-		}
-		else
-		{
-			LogMsg( LOG_ERROR, "BottomBarWidget::%s host admin id invalid", __func__ );
-			m_MyApp.getAppletMgr().launchApplet( appletHostAdmin, getParentPageFrame() );
-		}
+		m_MyApp.getAppletMgr().launchApplet( appleHostJoin, getParentPageFrame() );
 	}
 	else
 	{
-		GuiUser* myIdent = m_MyApp.getUserMgr().getMyIdent();
-		if( myIdent && myIdent->isValid() )
-		{
-			if( myIdent->getNetIdent().isValidNetIdent() )
-			{
-				bool iAmHost = m_MyApp.getUserMgr().getMyIdent()->getNetIdent().userIsHosting( hostType );
-				bool asAdmin = iAmHost;
-				if( asAdmin )
-				{
-					AppletChooseHostAdminOrSearch appletChoose( m_MyApp, getParentPageFrame() );
-					if( appletChoose.exec() == QDialog::Accepted )
-					{
-						asAdmin = appletChoose.getToAdminChoice();
-					}
-					else
-					{
-						return;
-					}
-				}
-
-				if( asAdmin )
-				{
-					m_MyApp.getAppletMgr().launchApplet( appletHostAdmin, getParentPageFrame() );
-				}
-				else
-				{
-					m_MyApp.getAppletMgr().launchApplet( appleHostJoin, getParentPageFrame() );
-				}
-			}
-			else
-			{
-				LogMsg( LOG_ERROR, "BottomBarWidget::%s isValidNetIdent false", __func__ );
-			}
-		}
-		else
-		{
-			LogMsg( LOG_ERROR, "BottomBarWidget::%s myIdent null", __func__ );
-		}
+		LogMsg( LOG_ERROR, "BottomBarWidget::%s invalid host type", __func__ );
 	}
+}
+
+//============================================================================
+void BottomBarWidget::slotGroupHostButtonClicked( void )
+{
+	launchAdminHostView( eHostTypeGroup );
+}
+
+//============================================================================
+void BottomBarWidget::slotChatRoomHostButtonClicked( void )
+{
+	launchAdminHostView( eHostTypeChatRoom );
 }
 
 //============================================================================
 void BottomBarWidget::slotRandomConnectHostButtonClicked( void )
 {
-	launchJoinHostView( eHostTypeRandomConnect );
+	launchAdminHostView( eHostTypeRandomConnect );
+}
+
+//============================================================================
+void BottomBarWidget::launchAdminHostView( EHostType hostType )
+{
+	if( !m_MyApp.isMessengerReady() )
+	{
+		return;
+	}
+
+	if( !m_MyApp.getEngine().getNetStatusAccum().isNetworkOnline() )
+	{
+		GuiHelpers::showApplicationNotReadyError( true );
+		return;
+	}
+
+	EApplet appletHostAdmin{ eAppletUnknown };
+
+	switch( hostType )
+	{
+	case eHostTypeGroup:
+		appletHostAdmin = eAppletGroupHostAdmin;
+		break;
+
+	case eHostTypeChatRoom:
+		appletHostAdmin = eAppletChatRoomHostAdmin;
+		break;
+
+	case eHostTypeRandomConnect:
+		appletHostAdmin = eAppletRandomConnectHostAdmin;
+		break;
+
+	default:
+		return;
+	}
+
+	if( eAppletUnknown != appletHostAdmin )
+	{
+		m_MyApp.getAppletMgr().launchApplet( appletHostAdmin, getParentPageFrame() );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "BottomBarWidget::%s invalid host type", __func__ );
+	}
+
+	refreshAdminHostStates();
 }
 
 //============================================================================
@@ -534,15 +329,15 @@ void BottomBarWidget::callbackGuiMemberIsJoinedToHost( VxGUID& onlineId, EHostTy
 	switch( hostType )
 	{
 	case eHostTypeGroup:
-		ui.m_GroupHostButton->setNotifyOnline( isJoined );
+		ui.m_GroupJoinButton->setNotifyOnline( isJoined );
 		break;
 
 	case eHostTypeChatRoom:
-		ui.m_ChatRoomButton->setNotifyOnline( isJoined );
+		ui.m_ChatRoomJoinButton->setNotifyOnline( isJoined );
 		break;
 
 	case eHostTypeRandomConnect:
-		ui.m_RandomConnectHostButton->setNotifyOnline( isJoined );
+		ui.m_RandomConnectJoinButton->setNotifyOnline( isJoined );
 		break;
 
 	default:
@@ -551,9 +346,106 @@ void BottomBarWidget::callbackGuiMemberIsJoinedToHost( VxGUID& onlineId, EHostTy
 }
 
 //============================================================================
+void BottomBarWidget::callbackAppletIsOpen( EApplet applet, bool isOpen )
+{
+	switch( applet )
+	{
+	case eAppletGroupHostAdmin:
+		updateAdminHostState( eHostTypeGroup, ui.m_GroupHostButton );
+		break;
+	case eAppletChatRoomHostAdmin:
+		updateAdminHostState( eHostTypeChatRoom, ui.m_ChatRoomHostButton );
+		break;
+	case eAppletRandomConnectHostAdmin:
+		updateAdminHostState( eHostTypeRandomConnect, ui.m_RandomConnectHostButton );
+		break;
+	default:
+		break;
+	}
+}
+
+//============================================================================
 void BottomBarWidget::refreshUserJoinedToHostStates( void )
 {
-	ui.m_GroupHostButton->setNotifyOnline( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeGroup ) );
-	ui.m_ChatRoomButton->setNotifyOnline( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeChatRoom ) );
-	ui.m_RandomConnectHostButton->setNotifyOnline( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeRandomConnect ) );
+	ui.m_GroupJoinButton->setNotifyOnline( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeGroup ) );
+	ui.m_ChatRoomJoinButton->setNotifyOnline( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeChatRoom ) );
+	ui.m_RandomConnectJoinButton->setNotifyOnline( m_MyApp.getUserJoinMgr().isUserJoinedToHost( eHostTypeRandomConnect ) );
+}
+
+//============================================================================
+void BottomBarWidget::refreshAdminHostStates( void )
+{
+	updateAdminHostState( eHostTypeGroup, ui.m_GroupHostButton );
+	updateAdminHostState( eHostTypeChatRoom, ui.m_ChatRoomHostButton );
+	updateAdminHostState( eHostTypeRandomConnect, ui.m_RandomConnectHostButton );
+}
+
+//============================================================================
+void BottomBarWidget::updateAdminHostState( EHostType hostType, VxPushButton* adminButton )
+{
+	VxNetIdent& myNetIdent = m_MyApp.getUserMgr().getMyIdent()->getNetIdent();
+	bool isHosting = myNetIdent.userIsHosting( hostType );
+	adminButton->setVisible( isHosting );
+	if( isHosting )
+	{
+		if( myNetIdent.canDirectConnectToUser() )
+		{
+			EApplet appletHostAdmin{ eAppletUnknown };
+
+			switch( hostType )
+			{
+			case eHostTypeGroup:
+				appletHostAdmin = eAppletGroupHostAdmin;
+				break;
+
+			case eHostTypeChatRoom:
+				appletHostAdmin = eAppletChatRoomHostAdmin;
+				break;
+
+			case eHostTypeRandomConnect:
+				appletHostAdmin = eAppletRandomConnectHostAdmin;
+				break;
+
+			default:
+				return;
+			}
+
+			if( m_MyApp.getAppletMgr().isAppletLaunched( appletHostAdmin ) )
+			{
+				QColor adminColor = m_MyApp.getAppTheme().getNotifyColor( eNotifyOnline );
+				adminButton->setNotifyAdminColor( adminColor );
+			}
+			else
+			{
+				QColor adminColor = m_MyApp.getAppTheme().getNotifyColor( eNotifyRelayed );
+				adminButton->setNotifyAdminColor( adminColor );
+			}
+		}
+		else
+		{
+			QColor adminColor = m_MyApp.getAppTheme().getNotifyColor( eNotifyOffline );
+			adminButton->setNotifyAdminColor( adminColor );
+		}
+	}
+}
+
+//============================================================================
+void BottomBarWidget::slotSystemReady( bool isReady )
+{
+	if( isReady )
+	{
+		refreshUserJoinedToHostStates();
+		refreshAdminHostStates();
+	}
+}
+
+//============================================================================
+void BottomBarWidget::showEvent( QShowEvent* showEvent )
+{
+	QFrame::showEvent( showEvent );
+	if( m_MyApp.isSystemReady() )
+	{
+		refreshUserJoinedToHostStates();
+		refreshAdminHostStates();
+	}
 }

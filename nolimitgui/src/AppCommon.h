@@ -601,6 +601,7 @@ public:
     bool                        isMessengerReady( void ) { return m_IsMessengerReady; }
     void                        onUserLoggedOn( void );
     bool                        checkSystemReady( void );
+    bool                        isSystemReady( void ) { return m_IsGuiSystemReady; };
 
     std::string                 describeGroupieId( GroupieId& groupieId );
     std::string                 describeHostedId( HostedId& hostedId );
@@ -611,6 +612,8 @@ public:
     void                        checkIsGuiThread( void );
 
     static void					registerMetaData( void );
+
+    bool                        iAmHostAdmin( EPluginType pluginType, bool showErrMsg = false );
 
 signals:
     void						signalMessengerReady( bool isReady );    // emitted when messenger ready state changes

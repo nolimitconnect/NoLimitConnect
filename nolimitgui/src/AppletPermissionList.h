@@ -31,8 +31,6 @@ protected:
     void                        initializePermissionList( void );
     void                        createPermissionItem( EPluginType pluginType );
 
-    void						connectSignals( void );
-
 	Ui::AppletPermissionListtUi&	ui;
     QVector<EPluginType>        m_PluginList;
 };

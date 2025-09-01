@@ -49,8 +49,7 @@ bool AppletBase::handleGroupieAssetAction( GroupieId& adminId, EAssetAction asse
 
 	if( !hostId.isValid() )
 	{
-		okMessageBox( QObject::tr( "Invalid Host Id" ),
-						QObject::tr( "Host Id has not been set" ) );
+		GuiHelpers::showInvalidHostIdError();
 		return false;
 	}
 
@@ -64,16 +63,14 @@ bool AppletBase::handleGroupieAssetAction( GroupieId& adminId, EAssetAction asse
 	getMyApp().getMemberActiveMgr().getActiveMembers( hostId, memberList );
 	if( memberList.empty() )
 	{
-		okMessageBox( QObject::tr( "No Members Online" ),
-						QObject::tr( "There are no members online to send to" ) );
+		GuiHelpers::showNoMembersOnlineError();
 		return false;
 	}
 
 	bool result = getMyApp().getEngine().fromGuiAssetAction( eAssetActionAddToAssetMgr, assetInfo );
 	if( !result )
 	{
-		okMessageBox( QObject::tr( "Failed to add asset" ),
-						QObject::tr( "Failed to add asset. Please check disk space" ) );
+		GuiHelpers::showAddAssetFailedError();
 	}
 
 	if( result )
@@ -101,4 +98,24 @@ bool AppletBase::handleGroupieAssetAction( GroupieId& adminId, EAssetAction asse
 	}
 
 	return result;
+}
+
+//============================================================================
+bool AppletBase::checkIfCanSend( HostedId hostId )
+{
+	if( !hostId.isValid() )
+	{
+		GuiHelpers::showInvalidHostIdError();
+		return false;
+	}
+
+	std::set<VxGUID> memberList;
+	getMyApp().getMemberActiveMgr().getActiveMembers( hostId, memberList );
+	if( memberList.empty() )
+	{
+		GuiHelpers::showNoMembersOnlineError();
+		return false;
+	}
+
+	return true;
 }

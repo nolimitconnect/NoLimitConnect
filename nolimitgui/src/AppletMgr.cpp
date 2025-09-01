@@ -75,6 +75,8 @@
 #include "AppletLog.h"
 #include "AppletLogSettings.h"
 
+#include "AppletMgrCallback.h"
+
 #include "AppletNetHostingPage.h"
 #include "AppletNetworkSettings.h"
 
@@ -525,7 +527,8 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
         appletDialog->show();
         if( !findAppletDialog( appletDialog ) )
         {
-            m_ActivityList.push_back( appletDialog );
+            m_ActivityList.emplace_back( appletDialog );
+            announceAppletState( applet, true );
         }
     }
 
@@ -613,10 +616,12 @@ void AppletMgr::addApplet( ActivityBase* activity )
 	if( 0 == findAppletDialog( activity ) )
 	{
         m_ActivityList.emplace_back( activity );
+        announceAppletState( activity->getAppletType(), true );
 	}
 	else 
 	{
-		LogMsg( LOG_ERROR, " AppletMgr::addApplet: adding already existing applet\n" );
+		LogMsg( LOG_ERROR, " AppletMgr::addApplet: adding already existing applet" );
+        vx_assert( false );
 	}
 }
 
@@ -629,6 +634,8 @@ void AppletMgr::removeApplet( EApplet applet )
 		if( applet == ( *iter )->getAppletType() )
 		{
             m_ActivityList.erase( iter );
+            announceAppletState( applet, false );
+
             AppSettings& appSettings = m_MyApp.getAppSettings();
             if( appSettings.getLastAppletLaunched( eLaunchFrameHome ) == applet )
             {
@@ -647,35 +654,7 @@ void AppletMgr::removeApplet( EApplet applet )
 //============================================================================
 void AppletMgr::removeApplet( ActivityBase* activity )
 {
-    QVector<ActivityBase*>::iterator iter;
-    for( iter = m_ActivityList.begin(); iter != m_ActivityList.end(); ++iter )
-    {
-        if( activity == ( *iter ) )
-        {
-            m_ActivityList.erase( iter );
-            if( GuiParams::isLaunchOnStartupApplet( activity->getAppletType() ) )
-            {
-                AppSettings& appSettings = m_MyApp.getAppSettings();
-                QString parentFrameName = activity->getParentPageFrameName();
-                if( OBJNAME_FRAME_LAUNCH_PAGE == parentFrameName )
-                {
-                    if( appSettings.getLastAppletLaunched( eLaunchFrameHome ) == activity->getAppletType() )
-                    {
-                        appSettings.setLastAppletLaunched( eLaunchFrameHome, eAppletUnknown );
-                    }   
-                }
-                else if( OBJNAME_FRAME_MESSAGER_PAGE == parentFrameName )
-                {
-                    if( appSettings.getLastAppletLaunched( eLaunchFrameMessenger ) == activity->getAppletType() )
-                    {
-                        appSettings.setLastAppletLaunched( eLaunchFrameMessenger, eAppletUnknown );
-                    }
-                }
-            }
-
-            break;
-        }
-    }
+    removeApplet( activity->getAppletType() );
 }
 
 //============================================================================
@@ -809,4 +788,32 @@ bool AppletMgr::launchClientApplet( GuiHosted* guiHosted, QWidget* parentFrame )
 	}
 
     return isLaunched;
+}
+
+//============================================================================
+void AppletMgr::wantAppletMgrCallback( AppletMgrCallback* client, bool wantCallback )
+{
+    for( auto iter = m_AppletMgrClients.begin(); iter != m_AppletMgrClients.end(); ++iter )
+    {
+        if( *iter == client )
+        {
+            m_AppletMgrClients.erase( iter );
+            break;
+        }
+    }
+
+    if( wantCallback )
+    {
+        m_AppletMgrClients.emplace_back( client );
+    }
+}
+
+//============================================================================
+void AppletMgr::announceAppletState( EApplet applet, bool isOpen )
+{
+    LogMsg( LOG_VERBOSE, "AppletMgr::%s applet %s isOpen %d", __func__, DescribeApplet( applet ).toUtf8().constData(), isOpen );
+    for( auto& client : m_AppletMgrClients )
+    {
+        client->callbackAppletIsOpen( applet, isOpen );
+    }
 }
