@@ -35,15 +35,15 @@ void PluginRandomConnectClient::fromGuiJoinHost( HostedId& adminId, VxGUID& sess
 }
 
 //============================================================================
-void PluginRandomConnectClient::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
+void PluginRandomConnectClient::fromGuiLeaveHost( HostedId& adminId )
 {
-    m_HostClientMgr.fromGuiLeaveHost( adminId, sessionId, ptopUrl );
+    m_HostClientMgr.fromGuiLeaveHost( adminId );
 }
 
 //============================================================================
-void PluginRandomConnectClient::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
+void PluginRandomConnectClient::fromGuiUnJoinHost( HostedId& adminId )
 {
-    m_HostClientMgr.fromGuiUnJoinHost( adminId, sessionId, ptopUrl );
+    m_HostClientMgr.fromGuiUnJoinHost( adminId );
 }
 
 //============================================================================

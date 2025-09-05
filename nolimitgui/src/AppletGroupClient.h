@@ -32,6 +32,7 @@ public:
     EPluginType			        getInputClientPluginType( void ) override { return AppletHostBase::getPluginType(); }
 
     void				        userJoinedHost( GuiHosted* guiHosted ) override;
+    void                        setAdminGroupieId( GroupieId& adminGroupieId ) override;
 
 protected slots:
     void                        slotSetSessionVisible( bool makeVisible );

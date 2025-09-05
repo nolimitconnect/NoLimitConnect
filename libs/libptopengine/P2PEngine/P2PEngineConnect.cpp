@@ -9,25 +9,26 @@
 //============================================================================
 
 #include "P2PEngine.h"
-#include <GuiInterface/IToGui.h>
-#include <Network/StayConnected.h>
-#include <NetworkMonitor/NetworkMonitor.h>
 
+#include <GuiInterface/IToGui.h>
+
+#include <BigListLib/BigListInfo.h>
+#include <ConnectIdListMgr/ConnectIdListMgr.h>
+
+#include <Network/ConnectRequest.h> 
+#include <Network/StayConnected.h>
 #include <Network/NetworkMgr.h>
+#include <NetworkMonitor/NetworkMonitor.h>
 #include <NetServices/NetServicesMgr.h>
 
 #include "P2PConnectList.h"
-
-#include <Network/NetworkDefs.h> 
-#include <Network/ConnectRequest.h> 
 #include <Plugins/PluginMgr.h>
 #include <UserOnlineMgr/UserOnlineMgr.h>
 
-#include <BigListLib/BigListInfo.h>
-#include <NetLib/VxSktBase.h>
-#include <PktLib/PktsRelay.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxParse.h>
+#include <NetLib/VxSktBase.h>
+#include <PktLib/PktsRelay.h>
 
 #include <string.h>
 
@@ -350,4 +351,42 @@ bool P2PEngine::isHisAccessAllowedFromMe( VxGUID& onlineId, EPluginType pluginTy
 	}
 
 	return isAllowed;
+}
+
+//============================================================================
+void P2PEngine::disconnectFromHostIfNotNeeded( GroupieId& adminId )
+{
+	if( adminId.getHostOnlineId() == getMyOnlineId() )
+	{
+		LogMsg( LOG_ERROR, "HostBaseMgr::%s host is myself", __func__ );
+		return;
+	}
+
+	VxNetIdent* hostIdent = getBigListMgr().findNetIdent( adminId.getHostOnlineId() );
+	if( !hostIdent )
+	{
+		LogMsg( LOG_ERROR, "HostBaseMgr::%s host ident not foune", __func__ );
+		return;
+	}
+
+	hostIdent->setIsJoined( adminId.getHostType(), false );
+	if( hostIdent->isJoinedAny() )
+	{
+		LogMsg( LOG_ERROR, "HostBaseMgr::%s still joined to other hosts", __func__ );
+		return;
+	}
+
+	if( hostIdent->getHisFriendshipToMe() > eFriendStateGuest )
+	{
+		LogMsg( LOG_ERROR, "HostBaseMgr::%s disconnect ignored because his friendship", __func__ );
+		return;
+	}
+
+	if( hostIdent->getMyFriendshipToHim() > eFriendStateGuest )
+	{
+		LogMsg( LOG_ERROR, "HostBaseMgr::%s disconnect ignored because my friendship to him", __func__ );
+		return;
+	}
+
+	getConnectIdListMgr().disconnectIfIsOnlyUser( adminId );
 }

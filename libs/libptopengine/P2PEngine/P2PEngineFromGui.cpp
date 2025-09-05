@@ -1148,20 +1148,21 @@ void P2PEngine::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::stri
 }
 
 //============================================================================
-void P2PEngine::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread )
+void P2PEngine::fromGuiLeaveHost( HostedId& adminId, bool fromThread )
 {
 	if( fromThread )
 	{
-		if( getUserJoinMgr().fromGuiLeaveHost( adminId, sessionId ) )
+		if( getUserJoinMgr().fromGuiLeaveHost( adminId ) )
 		{
-			PluginBase* plugin = m_PluginMgr.findHostClientPlugin( adminId.getHostType() );
+			EHostType hostType = adminId.getHostType();
+			PluginBase* plugin = m_PluginMgr.findHostClientPlugin( hostType );
 			if( plugin )
 			{
-				plugin->fromGuiLeaveHost( adminId, sessionId, hostUrl );
+				plugin->fromGuiLeaveHost( adminId );
 			}
 			else
 			{
-				LogMsg( LOG_ERROR, "Plugin not found for host %d", adminId.getHostType() );
+				LogMsg( LOG_ERROR, "Plugin not found for host %d", hostType );
 				vx_assert( false );
 			}
 		}
@@ -1169,32 +1170,33 @@ void P2PEngine::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::str
 	}
 	else
 	{
-		m_FromGuiMgr.fromGuiLeaveHost( adminId, sessionId, hostUrl );
+		m_FromGuiMgr.fromGuiLeaveHost( adminId );
 	}
 }
 
 //============================================================================
-void P2PEngine::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread )
+void P2PEngine::fromGuiUnJoinHost( HostedId& adminId, bool fromThread )
 {
 	if( fromThread )
 	{
-		if( getUserJoinMgr().fromGuiUnJoinHost( adminId, sessionId ) )
+		if( getUserJoinMgr().fromGuiUnJoinHost( adminId ) )
 		{
-			PluginBase* plugin = m_PluginMgr.findHostClientPlugin( adminId.getHostType() );
+			EHostType hostType = adminId.getHostType();
+			PluginBase* plugin = m_PluginMgr.findHostClientPlugin( hostType );
 			if( plugin )
 			{
-				plugin->fromGuiUnJoinHost( adminId, sessionId, hostUrl );
+				plugin->fromGuiUnJoinHost( adminId );
 			}
 			else
 			{
-				LogMsg( LOG_ERROR, "Plugin not found for host %d", adminId.getHostType() );
+				LogMsg( LOG_ERROR, "Plugin not found for host %d", hostType );
 				vx_assert( false );
 			}
 		}
 	}
 	else
 	{
-		m_FromGuiMgr.fromGuiUnJoinHost( adminId, sessionId, hostUrl );
+		m_FromGuiMgr.fromGuiUnJoinHost( adminId );
 	}
 }
 

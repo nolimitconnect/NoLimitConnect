@@ -76,6 +76,23 @@ void AppletChatRoomClient::userJoinedHost( GuiHosted* guiHosted )
 }
 
 //============================================================================
+void AppletChatRoomClient::setAdminGroupieId( GroupieId& adminGroupieId ) 
+{
+	GuiUser* adminUser = m_MyApp.getUserMgr().getUser( adminGroupieId.getHostOnlineId() );
+	if( adminUser )
+	{
+		if( adminUser->isOnline() )
+		{
+			ui.m_ChatRoomWidget->setHostAdminId( adminGroupieId );
+		}
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "AppletChatRoomClient::%s failed to find admin", __func__ );
+	}
+}
+
+//============================================================================
 void AppletChatRoomClient::slotSetSessionVisible( bool makeVisible )
 {
 	ui.m_ChatRoomWidget->setVisible( makeVisible );

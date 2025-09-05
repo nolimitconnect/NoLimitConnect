@@ -9,6 +9,7 @@
 //============================================================================
 
 #include "GuiConnectIdListMgr.h"
+
 #include "GuiConnectIdListCallback.h"
 #include "GuiOnlineStatusCallback.h"
 

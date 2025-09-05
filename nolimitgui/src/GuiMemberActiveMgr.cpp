@@ -204,3 +204,29 @@ void GuiMemberActiveMgr::announceMemberIsJoinedToHost( VxGUID& onlineId, EHostTy
         client->callbackGuiMemberIsJoinedToHost( onlineId, host, isJoined );
     }
 }
+
+//============================================================================
+GroupieId GuiMemberActiveMgr::getJoinedAdminGroupieId( EHostType hostType, VxGUID& onlineId )
+{
+    bool wasFound{ false };
+    GroupieId groupieId;
+    for( auto& memberGroupieId : m_MemberList )
+    {
+        if( memberGroupieId.getHostType() == hostType )
+        {
+            if( memberGroupieId.getUserOnlineId() == onlineId )
+            {
+                wasFound = true;
+                groupieId = memberGroupieId;
+                break;
+            }
+        }
+    }
+
+    if( !wasFound )
+    {
+        LogMsg( LOG_VERBOSE, "GuiMemberActiveMgr::%s not found", __func__ );
+    }
+
+    return groupieId;
+}

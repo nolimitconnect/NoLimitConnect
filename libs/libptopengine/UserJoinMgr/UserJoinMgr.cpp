@@ -126,7 +126,7 @@ void UserJoinMgr::fromGuiUserLoggedOn( void )
 }
 
 //============================================================================
-bool UserJoinMgr::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId )
+bool UserJoinMgr::fromGuiLeaveHost( HostedId& adminId )
 {
     bool isOnline = m_Engine.getConnectIdListMgr().isUserOnline( adminId.getHostOnlineId() );
     if( !isOnline )
@@ -148,7 +148,7 @@ bool UserJoinMgr::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId )
 }
 
 //============================================================================
-bool UserJoinMgr::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId )
+bool UserJoinMgr::fromGuiUnJoinHost( HostedId& adminId )
 {
     bool isOnline = m_Engine.getConnectIdListMgr().isUserOnline( adminId.getHostOnlineId() );
     if( !isOnline )

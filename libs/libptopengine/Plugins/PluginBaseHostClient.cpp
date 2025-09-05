@@ -60,25 +60,15 @@ void PluginBaseHostClient::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId
 }
 
 //============================================================================
-void PluginBaseHostClient::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
+void PluginBaseHostClient::fromGuiLeaveHost( HostedId& adminId )
 {
-    if(  !ptopUrl.empty()  )
-    {
-        sendLeaveHost( adminId, sessionId, ptopUrl );
-    }
+    sendLeaveHost( adminId );
 }
 
 //============================================================================
-void PluginBaseHostClient::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId,std::string& ptopUrl )
+void PluginBaseHostClient::fromGuiUnJoinHost( HostedId& adminId )
 {
-    if( ptopUrl.empty() )
-    {
-        sendUnJoinHost( adminId, sessionId, ptopUrl );
-    }
-    else
-    {
-        m_Engine.getToGui().toGuiHostJoinStatus( adminId.getHostType(), sessionId, eHostJoinInvalidUrl );
-    }
+    sendUnJoinHost( adminId );
 }
 
 //============================================================================
@@ -125,9 +115,9 @@ bool PluginBaseHostClient::ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBa
 }
 
 //============================================================================
-void PluginBaseHostClient::sendLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl)
+void PluginBaseHostClient::sendLeaveHost( HostedId& adminId )
 {
-    VxGUID hostOnlineId = m_Engine.getOnlineIdFromUrl( ptopUrl );
+    VxGUID hostOnlineId = adminId.getHostOnlineId();
     if( hostOnlineId.isVxGUIDValid() )
     {
         GroupieId groupieId( m_Engine.getMyOnlineId(), adminId );
@@ -166,9 +156,9 @@ bool PluginBaseHostClient::sendLeaveHost( GroupieId& groupieId )
 }
 
 //============================================================================
-void PluginBaseHostClient::sendUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
+void PluginBaseHostClient::sendUnJoinHost( HostedId& adminId )
 {
-    VxGUID hostOnlineId = m_Engine.getOnlineIdFromUrl( ptopUrl );
+    VxGUID hostOnlineId = adminId.getHostOnlineId();
     if( hostOnlineId.isVxGUIDValid() )
     {
         GroupieId groupieId( m_Engine.getMyOnlineId(), adminId );

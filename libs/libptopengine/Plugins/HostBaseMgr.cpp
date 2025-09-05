@@ -138,15 +138,17 @@ void HostBaseMgr::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::st
 }
 
 //============================================================================
-void HostBaseMgr::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
+void HostBaseMgr::fromGuiLeaveHost( HostedId& adminId )
 {
-    connectToHostByPtopUrlAndReason( adminId.getHostType(), sessionId, ptopUrl, HostTypeToConnectLeaveReason( adminId.getHostType() ) );
+    GroupieId adminGroupieId( m_Engine.getMyOnlineId(), adminId );
+    m_Engine.disconnectFromHostIfNotNeeded( adminGroupieId );
 }
 
 //============================================================================
-void HostBaseMgr::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
+void HostBaseMgr::fromGuiUnJoinHost( HostedId& adminId )
 {
-    connectToHostByPtopUrlAndReason( adminId.getHostType(), sessionId, ptopUrl, HostTypeToConnectUnJoinReason( adminId.getHostType() ) );
+    GroupieId adminGroupieId( m_Engine.getMyOnlineId(), adminId );
+    m_Engine.disconnectFromHostIfNotNeeded( adminGroupieId );
 }
 
 //============================================================================
@@ -1042,7 +1044,7 @@ bool HostBaseMgr::connectToHost( enum EHostType hostType, VxGUID& sessionId, std
     else
     {
         LogMsg( LOG_ERROR, "HostBaseMgr host %s url is empty", DescribeHostType( hostType ) );
-        if( isAnnounceConnectReason( connectReason ) || isSearchConnectReason( connectReason ) || isJoinConnectReason( connectReason ) || 
+        if( isAnnounceConnectReason( connectReason ) || isSearchConnectReason( connectReason ) || isJoinConnectReason( connectReason ) ||
             isLeaveConnectReason( connectReason ) || isUnJoinConnectReason( connectReason ) )
         {
             onConnectToHostFail( hostType, sessionId, connectReason, eHostAnnounceInvalidUrl, urlIn );

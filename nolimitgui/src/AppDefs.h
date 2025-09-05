@@ -133,7 +133,10 @@ enum EApplet
     eAppletCamClient,
 
     eAppletChooseThumbnail,
-    eAppletChooseHost,
+
+    eAppletHostJoinConnect,
+    eAppletHostJoinChoose,
+    eAppletHostJoinSearch,
 
     eAppletFriendRequest,
     eAppletFriendRequestList,
@@ -188,7 +191,6 @@ enum EApplet
     eAppletPeerSessionFileOffer,
 
     eAppletHostJoinRequestList,
-    eAppletHostSelect,
     eAppletOfferList,
     eAppletPersonOfferList,	
 

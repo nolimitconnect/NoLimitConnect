@@ -84,9 +84,10 @@ protected:
 // +   24 bytes PluginPermission
 // +    1 byte VxOnlineStatusFlags
 // +    1 byte m_JoinedFlags
+// +    1 byte m_HostAdminFlags;	
+// +    1 byte m_NetIdentRes1;	
 // +    2 bytes m_u16AppVersion;	
 // +    2 bytes m_u16PingTimeMs;	
-// +    2 bytes m_NetIdentRes1;	
 // 
 // +    8 bytes m_LastSessionTime;
 // +    8 bytes m_GroupieInfoModifiedTimeMs
@@ -129,6 +130,11 @@ public:
 	bool						isRelayed( void );
 
 	bool						canDirectConnectToUser( void );
+
+	void						clearIsAdminAvail( void );
+	void						setIsAdminAvail( EHostType hostType, bool isAdminAvail );
+	bool						getIsAdminAvail( EHostType hostType );
+	uint8_t						getAdminAvailFlags( void )					{ return m_AdminAvailFlags; }
 
 	void						clearIsJoined( void );
 	void						setIsJoined( EHostType hostType, bool isJoined );
@@ -234,12 +240,12 @@ public:
 private:
 
 	//=== vars ===//
+	uint8_t						m_AdminAvailFlags{ 0 };
 	uint8_t						m_JoinedFlags{ 0 };
+	uint8_t						m_NetIdentRes1{ 0 };
 
     uint16_t					m_u16AppVersion{ 0 };
 	uint16_t					m_u16PingTimeMs{ 0 };	
-
-	uint16_t					m_NetIdentRes1{ 0 };
 
 	int64_t					    m_LastSessionTimeGmtMs{ 0 };
 	int64_t                     m_GroupieInfoModifiedTimeMs{ 0 };

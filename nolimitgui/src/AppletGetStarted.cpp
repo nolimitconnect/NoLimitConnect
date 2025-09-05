@@ -11,6 +11,7 @@
 #include "AppletGetStarted.h"
 
 #include "AppCommon.h"
+#include "AppletHostJoinChoose.h"
 #include "AppletMgr.h"
 #include "BottomBarWidget.h"
 
@@ -105,19 +106,31 @@ void AppletGetStarted::slotShrinkButton()
 //============================================================================
 void AppletGetStarted::slotJoinGroup()
 {
-    m_MyApp.getAppletMgr().launchApplet( eAppletGroupJoin, this );
+    AppletHostJoinChoose* joinHostInfo = dynamic_cast<AppletHostJoinChoose*>( m_MyApp.getAppletMgr().launchApplet( eAppletHostJoinChoose, getParentPageFrame() ) );
+    if( joinHostInfo )
+    {
+        joinHostInfo->setHostType( eHostTypeGroup );
+    }
 }
 
 //============================================================================
 void AppletGetStarted::slotJoinChatRoom()
 {
-    m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomJoin, this );
+    AppletHostJoinChoose* joinHostInfo = dynamic_cast<AppletHostJoinChoose*>( m_MyApp.getAppletMgr().launchApplet( eAppletHostJoinChoose, getParentPageFrame() ) );
+    if( joinHostInfo )
+    {
+        joinHostInfo->setHostType( eHostTypeChatRoom );
+    }
 }
 
 //============================================================================
 void AppletGetStarted::slotJoinRandomConnect()
 {
-    m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectJoin, this );
+    AppletHostJoinChoose* joinHostInfo = dynamic_cast<AppletHostJoinChoose*>( m_MyApp.getAppletMgr().launchApplet( eAppletHostJoinChoose, getParentPageFrame() ) );
+    if( joinHostInfo )
+    {
+        joinHostInfo->setHostType( eHostTypeRandomConnect );
+    }
 }
 
 //============================================================================

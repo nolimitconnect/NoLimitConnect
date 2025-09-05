@@ -435,6 +435,8 @@ const char* VxPktHdr::describePktType( uint16_t pktType )
     case PKT_TYPE_FRIEND_REQUEST_REQ:				return "PktFriendRequestReq";  			// 153 ( 0x99 )
     case PKT_TYPE_FRIEND_REQUEST_REPLY:				return "PktFriendRequestReply";  		// 154 ( 0x9A )
 
+    case PKT_TYPE_ADMIN_AVAIL:				        return "PktAdminAvail";  		        // 155 ( 0x9B )
+
     case BASE_PKT_TYPE:                                                                                
         return "PktType 0 Not Allowed";   
 

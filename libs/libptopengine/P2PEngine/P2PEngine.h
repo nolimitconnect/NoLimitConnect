@@ -267,8 +267,8 @@ public:
 
     void           				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
     void           				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
-    void           				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
-    void           				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) override;
+    void           				fromGuiLeaveHost( HostedId& adminId, bool fromThread = false ) override;
+    void           				fromGuiUnJoinHost( HostedId& adminId, bool fromThread = false ) override;
 
     void           				fromGuiSearchHost( enum EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread = false ) override;
 
@@ -707,6 +707,8 @@ public:
     void           				onPktFriendRequestReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 	void           				onPktFriendRequestReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
+    void           				onPktAdminAvail             ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+
     bool                        validateIdent( VxNetIdent* netIdent ); // extra validatation for at risk connections like multicast
 
     void                        onNetworkConnectionReady( bool requiresRelay, std::string& ipAddr, uint16_t ipPort );
@@ -720,11 +722,10 @@ public:
 
     void                        onStreamStop( VxGUID& streamId );
 
-    EFriendRequestState         sendFriendRequest( VxGUID& onlineId );
-
-
     bool                        isMyAccessAllowedFromHim( VxGUID& onlineId, EPluginType pluginType );
     bool                        isHisAccessAllowedFromMe( VxGUID& onlineId, EPluginType pluginType );
+
+    void                        disconnectFromHostIfNotNeeded( GroupieId& adminId );
 
 protected:
     //========================================================================

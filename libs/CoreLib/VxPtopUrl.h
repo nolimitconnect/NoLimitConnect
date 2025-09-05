@@ -31,7 +31,7 @@ public:
 	bool						isUrlIpv6( void );
 	std::string					getHostUrl( void );
 
-	void						setUrl( std::string& url );
+	void						setUrl( std::string url );
 	void						setUrl( const char* url );
 	std::string&				getUrl( void )							    { return m_Url; }
 

@@ -15,11 +15,8 @@
 
 #include <memory.h>
 
+//============================================================================
 PktChatReq::PktChatReq()
-: m_u16State(1)
-, m_u16Flags(PKT_CHAT_FLAG_IS_ASCII)
-, m_u16ImageCnt(0)
-, m_u16Res(0)
 {
 	setPktType(  PKT_TYPE_CHAT_REQ ); 
 }

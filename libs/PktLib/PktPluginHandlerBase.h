@@ -219,6 +219,8 @@ public:
 	virtual void				onPktFriendRequestReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 	virtual void				onPktFriendRequestReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 
+	virtual void				onPktAdminAvail				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+
 	typedef void (PktPluginHandlerBase::*RC_PLUGIN_BASE_PKT_FUNCTION)( std::shared_ptr<VxSktBase>&, VxPktHdr*, VxNetIdent* );  
 protected:
 	//=== vars ====//

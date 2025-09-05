@@ -32,10 +32,10 @@ public:
 
 private:
 	//=== vars ===//
-	uint16_t					m_u16State;
-	uint16_t					m_u16Flags;
-	uint16_t					m_u16ImageCnt;
-	uint16_t					m_u16Res;
+	uint16_t					m_u16State{ 1 };
+	uint16_t					m_u16Flags{ PKT_CHAT_FLAG_IS_ASCII };
+	uint16_t					m_u16ImageCnt{ 0 };
+	uint16_t					m_u16Res{ 0 };
 	char						m_au8Additional[ PKT_CHAT_MAX_IMAGES * sizeof(uint16_t) * 2  + PKT_CHAT_MAX_MSG_LEN + 27 ];
 };
 

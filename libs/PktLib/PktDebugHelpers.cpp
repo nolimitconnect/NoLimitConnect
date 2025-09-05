@@ -15,7 +15,7 @@
 
 void DumpPkt( VxPktHdr* pktHdr )
 {
-	LogMsg( LOG_INFO, "PktDump len %d type %d ver %d\n",
+	LogMsg( LOG_INFO, "PktDump len %d type %d ver %d",
 			pktHdr->getPktLength(),
 			pktHdr->getPktType(),
 			pktHdr->getPktVersionNum() );

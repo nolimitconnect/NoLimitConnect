@@ -12,7 +12,7 @@
 
 #include "AppCommon.h"
 #include "AppletBrowseFiles.h"
-#include "AppletChooseHost.h"
+#include "AppletHostJoinChoose.h"
 #include "AppletPopupMenu.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
@@ -512,33 +512,6 @@ void AppletTestAndDebug::slotPurgeEverythingButtonClicked( void )
     else
     {
         infoMsg( "Purge was canceled" );
-    }
-}
-
-//============================================================================
-void AppletTestAndDebug::slotTestChooseUserButtonClicked( void )
-{
-    GuiUser* testUser = m_MyApp.getUserMgr().getUserForTest();
-    GuiUser* myselfUser = m_MyApp.getUserMgr().getUser( m_MyApp.getMyOnlineId() );
-    if( testUser && myselfUser )
-    {
-        AppletChooseHost* appletChooseUser = dynamic_cast<AppletChooseHost*>(m_MyApp.launchApplet( eAppletChooseHost, getContentFrameOfOppositePageFrame() ));
-        if( appletChooseUser )
-        {
-            appletChooseUser->setChooseUserReason( eChooseUserReasonTest );
-            appletChooseUser->updateUser( myselfUser );
-			appletChooseUser->updateUser( testUser );
-			appletChooseUser->updateUser( myselfUser );
-            appletChooseUser->updateUser( testUser );
-        }
-        else
-        {
-            infoMsg( "slotTestChooseUserButtonClicked null appletChooseUser" );
-        }
-    }
-    else
-    {
-        infoMsg( "slotTestChooseUserButtonClicked null testUser" );
     }
 }
 

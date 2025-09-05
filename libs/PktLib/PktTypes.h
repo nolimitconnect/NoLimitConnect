@@ -208,8 +208,10 @@
 #define PKT_TYPE_FRIEND_REQUEST_REQ		            ( PKT_TYPE_RAND_CONNECT_REPLY + 1 )	            // 153 ( 0x99 )
 #define PKT_TYPE_FRIEND_REQUEST_REPLY				( PKT_TYPE_FRIEND_REQUEST_REQ + 1 )	            // 154 ( 0x9A )
 
+#define PKT_TYPE_ADMIN_AVAIL						( PKT_TYPE_FRIEND_REQUEST_REPLY + 1 )	        // 155 ( 0x9B )
+
 																									
-#define MAX_PKT_TYPE_CNT							( PKT_TYPE_FRIEND_REQUEST_REPLY + 1 ) // 155
+#define MAX_PKT_TYPE_CNT							( PKT_TYPE_ADMIN_AVAIL + 1 ) // 156
 																									
 #define ROUND_TO_16BYTE_BOUNDRY( a ) (( a + 15 ) & ~15 )	// round up to even 16 byte boundary		
 #define ROUND_TO_4BYTE_BOUNDRY( a ) (( a + 3 ) & ~3 )	    // round up to even 4 byte boundary		

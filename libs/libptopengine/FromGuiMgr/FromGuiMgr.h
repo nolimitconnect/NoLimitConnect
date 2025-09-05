@@ -44,8 +44,8 @@ public:
 
 	virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl );
     virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl );
-	virtual void				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl );
-	virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl );
+	virtual void				fromGuiLeaveHost( HostedId& adminId );
+	virtual void				fromGuiUnJoinHost( HostedId& adminId );
 
 	virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable );
 

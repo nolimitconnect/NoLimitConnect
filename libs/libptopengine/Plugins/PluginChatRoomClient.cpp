@@ -46,15 +46,15 @@ void PluginChatRoomClient::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId
 }
 
 //============================================================================
-void PluginChatRoomClient::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
+void PluginChatRoomClient::fromGuiUnJoinHost( HostedId& adminId )
 {
-    m_HostClientMgr.fromGuiUnJoinHost( adminId, sessionId, ptopUrl );
+    m_HostClientMgr.fromGuiUnJoinHost( adminId );
 }
 
 //============================================================================
-void PluginChatRoomClient::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
+void PluginChatRoomClient::fromGuiLeaveHost( HostedId& adminId )
 {
-    m_HostClientMgr.fromGuiLeaveHost( adminId, sessionId, ptopUrl );
+    m_HostClientMgr.fromGuiLeaveHost( adminId );
 }
 
 //============================================================================

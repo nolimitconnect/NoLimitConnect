@@ -174,7 +174,7 @@ void AppletTestHostClient::slotNetworkHostIdentityButtonClicked( void )
 		}
 		else
 		{
-			okMessageBox( QObject::tr( "Invalid URL" ), QObject::tr( "Invalid URL" ) );
+			GuiHelpers::showInvalidUrlrror( this );
 		}
 	}
 }

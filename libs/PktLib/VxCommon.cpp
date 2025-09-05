@@ -247,9 +247,15 @@ void PluginPermission::setPluginPermissionsToDefaultValues( void )
 
 //============================================================================
 //============================================================================
+
+#define IS_ADMIN_AVAIL_CHAT_ROOM_FLAG			0x01	
+#define IS_ADMIN_AVAIL_GROUP_FLAG				0x02	
+#define IS_ADMIN_AVAIL_RANDOM_CONNECT_FLAG		0x04	
+
 #define IS_JOINED_CHAT_ROOM_FLAG				0x01	
 #define IS_JOINED_GROUP_FLAG					0x02	
 #define IS_JOINED_RANDOM_CONNECT_FLAG			0x04	
+
 //============================================================================
 VxNetIdent::VxNetIdent()
 : m_u16AppVersion( htons( VxGetAppVersionShort() ) )	
@@ -261,10 +267,11 @@ VxNetIdent::VxNetIdent(const VxNetIdent &rhs )
 : VxConnectInfo( rhs )
 , PluginPermission( rhs )
 , VxOnlineStatusFlags( rhs )
+, m_AdminAvailFlags( rhs.m_AdminAvailFlags )
 , m_JoinedFlags( rhs.m_JoinedFlags )
+, m_NetIdentRes1( rhs.m_NetIdentRes1 )
 , m_u16AppVersion( rhs.m_u16AppVersion )
 , m_u16PingTimeMs( rhs.m_u16PingTimeMs )
-, m_NetIdentRes1( rhs.m_NetIdentRes1 )
 , m_LastSessionTimeGmtMs( rhs.m_LastSessionTimeGmtMs )
 , m_GroupieInfoModifiedTimeMs( rhs.m_GroupieInfoModifiedTimeMs )
 
@@ -280,7 +287,6 @@ VxNetIdent::VxNetIdent(const VxNetIdent &rhs )
 {
 }
 
-
 //============================================================================
 bool VxNetIdent::addToBlob( PktBlobEntry& blob )
 {
@@ -290,10 +296,11 @@ bool VxNetIdent::addToBlob( PktBlobEntry& blob )
 	result &= PluginPermission::addToBlob( blob );
 	result &= VxOnlineStatusFlags::addToBlob( blob );
 
+	result &= blob.setValue( m_AdminAvailFlags );
 	result &= blob.setValue( m_JoinedFlags );
+	result &= blob.setValue( m_NetIdentRes1 );
 	result &= blob.setValue( m_u16AppVersion );
 	result &= blob.setValue( m_u16PingTimeMs );
-	result &= blob.setValue( m_NetIdentRes1 );
 
 	result &= blob.setValue( m_LastSessionTimeGmtMs );
 	result &= blob.setValue( m_GroupieInfoModifiedTimeMs );
@@ -329,10 +336,12 @@ bool VxNetIdent::extractFromBlob( PktBlobEntry& blob )
 	result &= PluginPermission::extractFromBlob( blob );
 	result &= VxOnlineStatusFlags::extractFromBlob( blob );
 
+	result &= blob.getValue( m_AdminAvailFlags );
 	result &= blob.getValue( m_JoinedFlags );
+	result &= blob.getValue( m_NetIdentRes1 );
+
 	result &= blob.getValue( m_u16AppVersion );
 	result &= blob.getValue( m_u16PingTimeMs );
-	result &= blob.getValue( m_NetIdentRes1 );
 
 	result &= blob.getValue( m_LastSessionTimeGmtMs );
 	result &= blob.getValue( m_GroupieInfoModifiedTimeMs );
@@ -368,10 +377,11 @@ VxNetIdent& VxNetIdent::operator =( const VxNetIdent& rhs )
 		*( (PluginPermission*)this ) = *( (PluginPermission*)&rhs );
 		*( (VxOnlineStatusFlags*)this ) = *( (VxOnlineStatusFlags*)&rhs );
 
+		m_AdminAvailFlags = rhs.m_AdminAvailFlags;
 		m_JoinedFlags = rhs.m_JoinedFlags;
+		m_NetIdentRes1 = rhs.m_NetIdentRes1;
 		m_u16AppVersion = rhs.m_u16AppVersion;
 		m_u16PingTimeMs = rhs.m_u16PingTimeMs;
-		m_NetIdentRes1 = rhs.m_NetIdentRes1;
 
 		m_TruthAcceptCnt = rhs.m_TruthAcceptCnt;
 		m_TruthRejectCnt = rhs.m_TruthRejectCnt;
@@ -432,6 +442,76 @@ bool VxNetIdent::operator != ( const VxNetIdent& a ) const
 {
 	return !( this->isVxNetIdentMatch( a ) );
 }
+
+//============================================================================
+void VxNetIdent::clearIsAdminAvail( void )
+{
+	m_AdminAvailFlags = 0;
+}
+
+//============================================================================
+void VxNetIdent::setIsAdminAvail( EHostType hostType, bool isAdminAvail )
+{
+	uint8_t hostFlag{ 0 };
+	switch( hostType )
+	{
+	case eHostTypeChatRoom:
+		hostFlag = IS_ADMIN_AVAIL_CHAT_ROOM_FLAG;
+		break;
+	case eHostTypeGroup:
+		hostFlag = IS_ADMIN_AVAIL_GROUP_FLAG;
+		break;
+	case eHostTypeRandomConnect:
+		hostFlag = IS_ADMIN_AVAIL_RANDOM_CONNECT_FLAG;
+		break;
+	default:
+		LogMsg( LOG_ERROR, "VxNetIdent:setIsAdminAvail invalid host type %d", hostType );
+		return;
+	}
+
+	if( hostFlag )
+	{
+		if( isAdminAvail )
+		{
+			if( !( m_AdminAvailFlags & hostFlag ) )
+			{
+				m_AdminAvailFlags |= hostFlag;
+				LogMsg( LOG_VERBOSE, "VxNetIdent:setIsAdminAvail %s admin IS available host type %s", getOnlineName(), DescribeHostType( hostType ) );
+			}
+		}
+		else
+		{
+			if( m_AdminAvailFlags & hostFlag )
+			{
+				m_AdminAvailFlags &= ~hostFlag;
+				LogMsg( LOG_VERBOSE, "VxNetIdent:setIsAdminAvail %s NOT available host type %s", getOnlineName(), DescribeHostType( hostType ) );
+			}
+		}
+	}
+}
+
+//============================================================================
+bool VxNetIdent::getIsAdminAvail( EHostType hostType )
+{
+	uint8_t hostFlag{ 0 };
+	switch( hostType )
+	{
+	case eHostTypeChatRoom:
+		hostFlag = IS_ADMIN_AVAIL_CHAT_ROOM_FLAG;
+		break;
+	case eHostTypeGroup:
+		hostFlag = IS_ADMIN_AVAIL_GROUP_FLAG;
+		break;
+	case eHostTypeRandomConnect:
+		hostFlag = IS_ADMIN_AVAIL_RANDOM_CONNECT_FLAG;
+		break;
+	default:
+		LogMsg( LOG_ERROR, "VxNetIdent:getIsAdminAvail invalid host type %d", hostType );
+	}
+
+	return hostFlag & m_AdminAvailFlags;
+}
+
 
 //============================================================================
 void VxNetIdent::clearIsJoined( void )

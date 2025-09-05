@@ -183,7 +183,7 @@ public:
 	virtual bool				fromGuiInstMsg( VxGUID& onlineId, const char*	pMsg );
 	virtual bool				fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk );
 
-	virtual bool				fromGuiTodGameActionSend( VxGUID& onlineId, ETodGameAction todGameAction )			{ return false; };
+	virtual bool				fromGuiTodGameActionSend( VxGUID& onlineId, ETodGameAction todGameAction )				{ return false; };
 
 	virtual void				fromGuiRelayPermissionCount( int userPermittedCount, int anonymousCount )				{};
 
@@ -200,8 +200,8 @@ public:
     //=== hosting ===//
     virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )	        {};
     virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )	            {};
-	virtual void				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )				{};
-	virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )				{};
+	virtual void				fromGuiLeaveHost( HostedId& adminId )														{};
+	virtual void				fromGuiUnJoinHost( HostedId& adminId )														{};
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable )            {};
 
     virtual void                updateHostSearchList( EHostType hostType, PktHostInviteAnnounceReq* hostAnn, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )  {};

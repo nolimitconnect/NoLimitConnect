@@ -2263,6 +2263,15 @@ void GuiHelpers::showInvalidHostIdError( QWidget* parent )
 }
 
 //============================================================================
+void GuiHelpers::showInvalidUrlrror( QWidget* parent )
+{
+    QString title = QObject::tr( "Invalid URL" );
+    QString msg = QObject::tr( "The host url is not valid" );
+    QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok );
+    warnMsg.exec();
+}
+
+//============================================================================
 void GuiHelpers::showNoMembersOnlineError( QWidget* parent )
 {
     QString title = QObject::tr( "No Members Online" );

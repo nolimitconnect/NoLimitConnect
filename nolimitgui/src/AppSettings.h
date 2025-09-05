@@ -177,6 +177,9 @@ public:
 	void						setLastHostJoined( std::string lastJoinedHost );
 	std::string					getLastHostJoined( void );
 
+	void						setLastHostJoined( EHostType hostType, std::string lastJoinedHost );
+	std::string					getLastHostJoined( EHostType hostType );
+
 	void						setIsAutomatedHost( bool enable );
 	bool						getIsAutomatedHost( void );
 

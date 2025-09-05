@@ -153,11 +153,11 @@ void FromGuiHostAction::executeAction( void )
 		break;
 
 	case eFromGuiLeaveHost:
-		m_Engine.fromGuiLeaveHost( m_AdminId, m_SessionId, m_HostUrl, true );
+		m_Engine.fromGuiLeaveHost( m_AdminId, true );
 		break;
 
 	case eFromGuiUnJoinHost:
-		m_Engine.fromGuiUnJoinHost( m_AdminId, m_SessionId, m_HostUrl, true );
+		m_Engine.fromGuiUnJoinHost( m_AdminId, true );
 		break;
 
 	default:

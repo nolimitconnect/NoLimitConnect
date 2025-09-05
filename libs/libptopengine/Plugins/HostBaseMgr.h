@@ -42,8 +42,8 @@ public:
     //=== hosting ===//
     virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl );
     virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl );
-    virtual void				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl );
-    virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl );
+    virtual void				fromGuiLeaveHost( HostedId& adminId );
+    virtual void				fromGuiUnJoinHost( HostedId& adminId );
     virtual void				fromGuiSearchHost( enum EHostType hostType, SearchParams& searchParams, bool enable );
 
     virtual EPluginAccess	    getPluginAccessState( VxNetIdent* netIdent );

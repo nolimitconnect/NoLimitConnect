@@ -42,15 +42,15 @@ void PluginGroupClient::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, s
 }
 
 //============================================================================
-void PluginGroupClient::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
+void PluginGroupClient::fromGuiLeaveHost( HostedId& adminId )
 {
-    m_HostClientMgr.fromGuiLeaveHost( adminId, sessionId, ptopUrl );
+    m_HostClientMgr.fromGuiLeaveHost( adminId );
 }
 
 //============================================================================
-void PluginGroupClient::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
+void PluginGroupClient::fromGuiUnJoinHost( HostedId& adminId )
 {
-    m_HostClientMgr.fromGuiUnJoinHost( adminId, sessionId, ptopUrl );
+    m_HostClientMgr.fromGuiUnJoinHost( adminId );
 }
 
 //============================================================================

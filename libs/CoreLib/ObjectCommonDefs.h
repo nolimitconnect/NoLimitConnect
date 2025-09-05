@@ -54,7 +54,6 @@
 #define OBJNAME_APPLET_CHAT_ROOM_LIST_LOCAL_VIEW		"AppletChatRoomListLocalView"
 
 #define OBJNAME_APPLET_CHOOSE_THUMBNAIL					"AppletChooseThumbnail"
-#define OBJNAME_APPLET_CHOOSE_HOST						"AppletChooseHost"
 #define OBJNAME_APPLET_CREATE_ACCOUNT					"AppletCreateAccount"
 
 #define OBJNAME_APPLET_EDIT_ABOUT_ME					"AppletEditAboutMe"
@@ -82,13 +81,15 @@
 
 #define OBJNAME_APPLET_HELP_NET_SIGNAL_BARS				"AppletHelpNetSignalBars"
 
+#define OBJNAME_APPLET_HOST_JOIN_CHOOSE					"AppletHostJoinChoose"
+#define OBJNAME_APPLET_HOST_JOIN_CONNECT				"AppletHostJoinConnect"
 #define OBJNAME_APPLET_HOST_JOIN_REQUEST_LIST			"AppletHostJoinRequestList"
+
 #define OBJNAME_APPLET_HOST_CHAT_ROOM_ADMIN 			"AppletChatRoomHostAdmin"
 #define OBJNAME_APPLET_HOST_CHAT_ROOM_STATUS			"AppletHostChatRoomStatus"
 #define OBJNAME_APPLET_HOST_GROUP_STATUS				"AppletHostGroupStatus"
 #define OBJNAME_APPLET_HOST_NETWORK_STATUS				"AppletHostNetworkStatus"
 #define OBJNAME_APPLET_HOST_RANDOM_CONNECT_STATUS		"AppletHostRandomConnectStatus"
-#define OBJNAME_APPLET_HOST_SELECT						"AppletHostSelect"
 
 #define OBJNAME_APPLET_IGNORED_HOSTS					"AppletIgnoredHosts"
 

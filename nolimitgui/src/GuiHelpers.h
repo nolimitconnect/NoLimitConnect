@@ -220,6 +220,7 @@ public:
     static void                 showUserNotOnlineError( QWidget* parent = nullptr );
     static void                 showRequiresFriendshipError( QWidget* parent = nullptr );
     static void                 showInvalidHostIdError( QWidget* parent = nullptr );
+    static void                 showInvalidUrlrror( QWidget* parent = nullptr );
     static void                 showNoMembersOnlineError( QWidget* parent = nullptr );
 
     static void                 showAddAssetFailedError( void );

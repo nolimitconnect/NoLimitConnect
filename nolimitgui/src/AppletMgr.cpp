@@ -31,7 +31,6 @@
 #include "AppletChatRoomListLocalView.h"
 
 #include "AppletChooseThumbnail.h"
-#include "AppletChooseHost.h"
 
 #include "AppletDownloads.h"
 #include "AppletEditAboutMe.h"
@@ -56,14 +55,15 @@
 
 #include "AppletHackerList.h"
 #include "AppletHelpNetSignalBars.h"
+
+#include "AppletHostJoinChoose.h"
+#include "AppletHostJoinConnect.h"
 #include "AppletHostJoinRequestList.h"
 
 #include "AppletHostChatRoomStatus.h"
 #include "AppletHostGroupStatus.h"
 #include "AppletHostNetworkStatus.h"
 #include "AppletHostRandomConnectStatus.h"
-
-#include "AppletHostSelect.h"
 
 #include "AppletIgnoredHosts.h"
 #include "AppletIsPortOpenTest.h"
@@ -367,7 +367,6 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletChatRoomJoinSearch:         if( launchAppletAllowed( eAppletChatRoomJoinSearch ) ) appletDialog = new AppletChatRoomJoinSearch( m_MyApp, parent ); break;
     case eAppletChatRoomListLocalView:      if( launchAppletAllowed( eAppletChatRoomListLocalView ) ) appletDialog = new AppletChatRoomListLocalView( m_MyApp, parent ); break;
     case eAppletChooseThumbnail:            if( launchAppletAllowed( eAppletChooseThumbnail ) ) appletDialog = new AppletChooseThumbnail( m_MyApp, parent ); break;
-    case eAppletChooseHost:                 if( launchAppletAllowed( eAppletChooseHost ) ) appletDialog = new AppletChooseHost( m_MyApp, parent ); break;
 
     case eAppletEditAboutMe:                if( launchAppletAllowed( eAppletEditAboutMe ) ) appletDialog = new AppletEditAboutMe( m_MyApp, parent ); break;
     case eAppletEditAvatarImage:            if( launchAppletAllowed( eAppletEditAvatarImage ) ) appletDialog = new AppletEditAvatarImage( m_MyApp, parent ); break;
@@ -421,6 +420,11 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletGroupHostAdmin:             if( launchAppletAllowed( eAppletGroupHostAdmin ) ) appletDialog = new AppletGroupHostAdmin( m_MyApp, parent ); break;
 
     case eAppletChatRoomHostAdmin:          if( launchAppletAllowed( eAppletChatRoomHostAdmin ) ) appletDialog = new AppletChatRoomHostAdmin( m_MyApp, parent ); break;
+
+    case eAppletHostJoinConnect:            if( launchAppletAllowed( eAppletHostJoinConnect ) ) appletDialog = new AppletHostJoinConnect( m_MyApp, parent, launchParam.toUtf8().constData() ); break;
+    case eAppletHostJoinChoose:               if( launchAppletAllowed( eAppletHostJoinChoose ) ) appletDialog = new AppletHostJoinChoose( m_MyApp, parent ); break;
+    case eAppletHostJoinRequestList:        if( launchAppletAllowed( eAppletHostJoinRequestList ) ) appletDialog = new AppletHostJoinRequestList( m_MyApp, parent ); break;
+
     case eAppletHostChatRoomStatus:         if( launchAppletAllowed( eAppletHostChatRoomStatus ) ) appletDialog = new AppletHostChatRoomStatus( m_MyApp, parent ); break;
     case eAppletHostGroupStatus:            if( launchAppletAllowed( eAppletHostGroupStatus ) ) appletDialog = new AppletHostGroupStatus( m_MyApp, parent ); break;
     case eAppletHostNetworkStatus:          if( launchAppletAllowed( eAppletHostNetworkStatus ) ) appletDialog = new AppletHostNetworkStatus( m_MyApp, parent ); break;
@@ -430,8 +434,6 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletInviteCreate:               if( launchAppletAllowed( eAppletInviteCreate ) ) appletDialog = new AppletInviteCreate( m_MyApp, parent ); break;
 
     case eAppletNetHostingPage:             if( launchAppletAllowed( eAppletNetHostingPage ) ) appletDialog = new AppletNetHostingPage( m_MyApp, parent ); break;
-    case eAppletHostJoinRequestList:        if( launchAppletAllowed( eAppletHostJoinRequestList ) ) appletDialog = new AppletHostJoinRequestList( m_MyApp, parent ); break;
-    case eAppletHostSelect:                 if( launchAppletAllowed( eAppletHostSelect ) ) appletDialog = new AppletHostSelect( m_MyApp, parent ); break;
     case eAppletPersonOfferList:            if( launchAppletAllowed( eAppletPersonOfferList ) ) appletDialog = new AppletPersonOfferList( m_MyApp, parent ); break;
     case eAppletPopupMenu:                  if( launchAppletAllowed( eAppletPopupMenu ) ) appletDialog = new AppletPopupMenu( m_MyApp, parent ); break;
     case eAppletShareServicesPage:          if( launchAppletAllowed( eAppletShareServicesPage ) ) appletDialog = new AppletShareServicesPage( m_MyApp, parent ); break;

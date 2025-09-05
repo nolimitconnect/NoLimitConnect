@@ -32,7 +32,7 @@ public:
     //=== hosting ===//
     virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl ) override;
     virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl ) override;
-    virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl ) override;
+    virtual void				fromGuiUnJoinHost( HostedId& adminId ) override;
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable ) override;
 
 protected:

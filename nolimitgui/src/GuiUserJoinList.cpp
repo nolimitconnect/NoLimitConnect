@@ -31,7 +31,7 @@ GuiUserJoinList& GuiUserJoinList::operator =( const GuiUserJoinList& rhs )
 {
     if( this != &rhs )
     {
-        m_UserJoinList          = rhs.m_UserJoinList;
+        m_UserJoinList = rhs.m_UserJoinList;
     }
 
     return *this;
@@ -52,7 +52,7 @@ bool GuiUserJoinList::addUserJoinIfDoesntExist( GuiUserJoin* guiUserJoin )
 //============================================================================
 void GuiUserJoinList::addUserJoin( GuiUserJoin* guiUserJoin )
 {
-    m_UserJoinList.push_back( guiUserJoin );
+    m_UserJoinList.emplace_back( guiUserJoin );
 }
 
 //============================================================================
@@ -125,6 +125,6 @@ void GuiUserJoinList::copyTo( GuiUserJoinList& destUserJoinList )
 	std::vector<GuiUserJoin*>::iterator iter;
 	for( iter = m_UserJoinList.begin(); iter != m_UserJoinList.end(); ++iter )
 	{
-		thumbList.push_back( *iter );
+		thumbList.emplace_back( *iter );
 	}
 }

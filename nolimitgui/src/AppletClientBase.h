@@ -25,6 +25,8 @@ public:
 
     virtual void                onJointButtonClicked( GuiHostSession* hostSession );
 
+	virtual void				setAdminGroupieId( GroupieId& adminGroupieId ) {};
+
 protected:
 
 };

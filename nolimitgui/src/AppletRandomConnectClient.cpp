@@ -76,6 +76,23 @@ void AppletRandomConnectClient::userJoinedHost( GuiHosted* guiHosted )
 }
 
 //============================================================================
+void AppletRandomConnectClient::setAdminGroupieId( GroupieId& adminGroupieId )
+{
+	GuiUser* adminUser = m_MyApp.getUserMgr().getUser( adminGroupieId.getHostOnlineId() );
+	if( adminUser )
+	{
+		if( adminUser->isOnline() )
+		{
+			ui.m_SessionWidget->setHostAdminId( adminGroupieId );
+		}
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "AppletChatRoomClient::%s failed to find admin", __func__ );
+	}
+}
+
+//============================================================================
 void AppletRandomConnectClient::showEvent( QShowEvent* ev )
 {
     ActivityBase::showEvent( ev );

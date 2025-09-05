@@ -221,6 +221,8 @@ public:
 	virtual void				onPktFriendRequestReq		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 	virtual void				onPktFriendRequestReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
 
+	virtual void				onPktAdminAvail				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr );
+
 	//packet type 250 and greater not allowed
 	typedef void (PktHandlerBase::*RC_SYS_BASE_PKT_FUNCTION)( std::shared_ptr<VxSktBase>&, VxPktHdr* );  
 protected:

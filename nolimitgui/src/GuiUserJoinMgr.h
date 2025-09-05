@@ -14,9 +14,8 @@
 #include <UserJoinMgr/UserJoinCallbackInterface.h>
 #include <UserJoinMgr/UserJoinInfo.h>
 
-#include <CoreLib/VxMutex.h>
-
 #include <CoreLib/GroupieId.h>
+#include <CoreLib/VxPtopUrl.h>
 
 #include <QObject>
 
@@ -24,6 +23,7 @@
 
 class AppCommon;
 class GuiUserJoinCallback;
+class VxPtopUrl;
 
 class GuiUserJoinMgr : public QObject, public UserJoinCallbackInterface
 {
@@ -44,12 +44,12 @@ public:
     bool                        isUserJoinedToHost( HostedId& adminId );
     bool                        isMemberActive( GroupieId& groupieId );
 
-    VxGUID&                     getUserJoinedHostOnlineId( EHostType hostType ); ///< return the host online id user currently is joined to of the given host type
-
     bool                        isUserJoinedToHost( GroupieId& groupieId ) { return getUserJoinState( groupieId ) == eJoinStateJoinIsGranted; } ///< any member 
 
     bool                        isUserJoinInSession( GroupieId& groupieId );
     EJoinState                  getUserJoinState( GroupieId& groupieId );
+
+    VxPtopUrl                   getLastJoinedPtopUrl( EHostType hostType );
 
     void                        onUserJoinAdded( GuiUserJoin* guiUserJoin );
     void                        onUserJoinRemoved( GroupieId& groupieId );
@@ -66,6 +66,10 @@ public:
 
     void                        reconnectToLastConnectedHost( std::string& lastConnectedHost );
     void                        stopReconnectToLastConnectedHost( void );
+
+    GroupieId                   getJoinedAdminGroupieId( EHostType hostType );
+    void                        leaveHost( EHostType hostType );
+    void                        leaveHost( GroupieId adminGroupieId );
 
 signals:
     void				        signalMyIdentUpdated( GuiUserJoin* guiUserJoin );
@@ -125,6 +129,8 @@ protected:
 
     virtual void				announceUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus );
 
+    void                        saveLastHostJoined( EHostType hostType, VxPtopUrl& ptopUrl );
+
 
     AppCommon&                  m_MyApp;
     // map of online id to GuiUserJoin
@@ -134,12 +140,9 @@ protected:
 
     std::string                 m_LastJoinAttemptedHostInviteUrl;
 
-    EJoinState                  m_LastGroupJoinState{ eJoinStateNone };
-    VxGUID                      m_LastGroupJoinHostOnlineId;
-    EJoinState                  m_LastChatRoomJoinState{ eJoinStateNone };
-    VxGUID                      m_LastChatRoomJoinHostOnlineId;
-    EJoinState                  m_LastRandomConnectJoinState{ eJoinStateNone };
-    VxGUID                      m_LastRandomeConnectJoinHostOnlineId;
+    VxPtopUrl                   m_LastJoinChatRoomUrl;
+    VxPtopUrl                   m_LastJoinGroupUrl;
+    VxPtopUrl                   m_LastJoinRandomConnectUrl;
 
     std::string                 m_ReconnectToHost;
     QTimer*                     m_ReconnectToHostTimer{ nullptr };

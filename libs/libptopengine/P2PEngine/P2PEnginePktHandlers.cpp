@@ -1614,3 +1614,11 @@ void P2PEngine::onPktFriendRequestReply( std::shared_ptr<VxSktBase>& sktBase, Vx
 		((PluginFriendRequest*)pluginBase)->onPktFriendRequestReply( sktBase, pktHdr, netIdent );
 	}
 }
+
+//============================================================================
+void P2PEngine::onPktAdminAvail( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	if( LogEnabled( eLogPkt ) ) LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
+
+
+}

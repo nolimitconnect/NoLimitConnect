@@ -39,8 +39,8 @@ public:
 
     void                        fromGuiUserLoggedOn( void );
     
-    bool                        fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId );
-    bool                        fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId );
+    bool                        fromGuiLeaveHost( HostedId& adminId );
+    bool                        fromGuiUnJoinHost( HostedId& adminId );
 
     void                        callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline );
 

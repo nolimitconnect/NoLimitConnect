@@ -58,7 +58,7 @@ void GuiHostedListMgr::callbackHostedInfoListUpdated( HostedInfo* hostedInfo )
 {
     if( !hostedInfo )
     {
-        LogMsg( LOG_ERROR, "GuiHostedListMgr::callbackHostedAdded null hostedInfo" );
+        LogMsg( LOG_ERROR, "GuiHostedListMgr::%s null hostedInfo", __func__ );
         return;
     }
 

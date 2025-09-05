@@ -230,10 +230,10 @@ void AppletJoinBase::callbackGuiHostedListSearchResult( HostedId& hostedId, GuiH
 	{
 		ui.m_GuiHostedListWidget->updateHostedList( hostedId, guiHosted, sessionId );
 		GroupieId groupieId( m_MyApp.getMyOnlineId(), hostedId );
-		if( !m_UserListMode && m_MyApp.getUserJoinMgr().getUserJoinState( groupieId ) == eJoinStateJoinIsGranted )
-		{
-			onJoinedHost( groupieId, guiHosted );
-		}
+		//if( !m_UserListMode && m_MyApp.getUserJoinMgr().getUserJoinState( groupieId ) == eJoinStateJoinIsGranted )
+		//{
+		//	onJoinedHost( groupieId, guiHosted );
+		//}
 	}
 }
 
@@ -341,11 +341,7 @@ void AppletJoinBase::slotJoinButtonClicked( GuiHostedListSession* hostSession, G
     }
     else
     {
-        QString warnJoinTitle = QObject::tr( "Invalid URL" );
-        QString warnJoinBody = QObject::tr( "The host url is not valid." );
-
-        QMessageBox warnStorage( QMessageBox::Icon::Information, warnJoinTitle, warnJoinBody, QMessageBox::Ok );
-        warnStorage.exec();
+		GuiHelpers::showInvalidUrlrror( this );
     }
 }
 
@@ -371,7 +367,7 @@ void AppletJoinBase::slotConnectButtonClicked( GuiHostedListSession* hostSession
 
             if( joinState == eJoinStateJoinIsGranted )
             {
-                m_MyApp.getFromGuiInterface().fromGuiLeaveHost( hostSession->getHostedId(), hostSession->getSessionId(), joinUrl );
+                m_MyApp.getFromGuiInterface().fromGuiLeaveHost( hostSession->getHostedId() );
 				GuiUser* hostUser = hostSession->getGuiUser();
 				if( hostUser->getMyFriendshipToHim() <= eFriendStateGuest )
 				{
@@ -400,11 +396,7 @@ void AppletJoinBase::slotConnectButtonClicked( GuiHostedListSession* hostSession
     }
     else
     {
-        QString warnJoinTitle = QObject::tr( "Invalid URL" );
-        QString warnJoinBody = QObject::tr( "The host url is not valid." );
-
-        QMessageBox warnStorage( QMessageBox::Icon::Information, warnJoinTitle, warnJoinBody, QMessageBox::Ok );
-        warnStorage.exec();
+		GuiHelpers::showInvalidUrlrror( this );
     }
 }
 
@@ -415,7 +407,7 @@ void AppletJoinBase::slotKickButtonClicked( GuiHostedListSession* hostSession, G
 	if( yesNoMessageBox( QObject::tr( "Revoke Membership" ), QObject::tr( "Are You Sure You Want To Revoke Membership?" ) ) )
 	{
 		std::string ptopUrl = hostSession->getHostUrl();
-		m_MyApp.getFromGuiInterface().fromGuiUnJoinHost( hostSession->getHostedId(), hostSession->getSessionId(), ptopUrl );
+		m_MyApp.getFromGuiInterface().fromGuiUnJoinHost( hostSession->getHostedId() );
 	}
 }
 

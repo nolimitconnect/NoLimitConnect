@@ -9,10 +9,12 @@
 //============================================================================
 
 #include "GuiUserJoinMgr.h"
-#include "GuiUserJoinCallback.h"
+
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "GuiMemberActiveMgr.h"
+#include "GuiMemberActiveMgr.h"
+#include "GuiUserJoinCallback.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <UserJoinMgr/UserJoinInfo.h>
@@ -32,6 +34,10 @@ GuiUserJoinMgr::GuiUserJoinMgr( AppCommon& app )
 {
     m_ReconnectToHostTimer->setInterval( 3 * 60 * 1000 );
     connect( m_ReconnectToHostTimer, SIGNAL(timeout()), this, SLOT(slotReconnectToLastConnectedHost()) );
+
+    m_LastJoinChatRoomUrl.setUrl( m_MyApp.getAppSettings().getLastHostJoined( eHostTypeChatRoom ) );
+    m_LastJoinGroupUrl.setUrl( m_MyApp.getAppSettings().getLastHostJoined( eHostTypeGroup ) );
+    m_LastJoinRandomConnectUrl.setUrl( m_MyApp.getAppSettings().getLastHostJoined( eHostTypeRandomConnect ) );
 }
 
 //============================================================================
@@ -305,22 +311,32 @@ void GuiUserJoinMgr::onUserJoinUpdated( GuiUserJoin* guiUserJoin )
 //============================================================================
 void GuiUserJoinMgr::announceUserJoinState( EJoinState joinState, GuiUserJoin* guiUserJoin )
 {
+    bool saveLastJoined{ false };
+    GroupieId adminHostId = guiUserJoin->getGroupieId();
+    VxGUID hostOnlineId = adminHostId.getHostOnlineId();
+    bool hostOnline = m_MyApp.getConnectIdListMgr().isOnline( hostOnlineId  );
+    if( !hostOnline )
+    {
+        LogMsg( LOG_ERROR, "GuiUserJoinMgr::%s host %s is offline", __func__, m_MyApp.describeUser( hostOnlineId ).c_str() );
+    }
+
     switch( joinState )
     {
     case eJoinStateJoinRequested:
-        announceUserJoinRequested( guiUserJoin->getGroupieId(), guiUserJoin );
+        announceUserJoinRequested( adminHostId, guiUserJoin );
         break;
     case eJoinStateJoinWasGranted:
-        announceUserJoinWasGranted( guiUserJoin->getGroupieId(), guiUserJoin );
+        announceUserJoinWasGranted( adminHostId, guiUserJoin );
         break;
     case eJoinStateJoinIsGranted:
-        announceUserJoinIsGranted( guiUserJoin->getGroupieId(), guiUserJoin );
+        announceUserJoinIsGranted( adminHostId, guiUserJoin );
+        saveLastJoined = true;
         break;
     case eJoinStateJoinDenied:
-        announceUserJoinDenied( guiUserJoin->getGroupieId(), guiUserJoin );
+        announceUserJoinDenied( adminHostId, guiUserJoin );
         break;
     case eJoinStateJoinLeaveHost:
-        announceUserJoinLeaveHost( guiUserJoin->getGroupieId() );
+        announceUserJoinLeaveHost( adminHostId );
         break;
 
     case eJoinStateSending:
@@ -331,40 +347,21 @@ void GuiUserJoinMgr::announceUserJoinState( EJoinState joinState, GuiUserJoin* g
         break;
     }
 
-    if( guiUserJoin->getGroupieId().isUserOnlineId( m_MyApp.getMyOnlineId() ) )
+    if( LogEnabled( eLogHostJoin ) ) LogMsg( LOG_VERBOSE, "GuiUserJoinMgr::%s %s state %s", __func__,
+        m_MyApp.describeGroupieId( adminHostId ).c_str(), DescribeJoinState( joinState ) );
+
+    if( hostOnline && saveLastJoined )
     {
-        if( guiUserJoin->getGroupieId().getHostType() == eHostTypeGroup &&
-            joinState != m_LastGroupJoinState )
+        GuiUser* hostAdmin = m_MyApp.getUserMgr().getUser( hostOnlineId );
+        if( hostAdmin )
         {
-            m_LastGroupJoinState = joinState;
-            if( joinState == eJoinStateJoinIsGranted )
+            std::string hostUrl = hostAdmin->getMyOnlineUrl();
+            VxPtopUrl ptopUrl( hostUrl );
+            ptopUrl.setUrlHostType( adminHostId.getHostType(), true );
+            if( ptopUrl.isValid() )
             {
-                m_LastGroupJoinHostOnlineId = guiUserJoin->getGroupieId().getHostOnlineId();
+                saveLastHostJoined( adminHostId.getHostType(), ptopUrl );
             }
-
-            announceUserJoinedToHostState( eHostTypeGroup, joinState == eJoinStateJoinIsGranted );
-        }
-        else if( guiUserJoin->getGroupieId().getHostType() == eHostTypeChatRoom &&
-            joinState != m_LastChatRoomJoinState )
-        {
-            m_LastChatRoomJoinState = joinState;
-            if( joinState == eJoinStateJoinIsGranted )
-            {
-                m_LastChatRoomJoinHostOnlineId = guiUserJoin->getGroupieId().getHostOnlineId();
-            }
-
-            announceUserJoinedToHostState( eHostTypeChatRoom, joinState == eJoinStateJoinIsGranted );
-        }
-        else if( guiUserJoin->getGroupieId().getHostType() == eHostTypeRandomConnect &&
-            joinState != m_LastRandomConnectJoinState )
-        {
-            m_LastRandomConnectJoinState = joinState;
-            if( joinState == eJoinStateJoinIsGranted )
-            {
-                m_LastRandomeConnectJoinHostOnlineId = guiUserJoin->getGroupieId().getHostOnlineId();
-            }
-
-            announceUserJoinedToHostState( eHostTypeRandomConnect, joinState == eJoinStateJoinIsGranted );
         }
     }
 }
@@ -536,25 +533,6 @@ bool GuiUserJoinMgr::isMemberActive( GroupieId& groupieId )
 }
 
 //============================================================================
-VxGUID& GuiUserJoinMgr::getUserJoinedHostOnlineId( EHostType hostType )
-{
-	switch( hostType )
-	{
-	case eHostTypeGroup:
-        return m_LastGroupJoinHostOnlineId;
-
-	case eHostTypeChatRoom:
-		return m_LastChatRoomJoinHostOnlineId;
-
-	case eHostTypeRandomConnect:
-        return m_LastRandomeConnectJoinHostOnlineId;
-
-	default:
-		return VxGUID::nullVxGUID();
-	}
-}
-
-//============================================================================
 void GuiUserJoinMgr::reconnectToLastConnectedHost( std::string& lastConnectedHost )
 {
     m_ReconnectToHost = lastConnectedHost;
@@ -634,4 +612,71 @@ void GuiUserJoinMgr::callbackUserJoinAHostStatus( EHostType hostType, VxGUID& se
 void GuiUserJoinMgr::slotInternalUserJoinAHostStatus( EHostType hostType, VxGUID sessionId, EConnectStatus connectStatus )
 {
     announceUserJoinAHostStatus( hostType, sessionId, connectStatus );
+}
+
+//============================================================================
+GroupieId GuiUserJoinMgr::getJoinedAdminGroupieId( EHostType hostType )
+{
+    return m_MyApp.getMemberActiveMgr().getJoinedAdminGroupieId( hostType, m_MyApp.getMyOnlineId() );
+}
+
+//============================================================================
+void GuiUserJoinMgr::leaveHost( EHostType hostType )
+{
+    GroupieId adminGroupieId = getJoinedAdminGroupieId( hostType );
+    if( adminGroupieId.isValid() )
+    {
+        leaveHost( adminGroupieId );
+    }
+}
+
+//============================================================================
+void GuiUserJoinMgr::leaveHost( GroupieId adminGroupieId )
+{
+    m_MyApp.getFromGuiInterface().fromGuiLeaveHost( adminGroupieId.getHostedId() );
+}
+
+//============================================================================
+void GuiUserJoinMgr::saveLastHostJoined( EHostType hostType, VxPtopUrl& ptopUrl )
+{
+    std::string url = ptopUrl.getUrl();
+    switch( hostType )
+    {
+    case eHostTypeChatRoom:
+        m_LastJoinChatRoomUrl = ptopUrl;
+        break;
+    case eHostTypeGroup:
+        m_LastJoinGroupUrl = ptopUrl;
+        break;
+    case eHostTypeRandomConnect:
+        m_LastJoinRandomConnectUrl = ptopUrl;
+        break;
+    default:
+        LogMsg( LOG_ERROR, "GuiUserJoinMgr::%s invalid host type", __func__ );
+        return;
+    }
+
+    m_MyApp.getAppSettings().setLastHostJoined( hostType, url );
+}
+
+//============================================================================
+VxPtopUrl GuiUserJoinMgr::getLastJoinedPtopUrl( EHostType hostType )
+{
+    switch( hostType )
+    {
+    case eHostTypeChatRoom:
+        return m_LastJoinChatRoomUrl;
+        break;
+    case eHostTypeGroup:
+        return m_LastJoinGroupUrl;
+        break;
+    case eHostTypeRandomConnect:
+        return m_LastJoinRandomConnectUrl;
+        break;
+    default:
+        LogMsg( LOG_ERROR, "GuiUserJoinMgr::%s invalid host type", __func__ );
+    }
+
+    VxPtopUrl emptyUrl;
+    return emptyUrl;
 }

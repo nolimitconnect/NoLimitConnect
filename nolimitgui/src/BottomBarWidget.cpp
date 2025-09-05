@@ -12,12 +12,11 @@
 
 #include "AppletMgr.h"
 #include "AppCommon.h"
-#include "AppletChooseHost.h"
+#include "AppletHostJoinChoose.h"
 #include "GuiHelpers.h"
 #include "GuiHostedListMgr.h"
 #include "GuiMemberActiveMgr.h"
 #include "GuiParams.h"
-#include "MyIconsDefs.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <NetworkMonitor/NetStatusAccum.h>
@@ -207,7 +206,7 @@ void BottomBarWidget::slotRandomConnectJoinButtonClicked( void )
 //============================================================================
 void BottomBarWidget::launchJoinHostView( EHostType hostType )
 {
-	if( !m_MyApp.isMessengerReady() )
+	if( !m_MyApp.isSystemReady() )
 	{
 		return;
 	}
@@ -218,29 +217,16 @@ void BottomBarWidget::launchJoinHostView( EHostType hostType )
         return;
 	}
 
-	EApplet appleHostJoin{ eAppletUnknown };
+	
+	bool validHostType = IsHostARelayForUsers( hostType );
 
-	switch( hostType )
+	if( validHostType )
 	{
-	case eHostTypeGroup:
-		appleHostJoin = eAppletGroupJoin;
-		break;
-
-	case eHostTypeChatRoom:
-		appleHostJoin = eAppletChatRoomJoin;
-		break;
-
-	case eHostTypeRandomConnect:
-		appleHostJoin = eAppletRandomConnectJoin;
-		break;
-
-	default:
-		return;
-	}
-
-	if( eAppletUnknown != appleHostJoin )
-	{
-		m_MyApp.getAppletMgr().launchApplet( appleHostJoin, getParentPageFrame() );
+		AppletHostJoinChoose* joinHostInfo = dynamic_cast<AppletHostJoinChoose *>( m_MyApp.getAppletMgr().launchApplet( eAppletHostJoinChoose, getParentPageFrame() ) );
+		if( joinHostInfo )
+		{
+			joinHostInfo->setHostType( hostType );
+		}
 	}
 	else
 	{

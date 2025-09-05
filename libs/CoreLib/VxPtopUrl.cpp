@@ -117,7 +117,7 @@ void VxPtopUrl::setUrl( const char* urlIn )
 }
 
 //============================================================================
-void VxPtopUrl::setUrl( std::string& url )
+void VxPtopUrl::setUrl( std::string url )
 {
     if( url.length() < 7 )
     {

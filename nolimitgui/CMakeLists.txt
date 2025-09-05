@@ -74,7 +74,6 @@ list(APPEND nlc_HEADERS
     src/AppletChatRoomJoinSearch.h
     src/AppletChatRoomListLocalView.h
     src/AppletChooseThumbnail.h
-    src/AppletChooseHost.h
     src/AppletClientAvatarImage.h
     src/AppletClientBase.h
     src/AppletCreateAccount.h
@@ -107,9 +106,10 @@ list(APPEND nlc_HEADERS
     src/AppletHostChatRoomStatus.h
     src/AppletHostGroupStatus.h
     src/AppletHostRandomConnectStatus.h
+    src/AppletHostJoinChoose.h
+    src/AppletHostJoinConnect.h
     src/AppletHostJoinRequestList.h
     src/AppletHostNetworkStatus.h
-    src/AppletHostSelect.h
     src/AppletIgnoredHosts.h
 
     src/AppletInformation.h
@@ -499,7 +499,6 @@ list(APPEND nlc_SOURCES
     src/AppletChatRoomJoinSearch.cpp
     src/AppletChatRoomListLocalView.cpp
     src/AppletChooseThumbnail.cpp
-    src/AppletChooseHost.cpp
     src/AppletClientAvatarImage.cpp
     src/AppletClientBase.cpp
     src/AppletCreateAccount.cpp
@@ -531,9 +530,11 @@ list(APPEND nlc_SOURCES
     src/AppletHostBase.cpp
     src/AppletHostChatRoomStatus.cpp
     src/AppletHostGroupStatus.cpp
+
+    src/AppletHostJoinChoose.cpp
+    src/AppletHostJoinConnect.cpp
     src/AppletHostJoinRequestList.cpp
     src/AppletHostNetworkStatus.cpp
-    src/AppletHostSelect.cpp
     src/AppletHostRandomConnectStatus.cpp
     src/AppletIgnoredHosts.cpp
 
@@ -883,7 +884,6 @@ list(APPEND nlc_FORMS
     src/Forms/AppletChatRoomListLocalView.ui
 
     src/Forms/AppletChooseThumbnail.ui
-    src/Forms/AppletChooseHost.ui
     src/Forms/AppletCreateAccount.ui
     src/Forms/AppletDownloads.ui
     src/Forms/AppletEditAboutMe.ui
@@ -904,14 +904,18 @@ list(APPEND nlc_FORMS
     src/Forms/AppletGroupListLocalView.ui
     src/Forms/AppletHackerList.ui
     src/Forms/AppletHelpNetSignalBars.ui
+
+    src/Forms/AppletHostJoinChoose.ui
+    src/Forms/AppletHostJoinConnect.ui
     src/Forms/AppletHostJoinRequestList.ui
     src/Forms/AppletHostNetworkStatus.ui
-    src/Forms/AppletHostSelect.ui
+
     src/Forms/AppletIgnoredHosts.ui
     src/Forms/AppletInformation.ui
     src/Forms/AppletInviteAccept.ui
     src/Forms/AppletInviteCreate.ui
     src/Forms/AppletIsPortOpenTest.ui
+
     src/Forms/AppletJoinHostList.ui
     src/Forms/AppletLaunchWidget.ui
     src/Forms/AppletLibrary.ui

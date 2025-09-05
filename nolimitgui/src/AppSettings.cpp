@@ -811,6 +811,75 @@ std::string AppSettings::getLastHostJoined( void )
 }
 
 //============================================================================
+void AppSettings::setLastHostJoined( EHostType hostType, std::string lastJoinedHost )
+{
+	bool valid{ false };
+	std::string settingName{ "LastJoined" };
+	switch( hostType )
+	{
+	case eHostTypeChatRoom:
+		settingName += "ChatRoom";
+		valid = true;
+		break;
+	case eHostTypeGroup:
+		settingName += "Group";
+		valid = true;
+		break;
+	case eHostTypeRandomConnect:
+		settingName += "RandomConnect";
+		valid = true;
+		break;
+	default:
+		break;
+	}
+
+	if( valid )
+	{
+		setIniValue( getAppShortName(), settingName.c_str(), lastJoinedHost);
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "AppSettings::%s invalid host type", __func__ );
+	}
+}
+
+//============================================================================
+std::string AppSettings::getLastHostJoined( EHostType hostType )
+{
+	std::string lastHost;
+	bool valid{ false };
+	std::string settingName{ "LastJoined" };
+	switch( hostType )
+	{
+	case eHostTypeChatRoom:
+		settingName += "ChatRoom";
+		valid = true;
+		break;
+	case eHostTypeGroup:
+		settingName += "Group";
+		valid = true;
+		break;
+	case eHostTypeRandomConnect:
+		settingName += "RandomConnect";
+		valid = true;
+		break;
+	default:
+		break;
+	}
+
+	if( valid )
+	{
+		getIniValue( getAppShortName(), settingName.c_str(), lastHost, "" );
+	}
+	else
+	{
+		LogMsg( LOG_ERROR, "AppSettings::%s invalid host type", __func__ );
+	}
+
+	return lastHost;
+}
+
+//============================================================================
 void AppSettings::setIsAutomatedHost( bool enable )
 {
 	setIniValue( getAppShortName(), "UnattendedHost", enable );

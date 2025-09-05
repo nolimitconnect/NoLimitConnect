@@ -74,8 +74,6 @@ protected slots:
 
     void                        slotPurgeEverythingButtonClicked( void );
 
-    void                        slotTestChooseUserButtonClicked( void );
-
     void                        slotDeleteDbButtonClicked( void );
 
     void                        slotNewUrlSelected( int comboBoxIdx );

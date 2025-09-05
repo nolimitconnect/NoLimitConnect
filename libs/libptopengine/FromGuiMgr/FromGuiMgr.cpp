@@ -85,15 +85,19 @@ void FromGuiMgr::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::str
 }
 
 //============================================================================
-void FromGuiMgr::fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl )
+void FromGuiMgr::fromGuiLeaveHost( HostedId& adminId )
 {
-	queFromGuiAction( new FromGuiHostAction( m_Engine, eFromGuiLeaveHost, adminId, sessionId, hostUrl ) );
+	VxGUID emptySession;
+	std::string emptyUrl;
+	queFromGuiAction( new FromGuiHostAction( m_Engine, eFromGuiLeaveHost, adminId, emptySession, emptyUrl ) );
 }
 
 //============================================================================
-void FromGuiMgr::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl )
+void FromGuiMgr::fromGuiUnJoinHost( HostedId& adminId )
 {
-	queFromGuiAction( new FromGuiHostAction( m_Engine, eFromGuiUnJoinHost, adminId, sessionId, hostUrl ) );
+	VxGUID emptySession;
+	std::string emptyUrl;
+	queFromGuiAction( new FromGuiHostAction( m_Engine, eFromGuiUnJoinHost, adminId, emptySession, emptyUrl ) );
 }
 
 //============================================================================

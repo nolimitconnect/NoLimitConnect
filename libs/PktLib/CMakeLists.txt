@@ -8,6 +8,7 @@ set(pktlib_SOURCES)
 list(APPEND pktlib_SOURCES 
     HostUserSessionId.cpp
     MatchParams.cpp
+    PktAdminAvail.cpp
 	PktAnnList.cpp
     PktAnnounce.cpp
     PktChatReq.cpp

@@ -133,8 +133,8 @@ public:
 
     virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) = 0;
     virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) = 0;
-	virtual void				fromGuiLeaveHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) = 0;
-	virtual void				fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl, bool fromThread = false ) = 0;
+	virtual void				fromGuiLeaveHost( HostedId& adminId, bool fromThread = false ) = 0;
+	virtual void				fromGuiUnJoinHost( HostedId& adminId, bool fromThread = false ) = 0;
 
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread = false ) = 0;
 

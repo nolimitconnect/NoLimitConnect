@@ -216,6 +216,8 @@ PktPluginHandlerBase::PktPluginHandlerBase()
 
 	m_aBaseSysPktFuncTable[ PKT_TYPE_FRIEND_REQUEST_REQ ]				= &PktPluginHandlerBase::onPktFriendRequestReq;
 	m_aBaseSysPktFuncTable[ PKT_TYPE_FRIEND_REQUEST_REPLY ]				= &PktPluginHandlerBase::onPktFriendRequestReply;
+
+	m_aBaseSysPktFuncTable[PKT_TYPE_ADMIN_AVAIL]						= &PktPluginHandlerBase::onPktAdminAvail;
 }
 
 //============================================================================
@@ -1151,6 +1153,12 @@ void PktPluginHandlerBase::onPktFriendRequestReq( std::shared_ptr<VxSktBase>& sk
 
 //============================================================================
 void PktPluginHandlerBase::onPktFriendRequestReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktAdminAvail( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	onPktUnhandled( sktBase, pktHdr, netIdent );
 }

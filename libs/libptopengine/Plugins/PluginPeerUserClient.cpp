@@ -39,9 +39,9 @@ void PluginPeerUserClient::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId
 }
 
 //============================================================================
-void PluginPeerUserClient::fromGuiUnJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl )
+void PluginPeerUserClient::fromGuiUnJoinHost( HostedId& adminId )
 {
-    m_HostClientMgr.fromGuiUnJoinHost( adminId, sessionId, ptopUrl );
+    m_HostClientMgr.fromGuiUnJoinHost( adminId );
 }
 
 //============================================================================

@@ -45,6 +45,7 @@ public:
     bool                        isActiveMemberOfAny( VxGUID& onlineId );  // return true if active member of any host we have joined
 
     void                        getActiveMembers( HostedId& hostId, std::set<VxGUID>& memberList );
+    GroupieId                   getJoinedAdminGroupieId( EHostType hostType, VxGUID& onlineId );
 
 signals:
     void                        signalInternalMemberActive( GroupieId groupieId, bool isActive );

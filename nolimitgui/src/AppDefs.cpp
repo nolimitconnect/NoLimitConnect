@@ -26,7 +26,9 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletChatRoomJoinSearch:	        return eMyIconSearchJoinChatRoom;
     case eAppletChatRoomJoin:	            return eMyIconChatRoomClient;
     case eAppletChatRoomListLocalView:	    return eMyIconEyeAnnouncedChatRooms;
-    case eAppletChooseHost:	                return eMyIconSearchPerson;
+
+    case eAppletHostJoinChoose:	            return eMyIconSearchPerson;
+    case eAppletHostJoinConnect:	        return eMyIconSearchPerson;
 
     case eAppletCreateAccount:			    return eMyIconUserIdentity;
 
@@ -151,7 +153,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletUploads:                    return eMyIconSendFileNormal;
     case eAppletOfferList:                  return eMyIconOfferList;
     case eAppletHostJoinRequestList:        return eMyIconPersonsOfferList;
-    case eAppletHostSelect:                 return eMyIconPersonsOfferList;
+
     case eAppletPersonOfferList:            return eMyIconPersonsOfferList;
     case eAppletPopupMenu:	                return eMyIconMenu;
 
@@ -227,7 +229,9 @@ QString DescribeApplet( EApplet applet )
     case eAppletChatRoomListLocalView:		return QObject::tr( "Chat Room Hosts Announced To Network" );
 
     case eAppletChooseThumbnail:		    return QObject::tr( "Choose Thumbnail" );
-    case eAppletChooseHost:		            return QObject::tr( "Choose Host" );
+
+    case eAppletHostJoinChoose:		        return QObject::tr( "Choose Host" );
+    case eAppletHostJoinConnect:		    return QObject::tr( "Join Host Connect" );
 
     case eAppletChatRoomClient:		        return QObject::tr( "Chat Room" );
     case eAppletRandomConnectClient:		return QObject::tr( "Random Person Connect" );
@@ -269,7 +273,7 @@ QString DescribeApplet( EApplet applet )
     case eAppletMultiMessenger:				return QObject::tr( "Messenger" );
     case eAppletNetworkSettings:		    return QObject::tr( "Network Settings" );
     case eAppletHostJoinRequestList:        return QObject::tr( "Join Host Requests" );
-    case eAppletHostSelect:                 return QObject::tr( "Select A Host" );
+
     case eAppletPersonOfferList:            return QObject::tr( "Persons Offers" );
 	case eAppletPlayerVideo:			    return QObject::tr( "Video Player" );
     case eAppletPersonalRecorder:		    return QObject::tr( "Personal Notes And Records" );
