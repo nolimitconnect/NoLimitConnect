@@ -197,5 +197,8 @@ void AppCommon::connectSignals( void )
 		SLOT(slotInternalMediaError(EMediaModule,EMediaError,QString)), Qt::QueuedConnection );
 
     connect( this, SIGNAL(signalInternalToGuiTodGameAction(EPluginType,VxGUID,ETodGameAction)), this,
-            SLOT(slotInternalToGuiTodGameAction(EPluginType,VxGUID,ETodGameAction)), Qt::QueuedConnection );
+        SLOT(slotInternalToGuiTodGameAction(EPluginType,VxGUID,ETodGameAction)), Qt::QueuedConnection );
+
+	connect( this, SIGNAL(signalInternalAppPopupErr(EAppErr,QString)), this,
+		SLOT(slotInternalAppPopupErr(EAppErr,QString)), Qt::QueuedConnection );
 }

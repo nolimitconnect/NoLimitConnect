@@ -39,7 +39,7 @@ public:
     bool                        extractFromBlob( PktBlobEntry& blob );
 
     void						setSocketId( VxGUID& socketId )                     { m_SocketId = socketId; }
-    VxGUID&                     getSocketId( void )                                 { return m_SocketId; }
+    VxGUID                      getSocketId( void ) const                           { return m_SocketId; }
 
     void						setGroupieId( GroupieId& groupieId )                { m_GroupieId = groupieId; }
     GroupieId&                  getGroupieId( void )                                { return m_GroupieId; }
@@ -64,13 +64,17 @@ public:
     // get a description of the plugin id
     std::string                 describeConnectId( void ) const;
 
-    bool                        isValid( void )                                 { return m_SocketId.isVxGUIDValid() && m_GroupieId.isValid();  }
-    void                        clear( void )                                   { m_SocketId.clearVxGUID(); m_GroupieId.clear(); }
+    bool                        isValid( void )                                     { return m_SocketId.isVxGUIDValid() && m_GroupieId.isValid();  }
+    void                        clear( void )                                       { m_SocketId.clearVxGUID(); m_GroupieId.clear(); m_IsRelayed = true; }
+
+    void                        setIsRelayed( bool isRelayed )                      { m_IsRelayed = isRelayed; }
+    bool                        isRelayed( void ) const                             { return m_IsRelayed; }
 
 protected:
 	//=== vars ===//
     VxGUID					    m_SocketId;
     GroupieId					m_GroupieId;
+    bool                        m_IsRelayed{ true };
 };
 
 #pragma pack(pop)

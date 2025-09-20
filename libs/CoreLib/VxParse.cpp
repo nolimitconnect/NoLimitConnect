@@ -230,6 +230,7 @@ int CountChars( const char* pStr, char cCharToLookFor )
 	}
 	return iCnt;
 }
+
 //============================================================================
 int CountChars( std::string& csStr, char cCharToLookFor )
 {

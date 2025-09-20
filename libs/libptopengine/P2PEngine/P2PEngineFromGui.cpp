@@ -43,7 +43,6 @@
 #include <HostServerJoinMgr/HostServerJoinMgr.h>
 #include <SendQueue/SendQueueMgr.h>
 #include <UserJoinMgr/UserJoinMgr.h>
-#include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <UrlMgr/UrlMgr.h>
 
@@ -1152,21 +1151,9 @@ void P2PEngine::fromGuiLeaveHost( HostedId& adminId, bool fromThread )
 {
 	if( fromThread )
 	{
-		if( getUserJoinMgr().fromGuiLeaveHost( adminId ) )
-		{
-			EHostType hostType = adminId.getHostType();
-			PluginBase* plugin = m_PluginMgr.findHostClientPlugin( hostType );
-			if( plugin )
-			{
-				plugin->fromGuiLeaveHost( adminId );
-			}
-			else
-			{
-				LogMsg( LOG_ERROR, "Plugin not found for host %d", hostType );
-				vx_assert( false );
-			}
-		}
-
+		bool result = getUserJoinMgr().fromGuiLeaveHost( adminId );
+		if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_VERBOSE, "P2PEngine::%s left Host %s result %d", __func__,
+			DescribeHostType( adminId.getHostType() ), result );
 	}
 	else
 	{
@@ -1179,20 +1166,9 @@ void P2PEngine::fromGuiUnJoinHost( HostedId& adminId, bool fromThread )
 {
 	if( fromThread )
 	{
-		if( getUserJoinMgr().fromGuiUnJoinHost( adminId ) )
-		{
-			EHostType hostType = adminId.getHostType();
-			PluginBase* plugin = m_PluginMgr.findHostClientPlugin( hostType );
-			if( plugin )
-			{
-				plugin->fromGuiUnJoinHost( adminId );
-			}
-			else
-			{
-				LogMsg( LOG_ERROR, "Plugin not found for host %d", hostType );
-				vx_assert( false );
-			}
-		}
+		bool result = getUserJoinMgr().fromGuiUnJoinHost( adminId );
+		if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_VERBOSE, "P2PEngine::%s Unjoined Host %s result %d", __func__,
+			DescribeHostType( adminId.getHostType() ), result );
 	}
 	else
 	{
@@ -1909,4 +1885,25 @@ bool P2PEngine::fromGuiSendFriendRequest( VxGUID& onlineId, std::string& request
 	}
 
 	return false;
+}
+
+//============================================================================
+void P2PEngine::fromGuiBlockUser( VxGUID& onlineId, bool fromThread )
+{
+	if( fromThread )
+	{
+		VxNetIdent* netIdent = getBigListMgr().findNetIdent( onlineId );
+		if( !netIdent )
+		{
+			LogMsg( LOG_ERROR, "P2PEngine::%s user not found %s", __func__, onlineId.toOnlineIdString().c_str() );
+			return;
+		}
+
+		fromGuiChangeMyFriendshipToHim( onlineId, eFriendStateIgnore, netIdent->getHisFriendshipToMe() );
+	}
+	else
+	{
+		if( LogEnabled( eLogUsers ) )LogMsg( LOG_VERBOSE, "P2PEngine::%s queued %s", __func__, onlineId.toOnlineIdString().c_str() );
+		m_FromGuiMgr.fromGuiBlockUser( onlineId );
+	}
 }

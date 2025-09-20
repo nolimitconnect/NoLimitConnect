@@ -2037,7 +2037,7 @@ void VxCloseSktNow( SOCKET& oSocket )
 {
 	if( INVALID_SOCKET != oSocket )
 	{
-		//LogMsg( LOG_INFO, "VxSktBase::closeSkt: Skt %d force close start", m_SktNumber );
+		if( LogEnabled( eLogConnect ) )LogModule( eLogConnect, LOG_VERBOSE, "--%s closing skt handle %d", __func__, oSocket );
 		// set linger time to zero to force a close right now
 
         linger oLinger;
@@ -2073,6 +2073,7 @@ void VxCloseSkt( SOCKET& oSocket )
 {
 	if( INVALID_SOCKET != oSocket )
 	{
+		if( LogEnabled( eLogConnect ) )LogModule( eLogConnect, LOG_VERBOSE, "--%s closing skt handle %d", __func__, oSocket );
 		#ifdef TARGET_OS_WINDOWS
 			closesocket( oSocket );
         #else // Linux amd Android

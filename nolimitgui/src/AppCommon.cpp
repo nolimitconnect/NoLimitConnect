@@ -597,6 +597,43 @@ void AppCommon::toGuiAppErr( EAppErr eAppErr, const char* errMsg )
 }
 
 //============================================================================
+void AppCommon::toGuiAppPopupErr( EAppErr eAppErr, const char* errMsg )
+{
+	if( VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
+	emit signalInternalAppPopupErr( eAppErr, errMsg );
+}
+
+//============================================================================
+void AppCommon::slotInternalAppPopupErr( EAppErr appErr, QString errMsg )
+{
+	if( VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
+	QString title{ "Unknown Error" };
+	QString msg{ "Please Check Network Settings\n" };
+	switch( appErr )
+	{
+	case eAppPopupErrNetworkHostConnectFail:
+		title = "Failed to connect to Network host";
+		break;
+	case eAppPopupErrConnectTestHostConnectFail:
+		title = "Failed to connect to Connection Test host";
+		break;
+	default:
+		break;
+	}
+
+	msg += errMsg;
+	QMessageBox::warning( &getHomeWindow(), title, msg );
+}
+
+//============================================================================
 void AppCommon::toGuiStatusMessage( const char* statusMsg )
 {
 	if( VxIsAppShuttingDown() )
@@ -1899,6 +1936,16 @@ bool AppCommon::checkSystemReady( void )
 	}
 
 	return m_IsGuiSystemReady;
+}
+
+//============================================================================
+std::string AppCommon::describeConnectId( ConnectId& connectionId )
+{
+	std::string desc = "skt id ";
+	desc += connectionId.getSocketId().toHexString();
+	desc += connectionId.isRelayed() ? " relayed " : " direct ";
+	desc += describeGroupieId( connectionId.getGroupieId() );
+	return desc;
 }
 
 //============================================================================

@@ -21,6 +21,16 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
+    <widget class="QLabel" name="m_StatusLabel_2">
+     <property name="text">
+      <string notr="true"/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="IdentWidget" name="m_AdminIdentWidget" native="true"/>
+   </item>
+   <item>
     <widget class="QFrame" name="m_ViewCurrentFrame">
      <layout class="QHBoxLayout" name="horizontalLayout_12">
       <property name="spacing">
@@ -167,6 +177,12 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>IdentWidget</class>
+   <extends>QWidget</extends>
+   <header>IdentWidget.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>VxPushButton</class>
    <extends>QPushButton</extends>

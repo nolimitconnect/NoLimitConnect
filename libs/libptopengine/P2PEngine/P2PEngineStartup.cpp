@@ -20,7 +20,6 @@
 #include <SendQueue/SendQueueMgr.h>
 
 #include <UserJoinMgr/UserJoinMgr.h>
-#include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
@@ -146,7 +145,6 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
 
         m_HostJoinMgr.fromGuiUserLoggedOn();
         m_UserJoinMgr.fromGuiUserLoggedOn();
-        m_UserOnlineMgr.fromGuiUserLoggedOn();
 
         // set network settings from saved settings
         startupEngine();

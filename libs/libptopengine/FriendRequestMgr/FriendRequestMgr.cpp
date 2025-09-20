@@ -17,7 +17,6 @@
 #include <Plugins/PluginMgr.h>
 #include <Plugins/PluginBase.h>
 #include <Plugins/PluginBaseNetworkService.h>
-#include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <CoreLib/VxGUID.h>
 #include <CoreLib/VxDebug.h>
@@ -168,7 +167,7 @@ void FriendRequestMgr::rxedFriendRequest( std::shared_ptr<VxSktBase>& sktBase, V
         {
             // say online so user is available to act on
             GroupieId groupieId( netIdent->getMyOnlineId(), netIdent->getMyOnlineId(), eHostTypePeerUser );
-            GetPtoPEngine().getUserOnlineMgr().onUserOnline( groupieId, sktBase, netIdent );
+            GetPtoPEngine().getConnectIdListMgr().onUserOnline( groupieId, sktBase, netIdent );
         }
     }
     else

@@ -34,8 +34,8 @@ enum EAppErr
 	eAppErrBusy								= 1000016,
     eAppErrSeviceError                      = 1000017,
 
-	eAppErrSslMgrFileMissing				= 1100100,
-	eAppErrSslMgrUnassignedLogOn			= 1100101,
+	eAppPopupErrNetworkHostConnectFail		= 1100100,
+	eAppPopupErrConnectTestHostConnectFail  = 1100101,
 
 	eMaxAppErr
 };

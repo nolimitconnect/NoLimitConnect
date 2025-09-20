@@ -84,6 +84,7 @@
 #define OBJNAME_APPLET_HOST_JOIN_CHOOSE					"AppletHostJoinChoose"
 #define OBJNAME_APPLET_HOST_JOIN_CONNECT				"AppletHostJoinConnect"
 #define OBJNAME_APPLET_HOST_JOIN_REQUEST_LIST			"AppletHostJoinRequestList"
+#define OBJNAME_APPLET_HOST_LEAVE						"AppletHostLeave"
 
 #define OBJNAME_APPLET_HOST_CHAT_ROOM_ADMIN 			"AppletChatRoomHostAdmin"
 #define OBJNAME_APPLET_HOST_CHAT_ROOM_STATUS			"AppletHostChatRoomStatus"
@@ -179,8 +180,6 @@
 #define OBJNAME_APPLET_STORYBOARD_CLIENT				"AppletStoryboardClient"
 
 #define OBJNAME_APPLET_TEST_AND_DEBUG				    "AppletTestAndDebug"
-#define OBJNAME_APPLET_TEST_HOST_CLIENT					"AppletTestHostClient"
-#define OBJNAME_APPLET_TEST_HOST_SERVICE				"AppletTestHostService"
 #define OBJNAME_APPLET_TEST_UPNP						"AppletTestUpnp"
 
 #define OBJNAME_APPLET_THEME							"AppletTheme"

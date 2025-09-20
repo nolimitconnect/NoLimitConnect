@@ -70,7 +70,7 @@ HostUserSessionId& HostUserSessionId::operator =( const HostUserSessionId& rhs )
 //============================================================================
 bool HostUserSessionId::operator == ( const HostUserSessionId& rhs ) const
 {
-    return m_SocketId == rhs.m_SocketId &&  m_GroupieId == rhs.m_GroupieId && m_SessionId == rhs.m_SessionId;
+    return *( (ConnectId *)(this) ) == rhs && m_SessionId == rhs.m_SessionId;
 }
 
 //============================================================================
@@ -82,7 +82,17 @@ bool HostUserSessionId::operator != ( const HostUserSessionId& rhs ) const
 //============================================================================
 bool HostUserSessionId::operator < ( const HostUserSessionId& rhs ) const
 {
-    return m_SocketId < rhs.m_SocketId || ( m_SocketId == rhs.m_SocketId && m_GroupieId < rhs.m_GroupieId );
+    if( *(this) == rhs )
+    {
+        return false;
+    }
+
+    if( *( (ConnectId*)( this ) ) == rhs && m_SessionId < rhs.m_SessionId )
+    {
+        return true;
+    }
+
+    return false;
 }
 
 //============================================================================
@@ -104,7 +114,17 @@ bool HostUserSessionId::operator <= ( const HostUserSessionId& rhs ) const
 //============================================================================
 bool HostUserSessionId::operator > ( const HostUserSessionId& rhs ) const
 {
-    return m_SocketId > rhs.m_SocketId || ( m_SocketId == rhs.m_SocketId && m_GroupieId > rhs.m_GroupieId );
+    if( *this == rhs )
+    {
+        return false;
+    }
+
+    if( *this < rhs )
+    {
+        return false;
+    }
+
+    return true;
 }
 
 //============================================================================
@@ -143,6 +163,11 @@ bool HostUserSessionId::extractFromBlob( PktBlobEntry& blob )
 //============================================================================
 int HostUserSessionId::compareTo( HostUserSessionId& connectId )
 {
+    if( *this == connectId )
+    {
+        return 0;;
+    }
+
     int result = 0;
     if( *this > connectId )
     {
@@ -151,11 +176,6 @@ int HostUserSessionId::compareTo( HostUserSessionId& connectId )
     else if( *this < connectId )
     {
         result = -1;
-    }
-
-    if( 0 == result )
-    {
-        result = m_SocketId.compareTo( connectId.getSocketId() );
     }
 
     return result;

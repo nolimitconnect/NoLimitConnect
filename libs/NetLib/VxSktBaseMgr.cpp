@@ -659,6 +659,8 @@ void VxSktBaseMgr::sktWasClosed( VxSktBase* sktBaseIn, bool sktMgrLocked )
         {
             moveToEraseList( *iter, true );
             sktFound = true;
+			if(LogEnabled(eLogConnect))LogMsg( LOG_DEBUG, "--VxSktBaseMgr::%s moveToEraseList skt num %d ip %s usr %s", __func__,
+				sktBaseIn->getSktNumber(), sktBaseIn->getRemoteIp().c_str(), sktBaseIn->describePeerUser().c_str() );
             break;
         }
     }
@@ -681,7 +683,6 @@ void VxSktBaseMgr::sktWasClosed( VxSktBase* sktBaseIn, bool sktMgrLocked )
 //============================================================================
 void VxSktBaseMgr::getSktStatRecords( std::vector<VxSktStatRecord>& retSktStatList )
 {
-	retSktStatList.clear();
 	lockSktBaseMgr();
 	for( auto sktBase : m_aoSkts )
 	{

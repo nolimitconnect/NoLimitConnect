@@ -196,7 +196,7 @@ uint64_t g_ModuleEnableLoggingFlags = (uint32_t)(
             getLogMutex().lock();
             if( callbackHandler && ((int)m_LogCallbackList.size() < MAX_LOG_FUNCTIONS) )
             {
-                m_LogCallbackList.push_back( callbackHandler );
+                m_LogCallbackList.emplace_back( callbackHandler );
             }
 
             getLogMutex().unlock();

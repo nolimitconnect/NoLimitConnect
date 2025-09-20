@@ -19,6 +19,12 @@
 #include <algorithm>
 
 //============================================================================
+void MemberActiveMgr::memberActiveStartup( void )
+{
+    GetPtoPEngine().getConnectIdListMgr().wantConnectIdListCallback( this, true );
+}
+
+//============================================================================
 void MemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool memberActive )
 {
     if( !groupieId.isValid() )
@@ -166,19 +172,21 @@ void MemberActiveMgr::wantMemberActiveCallbacks( MemberActiveCallback* client, b
 }
 
 //============================================================================
-void MemberActiveMgr::callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline )
+void MemberActiveMgr::callbackConnectionStatusChange( ConnectId& connectId, bool isOnline )
 {
     if( isOnline )
     {
         return;
     }
     
+    VxGUID onlineId = connectId.getUserOnlineId();
+    EHostType hostType = connectId.getHostType();
     std::vector<GroupieId> offlineMemberList;
     lockMemberList();
 
     for( auto iter = m_MemberList.begin(); iter != m_MemberList.end(); )
     {
-        if( iter->getHostOnlineId() == onlineId  || iter->getUserOnlineId() == onlineId)
+        if( iter->getHostedId() == connectId.getHostedId() )
         {
             offlineMemberList.emplace_back( *iter );
             iter = m_MemberList.erase( iter );

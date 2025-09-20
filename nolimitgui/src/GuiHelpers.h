@@ -103,6 +103,7 @@ public:
 
     static bool                 isAppletAService( EApplet applet );
     static bool                 isAppletAClient( EApplet applet );
+    static EApplet              hostTypeToHostClientApplet( EHostType hostType );
 
     static EPluginType          getAppletAssociatedPlugin( EApplet applet );
     static EApplet              pluginTypeToEditApplet( EPluginType pluginType );
@@ -220,6 +221,7 @@ public:
     static void                 showUserNotOnlineError( QWidget* parent = nullptr );
     static void                 showRequiresFriendshipError( QWidget* parent = nullptr );
     static void                 showInvalidHostIdError( QWidget* parent = nullptr );
+    static void                 showInvalidHostTypeError( QWidget* parent = nullptr );
     static void                 showInvalidUrlrror( QWidget* parent = nullptr );
     static void                 showNoMembersOnlineError( QWidget* parent = nullptr );
 

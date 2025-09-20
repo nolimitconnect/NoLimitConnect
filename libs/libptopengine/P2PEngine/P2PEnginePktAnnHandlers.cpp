@@ -8,6 +8,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <GuiInterface/IDefs.h>
+
 #include "P2PEngine.h"
 
 #include <BigListLib/BigListInfo.h>
@@ -24,14 +26,14 @@ bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnno
     pktAnn->clearIsJoined();
     if( pktAnn->getMyOnlineId() == getMyOnlineId() )
     {
-        VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::%s", __func__ );
+        VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::%s myself so closing connection", __func__ );
         sktBase->closeSkt( eSktCloseHackLevelSevere );
         return false;
     }
 
     bool updateOk{ true };
 
-    LogModule( eLogUserConnect, LOG_VERBOSE, "%s name %s %s at ip %s pktAnn his friendship %s my friendship %s", __func__,
+    LogModule( eLogConnect, LOG_VERBOSE, "%s name %s %s at ip %s pktAnn his friendship %s my friendship %s", __func__,
                 bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str(),
                 DescribeFriendState( pktAnn->getHisFriendshipToMe() ),
                 DescribeFriendState( bigListInfo->getMyFriendshipToHim() ) );
@@ -39,7 +41,7 @@ bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnno
 
     if( !sktBase->getIsPeerPktAnnSet() )
     {
-        LogModule( eLogUserConnect, LOG_VERBOSE, "%s set peer %s", __func__, pktAnn->describeUser().c_str() );
+        LogModule( eLogConnect, LOG_VERBOSE, "%s set peer %s", __func__, pktAnn->describeUser().c_str() );
 
         if( sktBase->setPeerPktAnn( *pktAnn ) )
         {
@@ -50,9 +52,11 @@ bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnno
 
             if( !sktBase->isTempConnection() )
             {
+                EConnectReason connectReason = sktBase->getConnectReason();
+                EHostType hostType = ConnectReasonToHostType( connectReason );
 
-                GroupieId groupieId( bigListInfo->getMyOnlineId(), bigListInfo->getMyOnlineId(), eHostTypePeerUser );
-                getConnectIdListMgr().addConnection( sktBase->getSocketId(), groupieId, false );
+                GroupieId groupieId( bigListInfo->getMyOnlineId(), bigListInfo->getMyOnlineId(), hostType );
+                getConnectIdListMgr().addConnection( sktBase, groupieId );
                 getConnectList().addConnection( sktBase, bigListInfo, (ePktAnnUpdateTypeNewContact == pktAnnUpdateType) );
             }
 
@@ -108,12 +112,12 @@ bool P2PEngine::onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, Pk
     {
         pktAnn->setIsJoined( pktAnn->getHostType(), true );
 
-        LogModule( eLogConnect, LOG_VERBOSE, "onHostedUserPktAnnounce %s %s at ip %s",
+        LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onHostedUserPktAnnounce %s %s at ip %s",
                    bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
-        LogModule( eLogUserEvent, LOG_VERBOSE, "onHostedUserPktAnnounce %s %s", pktAnn->describeUser().c_str(), describeGroupieId( groupieId ).c_str() );
+        LogModule( eLogUsers, LOG_VERBOSE, "P2PEngine::onHostedUserPktAnnounce %s %s", pktAnn->describeUser().c_str(), describeGroupieId( groupieId ).c_str() );
     }
 
-    getConnectIdListMgr().addConnection( sktBase->getSocketId(), groupieId, true );
+    getConnectIdListMgr().addConnection( sktBase, groupieId, true );
     getMemberActiveMgr().updateMemberActive( groupieId, true );
 
     if( !getConnectIdListMgr().isDirectConnected( pktAnn->getMyOnlineId() ) )
@@ -140,7 +144,7 @@ bool P2PEngine::onRelayedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, P
         LogModule( eLogConnect, LOG_VERBOSE, "onRelayedUserPktAnnounce %s %s at ip %s",
                    bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
 
-        LogModule( eLogUserEvent, LOG_VERBOSE, "onRelayedUserPktAnnounce %s from %s", pktAnn->describeUser().c_str(), bigListInfo->describeUser().c_str() );
+        LogModule( eLogUsers, LOG_VERBOSE, "onRelayedUserPktAnnounce %s from %s", pktAnn->describeUser().c_str(), bigListInfo->describeUser().c_str() );
     }
 
     GetMemberConfirmMgr().pktAnnRecieved( pktAnn->getMyOnlineId() );
@@ -177,8 +181,9 @@ bool P2PEngine::onPktAnnounceCommonHandler( std::shared_ptr<VxSktBase>& sktBase,
                bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str(),
                DescribeFriendState( bigListInfo->getMyFriendshipToHim() ), DescribeFriendState( bigListInfo->getHisFriendshipToMe() ) );
 
-        getConnectIdListMgr().pktAnnRecieved( sktBase->getSocketId(), pktAnn->getMyOnlineId() );
-		getToGui().toGuiContactAdded( bigListInfo->getVxNetIdent() );
+        getToGui().toGuiContactAdded( bigListInfo->getVxNetIdent() );
+
+        getConnectIdListMgr().pktAnnRecieved( sktBase, pktAnn->getMyOnlineId() );
         getThumbMgr().requestThumbs( sktBase, bigListInfo->getVxNetIdent() );
 
         getSendQueueMgr().pktAnnRecieved( pktAnn->getMyOnlineId() );

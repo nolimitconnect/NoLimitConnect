@@ -1083,8 +1083,12 @@ typedef struct tWAVEFORMATEX
 # define     VxGetLastError()	errno
 # define	 VxMkDir(exp,exp2)	mkdir(exp,exp2)     //make directory command we can use in windows like linux
 
-# define     INVALID_SOCKET		-1		// use windows style socket define
-# define     SOCKET_ERROR		-1		// use windows style socket define
+# if !defined(INVALID_SOCKET)
+#  define     INVALID_SOCKET		-1		// use windows style socket define
+# endif //!defined(INVALID_SOCKET)
+# if !defined(SOCKET_ERROR)
+#  define     SOCKET_ERROR		-1		// use windows style socket define
+# endif // !defined(SOCKET_ERROR)
 
 # endif // _MSC_VER
 

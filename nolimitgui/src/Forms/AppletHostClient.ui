@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AppletRandomConnectClientUi</class>
- <widget class="QWidget" name="AppletRandomConnectClientUi">
+ <class>AppletHostClientUi</class>
+ <widget class="QWidget" name="AppletHostClientUi">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Random Connect Client</string>
+   <string>Host Client</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">

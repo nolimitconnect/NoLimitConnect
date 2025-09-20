@@ -10,115 +10,18 @@
 
 #include "AppletRandomConnectClient.h"
 
-#include "AppCommon.h"
-#include "AppSettings.h"
-#include "GuiMemberActiveMgr.h"
-
-#include <P2PEngine/P2PEngine.h>
-
 #include <CoreLib/ObjectCommonDefs.h>
-#include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 
-#include <QFrame>
-
-#include "ui_AppletRandomConnectClient.h"
+#include "ui_AppletHostClient.h"
 
 //============================================================================
 AppletRandomConnectClient::AppletRandomConnectClient( AppCommon& app, QWidget* parent )
-: AppletClientBase( OBJNAME_APPLET_RANDOM_CONNECT_CLIENT, app, parent )
-, ui(*(new Ui::AppletRandomConnectClientUi))
+: AppletHostClientBase( OBJNAME_APPLET_RANDOM_CONNECT_CLIENT, app, eAppletRandomConnectClient, eHostTypeRandomConnect, ePluginTypeClientRandomConnect, parent )
 {
-    setAppletType( eAppletRandomConnectClient );
-    setHostType( eHostTypeRandomConnect );
-    ui.setupUi( getContentItemsFrame() );
-	setTitleBarText( DescribeApplet( m_EAppletType ) );
-    setPluginType( ePluginTypeClientRandomConnect );
-
     ui.m_SessionWidget->setMediaModule( eMediaModuleRandomConnectClient );
-    ui.m_SessionWidget->setPluginType( ePluginTypeClientRandomConnect );
-	ui.m_SessionWidget->setInputClientCallback( this );
 
 	ui.m_SessionWidget->setLimitToTextAndPhotos( true );
 
     ui.m_UserListWidget->setUserViewType( eUserViewTypeRandomConnect );
-
-    connect( this,                  SIGNAL(signalBackButtonClicked()),          this, SLOT(closeApplet()) );
-    connect( ui.m_UserListWidget,   SIGNAL(signalSetSessionVisible(bool)),      this, SLOT(slotSetSessionVisible(bool)) );
-    connect( ui.m_UserListWidget,	SIGNAL(signalViewChanged(EUserViewType)),   this, SLOT(slotViewChanged(EUserViewType)));
-
-	m_MyApp.activityStateChange( this, true );
-}
-
-//============================================================================
-AppletRandomConnectClient::~AppletRandomConnectClient()
-{
-    m_MyApp.activityStateChange( this, false );
-}
-
-//============================================================================
-void AppletRandomConnectClient::userJoinedHost( GuiHosted* guiHosted )
-{
-	if( guiHosted )
-	{
-		GuiUser* adminUser = guiHosted->getUser();
-		if( adminUser )
-		{
-			HostedId adminId( adminUser->getMyOnlineId(), guiHosted->getHostType() );
-			GroupieId groupieId( m_MyApp.getMyOnlineId(), adminId );
-			if( adminId.isValid() )
-			{
-				ui.m_SessionWidget->setHostAdminId( groupieId );
-				AppletClientBase::userJoinedHost( guiHosted );
-			}
-		}
-	}
-}
-
-//============================================================================
-void AppletRandomConnectClient::setAdminGroupieId( GroupieId& adminGroupieId )
-{
-	GuiUser* adminUser = m_MyApp.getUserMgr().getUser( adminGroupieId.getHostOnlineId() );
-	if( adminUser )
-	{
-		if( adminUser->isOnline() )
-		{
-			ui.m_SessionWidget->setHostAdminId( adminGroupieId );
-		}
-	}
-	else
-	{
-		LogMsg( LOG_ERROR, "AppletChatRoomClient::%s failed to find admin", __func__ );
-	}
-}
-
-//============================================================================
-void AppletRandomConnectClient::showEvent( QShowEvent* ev )
-{
-    ActivityBase::showEvent( ev );
-    ui.m_UserListWidget->setUserViewType( eUserViewTypeRandomConnect );
-}
-
-//============================================================================
-void AppletRandomConnectClient::slotSetSessionVisible( bool visible )
-{
-    ui.m_SessionWidget->setVisible( visible );
-}
-
-//============================================================================
-void AppletRandomConnectClient::slotViewChanged( EUserViewType viewType )
-{
-	//setSelectedUser( nullptr );
-}
-
-//============================================================================
-bool AppletRandomConnectClient::checkIfCanSend( void )
-{
-	return AppletBase::checkIfCanSend( ui.m_UserListWidget->getHostAdminId().getHostedId() );
-}
-
-//============================================================================
-bool AppletRandomConnectClient::handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo )
-{
-	return handleGroupieAssetAction( ui.m_UserListWidget->getHostAdminId(), assetAction, assetInfo );
 }

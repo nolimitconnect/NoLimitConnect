@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ConnectIdListMgr/OnlineStatusCallback.h>
+#include <ConnectIdListMgr/ConnectIdListCallback.h>
 #include <Membership/MemberActiveCallback.h>
 
 #include <CoreLib/VxMutex.h>
@@ -22,7 +22,7 @@
 class RandConnectCallback;
 class P2PEngine;
 
-class RandConnectMgr : public OnlineStatusCallback, public MemberActiveCallback
+class RandConnectMgr : public ConnectIdListCallback, public MemberActiveCallback
 {
 public:
     RandConnectMgr() = default;
@@ -33,7 +33,7 @@ public:
 
     void                        wantRandConnectCallbacks( RandConnectCallback* client, bool enable );
 
-    void				        callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;
+    void				        callbackConnectionStatusChange( ConnectId& connectId, bool isOnline ) override;
     void				        callbackMemberActive( GroupieId& onlineId, bool isActive ) override;
 
     void                        updateRandConnectStatus( GroupieId& groupieId, VxGUID& toUserOnlineId, enum ERandAction randAction );

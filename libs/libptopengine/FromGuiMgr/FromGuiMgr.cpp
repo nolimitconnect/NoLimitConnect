@@ -118,6 +118,12 @@ void FromGuiMgr::fromGuiPlayOneFrame( AssetBaseInfo& assetInfo )
 }
 
 //============================================================================
+void FromGuiMgr::fromGuiBlockUser( VxGUID& onlineId )
+{
+	queFromGuiAction( new FromGuiBlockUser( m_Engine, onlineId ) );
+}
+
+//============================================================================
 void FromGuiMgr::queFromGuiAction( FromGuiActionBase* fromGuiAction )
 {
 	lockFromGuiQue();

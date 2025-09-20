@@ -63,12 +63,14 @@ void PluginBaseHostClient::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId
 void PluginBaseHostClient::fromGuiLeaveHost( HostedId& adminId )
 {
     sendLeaveHost( adminId );
+    m_HostClientMgr.fromGuiLeaveHost( adminId );
 }
 
 //============================================================================
 void PluginBaseHostClient::fromGuiUnJoinHost( HostedId& adminId )
 {
     sendUnJoinHost( adminId );
+    m_HostClientMgr.fromGuiUnJoinHost( adminId );
 }
 
 //============================================================================
@@ -253,7 +255,7 @@ void PluginBaseHostClient::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBa
     PktHostJoinReply* pktReply = (PktHostJoinReply*)pktHdr;
     GroupieId userGroupieId = pktReply->getGroupieId();
     LogModule( eLogMembership, LOG_VERBOSE, "PluginBaseHostClient::onPktHostJoinReply %s", m_Engine.describeGroupieId(userGroupieId).c_str() );
-    m_Engine.getConnectIdListMgr().addConnection( sktBase->getSocketId(), userGroupieId, netIdent->getMyOnlineId() != userGroupieId.getUserOnlineId() );
+    m_Engine.getConnectIdListMgr().addConnection( sktBase, userGroupieId, netIdent->getMyOnlineId() != userGroupieId.getUserOnlineId() );
 }
 
 //============================================================================

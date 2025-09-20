@@ -258,7 +258,6 @@ list(APPEND ptopengine_SOURCES
 	UserJoinMgr/UserJoinInfo.cpp
 	UserJoinMgr/UserJoinInfoDb.cpp
 	UserJoinMgr/UserJoinMgr.cpp
-	UserOnlineMgr/UserOnlineMgr.cpp
     WebPageMgr/WebPageMgr.cpp 
 )
 

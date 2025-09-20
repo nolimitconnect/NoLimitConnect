@@ -62,7 +62,7 @@ void NetActionResolveNetworkHostUrl::doAction( void )
 
 	int waitCnt = 0;
 
-	while( waitCnt < 20 )
+	while( waitCnt < 22 )
 	{
         if( m_Engine.getConnectionMgr().getDefaultHostOnlineId( eHostTypeNetwork, hostOnlineId ) )
 		{

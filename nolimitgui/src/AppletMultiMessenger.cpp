@@ -208,7 +208,7 @@ void AppletMultiMessenger::callbackOnlineStatusChange( GuiUser* guiUser, bool is
 		//QString statMsg = guiUser->getOnlineName().c_str();
 		//statMsg +=  m_MyApp.getUserMgr().isUserOnline( guiUser->getMyOnlineId() ) ? QObject::tr( " is online" ) : QObject::tr( " went offline" );
 		//setStatusMsg( statMsg );
-		LogModule( eLogUsers, LOG_DEBUG, "AppletMultiMessenger::%s user %s %s", __func__,
+	    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_DEBUG, "AppletMultiMessenger::%s user %s %s", __func__,
                     guiUser->getOnlineName().c_str(), m_MyApp.getUserMgr().isUserOnline( guiUser->getMyOnlineId() ) ?  " is online" : " went offline");
 		checkForSendAccess( false );
 	}

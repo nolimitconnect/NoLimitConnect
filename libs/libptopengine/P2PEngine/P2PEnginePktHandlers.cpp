@@ -108,30 +108,39 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		isFirstAnnounce = true;
 	}
 
-	if( isFirstAnnounce && pktAnn->getIsPktAnnTempConnection() )
+	if( isFirstAnnounce )
 	{
-		sktBase->setIsTempConnection( true );
-		pktAnn->setIsPktAnnTempConnection( false );
-		if( LogEnabled( eLogConnect ) ) LogModule( eLogConnect, LOG_WARN, "P2PEngine::%s temp connection", __func__ );
+		if( pktAnn->getIsPktAnnTempConnection() )
+		{
+			sktBase->setIsTempConnection( true );
+			pktAnn->setIsPktAnnTempConnection( false );
+			if( LogEnabled( eLogConnect ) ) LogModule( eLogConnect, LOG_WARN, "P2PEngine::%s temp connection %s connect reason %s", __func__, 
+				pktAnn->getOnlineName(), DescribeConnectReason( sktBase->getConnectReason() ) );
+		}
+		else
+		{
+			if( LogEnabled( eLogConnect ) ) LogModule( eLogConnect, LOG_WARN, "P2PEngine::%s Not temp %s connect reason %s", __func__, 
+				pktAnn->getOnlineName(), DescribeConnectReason( sktBase->getConnectReason() ) );
+		}
 	}
 	
-	if( getConnectIdListMgr().isUserExcluded( contactOnlineId ) )
-	{
-		if( isFirstAnnounce )
-		{
-			getConnectIdListMgr().setExcludeConnectId( sktBase->getSocketId(), true );
-		}
+	//if( getConnectIdListMgr().isUserExcluded( contactOnlineId ) )
+	//{
+	//	if( isFirstAnnounce )
+	//	{
+	//		getConnectIdListMgr().setExcludeConnectId( sktBase->getSocketId(), true );
+	//	}
 
-		if( !getConnectIdListMgr().isNetworkHost( contactOnlineId ) )
-		{
-			if( !getConnectIdListMgr().isConnectionInUse( sktBase->getSocketId() ) )
-			{
-				sktBase->closeSkt( eSktCloseBlockedUser );
-			}
+	//	if( !getConnectIdListMgr().isNetworkHost( contactOnlineId ) )
+	//	{
+	//		if( !getConnectIdListMgr().isConnectionInUse( sktBase->getSocketId() ) )
+	//		{
+	//			sktBase->closeSkt( eSktCloseBlockedUser );
+	//		}
 
-			return;
-		}
-	}
+	//		return;
+	//	}
+	//}
 
 	pktAnn->reversePermissions();
 	pktAnn->setTimeLastTcpContactMs( GetGmtTimeMs() );
@@ -199,7 +208,7 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 
 	if( pktAnnReplyRequested )
 	{
-        LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s from %s %s at %s pktAnn reply requested", 
+		if(LogEnabled(eLogConnect))LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s from %s %s at %s pktAnn reply requested",
 				   sktBase->describeSktType().c_str(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
         if( !m_ConnectionMgr.sendMyPktAnnounce( pktAnn->getMyOnlineId(),
 				sktBase,
@@ -245,7 +254,7 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 			}
 	
 
-			//LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s %s through relay %s %s ip %s",
+			//LogModule( eLogOnline, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s %s through relay %s %s ip %s",
 			//		   pktAnn->getOnlineName(),
    //                    pktAnn->getMyOnlineId().toOnlineIdString().c_str(),
    //                    sktBase->getPeerOnlineName().c_str(),
@@ -263,7 +272,7 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 
 	if( !updateOk )
 	{
-		 LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s from %s %s at %s failed to update", 
+		 LogMsg( LOG_ERROR, "P2PEngine::onPktAnnounce %s from %s %s at %s failed to update", 
 					sktBase->describeSktType().c_str(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
 		 sktBase->closeSkt( eSktClosePktAnnUpdateFailed ); // should we close? TODO investigate failed PktAnn update failed
 		 return; 
@@ -271,7 +280,7 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 
 	if( !sktBase->isTempConnection() )
 	{
-        LogMsg( LOG_VERBOSE, "P2PEngine::%s %s of %s %s by %s %s at %s skt id %s", __func__,
+        if(LogEnabled(eLogConnect))LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::%s %s of %s %s by %s %s at %s skt id %s", __func__,
                 sktBase->describeSktType().c_str(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(),
 				sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(),
 				sktBase->getRemoteIp().c_str(), sktBase->getSocketIdText().c_str() );

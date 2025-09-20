@@ -9,44 +9,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppletClientBase.h"
-#include "InputClientBaseCallback.h"
+#include "AppletHostClientBase.h"
 
-#include <GuiInterface/IDefs.h>
-#include <GuiInterface/IToGui.h> 
-
-QT_BEGIN_NAMESPACE
-namespace Ui {
-    class AppletRandomConnectClientUi;
-}
-QT_END_NAMESPACE
-
-class AppletRandomConnectClient : public AppletClientBase, public InputClientBaseCallback
+class AppletRandomConnectClient : public AppletHostClientBase
 {
 	Q_OBJECT
 public:
 	AppletRandomConnectClient( AppCommon& app, QWidget* parent );
-	virtual ~AppletRandomConnectClient() override;
-
-    AppCommon&                  getMyApp( void ) override { return m_MyApp; }
-    EPluginType			        getInputClientPluginType( void ) override { return AppletClientBase::getPluginType(); }
-
-    void				        userJoinedHost( GuiHosted* guiHosted ) override;
-    void                        setAdminGroupieId( GroupieId& adminGroupieId ) override;
-
-protected slots:
-    void                        slotSetSessionVisible( bool makeVisible );
-
-    void						slotViewChanged( EUserViewType viewType );
-
-protected:
-    void                        showEvent( QShowEvent* ev ) override;
-
-    bool						checkIfCanSend( void ) override;
-    bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
-
-    //=== vars ===//
-    Ui::AppletRandomConnectClientUi&	ui;
+	~AppletRandomConnectClient() = default;
 };
-
-

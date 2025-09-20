@@ -109,7 +109,7 @@ ERunTestStatus QueryHostIdTest::doRunTest( std::string& nodeUrl )
 		return eRunTestStatusConnectFail;
 	}
 
-	netServConn.dumpConnectionInfo();
+	if(LogEnabled(eLogConnect))netServConn.dumpConnectionInfo();
 	std::string strNetActionUrl;
 	m_NetServiceUtils.buildQueryHostIdUrl( &netServConn, strNetActionUrl );
     LogModule( eLogRunTest, LOG_INFO, "QueryHostIdTest: action url %s", strNetActionUrl.c_str() );

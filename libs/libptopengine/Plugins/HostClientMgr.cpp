@@ -17,7 +17,6 @@
 #include <BaseInfo/BaseSessionInfo.h>
 #include <Membership/MemberActiveMgr.h>
 #include <UserJoinMgr/UserJoinMgr.h>
-#include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <PktLib/PktsHostJoin.h>
 #include <PktLib/PktsHostSearch.h>
@@ -37,7 +36,7 @@ HostClientMgr::HostClientMgr( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIden
 //============================================================================
 void HostClientMgr::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    PktHostJoinReply* hostReply = ( PktHostJoinReply* )pktHdr;
+    PktHostJoinReply* hostReply = (PktHostJoinReply*)pktHdr;
     if( hostReply->isValidPktPrefix() )
     {
         if( eHostTypeUnknown == hostReply->getHostType() || hostReply->getHostType() != getHostType() )
@@ -47,7 +46,7 @@ void HostClientMgr::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxP
         }
 
         GroupieId groupieId( hostReply->getGroupieId() );
-        if( !m_Engine.getConnectIdListMgr().addConnection( sktBase, groupieId ) )
+        if( !m_Engine.getConnectIdListMgr().addConnection( sktBase, groupieId, isRelayedFromHost( groupieId, netIdent ) ) )
         {
             LogMsg( LOG_ERROR, "HostClientMgr::onPktHostJoinReply addConnection failed" );
             return;
@@ -240,7 +239,7 @@ void HostClientMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSk
     m_ServerListMutex.unlock();
 
     m_Engine.getUserJoinMgr().onUserJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
-    m_Engine.getUserOnlineMgr().onUserJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
+    //m_Engine.getUserOnlineMgr().onUserJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
     m_Engine.getThumbMgr().queryThumbIfNeeded( sktBase, netIdent, sessionInfo.getHostPluginType() );
 
     if( sessionInfo.getJoineState() == eJoinStateJoinIsGranted )
@@ -252,6 +251,11 @@ void HostClientMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSk
 //============================================================================
 void HostClientMgr::onUserJoinHostGranted( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
+    if( sktBase->isTempConnection() )
+    {
+        LogModule( eLogHostConnect, LOG_INFO, "HostClientMgr::%s temp connection", __func__ );
+    }
+
     onUserJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
 
     m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinSuccess );
@@ -262,7 +266,7 @@ void HostClientMgr::onUserJoinHostGranted( GroupieId& groupieId, std::shared_ptr
         if( connectReason != eConnectReasonUnknown )
         {
             // tell gui to add online status so we know when disconnects
-            sktBase->addConnectReason( connectReason ); // will no longer be a temporary connection
+            sktBase->addConnectReason( connectReason ); 
             m_Engine.getConnectIdListMgr().addHostConnection( sktBase, groupieId );
         }       
 
@@ -274,7 +278,7 @@ void HostClientMgr::onUserJoinHostGranted( GroupieId& groupieId, std::shared_ptr
         pktReq.setHostOnlineId( sessionInfo.getHostOnlineId() );
         pktReq.setSearchSessionId( sessionInfo.getSessionId() );
 
-        LogModule( eLogHostConnect, LOG_INFO, "HostClientMgr::onUserJoinHostGranted to me" );
+        LogModule( eLogHostConnect, LOG_INFO, "HostClientMgr::%s to me", __func__ );
         if( !m_Plugin.txPacket( netIdent->getMyOnlineId(), sktBase, &pktReq) )
         {
             LogModule( eLogHostConnect, LOG_INFO, "HostClientMgr::txPkt PktHostUserListReq failed" );
@@ -326,7 +330,7 @@ void HostClientMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktB
     m_ServerListMutex.unlock();
 
     m_Engine.getUserJoinMgr().onUserLeftHost( groupieId, sktBase, netIdent, sessionInfo );
-    m_Engine.getUserOnlineMgr().onUserLeftHost( groupieId, sktBase, netIdent, sessionInfo );
+    //m_Engine.getUserOnlineMgr().onUserLeftHost( groupieId, sktBase, netIdent, sessionInfo );
     m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
 
     enum EConnectReason connectReason = hostTypeToConnectReason( groupieId.getHostType() );
@@ -344,7 +348,7 @@ void HostClientMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<Vx
     m_ServerListMutex.unlock();
 
     m_Engine.getUserJoinMgr().onUserUnJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
-    m_Engine.getUserOnlineMgr().onUserUnJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
+    //m_Engine.getUserOnlineMgr().onUserUnJoinedHost( groupieId, sktBase, netIdent, sessionInfo );
     m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
 
     enum EConnectReason connectReason = hostTypeToConnectReason( groupieId.getHostType() );
@@ -710,7 +714,7 @@ void HostClientMgr::sendNextUserInfoRequest( std::shared_ptr<VxSktBase>& sktBase
     if( !m_Plugin.txPacket( netIdentHost->getMyOnlineId(), sktBase, &pktReq) )
     {
         clearLastHostUserInfoRequestTime();
-        LogModule( eLogHostedUser, LOG_VERBOSE, "HostClientMgr::requestHostUserInfo failed send" );
+        LogModule( eLogHostedUser, LOG_VERBOSE, "HostClientMgr::%s failed send", __func__ );
     }
     else
     {
@@ -751,7 +755,7 @@ void HostClientMgr::clearUserInfoRequests( void )
 //============================================================================
 void HostClientMgr::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::onPktHostUserInfoReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "HostClientMgr::%s", __func__ );
     PktHostUserInfoReply* pktReply = (PktHostUserInfoReply*)pktHdr;
     VxGUID srcOnlineId = pktReply->getSrcOnlineId();
     clearLastHostUserInfoRequestTime();
@@ -834,7 +838,7 @@ void HostClientMgr::announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAn
                   m_Engine.describeUser( memberOnlineId ).c_str() );
     if( m_Engine.getMyOnlineId() == memberOnlineId )
     {
-        LogMsg( LOG_VERBOSE, "HostClientMgr::announceUserInfo got myself.. ERROR ?" );
+        LogMsg( LOG_VERBOSE, "HostClientMgr::%s got myself.. ERROR ?", __func__ );
         return;
     }
 
@@ -864,7 +868,7 @@ void HostClientMgr::announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAn
             return;
         }
 
-        if( !m_Engine.getUserOnlineMgr().isUserOnline( pktAnn->getMyOnlineId() ) )
+        if( !m_Engine.getConnectIdListMgr().isUserOnline( pktAnn->getMyOnlineId() ) )
         {
 
             // we need to exchange PktAnn to get current friendship from peer user
@@ -873,7 +877,7 @@ void HostClientMgr::announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAn
             bool isRelayed = groupieId.getUserOnlineId() != sktBase->getPeerOnlineId();
             m_Engine.getConnectIdListMgr().addUnconfirmedConnection( connectId, isRelayed );
 
-            if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_VERBOSE, "HostClientMgr::%s sending pktann to %s", __func__,
+               if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_VERBOSE, "HostClientMgr::%s sending pktann to %s", __func__,
                           m_Engine.describeUser( memberOnlineId ).c_str() );
 
             // send our pkt ann through host to peer user and request response pkt ann

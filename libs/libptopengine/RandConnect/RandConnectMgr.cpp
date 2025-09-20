@@ -131,13 +131,14 @@ void RandConnectMgr::wantRandConnectCallbacks( RandConnectCallback* client, bool
 }
 
 //============================================================================
-void RandConnectMgr::callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline )
+void RandConnectMgr::callbackConnectionStatusChange( ConnectId& connectId, bool isOnline )
 {
     if( isOnline )
     {
         return;
     }
     
+    VxGUID onlineId = connectId.getUserOnlineId();
     std::vector<std::pair<GroupieId,ERandAction>> offlineMemberList;
     lockMemberList();
 

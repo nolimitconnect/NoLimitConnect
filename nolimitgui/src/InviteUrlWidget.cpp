@@ -12,7 +12,6 @@
 
 #include "AppletInformation.h"
 #include "AppCommon.h"
-#include "AppletTestHostClient.h"
 #include "GuiHelpers.h"
 #include "MyIconsDefs.h"
 

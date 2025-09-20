@@ -443,12 +443,12 @@ enum EMyIcons
 	eMyIconUserConnections,
 
 	eMyIconPlayerNlc,
-
 	eMyIconPlayStream,
-
 	eMyIconPlayExtern,
 
 	eMyIconFriendRequestList,
+
+	eMyIconUserLeave,
 
 	eMaxMyIcon	// must be last
 };

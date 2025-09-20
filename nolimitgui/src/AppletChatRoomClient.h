@@ -9,41 +9,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppletClientBase.h"
-#include "InputClientBaseCallback.h"
+#include "AppletHostClientBase.h"
 
-QT_BEGIN_NAMESPACE
-namespace Ui {
-    class AppletChatRoomClientUi;
-}
-QT_END_NAMESPACE
-
-class AppletChatRoomClient : public AppletClientBase, public InputClientBaseCallback
+class AppletChatRoomClient : public AppletHostClientBase
 {
 	Q_OBJECT
 public:
     AppletChatRoomClient( AppCommon& app, QWidget* parent );
-	virtual ~AppletChatRoomClient() override;
-
-    AppCommon&                  getMyApp( void ) override { return m_MyApp; }
-    EPluginType			        getInputClientPluginType( void ) override { return AppletBase::getPluginType(); }
-
-    void				        userJoinedHost( GuiHosted* guiHosted ) override;
-    void                        setAdminGroupieId( GroupieId& adminGroupieId ) override;
-
-protected slots:
-    void                        slotSetSessionVisible( bool makeVisible );
-
-    void						slotViewChanged( EUserViewType viewType );
-
-protected:
-    void                        showEvent( QShowEvent* ev ) override;
-
-    bool						checkIfCanSend( void ) override;
-    bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
-
-    //=== vars ===//
-    Ui::AppletChatRoomClientUi&	ui;
+	~AppletChatRoomClient() = default;
 };
-
-

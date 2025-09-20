@@ -315,7 +315,8 @@ void P2PEngine::toGuiContactAnythingChange( VxNetIdent* netIdent )
 {
 	if( shouldNotifyGui( netIdent ) )
 	{
-		LogMsg( LOG_INFO, "toGuiContactAnythingChange" );
+		if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_INFO, "P2PEngine::%s user %s", __func__,
+			describeUser(netIdent->getMyOnlineId() ).c_str());
 		IToGui::getIToGui().toGuiContactAnythingChange( netIdent );
 	}
 }

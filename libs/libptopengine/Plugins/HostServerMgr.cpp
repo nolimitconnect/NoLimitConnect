@@ -17,7 +17,7 @@
 #include <HostServerJoinMgr/HostServerJoinMgr.h>
 #include <Membership/MemberActiveMgr.h>
 #include <UserJoinMgr/UserJoinMgr.h>
-#include <UserOnlineMgr/UserOnlineMgr.h>
+
 #include <UrlMgr/UrlMgr.h>
 
 #include <CoreLib/VxDebug.h>
@@ -49,6 +49,12 @@ void HostServerMgr::sendHostAnnounceToNetworkHost( VxGUID& sessionId, PktHostInv
     {
         // dont announce network host to network host if we have network host plugin enabled
         LogMsg( LOG_VERBOSE, "HostServerMgr attempted announce network host when we are the network host" );
+        return;
+    }
+
+    if( !m_Engine.getNetStatusAccum().isNetHostAvailable() )
+    {
+        LogMsg( LOG_ERROR, "HostServerMgr::%s network host UNAVAILABLE %s", __func__, DescribePluginType( m_Plugin.getPluginType() ) );
         return;
     }
 
@@ -142,11 +148,14 @@ bool HostServerMgr::onConnectToHostSuccess( EHostType hostType, VxGUID& sessionI
         }
 
         m_AnnListMutex.unlock();
-
+        if( LogEnabled( eLogConnect ) )LogModule( eLogConnect, LOG_VERBOSE, "HostServerMgr::%s done with connection %d %s hostType %s connectReason %s", __func__,
+            sktBase->getSktNumber(), sktBase->getPeerOnlineName().c_str(), DescribeHostType( hostType ), DescribeConnectReason( connectReason ) );
         m_Engine.getConnectionMgr().doneWithConnection( sessionId, onlineId, this, connectReason );
     }
     else
     {
+        if( LogEnabled( eLogConnect ) )LogModule( eLogConnect, LOG_VERBOSE, "HostServerMgr::%s success connection %d %s hostType %s connectReason %s", __func__,
+            sktBase->getSktNumber(), sktBase->getPeerOnlineName().c_str(), DescribeHostType( hostType ), DescribeConnectReason( connectReason ) );
         HostBaseMgr::onConnectToHostSuccess( hostType, sessionId, sktBase, onlineId, connectReason );
         result = true;
     }
@@ -187,7 +196,6 @@ void HostServerMgr::onJoinRequested( std::shared_ptr<VxSktBase>& sktBase, VxNetI
     BaseSessionInfo sessionInfo( hostUserSessionId );
     sessionInfo.setJoinState( eJoinStateJoinRequested );
     m_Engine.getHostJoinMgr().onHostJoinRequestedByUser( sktBase, netIdent, sessionInfo );
-    m_Engine.getUserOnlineMgr().onHostJoinRequestedByUser( sktBase, netIdent, sessionInfo );
 }
 
 //============================================================================
@@ -264,7 +272,6 @@ void HostServerMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSk
     sessionInfo.setJoinState( eJoinStateJoinIsGranted );
     m_Engine.getHostJoinMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );
     m_Engine.getGroupieListMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );
-    m_Engine.getUserOnlineMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );
     m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
 
     LogModule( eLogMembership, LOG_VERBOSE, "HostServerMgr::onUserJoinedHost %s", m_Engine.describeGroupieId(groupieId).c_str() );
@@ -328,7 +335,6 @@ void HostServerMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktB
     sessionInfo.setJoinState( eJoinStateJoinLeaveHost );
     m_Engine.getHostJoinMgr().onHostLeftByUser( sktBase, netIdent, sessionInfo );
     m_Engine.getGroupieListMgr().onHostLeftByUser( sktBase, netIdent, sessionInfo );
-    m_Engine.getUserOnlineMgr().onHostLeftByUser( sktBase, netIdent, sessionInfo );
 }
 
 //============================================================================
@@ -355,7 +361,6 @@ void HostServerMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<Vx
     sessionInfo.setJoinState( eJoinStateJoinLeaveHost );
     m_Engine.getHostJoinMgr().onHostLeftByUser( sktBase, netIdent, sessionInfo );
     m_Engine.getGroupieListMgr().onHostLeftByUser( sktBase, netIdent, sessionInfo );
-    m_Engine.getUserOnlineMgr().onHostLeftByUser( sktBase, netIdent, sessionInfo );
 }
 
 //============================================================================

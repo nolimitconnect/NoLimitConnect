@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <ConnectIdListMgr/OnlineStatusCallback.h>
+#include <ConnectIdListMgr/ConnectIdListCallback.h>
 
 #include <CoreLib/GroupieId.h>
 
@@ -20,11 +20,13 @@
 class MemberActiveCallback;
 class P2PEngine;
 
-class MemberActiveMgr : public OnlineStatusCallback
+class MemberActiveMgr : public ConnectIdListCallback
 {
 public:
     MemberActiveMgr() = default;
     virtual ~MemberActiveMgr() = default;
+
+    void                        memberActiveStartup( void );
 
     void                        wantMemberActiveCallbacks( MemberActiveCallback* client, bool enable );
 
@@ -35,7 +37,7 @@ public:
 
     std::vector<GroupieId>&     getMemberActiveList( void )         { return m_MemberList; };
 
-    void				        callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;
+    void				        callbackConnectionStatusChange( ConnectId& connectId, bool isOnline ) override;
 
 protected:
 

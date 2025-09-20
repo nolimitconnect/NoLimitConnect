@@ -88,7 +88,7 @@ public:
 
 	void						threadFuncRunUrlAction( void );
 
-private:
+protected:
     void                        startUrlActionThread( void );
     bool                        isThreadRunningActions( void );
     ERunTestStatus			    doUrlAction( UrlActionInfo& urlInfo );
@@ -97,6 +97,8 @@ private:
 
     void						sendRunTestStatus( UrlActionInfo& urlAction, std::string& urlActionName, enum ERunTestStatus eTestStatus, enum ENetCmdError cmdErr, const char* msg, ... );
     void						sendTestLog( UrlActionInfo& urlAction, std::string& urlActionName, const char* msg, ... );
+
+    void                        hostQueryIdConnectFailed( UrlActionInfo& urlInfo );
 
     //=== vars ===//
     P2PEngine&					m_Engine;

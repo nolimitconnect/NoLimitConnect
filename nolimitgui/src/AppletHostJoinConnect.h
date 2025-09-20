@@ -34,6 +34,9 @@ public:
     AppletHostJoinConnect( AppCommon& app, QWidget* parent, std::string url );
 	virtual ~AppletHostJoinConnect() override;
 
+signals:
+    void                        signalJoinedHost( HostedId hostId, bool isJoined );
+
 protected:
     void				        callbackGuiUserJoinRequested( GroupieId& groupieId, GuiUserJoin* guiUserJoin ) override;
     void				        callbackGuiUserJoinWasGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin ) override;
@@ -49,6 +52,7 @@ protected:
 
     void                        logMsg( const char* logMsg, ... );
     QPlainTextEdit*             getInfoEdit( void );
+    void                        joinHost( void );
 
     //=== vars ===//
     Ui::AppletHostJoinConnectUi&	ui;
@@ -59,6 +63,8 @@ protected:
     std::string					m_HostUrl;
     VxPtopUrl					m_HostPtopUrl;
     VxGUID                      m_HostOnlineId;
+
+    VxGUID                      m_JoinHostSessionId;
 
     EHostType                   m_HostType{ eHostTypeUnknown };
     EConnectStatus              m_ConnectStatus{ eConnectStatusUnknown };

@@ -21,7 +21,6 @@
 #include <Plugins/PluginMgr.h>
 
 #include <UserJoinMgr/UserJoinMgr.h>
-#include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <CoreLib/VxDebug.h>
 #include <NetLib/VxPeerMgr.h>
@@ -58,14 +57,6 @@ bool ConnectIdListMgr::getConnections( HostedId& hostId, std::set<ConnectId>& di
         }
     }
 
-    for( auto& connectId : m_RelayedIdList )
-    {
-        if( const_cast<ConnectId&>(connectId).getHostedId() == hostId )
-        {
-            relayConnectIdSet.insert( connectId );
-        }
-    }
-
     #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
         LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
     #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
@@ -81,7 +72,7 @@ bool ConnectIdListMgr::isDirectConnected( VxGUID& onlineId )
         return true;
     }
 
-    bool isOnlined = false;
+    bool isDirectConnect = false;
     #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
         LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
     #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
@@ -93,8 +84,11 @@ bool ConnectIdListMgr::isDirectConnected( VxGUID& onlineId )
     {
         if( const_cast<ConnectId&>(connectId).getUserOnlineId() == onlineId )
         {
-            isOnlined = true;
-            break;
+            if( !connectId.isRelayed() )
+            {
+                isDirectConnect = true;
+                break;
+            }
         }
     }
 
@@ -102,12 +96,17 @@ bool ConnectIdListMgr::isDirectConnected( VxGUID& onlineId )
         LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
     #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
     unlockConnectIdList();
-    return isOnlined;
+    return isDirectConnect;
 }
 
 //============================================================================
 bool ConnectIdListMgr::isRelayed( VxGUID& onlineId )
 {
+    if( isDirectConnected( onlineId ) )
+    {
+        return false;
+    }
+
     bool isRelayed = false;
     #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
         LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList", __func__ );
@@ -116,12 +115,15 @@ bool ConnectIdListMgr::isRelayed( VxGUID& onlineId )
     #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
         LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
     #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
-    for( auto& connectId : m_RelayedIdList )
+    for( auto& connectId : m_ConnectIdList )
     {
         if( const_cast<ConnectId&>(connectId).getUserOnlineId() == onlineId )
         {
-            isRelayed = true;
-            break;
+            if( connectId.isRelayed() )
+            {
+                isRelayed = true;
+                break;
+            }
         }
     }
 
@@ -158,19 +160,6 @@ bool ConnectIdListMgr::isHosted( VxGUID& onlineId )
         }
     }
 
-    if( !isHosted )
-    {
-        for( auto& connectId : m_RelayedIdList )
-        {
-            ConnectId& noConstConnectId = const_cast<ConnectId&>(connectId);
-            if( noConstConnectId.getUserOnlineId() == onlineId && IsHostARelayForUsers( noConstConnectId.getHostType() ) )
-            {
-                isHosted = true;
-                break;
-            }
-        }
-    }
-
     #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
         LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
     #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
@@ -198,18 +187,6 @@ bool ConnectIdListMgr::isOnline( GroupieId& groupieId )
         }
     }
 
-    if( !isOnlined )
-    {
-        for( auto& connectId : m_RelayedIdList )
-        {
-            if( const_cast<ConnectId&>(connectId).getGroupieId() == groupieId )
-            {
-                isOnlined = true;
-                break;
-            }
-        }
-    }
-
     #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
         LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
     #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
@@ -218,35 +195,46 @@ bool ConnectIdListMgr::isOnline( GroupieId& groupieId )
 }
 
 //============================================================================
-bool ConnectIdListMgr::addConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieId& groupieId )
+bool ConnectIdListMgr::onUserOnline(  GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )
 {
-    if( !groupieId.isValid() )
-    {
-        LogMsg( LOG_ERROR, "ConnectIdListMgr::addConnection groupie id invalid" );
-        return false;
-    }
-
-    if( sktBase->isConnected() )
-    {
-        bool isRelayed = groupieId.getUserOnlineId() != sktBase->getPeerOnlineId();
-        addConnection( sktBase->getSocketId(), groupieId, isRelayed );
-        return true;
-    }
-    else
-    {
-        LogMsg( LOG_ERROR, "ConnectIdListMgr::addConnection socket is no longer connected" );
-    }
 
     return false;
+
 }
 
 //============================================================================
-void ConnectIdListMgr::addConnection( VxGUID& sktConnectId, GroupieId& groupieId, bool relayed )
+bool ConnectIdListMgr::addConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieId& groupieId )
 {
+    bool isRelayed = groupieId.getUserOnlineId() != sktBase->getPeerOnlineId();
+    return addConnection( sktBase, groupieId, isRelayed );
+}
+
+//============================================================================
+bool ConnectIdListMgr::addConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieId& groupieId, bool isRelayed )
+{
+    if( !groupieId.isValid() )
+    {
+        LogMsg( LOG_ERROR, "ConnectIdListMgr::%s groupie id invalid", __func__ );
+        return false;
+    }
+
+    if( !sktBase->isConnected() )
+    {
+        LogMsg( LOG_ERROR, "ConnectIdListMgr::%s socket is no longer connected", __func__ );
+        return false;
+    }
+
+    if( isRelayed )
+    {
+        LogMsg( LOG_VERBOSE, "ConnectIdListMgr::%s socket is relayed", __func__ );
+    }
+
+    VxGUID& sktConnectId = sktBase->getSocketId();
+    
     if( !groupieId.isValid() || !sktConnectId.isVxGUIDValid() )
     {
         LogMsg( LOG_ERROR, "ConnectIdListMgr::addConnection invalid id" );
-        return;
+        return false;
     }
 
     VxGUID onlineId = groupieId.getUserOnlineId();
@@ -264,67 +252,38 @@ void ConnectIdListMgr::addConnection( VxGUID& sktConnectId, GroupieId& groupieId
     addOnlineConnectionPair( sktConnectId, onlineId );
 
     ConnectId connectId( sktConnectId, groupieId );
+    connectId.setIsRelayed( isRelayed );
 
-    LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::%s relayed ? %d ConnectId %s", __func__, relayed, connectId.describeConnectId().c_str() );
+    if(LogEnabled( eLogOnline )) LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s relayed ? %d skt num %d connectId %s", __func__,
+        isRelayed, sktBase->getSktNumber(), m_Engine.describeConnectId( connectId ).c_str() );
 
-    if( relayed )
+    lockConnectIdList();
+
+    bool isInList = m_ConnectIdList.find( connectId ) != m_ConnectIdList.end();
+    if( !isInList )
     {
-        lockConnectIdList();
-
-        bool isInList = m_RelayedIdList.find( connectId ) != m_RelayedIdList.end();
-        if( !isInList )
-        {
-            // new connection
-            m_RelayedIdList.insert( connectId );
-        }
-
-        unlockConnectIdList();
-
-        announceRelayStatus(connectId, true);
-    }
-    else
-    {
-        lockConnectIdList();
-
-        bool isInList = m_ConnectIdList.find( connectId ) != m_ConnectIdList.end();
-        if( !isInList )
-        {
-            // new connection
-            m_ConnectIdList.insert( connectId );
-        }
-
-        unlockConnectIdList();
-
-        announceConnectionStatus( connectId, true );
+        // new connection
+        m_ConnectIdList.insert( connectId );
     }
 
-    if( becameOnline )
-    {
-        announceOnlineStatus( onlineId, true );
-    }
+    unlockConnectIdList();
+
+    // TODO check if is a duplicate
+    announceConnectionStatus( connectId, true );
+
+    return true;
 }
 
 //============================================================================
-void ConnectIdListMgr::removeConnection( VxGUID& sktConnectId, GroupieId& groupieId )
+void ConnectIdListMgr::removeConnection( ConnectId& connectId )
 {
-    if( !groupieId.isValid() || !sktConnectId.isVxGUIDValid() )
+    if( !connectId.isValid() )
     {
-        LogMsg( LOG_ERROR, "ConnectIdListMgr::removeConnection invalid id" );
+        LogMsg( LOG_ERROR, "ConnectIdListMgr::%s invalid id", __func__ );
         return;
     }
 
-    bool wasRemovedFromDirectConnect = false;
-    bool wasRemovedFromRelayed = false;
-    VxGUID& onlineId = groupieId.getUserOnlineId();
-    ConnectId connectId( sktConnectId, groupieId );
-
-    bool wasOnline = isUserOnline( onlineId );
-
-    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::removeConnection start skt id %s cnt users %d direct %d relayed %d pairs %d", 
-            sktConnectId.toHexString().c_str(), m_OnlineIdListList.size(), m_ConnectIdList.size(), m_RelayedIdList.size(),
-            m_OnlineConnectionPairs.size() );
-
-    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::removeConnection ConnectId %s", connectId.describeConnectId().c_str() );
+    bool connectIdWasRemoved = false;   
 
     lockConnectIdList();
 
@@ -332,54 +291,37 @@ void ConnectIdListMgr::removeConnection( VxGUID& sktConnectId, GroupieId& groupi
     if( iter != m_ConnectIdList.end() )
     {
         m_ConnectIdList.erase( iter );
-        wasRemovedFromDirectConnect = true;
-    }
-
-    auto iterRelayed = m_RelayedIdList.find( connectId );
-    if( iterRelayed != m_RelayedIdList.end() )
-    {
-        m_RelayedIdList.erase( iterRelayed );
-        wasRemovedFromRelayed = true;
+        connectIdWasRemoved = true;
     }
 
     unlockConnectIdList();
 
-    if( wasRemovedFromDirectConnect )
+    if( connectIdWasRemoved )
     {
         announceConnectionStatus( connectId, false );
+        if(LogEnabled(eLogOnline))LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s ConnectId %s was removed", __func__, m_Engine.describeConnectId( connectId ).c_str() );
     }
-
-    if( wasRemovedFromRelayed )
+    else
     {
-        announceRelayStatus( connectId, false );
+        if( LogEnabled( eLogOnline ) )LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s ConnectId %s was NOT removed", __func__, m_Engine.describeConnectId( connectId ).c_str() );
     }
+}
 
-    removeOnlineConnectionPair( sktConnectId, onlineId );
-
-    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::removeConnection end skt id %s cnt users %d direct %d relayed %d pairs %d", 
-            sktConnectId.toHexString().c_str(), m_OnlineIdListList.size(), m_ConnectIdList.size(), m_RelayedIdList.size(),
-            m_OnlineConnectionPairs.size() );
-
-    if( wasOnline )
+//============================================================================
+void ConnectIdListMgr::removeConnection( VxGUID sktConnectId, GroupieId& groupieId )
+{
+    if( !groupieId.isValid() || !sktConnectId.isVxGUIDValid() )
     {
-        if( !findAnyUserOnlineConnection( onlineId ) )
-        {
-            bool wasRemoved{ false };
-            lockOnlineIdList();
-            auto iter = m_OnlineIdListList.find( onlineId );
-            if( iter != m_OnlineIdListList.end() )
-            {
-                m_OnlineIdListList.erase( iter );
-                wasRemoved = true;
-            }
-
-            unlockOnlineIdList();
-            if( wasRemoved )
-            {
-                announceOnlineStatus( onlineId, false );
-            }
-        }
+        LogMsg( LOG_ERROR, "ConnectIdListMgr::removeConnection invalid id" );
+        return;
     }
+
+    // might be a relayed and not relayed connection.. will have to remove them both
+    ConnectId connectId( sktConnectId, groupieId );
+    connectId.setIsRelayed( true );
+    removeConnection( connectId );
+    connectId.setIsRelayed( false );
+    removeConnection( connectId );
 }
 
 //============================================================================
@@ -455,14 +397,14 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId, bool tmpConnectio
         }
     }
 
-    if( !m_OnlineIdListList.size() && !m_ConnectIdList.size() && !m_RelayedIdList.size() && !m_OnlineConnectionPairs.size() )
+    if( !m_OnlineIdListList.size() && !m_ConnectIdList.size() && !m_OnlineConnectionPairs.size() )
     {
         // nothing to remove
         return false;
     }
 
-    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::onConnectionLost start skt id %s cnt users %d direct %d relayed %d pairs %d", 
-            sktConnectId.toHexString().c_str(), m_OnlineIdListList.size(), m_ConnectIdList.size(), m_RelayedIdList.size(),
+    LogMsg( LOG_VERBOSE, "--ConnectIdListMgr::onConnectionLost start skt id %s cnt users %d connect ids %d pairs %d", 
+            sktConnectId.toHexString().c_str(), m_OnlineIdListList.size(), m_ConnectIdList.size(),
             m_OnlineConnectionPairs.size() );
   
     std::set<VxGUID> userList;
@@ -488,23 +430,6 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId, bool tmpConnectio
         }
     }
 
-    auto iterRelay = m_RelayedIdList.begin();
-    while( iterRelay != m_RelayedIdList.end() )
-    {
-        ConnectId& connectId = const_cast<ConnectId&>(*iterRelay);
-        if( connectId.getSocketId() == sktConnectId )
-        {
-            userList.insert( connectId.getUserOnlineId() );
-            userList.insert( connectId.getHostOnlineId() );
-            lostRelayList.insert( connectId );
-            iterRelay = m_RelayedIdList.erase( iterRelay );
-        }
-        else
-        {
-            ++iterRelay;
-        }
-    }
-
     unlockConnectIdList();
 
     for( auto& connectId : lostConnectList )
@@ -512,56 +437,13 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId, bool tmpConnectio
         announceConnectionStatus( const_cast< ConnectId& >( connectId ), false );
     }
 
-    for( auto& connectId : lostRelayList )
-    {
-        announceRelayStatus( const_cast<ConnectId&>(connectId), false );
-    }
-
-    removeOnlineConnectionPairs( sktConnectId, userList );
-
-    for( auto& onlineId : userList )
-    {
-        if( onlineId == m_Engine.getMyOnlineId() )
-        {
-            continue;
-        }
-
-        if( !findAnyUserOnlineConnection( onlineId ) )
-        {
-            lockOnlineIdList();
-            auto iter = m_OnlineIdListList.find( onlineId );
-            if( iter != m_OnlineIdListList.end() )
-            {
-                m_OnlineIdListList.erase( iter );
-            }
-
-            unlockOnlineIdList();
-
-            announceOnlineStatus( const_cast<VxGUID&>(onlineId), false );
-        }
-    }
-
-    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::onConnectionLost end skt id %s cnt users %d direct %d relayed %d pairs %d", 
-            sktConnectId.toHexString().c_str(), m_OnlineIdListList.size(), m_ConnectIdList.size(), m_RelayedIdList.size(),
-            m_OnlineConnectionPairs.size() );
-
-    announceConnectionLost( sktConnectId );
     return true;
 }
 
 //============================================================================
-void ConnectIdListMgr::userJoinedHost( VxGUID& sktConnectId, GroupieId& groupieId )
+void ConnectIdListMgr::userJoinedHost( std::shared_ptr<VxSktBase>& sktBase, GroupieId& groupieId )
 {
-    if( !groupieId.isValid() || !sktConnectId.isVxGUIDValid() )
-    {
-        LogMsg( LOG_ERROR, "ConnectIdListMgr::userJoinedHost invalid id" );
-        return;
-    }
-
-    LogMsg( LOG_ERROR, "ConnectIdListMgr::userJoinedHost skt id %s groupie %s", 
-            sktConnectId.toHexString().c_str(), groupieId.describeGroupieId().c_str() );
-
-    addConnection( sktConnectId, groupieId, false );
+    addConnection( sktBase, groupieId, false );
 }
 
 //============================================================================
@@ -684,29 +566,12 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findRelayMemberConnection( VxGUID& 
     {
         ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
         //if( connectId.getUserOnlineId() == onlineId && IsHostARelayForUsers( connectId.getHostType() ) )
-        if( connectId.getUserOnlineId() == onlineId )
+        if( connectId.getUserOnlineId() == onlineId && connectId.isRelayed() )
         {
             sktBase = findSktBase( connectId.getSocketId() );
             if( sktBase && sktBase->isConnected() )
             {
                 break;
-            }
-        }
-    }
-
-    if( !sktBase )
-    {
-        for( auto& connectIdConst : m_RelayedIdList )
-        {
-            ConnectId& connectId = const_cast<ConnectId&>(connectIdConst);
-            //if( connectId.getUserOnlineId() == onlineId && IsHostARelayForUsers( connectId.getHostType() ) )
-            if( connectId.getUserOnlineId() == onlineId )
-            {
-                sktBase = findSktBase( connectId.getSocketId() );
-                if( sktBase && sktBase->isConnected() )
-                {
-                    break;
-                }
             }
         }
     }
@@ -782,19 +647,6 @@ bool ConnectIdListMgr::findConnectionId( GroupieId& groupieId, VxGUID& retSktCon
         }
     }
 
-    if( !foundConnection )
-    {
-        for( auto& connectId : m_RelayedIdList )
-        {
-            if( const_cast<ConnectId&>(connectId).getGroupieId() == groupieId )
-            {
-                retSktConnectId = const_cast<ConnectId&>(connectId).getSocketId();
-                foundConnection = retSktConnectId.isVxGUIDValid();
-                break;
-            }
-        }
-    }
-
     #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
         LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s unlockConnectIdList", __func__ );
     #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
@@ -819,7 +671,7 @@ bool ConnectIdListMgr::findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktCo
     #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
         LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockConnectIdList done", __func__ );
     #endif // defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
-    for( auto& connectId : m_RelayedIdList )
+    for( auto& connectId : m_ConnectIdList )
     {
         if( const_cast<ConnectId&>(connectId).getUserOnlineId() == onlineId )
         {
@@ -837,7 +689,7 @@ bool ConnectIdListMgr::findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktCo
 }
 
 //============================================================================
-std::shared_ptr<VxSktBase> ConnectIdListMgr::findSktBase( VxGUID& connectId )
+std::shared_ptr<VxSktBase> ConnectIdListMgr::findSktBase( VxGUID connectId )
 {
     #if defined(DEBUG_SKT_MGR_LOCK)
         LogMsg( LOG_DEBUG, "ConnectIdListMgr::%s lockSktBaseMgr", __func__ );
@@ -886,17 +738,6 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyHostOnlineConnection( VxGUID
         if( const_cast<ConnectId& >( connectId ).getGroupieId().getHostOnlineId() == onlineId )
         {
             sktConnectIdList.insert( const_cast< ConnectId& >( connectId ).getSocketId() );
-        }
-    }
-
-    if( sktConnectIdList.empty() )
-    {
-        for( auto& connectId : m_RelayedIdList )
-        {
-            if( const_cast<ConnectId&>(connectId).getGroupieId().getHostOnlineId() == onlineId )
-            {
-                sktConnectIdList.insert( const_cast<ConnectId&>(connectId).getSocketId() );
-            }
         }
     }
 
@@ -956,20 +797,6 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyUserOnlineConnection( VxGUID
             if( eHostTypeUnknown == hostType || connectId.getHostType() == hostType )
             {
                 sktConnectIdList.insert( const_cast< ConnectId& >( connectId ).getSocketId() );
-            }
-        }
-    }
-
-    if( sktConnectIdList.empty() )
-    {
-        for( auto& connectId : m_RelayedIdList )
-        {
-            if( const_cast<ConnectId&>(connectId).getGroupieId().getUserOnlineId() == onlineId )
-            {
-                if( eHostTypeUnknown == hostType || connectId.getHostType() == hostType )
-                {
-                    sktConnectIdList.insert( const_cast<ConnectId&>(connectId).getSocketId() );
-                }
             }
         }
     }
@@ -1148,64 +975,11 @@ void ConnectIdListMgr::wantConnectIdListCallback( ConnectIdListCallback* client,
 }
 
 //============================================================================
-void ConnectIdListMgr::announceOnlineStatus( VxGUID& onlineId, bool isOnline )
-{
-    if( onlineId == m_Engine.getMyOnlineId() )
-    {
-        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::announceOnlineStatus was myself online ? %d",isOnline );
-        return;
-    }
-
-    LogModule( eLogUserEvent, LOG_VERBOSE, "ConnectIdListMgr::announceOnlineStatus online %d user %s",
-                isOnline, m_Engine.describeUser( onlineId ).c_str() );
-
-    m_Engine.getMemberActiveMgr().callbackOnlineStatusChange( onlineId, isOnline );
-    m_Engine.getUserJoinMgr().callbackOnlineStatusChange( onlineId, isOnline );
-
-    lockConnectIdClientList();
-
-    for( auto& client : m_ConnectIdCallbackClients )
-    {
-        if( client )
-        {
-            client->callbackOnlineStatusChange( onlineId, isOnline );
-        }
-        else
-        {
-            LogMsg( LOG_ERROR, "ConnectIdListMgr::announceOnlineStatus null client" );
-        }    
-    }
-
-    unlockConnectIdClientList();
-
-    lockOnlineStatusClientList();
-
-    for( auto& client : m_OnlineStatusCallbackClients )
-    {
-        if( client )
-        {
-            client->callbackOnlineStatusChange( onlineId, isOnline );
-        }
-        else
-        {
-            LogMsg( LOG_ERROR, "ConnectIdListMgr::announceOnlineStatus null client" );
-        }    
-    }
-
-    unlockOnlineStatusClientList();
-
-    m_Engine.getPluginMgr().onContactOnlineStatusChange( onlineId, isOnline );
-    if( !isOnline )
-    {
-        m_Engine.getHostJoinMgr().onUserOffline( onlineId );
-        m_Engine.getGroupieListMgr().onUserOffline( onlineId );
-        m_Engine.getUserOnlineMgr().onUserOffline( onlineId );
-    }
-}
-
-//============================================================================
 void ConnectIdListMgr::announceConnectionStatus( ConnectId& connectId, bool isConnected )
 {
+    if(LogEnabled(eLogOnline))LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s online %d user %s", __func__,
+        isConnected, m_Engine.describeConnectId( connectId ).c_str() );
+
     lockConnectIdClientList();
 
     for( auto& client : m_ConnectIdCallbackClients )
@@ -1217,26 +991,6 @@ void ConnectIdListMgr::announceConnectionStatus( ConnectId& connectId, bool isCo
         else
         {
             LogMsg( LOG_ERROR, "ConnectIdListMgr::announceConnectionStatus null client" );
-        }
-    }
-
-    unlockConnectIdClientList();
-}
-
-//============================================================================
-void ConnectIdListMgr::announceRelayStatus( ConnectId& connectId, bool isRelayed )
-{
-    lockConnectIdClientList();
-
-    for( auto& client : m_ConnectIdCallbackClients )
-    {
-        if( client )
-        {
-            client->callbackRelayStatusChange( connectId, isRelayed );
-        }
-        else
-        {
-            LogMsg( LOG_ERROR, "ConnectIdListMgr::announceRelayStatus null client" );
         }
     }
 
@@ -1334,8 +1088,7 @@ void ConnectIdListMgr::onGroupUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr
                     netIdent->getOnlineName(), sktBase->getPeerOnlineName().c_str() );
 
                 GroupieId groupieId( onlineId, hostOnlineId, hostType );
-                addConnection( connectionId, groupieId, relayed );
-                m_Engine.getUserOnlineMgr().onUserOnline( groupieId, sktBase, netIdent );
+                addConnection( sktBase, groupieId, relayed );
             }
             else
             {
@@ -1403,9 +1156,11 @@ void ConnectIdListMgr::onGroupRelayedUserAnnounce( PktAnnounce* pktAnn, std::sha
                     GroupieId groupieId( onlineId, hostOnlineId, hostType );
 
                     // add the connection first so if user is added it's online status is valid
-                    addConnection( socketId, groupieId, true );
                     // next make the user up todate
-                    m_Engine.getUserOnlineMgr().onUserOnline( groupieId, sktBase, netIdent );
+                    onUserOnline( groupieId, sktBase, netIdent );
+
+                    addConnection( sktBase, groupieId, true );
+
                     // finally add the user group join info
                     PluginBase* plugin = m_Engine.getPluginMgr().findPlugin( HostTypeToClientPlugin( hostType ) );
                     if( plugin )
@@ -1489,23 +1244,25 @@ bool ConnectIdListMgr::isMemberOnline( HostedId& hostId, VxGUID& onlineId )
 }
 
 //============================================================================
-void ConnectIdListMgr::pktAnnRecieved( VxGUID& sktConnectId, VxGUID onlineId )
+void ConnectIdListMgr::pktAnnRecieved( std::shared_ptr<VxSktBase>& sktBasw, VxGUID onlineId )
 {
     bool shouldAnnounce{ false };
+    VxGUID& sktConnectId = sktBasw->getSocketId();
     if( !sktConnectId.isVxGUIDValid() || !onlineId.isVxGUIDValid() )
     {
-        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::pktAnnRecieved BAD PARAM" );
+        LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::pktAnnRecieved BAD PARAM" );
         vx_assert( false );
         return;
     }
 
     if( isUserExcluded( onlineId ) )
     {
-        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::pktAnnRecieved excluded %s", onlineId.toOnlineIdString().c_str() );
+        LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s excluded %s", __func__, onlineId.toOnlineIdString().c_str() );
         return;
     }
 
-    LogMsg( LOG_VERBOSE, "ConnectIdListMgr::pktAnnRecieved skt connect id %s user %s", sktConnectId.toHexString().c_str(), m_Engine.describeUser( onlineId ).c_str() );
+    if(LogEnabled(eLogOnline))LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s skt connect id %s user %s", __func__,
+        sktConnectId.toHexString().c_str(), m_Engine.describeUser( onlineId ).c_str() );
 
     lockOnlineIdList();
     auto iter = std::find_if( m_OnlineConnectionPairs.begin(), m_OnlineConnectionPairs.end(),
@@ -1534,11 +1291,23 @@ void ConnectIdListMgr::pktAnnRecieved( VxGUID& sktConnectId, VxGUID onlineId )
 
         if( !wasOnline )
         {
-            announceOnlineStatus( onlineId, true );
+            if(LogEnabled(eLogOnline))LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s announcing online %s", __func__,
+                m_Engine.describeUser( onlineId ).c_str() );
+            //announceOnlineStatus( onlineId, true );
+        }
+        else
+        {
+            if(LogEnabled(eLogOnline))LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s already was online %s", __func__,
+                m_Engine.describeUser( onlineId ).c_str() );
         }
     }
+    else if( LogEnabled( eLogOnline ) )
+    {
+        if(LogEnabled(eLogOnline))LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s not anouncing online %s", __func__,
+            m_Engine.describeUser( onlineId ).c_str() );
+    }
 
-    checkUnconfirmedConnections( sktConnectId, onlineId );
+    checkUnconfirmedConnections( sktBasw, onlineId );
 }
 
 //============================================================================
@@ -1546,7 +1315,7 @@ void ConnectIdListMgr::removeOnlineConnectionPairs( VxGUID& sktConnectId, std::s
 {
     if( !sktConnectId.isVxGUIDValid() )
     {
-        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::doOnlineIdConnectionLost BAD PARAM" );
+        LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::doOnlineIdConnectionLost BAD PARAM" );
         vx_assert( false );
         return;
     }
@@ -1563,7 +1332,7 @@ void ConnectIdListMgr::removeOnlineConnectionPairs( VxGUID& sktConnectId, std::s
                 onlineIdList.insert( iter->second );
             }
             
-            LogModule( eLogUserEvent, LOG_VERBOSE, "ConnectIdListMgr::removeOnlineConnectionPairs removed skt id %s user %s ",
+            LogModule( eLogUsers, LOG_VERBOSE, "ConnectIdListMgr::%s removed skt id %s user %s ", __func__,
                    sktConnectId.toHexString().c_str(), m_Engine.describeUser( iter->second ).c_str() );
             iter = m_OnlineConnectionPairs.erase( iter );
         }
@@ -1608,7 +1377,7 @@ void ConnectIdListMgr::addOnlineConnectionPair( VxGUID& sktConnectId, VxGUID& on
 
     if( !wasFound )
     {
-        LogModule( eLogUserEvent, LOG_VERBOSE, "ConnectIdListMgr::addOnlineConnectionPair added skt id %s user %s ",
+        LogModule( eLogUsers, LOG_VERBOSE, "ConnectIdListMgr::addOnlineConnectionPair added skt id %s user %s ",
                    sktConnectId.toHexString().c_str(), m_Engine.describeUser( onlineId ).c_str() );
         m_OnlineConnectionPairs.emplace_back( std::make_pair( sktConnectId, onlineId ) );
     }
@@ -1625,7 +1394,7 @@ void ConnectIdListMgr::removeOnlineConnectionPair( VxGUID& sktConnectId, VxGUID&
     {
         if( iter->first == sktConnectId && iter->second == onlineId )
         {
-            LogModule( eLogUserEvent, LOG_VERBOSE, "ConnectIdListMgr::removeOnlineConnectionPair removed skt id %s user %s ",
+            LogModule( eLogUsers, LOG_VERBOSE, "ConnectIdListMgr::removeOnlineConnectionPair removed skt id %s user %s ",
                    sktConnectId.toHexString().c_str(), m_Engine.describeUser( onlineId ).c_str() );
             iter = m_OnlineConnectionPairs.erase( iter );
         }
@@ -1643,7 +1412,7 @@ bool ConnectIdListMgr::isUserOnline( VxGUID& onlineId )
 {
     if( !onlineId.isVxGUIDValid() )
     {
-        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::isUserOnline BAD PARAM" );
+        LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::isUserOnline BAD PARAM" );
         vx_assert( false );
         return false;
     }
@@ -1661,9 +1430,18 @@ void ConnectIdListMgr::updateOnlineExclusion( VxGUID onlineId, bool excludeFromO
 {
     if( !onlineId.isVxGUIDValid() )
     {
-        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::updateOnlineExclusion BAD PARAM" );
+        LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s BAD PARAM", __func__ );
         vx_assert( false );
         return;
+    }
+
+    if( LogEnabled( eLogOnline ) )
+    {
+        if( excludeFromOnlineStatus )
+        {
+            LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s is network host %d excluded %s", __func__,
+                excludeFromOnlineStatus, m_Engine.describeUser( onlineId ).c_str() );
+        }
     }
 
     lockOnlineIdList();
@@ -1696,7 +1474,7 @@ bool ConnectIdListMgr::isUserExcluded( VxGUID onlineId )
 {
     if( !onlineId.isVxGUIDValid() )
     {
-        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::isUserExcluded BAD PARAM" );
+        LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s BAD PARAM", __func__ );
         vx_assert( false );
         return true;
     }
@@ -1704,6 +1482,12 @@ bool ConnectIdListMgr::isUserExcluded( VxGUID onlineId )
     lockOnlineIdList();
     bool isExcluded = m_OnlineIdExclusionList.find( onlineId ) != m_OnlineIdExclusionList.end();
     unlockOnlineIdList();
+
+    if( isExcluded )
+    {
+        if(LogEnabled(eLogOnline))LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s TRUE %s", m_Engine.describeUser( onlineId ).c_str() );
+        return true;
+    }
 
     return isExcluded;
 }
@@ -1713,7 +1497,7 @@ bool ConnectIdListMgr::isConnectionInUse( VxGUID& sktConnectId )
 {
     if( !sktConnectId.isVxGUIDValid() )
     {
-        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::isConnectionInUse BAD PARAM" );
+        LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s BAD PARAM", __func__ );
         vx_assert( false );
         return false;
     }
@@ -1728,7 +1512,7 @@ bool ConnectIdListMgr::isConnectionInUse( VxGUID& sktConnectId )
     }
 
     unlockOnlineIdList();
-
+    if( LogEnabled( eLogOnline ) )LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s %d", __func__, sktInUse );
     return sktInUse;
 }
 
@@ -1806,6 +1590,11 @@ bool ConnectIdListMgr::isConnectIdExcluded( VxGUID& sktConnectId )
     bool isExcluded = m_ConnectIdExclusionList.find( sktConnectId ) != m_ConnectIdExclusionList.end();
     unlockExclusionList();
 
+    if( isExcluded && LogEnabled( eLogOnline ) )
+    {
+        LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s excluded %s", __func__, sktConnectId.describeVxGUID().c_str() );
+    }
+
     return isExcluded;
 }
 
@@ -1851,10 +1640,11 @@ void ConnectIdListMgr::fromGuiDisconnectFromUser( VxGUID& userOnlineId )
 }
 
 //============================================================================
-void ConnectIdListMgr::addHostConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieId& groupieId ) // only called when join host on temp connection
+void ConnectIdListMgr::addHostConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieId& groupieId ) 
 {
     updateOnlineExclusion( groupieId.getHostOnlineId(), false, false );
-    announceOnlineStatus( groupieId.getHostOnlineId(), true );
+    ConnectId connectId( sktBase->getSocketId(), groupieId );
+    addConnection( sktBase, groupieId, false );
 }
 
 //============================================================================
@@ -1862,18 +1652,17 @@ void ConnectIdListMgr::addUnconfirmedConnection( ConnectId& connectId, bool isRe
 {
     if( connectId.isValid() )
     {
-        if(LogEnabled( eLogConnect))LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::%s %s user %s relayed %d",
-                      connectId.describeConnectId().c_str(), m_Engine.describeUser( connectId.getUserOnlineId() ).c_str(), isRelayed );
-
-        m_UnonfirmedConnectIdListMutex.lock();
         if( isRelayed )
         {
-             addUnconfirmedConnection( m_UnonfirmedRelayedIdList, connectId );
+            if( LogEnabled( eLogOnline ) )LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s %s user %s relayed %d", __func__,
+                connectId.describeConnectId().c_str(), m_Engine.describeUser( connectId.getUserOnlineId() ).c_str(), isRelayed );
         }
-        else
-        {
-            addUnconfirmedConnection( m_UnconfirmedConnectIdList, connectId );
-        }
+
+
+        connectId.setIsRelayed( isRelayed );
+        m_UnonfirmedConnectIdListMutex.lock();
+
+        addUnconfirmedConnection( m_UnconfirmedConnectIdList, connectId );
 
         m_UnonfirmedConnectIdListMutex.unlock();
     }
@@ -1908,16 +1697,15 @@ void ConnectIdListMgr::addUnconfirmedConnection( std::vector<std::pair<int64_t,C
 }
 
 //============================================================================
-void ConnectIdListMgr::checkUnconfirmedConnections( VxGUID& sktConnectId, VxGUID& onlineId )
+void ConnectIdListMgr::checkUnconfirmedConnections( std::shared_ptr<VxSktBase>& sktBasw, VxGUID& onlineId )
 {
     m_UnonfirmedConnectIdListMutex.lock();
-    checkUnconfirmedList( sktConnectId, onlineId, true, m_UnonfirmedRelayedIdList );
-    checkUnconfirmedList( sktConnectId, onlineId, false, m_UnconfirmedConnectIdList );
+    checkUnconfirmedList( sktBasw, onlineId, m_UnconfirmedConnectIdList );
     m_UnonfirmedConnectIdListMutex.unlock();
 }
 
 //============================================================================
-void ConnectIdListMgr::checkUnconfirmedList( VxGUID& sktConnectId, VxGUID& onlineId, bool relayed, std::vector<std::pair<int64_t,ConnectId>>& unconfirmedIdList )
+void ConnectIdListMgr::checkUnconfirmedList( std::shared_ptr<VxSktBase>& sktBasw, VxGUID& onlineId, std::vector<std::pair<int64_t,ConnectId>>& unconfirmedIdList )
 {
     int64_t timeNow = GetGmtTimeMs();
     for( auto iter = unconfirmedIdList.begin(); iter != unconfirmedIdList.end();  )
@@ -1928,10 +1716,10 @@ void ConnectIdListMgr::checkUnconfirmedList( VxGUID& sktConnectId, VxGUID& onlin
         }
         else
         {
-            if( iter->second.getSocketId() == sktConnectId &&
+            if( iter->second.getSocketId() == sktBasw->getSocketId() &&
                 iter->second.getUserOnlineId() == onlineId )
             {
-                addConnection( sktConnectId, iter->second.getGroupieId(), relayed );
+                addConnection( sktBasw, iter->second.getGroupieId(), iter->second.isRelayed());
                 iter = unconfirmedIdList.erase( iter );
             }
             else
@@ -1939,5 +1727,116 @@ void ConnectIdListMgr::checkUnconfirmedList( VxGUID& sktConnectId, VxGUID& onlin
                 ++iter;
             }
         }
+    }
+}
+
+//============================================================================
+bool ConnectIdListMgr::updateUserJoinedFriendships( GroupieId& groupieId, VxNetIdent* netIdent )
+{
+    bool friendshipOk{ true };
+    EFriendState prevMyFriendship = netIdent->getMyFriendshipToHim();
+    EFriendState prevHisFriendship = netIdent->getHisFriendshipToMe();
+    EFriendState curMyFriendship = prevMyFriendship;
+    EFriendState curHisFriendship = prevHisFriendship;
+    if( eFriendStateIgnore == curHisFriendship )
+    {
+        if( curMyFriendship == eFriendStateIgnore )
+        {
+            LogMsg( LOG_ERROR, "HostServerMgr::updateUserToJoinedToMyHostGuest got ignored user %s %s ",
+                   netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
+            friendshipOk = false;
+        }
+        else
+        {
+            // not sure how this can happen but I guess is allowed so just downgrade to anonymous
+            curMyFriendship = eFriendStateAnonymous;
+        }
+    }
+    else if( eFriendStateIgnore == curMyFriendship )
+    {
+        curHisFriendship = eFriendStateIgnore; // so will appear in the blocked list
+        friendshipOk = false;
+    }
+    else
+    {
+        if( eFriendStateAnonymous == curMyFriendship )
+        {
+            curMyFriendship = eFriendStateGuest;
+        }
+
+        if( eFriendStateAnonymous == curHisFriendship )
+        {
+            curHisFriendship = eFriendStateGuest;
+        }
+    }
+
+    if( curMyFriendship != prevMyFriendship || curHisFriendship != prevHisFriendship )
+    {
+        netIdent->setMyFriendshipToHim( curMyFriendship );
+        netIdent->setHisFriendshipToMe( curHisFriendship );
+
+        if( curMyFriendship != prevMyFriendship )
+        {
+            m_Engine.getBigListMgr().onMyFriendshipChanged( prevMyFriendship, netIdent );
+        }
+
+        m_Engine.toGuiContactAnythingChange( netIdent );
+    }
+
+    return friendshipOk;
+}
+
+//============================================================================
+void ConnectIdListMgr::disconnectFromHost( HostedId& hostId )
+{
+    std::set<ConnectId> hostIds;
+    std::set<ConnectId> otherHostedIds;
+    std::set<VxGUID> toDisconnectIds;
+
+    lockConnectIdList();
+    for( auto& connectIdInList : m_ConnectIdList )
+    {
+        ConnectId& connectId = const_cast<ConnectId&>( connectIdInList );
+        if( connectId.getHostedId() == hostId )
+        {
+            hostIds.insert( connectId );
+        }
+        else if( connectId.getHostOnlineId() == hostId.getHostOnlineId() )
+        {
+            otherHostedIds.insert( connectId );
+        }
+    }
+
+    unlockConnectIdList();
+    for( auto& connected : hostIds )
+    {
+        toDisconnectIds.insert( connected.getSocketId() );
+    }
+
+    if( !toDisconnectIds.empty() && !otherHostedIds.empty() )
+    {
+        // if same socket is connection is used for another host then cannot be disconnected
+        for( auto& connectIdInList : otherHostedIds )
+        {
+            auto connectIter = toDisconnectIds.find( connectIdInList.getSocketId() );
+            if( connectIter != toDisconnectIds.end() )
+            {
+                toDisconnectIds.erase( connectIter );
+                if(LogEnabled(eLogOnline))LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s connot disconnect because in use by %s", __func__,
+                              m_Engine.describeConnectId( const_cast<ConnectId&>( connectIdInList ) ).c_str() );
+            }
+        }
+    }
+
+    for( auto& connectIdInList : hostIds )
+    {
+        ConnectId& connectId = const_cast<ConnectId&>( connectIdInList );
+
+        removeConnection( connectId );
+    }
+
+    for( auto sktConnectId : toDisconnectIds )
+    {
+        m_Engine.getPeerMgr().closeConnection( sktConnectId, eSktCloseHostLeave );
     }
 }

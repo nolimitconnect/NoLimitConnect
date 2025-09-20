@@ -710,7 +710,6 @@
     <ClCompile Include="..\..\UserJoinMgr\UserJoinInfo.cpp" />
     <ClCompile Include="..\..\UserJoinMgr\UserJoinInfoDb.cpp" />
     <ClCompile Include="..\..\UserJoinMgr\UserJoinMgr.cpp" />
-    <ClCompile Include="..\..\UserOnlineMgr\UserOnlineMgr.cpp" />
     <ClCompile Include="..\..\User\User.cpp" />
     <ClCompile Include="..\..\User\UserList.cpp" />
     <ClCompile Include="..\..\WebPageMgr\WebPageMgr.cpp" />
@@ -765,7 +764,7 @@
     <ClInclude Include="..\..\BlobXferMgr\BlobXferDb.h" />
     <ClInclude Include="..\..\BlobXferMgr\BlobXferMgr.h" />
     <ClInclude Include="..\..\BlobXferMgr\BlobXferSession.h" />
-    <ClInclude Include="..\..\ConnectIdListMgr\ConnectIdListCallbackInterface.h" />
+    <ClInclude Include="..\..\ConnectIdListMgr\ConnectIdListCallback.h" />
     <ClInclude Include="..\..\ConnectIdListMgr\ConnectIdListMgr.h" />
     <ClInclude Include="..\..\Connections\ConnectedInfo.h" />
     <ClInclude Include="..\..\Connections\ConnectedListAll.h" />
@@ -963,8 +962,6 @@
     <ClInclude Include="..\..\UserJoinMgr\UserJoinInfo.h" />
     <ClInclude Include="..\..\UserJoinMgr\UserJoinInfoDb.h" />
     <ClInclude Include="..\..\UserJoinMgr\UserJoinMgr.h" />
-    <ClInclude Include="..\..\UserOnlineMgr\UserOnlineCallbackInterface.h" />
-    <ClInclude Include="..\..\UserOnlineMgr\UserOnlineMgr.h" />
     <ClInclude Include="..\..\User\User.h" />
     <ClInclude Include="..\..\User\UserList.h" />
     <ClInclude Include="..\..\WebPageMgr\WebPageCallbackInterface.h" />

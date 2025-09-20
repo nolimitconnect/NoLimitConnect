@@ -207,7 +207,7 @@ bool GuiUserMgr::onGuiOnlineStatusChange( VxGUID& onlineId, bool isOnline )
         GuiUser* guiUser = findUser( onlineId );
         if( guiUser )
         {
-            LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::%s user %s online %d id %s", 
+            LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr::%s user %s online %d id %s", 
                 __func__, guiUser->getOnlineName().c_str(), isOnline, guiUser->getMyOnlineId().toOnlineIdString().c_str() );
             if( m_ClientListBusy )
             {
@@ -498,7 +498,7 @@ GuiUser* GuiUserMgr::updateUser( VxNetIdent* hisIdent )
         return nullptr;
     }
 
-    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::updateUser %s id %s", hisIdent->getOnlineName(), hisIdent->getMyOnlineId().toOnlineIdString().c_str() );
+    LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr::updateUser %s id %s", hisIdent->getOnlineName(), hisIdent->getMyOnlineId().toOnlineIdString().c_str() );
 
     if( hisIdent->getMyOnlineId() == m_MyApp.getMyOnlineId() )
     {
@@ -516,7 +516,7 @@ GuiUser* GuiUserMgr::updateUser( VxNetIdent* hisIdent )
             if( !curIdent.isValidNetIdent() )
             {
                 requiresUpdate = true;
-                LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::updateUser update invalid ident %s", hisIdent->describeUser().c_str() );
+                LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr::updateUser update invalid ident %s", hisIdent->describeUser().c_str() );
             }
             else
             {
@@ -524,7 +524,7 @@ GuiUser* GuiUserMgr::updateUser( VxNetIdent* hisIdent )
                 requiresUpdate = 0 != strcmp( curIdent.getOnlineName(),  hisIdent->getOnlineName() );
                 if( requiresUpdate )
                 {
-                    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::updateUser name change %s", hisIdent->describeUser().c_str() );
+                    LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr::updateUser name change %s", hisIdent->describeUser().c_str() );
                 }
 
                 if( !requiresUpdate )
@@ -533,7 +533,7 @@ GuiUser* GuiUserMgr::updateUser( VxNetIdent* hisIdent )
                     requiresUpdate = 0 != strcmp( curIdent.getOnlineDescription(),  hisIdent->getOnlineDescription() );
                     if( requiresUpdate )
                     {
-                        LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::updateUser decription change %s", hisIdent->describeUser().c_str() );
+                        LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr::updateUser decription change %s", hisIdent->describeUser().c_str() );
                     }
                 }
 
@@ -544,7 +544,7 @@ GuiUser* GuiUserMgr::updateUser( VxNetIdent* hisIdent )
                         curIdent.getHisFriendshipToMe() != hisIdent->getHisFriendshipToMe();
                     if( requiresUpdate )
                     {
-                        LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::updateUser friendship change %s", hisIdent->describeUser().c_str() );
+                        LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr::updateUser friendship change %s", hisIdent->describeUser().c_str() );
                     }
                 }
 
@@ -554,7 +554,7 @@ GuiUser* GuiUserMgr::updateUser( VxNetIdent* hisIdent )
                     requiresUpdate = 0 != memcmp( curIdent.getPluginPermissions(), hisIdent->getPluginPermissions(), PERMISSION_ARRAY_SIZE );
                     if( requiresUpdate )
                     {
-                        LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr::updateUser permission change %s", hisIdent->describeUser().c_str() );
+                        LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr::updateUser permission change %s", hisIdent->describeUser().c_str() );
                     }
                 }
             }
@@ -797,7 +797,7 @@ void GuiUserMgr::wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bo
     {
         // the client list is in use. Save and the list will be updated after the client list is no longer in use
         // otherwise will crash because the list is changed during interation of the list
-        LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr wantToGuiUserUpdateCallback Client List Busy queing %p want ? %d.. current update list size %d", callback, wantCallback, m_GuiUserUpdateClientList.size() );
+        LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr wantToGuiUserUpdateCallback Client List Busy queing %p want ? %d.. current update list size %d", callback, wantCallback, m_GuiUserUpdateClientList.size() );
         m_WantUpdateToDoList.push_back( std::make_pair( callback, wantCallback ) );
         return;
     }
@@ -815,7 +815,7 @@ void GuiUserMgr::wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bo
             }
         }
 
-        LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr Add wantToGuiUserUpdateCallback %p at index %d", callback, m_GuiUserUpdateClientList.size() );
+        LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr Add wantToGuiUserUpdateCallback %p at index %d", callback, m_GuiUserUpdateClientList.size() );
         m_GuiUserUpdateClientList.emplace_back( callback );
         m_ClientListBusy = false;
         return;
@@ -828,7 +828,7 @@ void GuiUserMgr::wantGuiUserUpdateCallbacks( GuiUserUpdateCallback* callback, bo
             GuiUserUpdateCallback* client = *iter;
             if( client == callback )
             {
-                LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr Remove wantToGuiUserUpdateCallback %p at index %d", callback, idx );
+                LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr Remove wantToGuiUserUpdateCallback %p at index %d", callback, idx );
                 m_GuiUserUpdateClientList.erase( iter );
                 m_ClientListBusy = false;
                 return;
@@ -899,7 +899,7 @@ void GuiUserMgr::updateClientList( void )
     }
 
     m_UpdatingClientList = true;
-    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr updateClientList to do list size %d updateClientList size %d", m_WantUpdateToDoList.size(), m_GuiUserUpdateClientList.size());
+    LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr updateClientList to do list size %d updateClientList size %d", m_WantUpdateToDoList.size(), m_GuiUserUpdateClientList.size());
     for( auto pair : m_WantUpdateToDoList )
     {
         if( pair.second )
@@ -918,7 +918,7 @@ void GuiUserMgr::updateClientList( void )
             if( !isDuplicate )
             {
 
-                LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr updateClientList adding client %p at index %d", pair.first, m_GuiUserUpdateClientList.size());
+                LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr updateClientList adding client %p at index %d", pair.first, m_GuiUserUpdateClientList.size());
                 m_GuiUserUpdateClientList.emplace_back( pair.first );
             }
         }
@@ -930,7 +930,7 @@ void GuiUserMgr::updateClientList( void )
                 GuiUserUpdateCallback* client = *iter;
                 if( client == pair.first )
                 {
-                    LogModule( eLogUserEvent, LOG_VERBOSE, "GuiUserMgr updateClientList erasing client %p at index %d", pair.first, m_GuiUserUpdateClientList.size());
+                    LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr updateClientList erasing client %p at index %d", pair.first, m_GuiUserUpdateClientList.size());
                     m_GuiUserUpdateClientList.erase( iter );
                     break;
                 }
@@ -1024,4 +1024,20 @@ void GuiUserMgr::deleteUser( GuiUser* guiUser, QWidget* parentFrame )
             warnMsg.exec();
         }
     }
+}
+
+//============================================================================
+void GuiUserMgr::blockUser( VxGUID onlineId )
+{
+    GuiUser* guiUser = findUser( onlineId );
+    if( guiUser )
+    {
+        guiUser->setMyFriendshipToHim( eFriendStateIgnore );
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "GuiUserMgr::%s user not found %s", __func__, onlineId.toOnlineIdString().c_str() );
+    }
+    
+    m_MyApp.getEngine().fromGuiBlockUser( onlineId );
 }

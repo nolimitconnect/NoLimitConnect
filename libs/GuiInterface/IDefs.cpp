@@ -791,6 +791,8 @@ namespace
         "Skt Close External IP not determined",
         "Skt Close No Rx Encryption Key",
 
+        "Skt Close Host Leave",
+
         "eMaxSktCloseReason "
     };
 
@@ -1941,6 +1943,46 @@ EConnectReason HostTypeToConnectSearchReason( enum EHostType hostType )
         LogMsg( LOG_ERROR, "HostTypeToConnectSearchReason unknown host type %d", hostType );
         vx_assert( false );
         return eConnectReasonUnknown;
+    }
+}
+
+//============================================================================
+EHostType ConnectReasonToHostType( enum EConnectReason connectReason )
+{
+    switch( connectReason )
+    {
+    case eConnectReasonConnectTest:
+        return eHostTypeConnectTest;
+
+    case eConnectReasonNetworkHost:
+        return eHostTypeNetwork;
+
+    case eConnectReasonGroupAnnounce:
+    case eConnectReasonGroupUserConnect:
+    case eConnectReasonGroupJoin:
+    case eConnectReasonGroupUnJoin:
+    case eConnectReasonGroupLeave:
+    case eConnectReasonGroupSearch:
+        return eHostTypeGroup;
+
+    case eConnectReasonChatRoomAnnounce:
+    case eConnectReasonChatRoomUserConnect:
+    case eConnectReasonChatRoomJoin:
+    case eConnectReasonChatRoomUnJoin:
+    case eConnectReasonChatRoomLeave:
+    case eConnectReasonChatRoomSearch:
+        return eHostTypeChatRoom;
+
+    case eConnectReasonRandomConnectAnnounce:
+    case eConnectReasonRandomConnectUserConnect:
+    case eConnectReasonRandomConnectJoin:
+    case eConnectReasonRandomConnectUnJoin:
+    case eConnectReasonRandomConnectLeave:
+    case eConnectReasonRandomConnectSearch:
+        return eHostTypeRandomConnect;
+
+    default:
+        return eHostTypePeerUser;
     }
 }
 

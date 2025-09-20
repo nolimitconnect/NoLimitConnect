@@ -254,9 +254,6 @@
     <QtMoc Include="..\..\..\src\ChatEntryWidget.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\src\ChatRoomWidget.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\src\DialogConfirmRemoveMessage.h">
       <Filter>Header Files</Filter>
     </QtMoc>
@@ -1118,15 +1115,6 @@
     <QtMoc Include="..\..\..\src\AppletTestAndDebug.h">
       <Filter>Source Files\Applets</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\src\AppletTestBase.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\src\AppletTestHostClient.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
-    <QtMoc Include="..\..\..\src\AppletTestHostService.h">
-      <Filter>Source Files\Applets</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\src\AppletTheme.h">
       <Filter>Source Files\Applets</Filter>
     </QtMoc>
@@ -1146,6 +1134,12 @@
       <Filter>Source Files\Applets</Filter>
     </QtMoc>
     <QtMoc Include="..\..\..\src\AppletRandomConnectJoinSearch.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletHostClientBase.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletHostLeave.h">
       <Filter>Source Files\Applets</Filter>
     </QtMoc>
   </ItemGroup>
@@ -1172,9 +1166,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\ChatEntryWidget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\ChatRoomWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\DialogConfirmRemoveMessage.cpp">
@@ -2050,15 +2041,6 @@
     <ClCompile Include="..\..\..\src\AppletTestAndDebug.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\AppletTestBase.cpp">
-      <Filter>Source Files\Applets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\AppletTestHostClient.cpp">
-      <Filter>Source Files\Applets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\src\AppletTestHostService.cpp">
-      <Filter>Source Files\Applets</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\src\AppletTheme.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
@@ -2309,6 +2291,12 @@
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\AppletRandomConnectJoinSearch.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletHostClientBase.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletHostLeave.cpp">
       <Filter>Source Files\Applets</Filter>
     </ClCompile>
   </ItemGroup>
@@ -2725,9 +2713,6 @@
     <QtUic Include="..\..\..\src\Forms\AppletCamSettings.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="..\..\..\src\Forms\AppletChatRoomClient.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="..\..\..\src\Forms\AppletChooseThumbnail.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -3001,12 +2986,6 @@
     <QtUic Include="..\..\..\src\Forms\AppletGalleryEmoticon.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="..\..\..\src\Forms\AppletTestHostClient.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\src\Forms\AppletTestHostService.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="..\..\..\src\Forms\GuiHostedListItem.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -3067,9 +3046,6 @@
     <QtUic Include="..\..\..\src\Forms\AppletUserPreferences.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="..\..\..\src\Forms\AppletRandomConnectClient.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
     <QtUic Include="..\..\..\src\Forms\GuiUserMultiListWidget.ui">
       <Filter>Form Files</Filter>
     </QtUic>
@@ -3098,9 +3074,6 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\src\Forms\AppletPlayerNlc.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="..\..\..\src\Forms\AppletGroupClient.ui">
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\src\Forms\AppletUserConnections.ui">
@@ -3164,6 +3137,24 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="..\..\..\src\Forms\AppletHostJoinConnect.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletHostClient.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletChatRoomJoinSearch.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletRandomConnectJoinSearch.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletGroupJoinSearch.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletJoinHostList.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletHostLeave.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

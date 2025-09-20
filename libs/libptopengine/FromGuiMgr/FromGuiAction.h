@@ -35,6 +35,8 @@ enum EFromGuiType
 
 	eFromGuiPlayOneFrame,
 
+	eFromGuiBlockUser,
+
 	eMaxFromGuiType
 };
 
@@ -132,4 +134,15 @@ public:
 	void						executeAction( void ) override;
 
 	AssetBaseInfo				m_AssetBaseInfo;
+};
+
+class FromGuiBlockUser : public FromGuiActionBase
+{
+public:
+	FromGuiBlockUser( P2PEngine& engine, VxGUID& onlineId );
+	~FromGuiBlockUser() override = default;
+
+	void						executeAction( void ) override;
+
+	VxGUID						m_OnlineId;
 };

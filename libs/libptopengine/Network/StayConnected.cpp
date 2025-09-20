@@ -127,13 +127,13 @@ void StayConnected::doStayConnectedThread( void )
 						bool isNewConnection = false;
 						if( m_Engine.connectToContact( poInfo->getConnectInfo(), sktBase, isNewConnection, eConnectReasonStayConnected ) )
 						{
-							LogModule( eLogUserConnect, LOG_DEBUG, "%s connected to user %s at %s", __func__, 
+							if( LogEnabled( eLogConnect ) )LogModule( eLogConnect, LOG_DEBUG, "%s connected to user %s at %s", __func__,
 									   poInfo->getOnlineName(), poInfo->getOnlineIpAddress().toString().c_str() );
 							poInfo->contactWasAttempted( true );
 						}
 						else
 						{
-							LogModule( eLogUserConnect, LOG_DEBUG, "%s failed connected to user %s at %s", __func__, 
+							if( LogEnabled( eLogConnect ) )LogModule( eLogConnect, LOG_DEBUG, "%s failed connected to user %s at %s", __func__,
 									   poInfo->getOnlineName(), poInfo->getOnlineIpAddress().toString().c_str() );
 							poInfo->contactWasAttempted( false );
 						}

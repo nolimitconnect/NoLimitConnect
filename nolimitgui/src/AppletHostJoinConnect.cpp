@@ -11,10 +11,13 @@
 #include "AppletHostJoinConnect.h"
 
 #include "AppCommon.h"
+#include "AppletHostLeave.h"
 #include "AppletMgr.h"
 #include "AppSettings.h"
-
+#include "GuiHelpers.h"
 #include "GuiParams.h"
+
+#include <GuiInterface/IFromGui.h>
 
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
@@ -38,16 +41,24 @@ AppletHostJoinConnect::AppletHostJoinConnect( AppCommon& app, QWidget* parent, s
 	setAppletType( eAppletHostJoinConnect );
 	ui.setupUi( getContentItemsFrame() );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
+	ui.m_AdminIdentWidget->setupIdentLogic();
 
 	getInfoEdit()->setMaximumBlockCount( MAX_LOG_EDIT_BLOCK_CNT );
 	getInfoEdit()->setReadOnly( true );
+
+	ui.m_ViewCurrentButton->setVisible( false );
+	ui.m_ViewCurrentLabel->setVisible( false );
+	ui.m_RejoinButton->setVisible( false );
+	ui.m_RejoinLabel->setVisible( false );
+	ui.m_SearchButton->setVisible( false );
+	ui.m_SearchLabel->setVisible( false );
 
 	m_HostUrl = url;
 	m_HostPtopUrl.setUrl( url );
 	m_HostOnlineId = m_HostPtopUrl.getOnlineId();
 	m_HostType = m_HostPtopUrl.getHostType();
 
-	if( !m_HostPtopUrl.isValid() || !m_HostPtopUrl.isHostTypeValid() )
+	if( !m_HostPtopUrl.isValid() || !m_HostPtopUrl.isHostTypeValid() || !m_HostOnlineId.isVxGUIDValid() )
 	{
 		QString title = QObject::tr( "Host URL is not valid" );
 		QString msg = m_HostUrl.c_str();
@@ -71,8 +82,32 @@ AppletHostJoinConnect::AppletHostJoinConnect( AppCommon& app, QWidget* parent, s
 	m_AdminGroupieId.setHostOnlineId( m_HostOnlineId );
 	m_AdminGroupieId.setUserOnlineId( m_MyApp.getMyOnlineId() );
 
+	logMsg( "%s url %s admin %s", __func__, m_HostUrl.c_str(), m_MyApp.describeUser( m_HostOnlineId ).c_str() );
+
+    VxPtopUrl lastJoinedUrl = m_MyApp.getUserJoinMgr().getLastJoinedPtopUrl( m_HostType );
+    GroupieId lastHostGroupieId = lastJoinedUrl.getHostGroupieId();
+    if( lastHostGroupieId.isValid() && m_MyApp.getConnectIdListMgr().isConnected( lastHostGroupieId ) )
+    {
+		AppletHostLeave* leaveApplet = dynamic_cast<AppletHostLeave*>( m_MyApp.getAppletMgr().launchApplet( eAppletHostLeave, getParentPageFrame() ) );
+		if( leaveApplet )
+		{
+			leaveApplet->setHostGroupieId( m_AdminGroupieId );
+		}
+       
+		closeApplet();
+		return;
+    }
+
 	m_MyApp.activityStateChange( this, true );
 	m_MyApp.getUserJoinMgr().wantUserJoinCallbacks( this, true );
+
+	GuiUser* netHostUser = m_MyApp.getUserMgr().getOrQueryUser( m_HostOnlineId );
+	if( netHostUser )
+	{
+		ui.m_AdminIdentWidget->updateIdentity( netHostUser );
+	}
+
+	joinHost();
 }
 
 //============================================================================
@@ -104,6 +139,14 @@ void AppletHostJoinConnect::callbackGuiUserJoinWasGranted( GroupieId& groupieId,
 void AppletHostJoinConnect::callbackGuiUserJoinIsGranted( GroupieId& groupieId, GuiUserJoin* guiUserJoin )
 {
 	logMsg( __func__ );
+	if( groupieId.getHostedId() == m_AdminGroupieId.getHostedId() && 
+		guiUserJoin->getGroupieId().getUserOnlineId() == m_MyApp.getMyOnlineId() && 
+		groupieId.getHostOnlineId() != m_MyApp.getMyOnlineId() )
+	{
+		emit signalJoinedHost( groupieId.getHostedId(), true );
+		m_MyApp.getAppletMgr().launchApplet( GuiHelpers::hostTypeToHostClientApplet( groupieId.getHostType() ), getParentPageFrame() );
+		closeApplet();
+	}
 }
 
 //============================================================================
@@ -160,96 +203,17 @@ void AppletHostJoinConnect::logMsg( const char* msg, ... )
 }
 
 
-////============================================================================
-//void AppletHostJoinConnect::setHostType( EHostType hostType )
-//{ 
-//	bool isJoined{ false };
-//	m_HostType = hostType;
-//	if( m_HostType == eHostTypeChatRoom )
-//	{
-//		setPluginType( ePluginTypeClientChatRoom );
-//		isJoined = m_MyApp.getUserJoinMgr().isUserJoinedToHost( m_HostType );
-//		setTitleBarText( QObject::tr("Choose Chat Room Host") );
-//		ui.m_ViewCurrentButton->setIcon( eMyIconEyeChatRoom );
-//		ui.m_SearchButton->setIcon( eMyIconChatRoomClient );
-//	}
-//	else if( m_HostType == eHostTypeGroup )
-//	{
-//		setPluginType( ePluginTypeClientGroup );
-//		isJoined = m_MyApp.getUserJoinMgr().isUserJoinedToHost( m_HostType );
-//		setTitleBarText( QObject::tr( "Choose Group Host" ) );
-//		ui.m_ViewCurrentButton->setIcon( eMyIconEyeAnnouncedGroups );
-//		ui.m_SearchButton->setIcon( eMyIconGroupClient );
-//	}
-//	else if( m_HostType == eHostTypeRandomConnect )
-//	{
-//		setPluginType( ePluginTypeClientRandomConnect );
-//		setTitleBarText( QObject::tr( "Choose Random Connect Host" ) );
-//		isJoined = m_MyApp.getUserJoinMgr().isUserJoinedToHost( m_HostType );
-//		ui.m_ViewCurrentButton->setIcon( eMyIconEyeAnnouncedRandomConnect );
-//		ui.m_SearchButton->setIcon( eMyIconRandomConnectClient );
-//	}
-//	else
-//	{
-//		setTitleBarText( QObject::tr( "Unknown Host Type" ) );
-//	}
-//
-//	ui.m_ViewCurrentFrame->setVisible( isJoined );
-//	bool showRejoin{ false };
-//	if( !isJoined )
-//	{
-//		VxPtopUrl lastJoined = m_MyApp.getUserJoinMgr().getLastJoinedPtopUrl( hostType );
-//		ui.m_RejoinFrame->setVisible( lastJoined.isValid() );
-//	}
-//	else
-//	{
-//		ui.m_RejoinFrame->setVisible( false );
-//	}
-//	
-//}
-//
-////============================================================================
-//void AppletHostJoinConnect::slotViewCurrentButtonClicked( void )
-//{
-//	GroupieId adminGroupieId = m_MyApp.getUserJoinMgr().getJoinedAdminGroupieId( m_HostType );
-//	if( adminGroupieId.isValid() )
-//	{
-//		EApplet joinedApplet = GuiParams::hostTypeToClientApplet( m_HostType );
-//		ActivityBase* activity = m_MyApp.getAppletMgr().launchApplet( joinedApplet, getParentPageFrame() );
-//		if( activity )
-//		{
-//			AppletClientBase* clientBase = dynamic_cast<AppletClientBase*>( activity );
-//			if( clientBase )
-//			{
-//				clientBase->setAdminGroupieId( adminGroupieId );
-//			}
-//			else
-//			{
-//				LogMsg( LOG_ERROR, "AppletHostJoinConnect::%s dynamic cast failed", __func__ );
-//			}
-//		}
-//		else
-//		{
-//			LogMsg( LOG_ERROR, "AppletHostJoinConnect::%s failed to launch", __func__ );
-//		}
-//	}
-//	else
-//	{
-//		LogMsg( LOG_ERROR, "AppletHostJoinConnect::%s invalid admin id", __func__ );
-//	}
-//
-//	closeApplet();
-//}
-//
-////============================================================================
-//void AppletHostJoinConnect::slotRejoinButtonClicked( void )
-//{
-//	VxPtopUrl lastJoined = m_MyApp.getUserJoinMgr().getLastJoinedPtopUrl( m_HostType );
-//
-//}
-//
-////============================================================================
-//void AppletHostJoinConnect::slotSearchButtonClicked( void )
-//{
-//	ActivityBase * activity = m_MyApp.getAppletMgr().launchApplet( eAppletHostJoinRequestList, getParentPageFrame() );
-//}
+//============================================================================
+void AppletHostJoinConnect::joinHost( void )
+{
+	GuiUserJoin* userJoin = m_MyApp.getUserJoinMgr().getUserJoin( m_AdminGroupieId );
+	EJoinState joinState{ eJoinStateNone };
+	if( userJoin )
+	{
+		joinState = userJoin->getJoinState();
+	}
+
+
+	m_JoinHostSessionId.initializeWithNewVxGUID();
+	m_MyApp.getFromGuiInterface().fromGuiJoinHost( m_AdminGroupieId.getHostedId(), m_JoinHostSessionId, m_HostUrl );
+}

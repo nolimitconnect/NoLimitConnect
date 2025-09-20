@@ -190,7 +190,7 @@ VxSndInstance * SoundMgr::playSnd( ESndDef sndDef, bool loopContinuous  )
         return nullptr;
     }
 
-	if( LogEnabled( eLogUserEvent ) && sndDef != eSndDefButtonClick )
+	if( LogEnabled( eLogUsers ) && sndDef != eSndDefButtonClick )
 	{
 		LogMsg( LOG_VERBOSE, "SoundMgr::%s play sound %s", __func__, DescribeSnd( sndDef ) );
 	}
@@ -216,7 +216,7 @@ VxSndInstance * SoundMgr::playSnd( ESndDef sndDef, bool loopContinuous  )
 			m_CurSndPlaying = nullptr;
 		}
 
-		if( LogEnabled( eLogUserEvent ) )LogModule( eLogUserEvent, LOG_VERBOSE, "SoundMgr::%s play sound %s", __func__, DescribeSnd( sndDef ) );
+		if( LogEnabled( eLogUsers ) )LogModule( eLogUsers, LOG_VERBOSE, "SoundMgr::%s play sound %s", __func__, DescribeSnd( sndDef ) );
 		m_CurSndPlaying = m_SndList[ sndDef ];
 		m_CurSndPlaying->startPlay( loopContinuous );
 		return m_CurSndPlaying;

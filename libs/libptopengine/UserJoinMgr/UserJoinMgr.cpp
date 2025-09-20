@@ -126,47 +126,47 @@ void UserJoinMgr::fromGuiUserLoggedOn( void )
 }
 
 //============================================================================
-bool UserJoinMgr::fromGuiLeaveHost( HostedId& adminId )
+bool UserJoinMgr::fromGuiLeaveHost( HostedId& adminId, bool unjoinAlso )
 {
-    bool isOnline = m_Engine.getConnectIdListMgr().isUserOnline( adminId.getHostOnlineId() );
-    if( !isOnline )
+    GroupieId groupieId( m_Engine.getMyOnlineId(), adminId );
+    EHostType hostType = adminId.getHostType();
+    PluginBase* plugin = m_Engine.getPluginMgr().findHostClientPlugin( hostType );
+    if( plugin )
     {
-        GroupieId groupieId( m_Engine.getMyOnlineId(), adminId );
-        lockResources();
-         UserJoinInfo* userJoinInfo = findUserJoinInfo( groupieId );
-         EJoinState joinState = userJoinInfo->getJoinState();
-         if( eJoinStateJoinIsGranted == joinState )
-         {
-            userJoinInfo->setJoinState( eJoinStateJoinWasGranted );
-            announceUserJoinUpdated( userJoinInfo );
-         }
-
-        unlockResources();
+        if( unjoinAlso )
+        {
+            plugin->fromGuiUnJoinHost( adminId );
+        }
+        else
+        {
+            plugin->fromGuiLeaveHost( adminId );
+        }
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "Plugin not found for host %d", hostType );
+        vx_assert( false );
+        return false;
     }
 
-    return isOnline;
+    lockResources();
+    UserJoinInfo* userJoinInfo = findUserJoinInfo( groupieId );
+    EJoinState joinState = userJoinInfo->getJoinState();
+    if( eJoinStateJoinIsGranted == joinState )
+    {
+        userJoinInfo->setJoinState( unjoinAlso ? eJoinStateJoinLeaveHost : eJoinStateJoinWasGranted );
+        announceUserJoinUpdated( userJoinInfo );
+    }
+
+    unlockResources();
+
+    return true;
 }
 
 //============================================================================
 bool UserJoinMgr::fromGuiUnJoinHost( HostedId& adminId )
 {
-    bool isOnline = m_Engine.getConnectIdListMgr().isUserOnline( adminId.getHostOnlineId() );
-    if( !isOnline )
-    {
-        GroupieId groupieId( m_Engine.getMyOnlineId(), adminId );
-        lockResources();
-         UserJoinInfo* userJoinInfo = findUserJoinInfo( groupieId );
-         EJoinState joinState = userJoinInfo->getJoinState();
-         if( eJoinStateJoinIsGranted == joinState )
-         {
-            userJoinInfo->setJoinState( eJoinStateJoinWasGranted );
-            announceUserJoinUpdated( userJoinInfo );
-         }
-
-        unlockResources();
-    }
-
-    return isOnline;
+    return fromGuiLeaveHost( adminId, true );
 }
 
 //============================================================================
@@ -228,7 +228,7 @@ void UserJoinMgr::announceUserJoinRequested( UserJoinInfo* userJoinInfo )
         updateUserIsJoined( userJoinInfo );
 
         if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::%s state %s %s", __func__,
-                      DescribeJoinState( userJoinInfo->getJoinState() ), userJoinInfo->getGroupieId().describeGroupieId().c_str() );
+                      DescribeJoinState( userJoinInfo->getJoinState() ), m_Engine.describeGroupieId( userJoinInfo->getGroupieId() ).c_str() );
 
         lockClientList();
         for( auto client : m_UserJoinClients )
@@ -259,7 +259,7 @@ void UserJoinMgr::announceUserJoinUpdated( UserJoinInfo * userJoinInfo )
         }
 
         if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_VERBOSE, "UserJoinMgr::%s state %s %s", __func__, DescribeJoinState( joinState ),
-                userJoinInfo->getGroupieId().describeGroupieId().c_str() );
+                m_Engine.describeGroupieId( userJoinInfo->getGroupieId() ).c_str() );
 
         lockClientList();
         for( auto client : m_UserJoinClients )
@@ -417,7 +417,7 @@ void UserJoinMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktB
         }
         else
         {
-            m_Engine.getConnectIdListMgr().userJoinedHost( sktBase->getSocketId(), groupieId );
+            m_Engine.getConnectIdListMgr().userJoinedHost( sktBase, groupieId );
         }
 
         setLastJoined( groupieId );

@@ -52,6 +52,8 @@ public:
 	virtual void				toGuiLog( int logFlags, const char* pMsg ) = 0;
 	/// Send error occurred message to GUI
 	virtual void				toGuiAppErr( EAppErr eAppErr, const char* errMsg = "" ) = 0;
+	/// Send error occurred message to GUI (Will popup error msg box)
+	virtual void				toGuiAppPopupErr( EAppErr eAppErr, const char* errMsg ) = 0;
 	/// Send status bar message to GUI
 	virtual void				toGuiStatusMessage( const char* errMsg ) = 0;
 	virtual void				toGuiPluginMsg( EPluginType pluginType, VxGUID& onlineId, EPluginMsgType msgType, const char* paramMsg = "" ) = 0;

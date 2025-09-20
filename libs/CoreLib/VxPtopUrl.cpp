@@ -309,6 +309,18 @@ std::string VxPtopUrl::getHostUrl( void )
 }
 
 //============================================================================
+GroupieId VxPtopUrl::getHostGroupieId( void )
+{
+    if( m_OnlineId.isVxGUIDValid() && isHostTypeValid() )
+    {
+        return GroupieId( m_OnlineId, m_OnlineId, m_HostType );
+    }
+
+    GroupieId emptyId;
+    return emptyId;
+}
+
+//============================================================================
 void VxPtopUrl::clear( void )
 {
     m_Url.clear();

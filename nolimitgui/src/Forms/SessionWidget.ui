@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>309</width>
+    <width>521</width>
     <height>470</height>
    </rect>
   </property>
@@ -55,9 +55,15 @@
       </property>
       <item>
        <widget class="VxPushButton" name="m_CreateInviteButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
-          <width>0</width>
+          <width>40</width>
           <height>40</height>
          </size>
         </property>
@@ -82,7 +88,7 @@
       <item>
        <spacer name="horizontalSpacer_8">
         <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
+         <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -96,7 +102,30 @@
     </widget>
    </item>
    <item>
-    <widget class="IdentOfferWidget" name="m_IdentWidget" native="true"/>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="IdentOfferWidget" name="m_IdentWidget" native="true"/>
+     </item>
+     <item>
+      <widget class="VxPushButton" name="m_BootButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>40</width>
+         <height>40</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="HistoryListWidget" name="m_HistoryList">

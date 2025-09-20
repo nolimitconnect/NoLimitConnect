@@ -78,6 +78,7 @@ public:
 
     void                        dumpUserInfo( GuiUser* guiUser, QWidget* parentFrame );
     void                        deleteUser( GuiUser* guiUser, QWidget* parentFrame );
+    void                        blockUser( VxGUID onlineId );
 
 protected:
     void                        removeUser( VxGUID onlineId );

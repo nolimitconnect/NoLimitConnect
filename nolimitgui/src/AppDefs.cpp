@@ -29,6 +29,7 @@ EMyIcons GetAppletIcon( EApplet applet )
 
     case eAppletHostJoinChoose:	            return eMyIconSearchPerson;
     case eAppletHostJoinConnect:	        return eMyIconSearchPerson;
+    case eAppletHostLeave:	                return eMyIconUserLeave;
 
     case eAppletCreateAccount:			    return eMyIconUserIdentity;
 
@@ -89,10 +90,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletScanWebCam:	                return eMyIconSearchWebCam;
 
     case eAppletTestAndDebug:	            return eMyIconDebug;
-    case eAppletTestHostClient:	            return eMyIconDebug;
-    case eAppletTestHostService:	        return eMyIconDebug;
     case eAppletTestUpnp:	                return eMyIconDebug;
-
     case eAppletTheme:					    return eMyIconTheme;
 
     case eAppletUserIdentity:			    return eMyIconUserIdentity;
@@ -232,6 +230,7 @@ QString DescribeApplet( EApplet applet )
 
     case eAppletHostJoinChoose:		        return QObject::tr( "Choose Host" );
     case eAppletHostJoinConnect:		    return QObject::tr( "Join Host Connect" );
+    case eAppletHostLeave:		            return QObject::tr( "Leave Host" );
 
     case eAppletChatRoomClient:		        return QObject::tr( "Chat Room" );
     case eAppletRandomConnectClient:		return QObject::tr( "Random Person Connect" );
@@ -286,8 +285,6 @@ QString DescribeApplet( EApplet applet )
     case eAppletSnapshot:				    return QObject::tr( "Take Snapshot" );
 
     case eAppletTestAndDebug:			    return QObject::tr( "Test And Debug" );
-    case eAppletTestHostClient:			    return QObject::tr( "Test Host Client" );
-    case eAppletTestHostService:			return QObject::tr( "Test Host Service" );
     case eAppletTestUpnp:			        return QObject::tr( "Test UPNP Port Forward" );
 	case eAppletTheme:					    return QObject::tr( "Theme" );
 

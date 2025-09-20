@@ -176,4 +176,5 @@ void AppletHostJoinChoose::slotSearchButtonClicked( void )
 	}
 
 	m_MyApp.getAppletMgr().launchApplet( applet, getParentPageFrame() );
+	closeApplet();
 }

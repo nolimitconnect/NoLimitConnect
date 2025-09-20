@@ -50,6 +50,7 @@ ConnectId::ConnectId( VxGUID& groupieOnlineId, HostedId& hostedId )
 ConnectId::ConnectId( const ConnectId& rhs )
     : m_SocketId( rhs.m_SocketId )
     , m_GroupieId( rhs.m_GroupieId )
+    , m_IsRelayed( rhs.m_IsRelayed )
 {
 }
 
@@ -60,6 +61,7 @@ ConnectId& ConnectId::operator =( const ConnectId& rhs )
 	{
         m_SocketId                  = rhs.m_SocketId;
         m_GroupieId                 = rhs.m_GroupieId;
+        m_IsRelayed                 = rhs.m_IsRelayed;
 	}
 
 	return *this;
@@ -68,7 +70,7 @@ ConnectId& ConnectId::operator =( const ConnectId& rhs )
 //============================================================================
 bool ConnectId::operator == ( const ConnectId& rhs ) const
 {
-    return m_SocketId == rhs.m_SocketId &&  m_GroupieId == rhs.m_GroupieId;
+    return m_SocketId == rhs.m_SocketId && m_GroupieId == rhs.m_GroupieId && m_IsRelayed == rhs.m_IsRelayed;
 }
 
 //============================================================================
@@ -80,7 +82,27 @@ bool ConnectId::operator != ( const ConnectId& rhs ) const
 //============================================================================
 bool ConnectId::operator < ( const ConnectId& rhs ) const
 {
-    return m_SocketId < rhs.m_SocketId || ( m_SocketId == rhs.m_SocketId && m_GroupieId < rhs.m_GroupieId );
+    if( *this == rhs )
+    {
+        return false;
+    }
+
+    if( m_SocketId < rhs.m_SocketId )
+    {
+        return true;
+    }
+
+    if( m_SocketId == rhs.m_SocketId  && m_GroupieId < rhs.m_GroupieId )
+    {
+        return true;
+    }
+
+    if( m_SocketId == rhs.m_SocketId && m_GroupieId == rhs.m_GroupieId && m_IsRelayed < rhs.m_IsRelayed )
+    {
+        return true;
+    }
+
+    return false;
 }
 
 //============================================================================
@@ -102,7 +124,17 @@ bool ConnectId::operator <= ( const ConnectId& rhs ) const
 //============================================================================
 bool ConnectId::operator > ( const ConnectId& rhs ) const
 {
-    return m_SocketId > rhs.m_SocketId || ( m_SocketId == rhs.m_SocketId && m_GroupieId > rhs.m_GroupieId );
+    if( *this == rhs )
+    {
+        return false;
+    }
+
+    if( *this < rhs )
+    {
+        return false;
+    }
+
+    return true;
 }
 
 //============================================================================
@@ -113,12 +145,12 @@ bool ConnectId::operator >= ( const ConnectId& rhs ) const
         return true;
     }
 
-    if( *this > rhs )
+    if( *this < rhs )
     {
-        return true;
+        return false;
     }
 
-    return false;
+    return true;
 }
 
 //============================================================================
@@ -142,28 +174,29 @@ bool ConnectId::extractFromBlob( PktBlobEntry& blob )
 int ConnectId::compareTo( ConnectId& connectId )
 {
     int result = 0;
+    if( *this == connectId )
+    {
+        return 0;
+    }
+
+    if( *this < connectId )
+    {
+        return -1;
+    }
+
     if( *this > connectId )
     {
-        result = 1;
-    }
-    else if( *this < connectId )
-    {
-        result = -1;
+        return 1;
     }
 
-    if( 0 == result )
-    {
-        result = m_SocketId.compareTo( connectId.getSocketId() );
-    }
-
-    return result;
+    return 0;
 }
 
 // returns true if guids are same value
 //============================================================================
-bool ConnectId::isEqualTo( const ConnectId& groupieId )
+bool ConnectId::isEqualTo( const ConnectId& connectId )
 {
-    return *this == groupieId;
+    return *this == connectId;
 }
 
 // get a description of the plugin id
@@ -174,6 +207,7 @@ std::string ConnectId::describeConnectId( void ) const
     desc += m_SocketId.toHexString();
     desc += " ";
     desc += m_GroupieId.describeGroupieId();
+    desc += m_IsRelayed ? " relayed" : " direct";
     return desc;
 }
 

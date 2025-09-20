@@ -102,13 +102,16 @@ list(APPEND nlc_HEADERS
     src/AppletGroupListLocalView.h
     src/AppletHackerList.h
     src/AppletHelpNetSignalBars.h
+
     src/AppletHostBase.h
     src/AppletHostChatRoomStatus.h
+    src/AppletHostClientBase.h
     src/AppletHostGroupStatus.h
     src/AppletHostRandomConnectStatus.h
     src/AppletHostJoinChoose.h
     src/AppletHostJoinConnect.h
     src/AppletHostJoinRequestList.h
+    src/AppletHostLeave.h
     src/AppletHostNetworkStatus.h
     src/AppletIgnoredHosts.h
 
@@ -193,9 +196,6 @@ list(APPEND nlc_HEADERS
     src/AppletStoryboardServerViewMine.h
 
     src/AppletTestAndDebug.h
-    src/AppletTestBase.h
-    src/AppletTestHostClient.h
-    src/AppletTestHostService.h
     src/AppletTestUpnp.h
 
     src/AppletTheme.h
@@ -213,7 +213,6 @@ list(APPEND nlc_HEADERS
     src/AvatarBar.h
     src/BottomBarWidget.h
     src/CamTitleBarPreview.h
-    src/ChatRoomWidget.h
 
     src/CamJavaClient.h
     src/CamLogic.h
@@ -280,7 +279,6 @@ list(APPEND nlc_HEADERS
     src/GuiOfferMgr.h
     src/GuiOfferMgrBase.h
     src/GuiOfferSession.h
-    src/GuiOnlineStatusCallback.h
     src/GuiPushToTalkMgr.h
     src/GuiParams.h
     src/GuiPlayerCallback.h
@@ -527,13 +525,16 @@ list(APPEND nlc_SOURCES
     src/AppletGroupListLocalView.cpp
     src/AppletHackerList.cpp
     src/AppletHelpNetSignalBars.cpp
+
     src/AppletHostBase.cpp
     src/AppletHostChatRoomStatus.cpp
+    src/AppletHostClientBase.cpp
     src/AppletHostGroupStatus.cpp
-
     src/AppletHostJoinChoose.cpp
     src/AppletHostJoinConnect.cpp
     src/AppletHostJoinRequestList.cpp
+    src/AppletHostLeave.cpp
+
     src/AppletHostNetworkStatus.cpp
     src/AppletHostRandomConnectStatus.cpp
     src/AppletIgnoredHosts.cpp
@@ -620,9 +621,6 @@ list(APPEND nlc_SOURCES
     src/AppletStoryboardServerViewMine.cpp
 
     src/AppletTestAndDebug.cpp
-    src/AppletTestBase.cpp
-    src/AppletTestHostClient.cpp
-    src/AppletTestHostService.cpp
     src/AppletTestUpnp.cpp
 
     src/AppletTheme.cpp
@@ -645,7 +643,6 @@ list(APPEND nlc_SOURCES
     src/CamProcessor.cpp
 
     src/CamTitleBarPreview.cpp
-    src/ChatRoomWidget.cpp
     src/ChatEntryWidget.cpp
     src/ClipboardCopyWidget.cpp
     src/ClipboardPasteWidget.cpp
@@ -879,7 +876,6 @@ list(APPEND nlc_FORMS
     src/Forms/AppletBrowseFiles.ui
     src/Forms/AppletCamClient.ui
     src/Forms/AppletCamSettings.ui
-    src/Forms/AppletChatRoomClient.ui
     src/Forms/AppletChatRoomJoinSearch.ui
     src/Forms/AppletChatRoomListLocalView.ui
 
@@ -898,16 +894,18 @@ list(APPEND nlc_FORMS
     src/Forms/AppletGalleryEmoticon.ui
     src/Forms/AppletGalleryThumb.ui
     src/Forms/AppletGetStarted.ui
-    src/Forms/AppletGroupClient.ui
+
     src/Forms/AppletGroupJoinSearch.ui
     src/Forms/AppletGroupListClient.ui
     src/Forms/AppletGroupListLocalView.ui
     src/Forms/AppletHackerList.ui
     src/Forms/AppletHelpNetSignalBars.ui
 
+    src/Forms/AppletHostClient.ui
     src/Forms/AppletHostJoinChoose.ui
     src/Forms/AppletHostJoinConnect.ui
     src/Forms/AppletHostJoinRequestList.ui
+    src/Forms/AppletHostleave.ui
     src/Forms/AppletHostNetworkStatus.ui
 
     src/Forms/AppletIgnoredHosts.ui
@@ -945,7 +943,7 @@ list(APPEND nlc_FORMS
     src/Forms/AppletPlayerNlc.ui
     src/Forms/AppletPlayerVideo.ui
     src/Forms/AppletPopupMenu.ui
-    src/Forms/AppletRandomConnectClient.ui
+
     src/Forms/AppletRandomConnectJoinSearch.ui
     src/Forms/AppletRandomConnectListLocalView.ui
     src/Forms/AppletServiceBase.ui
@@ -957,8 +955,6 @@ list(APPEND nlc_FORMS
     src/Forms/AppletSoundSettings.ui
     src/Forms/AppletStoryBoardClient.ui
     src/Forms/AppletTestAndDebug.ui
-    src/Forms/AppletTestHostClient.ui
-    src/Forms/AppletTestHostService.ui
     src/Forms/AppletTestUpnp.ui
     src/Forms/AppletTheme.ui
     src/Forms/AppletUploads.ui

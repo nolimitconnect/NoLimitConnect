@@ -257,10 +257,16 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
         }
     }
 
+    if( urlAction.getHostType() == eHostTypeNetwork )
+    {
+        LogMsg( LOG_VERBOSE, "RunUrlAction::%s url %s net cmd %s", __func__,
+            nodeUrl.c_str(), DescribeNetCmdType( netCmdType ) );
+    }
+
 	VxSktConnectSimple netServConn;
 	std::string strHost;
 	std::string strFile;
-	uint16_t u16Port;
+	uint16_t u16Port = 0;
 	VxTimer testTimer;
 	double connectTime = 0;
 	double sendTime= 0;
@@ -284,7 +290,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
         return eRunTestStatusConnectFail;
     }
 
-    LogModule( eLogRunTest, LOG_INFO, "RunUrlAction: sec %3.3f : connecting to %s thread 0x%x", 
+    if(LogEnabled(eLogRunTest))LogModule( eLogRunTest, LOG_INFO, "RunUrlAction: sec %3.3f : connecting to %s thread 0x%x",
                testTimer.elapsedSec(), nodeUrl.c_str(), VxGetCurrentThreadId() );
     std::string resolveIp;
 	if( false == netServConn.connectToWebsite(	nodeUrl.c_str(), 
@@ -295,6 +301,13 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
                                                 addrType,
 		                                        NETSERVICE_CONNECT_TIMEOUT ) )
 	{
+        if( eNetCmdQueryHostOnlineIdReq == netCmdType && ( urlAction.getHostType() == eHostTypeNetwork || urlAction.getHostType() == eHostTypeNetwork ) )
+        {
+            hostQueryIdConnectFailed( urlAction );
+            LogMsg( LOG_VERBOSE, "RunUrlAction::%s url %s net cmd %s", __func__,
+                nodeUrl.c_str(), DescribeNetCmdType( netCmdType ) );
+        }
+
         sendRunTestStatus( urlAction, actionName, eRunTestStatusConnectFail, eNetCmdErrorConnectFailed, "Could not connect to %s IP %s..tried %3.3f seconds Please check settings", 
                             nodeUrl.c_str(), resolveIp.c_str(), testTimer.elapsedSec() );
 
@@ -303,7 +316,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
 		return eRunTestStatusConnectFail;
 	}
 
-	netServConn.dumpConnectionInfo();
+    if(LogEnabled(eLogRunTest))netServConn.dumpConnectionInfo();
 	std::string strNetActionUrl;
     uint16_t myPort = 0;
     int rxCmdHeaderTimeout = PING_TEST_RX_HDR_TIMEOUT;
@@ -321,7 +334,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
         myPort = urlAction.getMyVxUrl().getPort();
         if( 0 == myPort )
         {
-            LogModule( eLogRunTest, LOG_INFO, "RunUrlAction: Invalid listen port %d", myPort );
+            if(LogEnabled(eLogRunTest))LogModule( eLogRunTest, LOG_INFO, "RunUrlAction: Invalid listen port %d", myPort );
             sendRunTestStatus( urlAction, actionName, eRunTestStatusTestBadParam, eNetCmdErrorBadParameter, ": Invalid listen port %d", myPort );
             netServConn.closeSkt();
             doRunTestFailed( urlAction, actionName, eRunTestStatusTestBadParam, eNetCmdErrorBadParameter );
@@ -346,7 +359,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
     }
 
     connectTime = testTimer.elapsedSec();
-    LogModule( eLogRunTest, LOG_INFO, "RunUrlAction: action url %s", strNetActionUrl.c_str() );
+    if(LogEnabled(eLogRunTest))LogModule( eLogRunTest, LOG_INFO, "RunUrlAction: action url %s", strNetActionUrl.c_str() );
 
 	bool wasSent = m_NetServiceUtils.sendNetServiceRequest( netCmdType, &netServConn, strNetActionUrl, 4000 );
 	if( !wasSent )
@@ -383,7 +396,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
     rxBuf[ sizeof( rxBuf ) - 1 ] = 0;
 	std::string content = rxBuf;
 	reponseTime = testTimer.elapsedSec();
-    LogModule( eLogRunTest, LOG_INFO, "RunUrlAction: response len %d total time %3.3fsec connect %3.3fsec send %3.3fsec response %3.3f sec thread 0x%x",
+    if(LogEnabled(eLogRunTest))LogModule( eLogRunTest, LOG_INFO, "RunUrlAction: response len %d total time %3.3fsec connect %3.3fsec send %3.3fsec response %3.3f sec thread 0x%x",
 		content.length(),
 		reponseTime, connectTime, sendTime - connectTime, reponseTime - sendTime, VxGetCurrentThreadId() );
 	if( 0 == content.length() )
@@ -462,7 +475,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
         }
 
         std::string hostIdStr = hostId.toHexString();
-        LogModule( eLogRunTest, LOG_VERBOSE, "test success %s host id %s thread 0x%x", actionName.c_str(), hostIdStr.c_str(), VxGetCurrentThreadId() );
+        if(LogEnabled(eLogRunTest))LogModule( eLogRunTest, LOG_VERBOSE, "test success %s host id %s thread 0x%x", actionName.c_str(), hostIdStr.c_str(), VxGetCurrentThreadId() );
         sendTestLog( urlAction, actionName, "Action complete with Id %s Elapsed Seconds Connect %3.3fsec Send %3.3fsec Respond %3.3f sec", hostIdStr.c_str(), connectTime, sendTime - connectTime, reponseTime - sendTime );
         if( urlAction.getResultInterface() )
         {
@@ -485,7 +498,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
         int iIsOpen = atoi( contentParts[0].c_str() );
         // m_Engine.getNetStatusAccum().setIpAddress( retMyExternalIp );
 
-        LogModule( eLogRunTest, LOG_VERBOSE, "NetActionIsMyPortOpen::doAction: direct connect %s my ip %s result %d thread 0x%x", strPayload.c_str(), retMyExternalIp.c_str(), iIsOpen, VxGetCurrentThreadId() );
+        if(LogEnabled(eLogRunTest))LogModule( eLogRunTest, LOG_VERBOSE, "NetActionIsMyPortOpen::doAction: direct connect %s my ip %s result %d thread 0x%x", strPayload.c_str(), retMyExternalIp.c_str(), iIsOpen, VxGetCurrentThreadId() );
         if( iIsOpen )
         {
             sendRunTestStatus(  urlAction, actionName, eRunTestStatusMyPortIsOpen, eNetCmdErrorNone, "My ip %s port %d is open", retMyExternalIp.c_str(), myPort );
@@ -563,4 +576,26 @@ void RunUrlAction::sendTestLog( UrlActionInfo& urlAction, std::string& urlAction
         va_end( argList );
         IToGui::getIToGui().toGuiRunTestStatus( urlActionName.c_str(), eRunTestStatusLogMsg, as8Buf );
     }
+}
+
+//============================================================================
+void RunUrlAction::hostQueryIdConnectFailed( UrlActionInfo& urlInfo )
+{
+    EHostType hostType = urlInfo.getHostType();
+    EAppErr appErr{ eAppErrUnknown };
+    switch( hostType )
+    {
+    case eHostTypeConnectTest:
+        appErr = eAppPopupErrConnectTestHostConnectFail;
+        break;
+    case eHostTypeNetwork:
+        appErr = eAppPopupErrNetworkHostConnectFail;
+        break;
+    default:
+        LogMsg( LOG_ERROR, "RunUrlAction::%s unknown host type for url %s", __func__,
+            urlInfo.getRemoteVxUrl().getUrl().c_str() );
+        return;
+    }
+
+    m_Engine.getToGui().toGuiAppPopupErr( appErr, urlInfo.getRemoteVxUrl().getUrl().c_str() );
 }

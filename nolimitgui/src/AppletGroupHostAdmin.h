@@ -14,7 +14,7 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-    class AppletChatRoomClientUi;
+    class AppletHostClientUi;
 }
 QT_END_NAMESPACE
 
@@ -33,7 +33,7 @@ protected:
     bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
 
     //=== vars ===//
-    Ui::AppletChatRoomClientUi& ui;
+    Ui::AppletHostClientUi&     ui;
 };
 
 

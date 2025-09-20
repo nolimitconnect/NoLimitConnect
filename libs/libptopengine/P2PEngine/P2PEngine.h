@@ -156,7 +156,7 @@ public:
     UrlMgr&                     getUrlMgr( void );
 
     UserJoinMgr&                getUserJoinMgr( void )                          { return m_UserJoinMgr; }
-    UserOnlineMgr&              getUserOnlineMgr( void )                        { return m_UserOnlineMgr; }
+
     VxPeerMgr&					getPeerMgr( void )								{ return m_PeerMgr; }
     WebPageMgr&                 getWebPageMgr( void )                           { return m_WebPageMgr; }
 
@@ -219,6 +219,8 @@ public:
     void           				fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fromThread = false ) override;
     void           				fromGuiSetUserXferDir( std::string userXferDir, bool fromThread = false ) override;
     void           				fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread = false ) override;
+
+    void           				fromGuiBlockUser( VxGUID& onlineId, bool fromThread = false ) override;
 
 	bool				        fromGuiDeleteUser( VxGUID& onlineId ) override;
 
@@ -716,6 +718,7 @@ public:
     /// extract online id from url if url is valid
     static VxGUID               getOnlineIdFromUrl( std::string& ptopUrl );
 
+    std::string                 describeConnectId( ConnectId& connectionId );
     std::string                 describeGroupieId( GroupieId& groupieId );
     std::string                 describeHostedId( HostedId& hostedId );
     std::string                 describeUser( VxGUID& onlineId );
@@ -725,7 +728,7 @@ public:
     bool                        isMyAccessAllowedFromHim( VxGUID& onlineId, EPluginType pluginType );
     bool                        isHisAccessAllowedFromMe( VxGUID& onlineId, EPluginType pluginType );
 
-    void                        disconnectFromHostIfNotNeeded( GroupieId& adminId );
+    void                        disconnectFromHostIfNotNeeded( HostedId& adminId );
 
 protected:
     //========================================================================
@@ -813,7 +816,6 @@ protected:
 
     HostServerJoinMgr&			m_HostJoinMgr;
     UserJoinMgr&				m_UserJoinMgr;
-    UserOnlineMgr&				m_UserOnlineMgr;
     WebPageMgr&                 m_WebPageMgr;
     std::shared_ptr<VxSktBase>  m_SktLoopback;
 

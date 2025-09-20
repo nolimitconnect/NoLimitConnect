@@ -222,6 +222,7 @@ storyboard-edit.svg ( modified )
 thumbs-up.svg
 thumbs-down.svg (modified)
 unknown-person.svg (modified) 
+user-leave.svg
 user-preferences.svg (modified) 
 user-connections.svg (modified) 
 video-chat-settings.svg (modified)

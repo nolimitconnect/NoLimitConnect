@@ -138,6 +138,8 @@ public:
 
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread = false ) = 0;
 
+	virtual void                fromGuiBlockUser( VxGUID& onlineId, bool fromThread = false ) = 0;
+
 	virtual void				fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId ) = 0;
 
 	virtual void 				fromGuiDisconnectFromUser( VxGUID& onlineId ) = 0;

@@ -571,27 +571,27 @@ void GuiUserJoinMgr::slotReconnectToLastConnectedHost( void )
                 VxGUID sessionId;
                 sessionId.initializeWithNewVxGUID();
 
-                LogModule( eLogUserEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost attempting rejoin hot url %s", m_ReconnectToHost.c_str() );
+                LogModule( eLogUsers, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost attempting rejoin hot url %s", m_ReconnectToHost.c_str() );
 
                 HostedId adminId( ptopUrl.getOnlineId(), hostType );
                 m_MyApp.getFromGuiInterface().fromGuiJoinHost( adminId, sessionId, hostUrl );
             }
             else
             {
-                LogModule( eLogUserEvent, LOG_ERROR, "checkReadyToConnectToLastConnectedHost cannot connect to ourself" );
+                LogModule( eLogUsers, LOG_ERROR, "checkReadyToConnectToLastConnectedHost cannot connect to ourself" );
                 m_MyApp.getAppSettings().setLastHostJoined("");
                 stopReconnectToLastConnectedHost();
             }
         }
         else
         {
-            LogModule( eLogUserEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost invalid ptop url %s", m_ReconnectToHost.c_str() );
+            LogModule( eLogUsers, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost invalid ptop url %s", m_ReconnectToHost.c_str() );
             stopReconnectToLastConnectedHost();
         }
     }
     else
     {
-        LogModule( eLogUserEvent, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost invalid host type for url %s", m_ReconnectToHost.c_str() );
+        LogModule( eLogUsers, LOG_VERBOSE, "checkReadyToConnectToLastConnectedHost invalid host type for url %s", m_ReconnectToHost.c_str() );
         stopReconnectToLastConnectedHost();
     }
 
@@ -626,14 +626,20 @@ void GuiUserJoinMgr::leaveHost( EHostType hostType )
     GroupieId adminGroupieId = getJoinedAdminGroupieId( hostType );
     if( adminGroupieId.isValid() )
     {
-        leaveHost( adminGroupieId );
+        leaveHost( adminGroupieId.getHostedId() );
     }
 }
 
 //============================================================================
-void GuiUserJoinMgr::leaveHost( GroupieId adminGroupieId )
+void GuiUserJoinMgr::leaveHost( HostedId hostedId )
 {
-    m_MyApp.getFromGuiInterface().fromGuiLeaveHost( adminGroupieId.getHostedId() );
+    m_MyApp.getFromGuiInterface().fromGuiLeaveHost( hostedId );
+}
+
+//============================================================================
+void GuiUserJoinMgr::unjoinHost( HostedId hostedId )
+{
+    m_MyApp.getFromGuiInterface().fromGuiUnJoinHost( hostedId );
 }
 
 //============================================================================
@@ -679,4 +685,26 @@ VxPtopUrl GuiUserJoinMgr::getLastJoinedPtopUrl( EHostType hostType )
 
     VxPtopUrl emptyUrl;
     return emptyUrl;
+}
+
+//============================================================================
+void GuiUserJoinMgr::clearLastJoined( EHostType hostType )
+{
+    switch( hostType )
+    {
+    case eHostTypeChatRoom:
+        m_LastJoinChatRoomUrl.clear();
+        m_MyApp.getAppSettings().setLastHostJoined( hostType, "" );
+        break;
+    case eHostTypeGroup:
+        m_LastJoinGroupUrl.clear();
+        m_MyApp.getAppSettings().setLastHostJoined( hostType, "" );
+        break;
+    case eHostTypeRandomConnect:
+        m_LastJoinRandomConnectUrl.clear();
+        m_MyApp.getAppSettings().setLastHostJoined( hostType, "" );
+        break;
+    default:
+        LogMsg( LOG_ERROR, "GuiUserJoinMgr::%s invalid host type", __func__ );
+    }
 }

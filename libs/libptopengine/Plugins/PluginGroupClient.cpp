@@ -42,18 +42,6 @@ void PluginGroupClient::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, s
 }
 
 //============================================================================
-void PluginGroupClient::fromGuiLeaveHost( HostedId& adminId )
-{
-    m_HostClientMgr.fromGuiLeaveHost( adminId );
-}
-
-//============================================================================
-void PluginGroupClient::fromGuiUnJoinHost( HostedId& adminId )
-{
-    m_HostClientMgr.fromGuiUnJoinHost( adminId );
-}
-
-//============================================================================
 void PluginGroupClient::fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable )
 {
     m_HostClientMgr.fromGuiSearchHost( hostType, searchParams, enable );
@@ -62,33 +50,33 @@ void PluginGroupClient::fromGuiSearchHost( EHostType hostType, SearchParams& sea
 //============================================================================
 void PluginGroupClient::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogHostJoin, LOG_DEBUG, "PluginGroupClient got join request" );
+    if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_DEBUG, "PluginGroupClient got join request" );
 }
 
 //============================================================================
 void PluginGroupClient::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogHostJoin, LOG_DEBUG, "PluginGroupClient got join reply" );
+    if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_DEBUG, "PluginGroupClient got join reply" );
     m_HostClientMgr.onPktHostJoinReply( sktBase, pktHdr,  netIdent );
 }
 
 //============================================================================
 void PluginGroupClient::onPktHostSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogHostJoin, LOG_DEBUG, "PluginGroupClient got search reply" );
+    if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_DEBUG, "PluginGroupClient got search reply" );
     m_HostClientMgr.onPktHostSearchReply( sktBase, pktHdr,  netIdent );
 }
 
 //============================================================================
 void PluginGroupClient::onPktHostOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogHostJoin, LOG_DEBUG, "PluginGroupClient got join offer request" );
+    if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_DEBUG, "PluginGroupClient got join offer request" );
 }
 
 //============================================================================
 void PluginGroupClient::onPktHostOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    LogModule( eLogHostJoin, LOG_ERROR, "PluginGroupClient got join offer reply" );
+    if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_ERROR, "PluginGroupClient got join offer reply" );
 }
 
 //============================================================================

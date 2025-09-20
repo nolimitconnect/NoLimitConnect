@@ -52,7 +52,7 @@ public:
     void                        setExcludeConnectId( VxGUID& sktConnectId, bool exclude = true );
     bool                        isConnectIdExcluded( VxGUID& sktConnectId );
 
-    void                        userJoinedHost( VxGUID& sktConnectId, GroupieId& groupieId );
+    void                        userJoinedHost( std::shared_ptr<VxSktBase>& sktBase, GroupieId& groupieId );
     void                        userLeftHost( VxGUID& sktConnectId, GroupieId& groupieId );
 
     void                        fromGuiDisconnectFromUser( VxGUID& onlineId );
@@ -72,16 +72,21 @@ public:
 
     virtual bool                findConnectionId( GroupieId& groupieId, VxGUID& retSktConnectId );
     virtual bool                findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktConnectId );
-    std::shared_ptr<VxSktBase>  findSktBase( VxGUID& connectId );
+    std::shared_ptr<VxSktBase>  findSktBase( VxGUID connectId );
+
+    bool                        onUserOnline(  GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 
     bool                        addConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieId& groupieId );
+    bool                        addConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieId& groupieId, bool isRelayed );
     void                        addHostConnection( std::shared_ptr<VxSktBase>& sktBase, GroupieId& groupieId ); // only called when join host on temp connection
-    void                        addConnection( VxGUID& sktConnectId, GroupieId& groupieId, bool relayed );
-    void                        removeConnection( VxGUID& sktConnectId, GroupieId& groupieId );
     void                        addConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason );
+
+    void                        removeConnection( ConnectId& connectId );
+    void                        removeConnection( VxGUID sktConnectId, GroupieId& groupieId );
     void                        removeConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason );
 
     void                        disconnectIfIsOnlyUser( GroupieId& groupieId );
+    void                        disconnectFromHost( HostedId& hostId );
 
     virtual bool                onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );
     virtual bool                onConnectionLost( VxGUID& sktConnectId, bool tmpConnection ); ///< returns false if invalid or is excluded connection
@@ -91,7 +96,7 @@ public:
     void                        getOnlineMembers( HostedId& hostId, std::vector<VxGUID>& onlineIdList );
     bool                        isMemberOnline( HostedId& hostId, VxGUID& onlineId );
 
-    void                        pktAnnRecieved( VxGUID& sktConnectId, VxGUID onlineId );
+    void                        pktAnnRecieved( std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId );
     void                        updateOnlineExclusion( VxGUID onlineId, bool excludeFromOnlineStatus, bool isNetworkHost = false );
 
     void                        wantConnectIdListCallback( ConnectIdListCallback* client, bool enable );
@@ -99,12 +104,10 @@ public:
     void                        addUnconfirmedConnection( ConnectId& connectId, bool isRelayed );
     void                        addUnconfirmedConnection( std::vector<std::pair<int64_t,ConnectId>>& unonfirmedIdList, ConnectId& connectId );
 
+    bool                        updateUserJoinedFriendships( GroupieId& groupieId, VxNetIdent* netIdent );
 
 protected:
-    void                        announceOnlineStatus( VxGUID& onlineId, bool isOnline );
     void                        announceConnectionStatus( ConnectId& connectId, bool isConnected );
-    void                        announceRelayStatus( ConnectId& connectId, bool isRelayed );
-
     void                        announceConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason, bool enableReason );
     void                        announceConnectionLost( VxGUID& sktConnectId );
 
@@ -130,15 +133,13 @@ protected:
     void						lockConnectReasonList( void )           { m_ConnectReasonListMutex.lock(); }
     void						unlockConnectReasonList( void )         { m_ConnectReasonListMutex.unlock(); }
 
-    void                        checkUnconfirmedConnections( VxGUID& sktConnectId, VxGUID& onlineId );
-    void                        checkUnconfirmedList( VxGUID& sktConnectId, VxGUID& onlineId, bool relayed, std::vector<std::pair<int64_t,ConnectId>>& unconfirmedIdList );
+    void                        checkUnconfirmedConnections( std::shared_ptr<VxSktBase>& sktBasw, VxGUID& onlineId );
+    void                        checkUnconfirmedList( std::shared_ptr<VxSktBase>& sktBasw, VxGUID& onlineId, std::vector<std::pair<int64_t,ConnectId>>& unconfirmedIdList );
 
     std::vector<std::pair<int64_t,ConnectId>> m_UnconfirmedConnectIdList;
-    std::vector<std::pair<int64_t,ConnectId>> m_UnonfirmedRelayedIdList;
     VxMutex						m_UnonfirmedConnectIdListMutex;
 
     std::set<ConnectId>         m_ConnectIdList;
-    std::set<ConnectId>         m_RelayedIdList;
     VxMutex						m_ConnectIdListMutex;
 
     std::map<VxGUID, std::set<EConnectReason>>      m_ConnectReasonList;

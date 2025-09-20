@@ -881,6 +881,9 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 	case eMyIconFriendRequestList:
 		return ":/AppRes/Resources/friend-request-list.svg";
 
+	case eMyIconUserLeave:
+		return ":/AppRes/Resources/user-leave.svg";
+
 	default:
 		return ":/AppRes/Resources/question-mark.svg";// Icon with question mark
 	}

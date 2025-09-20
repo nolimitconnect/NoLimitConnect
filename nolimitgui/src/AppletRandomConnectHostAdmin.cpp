@@ -21,12 +21,12 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
-#include "ui_AppletChatRoomClient.h"
+#include "ui_AppletHostClient.h"
 
 //============================================================================
 AppletRandomConnectHostAdmin::AppletRandomConnectHostAdmin( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_RANDOM_CONNECT_HOST_ADMIN, app, parent )
-, ui(*(new Ui::AppletChatRoomClientUi))
+, ui(*(new Ui::AppletHostClientUi ))
 {
     setAppletType( eAppletRandomConnectHostAdmin );
     ui.setupUi( getContentItemsFrame() );
@@ -36,9 +36,9 @@ AppletRandomConnectHostAdmin::AppletRandomConnectHostAdmin( AppCommon& app, QWid
     connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );
 
     GroupieId hostAdminId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeRandomConnect );
-	ui.m_ChatRoomWidget->setPluginType( getPluginType() );
-	ui.m_ChatRoomWidget->setHostAdminId( hostAdminId );
-	ui.m_ChatRoomWidget->setInputClientCallback( this );
+	ui.m_SessionWidget->setPluginType( getPluginType() );
+	ui.m_SessionWidget->setHostAdminId( hostAdminId );
+	ui.m_SessionWidget->setInputClientCallback( this );
 
 	ui.m_UserListWidget->setHostAdminId( hostAdminId );
     ui.m_UserListWidget->setUserViewType( eUserViewTypeRandomConnect );

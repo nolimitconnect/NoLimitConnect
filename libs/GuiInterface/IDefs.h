@@ -1295,6 +1295,8 @@ enum ESktCloseReason
     eSktCloseExternalIpNotDeterminedYet,
     eSktCloseNoRxEncryptionKey,
 
+    eSktCloseHostLeave,
+
     eMaxSktCloseReason			// always last
 };
 
@@ -1498,6 +1500,8 @@ EConnectReason HostTypeToConnectLeaveReason( enum EHostType hostType );
 EConnectReason HostTypeToConnectUnJoinReason( enum EHostType hostType );
 //! convert Host Type to connect reason
 EConnectReason HostTypeToConnectSearchReason( enum EHostType hostType );
+
+EHostType ConnectReasonToHostType( enum EConnectReason connectReason );
 
 //! convert Host Type to service plugin  type
 EPluginType HostTypeToHostPlugin( enum EHostType hostType );

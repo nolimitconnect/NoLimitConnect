@@ -39,6 +39,8 @@ public:
     void                        setHostId( HostedId& hostedId )       { m_HostId = hostedId; }
     virtual HostedId&           getHostId( void )                     { return m_HostId; }
 
+    bool                        isRelayedFromHost( GroupieId& groupieId, VxNetIdent* fromNetIdent );
+
     //=== hosting ===//
     virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl );
     virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl );

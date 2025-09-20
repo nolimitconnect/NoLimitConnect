@@ -70,6 +70,9 @@ std::string FromGuiActionBase::describeGuiAction( void )
 	case eFromGuiPlayOneFrame:
 		return "FromGuiType PlayOneFrame";
 
+	case eFromGuiBlockUser:
+		return "FromGuiType BlockUser";
+
 	default:
 		return "FromGuiType Unknown";
 	}
@@ -218,4 +221,17 @@ FromGuiPlayOneFrame::FromGuiPlayOneFrame( P2PEngine& engine, AssetBaseInfo& asse
 void FromGuiPlayOneFrame::executeAction( void )
 {
 	m_Engine.getMediaProcessor().getMediaTools().fromGuiAssetAction( m_AssetBaseInfo, eAssetActionPlayOneFrame, 0 );
+}
+
+//============================================================================	
+FromGuiBlockUser::FromGuiBlockUser( P2PEngine& engine, VxGUID& onlineId )
+	: FromGuiActionBase( engine, eFromGuiBlockUser )
+	, m_OnlineId( onlineId )
+{
+}
+
+//============================================================================	
+void FromGuiBlockUser::executeAction( void )
+{
+	m_Engine.fromGuiBlockUser( m_OnlineId, true );
 }

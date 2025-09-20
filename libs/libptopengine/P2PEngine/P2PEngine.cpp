@@ -20,11 +20,11 @@
 #include <HostServerJoinMgr/HostServerJoinMgr.h>
 
 #include <MediaProcessor/MediaProcessor.h>
+#include <Membership/MemberActiveMgr.h>
 
 #include <NetworkTest/IsPortOpenTest.h>
 #include <NetworkTest/RunUrlAction.h>
 #include <Network/NetworkMgr.h>
-
 #include <Network/StayConnected.h>
 #include <NetworkMonitor/NetworkMonitor.h>
 #include <NetServices/NetServicesMgr.h>
@@ -40,7 +40,6 @@
 #include <SendQueue/SendQueueMgr.h>
 
 #include <UserJoinMgr/UserJoinMgr.h>
-#include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <UrlMgr/UrlMgr.h>
 
@@ -61,14 +60,6 @@
 
 namespace
 {
-	//void LogHandler( void * userData, uint32_t u32LogFlags, char * logMsg )
-	//{
-	//	if( userData )
-	//	{
-	//		((P2PEngine *)userData)->getToGui().toGuiLog( u32LogFlags, logMsg );
-	//	}
-	//}
-
 	void AppErrHandler( void * userData, EAppErr eAppErr, char * errMsg )
 	{
 		if( userData )
@@ -125,7 +116,6 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr,
 	, m_SendQueueMgr( sendQueueMgr )
 	, m_HostJoinMgr( *new HostServerJoinMgr( *this, "HostJoinMgrDb.db3", "HostJoinedLastDb.db3" ) )
 	, m_UserJoinMgr( *new UserJoinMgr( *this, "UserJoinMgrDb.db3", "UserJoinedLastDb.db3" ) )
-	, m_UserOnlineMgr( *new UserOnlineMgr( *this ) )
 	, m_WebPageMgr( *new WebPageMgr( *this ) )
     , m_SktLoopback( new VxSktLoopback( *this ) )
     , m_RcScan( *this, m_ConnectionList )
@@ -182,6 +172,7 @@ void P2PEngine::startupEngine()
 	m_PluginMgr.onAppStartup();
 	m_IsPortOpenTest.isPortOpenTestStartup();
 	m_FriendRequestMgr.friendRequestMgrStartup();
+	m_MemberActiveMgr.memberActiveStartup();
     LogModule( eLogStartup, LOG_VERBOSE, "P2PEngine::%s done", __func__ );
 }
 
@@ -300,7 +291,7 @@ bool P2PEngine::shouldInfoBeInDatabase( BigListInfo * poInfo )
 	EFriendState friendState =	poInfo->getMyFriendshipToHim();
 	if( eFriendStateIgnore == friendState || eFriendStateGuest < friendState )
 	{
-		LogModule( eLogUsers, LOG_INFO, "%s belongs in database. ", poInfo->getOnlineName() );
+	    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_INFO, "%s belongs in database. ", poInfo->getOnlineName() );
 		return true;
 	}
 
@@ -628,6 +619,16 @@ VxGUID P2PEngine::getOnlineIdFromUrl( std::string& ptopUrl )
     }
 
 	return onlineId;
+}
+
+//============================================================================
+std::string P2PEngine::describeConnectId( ConnectId& connectionId )
+{
+	std::string desc = "skt id ";
+	desc += connectionId.getSocketId().toHexString();
+	desc += connectionId.isRelayed() ? " relayed " : " direct ";
+	desc += describeGroupieId( connectionId.getGroupieId() );
+	return desc;
 }
 
 //============================================================================

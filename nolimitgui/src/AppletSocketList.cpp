@@ -53,7 +53,7 @@ AppletSocketList::AppletSocketList( AppCommon& app, QWidget* parent )
 
 	m_MyApp.activityStateChange( this, true );
 
-    QStandardItemModel* model = new QStandardItemModel( 0, 4, parent );
+    QStandardItemModel* model = new QStandardItemModel( 0, 5, parent );
     ui.m_TreeView->setRootIsDecorated( false );
     ui.m_TreeView->setAlternatingRowColors( false ); // TODO fix pink color on alternate rows in windows
     ui.m_TreeView->setModel( model );

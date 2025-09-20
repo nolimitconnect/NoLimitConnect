@@ -492,7 +492,7 @@ void IdentLogicInterface::setIdentMenuIcon( EMyIcons myIcon )
 //============================================================================
 void IdentLogicInterface::slotIdentAvatarButtonClicked( void )
 {
-	LogModule( eLogUserEvent, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
+    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
 	emit signalIdentAvatarButtonClicked();
 	onIdentAvatarButtonClicked();
 }
@@ -500,7 +500,7 @@ void IdentLogicInterface::slotIdentAvatarButtonClicked( void )
 //============================================================================
 void IdentLogicInterface::slotIdentFrienshipButtonClicked( void )
 {
-	LogModule( eLogUserEvent, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
+    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
 	emit signalIdentFriendshipButtonClicked();
 	onIdentFriendshipButtonClicked();
 }
@@ -508,7 +508,7 @@ void IdentLogicInterface::slotIdentFrienshipButtonClicked( void )
 //============================================================================
 void IdentLogicInterface::slotIdentOfferInfoButtonClicked( void )
 {
-	LogModule( eLogUserEvent, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
+    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
 	emit signalIdentOfferInfoButtonClicked();
 	onIdentOfferInfoButtonClicked();
 }
@@ -516,7 +516,7 @@ void IdentLogicInterface::slotIdentOfferInfoButtonClicked( void )
 //============================================================================
 void IdentLogicInterface::slotIdentOfferViewButtonClicked( void )
 {
-	LogModule( eLogUserEvent, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
+    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
 	emit signalIdentOfferViewButtonClicked();
 	onIdentOfferViewButtonClicked();
 }
@@ -524,7 +524,7 @@ void IdentLogicInterface::slotIdentOfferViewButtonClicked( void )
 //============================================================================
 void IdentLogicInterface::slotIdentOfferAcceptButtonClicked( void )
 {
-	LogModule( eLogUserEvent, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
+    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
 	emit signalIdentOfferAcceptButtonClicked();
 	onIdentOfferAcceptButtonClicked();
 }
@@ -532,7 +532,7 @@ void IdentLogicInterface::slotIdentOfferAcceptButtonClicked( void )
 //============================================================================
 void IdentLogicInterface::slotIdentOfferRejectButtonClicked( void )
 {
-	LogModule( eLogUserEvent, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
+    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
 	emit signalIdentOfferRejectButtonClicked();
 	onIdentOfferRejectButtonClicked();
 }
@@ -540,7 +540,7 @@ void IdentLogicInterface::slotIdentOfferRejectButtonClicked( void )
 //============================================================================
 void IdentLogicInterface::slotIdentMenuButtonClicked( void )
 {
-	LogModule( eLogUserEvent, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
+    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
 	emit signalIdentMenuButtonClicked();
 	onIdentMenuButtonClicked();
 }
@@ -565,7 +565,7 @@ void IdentLogicInterface::onIdentFriendshipButtonClicked( void )
 //============================================================================
 void IdentLogicInterface::slotIdentPushToTalkButtonClicked( void )
 {
-	LogModule( eLogUserEvent, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
+    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
 
 	toggleIdentPushToTalk();
 	onIdentPushToTalkButtonClicked();

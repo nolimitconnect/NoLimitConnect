@@ -361,21 +361,21 @@ void ConnectionMgr::updateMyEnabledHostUrl( EHostType hostType, std::string& myU
 void ConnectionMgr::callbackQueryIdSuccess( UrlActionInfo& actionInfo, VxGUID onlineId )
 {
     std::string emptyUrl;
-
-    if( eHostTypeUnknown != actionInfo.getHostType() )
+    EHostType hostType = actionInfo.getHostType();
+    if( eHostTypeUnknown != hostType )
     {
         lockConnectionList();
-        m_DefaultHostIdList[actionInfo.getHostType()] = onlineId;
-        m_DefaultHostRequiresOnlineId[actionInfo.getHostType()] = "";
+        m_DefaultHostIdList[hostType] = onlineId;
+        m_DefaultHostRequiresOnlineId[hostType] = "";
         unlockConnectionList();
 
-        if( eHostTypeNetwork == actionInfo.getHostType() && onlineId.isVxGUIDValid() )
-        {
-            // exclude network host from updating online status to gui because is just temporary
-            // also set the network host id so that we do not block packet announce from network host
-            // connection test does not need PktAnnounce so should not need to be excluded
-            m_Engine.getConnectIdListMgr().updateOnlineExclusion( onlineId, true, true );
-        }
+        //if( eHostTypeNetwork == actionInfo.getHostType() && onlineId.isVxGUIDValid() )
+        //{
+        //    // exclude network host from updating online status to gui because is just temporary
+        //    // also set the network host id so that we do not block packet announce from network host
+        //    // connection test does not need PktAnnounce so should not need to be excluded
+        //    m_Engine.getConnectIdListMgr().updateOnlineExclusion( onlineId, true, true );
+        //}
     }
 
     std::string hostUrl = actionInfo.getRemoteUrl();

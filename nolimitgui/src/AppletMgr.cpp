@@ -59,6 +59,7 @@
 #include "AppletHostJoinChoose.h"
 #include "AppletHostJoinConnect.h"
 #include "AppletHostJoinRequestList.h"
+#include "AppletHostLeave.h"
 
 #include "AppletHostChatRoomStatus.h"
 #include "AppletHostGroupStatus.h"
@@ -144,8 +145,6 @@
 #include "AppletStoryboardClient.h"
 
 #include "AppletTestAndDebug.h"
-#include "AppletTestHostClient.h"
-#include "AppletTestHostService.h"
 #include "AppletTestUpnp.h"
 
 #include "AppletTheme.h"
@@ -427,6 +426,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
 
     case eAppletHostChatRoomStatus:         if( launchAppletAllowed( eAppletHostChatRoomStatus ) ) appletDialog = new AppletHostChatRoomStatus( m_MyApp, parent ); break;
     case eAppletHostGroupStatus:            if( launchAppletAllowed( eAppletHostGroupStatus ) ) appletDialog = new AppletHostGroupStatus( m_MyApp, parent ); break;
+    case eAppletHostLeave:                  if( launchAppletAllowed( eAppletHostLeave ) ) appletDialog = new AppletHostLeave( m_MyApp, parent ); break;
     case eAppletHostNetworkStatus:          if( launchAppletAllowed( eAppletHostNetworkStatus ) ) appletDialog = new AppletHostNetworkStatus( m_MyApp, parent ); break;
     case eAppletHostRandomConnectStatus:    if( launchAppletAllowed( eAppletHostRandomConnectStatus ) ) appletDialog = new AppletHostRandomConnectStatus( m_MyApp, parent ); break;
 
@@ -472,13 +472,8 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletSnapshot:                   if( launchAppletAllowed( eAppletSnapshot ) ) appletDialog = new AppletSnapshot( m_MyApp, parent ); break;
 
     case eAppletTestAndDebug:               if( launchAppletAllowed( eAppletTestAndDebug ) ) appletDialog = new AppletTestAndDebug( m_MyApp, parent ); break;
-    case eAppletTestHostClient:             if( launchAppletAllowed( eAppletTestHostClient ) ) appletDialog = new AppletTestHostClient( m_MyApp, parent ); break;
-    case eAppletTestHostService:            if( launchAppletAllowed( eAppletTestHostService ) ) appletDialog = new AppletTestHostService( m_MyApp, parent ); break;
     case eAppletTestUpnp:                   if( launchAppletAllowed( eAppletTestUpnp ) ) appletDialog = new AppletTestUpnp( m_MyApp, parent ); break;
-
     case eAppletTheme:                      if( launchAppletAllowed( eAppletTheme ) ) appletDialog = new AppletTheme( m_MyApp, parent ); break;
-
-    case eAppletUnknown:                    m_MyApp.errMessageBox( appletMissingTitle, QObject::tr("Unknown Or Not Implemented") ); return nullptr;
 
     case eAppletUserIdentity:               if( launchAppletAllowed( eAppletUserIdentity ) ) appletDialog = new AppletUserIdentity( m_MyApp, parent ); break;
     case eAppletUserPreferences:            if( launchAppletAllowed( eAppletUserPreferences ) ) appletDialog = new AppletUserPreferences( m_MyApp, parent ); break;
@@ -503,6 +498,8 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletSocketList:                 if( launchAppletAllowed( eAppletSocketList ) ) appletDialog = new AppletSocketList( m_MyApp, parent ); break;
 
     case eAppletUserConnections:            if( launchAppletAllowed( eAppletUserConnections ) ) appletDialog = new AppletUserConnections( m_MyApp, parent ); break;
+
+    case eAppletUnknown:                    m_MyApp.errMessageBox( appletMissingTitle, QObject::tr( "Unknown Or Not Implemented" ) ); return nullptr;
 
 	default:
 		m_MyApp.errMessageBox2( QObject::tr( "AppCommon::launchApplet").toUtf8().constData(), QObject::tr( "Invalid Applet enum %d" ).toUtf8().constData(), applet );
@@ -582,14 +579,13 @@ void AppletMgr::bringAppletToFront( ActivityBase* appletDialog )
 //============================================================================
 ActivityBase* AppletMgr::findAppletDialog( EApplet applet )
 {
-	QVector<ActivityBase*>::iterator iter;
-	for( iter = m_ActivityList.begin(); iter != m_ActivityList.end(); ++iter )
-	{
-		if( applet == (*iter)->getAppletType() )
-		{
-			return *iter;
-		}
-	}
+    for( auto activityInList : m_ActivityList )
+    {
+        if( applet == activityInList->getAppletType() )
+        {
+            return activityInList;
+        }
+    }
 	
 	return nullptr;
 }
@@ -599,12 +595,11 @@ ActivityBase* AppletMgr::findAppletDialog( ActivityBase* activity )
 {
     if( activity )
     {
-        QVector<ActivityBase*>::iterator iter;
-        for( iter = m_ActivityList.begin(); iter != m_ActivityList.end(); ++iter )
+        for( auto activityInList : m_ActivityList )
         {
-            if( activity == ( *iter ) )
+            if( activity == activityInList )
             {
-                return *iter;
+                return activityInList;
             }
         }
     }

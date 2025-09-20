@@ -23,7 +23,6 @@
 
 #include "P2PConnectList.h"
 #include <Plugins/PluginMgr.h>
-#include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxParse.h>
@@ -294,16 +293,16 @@ bool P2PEngine::updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigLi
 	}
 
 	if( !sktBase->isTempConnection() )
-	{	
-		GroupieId groupieId( poInfo->getMyOnlineId(), poInfo->getMyOnlineId(), eHostTypePeerUser );
+	{
+        GroupieId groupieId( poInfo->getMyOnlineId(), poInfo->getMyOnlineId(), ConnectReasonToHostType( sktBase->getConnectReason() ) );
 		// make sure user identity is updated first before updating connection info
-		if( getUserOnlineMgr().onUserOnline( groupieId, sktBase, poInfo->getVxNetIdent() ) )
+        if( getConnectIdListMgr().onUserOnline( groupieId, sktBase, poInfo->getVxNetIdent() ) )
 		{
             // must use client instead of host
 			getThumbMgr().queryThumbIfNeeded( sktBase, poInfo->getVxNetIdent(), eHostTypePeerUser );
 		}
 
-		getConnectIdListMgr().addConnection( sktBase->getSocketId(), groupieId, false );
+		getConnectIdListMgr().addConnection( sktBase, groupieId, false );
 	}
 
     return true;
@@ -313,7 +312,7 @@ bool P2PEngine::updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigLi
 bool P2PEngine::isMyAccessAllowedFromHim( VxGUID& onlineId, EPluginType pluginType )
 {
 	bool isAllowed{ false };
-	bool isOnline = getUserOnlineMgr().isUserOnline( onlineId );
+    bool isOnline = getConnectIdListMgr().isUserOnline( onlineId );
 	if( isOnline )
 	{
 		VxNetIdent* netIdent = getBigListMgr().findNetIdent( onlineId );
@@ -335,7 +334,7 @@ bool P2PEngine::isMyAccessAllowedFromHim( VxGUID& onlineId, EPluginType pluginTy
 bool P2PEngine::isHisAccessAllowedFromMe( VxGUID& onlineId, EPluginType pluginType )
 {
 	bool isAllowed{ false };
-	bool isOnline = getUserOnlineMgr().isUserOnline( onlineId );
+    bool isOnline = getConnectIdListMgr().isUserOnline( onlineId );
 	if( isOnline )
 	{
 		VxNetIdent* netIdent = getBigListMgr().findNetIdent( onlineId );
@@ -354,7 +353,7 @@ bool P2PEngine::isHisAccessAllowedFromMe( VxGUID& onlineId, EPluginType pluginTy
 }
 
 //============================================================================
-void P2PEngine::disconnectFromHostIfNotNeeded( GroupieId& adminId )
+void P2PEngine::disconnectFromHostIfNotNeeded( HostedId& adminId )
 {
 	if( adminId.getHostOnlineId() == getMyOnlineId() )
 	{
@@ -388,5 +387,5 @@ void P2PEngine::disconnectFromHostIfNotNeeded( GroupieId& adminId )
 		return;
 	}
 
-	getConnectIdListMgr().disconnectIfIsOnlyUser( adminId );
+	getConnectIdListMgr().disconnectFromHost( adminId );
 }

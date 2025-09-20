@@ -451,9 +451,6 @@
     <ClCompile Include="..\..\Plugins\PluginBasePktHandlers.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\UserOnlineMgr\UserOnlineMgr.cpp">
-      <Filter>Source Files\UserOnlineMgr</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\BaseInfo\BaseSessionInfo.cpp">
       <Filter>Source Files\BaseInfo</Filter>
     </ClCompile>
@@ -1140,12 +1137,6 @@
     <ClInclude Include="..\..\UserJoinMgr\UserJoinMgr.h">
       <Filter>Source Files\UserJoinMgr</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\UserOnlineMgr\UserOnlineMgr.h">
-      <Filter>Source Files\UserOnlineMgr</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\UserOnlineMgr\UserOnlineCallbackInterface.h">
-      <Filter>Source Files\UserOnlineMgr</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\BaseInfo\BaseSessionInfo.h">
       <Filter>Source Files\BaseInfo</Filter>
     </ClInclude>
@@ -1262,9 +1253,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Relay\RelayMgr.h">
       <Filter>Source Files\Relay</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\ConnectIdListMgr\ConnectIdListCallbackInterface.h">
-      <Filter>Source Files\ConnectIdListMgr</Filter>
     </ClInclude>
     <ClInclude Include="..\..\ConnectIdListMgr\ConnectIdListMgr.h">
       <Filter>Source Files\ConnectIdListMgr</Filter>
@@ -1467,6 +1455,9 @@
     <ClInclude Include="..\..\UserJoinMgr\LastJoined.h">
       <Filter>Source Files\UserJoinMgr</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\ConnectIdListMgr\ConnectIdListCallback.h">
+      <Filter>Source Files\ConnectIdListMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="QtBuild">
@@ -1534,9 +1525,6 @@
     </Filter>
     <Filter Include="Source Files\UserJoinMgr">
       <UniqueIdentifier>{5e2fa986-b854-42bf-aa66-3f3e7c1b489d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\UserOnlineMgr">
-      <UniqueIdentifier>{561633c7-da30-44ae-8a97-6d77364bfe60}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\IdentListMgrs">
       <UniqueIdentifier>{2cde1acc-ffb6-4ce6-aafc-fa8155b40dab}</UniqueIdentifier>

@@ -15,7 +15,6 @@
 #include <P2PEngine/P2PEngine.h>
 #include <BigListLib/BigListInfo.h>
 #include <Membership/MemberActiveMgr.h>
-#include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <CoreLib/Invite.h>
 #include <CoreLib/VxDebug.h>
@@ -290,9 +289,9 @@ void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBas
 
     if( broadcastPkt )
     {
-        if( m_Engine.getUserOnlineMgr().updateUserJoinedFriendships( groupieId, netIdent ) )
+        if( m_Engine.getConnectIdListMgr().updateUserJoinedFriendships( groupieId, netIdent ) )
         {
-            m_Engine.getConnectIdListMgr().addConnection( sktConnectionId, groupieId, false );
+            m_Engine.getConnectIdListMgr().addConnection( sktBase, groupieId, false );
             if( m_HostServerMgr.onUserJoined( sktBase, netIdent, joinReply.getSessionId(), groupieId ) )
             {
                 if( m_HostServerMgr.sendMemberListToClient( sktBase, netIdent ) )
@@ -307,7 +306,7 @@ void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBas
     }
     else if( sendPkt )
     {
-        m_Engine.getConnectIdListMgr().addConnection( sktConnectionId, groupieId, false );
+        m_Engine.getConnectIdListMgr().addConnection( sktBase, groupieId, false );
         m_HostServerMgr.onJoinRequested( sktBase, netIdent, joinReq->getSessionId(), joinReq->getHostType() );
         txPacket( groupieId.getUserOnlineId(), sktBase, &joinReply );
     }

@@ -20,7 +20,6 @@
 #include <Network/NetworkMgr.h>
 #include <Plugins/PluginMgr.h>
 #include <UserJoinMgr/UserJoinMgr.h>
-#include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <PktLib/PktsRelay.h>
 #include <PktLib/PktsPing.h>
@@ -66,13 +65,13 @@ void P2PEngine::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 	if( possibleMemberConnection )
 	{
 		getHostJoinMgr().onConnectionLost( sktBase, sktBase->getSocketId(), sktBase->getPeerOnlineId() );
-		getUserOnlineMgr().onConnectionLost( sktBase, sktBase->getSocketId(), sktBase->getPeerOnlineId() );
 		getUserJoinMgr().onConnectionLost( sktBase, sktBase->getSocketId(), sktBase->getPeerOnlineId() );
 	#if ENABLE_COMPONENT_NEARBY
 		getNetworkMgr().getNearbyMgr().onConnectionLost( sktBase, sktBase->getSocketId(), sktBase->getPeerOnlineId() );
 	#endif // ENABLE_COMPONENT_NEARBY
 	}
-	
+
+    getConnectIdListMgr().onConnectionLost( sktBase );
 	m_RcScan.onConnectionLost( sktBase );
 	m_ConnectionList.onConnectionLost( sktBase );
     if( sktBase->getIsPeerPktAnnSet() )

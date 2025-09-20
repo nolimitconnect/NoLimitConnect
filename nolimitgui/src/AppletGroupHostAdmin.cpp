@@ -19,12 +19,12 @@
 
 #include <QFrame>
 
-#include "ui_AppletChatRoomClient.h"
+#include "ui_AppletHostClient.h"
 
 //============================================================================
 AppletGroupHostAdmin::AppletGroupHostAdmin( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_GROUP_HOST_ADMIN, app, parent )
-, ui(*(new Ui::AppletChatRoomClientUi))
+, ui(*(new Ui::AppletHostClientUi ))
 {
     setAppletType( eAppletGroupHostAdmin );
     ui.setupUi( getContentItemsFrame() );
@@ -33,9 +33,9 @@ AppletGroupHostAdmin::AppletGroupHostAdmin( AppCommon& app, QWidget* parent )
 
 	GroupieId hostAdminId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeGroup );
 
-	ui.m_ChatRoomWidget->setPluginType( ePluginTypeClientGroup );
-	ui.m_ChatRoomWidget->setHostAdminId( hostAdminId );
-	ui.m_ChatRoomWidget->setInputClientCallback( this );
+	ui.m_SessionWidget->setPluginType( ePluginTypeClientGroup );
+	ui.m_SessionWidget->setHostAdminId( hostAdminId );
+	ui.m_SessionWidget->setInputClientCallback( this );
     ui.m_UserListWidget->setHostAdminId( hostAdminId );
 
     connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT( closeApplet() ) );

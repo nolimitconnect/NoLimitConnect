@@ -42,6 +42,8 @@ public:
     virtual void				fromGuiSetUserXferDir( std::string userXferDir );
     virtual void				fromGuiUserLoggedOn( VxNetIdent* netIdent );
 
+	virtual void				fromGuiBlockUser( VxGUID& onlineId );
+
 	virtual void				fromGuiAnnounceHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl );
     virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& hostUrl );
 	virtual void				fromGuiLeaveHost( HostedId& adminId );

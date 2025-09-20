@@ -41,7 +41,7 @@ static uint8_t charToHex( char cVal )
     }
     else
     {
-        LogMsg( LOG_ERROR, "VxGUID::charToHex invalid char 0x%2.2x\n", cVal );
+        LogMsg( LOG_ERROR, "VxGUID::charToHex invalid char 0x%2.2x", cVal );
         return 0;
     }
 }

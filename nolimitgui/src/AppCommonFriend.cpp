@@ -36,7 +36,7 @@ void AppCommon::toGuiIndentListUpdate( EUserViewType listType, VxGUID& onlineId,
 //============================================================================
 void AppCommon::slotInternalToGuiIndentListUpdate( EUserViewType listType, VxGUID onlineId, uint64_t timestamp )
 {
-    if(LogEnabled(eLogUsers))LogMsg( LOG_INFO, "AppCommon::toGuiIndentListUpdate %d", listType );
+       if(LogEnabled(eLogUsers))LogMsg( LOG_INFO, "AppCommon::toGuiIndentListUpdate %d", listType );
     m_ToGuiUserUpdateClientBusy = true;
     for( auto client : m_ToGuiUserUpdateClientList )
     {
@@ -91,7 +91,7 @@ void AppCommon::toGuiContactAdded( VxNetIdent* netIdent )
         return;
     }
 
-    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactAdded %s id %s my friendship %s his friendship %s", 
+    LogModule( eLogUsers, LOG_VERBOSE, " AppCommon::toGuiContactAdded %s id %s my friendship %s his friendship %s", 
                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
                DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 
@@ -159,7 +159,7 @@ void AppCommon::toGuiContactOnline( VxNetIdent* netIdent )
         return;
     }
 
-    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactOnline %s id %s my friendship %s his friendship %s", 
+    LogModule( eLogUsers, LOG_VERBOSE, " AppCommon::toGuiContactOnline %s id %s my friendship %s his friendship %s", 
                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
                DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 
@@ -192,7 +192,7 @@ void AppCommon::toGuiContactAnythingChange( VxNetIdent* netIdent )
         return;
     }
 
-    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactAnythingChange %s id %s my friendship %s his friendship %s", 
+    LogModule( eLogUsers, LOG_VERBOSE, " AppCommon::toGuiContactAnythingChange %s id %s my friendship %s his friendship %s", 
                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
                DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 
@@ -220,7 +220,7 @@ void AppCommon::toGuiContactLastSessionTimeChange( VxNetIdent* netIdent )
         return;
     }
 
-    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiContactLastSessionTimeChange %s id %s my friendship %s his friendship %s", 
+    LogModule( eLogUsers, LOG_VERBOSE, " AppCommon::toGuiContactLastSessionTimeChange %s id %s my friendship %s his friendship %s", 
                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
                DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 
@@ -254,7 +254,7 @@ void AppCommon::toGuiUpdateMyIdent( VxNetIdent* netIdent )
         return;
     }
 
-    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiUpdateMyIdent %s id %s my friendship %s his friendship %s", 
+    LogModule( eLogUsers, LOG_VERBOSE, " AppCommon::toGuiUpdateMyIdent %s id %s my friendship %s his friendship %s", 
                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
                DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 
@@ -281,7 +281,7 @@ void AppCommon::toGuiSaveMyIdent( VxNetIdent* netIdent )
         return;
     }
 
-    LogModule( eLogUserEvent, LOG_VERBOSE, " AppCommon::toGuiSaveMyIdent %s id %s my friendship %s his friendship %s", 
+    LogModule( eLogUsers, LOG_VERBOSE, " AppCommon::toGuiSaveMyIdent %s id %s my friendship %s his friendship %s", 
                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(),
                DescribeFriendState( netIdent->getMyFriendshipToHim()),  DescribeFriendState( netIdent->getHisFriendshipToMe()) );
 

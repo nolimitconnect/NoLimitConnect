@@ -13,28 +13,34 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-    class AppletHostJoinChooseUi;
+    class AppletHostLeaveUi;
 }
 QT_END_NAMESPACE
 
-class AppletHostJoinChoose : public AppletBase
+class AppletHostLeave : public AppletBase
 {
 	Q_OBJECT
 public:
-    AppletHostJoinChoose( AppCommon& app, QWidget* parent );
-	virtual ~AppletHostJoinChoose() override;
+    AppletHostLeave( AppCommon& app, QWidget* parent );
+	virtual ~AppletHostLeave() override;
 
-    void                        setHostType( EHostType hostType );
+    void                        setHostGroupieId( GroupieId groupieId );
+    GroupieId                   getHostGroupieId( void )                            { return m_GroupieId; }
     EHostType                   getHostType( void )                                 { return m_HostType; }
 
+signals:
+    void						signalLeftHost( void );
+
 protected slots:
-    void                        slotViewCurrentButtonClicked( void );
-    void                        slotRejoinButtonClicked( void );
-    void                        slotSearchButtonClicked( void );
+    void                        slotLeaveButtonClicked( void );
+    void                        slotBootButtonClicked( void );
+    void                        slotBlockButtonClicked( void );
+    void                        slotCancelButtonClicked( void );
 
 protected:
     //=== vars ===//
-    Ui::AppletHostJoinChooseUi&	ui;
+    Ui::AppletHostLeaveUi&	    ui;
+    GroupieId                   m_GroupieId;
     EHostType                   m_HostType{ eHostTypeUnknown };
 };
 

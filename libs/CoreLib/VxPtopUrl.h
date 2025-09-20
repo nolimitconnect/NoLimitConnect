@@ -9,8 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <CoreLib/VxGUID.h>
-#include <GuiInterface/IDefs.h>
+#include <CoreLib/GroupieId.h>
 
 class VxPtopUrl
 {
@@ -30,11 +29,11 @@ public:
 	bool						isUrlIpv4( void );
 	bool						isUrlIpv6( void );
 	std::string					getHostUrl( void );
+    GroupieId                   getHostGroupieId( void );
 
 	void						setUrl( std::string url );
 	void						setUrl( const char* url );
 	std::string&				getUrl( void )							    { return m_Url; }
-
 
 	std::string&				getProtocol( void )							{ return m_Protocol; }
     std::string&                getHost( void )								{ return m_Host; }

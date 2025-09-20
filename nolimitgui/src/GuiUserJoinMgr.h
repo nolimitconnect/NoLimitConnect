@@ -69,7 +69,10 @@ public:
 
     GroupieId                   getJoinedAdminGroupieId( EHostType hostType );
     void                        leaveHost( EHostType hostType );
-    void                        leaveHost( GroupieId adminGroupieId );
+    void                        leaveHost( HostedId hostedId );
+    void                        unjoinHost( HostedId hostedId );
+
+    void                        clearLastJoined( EHostType hostType );
 
 signals:
     void				        signalMyIdentUpdated( GuiUserJoin* guiUserJoin );

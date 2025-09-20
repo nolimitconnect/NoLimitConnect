@@ -14,6 +14,7 @@
 #include "AppCommon.h"
 #include "AppGlobals.h"
 #include "AppSettings.h"
+#include "AppletHostLeave.h"
 #include "AppletMultiMessenger.h"
 #include "AppletMgr.h"
 
@@ -61,16 +62,16 @@ GuiUserMultiListWidget::GuiUserMultiListWidget(	QWidget* parent )
 	ui.m_EyeSession->setFixedSize( eButtonSizeSmall );
     ui.m_EyeSession->setIcon( eMyIconEyeShow );
 
-    ui.m_EyeSearch->setFixedSize( eButtonSizeSmall );
-    ui.m_EyeSearch->setIcon( eMyIconEyeSearchDisabled );
-    ui.m_EyeSearch->setVisible( false );
+    ui.m_UserLeaveButton->setFixedSize( eButtonSizeSmall );
+    ui.m_UserLeaveButton->setIcon( eMyIconUserLeave );
+    ui.m_UserLeaveButton->setVisible( false );
     ui.m_SearchBarWidget->setVisible( false );
 
     m_OffersFrame			= ui.m_OffersFrame;
 
     connect( ui.m_EyeUsers,		        SIGNAL(clicked()),						this,	SLOT(slotEyeHostButtonClicked()) );
     connect( ui.m_EyeSession,           SIGNAL(clicked()),						this,	SLOT(slotEyeSessionButtonClicked()) );
-    connect( ui.m_EyeSearch,            SIGNAL(clicked()),                      this,   SLOT(slotEyeSearchButtonClicked()) );
+    connect( ui.m_UserLeaveButton,      SIGNAL(clicked()),                      this,   SLOT(slotUserLeaveButtonClicked()) );
 
     connect( ui.m_EverybodyView,		SIGNAL(clicked()),						this,	SLOT(slotEverybodyButtonClicked()) );
     connect( ui.m_EverybodyLabel,		SIGNAL(clicked()),						this,	SLOT(slotEverybodyButtonClicked()) );
@@ -121,6 +122,11 @@ void GuiUserMultiListWidget::setHostAdminId( GroupieId& adminId )
     {
         LogMsg( LOG_ERROR, "GuiUserMultiListWidget::setHostAdminId null admin %s", m_MyApp.describeGroupieId( adminId ).c_str() );
         ui.m_AdminFrame->setVisible( false );
+    }
+
+    if( adminId.getHostOnlineId() != m_MyApp.getMyOnlineId() )
+    { 
+        ui.m_UserLeaveButton->setVisible( true );
     }
 }
 
@@ -270,18 +276,17 @@ void GuiUserMultiListWidget::slotEyeSessionButtonClicked( void )
 }
 
 //============================================================================
-void GuiUserMultiListWidget::slotEyeSearchButtonClicked( void )
+void GuiUserMultiListWidget::slotUserLeaveButtonClicked( void )
 {
-    if( ui.m_SearchBarWidget->isVisible() )
+    AppletHostLeave* hostLeave = dynamic_cast<AppletHostLeave*>( m_MyApp.getAppletMgr().launchApplet( eAppletHostLeave, GuiHelpers::getParentPageFrame( this ) ) );
+    if( !hostLeave )
     {
-        ui.m_SearchBarWidget->setVisible( false );
-        ui.m_EyeSearch->setIcon( eMyIconEyeSearchDisabled );
+        LogMsg( LOG_ERROR, "GuiUserMultiListWidget::%s AppletHostLeave launch failed", __func__ );
+        return;
     }
-    else
-    {
-        ui.m_SearchBarWidget->setVisible( true );
-        ui.m_EyeSearch->setIcon( eMyIconEyeSearchEnabled );
-    }
+
+    hostLeave->setHostGroupieId( m_HostAdminId );
+    connect( hostLeave, SIGNAL(signalLeftHost()), this, SLOT(slotLeftHost()) );
 }
 
 //============================================================================
@@ -471,4 +476,10 @@ void GuiUserMultiListWidget::callbackGuiMemberIsJoinedToHost( VxGUID& onlineId, 
     default:
         break;
     }
+}
+
+//============================================================================
+void GuiUserMultiListWidget::slotLeftHost( void )
+{
+    emit signalLeftHost();
 }

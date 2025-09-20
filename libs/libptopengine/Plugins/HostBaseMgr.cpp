@@ -15,7 +15,6 @@
 #include <P2PEngine/P2PEngine.h>
 #include <Plugins/PluginBase.h>
 #include <UserJoinMgr/UserJoinMgr.h>
-#include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <UrlMgr/UrlMgr.h>
 
@@ -140,15 +139,13 @@ void HostBaseMgr::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::st
 //============================================================================
 void HostBaseMgr::fromGuiLeaveHost( HostedId& adminId )
 {
-    GroupieId adminGroupieId( m_Engine.getMyOnlineId(), adminId );
-    m_Engine.disconnectFromHostIfNotNeeded( adminGroupieId );
+    m_Engine.disconnectFromHostIfNotNeeded( adminId );
 }
 
 //============================================================================
 void HostBaseMgr::fromGuiUnJoinHost( HostedId& adminId )
 {
-    GroupieId adminGroupieId( m_Engine.getMyOnlineId(), adminId );
-    m_Engine.disconnectFromHostIfNotNeeded( adminGroupieId );
+    m_Engine.disconnectFromHostIfNotNeeded( adminId );
 }
 
 //============================================================================
@@ -837,10 +834,10 @@ void HostBaseMgr::onUserOnline( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent*
     {
         netIdent->upgradeToGuestFriendship();
         
-        GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), getHostType() );
-        HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, sessionId );
-        BaseSessionInfo sessionInfo( hostUserSessionId );
-        m_Engine.getUserOnlineMgr().onUserOnline( sktBase, netIdent, sessionInfo );
+        //GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), getHostType() );
+        //HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, sessionId );
+        //BaseSessionInfo sessionInfo( hostUserSessionId );
+        //m_Engine.getUserOnlineMgr().onUserOnline( sktBase, netIdent, sessionInfo );
     }
     else
     {
@@ -1056,4 +1053,15 @@ bool HostBaseMgr::connectToHost( enum EHostType hostType, VxGUID& sessionId, std
     }
 
     return result;
+}
+
+//============================================================================
+bool HostBaseMgr::isRelayedFromHost( GroupieId& groupieId, VxNetIdent* fromNetIdent )
+{
+    if( groupieId.getHostOnlineId() != fromNetIdent->getMyOnlineId() )
+    {
+        return true;
+    }
+
+    return groupieId.getUserOnlineId() != m_Engine.getMyOnlineId();
 }

@@ -461,6 +461,7 @@ public:
     void				        toGuiPlayNlcMedia( AssetBaseInfo* assetInfo ) override;
     void				        toGuiLog( int logFlags, const char* pMsg ) override;
     void				        toGuiAppErr( EAppErr eAppErr, const char* errMsg = "" ) override;
+    void				        toGuiAppPopupErr( EAppErr eAppErr, const char* errMsg ) override;
     void				        toGuiStatusMessage( const char* errMsg ) override;
     // NOTE: toGuiUserMessage should be called from in gui on gui thread only
     void				        toGuiUserMessage( const char* userMsg, ... );
@@ -603,6 +604,7 @@ public:
     bool                        checkSystemReady( void );
     bool                        isSystemReady( void ) { return m_IsGuiSystemReady; };
 
+    std::string                 describeConnectId( ConnectId& connectionId );
     std::string                 describeGroupieId( GroupieId& groupieId );
     std::string                 describeHostedId( HostedId& hostedId );
     std::string                 describeUser( VxGUID& onlineId );
@@ -721,6 +723,8 @@ signals:
 
     void						signalExpandWindowChanged( bool isMessengerFrame, bool isMaxScreenSize );
 
+    void						signalInternalAppPopupErr( EAppErr eAppErr, QString errMsg );
+
 private slots:
     void                        slotInternalNetAvailStatus( ENetAvailStatus netAvailStatus );
     void                        slotInternalPluginMessage( EPluginType pluginType, VxGUID onlineId, EPluginMsgType msgType, QString paramValue );
@@ -814,6 +818,8 @@ protected slots:
     void						slotGuiStartupTimer( void );
 
     void						slotAccountCreated( bool wasCreated );
+
+    void						slotInternalAppPopupErr( EAppErr eAppErr, QString errMsg );
 
 protected:
     void                        connectSignals( void );

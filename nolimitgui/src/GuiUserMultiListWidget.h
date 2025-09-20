@@ -63,10 +63,12 @@ signals:
 	void						signalViewChanged( EUserViewType viewType );
 	void						signalHostedMembersView( GroupieId& hostAdminId );
 
+	void						signalLeftHost( void );
+
 protected slots:
     void						slotEyeHostButtonClicked( void );
     void						slotEyeSessionButtonClicked( void );
-	void						slotEyeSearchButtonClicked( void );
+	void						slotUserLeaveButtonClicked( void );
 
 	void						slotEverybodyButtonClicked( void );
     void						slotFriendsButtonClicked( void );
@@ -76,6 +78,8 @@ protected slots:
 
 	void						slotUserSelected( GuiUser* guiUser );
 	void						slotSearchTextChanged( QString searchText );
+
+	void						slotLeftHost( void );
 
 protected:
 	void						setStatusMsg( QString strStatus );

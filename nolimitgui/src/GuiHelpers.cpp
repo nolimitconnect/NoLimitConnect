@@ -635,6 +635,31 @@ bool GuiHelpers::isAppletAClient( EApplet applet )
 }
 
 //============================================================================
+EApplet GuiHelpers::hostTypeToHostClientApplet( EHostType hostType )
+{
+    EApplet applet{ eAppletUnknown };
+    switch( hostType )
+    {
+    case eHostTypeChatRoom:
+        applet = eAppletChatRoomClient;
+        break;
+
+    case eHostTypeGroup:
+        applet = eAppletGroupClient;
+        break;
+
+    case eHostTypeRandomConnect:
+        applet = eAppletRandomConnectClient;
+        break;
+
+    default:
+        break;
+    }
+
+    return applet;
+}
+
+//============================================================================
 EPluginType GuiHelpers::getAppletAssociatedPlugin( EApplet applet )
 {
     EPluginType pluginType = ePluginTypeInvalid;
@@ -2267,6 +2292,15 @@ void GuiHelpers::showInvalidUrlrror( QWidget* parent )
 {
     QString title = QObject::tr( "Invalid URL" );
     QString msg = QObject::tr( "The host url is not valid" );
+    QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok );
+    warnMsg.exec();
+}
+
+//============================================================================
+void GuiHelpers::showInvalidHostTypeError( QWidget * parent )
+{
+    QString title = QObject::tr( "Invalid Host Type" );
+    QString msg = QObject::tr( "The host url does not have a vailid host type" );
     QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok );
     warnMsg.exec();
 }

@@ -10,113 +10,15 @@
 
 #include "AppletGroupClient.h"
 
-#include "AppCommon.h"
-#include "AppSettings.h"
-#include "GuiMemberActiveMgr.h"
-
-#include <P2PEngine/P2PEngine.h>
-
 #include <CoreLib/ObjectCommonDefs.h>
-#include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 
-#include <QFrame>
-
-#include "ui_AppletGroupClient.h"
+#include "ui_AppletHostClient.h"
 
 //============================================================================
 AppletGroupClient::AppletGroupClient( AppCommon& app, QWidget* parent )
-: AppletClientBase( OBJNAME_APPLET_GROUP_CLIENT, app, parent )
-, ui(*(new Ui::AppletGroupClientUi))
+: AppletHostClientBase( OBJNAME_APPLET_GROUP_CLIENT, app, eAppletGroupClient, eHostTypeGroup, ePluginTypeClientGroup, parent )
 {
-    setAppletType( eAppletGroupClient );
-    setHostType( eHostTypeGroup );
-    ui.setupUi( getContentItemsFrame() );
-	setTitleBarText( DescribeApplet( m_EAppletType ) );
-    setPluginType( ePluginTypeClientGroup );
-
-    ui.m_SessionWidget->setMediaModule( eMediaModuleChatRoomClient );
-	ui.m_SessionWidget->setPluginType( getPluginType() );
-    ui.m_SessionWidget->setInputClientCallback( this );
-
-    ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup );
-
-    connect( this,                  SIGNAL(signalBackButtonClicked()),          this, SLOT(closeApplet()) );
-    connect( ui.m_UserListWidget,   SIGNAL(signalSetSessionVisible(bool)),      this, SLOT(slotSetSessionVisible(bool)) );
-    connect( ui.m_UserListWidget,	SIGNAL(signalViewChanged(EUserViewType)),   this, SLOT(slotViewChanged(EUserViewType)));
-
-	m_MyApp.activityStateChange( this, true );
-}
-
-//============================================================================
-AppletGroupClient::~AppletGroupClient()
-{
-    m_MyApp.activityStateChange( this, false );
-}
-
-//============================================================================
-void AppletGroupClient::userJoinedHost( GuiHosted* guiHosted )
-{
-	if( guiHosted )
-	{
-		GuiUser* adminUser = guiHosted->getUser();
-		if( adminUser )
-		{
-			HostedId adminId( adminUser->getMyOnlineId(), guiHosted->getHostType() );
-			GroupieId groupieId( m_MyApp.getMyOnlineId(), adminId );
-			if( adminId.isValid() )
-			{
-				ui.m_SessionWidget->setHostAdminId( groupieId );
-				AppletClientBase::userJoinedHost( guiHosted );
-			}
-		}
-	}
-}
-
-//============================================================================
-void AppletGroupClient::setAdminGroupieId( GroupieId& adminGroupieId )
-{
-	GuiUser* adminUser = m_MyApp.getUserMgr().getUser( adminGroupieId.getHostOnlineId() );
-	if( adminUser )
-	{
-		if( adminUser->isOnline() )
-		{
-			ui.m_SessionWidget->setHostAdminId( adminGroupieId );
-		}
-	}
-	else
-	{
-		LogMsg( LOG_ERROR, "AppletChatRoomClient::%s failed to find admin", __func__ );
-	}
-}
-
-//============================================================================
-void AppletGroupClient::showEvent( QShowEvent* ev )
-{
-    ActivityBase::showEvent( ev );
-    ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup );
-}
-
-//============================================================================
-void AppletGroupClient::slotSetSessionVisible( bool visible )
-{
-    ui.m_SessionWidget->setVisible( visible );
-}
-
-//============================================================================
-void AppletGroupClient::slotViewChanged( EUserViewType viewType )
-{
-	//setSelectedUser( nullptr );
-}
-
-//============================================================================
-bool AppletGroupClient::checkIfCanSend( void )
-{
-	return AppletBase::checkIfCanSend( ui.m_UserListWidget->getHostAdminId().getHostedId() );
-}
-
-//============================================================================
-bool AppletGroupClient::handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo )
-{
-	return handleGroupieAssetAction( ui.m_UserListWidget->getHostAdminId(), assetAction, assetInfo );
+	ui.m_SessionWidget->setMediaModule( eMediaModuleChatRoomClient );
+	ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup );
 }

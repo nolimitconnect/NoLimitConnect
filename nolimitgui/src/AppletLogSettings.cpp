@@ -47,10 +47,10 @@ static QString describeLogModule( ELogModule logModule )
     case eLogStartup: return QObject::tr( "Log Startup" );
     case eLogSktData: return QObject::tr( "Log Skt Data" );
     case eLogPkt: return QObject::tr( "Log Pkt" );
-    case eLogUserEvent: return QObject::tr( "Log User Event" );
+    case eLogUnused1: return QObject::tr( "Unused1" );
 
-    case eLogUserConnect: return QObject::tr( "Log Connect To User" );
-    case eLogHostJoin: return QObject::tr( "Log Host Join" );
+    case eLogOnline: return QObject::tr( "Log User Online Status" );
+    case eLogHostJoin: return QObject::tr( "Log Host Join From Client" );
     case eLogUsers: return QObject::tr( "Log Users" );
     case eLogHostedUser: return QObject::tr( "Log Hosted User" );
 

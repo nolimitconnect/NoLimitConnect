@@ -34,10 +34,12 @@ SessionWidget::SessionWidget( QWidget* parent, EAssetType inputMode )
 	ui.setupUi(this);
 	ui.m_IdentWidget->setVisible( false );
 	ui.m_CreateInviteFrame->setVisible( false );
+	ui.m_BootButton->setVisible( false );
 
 	connect( ui.m_ChatEntry, SIGNAL(signalUserInputButtonClicked()), this, SIGNAL(signalUserInputButtonClicked()) );
 	connect( ui.m_CreateInviteButton, SIGNAL(clicked()), this, SLOT(slotCreateInviteButtonClicked()) );
     connect( &m_MyApp, SIGNAL(signalStatusMsg(QString)), this, SLOT(slotStatusMsg(QString)) );
+	connect( &m_MyApp, SIGNAL( signalStatusMsg( QString ) ), this, SLOT( slotStatusMsg( QString ) ) );
 
 	setEntryMode( m_InputMode );
 }
@@ -62,6 +64,15 @@ void SessionWidget::setGroupieId( GroupieId& groupieId )
 	{
 		// I am administrator
 		setupAdminInvite();
+	}
+	else
+	{
+		ui.m_BootButton->setVisible( true );
+	}
+
+	if( eHostTypeChatRoom == groupieId.getHostType() )
+	{
+		hideVideoCaptureInput(); // dont allow users of chat room to send video through host 
 	}
 
 	m_IsInitialized = true;

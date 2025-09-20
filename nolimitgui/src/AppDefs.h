@@ -137,6 +137,7 @@ enum EApplet
     eAppletHostJoinConnect,
     eAppletHostJoinChoose,
     eAppletHostJoinSearch,
+    eAppletHostLeave,
 
     eAppletFriendRequest,
     eAppletFriendRequestList,

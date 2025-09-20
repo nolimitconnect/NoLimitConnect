@@ -10,12 +10,10 @@
 
 #include "PluginMessenger.h"
 
-#include "P2PSession.h"
 #include "PluginMgr.h"
 
 #include <GuiInterface/IToGui.h>
 #include <P2PEngine/P2PEngine.h>
-#include <UserOnlineMgr/UserOnlineMgr.h>
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxPtopUrl.h>
@@ -64,7 +62,7 @@ void PluginMessenger::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std
 		return;
 	}
 
-	if( m_Engine.getUserOnlineMgr().isUserOnline( onlineId ) )
+    if( m_Engine.getConnectIdListMgr().isUserOnline( onlineId ) )
 	{
 		LogMsg( LOG_VERBOSE, "PluginMessenger::%s user is already online", __func__ );
 		std::shared_ptr<VxSktBase> sendSktBase = m_Engine.getConnectIdListMgr().findAnyUserOnlineConnection( onlineId );

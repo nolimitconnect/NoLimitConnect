@@ -15,6 +15,7 @@
 
 #include <algorithm>
 
+//============================================================================
 MemberConfirmMgr& GetMemberConfirmMgr()
 {
     static MemberConfirmMgr g_MemberConfirmMgr;
