@@ -905,7 +905,7 @@ list(APPEND nlc_FORMS
     src/Forms/AppletHostJoinChoose.ui
     src/Forms/AppletHostJoinConnect.ui
     src/Forms/AppletHostJoinRequestList.ui
-    src/Forms/AppletHostleave.ui
+    src/Forms/AppletHostLeave.ui
     src/Forms/AppletHostNetworkStatus.ui
 
     src/Forms/AppletIgnoredHosts.ui
