@@ -291,6 +291,7 @@ void AppletJoinBase::slotIconButtonClicked( GuiHostedListSession* hostSession, G
 	if( guiHosted && guiHosted->readyForClientLaunch() )
 	{
 		launchClientApplet( guiHosted );
+		closeApplet();
 	}
 }
 
@@ -327,6 +328,7 @@ void AppletJoinBase::slotJoinButtonClicked( GuiHostedListSession* hostSession, G
 		if( ptopUrl.isHostTypeValid() )
 		{
 			m_MyApp.getAppletMgr().launchApplet( eAppletHostJoinConnect, getParentPageFrame(), joinUrl.c_str() );
+			closeApplet();
 		}	
 		else
 		{
@@ -489,9 +491,6 @@ void AppletJoinBase::callbackGuiHostJoinRemoved( GroupieId& groupieId )
     if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_VERBOSE, "AppletJoinBase::callbackGuiHostJoinRemoved %s", m_MyApp.describeGroupieId( groupieId ).c_str() );
 	ui.m_GuiHostedListWidget->callbackGuiHostJoinRemoved( groupieId );
 }
-
-//============================================================================
-//============================================================================
 
 //============================================================================
 void AppletJoinBase::callbackGuiUserJoinRequested( GroupieId& groupieId, GuiUserJoin* guiUserJoin )

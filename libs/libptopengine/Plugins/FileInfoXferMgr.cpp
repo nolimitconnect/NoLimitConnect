@@ -55,7 +55,7 @@ FileInfoXferMgr::FileInfoXferMgr( P2PEngine& engine, PluginBase& plugin, FileInf
 , m_FileInfoMgr( fileInfoMgr )
 , m_eFileRxOption( eFileXOptionReplaceIfExists )
 {
-	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::%s %s ", __func__, DescribePluginType( plugin.getPluginType() ) );
+	if( LogEnabled( eLogStartup ) )LogMsg( LOG_VERBOSE, "FileInfoXferMgr::%s %s ", __func__, DescribePluginType( plugin.getPluginType() ) );
 }
 
 //============================================================================

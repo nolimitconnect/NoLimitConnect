@@ -524,8 +524,6 @@ EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string 
                 // set the connect reason so is marked as temporary connection and not announced to gui
                 sktBase->setConnectReason( connectReason );
             }
-
-            m_Engine.getConnectIdListMgr().addConnectionReason( sktBase->getSocketId(), connectReason );
         }
 
         if( isDisconnected && sktBase )
@@ -617,8 +615,6 @@ void ConnectionMgr::doneWithConnection( VxGUID socketId, VxGUID sessionId, VxGUI
         return; // nothing more we can do
     }
 
-    m_Engine.getConnectIdListMgr().removeConnectionReason( sktBase->getSocketId(), connectReason );
-
     if( sktDisconnected && !sktBase->removeConnectReason( connectReason ) )
     {
         // this has to be done after list is unlocked or mutex delock can occur
@@ -640,10 +636,6 @@ void ConnectionMgr::doneWithConnection( VxGUID sessionId, VxGUID onlineId, IConn
     lockConnectionList();
     m_AllList.removeConnectedReason( sessionId, onlineId, callback, connectReason, sktList );
     unlockConnectionList();
-    for( auto sktBase : sktList )
-    {
-        m_Engine.getConnectIdListMgr().removeConnectionReason( sktBase->getSocketId(), connectReason );
-    }
 
     for( auto sktBase : sktList )
     {
@@ -845,7 +837,6 @@ EConnectStatus ConnectionMgr::directConnectTo(  std::string                 ipAd
             return eConnectStatusSendPktAnnFailed;
         }
 
-        m_Engine.getConnectIdListMgr().addConnectionReason( sktBase->getSocketId(), connectReason );
         m_HandshakeMutex.lock();
         m_HandshakeList.addHandshake( sktBase, sessionId, onlineId, callback, connectReason, hostType );
         m_HandshakeMutex.unlock();

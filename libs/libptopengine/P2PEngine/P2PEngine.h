@@ -730,6 +730,8 @@ public:
 
     void                        disconnectFromHostIfNotNeeded( HostedId& adminId );
 
+    bool                        isTestGuid( VxGUID& onlineId ) { return m_TestGuid == onlineId; }
+
 protected:
     //========================================================================
     //========================================================================
@@ -753,9 +755,9 @@ protected:
     // called when connected to or recieve pkt announce
     bool                        updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigListInfo* bigListInfo, bool nearbyLanConnected );
 
-    bool						onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
+    bool						onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo, ConnectId& connectId );
     bool						onConnectionPktAnnounceUpdated( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
-    bool						onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
+    bool						onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo, ConnectId& connectId );
     bool                        onRelayedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
     bool						onUnexpectedPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo );
 
@@ -839,6 +841,8 @@ protected:
 
     VxSemaphore                 m_TimerThreadSemaphore;
     VxThread                    m_TimerThread;
+
+    VxGUID                      m_TestGuid;
 };
 
 extern P2PEngine& GetPtoPEngine();

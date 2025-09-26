@@ -24,7 +24,7 @@
 PluginFriendRequest::PluginFriendRequest( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
 : PluginBase( engine, pluginMgr, myIdent, pluginType )
 {
-	LogMsg( LOG_VERBOSE, "PluginFriendRequest::%s", __func__ );
+    if( LogEnabled( eLogStartup ) )LogMsg( LOG_VERBOSE, "PluginFriendRequest::%s", __func__ );
 	setPluginType( ePluginTypeFriendRequest );
 }
 

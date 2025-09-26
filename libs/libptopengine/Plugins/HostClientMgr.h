@@ -66,8 +66,7 @@ protected:
     void                        removePluginRxSession( VxGUID& sessionId );
 
     void                        clearUserInfoRequests( void );
-    bool                        shouldRequestUserInfo( void );
-    virtual void                requestHostUserInfo( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& onlineId, VxGUID& sessionId );
+
     virtual void                sendNextUserInfoRequest( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& onlineId, VxGUID& sessionId );
     void                        announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, VxGUID& sessionId, VxGUID& hostOnlineId, EHostType hostType );
 

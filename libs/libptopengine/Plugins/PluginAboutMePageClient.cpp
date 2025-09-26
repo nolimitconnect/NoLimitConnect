@@ -37,7 +37,7 @@ void PluginAboutMePageClient::onAfterUserLogOnThreaded( void )
 //============================================================================
 void PluginAboutMePageClient::onLoadedFilesReady( int64_t lastFileUpdateTime, int64_t totalBytes, uint16_t fileTypes )
 {
-	LogMsg( LOG_VERBOSE, "PluginAboutMePageClient::onLoadedFilesReady" );
+	if( LogEnabled( eLogStartup ) )LogMsg( LOG_VERBOSE, "PluginAboutMePageClient::onLoadedFilesReady" );
 	checkIsWebPageClientReady();
 }
 

@@ -162,13 +162,6 @@ void FriendRequestMgr::rxedFriendRequest( std::shared_ptr<VxSktBase>& sktBase, V
             LogMsg( LOG_ERROR, "%s failed find net ident", __func__ );
             return;
         }
-
-        if( newContact )
-        {
-            // say online so user is available to act on
-            GroupieId groupieId( netIdent->getMyOnlineId(), netIdent->getMyOnlineId(), eHostTypePeerUser );
-            GetPtoPEngine().getConnectIdListMgr().onUserOnline( groupieId, sktBase, netIdent );
-        }
     }
     else
     {

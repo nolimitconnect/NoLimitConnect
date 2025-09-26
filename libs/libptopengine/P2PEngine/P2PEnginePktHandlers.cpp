@@ -123,52 +123,40 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 				pktAnn->getOnlineName(), DescribeConnectReason( sktBase->getConnectReason() ) );
 		}
 	}
-	
-	//if( getConnectIdListMgr().isUserExcluded( contactOnlineId ) )
-	//{
-	//	if( isFirstAnnounce )
-	//	{
-	//		getConnectIdListMgr().setExcludeConnectId( sktBase->getSocketId(), true );
-	//	}
-
-	//	if( !getConnectIdListMgr().isNetworkHost( contactOnlineId ) )
-	//	{
-	//		if( !getConnectIdListMgr().isConnectionInUse( sktBase->getSocketId() ) )
-	//		{
-	//			sktBase->closeSkt( eSktCloseBlockedUser );
-	//		}
-
-	//		return;
-	//	}
-	//}
 
 	pktAnn->reversePermissions();
 	pktAnn->setTimeLastTcpContactMs( GetGmtTimeMs() );
 
-	bool isHostedUserPktAnnounce{ false };
-	bool isPeerUpdatePktAnnounce{ false };
-	bool isRelayedPktAnnounce{ false };
-	if( !isFirstAnnounce )
+	// if we connected out with a reason then that is the most trusted
+	EHostType hostType = ConnectReasonToJoinHostType( sktBase->getConnectReason() );
+	bool isJoinConnection = hostType != eHostTypeUnknown;
+	if( !isJoinConnection )
 	{
-		// detect if was announced by host instead of user
-		if( pktAnn->getHostOnlineId() == sktBase->getPeerOnlineId() && pktAnn->getMyOnlineId() != sktBase->getPeerOnlineId() && IsHostARelayForUsers( pktAnn->getHostType() ) )
+		// see if some other connect reason
+		hostType = ConnectReasonToHostType( sktBase->getConnectReason() );
+		if( hostType == eHostTypePeerUser ) // defaulted to peer because reason is unknown (might be other plugin reasons)
 		{
-			isHostedUserPktAnnounce = true;
-			pktAnn->setIsJoined( pktAnn->getHostType(), true );
-		}
-		else if( pktAnn->getMyOnlineId() == sktBase->getPeerOnlineId() )
-		{
-			isPeerUpdatePktAnnounce  = true;
-		}
-		else
-		{
-			isRelayedPktAnnounce = true;
+			EHostType announcedHostType = pktAnn->getHostType();
+			if( announcedHostType != eHostTypeUnknown && announcedHostType != hostType )
+			{
+				// it is a bit of a security risk to rely on anything told to us by others but here we are
+				LogMsg( LOG_WARN, "P2PEngine::%s pktAnn hostType %s", __func__, DescribeHostType( announcedHostType ) );
+				hostType = announcedHostType;
+			}
 		}
 	}
 
+	GroupieId groupieId( pktAnn->getMyOnlineId(), isFirstAnnounce ? pktAnn->getMyOnlineId() : sktBase->getPeerOnlineId(), hostType );
+	ConnectId connectId( sktBase->getSocketId(), groupieId );
+	connectId.setIsRelayed( groupieId.getHostOnlineId() != groupieId.getUserOnlineId() );
+
+	if( IsHostARelayForUsers( hostType ) && connectId.isRelayed() )
+	{
+		pktAnn->setIsJoined( hostType, true );
+	}
+
 	BigListInfo * bigListInfo = 0;
-	EHostType hostType{ eHostTypeUnknown };
-	EPktAnnUpdateType pktAnnUpdateType = m_BigListMgr.updatePktAnn( pktAnn, &bigListInfo, hostType, false, !isHostedUserPktAnnounce );		
+	EPktAnnUpdateType pktAnnUpdateType = m_BigListMgr.updatePktAnn( pktAnn, &bigListInfo, hostType, false, !isJoinConnection );
 	if( !bigListInfo->isValidNetIdent() )
 	{
 		LogMsg( LOG_ERROR, "PktAnnounce updatePktAnn INVALID" );
@@ -192,11 +180,6 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		return;
 	}
 
-	//if( isFirstAnnounce && IsConnectReasonJoin( sktBase->getConnectReason() ) )
-	//{
-	//	getBigListMgr().updateMemberFriendship( bigListInfo );
-	//}
-
 	bool pktAnnReplyRequested = pktAnn->getIsPktAnnReplyRequested();
 	bool reverseConnectionRequested = pktAnn->getIsPktAnnRevConnectRequested();
 	if( pktAnn->getTTL() > 0 )
@@ -210,7 +193,8 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 	{
 		if(LogEnabled(eLogConnect))LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onPktAnnounce %s from %s %s at %s pktAnn reply requested",
 				   sktBase->describeSktType().c_str(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
-        if( !m_ConnectionMgr.sendMyPktAnnounce( pktAnn->getMyOnlineId(),
+        VxGUID srcOnlineId = pktAnn->getSrcOnlineId();
+        if( !m_ConnectionMgr.sendMyPktAnnounce( srcOnlineId,
 				sktBase,
 				false,
 				false,
@@ -233,23 +217,31 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		pktAnn->setLastSessionTimeMs( timeNow );
 		bigListInfo->setLastSessionTimeMs( timeNow );
 		getBigListMgr().dbUpdateSessionTime( pktAnn->getMyOnlineId(), timeNow );
-		updateOk = onFirstPktAnnounce( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
+		updateOk = onFirstPktAnnounce( sktBase, pktAnn, pktAnnUpdateType, bigListInfo, connectId );
 	}
 	else
 	{
 		if( sktBase->getIsPeerPktAnnSet() )
 		{
-			// detect if was announced by host instead of user
-			if( isHostedUserPktAnnounce )
+			if( !connectId.isRelayed() && connectId.getUserOnlineId() == sktBase->getPeerOnlineId() )
 			{
-				updateOk = onHostedUserPktAnnounce( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
-			}
-			else if( isPeerUpdatePktAnnounce )
-			{
+				// user may have changed permissions or something
 				updateOk = onConnectionPktAnnounceUpdated( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
 			}
-			else
+
+			// detect if was announced by host instead of user
+			if( IsHostARelayForUsers( hostType ) )
 			{
+				updateOk = onHostedUserPktAnnounce( sktBase, pktAnn, pktAnnUpdateType, bigListInfo, connectId );
+			}
+			else if( connectId.isRelayed() )
+			{
+				LogMsg( LOG_WARN, "P2PEngine::%s unexpected relay %s %s through relay %s %s ip %s", __func__,
+				pktAnn->getOnlineName(),
+                    pktAnn->getMyOnlineId().toOnlineIdString().c_str(),
+                    sktBase->getPeerOnlineName().c_str(),
+		 		    sktBase->getPeerOnlineId().toOnlineIdString().c_str(),
+		 		    sktBase->getRemoteIp().c_str() );
 				updateOk = onRelayedUserPktAnnounce( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
 			}
 	
@@ -284,17 +276,10 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
                 sktBase->describeSktType().c_str(), pktAnn->getOnlineName(), pktAnn->getMyOnlineId().toOnlineIdString().c_str(),
 				sktBase->getPeerOnlineName().c_str(), sktBase->getPeerOnlineId().toOnlineIdString().c_str(),
 				sktBase->getRemoteIp().c_str(), sktBase->getSocketIdText().c_str() );
-
-		//BRJ
-        //if( !sktBase->getIsPeerPktAnnSet() )
-        //{
-        //    sktBase->setPeerPktAnn( *pktAnn );
-        //    LogMsg( LOG_VERBOSE, "P2PEngine::%s set peer to %s for %s", __func__, sktBase->describePeerUser().c_str(), sktBase->getRemoteIp().c_str() );
-        //}
 	}
     else
     {
-        LogMsg( LOG_VERBOSE, "P2PEngine::%s ignoring temp connection %s to %s", __func__,
+		if( LogEnabled( eLogConnect ) )LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::%s ignoring temp connection %s to %s", __func__,
                sktBase->getSocketIdText().c_str(), sktBase->getRemoteIp().c_str() );
     }
 }

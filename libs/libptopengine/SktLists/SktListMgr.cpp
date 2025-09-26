@@ -43,7 +43,7 @@ void SktListMgr::updateSktIdent( VxGUID& onlineId, VxGUID& sktConnectId, int64_t
 {
     if( !onlineId.isVxGUIDValid() )
     {
-        LogMsg( LOG_ERROR, "SktListMgr::updateSktIdent invalid id" );
+        LogMsg( LOG_ERROR, "SktListMgr::updateSktIdent invalid onlineId" );
         return;
     }
 

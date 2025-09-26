@@ -25,6 +25,7 @@ public:
 
 	int							size( void )							{ return (int)m_GuidList.size(); }
 	bool						isEmpty( void )							{ return 0 == m_GuidList.size(); }
+	VxGUID						front( void )							{ if( !isEmpty() ) return m_GuidList.front(); VxGUID emptyGuid; return emptyGuid; }
 
 	void						addGuid( const VxGUID& guid );
 	// returns false if guid already exists

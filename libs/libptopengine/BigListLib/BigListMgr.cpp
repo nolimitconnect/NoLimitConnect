@@ -165,7 +165,9 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 	EFriendState myFriendship = poPktAnnIn->getMyFriendshipToHim();
 	EFriendState hisFriendship = poPktAnnIn->getHisFriendshipToMe();
 
-	BigListAutoLock bigListAutoLock( *this );
+    // commented out because causes deadlock in toGuiContactAnythingChange whick calls P2PEngine::describeUser/getBigListMgr().getOnlineName
+    //BigListAutoLock bigListAutoLock( *this );
+    bigListLock();
 	EPktAnnUpdateType eUpdateType = ePktAnnUpdateTypeContactIsSame;
 	bool hostedUserUpdate = IsHostARelayForUsers( hostType ); // update is from host.. do not lower his friendship to you
 	bool isMySelf = poPktAnnIn->getMyOnlineId() == m_Engine.getMyOnlineId();
@@ -190,6 +192,7 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 	}
 
 	BigListInfo * poInfo = findBigListInfo( poPktAnnIn->getMyOnlineId(), true );	// id of friend to look for
+    bigListUnlock();
 	if( poInfo )
 	{
 		if( !isMySelf )
@@ -283,13 +286,14 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 				eUpdateType = ePktAnnUpdateTypeContactChanged;
 			}
 
-			memcpy( poInfo, poPktAnnIn, sizeof( VxNetIdent ) );
+            memcpy( (void*)(poInfo->getVxNetIdent()),  (void*)(poPktAnnIn->getVxNetIdent()), sizeof( VxNetIdent ) );
 
 			if( ePktAnnUpdateTypeContactIsSame != eUpdateType )
 			{
 				m_Engine.toGuiContactAnythingChange( poInfo );
 			}
 
+            bigListLock();
 			if( m_Engine.shouldInfoBeInDatabase( poInfo ) )
 			{
 				updateBigListDatabase( poInfo, m_Engine.getNetworkMgr().getNetworkKey().c_str() );
@@ -298,6 +302,8 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 			{
 				dbRemoveBigListInfo( poInfo->getMyOnlineId() );
 			}
+
+            bigListUnlock();
 		}
 	}
 	else
@@ -316,6 +322,7 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 
 			bigInsertInfo( poInfo->getMyOnlineId(), poInfo, true );
 
+            bigListLock();
 			if( m_Engine.shouldInfoBeInDatabase( poInfo ) )
 			{
 				updateBigListDatabase( poInfo, m_Engine.getNetworkMgr().getNetworkKey().c_str() );
@@ -325,6 +332,7 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 				dbRemoveBigListInfo( poInfo->getMyOnlineId() );
 			}
 
+             bigListUnlock();
 			//! notify new contact found
 			eUpdateType = ePktAnnUpdateTypeNewContact;
 		}

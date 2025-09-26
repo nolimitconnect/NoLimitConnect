@@ -37,7 +37,7 @@ void PluginStoryboardClient::onAfterUserLogOnThreaded( void )
 //============================================================================
 void PluginStoryboardClient::onLoadedFilesReady( int64_t lastFileUpdateTime, int64_t totalBytes, uint16_t fileTypes )
 {
-	LogMsg( LOG_VERBOSE, "PluginStoryboardClient::onLoadedFilesReady" );
+	if( LogEnabled( eLogStartup ) )LogMsg( LOG_VERBOSE, "PluginStoryboardClient::onLoadedFilesReady" );
 	checkIsWebPageClientReady();
 }
 

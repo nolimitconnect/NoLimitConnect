@@ -38,7 +38,7 @@ void PluginFileShareClient::onAfterUserLogOnThreaded( void )
 //============================================================================
 void PluginFileShareClient::onLoadedFilesReady( int64_t lastFileUpdateTime, int64_t totalBytes, uint16_t fileTypes )
 {
-	LogMsg( LOG_VERBOSE, "PluginFileShareClient::onLoadedFilesReady" );
+	if( LogEnabled( eLogStartup ) )LogMsg( LOG_VERBOSE, "PluginFileShareClient::onLoadedFilesReady" );
 	checkIsWebPageClientReady();
 }
 

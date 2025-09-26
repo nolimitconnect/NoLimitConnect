@@ -231,6 +231,7 @@ void GuiUserListWidget::updateUser( GuiUser* guiUser )
                         else
                         {
                             LogMsg( LOG_ERROR, "GuiUserListWidget::updateUser user %s is no longer online", guiUser->getOnlineName().c_str() );
+                            m_MyApp.getConnectIdListMgr().dumpOnlineUsers();
                         }
                     }
                     else
@@ -754,7 +755,7 @@ bool GuiUserListWidget::isListViewMatch( GuiUser* guiUser )
             }
             else
             {
-                 return !guiUser->isAnonymous() && m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeChatRoom, guiUser->getMyOnlineId() );
+                return !guiUser->isAnonymous() && m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeChatRoom, guiUser->getMyOnlineId() );
             }
         }
         else if( eUserViewTypeRandomConnect == viewType )
@@ -766,7 +767,7 @@ bool GuiUserListWidget::isListViewMatch( GuiUser* guiUser )
             }
             else
             {
-                 return !guiUser->isAnonymous() && m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeRandomConnect, guiUser->getMyOnlineId() );
+                return !guiUser->isAnonymous() && m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeRandomConnect, guiUser->getMyOnlineId() );
             }
         }
         else if( eUserViewTypeOffline == viewType )

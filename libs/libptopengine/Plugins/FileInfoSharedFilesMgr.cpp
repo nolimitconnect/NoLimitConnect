@@ -19,7 +19,7 @@ FileInfoSharedFilesMgr::FileInfoSharedFilesMgr( P2PEngine& engine, PluginBase& p
 	: FileInfoDb( sharedFilesDbName )
 	, FileInfoBaseMgr( engine, plugin, *this )
 {
-	LogMsg( LOG_VERBOSE, "FileInfoSharedFilesMgr::FileInfoSharedFilesMgr %s %p", DescribePluginType( plugin.getPluginType() ), this );
+	if( LogEnabled( eLogStartup ) )LogMsg( LOG_VERBOSE, "FileInfoSharedFilesMgr::FileInfoSharedFilesMgr %s %p", DescribePluginType( plugin.getPluginType() ), this );
 }
 
 //============================================================================

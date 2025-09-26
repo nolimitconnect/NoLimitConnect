@@ -21,7 +21,7 @@
 #include <CoreLib/VxDebug.h>
 
 //============================================================================
-bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo )
+bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo, ConnectId& connectId )
 {
     pktAnn->clearIsJoined();
     if( pktAnn->getMyOnlineId() == getMyOnlineId() )
@@ -52,11 +52,7 @@ bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnno
 
             if( !sktBase->isTempConnection() )
             {
-                EConnectReason connectReason = sktBase->getConnectReason();
-                EHostType hostType = ConnectReasonToHostType( connectReason );
-
-                GroupieId groupieId( bigListInfo->getMyOnlineId(), bigListInfo->getMyOnlineId(), hostType );
-                getConnectIdListMgr().addConnection( sktBase, groupieId );
+                getConnectIdListMgr().addConnection( connectId );
                 getConnectList().addConnection( sktBase, bigListInfo, (ePktAnnUpdateTypeNewContact == pktAnnUpdateType) );
             }
 
@@ -96,7 +92,7 @@ bool P2PEngine::onConnectionPktAnnounceUpdated( std::shared_ptr<VxSktBase>& sktB
 }
 
 //============================================================================
-bool P2PEngine::onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo )
+bool P2PEngine::onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnnounce* pktAnn, enum EPktAnnUpdateType pktAnnUpdateType, BigListInfo* bigListInfo, ConnectId& connectId )
 {
     if( pktAnn->getMyOnlineId() == getMyOnlineId() )
     {
@@ -107,22 +103,30 @@ bool P2PEngine::onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, Pk
 
     bool updateOk{ true };
 
-    GroupieId groupieId( pktAnn->getMyOnlineId(), pktAnn->getHostOnlineId(), pktAnn->getHostType() );
+    GroupieId groupieId( connectId.getGroupieId() );
     if( !sktBase->isTempConnection() )
     {
-        pktAnn->setIsJoined( pktAnn->getHostType(), true );
+        EHostType hostType = connectId.getHostType();
+        if( IsHostARelayForUsers( hostType ) )
+        {
+            pktAnn->setIsJoined( hostType, true );
+            bigListInfo->setIsJoined( hostType, true );
+        }    
 
         LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onHostedUserPktAnnounce %s %s at ip %s",
                    bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
         LogModule( eLogUsers, LOG_VERBOSE, "P2PEngine::onHostedUserPktAnnounce %s %s", pktAnn->describeUser().c_str(), describeGroupieId( groupieId ).c_str() );
     }
 
-    getConnectIdListMgr().addConnection( sktBase, groupieId, true );
-    getMemberActiveMgr().updateMemberActive( groupieId, true );
-
-    if( !getConnectIdListMgr().isDirectConnected( pktAnn->getMyOnlineId() ) )
+    getConnectIdListMgr().addConnection( connectId );
+    if( !sktBase->isTempConnection() )
     {
-        GetMemberConfirmMgr().addMemberConfirm( sktBase, pktAnn->getMyOnlineId() );
+        bool newMember = getMemberActiveMgr().updateMemberActive( groupieId, true );
+
+        if( newMember && !getConnectIdListMgr().isDirectConnected( pktAnn->getMyOnlineId() ) )
+        {
+            GetMemberConfirmMgr().addMemberConfirm( sktBase, pktAnn->getMyOnlineId() );
+        }
     }
 
     return updateOk && onPktAnnounceCommonHandler( sktBase, pktAnn, pktAnnUpdateType, bigListInfo );
@@ -183,7 +187,7 @@ bool P2PEngine::onPktAnnounceCommonHandler( std::shared_ptr<VxSktBase>& sktBase,
 
         getToGui().toGuiContactAdded( bigListInfo->getVxNetIdent() );
 
-        getConnectIdListMgr().pktAnnRecieved( sktBase, pktAnn->getMyOnlineId() );
+        getConnectIdListMgr().pktAnnRecieved( sktBase, pktAnn, bigListInfo->getVxNetIdent() );
         getThumbMgr().requestThumbs( sktBase, bigListInfo->getVxNetIdent() );
 
         getSendQueueMgr().pktAnnRecieved( pktAnn->getMyOnlineId() );

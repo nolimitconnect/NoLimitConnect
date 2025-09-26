@@ -42,9 +42,9 @@ public:
 	EUserViewType               getUserViewType( void );
 
 	void						setHostAdminId( GroupieId& adminId );
-    GroupieId&                  getHostAdminId( void )                      { return m_HostAdminId; };
-	bool						hasHostAdmin( void )						{ return m_HostAdminId.isValid(); };
-	void						clearHostAdmin( void )						{ m_HostAdminId.clear(); };
+    GroupieId&                  getHostAdminId( void )                      { return m_AdminGroupieId; };
+	bool						hasHostAdmin( void )						{ return m_AdminGroupieId.isValid(); };
+	void						clearHostAdmin( void )						{ m_AdminGroupieId.clear(); };
 
 	void                        setAllowMyselfInList( bool allowMyself );
 	bool                        getAllowMyselfInList( void );
@@ -101,7 +101,7 @@ protected:
     QFrame*						m_OffersFrame{ nullptr }; 
 	GuiUser*					m_SelectedUser{ nullptr };
 	bool						m_SessionVisible{ true };
-	GroupieId					m_HostAdminId;
+	GroupieId					m_AdminGroupieId;
 	EUserViewType				m_UserViewType{ eUserViewTypeNone };
 };
 

@@ -19,5 +19,5 @@ FileInfoClientFilesMgr::FileInfoClientFilesMgr( P2PEngine& engine, PluginBase& p
 	: FileInfoDb( clientdFilesDbName )
 	, FileInfoBaseMgr( engine, plugin, *this )
 {
-	LogMsg( LOG_VERBOSE, "FileInfoClientFilesMgr::FileInfoClientFilesMgr %s %p", DescribePluginType( plugin.getPluginType() ), this );
+	if( LogEnabled( eLogStartup ) )LogMsg( LOG_VERBOSE, "FileInfoClientFilesMgr::FileInfoClientFilesMgr %s %p", DescribePluginType( plugin.getPluginType() ), this );
 }

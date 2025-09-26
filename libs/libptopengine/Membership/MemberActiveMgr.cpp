@@ -25,12 +25,13 @@ void MemberActiveMgr::memberActiveStartup( void )
 }
 
 //============================================================================
-void MemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool memberActive )
+// return true if new active member
+bool MemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool memberActive )
 {
     if( !groupieId.isValid() )
     {
         LogMsg( LOG_ERROR, "MemberActiveMgr::updateSktIdent invalid skt id" );
-        return;
+        return false;
     }
 
     bool wasUpdated = false;
@@ -87,6 +88,8 @@ void MemberActiveMgr::updateMemberActive( GroupieId& groupieId, bool memberActiv
 
         announceMemberActive( groupieId, memberActive );
     }
+
+    return memberActive && !found && wasUpdated;
 }
 
 //============================================================================

@@ -43,7 +43,6 @@ public:
     // callbackConnectionStatusChange should happen before callbackOnlineStatusChange when user disconnects from host
     virtual void				callbackConnectionStatusChange( ConnectId& connectId, bool isConnected ) override;
     
-    virtual void				callbackConnectionReason( VxGUID& sktConnectId, EConnectReason connectReason, bool enableReason ) override;
     virtual void				callbackConnectionLost( VxGUID& sktConnectId ) override;
 
     bool                        isOnline( VxGUID& onlineId );
@@ -51,14 +50,15 @@ public:
     bool                        isRelayed( VxGUID& onlineId );
     bool                        isConnected( GroupieId& groupieId );
 
+    void                        dumpOnlineUsers( void );
+    void                        dumpHostedUsers( HostedId hostId );
+
 signals:
     void				        signalInternalConnectionStatusChange( ConnectId connectId, bool isConnected );
-    void				        signalInternalConnectionReason( VxGUID sktConnectId, EConnectReason connectReason, bool enableReason );
     void				        signalInternalConnectionLost( VxGUID sktConnectId );
 
 private slots:
     void				        slotInternalConnectionStatusChange( ConnectId connectId, bool isConnected );
-    void				        slotInternalConnectionReason( VxGUID sktConnectId, EConnectReason connectReaso, bool enableReasonn );
     void				        slotInternalConnectionLost( VxGUID sktConnectId );
 
 protected: 
@@ -66,13 +66,9 @@ protected:
 
     void                        announceConnectionStatusChange( ConnectId& connectId, bool isConnected );
 
-    void                        dumpOnlineUsers( void );
-
     AppCommon&                  m_MyApp;
 
     std::vector<GuiConnectIdListCallback*> m_GuiConnectIdClientList;
 
     std::set<ConnectId>         m_ConnectIdList;
-
-    std::map<VxGUID, std::set<EConnectReason>>      m_ConnectReasonList;
 };

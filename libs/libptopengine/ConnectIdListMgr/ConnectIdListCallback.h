@@ -19,8 +19,6 @@ class ConnectIdListCallback
 {
 public:
     virtual void				callbackConnectionStatusChange( ConnectId& connectId, bool isConnected ) {};
-
-    virtual void				callbackConnectionReason( VxGUID& socketId, enum EConnectReason connectReason, bool enableReason ) {};
     virtual void				callbackConnectionLost( VxGUID& socketId ) {};
 };
 

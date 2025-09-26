@@ -81,6 +81,9 @@ void AppletHostClientBase::setAdminGroupieId( GroupieId& adminGroupieId )
 	ui.m_UserListWidget->setHostAdminId( adminGroupieId );
 	ui.m_SessionWidget->setHostAdminId( adminGroupieId );
 
+	m_MyApp.getConnectIdListMgr().dumpOnlineUsers();
+	m_MyApp.getConnectIdListMgr().dumpHostedUsers( m_AdminGroupieId.getHostedId() );
+
 	GuiUser* adminUser = m_MyApp.getUserMgr().getUser( adminGroupieId.getHostOnlineId() );
 	if( adminUser )
 	{
@@ -94,31 +97,6 @@ void AppletHostClientBase::setAdminGroupieId( GroupieId& adminGroupieId )
 	{
 		LogMsg( LOG_ERROR, "AppletChatRoomClient::%s failed to find admin", __func__ );
 	}
-
-	//switch( m_HostType )
-	//{
-	//case eHostTypeChatRoom:
-	//	ui.m_SessionWidget->setMediaModule( eMediaModuleChatRoomClient );
-	//	ui.m_UserListWidget->setUserViewType( eUserViewTypeChatRoom );
-	//	break;
-
-	//case eHostTypeGroup:
-	//	ui.m_SessionWidget->setMediaModule( eMediaModuleGroupClient );
-	//	ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup );
-	//	break;
-
-	//case eHostTypeRandomConnect:
-	//	ui.m_SessionWidget->setMediaModule( eMediaModuleRandomConnectClient );
-	//	ui.m_UserListWidget->setUserViewType( eUserViewTypeRandomConnect );
-	//	break;
-
-	//default:
-	//	ui.m_SessionWidget->setMediaModule( eMediaModulePeerUserClient );
-	//	ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup );
-	//	break;
-
-	//}
-
 }
 
 //============================================================================

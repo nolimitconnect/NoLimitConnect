@@ -95,6 +95,11 @@ void GuiMemberActiveMgr::getActiveMembers( HostedId& hostId, std::set<VxGUID>& m
 //============================================================================
 void GuiMemberActiveMgr::callbackMemberActive( GroupieId& groupieId, bool isActive )
 {
+    if( !isActive && groupieId.getUserOnlineId() == GetAppInstance().getMyOnlineId() )
+    {
+        LogMsg( LOG_WARN, "GuiMemberActiveMgr::%s member is now inactive" );
+    }
+
     emit signalInternalMemberActive( groupieId, isActive );
 }
 

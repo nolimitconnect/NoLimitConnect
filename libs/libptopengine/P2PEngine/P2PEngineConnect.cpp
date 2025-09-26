@@ -296,11 +296,11 @@ bool P2PEngine::updateOnFirstConnect( std::shared_ptr<VxSktBase>& sktBase, BigLi
 	{
         GroupieId groupieId( poInfo->getMyOnlineId(), poInfo->getMyOnlineId(), ConnectReasonToHostType( sktBase->getConnectReason() ) );
 		// make sure user identity is updated first before updating connection info
-        if( getConnectIdListMgr().onUserOnline( groupieId, sktBase, poInfo->getVxNetIdent() ) )
-		{
+        //if( getConnectIdListMgr().onUserOnline( groupieId, sktBase, poInfo->getVxNetIdent() ) )
+		//{
             // must use client instead of host
 			getThumbMgr().queryThumbIfNeeded( sktBase, poInfo->getVxNetIdent(), eHostTypePeerUser );
-		}
+		//}
 
 		getConnectIdListMgr().addConnection( sktBase, groupieId, false );
 	}

@@ -41,7 +41,7 @@ FileInfoBaseMgr::FileInfoBaseMgr( P2PEngine& engine, PluginBase& plugin, FileInf
 , m_FileInfoXferMgr( engine, plugin, *this )
 , m_PrivateEngine( engine )
 {
-	LogMsg( LOG_VERBOSE, "FileInfoBaseMgr::FileInfoBaseMgr %s %p", DescribePluginType( plugin.getPluginType() ), this );
+	if(LogEnabled(eLogStartup))LogMsg( LOG_VERBOSE, "FileInfoBaseMgr::FileInfoBaseMgr %s %p", DescribePluginType( plugin.getPluginType() ), this );
 }
 
 //============================================================================

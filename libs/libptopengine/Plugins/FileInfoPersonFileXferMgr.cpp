@@ -19,7 +19,7 @@ FileInfoPersonFileXferMgr::FileInfoPersonFileXferMgr( P2PEngine& engine, PluginB
 	: FileInfoDb( sharedFilesDbName )
 	, FileInfoBaseMgr( engine, plugin, *this )
 {
-	LogMsg( LOG_VERBOSE, "FileInfoPersonFileXferMgr::%s %s %p", __func__, DescribePluginType( plugin.getPluginType() ), this );
+	if( LogEnabled( eLogStartup ) )LogMsg( LOG_VERBOSE, "FileInfoPersonFileXferMgr::%s %s %p", __func__, DescribePluginType( plugin.getPluginType() ), this );
 }
 
 //============================================================================

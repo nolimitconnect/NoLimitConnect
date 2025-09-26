@@ -30,7 +30,7 @@ public:
 
     void                        wantMemberActiveCallbacks( MemberActiveCallback* client, bool enable );
 
-    virtual void                updateMemberActive( GroupieId& groupieId, bool memberActive );
+    bool                        updateMemberActive( GroupieId& groupieId, bool memberActive ); // return true if new active member
 
     bool                        isMemberActive( GroupieId& groupieId );
     bool                        isActiveMemberOfAny( VxGUID& onlineId ); // return true if active member of any host we have joined

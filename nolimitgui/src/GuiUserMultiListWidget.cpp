@@ -109,8 +109,8 @@ GuiUserMultiListWidget::~GuiUserMultiListWidget( void )
 //============================================================================
 void GuiUserMultiListWidget::setHostAdminId( GroupieId& adminId )
 {
-    m_HostAdminId = adminId;
-    GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_HostAdminId.getHostOnlineId() );
+    m_AdminGroupieId = adminId;
+    GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_AdminGroupieId.getHostOnlineId() );
     if( guiUser )
     {
         ui.m_UserListWidget->setHostAdminId( adminId );
@@ -285,7 +285,7 @@ void GuiUserMultiListWidget::slotUserLeaveButtonClicked( void )
         return;
     }
 
-    hostLeave->setHostGroupieId( m_HostAdminId );
+    hostLeave->setHostGroupieId( m_AdminGroupieId );
     connect( hostLeave, SIGNAL(signalLeftHost()), this, SLOT(slotLeftHost()) );
 }
 

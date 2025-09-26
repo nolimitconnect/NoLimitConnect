@@ -42,7 +42,7 @@ PluginBaseFiles::PluginBaseFiles( P2PEngine& engine, PluginMgr& pluginMgr, VxNet
 , m_FileInfoXferMgr( m_FileInfoMgr.getFileInfoXferMgr() )
 {
 	setPluginType( pluginType );
-	LogMsg( LOG_VERBOSE, "PluginBaseFiles::PluginBaseFiles %s %p", DescribePluginType( pluginType ), this );
+	if(LogEnabled(eLogStartup))LogMsg( LOG_VERBOSE, "PluginBaseFiles::%s %s ", __func__, DescribePluginType( pluginType ) );
 }
 
 //============================================================================

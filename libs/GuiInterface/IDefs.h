@@ -1502,6 +1502,7 @@ EConnectReason HostTypeToConnectUnJoinReason( enum EHostType hostType );
 EConnectReason HostTypeToConnectSearchReason( enum EHostType hostType );
 
 EHostType ConnectReasonToHostType( enum EConnectReason connectReason );
+EHostType ConnectReasonToJoinHostType( enum EConnectReason connectReason );
 
 //! convert Host Type to service plugin  type
 EPluginType HostTypeToHostPlugin( enum EHostType hostType );

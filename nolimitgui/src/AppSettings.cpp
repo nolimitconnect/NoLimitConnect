@@ -836,6 +836,7 @@ void AppSettings::setLastHostJoined( EHostType hostType, std::string lastJoinedH
 	if( valid )
 	{
 		setIniValue( getAppShortName(), settingName.c_str(), lastJoinedHost);
+        setLastHostJoined( lastJoinedHost );
 	}
 	else
 	{

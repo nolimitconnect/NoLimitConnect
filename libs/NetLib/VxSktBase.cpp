@@ -1711,7 +1711,7 @@ void VxSktBase::setIsTempConnection( bool isTemp )
 		m_IsTempConnection = isTemp;
         if( isTemp )
 		{
-            LogMsg( LOG_VERBOSE, "VxSktBase::%s tmp skt num %d handle %d id %s", __func__,
+            if(LogEnabled(eLogConnect))LogMsg( LOG_VERBOSE, "VxSktBase::%s tmp skt num %d handle %d id %s", __func__,
                       m_SktNumber, m_Socket, getSocketIdText().c_str() );
 		}
 	}

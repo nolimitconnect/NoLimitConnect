@@ -1987,6 +1987,28 @@ EHostType ConnectReasonToHostType( enum EConnectReason connectReason )
 }
 
 //============================================================================
+EHostType ConnectReasonToJoinHostType( enum EConnectReason connectReason )
+{
+    switch( connectReason )
+    {
+    case eConnectReasonGroupJoin:
+    case eConnectReasonGroupUnJoin:
+        return eHostTypeGroup;
+
+    case eConnectReasonChatRoomJoin:
+    case eConnectReasonChatRoomUnJoin:
+        return eHostTypeChatRoom;
+
+    case eConnectReasonRandomConnectJoin:
+    case eConnectReasonRandomConnectUnJoin:
+        return eHostTypeRandomConnect;
+
+    default:
+        return eHostTypeUnknown;
+    }
+}
+
+//============================================================================
 //! convert Host Type to service plugin  type
 EPluginType HostTypeToHostPlugin( enum EHostType hostType )
 {
