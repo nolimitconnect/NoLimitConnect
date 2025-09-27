@@ -9,6 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <ConnectIdListMgr/ConnectIdListCallback.h>
 #include <GuiInterface/IFromGui.h>
 #include <NetServices/NetServiceUtils.h>
 #include <Network/ConnectRequest.h>
@@ -27,7 +28,7 @@ class PluginSetting;
 class BigListMgr;
 class VxPktHdr;
 
-class PluginMgr
+class PluginMgr : public ConnectIdListCallback
 {
 public:
 	class AutoMgrLock
@@ -113,7 +114,7 @@ public:
 	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 	virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );	
 
-	virtual void				onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline );
+	void						callbackConnectionStatusChange( ConnectId& connectId, bool isOnline ) override;
 
 	virtual void				fromGuiRelayPermissionCount( int userPermittedCount, int anonymousCount ); 
 	virtual bool				fromGuiSendAsset( AssetBaseInfo& assetInfo );

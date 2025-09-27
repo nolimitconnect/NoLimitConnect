@@ -17,6 +17,7 @@
 
 #include <memory>
 
+class ConnectId;
 class P2PEngine;
 class PluginBase;
 class PluginMgr;
@@ -50,7 +51,7 @@ public:
 	virtual bool				removePushToTalkUserRx( VxGUID& onlineId);
 	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 
-	void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) {};
+	void						onContactOnlineStatusChange( ConnectId& connectId, bool isOnline ) {};
 
 	virtual bool				sendPushToTalkStart( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase );
 	virtual bool				sendPushToTalkStop( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase );

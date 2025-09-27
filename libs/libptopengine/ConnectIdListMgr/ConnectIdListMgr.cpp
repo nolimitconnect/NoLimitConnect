@@ -384,9 +384,8 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId, bool tmpConnectio
             sktConnectId.toHexString().c_str(), m_OnlineIdListList.size(), m_ConnectIdList.size(),
             m_OnlineConnectionPairs.size() );
   
-    std::set<VxGUID> userList;
+
     std::set<ConnectId> lostConnectList;
-    std::set<ConnectId> lostRelayList;
 
     lockConnectIdList();
 
@@ -396,8 +395,6 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId, bool tmpConnectio
         ConnectId& connectId = const_cast<ConnectId&>(*iter);
         if( connectId.getSocketId() == sktConnectId )
         {
-            userList.insert( connectId.getUserOnlineId() );
-            userList.insert( connectId.getHostOnlineId() );
             lostConnectList.insert( connectId );
             iter = m_ConnectIdList.erase( iter );
         }

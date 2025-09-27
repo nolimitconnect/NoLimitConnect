@@ -26,6 +26,7 @@
 
 class AssetMgr;
 class AssetBaseInfo;
+class ConnectId;
 class FileInfo;
 class FileShareSettings;
 class GroupieInfo;
@@ -232,7 +233,7 @@ public:
 	virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) = 0;
 	virtual void				replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ) = 0;
 
-	virtual void				onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) = 0;
+	virtual void				onContactOnlineStatusChange( ConnectId& connectId, bool isOnline ) = 0;
 
     bool						txPacket( VxGUID onlineId, std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* poPkt, EPluginType overridePlugin = ePluginTypeInvalid ) override;
 

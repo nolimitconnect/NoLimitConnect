@@ -21,7 +21,7 @@ public:
 
 	void						onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override {};
 	void						onConnectionLost(std::shared_ptr<VxSktBase> &) override {};
-	void						onContactOnlineStatusChange(VxGUID &,bool) override {};
+	void						onContactOnlineStatusChange(ConnectId&,bool) override {};
 	void						replaceConnection(VxNetIdent *,std::shared_ptr<VxSktBase> &,std::shared_ptr<VxSktBase> &) override {};	
 
 	// NOTE: netIdent might be null for friend request

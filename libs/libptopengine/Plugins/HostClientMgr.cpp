@@ -105,7 +105,7 @@ void HostClientMgr::onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktBase, Vx
         }
 
         GroupieId groupieId( hostReply->getGroupieId() );
-        LogMsg( LOG_VERBOSE, "HostClientMgr::%s leaving ", __func__, m_Engine.describeGroupieId( groupieId ) );
+        LogMsg( LOG_VERBOSE, "HostClientMgr::%s leaving ", __func__, m_Engine.describeGroupieId( groupieId ).c_str() );
         m_Engine.getConnectIdListMgr().removeConnection( sktBase->getSocketId(), groupieId );
         HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, hostReply->getSessionId() );
 

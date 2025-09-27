@@ -225,6 +225,8 @@ void PluginMgr::pluginMgrStartup( void )
 
 	m_PluginMgrInitialized = true;
 
+	m_Engine.getConnectIdListMgr().wantConnectIdListCallback( this, true );
+
     uint32_t endTime = ( uint32_t)GetApplicationAliveMs();
     LogModule( eLogStartup, LOG_INFO, "pluginMgrStartup done in %d ms at %d ms", endTime - startTime, endTime );
 }
@@ -234,6 +236,7 @@ void PluginMgr::pluginMgrShutdown( void )
 {
 	if( m_PluginMgrInitialized )
 	{
+		m_Engine.getConnectIdListMgr().wantConnectIdListCallback( this, false );
 		m_PluginMgrInitialized = false;
 		std::vector<PluginBase*>::iterator iter;
 		for( iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
@@ -712,11 +715,11 @@ void PluginMgr::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSk
 }
 
 //============================================================================
-void PluginMgr::onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline )
+void PluginMgr::callbackConnectionStatusChange( ConnectId& connectId, bool isOnline )
 {
 	for( auto& pluginBase : m_aoPlugins )
 	{
-		pluginBase->onContactOnlineStatusChange( onlineId, isOnline );
+		pluginBase->onContactOnlineStatusChange( connectId, isOnline );
 	}
 }
 

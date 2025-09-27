@@ -17,6 +17,7 @@
 
 #include <map>
 
+class ConnectId;
 class OfferBaseInfo;
 
 class PluginSessionMgr : public SessionMgrBase
@@ -37,7 +38,7 @@ public:
 	virtual	void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase );
 	virtual void				cancelSessionByOnlineId( VxGUID& onlineId );
 
-	virtual void				onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline );
+	virtual void				onContactOnlineStatusChange( ConnectId& connectId, bool isOnline );
 
     virtual bool				fromGuiIsPluginInSession( bool pluginIsLocked, VxGUID& onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() );
 	virtual void				fromGuiStopPluginSession( bool pluginIsLocked, VxGUID& onlineId, VxGUID lclSessionId = VxGUID::nullVxGUID() );

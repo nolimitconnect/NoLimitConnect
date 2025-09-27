@@ -788,19 +788,24 @@ void PluginBaseNetworkService::onPktHostUserListMoreReply( std::shared_ptr<VxSkt
 }
 
 //============================================================================
-void PluginBaseNetworkService::onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline )
+void PluginBaseNetworkService::onContactOnlineStatusChange( ConnectId& connectId, bool isOnline )
 {
-    if( !isOnline && m_HostServerMgr.isMember( onlineId, true ) )
+    if( isOnline || connectId.isRelayed() || connectId.getHostType() != getHostType() )
+    {
+        return;
+    }
+
+    if( m_HostServerMgr.isMember( connectId.getUserOnlineId(), true) )
     {
         // announce user lost connection to host
 
-        GroupieId groupieId( onlineId, m_Engine.getMyOnlineId(), getHostType() );
+        GroupieId groupieId( connectId.getUserOnlineId(), m_Engine.getMyOnlineId(), getHostType() );
 
         PktHostLeaveReply pktReply;
         
         pktReply.setGroupieId( groupieId );
         pktReply.setPluginType( getPluginType() );
 
-        broadcastToClients( &pktReply, onlineId );
+        broadcastToClients( &pktReply, connectId.getUserOnlineId() );
     }
 }

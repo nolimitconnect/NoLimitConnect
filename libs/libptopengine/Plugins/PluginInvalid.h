@@ -36,7 +36,7 @@ public:
     virtual void				replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ) override{};
     virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) override {};
 
-	void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override {};
+	void						onContactOnlineStatusChange( ConnectId& connectId, bool isOnline ) override {};
 
 	//=== methods ===//
 	bool						fromGuiStartPluginSession( PluginSessionBase* poOffer ) override { return false; };

@@ -15,6 +15,7 @@
 
 #include <memory>
 
+class ConnectId;
 class P2PEngine;
 class PluginBase;
 class PluginMgr;
@@ -50,7 +51,7 @@ public:
 	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) = 0;
 	virtual void				onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) = 0;
 
-	virtual void				onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) = 0;
+	virtual void				onContactOnlineStatusChange( ConnectId& connectId, bool isOnline ) = 0;
 
 protected:
 	//=== vars ===//

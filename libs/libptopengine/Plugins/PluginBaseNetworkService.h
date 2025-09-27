@@ -68,7 +68,7 @@ protected:
     virtual void				onConnectionLost                ( std::shared_ptr<VxSktBase>& sktBase ) override;
     virtual void				replaceConnection               ( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ) override;
 
-    void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override;
+    void						onContactOnlineStatusChange( ConnectId& connectId, bool isOnline ) override;
 
     virtual void                buildHostAnnounce( PluginSetting& pluginSetting );
     virtual void				sendHostAnnounce( void );

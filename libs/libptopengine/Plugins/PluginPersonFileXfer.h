@@ -27,7 +27,7 @@ public:
     void				        replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ) override {};
     void				        onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) override {};
 
-    void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override {};
+    void						onContactOnlineStatusChange( ConnectId& connectId, bool isOnline ) override {};
 
     void                        onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 

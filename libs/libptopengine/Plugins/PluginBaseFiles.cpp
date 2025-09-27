@@ -375,9 +375,9 @@ void PluginBaseFiles::onContactWentOffline( VxNetIdent* netIdent, std::shared_pt
 }
 
 //============================================================================
-void PluginBaseFiles::onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline )
+void PluginBaseFiles::onContactOnlineStatusChange( ConnectId& connectId, bool isOnline )
 {
-	m_PluginSessionMgr.onContactOnlineStatusChange( onlineId, isOnline );
+	m_PluginSessionMgr.onContactOnlineStatusChange( connectId, isOnline );
 }
 
 //============================================================================

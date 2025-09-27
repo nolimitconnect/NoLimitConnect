@@ -53,7 +53,7 @@ protected:
     virtual	void				onContactWentOffline		( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override;
     virtual	void				onConnectionLost			( std::shared_ptr<VxSktBase>& sktBase ) override;
 
-	void						onContactOnlineStatusChange( VxGUID& onlineId, bool isOnline ) override {};
+	void						onContactOnlineStatusChange( ConnectId& connectId, bool isOnline ) override {};
 
     virtual void				onSessionStart				( PluginSessionBase* poSession, bool pluginIsLocked ) override;
     virtual void				onSessionEnded				( PluginSessionBase* poSession, bool pluginIsLocked, EOfferResponse offerResponse ) override;
