@@ -801,7 +801,7 @@ void PluginBaseHostService::onPktHostUserListMoreReply( std::shared_ptr<VxSktBas
 //============================================================================
 void PluginBaseHostService::onContactOnlineStatusChange( ConnectId& connectId, bool isOnline )
 {
-    if( isOnline || connectId.isRelayed() || connectId.getHostType() != getHostType() )
+    if( isOnline || connectId.getUserOnlineId() != connectId.getHostOnlineId() )
     {
         return;
     }
@@ -811,6 +811,8 @@ void PluginBaseHostService::onContactOnlineStatusChange( ConnectId& connectId, b
         // announce user lost connection to host
 
         GroupieId groupieId( connectId.getUserOnlineId(), m_Engine.getMyOnlineId(), getHostType() );
+        if( LogEnabled( eLogMembership ) )LogModule( eLogMembership, LOG_VERBOSE, "PluginBaseHostService::%s sending PktHostLeaveReply with groupie %s ", __func__,
+            isOnline, m_Engine.describeGroupieId( groupieId ).c_str() );
 
         PktHostLeaveReply pktReply;
         

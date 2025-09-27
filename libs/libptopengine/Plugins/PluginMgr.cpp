@@ -717,6 +717,8 @@ void PluginMgr::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSk
 //============================================================================
 void PluginMgr::callbackConnectionStatusChange( ConnectId& connectId, bool isOnline )
 {
+	if( LogEnabled( eLogOnline ) )LogModule( eLogOnline, LOG_VERBOSE, "PluginMgr::%s online %d groupie %s ", __func__,
+		isOnline, m_Engine.describeConnectId( connectId ).c_str() );
 	for( auto& pluginBase : m_aoPlugins )
 	{
 		pluginBase->onContactOnlineStatusChange( connectId, isOnline );
