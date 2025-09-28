@@ -96,46 +96,49 @@ void HostClientMgr::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxP
 //============================================================================
 void HostClientMgr::onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    PktHostLeaveReply* hostReply = ( PktHostLeaveReply* )pktHdr;
-    if( hostReply->isValidPktPrefix() )
+    if( !pktHdr->isValidPktPrefix() )
     {
-        if( eHostTypeUnknown == hostReply->getHostType() || hostReply->getHostType() != getHostType() )
-        {
-            LogMsg( LOG_ERROR, "HostClientMgr::%s invalid host type", __func__ );
-        }
+        onInvalidRxedPacket( sktBase, pktHdr, netIdent );
+        return;
+    }
 
-        GroupieId groupieId( hostReply->getGroupieId() );
-        LogMsg( LOG_VERBOSE, "HostClientMgr::%s leaving ", __func__, m_Engine.describeGroupieId( groupieId ).c_str() );
-        m_Engine.getConnectIdListMgr().removeConnection( sktBase->getSocketId(), groupieId );
-        HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, hostReply->getSessionId() );
+    PktHostLeaveReply* hostReply = ( PktHostLeaveReply* )pktHdr;
+    if( eHostTypeUnknown == hostReply->getHostType() || hostReply->getHostType() != getHostType() )
+    {
+        LogMsg( LOG_ERROR, "HostClientMgr::%s invalid host type", __func__ );
+    }
 
-        if( ePluginAccessOk == hostReply->getAccessState() )
+    GroupieId groupieId( hostReply->getGroupieId() );
+
+    if( LogEnabled( eLogMembership ) )LogModule( eLogMembership, LOG_VERBOSE, "PluginBaseHostService::%s rxed groupie %s ", __func__,
+                    m_Engine.describeGroupieId( groupieId ).c_str() );
+
+    HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, hostReply->getSessionId() );
+
+    if( ePluginAccessOk == hostReply->getAccessState() )
+    {
+        m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinUnJoinSuccess );
+        BaseSessionInfo sessionInfo( hostUserSessionId );
+        onUserLeftHost( groupieId, sktBase, netIdent, sessionInfo );
+    }
+    else if( ePluginAccessLocked == hostReply->getAccessState() )
+    {
+        m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinFailPermission );
+        if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
         {
-            m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinUnJoinSuccess );
-            BaseSessionInfo sessionInfo( hostUserSessionId );
-            onUserLeftHost( groupieId, sktBase, netIdent, sessionInfo );
-        }
-        else if( ePluginAccessLocked == hostReply->getAccessState() )
-        {
-            m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinFailPermission );
-            if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
-            {
-                m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), groupieId.getUserOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
-            }
-        }
-        else
-        {
-            m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinFail, DescribePluginAccess( hostReply->getAccessState() ) );
-            if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
-            {
-                m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), groupieId.getUserOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
-            }
+            m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), groupieId.getUserOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
         }
     }
     else
     {
-        onInvalidRxedPacket( sktBase, pktHdr, netIdent );
+        m_Engine.getToGui().toGuiHostJoinStatus( groupieId.getHostType(), groupieId.getUserOnlineId(), eHostJoinFail, DescribePluginAccess( hostReply->getAccessState() ) );
+        if( groupieId.getUserOnlineId() == m_Engine.getMyOnlineId() )
+        {
+            m_Engine.getConnectionMgr().doneWithConnection( hostReply->getSessionId(), groupieId.getUserOnlineId(), this, HostTypeToConnectJoinReason( hostReply->getHostType() ) );
+        }
     }
+
+    m_Engine.getConnectIdListMgr().removeConnection( sktBase->getSocketId(), groupieId );
 }
 
 //============================================================================
@@ -331,7 +334,6 @@ void HostClientMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktB
     m_ServerListMutex.unlock();
 
     m_Engine.getUserJoinMgr().onUserLeftHost( groupieId, sktBase, netIdent, sessionInfo );
-    //m_Engine.getUserOnlineMgr().onUserLeftHost( groupieId, sktBase, netIdent, sessionInfo );
     m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
 
     enum EConnectReason connectReason = hostTypeToConnectReason( groupieId.getHostType() );
@@ -339,6 +341,8 @@ void HostClientMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktB
     {
         sktBase->removeConnectReason( connectReason );
     }   
+
+    m_Engine.getConnectIdListMgr().removeConnection( sktBase->getSocketId(), groupieId );
 }
 
 //============================================================================

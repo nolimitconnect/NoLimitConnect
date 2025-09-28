@@ -189,7 +189,7 @@ void MemberActiveMgr::callbackConnectionStatusChange( ConnectId& connectId, bool
 
     for( auto iter = m_MemberList.begin(); iter != m_MemberList.end(); )
     {
-        if( iter->getHostedId() == connectId.getHostedId() )
+        if( *(iter) == connectId.getGroupieId() )
         {
             offlineMemberList.emplace_back( *iter );
             iter = m_MemberList.erase( iter );

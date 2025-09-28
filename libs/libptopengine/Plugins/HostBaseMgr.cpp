@@ -826,7 +826,6 @@ void HostBaseMgr::onInvalidRxedPacket( std::shared_ptr<VxSktBase>& sktBase, VxPk
     LogMsg( LOG_INFO, "HostBaseMgr::onInvalidRxedPacket " );
 }
 
-
 //============================================================================
 void HostBaseMgr::onUserOnline( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& sessionId )
 {

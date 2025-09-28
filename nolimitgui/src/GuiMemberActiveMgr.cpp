@@ -97,7 +97,7 @@ void GuiMemberActiveMgr::callbackMemberActive( GroupieId& groupieId, bool isActi
 {
     if( !isActive && groupieId.getUserOnlineId() == GetAppInstance().getMyOnlineId() )
     {
-        LogMsg( LOG_WARN, "GuiMemberActiveMgr::%s member is now inactive", __func__ );
+        LogMsg( LOG_WARN, "GuiMemberActiveMgr::%s my member %s is now inactive", __func__ );
     }
 
     emit signalInternalMemberActive( groupieId, isActive );

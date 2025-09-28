@@ -310,69 +310,68 @@ void PluginBaseNetworkService::onPktHostLeaveReq( std::shared_ptr<VxSktBase>& sk
     LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseNetworkService  %s got PktHostLeaveReq from %s", DescribeHostType( getHostType() ), netIdent->getOnlineName() );
     PktHostLeaveReq* pktReq = ( PktHostLeaveReq* )pktHdr;
     PktHostLeaveReply pktReply;
-    if( pktReq->isValidPktPrefix() )
-    {
-        GroupieId rxedGroupieId = pktReq->getGroupieId();
-        GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), getHostType() );
-        if( rxedGroupieId != groupieId )
-        {
-            LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseNetworkService %s from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ),
-                netIdent->getOnlineName(), groupieId.describeGroupieId().c_str(), rxedGroupieId.describeGroupieId().c_str() );
-        }
-
-        pktReply.setGroupieId( groupieId );
-        pktReply.setPluginType( getPluginType() );
-        pktReply.setSessionId( pktReq->getSessionId() );
-        pktReply.setAccessState( m_HostServerMgr.getPluginAccessState( netIdent ) );
-        
-        VxGUID sktConnectionId( sktBase->getSocketId() );
-
-        bool broadcastPkt = false;
-        if( ePluginAccessOk == pktReply.getAccessState() )
-        {
-            broadcastPkt = true;
-        }
-        else if( ePluginAccessLocked == pktReply.getAccessState() )
-        {
-            if( !netIdent->isIgnored() )
-            {
-                if( m_HostServerMgr.getJoinState( netIdent, pktReq->getHostType() ) == eJoinStateJoinWasGranted )
-                {
-                    // even though friendship not high enough if admin has accepted then send accepted
-                    pktReply.setAccessState( ePluginAccessOk );
-                    broadcastPkt = true;
-                }
-            }
-            else
-            {
-                // TODO .. should we drop the connection?
-            }
-        }
-        else if( ePluginAccessDisabled == pktReply.getAccessState() )
-        {
-            // join request sent to disabled plugin.. this should not happen
-            LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got leave request to disabled plugin from %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
-        }
-        else if( ePluginAccessIgnored == pktReply.getAccessState() )
-        {
-            // TODO .. should we drop the connection of ignored person?
-            LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got leave request from ignored person %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
-        }
-
-        if( broadcastPkt )
-        {
-            broadcastToClients( &pktReply, netIdent->getMyOnlineId(), sktBase );
-        }
-        
-        m_HostServerMgr.onUserLeftHost( sktBase, netIdent, pktReply.getSessionId(), pktReply.getHostType() );
-        m_Engine.getConnectIdListMgr().removeConnection( sktConnectionId, groupieId );
-    }
-    else
+    if( !pktReq->isValidPktPrefix() )
     {
         LogMsg( LOG_DEBUG, "PluginBaseNetworkService onPktHostLeaveReq Invalid Packet" );
         pktReply.setCommError( eCommErrInvalidPkt );
         onInvalidRxedPacket( sktBase, pktHdr, netIdent );
+        return;
     }
+
+    GroupieId rxedGroupieId = pktReq->getGroupieId();
+    GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), getHostType() );
+    if( rxedGroupieId != groupieId )
+    {
+        LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseNetworkService %s from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ),
+            netIdent->getOnlineName(), groupieId.describeGroupieId().c_str(), rxedGroupieId.describeGroupieId().c_str() );
+    }
+
+    pktReply.setGroupieId( groupieId );
+    pktReply.setPluginType( getPluginType() );
+    pktReply.setSessionId( pktReq->getSessionId() );
+    pktReply.setAccessState( m_HostServerMgr.getPluginAccessState( netIdent ) );
+        
+    VxGUID sktConnectionId( sktBase->getSocketId() );
+
+    bool broadcastPkt = false;
+    if( ePluginAccessOk == pktReply.getAccessState() )
+    {
+        broadcastPkt = true;
+    }
+    else if( ePluginAccessLocked == pktReply.getAccessState() )
+    {
+        if( !netIdent->isIgnored() )
+        {
+            if( m_HostServerMgr.getJoinState( netIdent, pktReq->getHostType() ) == eJoinStateJoinWasGranted )
+            {
+                // even though friendship not high enough if admin has accepted then send accepted
+                pktReply.setAccessState( ePluginAccessOk );
+                broadcastPkt = true;
+            }
+        }
+        else
+        {
+            // TODO .. should we drop the connection?
+        }
+    }
+    else if( ePluginAccessDisabled == pktReply.getAccessState() )
+    {
+        // join request sent to disabled plugin.. this should not happen
+        LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got leave request to disabled plugin from %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
+    }
+    else if( ePluginAccessIgnored == pktReply.getAccessState() )
+    {
+        // TODO .. should we drop the connection of ignored person?
+        LogMsg( LOG_ERROR, "PluginBaseNetworkService %s got leave request from ignored person %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
+    }
+
+    if( broadcastPkt )
+    {
+        broadcastToClients( &pktReply, netIdent->getMyOnlineId(), sktBase );
+    }
+        
+    m_HostServerMgr.onUserLeftHost( sktBase, netIdent, pktReply.getSessionId(), pktReply.getHostType() );
+    m_Engine.getConnectIdListMgr().removeConnection( sktConnectionId, groupieId );
 }
 
 //============================================================================

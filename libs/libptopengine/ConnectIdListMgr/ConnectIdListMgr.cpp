@@ -316,8 +316,8 @@ void ConnectIdListMgr::removeConnection( ConnectId& connectId )
 
     if( connectIdWasRemoved )
     {
+        if( LogEnabled( eLogOnline ) )LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s ConnectId %s was removed", __func__, m_Engine.describeConnectId( connectId ).c_str() );
         announceConnectionStatus( connectId, false );
-        if(LogEnabled(eLogOnline))LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s ConnectId %s was removed", __func__, m_Engine.describeConnectId( connectId ).c_str() );
     }
     else
     {
@@ -334,6 +334,8 @@ void ConnectIdListMgr::removeConnection( VxGUID sktConnectId, GroupieId& groupie
         return;
     }
 
+    if( LogEnabled( eLogOnline ) )LogModule( eLogOnline, LOG_VERBOSE, "PluginBaseHostService::%s groupie %s ", __func__,
+        m_Engine.describeGroupieId( groupieId ).c_str() );
     // might be a relayed and not relayed connection.. will have to remove them both
     ConnectId connectId( sktConnectId, groupieId );
     connectId.setIsRelayed( true );
@@ -951,7 +953,7 @@ void ConnectIdListMgr::wantConnectIdListCallback( ConnectIdListCallback* client,
 //============================================================================
 void ConnectIdListMgr::announceConnectionStatus( ConnectId& connectId, bool isConnected )
 {
-    if(LogEnabled(eLogOnline))LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s online %d user %s", __func__,
+    if(LogEnabled(eLogOnline))LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s online %d connection %s", __func__,
         isConnected, m_Engine.describeConnectId( connectId ).c_str() );
 
     lockConnectIdClientList();

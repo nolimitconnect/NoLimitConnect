@@ -242,7 +242,7 @@ void GuiUserListWidget::updateUser( GuiUser* guiUser )
                             GuiUserSessionBase* userSession = userItem->getUserSession();
                             if( userSession )
                             {
-                                onListItemUpdated( userItem->getUserSession(), userItem );
+                                onListItemUpdated( userSession, userItem );
                             }
 
                             userItem->update();
@@ -257,7 +257,7 @@ void GuiUserListWidget::updateUser( GuiUser* guiUser )
                         GuiUserSessionBase* userSession = userItem->getUserSession();
                         if( userSession )
                         {
-                            onListItemUpdated( userItem->getUserSession(), userItem );
+                            onListItemUpdated( userSession, userItem );
                         }
 
                         userItem->update();
@@ -268,7 +268,22 @@ void GuiUserListWidget::updateUser( GuiUser* guiUser )
             {
                 LogMsg( LOG_ERROR, "GuiUserListWidget::updateUser invalid net ident" );
             }
-        } // no need for else.. is just not a match
+        } 
+        else if( isMemberView() && !guiUser->isOnline() )
+        {
+            // might be a member that went online
+            GuiUserListItem* userItem = findListEntryWidgetByOnlineId( guiUser->getMyOnlineId() );
+            if( userItem )
+            {
+                GuiUserSessionBase* userSession = userItem->getUserSession();
+                if( userSession )
+                {
+                    onListItemUpdated( userSession, userItem );
+                }
+
+                userItem->update();
+            }
+        }
     }
     else
     {
@@ -853,7 +868,7 @@ void GuiUserListWidget::updateThumb( GuiThumb* guiThumb )
 //============================================================================
 void GuiUserListWidget::callbackGuiMemberActive( GroupieId& groupieId, bool isActive )
 {
-    if( isActive && isMemberView() && ( groupieId.getHostedId() == m_HostAdminId.getHostedId() || !m_HostAdminId.isValid() ) )
+    if( isMemberView() && ( groupieId.getHostedId() == m_HostAdminId.getHostedId() || !m_HostAdminId.isValid() ) )
     {
         VxGUID onlineId = groupieId.getUserOnlineId();
         if( onlineId != groupieId.getHostOnlineId() )
