@@ -31,7 +31,7 @@ public:
 private:
 	//=== vars ===//
 	uint8_t						m_AdminAvail{ 0 };
-	uint8_t						m_Res1{ 0 };
+	uint16_t					m_Res1{ 0 };
 	uint32_t					m_Res2{ 0 };
 	GroupieId					m_AdminGroupieId;
 };

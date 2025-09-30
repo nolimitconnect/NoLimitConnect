@@ -11,9 +11,12 @@
 #include "PktTypes.h"
 #include "PktAdminAvail.h"
 
+#include <CoreLib/VxDebug.h>
+
 //============================================================================
 PktAdminAvail::PktAdminAvail()
 {
 	setPktType( PKT_TYPE_ADMIN_AVAIL );
 	setPktLength( sizeof( PktAdminAvail ) );
+	vx_assert( 0 == (getPktLength() & 0x0f) )
 }
