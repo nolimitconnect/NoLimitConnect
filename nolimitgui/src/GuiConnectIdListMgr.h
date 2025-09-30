@@ -62,8 +62,6 @@ private slots:
     void				        slotInternalConnectionLost( VxGUID sktConnectId );
 
 protected: 
-    void                        onConnectionStatusChange( ConnectId& connectId, bool isConnected );
-
     void                        announceConnectionStatusChange( ConnectId& connectId, bool isConnected );
 
     AppCommon&                  m_MyApp;

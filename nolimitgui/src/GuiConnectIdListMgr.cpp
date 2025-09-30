@@ -62,24 +62,30 @@ void GuiConnectIdListMgr::slotInternalConnectionStatusChange( ConnectId connectI
     if(LogEnabled(eLogOnline))LogModule( eLogOnline, LOG_INFO, "GuiConnectIdListMgr::%s is connected %d connectId %s user %s", __func__,
                   isConnected, connectId.describeConnectId().c_str(), m_MyApp.describeUser( connectId.getUserOnlineId() ).c_str() );
 
+    bool wasChanged{ false };
     auto iter = m_ConnectIdList.find( connectId );
     if( isConnected )
     {
         if( iter == m_ConnectIdList.end() )
         {
+            wasChanged = true;
             m_ConnectIdList.insert( connectId );
         }
-
-        onConnectionStatusChange( connectId, isConnected );
     }
     else
     {
         if( iter != m_ConnectIdList.end() )
         {
+            wasChanged = true;
             m_ConnectIdList.erase( iter );
-        }
+        }      
+    }
 
-        onConnectionStatusChange( connectId, isConnected );
+    if( wasChanged )
+    {
+        announceConnectionStatusChange( connectId, isConnected );
+        // force gui update
+        m_MyApp.getUserMgr().refreshUser( connectId.getUserOnlineId() );
     }
 }
 
@@ -92,14 +98,24 @@ void GuiConnectIdListMgr::callbackConnectionLost( VxGUID& sktConnectId )
 //============================================================================
 void GuiConnectIdListMgr::slotInternalConnectionLost( VxGUID sktConnectId )
 {
-    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_INFO, "GuiConnectIdListMgr::%s sktConnectId %s", __func__,
+    if(LogEnabled(eLogOnline))LogModule( eLogOnline, LOG_INFO, "GuiConnectIdListMgr::%s sktConnectId %s", __func__,
                   sktConnectId.toHexString().c_str() );
-}
 
-//============================================================================
-void GuiConnectIdListMgr::onConnectionStatusChange( ConnectId& connectId, bool isConnected )
-{
-    announceConnectionStatusChange( connectId, isConnected );
+    for( auto iter = m_ConnectIdList.begin(); iter != m_ConnectIdList.end();  )
+    {
+        if( ( *iter ).getSocketId() == sktConnectId )
+        {
+            ConnectId connectId = *iter;
+            iter = m_ConnectIdList.erase( iter );
+            announceConnectionStatusChange( connectId, false );
+            // force gui update
+            m_MyApp.getUserMgr().refreshUser( connectId.getUserOnlineId() );
+        }
+        else
+        {
+            iter++;
+        }
+    }
 }
 
 //============================================================================
@@ -251,6 +267,11 @@ bool GuiConnectIdListMgr::isConnected( GroupieId& groupieId )
 //============================================================================
 bool GuiConnectIdListMgr::isOnline( VxGUID& onlineId )
 {
+    if( onlineId == m_MyApp.getMyOnlineId() )
+    {
+        return true;
+    }
+
     bool isOnline{ false };
     for( auto& connectIdIn : m_ConnectIdList )
     {
