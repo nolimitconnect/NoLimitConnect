@@ -35,7 +35,7 @@ list(APPEND nlc_HEADERS
     AppCpuArchDefines.h
     AppDependLibrariesConfig.h
     AppTargetOsConfig.h
-    src/AppCommon.h
+
     src/AccountDb.h
     src/AccountMgr.h
     src/AcceptCancelWidget.h
@@ -52,8 +52,9 @@ list(APPEND nlc_HEADERS
     src/ActivityTimedMessage.h
     src/ActivityBase.h
     
-    src/AppDefs.h
+    src/AdminAvailMgr.h
     src/AppCommon.h
+    src/AppDefs.h
     src/AppGlobals.h
     src/AppSettings.h
     src/AppletAboutApp.h
@@ -462,6 +463,7 @@ list(APPEND nlc_SOURCES
     src/ActivityShowHelp.cpp
     src/ActivityTimedMessage.cpp
 
+    src/AdminAvailMgr.cpp
     src/AppCommon.cpp
     src/AppCommonAudio.cpp
     src/AppCommonEvents.cpp

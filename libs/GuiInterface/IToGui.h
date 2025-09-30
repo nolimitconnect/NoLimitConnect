@@ -22,6 +22,7 @@ class AssetBaseInfo;
 class BlobInfo;
 class CamJpgVideo;
 class FileInfo;
+class GroupieId;
 class GroupieInfo;
 class HostedInfo;
 class OfferBaseInfo;
@@ -175,4 +176,6 @@ public:
 	virtual void				toGuiSearchResultFileSearch( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo ) = 0;
 
 	virtual void				toGuiNetworkIsTested( bool requiresRelay, std::string& ipAddr, uint16_t ipPort ) = 0;
+
+	virtual void				toGuiAdminAvail( GroupieId& adminGroupieId, bool adminAvail ) = 0;
 };

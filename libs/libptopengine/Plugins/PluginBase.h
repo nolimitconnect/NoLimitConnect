@@ -217,6 +217,8 @@ public:
 	virtual bool				fromGuiDownloadFileList( VxGUID& onlineId, VxGUID& sessionId, uint8_t fileTypes = 0 ) { return false; }
 	virtual bool				fromGuiDownloadFileListCancel( VxGUID& onlineId, VxGUID& sessionId ) { return false; }
 
+	virtual void				fromGuiAdminViewHost( EPluginType pluginType, bool adminIsViewing ) {};
+
 	virtual void				toGuiRxedPluginOffer( VxGUID onlineId, EPluginType pluginType, OfferBaseInfo& offerInfo, VxGUID& lclSessionId ) {};
 	virtual void				toGuiRxedOfferReply( VxGUID onlineId, EPluginType pluginType, OfferBaseInfo& offerInfo, VxGUID& lclSessionId, EOfferResponse offerResponse ) {};
 
@@ -247,6 +249,7 @@ public:
     //=== packet handlers ===//
     virtual void				onPktUserConnect			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
     virtual void				onPktUserDisconnect			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
+
     virtual void				onPktPluginOfferReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
     virtual void				onPktPluginOfferReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 

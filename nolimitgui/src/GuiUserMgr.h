@@ -70,6 +70,7 @@ public:
     std::map<VxGUID, GuiUser*>& getUserList( void )             { return m_UserList; }
     bool                        getOfflineUsers( std::vector<std::pair<VxGUID, int64_t>>& idList );
 
+    void                        refreshUser( VxGUID onlineId ); // external to user changes require visual update (Admin Available)
     void                        updateMyIdent( VxNetIdent* myIdent );
     GuiUser*                    updateUser( VxNetIdent* hisIdent );
     void                        updateOnlineStatus( VxNetIdent* netIdent, bool online );

@@ -10,6 +10,7 @@
 
 #include "GuiUser.h"
 
+#include "AdminAvailMgr.h"
 #include "AppCommon.h"
 #include "GuiFavoriteMgr.h"
 #include "GuiParams.h"

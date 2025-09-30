@@ -319,7 +319,7 @@ public:
     void           				fromGuiSendContactList( enum EFriendViewType eFriendView, int maxContactsToSend ) override;
     void           				fromGuiRefreshContactList( int maxContactsToSend ) override;
 
-    void           				fromGuiRequireRelay( bool bRequireRelay ) override;
+    void           				fromGuiAdminViewHost( EPluginType pluginType, bool adminIsViewing ) override;
 
     void           				fromGuiRelayPermissionCount( int userPermittedCount, int anonymousCount );
 

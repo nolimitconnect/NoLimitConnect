@@ -15,11 +15,8 @@
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxDebug.h>
-#include <PktLib/PktsVideoFeed.h>
-#include <PktLib/PktsMultiSession.h>
-#include <PktLib/PktsTodGame.h>
 
-#include <memory.h>
+#include <PktLib/PktAdminAvail.h>
 
 #ifdef _MSC_VER
 # pragma warning(disable: 4355) //'this' : used in base member initializer list
@@ -123,4 +120,12 @@ void PluginChatRoomClient::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& s
 void PluginChatRoomClient::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onPktHostUserStatusReply( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PluginChatRoomClient::onPktAdminAvail( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+    PktAdminAvail* pktAdminAvail = (PktAdminAvail*)pktHdr;
+    GroupieId adminGroupieId = pktAdminAvail->getAdminGroupieId();
+    m_Engine.getToGui().toGuiAdminAvail( adminGroupieId, pktAdminAvail->getAdminAvailable() );
 }

@@ -15,12 +15,10 @@
 #include "TxSession.h"
 
 #include <P2PEngine/P2PEngine.h>
-#include <P2PEngine/P2PConnectList.h>
-#include <BigListLib/BigListInfo.h>
 
-#include <NetLib/VxSktBase.h>
 #include <CoreLib/VxDebug.h>
-#include <CoreLib/VxFileUtil.h>
+
+#include <PktLib/PktAdminAvail.h>
 
 //============================================================================
 PluginGroupClient::PluginGroupClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
@@ -119,4 +117,12 @@ void PluginGroupClient::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktB
 void PluginGroupClient::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostClientMgr.onPktHostUserStatusReply( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PluginGroupClient::onPktAdminAvail( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+    PktAdminAvail* pktAdminAvail = (PktAdminAvail*)pktHdr;
+    GroupieId adminGroupieId = pktAdminAvail->getAdminGroupieId();
+    m_Engine.getToGui().toGuiAdminAvail( adminGroupieId, pktAdminAvail->getAdminAvailable() );
 }

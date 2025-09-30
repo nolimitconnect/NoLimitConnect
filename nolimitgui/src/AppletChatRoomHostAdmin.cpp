@@ -45,6 +45,7 @@ AppletChatRoomHostAdmin::AppletChatRoomHostAdmin( AppCommon& app, QWidget* paren
     connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT( closeApplet() ) );
 
     m_MyApp.activityStateChange( this, true );
+	m_MyApp.getFromGuiInterface().fromGuiAdminViewHost( ePluginTypeHostChatRoom, true );
 }
 
 //============================================================================

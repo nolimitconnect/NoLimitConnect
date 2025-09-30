@@ -873,9 +873,7 @@ bool P2PEngine::fromGuiChangeMyFriendshipToHim(	VxGUID&				onlineId,
 
 			getConnectIdListMgr().updateOnlineExclusion( onlineId, myFriendshipToHim == eFriendStateIgnore );
 
-			m_ConnectionList.fromGuiChangeMyFriendshipToHim( onlineId,
-																myFriendshipToHim,
-																hisFriendshipToMe );
+			m_ConnectionList.fromGuiChangeMyFriendshipToHim( onlineId, myFriendshipToHim, hisFriendshipToMe );
 			return true;
 		}
 		else
@@ -888,19 +886,14 @@ bool P2PEngine::fromGuiChangeMyFriendshipToHim(	VxGUID&				onlineId,
 }
 
 //============================================================================
-//! network test failed.. requires proxy service from friend
-void P2PEngine::fromGuiRequireRelay( bool bRequireRelay )
+void P2PEngine::fromGuiAdminViewHost( EPluginType pluginType, bool adminIsViewing )
 {
-	if( false == VxIsAppShuttingDown() )
+	if( VxIsAppShuttingDown() )
 	{
-		if( m_PktAnn.requiresRelay() != bRequireRelay )
-		{
-			 lockAnnouncePktAccess();
-			 m_PktAnn.setRequiresRelay( bRequireRelay );
-			 unlockAnnouncePktAccess();
-			 doPktAnnHasChanged( false );
-		}
+		return;
 	}
+
+	m_PluginMgr.fromGuiAdminViewHost( pluginType, adminIsViewing );
 }
 
 //============================================================================

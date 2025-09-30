@@ -43,8 +43,6 @@ AppletRandomConnectHostAdmin::AppletRandomConnectHostAdmin( AppCommon& app, QWid
 	ui.m_UserListWidget->setHostAdminId( hostAdminId );
     ui.m_UserListWidget->setUserViewType( eUserViewTypeRandomConnect );
 
-
-
     HostedId hostId( m_MyApp.getMyOnlineId(), eHostTypeRandomConnect );
     std::set<VxGUID> memberList;
     m_MyApp.getMemberActiveMgr().getActiveMembers( hostId, memberList );
@@ -54,11 +52,13 @@ AppletRandomConnectHostAdmin::AppletRandomConnectHostAdmin( AppCommon& app, QWid
     }
 
     m_MyApp.activityStateChange( this, true );
+    m_MyApp.getFromGuiInterface().fromGuiAdminViewHost( ePluginTypeHostRandomConnect, true );
 }
 
 //============================================================================
 AppletRandomConnectHostAdmin::~AppletRandomConnectHostAdmin()
 {
+    m_MyApp.getFromGuiInterface().fromGuiAdminViewHost( ePluginTypeHostRandomConnect, false );
     m_MyApp.activityStateChange( this, false );
 }
 

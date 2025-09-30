@@ -12,6 +12,7 @@
 
 #include "VxPktHdr.h"
 
+#include <CoreLib/GroupieId.h>
 #include <GuiInterface/IDefs.h>
 
 #pragma pack(push)
@@ -21,14 +22,18 @@ class PktAdminAvail : public VxPktHdr
 public:
 	PktAdminAvail();
 
-	void						setAdminAvailFlags( uint8_t adminAvailFlags ) { m_AdminAvailFlags = adminAvailFlags; };
-	uint8_t						getAdminAvailFlags( void )						{ return m_AdminAvailFlags; }
+	void						setAdminAvailable( bool adminAvail )			{ m_AdminAvail = ( uint8_t	)adminAvail; };
+	uint8_t						getAdminAvailable( void )						{ return m_AdminAvail; }
+
+	void						setAdminGroupieId( GroupieId adminId )			{ m_AdminGroupieId = adminId; };
+	GroupieId					getAdminGroupieId( void )						{ return m_AdminGroupieId; }
 
 private:
 	//=== vars ===//
-	uint8_t						m_AdminAvailFlags{ 0 };
+	uint8_t						m_AdminAvail{ 0 };
 	uint8_t						m_Res1{ 0 };
 	uint32_t					m_Res2{ 0 };
+	GroupieId					m_AdminGroupieId;
 };
 
 #pragma pack(pop)

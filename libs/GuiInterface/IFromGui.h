@@ -184,8 +184,7 @@ public:
 
 	virtual bool				fromGuiPushToTalk( VxGUID& onlineId, bool enableTalk ) = 0;
 
-	/// If true then network direct connect test failed and communication requires relay service from another node
-	virtual void				fromGuiRequireRelay( bool bRequireRelay ) = 0;
+	virtual void				fromGuiAdminViewHost( EPluginType pluginType, bool adminIsViewing ) = 0;
 
 	//! Send to GUI all contacts for given view type selection
 	virtual void				fromGuiSendContactList( EFriendViewType eFriendView, int MaxContactsToSend ) = 0;

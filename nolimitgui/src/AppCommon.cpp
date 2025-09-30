@@ -12,6 +12,7 @@
 
 #include "ToGuiActivityInterface.h"
 
+#include "AdminAvailMgr.h"
 #include "HomeWindow.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
@@ -79,7 +80,6 @@
 #include <QRegularExpression>
 #include <QSettings>
 
-#include "HomeWindow.h"
 #include "RenderGlWidget.h"
 
 #include <signal.h>
@@ -121,6 +121,7 @@ namespace
 //============================================================================
 AppCommon& CreateAppInstance( QApplication* myApp, AppSettings& appSettings )
 {
+static AdminAvailMgr adminAvailMgr;
 static AppModuleState appModuleState;
 static AccountMgr accountMgr;
 static GuiFavoriteMgr favoritMgr;
@@ -138,7 +139,7 @@ static TodGameMgr todGameMgr;
 		VxSocketsStartup();
 
         // constructor of AppCommon will set g_AppCommon
-        new AppCommon( *myApp, appModuleState, appSettings, accountMgr, favoritMgr,
+        new AppCommon( *myApp, adminAvailMgr, appModuleState, appSettings, accountMgr, favoritMgr,
 					   memberActiveMgr, playerMgr, pluginMgr, pushToTalkMgr, randConnectMgr, 
 					   sendQueueMgr, myIcons, todGameMgr );
     }
@@ -161,6 +162,7 @@ void DestroyAppInstance()
 
 //============================================================================
 AppCommon::AppCommon(	QApplication&	myQApp,
+						AdminAvailMgr&  adminAvailMgr,
 						AppModuleState& appModuleState,
 						AppSettings&	appSettings, 
                         AccountMgr&	    accountMgr,
@@ -181,6 +183,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_AppShortName( GetAppShortName() )
 , m_AppTitle( GetAppTitle() )
 , m_AccountMgr( accountMgr )
+, m_AdminAvailMgr( adminAvailMgr )
 , m_TodGameMgr( todGameMgr )
 
 , m_ConnectIdListMgr( *this )
@@ -2019,4 +2022,19 @@ void AppCommon::checkIsGuiThread( void )
 bool AppCommon::getIsMyPortOpen( void )
 {
 	return getEngine().getNetStatusAccum().isRxPortOpen();
+}
+
+//============================================================================
+void AppCommon::toGuiAdminAvail( GroupieId& adminGroupieId, bool adminAvail )
+{
+	emit signalInternalToGuiAdminAvail( adminGroupieId, adminAvail );
+}
+
+//============================================================================
+void AppCommon::slotInternalToGuiAdminAvail( GroupieId adminGroupieId, bool adminAvail )
+{
+	if( m_AdminAvailMgr.toGuiAdminAvail( adminGroupieId, adminAvail ) )
+	{
+		m_UserMgr.refreshUser( adminGroupieId.getHostOnlineId() );
+	}
 }

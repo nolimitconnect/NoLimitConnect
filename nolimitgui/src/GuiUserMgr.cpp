@@ -1041,3 +1041,13 @@ void GuiUserMgr::blockUser( VxGUID onlineId )
     
     m_MyApp.getEngine().fromGuiBlockUser( onlineId );
 }
+
+//============================================================================
+void GuiUserMgr::refreshUser( VxGUID onlineId ) // external to user changes require visual update (Admin Available)
+{
+    GuiUser* guiUser = findUser( onlineId );
+    if( guiUser )
+    {
+        sendUserUpdatedToCallbacks( guiUser );
+    }
+}

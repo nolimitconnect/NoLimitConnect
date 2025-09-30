@@ -122,6 +122,8 @@ public:
 
 	virtual void				fromGuiUpdatePluginPermission( EPluginType pluginType, EFriendState pluginPermission );
 
+	virtual void				fromGuiAdminViewHost( EPluginType pluginType, bool adminIsViewing );
+
 	virtual EPluginAccess		canAcceptNewSession( EPluginType pluginType, VxNetIdent* netIdent );
 
 	//! return true if access ok

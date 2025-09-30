@@ -17,6 +17,8 @@
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 
+#include <GuiInterface/IFromGui.h>
+
 #include <QFrame>
 
 #include "ui_AppletHostClient.h"
@@ -29,7 +31,7 @@ AppletGroupHostAdmin::AppletGroupHostAdmin( AppCommon& app, QWidget* parent )
     setAppletType( eAppletGroupHostAdmin );
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
-	setPluginType( ePluginTypeClientGroup );
+	setPluginType( ePluginTypeHostGroup );
 
 	GroupieId hostAdminId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeGroup );
 
@@ -38,16 +40,18 @@ AppletGroupHostAdmin::AppletGroupHostAdmin( AppCommon& app, QWidget* parent )
 	ui.m_SessionWidget->setInputClientCallback( this );
     ui.m_UserListWidget->setHostAdminId( hostAdminId );
 
-    connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT( closeApplet() ) );
+    connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );
 
     ui.m_UserListWidget->setUserViewType( eUserViewTypeGroup );
 
     m_MyApp.activityStateChange( this, true );
+    m_MyApp.getFromGuiInterface().fromGuiAdminViewHost( ePluginTypeHostGroup, true );
 }
 
 //============================================================================
 AppletGroupHostAdmin::~AppletGroupHostAdmin()
 {
+    m_MyApp.getFromGuiInterface().fromGuiAdminViewHost( ePluginTypeHostGroup, false );
     m_MyApp.activityStateChange( this, false );
 }
 

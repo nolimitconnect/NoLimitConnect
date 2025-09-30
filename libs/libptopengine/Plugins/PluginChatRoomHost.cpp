@@ -15,6 +15,8 @@
 #include <BigListLib/BigListInfo.h>
 
 #include <NetLib/VxSktBase.h>
+
+#include <PktLib/PktAdminAvail.h>
 #include <PktLib/PktsHostJoin.h>
 #include <PktLib/PktsHostSearch.h>
 
@@ -40,4 +42,21 @@ EMembershipState PluginChatRoomHost::getMembershipState( VxNetIdent* netIdent )
     }
 
     return m_HostServerMgr.getMembershipState( netIdent, getHostType() );
+}
+
+//============================================================================
+void PluginChatRoomHost::fromGuiAdminViewHost( EPluginType pluginType, bool adminIsViewing )
+{
+    if( pluginType != getPluginType() )
+    {
+        return;
+    }
+
+    GroupieId groupieId( m_Engine.getMyOnlineId(), m_Engine.getMyOnlineId(), eHostTypeChatRoom );
+    PktAdminAvail pktAdminAvail;
+    pktAdminAvail.setAdminAvailable( adminIsViewing );
+    pktAdminAvail.setAdminGroupieId( groupieId );
+
+    VxGUID excludeId;
+    broadcastToClients( &pktAdminAvail, excludeId );
 }

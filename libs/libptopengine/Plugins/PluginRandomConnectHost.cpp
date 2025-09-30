@@ -19,6 +19,7 @@
 
 #include <CoreLib/VxFileUtil.h>
 
+#include <PktLib/PktAdminAvail.h>
 #include <PktLib/PktsRandConnect.h>
 
 //============================================================================
@@ -48,3 +49,19 @@ void PluginRandomConnectHost::onPktRandConnectReq( std::shared_ptr<VxSktBase>& s
     broadcastToClients( &pktReply, excludeId );
 }
 
+//============================================================================
+void PluginRandomConnectHost::fromGuiAdminViewHost( EPluginType pluginType, bool adminIsViewing )
+{
+    if( pluginType != getPluginType() )
+    {
+        return;
+    }
+
+    GroupieId groupieId( m_Engine.getMyOnlineId(), m_Engine.getMyOnlineId(), eHostTypeRandomConnect );
+    PktAdminAvail pktAdminAvail;
+    pktAdminAvail.setAdminAvailable( adminIsViewing );
+    pktAdminAvail.setAdminGroupieId( groupieId );
+
+    VxGUID excludeId;
+    broadcastToClients( &pktAdminAvail, excludeId );
+}

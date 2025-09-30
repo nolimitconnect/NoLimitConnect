@@ -47,6 +47,9 @@ public:
     bool                        isAutomatedHost( void )                 { return m_NetIdent.isAutomatedHost(); }
     void                        setIsAutomatedHost( bool automatedHost ) { m_NetIdent.setIsAutomatedHost( automatedHost ); }
 
+    bool                        isHostAdmin( void );
+    bool                        isAdminAvail( void );
+
     bool                        isAdmin( void )                         { return m_NetIdent.isAdministrator(); }
     bool                        isFriend( void )                        { return m_NetIdent.isFriend(); }
     bool                        isGuest( void )                         { return m_NetIdent.isGuest(); }
@@ -102,6 +105,8 @@ public:
 
     void                        setIsJoined( EHostType hostType, bool isJoined ) { m_NetIdent.setIsJoined( hostType, isJoined ); }
     bool                        getIsJoined( EHostType hostType )       { return m_NetIdent.getIsJoined( hostType ); }
+
+
 
 signals:
     void						signalUserUpdated( void );

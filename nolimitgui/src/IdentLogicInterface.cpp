@@ -197,8 +197,15 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 
 			setupIdentLogic();
 
-			bool isOnline = m_GuiUser->isOnline();
-			bool isRelayed = m_GuiUser->isRelayed();
+			bool isDirectConnect = m_GuiUser->isDirectConnect();
+			bool isRelayed{ false };
+			if( !isDirectConnect )
+			{
+				isRelayed = m_GuiUser->isRelayed();
+			}
+				
+			bool isOnline = isDirectConnect | isRelayed;
+			bool isHostAdmin = m_GuiUser->isHostAdmin();
 
 			getIdentLine1()->setText( m_GuiUser->getOnlineName().c_str() );
 			getIdentLine2()->setText( m_GuiUser->getOnlineDescription().c_str() );
@@ -272,6 +279,14 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 				}
 
 				getIdentFriendshipButton()->setNotifyNlcFavoriteEnabled( m_MyApp.getFavoriteMgr().getIsFavorite( m_GuiUser->getMyOnlineId() ) );
+			}
+
+			if( isHostAdmin )
+			{
+				getIdentFriendshipButton()->setNotifyAdminEnabled( true );
+				bool adminAvail = m_GuiUser->isAdminAvail();
+				QColor adminIndicatorColor = adminAvail ? m_MyApp.getAppTheme().getColor( eLayerNotifyOnlineColor ) : m_MyApp.getAppTheme().getColor( eLayerNotifyOfflineColor );
+				getIdentFriendshipButton()->setNotifyAdminColor( adminIndicatorColor );
 			}
 		}
 		else

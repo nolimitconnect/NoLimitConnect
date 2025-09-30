@@ -58,6 +58,8 @@ class ActivityBase;
 class ActivityShowHelp;
 class ActivityOfferListDlg;
 
+class AdminAvailMgr;
+
 class AppModuleState;
 class AppletMultiMessenger;
 class AppletDownloads;
@@ -100,6 +102,7 @@ class AppCommon : public QWidget, public IToGui, public INlcRender, public INlcE
 
 public:
     AppCommon( QApplication& myQApp,
+        AdminAvailMgr& adminAvailMgr,
         AppModuleState& appModuleState,
         AppSettings& appSettings,
         AccountMgr& myDataHelper,
@@ -139,6 +142,7 @@ public:
     bool                        getGuiCpuTimeEnable( void ) { return m_GuiCpuTimeEnable; }
 
     AccountMgr&                 getAccountMgr( void ) { return m_AccountMgr; }
+    AdminAvailMgr&              getAdminAvailMgr( void ) { return m_AdminAvailMgr; }
     VxAppDisplay&               getAppDisplay( void ) { return m_AppDisplay; }
     AppGlobals&                 getAppGlobals( void ) { return m_AppGlobals; }
     QFrame*                     getAppletFrame( EApplet applet );
@@ -452,6 +456,8 @@ public:
     //=== to gui ===//
     //============================================================================
 
+    void                        toGuiAdminAvail( GroupieId& adminGroupieId, bool adminAvail ) override;
+
     void                        toGuiSetIsAppModuleRunning( EMediaModule mediaModule, bool isRunning ) override;
     bool                        toGuiGetIsAppModuleRunning( EMediaModule mediaModule ) override;
 
@@ -725,6 +731,8 @@ signals:
 
     void						signalInternalAppPopupErr( EAppErr eAppErr, QString errMsg );
 
+    void                        signalInternalToGuiAdminAvail( GroupieId adminGroupieId, bool adminAvail );
+
 private slots:
     void                        slotInternalNetAvailStatus( ENetAvailStatus netAvailStatus );
     void                        slotInternalPluginMessage( EPluginType pluginType, VxGUID onlineId, EPluginMsgType msgType, QString paramValue );
@@ -794,6 +802,8 @@ private slots:
     void                        slotInternalMediaAction( EMediaModule mediaModule, EMediaPlayerAction playerAction, int actionVal, QString fileName );
     void                        slotInternalMediaError( EMediaModule mediaModule, EMediaError mediaError, QString msg );
 
+    void                        slotInternalToGuiAdminAvail( GroupieId adminGroupieId, bool adminAvail );
+
 protected slots:
     void						slotMainWindowResized( void );
     void						slotMainWindowMoved( void );
@@ -852,6 +862,8 @@ protected:
     QString						m_AppShortName;
     QString						m_AppTitle;
     AccountMgr&                 m_AccountMgr;
+
+    AdminAvailMgr&              m_AdminAvailMgr;
     TodGameMgr&                 m_TodGameMgr;
 
     GuiConnectIdListMgr			m_ConnectIdListMgr;

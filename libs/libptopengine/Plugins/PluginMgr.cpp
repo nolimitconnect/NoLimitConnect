@@ -1032,3 +1032,14 @@ void PluginMgr::fromGuiUpdatePluginPermission( EPluginType pluginType, EFriendSt
 		pluginBase->fromGuiUpdatePluginPermission( pluginType, pluginPermission );
 	}
 }
+
+
+//============================================================================
+void PluginMgr::fromGuiAdminViewHost( EPluginType pluginType, bool adminIsViewing )
+{
+	PluginBase* pluginBase = findPlugin( pluginType );
+	if( pluginBase )
+	{
+		pluginBase->fromGuiAdminViewHost( pluginType, adminIsViewing );
+	}
+}

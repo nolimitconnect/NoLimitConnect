@@ -10,6 +10,7 @@
 
 #include "GuiUserBase.h"
 
+#include "AdminAvailMgr.h"
 #include "AppCommon.h"
 #include "GuiMemberActiveMgr.h"
 #include "GuiUserMgr.h"
@@ -206,4 +207,16 @@ QString GuiUserBase::describeUser( bool verbose )
     descUser += describeHisFriendshipToMe();
 
     return descUser;
+}
+
+//============================================================================
+bool GuiUserBase::isHostAdmin( void )
+{
+    return m_MyApp.getAdminAvailMgr().isUserAHostAdmin( m_OnlineId );
+}
+
+//============================================================================
+bool GuiUserBase::isAdminAvail( void )
+{
+    return m_MyApp.getAdminAvailMgr().isAdminAvail( m_OnlineId );
 }

@@ -136,6 +136,7 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\src\ActivitySessionOptions.cpp" />
     <ClCompile Include="..\..\..\src\ActivityShowHelp.cpp" />
     <ClCompile Include="..\..\..\src\ActivityTimedMessage.cpp" />
+    <ClCompile Include="..\..\..\src\AdminAvailMgr.cpp" />
     <ClCompile Include="..\..\..\src\AppCommon.cpp" />
     <ClCompile Include="..\..\..\src\AppCommonAudio.cpp" />
     <ClCompile Include="..\..\..\src\AppCommonEvents.cpp" />
@@ -553,6 +554,7 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\src\ActivityMsgBoxYesNo.h" />
     <QtMoc Include="..\..\..\src\ActionWidget.h" />
     <QtMoc Include="..\..\..\src\ActivityGenerateHash.h" />
+    <ClInclude Include="..\..\..\src\AdminAvailMgr.h" />
     <ClInclude Include="..\..\..\src\AppDefs.h" />
     <ClInclude Include="..\..\..\src\AppGlobals.h" />
     <QtMoc Include="..\..\..\src\AppletInviteCreate.h" />
