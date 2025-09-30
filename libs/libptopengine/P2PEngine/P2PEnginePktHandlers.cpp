@@ -26,6 +26,7 @@
 #include <NetLib/VxSktCrypto.h>
 #include <NetLib/VxSktBase.h>
 
+#include <PktLib/PktAdminAvail.h>
 #include <PktLib/PktTcpPunch.h>
 #include <PktLib/PktsPing.h>
 #include <PktLib/PktsMembership.h>
@@ -1613,6 +1614,11 @@ void P2PEngine::onPktFriendRequestReply( std::shared_ptr<VxSktBase>& sktBase, Vx
 void P2PEngine::onPktAdminAvail( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	if( LogEnabled( eLogPkt ) ) LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
-
-
+	PktAdminAvail* pktAdminAvail = (PktAdminAvail*)pktHdr;
+	GroupieId adminGroupieId = pktAdminAvail->getAdminGroupieId();
+	bool adminAvail = pktAdminAvail->getAdminAvailable();
+	if( adminGroupieId.isValid() && IsHostARelayForUsers( adminGroupieId.getHostType() ) )
+	{
+		getToGui().toGuiAdminAvail( adminGroupieId, adminAvail );
+	}
 }

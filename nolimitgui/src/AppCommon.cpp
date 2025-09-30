@@ -2033,8 +2033,6 @@ void AppCommon::toGuiAdminAvail( GroupieId& adminGroupieId, bool adminAvail )
 //============================================================================
 void AppCommon::slotInternalToGuiAdminAvail( GroupieId adminGroupieId, bool adminAvail )
 {
-	if( m_AdminAvailMgr.toGuiAdminAvail( adminGroupieId, adminAvail ) )
-	{
-		m_UserMgr.refreshUser( adminGroupieId.getHostOnlineId() );
-	}
+	m_AdminAvailMgr.toGuiAdminAvail( adminGroupieId, adminAvail );
+	m_UserMgr.refreshUser( adminGroupieId.getHostOnlineId() );
 }

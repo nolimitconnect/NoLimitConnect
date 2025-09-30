@@ -15,6 +15,7 @@
 //============================================================================
 bool AdminAvailMgr::toGuiAdminAvail( GroupieId& adminGroupieId, bool adminAvail )
 {
+	bool wasChanged{ false };
 	bool found{ false };
 	for( auto& pair : m_AdminList )
 	{
@@ -24,18 +25,20 @@ bool AdminAvailMgr::toGuiAdminAvail( GroupieId& adminGroupieId, bool adminAvail 
 			if( pair.second != adminAvail )
 			{
 				pair.second = adminAvail;
-				return true;
+				wasChanged = true;
 			}
+
+			break;
 		}
 	}
 
 	if( !found )
 	{
 		m_AdminList.emplace_back( std::make_pair( adminGroupieId, adminAvail ) );
-		return true;
+		wasChanged = true;
 	}
 
-	return false;
+	return wasChanged;
 }
 
 //============================================================================

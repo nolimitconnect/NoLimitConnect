@@ -118,11 +118,3 @@ void PluginGroupClient::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>& sk
 {
     m_HostClientMgr.onPktHostUserStatusReply( sktBase, pktHdr, netIdent );
 }
-
-//============================================================================
-void PluginGroupClient::onPktAdminAvail( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
-{
-    PktAdminAvail* pktAdminAvail = (PktAdminAvail*)pktHdr;
-    GroupieId adminGroupieId = pktAdminAvail->getAdminGroupieId();
-    m_Engine.getToGui().toGuiAdminAvail( adminGroupieId, pktAdminAvail->getAdminAvailable() );
-}

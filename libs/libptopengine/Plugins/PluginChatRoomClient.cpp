@@ -121,11 +121,3 @@ void PluginChatRoomClient::onPktHostUserStatusReply( std::shared_ptr<VxSktBase>&
 {
     m_HostClientMgr.onPktHostUserStatusReply( sktBase, pktHdr, netIdent );
 }
-
-//============================================================================
-void PluginChatRoomClient::onPktAdminAvail( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
-{
-    PktAdminAvail* pktAdminAvail = (PktAdminAvail*)pktHdr;
-    GroupieId adminGroupieId = pktAdminAvail->getAdminGroupieId();
-    m_Engine.getToGui().toGuiAdminAvail( adminGroupieId, pktAdminAvail->getAdminAvailable() );
-}

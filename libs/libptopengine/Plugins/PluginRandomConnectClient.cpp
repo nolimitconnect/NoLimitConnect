@@ -123,11 +123,3 @@ void PluginRandomConnectClient::onPktRandConnectReply( std::shared_ptr<VxSktBase
     GroupieId groupieId = pktReply->getGroupieId();
     m_Engine.getRandConnectMgr().updateRandConnectStatus( groupieId, pktReply->getToUserOnlineId(), pktReply->getRandAction() );
 }
-
-//============================================================================
-void PluginRandomConnectClient::onPktAdminAvail( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
-{
-    PktAdminAvail* pktAdminAvail = (PktAdminAvail*)pktHdr;
-    GroupieId adminGroupieId = pktAdminAvail->getAdminGroupieId();
-    m_Engine.getToGui().toGuiAdminAvail( adminGroupieId, pktAdminAvail->getAdminAvailable() );
-}

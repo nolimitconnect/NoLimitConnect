@@ -285,7 +285,8 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 			{
 				getIdentFriendshipButton()->setNotifyAdminEnabled( true );
 				bool adminAvail = m_GuiUser->isAdminAvail();
-				QColor adminIndicatorColor = adminAvail ? m_MyApp.getAppTheme().getColor( eLayerNotifyOnlineColor ) : m_MyApp.getAppTheme().getColor( eLayerNotifyOfflineColor );
+				QColor adminIndicatorColor = adminAvail ? m_MyApp.getAppTheme().getColor( eLayerNotifyOnlineColor ) : m_MyApp.getAppTheme().getColor( eLayerNotifyRelayedColor );
+				adminIndicatorColor.setAlpha( 200 );
 				getIdentFriendshipButton()->setNotifyAdminColor( adminIndicatorColor );
 			}
 		}
