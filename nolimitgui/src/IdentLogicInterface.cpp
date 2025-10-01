@@ -204,7 +204,7 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 				isRelayed = m_GuiUser->isRelayed();
 			}
 				
-			bool isOnline = isDirectConnect | isRelayed;
+			bool isOnline = isDirectConnect || isRelayed;
 			bool isHostAdmin = m_GuiUser->isHostAdmin();
 
 			getIdentLine1()->setText( m_GuiUser->getOnlineName().c_str() );
@@ -278,7 +278,7 @@ void IdentLogicInterface::updateIdentity( GuiUser* guiUser, bool queryThumb )
 					getIdentFriendshipButton()->setNotifyDirectConnectColor( m_MyApp.getAppTheme().getColor( onlineIndicatorColor ) );
 				}
 
-				getIdentFriendshipButton()->setNotifyNlcFavoriteEnabled( m_MyApp.getFavoriteMgr().getIsFavorite( m_GuiUser->getMyOnlineId() ) );
+				getIdentAvatarButton()->setNotifyNlcFavoriteEnabled( m_MyApp.getFavoriteMgr().getIsFavorite( m_GuiUser->getMyOnlineId() ) );
 			}
 
 			if( isHostAdmin )
@@ -361,7 +361,7 @@ void IdentLogicInterface::updateHosted( GuiHosted* guiHosted )
 		}
 		
 
-        getIdentFriendshipButton()->setNotifyNlcFavoriteEnabled( m_MyApp.getFavoriteMgr().getIsFavorite( guiHosted->getAdminId().getHostOnlineId() ) );
+		getIdentAvatarButton()->setNotifyNlcFavoriteEnabled( m_MyApp.getFavoriteMgr().getIsFavorite( guiHosted->getAdminId().getHostOnlineId() ) );
 	}
 	else
 	{

@@ -16,6 +16,8 @@
 #include <CoreLib/VxSettings.h>
 #include <CoreLib/VxGUID.h>
 
+#include <map>
+
 class GuiFavoriteMgr : public VxSettings
 {
 public:

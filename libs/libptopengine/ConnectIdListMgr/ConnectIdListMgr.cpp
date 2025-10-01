@@ -382,10 +382,10 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId, bool tmpConnectio
         return false;
     }
 
-    LogMsg( LOG_VERBOSE, "--ConnectIdListMgr::onConnectionLost start skt id %s cnt users %d connect ids %d pairs %d", 
-            sktConnectId.toHexString().c_str(), m_OnlineIdListList.size(), m_ConnectIdList.size(),
-            m_OnlineConnectionPairs.size() );
-  
+    LogMsg( LOG_VERBOSE, "--ConnectIdListMgr::onConnectionLost start skt id %s cnt users %d connect ids %d pairs %d",
+        sktConnectId.toHexString().c_str(), m_OnlineIdListList.size(), m_ConnectIdList.size(),
+        m_OnlineConnectionPairs.size() );
+
 
     std::set<ConnectId> lostConnectList;
 
@@ -394,7 +394,7 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId, bool tmpConnectio
     auto iter = m_ConnectIdList.begin();
     while( iter != m_ConnectIdList.end() )
     {
-        ConnectId& connectId = const_cast<ConnectId&>(*iter);
+        ConnectId& connectId = const_cast<ConnectId&>( *iter );
         if( connectId.getSocketId() == sktConnectId )
         {
             lostConnectList.insert( connectId );
@@ -410,7 +410,7 @@ bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId, bool tmpConnectio
 
     for( auto& connectId : lostConnectList )
     {
-        announceConnectionStatus( const_cast< ConnectId& >( connectId ), false );
+        announceConnectionStatus( const_cast<ConnectId&>( connectId ), false );
     }
 
     return true;
@@ -431,10 +431,46 @@ void ConnectIdListMgr::userLeftHost( VxGUID& sktConnectId, GroupieId& groupieId 
         return;
     }
 
-    LogMsg( LOG_ERROR, "ConnectIdListMgr::userLeftHost skt id %s groupie %s", 
-            sktConnectId.toHexString().c_str(), groupieId.describeGroupieId().c_str() );
+    LogMsg( LOG_ERROR, "ConnectIdListMgr::userLeftHost skt id %s groupie %s",
+        sktConnectId.toHexString().c_str(), groupieId.describeGroupieId().c_str() );
 
     removeConnection( sktConnectId, groupieId );
+}
+
+//============================================================================
+std::shared_ptr<VxSktBase> ConnectIdListMgr::findDirectConnection( VxGUID& onlineId )
+{
+    if( !onlineId.isVxGUIDValid() )
+    {
+        LogMsg( LOG_ERROR, "ConnectIdListMgr::findPeerConnection invalid id" );
+        return nullptr;
+    }
+
+    VxGUID socketId;
+    std::shared_ptr<VxSktBase> sktBase( nullptr );
+
+    lockConnectIdList();
+    for( auto& connectId : m_ConnectIdList )
+    {
+        if( !connectId.isRelayed() )
+        {
+            if( const_cast<ConnectId&>( connectId ).getUserOnlineId() == onlineId &&
+                const_cast<ConnectId&>( connectId ).getHostOnlineId() == onlineId )
+            {
+                socketId = const_cast<ConnectId&>( connectId ).getSocketId();
+                break;
+            }
+        }
+    }
+
+    unlockConnectIdList();
+
+    if( socketId.isVxGUIDValid() )
+    {
+        sktBase = findSktBase( socketId );
+    }
+
+    return sktBase;
 }
 
 //============================================================================
