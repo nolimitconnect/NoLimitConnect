@@ -978,7 +978,7 @@ bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, std::shared_ptr
 }
 
 //============================================================================
-//! encrypt and send my PktAnnounce to someone of whom we have no recored except from anchor announce
+//! encrypt and send my PktAnnounce to someone of whom we have no record
 bool ConnectionMgr::sendMyPktAnnounce(  VxGUID&				destinationId,
                                         std::shared_ptr<VxSktBase>&			sktBase, 
                                         bool				requestAnnReply,
@@ -1006,10 +1006,13 @@ bool ConnectionMgr::sendMyPktAnnounce(  VxGUID&				destinationId,
 
         if( eMyFriendshipToHim != eFriendStateAnonymous || eHisFriendshipToMe != eFriendStateAnonymous )
         {
-            LogModule( eLogConnect, LOG_DEBUG, "ConnectionMgr::sendMyPktAnnounce myFriendship %s hisFriendship %s",
+            if( LogEnabled( eLogConnect ) )LogModule( eLogConnect, LOG_DEBUG, "ConnectionMgr::%s myFriendship %s hisFriendship %s", __func__,
                     DescribeFriendState( eMyFriendshipToHim ), DescribeFriendState( eHisFriendshipToMe ) );
         }
     }
+
+    if( LogEnabled( eLogOnline ) )LogModule( eLogOnline, LOG_VERBOSE, "ConnectionMgr::%s through peer %s to %s", __func__,
+        m_Engine.describeUser( sktBase->getPeerOnlineId() ).c_str(), m_Engine.describeUser( destinationId ).c_str() );
 
     return txPacket( destinationId, sktBase, &pktAnn );	
 }

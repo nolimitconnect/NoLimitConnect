@@ -33,7 +33,7 @@ bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnno
 
     bool updateOk{ true };
 
-    LogModule( eLogConnect, LOG_VERBOSE, "%s name %s %s at ip %s pktAnn his friendship %s my friendship %s", __func__,
+    if(LogEnabled( eLogConnect ))LogModule( eLogConnect, LOG_VERBOSE, "%s name %s %s at ip %s pktAnn his friendship %s my friendship %s", __func__,
                 bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str(),
                 DescribeFriendState( pktAnn->getHisFriendshipToMe() ),
                 DescribeFriendState( bigListInfo->getMyFriendshipToHim() ) );
@@ -41,7 +41,7 @@ bool P2PEngine::onFirstPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, PktAnno
 
     if( !sktBase->getIsPeerPktAnnSet() )
     {
-        LogModule( eLogConnect, LOG_VERBOSE, "%s set peer %s", __func__, pktAnn->describeUser().c_str() );
+        if(LogEnabled( eLogConnect ))LogModule( eLogConnect, LOG_VERBOSE, "%s set peer %s", __func__, pktAnn->describeUser().c_str() );
 
         if( sktBase->setPeerPktAnn( *pktAnn ) )
         {
@@ -78,7 +78,7 @@ bool P2PEngine::onConnectionPktAnnounceUpdated( std::shared_ptr<VxSktBase>& sktB
     }
 
     // the updates to user should have been done in m_BigListMgr.updatePktAnn
-    LogModule( eLogConnect, LOG_VERBOSE, "%s %s %s at ip %s", __func__,
+    if( LogEnabled( eLogConnect ) )LogModule( eLogConnect, LOG_VERBOSE, "%s %s %s at ip %s", __func__,
                bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
     
     // update the pkt ann set into the connection
@@ -113,9 +113,9 @@ bool P2PEngine::onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, Pk
             bigListInfo->setIsJoined( hostType, true );
         }    
 
-        LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onHostedUserPktAnnounce %s %s at ip %s",
+        if( LogEnabled( eLogConnect ) )LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onHostedUserPktAnnounce %s %s at ip %s",
                    bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
-        LogModule( eLogUsers, LOG_VERBOSE, "P2PEngine::onHostedUserPktAnnounce %s %s", pktAnn->describeUser().c_str(), describeGroupieId( groupieId ).c_str() );
+        if( LogEnabled( eLogOnline ) )LogModule( eLogOnline, LOG_VERBOSE, "P2PEngine::onHostedUserPktAnnounce %s %s", pktAnn->describeUser().c_str(), describeGroupieId( groupieId ).c_str() );
     }
 
     getConnectIdListMgr().addConnection( connectId );
@@ -145,10 +145,11 @@ bool P2PEngine::onRelayedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, P
     if( !sktBase->isTempConnection() )
     {
         // the updates to user should have been done in m_BigListMgr.updatePktAnn
-        LogModule( eLogConnect, LOG_VERBOSE, "onRelayedUserPktAnnounce %s %s at ip %s",
+        if( LogEnabled( eLogConnect ) )LogModule( eLogConnect, LOG_VERBOSE, "onRelayedUserPktAnnounce %s %s at ip %s",
                    bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
 
-        LogModule( eLogUsers, LOG_VERBOSE, "onRelayedUserPktAnnounce %s from %s", pktAnn->describeUser().c_str(), bigListInfo->describeUser().c_str() );
+        if( LogEnabled( eLogOnline ) )LogModule( eLogOnline, LOG_VERBOSE, "P2PEngine::%s %s from %s", __func__,
+            pktAnn->describeUser().c_str(), bigListInfo->describeUser().c_str() );
     }
 
     GetMemberConfirmMgr().pktAnnRecieved( pktAnn->getMyOnlineId() );

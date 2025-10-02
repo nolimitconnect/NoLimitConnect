@@ -1740,13 +1740,17 @@ void ConnectIdListMgr::addUnconfirmedConnection( std::vector<std::pair<int64_t,C
             if( idPair.second == connectId )
             {
                 found = true;
-                idPair.first = GetGmtTimeMs();
+                if( LogEnabled( eLogOnline ) )LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s %s update timeout for user %s relayed %d", __func__,
+                    connectId.describeConnectId().c_str(), m_Engine.describeUser( connectId.getUserOnlineId() ).c_str(), connectId.isRelayed() );
+                idPair.first = GetGmtTimeMs() + UNCONFIRMED_TIMEOUT_MS;
                 break;
             }
         }
 
         if( !found )
         {
+            if( LogEnabled( eLogOnline ) )LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s %s adding user %s relayed %d", __func__,
+                connectId.describeConnectId().c_str(), m_Engine.describeUser( connectId.getUserOnlineId() ).c_str(), connectId.isRelayed() );
             unonfirmedIdList.emplace_back( std::make_pair( GetGmtTimeMs() + UNCONFIRMED_TIMEOUT_MS, connectId ) );
         }
     }
@@ -1781,6 +1785,8 @@ bool ConnectIdListMgr::checkUnconfirmedList( std::shared_ptr<VxSktBase>& sktBasw
             if( iter->second.getSocketId() == sktBasw->getSocketId() &&
                 iter->second.getUserOnlineId() == onlineId )
             {
+                if( LogEnabled( eLogOnline ) )LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s %s found user %s relayed %d", __func__,
+                    iter->second.describeConnectId().c_str(), m_Engine.describeUser( iter->second.getUserOnlineId() ).c_str(), iter->second.isRelayed() );
                 addConnection( sktBasw, iter->second.getGroupieId(), iter->second.isRelayed());
                 iter = unconfirmedIdList.erase( iter );
                 wasAdded = true;
