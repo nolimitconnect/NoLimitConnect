@@ -1231,6 +1231,13 @@ bool P2PEngine::fromGuiBrowseFiles( VxGUID& appInstId, std::string& dir, uint8_t
 }
 
 //============================================================================
+// returns -1 if unknown else percent downloaded
+int P2PEngine::fromGuiGetFileDownloadState( uint8_t* fileHashId )
+{
+	return getPluginFileShareServer().fromGuiGetFileDownloadState( fileHashId );
+}
+
+//============================================================================
 bool P2PEngine::fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared )
 {
 	return getPluginFileShareServer().fromGuiSetFileIsShared( fileInfo, isShared );
@@ -1243,10 +1250,9 @@ bool P2PEngine::fromGuiGetIsFileShared( FileInfo& fileInfo )
 }
 
 //============================================================================
-// returns -1 if unknown else percent downloaded
-int P2PEngine::fromGuiGetFileDownloadState( uint8_t* fileHashId )
+bool P2PEngine::fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibrary )
 {
-	return getPluginFileShareServer().fromGuiGetFileDownloadState( fileHashId );
+	return getPluginLibraryServer().fromGuiSetFileIsInLibrary( fileInfo, isInLibrary );
 }
 
 //============================================================================
@@ -1254,28 +1260,11 @@ bool P2PEngine::fromGuiGetFileIsInLibrary( FileInfo& fileInfo )
 {
 	return getPluginLibraryServer().fromGuiGetFileIsInLibrary( fileInfo );
 }
-//============================================================================
-bool P2PEngine::fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibrary )
-{
-	return getPluginLibraryServer().fromGuiSetFileIsInLibrary( fileInfo, isInLibrary );
-}
-
-//============================================================================
-bool P2PEngine::fromGuiSetFileIsInLibrary( std::string& fileName, bool isInLibrary )
-{
-	return getPluginLibraryServer().fromGuiSetFileIsInLibrary( fileName, isInLibrary );
-}
 
 //============================================================================
 void P2PEngine::fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter )
 {
 	getPluginLibraryServer().fromGuiGetFileLibraryList(	appInstId, fileTypeFilter );
-}
-
-//============================================================================
-bool P2PEngine::fromGuiGetIsFileInLibrary( std::string& fileNameAndPath )
-{
-	return getPluginLibraryServer().fromGuiGetFileIsInLibrary( fileNameAndPath );
 }
 
 //============================================================================

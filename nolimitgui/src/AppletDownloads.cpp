@@ -13,12 +13,13 @@
 #include "ActivityMsgBoxYesNo.h"
 
 #include "AppCommon.h"
+#include "AppletAboutFile.h"
+#include "AppletMgr.h"
 #include "AppSettings.h"
-#include "GuiHelpers.h"	
-#include "GuiParams.h"
-
 #include "FileXferWidget.h"
 #include "GuiFileXferSession.h"
+#include "GuiHelpers.h"	
+#include "GuiParams.h"
 #include "MyIcons.h"
 #include "ActivityDownloadItemMenu.h"
 
@@ -59,22 +60,6 @@ AppletDownloads::~AppletDownloads()
     m_MyApp.activityStateChange( this, false );
 }
 
-////============================================================================
-//void AppletDownloads::slotItemClicked(QListWidgetItem* item)
-//{
-//	GuiFileXferSession* poSession = (GuiFileXferSession*)item->data( Qt::UserRole + 1).toULongLong();
-//	if( poSession )
-//	{
-//		ActivityDownloadItemMenu oDlg( m_MyApp, poSession, this );
-//		if( QDialog::Rejected == oDlg.exec() )
-//		{
-//			m_FromGui.fromGuiCancelDownload( poSession->getLclSessionId() );
-//			ui.m_FileItemList->removeItemWidget( item );
-//			delete poSession;
-//		}
-//	}
-//}
-
 //============================================================================
 FileXferWidget* AppletDownloads::sessionToWidget( GuiFileXferSession* poSession )
 {
@@ -91,6 +76,7 @@ FileXferWidget* AppletDownloads::sessionToWidget( GuiFileXferSession* poSession 
 	connect( item, SIGNAL(signalPlayExternButtonClicked(QListWidgetItem*)),	this, SLOT(slotPlayExternButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalLibraryButtonClicked(QListWidgetItem*)),	this, SLOT(slotLibraryButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalFileShareButtonClicked(QListWidgetItem*)),	this, SLOT(slotFileShareButtonClicked(QListWidgetItem*)) );
+	connect( item, SIGNAL(signalAboutFileButtonClicked(QListWidgetItem*)),  this, SLOT(slotAboutFileButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalShredButtonClicked(QListWidgetItem*)),		this, SLOT(slotShredButtonClicked(QListWidgetItem*)) );
 
 	updateListEntryWidget( item, poSession );
@@ -349,6 +335,20 @@ void AppletDownloads::slotFileShareButtonClicked( QListWidgetItem* item )
 		m_Engine.fromGuiSetFileIsShared( xferSession->getFileInfo(), isShared );
 		((FileXferWidget*)item)->updateWidgetFromInfo();
 	}	
+}
+
+//============================================================================
+void AppletDownloads::slotAboutFileButtonClicked( QListWidgetItem* item )
+{
+	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
+	if( xferSession )
+	{
+		AppletAboutFile* aboutFile = dynamic_cast<AppletAboutFile *>( m_MyApp.getAppletMgr().launchApplet( eAppletAboutFile, getContentItemsFrame() ) );
+		if( aboutFile )
+		{
+			aboutFile->setFileInfo( xferSession->getFileInfo() );
+		}
+	}
 }
 
 //============================================================================

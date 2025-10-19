@@ -33,10 +33,10 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtModules>core;gui;widgets;opengl;svg;multimedia;concurrent</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
-    <QtInstall>6.6.3_msvc2019_64</QtInstall>
+    <QtInstall>6.9.3_msvc2022_64</QtInstall>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
-    <QtInstall>6.7.3_msvc2022_64</QtInstall>
+    <QtInstall>6.10.0_msvc2022_64</QtInstall>
     <QtModules>core;gui;widgets;opengl;svg;multimedia;concurrent</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
@@ -152,6 +152,7 @@ libass.lib;libpcre.lib
     <ClCompile Include="..\..\..\src\AppDefs.cpp" />
     <ClCompile Include="..\..\..\src\AppGlobals.cpp" />
     <ClCompile Include="..\..\..\src\AppletAboutApp.cpp" />
+    <ClCompile Include="..\..\..\src\AppletAboutFile.cpp" />
     <ClCompile Include="..\..\..\src\AppletAboutMeClient.cpp" />
     <ClCompile Include="..\..\..\src\AppletAboutMeServerViewMine.cpp" />
     <ClCompile Include="..\..\..\src\AppletAboutUser.cpp" />
@@ -621,6 +622,7 @@ libass.lib;libpcre.lib
     <QtMoc Include="..\..\..\src\AppletRandomConnectJoinSearch.h" />
     <QtMoc Include="..\..\..\src\AppletHostClientBase.h" />
     <QtMoc Include="..\..\..\src\AppletHostLeave.h" />
+    <QtMoc Include="..\..\..\src\AppletAboutFile.h" />
     <ClInclude Include="..\..\..\src\AppProfile.h" />
     <ClInclude Include="..\..\..\src\AppSettings.h" />
     <ClInclude Include="..\..\..\src\AppTranslate.h" />
@@ -960,6 +962,7 @@ libass.lib;libpcre.lib
     <QtUic Include="..\..\..\src\Forms\ActivityTimedMessage.ui" />
     <QtUic Include="..\..\..\src\Forms\ActivityYesNo.ui" />
     <QtUic Include="..\..\..\src\Forms\AppletAboutApp.ui" />
+    <QtUic Include="..\..\..\src\Forms\AppletAboutFile.ui" />
     <QtUic Include="..\..\..\src\Forms\AppletAboutMeClient.ui" />
     <QtUic Include="..\..\..\src\Forms\AppletAboutUser.ui" />
     <QtUic Include="..\..\..\src\Forms\AppletApplicationInfo.ui" />

@@ -623,6 +623,8 @@ public:
 
     bool                        iAmHostAdmin( EPluginType pluginType, bool showErrMsg = false );
 
+    bool                        getThumbImage( VxGUID& thumbId, QImage& image );
+
 signals:
     void						signalMessengerReady( bool isReady );    // emitted when messenger ready state changes
     void						signalMainWindowResized( void );    // emitted if main window is resized

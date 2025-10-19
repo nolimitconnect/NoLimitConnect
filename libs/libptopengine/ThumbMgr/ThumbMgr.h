@@ -70,6 +70,8 @@ public:
     virtual bool                ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType, VxGUID& thumbId );
     virtual bool                requestThumbs( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 
+    virtual void                deleteThumb( VxGUID& thumbId );
+
 protected:
     virtual bool				addAsset( AssetBaseInfo& assetInfo, AssetBaseInfo*& retCreatedAsset ) override;
 

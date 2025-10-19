@@ -44,10 +44,10 @@
    <item row="0" column="0">
     <widget class="QFrame" name="m_MainFrame">
      <property name="frameShape">
-      <enum>QFrame::Panel</enum>
+      <enum>QFrame::Shape::Panel</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
+      <enum>QFrame::Shadow::Plain</enum>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <property name="spacing">
@@ -86,13 +86,38 @@
          </size>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
           <width>48</width>
           <height>48</height>
          </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="VxPushButton" name="m_ThumbnailButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>48</width>
+          <height>48</height>
+         </size>
+        </property>
+        <property name="text">
+         <string notr="true"/>
         </property>
        </widget>
       </item>
@@ -147,10 +172,10 @@
         <item>
          <widget class="FileActionBarWidget" name="m_FileActionBar">
           <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
+           <enum>QFrame::Shape::NoFrame</enum>
           </property>
           <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
+           <enum>QFrame::Shadow::Raised</enum>
           </property>
          </widget>
         </item>

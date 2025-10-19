@@ -105,6 +105,8 @@ public:
 
     virtual bool				doesAssetExist( AssetBaseInfo& assetInfo ); // check if file still exists in directory or database
 
+    bool                        getAsset( std::string& fileNameAndPath, AssetBaseInfo& assetInfo ); // get copy of asset
+
     AssetBaseInfo*				findAsset( std::string& fileNameAndPath );
 	AssetBaseInfo*				findAsset( VxSha1Hash& fileHashId );
 	AssetBaseInfo*				findAsset( VxGUID& assetId );
@@ -157,6 +159,8 @@ public:
 
     void                        deleteFile( std::string fileNameAndPath, bool shredFile );
 
+    void						updateDatabase( AssetBaseInfo* assetInfo );
+
 protected:
     virtual AssetBaseInfo*      createAssetInfo( AssetBaseInfo& assetInfo ) = 0;
     virtual AssetBaseInfo*      createAssetInfo( FileInfo& fileInfo ) = 0;
@@ -167,7 +171,6 @@ protected:
     void						unlockClientList( void )					{ m_ClientListMutex.unlock(); }
 
     virtual AssetBaseInfoDb&    createAssetInfoDb(  const char* dbName, EAssetMgrType assetMgrType );
-
 
 	void						updateAssetListFromDb( VxThread* thread );
 
@@ -182,11 +185,13 @@ protected:
 													const char*	    assetTag = "", 
 													int64_t			timestamp = 0 );
 	bool						insertNewInfo( AssetBaseInfo* assetInfo );
-	void						updateDatabase( AssetBaseInfo* assetInfo );
+
     void						updateAssetDatabaseSendState( VxGUID& assetUniqueId, enum EAssetSendState sendState );
 
     void                        requestFileHash( AssetBaseInfo* assetInfo );
     void                        callbackSha1GenerateResult( ESha1GenResult sha1GenResult, VxGUID& assetId, Sha1Info& sha1Info );
+
+    void                        deleteThumbAsset( VxGUID& thumbId );
 
     //=== vars ===//
     P2PEngine&					m_Engine;

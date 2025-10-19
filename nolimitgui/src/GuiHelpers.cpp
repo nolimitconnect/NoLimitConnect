@@ -32,8 +32,8 @@
 
 #include <CoreLib/VFile.h>
 #include <CoreLib/VxFileIsTypeFunctions.h>
-#include <CoreLib/VxParse.h>
 #include <CoreLib/VxFileUtil.h>
+#include <CoreLib/VxParse.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
 
@@ -2080,7 +2080,7 @@ uint64_t GuiHelpers::saveToPngFile( QPixmap& bitmap, QString& fileName ) // retu
     }
     else
     {
-        LogMsg( LOG_ERROR, "GuiHelpers::saveToPngFile Invalid Param" );
+        LogMsg( LOG_ERROR, "GuiHelpers::%s Invalid Param", __func__ );
         return 0;
     }
 
@@ -2090,6 +2090,118 @@ uint64_t GuiHelpers::saveToPngFile( QPixmap& bitmap, QString& fileName ) // retu
     }  
 
     return 0;
+}
+
+//============================================================================
+bool GuiHelpers::generateMediaThumbnail( AssetBaseInfo* assetInfo, QString& retThumbFileName )
+{
+    if( !assetInfo )
+    {
+        LogMsg( LOG_ERROR, "GuiHelpers::%s Invalid Param", __func__ );
+        return false;
+    }
+
+    bool result{ false };
+    std::string fileName = assetInfo->getFileNameAndPath();
+    EAssetType assetType = assetInfo->getAssetType();
+
+    if( eAssetTypePhoto == assetType )
+    {
+        result = generateThumbFromImageFile( fileName, assetInfo->getThumbId(), retThumbFileName );
+    }
+    else if( eAssetTypeVideo == assetType || eAssetTypeAudio == assetType )
+    {
+        if( VxFileUtil::replaceExtension( fileName, "png" ) )
+        {
+            if( VxFileUtil::fileExists( fileName.c_str() ) )
+            {
+                result = generateThumbFromImageFile( fileName, assetInfo->getThumbId(), retThumbFileName );
+            }
+        }
+    }
+    else
+    {
+        if(LogEnabled(eLogThumbnail))LogModule( eLogThumbnail, LOG_WARN, "GuiHelpers::%s not a media type", __func__ );
+    }
+
+    return result;
+}
+
+//============================================================================
+bool GuiHelpers::generateThumbFromImageFile( std::string fileName, VxGUID& thumbId, QString& retThumbFileName )
+{
+    QImage image( fileName.c_str() );
+
+    if( image.isNull() ) 
+    {
+        if( LogEnabled( eLogThumbnail ) )LogModule( eLogThumbnail, LOG_WARN, "GuiHelpers::%s failed to load %s", __func__, fileName.c_str() );
+        return false;
+    }
+
+    QSize thumbSize( GuiParams::getThumbnailSize() );
+    image = image.scaled( thumbSize, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+    if( image.isNull() )
+    {
+        if( LogEnabled( eLogThumbnail ) )LogModule( eLogThumbnail, LOG_WARN, "GuiHelpers::%s failed to scale %s", __func__, fileName.c_str() );
+        return false;
+    }
+
+    VxGUID tmpThumbId = thumbId;
+    if( !tmpThumbId.isVxGUIDValid() )
+    {
+        tmpThumbId.initializeWithNewVxGUID();
+    }
+    
+    QString thumbFileName = generateThumbFileName( tmpThumbId );
+    if( saveToPngFile( image, thumbFileName ) && VxFileUtil::fileExists( thumbFileName.toUtf8().constData() ) )
+    {
+        thumbId = tmpThumbId;
+        retThumbFileName = thumbFileName;
+        return true;
+    }
+
+    return false;
+}
+
+//============================================================================
+QString GuiHelpers::generateThumbFileName( VxGUID& thumbId )
+{
+    QString retFileName = VxGetAppDirectory( eAppDirThumbs ).c_str();
+    retFileName += thumbId.toHexString().c_str();
+    retFileName += ".nlt"; // use extension not known as image so thumbs will not be scanned by android image gallery etc
+    return retFileName;
+}
+
+//============================================================================
+bool GuiHelpers::addThumbAsset( AppCommon& myApp, QString& thumbFileName, VxGUID thumbId, ThumbInfo& assetInfoOut )
+{
+    bool assetGenerated{ false };
+    VxFileInfo fileInfo;
+    if( VxFileUtil::getFileInfo( thumbFileName.toUtf8().constData(), fileInfo ) )
+    {
+        fileInfo.setFileType( VXFILE_TYPE_OTHER );
+        ThumbInfo thumbInfo( fileInfo );
+        thumbInfo.setAssetUniqueId( thumbId );
+        thumbInfo.setCreatorId( myApp.getEngine().getMyOnlineId() );
+        thumbInfo.setCreationTime( GetTimeStampMs() );
+        if( myApp.getEngine().getThumbMgr().fromGuiThumbCreated(thumbInfo) )
+        {
+            assetGenerated = true;
+            assetInfoOut = thumbInfo;
+        }
+        else
+        {
+            QString msgText = QObject::tr( "Could not create thumbnail asset" );
+            QMessageBox::information( &myApp.getHomeWindow(), QObject::tr("Error occured creating thumbnail asset ") + thumbFileName, msgText);
+        }
+    }
+    else
+    {
+        QString msgText = QObject::tr( "Could not get thumbnail file info" );
+        QMessageBox::information( &myApp.getHomeWindow(), QObject::tr( "Error occured creating thumbnail asset " ) + thumbFileName, msgText );
+    }
+
+    return assetGenerated;
 }
 
 //============================================================================
@@ -2204,6 +2316,15 @@ QMessageBox::StandardButton GuiHelpers::errorMsgBox (EErrMsgType errMsgType, QWi
     }
 
     return buttonResult;
+}
+
+//============================================================================
+void GuiHelpers::showFileNameEmptyError( QWidget* parent )
+{
+    QString deniedPermTitle = QObject::tr( "File Not Found" );
+    QString deniedPermMsg = QObject::tr( "File Name Is Empty" );
+    QMessageBox warnStorage( QMessageBox::Icon::Information, deniedPermMsg, deniedPermMsg, QMessageBox::Ok );
+    warnStorage.exec();
 }
 
 //============================================================================

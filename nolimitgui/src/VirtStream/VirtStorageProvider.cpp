@@ -88,7 +88,7 @@ void VirtStorageProvider::fromGuiBrowseFiles( VxGUID& appInstId, std::string& fo
 		{
             FileInfo fileInfo( fileInfoBase );
             fileInfo.setOnlineId( onlineId );
-            fileInfo.setIsInLibrary( GetPtoPEngine().fromGuiGetIsFileInLibrary( fileInfoBase.getFileNameAndPath() ) );
+            fileInfo.setIsInLibrary( GetPtoPEngine().fromGuiGetFileIsInLibrary( fileInfo ) );
             fileInfo.setIsSharedFile( GetPtoPEngine().fromGuiGetIsFileShared( fileInfo ) );
         }
 		else

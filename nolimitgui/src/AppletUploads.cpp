@@ -9,10 +9,11 @@
 //============================================================================
 
 #include "AppCommon.h"	
-#include "AppSettings.h"
 
-#include "AppletUploads.h"
 #include "ActivityMsgBoxYesNo.h"
+#include "AppletAboutFile.h"
+#include "AppletMgr.h"
+#include "AppletUploads.h"
 
 #include "FileXferWidget.h"
 #include "GuiFileXferSession.h"
@@ -293,6 +294,20 @@ void AppletUploads::slotLibraryButtonClicked( QListWidgetItem* item )
 		m_Engine.fromGuiSetFileIsInLibrary( xferSession->getFileInfo(), isInLibrary );
 		((FileXferWidget*)item)->updateWidgetFromInfo();
 	}	
+}
+
+//============================================================================
+void AppletUploads::slotAboutFileButtonClicked( QListWidgetItem* item )
+{
+	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
+	if( xferSession )
+	{
+		AppletAboutFile* aboutFile = dynamic_cast<AppletAboutFile*>( m_MyApp.getAppletMgr().launchApplet( eAppletAboutFile, getParentPageFrame() ) );
+		if( aboutFile )
+		{
+			aboutFile->setFileInfo( xferSession->getFileInfo() );
+		}
+	}
 }
 
 //============================================================================

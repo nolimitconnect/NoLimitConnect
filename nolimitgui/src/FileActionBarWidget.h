@@ -42,6 +42,7 @@ signals:
 	void						signalPlayExternButtonClicked( void );
 	void						signalLibraryButtonClicked( void );
 	void						signalFileShareButtonClicked( void );
+	void						signalAboutFileButtonClicked( void );
 	void						signalShredButtonClicked( void );
 
 protected slots:
@@ -49,6 +50,7 @@ protected slots:
 	void						slotPlayExternButtonClicked( void );
 	void						slotLibraryButtonClicked( void );
 	void						slotFileShareButtonClicked( void );
+	void						slotAboutFileButtonClicked( void );
 	void						slotShredButtonClicked( void );
 
 protected:

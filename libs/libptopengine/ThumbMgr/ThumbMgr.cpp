@@ -108,7 +108,7 @@ void ThumbMgr::addThumbMgrClient( ThumbCallbackInterface * client, bool enable )
     lockClientList();
     if( enable )
     {
-        m_ThumbClients.push_back( client );
+        m_ThumbClients.emplace_back( client );
     }
     else
     {
@@ -624,4 +624,29 @@ uint64_t ThumbMgr::fromGuiClearCache( ECacheType cacheType )
     }
 
     return cacheDeletedAmt;
+}
+
+//============================================================================
+void ThumbMgr::deleteThumb( VxGUID& thumbId )
+{
+    AssetBaseInfoDb& assetDb = getAssetInfoDb();
+    m_ThumbInfoMutex.lock();
+    for( auto iter = m_ThumbInfoList.begin(); iter != m_ThumbInfoList.end(); )
+    {
+        AssetBaseInfo* assetInfo = ( *iter );
+        if( thumbId == assetInfo->getAssetUniqueId() )
+        {
+            announceAssetRemoved( assetInfo );
+            assetDb.removeAsset( assetInfo );
+            VxFileUtil::deleteFile( assetInfo->getAssetNameAndPath().c_str() );
+            iter = m_ThumbInfoList.erase( iter );
+            break;
+        }
+        else
+        {
+            ++iter;
+        }
+    }
+
+    m_ThumbInfoMutex.unlock();
 }

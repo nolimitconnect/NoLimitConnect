@@ -46,6 +46,7 @@ FileXferWidget::FileXferWidget(QWidget* parent)
 	connect( ui.m_FileActionBar,		SIGNAL(signalPlayExternButtonClicked()),	this, SLOT(slotPlayExternButtonClicked()) );
 	connect( ui.m_FileActionBar,		SIGNAL(signalLibraryButtonClicked()),	this, SLOT(slotLibraryButtonClicked()) );
 	connect( ui.m_FileActionBar,		SIGNAL(signalFileShareButtonClicked()), this, SLOT(slotFileShareButtonClicked()) );
+	connect( ui.m_FileActionBar,		SIGNAL(signalAboutFileButtonClicked()), this, SLOT(slotAboutFileButtonClicked()) );
 	connect( ui.m_FileActionBar,		SIGNAL(signalShredButtonClicked()),		this, SLOT(slotShredButtonClicked()) );
 }
 
@@ -140,7 +141,13 @@ void FileXferWidget::slotLibraryButtonClicked( void )
 //============================================================================
 void FileXferWidget::slotFileShareButtonClicked( void )
 {
-	emit signalLibraryButtonClicked( this );
+	emit signalFileShareButtonClicked( this );
+}
+
+//============================================================================
+void FileXferWidget::slotAboutFileButtonClicked( void )
+{
+	emit signalAboutFileButtonClicked( this );
 }
 
 //============================================================================

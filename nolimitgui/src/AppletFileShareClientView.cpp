@@ -10,32 +10,33 @@
 
 #include "AppletFileShareClientView.h"
 
-#include "AppCommon.h"
-#include "AppSettings.h"
-#include "AppletDownloads.h"
 #include "ActivityMessageBox.h"
 #include "ActivityMsgBoxYesNo.h"
-
-#include "FileXferWidget.h"
+#include "AppCommon.h"
+#include "AppSettings.h"
+#include "AppletAboutFile.h"
+#include "AppletDownloads.h"
+#include "AppletMgr.h"
 #include "AppletPopupMenu.h"
 #include "AppGlobals.h"
-#include "FileListReplySession.h"
 
 #include "GuiFileXferSession.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 #include "GuiPlayerMgr.h"
 
-#include <P2PEngine/P2PEngine.h>
-#include <PktLib/VxSearchDefs.h>
-#include <NetLib/VxFileXferInfo.h>
-
+#include "FileListReplySession.h"
+#include "FileXferWidget.h"
 #include "PermissionWidget.h"
 
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileInfo.h>
 #include <CoreLib/VxFileUtil.h>
+
+#include <P2PEngine/P2PEngine.h>
+#include <PktLib/VxSearchDefs.h>
+#include <NetLib/VxFileXferInfo.h>
 
 #include "ui_AppletFileShareClientView.h"
 
@@ -248,6 +249,7 @@ FileXferWidget* AppletFileShareClientView::fileToWidget( GuiUser* guiUser, EPlug
 	connect( item, SIGNAL(signalPlayExternButtonClicked(QListWidgetItem*)),	this, SLOT(slotPlayExternButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalLibraryButtonClicked(QListWidgetItem*)),	this, SLOT(slotLibraryButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalFileShareButtonClicked(QListWidgetItem*)),	this, SLOT(slotFileShareButtonClicked(QListWidgetItem*)) );
+	connect( item, SIGNAL(signalAboutFileButtonClicked(QListWidgetItem*)),  this, SLOT(slotAboutFileButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalShredButtonClicked(QListWidgetItem*)),		this, SLOT(slotShredButtonClicked(QListWidgetItem*)) );
 
 	updateListEntryWidget( item, xferSession );
@@ -592,6 +594,21 @@ void AppletFileShareClientView::slotFileShareButtonClicked( QListWidgetItem* ite
 		xferSession->setIsSharedFile( isShared );
 		m_Engine.fromGuiSetFileIsShared( xferSession->getFileInfo(), isShared );
 		((FileXferWidget*)item)->updateWidgetFromInfo();
+	}
+}
+
+
+//============================================================================
+void AppletFileShareClientView::slotAboutFileButtonClicked( QListWidgetItem* item )
+{
+	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
+	if( xferSession )
+	{
+		AppletAboutFile* aboutFile = dynamic_cast<AppletAboutFile*>( m_MyApp.getAppletMgr().launchApplet( eAppletAboutFile, getParentPageFrame() ) );
+		if( aboutFile )
+		{
+			aboutFile->setFileInfo( xferSession->getFileInfo() );
+		}
 	}
 }
 

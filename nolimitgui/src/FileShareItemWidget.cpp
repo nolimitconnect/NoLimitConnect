@@ -15,6 +15,8 @@
 #include "GuiHelpers.h"
 #include "AppCommon.h"
 
+#include <P2PEngine/P2PEngine.h>
+
 #include "ui_FileShareItemWidget.h"
 
 //============================================================================
@@ -26,12 +28,16 @@ FileShareItemWidget::FileShareItemWidget(QWidget* parent )
 	ui.setupUi(this);
 
 	ui.m_FileIconButton->setFixedSize( eButtonSizeMedium );
+	ui.m_ThumbnailButton->setFixedSize( eButtonSizeMedium );
+	ui.m_ThumbnailButton->setVisible( false );
 
 	connect( ui.m_FileIconButton,		SIGNAL(clicked()),						this, SLOT(slotFileIconButtonClicked()) );
+	connect( ui.m_ThumbnailButton,		SIGNAL(clicked()),						this, SLOT(slotFileIconButtonClicked()) );
 	connect( ui.m_FileActionBar,		SIGNAL(signalPlayButtonClicked()),		this, SLOT(slotPlayButtonClicked()) );
 	connect( ui.m_FileActionBar,		SIGNAL(signalPlayExternButtonClicked()), this, SLOT(slotPlayExternButtonClicked()) );
 	connect( ui.m_FileActionBar,		SIGNAL(signalLibraryButtonClicked()),	this, SLOT(slotLibraryButtonClicked()) );
 	connect( ui.m_FileActionBar,		SIGNAL(signalFileShareButtonClicked()), this, SLOT(slotFileShareButtonClicked()) );
+	connect( ui.m_FileActionBar,		SIGNAL(signalAboutFileButtonClicked()), this, SLOT(slotAboutFileButtonClicked()) );
 	connect( ui.m_FileActionBar,		SIGNAL(signalShredButtonClicked()),		this, SLOT(slotShredButtonClicked()) );
 }
 
@@ -57,6 +63,12 @@ void FileShareItemWidget::setSelectAFileMode( bool selectAFile )
 
 //============================================================================
 void FileShareItemWidget::slotFileIconButtonClicked( void )
+{
+	emit signalFileIconClicked( this );
+}
+
+//============================================================================
+void FileShareItemWidget::slotThumbnailButtonClicked( void )
 {
 	emit signalFileIconClicked( this );
 }
@@ -90,6 +102,12 @@ void FileShareItemWidget::slotLibraryButtonClicked( void )
 void FileShareItemWidget::slotFileShareButtonClicked( void )
 {
 	emit signalFileShareButtonClicked( this );
+}
+
+//============================================================================
+void FileShareItemWidget::slotAboutFileButtonClicked( void )
+{
+	emit signalAboutFileButtonClicked( this );
 }
 
 //============================================================================
@@ -190,7 +208,7 @@ FileItemInfo* FileShareItemWidget::getFileItemInfo( void )
 void FileShareItemWidget::updateWidgetFromInfo( void )
 {
 	FileItemInfo* poInfo = getFileItemInfo();
-	if( 0 == poInfo )
+	if( !poInfo )
 	{
 		return;
 	}
@@ -222,4 +240,23 @@ void FileShareItemWidget::updateWidgetFromInfo( void )
 
 	ui.m_FileNameLabel->setText( poInfo->getFileName() );
 	ui.m_FileSizeLabel->setText( poInfo->describeFileLength() );
+
+	if( poInfo->getThumbId().isVxGUIDValid() )
+	{
+		QImage thumbImage;
+		GetAppInstance().getThumbImage( poInfo->getThumbId(), thumbImage );
+		if( !thumbImage.isNull() )
+		{
+			ui.m_ThumbnailButton->setIconOverrideImage( thumbImage );
+			ui.m_ThumbnailButton->setVisible( true );
+		}
+		else
+		{
+			ui.m_ThumbnailButton->setVisible( false );
+		}
+	}
+	else
+	{
+		ui.m_ThumbnailButton->setVisible( false );
+	}
 }

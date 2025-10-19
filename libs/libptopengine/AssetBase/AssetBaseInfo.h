@@ -96,10 +96,12 @@ public:
     virtual void				setIsPersonalRecord( bool isRecord )            { if( isRecord ) m_LocationFlags |= ASSET_LOC_FLAG_PERSONAL_RECORD; else m_LocationFlags &= ~ASSET_LOC_FLAG_PERSONAL_RECORD; }
     virtual bool				isPersonalRecord( void )                        { return m_LocationFlags & ASSET_LOC_FLAG_PERSONAL_RECORD ? true : false; }
 
-    virtual void				setIsInLibrary( bool isInLibrary )               { if( isInLibrary ) m_LocationFlags |= ASSET_LOC_FLAG_LIBRARY; else m_LocationFlags &= ~ASSET_LOC_FLAG_LIBRARY; }
-    virtual bool				isInLibrary( void )                              { return m_LocationFlags & ASSET_LOC_FLAG_LIBRARY ? true : false; }
+    virtual void				setIsInLibrary( bool isInLibrary )              { if( isInLibrary ) m_LocationFlags |= ASSET_LOC_FLAG_LIBRARY; else m_LocationFlags &= ~ASSET_LOC_FLAG_LIBRARY; }
+    virtual bool				isInLibrary( void )                             { return m_LocationFlags & ASSET_LOC_FLAG_LIBRARY ? true : false; }
     virtual void				setIsSharedFileAsset( bool isSharedAsset )      { if( isSharedAsset ) m_LocationFlags |= ASSET_LOC_FLAG_SHARED_FILE; else m_LocationFlags &= ~ASSET_LOC_FLAG_SHARED_FILE; }
     virtual bool				isSharedFileAsset( void )                       { return m_LocationFlags & ASSET_LOC_FLAG_SHARED_FILE ? true : false; }
+
+    virtual bool				isMediaFileInUse( void )                        { return m_LocationFlags != 0; }
 
     virtual void				setIsCircular( bool isCircular )                { if( isCircular ) m_AttributeFlags |= ASSET_ATTRIB_FLAG_CIRCULAR; else m_AttributeFlags &= ~ASSET_ATTRIB_FLAG_CIRCULAR; }
     virtual bool				isCircular( void )                              { return m_AttributeFlags & ASSET_ATTRIB_FLAG_CIRCULAR ? true : false; }

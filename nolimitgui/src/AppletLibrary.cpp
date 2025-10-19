@@ -10,13 +10,15 @@
 
 #include "AppletLibrary.h"
 
+#include "ActivityBrowseFiles.h"
+#include "ActivityMsgBoxYesNo.h"
+
 #include "AppCommon.h"
 #include "AppGlobals.h"
 #include "AppSettings.h"
 
-#include "AppletDownloads.h"
-#include "ActivityBrowseFiles.h"
-#include "ActivityMsgBoxYesNo.h"
+#include "AppletAboutFile.h"
+#include "AppletMgr.h"
 
 #include "FileShareItemWidget.h"
 #include "FileItemInfo.h"
@@ -212,6 +214,11 @@ FileShareItemWidget* AppletLibrary::fileToWidget( FileInfo& fileInfo )
              SLOT(slotListShareFileIconClicked(QListWidgetItem*)) );
 
     connect( item,
+            SIGNAL(signalAboutFileButtonClicked(QListWidgetItem*)),
+            this,
+            SLOT(slotListAboutFileClicked(QListWidgetItem*)) );
+
+    connect( item,
              SIGNAL(signalShredButtonClicked(QListWidgetItem*)),
              this,
              SLOT(slotListShredIconClicked(QListWidgetItem*)) );
@@ -219,6 +226,7 @@ FileShareItemWidget* AppletLibrary::fileToWidget( FileInfo& fileInfo )
     item->updateWidgetFromInfo();
     return item;
 }
+
 //============================================================================
 void AppletLibrary::slotListFileIconClicked( QListWidgetItem* item )
 {
@@ -240,6 +248,26 @@ void AppletLibrary::slotListShareFileIconClicked( QListWidgetItem* item )
             poInfo->toggleIsShared();
             ( ( FileShareItemWidget* )item )->updateWidgetFromInfo();
             m_Engine.fromGuiSetFileIsShared( poInfo->getFileInfo(), poInfo->getIsSharedFile() );
+        }
+    }
+}
+
+//============================================================================
+void AppletLibrary::slotListAboutFileClicked( QListWidgetItem* item )
+{
+    FileItemInfo* poInfo = ( (FileShareItemWidget*)item )->getFileItemInfo();
+    if( poInfo )
+    {
+        if( VXFILE_TYPE_DIRECTORY == poInfo->getFileType() )
+        {
+        }
+        else
+        {
+            AppletAboutFile* aboutFile = dynamic_cast<AppletAboutFile*>( m_MyApp.getAppletMgr().launchApplet( eAppletAboutFile, getParentPageFrame() ) );
+            if( aboutFile )
+            {
+                aboutFile->setFileInfo( poInfo->getFileInfo() );
+            }
         }
     }
 }
@@ -395,7 +423,7 @@ void AppletLibrary::slotAddFileButtonClicked( void )
         curDir = addFileDir.c_str();
     }
 
-    VxFileInfoBase fileInfo;
+    FileInfo fileInfo;
     if( GuiHelpers::browseForFile( this, eMediaFileAny, fileInfo, curDir ) )
     {
         std::string fileName = fileInfo.getFileNameAndPath();
@@ -404,7 +432,7 @@ void AppletLibrary::slotAddFileButtonClicked( void )
             m_MyApp.getAppSettings().setLastAddFileDir( fileInfo.getFilePath() );
         }
         
-        m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileName, true );
+        m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileInfo, true );
 
         // see if file is already a asset
         AssetMgr& assetMgr = m_MyApp.getEngine().getAssetMgr();
@@ -515,12 +543,6 @@ void AppletLibrary::slotListItemClicked( QListWidgetItem* item )
         }
         else
         {
-            //FileActionMenu fileActionMenuDialog(	m_MyApp, 
-            //										this, 
-            //										poInfo->getMyFileInfo(),
-            //										poInfo->getIsSharedFile(),
-            //										poInfo->getIsInLibrary() );
-            //fileActionMenuDialog.exec();
             playFile( fileInfo.getFileNameAndPath().c_str(), 0, false, false );
         }
     }
@@ -577,7 +599,6 @@ void AppletLibrary::updateStorageSpace( std::string fileNameAndPath )
 //============================================================================
 void AppletLibrary::statusMsg( QString strMsg )
 {
-    //LogMsg( LOG_INFO, strMsg.toStdString().c_str() );
     ui.m_StatusLabel->setText( strMsg );
 }
 
@@ -613,7 +634,7 @@ void AppletLibrary::browseForFile( EMediaFileType mediaFileType )
         startDir = lastDir.c_str();
     }
     
-    VxFileInfoBase fileInfo;
+    VxFileInfo fileInfo;
     if( GuiHelpers::browseForFile( this, mediaFileType, fileInfo, startDir ) )
     {
         std::string fileNameAndPath = fileInfo.getFileNameAndPath();
@@ -637,8 +658,6 @@ void AppletLibrary::browseForFile( EMediaFileType mediaFileType )
                 return;
             }
         }
-        
-        //m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileNameAndPath, true );
 
         // see if file is already a asset
         AssetMgr& assetMgr = m_MyApp.getEngine().getAssetMgr();
@@ -654,7 +673,27 @@ void AppletLibrary::browseForFile( EMediaFileType mediaFileType )
             else
             {
                 assetInfo->setIsInLibrary( true );
-                FileInfo fileInfoInLibrary =  assetInfo->getFileInfo();
+                FileInfo fileInfoInLibrary = assetInfo->getFileInfo();
+                if( !fileInfoInLibrary.getThumbId().isVxGUIDValid() )
+                {
+                    QString thumbFileName;
+                    if( GuiHelpers::generateMediaThumbnail( assetInfo, thumbFileName ) )
+                    {
+                        ThumbInfo thumbInfo;
+                        if( !GuiHelpers::addThumbAsset( m_MyApp, thumbFileName, assetInfo->getFileInfo().getThumbId(), thumbInfo ) )
+                        {
+                            QString msgText = QObject::tr( "Could not get thumbnail file info" );
+                            QMessageBox::information( this, QObject::tr( "Error occured creating thumbnail asset " ) + thumbFileName, msgText );
+                            assetInfo->getFileInfo().getThumbId().clear();
+                        }
+                        else
+                        {
+                            assetMgr.updateDatabase( assetInfo );
+                        }
+                    }
+                }
+
+                
                 assetMgr.unlockResources();
 
                 addFile( fileInfoInLibrary );
@@ -666,6 +705,21 @@ void AppletLibrary::browseForFile( EMediaFileType mediaFileType )
 
             AssetInfo newAsset( fileInfo );
             newAsset.setIsInLibrary( true );
+
+            if( !newAsset.getThumbId().isVxGUIDValid() )
+            {
+                QString thumbFileName;
+                if( GuiHelpers::generateMediaThumbnail( &newAsset, thumbFileName ) )
+                {
+                    ThumbInfo thumbInfo;
+                    if( !GuiHelpers::addThumbAsset( m_MyApp, thumbFileName, newAsset.getFileInfo().getThumbId(), thumbInfo ) )
+                    {
+                        QString msgText = QObject::tr( "Could not get thumbnail file info" );
+                        QMessageBox::information( this, QObject::tr( "Error occured creating thumbnail asset " ) + thumbFileName, msgText );
+                        assetInfo->getFileInfo().getThumbId().clear();
+                    }
+                }
+            }
 
             AssetBaseInfo* createdAsset{ nullptr };
             bool result = assetMgr.addAsset( newAsset, createdAsset );

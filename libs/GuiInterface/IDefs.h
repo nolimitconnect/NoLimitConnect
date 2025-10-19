@@ -43,6 +43,7 @@ enum EMediaModule
     eMediaModulePeerUserClient,
     eMediaModulePeerUsertHost,
     eMediaModulePersonalNotes,
+    eMediaModulePhotoPlayer,
     eMediaModulePlayerNlc,
     eMediaModulePushToTalk,
     eMediaModuleRandomConnectClient,

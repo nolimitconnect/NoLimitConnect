@@ -16,6 +16,7 @@
 
 #include "AppletApplicationInfo.h"
 #include "AppletAboutApp.h"
+#include "AppletAboutFile.h"
 #include "AppletAboutMeClient.h"
 #include "AppletAboutUser.h"
 
@@ -355,6 +356,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletFileOfferSelect:            if( launchAppletAllowed( eAppletFileOfferSelect ) ) appletDialog = new AppletFileOfferSelect( m_MyApp, parent ); break;
     case eAppletFileShareClientView:        if( launchAppletAllowed( eAppletFileShareClientView ) ) appletDialog = new AppletFileShareClientView( m_MyApp, parent ); break;
 
+    case eAppletAboutFile:                  if( launchAppletAllowed( eAppletAboutFile ) ) appletDialog = new AppletAboutFile( m_MyApp, parent ); break;
     case eAppletAboutMeClient:              if( launchAppletAllowed( eAppletAboutMeClient ) ) appletDialog = new AppletAboutMeClient( m_MyApp, parent ); break;
     case eAppletAboutNoLimitConnect:        if( launchAppletAllowed( eAppletAboutNoLimitConnect ) ) appletDialog = new AppletAboutApp( m_MyApp, parent ); break;
     case eAppletAboutUser:                  if( launchAppletAllowed( eAppletAboutUser ) ) appletDialog = new AppletAboutUser( m_MyApp, parent ); break;

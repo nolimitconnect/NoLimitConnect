@@ -65,6 +65,7 @@ private slots:
     void                        slotListPlayExternIconClicked( QListWidgetItem* item );
     void						slotListLibraryIconClicked( QListWidgetItem* item );
     void						slotListShareFileIconClicked( QListWidgetItem* item );
+    void                        slotListAboutFileClicked( QListWidgetItem* item );
     void						slotListShredIconClicked( QListWidgetItem* item );
 
 protected:

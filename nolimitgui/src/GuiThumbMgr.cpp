@@ -39,13 +39,11 @@ void GuiThumbMgr::onAppCommonCreated( void )
 {
     m_MyApp.getEngine().getThumbMgr().lockResources();
     const std::vector<VxGUID>& emoticonList = ThumbMgr::getEmoticonIdList();
-    // LogMsg( LOG_VERBOSE, "GuiThumbMgr::onAppCommonCreated emoticon list size %d", emoticonList.size() );
     int emoticonNum = 0;
     for( auto& guid : emoticonList )
     {     
         if( guid.isVxGUIDValid() )
         {
-            // LogMsg( LOG_VERBOSE, "GuiThumbMgr::onAppCommonCreated emoticon  %d is valid %s", emoticonNum, guid.toOnlineIdString().c_str() );
             m_EmoticonList.emplace_back( guid );
         }
         else
@@ -160,8 +158,7 @@ void GuiThumbMgr::removeThumb( VxGUID& thumbId )
 //============================================================================
 GuiThumb* GuiThumbMgr::getThumb( VxGUID& thumbId )
 {
-    GuiThumb* guiThumb = findThumb( thumbId );
-    return guiThumb;
+    return findThumb( thumbId );
 }
 
 //============================================================================
@@ -169,7 +166,7 @@ GuiThumb* GuiThumbMgr::updateThumb( ThumbInfo& thumbInfo )
 {
     if( !thumbInfo.isValidThumbnail() )
     {
-        LogMsg( LOG_ERROR, "GuiThumbMgr::updateThumbOnline invalid param" );
+        LogMsg( LOG_ERROR, "GuiThumbMgr::%s invalid param", __func__ );
         return nullptr;
     }
 
@@ -291,7 +288,7 @@ bool GuiThumbMgr::requestAvatarImage( GuiUser* guiUser, EPluginType pluginType, 
     }
     else
     {
-        LogMsg( LOG_ERROR, "requestAvatarImage null user" );
+        LogMsg( LOG_ERROR, "GuiThumbMgr::%s null user", __func__ );
     }
 
     return foundThumb;

@@ -58,8 +58,10 @@ list(APPEND nlc_HEADERS
     src/AppGlobals.h
     src/AppSettings.h
     src/AppletAboutApp.h
+    src/AppletAboutFile.h
     src/AppletAboutMeClient.h
     src/AppletAboutUser.h
+
     src/AppletAboutMeServerViewMine.h
     src/AppletApplicationInfo.h
     src/AppletAssetPlayerBase.h
@@ -482,9 +484,11 @@ list(APPEND nlc_SOURCES
     src/AppModuleState.cpp
     src/AppSettings.cpp
     src/AppletAboutApp.cpp
+    src/AppletAboutFile.cpp
     src/AppletAboutMeClient.cpp
     src/AppletAboutUser.cpp
     src/AppletAboutMeServerViewMine.cpp
+
     src/AppletApplicationInfo.cpp
     src/AppletAssetPlayerBase.cpp
     src/AppletBase.cpp
@@ -872,8 +876,10 @@ list(APPEND nlc_FORMS
 
     src/Forms/AcceptCancelWidget.ui
     src/Forms/AppletAboutApp.ui
+    src/Forms/AppletAboutFile.ui
     src/Forms/AppletAboutMeClient.ui
     src/Forms/AppletAboutUser.ui
+
     src/Forms/AppletApplicationInfo.ui
     src/Forms/AppletBrowseFiles.ui
     src/Forms/AppletCamClient.ui

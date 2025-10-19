@@ -223,20 +223,20 @@ public:
 
 	/// Send directory listing to GUI
 	virtual bool				fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY ) = 0;
-	
+
+	/// Returns -1 if unknown else percent downloaded
+	virtual int					fromGuiGetFileDownloadState( uint8_t* fileHashId ) = 0;
+
 	/// Share/Unshare a file
 	virtual bool				fromGuiSetFileIsShared( FileInfo& fileInfo, bool addFile ) = 0;
 	/// Return true if file is shared
     virtual bool				fromGuiGetIsFileShared( FileInfo& fileInfo ) = 0;
 
-	/// Returns -1 if unknown else percent downloaded
-	virtual int					fromGuiGetFileDownloadState( uint8_t * fileHashId ) = 0;
 	/// Add/Remove file from library
 	virtual bool				fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool inLibrary ) = 0;
-	virtual bool				fromGuiSetFileIsInLibrary( std::string& fileName, bool inLibrary ) = 0;
 	/// Return true if file is in library
 	virtual bool				fromGuiGetFileIsInLibrary( FileInfo& fileInfo ) = 0;
-	virtual bool				fromGuiGetIsFileInLibrary( std::string& fileName ) = 0;
+
 	/// Send to GUI file that are in library of the given file type mask
 	virtual void				fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter ) = 0;
 
@@ -311,7 +311,6 @@ public:
 	virtual void				fromGuiUpdatePluginPermission( EPluginType pluginType, EFriendState pluginPermission ) = 0;
 
 	virtual bool				fromGuiQueryFileHash( FileInfo& fileInfo ) = 0;
-	virtual void				fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash ) = 0;
 
 	virtual bool				fromGuiDeleteDatabase( EDatabaseType databaseType ) = 0;
 

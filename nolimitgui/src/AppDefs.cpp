@@ -16,6 +16,7 @@ EMyIcons GetAppletIcon( EApplet applet )
 {
 	switch( applet )
 	{
+    case eAppletAboutFile:	                return eMyIconInformation;
     case eAppletAboutNoLimitConnect:	    return eMyIconApp;
     case eAppletAboutUser:                  return eMyIconAnonymous;
     case eAppletApplicationInfo:	        return eMyIconUnknown;
@@ -205,6 +206,7 @@ QString DescribeApplet( EApplet applet )
     case eAppletStoryboardClient:		    return QObject::tr( "View Story Page (Blog)" );
     case eAppletStoryboardServerViewMine:   return QObject::tr( "View My Story Page (Blog)" );
     case eAppletSoundSettings:		        return QObject::tr( "Sound Settings" );
+    case eAppletAboutFile:                  return QObject::tr( "About File" );
     case eAppletAboutMeClient:              return QObject::tr( "View About Me Page" );
     case eAppletAboutMeServerViewMine:      return QObject::tr( "View My About Me Page" );
     case eAppletAboutUser:                  return QObject::tr( "User Details" );

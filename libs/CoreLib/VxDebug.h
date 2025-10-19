@@ -64,7 +64,7 @@ enum ELogModule
 	eLogSkt				= 0x0100, // 9
 	eLogSktData         = 0x0200, // 10
 	eLogPkt				= 0x0400, // 11
-	eLogUnused1			= 0x0800, // 12 
+	eLogThumbnail		= 0x0800, // 12 
 
 	eLogVoice			= 0x1000, // 13
 	eLogNetworkState	= 0x2000, // 14

@@ -178,10 +178,8 @@ FileShareItemWidget* AppletFileOfferSelect::fileToWidget( FileInfo& fileInfo )
              this,
              SLOT(slotListItemClicked(QListWidgetItem*)) );
 
-    connect( item,
-             SIGNAL(signalFileIconClicked(QListWidgetItem*)),
-             this,
-             SLOT(slotListFileIconClicked(QListWidgetItem*)) );
+    connect( item, SIGNAL(signalFileIconClicked(QListWidgetItem*)),
+             this, SLOT(slotListFileIconClicked(QListWidgetItem*)) );
 
     connect( item,
              SIGNAL(signalPlayButtonClicked(QListWidgetItem*)),

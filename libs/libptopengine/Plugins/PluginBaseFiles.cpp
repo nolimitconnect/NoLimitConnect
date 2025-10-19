@@ -125,7 +125,7 @@ bool PluginBaseFiles::fromGuiBrowseFiles( VxGUID& appInstId, std::string& dir, u
 					vxFileInfo.getFileType(), VxGUID::nullVxGUID() );
 
 				bool isShared = m_Engine.fromGuiGetIsFileShared( fileInfo );
-				bool isInLibrary = m_Engine.fromGuiGetIsFileInLibrary( vxFileInfo.getFileNameAndPath() );
+				bool isInLibrary = m_Engine.fromGuiGetFileIsInLibrary( fileInfo );
 
 				fileInfo.setIsInLibrary( isInLibrary );
 				fileInfo.setIsSharedFile( isShared );

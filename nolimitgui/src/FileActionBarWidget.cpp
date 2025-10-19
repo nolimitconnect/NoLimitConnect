@@ -27,18 +27,21 @@ FileActionBarWidget::FileActionBarWidget(QWidget* parent)
 	ui.m_PlayExternallyButton->setIcons( eMyIconPlayExtern );
 	ui.m_FileInLibraryButton->setIcons( eMyIconLibraryNormal );
 	ui.m_FileShareButton->setIcons( eMyIconShareFilesNormal );
+	ui.m_AboutFileButton->setIcons( eMyIconInformation );
 	ui.m_ShredFileButton->setIcons( eMyIconShredderNormal );
 
 	ui.m_PlayFileButton->setFixedSize( eButtonSizeSmall );
 	ui.m_PlayExternallyButton->setFixedSize( eButtonSizeSmall );
 	ui.m_FileInLibraryButton->setFixedSize( eButtonSizeSmall );
 	ui.m_FileShareButton->setFixedSize( eButtonSizeSmall );
+	ui.m_AboutFileButton->setFixedSize( eButtonSizeSmall );
 	ui.m_ShredFileButton->setFixedSize( eButtonSizeSmall );
 
 	connect( ui.m_PlayFileButton,		SIGNAL(clicked()), this, SLOT(slotPlayButtonClicked()) );
 	connect( ui.m_PlayExternallyButton,	SIGNAL(clicked()), this, SLOT(slotPlayExternButtonClicked()) );
 	connect( ui.m_FileInLibraryButton,	SIGNAL(clicked()), this, SLOT(slotLibraryButtonClicked()) );
 	connect( ui.m_FileShareButton,		SIGNAL(clicked()), this, SLOT(slotFileShareButtonClicked()) );
+	connect( ui.m_AboutFileButton,		SIGNAL(clicked()), this, SLOT(slotAboutFileButtonClicked()) );
 	connect( ui.m_ShredFileButton,		SIGNAL(clicked()), this, SLOT(slotShredButtonClicked()) );
 }
 
@@ -77,6 +80,12 @@ void FileActionBarWidget::slotLibraryButtonClicked( void )
 void FileActionBarWidget::slotFileShareButtonClicked( void )
 {
 	emit signalFileShareButtonClicked();
+}
+
+//============================================================================
+void FileActionBarWidget::slotAboutFileButtonClicked( void )
+{
+	emit signalAboutFileButtonClicked();
 }
 
 //============================================================================

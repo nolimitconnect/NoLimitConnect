@@ -198,6 +198,7 @@ enum EApplet
     eAppletPopupMenu,
     eAppletHelpNetSignalBars,
 
+    eAppletAboutFile,
     eAppletAboutMeClient,
     eAppletAboutUser,
     eAppletFileShareClientView,

@@ -348,17 +348,14 @@ public:
 
     bool           				fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY ) override;
 
+    // returns -1 if unknown else percent downloaded
+    int            			    fromGuiGetFileDownloadState( uint8_t* fileHashId ) override;
+
     bool           				fromGuiSetFileIsShared( FileInfo& fileInfo, bool isShared ) override;
     bool           				fromGuiGetIsFileShared( FileInfo& fileInfo ) override;
 
-	// returns -1 if unknown else percent downloaded
-    int            			    fromGuiGetFileDownloadState( uint8_t* fileHashId ) override;
-
     bool           				fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibrary ) override;
-    bool           				fromGuiSetFileIsInLibrary( std::string& fileName, bool isInLibrary ) override;
-
     bool           				fromGuiGetFileIsInLibrary( FileInfo& fileInfo ) override;
-    bool           				fromGuiGetIsFileInLibrary( std::string& fileName ) override;
 
     void           				fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter ) override;
 
@@ -393,7 +390,7 @@ public:
     void           				fromGuiUpdatePluginPermission( enum EPluginType pluginType, enum EFriendState pluginPermission ) override;
 
     bool           				fromGuiQueryFileHash( FileInfo& fileInfo ) override;
-    void           				fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash ) override;
+    void           				fromGuiFileHashGenerated( std::string& fileNameAndPath, int64_t fileLen, VxSha1Hash& fileHash );
 
     bool				        fromGuiDeleteDatabase( enum EDatabaseType databaseType ) override;
 

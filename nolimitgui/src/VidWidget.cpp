@@ -22,8 +22,9 @@
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxDebug.h>
-#include <CoreLib/VxTimeUtil.h>
+#include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxTime.h>
+#include <CoreLib/VxTimeUtil.h>
 
 #include <QDebug>
 #include <QTimer>
@@ -558,16 +559,26 @@ void VidWidget::slotPictureSnapshotButton( void )
 		photoFile.open(QIODevice::WriteOnly);
 		photoImage.save(&photoFile, "PNG");
 		photoFile.close();
-		uint64_t fileLen = VxFileUtil::getFileLen( photoFileName.toUtf8().constData() );
-		if( 500 < fileLen )
+
+		FileInfo fileInfo;
+		if( VxFileUtil::getFileInfo( photoFileName.toUtf8().constData(), fileInfo ) && fileInfo.getFileLength() > 500 )
 		{
-			std::string fileName = photoFileName.toUtf8().constData();
-			m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileName, true );
-			m_MyApp.toGuiUserMessage( "Snapshot added to library %s", fileName.c_str() );
+			QString thumbFileName;
+			if( GuiHelpers::generateThumbFromImageFile( photoFileName.toUtf8().constData(), fileInfo.getThumbId(), thumbFileName ) )
+			{
+				ThumbInfo thumbInfo;
+				if( !GuiHelpers::addThumbAsset( m_MyApp, thumbFileName, fileInfo.getThumbId(), thumbInfo ) )
+				{
+					fileInfo.getThumbId().clear();
+				}
+			}
+
+			m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileInfo, true );
 		}
 		else
 		{
 			m_MyApp.toGuiUserMessage( "ERROR: Snapshot file create failed" );
+			VxFileUtil::deleteFile( photoFileName.toUtf8().constData() );
 		}
 	}
 }
@@ -610,21 +621,8 @@ void VidWidget::slotRecMotionButtonClicked( void )
 				m_MotionRecordOn = false;
 				m_Engine.fromGuiVideoRecord( eVideoRecordStateStopRecording, m_VideoFeedId, m_RecFileName.toUtf8().constData() );
 
-				uint64_t fileLen = VxFileUtil::getFileLen( m_RecFileName.toUtf8().constData() );
-				if( 5000 > fileLen )
-				{
-					// not long enough to be a recording
-					VxFileUtil::deleteFile( m_RecFileName.toUtf8().constData() );
-					LogMsg( LOG_ERROR, "VidWidget::videoMotionRecord file %s has to short len %" PRId64 "", m_RecFileName.toUtf8().constData(), fileLen );
-					m_MyApp.toGuiUserMessage( "ERROR: Motion video record file was too short" );
-				}
-				else
-				{
-					std::string fileName = m_RecFileName.toUtf8().constData();
-					m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileName, true );
-					m_MyApp.toGuiUserMessage( "Added motion video to library %s", fileName.c_str() );
-					enableVidFilesButton( true );
-				}
+				addVideoFileToLibrary( m_RecFileName.toUtf8().constData() );
+
 			}
 			else
 			{
@@ -675,23 +673,7 @@ void VidWidget::slotRecNormalButtonClicked( void )
 
 				m_Engine.fromGuiVideoRecord( eVideoRecordStateStopRecording, m_VideoFeedId, m_RecFileName.toUtf8().constData() );
 
-				uint64_t fileLen = VxFileUtil::getFileLen( m_RecFileName.toUtf8().constData() );
-				if( 5000 > fileLen )
-				{
-					// not long enough to be a recording
-					VxFileUtil::deleteFile( m_RecFileName.toUtf8().constData() );
-					LogMsg( LOG_ERROR, "VidWidget::videoRecord file %s has to short len %" PRId64 "", m_RecFileName.toUtf8().constData(), fileLen );
-					m_MyApp.toGuiUserMessage( "ERROR: Video record file was too short" );
-					QMessageBox::information( this, QObject::tr( "ERROR: Video record file was too short" ), m_RecFileName.toUtf8().constData() );
-				}
-				else
-				{
-					std::string fileName = m_RecFileName.toUtf8().constData();
-					m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileName, true );
-					m_MyApp.toGuiUserMessage( "Added video recording to library %s", fileName.c_str() );
-					QMessageBox::information( this, QObject::tr( "Added video recording to library" ), m_RecFileName.toUtf8().constData() );
-					enableVidFilesButton( true );
-				}
+				addVideoFileToLibrary( m_RecFileName.toUtf8().constData() );
 			}
 			else
 			{
@@ -730,5 +712,33 @@ void VidWidget::updateCamEnable( void )
 	else
 	{
 		ui.m_CamEnableButton->setIcon( eMyIconCamcorderNormal );
+	}
+}
+
+//============================================================================
+void VidWidget::addVideoFileToLibrary( std::string vidFileName )
+{
+	FileInfo fileInfo;
+	if( VxFileUtil::getFileInfo( vidFileName.c_str(), fileInfo ) && fileInfo.getFileLength() > 5000 )
+	{
+		//QString thumbFileName;
+		//if( GuiHelpers::generateThumbFromImageFile( photoFileName.toUtf8().constData(), fileInfo.getThumbId(), thumbFileName ) )
+		//{
+		//	ThumbInfo thumbInfo;
+		//	if( !GuiHelpers::addThumbAsset( m_MyApp, thumbFileName, fileInfo.getThumbId(), thumbInfo ) )
+		//	{
+		//		fileInfo.getThumbId().clear();
+		//	}
+		//}
+
+		m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileInfo, true );
+		m_MyApp.toGuiUserMessage( "Added motion video to library %s", m_RecFileName.toUtf8().constData() );
+		enableVidFilesButton( true );
+	}
+	else
+	{
+		VxFileUtil::deleteFile( m_RecFileName.toUtf8().constData() );
+		LogMsg( LOG_ERROR, "VidWidget::videoMotionRecord file %s is too short", m_RecFileName.toUtf8().constData() );
+		m_MyApp.toGuiUserMessage( "ERROR: Motion video record file was too short" );
 	}
 }

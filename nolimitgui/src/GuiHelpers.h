@@ -64,6 +64,7 @@ class GuiUser;
 class PluginSetting;
 class PluginSettingsWidget;
 class BottomBarWidget;
+class ThumbInfo;
 class TitleBarWidget;
 class VxFileInfoBase;
 class VxFrame;
@@ -139,9 +140,6 @@ public:
     static QFrame*              findContentFrame( QString& contentFrameObjName );
 
     static VxFrame*             getVxFrame( QWidget* curWidget );
-    //static QFrame*              getVxFrameContentItemsFrame( QWidget* curWidget );
-    //static TitleBarWidget*      getVxFrameTitleBarWidget( QWidget* curWidget );
-    //static BottomBarWidget*     getVxFrameBottomBarWidget( QWidget* curWidget );
 
     static bool                 validateUserName( QWidget* curWidget, QString strUserName );
     static bool                 validateMoodMessage( QWidget* curWidget, QString strMoodMsg );
@@ -200,6 +198,12 @@ public:
     static uint64_t             saveToPngFile( QImage& image, QString& fileName ); // returns file length
     static uint64_t             saveToPngFile( QPixmap& pixmap, QString& fileName ); // returns file length
 
+    static bool                 generateMediaThumbnail( AssetBaseInfo* assetInfo, QString& retThumbFileName );
+    static bool                 generateThumbFromImageFile( std::string fileName, VxGUID& thumbId, QString& retThumbFileName );
+    static QString              generateThumbFileName( VxGUID& thumbId );
+
+    static bool                 addThumbAsset( AppCommon& myApp, QString& thumbFileName, VxGUID thumbId, ThumbInfo& assetInfoOut );
+
     static void                 fillHostType( QComboBox* comboBox, bool excludePeerHost = true );
     static EHostType            comboIdxToHostType( int comboIdx );
 
@@ -212,6 +216,7 @@ public:
     static std::string          getRealFileName( QString selectedFile );
 
     static void                 showApplicationNotReadyError( bool appReadyButNetworkNotReady, QWidget* parent = nullptr );
+    static void                 showFileNameEmptyError( QWidget* parent = nullptr );
     static void                 showFilePermissionError( QWidget* parent = nullptr );
     static void                 showRequiresOpenPort( QWidget* parent = nullptr );
     static void                 showInviteInvalidError( QWidget* parent = nullptr );

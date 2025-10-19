@@ -987,6 +987,8 @@ const char* DescribeMediaModule( enum EMediaModule eMediaModule )
         return "eMediaModulePeerUsertHost";
     case eMediaModulePersonalNotes:
         return "eMediaModulePersonalNotes";
+    case eMediaModulePhotoPlayer:
+        return "eMediaModulePhotoPlayer";
     case eMediaModulePlayerNlc:
         return "eMediaModulePlayerNlc";
     case eMediaModulePushToTalk:

@@ -1092,7 +1092,7 @@ RCODE VxFileUtil::moveAFile( const char* srcFile, const char* destFile )
 
 //============================================================================
 //! separate file name into file name and extension strings
-void VxFileUtil::seperateFileNameAndExtension(	std::string &	fileNameWithExt,		// file name with extension				
+bool VxFileUtil::seperateFileNameAndExtension(	std::string &	fileNameWithExt,		// file name with extension				
 												std::string &	strRetFileNamePart,		// return file name part without .ext
 												std::string &	strRetExtensionPart )	// return .ext part
 {
@@ -1110,6 +1110,7 @@ void VxFileUtil::seperateFileNameAndExtension(	std::string &	fileNameWithExt,		/
 			strRetExtensionPart = period;
 			period[0]			= 0;
 			strRetFileNamePart	= as8Buf;
+			return true;
 		}
 		else
 		{
@@ -1120,8 +1121,37 @@ void VxFileUtil::seperateFileNameAndExtension(	std::string &	fileNameWithExt,		/
 	{
         LogMsg( LOG_ERROR, "%s.. no extension", __func__ );
 	}
+
+	return false;
 }
 
+//============================================================================
+bool VxFileUtil::replaceExtension( std::string& fileName, std::string newExtension )
+{
+	if( newExtension.empty() || fileName.empty() )
+	{
+		LogMsg( LOG_ERROR, "%s empty param", __func__ );
+		return false;
+	}
+
+	std::size_t foundPos = fileName.find_last_of( "." );
+	if( std::string::npos == foundPos || 0 == foundPos )
+	{
+		LogMsg( LOG_ERROR, "%s last . not found %s", __func__, fileName.c_str() );
+		return false;
+	}
+
+	foundPos++; // move past .
+	size_t lenToEnd = fileName.length() - foundPos;
+	if( lenToEnd <= 0 )
+	{
+		LogMsg( LOG_ERROR, "%s len to end invalid", __func__ );
+		return false;
+	}
+
+	fileName.replace( foundPos, lenToEnd, newExtension.c_str() );
+	return true;
+}
 
 //============================================================================
 //! separate Path and file name into separate strings
@@ -1162,8 +1192,6 @@ RCODE VxFileUtil::seperatePathAndFile(	const char*	pFullPath,		// path and file 
 		strRetFile = pFullPath;
 	}
 
-	//vx_assert( false );
-	//return -1;
 	return 0;
 }
 
@@ -1198,8 +1226,8 @@ std::string VxFileUtil::getJustPath( std::string fullPath )	// file name and pat
 
 //============================================================================
 //! get the . extension of file name
-void	VxFileUtil::getFileExtension(	std::string&	strFileName,	// file name with extension
-										std::string&	strRetExt )		// return extension ( ie "myfile.etm" would return etm"
+void VxFileUtil::getFileExtension(	std::string&	strFileName,	// file name with extension
+									std::string&	strRetExt )		// return extension ( ie "myfile.etm" would return etm"
 {
 	int iIdx;
 	if( -1 != (iIdx = StdStringReverseFind( strFileName, '.') ) )

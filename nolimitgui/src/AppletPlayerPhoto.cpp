@@ -41,12 +41,13 @@ AppletPlayerPhoto::AppletPlayerPhoto( AppCommon& app, QWidget* parent )
 void AppletPlayerPhoto::initAppletPlayerPhoto( void )
 {
 	setAppletType( eAppletPlayerPhoto );
-	setTitleBarText( DescribeApplet( m_EAppletType ) );
-	connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT( closeApplet() ) );
+	setTitleBarText( DescribeApplet( m_EAppletType ) );	
 
 	ui.setupUi( getContentItemsFrame() );
 	ui.m_PlayPosSlider->setVisible( false );
     setMenuBottomVisibility( true );
+	ui.m_VidWidget->setMediaModule( eMediaModulePhotoPlayer );
+
 
     BottomBarWidget * bottomBar = getBottomBarWidget();
     if( bottomBar )
@@ -59,13 +60,15 @@ void AppletPlayerPhoto::initAppletPlayerPhoto( void )
 	//ui.m_VidWidget->disablePreview( true );
 	//ui.m_VidWidget->disableRecordControls( true );
 
-	ui.m_PlayPosSlider->setRange( 0, 100000 );
+	//ui.m_PlayPosSlider->setRange( 0, 100000 );
 
-	connect( ui.m_PlayPosSlider, SIGNAL( sliderPressed() ), this, SLOT(slotSliderPressed() ) );
-	connect( ui.m_PlayPosSlider, SIGNAL( sliderReleased() ), this, SLOT(slotSliderReleased() ) );
+	//connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );
 
-	connect( this, SIGNAL(signalPlayProgress( int ) ), this, SLOT(slotPlayProgress( int ) ) );
-	connect( this, SIGNAL(signalPlayEnd() ), this, SLOT(slotPlayEnd() ) );
+	//connect( ui.m_PlayPosSlider, SIGNAL( sliderPressed() ), this, SLOT(slotSliderPressed() ) );
+	//connect( ui.m_PlayPosSlider, SIGNAL( sliderReleased() ), this, SLOT(slotSliderReleased() ) );
+
+	//connect( this, SIGNAL(signalPlayProgress( int ) ), this, SLOT(slotPlayProgress( int ) ) );
+	//connect( this, SIGNAL(signalPlayEnd() ), this, SLOT(slotPlayEnd() ) );
 
 	m_MyApp.activityStateChange( this, true );
 }

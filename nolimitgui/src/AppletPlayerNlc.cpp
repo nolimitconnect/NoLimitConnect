@@ -395,10 +395,10 @@ void AppletPlayerNlc::slotOpenVideoFileButtonClick( void )
     std::string fileNameAndPath;
     if( GuiHelpers::browseForFile( this, eMediaFileVideo, fileNameAndPath, startDir ) )
     {
-        VxFileInfoBase fileInfo;
+        FileInfo fileInfo;
         if( VxFileUtil::getFileInfo( fileNameAndPath.c_str(), fileInfo ) )
         {
-            m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileNameAndPath, true );
+            m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileInfo, true );
 
 			std::string filePath = fileInfo.getFilePath();
             if( !filePath.empty() )
@@ -432,10 +432,10 @@ void AppletPlayerNlc::slotOpenAudioFileButtonClick( void )
     std::string fileNameAndPath;
     if( GuiHelpers::browseForFile( this, eMediaFileAudio, fileNameAndPath, startDir ) )
     {
-        VxFileInfoBase fileInfo;
+        FileInfo fileInfo;
         if( VxFileUtil::getFileInfo( fileNameAndPath.c_str(), fileInfo ) )
         {
-            m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileNameAndPath, true );
+            m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileInfo, true );
 
             std::string filePath = fileInfo.getFilePath();
             if( !filePath.empty() )

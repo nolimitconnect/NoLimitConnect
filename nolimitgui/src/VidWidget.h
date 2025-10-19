@@ -116,6 +116,7 @@ protected:
 	void						playMotionAlarm( void );
 	void						updateMotionBarColor( void );
 	void						enableVidFilesButton( bool enable );
+	void						addVideoFileToLibrary( std::string vidFileName );
 
 	//=== vars ===//
 	Ui::VidWidgetClass&			ui;

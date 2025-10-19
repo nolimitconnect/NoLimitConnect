@@ -41,10 +41,11 @@ public:
     const QPixmap*              getThumbnailImage(void)                     { return pixmap(); }
 #endif // QT_VERSION > QT_VERSION_CHECK(6,0,0)
 
-    void                        setThumbnailId( VxGUID& id )                { m_ThumbnailId = id; }
+    void                        setThumbnailId( VxGUID& thumbId )           { m_ThumbnailId = thumbId; }
     VxGUID&                     getThumbnailId( void )                      { return m_ThumbnailId; }
 
     bool                        loadFromAsset( ThumbInfo* asset );
+    bool                        loadFromThumbId( VxGUID& thumbId );
     bool                        loadFromFile( QString fileName );
 
     bool                        saveToPngFile( QString pngFileName );

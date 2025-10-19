@@ -82,9 +82,11 @@ namespace VxFileUtil
                                                         std::string&	strRetFile );	// return file name
 
 	//! separate file name into file name and extension strings
-    void						seperateFileNameAndExtension(	std::string&	fileNameWithExt,		// file name with extension
+    bool						seperateFileNameAndExtension(	std::string&	fileNameWithExt,		// file name with extension
                                                                 std::string&	strRetFileNamePart,		// return file name part without .ext
                                                                 std::string&	strRetExtensionPart );	// return .ext part
+
+	bool						replaceExtension( std::string& fileName, std::string newExtension );
 
 	//! remove the path and return just the file name
     void						getFileName(	const char*     pFullPath,	                // file name may be full or just file name

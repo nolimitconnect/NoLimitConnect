@@ -33,7 +33,6 @@ ThumbnailViewWidget::ThumbnailViewWidget( QWidget* parent )
     : QLabel( parent )
     , m_MyApp( GetAppInstance() )
 {
-    //setFixedSize( GuiParams::getThumbnailSize().width(), GuiParams::getThumbnailSize().height() + 10 );
 }
 
 //============================================================================
@@ -51,6 +50,23 @@ bool ThumbnailViewWidget::loadFromAsset( ThumbInfo* asset )
     {
         setThumbnailId( asset->getAssetUniqueId() );
         return loadFromFile( asset->getAssetNameAndPath().c_str() );
+    }
+
+    return false;
+}
+
+//============================================================================
+bool ThumbnailViewWidget::loadFromThumbId( VxGUID& thumbId )
+{
+    if( !thumbId.isVxGUIDValid() )
+    {
+        return false;
+    }
+
+    QString fileName = GuiHelpers::generateThumbFileName( thumbId );
+    if( !fileName.isEmpty() && VxFileUtil::fileExists( fileName.toUtf8().constData() ) )
+    {
+        return loadFromFile( fileName );
     }
 
     return false;

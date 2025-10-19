@@ -201,6 +201,9 @@ FileShareItemWidget* ActivityBrowseFiles::fileToWidget( FileInfo& fileInfo )
 	connect(	item, SIGNAL(signalFileShareButtonClicked(QListWidgetItem*)), 
 				this, SLOT(slotListShareFileIconClicked(QListWidgetItem*)) );
 
+	connect(	item, SIGNAL(signalAboutFileButtonClicked(QListWidgetItem*) ),
+				this, SLOT(slotListAboutFileButtonClicked(QListWidgetItem*)) );
+
 	connect(	item, SIGNAL(signalShredButtonClicked(QListWidgetItem*)), 
 				this, SLOT(slotListShredIconClicked(QListWidgetItem*)) );
 

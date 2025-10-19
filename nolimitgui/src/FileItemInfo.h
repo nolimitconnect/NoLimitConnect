@@ -46,6 +46,9 @@ public:
 	void 						setAssetId( VxGUID& assetId )			{ m_FileInfo.setAssetId( assetId ); }
 	VxGUID						getAssetId( void )						{ return m_FileInfo.getAssetId(); }
 
+	void 						setThumbId( VxGUID& assetId )			{ m_FileInfo.setThumbId( assetId ); }
+	VxGUID&						getThumbId( void )						{ return m_FileInfo.getThumbId(); }
+
 	bool						toggleIsShared( void );
 	bool						toggleIsInLibrary( void );
 	void						updateWidget( void );

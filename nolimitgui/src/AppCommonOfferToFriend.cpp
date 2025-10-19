@@ -120,3 +120,9 @@ bool AppCommon::iAmHostAdmin( EPluginType pluginType, bool showErrMsg )
 
 	return isHosting;
 }
+
+//============================================================================
+bool AppCommon::getThumbImage( VxGUID& thumbId, QImage& thumbImage )
+{
+	return getThumbMgr().getThumbImage( thumbId, thumbImage );
+}

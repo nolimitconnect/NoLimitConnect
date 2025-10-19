@@ -92,29 +92,12 @@ bool ThumbnailEditWidget::generateThumbAsset( ThumbInfo& assetInfoOut )
         VxGUID::generateNewVxGUID( assetGuid );
     }
 
-    QString fileName = VxGetAppDirectory( eAppDirThumbs ).c_str();
-    fileName += assetGuid.toHexString().c_str();
-    fileName += ".nlt"; // use extension not known as image so thumbs will not be scanned by android image gallery etc
-    if( saveToPngFile( fileName ) && VxFileUtil::fileExists( fileName.toUtf8().constData() ) )
+    QString fileName = GuiHelpers::generateThumbFileName( assetGuid );
+    if( !fileName.isEmpty() && saveToPngFile( fileName ) && VxFileUtil::fileExists( fileName.toUtf8().constData() ) )
     {
-        VxFileInfo fileInfo;
-        if( VxFileUtil::getFileInfo( fileName.toUtf8().constData(), fileInfo ) )
-        {
-            fileInfo.setFileType( VXFILE_TYPE_OTHER );
-            ThumbInfo assetInfo( fileInfo );
-            assetInfo.setAssetUniqueId( assetGuid );
-            assetInfo.setCreatorId( m_MyApp.getEngine().getMyOnlineId() );
-            assetInfo.setCreationTime( GetTimeStampMs() );
-            if( m_ThumbMgr.fromGuiThumbCreated( assetInfo ) )
-            {
-                assetGenerated = true;
-                assetInfoOut = assetInfo;
-            }
-            else
-            {
-                QString msgText = QObject::tr( "Could not create thumbnail asset" );
-                QMessageBox::information( this, QObject::tr( "Error occured creating thumbnail asset " ) + fileName, msgText );
-            }
+        if( GuiHelpers::addThumbAsset( m_MyApp, fileName, assetGuid, assetInfoOut ) )
+        { 
+            assetGenerated = true;
         }
         else
         {

@@ -49,10 +49,10 @@ private slots:
 	void						slotPlayExternButtonClicked( QListWidgetItem* item );
 	void						slotLibraryButtonClicked( QListWidgetItem* item );
 	void						slotFileShareButtonClicked( QListWidgetItem* item );
+	void						slotAboutFileButtonClicked( QListWidgetItem* item );
 	void						slotShredButtonClicked( QListWidgetItem* item );
 
 protected:
-
     virtual void				toGuiFileUploadStart( GuiFileXferSession* xferSession ) override;
     virtual void				toGuiFileXferState( EPluginType plguinType, VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 ) override;
     virtual void				toGuiFileUploadComplete( EPluginType plguinType, VxGUID& lclSessionId, EXferError xferError ) override;
