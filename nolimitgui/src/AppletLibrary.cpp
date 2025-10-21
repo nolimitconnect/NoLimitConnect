@@ -245,9 +245,52 @@ void AppletLibrary::slotListShareFileIconClicked( QListWidgetItem* item )
         else
         {
             // is file
-            poInfo->toggleIsShared();
-            ( ( FileShareItemWidget* )item )->updateWidgetFromInfo();
+            bool wasInUse = poInfo->getIsInUse();
+            bool isShared = poInfo->toggleIsShared();
+            if( !wasInUse && isShared && !poInfo->getThumbId().isVxGUIDValid() )
+            {
+                // new instertion. generate thumbnail if available
+                generateThumb( poInfo );
+            }
+            
             m_Engine.fromGuiSetFileIsShared( poInfo->getFileInfo(), poInfo->getIsSharedFile() );
+            if( !poInfo->getIsInUse() )
+            {
+                poInfo->getThumbId().clear();
+            }
+
+            ( (FileShareItemWidget*)item )->updateWidgetFromInfo();
+        }
+    }
+}
+
+//============================================================================
+void AppletLibrary::slotListLibraryIconClicked( QListWidgetItem* item )
+{
+    FileItemInfo* poInfo = ( (FileShareItemWidget*)item )->getFileItemInfo();
+    if( poInfo )
+    {
+        if( VXFILE_TYPE_DIRECTORY == poInfo->getFileType() )
+        {
+        }
+        else
+        {
+            // is file
+            bool wasInUse = poInfo->getIsInUse();
+            bool inLibrary = poInfo->toggleIsInLibrary();
+            if( !wasInUse && inLibrary && !poInfo->getThumbId().isVxGUIDValid() )
+            {
+                // new instertion. generate thumbnail if available
+                generateThumb( poInfo );
+            }
+
+            m_Engine.fromGuiSetFileIsInLibrary( poInfo->getFileInfo(), inLibrary );
+            if( !poInfo->getIsInUse() )
+            {
+                poInfo->getThumbId().clear();
+            }
+
+            ( (FileShareItemWidget*)item )->updateWidgetFromInfo();
         }
     }
 }
@@ -268,25 +311,6 @@ void AppletLibrary::slotListAboutFileClicked( QListWidgetItem* item )
             {
                 aboutFile->setFileInfo( poInfo->getFileInfo() );
             }
-        }
-    }
-}
-
-//============================================================================
-void AppletLibrary::slotListLibraryIconClicked( QListWidgetItem* item )
-{
-    FileItemInfo* poInfo = ( ( FileShareItemWidget* )item )->getFileItemInfo();
-    if( poInfo )
-    {
-        if( VXFILE_TYPE_DIRECTORY == poInfo->getFileType() )
-        {
-        }
-        else
-        {
-            // is file
-            poInfo->toggleIsInLibrary();
-            ( ( FileShareItemWidget* )item )->updateWidgetFromInfo();
-            m_Engine.fromGuiSetFileIsInLibrary( poInfo->getFileInfo(), poInfo->getIsInLibrary() );
         }
     }
 }
@@ -634,7 +658,7 @@ void AppletLibrary::browseForFile( EMediaFileType mediaFileType )
         startDir = lastDir.c_str();
     }
     
-    VxFileInfo fileInfo;
+    FileInfo fileInfo;
     if( GuiHelpers::browseForFile( this, mediaFileType, fileInfo, startDir ) )
     {
         std::string fileNameAndPath = fileInfo.getFileNameAndPath();
@@ -677,8 +701,9 @@ void AppletLibrary::browseForFile( EMediaFileType mediaFileType )
                 if( !fileInfoInLibrary.getThumbId().isVxGUIDValid() )
                 {
                     QString thumbFileName;
-                    if( GuiHelpers::generateMediaThumbnail( assetInfo, thumbFileName ) )
+                    if( GuiHelpers::generateMediaThumbnail( fileInfoInLibrary, thumbFileName ) )
                     {
+                        assetInfo->setThumbId( fileInfoInLibrary.getThumbId() );
                         ThumbInfo thumbInfo;
                         if( !GuiHelpers::addThumbAsset( m_MyApp, thumbFileName, assetInfo->getFileInfo().getThumbId(), thumbInfo ) )
                         {
@@ -709,14 +734,16 @@ void AppletLibrary::browseForFile( EMediaFileType mediaFileType )
             if( !newAsset.getThumbId().isVxGUIDValid() )
             {
                 QString thumbFileName;
-                if( GuiHelpers::generateMediaThumbnail( &newAsset, thumbFileName ) )
+                if( GuiHelpers::generateMediaThumbnail( fileInfo, thumbFileName) )
                 {
+                    newAsset.setThumbId( fileInfo.getThumbId() );
                     ThumbInfo thumbInfo;
                     if( !GuiHelpers::addThumbAsset( m_MyApp, thumbFileName, newAsset.getFileInfo().getThumbId(), thumbInfo ) )
                     {
                         QString msgText = QObject::tr( "Could not get thumbnail file info" );
                         QMessageBox::information( this, QObject::tr( "Error occured creating thumbnail asset " ) + thumbFileName, msgText );
                         assetInfo->getFileInfo().getThumbId().clear();
+                        newAsset.getThumbId().clear();
                     }
                 }
             }
@@ -743,5 +770,29 @@ void AppletLibrary::wantFileXferCallbacks( bool enable )
     {
         m_FileXferCallbacksRequested = enable;
         m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, enable );
+    }
+}
+
+//============================================================================
+void AppletLibrary::generateThumb( FileItemInfo* poInfo )
+{
+    FileInfo fileInfo = poInfo->getFileInfo();
+    if( !fileInfo.getThumbId().isVxGUIDValid() )
+    {
+        QString thumbFileName;
+        if( GuiHelpers::generateMediaThumbnail( fileInfo, thumbFileName ) )
+        {
+            ThumbInfo thumbInfo;
+            if( !GuiHelpers::addThumbAsset( m_MyApp, thumbFileName, fileInfo.getThumbId(), thumbInfo ) )
+            {
+                QString msgText = QObject::tr( "Could not get thumbnail file info" );
+                QMessageBox::information( this, QObject::tr( "Error occured creating thumbnail asset " ) + thumbFileName, msgText );
+                fileInfo.getThumbId().clear();
+            }
+            else
+            {
+                poInfo->setThumbId( fileInfo.getThumbId() );
+            }
+        }
     }
 }

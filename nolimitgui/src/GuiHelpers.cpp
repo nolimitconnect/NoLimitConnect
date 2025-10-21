@@ -2093,21 +2093,15 @@ uint64_t GuiHelpers::saveToPngFile( QPixmap& bitmap, QString& fileName ) // retu
 }
 
 //============================================================================
-bool GuiHelpers::generateMediaThumbnail( AssetBaseInfo* assetInfo, QString& retThumbFileName )
+bool GuiHelpers::generateMediaThumbnail( FileInfo& fileInfo, QString& retThumbFileName )
 {
-    if( !assetInfo )
-    {
-        LogMsg( LOG_ERROR, "GuiHelpers::%s Invalid Param", __func__ );
-        return false;
-    }
-
     bool result{ false };
-    std::string fileName = assetInfo->getFileNameAndPath();
-    EAssetType assetType = assetInfo->getAssetType();
+    std::string fileName = fileInfo.getFileNameAndPath();
+    EAssetType assetType = fileInfo.getAssetType();
 
     if( eAssetTypePhoto == assetType )
     {
-        result = generateThumbFromImageFile( fileName, assetInfo->getThumbId(), retThumbFileName );
+        result = generateThumbFromImageFile( fileName, fileInfo.getThumbId(), retThumbFileName );
     }
     else if( eAssetTypeVideo == assetType || eAssetTypeAudio == assetType )
     {
@@ -2115,7 +2109,7 @@ bool GuiHelpers::generateMediaThumbnail( AssetBaseInfo* assetInfo, QString& retT
         {
             if( VxFileUtil::fileExists( fileName.c_str() ) )
             {
-                result = generateThumbFromImageFile( fileName, assetInfo->getThumbId(), retThumbFileName );
+                result = generateThumbFromImageFile( fileName, fileInfo.getThumbId(), retThumbFileName );
             }
         }
     }

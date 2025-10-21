@@ -1639,12 +1639,18 @@ void AssetBaseMgr::deleteThumbAsset( VxGUID& thumbId )
 
 	m_Engine.getThumbMgr().deleteThumb( thumbId );
 
+	AssetBaseInfo* assetInfo{ nullptr };
+	AssetBaseInfo assetBaseInfo;
+	bool found{ false };
 	lockResources();
-	for( auto* assetInfo : m_AssetBaseInfoList )
+	for( auto iter = m_AssetBaseInfoList.begin(); iter != m_AssetBaseInfoList.end(); ++iter )
 	{
+		assetInfo = *iter;
 		if( assetInfo->isThumbAsset() && assetInfo->getAssetUniqueId() == thumbId )
 		{
-
+			assetBaseInfo = *assetInfo;
+			found = true;
+			break;
 		}
 	}
 

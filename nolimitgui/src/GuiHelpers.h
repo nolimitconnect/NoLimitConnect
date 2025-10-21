@@ -198,7 +198,7 @@ public:
     static uint64_t             saveToPngFile( QImage& image, QString& fileName ); // returns file length
     static uint64_t             saveToPngFile( QPixmap& pixmap, QString& fileName ); // returns file length
 
-    static bool                 generateMediaThumbnail( AssetBaseInfo* assetInfo, QString& retThumbFileName );
+    static bool                 generateMediaThumbnail( FileInfo& fileInfo, QString& retThumbFileName );
     static bool                 generateThumbFromImageFile( std::string fileName, VxGUID& thumbId, QString& retThumbFileName );
     static QString              generateThumbFileName( VxGUID& thumbId );
 

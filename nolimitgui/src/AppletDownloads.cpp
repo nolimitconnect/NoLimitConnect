@@ -10,18 +10,16 @@
 
 #include "AppletDownloads.h"
 
-#include "ActivityMsgBoxYesNo.h"
-
+#include "ActivityDownloadItemMenu.h"
 #include "AppCommon.h"
 #include "AppletAboutFile.h"
 #include "AppletMgr.h"
-#include "AppSettings.h"
+
 #include "FileXferWidget.h"
 #include "GuiFileXferSession.h"
 #include "GuiHelpers.h"	
 #include "GuiParams.h"
 #include "MyIcons.h"
-#include "ActivityDownloadItemMenu.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -343,7 +341,7 @@ void AppletDownloads::slotAboutFileButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
 	if( xferSession )
 	{
-		AppletAboutFile* aboutFile = dynamic_cast<AppletAboutFile *>( m_MyApp.getAppletMgr().launchApplet( eAppletAboutFile, getContentItemsFrame() ) );
+		AppletAboutFile* aboutFile = dynamic_cast<AppletAboutFile *>( m_MyApp.getAppletMgr().launchApplet( eAppletAboutFile ) );
 		if( aboutFile )
 		{
 			aboutFile->setFileInfo( xferSession->getFileInfo() );

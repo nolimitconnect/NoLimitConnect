@@ -9,6 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <CoreLib/AssetDefs.h>
 #include <CoreLib/VxDefs.h>
 #include <CoreLib/VxSha1Hash.h>
 #include <CoreLib/VxGUID.h>
@@ -51,6 +52,10 @@ public:
 
 	void						setIsSharedFile( bool isSharedFile )	{ m_IsSharedFile = isSharedFile; }
 	bool						getIsSharedFile( void )				    { return m_IsSharedFile; }
+
+	bool						getIsInUse( void )						{ return m_IsSharedFile || m_IsInLibrary || m_IsStreaming; }
+
+	EAssetType					getAssetType( void );
 
     void                        setFileNameAndPath( std::string fileNameAndPath ) override;
     std::string&				getLocalFullFileName( void )			{ return getFileNameAndPath(); }

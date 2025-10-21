@@ -92,6 +92,8 @@ protected:
 
     void                        wantFileXferCallbacks( bool enable );
 
+    void                        generateThumb( FileItemInfo* poInfo );
+
     //=== vars ===//
     Ui::AppletLibraryUi&	    ui;
     EPluginType					m_ePluginType;

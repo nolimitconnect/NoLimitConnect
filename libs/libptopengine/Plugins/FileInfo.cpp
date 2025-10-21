@@ -334,3 +334,37 @@ bool FileInfo::extractFromBlob( PktBlobEntry& blob )
 	result &= blob.getValue( m_FileHash );
 	return result;
 }
+
+//============================================================================
+EAssetType FileInfo::getAssetType( void )
+{
+	switch( m_u8FileType )
+	{
+	case VXFILE_TYPE_PHOTO:
+		return eAssetTypePhoto;
+
+	case VXFILE_TYPE_AUDIO:
+		return eAssetTypeAudio;
+
+	case VXFILE_TYPE_VIDEO:
+		return eAssetTypeVideo;
+
+	case VXFILE_TYPE_DOC:
+		return eAssetTypeDocument;
+
+	case VXFILE_TYPE_ARCHIVE_OR_CDIMAGE:
+		return eAssetTypeArchives;
+
+	case VXFILE_TYPE_EXECUTABLE:
+		return eAssetTypeExe;
+
+	case VXFILE_TYPE_OTHER:
+		return eAssetTypeOtherFiles;
+
+	case VXFILE_TYPE_DIRECTORY:
+		return eAssetTypeDirectory;
+
+	default:
+		return eAssetTypeUnknown;
+	}
+}

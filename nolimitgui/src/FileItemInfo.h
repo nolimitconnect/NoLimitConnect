@@ -31,6 +31,8 @@ public:
 	void						setIsInLibrary( bool isInLibrary )		{ m_FileInfo.setIsInLibrary( isInLibrary ); }
 	bool						getIsInLibrary( void )					{ return m_FileInfo.getIsInLibrary(); }
 
+	bool						getIsInUse( void )						{ return m_FileInfo.getIsInUse(); }
+
 	QString					    getFileNameAndPath( void )				{ return m_FileInfo.getFileNameAndPath().c_str(); }
 	QString						getFileName( void )						{ return m_FileInfo.getFileName().c_str(); }
 
