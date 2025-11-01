@@ -383,7 +383,7 @@ void AppletFileShareClientView::slotItemClicked(QListWidgetItem* item)
 	}
 
 	FileInfo& fileInfo = xferSession->getFileInfo();
-	AppletAboutFile* aboutFile = dynamic_cast<AppletAboutFile*>( m_MyApp.getAppletMgr().launchApplet( eAppletAboutFile ) );
+	AppletAboutFile* aboutFile = dynamic_cast<AppletAboutFile*>( m_MyApp.getAppletMgr().launchApplet( eAppletAboutFile, getParentPageFrame() ) );
 	if( aboutFile )
 	{
 		aboutFile->setFileInfo( fileInfo );

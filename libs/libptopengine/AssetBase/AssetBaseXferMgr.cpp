@@ -372,6 +372,7 @@ void AssetBaseXferMgr::onPktAssetBaseGetReq( std::shared_ptr<VxSktBase>& sktBase
     pktReply->setLclSessionId( lclSessionId );
     pktReply->setRmtSessionId( rmtSessionId );
     pktReply->setAssetOffset( startOffs );
+    pktReply->setIsTemporary( pktGetReq->getIsTemporary() );
 
     if( !pktGetReq->isValidPktPrefix() )
     {
@@ -466,7 +467,7 @@ void AssetBaseXferMgr::onPktAssetBaseGetReq( std::shared_ptr<VxSktBase>& sktBase
     xferInfo.setLclFileName( lclFileName.c_str() );
     xferInfo.setLclFileNameAndPath( lclFileNameAndPath.c_str() );
     xferInfo.setRmtFileName( rmtFileName.c_str() );
-    m_TxSessions.emplace_back( xferSession );
+    addTxSession( xferSession );
 
     assetMutex.unlock();
     xferErr  = ( m_XferInterface.txPacket( pktGetReq->getSrcOnlineId(), sktBase, pktReply ) ) ? eXferErrorNone : eXferErrorDisconnected;
@@ -1394,7 +1395,7 @@ AssetBaseTxSession* AssetBaseXferMgr::findOrCreateTxSession( bool pluginIsLocked
             xferSession->getLclSessionId().initializeWithNewVxGUID();
         }
 
-        m_TxSessions.emplace_back( xferSession );
+        addTxSession( xferSession );
     }
     else
     {
@@ -1445,7 +1446,7 @@ AssetBaseTxSession* AssetBaseXferMgr::findOrCreateTxSession( bool pluginIsLocked
             xferSession->getLclSessionId().initializeWithNewVxGUID();
         }
 
-        m_TxSessions.emplace_back( xferSession );
+        addTxSession( xferSession );
     }
     else
     {
@@ -1657,7 +1658,7 @@ EXferError AssetBaseXferMgr::createAssetTxSessionAndSend( bool pluginIsLocked, A
     xferInfo.setXferDirection( eXferDirectionTx );
 
     m_TxSessionsMutex.lock();
-    m_TxSessions.emplace_back( txSession );
+    addTxSession( txSession );
     m_TxSessionsMutex.unlock();
 
     addAssetXferInfoIfDoesNotExist( assetInfo );
@@ -2564,4 +2565,19 @@ void AssetBaseXferMgr::announceXferState( VxGUID& sendToId, VxGUID& assetId, enu
     }
 
     unlockClientList();
+}
+
+//============================================================================
+void AssetBaseXferMgr::addTxSession( AssetBaseTxSession* xferSession )
+{
+    for( auto txSession : m_TxSessions )
+    {
+        if( xferSession == txSession )
+        {
+            LogMsg( LOG_ERROR, "AssetBaseXferMgr::%s attempted to add same session again", __func__ );
+            return;
+        }
+    }
+
+    m_TxSessions.emplace_back( xferSession );
 }

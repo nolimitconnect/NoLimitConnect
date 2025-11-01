@@ -161,6 +161,8 @@ protected:
 	void								announceXferReadyToSend( VxGUID& sendToId, std::shared_ptr<VxSktBase>& sktBase );
 	void								announceXferState( VxGUID& sendToId, VxGUID& assetId, enum EAssetSendState sendState, int param );
 
+	void								addTxSession( AssetBaseTxSession* xferSession );
+
 	//=== vars ===//
 	bool						        m_Initialized;
 	std::map<VxGUID, AssetBaseRxSession*>	m_RxSessions;

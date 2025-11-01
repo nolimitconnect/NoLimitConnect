@@ -178,6 +178,8 @@ protected:
 	void						sendFileXferCancel( FileShareXferSession* xferSession );
 	void						sendFileXferCancel( std::shared_ptr<VxSktBase>& sktBase, FileShareXferSession* xferSession );
 
+	void 						addTxSession( FileTxSession* xferSession );
+
 	//=== vars ====//
 	P2PEngine&					m_Engine;
 	PluginBase&					m_Plugin;

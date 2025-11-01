@@ -507,7 +507,7 @@ void FileInfoXferMgr::onPktFileGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 		xferInfo.setLclFileNameAndPath( strLclFileNameAndPath.c_str() );
 		xferInfo.setRmtFileName(  rmtFileName.c_str() );
 		
-        m_TxSessions.emplace_back( xferSession );
+		addTxSession( xferSession );
 
 		pktReply.setLclSessionId( xferInfo.getLclSessionId() );
 		pktReply.setRmtSessionId( xferInfo.getRmtSessionId() );
@@ -1148,7 +1148,7 @@ FileTxSession*	FileInfoXferMgr::findOrCreateTxSession( VxGUID sendToId, std::sha
 	if( NULL == xferSession )
 	{
 		xferSession = createTxSession( sendToId, sktBase );
-		m_TxSessions.emplace_back( xferSession );
+		addTxSession( xferSession );
 	}
 	else
 	{
@@ -1175,7 +1175,7 @@ FileTxSession* FileInfoXferMgr::findOrCreateTxSession( VxGUID& lclSessionId, VxG
 	if( NULL == xferSession )
 	{
 		xferSession = new FileTxSession( lclSessionId, sktBase, sendToId );
-		m_TxSessions.emplace_back( xferSession );
+		addTxSession( xferSession );
 	}
 	else
 	{
@@ -2203,4 +2203,19 @@ void FileInfoXferMgr::sendFileXferCancel( std::shared_ptr<VxSktBase>& sktBase, F
 	{
 		if( LogEnabled( eLogFileXfer ) ) LogModule( eLogFileXfer, LOG_VERBOSE, "FileInfoXferMgr::%s no connection", __func__ );
 	}
+}
+
+//============================================================================
+void FileInfoXferMgr::addTxSession( FileTxSession* xferSession )
+{
+	for( auto txSession : m_TxSessions )
+	{
+		if( xferSession == txSession )
+		{
+			LogMsg( LOG_ERROR, "FileInfoXferMgr::%s attempted to add same session again", __func__ );
+			return;
+		}
+	}
+
+	m_TxSessions.emplace_back( xferSession );
 }

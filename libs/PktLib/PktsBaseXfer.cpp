@@ -73,6 +73,7 @@ bool PktBaseGetReply::fillAssetFromPkt( AssetBaseInfo& assetInfo )
     assetInfo.setAssetLength( getAssetLen() );
     assetInfo.setCreationTime( getCreationTime() );
     assetInfo.setModifiedTime( getModifiedTime() );
+    assetInfo.setIsTemporary( getIsTemporary() );
 
     std::string assetName = getAssetName();
     assetInfo.setAssetName( assetName );

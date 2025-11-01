@@ -1053,7 +1053,7 @@ OfferBaseTxSession * OfferBaseXferMgr::findOrCreateTxSession( bool pluginIsLocke
 			xferSession->getLclSessionId().initializeWithNewVxGUID();
 		}
 
-		m_TxSessions.emplace_back( xferSession );
+		addTxSession( xferSession );
 	}
 	else
 	{
@@ -1105,7 +1105,7 @@ OfferBaseTxSession*	OfferBaseXferMgr::findOrCreateTxSession( bool pluginIsLocked
 			xferSession->getLclSessionId().initializeWithNewVxGUID();
 		}
 
-		m_TxSessions.emplace_back( xferSession );
+		addTxSession( xferSession );
 	}
 	else
 	{
@@ -1231,7 +1231,7 @@ EXferError OfferBaseXferMgr::createOfferTxSessionAndSend( bool pluginIsLocked, O
 	xferInfo.setXferDirection( eXferDirectionTx );
 
 	m_TxSessionsMutex.lock();
-	m_TxSessions.emplace_back( txSession );
+	addTxSession( txSession );
 	m_TxSessionsMutex.unlock();
 
 	updateOfferMgrSendState( offerInfo.getOfferId(), eOfferSendStateTxProgress, 0 );
@@ -1882,4 +1882,19 @@ void OfferBaseXferMgr::onContactWentOnline( VxNetIdent* netIdent, std::shared_pt
 {
 	if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "OfferBaseXferMgr::%s", __func__ );
 	checkQueForMoreOffersToSend( false, netIdent->getMyOnlineId(), sktBase);
+}
+
+//============================================================================
+void OfferBaseXferMgr::addTxSession( OfferBaseTxSession* xferSession )
+{
+	for( auto txSession : m_TxSessions )
+	{
+		if( xferSession == txSession )
+		{
+			LogMsg( LOG_ERROR, "OfferBaseXferMgr::%s attempted to add same session again", __func__ );
+			return;
+		}
+	}
+
+	m_TxSessions.emplace_back( xferSession );
 }

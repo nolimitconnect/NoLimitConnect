@@ -112,6 +112,8 @@ protected:
 	EXferError					createOfferTxSessionAndSend( bool pluginIsLocked, OfferBaseInfo& assetInfo, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
 	bool						requireFileXfer( EOfferType assetType );
 
+	void						addTxSession( OfferBaseTxSession* xferSession );
+
 	//=== vars ===//
 	bool						m_Initialized{ false };
 	std::map<VxGUID, OfferBaseRxSession*>	m_RxSessions;

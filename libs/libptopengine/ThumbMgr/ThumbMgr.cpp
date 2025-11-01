@@ -671,5 +671,5 @@ void ThumbMgr::queryMediaThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxG
         return;
     }
 
-    ptopEngineRequestPluginThumb( sktBase, netIdent, pluginType, thumbId );
+    ptopEngineRequestPluginThumb( sktBase, netIdent, pluginType, thumbId, true );
 }

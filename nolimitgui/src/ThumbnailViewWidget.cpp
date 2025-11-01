@@ -239,7 +239,7 @@ void ThumbnailViewWidget::setImage( VxGUID& thumbId, QImage& thumbImage )
         return;
     }
     
-    m_ThumbPixmap.fromImage( thumbImage );
+    m_ThumbPixmap = QPixmap::fromImage( thumbImage );
     if( m_ThumbPixmap.isNull() )
     {
         LogMsg( LOG_ERROR, "ThumbnailViewWidget::%s m_ThumbPixmap isNull", __func__ );
