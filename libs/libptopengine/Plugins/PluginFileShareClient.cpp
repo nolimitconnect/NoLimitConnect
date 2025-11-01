@@ -288,7 +288,7 @@ bool PluginFileShareClient::onConnectForFileListDownload( std::shared_ptr<VxSktB
 }
 
 //============================================================================
-bool PluginFileShareClient::fileInfoSearchResult( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, FileInfo& fileInfo )
+bool PluginFileShareClient::fileInfoSearchResult( VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID srcOnlineId, FileInfo& fileInfo )
 {
 	bool result = fileInfo.isValid( true );
 	if( result )
@@ -297,7 +297,13 @@ bool PluginFileShareClient::fileInfoSearchResult( VxGUID& searchSessionId, std::
 		lockSearchFileList();
 		m_SearchFileInfoList.emplace_back( fileInfo );
 		unlockSearchFileList();
-		sendFileSearchResultToGui( searchSessionId, onlineId, fileInfo );
+		if( fileInfo.m_ThumbId.isVxGUIDValid() )
+		{
+			// query media thumnail if we do not have it
+			m_Engine.getThumbMgr().queryMediaThumbIfNeeded( sktBase, srcOnlineId, getPluginType(), fileInfo.m_ThumbId );
+		}
+		
+		sendFileSearchResultToGui( searchSessionId, srcOnlineId, fileInfo );
 	}
 
 	return result;

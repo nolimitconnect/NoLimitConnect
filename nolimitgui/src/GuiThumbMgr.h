@@ -24,8 +24,9 @@
 #include <QObject>
 
 class AppCommon;
-class GuiUser;
 class AppletBase;
+class GuiThumbCallbackInterface;
+class GuiUser;
 
 class GuiThumbMgr : public QObject, public ThumbCallbackInterface
 {

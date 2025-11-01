@@ -229,3 +229,24 @@ bool ThumbnailViewWidget::saveToPngFile( QString pngFileName )
 {
     return GuiHelpers::saveToPngFile( m_ThumbPixmap, pngFileName );
 }
+
+//============================================================================
+void ThumbnailViewWidget::setImage( VxGUID& thumbId, QImage& thumbImage )
+{
+    if( thumbImage.isNull() || !thumbId.isVxGUIDValid() )
+    {
+        LogMsg( LOG_ERROR, "ThumbnailViewWidget::%s invalid param", __func__ );
+        return;
+    }
+    
+    m_ThumbPixmap.fromImage( thumbImage );
+    if( m_ThumbPixmap.isNull() )
+    {
+        LogMsg( LOG_ERROR, "ThumbnailViewWidget::%s m_ThumbPixmap isNull", __func__ );
+    }
+    else
+    {
+        m_ThumbnailId = thumbId;
+        cropAndUpdateImage( m_ThumbPixmap );
+    }
+}

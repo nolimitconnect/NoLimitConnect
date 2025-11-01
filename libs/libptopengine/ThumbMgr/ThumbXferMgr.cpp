@@ -15,9 +15,6 @@
 #include "../Plugins/PluginBase.h"
 #include "../Plugins/PluginMgr.h"
 
-#include "ThumbTxSession.h"
-#include "ThumbRxSession.h"
-
 #include <GuiInterface/IToGui.h>
 #include <P2PEngine/P2PEngine.h>
 #include <BigListLib/BigListInfo.h>
@@ -34,7 +31,6 @@
 #include <CoreLib/VxFileUtil.h>
 
 #include <stdarg.h>
-#include <stdio.h>
 
 //============================================================================
 ThumbXferMgr::ThumbXferMgr( P2PEngine& engine, AssetBaseMgr& assetMgr, BaseXferInterface& xferInterface )
@@ -45,42 +41,49 @@ ThumbXferMgr::ThumbXferMgr( P2PEngine& engine, AssetBaseMgr& assetMgr, BaseXferI
 //============================================================================
 void ThumbXferMgr::onPktThumbGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    if( LogEnabled( eLogThumbnail ) )LogModule( eLogThumbnail, LOG_VERBOSE, "ThumbXferMgr::%s from %s", __func__, netIdent->getOnlineName() );
     AssetBaseXferMgr::onPktAssetBaseGetReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
 void ThumbXferMgr::onPktThumbGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    if( LogEnabled( eLogThumbnail ) )LogModule( eLogThumbnail, LOG_VERBOSE, "ThumbXferMgr::%s from %s", __func__, netIdent->getOnlineName() );
     AssetBaseXferMgr::onPktAssetBaseGetReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
 void ThumbXferMgr::onPktThumbSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    if( LogEnabled( eLogThumbnail ) )LogModule( eLogThumbnail, LOG_VERBOSE, "ThumbXferMgr::%s from %s", __func__, netIdent->getOnlineName() );
     AssetBaseXferMgr::onPktAssetBaseSendReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
 void ThumbXferMgr::onPktThumbSendReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    if( LogEnabled( eLogThumbnail ) )LogModule( eLogThumbnail, LOG_VERBOSE, "ThumbXferMgr::%s from %s", __func__, netIdent->getOnlineName() );
     AssetBaseXferMgr::onPktAssetBaseSendReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
 void ThumbXferMgr::onPktThumbChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    if( LogEnabled( eLogThumbnail ) )LogModule( eLogThumbnail, LOG_VERBOSE, "ThumbXferMgr::%s from %s", __func__, netIdent->getOnlineName() );
     AssetBaseXferMgr::onPktAssetBaseChunkReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
 void ThumbXferMgr::onPktThumbChunkReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    if( LogEnabled( eLogThumbnail ) )LogModule( eLogThumbnail, LOG_VERBOSE, "ThumbXferMgr::%s from %s", __func__, netIdent->getOnlineName() );
     AssetBaseXferMgr::onPktAssetBaseChunkReply( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
 void ThumbXferMgr::onPktThumbGetCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    if( LogEnabled( eLogThumbnail ) )LogModule( eLogThumbnail, LOG_VERBOSE, "ThumbXferMgr::%s from %s", __func__, netIdent->getOnlineName() );
     AssetBaseXferMgr::onPktAssetBaseGetCompleteReq( sktBase, pktHdr, netIdent );
 }
 
@@ -93,12 +96,14 @@ void ThumbXferMgr::onPktThumbGetCompleteReply( std::shared_ptr<VxSktBase>& sktBa
 //============================================================================
 void ThumbXferMgr::onPktThumbSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    if( LogEnabled( eLogThumbnail ) )LogModule( eLogThumbnail, LOG_VERBOSE, "ThumbXferMgr::%s from %s", __func__, netIdent->getOnlineName() );
     AssetBaseXferMgr::onPktAssetBaseSendCompleteReq( sktBase, pktHdr, netIdent );
 }
 
 //============================================================================
 void ThumbXferMgr::onPktThumbSendCompleteReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
+    if( LogEnabled( eLogThumbnail ) )LogModule( eLogThumbnail, LOG_VERBOSE, "ThumbXferMgr::%s to %s", __func__, netIdent->getOnlineName() );
     AssetBaseXferMgr::onPktAssetBaseSendCompleteReply( sktBase, pktHdr, netIdent );
 }
 
@@ -110,7 +115,7 @@ void ThumbXferMgr::onPktThumbXferErr( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 }
 
 //============================================================================
-bool ThumbXferMgr::requestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& thumbId )
+bool ThumbXferMgr::requestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& thumbId, bool tmpThumb )
 {
     if( !netIdent || !thumbId.isVxGUIDValid() )
     {
@@ -126,6 +131,8 @@ bool ThumbXferMgr::requestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNe
     }
 
     ThumbInfo thumbInfo( netIdent->getMyOnlineId(), thumbId );
+    if( LogEnabled( eLogThumbnail ) )LogModule( eLogThumbnail, LOG_VERBOSE, " ThumbXferMgr::%s requesting thumb %s from %s tmp? %d", __func__, 
+        thumbId.toHexString().c_str(), netIdent->getOnlineName(), tmpThumb );
 
-    return AssetBaseXferMgr::fromGuiRequestAssetBase( netIdent, thumbInfo, sktBase );
+    return AssetBaseXferMgr::fromGuiRequestAssetBase( netIdent, thumbInfo, sktBase, tmpThumb );
 }

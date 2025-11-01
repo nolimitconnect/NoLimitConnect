@@ -66,6 +66,10 @@ FileXferWidget* AppletUploads::sessionToWidget( GuiFileXferSession* xferSession 
 
     item->QListWidgetItem::setData( Qt::UserRole + 1, QVariant((quint64)xferSession) );
 
+
+	connect( item, SIGNAL(signalFileIconButtonClicked(QListWidgetItem*)), this, SLOT(slotFileXferItemClicked(QListWidgetItem*)) );
+	connect( item, SIGNAL(signalThumbButtonClicked(QListWidgetItem*)),  this, SLOT(slotFileXferItemClicked(QListWidgetItem*)) );
+
     connect( item, SIGNAL(signalFileXferItemClicked(QListWidgetItem*)), this, SLOT(slotFileXferItemClicked(QListWidgetItem*)));
 	connect( item, SIGNAL(signalAcceptButtonClicked(QListWidgetItem*)), this, SLOT(slotAcceptButtonClicked(QListWidgetItem*)) );
     connect( item, SIGNAL(signalCancelButtonClicked(QListWidgetItem*)), this, SLOT(slotCancelButtonClicked(QListWidgetItem*)));
@@ -221,16 +225,8 @@ void AppletUploads::toGuiFileUploadComplete( EPluginType pluginType, VxGUID& lcl
 //============================================================================
 void AppletUploads::slotFileXferItemClicked(QListWidgetItem* item)
 {
-}
-
-//============================================================================
-void AppletUploads::slotFileIconButtonClicked( QListWidgetItem* item )
-{
-	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1).toULongLong();
-	if( xferSession )
-	{
-
-	}	
+	// treat as if the file info icon was clicked
+	slotAboutFileButtonClicked( item );
 }
 
 //============================================================================
@@ -299,14 +295,19 @@ void AppletUploads::slotLibraryButtonClicked( QListWidgetItem* item )
 //============================================================================
 void AppletUploads::slotAboutFileButtonClicked( QListWidgetItem* item )
 {
-	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
-	if( xferSession )
+	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->data( Qt::UserRole + 1 ).toLongLong();
+	if( !xferSession )
 	{
-		AppletAboutFile* aboutFile = dynamic_cast<AppletAboutFile*>( m_MyApp.getAppletMgr().launchApplet( eAppletAboutFile, getParentPageFrame() ) );
-		if( aboutFile )
-		{
-			aboutFile->setFileInfo( xferSession->getFileInfo() );
-		}
+		LogMsg( LOG_ERROR, "AppletDownloads::%s null xferSession", __func__ );
+		vx_assert( false );
+		return;
+	}
+
+	FileInfo& fileInfo = xferSession->getFileInfo();
+	AppletAboutFile* aboutFile = dynamic_cast<AppletAboutFile*>( m_MyApp.getAppletMgr().launchApplet( eAppletAboutFile ) );
+	if( aboutFile )
+	{
+		aboutFile->setFileInfo( fileInfo );
 	}
 }
 

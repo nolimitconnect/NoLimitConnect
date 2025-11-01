@@ -433,6 +433,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\AppMonitor\AppMonitor.cpp" />
     <ClCompile Include="..\..\AssetBase\AssetBaseInfo.cpp" />
     <ClCompile Include="..\..\AssetBase\AssetBaseInfoDb.cpp" />
     <ClCompile Include="..\..\AssetBase\AssetBaseMgr.cpp" />
@@ -726,6 +727,7 @@
     <ClInclude Include="..\..\..\..\GuiInterface\ITimeDefs.h" />
     <ClInclude Include="..\..\..\..\GuiInterface\IToGui.h" />
     <ClInclude Include="..\..\..\..\GuiInterface\NlcRenderFrame.h" />
+    <ClInclude Include="..\..\AppMonitor\AppMonitor.h" />
     <ClInclude Include="..\..\AssetBase\AssetBaseCallbackInterface.h" />
     <ClInclude Include="..\..\AssetBase\AssetBaseInfo.h" />
     <ClInclude Include="..\..\AssetBase\AssetBaseInfoDb.h" />

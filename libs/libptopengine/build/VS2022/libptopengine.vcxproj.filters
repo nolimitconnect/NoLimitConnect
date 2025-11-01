@@ -697,6 +697,9 @@
     <ClCompile Include="..\..\UserJoinMgr\LastJoined.cpp">
       <Filter>Source Files\UserJoinMgr</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\AppMonitor\AppMonitor.cpp">
+      <Filter>Source Files\AppMonitor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AssetMgr\AssetCallbackInterface.h">
@@ -1458,6 +1461,9 @@
     <ClInclude Include="..\..\ConnectIdListMgr\ConnectIdListCallback.h">
       <Filter>Source Files\ConnectIdListMgr</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\AppMonitor\AppMonitor.h">
+      <Filter>Source Files\AppMonitor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="QtBuild">
@@ -1573,6 +1579,9 @@
     </Filter>
     <Filter Include="Source Files\FriendRequestMgr">
       <UniqueIdentifier>{57e97fe6-412e-4ffb-9dca-b3c2d8d8dbb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AppMonitor">
+      <UniqueIdentifier>{0ab1212c-e452-44c5-9c6b-c3d14d7a8eea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

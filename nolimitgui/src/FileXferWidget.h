@@ -9,18 +9,19 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "GuiFileXferSession.h"
-#include "MyIconsDefs.h"
-
 #include <QListWidgetItem>
+
+#include "MyIconsDefs.h"
+#include <CoreLib/VxXferDefs.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-    class FileXferWidgetClass;
+    class FileXferWidgetUi;
 }
 QT_END_NAMESPACE
 
 class AppCommon;
+class GuiFileXferSession;
 class MyIcons;
 
 class FileXferWidget : public QWidget, public QListWidgetItem
@@ -50,9 +51,13 @@ public:
 
 	void						updateWidgetFromInfo( void );
 
+	void						setThumbImage( QImage& thumbImage );
+	bool						hasThumbImage( void );
+
 signals:
 	void						signalFileXferItemClicked( QListWidgetItem* poItemWidget );
 	void						signalFileIconButtonClicked( QListWidgetItem* poItemWidget );
+	void						signalThumbButtonClicked( QListWidgetItem* poItemWidget );
 
 	void						signalAcceptButtonClicked( QListWidgetItem* poItemWidget );
 	void						signalCancelButtonClicked( QListWidgetItem* poItemWidget );
@@ -67,6 +72,7 @@ signals:
 
 protected slots:
 	void						slotFileIconButtonClicked( void );
+	void						slotThumbButtonClicked( void );
 	void						slotAcceptButtonClicked( void );
 	void						slotCancelButtonClicked( void );
 	void						slotStreamButtonClicked( void );
@@ -84,6 +90,6 @@ protected:
 	virtual void				updateXferInfo( void );
 	void						setCancelIcon( EMyIcons cancelIcon );
 
-	Ui::FileXferWidgetClass&	ui;
+	Ui::FileXferWidgetUi&		ui;
 	AppCommon&					m_MyApp;
 };

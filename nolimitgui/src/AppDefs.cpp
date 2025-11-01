@@ -131,7 +131,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletShareServicesPage:          return eMyIconShareServices;
 
     case eAppletFileOfferSelect:            return eMyIconServiceShareFiles;
-    case eAppletFileShareClientView:        return eMyIconDebug;
+    case eAppletFileShareClientView:        return eMyIconPlayStream;
 
     case eAppletOfferInfo:                  return eMyIconInfoOffer;
     case eAppletOfferSend:                  return eMyIconOfferEye;

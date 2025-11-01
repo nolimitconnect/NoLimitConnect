@@ -54,6 +54,8 @@ public:
     virtual void				queryThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EHostType hostType, VxGUID& thumbId, int64_t thumbModifiedTime );
     virtual void				queryThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType, VxGUID& thumbId, int64_t thumbModifiedTime );
 
+    virtual void				queryMediaThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxGUID& srcOnlineId, EPluginType pluginType, VxGUID& thumbId );
+
     // packet handlers
     virtual void				onPktThumbGetReq            ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
     virtual void				onPktThumbGetReply          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
@@ -67,7 +69,7 @@ public:
     virtual void				onPktThumbSendCompleteReply ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
     virtual void				onPktThumbXferErr           ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 
-    virtual bool                ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType, VxGUID& thumbId );
+    virtual bool                ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType, VxGUID& thumbId, bool tmpThumb = false );
     virtual bool                requestThumbs( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent );
 
     virtual void                deleteThumb( VxGUID& thumbId );

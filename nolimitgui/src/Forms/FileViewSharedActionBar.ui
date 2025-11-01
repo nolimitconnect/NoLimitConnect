@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FileActionBarWidgetUi</class>
- <widget class="QFrame" name="FileActionBarWidgetUi">
+ <class>FileViewSharedActionBarUi</class>
+ <widget class="QFrame" name="FileViewSharedActionBarUi">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -45,7 +45,13 @@
     <number>1</number>
    </property>
    <item>
-    <widget class="VxPushButton" name="m_PlayFileButton">
+    <widget class="VxPushButton" name="m_StreamButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="minimumSize">
       <size>
        <width>28</width>
@@ -70,7 +76,20 @@
     </widget>
    </item>
    <item>
-    <widget class="VxPushButton" name="m_PlayExternallyButton">
+    <widget class="VxLabel" name="m_StreamLabel">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Stream</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="VxPushButton" name="m_DownloadButton">
      <property name="minimumSize">
       <size>
        <width>28</width>
@@ -95,7 +114,14 @@
     </widget>
    </item>
    <item>
-    <widget class="VxPushButton" name="m_FileInLibraryButton">
+    <widget class="VxLabel" name="m_DownloadLabel">
+     <property name="text">
+      <string>Download</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="VxPushButton" name="m_FileAboutButton">
      <property name="minimumSize">
       <size>
        <width>28</width>
@@ -120,77 +146,9 @@
     </widget>
    </item>
    <item>
-    <widget class="VxPushButton" name="m_FileShareButton">
-     <property name="minimumSize">
-      <size>
-       <width>28</width>
-       <height>28</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>28</width>
-       <height>28</height>
-      </size>
-     </property>
+    <widget class="VxLabel" name="m_FileAboutLabel">
      <property name="text">
-      <string/>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>28</width>
-       <height>28</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="VxPushButton" name="m_AboutFileButton">
-     <property name="minimumSize">
-      <size>
-       <width>28</width>
-       <height>28</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>28</width>
-       <height>28</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>28</width>
-       <height>28</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="VxPushButton" name="m_ShredFileButton">
-     <property name="minimumSize">
-      <size>
-       <width>28</width>
-       <height>28</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>28</width>
-       <height>28</height>
-      </size>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>28</width>
-       <height>28</height>
-      </size>
+      <string>About</string>
      </property>
     </widget>
    </item>
@@ -201,6 +159,11 @@
    <class>VxPushButton</class>
    <extends>QPushButton</extends>
    <header>VxPushButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VxLabel</class>
+   <extends>QLabel</extends>
+   <header>VxLabel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

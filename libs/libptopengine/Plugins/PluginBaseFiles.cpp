@@ -638,25 +638,30 @@ void PluginBaseFiles::onPktFileInfoMoreReply( std::shared_ptr<VxSktBase>& sktBas
 }
 
 //============================================================================
-bool PluginBaseFiles::updateFromFileInfoSearchBlob( VxGUID& searchSessionId, VxGUID& hostOnlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId, PktBlobEntry& blobEntry, int fileInfoCount )
+bool PluginBaseFiles::updateFromFileInfoSearchBlob( VxGUID& searchSessionId, VxGUID& hostOnlineId, std::shared_ptr<VxSktBase>& sktBase, VxGUID srcOnlineId, PktBlobEntry& blobEntry, int fileInfoCount )
 {
 	// assumes blobEntry.resetRead(); has been called and any procceeding values like search text has been extracted
 	bool result{ true };
 	for( int i = 0; i < fileInfoCount; i++ )
 	{
-		FileInfo fileIInfo;
-		if( fileIInfo.extractFromBlob( blobEntry ) )
+		FileInfo fileInfo;
+		if( fileInfo.extractFromBlob( blobEntry ) )
 		{
-			result &= fileInfoSearchResult( searchSessionId, sktBase, onlineId, fileIInfo);
+			if( !fileInfo.m_OnlineId.isVxGUIDValid() )
+			{
+				fileInfo.m_OnlineId = srcOnlineId;
+			}
+
+			result &= fileInfoSearchResult( searchSessionId, sktBase, srcOnlineId, fileInfo );
 			if( !result )
 			{
-				LogMsg( LOG_ERROR, "fileInfoSearchResult filed FileInfoListMgr::updateFromFileInfoSearchBlob" );
+				LogMsg( LOG_ERROR, "FileInfoListMgr::%s fileInfoSearchResult failed ", __func__ );
 				break;
 			}
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "Could not extract FileInfoListMgr::updateFromFileInfoSearchBlob" );
+			LogMsg( LOG_ERROR, "FileInfoListMgr::%s Could not extract", __func__ );
 			result = false;
 			break;
 		}
@@ -698,4 +703,10 @@ void PluginBaseFiles::sendFileSearchResultToGui( VxGUID& searchSessionId, VxGUID
 void PluginBaseFiles::wantFileXferCallback( FileXferCallback* callback, bool wantCallback )
 {
 	m_FileInfoXferMgr.wantFileXferCallback( callback, wantCallback );
+}
+
+//============================================================================
+bool PluginBaseFiles::ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& thumbId, bool tmpThumb )
+{
+	return m_ThumbXferMgr.requestPluginThumb( sktBase, netIdent, thumbId, tmpThumb );
 }

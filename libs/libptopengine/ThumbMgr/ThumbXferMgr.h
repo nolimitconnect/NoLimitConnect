@@ -49,7 +49,7 @@ public:
     virtual PktBaseSendCompleteReply*	createPktBaseSendCompleteReply( void ) override;
     virtual PktBaseXferErr*			    createPktBaseXferErr( void ) override;
 
-    virtual bool				        requestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& thumbId );
+    virtual bool				        requestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& thumbId, bool tmpThumb = false );
 };
 
 

@@ -42,7 +42,6 @@ public:
 private slots:
 	void						slotFileXferItemClicked( QListWidgetItem* item );
 
-	void						slotFileIconButtonClicked( QListWidgetItem* item );
 	void						slotAcceptButtonClicked( QListWidgetItem* item );
 	void						slotCancelButtonClicked( QListWidgetItem* item );
 	void						slotPlayButtonClicked( QListWidgetItem* item );

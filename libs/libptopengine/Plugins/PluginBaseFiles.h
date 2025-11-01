@@ -75,6 +75,8 @@ public:
 
 	virtual void				deleteFile( std::string fileNameAndPath, bool shredFile );
 
+	bool						ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& thumbId, bool tmpThumb = false ) override;
+
 protected:
 	virtual void				sendFileSearchResultToGui( VxGUID& searchSessionId, VxGUID& onlineId, FileInfo& fileInfo );
 

@@ -11,6 +11,7 @@
 
 #include "AppletPeerBase.h"
 
+#include "GuiThumbCallback.h"
 #include "ToGuiFileXferInterface.h"
 
 QT_BEGIN_NAMESPACE
@@ -27,7 +28,7 @@ class VxSha1Hash;
 class FileInfo;
 class QListWidgetItem;
 
-class AppletFileShareClientView : public AppletPeerBase, public ToGuiFileXferInterface
+class AppletFileShareClientView : public AppletPeerBase, public ToGuiFileXferInterface, public GuiThumbCallback
 {
 	Q_OBJECT
 public:
@@ -56,13 +57,14 @@ private slots:
 	void						slotShredButtonClicked( QListWidgetItem* item );
 
 protected:
+	void						callbackThumbAdded( GuiThumb* guiThumb ) override;
 
-    virtual void				toGuiFileListReply(	FileListReplySession* replySession ) override;
-    virtual void				toGuiFileXferState( EPluginType pluginType, VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 ) override;
-    virtual void				toGuiFileDownloadStart( GuiFileXferSession* xferSession ) override;
-    virtual void				toGuiFileDownloadComplete( EPluginType pluginType, VxGUID& lclSessionId, QString newFileName, EXferError xferError ) override;
+    void						toGuiFileListReply(	FileListReplySession* replySession ) override;
+    void						toGuiFileXferState( EPluginType pluginType, VxGUID& lclSessionId, EXferDirection xferDir, EXferState xferState, EXferError xferErr, int param1 ) override;
+    void						toGuiFileDownloadStart( GuiFileXferSession* xferSession ) override;
+    void						toGuiFileDownloadComplete( EPluginType pluginType, VxGUID& lclSessionId, QString newFileName, EXferError xferError ) override;
 
-	virtual void				toGuiSearchResultFileSearch( GuiUser* guiUser, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo ) override;
+	void						toGuiSearchResultFileSearch( GuiUser* guiUser, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo ) override;
 
 	FileXferWidget*				fileToWidget( GuiUser* guiUser, EPluginType pluginType, FileInfo& fileInfo );
 	void						updateListEntryWidget( FileXferWidget* item, GuiFileXferSession* xferSession );

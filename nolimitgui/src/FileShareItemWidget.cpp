@@ -241,7 +241,7 @@ void FileShareItemWidget::updateWidgetFromInfo( void )
 	ui.m_FileNameLabel->setText( poInfo->getFileName() );
 	ui.m_FileSizeLabel->setText( poInfo->describeFileLength() );
 
-	if( poInfo->getThumbId().isVxGUIDValid() )
+	if( poInfo->getThumbId().isVxGUIDValid() && !ui.m_ThumbnailButton->hasImage() )
 	{
 		QImage thumbImage;
 		GetAppInstance().getThumbImage( poInfo->getThumbId(), thumbImage );
@@ -254,9 +254,5 @@ void FileShareItemWidget::updateWidgetFromInfo( void )
 		{
 			ui.m_ThumbnailButton->setVisible( false );
 		}
-	}
-	else
-	{
-		ui.m_ThumbnailButton->setVisible( false );
 	}
 }

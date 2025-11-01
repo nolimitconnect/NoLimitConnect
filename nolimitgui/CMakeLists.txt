@@ -237,6 +237,7 @@ list(APPEND nlc_HEADERS
     src/FileListReplySession.h
     src/FileMediaSelectWidget.h
     src/FileShareItemWidget.h   
+    #src/FileViewSharedActionBar.h
     src/FileXferWidget.h
 
     src/FriendListEntryWidget.h
@@ -291,6 +292,7 @@ list(APPEND nlc_HEADERS
     src/GuiRandConnectMgr.h
     src/GuiSendQueueCallback.h
     src/GuiSendQueueMgr.h
+
     src/GuiThumb.h
     src/GuiThumbList.h
     src/GuiThumbMgr.h
@@ -662,6 +664,7 @@ list(APPEND nlc_SOURCES
     src/FileListReplySession.cpp
     src/FileMediaSelectWidget.cpp
     src/FileShareItemWidget.cpp
+    #src/FileViewSharedActionBar.cpp
    
     src/FileXferWidget.cpp
     src/FriendList.cpp
@@ -987,6 +990,7 @@ list(APPEND nlc_FORMS
     src/Forms/FileFilterSelectWidget.ui
     src/Forms/FileMediaSelectWidget.ui
     src/Forms/FileShareItemWidget.ui
+    #src/Forms/FileViewSharedActionBar.ui
     src/Forms/FileXferWidget.ui
     src/Forms/FriendListDlg.ui
     src/Forms/GuiFriendRequestWidget.ui

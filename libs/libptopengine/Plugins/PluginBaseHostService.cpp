@@ -589,9 +589,9 @@ bool PluginBaseHostService::fromGuiRequestPluginThumb( VxNetIdent* netIdent, VxG
 }
 
 //============================================================================
-bool PluginBaseHostService::ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& thumbId )
+bool PluginBaseHostService::ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& thumbId, bool tmpThumb )
 {
-    return m_ThumbXferMgr.requestPluginThumb( sktBase, netIdent, thumbId );
+    return m_ThumbXferMgr.requestPluginThumb( sktBase, netIdent, thumbId, tmpThumb );
 }
 
 //============================================================================

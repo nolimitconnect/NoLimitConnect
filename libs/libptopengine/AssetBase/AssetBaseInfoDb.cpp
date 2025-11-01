@@ -15,6 +15,7 @@
 #include "AssetBaseInfo.h"
 
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxFileUtil.h>
 
 namespace
 {
@@ -291,7 +292,16 @@ void AssetBaseInfoDb::getAllAssets( std::vector<AssetBaseInfo*>& AssetAssetList 
 
 			if( assetInfo->isValid( false ) && assetInfo->validateAssetExist() )
 			{
-				insertAssetInTimeOrder( assetInfo, AssetAssetList );
+				if( assetInfo->isThumbAsset() && assetInfo->isTemporary() )
+				{
+					// remove temporary thumbs so does not fill up drive
+					VxFileUtil::deleteFile( fileNameAndPath.c_str() );
+					toRemoveList.emplace_back( assetInfo );
+				}
+				else
+				{
+					insertAssetInTimeOrder( assetInfo, AssetAssetList );
+				}	
 			}
 			else
 			{

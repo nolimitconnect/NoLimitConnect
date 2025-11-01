@@ -7,6 +7,7 @@ project(ptopengine, LANGUAGES CXX)
 
 set(ptopengine_HEADERS)
 list(APPEND ptopengine_HEADERS
+    AppMonitor/AppMonitor.h
     SendQueue/SendQueInfo.h
     SendQueue/SendQueueCallback.h
     SendQueue/SendQueueDb.h
@@ -19,6 +20,7 @@ list(APPEND ptopengine_HEADERS
 set(ptopengine_SOURCES)
 
 list(APPEND ptopengine_SOURCES 
+    AppMonitor/AppMonitor.cpp
     AssetBase/AssetBaseInfo.cpp
     AssetBase/AssetBaseInfoDb.cpp
     AssetBase/AssetBaseMgr.cpp

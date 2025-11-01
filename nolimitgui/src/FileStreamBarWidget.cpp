@@ -18,7 +18,7 @@
 //============================================================================
 FileActionBarWidget::FileActionBarWidget(QWidget* parent)
 : QFrame(parent)
-, ui(*(new Ui::FileActionBarWidgetUi))
+, ui(*(new Ui::FileActionBarWidgetClass))
 , m_MyApp( GetAppInstance() )
 {
 	ui.setupUi(this);

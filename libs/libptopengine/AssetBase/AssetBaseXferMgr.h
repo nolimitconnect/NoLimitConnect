@@ -64,8 +64,8 @@ public:
 	virtual void				fromGuiUserLoggedOn( void );
 
 	virtual bool				fromGuiSendAssetBase( AssetBaseInfo& assetInfo );
-    virtual bool				fromGuiRequestAssetBase( AssetBaseInfo& assetInfo, std::shared_ptr<VxSktBase>& sktBase );
-    virtual bool				fromGuiRequestAssetBase( VxNetIdent* netIdent, AssetBaseInfo& assetInfo, std::shared_ptr<VxSktBase>& sktBase );
+    virtual bool				fromGuiRequestAssetBase( AssetBaseInfo& assetInfo, std::shared_ptr<VxSktBase>& sktBase, bool tmpAsset = false );
+    virtual bool				fromGuiRequestAssetBase( VxNetIdent* netIdent, AssetBaseInfo& assetInfo, std::shared_ptr<VxSktBase>& sktBase, bool tmpAsset = false );
 	virtual void				fromGuiCancelDownload( VxGUID& lclSessionId );
 	virtual void				fromGuiCancelUpload( VxGUID& lclSessionId );
 
@@ -130,7 +130,7 @@ protected:
 	void						        assetSendComplete( AssetBaseTxSession* xferSession );
 	void						        queAsset( AssetBaseInfo& assetInfo );
 	EXferError					        createAssetTxSessionAndSend( bool pluginIsLocked, AssetBaseInfo& assetInfo, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
-    EXferError                          createAssetRxSessionAndReceive( bool pluginIsLocked, AssetBaseInfo& assetInfo, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );
+    EXferError                          createAssetRxSessionAndReceive( bool pluginIsLocked, AssetBaseInfo& assetInfo, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase, bool tmpAsset = false );
 
 	bool						        requireFileXfer( EAssetType assetType );
 

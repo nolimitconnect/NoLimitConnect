@@ -53,6 +53,8 @@ public:
 
     void                        updateAssetImage( ThumbInfo* thumbAsset );
 
+    void                        setImage( VxGUID& thumbId, QImage& thumbImage );
+
 signals:
     void                        clicked( void );
     void						signalImageClicked( ThumbnailViewWidget * widget );

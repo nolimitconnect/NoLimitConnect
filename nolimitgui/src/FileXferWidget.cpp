@@ -22,11 +22,12 @@
 //============================================================================
 FileXferWidget::FileXferWidget(QWidget* parent)
 : QWidget(parent)
-, ui(*(new Ui::FileXferWidgetClass))
+, ui(*(new Ui::FileXferWidgetUi))
 , m_MyApp( GetAppInstance() )
 {
 	ui.setupUi(this);
 	ui.m_FileIconButton->setFixedSize( eButtonSizeLarge );
+	ui.m_ThumbnailButton->setFixedSize( eButtonSizeLarge );
 	ui.m_FileAcceptButton->setFixedSize( eButtonSizeLarge );
 	ui.m_FileCancelButton->setFixedSize( eButtonSizeLarge );
 
@@ -36,9 +37,12 @@ FileXferWidget::FileXferWidget(QWidget* parent)
 
 	ui.m_StreamButton->setIcon( eMyIconPlayStream );
 	ui.m_StreamButton->setVisible( false );
+	ui.m_ThumbnailButton->setVisible( false );
 
 	connect( ui.m_FileAcceptButton,		SIGNAL(clicked()),						this, SLOT(slotAcceptButtonClicked()) );
 	connect( ui.m_FileIconButton,		SIGNAL(clicked()),						this, SLOT(slotFileIconButtonClicked()) );
+	connect( ui.m_ThumbnailButton,			SIGNAL(clicked()),						this, SLOT(slotThumbButtonClicked()) );
+
 	connect( ui.m_FileCancelButton,		SIGNAL(clicked()),						this, SLOT(slotCancelButtonClicked()) );
 	connect( ui.m_StreamButton,			SIGNAL(clicked()),						this, SLOT(slotStreamButtonClicked()) );
 
@@ -100,6 +104,12 @@ void FileXferWidget::resetXferState( void )
 void FileXferWidget::slotFileIconButtonClicked( void )
 {
 	emit signalFileIconButtonClicked( this );
+}
+
+//============================================================================
+void FileXferWidget::slotThumbButtonClicked( void )
+{
+	emit signalThumbButtonClicked( this );
 }
 
 //============================================================================
@@ -268,8 +278,23 @@ void FileXferWidget::updateWidgetFromInfo( void )
 		updateXferInfo();
 	}
 
-	ui.m_FileActionBar->setIsSharedFile(  xferSession->getIsSharedFile() );
-	ui.m_FileActionBar->setIsInLibrary(  xferSession->getIsInLibrary() );
+	ui.m_FileActionBar->setIsSharedFile( xferSession->getIsSharedFile() );
+	ui.m_FileActionBar->setIsInLibrary( xferSession->getIsInLibrary() );
+
+	if( xferSession->getThumbId().isVxGUIDValid() && !ui.m_ThumbnailButton->hasImage() )
+	{
+		QImage thumbImage;
+		GetAppInstance().getThumbImage( xferSession->getThumbId(), thumbImage );
+		if( !thumbImage.isNull() )
+		{
+			ui.m_ThumbnailButton->setIconOverrideImage( thumbImage );
+			ui.m_ThumbnailButton->setVisible( true );
+		}
+		else
+		{
+			ui.m_ThumbnailButton->setVisible( false );
+		}
+	}
 }
 
 //============================================================================
@@ -439,4 +464,20 @@ void FileXferWidget::setCancelIcon( EMyIcons cancelIcon )
 	}
 
 	ui.m_FileCancelButton->setIcon( cancelIcon );
+}
+
+//============================================================================
+void FileXferWidget::setThumbImage( QImage& thumbImage )
+{
+	if( !thumbImage.isNull() )
+	{
+		ui.m_ThumbnailButton->setIconOverrideImage( thumbImage );
+		ui.m_ThumbnailButton->setVisible( true );
+	}
+}
+
+//============================================================================
+bool FileXferWidget::hasThumbImage( void )
+{
+	return ui.m_ThumbnailButton->hasImage();
 }

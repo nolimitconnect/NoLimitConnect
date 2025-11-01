@@ -131,17 +131,15 @@ bool AppletAboutFile::updateFromFileInfo( FileInfo& fileInfo )
 
     infoMsg( QObject::tr( "Is Stream" ) + ( isStream ? yes : no ) );
 
-
-
-    VxGUID thumbId = m_FileInfo.getThumbId();
     bool showThumb{ false };
-    if( thumbId.isVxGUIDValid() )
+    VxGUID thumbId = m_FileInfo.getThumbId();
+    QImage thumbImage;
+    GetAppInstance().getThumbImage( thumbId, thumbImage );
+    if( !thumbImage.isNull() )
     {
-        if( ui.m_ThumbnailViewWidget->loadFromThumbId( thumbId ) )
-        {
-            ui.m_ThumbIdText->setText( thumbId.toHexString().c_str() );
-            showThumb = true;
-        }
+        ui.m_ThumbnailViewWidget->setImage( thumbId, thumbImage );
+        ui.m_ThumbIdText->setText( thumbId.toHexString().c_str() );
+        showThumb = true;
     }
 
     showThumbnail( showThumb );

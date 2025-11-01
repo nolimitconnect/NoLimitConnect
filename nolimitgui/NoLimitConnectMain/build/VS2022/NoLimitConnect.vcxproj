@@ -1113,6 +1113,7 @@ libass.lib;libpcre.lib
     <QtUic Include="..\..\..\src\Forms\WebsiteWidget.ui" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\..\..\nlc-nolimitconnect.com\src\assets\logo.svg" />
     <None Include="..\..\..\..\.gitlab-ci.yml" />
     <None Include="..\..\..\..\cmake\cmake_helpers\AndroidOnLinuxCrossCompile.cmake" />
     <None Include="..\..\..\..\cmake\cmake_helpers\AndroidOnWindowsCrossCompile.cmake" />

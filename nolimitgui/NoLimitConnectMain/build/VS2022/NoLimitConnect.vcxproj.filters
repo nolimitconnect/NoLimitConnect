@@ -560,9 +560,6 @@
     <QtMoc Include="..\..\..\src\OfferBarWidget.h">
       <Filter>Header Files\GuiOffer</Filter>
     </QtMoc>
-    <QtMoc Include="..\..\..\src\GuiThumbMgr.h">
-      <Filter>Header Files\GuiThumb</Filter>
-    </QtMoc>
     <QtMoc Include="..\..\..\src\GuiUser.h">
       <Filter>Header Files\GuiUser</Filter>
     </QtMoc>
@@ -1144,6 +1141,9 @@
     </QtMoc>
     <QtMoc Include="..\..\..\src\AppletAboutFile.h">
       <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiThumbMgr.h">
+      <Filter>Source Files\GuiThumb</Filter>
     </QtMoc>
   </ItemGroup>
   <ItemGroup>
@@ -2541,15 +2541,6 @@
     <ClInclude Include="..\..\..\src\OfferSessionLogic.h">
       <Filter>Header Files\GuiOffer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\GuiThumbCallback.h">
-      <Filter>Header Files\GuiThumb</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\GuiThumb.h">
-      <Filter>Header Files\GuiThumb</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\GuiThumbList.h">
-      <Filter>Header Files\GuiThumb</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\GuiUserUpdateCallback.h">
       <Filter>Header Files\GuiUser</Filter>
     </ClInclude>
@@ -2663,6 +2654,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\src\AdminAvailMgr.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiThumb.h">
+      <Filter>Source Files\GuiThumb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiThumbCallback.h">
+      <Filter>Source Files\GuiThumb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiThumbList.h">
+      <Filter>Source Files\GuiThumb</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -3191,6 +3191,9 @@
     </None>
     <None Include="..\..\..\..\cmake\cmake_helpers\OsDetect.cmake">
       <Filter>cmake_helpers</Filter>
+    </None>
+    <None Include="..\..\..\..\..\nlc-nolimitconnect.com\src\assets\logo.svg">
+      <Filter>Form Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

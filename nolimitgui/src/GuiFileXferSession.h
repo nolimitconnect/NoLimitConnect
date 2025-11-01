@@ -106,6 +106,8 @@ public:
 
 	bool						getAssetInfo( AssetBaseInfo& assetInfo, bool asStream = false );
 
+	VxGUID&						getThumbId( void )							{ return m_FileInfo.getThumbId(); }
+
 protected:
 	//=== vars ===//
     EPluginType					m_ePluginType{ ePluginTypeFileShareServer };

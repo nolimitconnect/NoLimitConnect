@@ -67,8 +67,9 @@ FileXferWidget* AppletDownloads::sessionToWidget( GuiFileXferSession* poSession 
     item->setFileItemInfo( poSession );
 
 	connect( item, SIGNAL(signalFileXferItemClicked(QListWidgetItem*)),		this, SLOT(slotFileXferItemClicked(QListWidgetItem*)) );
-	connect( item, SIGNAL(signalFileIconButtonClicked(QListWidgetItem*)),	this, SLOT(slotFileIconButtonClicked(QListWidgetItem*)) );
-	connect( item, SIGNAL(signalAcceptButtonClicked(QListWidgetItem*) ),    this, SLOT(slotAcceptButtonClicked(QListWidgetItem*) ) );
+	connect( item, SIGNAL(signalFileIconButtonClicked(QListWidgetItem*)),	this, SLOT(slotFileXferItemClicked(QListWidgetItem*)) );
+	connect( item, SIGNAL(signalThumbButtonClicked( QListWidgetItem* ) ),   this, SLOT(slotFileXferItemClicked(QListWidgetItem*) ) );
+	connect( item, SIGNAL(signalAcceptButtonClicked(QListWidgetItem*) ),    this, SLOT(slotAcceptButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalCancelButtonClicked(QListWidgetItem*)),		this, SLOT(slotCancelButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalPlayButtonClicked(QListWidgetItem*)),		this, SLOT(slotPlayButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalPlayExternButtonClicked(QListWidgetItem*)),	this, SLOT(slotPlayExternButtonClicked(QListWidgetItem*)) );
@@ -251,16 +252,8 @@ void AppletDownloads::toGuiFileDownloadComplete( EPluginType pluginType, VxGUID&
 //============================================================================
 void AppletDownloads::slotFileXferItemClicked(QListWidgetItem* item)
 {
-}
-
-//============================================================================
-void AppletDownloads::slotFileIconButtonClicked( QListWidgetItem* item )
-{
-	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1).toULongLong();
-	if( xferSession )
-	{
-
-	}	
+	// treat as if the file info icon was clicked
+	slotAboutFileButtonClicked( item );
 }
 
 //============================================================================
@@ -338,14 +331,19 @@ void AppletDownloads::slotFileShareButtonClicked( QListWidgetItem* item )
 //============================================================================
 void AppletDownloads::slotAboutFileButtonClicked( QListWidgetItem* item )
 {
-	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
-	if( xferSession )
+	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->data( Qt::UserRole + 1 ).toLongLong();
+	if( !xferSession )
 	{
-		AppletAboutFile* aboutFile = dynamic_cast<AppletAboutFile *>( m_MyApp.getAppletMgr().launchApplet( eAppletAboutFile ) );
-		if( aboutFile )
-		{
-			aboutFile->setFileInfo( xferSession->getFileInfo() );
-		}
+		LogMsg( LOG_ERROR, "AppletDownloads::%s null xferSession", __func__ );
+		vx_assert( false );
+		return;
+	}
+
+	FileInfo& fileInfo = xferSession->getFileInfo();
+	AppletAboutFile* aboutFile = dynamic_cast<AppletAboutFile*>( m_MyApp.getAppletMgr().launchApplet( eAppletAboutFile ) );
+	if( aboutFile )
+	{
+		aboutFile->setFileInfo( fileInfo );
 	}
 }
 

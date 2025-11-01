@@ -111,9 +111,9 @@ bool PluginBaseHostClient::fromGuiRequestPluginThumb( VxNetIdent* netIdent, VxGU
 }
 
 //============================================================================
-bool PluginBaseHostClient::ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& thumbId )
+bool PluginBaseHostClient::ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& thumbId, bool tmpThumb )
 {
-    return m_ThumbXferMgr.requestPluginThumb( sktBase, netIdent, thumbId );
+    return m_ThumbXferMgr.requestPluginThumb( sktBase, netIdent, thumbId, tmpThumb );
 }
 
 //============================================================================
@@ -271,65 +271,65 @@ void PluginBaseHostClient::onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktB
 //============================================================================
 void PluginBaseHostClient::onPktHostUnJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostUnJoinReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::%s", __func__ );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktHostOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostOfferReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::%s", __func__ );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktHostInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostInfoReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::%s", __func__ );
     m_Engine.getHostedListMgr().onPktHostInfoReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktHostSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostSearchReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient:%s", __func__ );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktGroupieInfoReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktGroupieInfoReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::%s", __func__ );
     m_Engine.getGroupieListMgr().onPktGroupieInfoReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktGroupieAnnReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktGroupieAnnReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::%s", __func__ );
     m_Engine.getGroupieListMgr().onPktGroupieAnnReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktGroupieSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktGroupieSearchReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::%s", __func__ );
      m_Engine.getGroupieListMgr().onPktGroupieSearchReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktGroupieMoreReply ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktGroupieMoreReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::%s", __func__ );
     m_Engine.getGroupieListMgr().onPktGroupieMoreReply( sktBase, pktHdr, netIdent, this );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostUserListReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::%s", __func__ );
 }
 
 //============================================================================
 void PluginBaseHostClient::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostUserListMoreReply" );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::%s", __func__ );
 }
 

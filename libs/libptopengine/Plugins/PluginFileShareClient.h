@@ -23,13 +23,13 @@ public:
 
 	bool						getIsInitialized( void ) { return m_WebPageClientReady; }
 
-	virtual bool				fromGuiDownloadWebPage( EWebPageType webPageType, VxGUID& onlineId ) override;
-	virtual bool				fromGuiCancelWebPage( EWebPageType webPageType, VxGUID& onlineId ) override;
+	bool						fromGuiDownloadWebPage( EWebPageType webPageType, VxGUID& onlineId ) override;
+	bool						fromGuiCancelWebPage( EWebPageType webPageType, VxGUID& onlineId ) override;
 
-	virtual bool				fromGuiDownloadFileList( VxGUID& onlineId, VxGUID& sessionId, uint8_t fileTypes = 0 ) override;
-	virtual bool				fromGuiDownloadFileListCancel( VxGUID& onlineId, VxGUID& sessionId ) override;
+	bool						fromGuiDownloadFileList( VxGUID& onlineId, VxGUID& sessionId, uint8_t fileTypes = 0 ) override;
+	bool						fromGuiDownloadFileListCancel( VxGUID& onlineId, VxGUID& sessionId ) override;
 
-	virtual std::string			getIncompleteFileXferDirectory( VxGUID& onlineId ) override;
+	std::string					getIncompleteFileXferDirectory( VxGUID& onlineId ) override;
 
 	void						lockSearchFileList( void ) { m_SearchFilesListMutex.lock(); }
 	void						unlockSearchFileList( void ) { m_SearchFilesListMutex.unlock(); }

@@ -64,7 +64,7 @@ BigListDb::BigListDb( P2PEngine& engine, BigListMgr& bigListMgr )
 void BigListDb::threadedRestoreAll( void )
 {
 	// wait for network key to be set
-	for( int i = 0; i < 100; i++ )
+    for( int i = 0; i < 200; i++ )
 	{
 		if( VxIsAppShuttingDown() )
 		{
@@ -276,6 +276,7 @@ RCODE BigListDb::dbRemoveBigListInfo( VxGUID& onlineId )
 	if( rc )
 	{
 		vx_assert( false );
+		dbClose();
 		unlockDb();
 		return rc;
 	}

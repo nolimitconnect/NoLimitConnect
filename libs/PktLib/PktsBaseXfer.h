@@ -88,6 +88,9 @@ public:
     void                        setIsStream( bool isStream )                        { m_IsStream = isStream; }
     bool                        getIsStream( void )                                 { return m_IsStream; }
 
+    void                        setIsTemporary( bool isTmp )                        { m_IsTemporary = isTmp; }
+    bool                        getIsTemporary( void )                              { return m_IsTemporary; }
+
 private:
     uint16_t					m_AssetType{ 0 };
     uint8_t					    m_PluginType{ 0 };
@@ -100,9 +103,12 @@ private:
     int64_t						m_s64AssetOffs{ 0 };	// if 0 then get all
     VxSha1Hash					m_FileHashId;
 
-    int64_t						m_s64Res1{ 0 };
-    uint32_t					m_u32Res1{ 0 };
-    uint32_t					m_u32Res2{ 0 };
+    uint8_t					    m_IsTemporary{ 0 };
+
+    uint8_t					    m_u8Res1{ 0 };
+    uint16_t					m_u16Res2{ 0 };
+    uint32_t					m_u32Res3{ 0 };
+    int64_t						m_s64Res4{ 0 };
 };
 
 class PktBaseGetReply : public VxPktHdr
@@ -164,6 +170,9 @@ public:
     void                        setIsStream( bool isStream )                        { m_IsStream = isStream; }
     bool                        getIsStream( void )                                 { return m_IsStream; }
 
+    void                        setIsTemporary( bool isTmp )                        { m_IsTemporary = isTmp; }
+    bool                        getIsTemporary( void )                              { return m_IsTemporary; }
+
 private:
     uint16_t					m_AssetType{ 0 };
     uint8_t					    m_PluginType{ 0 };
@@ -187,9 +196,13 @@ private:
 
     VxSha1Hash					m_FileHashId;
 
-    uint32_t					m_u32Res2{ 0 };
+    uint8_t					    m_IsTemporary{ 0 };
+
+    uint8_t					    m_u8Res1{ 0 };
+    uint16_t					m_u16Res2{ 0 };
     int64_t	                    m_s64Res3{ 0 };
     int64_t	                    m_s64Res4{ 0 };
+
     char						m_AssetNameAndTag[ PKT_TYPE_ASSET_MAX_NAME_AND_TAG_LEN ];
 };
 
@@ -252,6 +265,9 @@ public:
     void                        setIsStream( bool isStream )                        { m_IsStream = isStream; }
     bool                        getIsStream( void )                                 { return m_IsStream; }
 
+    void                        setIsTemporary( bool isTmp )                        { m_IsTemporary = isTmp; }
+    bool                        getIsTemporary( void )                              { return m_IsTemporary; }
+
 private:
 	uint16_t					m_AssetType{ 0 };
     uint8_t					    m_PluginType{ 0 };
@@ -273,8 +289,12 @@ private:
 	uint16_t					m_AssetNameLen{ 0 };
 	uint16_t					m_AssetTagLen{ 0 };
 
-	uint32_t					m_u32Res3{ 0 }; 
-	uint32_t					m_u32Res4{ 0 };
+    uint8_t					    m_IsTemporary{ 0 };
+
+    uint8_t					    m_u8Res1{ 0 };
+    uint16_t					m_u16Res2{ 0 };
+	uint32_t					m_u32Res3{ 0 };
+
 	char						m_AssetNameAndTag[ PKT_TYPE_ASSET_MAX_NAME_AND_TAG_LEN ];
 };
 
@@ -309,6 +329,9 @@ public:
     void                        setIsStream( bool isStream )                    { m_IsStream = isStream; }
     bool                        getIsStream( void )                             { return m_IsStream; }
 
+    void                        setIsTemporary( bool isTmp )                    { m_IsTemporary = isTmp; }
+    bool                        getIsTemporary( void )                          { return m_IsTemporary; }
+
 private:
 	uint8_t						m_u8RequiresFileXfer{ 0 };
 	uint8_t						m_PluginType{ 0 };
@@ -319,7 +342,12 @@ private:
     VxGUID						m_SendToId;
 	VxGUID						m_LclSessionId;
 	VxGUID						m_RmtSessionId;
-    uint64_t					m_s64Res1{ 0 };
+
+    uint8_t					    m_IsTemporary{ 0 };
+
+    uint8_t					    m_u8Res1{ 0 };
+    uint16_t					m_u16Res2{ 0 };
+    uint32_t					m_u32Res3{ 0 };
 };
 
 //============================================================================

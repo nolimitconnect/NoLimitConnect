@@ -96,6 +96,10 @@ void ThumbMgr::onPluginsInitialized( void )
 
         clearAssetInfoList();
         m_ThumbInfoDb.getAllAssets( m_ThumbInfoList );
+        for( auto asset : m_ThumbInfoList )
+        {
+            announceAssetAdded( asset, true );
+        }
 
         m_ThumbListInitialized = true;
         unlockResources();
@@ -151,7 +155,7 @@ void ThumbMgr::announceAssetAdded( AssetBaseInfo* assetInfo, bool resourceLocked
     ThumbInfo* thumbInfo = dynamic_cast<ThumbInfo*>( assetInfo );
     if( thumbInfo )
     {
-	    LogMsg( LOG_INFO, "ThumbMgr::announceThumbAdded start" );
+	    if(LogEnabled(eLogThumbnail))LogModule( eLogThumbnail, LOG_VERBOSE, "ThumbMgr::%s start", __func__ );
 	
 	    lockClientList();
 	    for( auto& client : m_ThumbClients )
@@ -160,7 +164,7 @@ void ThumbMgr::announceAssetAdded( AssetBaseInfo* assetInfo, bool resourceLocked
 	    }
 
 	    unlockClientList();
-	    LogMsg( LOG_INFO, "ThumbMgr::announceThumbAdded done" );
+        if( LogEnabled( eLogThumbnail ) )LogModule( eLogThumbnail, LOG_VERBOSE, "ThumbMgr::%s done", __func__ );
     }
     else
     {
@@ -499,7 +503,7 @@ bool ThumbMgr::fromGuiRequestPluginThumb( VxNetIdent* netIdent, EPluginType plug
 }
 
 //============================================================================
-bool ThumbMgr::ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType, VxGUID& thumbId )
+bool ThumbMgr::ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType, VxGUID& thumbId, bool tmpThumb )
 {
     if( !netIdent || ePluginTypeInvalid == pluginType || !thumbId.isVxGUIDValid() )
     {
@@ -519,7 +523,7 @@ bool ThumbMgr::ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase
     PluginBase* plugin = m_Engine.getPluginMgr().getPlugin( pluginType );
     if( plugin )
     {
-        return plugin->ptopEngineRequestPluginThumb( sktBase, netIdent, thumbId );
+        return plugin->ptopEngineRequestPluginThumb( sktBase, netIdent, thumbId, tmpThumb );
     }
     else
     {
@@ -596,7 +600,7 @@ uint64_t ThumbMgr::fromGuiClearCache( ECacheType cacheType )
             VxGUID thumbId = m_Engine.getMyPktAnnounce().getHostThumbId( ( EHostType )i, false );
             if( thumbId.isVxGUIDValid() )
             {
-                inUseList.push_back( thumbId );
+                inUseList.emplace_back( thumbId );
             }
         }
 
@@ -649,4 +653,23 @@ void ThumbMgr::deleteThumb( VxGUID& thumbId )
     }
 
     m_ThumbInfoMutex.unlock();
+}
+
+//============================================================================
+void ThumbMgr::queryMediaThumbIfNeeded( std::shared_ptr<VxSktBase>& sktBase, VxGUID& srcOnlineId, EPluginType pluginType, VxGUID& thumbId )
+{
+    int64_t thumbModifiedTime{ 0 };
+    if( lookupThumbInfo( thumbId, thumbModifiedTime ) )
+    {
+        return;
+    }
+
+    VxNetIdent* netIdent = m_Engine.getBigListMgr().findNetIdent( srcOnlineId );
+    if( !netIdent )
+    {
+        if(LogEnabled(eLogThumbnail))LogModule( eLogThumbnail, LOG_ERROR, "ThumbMgr::%s could not lookup netIdent", __func__ );
+        return;
+    }
+
+    ptopEngineRequestPluginThumb( sktBase, netIdent, pluginType, thumbId );
 }

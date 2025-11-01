@@ -60,6 +60,7 @@ AppletFileShareClientView::AppletFileShareClientView( AppCommon& app, QWidget*	p
 	m_MyApp.activityStateChange( this, true );
 	wantActivityCallbacks( true );
 	wantFileXferCallbacks( true );
+	m_MyApp.getThumbMgr().wantGuiThumbCallbacks( this, true );
 
 	checkDiskSpace();
 }
@@ -72,6 +73,7 @@ AppletFileShareClientView::~AppletFileShareClientView()
 		m_MyApp.getEngine().fromGuiDownloadFileListCancel( getPluginType(), m_HisOnlineId, m_LclSessionId );
 	}
 
+	m_MyApp.getThumbMgr().wantGuiThumbCallbacks( this, false );
 	wantFileXferCallbacks( false );
 	wantActivityCallbacks( false );
 	m_MyApp.activityStateChange( this, false );
@@ -240,6 +242,7 @@ FileXferWidget* AppletFileShareClientView::fileToWidget( GuiUser* guiUser, EPlug
 
     connect( item, SIGNAL(signalFileXferItemClicked(QListWidgetItem*)),		this, SLOT(slotItemClicked(QListWidgetItem*)) );
     connect( item, SIGNAL(signalFileIconButtonClicked(QListWidgetItem*)),	this, SLOT(slotItemClicked(QListWidgetItem*)) );
+	connect( item, SIGNAL(signalThumbButtonClicked(QListWidgetItem*)),		this, SLOT(slotItemClicked(QListWidgetItem*)) );
 
 	connect( item, SIGNAL(signalAcceptButtonClicked(QListWidgetItem*)),		this, SLOT(slotAcceptButtonClicked(QListWidgetItem*)) );
 	connect( item, SIGNAL(signalCancelButtonClicked(QListWidgetItem*)),		this, SLOT(slotCancelButtonClicked(QListWidgetItem*)) );
@@ -371,7 +374,20 @@ void AppletFileShareClientView::addFile( GuiUser* guiUser, EPluginType pluginTyp
 //============================================================================
 void AppletFileShareClientView::slotItemClicked(QListWidgetItem* item)
 {
+	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->data( Qt::UserRole + 1 ).toLongLong();
+	if( !xferSession )
+	{
+		LogMsg( LOG_ERROR, "AppletFileShareClientView::%s null xferSession", __func__ );
+		vx_assert( false );
+		return;
+	}
 
+	FileInfo& fileInfo = xferSession->getFileInfo();
+	AppletAboutFile* aboutFile = dynamic_cast<AppletAboutFile*>( m_MyApp.getAppletMgr().launchApplet( eAppletAboutFile ) );
+	if( aboutFile )
+	{
+		aboutFile->setFileInfo( fileInfo );
+	}
 }
 
 //============================================================================
@@ -380,7 +396,7 @@ void AppletFileShareClientView::slotCancelButtonClicked( QListWidgetItem* item )
 	GuiFileXferSession* xferSession = (GuiFileXferSession*)item->data(Qt::UserRole + 1).toLongLong();
 	if( !xferSession )
 	{
-		LogMsg( LOG_ERROR, "AppletFileShareClientView::slotCancelButtonClicked null xferSession" );
+		LogMsg( LOG_ERROR, "AppletFileShareClientView::%s null xferSession", __func__ );
 		vx_assert( false );
 		return;
 	}
@@ -682,6 +698,7 @@ void AppletFileShareClientView::moveUpOneFolder( void )
 		{
 			pTemp[0] = 0;
 		}
+
 		m_strCurrentDirectory = pBuf;
         delete[] pBuf;
 	}
@@ -706,4 +723,32 @@ void AppletFileShareClientView::wantFileXferCallbacks( bool enable )
 		m_FileXferCallbacksRequested = enable;
 		m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, enable );
 	}
+}
+
+//============================================================================
+void AppletFileShareClientView::callbackThumbAdded( GuiThumb* guiThumb )
+{
+	VxGUID thumbId = guiThumb->getThumbId();
+	int iIdx = 0;
+	FileXferWidget* poWidget;
+	while( iIdx < ui.FileItemList->count() )
+	{
+		poWidget = (FileXferWidget*)ui.FileItemList->item( iIdx );
+		if( poWidget && !poWidget->hasThumbImage() )
+		{
+			GuiFileXferSession* xferSession = (GuiFileXferSession*)poWidget->QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
+			if( xferSession->getThumbId() == thumbId )
+			{
+				QImage qImage;
+				bool validImage = guiThumb->createImage( qImage );
+				if( validImage )
+				{
+					poWidget->setThumbImage( qImage );
+				}
+			}
+		}
+
+		iIdx++;
+	}
+
 }
