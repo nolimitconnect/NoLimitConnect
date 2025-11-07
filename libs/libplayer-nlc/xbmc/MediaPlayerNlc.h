@@ -48,6 +48,8 @@ public:
 
 	void						fromGuiUpdateGlWidgetSize( int width, int height ) override;
 
+	void						fromGuiAppShutdown( void );
+
 protected:
     bool						assureInitialized( void );
 

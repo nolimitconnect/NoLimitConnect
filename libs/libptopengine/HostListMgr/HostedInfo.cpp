@@ -152,12 +152,12 @@ bool HostedInfo::fillFromHostInvite( PktHostInviteAnnounceReq* hostAnn )
         }
         else
         {
-            LogMsg( LOG_ERROR, "HostedInfo::fillFromHostInvite extract failed" );
+            LogMsg( LOG_ERROR, "HostedInfo::%s invalid url", __func__ );
         }
     }
     else
     {
-        LogMsg( LOG_ERROR, "HostedInfo::fillFromHostInvite extract failed");
+        LogMsg( LOG_ERROR, "HostedInfo::%s get info failed", __func__ );
     }
 
     return false;

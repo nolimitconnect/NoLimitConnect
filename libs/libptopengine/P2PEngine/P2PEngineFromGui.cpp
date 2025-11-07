@@ -116,14 +116,6 @@ bool P2PEngine::fromGuiDeleteUser( VxGUID& onlineId )
 }
 
 //============================================================================
-void P2PEngine::fromGuiAppShutdown( void )
-{
-	VxSetAppIsShuttingDown( true );
-    enableTimerThread( false );
-	shutdownEngine();
-}
-
-//============================================================================
 void P2PEngine::fromGuiOnlineNameChanged( const char* newOnlineName )
 {
 	lockAnnouncePktAccess();

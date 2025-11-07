@@ -792,6 +792,7 @@ namespace
         "Skt Close No Rx Encryption Key",
 
         "Skt Close Host Leave",
+        "Skt Close Invite On Temp Connection",
 
         "eMaxSktCloseReason "
     };

@@ -18,6 +18,7 @@
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
+#include <NetLib/VxSktBase.h>
 #include <PktLib/PktsHostInvite.h>
 
 //============================================================================
@@ -36,7 +37,7 @@ void PluginNetworkHost::onPktHostInviteAnnReq( std::shared_ptr<VxSktBase>& sktBa
     {
         if( netIdent->getMyOnlineId() != m_Engine.getMyOnlineId() )
         {
-            LogMsg( LOG_VERBOSE, "PluginNetworkHost got chat room announce from %s", identName.c_str() );
+            LogMsg( LOG_VERBOSE, "PluginNetworkHost::%s got chat room announce from %s", __func__, identName.c_str() );
         }
 
         updateHostSearchList( eHostTypeChatRoom, hostAnn, netIdent, sktBase );
@@ -45,7 +46,7 @@ void PluginNetworkHost::onPktHostInviteAnnReq( std::shared_ptr<VxSktBase>& sktBa
     {
         if( netIdent->getMyOnlineId() != m_Engine.getMyOnlineId() )
         {
-            LogMsg( LOG_VERBOSE, "PluginNetworkHost got group announce from %s", identName.c_str() );
+            LogMsg( LOG_VERBOSE, "PluginNetworkHost::%s got group announce from %s", __func__, identName.c_str() );
         }
 
         updateHostSearchList( eHostTypeGroup, hostAnn, netIdent, sktBase );
@@ -54,7 +55,7 @@ void PluginNetworkHost::onPktHostInviteAnnReq( std::shared_ptr<VxSktBase>& sktBa
     {
         if( netIdent->getMyOnlineId() != m_Engine.getMyOnlineId() )
         {
-            LogMsg( LOG_VERBOSE, "PluginNetworkHost got random connect announce from %s", identName.c_str() );
+            LogMsg( LOG_VERBOSE, "PluginNetworkHost::%s got random connect announce from %s", __func__, identName.c_str() );
         }
 
        updateHostSearchList( eHostTypeRandomConnect, hostAnn, netIdent, sktBase );
@@ -62,20 +63,30 @@ void PluginNetworkHost::onPktHostInviteAnnReq( std::shared_ptr<VxSktBase>& sktBa
     else if( eHostTypeNetwork == hostAnn->getHostType() )
     {
         // for now we are the only network host so ignore
-        LogMsg( LOG_VERBOSE, "PluginNetworkHost got network announce.. ignored" );
+        LogMsg( LOG_VERBOSE, "PluginNetworkHost::%s got network announce.. ignored", __func__ );
     }
     else if( eHostTypeConnectTest == hostAnn->getHostType() )
     {
         if( netIdent->getMyOnlineId() != m_Engine.getMyOnlineId() )
         {
-             LogMsg( LOG_VERBOSE, "PluginNetworkHost got connect test announce from %s", identName.c_str() );
+             LogMsg( LOG_VERBOSE, "PluginNetworkHost::%s got connect test announce from %s", __func__, identName.c_str() );
         }
 
         updateHostSearchList( eHostTypeConnectTest, hostAnn, netIdent, sktBase );
     }
     else
     {
-        LogMsg( LOG_VERBOSE, "PluginNetworkHost unknown announce %d from %s", hostAnn->getHostType(), identName.c_str() );
+        LogMsg( LOG_VERBOSE, "PluginNetworkHost::%s unknown announce %d from %s", __func__, hostAnn->getHostType(), identName.c_str() );
+    }
+
+    if( sktBase->isTempConnection() )
+    {
+        LogMsg( LOG_VERBOSE, "PluginNetworkHost::%s closing temp skt from %s", __func__, identName.c_str() );
+        sktBase->closeSkt( eSktCloseInviteOnTempConnection );
+    }
+    else
+    {
+        LogMsg( LOG_VERBOSE, "PluginNetworkHost::%s NOT a temp skt from %s", __func__, identName.c_str() );
     }
 }
 

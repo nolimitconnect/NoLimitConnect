@@ -74,7 +74,7 @@ void HostServerMgr::sendHostAnnounceToNetworkHost( VxGUID& sessionId, PktHostInv
         return;
     }
 
-    LogModule( eLogHostJoin, LOG_DEBUG, "sendHostAnnounceToNetworkHost %s", DescribePluginType( m_Plugin.getPluginType() ) );
+    if(LogEnabled( eLogHostJoin))LogModule( eLogHostJoin, LOG_DEBUG, "HostServerMgr::%s %s", __func__, DescribePluginType( m_Plugin.getPluginType() ) );
     addAnnounceSession( sessionId, hostAnnounce.makeHostAnnCopy() );
     connectToHost( eHostTypeNetwork, sessionId, url, connectReason );
 }

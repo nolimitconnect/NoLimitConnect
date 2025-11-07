@@ -85,6 +85,9 @@
 #include <signal.h>
 #include <array>
 
+#include "MediaPlayerNlc.h"
+#include "RenderGlLogic.h"
+
 namespace
 {
 	AppCommon * g_AppCommon = 0;
@@ -386,20 +389,31 @@ void AppCommon::shutdownAppCommon( void )
 		{
 			hasBeenShutdown = true;
 			VxSetAppIsShuttingDown( true );
-			m_CamLogic.shutdownCamLogic();
-			m_SoundMgr.sndMgrShutdown();
-			fromGuiCloseEvent( eMediaModuleAll );
-			ActivityBase* appPlayer = m_AppletMgr.findAppletDialog( eAppletPlayerNlc );
-			if( appPlayer )
-			{
-				// to force media player stop before exit application
-				appPlayer->onActivityFinish();
-			}
 
-			QApplication::closeAllWindows();
-			getEngine().fromGuiAppShutdown();
+			// queued so does not shutdown while dialog is still open
+			emit signalShutdownApp();
 		}
     }
+}
+
+//============================================================================
+void AppCommon::slotShutdownApp( void )
+{
+	VxSetAppIsShuttingDown( true );
+	m_CamLogic.shutdownCamLogic();
+	m_SoundMgr.sndMgrShutdown();
+
+	fromGuiCloseEvent( eMediaModuleAll );
+	ActivityBase* appPlayer = m_AppletMgr.findAppletDialog( eAppletPlayerNlc );
+	if( appPlayer )
+	{
+		// to force media player stop before exit application
+		appPlayer->onActivityFinish();
+	}
+
+	QApplication::closeAllWindows();
+	getEngine().fromGuiAppShutdown();
+	IMediaPlayerRequests::getNlcPlayer().fromGuiAppShutdown();
 }
 
 //============================================================================

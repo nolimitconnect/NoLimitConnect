@@ -177,3 +177,12 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
         m_FromGuiMgr.fromGuiUserLoggedOn( netIdent );
     }
 }
+
+//============================================================================
+void P2PEngine::fromGuiAppShutdown( void )
+{
+    LogMsg( LOG_VERBOSE, " P2PEngine::%s", __func__ );
+    VxSetAppIsShuttingDown( true );
+    enableTimerThread( false );
+    shutdownEngine();
+}

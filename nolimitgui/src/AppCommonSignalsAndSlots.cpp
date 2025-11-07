@@ -204,4 +204,6 @@ void AppCommon::connectSignals( void )
 
 	connect( this, SIGNAL(signalInternalToGuiAdminAvail(GroupieId,bool)), this,
 		SLOT(slotInternalToGuiAdminAvail(GroupieId,bool)), Qt::QueuedConnection );
+
+	connect( this, SIGNAL(signalShutdownApp()), this, SLOT(slotShutdownApp()), Qt::QueuedConnection );
 }

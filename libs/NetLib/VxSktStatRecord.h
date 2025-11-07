@@ -31,6 +31,7 @@ public:
 	int64_t						getRxedBytes( void )				{ return m_RxedBytes; }
 	int64_t						getLastActiveTimestampMs( void )	{ return m_LastActiveTimeMs; }
 	VxGUID&						getPeerOnlineId( void )				{ return m_PeerOnlineId; }
+	bool						getIsTemporary( void )				{ return m_IsTemp; }
 
 protected:
 	SOCKET						m_SktHandle{ INVALID_SOCKET };

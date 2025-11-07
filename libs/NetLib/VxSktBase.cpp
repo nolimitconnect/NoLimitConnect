@@ -1371,11 +1371,6 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
         }
     }
 
-	if( sktBase && sktBase->isUdpSocket() )
-	{
-		if( LogEnabled( eLogSktData ) )LogModule( eLogSktData, LOG_VERBOSE, "udp skt id %d handle %d exit thread last error %d", sktBase->getSktNumber(), sktBase->getSktHandle(), sktBase->getLastSktError() );;
-	}
-
     poVxThread->abortThreadRun( true );
     if( sktBase )
     {

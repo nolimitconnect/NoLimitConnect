@@ -658,3 +658,14 @@ void MediaPlayerNlc::initVideoSettings( void )
     settings->GetSettingsManager()->AddSettingInternal( settingPtr );
     settings->SetBool( CSettings::SETTING_VIDEOPLAYER_PREFERDEFAULTFLAG, true );
 }
+
+//============================================================================
+void MediaPlayerNlc::fromGuiAppShutdown( void )
+{
+#if defined(HAVE_QT_GUI)
+	if( CServiceBroker::GetRenderSystem() )
+	{
+		CServiceBroker::GetRenderSystem()->DestroyRenderSystem();
+	}
+#endif // defined(HAVE_QT_GUI)
+}

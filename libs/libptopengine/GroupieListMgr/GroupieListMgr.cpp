@@ -1175,7 +1175,7 @@ void GroupieListMgr::onPktGroupieMoreReply( std::shared_ptr<VxSktBase>& sktBase,
     PktGroupieMoreReply* pktReply = ( PktGroupieMoreReply* )pktHdr;
     if( pktReply->getCommError() )
     {
-        logCommError( pktReply->getCommError(), "PktHostInviteSearchReply", sktBase, netIdent );
+        logCommError( pktReply->getCommError(), "onPktGroupieMoreReply", sktBase, netIdent );
         groupieSearchCompleted( pktReply->getHostType(), pktReply->getSearchSessionId(), sktBase, netIdent, pktReply->getCommError() );
     }
     else

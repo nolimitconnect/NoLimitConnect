@@ -53,7 +53,7 @@ AppletSocketList::AppletSocketList( AppCommon& app, QWidget* parent )
 
 	m_MyApp.activityStateChange( this, true );
 
-    QStandardItemModel* model = new QStandardItemModel( 0, 5, parent );
+    QStandardItemModel* model = new QStandardItemModel( 0, 6, parent );
     ui.m_TreeView->setRootIsDecorated( false );
     ui.m_TreeView->setAlternatingRowColors( false ); // TODO fix pink color on alternate rows in windows
     ui.m_TreeView->setModel( model );
@@ -64,6 +64,7 @@ AppletSocketList::AppletSocketList( AppCommon& app, QWidget* parent )
     model->setHeaderData( 2, Qt::Horizontal, QObject::tr( "Txed" ) );
     model->setHeaderData( 3, Qt::Horizontal, QObject::tr( "Rxed" ) );
     model->setHeaderData( 4, Qt::Horizontal, QObject::tr( "Peer User" ) );
+    model->setHeaderData( 5, Qt::Horizontal, QObject::tr( "Temp?" ) );
 
     refreshSktList();
 }
@@ -127,5 +128,6 @@ void AppletSocketList::addSocketStat( VxSktStatRecord& sktStat )
         model->setData( model->index( rowNum, 2 ), QString( GuiParams::describeFileLength( sktStat.getTxedBytes() ) ) );
         model->setData( model->index( rowNum, 3 ), QString( GuiParams::describeFileLength( sktStat.getRxedBytes() ) ) );
         model->setData( model->index( rowNum, 4 ), peerName );
+        model->setData( model->index( rowNum, 5 ), sktStat.getIsTemporary() ? "yes" : "no" );
     }
 }

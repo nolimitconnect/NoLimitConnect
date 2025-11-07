@@ -92,23 +92,24 @@ void CamLogic::shutdownCamLogic( void )
     if( m_Camera )
     {
         m_Camera->stop();
-        m_Camera->deleteLater();
-        m_Camera = nullptr;
     }
 
     if( m_CaptureSession )
     {
-        m_CaptureSession->deleteLater();
-        m_CaptureSession = nullptr;
+        m_CaptureSession->setCamera( nullptr );
+        m_CaptureSession->setVideoSink( nullptr );
     }
 
-    if( m_CamFrameSink )
-    {
-        disconnect( m_CamFrameSink, SIGNAL(videoFrameChanged(const QVideoFrame&)), &m_VideoFrameProcessor, SLOT(slotVideoFrameChanged(const QVideoFrame&)) );      
 
-        m_CamFrameSink->deleteLater();
-        m_CamFrameSink = nullptr;
-    }
+    delete m_CamFrameSink;
+    m_CamFrameSink = nullptr;
+
+    delete m_CaptureSession;
+    m_CaptureSession = nullptr;
+
+    delete m_Camera;
+    m_Camera = nullptr;
+
 #endif // defined(ENABLE_JAVA_CAM)
 }
 

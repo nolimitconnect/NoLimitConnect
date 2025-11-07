@@ -396,8 +396,8 @@ bool HostBaseMgr::onUrlActionQueryIdSuccess( VxGUID& sessionId, std::string& url
 {
     bool result{ false };
     EHostType hostType = connectReasonToHostType( connectReason );
-    LogModule( eLogHostConnect, LOG_DEBUG, "HostBaseMgr::onUrlActionQueryIdSuccess %s url %s reason %s", DescribeHostType( hostType ), url.c_str(), 
-               DescribeConnectReason( connectReason ));
+    LogModule( eLogHostConnect, LOG_DEBUG, "HostBaseMgr::%s %s url %s reason %s", __func__, 
+        DescribeHostType( hostType ), url.c_str(), DescribeConnectReason( connectReason ) );
     if( eHostTypeUnknown != hostType )
     {
         if( isAnnounceConnectReason( connectReason ) )

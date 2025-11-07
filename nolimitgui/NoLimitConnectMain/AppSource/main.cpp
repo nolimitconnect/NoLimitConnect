@@ -282,6 +282,12 @@ int runApplication( QApplication* myApp, int argc, char** argv )
 //============================================================================
 int main( int argc, char** argv )
 {
+#if defined(TARGET_OS_WINDOWS)
+    // unfortunatly this does not fix the issue but since it only happens in debug builds the crash on shutdown can be ignored
+    // QTBUG-118330 
+    qputenv( "QT_FFMPEG_HWACCEL", "none" ); // to stop crash by Qt6Multimediad.dll not releasing d3d11 textures
+#endif // defined(TARGET_OS_WINDOWS)
+
     int retVal{ 0 };
 
     VxSetGuiThreadId();
@@ -293,8 +299,6 @@ int main( int argc, char** argv )
 
     // for some reason QApplication must be newed or does not initialize
     QApplication* myApp = new QApplication( argc, argv );
-
-
 
     try
     {

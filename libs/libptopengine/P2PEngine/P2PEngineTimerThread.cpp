@@ -189,6 +189,10 @@ void P2PEngine::onOncePer5Minutes( void )
 void P2PEngine::onOncePer10Minutes( void )
 {
     AppMonitor::dumpAppStats();
+    if( LogEnabled( eLogThread ) )
+    {
+        VxThread::dumpRunningThreads();
+    }
 }
 
 //============================================================================

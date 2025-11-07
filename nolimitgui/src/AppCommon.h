@@ -735,6 +735,8 @@ signals:
 
     void                        signalInternalToGuiAdminAvail( GroupieId adminGroupieId, bool adminAvail );
 
+    void                        signalShutdownApp( void );
+
 private slots:
     void                        slotInternalNetAvailStatus( ENetAvailStatus netAvailStatus );
     void                        slotInternalPluginMessage( EPluginType pluginType, VxGUID onlineId, EPluginMsgType msgType, QString paramValue );
@@ -832,6 +834,8 @@ protected slots:
     void						slotAccountCreated( bool wasCreated );
 
     void						slotInternalAppPopupErr( EAppErr eAppErr, QString errMsg );
+
+    void                        slotShutdownApp( void );
 
 protected:
     void                        connectSignals( void );

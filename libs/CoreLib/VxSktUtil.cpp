@@ -2037,9 +2037,6 @@ void VxCloseSktNow( SOCKET& oSocket )
 {
 	if( INVALID_SOCKET != oSocket )
 	{
-		if( LogEnabled( eLogConnect ) )LogModule( eLogConnect, LOG_VERBOSE, "--%s closing skt handle %d", __func__, oSocket );
-		// set linger time to zero to force a close right now
-
         linger oLinger;
         oLinger.l_linger = 0;
         oLinger.l_onoff = 1;
@@ -2049,23 +2046,8 @@ void VxCloseSktNow( SOCKET& oSocket )
                 (const char*)&oLinger,
                 (int)sizeof( linger ) );
 
-       shutdown(oSocket, 0);
-
-        #if defined( TARGET_OS_WINDOWS )
-			closesocket( oSocket );
-        #elif defined( TARGET_OS_LINUX )
-			close( oSocket );
-        #elif defined( TARGET_OS_ANDROID )
-            close( oSocket );
-        #endif // TARGET_OS_WINDOWS
-		if( g_SktStatCallback )
-		{
-			g_SktStatCallback->sktClosed( oSocket );
-		}
-
-		oSocket = INVALID_SOCKET;
+		VxCloseSkt( oSocket );
 	}
-	//LogMsg( LOG_INFO, "VxSktBase::closeSkt: Skt %d force close done", m_SktNumber );
 }
 
 //============================================================================
@@ -2074,11 +2056,15 @@ void VxCloseSkt( SOCKET& oSocket )
 	if( INVALID_SOCKET != oSocket )
 	{
 		if( LogEnabled( eLogConnect ) )LogModule( eLogConnect, LOG_VERBOSE, "--%s closing skt handle %d", __func__, oSocket );
-		#ifdef TARGET_OS_WINDOWS
-			closesocket( oSocket );
-        #else // Linux amd Android
-			close( oSocket );
-        #endif // TARGET_OS_WINDOWS
+		#if defined( TARGET_OS_WINDOWS )
+				shutdown( oSocket, 0 );
+				closesocket( oSocket );
+		#elif defined( TARGET_OS_LINUX ) || defined( TARGET_OS_ANDROID )
+				shutdown( oSocket, SHUT_RDWR );
+				close( oSocket );
+		#else
+				close( oSocket );
+		#endif // TARGET_OS_WINDOWS
 		if( g_SktStatCallback )
 		{
 			g_SktStatCallback->sktClosed( oSocket );

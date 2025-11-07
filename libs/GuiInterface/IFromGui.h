@@ -49,11 +49,12 @@ public:
 	/// Called with identity of user that logged on
 	virtual void				fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread = false ) = 0;
 
+	/// Call to engine when application is about to exit
+	virtual void				fromGuiAppShutdown( void ) = 0;
+
 	/// delete user from database.. change does not take effect until next reboot
 	virtual bool				fromGuiDeleteUser( VxGUID& onlineId ) = 0;
 
-	/// Call to engine when application is about to exit
-	virtual void				fromGuiAppShutdown( void ) = 0;
 	/// Returns disk space available in incomplete downloads directory
 	virtual uint64_t			fromGuiGetDiskFreeSpace( const char* dir = nullptr ) = 0; 
 	/// deletes cached files and returns amount of disk space deleted

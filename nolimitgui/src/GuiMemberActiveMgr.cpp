@@ -97,7 +97,8 @@ void GuiMemberActiveMgr::callbackMemberActive( GroupieId& groupieId, bool isActi
 {
     if( !isActive && groupieId.getUserOnlineId() == GetAppInstance().getMyOnlineId() )
     {
-        LogMsg( LOG_WARN, "GuiMemberActiveMgr::%s my member %s is now inactive", __func__ );
+        if(LogEnabled(eLogMembership))LogModule( eLogMembership, LOG_WARN, "GuiMemberActiveMgr::%s my membership to %s is now inactive", __func__,
+               DescribeHostType( groupieId.getHostType() ) );
     }
 
     emit signalInternalMemberActive( groupieId, isActive );

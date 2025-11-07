@@ -139,7 +139,7 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr,
 //============================================================================
 P2PEngine::~P2PEngine()
 {
-	m_PluginMgr.pluginMgrShutdown();
+    //m_PluginMgr.pluginMgrShutdown();
 }
 
 //============================================================================
@@ -227,6 +227,9 @@ void P2PEngine::shutdownEngine( void )
 	getEngineParams().engineParamsShutdown();
 	m_BigListMgr.bigListMgrShutdown();
 	m_AssetMgr.assetInfoMgrShutdown();
+
+	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: plugin shutdown" );
+	m_PluginMgr.pluginMgrShutdown();
 
 	LogMsg( LOG_VERBOSE, "P2PEngine::shutdownEngine: waiting threads exit" );
 	

@@ -220,13 +220,14 @@ public:
     void           				fromGuiSetUserXferDir( std::string userXferDir, bool fromThread = false ) override;
     void           				fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread = false ) override;
 
+    void           				fromGuiAppShutdown( void ) override;
+
     void           				fromGuiBlockUser( VxGUID& onlineId, bool fromThread = false ) override;
 
 	bool				        fromGuiDeleteUser( VxGUID& onlineId ) override;
 
     uint64_t			        fromGuiGetDiskFreeSpace( const char* dir = nullptr  ) override;
     uint64_t			        fromGuiClearCache( ECacheType cacheType ) override;
-    void           				fromGuiAppShutdown( void  ) override;
 
     void           				fromGuiOnlineNameChanged( const char* newOnlineName ) override;
     void           				fromGuiMoodMessageChanged( const char* newMoodMessage ) override;

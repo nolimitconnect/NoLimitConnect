@@ -1298,6 +1298,8 @@ enum ESktCloseReason
 
     eSktCloseHostLeave,
 
+    eSktCloseInviteOnTempConnection,
+
     eMaxSktCloseReason			// always last
 };
 
