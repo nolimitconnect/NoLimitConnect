@@ -33,6 +33,9 @@ public:
 	virtual void				callbackToGuiFileList( VxGUID& appInstId, FileInfo& fileInfo ){};
 	virtual void				callbackToGuiFileListCompleted( VxGUID& appInstId ) {};
 
+	virtual void				callbackToGuiFolderScan( VxGUID& appInstId, FileInfo& fileInfo ) {};
+	virtual void				callbackToGuiFolderScanCompleted( VxGUID& appInstId, bool wasCanceled ) {};
+
 	virtual void				callbackBeginDownload( EApplet appletType, GuiFileXferSession* xferSession ) {};
 	virtual void				callbackAcceptDownload( EApplet appletType, GuiFileXferSession* xferSession ) {};
 	virtual void				callbackCancelDownload( EApplet appletType, GuiFileXferSession* xferSession ) {};

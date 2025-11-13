@@ -262,6 +262,40 @@ void GuiFileXferMgr::toGuiFileListCompleted( VxGUID appInstId )
 }
 
 //============================================================================
+void GuiFileXferMgr::toGuiFolderScan( VxGUID appInstId, FileInfo& fileInfo )
+{
+    if( VxIsAppShuttingDown() )
+    {
+        return;
+    }
+
+    m_ToGuiFileXferInterfaceBusy = true;
+    for( auto& client : m_ToGuiFileXferInterfaceList )
+    {
+        client->callbackToGuiFolderScan( appInstId, fileInfo );
+    }
+
+    m_ToGuiFileXferInterfaceBusy = false;
+}
+
+//============================================================================
+void GuiFileXferMgr::toGuiFolderScanCompleted( VxGUID appInstId, bool wasCanceled )
+{
+    if( VxIsAppShuttingDown() )
+    {
+        return;
+    }
+
+    m_ToGuiFileXferInterfaceBusy = true;
+    for( auto& client : m_ToGuiFileXferInterfaceList )
+    {
+        client->callbackToGuiFolderScanCompleted( appInstId, wasCanceled );
+    }
+
+    m_ToGuiFileXferInterfaceBusy = false;
+}
+
+//============================================================================
 void GuiFileXferMgr::beginDownload( EApplet appletType, GuiFileXferSession* xferSession )
 {
     addDownload( xferSession );

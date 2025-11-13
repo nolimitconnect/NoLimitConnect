@@ -308,21 +308,7 @@ AssetBaseInfo* AssetBaseMgr::addAssetFile( EAssetType assetType, const char* fil
 {
 	VxGUID assetId;
 	assetId.initializeWithNewVxGUID();
-    AssetBaseInfo* assetInfo = createAssetInfo( assetType, fileName, fileNameAndPath, fileLen, assetId );
-    if( assetInfo )
-    {
-		if( !assetInfo->isValid() )
-		{
-			return nullptr;
-		}
-
-        if( insertNewInfo( assetInfo ) )
-        {
-            return assetInfo;
-        }
-    }
-
-    return nullptr;
+    return addAssetFile( assetType, fileName, fileNameAndPath, fileLen, assetId );
 }
 
 //============================================================================
@@ -491,7 +477,6 @@ bool AssetBaseMgr::insertNewInfo( AssetBaseInfo* assetInfo )
 		return false;
 	}
 
-	bool result = false;
 	AssetBaseInfo* assetInfoExisting = findAsset( assetInfo->getAssetUniqueId() );
 	if( assetInfoExisting )
 	{
@@ -508,33 +493,20 @@ bool AssetBaseMgr::insertNewInfo( AssetBaseInfo* assetInfo )
 		assetInfo->setCreationTime( GetTimeStampMs() );
 	}
 
-	//if( assetInfo->needsHashGenerated() )
-	//{
-	//	lockResources();
-	//	m_WaitingForHastList.push_back( assetInfo );
-	//	unlockResources();
-    //	generateHashForFile( assetInfo->getFileNameAndPath() );
-	//	result = true;
-	//}
-	//else
+    updateDatabase( assetInfo );
+	if( !assetInfoExisting )
 	{
-        updateDatabase( assetInfo );
-		if( !assetInfoExisting )
-		{
-			lockResources();
-			m_AssetBaseInfoList.emplace_back( assetInfo );
-			unlockResources();
-			announceAssetAdded( assetInfo );
-		}
-        else
-        {
-            announceAssetUpdated( assetInfo );
-        }
-	
-		result = true;
+		lockResources();
+		m_AssetBaseInfoList.emplace_back( assetInfo );
+		unlockResources();
+		announceAssetAdded( assetInfo );
 	}
+    else
+    {
+        announceAssetUpdated( assetInfo );
+    }
 
-	return result;
+	return true;
 }
 
 //============================================================================

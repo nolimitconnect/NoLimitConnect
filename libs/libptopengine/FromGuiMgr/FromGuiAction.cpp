@@ -235,3 +235,18 @@ void FromGuiBlockUser::executeAction( void )
 {
 	m_Engine.fromGuiBlockUser( m_OnlineId, true );
 }
+
+//============================================================================	
+FromGuiScanFolderForMedia::FromGuiScanFolderForMedia( P2PEngine& engine, VxGUID& appInstId, std::string dirToScan, uint8_t fileTypeFilter )
+	: FromGuiActionBase( engine, eFromGuiScanFolderForMedia )
+	, m_AppInstanceId( appInstId )
+	, m_DirToScan( dirToScan )
+	, m_FileTypeFilter{ fileTypeFilter }
+{
+}
+
+//============================================================================	
+void FromGuiScanFolderForMedia::executeAction( void )
+{
+	m_Engine.fromGuiScanFolderForMedia( m_AppInstanceId, m_DirToScan, m_FileTypeFilter, true );
+}

@@ -180,6 +180,8 @@ void AppCommon::connectSignals( void )
 
     connect( this, SIGNAL(signalInternalToGuiFileList(VxGUID,FileInfo)), this, SLOT(slotInternalToGuiFileList(VxGUID,FileInfo)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalToGuiFileListCompleted(VxGUID)), this, SLOT(slotInternalToGuiFileListCompleted(VxGUID)), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalToGuiFolderScan(VxGUID,FileInfo)), this, SLOT(slotInternalToGuiFolderScan(VxGUID,FileInfo)), Qt::QueuedConnection );
+	connect( this, SIGNAL(signalInternalToGuiFolderScanCompleted(VxGUID,bool)), this, SLOT(slotInternalToGuiFolderScanCompleted(VxGUID,bool)), Qt::QueuedConnection );
 
 	connect( this, SIGNAL(signalInternalToGuiRxedPluginOffer(VxGUID,OfferBaseInfo)), this,
 		SLOT(slotInternalToGuiRxedPluginOffer(VxGUID,OfferBaseInfo)), Qt::QueuedConnection );

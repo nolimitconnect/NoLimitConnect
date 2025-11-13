@@ -51,6 +51,9 @@ public:
 	void						setLastAddFileDir( std::string addFileDir );
 	void						getLastAddFileDir( std::string& addFileDir );
 
+	void						setLastFolderScanDir( std::string addFileDir );
+	void						getLastFolderScanDir( std::string& addFileDir );
+
 	void						setLastBrowseShareDir( std::string& browseDir );
 	void						getLastBrowseShareDir( std::string& browseDir );
 

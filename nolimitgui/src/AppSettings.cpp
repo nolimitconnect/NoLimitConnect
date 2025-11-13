@@ -243,6 +243,18 @@ void AppSettings::getLastAddFileDir( std::string& addFileDir )
 }
 
 //============================================================================
+void AppSettings::setLastFolderScanDir( std::string addFileDir )
+{
+	setIniValue( getAppShortName(), "FolderScanDir", addFileDir );
+}
+
+//============================================================================
+void AppSettings::getLastFolderScanDir( std::string& addFileDir )
+{
+	getIniValue( getAppShortName(), "FolderScanDir", addFileDir, "" );
+}
+
+//============================================================================
 void AppSettings::setLastBrowseShareDir( std::string& browseDir )
 {
 	setIniValue( getAppShortName(), "ShareBrowseDir", browseDir );

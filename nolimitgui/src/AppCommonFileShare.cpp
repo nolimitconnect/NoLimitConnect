@@ -169,3 +169,37 @@ void AppCommon::slotInternalToGuiFileListCompleted( VxGUID appInstId )
 {
     getFileXferMgr().toGuiFileListCompleted(appInstId);
 }
+
+//============================================================================
+void AppCommon::toGuiFolderScan( VxGUID& appInstId, FileInfo& fileInfo )
+{
+	if( VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
+	emit signalInternalToGuiFolderScan( appInstId, fileInfo );
+}
+
+//============================================================================
+void AppCommon::slotInternalToGuiFolderScan( VxGUID appInstId, FileInfo fileInfo )
+{
+	getFileXferMgr().toGuiFolderScan( appInstId, fileInfo );
+}
+
+//============================================================================
+void AppCommon::toGuiFolderScanCompleted( VxGUID& appInstId, bool wasCanceled )
+{
+	if( VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
+	emit signalInternalToGuiFolderScanCompleted( appInstId, wasCanceled );
+}
+
+//============================================================================
+void AppCommon::slotInternalToGuiFolderScanCompleted( VxGUID appInstId, bool wasCanceled )
+{
+	getFileXferMgr().toGuiFolderScanCompleted( appInstId, wasCanceled );
+}

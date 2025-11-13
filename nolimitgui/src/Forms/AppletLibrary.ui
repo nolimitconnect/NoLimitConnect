@@ -103,92 +103,6 @@
        <widget class="FileFilterSelectWidget" name="m_FileFilterSelectWidget" native="true"/>
       </item>
       <item>
-       <widget class="QFrame" name="m_BrowseFrame">
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <property name="spacing">
-          <number>2</number>
-         </property>
-         <item>
-          <widget class="VxPushButton" name="m_AddFileButton">
-           <property name="minimumSize">
-            <size>
-             <width>32</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>32</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>48</width>
-             <height>48</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="VxLabel" name="m_AddFileLabel">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Add A File</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="VxPushButton" name="m_BrowseButton">
-           <property name="minimumSize">
-            <size>
-             <width>32</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>32</width>
-             <height>32</height>
-            </size>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="VxLabel" name="m_BrowseFilesLabel">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Browse For Files</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="m_DoubleTapInstructionLabel">
-        <property name="text">
-         <string>Double Click File Item to Select The File</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QListWidget" name="m_FileItemList">
         <property name="frameShape">
          <enum>QFrame::Shape::NoFrame</enum>
@@ -222,16 +136,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>VxPushButton</class>
-   <extends>QPushButton</extends>
-   <header>VxPushButton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>VxLabel</class>
-   <extends>QLabel</extends>
-   <header>VxLabel.h</header>
-  </customwidget>
   <customwidget>
    <class>FileFilterSelectWidget</class>
    <extends>QWidget</extends>

@@ -25,6 +25,8 @@ class FileItemInfo
 public:
 	FileItemInfo( FileInfo& fileInfo );
 
+	void						setFileInfo( FileInfo& fileInfo )		{ m_FileInfo = fileInfo; }
+
 	void						setIsSharedFile( bool isShared )		{ m_FileInfo.setIsSharedFile( isShared ); }
 	bool						getIsSharedFile( void )					{ return m_FileInfo.getIsSharedFile(); }
 

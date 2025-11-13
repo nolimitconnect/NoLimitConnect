@@ -56,6 +56,7 @@ class AssetMgr;
 class BlobMgr;
 class ConnectMgr;
 class ConnectRequest;
+class FileMgr;
 class FileShareSettings;
 class FriendRequestMgr;
 class HostServerJoinMgr;
@@ -96,13 +97,14 @@ public:
     P2PEngine() = delete; // don't allow default constructor
     P2PEngine( const P2PEngine& ) = delete; // don't allow copy constructor
 
-	P2PEngine( VxPeerMgr& peerMgr, 
-               MemberActiveMgr& memberActiveMgr, 
-               OfferMgr& offerMgr,
-               PushToTalkMgr& pushToTalkMgr, 
-               RandConnectMgr& randConnectMgr,
-               SendQueueMgr& sendQueueMgr,
-               FriendRequestMgr& friendRequstMgr);
+    P2PEngine( VxPeerMgr& peerMgr,
+        MemberActiveMgr& memberActiveMgr,
+        OfferMgr& offerMgr,
+        PushToTalkMgr& pushToTalkMgr,
+        RandConnectMgr& randConnectMgr,
+        SendQueueMgr& sendQueueMgr,
+        FriendRequestMgr& friendRequstMgr,
+        FileMgr& fileMgr );
 	virtual ~P2PEngine() override;
 
 	void						startupEngine( void );
@@ -359,6 +361,10 @@ public:
     bool           				fromGuiGetFileIsInLibrary( FileInfo& fileInfo ) override;
 
     void           				fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter ) override;
+
+    void           				fromGuiScanFolderForMedia( VxGUID& appInstId, std::string dirToScan, uint8_t fileTypeFilter, bool fromThread = false ) override;
+    void				        fromGuiScanItemReceived( VxGUID& appInstId ) override;
+    void           				fromGuiScanFolderCancel( VxGUID& appInstId ) override;
 
     bool           				fromGuiIsNoLimitVideoFile( const char* fileName ) override;
     bool           				fromGuiIsNoLimitAudioFile( const char* fileName ) override;
@@ -771,6 +777,7 @@ protected:
     FromGuiMgr                  m_FromGuiMgr;
     ConnectIdListMgr            m_ConnectIdListMgr;
     IgnoreListMgr               m_IgnoreListMgr;
+    FileMgr&                    m_FileMgr;
     FriendListMgr               m_FriendListMgr;
     FriendRequestMgr&           m_FriendRequestMgr;
     GroupieListMgr              m_GroupieListMgr;

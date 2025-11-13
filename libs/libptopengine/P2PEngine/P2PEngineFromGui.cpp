@@ -19,6 +19,7 @@
 #include <AssetMgr/AssetMgr.h>
 #include <BigListLib/BigListInfo.h>
 #include <BlobXferMgr/BlobMgr.h>
+#include <FileMgr/FileMgr.h>
 #include <FriendRequestMgr/FriendRequestMgr.h>
 
 #include <Network/NetworkMgr.h>
@@ -1880,4 +1881,29 @@ void P2PEngine::fromGuiBlockUser( VxGUID& onlineId, bool fromThread )
 		if( LogEnabled( eLogUsers ) )LogMsg( LOG_VERBOSE, "P2PEngine::%s queued %s", __func__, onlineId.toOnlineIdString().c_str() );
 		m_FromGuiMgr.fromGuiBlockUser( onlineId );
 	}
+}
+
+//============================================================================
+void P2PEngine::fromGuiScanFolderForMedia( VxGUID& appInstId, std::string dirToScan, uint8_t fileTypeFilter, bool fromThread )
+{
+	if( fromThread )
+	{
+		m_FileMgr.fromGuiScanFolderForMedia( *this, appInstId, dirToScan, fileTypeFilter );
+	}
+	else
+	{
+		m_FromGuiMgr.fromGuiScanFolderForMedia( appInstId, dirToScan, fileTypeFilter );
+	}
+}
+
+//============================================================================
+void P2PEngine::fromGuiScanItemReceived( VxGUID& appInstId )
+{
+	m_FileMgr.fromGuiScanItemReceived( appInstId );
+}
+
+//============================================================================
+void P2PEngine::fromGuiScanFolderCancel( VxGUID& appInstId )
+{
+	m_FileMgr.fromGuiScanFolderCancel( appInstId );
 }

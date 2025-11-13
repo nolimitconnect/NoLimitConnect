@@ -76,11 +76,13 @@ P2PEngine::P2PEngine( VxPeerMgr& peerMgr,
 					  PushToTalkMgr& pushToTalkMgr,
 					  RandConnectMgr& randConnectMgr,
 					  SendQueueMgr& sendQueueMgr,
-					  FriendRequestMgr& friendRequstMgr )
+					  FriendRequestMgr& friendRequstMgr,
+					  FileMgr& fileMgr )
 	: m_PeerMgr( peerMgr )
 	, m_FromGuiMgr( *this )
 	, m_ConnectIdListMgr( *this )
 	, m_IgnoreListMgr( *this )
+	, m_FileMgr( fileMgr )
 	, m_FriendListMgr( *this )
 	, m_FriendRequestMgr( friendRequstMgr )
 	, m_GroupieListMgr( *this )

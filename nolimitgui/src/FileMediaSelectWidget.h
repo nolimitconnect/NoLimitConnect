@@ -33,13 +33,19 @@ public:
 	void						setFileMedia( EMediaFileType fileType );
 	EMediaFileType				getFileMedia( void ) { return m_MediaFileType; }
 
+	void						setScanFolderVisible( bool visible );
+	void						setScanCancelEnable( bool cancelEnable );
+
 signals:
 	void						signalFileMediaSelected( EMediaFileType fileType );
+	void						signalFileFolderSelected( void );
 
 protected slots:
 	void						slotVideoButtonClicked( void );
 	void						slotAudioButtonClicked( void );
 	void						slotImageButtonClicked( void );
+
+	void						slotFolderButtonClicked( void );
 
 protected:
 

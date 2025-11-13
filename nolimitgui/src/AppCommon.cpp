@@ -1289,7 +1289,7 @@ void AppCommon::slotInternalToGuiAssetAdded( AssetBaseInfo assetInfo )
         vx_assert( false );
 	}
 
-	playSound( eSndDefUserBellMessage );
+	//playSound( eSndDefUserBellMessage ); // consumes too much resources on scan of folder with many items
 	m_ToGuiActivityInterfaceBusy = true;
 	for( auto& client : m_ToGuiActivityInterfaceList )
 	{
@@ -1343,7 +1343,7 @@ void AppCommon::toGuiAssetRemoved( AssetBaseInfo* assetInfo )
 void AppCommon::slotInternalToGuiAssetRemoved( AssetBaseInfo assetInfo )
 {
 	// when assets are removed they might call wantToGuiActivityCallbacks and change the clientList
-// check if client is in list each time to avoid out of range vector interation crash
+	// check if client is in list each time to avoid out of range vector interation crash
     if( m_ToGuiActivityInterfaceBusy )
     {
         LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );

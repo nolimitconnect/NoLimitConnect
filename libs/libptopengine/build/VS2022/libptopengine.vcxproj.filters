@@ -700,6 +700,9 @@
     <ClCompile Include="..\..\AppMonitor\AppMonitor.cpp">
       <Filter>Source Files\AppMonitor</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\FileMgr\FileMgr.cpp">
+      <Filter>Source Files\FileMgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\AssetMgr\AssetCallbackInterface.h">
@@ -1464,6 +1467,9 @@
     <ClInclude Include="..\..\AppMonitor\AppMonitor.h">
       <Filter>Source Files\AppMonitor</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\FileMgr\FileMgr.h">
+      <Filter>Source Files\FileMgr</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="QtBuild">
@@ -1582,6 +1588,9 @@
     </Filter>
     <Filter Include="Source Files\AppMonitor">
       <UniqueIdentifier>{0ab1212c-e452-44c5-9c6b-c3d14d7a8eea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FileMgr">
+      <UniqueIdentifier>{efae2ddc-ff9b-484b-8351-9f621075d8ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

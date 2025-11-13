@@ -37,6 +37,8 @@ enum EFromGuiType
 
 	eFromGuiBlockUser,
 
+	eFromGuiScanFolderForMedia,
+
 	eMaxFromGuiType
 };
 
@@ -145,4 +147,17 @@ public:
 	void						executeAction( void ) override;
 
 	VxGUID						m_OnlineId;
+};
+
+class FromGuiScanFolderForMedia : public FromGuiActionBase
+{
+public:
+	FromGuiScanFolderForMedia( P2PEngine& engine, VxGUID& appInstId, std::string dirToScan, uint8_t fileTypeFilter );
+	~FromGuiScanFolderForMedia() override = default;
+
+	void						executeAction( void ) override;
+
+	VxGUID						m_AppInstanceId;
+	std::string					m_DirToScan;
+	uint8_t						m_FileTypeFilter{ 0 };
 };

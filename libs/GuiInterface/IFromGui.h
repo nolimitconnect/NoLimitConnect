@@ -241,6 +241,11 @@ public:
 	/// Send to GUI file that are in library of the given file type mask
 	virtual void				fromGuiGetFileLibraryList( VxGUID& appInstId, uint8_t fileTypeFilter ) = 0;
 
+	/// Send to GUI media in folder and subfolders of the given directory and of file type mask
+	virtual void				fromGuiScanFolderForMedia( VxGUID& appInstId, std::string scanDir, uint8_t fileTypeFilter, bool fromThread = false ) = 0;
+	virtual void				fromGuiScanItemReceived( VxGUID& appInstId ) = 0; // ack recieve to avoid overwelming the gui
+	virtual void				fromGuiScanFolderCancel( VxGUID& appInstId ) = 0;
+
 	/// Return true if video file was created by No Limit Connect
 	virtual bool				fromGuiIsNoLimitVideoFile( const char* fileName ) = 0;
 	/// Return true if audio file was created by No Limit Connect

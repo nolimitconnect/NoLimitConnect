@@ -68,9 +68,10 @@ list(APPEND ptopengine_SOURCES
     ConnectMgr/ConnectInfo.cpp
     ConnectMgr/ConnectInfoDb.cpp
     ConnectMgr/ConnectMgr.cpp
+
+    FileMgr/FileMgr.cpp
     FromGuiMgr/FromGuiAction.cpp
     FromGuiMgr/FromGuiMgr.cpp
-
     FriendRequestMgr/FriendRequestInfo.cpp
     FriendRequestMgr/FriendRequestMgr.cpp
 

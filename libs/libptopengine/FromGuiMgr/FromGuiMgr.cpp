@@ -124,6 +124,12 @@ void FromGuiMgr::fromGuiBlockUser( VxGUID& onlineId )
 }
 
 //============================================================================
+void FromGuiMgr::fromGuiScanFolderForMedia( VxGUID& appInstId, std::string dirToScan, uint8_t fileTypeFilter )
+{
+	queFromGuiAction( new FromGuiScanFolderForMedia( m_Engine, appInstId, dirToScan, fileTypeFilter ) );
+}
+
+//============================================================================
 void FromGuiMgr::queFromGuiAction( FromGuiActionBase* fromGuiAction )
 {
 	lockFromGuiQue();

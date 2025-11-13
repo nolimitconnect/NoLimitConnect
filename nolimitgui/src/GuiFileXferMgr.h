@@ -60,6 +60,9 @@ public:
     virtual void				toGuiFileList( VxGUID appInstId, FileInfo& fileInfo );
     virtual void				toGuiFileListCompleted( VxGUID appInstId );
 
+    virtual void				toGuiFolderScan( VxGUID appInstId, FileInfo& fileInfo );
+    virtual void				toGuiFolderScanCompleted( VxGUID appInstId, bool wasCanceled );
+
     virtual void				beginDownload( EApplet appletType, GuiFileXferSession* xferSession );
     virtual void				acceptDownload( EApplet appletType, GuiFileXferSession* xferSession );
     virtual void				cancelDownload( EApplet appletType, GuiFileXferSession* xferSession );

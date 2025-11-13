@@ -57,6 +57,8 @@ public:
 
 	void						fromGuiThreadWork( VxThread* workThread );
 
+	void           				fromGuiScanFolderForMedia( VxGUID& appInstId, std::string dirToScan, uint8_t fileTypeFilter );
+
 protected:
 	void						queFromGuiAction( FromGuiActionBase* fromGuiAction );
 

@@ -558,6 +558,9 @@ public:
 
     virtual void				toGuiFileList( VxGUID& appInstId, FileInfo& fileInfo ) override;
     virtual void				toGuiFileListCompleted( VxGUID& appInstId ) override;
+
+    virtual void				toGuiFolderScan( VxGUID& appInstId, FileInfo& fileInfo ) override;
+    virtual void				toGuiFolderScanCompleted( VxGUID& appInstId, bool wasCanceled ) override;
     
     //=== to gui search ===//
     virtual void				toGuiSearchResultFileSearch( VxGUID& onlineId, EPluginType pluginType, VxGUID& lclSessionId, FileInfo& fileInfo ) override;
@@ -681,6 +684,9 @@ signals:
     void                        signalInternalToGuiFileList( VxGUID appInstId, FileInfo fileInfo );
     void                        signalInternalToGuiFileListCompleted( VxGUID appInstId );
 
+    void                        signalInternalToGuiFolderScan( VxGUID appInstId, FileInfo fileInfo );
+    void                        signalInternalToGuiFolderScanCompleted( VxGUID appInstId, bool wasCanceled );
+
     void                        signalInternalToGuiTodGameAction( EPluginType  pluginType, VxGUID onlineId, ETodGameAction todGameAction );
 
     void				        signalInternalToGuiAssetAdded( AssetBaseInfo assetInfo );
@@ -751,6 +757,9 @@ private slots:
 
     void                        slotInternalToGuiFileList( VxGUID appInstId, FileInfo fileInfo );
     void                        slotInternalToGuiFileListCompleted( VxGUID appInstId );
+
+    void                        slotInternalToGuiFolderScan( VxGUID appInstId, FileInfo fileInfo );
+    void                        slotInternalToGuiFolderScanCompleted( VxGUID appInstId, bool wasCanceled );
 
     void                        slotInternalToGuiTodGameAction( EPluginType  pluginType, VxGUID onlineId, ETodGameAction todGameAction );
 

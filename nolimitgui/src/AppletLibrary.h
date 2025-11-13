@@ -52,10 +52,7 @@ private slots:
     void						slotApplyFileFilter( EFileFilterType eFileFilter );
     void						slotFileMediaSelected( EMediaFileType mediaFileType );
 
-    void						slotAddFileButtonClicked( void );
-    void						slotAddFileLabelClicked( void );
-    void						slotBrowseButtonClicked( void );
-    void						slotBrowseLabelClicked( void );
+    void						slotFileFolderSelected( void );
 
     void						slotListItemClicked( QListWidgetItem* item );
     void						slotListItemDoubleClicked( QListWidgetItem* item );
@@ -74,6 +71,10 @@ protected:
 
     void				        callbackToGuiFileList( VxGUID& appInstId, FileInfo& fileInfo ) override;
     void				        callbackToGuiFileListCompleted( VxGUID& appInstId ) override;
+
+    void				        callbackToGuiFolderScan( VxGUID& appInstId, FileInfo& fileInfo ) override;
+    void				        callbackToGuiFolderScanCompleted( VxGUID& appInstId, bool wasCanceled ) override;
+
     void				        toGuiFileDeleted( QString& fileName ) override;
 
     FileShareItemWidget*		fileToWidget( FileInfo& fileInfo );
@@ -94,6 +95,10 @@ protected:
 
     void                        generateThumb( FileItemInfo* poInfo );
 
+    void                        updateFromFileInfo( FileInfo& fileInfo, bool showUserPopup );
+
+    void                        insertItemInFileNameOrder( FileShareItemWidget* item, std::string fileName );
+
     //=== vars ===//
     Ui::AppletLibraryUi&	    ui;
     EPluginType					m_ePluginType;
@@ -106,6 +111,8 @@ protected:
     bool						m_SelectedFileIsInLibrary{ false };
     EFileFilterType				m_eFileFilterType{ eFileFilterAll };
     bool                        m_FileXferCallbacksRequested{ false };
+
+    bool                        m_IsScanningFolder{ false };
 };
 
 

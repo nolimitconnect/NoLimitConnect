@@ -219,6 +219,7 @@
       <OpenMPSupport>false</OpenMPSupport>
       <XMLDocumentationFileName>$(SolutionDir)objs\$(TargetName)\$(Configuration)\</XMLDocumentationFileName>
       <ModuleDependenciesFile>$(IntDir)</ModuleDependenciesFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalOptions>/IGNORE:4089 /ignore:4254 %(AdditionalOptions)</AdditionalOptions>
@@ -403,6 +404,7 @@
       <OmitFramePointers />
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <DebugInformationFormat />
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalOptions>/IGNORE:4089 /ignore:4254 %(AdditionalOptions)</AdditionalOptions>
@@ -527,6 +529,7 @@
     <ClCompile Include="..\..\ConnectMgr\ConnectInfo.cpp" />
     <ClCompile Include="..\..\ConnectMgr\ConnectInfoDb.cpp" />
     <ClCompile Include="..\..\ConnectMgr\ConnectMgr.cpp" />
+    <ClCompile Include="..\..\FileMgr\FileMgr.cpp" />
     <ClCompile Include="..\..\FriendRequestMgr\FriendRequestInfo.cpp" />
     <ClCompile Include="..\..\FriendRequestMgr\FriendRequestMgr.cpp" />
     <ClCompile Include="..\..\FromGuiMgr\FromGuiAction.cpp" />
@@ -781,6 +784,7 @@
     <ClInclude Include="..\..\ConnectMgr\ConnectInfo.h" />
     <ClInclude Include="..\..\ConnectMgr\ConnectInfoDb.h" />
     <ClInclude Include="..\..\ConnectMgr\ConnectMgr.h" />
+    <ClInclude Include="..\..\FileMgr\FileMgr.h" />
     <ClInclude Include="..\..\FriendRequestMgr\FriendRequestCallbackInterface.h" />
     <ClInclude Include="..\..\FriendRequestMgr\FriendRequestInfo.h" />
     <ClInclude Include="..\..\FriendRequestMgr\FriendRequestMgr.h" />

@@ -55,24 +55,18 @@ AppletLibrary::AppletLibrary( AppCommon& app, QWidget* parent, QString launchPar
     m_eFileFilterType = getAppletFileFilter( getAppletType() );
     setFileFilter( m_eFileFilterType );
 
-    ui.m_DoubleTapInstructionLabel->setVisible( m_IsSelectAFileMode );
-
-	ui.m_AddFileButton->setIcon( eMyIconLibraryCancel );
-	ui.m_AddFileButton->setSquareButtonSize( eButtonSizeMedium );
-	ui.m_BrowseButton->setIcon( eMyIconFileAdd );
-	ui.m_BrowseButton->setSquareButtonSize( eButtonSizeMedium );
-
-    connect( ui.m_AddFileButton, SIGNAL(clicked()), this, SLOT(slotAddFileButtonClicked()) );
-    connect( ui.m_AddFileLabel, SIGNAL(clicked()), this, SLOT(slotAddFileLabelClicked()) );
-    connect( ui.m_BrowseButton, SIGNAL(clicked()), this, SLOT(slotBrowseButtonClicked()) );
-    connect( ui.m_BrowseFilesLabel, SIGNAL(clicked()), this, SLOT(slotBrowseLabelClicked()) );
-    ui.m_BrowseFrame->setVisible( false ); // might remove browse altogether if select media browse works out
-
-    connect( ui.m_FileFilterSelectWidget, SIGNAL(signalFileFilterChanged(EFileFilterType)), this, SLOT(slotApplyFileFilter(EFileFilterType)) );
+#if defined(TARGET_OS_ANDROID)
+    // android does not allow normal file browsing without special permissions
+    ui.m_FileMediaSelectWidget->setScanFolderVisible( false );
+#else
+    connect( ui.m_FileMediaSelectWidget, SIGNAL(signalFileFolderSelected()), this, SLOT(slotFileFolderSelected()) );
+#endif // defined(TARGET_OS_ANDROID)
 
     connect( ui.m_FileMediaSelectWidget, SIGNAL(signalFileMediaSelected(EMediaFileType)), this, SLOT(slotFileMediaSelected(EMediaFileType)) );
 
-    statusMsg( "Requesting Library File List " );
+    connect( ui.m_FileFilterSelectWidget, SIGNAL(signalFileFilterChanged(EFileFilterType)), this, SLOT(slotApplyFileFilter(EFileFilterType)) );
+
+    statusMsg( QObject::tr( "Requesting Library File List " ) );
 
     slotApplyFileFilter( m_eFileFilterType );
     connectBarWidgets();
@@ -100,6 +94,13 @@ void AppletLibrary::showEvent( QShowEvent* ev )
 //============================================================================
 void AppletLibrary::hideEvent( QHideEvent* ev )
 {
+    if( m_IsScanningFolder )
+    {
+        m_IsScanningFolder = false;
+        m_FromGui.fromGuiScanFolderCancel( getAppletInstId() );
+        ui.m_FileMediaSelectWidget->setScanCancelEnable( m_IsScanningFolder );
+    }
+
     wantFileXferCallbacks( false );
     AppletBase::hideEvent( ev );
     m_MyApp.setIsLibraryActivityActive( false );
@@ -124,7 +125,35 @@ void AppletLibrary::callbackToGuiFileListCompleted( VxGUID& appInstId )
 {
     if( appInstId == getAppletInstId() )
     {
-        statusMsg( "List Get Completed" );
+        statusMsg( QObject::tr( "List Get Completed" ) );
+    }
+}
+
+//============================================================================
+void AppletLibrary::callbackToGuiFolderScan( VxGUID& appInstId, FileInfo& fileInfo )
+{
+    if( appInstId == getAppletInstId() )
+    {
+        updateFromFileInfo( fileInfo, false );
+        m_FromGui.fromGuiScanItemReceived( getAppletInstId() );
+    }
+}
+
+//============================================================================
+void AppletLibrary::callbackToGuiFolderScanCompleted( VxGUID& appInstId, bool wasCanceled )
+{
+    if( appInstId == getAppletInstId() )
+    {
+        m_IsScanningFolder = false;
+        ui.m_FileMediaSelectWidget->setScanCancelEnable( m_IsScanningFolder );
+        if( wasCanceled )
+        {
+            statusMsg( QObject::tr( "Folder Scan Canceled" ) );
+        }
+        else
+        {
+            statusMsg( QObject::tr( "Folder Scan Completed" ) );
+        }
     }
 }
 
@@ -433,93 +462,7 @@ FileShareItemWidget* AppletLibrary::findListEntryWidget( FileInfo& fileInfo )
         iIdx++;
     }
 
-    return NULL;
-}
-
-//============================================================================
-void AppletLibrary::slotAddFileButtonClicked( void )
-{
-    std::string addFileDir;
-    m_MyApp.getAppSettings().getLastAddFileDir( addFileDir );
-    QString curDir;
-    if( !addFileDir.empty() )
-    {
-        curDir = addFileDir.c_str();
-    }
-
-    FileInfo fileInfo;
-    if( GuiHelpers::browseForFile( this, eMediaFileAny, fileInfo, curDir ) )
-    {
-        std::string fileName = fileInfo.getFileNameAndPath();
-        if( !fileInfo.getFilePath().empty() )
-        {
-            m_MyApp.getAppSettings().setLastAddFileDir( fileInfo.getFilePath() );
-        }
-        
-        m_MyApp.getEngine().fromGuiSetFileIsInLibrary( fileInfo, true );
-
-        // see if file is already a asset
-        AssetMgr& assetMgr = m_MyApp.getEngine().getAssetMgr();
-        assetMgr.lockResources();
-        AssetBaseInfo* assetInfo = assetMgr.findAsset( fileInfo.getFileNameAndPath() );
-        if( assetInfo )
-        {
-            if( assetInfo->isInLibrary() )
-            {
-                assetMgr.unlockResources();
-                QMessageBox::information( this, QObject::tr("Already in library"), QObject::tr( "File is already in library " ), QMessageBox::Ok );
-            }
-            else
-            {
-                assetInfo->setIsInLibrary( true );
-                FileInfo fileInfoInLibrary =  assetInfo->getFileInfo();
-                assetMgr.unlockResources();
-
-                addFile( fileInfoInLibrary );
-            }
-        }
-        else
-        {
-            assetMgr.unlockResources();
-
-            AssetInfo newAsset( fileInfo );
-            newAsset.setIsInLibrary( true );
-
-            AssetBaseInfo* createdAsset{ nullptr };
-            bool result = assetMgr.addAsset( newAsset, createdAsset );
-            if( result && createdAsset )
-            {
-                FileInfo fileInfoInLibrary = createdAsset->getFileInfo();
-                addFile( fileInfoInLibrary );
-            }
-            else
-            {
-                QMessageBox::information( this, QObject::tr("File Error"), QObject::tr( "Could not add file to library " ), QMessageBox::Ok );
-            }
-        }
-    }
-}
-
-//============================================================================
-void AppletLibrary::slotAddFileLabelClicked( void )
-{
-    ui.m_AddFileButton->emulateUserClicked();
-}
-
-//============================================================================
-void AppletLibrary::slotBrowseButtonClicked( void )
-{
-    ActivityBrowseFiles dlg( m_MyApp, m_eFileFilterType, this );
-    dlg.exec();
-    clearFileList();
-    statusMsg( "Requesting Library File List " );
-    m_FromGui.fromGuiGetFileLibraryList( getAppletInstId(), FileFilterToVxFileType( m_eFileFilterType ) );
-}
-
-//============================================================================
-void AppletLibrary::slotBrowseLabelClicked( void )
-{
-    ui.m_BrowseButton->emulateUserClicked();
+    return nullptr;
 }
 
 //============================================================================
@@ -531,6 +474,7 @@ void AppletLibrary::addFile( FileInfo& fileInfo )
         FileItemInfo* poItemInfo = existingItem->getFileItemInfo();
         if( poItemInfo )
         {
+            poItemInfo->setFileInfo( fileInfo );
             existingItem->update();
         }
     }
@@ -540,9 +484,7 @@ void AppletLibrary::addFile( FileInfo& fileInfo )
         FileShareItemWidget* item = fileToWidget( fileInfo );
         if( item )
         {
-            //LogMsg( LOG_INFO, "AppletLibrary::addFile: adding widget");
-            ui.m_FileItemList->addItem( item );
-            ui.m_FileItemList->setItemWidget( item, item );
+            insertItemInFileNameOrder( item, fileInfo.getFileName() );
         }
     }
 }
@@ -683,83 +625,7 @@ void AppletLibrary::browseForFile( EMediaFileType mediaFileType )
             }
         }
 
-        // see if file is already a asset
-        AssetMgr& assetMgr = m_MyApp.getEngine().getAssetMgr();
-        assetMgr.lockResources();
-        AssetBaseInfo* assetInfo = assetMgr.findAsset( fileInfo.getFileNameAndPath() );
-        if( assetInfo )
-        {
-            if( assetInfo->isInLibrary() )
-            {
-                assetMgr.unlockResources();
-                QMessageBox::information( this, QObject::tr("Already in library"), QObject::tr( "File is already in library " ), QMessageBox::Ok );
-            }
-            else
-            {
-                assetInfo->setIsInLibrary( true );
-                FileInfo fileInfoInLibrary = assetInfo->getFileInfo();
-                if( !fileInfoInLibrary.getThumbId().isVxGUIDValid() )
-                {
-                    QString thumbFileName;
-                    if( GuiHelpers::generateMediaThumbnail( fileInfoInLibrary, thumbFileName ) )
-                    {
-                        assetInfo->setThumbId( fileInfoInLibrary.getThumbId() );
-                        ThumbInfo thumbInfo;
-                        if( !GuiHelpers::addThumbAsset( m_MyApp, thumbFileName, assetInfo->getFileInfo().getThumbId(), thumbInfo ) )
-                        {
-                            QString msgText = QObject::tr( "Could not get thumbnail file info" );
-                            QMessageBox::information( this, QObject::tr( "Error occured creating thumbnail asset " ) + thumbFileName, msgText );
-                            assetInfo->getFileInfo().getThumbId().clear();
-                        }
-                        else
-                        {
-                            assetMgr.updateDatabase( assetInfo );
-                        }
-                    }
-                }
-
-                
-                assetMgr.unlockResources();
-
-                addFile( fileInfoInLibrary );
-            }
-        }
-        else
-        {
-            assetMgr.unlockResources();
-
-            AssetInfo newAsset( fileInfo );
-            newAsset.setIsInLibrary( true );
-
-            if( !newAsset.getThumbId().isVxGUIDValid() )
-            {
-                QString thumbFileName;
-                if( GuiHelpers::generateMediaThumbnail( fileInfo, thumbFileName) )
-                {
-                    newAsset.setThumbId( fileInfo.getThumbId() );
-                    ThumbInfo thumbInfo;
-                    if( !GuiHelpers::addThumbAsset( m_MyApp, thumbFileName, newAsset.getFileInfo().getThumbId(), thumbInfo ) )
-                    {
-                        QString msgText = QObject::tr( "Could not get thumbnail file info" );
-                        QMessageBox::information( this, QObject::tr( "Error occured creating thumbnail asset " ) + thumbFileName, msgText );
-                        assetInfo->getFileInfo().getThumbId().clear();
-                        newAsset.getThumbId().clear();
-                    }
-                }
-            }
-
-            AssetBaseInfo* createdAsset{ nullptr };
-            bool result = assetMgr.addAsset( newAsset, createdAsset );
-            if( result && createdAsset )
-            {
-                FileInfo fileInfoInLibrary = createdAsset->getFileInfo();
-                addFile( fileInfoInLibrary );
-            }
-            else
-            {
-                QMessageBox::information( this, QObject::tr("File Error"), QObject::tr( "Could not add file to library " ), QMessageBox::Ok );
-            }
-        }
+        updateFromFileInfo( fileInfo, true );
     }
 }
 
@@ -795,4 +661,168 @@ void AppletLibrary::generateThumb( FileItemInfo* poInfo )
             }
         }
     }
+}
+
+//============================================================================
+void AppletLibrary::slotFileFolderSelected( void )
+{
+    if( m_IsScanningFolder )
+    {
+        m_IsScanningFolder = false;
+        ui.m_FileMediaSelectWidget->setScanCancelEnable( m_IsScanningFolder );
+        m_FromGui.fromGuiScanFolderCancel( getAppletInstId() );
+    }
+    else
+    {
+        std::string addFileDir;
+        m_MyApp.getAppSettings().getLastFolderScanDir( addFileDir );
+        QString curDir;
+        if( !addFileDir.empty() )
+        {
+            curDir = addFileDir.c_str();
+        }
+
+        std::string scanDir = GuiHelpers::browseForDirectory( addFileDir.c_str(), this );
+        if( scanDir.empty() )
+        {
+            return;
+        }
+
+        m_MyApp.getAppSettings().setLastFolderScanDir( addFileDir );
+        statusMsg( QObject::tr( "Scaning folder" ) );
+        m_IsScanningFolder = true;
+        ui.m_FileMediaSelectWidget->setScanCancelEnable( m_IsScanningFolder );
+        m_FromGui.fromGuiScanFolderForMedia( getAppletInstId(), scanDir, VXFILE_TYPE_AUDIO_VIDEO_PHOTO );
+    }
+}
+
+//============================================================================
+void AppletLibrary::updateFromFileInfo( FileInfo& fileInfo, bool showUserPopup )
+{
+    // see if file is already a asset
+    AssetMgr& assetMgr = m_MyApp.getEngine().getAssetMgr();
+    assetMgr.lockResources();
+    AssetBaseInfo* assetInfo = assetMgr.findAsset( fileInfo.getFileNameAndPath() );
+    if( assetInfo )
+    {
+        if( assetInfo->isInLibrary() )
+        {
+            assetMgr.unlockResources();
+            if( showUserPopup )
+            {
+                QMessageBox::information( this, QObject::tr( "Already in library" ), QObject::tr( "File is already in library " ), QMessageBox::Ok );
+            }
+        }
+        else
+        {
+            assetInfo->setIsInLibrary( true );
+            FileInfo fileInfoInLibrary = assetInfo->getFileInfo();
+            if( !fileInfoInLibrary.getThumbId().isVxGUIDValid() )
+            {
+                QString thumbFileName;
+                if( GuiHelpers::generateMediaThumbnail( fileInfoInLibrary, thumbFileName ) )
+                {
+                    assetInfo->setThumbId( fileInfoInLibrary.getThumbId() );
+                    ThumbInfo thumbInfo;
+                    if( !GuiHelpers::addThumbAsset( m_MyApp, thumbFileName, assetInfo->getFileInfo().getThumbId(), thumbInfo ) )
+                    {
+                        if( showUserPopup )
+                        {
+                            QString msgText = QObject::tr( "Could not get thumbnail file info" );
+                            QMessageBox::information( this, QObject::tr( "Error occured creating thumbnail asset " ) + thumbFileName, msgText );
+                        }
+
+                        assetInfo->getFileInfo().getThumbId().clear();
+                    }
+                    else
+                    {
+                        assetMgr.updateDatabase( assetInfo );
+                    }
+                }
+            }
+
+            assetMgr.unlockResources();
+
+            addFile( fileInfoInLibrary );
+        }
+    }
+    else
+    {
+        assetMgr.unlockResources();
+
+        AssetInfo newAsset( fileInfo );
+        newAsset.setIsInLibrary( true );
+
+        if( !newAsset.getThumbId().isVxGUIDValid() )
+        {
+            QString thumbFileName;
+            if( GuiHelpers::generateMediaThumbnail( fileInfo, thumbFileName ) )
+            {
+                newAsset.setThumbId( fileInfo.getThumbId() );
+                ThumbInfo thumbInfo;
+                if( !GuiHelpers::addThumbAsset( m_MyApp, thumbFileName, newAsset.getFileInfo().getThumbId(), thumbInfo ) )
+                {
+                    if( showUserPopup )
+                    {
+                        QString msgText = QObject::tr( "Could not get thumbnail file info" );
+                        QMessageBox::information( this, QObject::tr( "Error occured creating thumbnail asset " ) + thumbFileName, msgText );
+                    }
+
+                    assetInfo->getFileInfo().getThumbId().clear();
+                    newAsset.getThumbId().clear();
+                }
+            }
+        }
+
+        AssetBaseInfo* createdAsset{ nullptr };
+        bool result = assetMgr.addAsset( newAsset, createdAsset );
+        if( result && createdAsset )
+        {
+            FileInfo fileInfoInLibrary = createdAsset->getFileInfo();
+            addFile( fileInfoInLibrary );
+        }
+        else
+        {
+            if( showUserPopup )
+            {
+                QMessageBox::information( this, QObject::tr( "File Error" ), QObject::tr( "Could not add file to library " ), QMessageBox::Ok );
+            }
+        }
+    }
+}
+
+//============================================================================
+void AppletLibrary::insertItemInFileNameOrder( FileShareItemWidget* item, std::string fileName )
+{
+    if( 0 == ui.m_FileItemList->count() )
+    {
+        ui.m_FileItemList->addItem( item );
+        ui.m_FileItemList->setItemWidget( item, item );
+        return;
+    }
+
+    int iIdx{ 0 };
+    while( iIdx < ui.m_FileItemList->count() )
+    {
+        FileShareItemWidget* listWidget = (FileShareItemWidget*)ui.m_FileItemList->item( iIdx );
+        if( listWidget )
+        {
+            FileItemInfo* poFileInfo = (FileItemInfo*)listWidget->QListWidgetItem::data( Qt::UserRole + 1 ).toULongLong();
+            if( poFileInfo  )
+            {
+                std::string listFileName = poFileInfo->getFileInfo().getFileName();
+                if( listFileName > fileName )
+                {
+                    ui.m_FileItemList->insertItem( iIdx, item );
+                    ui.m_FileItemList->setItemWidget( item, item );
+                    return;
+                }
+            }
+        }
+
+        iIdx++;
+    }
+
+    ui.m_FileItemList->addItem( item );
+    ui.m_FileItemList->setItemWidget( item, item );
 }
