@@ -3,6 +3,7 @@
 **/myrepo/
 **/.flatpak-builder/
 **/build-dir/
+build/
 build-staticlibs/
 .vs/
 .gitmodules
@@ -31,5 +32,6 @@ storyboard_thumb.png
 /**/*.obj
 /**/*.idx
 /**/*.json
+
 
 
