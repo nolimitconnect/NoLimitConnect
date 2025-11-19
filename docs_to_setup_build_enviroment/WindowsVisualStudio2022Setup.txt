@@ -1,7 +1,0 @@
-
-Install Visual Studio 2022 Community Edition
-select c, c++ developement module
-Install nasm
-copy nasm.exe to
-C:\Program Files\Microsoft Visual Studio\2022\Community\VC
-Install visual studio extension for Qt
