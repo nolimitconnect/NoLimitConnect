@@ -4,7 +4,7 @@
 git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
 
 ## Compile in Visual Studio
-Open nolimitapp/nolimitgui/build/VS2022/NoLimitConnectAll.sln
+Open nolimitapp/nolimitgui/build/VS2026/NoLimitConnectAll.sln
 Right Click NoLimitConnect → Set As Startup Project
 Compile
 

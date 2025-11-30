@@ -1,11 +1,11 @@
-No Limit Connect 1.0.2
+No Limit Connect 1.0.11
 
 NLC website: nolimitconnect.com
 NLC git source code repo: https://gitlab.com/nolimitconnectapps/nolimitapp.git
-git repo tag: nlc_1_0_2
+git repo tag: nlc_1_0_11
 
-This release includes the following changes:
- o Initial Revision
+This release is considered the first stable release
+
 
 
 

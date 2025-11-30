@@ -1,5 +1,8 @@
 # nolimitconnect
 
+## Developer and roadmap docs have been moved to Website
+Website: http://nolimitconnect.com
+
 ## Summary
 Name: No Limit Connect
 Tagline: Independent, user-hosted social networks — no registration, no ads, no data mining, no limits.
@@ -20,9 +23,6 @@ Social networks today are heavily centralized and commercialized. No Limit Conne
 Pure C/C++ core with hand-tuned assembly for performance-critical components.
 Modular design for developers to extend or embed.
 Portable across systems.
-
-## Website
-Website: http://nolimitconnect.com
 
 ## Source Code
 Open Sourced code that can be cloned with 
@@ -51,18 +51,6 @@ Major features:
 ## Usage
 Warning: There is no monitoring of communication except what the host admin is willing to do.
 No log files
-
-## Documentation
-- [Developer Docs](developer-docs/README.md)
-- [User Docs](user-docs/README.md)
-- [How-To Guides](howto-docs/README.md)
-
-## Installation
-Not yet published so currently is compile from source only. 
-Planned publish in the future:
-* o Android - Android Play Store
-* o Linux - Flathub https://flathub.org/ (current published is incompatible with current version)
-* o Windows - Windows installer. Maybe Microsoft Store 
 
 ## Support
 Planned issue tracking:
@@ -107,10 +95,6 @@ If you are interested in supporting the project in a community-facing capacity, 
 - No analytics tracking  
 - No spam  
 - The sole exception is Hide.me VPN, recommended for users who need automatic port forwarding  
-
-### Donations & Financial Support
-
-If the project receives meaningful financial support in the future, I am open to sharing donations with contributors who help grow and sustain the project.
 
 ---
 
