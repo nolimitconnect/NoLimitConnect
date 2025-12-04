@@ -32,7 +32,6 @@ GuiConnectIdListMgr::GuiConnectIdListMgr( AppCommon& app )
 void GuiConnectIdListMgr::onAppCommonCreated( void )
 {
     connect( this, SIGNAL(signalInternalConnectionStatusChange(ConnectId,bool)),          this, SLOT(slotInternalConnectionStatusChange(ConnectId,bool)), Qt::QueuedConnection );
-    connect( this, SIGNAL(signalInternalConnectionReason(VxGUID,EConnectReason,bool)),    this, SLOT(slotInternalConnectionReason(VxGUID,EConnectReason,bool) ), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalConnectionLost(VxGUID)),                          this, SLOT(slotInternalConnectionLost(VxGUID)), Qt::QueuedConnection );
 
     m_MyApp.getEngine().getConnectIdListMgr().wantConnectIdListCallback( this, true );

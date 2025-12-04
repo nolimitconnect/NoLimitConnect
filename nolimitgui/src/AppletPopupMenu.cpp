@@ -751,51 +751,52 @@ void AppletPopupMenu::showTitleBarAppMenu( void )
 {
 	setMenuType( EPopupMenuType::ePopupMenuTitleBarAppMenu );
 	setTitle( QObject::tr( "Applet Menu" ) );
-	addMenuItem( 1, getMyIcons().getIcon( GetAppletIcon( eAppletLibrary ) ), DescribeApplet( eAppletLibrary ) );
-	addMenuItem( 2, getMyIcons().getIcon( GetAppletIcon( eAppletPersonalRecorder ) ), DescribeApplet(eAppletPersonalRecorder));
+	addMenuItem( 1, getMyIcons().getIcon(GetAppletIcon(eAppletAboutNoLimitConnect)), DescribeApplet(eAppletAboutNoLimitConnect));
+	addMenuItem( 2, getMyIcons().getIcon( GetAppletIcon( eAppletLibrary ) ), DescribeApplet( eAppletLibrary ) );
+	addMenuItem( 3, getMyIcons().getIcon( GetAppletIcon( eAppletPersonalRecorder ) ), DescribeApplet(eAppletPersonalRecorder));
 
 	if( isPluginEnabled( ePluginTypeAboutMePageServer ) )
 	{
-		addMenuItem( 3, getMyIcons().getIcon(  GetAppletIcon( eAppletEditAboutMe ) ), DescribeApplet( eAppletEditAboutMe ) );
+		addMenuItem( 4, getMyIcons().getIcon(  GetAppletIcon( eAppletEditAboutMe ) ), DescribeApplet( eAppletEditAboutMe ) );
 	}
 
 	if( isPluginEnabled( ePluginTypeStoryboardServer ) )
 	{
-		addMenuItem( 4, getMyIcons().getIcon(  GetAppletIcon( eAppletEditStoryboard ) ), DescribeApplet( eAppletEditStoryboard ) );
+		addMenuItem( 5, getMyIcons().getIcon(  GetAppletIcon( eAppletEditStoryboard ) ), DescribeApplet( eAppletEditStoryboard ) );
 	}
 
 	if( isPluginEnabled( ePluginTypeCamServer ) )
 	{
-		addMenuItem( 5, getMyIcons().getIcon(  GetAppletIcon( eAppletCamServerViewMine ) ), DescribeApplet( eAppletCamServerViewMine ) );
+		addMenuItem( 6, getMyIcons().getIcon(  GetAppletIcon( eAppletCamServerViewMine ) ), DescribeApplet( eAppletCamServerViewMine ) );
 	}
 
 	if( isPluginEnabled( ePluginTypeMessenger ) )
 	{
-		addMenuItem( 6, getMyIcons().getIcon( GetAppletIcon( eAppletMultiMessenger ) ), DescribeApplet( eAppletMultiMessenger ));
+		addMenuItem( 7, getMyIcons().getIcon( GetAppletIcon( eAppletMultiMessenger ) ), DescribeApplet( eAppletMultiMessenger ));
 	}
 
-	addMenuItem( 7, getMyIcons().getIcon( GetAppletIcon( eAppletGroupJoin ) ), DescribeApplet( eAppletGroupJoin ) );
-	addMenuItem( 8, getMyIcons().getIcon( GetAppletIcon( eAppletChatRoomJoin ) ), DescribeApplet( eAppletChatRoomJoin ) );
-	addMenuItem( 9, getMyIcons().getIcon( GetAppletIcon( eAppletRandomConnectJoin ) ), DescribeApplet( eAppletRandomConnectJoin ) );
-	addMenuItem( 10, getMyIcons().getIcon( GetAppletIcon( eAppletDownloads ) ), DescribeApplet( eAppletDownloads ) );
+	addMenuItem( 8, getMyIcons().getIcon( GetAppletIcon( eAppletGroupJoin ) ), DescribeApplet( eAppletGroupJoin ) );
+	addMenuItem( 9, getMyIcons().getIcon( GetAppletIcon( eAppletChatRoomJoin ) ), DescribeApplet( eAppletChatRoomJoin ) );
+	addMenuItem( 10, getMyIcons().getIcon( GetAppletIcon( eAppletRandomConnectJoin ) ), DescribeApplet( eAppletRandomConnectJoin ) );
+	addMenuItem( 11, getMyIcons().getIcon( GetAppletIcon( eAppletDownloads ) ), DescribeApplet( eAppletDownloads ) );
 	if( isPluginEnabled( ePluginTypeFileShareServer ) )
 	{
-		addMenuItem( 11, getMyIcons().getIcon(  GetAppletIcon( eAppletUploads ) ), DescribeApplet( eAppletUploads ) );
+		addMenuItem( 12, getMyIcons().getIcon(  GetAppletIcon( eAppletUploads ) ), DescribeApplet( eAppletUploads ) );
 	}
 
 	if( isPluginEnabled( ePluginTypeHostGroup ) )
 	{
-		addMenuItem( 12, getMyIcons().getIcon(  GetAppletIcon( eAppletGroupHostAdmin ) ), DescribeApplet( eAppletGroupHostAdmin ) );
+		addMenuItem( 13, getMyIcons().getIcon(  GetAppletIcon( eAppletGroupHostAdmin ) ), DescribeApplet( eAppletGroupHostAdmin ) );
 	}
 
 	if( isPluginEnabled( ePluginTypeHostChatRoom ) )
 	{
-		addMenuItem( 13, getMyIcons().getIcon(  GetAppletIcon( eAppletChatRoomHostAdmin ) ), DescribeApplet( eAppletChatRoomHostAdmin ) );
+		addMenuItem( 14, getMyIcons().getIcon(  GetAppletIcon( eAppletChatRoomHostAdmin ) ), DescribeApplet( eAppletChatRoomHostAdmin ) );
 	}
 
 	if( isPluginEnabled( ePluginTypeHostRandomConnect ) )
 	{
-		addMenuItem( 13, getMyIcons().getIcon(  GetAppletIcon( eAppletRandomConnectHostAdmin ) ), DescribeApplet( eAppletRandomConnectHostAdmin ) );
+		addMenuItem( 15, getMyIcons().getIcon(  GetAppletIcon( eAppletRandomConnectHostAdmin ) ), DescribeApplet( eAppletRandomConnectHostAdmin ) );
 	}
 }
 
@@ -804,59 +805,62 @@ void AppletPopupMenu::onTitleBarAppMenuSelected( int iMenuId )
 {
 	switch( iMenuId )
 	{
-	case 1: // library
+	case 1: // about app
+		m_MyApp.getAppletMgr().launchApplet( eAppletAboutNoLimitConnect, getParentPageFrame() );
+		break;
+	case 2: // library
 		m_MyApp.getAppletMgr().launchApplet( eAppletLibrary, getParentPageFrame() );
 		break;
 
-	case 2: // personal recorder
+	case 3: // personal recorder
 		m_MyApp.getAppletMgr().launchApplet( eAppletPersonalRecorder, getParentPageFrame() );
 		break;
 
-	case 3: // about me server
+	case 4: // about me server
 		m_MyApp.getAppletMgr().launchApplet( eAppletEditAboutMe, getParentPageFrame() );
 		break;
 
-	case 4: // storyboard server
+	case 5: // storyboard server
 		m_MyApp.getAppletMgr().launchApplet( eAppletEditStoryboard, getParentPageFrame() );
 		break;
 
-	case 5: // cam server
+	case 6: // cam server
 		m_MyApp.getAppletMgr().launchApplet( eAppletCamServerViewMine, getParentPageFrame() );
 		break;
 
-	case 6: // messenger
+	case 7: // messenger
 		m_MyApp.getAppletMgr().launchApplet( eAppletMultiMessenger, getParentPageFrame() );
 		break;
 
-	case 7: // group host
+	case 8: // group host
 		m_MyApp.getAppletMgr().launchApplet( eAppletGroupJoin, getParentPageFrame() );
 		break;
 
-	case 8: // chat room
+	case 9: // chat room
 		m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomJoin,  getParentPageFrame() );
 		break;
 
-	case 9: // random connect
+	case 10: // random connect
 		m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectJoin, getParentPageFrame() );
 		break;
 
-	case 10: // downloads
+	case 11: // downloads
 		m_MyApp.getAppletMgr().launchApplet( eAppletDownloads, getParentPageFrame() );
 		break;
 
-	case 11: // uploads
+	case 12: // uploads
 		m_MyApp.getAppletMgr().launchApplet( eAppletUploads, getParentPageFrame() );
 		break;
 
-	case 12: // group admin
+	case 13: // group admin
 		m_MyApp.getAppletMgr().launchApplet( eAppletGroupHostAdmin, getParentPageFrame() );
 		break;
 
-	case 13: // chat room admin
+	case 14: // chat room admin
 		m_MyApp.getAppletMgr().launchApplet( eAppletChatRoomHostAdmin, getParentPageFrame() );
 		break;
 
-	case 14: // random connect admin
+	case 15: // random connect admin
 		m_MyApp.getAppletMgr().launchApplet( eAppletRandomConnectHostAdmin, getParentPageFrame() );
 		break;
 

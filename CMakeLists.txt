@@ -20,10 +20,10 @@ set(PROJECT_VENDOR nolimitconnect.com)
 set(NLC_NAME "nolimitconnect")
 
 # version should match the defines in CoreLib/AppVersion.h
-set(NLC_VERSION "1.0.13")
+set(NLC_VERSION "1.01.00")
 set(NLC_VERSION_MAJOR "1")
-set(NLC_VERSION_MINOR "0")
-set(NLC_VERSION_PATCH "13")
+set(NLC_VERSION_MINOR "01")
+set(NLC_VERSION_PATCH "00")
 
 set(QT_NO_QML SCAN TRUE)
 

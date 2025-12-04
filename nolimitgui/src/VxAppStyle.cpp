@@ -438,20 +438,75 @@ void VxAppStyle::drawControl(   ControlElement			element,
         // draw custom check mark if checked
         if( const QStyleOptionButton * butOpt = qstyleoption_cast<const QStyleOptionButton  *>( option ) )
         {
+            painter->save();
+
+            QPalette palette(option->palette);
+            QColor checkColor = widget->isEnabled() ? palette.buttonText().color() : palette.mid().color();
+
+            painter->setPen(checkColor);
+            QRect checkRect = subElementRect(SE_ItemViewItemCheckIndicator, butOpt, widget);
+            QRect boxRect = checkRect;
+            // make it square
+            int wDif = checkRect.height() - checkRect.width();
+            if (wDif > 1)
+            {
+                boxRect.setLeft(checkRect.left() - wDif / 2 );
+                boxRect.setRight(checkRect.right() + wDif / 2 );
+            }
+
+            painter->drawRect(boxRect);
+
             if( butOpt->state & QProxyStyle::State_On )
             {
-                painter->save();
                 painter->setClipRect( option->rect );
 
-                QRect checkRect = subElementRect( SE_ItemViewItemCheckIndicator, butOpt, widget );
-
-                QPalette palette( option->palette );
-                QColor checkColor = widget->isEnabled() ? palette.buttonText().color() : palette.mid().color();
                 m_MyApp.getMyIcons().drawIcon( eMyIconCheckMark, painter, checkRect, checkColor );
-
-                painter->restore();
             }
+
+            painter->restore();
         }
+
+        painter->restore();
+        return;
+    }
+
+    if( element == CE_RadioButton )
+    {
+        // draw the default
+        QProxyStyle::drawControl(element, option, painter, widget);
+
+        // draw custom check mark if checked
+        if (const QStyleOptionButton* butOpt = qstyleoption_cast<const QStyleOptionButton*>(option))
+        {
+            painter->save();
+
+            painter->setRenderHint(QPainter::Antialiasing, true);
+
+            QPalette palette(option->palette);
+            QColor checkColor = widget->isEnabled() ? palette.buttonText().color() : palette.mid().color();
+
+            painter->setPen(checkColor);
+            QRect buttonRect = subElementRect(SE_ItemViewItemCheckIndicator, butOpt, widget);
+            // make it square
+            int wDif = buttonRect.height() - buttonRect.width();
+            if (wDif > 1)
+            {
+                buttonRect.setLeft(buttonRect.left() - wDif / 2);
+                buttonRect.setRight(buttonRect.right() + wDif / 2);
+            }
+
+            painter->drawEllipse(buttonRect.left(), buttonRect.top(), buttonRect.width(), buttonRect.height() );
+
+            if (butOpt->state & QProxyStyle::State_On)
+            {
+                buttonRect.adjust(4, 4, -4, -4);
+                painter->setBrush(checkColor);
+                painter->drawEllipse(buttonRect.left(), buttonRect.top(), buttonRect.width(), buttonRect.height());
+            }
+
+            painter->restore();
+        }
+
         painter->restore();
         return;
     }

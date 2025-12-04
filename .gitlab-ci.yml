@@ -1,6 +1,6 @@
 variables:
   IMAGE_NAME: brettrjonesdocker/nolimitappimage
-  IMAGE_TAG: nlcdevimage-1.0.8 # for Qt 6.6.3 ise nlcdevimage-1.0.7 for Qt 6.9.3 ise nlcdevimage-1.0.8
+  IMAGE_TAG: nlcdevimage-1.0.8 # for Qt 6.9.3 ise nlcdevimage-1.0.8
 
 
 stages:

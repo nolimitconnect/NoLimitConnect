@@ -5,8 +5,8 @@ WEBSITE http://nolimitconnect.com/
 APP_EMAIL bjones.engineer@gmail.com
 APP_STICKYURL http://nolimitconnect.com/
 VERSION_MAJOR 1
-VERSION_MINOR 7
+VERSION_MINOR 01
 VERSION_TAG 00
-VERSION_CODE 010700
+VERSION_CODE 010100
 ADDON_API 16.1.000
 
