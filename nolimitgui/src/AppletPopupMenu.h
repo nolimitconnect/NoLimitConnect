@@ -78,7 +78,7 @@ public:
     EApplet						getAppletType( void ) override						{ return m_AppletType; };
 
 	void						clearMenulList( void );
-	void						addMenuItem( int iItemId, QIcon& oIcon, QString strMenuItemText );
+	void						addMenuItem( int iItemId, QIcon oIcon, QString strMenuItemText );
 
 	void						showTitleBarAppMenu( void );
 	void						showTitleBarUserMenu( void );
@@ -132,6 +132,8 @@ protected:
 
 	void						addUserAction( enum EUserAction userAction );
 	bool						canPerformAction( enum EUserAction userAction, EPluginAccess& retPluginAccess );
+
+	QIcon						getMenuIcon( EMyIcons iconType );
 
     //=== vars ===//
     Ui::AppletPopupMenuUi&		ui;

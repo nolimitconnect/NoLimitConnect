@@ -74,6 +74,20 @@ QIcon& MyIcons::getIcon( enum EMyIcons eMyIcon )
 }
 
 //============================================================================
+QIcon MyIcons::getIcon( enum EMyIcons eMyIcon, QSize iconSize, QColor color )
+{
+	QPixmap pixmap = getIconPixmap( eMyIcon, iconSize, color );
+	if( pixmap.isNull() )
+	{
+		pixmap = getIconPixmap( eMyIconUnknown, iconSize );
+	}
+
+	QIcon icon;
+	icon.addPixmap( pixmap, QIcon::Normal, QIcon::Off ); // Add for normal state
+	return icon;
+}
+
+//============================================================================
 QPixmap	 MyIcons::getIconPixmap( enum EMyIcons myIcon, QSize iconSize, QColor& iconColor )
 {
 	QPixmap iconPixmap;

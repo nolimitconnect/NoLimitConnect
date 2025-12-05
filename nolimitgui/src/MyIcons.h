@@ -34,6 +34,7 @@ public:
 
 	//! get preloaded icon
     QIcon&						getIcon( enum EMyIcons eMyIcon );
+	QIcon						getIcon( enum EMyIcons eMyIcon, QSize iconSize, QColor color );
 	//! get pixmap of given icon, size and color
     QPixmap						getIconPixmap( enum EMyIcons myIcon, QSize iconSize, QColor& iconColor );
 	//! get pixmap of given icon and size but do not colorize

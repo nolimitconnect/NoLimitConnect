@@ -74,6 +74,8 @@ AppletPopupMenu::AppletPopupMenu( AppCommon& app, QWidget* parent, VxGUID assetI
     connect( ui.m_ExitPopupButton, SIGNAL(clicked()), this, SLOT(closeApplet()) );
     connect( ui.m_MenuItemList, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(itemClicked(QListWidgetItem*)) );
 
+
+
     // NOT USED FOR POPUP
     m_MyApp.activityStateChange( this, false );
 }
@@ -114,7 +116,7 @@ void AppletPopupMenu::clearMenulList( void )
 };
 
 //============================================================================
-void AppletPopupMenu::addMenuItem( int iItemId, QIcon& oIcon, QString strMenuItemText )
+void AppletPopupMenu::addMenuItem( int iItemId, QIcon oIcon, QString strMenuItemText )
 {
 	QListWidgetItem* poMenuItem = new QListWidgetItem( strMenuItemText );
 	poMenuItem->setIcon( oIcon );
@@ -211,7 +213,7 @@ void AppletPopupMenu::addUserAction( enum EUserAction userAction )
 	{
 		if( m_SelectedFriend->isIgnored() )
 		{
-			addMenuItem( (int)eUserActionBlockUnblock, getMyIcons().getIcon( eMyIconFriend ), QObject::tr( "Unblock User" ) );
+			addMenuItem( (int)eUserActionBlockUnblock, getMenuIcon( eMyIconFriend ), QObject::tr( "Unblock User" ) );
 			return;
 		}
 	}
@@ -228,53 +230,53 @@ void AppletPopupMenu::addUserAction( enum EUserAction userAction )
 	{
 		if( !isMyself )
 		{
-			addMenuItem( (int)eUserActionBlockUnblock, getMyIcons().getIcon( eMyIconIgnored ), QObject::tr( "Block User" ) );
+			addMenuItem( (int)eUserActionBlockUnblock, getMenuIcon( eMyIconIgnored ), QObject::tr( "Block User" ) );
 		}
 	}
 	else if( userAction ==  eUserActionAboutMe )
 	{
 		strAction = GuiParams::describePluginAction( m_SelectedFriend, ePluginTypeAboutMePageServer, pluginAccess );
-		addMenuItem( (int)eUserActionAboutMe, getMyIcons().getIcon( getMyIcons().getPluginIcon( ePluginTypeAboutMePageServer, pluginAccess ) ), strAction );
+		addMenuItem( (int)eUserActionAboutMe, getMenuIcon( getMyIcons().getPluginIcon( ePluginTypeAboutMePageServer, pluginAccess ) ), strAction );
 	}
 	else if( userAction ==  eUserActionStoryboard )
 	{
 		strAction = GuiParams::describePluginAction( m_SelectedFriend, ePluginTypeStoryboardServer, pluginAccess );
-		addMenuItem( (int)eUserActionStoryboard, getMyIcons().getIcon( getMyIcons().getPluginIcon( ePluginTypeStoryboardServer, pluginAccess ) ), strAction );
+		addMenuItem( (int)eUserActionStoryboard, getMenuIcon( getMyIcons().getPluginIcon( ePluginTypeStoryboardServer, pluginAccess ) ), strAction );
 	}
 	else if( userAction ==  eUserActionCamServer )
 	{
 		strAction = GuiParams::describePluginAction( m_SelectedFriend, ePluginTypeCamServer, pluginAccess );
-		addMenuItem( (int)eUserActionCamServer, getMyIcons().getIcon( getMyIcons().getPluginIcon( ePluginTypeCamServer, pluginAccess ) ), strAction );
+		addMenuItem( (int)eUserActionCamServer, getMenuIcon( getMyIcons().getPluginIcon( ePluginTypeCamServer, pluginAccess ) ), strAction );
 	}
 	else if( userAction ==  eUserActionMessenger )
 	{
 		strAction = GuiParams::describePluginAction( m_SelectedFriend, ePluginTypeMessenger, pluginAccess );
-		addMenuItem( (int)eUserActionMessenger, getMyIcons().getIcon( getMyIcons().getPluginIcon( ePluginTypeMessenger, pluginAccess ) ), strAction );
+		addMenuItem( (int)eUserActionMessenger, getMenuIcon( getMyIcons().getPluginIcon( ePluginTypeMessenger, pluginAccess ) ), strAction );
 	}
 	else if( userAction ==  eUserActionVoicePhone )
 	{
 		strAction = GuiParams::describePluginAction( m_SelectedFriend, ePluginTypeVoicePhone, pluginAccess );
-		addMenuItem( (int)eUserActionVoicePhone, getMyIcons().getIcon( getMyIcons().getPluginIcon( ePluginTypeVoicePhone, pluginAccess ) ), strAction );
+		addMenuItem( (int)eUserActionVoicePhone, getMenuIcon( getMyIcons().getPluginIcon( ePluginTypeVoicePhone, pluginAccess ) ), strAction );
 	}
 	else if( userAction ==  eUserActionVideoPhone )
 	{
 		strAction = GuiParams::describePluginAction( m_SelectedFriend, ePluginTypeVideoPhone, pluginAccess );
-		addMenuItem( (int)eUserActionVideoPhone, getMyIcons().getIcon( getMyIcons().getPluginIcon( ePluginTypeVideoPhone, pluginAccess ) ), strAction );
+		addMenuItem( (int)eUserActionVideoPhone, getMenuIcon( getMyIcons().getPluginIcon( ePluginTypeVideoPhone, pluginAccess ) ), strAction );
 	}
 	else if( userAction ==  eUserActionTruthOrDare )
 	{
 		strAction = GuiParams::describePluginAction( m_SelectedFriend, ePluginTypeTruthOrDare, pluginAccess );
-		addMenuItem( (int)eUserActionTruthOrDare, getMyIcons().getIcon( getMyIcons().getPluginIcon( ePluginTypeTruthOrDare, pluginAccess ) ), strAction );
+		addMenuItem( (int)eUserActionTruthOrDare, getMenuIcon( getMyIcons().getPluginIcon( ePluginTypeTruthOrDare, pluginAccess ) ), strAction );
 	}
 	else if( userAction ==  eUserActionViewSharedFiles )
 	{
 		strAction = GuiParams::describePluginAction( m_SelectedFriend, ePluginTypeFileShareServer, pluginAccess );
-		addMenuItem( (int)eUserActionViewSharedFiles, getMyIcons().getIcon( getMyIcons().getPluginIcon( ePluginTypeFileShareServer, pluginAccess ) ), strAction );
+		addMenuItem( (int)eUserActionViewSharedFiles, getMenuIcon( getMyIcons().getPluginIcon( ePluginTypeFileShareServer, pluginAccess ) ), strAction );
 	}
 	else if( userAction ==  eUserActionOfferFile )
 	{
 		strAction = GuiParams::describePluginAction( m_SelectedFriend, ePluginTypePersonFileXfer, pluginAccess );
-		addMenuItem( (int)eUserActionOfferFile, getMyIcons().getIcon( getMyIcons().getPluginIcon( ePluginTypePersonFileXfer, pluginAccess ) ), strAction );
+		addMenuItem( (int)eUserActionOfferFile, getMenuIcon( getMyIcons().getPluginIcon( ePluginTypePersonFileXfer, pluginAccess ) ), strAction );
 	}
 	else if( userAction ==  eUserActionSetUnsetPreferred )
 	{
@@ -659,8 +661,8 @@ void AppletPopupMenu::showPersonOfferMenu( GuiUser* poSelectedFriend )
 
 	setMenuType( EPopupMenuType::ePopupMenuOfferFriendship );
 	setTitle( QObject::tr( "Offer Friendship" ) );
-	addMenuItem( 0, getMyIcons().getIcon( eMyIconFriend ), QObject::tr( "Offer Friendship" ) );
-	addMenuItem( 1, getMyIcons().getIcon( eMyIconFriend ), QObject::tr( "Offer Join Group" ) );
+	addMenuItem( 0, getMenuIcon( eMyIconFriend ), QObject::tr( "Offer Friendship" ) );
+	addMenuItem( 1, getMenuIcon( eMyIconFriend ), QObject::tr( "Offer Join Group" ) );
 
 	addSetUnsetPreferredMenuItem( 2, poSelectedFriend->getMyOnlineId() );
 }
@@ -751,52 +753,52 @@ void AppletPopupMenu::showTitleBarAppMenu( void )
 {
 	setMenuType( EPopupMenuType::ePopupMenuTitleBarAppMenu );
 	setTitle( QObject::tr( "Applet Menu" ) );
-	addMenuItem( 1, getMyIcons().getIcon(GetAppletIcon(eAppletAboutNoLimitConnect)), DescribeApplet(eAppletAboutNoLimitConnect));
-	addMenuItem( 2, getMyIcons().getIcon( GetAppletIcon( eAppletLibrary ) ), DescribeApplet( eAppletLibrary ) );
-	addMenuItem( 3, getMyIcons().getIcon( GetAppletIcon( eAppletPersonalRecorder ) ), DescribeApplet(eAppletPersonalRecorder));
+	addMenuItem( 1, getMenuIcon(GetAppletIcon(eAppletAboutNoLimitConnect)), DescribeApplet(eAppletAboutNoLimitConnect));
+	addMenuItem( 2, getMenuIcon( GetAppletIcon( eAppletLibrary ) ), DescribeApplet( eAppletLibrary ) );
+	addMenuItem( 3, getMenuIcon( GetAppletIcon( eAppletPersonalRecorder ) ), DescribeApplet(eAppletPersonalRecorder));
 
 	if( isPluginEnabled( ePluginTypeAboutMePageServer ) )
 	{
-		addMenuItem( 4, getMyIcons().getIcon(  GetAppletIcon( eAppletEditAboutMe ) ), DescribeApplet( eAppletEditAboutMe ) );
+		addMenuItem( 4, getMenuIcon(  GetAppletIcon( eAppletEditAboutMe ) ), DescribeApplet( eAppletEditAboutMe ) );
 	}
 
 	if( isPluginEnabled( ePluginTypeStoryboardServer ) )
 	{
-		addMenuItem( 5, getMyIcons().getIcon(  GetAppletIcon( eAppletEditStoryboard ) ), DescribeApplet( eAppletEditStoryboard ) );
+		addMenuItem( 5, getMenuIcon(  GetAppletIcon( eAppletEditStoryboard ) ), DescribeApplet( eAppletEditStoryboard ) );
 	}
 
 	if( isPluginEnabled( ePluginTypeCamServer ) )
 	{
-		addMenuItem( 6, getMyIcons().getIcon(  GetAppletIcon( eAppletCamServerViewMine ) ), DescribeApplet( eAppletCamServerViewMine ) );
+		addMenuItem( 6, getMenuIcon(  GetAppletIcon( eAppletCamServerViewMine ) ), DescribeApplet( eAppletCamServerViewMine ) );
 	}
 
 	if( isPluginEnabled( ePluginTypeMessenger ) )
 	{
-		addMenuItem( 7, getMyIcons().getIcon( GetAppletIcon( eAppletMultiMessenger ) ), DescribeApplet( eAppletMultiMessenger ));
+		addMenuItem( 7, getMenuIcon( GetAppletIcon( eAppletMultiMessenger ) ), DescribeApplet( eAppletMultiMessenger ));
 	}
 
-	addMenuItem( 8, getMyIcons().getIcon( GetAppletIcon( eAppletGroupJoin ) ), DescribeApplet( eAppletGroupJoin ) );
-	addMenuItem( 9, getMyIcons().getIcon( GetAppletIcon( eAppletChatRoomJoin ) ), DescribeApplet( eAppletChatRoomJoin ) );
-	addMenuItem( 10, getMyIcons().getIcon( GetAppletIcon( eAppletRandomConnectJoin ) ), DescribeApplet( eAppletRandomConnectJoin ) );
-	addMenuItem( 11, getMyIcons().getIcon( GetAppletIcon( eAppletDownloads ) ), DescribeApplet( eAppletDownloads ) );
+	addMenuItem( 8, getMenuIcon( GetAppletIcon( eAppletGroupJoin ) ), DescribeApplet( eAppletGroupJoin ) );
+	addMenuItem( 9, getMenuIcon( GetAppletIcon( eAppletChatRoomJoin ) ), DescribeApplet( eAppletChatRoomJoin ) );
+	addMenuItem( 10, getMenuIcon( GetAppletIcon( eAppletRandomConnectJoin ) ), DescribeApplet( eAppletRandomConnectJoin ) );
+	addMenuItem( 11, getMenuIcon( GetAppletIcon( eAppletDownloads ) ), DescribeApplet( eAppletDownloads ) );
 	if( isPluginEnabled( ePluginTypeFileShareServer ) )
 	{
-		addMenuItem( 12, getMyIcons().getIcon(  GetAppletIcon( eAppletUploads ) ), DescribeApplet( eAppletUploads ) );
+		addMenuItem( 12, getMenuIcon(  GetAppletIcon( eAppletUploads ) ), DescribeApplet( eAppletUploads ) );
 	}
 
 	if( isPluginEnabled( ePluginTypeHostGroup ) )
 	{
-		addMenuItem( 13, getMyIcons().getIcon(  GetAppletIcon( eAppletGroupHostAdmin ) ), DescribeApplet( eAppletGroupHostAdmin ) );
+		addMenuItem( 13, getMenuIcon(  GetAppletIcon( eAppletGroupHostAdmin ) ), DescribeApplet( eAppletGroupHostAdmin ) );
 	}
 
 	if( isPluginEnabled( ePluginTypeHostChatRoom ) )
 	{
-		addMenuItem( 14, getMyIcons().getIcon(  GetAppletIcon( eAppletChatRoomHostAdmin ) ), DescribeApplet( eAppletChatRoomHostAdmin ) );
+		addMenuItem( 14, getMenuIcon(  GetAppletIcon( eAppletChatRoomHostAdmin ) ), DescribeApplet( eAppletChatRoomHostAdmin ) );
 	}
 
 	if( isPluginEnabled( ePluginTypeHostRandomConnect ) )
 	{
-		addMenuItem( 15, getMyIcons().getIcon(  GetAppletIcon( eAppletRandomConnectHostAdmin ) ), DescribeApplet( eAppletRandomConnectHostAdmin ) );
+		addMenuItem( 15, getMenuIcon(  GetAppletIcon( eAppletRandomConnectHostAdmin ) ), DescribeApplet( eAppletRandomConnectHostAdmin ) );
 	}
 }
 
@@ -876,7 +878,7 @@ void AppletPopupMenu::showDeleteDbMenu( void )
 	setTitle( QObject::tr( "Delete A Database" ) );
 	for( int dbType = eDatabaseTypeNone; dbType < eMaxDatabaseType; dbType++ )
 	{
-        addMenuItem( dbType, getMyIcons().getIcon( eMyIconShredderNormal ), GuiParams::describeDatabaseType( (EDatabaseType)dbType ) );
+        addMenuItem( dbType, getMenuIcon( eMyIconShredderNormal ), GuiParams::describeDatabaseType( (EDatabaseType)dbType ) );
 	}
 }
 
@@ -919,18 +921,18 @@ void AppletPopupMenu::addSetUnsetPreferredMenuItem( int menuId, VxGUID onlineId 
 {
 	if( m_MyApp.getFavoriteMgr().getIsFavorite( onlineId ) )
 	{
-		addMenuItem( menuId, getMyIcons().getIcon( eMyIconApp ), QObject::tr( "Unset Preferred" ) );
+		addMenuItem( menuId, getMenuIcon( eMyIconApp ), QObject::tr( "Unset Preferred" ) );
 	}
 	else
 	{
-		addMenuItem( menuId, getMyIcons().getIcon( eMyIconApp ), QObject::tr( "Set Preferred" ) );
+		addMenuItem( menuId, getMenuIcon( eMyIconApp ), QObject::tr( "Set Preferred" ) );
 	}
 }
 
 //============================================================================
 void AppletPopupMenu::addChangeFriendshipMenuItem( int menuId )
 {
-	addMenuItem( menuId, getMyIcons().getIcon( eMyIconFriend ), QObject::tr( "Change Friendship" ) );
+	addMenuItem( menuId, getMenuIcon( eMyIconFriend ), QObject::tr( "Change Friendship" ) );
 }
 
 //============================================================================
@@ -955,7 +957,7 @@ void AppletPopupMenu::addFriendRequestMenuItem( int menuId, GuiUser* guiUser )
 {
 	if( guiUser->getHisFriendshipToMe() < eFriendStateFriend ) // && eFriendStateIgnore != guiUser->getPluginPermission( ePluginTypeFriendRequest ) )
 	{
-		addMenuItem( menuId, getMyIcons().getIcon( eMyIconFriendJoined ), QObject::tr( "Friendship Request" ) );
+		addMenuItem( menuId, getMenuIcon( eMyIconFriendJoined ), QObject::tr( "Friendship Request" ) );
 	}
 }
 
@@ -986,13 +988,13 @@ void AppletPopupMenu::launchSendFriendRequest( GuiUser* selectedFriend )
 void AppletPopupMenu::addUserDetailsMenuItem( int menuId, GuiUser* guiUser )
 {
 	m_SelectedUserDetails = guiUser;
-	addMenuItem( menuId, getMyIcons().getIcon( eMyIconAnonymous ), QObject::tr( "User Details" ) );
+	addMenuItem( menuId, getMenuIcon( eMyIconAnonymous ), QObject::tr( "User Details" ) );
 }
 
 //============================================================================
 void AppletPopupMenu::addDeleteUserFromDbMenuItem( int menuId, GuiUser* guiUser )
 {
-	addMenuItem( menuId, getMyIcons().getIcon( eMyIconAnonymous ), QObject::tr( "Delete User From Database" ) );
+	addMenuItem( menuId, getMenuIcon( eMyIconAnonymous ), QObject::tr( "Delete User From Database" ) );
 }
 
 //============================================================================
@@ -1034,4 +1036,15 @@ bool AppletPopupMenu::isMyAccessAllowed( GuiUser* guiUser, EPluginType pluginTyp
 	}
 
 	return false;
+}
+
+//============================================================================
+QIcon AppletPopupMenu::getMenuIcon( EMyIcons iconType )
+{
+	if( iconType == eMyIconApp )
+	{
+		return getMyIcons().getIcon( iconType );
+	}
+
+	return getMyIcons().getIcon( iconType, GuiParams::getButtonSize( eButtonSizeSmall ), m_MyApp.getAppTheme().getColor( eButtonForegroundNormal ) );
 }
