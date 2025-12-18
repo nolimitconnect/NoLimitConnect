@@ -224,7 +224,7 @@ QString AppletInformation::m_NetworkKey( QObject::tr(
     "=== NETWORK KEY ===\n"
     "The network key is a text string used for user data network encryption.\n"
     "The network key should only be changed if connecting to or hosting a private network seperate from NoLimitConnect.\n"
-    "If the network key is changed then connecting to the NoLimitConnect network will no longer be possible.\n"
+    "If the network key is changed then connecting to the public NoLimitConnect network will no longer be possible.\n"
     "A private network can be hosted/connected to without changing the network key, however, changing the "
     "network key will give you the best privacy NoLimitConnect has to offer.\n"
     "\n"

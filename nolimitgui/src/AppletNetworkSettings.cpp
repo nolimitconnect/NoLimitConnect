@@ -56,6 +56,10 @@ AppletNetworkSettings::AppletNetworkSettings( AppCommon& app, QWidget* parent )
     ui.m_DeleteSettingsButton->setIcon( eMyIconTrash );
     ui.m_DeleteSettingsButton->setFixedSize( eButtonSizeSmall );
 
+    ui.m_NetworkKeyEdit->setEchoMode( QLineEdit::Password );
+    ui.m_NetworkKeyEyeButton->setFixedSize( eButtonSizeSmall );
+    ui.m_NetworkKeyEyeButton->setIcon( eMyIconEyeShow );
+
     updateDlgFromSettings( true );
 
     connectSignals();
@@ -103,7 +107,7 @@ void AppletNetworkSettings::connectSignals( void )
     connect( ui.m_TestUpnpButton, SIGNAL(clicked()), this, SLOT(slotTestUpnpButtonClick()) ); 
 
     connect( ui.m_Ipv6InfoButton, SIGNAL(clicked()), this, SLOT(slotShowIpv6Information()) );
-    connect( ui.m_UseIpv6Network, SIGNAL(clicked()), this, SLOT(slotUseIpv6CheckBoxClick()) );
+    connect( ui.m_NetworkKeyEyeButton, SIGNAL(clicked()), this, SLOT(slotNetworkKeyEyeButtonClick()) );
 }
 
 //============================================================================
@@ -792,5 +796,21 @@ void AppletNetworkSettings::acceptInvite( VxGUID onlineId, std::vector<VxPtopUrl
         {
             ui.m_ConnectTestUrlEdit->setText( ptopUrl.getUrl().c_str() );
         }
+    }
+}
+
+//============================================================================
+void AppletNetworkSettings::slotNetworkKeyEyeButtonClick( void )
+{
+    m_NetworkKeyVisible = !m_NetworkKeyVisible;
+    if( m_NetworkKeyVisible )
+    {
+        ui.m_NetworkKeyEyeButton->setIcon( eMyIconEyeHide );
+        ui.m_NetworkKeyEdit->setEchoMode( QLineEdit::Normal );
+    }
+    else
+    {
+        ui.m_NetworkKeyEyeButton->setIcon( eMyIconEyeShow );
+        ui.m_NetworkKeyEdit->setEchoMode( QLineEdit::Password );
     }
 }
