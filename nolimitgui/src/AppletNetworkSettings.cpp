@@ -413,7 +413,7 @@ void AppletNetworkSettings::slotTestIsMyPortOpenButtonClick( void )
     }
 
     uint16_t u16Port = ui.PortEdit->text().toUShort();
-    if( u16Port < 10000 )
+    if( u16Port >= 10000 )
     {
         updateSettingsFromDlg();
         AppletIsPortOpenTest* applet = dynamic_cast<AppletIsPortOpenTest*>(m_MyApp.launchApplet( eAppletIsPortOpenTest, getParentPageFrame() ) );
