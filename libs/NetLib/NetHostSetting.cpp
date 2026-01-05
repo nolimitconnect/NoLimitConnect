@@ -60,7 +60,7 @@ bool NetHostSetting::operator != ( const NetHostSetting& rhs ) const
 //============================================================================
 void NetHostSetting::resetToDefaultSettings( bool ipv6 )
 {
-    m_NetworkName = NET_DEFAULT_NETWORK_NAME;
+    m_NetworkName = NET_DEFAULT_NETWORK_KEY;
     m_TcpPort = NET_DEFAULT_NETSERVICE_PORT;
 
     m_UseIpv6 = ipv6;

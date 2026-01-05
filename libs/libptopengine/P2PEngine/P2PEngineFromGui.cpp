@@ -713,25 +713,6 @@ bool P2PEngine::isDirectConnectTested( void )
 }
 
 //============================================================================
-bool P2PEngine::getIsMyHostServiceEnabled( enum EHostServiceType hostService )
-{
-    switch( hostService )
-    {
-    case eHostServiceNetworkHost: return m_PktAnn.getPluginPermission( ePluginTypeHostNetwork ) != eFriendStateIgnore;
-    case eHostServiceGroup: return m_PktAnn.getPluginPermission( ePluginTypeHostGroup ) != eFriendStateIgnore;
-    case eHostServiceRelay: return m_PktAnn.getPluginPermission( ePluginTypeHostGroup ) != eFriendStateIgnore;
-	case eHostServiceConnectTest: return m_PktAnn.getPluginPermission( ePluginTypeHostConnectTest ) != eFriendStateIgnore;
-	case eHostServiceChatRoom: return m_PktAnn.getPluginPermission( ePluginTypeHostChatRoom ) != eFriendStateIgnore;
-    case eHostServiceRandomConnect: return m_PktAnn.getPluginPermission( ePluginTypeHostRandomConnect ) != eFriendStateIgnore;
-    case eHostServiceRandomConnectRelay: return m_PktAnn.getPluginPermission( ePluginTypeHostRandomConnect ) != eFriendStateIgnore;
-    default:
-        break;
-    }
-
-    return false;
-}
-
-//============================================================================
 bool P2PEngine::getIsMyHostServiceEnabled( enum EHostType hostService )
 {
 	switch( hostService )

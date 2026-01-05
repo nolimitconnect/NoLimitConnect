@@ -227,7 +227,7 @@
       <item>
        <widget class="QCheckBox" name="m_NetworkSettingsCheckBox">
         <property name="text">
-         <string>Network Settings (NOT Recommended)</string>
+         <string>Network Settings (Only for network invites)</string>
         </property>
        </widget>
       </item>
@@ -241,7 +241,7 @@
       <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>

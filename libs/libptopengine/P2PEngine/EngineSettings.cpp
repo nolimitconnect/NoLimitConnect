@@ -505,7 +505,7 @@ void EngineSettings::getNetworkKey( std::string& strNetworkName )
 	else
 	{
         
-		getIniValue( MY_SETTINGS_KEY, "NetworkName", strNetworkName, NET_DEFAULT_NETWORK_NAME );
+		getIniValue( MY_SETTINGS_KEY, "NetworkName", strNetworkName, NET_DEFAULT_NETWORK_KEY );
 		m_CachedNetworkName = strNetworkName;
         
     }

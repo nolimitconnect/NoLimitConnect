@@ -1009,7 +1009,7 @@ bool NetStatusAccum::canAnnounceToNlcHost( bool iAmNetHost )
 //============================================================================
 bool NetStatusAccum::hasDefaultNetworkKey( void )
 {
-    return getNetworkKey() == NET_DEFAULT_NETWORK_NAME;
+    return getNetworkKey() == NET_DEFAULT_NETWORK_KEY;
 }
 
 //============================================================================

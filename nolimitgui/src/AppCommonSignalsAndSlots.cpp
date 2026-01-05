@@ -52,7 +52,6 @@ void  AppCommon::registerMetaData( void )
 	qRegisterMetaType<EHostAnnounceStatus>( "EHostAnnounceStatus" );
 	qRegisterMetaType<EHostJoinStatus>( "EHostJoinStatus" );
 	qRegisterMetaType<EHostSearchStatus>( "EHostSearchStatus" );
-	qRegisterMetaType<EHostServiceType>( "EHostServiceType" );
 	qRegisterMetaType<EHostTestStatus>( "EHostTestStatus" );
 	qRegisterMetaType<EHostType>( "EHostType" );
 	qRegisterMetaType<EInternetStatus>( "EInternetStatus" );

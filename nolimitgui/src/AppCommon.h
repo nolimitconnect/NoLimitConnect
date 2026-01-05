@@ -220,8 +220,6 @@ public:
     void						playSound( ESndDef sndDef );
     void						insertKeystroke( int keyNum );
 
-    void						forceOrientationChange( void );
-
     virtual void				okMessageBox( QString title, QString msg );
     virtual void				okMessageBox2( QString title, const char* msg, ... );
     virtual bool				yesNoMessageBox( QString title, QString msg );
@@ -258,7 +256,7 @@ public:
     void						wantToGuiUserUpdateCallbacks( ToGuiUserUpdateInterface* callback, bool	wantCallback );
 
     //============================================================================
-    //=== to palayer-nlc lib events ===//
+    //=== to player-nlc lib events ===//
     //============================================================================
     virtual void                fromGuiKeyPressEvent( EMediaModule mediaModule, int key, int mod ) override;
     virtual void                fromGuiKeyReleaseEvent( EMediaModule mediaModule, int key, int mod ) override;

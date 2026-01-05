@@ -46,6 +46,8 @@ protected:
 
     std::vector<VxPtopUrl>      m_HostUrls;
     std::vector<VxPtopUrl>      m_NetworkUrls;
+    bool                        m_HasPrivateNetworkKey{ false };
+    std::string                 m_PastedInviteText;
 };
 
 

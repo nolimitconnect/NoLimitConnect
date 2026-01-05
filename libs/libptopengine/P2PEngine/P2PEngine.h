@@ -170,7 +170,6 @@ public:
     bool                        isDirectConnectReady( void );       // true if have open port and ready to recieve
     bool                        isNetworkHostEnabled( void );       // true if netowrk host plugin is enabled
 
-    bool                        getIsMyHostServiceEnabled( enum EHostServiceType hostService );
     bool                        getIsMyHostServiceEnabled( enum EHostType hostService );
 
     bool                        getHasAnyHostServiceEnabled( void );

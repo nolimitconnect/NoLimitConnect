@@ -8,7 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#define NET_DEFAULT_NETWORK_NAME			    "NoLimitNet"
+#define NET_DEFAULT_NETWORK_KEY			    "NoLimitNet"
 #define NET_DEFAULT_NETSERVICE_PORT			    45124
 
 #define NET_DEFAULT_NET_HOST_URL_IPV4			"ptop://nolimitconnect.net:45124"

@@ -428,20 +428,6 @@ enum EHostSearchStatus
     eMaxHostSearchStatus
 };
 
-enum EHostServiceType
-{
-    eHostServiceInvalid = 0,
-    eHostServiceConnectTest,        // test connection for relay requirement and IP Address  ( normally provided by all Tiers )
-    eHostServiceNetworkHost,        // Tier 1 network host service
-    eHostServiceGroup,              // Tier 3 host a group service ( group users are considered Tier 4 )
-    eHostServiceChatRoom,           // Tier 3 host a chat room service ( chat room users are considered Tier 4 )
-    eHostServiceRandomConnect,      // random connect service normally provided by network host ( Tier 1 )
-    eHostServiceRelay,              // relay service normally provided by group host ( Tier 3 )  
-    eHostServiceRandomConnectRelay, // random connection relay service normally provided by network host ( Tier 1 )    
-
-    eMaxHostServiceType
-};
-
 //! \public Host connection test state
 enum EHostTestStatus
 {

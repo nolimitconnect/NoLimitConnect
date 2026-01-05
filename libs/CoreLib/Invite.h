@@ -30,9 +30,14 @@ public:
     static const char SUFFIX_CHAR_CONNECT_TEST;     // T
     static const char SUFFIX_CHAR_UNKNOWN;          // U
 
+    static const char* INVITE_PRIVATE_KEY;          // NetworkKey-Private
+
     bool                        setInviteText( std::string inviteText );
     std::string&                getInviteText( void )                       { return m_InviteText; }
     bool                        getInviteUrls( std::vector<VxPtopUrl>& hostUrls, std::vector<VxPtopUrl>& networkUrls, std::string& userMsg );
+
+    static bool                 isInviteTextValid( std::string inviteText );
+    static bool                 inviteHasPrivateNetworkKey( std::string inviteText );
 
     bool                        setInviteUrl( EHostType hostType, std::string& url, bool isNetworkUrl = false );
 
@@ -51,6 +56,7 @@ public:
 protected:
     bool                        parseInviteText( void );
     void                        clearInvite( void );
+    static bool                 textContains( std::string& inviteText, std::string searchText );
 
     std::string                 m_InviteText;
 

@@ -89,7 +89,16 @@ void AppletInviteAccept::slotPasteFromClipboard( QString clipboardText )
         okMessageBox( QObject::tr( "Clipboard Is Empty" ), QObject::tr( "Cannot Paste Empty Clipboard" ) );
         return;
     }
-    
+
+    m_PastedInviteText = clipboardText.toUtf8().constData();
+    if( !Invite::isInviteTextValid( m_PastedInviteText ) )
+    {
+        okMessageBox( QObject::tr( "Clipboard Text Invalid" ), QObject::tr( "Clipboard does not contain a valid invite" ) );
+        return;
+    }
+
+    m_HasPrivateNetworkKey = Invite::inviteHasPrivateNetworkKey( m_PastedInviteText );
+
     ui.m_InviteUrlWidget->setInviteText( clipboardText.toUtf8().constData() );
 }
 
@@ -151,7 +160,7 @@ void AppletInviteAccept::slotAcceptInviteButtonClicked( void )
         {
             acceptingNetwork = true;
             connect( applet, SIGNAL(signalBackButtonClicked()), this, SLOT(slotConnectToHosts()) );
-            applet->acceptInvite( onlineId, m_NetworkUrls );          
+            applet->acceptInvite( onlineId, m_NetworkUrls, m_HasPrivateNetworkKey );
         }
     }
 

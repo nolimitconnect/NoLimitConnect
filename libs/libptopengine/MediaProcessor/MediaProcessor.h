@@ -83,8 +83,8 @@ public:
 	}
 
 	VxGUID						m_OnlineId;
-	EMediaInputType				m_MediaType;
-	MediaCallbackInterface *	m_Callback;
+	EMediaInputType				m_MediaType{ eMediaInputNone };
+	MediaCallbackInterface*		m_Callback{ nullptr };
 	EMediaModule				m_MediaModule{ eMediaModuleInvalid };
 	VxGUID						m_SessionId;
 };

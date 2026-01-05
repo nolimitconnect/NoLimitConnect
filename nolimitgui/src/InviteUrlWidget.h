@@ -51,6 +51,12 @@ protected slots:
     void                        slotRandomConnectButtonClicked( void );
     void                        slotNetworkButtonClicked( void );
 
+    void                        slotPersonalCheckBoxClicked( int checked );
+    void                        slotChatRoomCheckBoxClicked( int checked );
+    void                        slotGroupCheckBoxClicked( int checked );
+    void                        slotRandomConnectCheckBoxClicked( int checked );
+    void                        slotNetworkCheckBoxClicked( int checked );
+
 protected:
     int                         testAvailableUrls( void );
     void                        updateUrls( void );
@@ -66,15 +72,22 @@ protected:
     QFrame*                     getUrlFrame( EHostType hostType );
 
     std::string                 generateSelectedInviteText( void );
+    std::string                 getNetworkKeyState( void );
+
     void                        updateAcceptUrls( void );
 
     void                        testUrl( EHostType hostType );
-    
 
+    bool                        checkPortOpen( EHostType hostType );
+    bool                        checkHostEnabled( EHostType hostType );
+    
+    //=== vars ===//
     Ui::InviteUrlWidgetUi&      ui;
     AppCommon&					m_MyApp;
     bool                        m_IsCreateInvite{ false };
     bool                        m_IsSettingUrls{ false };
+    bool                        m_HasPrivateNetworkKey{ false };
+    std::string                 m_PastedInviteText;
 
     std::vector<EHostType>      m_HostTestList;
     std::vector<EHostType>      m_HostValidList;

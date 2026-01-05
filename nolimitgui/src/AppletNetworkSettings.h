@@ -30,7 +30,7 @@ public:
 	AppletNetworkSettings( AppCommon& app, QWidget* parent );
 	virtual ~AppletNetworkSettings();
 
-    void						acceptInvite( VxGUID onlineId, std::vector<VxPtopUrl> networkUrls );
+    void						acceptInvite( VxGUID onlineId, std::vector<VxPtopUrl> networkUrls, bool hasPrivateKey );
 
 protected slots:
     void						slotExitButtonClick( void );
@@ -73,7 +73,7 @@ protected:
     void						connectSignals( void );
 
     QString						getNetworkKey( void );
-    bool                        verifyNetworkKey( QString& keyVal );
+    bool                        verifyNetworkKey( std::string& keyVal );
     bool                        verifyFirewallSettings( void );
 
     void						setFirewallTestType( EFirewallTestType eFirewallType );
@@ -98,6 +98,7 @@ protected:
     QTimer *                    m_UpdateTimer{ nullptr };
     QString                     m_OriginalNetworkKey;
     bool                        m_NetworkKeyVisible{ false };
+    bool                        m_InvitePrivateKey{ false };
 };
 
 

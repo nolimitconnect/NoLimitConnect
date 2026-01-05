@@ -13,6 +13,7 @@
 #include "AppletInformation.h"
 #include "AppCommon.h"
 #include "GuiHelpers.h"
+#include "GuiParams.h"
 #include "MyIconsDefs.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -56,15 +57,15 @@ InviteUrlWidget::InviteUrlWidget( QWidget* parent )
 
     connect( ui.m_NetworkSettingsInfoButton, SIGNAL(clicked()), this, SLOT(slotNetworkSettingsInfoButtonClicked()) );
 
-    connect( ui.m_PersonalCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateInvite()) );
+    connect( ui.m_PersonalCheckBox, SIGNAL(stateChanged(int)), this, SLOT( slotPersonalCheckBoxClicked(int)) );
     connect( ui.m_PersonalUrlEdit, SIGNAL(textChanged(const QString)), this, SLOT(slotUpdateInvite()) );
-    connect( ui.m_ChatRoomCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateInvite()) );
+    connect( ui.m_ChatRoomCheckBox, SIGNAL(stateChanged(int)), this, SLOT( slotGroupCheckBoxClicked(int)) );
     connect( ui.m_ChatRoomUrlEdit, SIGNAL(textChanged(const QString)), this, SLOT(slotUpdateInvite()) );
-    connect( ui.m_GroupCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateInvite()) );
+    connect( ui.m_GroupCheckBox, SIGNAL(stateChanged(int)), this, SLOT( slotGroupCheckBoxClicked(int)) );
     connect( ui.m_GroupUrlEdit, SIGNAL(textChanged(const QString)), this, SLOT(slotUpdateInvite()) );
-    connect( ui.m_RandomConnectCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateInvite()) );
+    connect( ui.m_RandomConnectCheckBox, SIGNAL(stateChanged(int)), this, SLOT( slotRandomConnectCheckBoxClicked(int)) );
     connect( ui.m_RandomConnectUrlEdit, SIGNAL(textChanged(const QString)), this, SLOT(slotUpdateInvite()) );
-    connect( ui.m_NetworkSettingsCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotUpdateInvite()) );
+    connect( ui.m_NetworkSettingsCheckBox, SIGNAL(stateChanged(int)), this, SLOT( slotNetworkCheckBoxClicked(int)) );
 
     connect( ui.m_ChatRoomButton, SIGNAL(clicked()), this, SLOT(slotChatRoomButtonClicked()) );
     connect( ui.m_GroupButton, SIGNAL(clicked()), this, SLOT(slotGroupButtonClicked()) );
@@ -96,11 +97,22 @@ void InviteUrlWidget::slotNetworkSettingsInfoButtonClicked( void )
 //============================================================================
 void InviteUrlWidget::setInviteText( std::string inviteText )
 {
+    if( !m_IsCreateInvite )
+    {
+        m_PastedInviteText = inviteText;
+    }
+
     ui.m_InviteTextEdit->clear();
     ui.m_InviteTextEdit->appendPlainText( inviteText.c_str() );
     if( !m_IsCreateInvite )
     {
         parseInviteText( inviteText );
+        if( inviteText.find( "NetworkKey-Private" ) != std::string::npos )
+        {
+            // using private key.. give warning
+            QMessageBox::warning( this, QObject::tr( "Private Key Warning" ), 
+                QObject::tr( "Be sure to get the Network Key for this Network before saving network settings.\nWrong network key will cause you to be banned as a Hacker" ), QMessageBox::Ok );
+        }
     }
 }
 
@@ -321,8 +333,17 @@ void InviteUrlWidget::updateInviteText( void )
 
     if( ui.m_NetworkSettingsCheckBox->isChecked() )
     {
+        if( !haveInvite )
+        {
+            haveInvite = true;
+            ui.m_InviteTextEdit->appendPlainText( Invite::INVITE_BEGIN );
+        }
+
         P2PEngine& engine = m_MyApp.getEngine();
         ui.m_InviteTextEdit->appendPlainText( Invite::INVITE_HDR_NET_SETTING );
+        std::string keyText = getNetworkKeyState();
+        ui.m_InviteTextEdit->appendPlainText( keyText.c_str() );
+
         std::string strValue;
 
         engine.getEngineSettings().getNetworkHostUrl( strValue );
@@ -479,6 +500,8 @@ std::string InviteUrlWidget::generateSelectedInviteText( void )
     {
         inviteText += Invite::INVITE_HDR_NET_SETTING;
         inviteText += "\n";
+        inviteText += getNetworkKeyState();
+        inviteText += "\n";
         for( auto& ptopUrl : m_NetworkUrls )
         {
             if( ptopUrl.getHostType() == eHostTypeNetwork )
@@ -508,6 +531,31 @@ std::string InviteUrlWidget::generateSelectedInviteText( void )
     inviteText += Invite::INVITE_END;
 
     return inviteText;
+}
+
+//============================================================================
+std::string InviteUrlWidget::getNetworkKeyState( void )
+{
+    std::string keyText{ "NetworkKey-" };
+    if( !m_IsCreateInvite && !m_PastedInviteText.empty() )
+    {
+        if( m_PastedInviteText.find( Invite::INVITE_PRIVATE_KEY ) != std::string::npos )
+        {
+            keyText += "Private";
+            m_HasPrivateNetworkKey = true;
+        }
+        else
+        {
+            keyText += "Public";
+            m_HasPrivateNetworkKey = false;
+        }
+    }
+    else
+    {
+        keyText += m_MyApp.getEngine().getNetStatusAccum().hasDefaultNetworkKey() ? "Public" : "Private";
+    }
+
+    return keyText;
 }
 
 //============================================================================
@@ -583,4 +631,126 @@ void InviteUrlWidget::testUrl( EHostType hostType )
     }
 
     // TODO network and hosts tests
+}
+
+//============================================================================
+void InviteUrlWidget::slotPersonalCheckBoxClicked( int checked )
+{
+    if( m_IsCreateInvite && checked )
+    {
+        if( !checkPortOpen( eHostTypePeerUser ) )
+        {
+            return;
+        }
+    }
+
+    slotUpdateInvite();
+}
+
+//============================================================================
+void InviteUrlWidget::slotChatRoomCheckBoxClicked( int checked )
+{
+    if( m_IsCreateInvite && checked )
+    {
+        if( !checkPortOpen( eHostTypeChatRoom ) )
+        {
+            return;
+        }
+
+        if( !checkHostEnabled( eHostTypeChatRoom ) )
+        {
+            return;
+        }
+    }
+
+    slotUpdateInvite();
+}
+
+//============================================================================
+void InviteUrlWidget::slotGroupCheckBoxClicked( int checked )
+{
+    if( m_IsCreateInvite && checked )
+    {
+        if( !checkPortOpen( eHostTypeGroup ) )
+        {
+            return;
+        }
+
+        if( !checkHostEnabled( eHostTypeGroup ) )
+        {
+            return;
+        }
+    }
+
+    slotUpdateInvite();
+}
+
+//============================================================================
+void InviteUrlWidget::slotRandomConnectCheckBoxClicked( int checked )
+{
+    if( m_IsCreateInvite && checked )
+    {
+        if( !checkPortOpen( eHostTypeRandomConnect ) )
+        {
+            return;
+        }
+
+        if( !checkHostEnabled( eHostTypeRandomConnect ) )
+        {
+            return;
+        }
+
+    }
+
+    slotUpdateInvite();
+}
+
+//============================================================================
+void InviteUrlWidget::slotNetworkCheckBoxClicked( int checked )
+{
+    if( m_IsCreateInvite && checked )
+    {
+        if( !checkPortOpen( eHostTypeNetwork ) )
+        {
+            return;
+        }
+    }
+
+    slotUpdateInvite();
+}
+
+//============================================================================
+bool InviteUrlWidget::checkPortOpen( EHostType hostType )
+{
+    bool isOpen = m_MyApp.getEngine().getNetStatusAccum().isRxPortOpen();
+    if( !isOpen )
+    {
+        QMessageBox::warning( this, QObject::tr("Cannot create Invite"), QObject::tr( "Do NOT create Invite without a open Network Port.\nNo one can connect to you directly" ), QMessageBox::Ok);
+        QCheckBox* checkBox = getUrlCheckBox( hostType );
+        if( checkBox )
+        {
+            checkBox->setChecked( false );
+            checkBox->setEnabled( false );
+        }
+    }
+
+    return isOpen;
+}
+
+//============================================================================
+bool InviteUrlWidget::checkHostEnabled( EHostType hostType )
+{
+    bool isHostEnabled{ true };
+    if( hostType == eHostTypeNetwork || hostType == eHostTypeChatRoom || hostType == eHostTypeGroup || hostType == eHostTypeRandomConnect )
+    {
+        QMessageBox::warning( this, QObject::tr( "Hosting plugin not enabled" ), GuiParams::describeHostType( hostType ) + QObject::tr( " has permission level of disabled" ), QMessageBox::Ok );
+        QCheckBox* checkBox = getUrlCheckBox( hostType );
+        if( checkBox )
+        {
+            checkBox->setChecked( false );
+            checkBox->setEnabled( false );
+        }
+    }
+    
+    return isHostEnabled;
 }

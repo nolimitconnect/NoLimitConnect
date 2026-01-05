@@ -28,6 +28,8 @@ const char Invite::SUFFIX_CHAR_NETWORK_HOST = 'N'; // N
 const char Invite::SUFFIX_CHAR_CONNECT_TEST = 'T'; // T
 const char Invite::SUFFIX_CHAR_UNKNOWN = 'U'; // 'U'
 
+const char* Invite::INVITE_PRIVATE_KEY = "NetworkKey-Private";
+
 //============================================================================
 void Invite::clearInvite( void )
 {
@@ -259,6 +261,7 @@ bool Invite::parseInviteText( void )
         bool foundEnd = false;
         bool foundUrl = false;
         bool isNetworkUrl = false;
+        bool isPrivateNetworkKey = false;
         m_UserMsg.clear();
         for( auto& str : strList )
         {
@@ -284,6 +287,18 @@ bool Invite::parseInviteText( void )
             if( str == INVITE_HDR_NET_SETTING )
             {
                 isNetworkUrl = true;
+                continue;
+            }
+
+            if( str == "NetworkKey-Private" )
+            {
+                isPrivateNetworkKey = true;
+                continue;
+            }
+
+            if( str == "NetworkKey-Public" )
+            {
+                isPrivateNetworkKey = false;
                 continue;
             }
 
@@ -369,3 +384,22 @@ bool Invite::getInviteUrls( std::vector<VxPtopUrl>& hostUrls, std::vector<VxPtop
 
     return !hostUrls.empty() || !networkUrls.empty();
 }
+
+//============================================================================
+bool Invite::isInviteTextValid( std::string inviteText )
+{
+    return textContains( inviteText, INVITE_BEGIN ) && textContains( inviteText, INVITE_END );
+}
+
+//============================================================================
+bool Invite::textContains( std::string& inviteText, std::string searchText )
+{
+    return !searchText.empty() && ( inviteText.find( searchText ) != std::string::npos );
+}
+
+//============================================================================
+bool Invite::inviteHasPrivateNetworkKey( std::string inviteText )
+{
+    return textContains( inviteText, INVITE_PRIVATE_KEY );
+}
+

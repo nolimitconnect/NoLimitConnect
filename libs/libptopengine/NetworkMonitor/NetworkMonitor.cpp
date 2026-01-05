@@ -129,7 +129,7 @@ void  NetworkMonitor::triggerDetermineNetworkState( void )
             //m_Engine.fromGuiNetworkAvailable( externIp.c_str(), false );
         }
 
-        if( m_Engine.getIsMyHostServiceEnabled( eHostServiceNetworkHost ) )
+        if( m_Engine.getIsMyHostServiceEnabled( eHostTypeNetwork ) )
         {
             // LogMsg( LOG_INFO, " NetworkMonitor::onOncePerSecond setNetHostAvail" );
             // also assume we can connect to network host because we are network host
@@ -143,7 +143,7 @@ void  NetworkMonitor::triggerDetermineNetworkState( void )
         m_Engine.getNetStatusAccum().setIsFixedIpAddress( false );
     }
 
-    if( m_Engine.getIsMyHostServiceEnabled( eHostServiceNetworkHost ) )
+    if( m_Engine.getIsMyHostServiceEnabled( eHostTypeNetwork ) )
     {
         // assume we can connect to network host because we are network host
         // LogMsg( LOG_INFO, " NetworkMonitor::onOncePerSecond setNetHostAvail2" );
@@ -252,7 +252,7 @@ void NetworkMonitor::triggerDetermineIp( void )
 
     static int determineIpAttemptCnt = 0;
     determineIpAttemptCnt++;
-    bool isNetworkHost = m_Engine.getIsMyHostServiceEnabled( eHostServiceNetworkHost );
+    bool isNetworkHost = m_Engine.getIsMyHostServiceEnabled( eHostTypeNetwork );
     if( !lastLocalIp.empty() && (isNetworkHost || firewallTestType == eFirewallTestAssumeFirewalled) )
     {
         // if we are network host but have not specified a external ip 

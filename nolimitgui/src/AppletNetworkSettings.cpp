@@ -413,7 +413,7 @@ void AppletNetworkSettings::slotTestIsMyPortOpenButtonClick( void )
     }
 
     uint16_t u16Port = ui.PortEdit->text().toUShort();
-    if( 0 != u16Port )
+    if( u16Port < 10000 )
     {
         updateSettingsFromDlg();
         AppletIsPortOpenTest* applet = dynamic_cast<AppletIsPortOpenTest*>(m_MyApp.launchApplet( eAppletIsPortOpenTest, getParentPageFrame() ) );
@@ -424,7 +424,7 @@ void AppletNetworkSettings::slotTestIsMyPortOpenButtonClick( void )
     }
     else
     {
-        QMessageBox::information( this, QObject::tr( "TCP Listen Port Error" ), QObject::tr( "TCP Listen Port cannot be zero." ) );
+        QMessageBox::information( this, QObject::tr( "TCP Listen Port Error" ), QObject::tr( "TCP Listen Port cannot be less that 10000." ) );
     }
 }
 
@@ -508,6 +508,7 @@ void AppletNetworkSettings::onSaveButtonClick( void )
     {
         if( !verifyIpv6Capable() )
         {
+            okMessageBox( QObject::tr( "IPv6 not detected" ), QObject::tr( "The device does not seem to be IPv6 capable\n Please uncheck Use IPv6 Network" ) );
             return;
         }
 
@@ -528,7 +529,7 @@ void AppletNetworkSettings::onSaveButtonClick( void )
         return;
     }
 
-    QString keyVal = getNetworkKey();
+    std::string keyVal = getNetworkKey().toUtf8().constData();
     if( verifyNetworkKey( keyVal ) )
     {
         std::string netSettingsName;
@@ -547,8 +548,7 @@ void AppletNetworkSettings::onSaveButtonClick( void )
             return;
         }
 
-        std::string keyString = keyVal.toUtf8().constData();
-        if( keyString.empty() )
+        if( keyVal.empty() )
         {
             QMessageBox::information( this, QObject::tr( "Network Setting" ), QObject::tr( "Network key cannot be blank." ) );
             return;
@@ -578,11 +578,20 @@ void AppletNetworkSettings::onSaveButtonClick( void )
             }
         }
 
-        m_MyApp.getEngine().getEngineSettings().setNetworkKey( keyString );
+        m_MyApp.getEngine().getEngineSettings().setNetworkKey( keyVal );
         updateSettingsFromDlg();
-        // need to apply settings also or what is used in ptop engine may not be what is shown in dialog which is confusing
-        applySettingsToEngine();
-        QMessageBox::information( this, QObject::tr( "Network Setting" ), QObject::tr( "Network setting was saved." ) );
+        if( m_InvitePrivateKey )
+        {
+            QMessageBox::information( this, QObject::tr( "Network Setting" ), QObject::tr( "Private Network Key requires restart to avoid use of wrong network key.\n Quitting application so you can start it again." ) );
+            m_MyApp.shutdownAppCommon();
+            return;
+        }
+        else
+        {
+            // need to apply settings also or what is used in ptop engine may not be what is shown in dialog which is confusing
+            applySettingsToEngine();
+            QMessageBox::information( this, QObject::tr( "Network Setting" ), QObject::tr( "Network setting was saved." ) );
+        }
     }
 }
 
@@ -669,19 +678,26 @@ void AppletNetworkSettings::slotUpdateTimer( void )
 }
 
 //============================================================================
-bool AppletNetworkSettings::verifyNetworkKey( QString& keyVal )
+bool AppletNetworkSettings::verifyNetworkKey( std::string& keyVal )
 {
-    bool isValid = true;
     if( keyVal.size() < 6 )
     {
-        isValid = false;
         QMessageBox::warning( this, QObject::tr( "Network Key" ), QObject::tr( "Network Key must be at least 6 characters ( 8 or more characters recommended )." ) );
+        return false;
     }
 
-    if( keyVal != m_OriginalNetworkKey && !m_OriginalNetworkKey.isEmpty() )
+    if( m_InvitePrivateKey )
+    {
+        if( keyVal == NET_DEFAULT_NETWORK_KEY )
+        {
+            QMessageBox::warning( this, QObject::tr( "Network Key" ), QObject::tr( "Current Network Key is public, you must obtain and set the private network key associated with this network invit." ) );
+            return false;
+        }
+    }
+    else if( keyVal != m_OriginalNetworkKey && !m_OriginalNetworkKey.isEmpty() )
     {
         if( QMessageBox::Yes != QMessageBox::question( this, QObject::tr( "Network Key" ),
-            QObject::tr( "Are you sure you want to change the network key?\n All users of your network will need to have the same key or cannot connect." ),
+            QObject::tr( "Are you sure you want to change the network key?\n All users of your network will need to have the same key or you will be banned as a hacker." ),
             QMessageBox::Yes | QMessageBox::No ) )
         {
             ui.m_NetworkKeyEdit->setText( m_OriginalNetworkKey );
@@ -689,7 +705,7 @@ bool AppletNetworkSettings::verifyNetworkKey( QString& keyVal )
         }
     }
 
-    return isValid;
+    return true;
 }
 
 //============================================================================
@@ -778,8 +794,9 @@ bool AppletNetworkSettings::verifyIpv6Capable( void )
 }
 
 //============================================================================
-void AppletNetworkSettings::acceptInvite( VxGUID onlineId, std::vector<VxPtopUrl> networkUrls )
+void AppletNetworkSettings::acceptInvite( VxGUID onlineId, std::vector<VxPtopUrl> networkUrls, bool hasPrivateKey )
 {
+    m_InvitePrivateKey = hasPrivateKey;
     QString title = QObject::tr( "Accepting Network Invite" );
     QString bodyText = QObject::tr( "You are accepting a network invite.\nBe sure the Network Key is correct before pressing save.\nIf the Network Key is incorrect, you will probably be banned as a hacker." );
     okMessageBox( title, bodyText );
@@ -814,3 +831,6 @@ void AppletNetworkSettings::slotNetworkKeyEyeButtonClick( void )
         ui.m_NetworkKeyEdit->setEchoMode( QLineEdit::Password );
     }
 }
+
+
+
