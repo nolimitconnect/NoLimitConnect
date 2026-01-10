@@ -4,6 +4,21 @@ cmake_minimum_required(VERSION 3.22.1)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+include(cmake/version.cmake)
+
+# Split NLC_VERSION into major, minor, patch
+string(REGEX MATCH "^([0-9]+)\\.([0-9]+)\\.([0-9]+)$" _version_match "${NLC_VERSION}")
+
+if(_version_match)
+    set(NLC_VERSION_MAJOR ${CMAKE_MATCH_1})
+    set(NLC_VERSION_MINOR ${CMAKE_MATCH_2})
+    set(NLC_VERSION_PATCH ${CMAKE_MATCH_3})
+else()
+    message(FATAL_ERROR "Invalid NLC_VERSION format: ${NLC_VERSION}. Expected MAJOR.MINOR.PATCH")
+endif()
+
+message(STATUS "Version: ${NLC_VERSION} MAJOR ${NLC_VERSION_MAJOR} MINOR ${NLC_VERSION_MINOR} PATCH ${NLC_VERSION_PATCH}")
+
 #for debugging deadlocks
 #add_compile_definitions(DEBUG_AUDIO_PROCESSOR_LOCK=1)
 #add_compile_definitions(DEBUG_PROCESSOR_LOCK=1)
@@ -12,18 +27,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # enable log messages in release buid
 # this should only be uncommented temporarily to debug release builds
 # add_compile_definitions(LOG_IN_RELEASE_BUILD=1)
-
-#=== application version and info ===#
-set(PROJECT_MAINTAINER bjones.engineer@gmail.com)
-set(PROJECT_WEBSITE_URL nolimitconnect.com)
-set(PROJECT_VENDOR nolimitconnect.com)
-set(NLC_NAME "nolimitconnect")
-
-# version should match the defines in CoreLib/AppVersion.h
-set(NLC_VERSION "1.1.0")
-set(NLC_VERSION_MAJOR "1")
-set(NLC_VERSION_MINOR "1")
-set(NLC_VERSION_PATCH "0")
 
 set(QT_NO_QML SCAN TRUE)
 

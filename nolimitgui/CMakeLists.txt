@@ -1650,3 +1650,62 @@ else()
     endif()
 endif() # NOT DEFINED FLATPAKBUILD
 
+# if android release build then copy apk to /deploy/android
+if(ANDROID) # AND CMAKE_BUILD_TYPE STREQUAL "Release")
+
+    set(APK_RELEASE_DIR
+        ${CMAKE_BINARY_DIR}/nolimitgui/android-build-nolimitconnect/build/outputs/apk/release
+    )
+
+    set(DEPLOY_DIR ${CMAKE_SOURCE_DIR}/deploy/android)
+    set(APP_VERSION ${NLC_VERSION})  # your version
+
+    message(STATUS "Copy apk version ${APP_VERSION} to  ${DEPLOY_DIR}")
+
+    if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
+        message(STATUS "Windows APK Copy")
+        # Find all APK files
+        file(GLOB APK_FILES "${APK_RELEASE_DIR}/*.apk")
+
+        if(APK_FILES)
+            # Take the first APK (adjust if multiple ABIs)
+            list(GET APK_FILES 0 APK_TO_COPY)
+
+            add_custom_command(
+                TARGET nolimitconnect
+                POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E make_directory ${DEPLOY_DIR}
+                COMMAND ${CMAKE_COMMAND} -E echo "Copying Release APK: ${APK_TO_COPY}"
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                        "${APK_TO_COPY}"
+                        "${DEPLOY_DIR}/nolimitconnect_v${APP_VERSION}.apk"
+                COMMENT "Copy Release APK to deploy/android with version"
+            )
+        else()
+            message(WARNING "No APK found in ${APK_RELEASE_DIR}. Skipping copy.")
+        endif()
+
+    else()
+        message(STATUS "LINUX APK Copy")
+        add_custom_command(
+            TARGET nolimitconnect
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E make_directory
+                    ${CMAKE_SOURCE_DIR}/deploy/android
+            COMMAND ${CMAKE_COMMAND} -E echo "Checking for Release APK..."
+            COMMAND ${CMAKE_COMMAND} -E
+                sh -c
+                "if ls \"${CMAKE_BINARY_DIR}/android-build/build/outputs/apk/release\"/*.apk 1>nul 2>nul; then \
+                    ${CMAKE_COMMAND} -E copy_if_different \
+                        \"${CMAKE_BINARY_DIR}/android-build/build/outputs/apk/release\"/*.apk \
+                        \"${CMAKE_SOURCE_DIR}/deploy/android\"; \
+                 else \
+                    echo \"Release APK not found yet (Gradle not run)\"; \
+                 fi"
+            COMMENT "Copy Release APK to deploy/android (if present)"
+        )
+
+    endif()
+endif()
+
+

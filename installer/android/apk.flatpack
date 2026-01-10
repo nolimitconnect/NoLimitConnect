@@ -1,4 +1,33 @@
 cmake_minimum_required(VERSION 3.21)
 
+#adding a build step in QCreator has issues
+# can use this on powershell command line instead
+# $src = "F:\nolimitapp\build\Qt_6_9_3_for_Android_arm64_v8a-Release\nolimitgui\android-build-nolimitconnect\build\outputs\apk\release\*.apk"
+# $dst = "F:\nolimitapp\deploy\android\NoLimitConnect_v1.1.0.apk"
+# Copy-Item $src $dst -Force
 
-message(FATAL_ERROR "Apk installer not completed")
+set(APK_DIR
+    "${PROJECT_SRC_ROOT_DIR}/nolimitgui/android-build-nolimitconnect/build/outputs/apk/release"
+)
+
+set(PACKAGE_DIR "${PROJECT_SRC_ROOT_DIR}/deploy/android")
+
+
+file(GLOB APK_FILES "${APK_DIR}/*.apk")
+
+if(NOT APK_FILES)
+    message(STATUS "No APK found, skipping copy")
+    return()
+endif()
+
+list(GET APK_FILES 0 APK)
+
+file(MAKE_DIRECTORY "${PACKAGE_DIR}")
+
+set(OUT_APK "${PACKAGE_DIR}/nolimitconnect_v${NLC_VERSION}.apk")
+
+message(STATUS "Copying APK:")
+message(STATUS "  ${APK}")
+message(STATUS "  -> ${OUT_APK}")
+
+file(COPY_FILE "${APK}" "${OUT_APK}" ONLY_IF_DIFFERENT)
