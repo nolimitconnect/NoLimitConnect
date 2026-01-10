@@ -20,10 +20,10 @@ set(PROJECT_VENDOR nolimitconnect.com)
 set(NLC_NAME "nolimitconnect")
 
 # version should match the defines in CoreLib/AppVersion.h
-set(NLC_VERSION "1.01.00")
+set(NLC_VERSION "1.1.0")
 set(NLC_VERSION_MAJOR "1")
-set(NLC_VERSION_MINOR "01")
-set(NLC_VERSION_PATCH "00")
+set(NLC_VERSION_MINOR "1")
+set(NLC_VERSION_PATCH "0")
 
 set(QT_NO_QML SCAN TRUE)
 
@@ -51,8 +51,7 @@ endforeach()
 message("CMakeArgs: ${CMakeArgs}")
 message(STATUS "CMakeArgs: END")
 
-# cmake detection of processor does NOT work
-message("CMAKE_HOST_SYSTEM_NAME ${CMAKE_HOST_SYSTEM_NAME} CMAKE_HOST_SYSTEM_PROCESSOR ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+message("CMAKE_HOST_SYSTEM_NAME ${CMAKE_HOST_SYSTEM_NAME} CMAKE_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR}")
 
 set(BUILD_SYSTEM_FLATPAK false)
 set(BUILD_SYSTEM_CMDLINE false)

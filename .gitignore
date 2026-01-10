@@ -12,6 +12,7 @@ build/Android*
 build/Desktop_Qt*
 nolimitgui/bin-Linux/
 nolimitgui/bin-Windows/
+deploy/
 
 aboutme_thumb.png
 favicon.ico

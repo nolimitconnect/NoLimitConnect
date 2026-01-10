@@ -317,6 +317,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{D31E4645-A
 		..\..\..\libs\CMakeLists.txt = ..\..\..\libs\CMakeLists.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "installer", "installer", "{2627EE70-B877-4411-829A-FBE309DAA280}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\installer\CMakeLists.txt = ..\..\..\installer\CMakeLists.txt
+		..\..\..\installer\README.md = ..\..\..\installer\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cmake", "cmake", "{3B58AF0B-DBAA-408E-9D91-B1C5F744CEB8}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\cmake\version.cmake = ..\..\..\cmake\version.cmake
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cmake_helpers", "cmake_helpers", "{ABB0E477-3FEF-43E3-829B-290DE9F1E3B8}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\cmake\cmake_helpers\AndroidOnLinuxCrossCompile.cmake = ..\..\..\cmake\cmake_helpers\AndroidOnLinuxCrossCompile.cmake
+		..\..\..\cmake\cmake_helpers\AndroidOnWindowsCrossCompile.cmake = ..\..\..\cmake\cmake_helpers\AndroidOnWindowsCrossCompile.cmake
+		..\..\..\cmake\cmake_helpers\ConfigStaticDependLib.cmake = ..\..\..\cmake\cmake_helpers\ConfigStaticDependLib.cmake
+		..\..\..\cmake\cmake_helpers\NlcAssembler.cmake = ..\..\..\cmake\cmake_helpers\NlcAssembler.cmake
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -774,9 +793,10 @@ Global
 		{127E4B1D-8C1F-4E2A-ACC4-6A984E06AF4E} = {1BBBE95F-B370-40FE-9B2A-901555E8E928}
 		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {0A4C7EF1-734D-4A1E-8041-5A3074E8F4E8}
 		{D31E4645-A1B7-4375-8DE5-15E34AB3F96C} = {1BBBE95F-B370-40FE-9B2A-901555E8E928}
+		{ABB0E477-3FEF-43E3-829B-290DE9F1E3B8} = {3B58AF0B-DBAA-408E-9D91-B1C5F744CEB8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = 6.3.0_msvc2019_64
 		SolutionGuid = {87B675DC-A218-4B2C-B2F9-4690ED594DAA}
+		Qt5Version = 6.3.0_msvc2019_64
 	EndGlobalSection
 EndGlobal

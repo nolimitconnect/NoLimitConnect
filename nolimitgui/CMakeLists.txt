@@ -1,5 +1,7 @@
 
-project(nolimitconnect, LANGUAGES CXX)
+project(nolimitconnect, 
+        VERSION ${NLC_VERSION}
+        LANGUAGES CXX)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJECT_STATIC_LIB_DIR}")
 
