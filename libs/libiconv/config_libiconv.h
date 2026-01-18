@@ -16,7 +16,9 @@
 iconv_open, iconv, iconv_close functions. */
 /* #undef HAVE_ICONV */
 /* Define as const if the declaration of iconv() needs const. */
-#define ICONV_CONST /* empty by default */
+#ifndef ICONV_CONST
+#define ICONV_CONST const
+#endif // ICONV_CONST
 
 
 /* Define if you have <langinfo.h> and nl_langinfo(CODESET). */

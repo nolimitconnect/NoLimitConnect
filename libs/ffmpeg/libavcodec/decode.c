@@ -870,7 +870,7 @@ static int recode_subtitle(AVCodecContext *avctx, const AVPacket **outpkt,
     outb = buf_pkt->data;
     outl = buf_pkt->size;
 
-    if (iconv(cd, &inb, &inl, &outb, &outl) == (size_t)-1 ||
+    if (iconv(cd, (const char **)(&inb), &inl, &outb, &outl) == (size_t)-1 ||
         iconv(cd, NULL, NULL, &outb, &outl) == (size_t)-1 ||
         outl >= buf_pkt->size || inl != 0) {
         ret = FFMIN(AVERROR(errno), -1);

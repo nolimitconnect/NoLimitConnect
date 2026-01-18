@@ -6,6 +6,8 @@ project(zlib, LANGUAGES C CXX)
 set(zlib_SOURCES)
 
 list(APPEND zlib_SOURCES 
+    zlib.h
+    zconf_libzlib.h
     compress_zlib.c
     adler32_zlib.c
     crc32_zlib.c

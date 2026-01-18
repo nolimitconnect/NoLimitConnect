@@ -1,74 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
     <id>com.nolimitconnect.NoLimitConnect</id>
+
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-2.0+</project_license>
+
     <name>NoLimitConnect</name>
-    <summary>Social Network</summary>
+    <summary>Decentralized social networking and messaging platform</summary>
+
     <description>
-        <p>NoLimitConnect is a full featured independent social network.</p>
-        <p>A independent social network designed to be hosted on any device with an internet connection.</p>
-		<p>visit https://nolimitconnect.com for full details.</p>
+        <p>
+            NoLimitConnect is a full-featured independent social networking platform
+            designed to be hosted on any device with an internet connection.
+        </p>
+        <p>
+            It provides messaging, voice and video communication, media sharing,
+            blogging, and real-time collaboration tools without relying on centralized
+            services.
+        </p>
+        <p>
+            Visit https://nolimitconnect.com for full details and documentation.
+        </p>
     </description>
+
+    <categories>
+        <category>Network</category>
+        <category>Chat</category>
+        <category>InstantMessaging</category>
+        <category>VideoConference</category>
+        <category>Social</category>
+    </categories>
+
+    <keywords>
+        <keyword>social</keyword>
+        <keyword>network</keyword>
+        <keyword>messaging</keyword>
+        <keyword>chat</keyword>
+        <keyword>video</keyword>
+        <keyword>voice</keyword>
+        <keyword>streaming</keyword>
+        <keyword>blog</keyword>
+        <keyword>media</keyword>
+        <keyword>peer-to-peer</keyword>
+    </keywords>
+
     <screenshots>
         <screenshot type="default">
-            <image>https://nolimitconnect.com/assets/images/nlc-image1.png</image>
-            <caption>The main window showing applet icons and Messenger</caption>
+            <image>https://nolimitconnect.com/assets/screenshots/nlc-image1.png</image>
+            <caption>Main interface showing applets and messenger</caption>
         </screenshot>
         <screenshot>
-            <image>https://nolimitconnect.com/assets/images/nlc-image2.png</image>
-            <caption>The main window in vertical display mode</caption>
+            <image>https://nolimitconnect.com/assets/screenshots/nlc-image2.png</image>
+            <caption>Vertical display mode layout</caption>
         </screenshot>
         <screenshot>
-            <image>https://nolimitconnect.com/assets/images/nlc-image3.png</image>
-            <caption>The Media Player playing a sample mjpeg video</caption>
+            <image>https://nolimitconnect.com/assets/screenshots/nlc-image3.png</image>
+            <caption>Media player playing a video</caption>
         </screenshot>
     </screenshots>
-    <launchable type="desktop-id">com.nolimitconnect.NoLimitConnect.desktop</launchable>
+
+    <launchable type="desktop-id">
+        com.nolimitconnect.NoLimitConnect.desktop
+    </launchable>
+
     <developer id="brettrjones.nolimitconnect">
         <name>Brett R. Jones</name>
     </developer>
+
     <url type="homepage">https://nolimitconnect.com</url>
     <url type="bugtracker">https://gitlab.com/nolimitconnectapps/nolimitapp/issues</url>
     <url type="donation">https://nolimitconnect.com/donate</url>
     <url type="help">https://gitlab.com/nolimitconnectapps/nolimitapp/issues</url>
-	<update_contact>bjones.engineer_AT_gmail.com</update_contact>
-    <keywords>
-        <keyword>social network</keyword>
-        <keyword>video</keyword>
-        <keyword>push to talk</keyword>
-        <keyword>video chat</keyword>
-        <keyword>messenger</keyword>
-        <keyword>blog</keyword>
-        <keyword>web cam</keyword>
-        <keyword>file transfer</keyword>
-    </keywords>
+
+    <update_contact>bjones.engineer_AT_gmail.com</update_contact>
+
     <content_rating type="oars-1.0">
         <content_attribute id="violence-cartoon">none</content_attribute>
         <content_attribute id="violence-fantasy">none</content_attribute>
         <content_attribute id="violence-realistic">none</content_attribute>
         <content_attribute id="violence-bloodshed">none</content_attribute>
         <content_attribute id="violence-sexual">none</content_attribute>
+
         <content_attribute id="drugs-alcohol">none</content_attribute>
         <content_attribute id="drugs-narcotics">none</content_attribute>
         <content_attribute id="drugs-tobacco">none</content_attribute>
+
         <content_attribute id="sex-nudity">none</content_attribute>
         <content_attribute id="sex-themes">none</content_attribute>
-        <content_attribute id="language-profanity">none</content_attribute>
+
+        <content_attribute id="language-profanity">moderate</content_attribute>
         <content_attribute id="language-humor">none</content_attribute>
-        <content_attribute id="language-discrimination">none</content_attribute>
-        <content_attribute id="social-chat">none</content_attribute>
-        <content_attribute id="social-info">none</content_attribute>
-        <content_attribute id="social-audio">none</content_attribute>
+        <content_attribute id="language-discrimination">moderate</content_attribute>
+
+        <content_attribute id="social-chat">intense</content_attribute>
+        <content_attribute id="social-info">moderate</content_attribute>
+        <content_attribute id="social-audio">intense</content_attribute>
         <content_attribute id="social-location">none</content_attribute>
-        <content_attribute id="social-contacts">none</content_attribute>
+        <content_attribute id="social-contacts">moderate</content_attribute>
+
         <content_attribute id="money-purchasing">none</content_attribute>
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
+
     <releases>
-        <release version="1.0.12" date="2024-05-18">
+        <release version="1.1.0" date="2026-01-13">
             <description>
-                NoLimitConnect 1.0.12 Beta2 Release.
+                <p>Beta 3 release with stability improvements and feature updates.</p>
             </description>
         </release>
     </releases>

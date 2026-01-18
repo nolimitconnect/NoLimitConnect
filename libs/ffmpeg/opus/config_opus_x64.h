@@ -10,6 +10,12 @@
 /* Custom modes */
 /* #undef CUSTOM_MODES */
 
+/* Disable DNN debug float */
+#define DISABLE_DEBUG_FLOAT 1
+
+/* Disable dot product instructions */
+/* #undef DISABLE_DOT_PROD */
+
 /* Do not build the float API */
 /* #undef DISABLE_FLOAT_API */
 
@@ -19,8 +25,23 @@
 /* Assertions */
 /* #undef ENABLE_ASSERTIONS */
 
+/* Deep PLC */
+/* #undef ENABLE_DEEP_PLC */
+
+/* DRED */
+/* #undef ENABLE_DRED */
+
 /* Hardening */
 #define ENABLE_HARDENING 1
+
+/* LOSSGEN */
+/* #undef ENABLE_LOSSGEN */
+
+/* Enable Opus Speech Coding Enhancement */
+/* #undef ENABLE_OSCE */
+
+/* Enable dumping of OSCE training data */
+/* #undef ENABLE_OSCE_TRAINING_DATA */
 
 /* Debug fixed-point implementation */
 /* #undef FIXED_DEBUG */
@@ -97,6 +118,9 @@
 /* Use ARM NEON inline asm optimizations */
 /* #undef OPUS_ARM_INLINE_NEON */
 
+/* Compiler supports Aarch64 DOTPROD Intrinsics */
+/* #undef OPUS_ARM_MAY_HAVE_DOTPROD */
+
 /* Define if assembler supports EDSP instructions */
 /* #undef OPUS_ARM_MAY_HAVE_EDSP */
 
@@ -111,6 +135,9 @@
 
 /* Define if binary requires Aarch64 Neon Intrinsics */
 /* #undef OPUS_ARM_PRESUME_AARCH64_NEON_INTR */
+
+/* Define if binary requires Aarch64 dotprod Intrinsics */
+/* #undef OPUS_ARM_PRESUME_DOTPROD */
 
 /* Define if binary requires EDSP instruction support */
 /* #undef OPUS_ARM_PRESUME_EDSP */
@@ -166,7 +193,7 @@
 #define PACKAGE_NAME "opus"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "opus unknown"
+#define PACKAGE_STRING "opus 1.5.2"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "opus"
@@ -175,7 +202,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "unknown"
+#define PACKAGE_VERSION "1.5.2"
 
 /* Define to 1 if all of the C90 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for

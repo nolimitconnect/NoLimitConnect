@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.21)
 
+#NOTE: is NOT part of the normal NoLimitConnect Build
+# Open repo/installer directory instead  of the repo root directory
+
 include(../cmake/version.cmake)
 project(${NLC_NAME}-installer VERSION  ${NLC_VERSION})
 
@@ -51,14 +54,7 @@ if(NEED_COMPILED)
             message("Building windows nsis installer")
             include(nsis/nsis.cmake)
         endif()
-
-        #add_subdirectory(windows)
     else()
-        if(${CMAKE_SYSTEM_PROCESSOR} STREQUAL "ARM")
-            message("Building raspberry pi flatpack")
-        else()
-            message("Building linux flatpack")
-        endif()
         include(flatpak/flatpak.cmake)
     endif()
 else()

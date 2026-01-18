@@ -1344,7 +1344,7 @@ _GL_WARN_ON_USE (wcswidth, "wcswidth is unportable - "
 #endif /* _GL_WCHAR_H */
 #endif
 
-#if defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_OS_LINUX)
 
 int mbsinit (const mbstate_t *ps);
 size_t mbslen (const char *string);

@@ -9,7 +9,7 @@ if(DEFINED TARGET_CPU_X86_64)
     list(APPEND vpx_SOURCES 
 
         vp9/common/x86/vp9_idct_intrin_sse2.c
-        vp9/common/x86/vp9_highbd_iht4x4_add_sse4.c
+        #vp9/common/x86/vp9_highbd_iht4x4_add_sse4.c
 
         vp8/common/x86/bilinear_filter_sse2.c
         vp8/common/x86/dequantize_mmx.asm
@@ -32,18 +32,18 @@ if(DEFINED TARGET_CPU_X86_64)
         vp8/common/x86/subpixel_ssse3.asm
         vp8/common/x86/vp8_asm_stubs.c
 
-        vp8/encoder/x86/block_error_sse2.asm
-        vp8/encoder/x86/copy_sse2.asm
-        vp8/encoder/x86/copy_sse3.asm
-        vp8/encoder/x86/dct_sse2.asm
+        #vp8/encoder/x86/block_error_sse2.asm
+        #vp8/encoder/x86/copy_sse2.asm
+        #vp8/encoder/x86/copy_sse3.asm
+        #vp8/encoder/x86/dct_sse2.asm
 
 
-        vp8/encoder/x86/fwalsh_sse2.asm
-        vp8/encoder/x86/quantize_sse4.c
-        vp8/encoder/x86/temporal_filter_apply_sse2.asm
-        vp8/encoder/x86/vp8_enc_stubs_sse2.c
-        vp8/encoder/x86/vp8_quantize_sse2.c
-        vp8/encoder/x86/vp8_quantize_ssse3.c
+        #vp8/encoder/x86/fwalsh_sse2.asm
+        #vp8/encoder/x86/quantize_sse4.c
+        #vp8/encoder/x86/temporal_filter_apply_sse2.asm
+        #vp8/encoder/x86/vp8_enc_stubs_sse2.c
+        #vp8/encoder/x86/vp8_quantize_sse2.c
+        #vp8/encoder/x86/vp8_quantize_ssse3.c
 
         #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
         #vp9/common/x86/vp9_highbd_iht16x16_add_sse4.c
@@ -61,19 +61,19 @@ if(DEFINED TARGET_CPU_X86_64)
         #vp9/encoder/x86/highbd_temporal_filter_ssse3.c
 
         # not in v1.13.1 vp9/encoder/x86/temporal_filter_avx2.c
-        vp9/encoder/x86/temporal_filter_sse4.c
+        #vp9/encoder/x86/temporal_filter_sse4.c
         # not in v1.13.1 vp9/encoder/x86/temporal_filter_ssse3.c
-        vp9/encoder/x86/vp9_dct_intrin_sse2.c
-        vp9/encoder/x86/vp9_dct_sse2.asm
+        #vp9/encoder/x86/vp9_dct_intrin_sse2.c
+        #vp9/encoder/x86/vp9_dct_sse2.asm
 
         # not in v1.13.1 vp9/encoder/x86/vp9_error_avx2.c
         # not in v1.13.1 vp9/encoder/x86/vp9_diamond_search_sad_avx2.c # only in v1.13.1
-        vp9/encoder/x86/vp9_error_sse2.asm
+        #vp9/encoder/x86/vp9_error_sse2.asm
         # not in v1.13.1 vp9/encoder/x86/vp9_frame_scale_ssse3.c
-        vp9/encoder/x86/vp9_highbd_block_error_intrin_sse2.c
-        vp9/encoder/x86/vp9_quantize_avx2.c
-        vp9/encoder/x86/vp9_quantize_sse2.c
-        vp9/encoder/x86/vp9_quantize_ssse3.c
+        #vp9/encoder/x86/vp9_highbd_block_error_intrin_sse2.c
+        #vp9/encoder/x86/vp9_quantize_avx2.c
+        #vp9/encoder/x86/vp9_quantize_sse2.c
+        #vp9/encoder/x86/vp9_quantize_ssse3.c
 
         vpx_dsp/x86/add_noise_sse2.asm
         vpx_dsp/x86/avg_intrin_avx2.c
@@ -172,24 +172,24 @@ if(DEFINED TARGET_CPU_X86_64)
         vpx_ports/emms_mmx.asm
         vpx_ports/emms_mmx.c
         vpx_ports/msvc.h  # only in v1.13.1
-        vp8/encoder/denoising.c
-        vp8/encoder/denoising.h
-        vp8/encoder/x86/denoising_sse2.c
+        #vp8/encoder/denoising.c
+        #vp8/encoder/denoising.h
+        #vp8/encoder/x86/denoising_sse2.c
 
         #vp9/encoder/vp9_denoiser.c
         #vp9/encoder/vp9_denoiser.h
 
-        vp9/encoder/x86/vp9_denoiser_sse2.c
-        vp9/encoder/x86/vp9_diamond_search_sad_avx.c
-        vp9/encoder/x86/vp9_error_avx2.c
-        vp9/encoder/x86/vp9_error_sse2.asm
-        vp9/encoder/x86/vp9_frame_scale_ssse3.c
+        #vp9/encoder/x86/vp9_denoiser_sse2.c
+        #vp9/encoder/x86/vp9_diamond_search_sad_avx.c
+        #vp9/encoder/x86/vp9_error_avx2.c
+        #vp9/encoder/x86/vp9_error_sse2.asm
+        #vp9/encoder/x86/vp9_frame_scale_ssse3.c
 
         #vp9/encoder/x86/vp9_highbd_block_error_intrin_sse2.c
 
-        vp9/encoder/x86/vp9_quantize_avx2.c
-        vp9/encoder/x86/vp9_quantize_sse2.c
-        vp9/encoder/x86/vp9_quantize_ssse3.c
+        #vp9/encoder/x86/vp9_quantize_avx2.c
+        #vp9/encoder/x86/vp9_quantize_sse2.c
+        #vp9/encoder/x86/vp9_quantize_ssse3.c
     )
 
     if(DEFINED TARGET_OS_WINDOWS)
@@ -244,9 +244,9 @@ else()
         vp8/common/arm/neon/sixtappredict_neon.c
         vp8/common/arm/neon/vp8_loopfilter_neon.c
 
-        vp8/encoder/arm/neon/fastquantizeb_neon.c # only in libvpx 1.13.1
-        vp8/encoder/arm/neon/shortfdct_neon.c # only in libvpx 1.13.1
-        vp8/encoder/arm/neon/vp8_shortwalsh4x4_neon.c # only in libvpx 1.13.1
+        #vp8/encoder/arm/neon/fastquantizeb_neon.c # only in libvpx 1.13.1
+        #vp8/encoder/arm/neon/shortfdct_neon.c # only in libvpx 1.13.1
+        #vp8/encoder/arm/neon/vp8_shortwalsh4x4_neon.c # only in libvpx 1.13.1
 
         #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
         #vp9/common/arm/neon/vp9_highbd_iht16x16_add_neon.c
@@ -258,16 +258,16 @@ else()
         vp9/common/arm/neon/vp9_iht8x8_add_neon.c
         vp9/common/arm/neon/vp9_iht_neon.h
 
-        vp9/encoder/arm/neon/vp9_dct_neon.c
+        #vp9/encoder/arm/neon/vp9_dct_neon.c
         #denoiser not used
         #vp9/encoder/arm/neon/vp9_denoiser_neon.c
-        vp9/encoder/arm/neon/vp9_diamond_search_sad_neon.c
-        vp9/encoder/arm/neon/vp9_error_neon.c
+        #vp9/encoder/arm/neon/vp9_diamond_search_sad_neon.c
+        #vp9/encoder/arm/neon/vp9_error_neon.c
 
         # sve not supported
         #vp9/encoder/arm/neon/vp9_error_sve.c
 
-        vp9/encoder/arm/neon/vp9_frame_scale_neon.c
+        #vp9/encoder/arm/neon/vp9_frame_scale_neon.c
 
         #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
         #vp9/encoder/arm/neon/vp9_highbd_error_neon.c
@@ -424,7 +424,7 @@ list(APPEND vpx_SOURCES
     video_reader.c
     video_writer.c
     vpxdec.c
-    vpxenc.c
+    #vpxenc.c
     vpxstats.c
     warnings.c
     y4menc.c
@@ -530,60 +530,60 @@ list(APPEND vpx_SOURCES
     vp8/decoder/threading.c
     vp8/decoder/treereader.h
 
-    vp8/encoder/bitstream.c
-    vp8/encoder/bitstream.h
-    vp8/encoder/block.h
-    vp8/encoder/boolhuff.c
-    vp8/encoder/boolhuff.h
-    vp8/encoder/copy_c.c
-    vp8/encoder/dct.c
-    vp8/encoder/dct_value_cost.h
-    vp8/encoder/dct_value_tokens.h
-    vp8/encoder/defaultcoefcounts.h
+    #vp8/encoder/bitstream.c
+    #vp8/encoder/bitstream.h
+    #vp8/encoder/block.h
+    #vp8/encoder/boolhuff.c
+    #vp8/encoder/boolhuff.h
+    #vp8/encoder/copy_c.c
+    #vp8/encoder/dct.c
+    #vp8/encoder/dct_value_cost.h
+    #vp8/encoder/dct_value_tokens.h
+    #vp8/encoder/defaultcoefcounts.h
 
-    vp8/encoder/encodeframe.c
-    vp8/encoder/encodeframe.h
-    vp8/encoder/encodeintra.c
-    vp8/encoder/encodeintra.h
-    vp8/encoder/encodemb.c
-    vp8/encoder/encodemb.h
-    vp8/encoder/encodemv.c
-    vp8/encoder/encodemv.h
-    vp8/encoder/ethreading.c
-    vp8/encoder/ethreading.h
-    vp8/encoder/firstpass.c
-    vp8/encoder/firstpass.h
-    vp8/encoder/lookahead.c
-    vp8/encoder/lookahead.h
-    vp8/encoder/mcomp.c
-    vp8/encoder/mcomp.h
-    vp8/encoder/modecosts.c
-    vp8/encoder/modecosts.h
+    #vp8/encoder/encodeframe.c
+    #vp8/encoder/encodeframe.h
+    #vp8/encoder/encodeintra.c
+    #vp8/encoder/encodeintra.h
+    #vp8/encoder/encodemb.c
+    #vp8/encoder/encodemb.h
+    #vp8/encoder/encodemv.c
+    #vp8/encoder/encodemv.h
+    #vp8/encoder/ethreading.c
+    #vp8/encoder/ethreading.h
+    #vp8/encoder/firstpass.c
+    #vp8/encoder/firstpass.h
+    #vp8/encoder/lookahead.c
+    #vp8/encoder/lookahead.h
+    #vp8/encoder/mcomp.c
+    #vp8/encoder/mcomp.h
+    #vp8/encoder/modecosts.c
+    #vp8/encoder/modecosts.h
 
     # not used in any configuration
     #vp8/encoder/mr_dissim.c
     #vp8/encoder/mr_dissim.h
 
-    vp8/encoder/onyx_if.c
-    vp8/encoder/onyx_int.h
-    vp8/encoder/pickinter.c
-    vp8/encoder/pickinter.h
-    vp8/encoder/picklpf.c
-    vp8/encoder/picklpf.h
-    vp8/encoder/quantize.h
-    vp8/encoder/ratectrl.c
-    vp8/encoder/ratectrl.h
-    vp8/encoder/rdopt.c
-    vp8/encoder/rdopt.h
-    vp8/encoder/segmentation.c
-    vp8/encoder/segmentation.h
-    vp8/encoder/temporal_filter.c
-    vp8/encoder/temporal_filter.h
-    vp8/encoder/tokenize.c
-    vp8/encoder/tokenize.h
-    vp8/encoder/treewriter.c
-    vp8/encoder/treewriter.h
-    vp8/encoder/vp8_quantize.c
+    #vp8/encoder/onyx_if.c
+    #vp8/encoder/onyx_int.h
+    #vp8/encoder/pickinter.c
+    #vp8/encoder/pickinter.h
+    #vp8/encoder/picklpf.c
+    #vp8/encoder/picklpf.h
+    #vp8/encoder/quantize.h
+    #vp8/encoder/ratectrl.c
+    #vp8/encoder/ratectrl.h
+    #vp8/encoder/rdopt.c
+    #vp8/encoder/rdopt.h
+    #vp8/encoder/segmentation.c
+    #vp8/encoder/segmentation.h
+    #vp8/encoder/temporal_filter.c
+    #vp8/encoder/temporal_filter.h
+    #vp8/encoder/tokenize.c
+    #vp8/encoder/tokenize.h
+    #vp8/encoder/treewriter.c
+    #vp8/encoder/treewriter.h
+    #vp8/encoder/vp8_quantize.c
 
 
     vp9/ratectrl_rtc.cc
@@ -593,8 +593,8 @@ list(APPEND vpx_SOURCES
     #vp9/simple_encode.cc
     #vp9/simple_encode.h
 
-    vp9/vp9_cx_iface.c
-    vp9/vp9_cx_iface.h
+    #vp9/vp9_cx_iface.c
+    #vp9/vp9_cx_iface.h
     vp9/vp9_dx_iface.c
     vp9/vp9_dx_iface.h
     vp9/vp9_iface_common.c
@@ -670,92 +670,92 @@ list(APPEND vpx_SOURCES
     vp9/decoder/vp9_job_queue.c
     vp9/decoder/vp9_job_queue.h
 
-    vp9/encoder/vp9_alt_ref_aq.c
-    vp9/encoder/vp9_alt_ref_aq.h
-    vp9/encoder/vp9_aq_360.c
-    vp9/encoder/vp9_aq_360.h
-    vp9/encoder/vp9_aq_complexity.c
-    vp9/encoder/vp9_aq_complexity.h
-    vp9/encoder/vp9_aq_cyclicrefresh.c
-    vp9/encoder/vp9_aq_cyclicrefresh.h
-    vp9/encoder/vp9_aq_variance.c
-    vp9/encoder/vp9_aq_variance.h
-    vp9/encoder/vp9_bitstream.c
-    vp9/encoder/vp9_bitstream.h
-    vp9/encoder/vp9_block.h
-    vp9/encoder/vp9_blockiness.c
-    vp9/encoder/vp9_blockiness.h
-    vp9/encoder/vp9_context_tree.c
-    vp9/encoder/vp9_context_tree.h
-    vp9/encoder/vp9_cost.c
-    vp9/encoder/vp9_cost.h
-    vp9/encoder/vp9_dct.c
+    #vp9/encoder/vp9_alt_ref_aq.c
+    #vp9/encoder/vp9_alt_ref_aq.h
+    #vp9/encoder/vp9_aq_360.c
+    #vp9/encoder/vp9_aq_360.h
+    #vp9/encoder/vp9_aq_complexity.c
+    #vp9/encoder/vp9_aq_complexity.h
+    #vp9/encoder/vp9_aq_cyclicrefresh.c
+    #vp9/encoder/vp9_aq_cyclicrefresh.h
+    #vp9/encoder/vp9_aq_variance.c
+    #vp9/encoder/vp9_aq_variance.h
+    #vp9/encoder/vp9_bitstream.c
+    #vp9/encoder/vp9_bitstream.h
+    #vp9/encoder/vp9_block.h
+    #vp9/encoder/vp9_blockiness.c
+    #vp9/encoder/vp9_blockiness.h
+    #vp9/encoder/vp9_context_tree.c
+    #vp9/encoder/vp9_context_tree.h
+    #vp9/encoder/vp9_cost.c
+    #vp9/encoder/vp9_cost.h
+    #vp9/encoder/vp9_dct.c
 
-    vp9/encoder/vp9_encodeframe.c
-    vp9/encoder/vp9_encodeframe.h
-    vp9/encoder/vp9_encodemb.c
-    vp9/encoder/vp9_encodemb.h
-    vp9/encoder/vp9_encodemv.c
-    vp9/encoder/vp9_encodemv.h
-    vp9/encoder/vp9_encoder.c
-    vp9/encoder/vp9_encoder.h
-    vp9/encoder/vp9_ethread.c
-    vp9/encoder/vp9_ethread.h
-    vp9/encoder/vp9_extend.c
-    vp9/encoder/vp9_extend.h
-    vp9/encoder/vp9_ext_ratectrl.c
-    vp9/encoder/vp9_ext_ratectrl.h
-    vp9/encoder/vp9_firstpass.c
-    vp9/encoder/vp9_firstpass.h
+    #vp9/encoder/vp9_encodeframe.c
+    #vp9/encoder/vp9_encodeframe.h
+    #vp9/encoder/vp9_encodemb.c
+    #vp9/encoder/vp9_encodemb.h
+    #vp9/encoder/vp9_encodemv.c
+    #vp9/encoder/vp9_encodemv.h
+    #vp9/encoder/vp9_encoder.c
+    #vp9/encoder/vp9_encoder.h
+    #vp9/encoder/vp9_ethread.c
+    #vp9/encoder/vp9_ethread.h
+    #vp9/encoder/vp9_extend.c
+    #vp9/encoder/vp9_extend.h
+    #vp9/encoder/vp9_ext_ratectrl.c
+    #vp9/encoder/vp9_ext_ratectrl.h
+    #vp9/encoder/vp9_firstpass.c
+    #vp9/encoder/vp9_firstpass.h
     # not in v1.13.1 vp9/encoder/vp9_firstpass_stats.h
-    vp9/encoder/vp9_frame_scale.c
-    vp9/encoder/vp9_job_queue.h
-    vp9/encoder/vp9_lookahead.c
-    vp9/encoder/vp9_lookahead.h
-    vp9/encoder/vp9_mbgraph.c
-    vp9/encoder/vp9_mbgraph.h
-    vp9/encoder/vp9_mcomp.c
-    vp9/encoder/vp9_mcomp.h
-    vp9/encoder/vp9_multi_thread.c
-    vp9/encoder/vp9_multi_thread.h
-    vp9/encoder/vp9_noise_estimate.c
-    vp9/encoder/vp9_noise_estimate.h
-    vp9/encoder/vp9_non_greedy_mv.c
-    vp9/encoder/vp9_non_greedy_mv.h
-    vp9/encoder/vp9_partition_models.h
-    vp9/encoder/vp9_picklpf.c
-    vp9/encoder/vp9_picklpf.h
-    vp9/encoder/vp9_pickmode.c
-    vp9/encoder/vp9_pickmode.h
-    vp9/encoder/vp9_quantize.c
-    vp9/encoder/vp9_quantize.h
-    vp9/encoder/vp9_ratectrl.c
-    vp9/encoder/vp9_ratectrl.h
-    vp9/encoder/vp9_rd.c
-    vp9/encoder/vp9_rd.h
-    vp9/encoder/vp9_rdopt.c
-    vp9/encoder/vp9_rdopt.h
-    vp9/encoder/vp9_resize.c
-    vp9/encoder/vp9_resize.h
-    vp9/encoder/vp9_segmentation.c
-    vp9/encoder/vp9_segmentation.h
-    vp9/encoder/vp9_skin_detection.c
-    vp9/encoder/vp9_skin_detection.h
-    vp9/encoder/vp9_speed_features.c
-    vp9/encoder/vp9_speed_features.h
-    vp9/encoder/vp9_subexp.c
-    vp9/encoder/vp9_subexp.h
-    vp9/encoder/vp9_svc_layercontext.c
-    vp9/encoder/vp9_svc_layercontext.h
-    vp9/encoder/vp9_temporal_filter.c
-    vp9/encoder/vp9_temporal_filter.h
+    #vp9/encoder/vp9_frame_scale.c
+    #vp9/encoder/vp9_job_queue.h
+    #vp9/encoder/vp9_lookahead.c
+    #vp9/encoder/vp9_lookahead.h
+    #vp9/encoder/vp9_mbgraph.c
+    #vp9/encoder/vp9_mbgraph.h
+    #vp9/encoder/vp9_mcomp.c
+    #vp9/encoder/vp9_mcomp.h
+    #vp9/encoder/vp9_multi_thread.c
+    #vp9/encoder/vp9_multi_thread.h
+    #vp9/encoder/vp9_noise_estimate.c
+    #vp9/encoder/vp9_noise_estimate.h
+    #vp9/encoder/vp9_non_greedy_mv.c
+    #vp9/encoder/vp9_non_greedy_mv.h
+    #vp9/encoder/vp9_partition_models.h
+    #vp9/encoder/vp9_picklpf.c
+    #vp9/encoder/vp9_picklpf.h
+    #vp9/encoder/vp9_pickmode.c
+    #vp9/encoder/vp9_pickmode.h
+    #vp9/encoder/vp9_quantize.c
+    #vp9/encoder/vp9_quantize.h
+    #vp9/encoder/vp9_ratectrl.c
+    #vp9/encoder/vp9_ratectrl.h
+    #vp9/encoder/vp9_rd.c
+    #vp9/encoder/vp9_rd.h
+    #vp9/encoder/vp9_rdopt.c
+    #vp9/encoder/vp9_rdopt.h
+    #vp9/encoder/vp9_resize.c
+    #vp9/encoder/vp9_resize.h
+    #vp9/encoder/vp9_segmentation.c
+    #vp9/encoder/vp9_segmentation.h
+    #vp9/encoder/vp9_skin_detection.c
+    #vp9/encoder/vp9_skin_detection.h
+    #vp9/encoder/vp9_speed_features.c
+    #vp9/encoder/vp9_speed_features.h
+    #vp9/encoder/vp9_subexp.c
+    #vp9/encoder/vp9_subexp.h
+    #vp9/encoder/vp9_svc_layercontext.c
+    #vp9/encoder/vp9_svc_layercontext.h
+    #vp9/encoder/vp9_temporal_filter.c
+    #vp9/encoder/vp9_temporal_filter.h
     # not in v1.13.1 vp9/encoder/vp9_temporal_filter_constants.h
-    vp9/encoder/vp9_tokenize.c
-    vp9/encoder/vp9_tokenize.h
+    #vp9/encoder/vp9_tokenize.c
+    #vp9/encoder/vp9_tokenize.h
     # not in v1.13.1 vp9/encoder/vp9_tpl_model.c
     # not in v1.13.1 vp9/encoder/vp9_tpl_model.h
-    vp9/encoder/vp9_treewriter.c
-    vp9/encoder/vp9_treewriter.h
+    #vp9/encoder/vp9_treewriter.c
+    #vp9/encoder/vp9_treewriter.h
 
     vp9/decoder/vp9_decodeframe.c
     vp9/decoder/vp9_decodeframe.h

@@ -1,5 +1,5 @@
 
-project(nolimitconnect, 
+project(nolimitconnect,
         VERSION ${NLC_VERSION}
         LANGUAGES CXX)
 
@@ -13,6 +13,8 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Multimedia OpenGL Svg Widgets)
+
+find_package(OpenGL REQUIRED)
 
 set (_allTargets "")
 
@@ -53,7 +55,7 @@ list(APPEND nlc_HEADERS
     src/ActivityShowHelp.h
     src/ActivityTimedMessage.h
     src/ActivityBase.h
-    
+
     src/AdminAvailMgr.h
     src/AppCommon.h
     src/AppDefs.h
@@ -238,7 +240,7 @@ list(APPEND nlc_HEADERS
     src/FileFilterSelectWidget.h
     src/FileListReplySession.h
     src/FileMediaSelectWidget.h
-    src/FileShareItemWidget.h   
+    src/FileShareItemWidget.h
     #src/FileViewSharedActionBar.h
     src/FileXferWidget.h
 
@@ -515,7 +517,7 @@ list(APPEND nlc_SOURCES
     src/AppletEditAboutMe.cpp
     src/AppletEditAvatarImage.cpp
     src/AppletEditStoryboard.cpp
-    
+
     src/AppletFileOfferSelect.cpp
     src/AppletFileShareClientView.cpp
     src/AppletFileShareServerViewMine.cpp
@@ -667,7 +669,7 @@ list(APPEND nlc_SOURCES
     src/FileMediaSelectWidget.cpp
     src/FileShareItemWidget.cpp
     #src/FileViewSharedActionBar.cpp
-   
+
     src/FileXferWidget.cpp
     src/FriendList.cpp
     src/FriendListDelegate.cpp
@@ -677,7 +679,7 @@ list(APPEND nlc_SOURCES
     src/GuiFileXferMgr.cpp
     src/GuiFileXferSession.cpp
     src/GuiFavoriteMgr.cpp
-    
+
     src/GuiFriendRequest/GuiFriendRequest.cpp
     src/GuiFriendRequest/GuiFriendRequestListItem.cpp
     src/GuiFriendRequest/GuiFriendRequestListWidget.cpp
@@ -1133,7 +1135,7 @@ endif()
 
 if (DEFINED TARGET_OS_LINUX)
     if (DEFINED TARGET_CPU_ARM64)
-        #libvpx will not compile on raspberry pi
+
         target_link_libraries(nolimitconnect
             PUBLIC
             x264
@@ -1373,7 +1375,7 @@ elseif (DEFINED TARGET_OS_WINDOWS)
         x264
         x265
         dav1d
-        #vpx #needed but does not compile on windows yet
+        vpx
 
         pcre
         opencore-amr
@@ -1430,7 +1432,6 @@ else()
     message(FATAL_ERROR "Unknown Target OS Defined for target_link_libraries")
 endif()
 
-
 qt_finalize_target(nolimitconnect)
 
 if(DEFINED FLATPAKBUILD)
@@ -1440,8 +1441,8 @@ if(DEFINED FLATPAKBUILD)
     #include_directories(${GLIB_INCLUDE_DIRS})
     #target_link_libraries(nolimitconnect PRIVATE ${GLIB_LIBRARIES})
     #target_link_libraries(nolimitconnect PRIVATE "gobject-2.0")
-    #target_link_libraries(nolimitconnect PRIVATE "gio-2.0") 
-    
+    #target_link_libraries(nolimitconnect PRIVATE "gio-2.0")
+
     #set(INSTALL_DIR "") # empty to not complicate run command
 
     #install(TARGETS nolimitconnect
@@ -1449,7 +1450,7 @@ if(DEFINED FLATPAKBUILD)
     #    BUNDLE DESTINATION "${INSTALL_DIR}"
     #    LIBRARY DESTINATION "${INSTALL_DIR}"
     #)
-    
+
     # Install executeable
     install(
         TARGETS nolimitconnect
@@ -1497,7 +1498,7 @@ if(DEFINED FLATPAKBUILD)
         FILES ${PROJECT_SRC_ROOT_DIR}/com.nolimitconnect.NoLimitConnect.metainfo.xml
         DESTINATION share/metainfo/
     )
-    
+
 else()
     message(STATUS "Post build CMAKE_CURRENT_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR}")
     message(STATUS "Post build CMAKE_BINARY_DIR ${CMAKE_BINARY_DIR}")

@@ -4,6 +4,10 @@ cmake_minimum_required(VERSION 3.22.1)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+# These warnings as errors are required so can fix issues that fail build in FlatPack 6.9 (was allowed in 6.7)
+add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=implicit-function-declaration>)
+add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=incompatible-pointer-types>)
+
 include(cmake/version.cmake)
 
 # Split NLC_VERSION into major, minor, patch

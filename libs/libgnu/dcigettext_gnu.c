@@ -1321,7 +1321,7 @@ _nl_find_msg (struct loaded_l10nfile *domain_file,
 
 		  outleft = freemem_size - sizeof (size_t);
 		  if (iconv (convd->conv,
-			     (ICONV_CONST char **) &inptr, &inleft,
+                 (const char **) &inptr, &inleft,
 			     &outptr, &outleft)
 		      != (size_t) (-1))
 		    {

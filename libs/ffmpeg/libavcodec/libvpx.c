@@ -20,7 +20,7 @@
 
 #include "config_ffmpeg.h"
 #include "config_components.h"
-#if CONFIG_LIBVPX_VP8_ENCODER || CONFIG_LIBVPX_VP9_ENCODER
+#if CONFIG_LIBVPX_VP8_ENCODER || CONFIG_LIBVPX_VP9_ENCODER || CONFIG_LIBVPX_VP8_DECODER || CONFIG_LIBVPX_VP9_DECODER
 
 #include <libvpx/vpx/vpx_codec.h>
 #include "libvpx.h"

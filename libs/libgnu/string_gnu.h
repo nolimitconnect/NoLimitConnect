@@ -1311,4 +1311,13 @@ extern char * strchrnul (const char *s, int c_in);
     */
 extern int strverscmp( const char*s1, const char*s2 );
 
+#elif defined(TARGET_OS_LINUX)
+
+// strverscmp
+// is a GNU C library extension used to compare two version strings by treating digit sequences as numerical values rather than simple characters
+// it is part of the Standard C Library (libc) but is a GNU extension.
+// is not normally declared in <string.h> unless special defines etc. are done so just declare it
+
+extern int strverscmp( const char*s1, const char*s2 );
+
 #endif // defined(TARGET_OS_ANDROID)

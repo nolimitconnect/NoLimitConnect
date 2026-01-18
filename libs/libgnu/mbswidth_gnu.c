@@ -39,6 +39,11 @@
 /* Get INT_MAX.  */
 #include  <limits.h>
 
+#if defined(TARGET_OS_LINUX)
+// error: implicit declaration of function ‘mbsinit’
+int mbsinit(const mbstate_t *ps);
+#endif // defined(TARGET_OS_LINUX)
+
 /* Returns the number of columns needed to represent the multibyte
    character string pointed to by STRING.  If a non-printable character
    occurs, and MBSW_REJECT_UNPRINTABLE is specified, -1 is returned.

@@ -3,12 +3,19 @@
 
 #include <config_libgnu.h>
 #if !defined(TARGET_OS_ANDROID) && !defined(TARGET_OS_WINDOWS)
+
+static void atexit_adapter(int status, void *arg)
+{
+    (void)status;
+    void (*f)(void) = arg;
+    f();
+}
+
 int atexit (void (*f) (void))
 {
   /* If the system doesn't provide a definition for atexit, use on_exit
      if the system provides that.  */
-  on_exit (f, 0);
-  return 0;
+    return on_exit(atexit_adapter, f);
 }
 
-#endif // _MSC_VER
+#endif //  !defined(TARGET_OS_ANDROID) && !defined(TARGET_OS_WINDOWS)

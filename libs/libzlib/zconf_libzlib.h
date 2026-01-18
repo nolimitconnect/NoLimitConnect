@@ -14,6 +14,8 @@
  * Even better than compiling with -DZ_PREFIX would be to use configure to set
  * this permanently in zconf.h using "./configure --zprefix".
  */
+
+// DO NOT REMOVE - Zlib must use a prefix or build will fail with QMultimedis linking error
 #define Z_PREFIX 1     /* may be set to #if 1 by ./configure */
 
 #if Z_PREFIX

@@ -386,6 +386,11 @@ get_charset_aliases (void)
    If the canonical name cannot be determined, the result is a non-canonical
    name.  */
 
+#ifdef TARGET_OS_LINUX
+// libgnu/localcharset_gnu.c:403: error: implicit declaration of function ‘nl_langinfo’
+char *nl_langinfo(nl_item item);
+#endif // TARGET_OS_LINUX
+
 #ifdef STATIC
 STATIC
 #endif

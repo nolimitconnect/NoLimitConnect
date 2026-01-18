@@ -151,7 +151,7 @@ void silk_noise_shape_analysis_FIX(
     /********************************************/
     /* Compute noise shaping AR coefs and gains */
     /********************************************/
-    ALLOC_OPUS( x_windowed, psEnc->sCmn.shapeWinLength, opus_int16 );
+    ALLOC( x_windowed, psEnc->sCmn.shapeWinLength, opus_int16 );
     for( k = 0; k < psEnc->sCmn.nb_subfr; k++ ) {
         /* Apply window: sine slope followed by flat part followed by cosine slope */
         opus_int shift, slope_part, flat_part;

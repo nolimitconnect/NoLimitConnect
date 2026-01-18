@@ -19,6 +19,11 @@
 /* Specification.  */
 #include  <string_gnu.h>
 
+#if defined(TARGET_OS_LINUX)
+// error: implicit declaration of function rawmemchr
+void *rawmemchr(const void *s, int c);
+#endif // defined(TARGET_OS_LINUX)
+
 /* Find the first occurrence of C in S or the final NUL byte.  */
 char * strchrnul (const char *s, int c_in)
 {

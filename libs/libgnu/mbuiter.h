@@ -107,6 +107,12 @@
 #include "mbchar.h"
 #include "strnlen1.h"
 
+#if defined(TARGET_OS_LINUX)
+// error: implicit declaration of function ‘mbsinit’
+int mbsinit(const mbstate_t *ps);
+#endif // defined(TARGET_OS_LINUX)
+
+
 #ifndef _GL_INLINE_HEADER_BEGIN
 #error "Please include config.h first."
 #endif

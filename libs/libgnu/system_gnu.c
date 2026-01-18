@@ -715,7 +715,7 @@ int _gnutls_ucs2_to_utf8(const void *data, size_t size,
 	}
 
 	orig = dstlen;
-	ret = iconv(conv, &src, &size, &pdst, &dstlen);
+    ret = iconv(conv, (ICONV_CONST char **)(&src), &size, &pdst, &dstlen);
 	if (ret == -1) {
 		ret = gnutls_assert_val(GNUTLS_E_PARSING_ERROR);
 		goto fail;

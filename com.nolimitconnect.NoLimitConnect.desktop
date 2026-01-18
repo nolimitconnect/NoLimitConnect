@@ -1,14 +1,17 @@
-
 [Desktop Entry]
-Version=v1.01.00
+Version=1.0
 Type=Application
 
 Name=NoLimitConnect
-Comment=Social Network
-Categories=Network;Graphics
+GenericName=Social Networking Platform
+Comment=Decentralized social networking, messaging, and media sharing
 
-Icon=com.nolimitconnect.NoLimitConnect.png
+Categories=Network;Chat;InstantMessaging;VideoConference;
+
+Icon=com.nolimitconnect.NoLimitConnect
 Exec=nolimitconnect
 Terminal=false
+StartupWMClass=NoLimitConnect
+
 
 

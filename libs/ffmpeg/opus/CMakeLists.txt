@@ -7,8 +7,8 @@ set(ffmpegopus_SOURCES)
 
 if(DEFINED TARGET_OS_WINDOWS)
     list(APPEND ffmpegopus_SOURCES
-        silk/fixed/x86/vector_ops_FIX_sse4_1.c
-        silk/fixed/x86/burg_modified_FIX_sse4_1.c
+        #silk/fixed/x86/vector_ops_FIX_sse4_1.c
+        #silk/fixed/x86/burg_modified_FIX_sse4_1.c
         celt/x86/x86cpu.c
         celt/x86/x86_celt_map.c
         celt/x86/pitch_sse.c
@@ -21,6 +21,7 @@ if(DEFINED TARGET_OS_WINDOWS)
         silk/x86/VAD_sse4_1.c
         silk/x86/VQ_WMat_EC_sse4_1.c
         silk/x86/x86_silk_map.c
+        celt/x86/pitch_avx.c
     )
 endif()
 
@@ -44,8 +45,8 @@ if(DEFINED TARGET_OS_LINUX)
     )
     else()
         list(APPEND ffmpegopus_SOURCES
-            silk/fixed/x86/vector_ops_FIX_sse4_1.c
-            silk/fixed/x86/burg_modified_FIX_sse4_1.c
+            #silk/fixed/x86/vector_ops_FIX_sse4_1.c
+            #silk/fixed/x86/burg_modified_FIX_sse4_1.c
             celt/x86/x86cpu.c
             celt/x86/x86_celt_map.c
             celt/x86/pitch_sse.c
@@ -58,6 +59,7 @@ if(DEFINED TARGET_OS_LINUX)
             silk/x86/VAD_sse4_1.c
             silk/x86/VQ_WMat_EC_sse4_1.c
             silk/x86/x86_silk_map.c
+            celt/x86/pitch_avx.c
         )
     endif()
 endif()
@@ -223,6 +225,7 @@ list(APPEND ffmpegopus_SOURCES
     silk/float/scale_vector_FLP.c
     silk/float/schur_FLP.c
     silk/float/sort_FLP.c
+    src/extensions.c
     src/opus.c
     src/opus_decoder.c
     src/opus_encoder.c

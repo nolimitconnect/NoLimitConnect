@@ -1,39 +1,51 @@
-
 app-id: com.nolimitconnect.NoLimitConnect
+
 runtime: org.kde.Platform
-runtime-version: '6.7'
+runtime-version: '6.9'
 sdk: org.kde.Sdk
+
 command: nolimitconnect
-finish-args: 
-    - --device=all
-    - --share=ipc
-    - --share=network
-    - --socket=fallback-x11       
-    - --socket=wayland
-    - --socket=pulseaudio
-    - --filesystem=host
+
+finish-args:
+  # Display
+  - --socket=wayland
+  - --socket=fallback-x11
+
+  # Audio / Video
+  - --socket=pulseaudio
+  - --device=dri
+
+  # Network & IPC
+  - --share=network
+  - --share=ipc
+
+  # Files (user-controlled)
+  - --filesystem=xdg-download
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-videos
 
 modules:
     ########################
     # GLU 
     ########################
- - shared-modules/glu/glu-9.json
+  - shared-modules/glu/glu-9.json
     ########################
     # No Limit Connect
-    ########################
- - name: nolimitconnect
-   buildsystem: cmake-ninja
-   config-opts: 
-    - -DCMAKE_BUILD_TYPE=Release
-    - -DFLATPAKBUILD=ON    
+    ########################  
+  - name: nolimitconnect
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DFLATPAKBUILD=ON
 
-   sources:
-    # - type: git
-    #  url: https://gitlab.com/nolimitconnectapps/nolimitapp.git
-    #   commit: de146ed09e9da127c224c50d2ed07672ff2edf46
-    #   tag: 1.0.12
+    sources:
+      # Local build (acceptable until first Flathub merge)
+      - type: dir
+        path: ./
+      # Then for specific version like
+      # - type: git
+      #  url: https://gitlab.com/nolimitconnectapps/nolimitapp.git
+      #   commit: de146ed09e9da127c224c50d2ed07672ff2edf46
+      #   tag: v1.0.8
 
-     # for local sources so does not do a git pull each time
-     - type: dir
-       path: ./
 

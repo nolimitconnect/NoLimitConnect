@@ -678,8 +678,9 @@ void AppletNetworkSettings::slotUpdateTimer( void )
 }
 
 //============================================================================
-bool AppletNetworkSettings::verifyNetworkKey( std::string& keyVal )
+bool AppletNetworkSettings::verifyNetworkKey( std::string& keyValIn )
 {
+    QString keyVal = keyValIn.c_str();
     if( keyVal.size() < 6 )
     {
         QMessageBox::warning( this, QObject::tr( "Network Key" ), QObject::tr( "Network Key must be at least 6 characters ( 8 or more characters recommended )." ) );

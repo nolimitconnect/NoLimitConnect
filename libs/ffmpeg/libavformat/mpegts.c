@@ -738,7 +738,7 @@ static char *getstr8(const uint8_t **pp, const uint8_t *p_end)
             iconv_close(cd);
             return NULL;
         }
-        if (iconv(cd, &in, &inlen, &out, &outlen) == -1) {
+        if (iconv(cd, (const char **)(&in), &inlen, &out, &outlen) == -1) {
             iconv_close(cd);
             av_freep(&str);
             goto no_iconv;

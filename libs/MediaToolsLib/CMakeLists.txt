@@ -44,31 +44,31 @@ list(APPEND mediatools_SOURCES
     opus/celt/rate_mtools.c
     opus/celt/vq_mtools.c
     opus/celt/celt_decoder_mtools.c
-    opus/silk/fixed/apply_sine_window_FIX_mtools.c
-    opus/silk/fixed/autocorr_FIX_mtools.c
-    opus/silk/fixed/burg_modified_FIX_mtools.c
-    opus/silk/fixed/corrMatrix_FIX_mtools.c
-    opus/silk/fixed/encode_frame_FIX_mtools.c
-    opus/silk/fixed/find_LPC_FIX_mtools.c
-    opus/silk/fixed/find_LTP_FIX_mtools.c
-    opus/silk/fixed/find_pitch_lags_FIX_mtools.c
-    opus/silk/fixed/find_pred_coefs_FIX_mtools.c
-    opus/silk/fixed/k2a_FIX_mtools.c
-    opus/silk/fixed/k2a_Q16_FIX_mtools.c
-    opus/silk/fixed/LTP_analysis_filter_FIX_mtools.c
-    opus/silk/fixed/LTP_scale_ctrl_FIX_mtools.c
-    opus/silk/fixed/noise_shape_analysis_FIX_mtools.c
-    opus/silk/fixed/pitch_analysis_core_FIX_mtools.c
-    opus/silk/fixed/prefilter_FIX_mtools.c
-    opus/silk/fixed/process_gains_FIX_mtools.c
-    opus/silk/fixed/regularize_correlations_FIX_mtools.c
-    opus/silk/fixed/residual_energy16_FIX_mtools.c
-    opus/silk/fixed/residual_energy_FIX_mtools.c
-    opus/silk/fixed/schur64_FIX_mtools.c
-    opus/silk/fixed/schur_FIX_mtools.c
-    opus/silk/fixed/solve_LS_FIX_mtools.c
-    opus/silk/fixed/vector_ops_FIX_mtools.c
-    opus/silk/fixed/warped_autocorrelation_FIX_mtools.c
+    #opus/silk/fixed/apply_sine_window_FIX_mtools.c
+    #opus/silk/fixed/autocorr_FIX_mtools.c
+    #opus/silk/fixed/burg_modified_FIX_mtools.c
+    #opus/silk/fixed/corrMatrix_FIX_mtools.c
+    #opus/silk/fixed/encode_frame_FIX_mtools.c
+    #opus/silk/fixed/find_LPC_FIX_mtools.c
+    #opus/silk/fixed/find_LTP_FIX_mtools.c
+    #opus/silk/fixed/find_pitch_lags_FIX_mtools.c
+    #opus/silk/fixed/find_pred_coefs_FIX_mtools.c
+    #opus/silk/fixed/k2a_FIX_mtools.c
+    #opus/silk/fixed/k2a_Q16_FIX_mtools.c
+    #opus/silk/fixed/LTP_analysis_filter_FIX_mtools.c
+    #opus/silk/fixed/LTP_scale_ctrl_FIX_mtools.c
+    #opus/silk/fixed/noise_shape_analysis_FIX_mtools.c
+    #opus/silk/fixed/pitch_analysis_core_FIX_mtools.c
+    #opus/silk/fixed/prefilter_FIX_mtools.c
+    #opus/silk/fixed/process_gains_FIX_mtools.c
+    #opus/silk/fixed/regularize_correlations_FIX_mtools.c
+    #opus/silk/fixed/residual_energy16_FIX_mtools.c
+    #opus/silk/fixed/residual_energy_FIX_mtools.c
+    #opus/silk/fixed/schur64_FIX_mtools.c
+    #opus/silk/fixed/schur_FIX_mtools.c
+    #opus/silk/fixed/solve_LS_FIX_mtools.c
+    #opus/silk/fixed/vector_ops_FIX_mtools.c
+    #opus/silk/fixed/warped_autocorrelation_FIX_mtools.c
     opus/silk/float/apply_sine_window_FLP_mtools.c
     opus/silk/float/autocorrelation_FLP_mtools.c
     opus/silk/float/burg_modified_FLP_mtools.c

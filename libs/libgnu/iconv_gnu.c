@@ -447,6 +447,6 @@ rpl_iconv (iconv_t cd,
     }
 #else
 {
-  return iconv (cd, inbuf, inbytesleft, outbuf, outbytesleft);
+  return iconv (cd, (const char **)inbuf, inbytesleft, outbuf, outbytesleft);
 #endif
 }

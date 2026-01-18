@@ -26,6 +26,10 @@
 extern "C" {
 #endif
 
+#ifdef TARGET_OS_LINUX
+// implicit declaration of function ‘basename’;
+char *basename(char *path);
+#endif // TARGET_OS_LINUX
 
 #if !(__GLIBC__ >= 2 || defined __UCLIBC__)
 /* When not using the GNU libc we use the basename implementation we

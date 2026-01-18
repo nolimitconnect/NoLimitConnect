@@ -6,7 +6,8 @@
 #define APP_DOMAIN_NAME			"nolimitconnect"
 #define APP_PACKAGE				"com.nolimitconnect.NoLimitConnect"
 
-// NOTE: if you change the version then change it in cmake/version.cmake also
+// NOTE: if you change the version then change it in 
+// cmake/version.cmake and android/AndroidManifest.xml also
 #define APP_VERSION				"1.1.0"
 #define APP_MAJOR_VERSION		1
 #define APP_MINOR_VERSION		1

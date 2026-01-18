@@ -20,6 +20,10 @@
 #ifdef COMPILING_REGEXEC  // an included c file
 #include <libgnu/locale_gnu.h>
 
+#if defined(TARGET_OS_LINUX)
+char *nl_langinfo(nl_item item);
+#endif // defined(TARGET_OS_LINUX)
+
 #ifdef _LIBC_GNU
 # include <locale/weight.h>
 #endif

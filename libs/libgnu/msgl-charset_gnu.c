@@ -39,6 +39,12 @@
 #include "c-strstr.h"
 #include "gettext.h"
 
+
+#ifdef TARGET_OS_LINUX
+// implicit declaration of function ‘basename’;
+char *basename(char *path);
+#endif // TARGET_OS_LINUX
+
 #define _(str) gettext (str)
 
 void

@@ -98,10 +98,10 @@ void vp9_rtcd(void);
 #include "vpx_ports/x86.h"
 static void setup_rtcd_internal(void)
 {
+#if CONFIG_VP9_ENCODER
     int flags = x86_simd_caps();
 
     (void)flags;
-
     vp9_apply_temporal_filter = vp9_apply_temporal_filter_c;
     if (flags & HAS_SSE4_1) vp9_apply_temporal_filter = vp9_apply_temporal_filter_sse4_1;
     vp9_block_error = vp9_block_error_sse2;
@@ -118,6 +118,7 @@ static void setup_rtcd_internal(void)
     if (flags & HAS_AVX2) vp9_quantize_fp_32x32 = vp9_quantize_fp_32x32_avx2;
     vp9_scale_and_extend_frame = vp9_scale_and_extend_frame_c;
     if (flags & HAS_SSSE3) vp9_scale_and_extend_frame = vp9_scale_and_extend_frame_ssse3;
+#endif // CONFIG_VP9_ENCODER
 }
 #endif
 

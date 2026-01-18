@@ -49,7 +49,11 @@
 
 #include "pathmax.h"
 
-#include "stdlib_gnu.h"
+
+#if defined(TARGET_OS_LINUX)
+// error: implicit declaration of function secure_getenv
+char *secure_getenv(const char *name);
+#endif // defined(TARGET_OS_LINUX)
 
 #if _LIBC_GNU
 # define struct_stat64 struct stat64

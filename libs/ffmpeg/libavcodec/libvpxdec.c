@@ -25,7 +25,7 @@
 
 #include "config_ffmpeg.h"
 #include "config_components.h"
-#if CONFIG_LIBVPX_VP8_ENCODER || CONFIG_LIBVPX_VP9_ENCODER
+#if CONFIG_LIBVPX_VP8_DECODER || CONFIG_LIBVPX_VP9_DECODER
 
 #define VPX_CODEC_DISABLE_COMPAT 1
 #include <libvpx/vpx/vpx_decoder.h>
@@ -397,4 +397,4 @@ FFCodec ff_libvpx_vp9_decoder = {
 };
 #endif /* CONFIG_LIBVPX_VP9_DECODER */
 
-#endif // CONFIG_LIBVPX_VP8_ENCODER || CONFIG_LIBVPX_VP9_ENCODER
+#endif // CONFIG_LIBVPX_VP8_DECODER || CONFIG_LIBVPX_VP9_DECODER

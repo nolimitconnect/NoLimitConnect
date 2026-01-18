@@ -445,20 +445,26 @@ int x264_cpu_num_processors( void )
 #ifdef __ANDROID__
     // Android NDK does not expose sched_getaffinity
     return sysconf( _SC_NPROCESSORS_CONF );
-#else
+# else
+#  if defined(TARGET_OS_LINUX)
+    int sched_getaffinity(pid_t pid, size_t cpusetsize,
+                          cpu_set_t *mask);
+   int  CPU_COUNT(cpu_set_t *set);
+#  endif // defined(TARGET_OS_LINUX)
+
     cpu_set_t p_aff;
     memset( &p_aff, 0, sizeof(p_aff) );
     if( sched_getaffinity( 0, sizeof(p_aff), &p_aff ) )
         return 1;
-#if HAVE_CPU_COUNT
+#  if HAVE_CPU_COUNT
     return CPU_COUNT(&p_aff);
-#else
+#  else
     int np = 0;
     for( size_t bit = 0; bit < 8 * sizeof(p_aff); bit++ )
         np += (((uint8_t *)&p_aff)[bit / 8] >> (bit % 8)) & 1;
     return np;
-#endif
-#endif
+#  endif
+# endif
 
 #elif SYS_BEOS
     system_info info;

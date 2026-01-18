@@ -29,7 +29,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "config_ffmpegopus.h"
 #endif
 
-#include "opus/silk/float/main_FLP.h"
+#include "main_FLP.h"
 
 /* Add noise to matrix diagonal */
 void silk_regularize_correlations_FLP(

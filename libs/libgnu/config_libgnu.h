@@ -657,7 +657,9 @@
 
 
 /* Define as const if the declaration of iconv() needs const. */
-#define ICONV_CONST 
+#ifndef ICONV_CONST
+#define ICONV_CONST const
+#endif // ICONV_CONST
 
 /* Define if integer division by zero raises signal SIGFPE. */
 #define INTDIV0_RAISES_SIGFPE 0
@@ -1507,7 +1509,9 @@ uintmax_t. */
 /* #undef HAVE___FSETLOCKING */
 
 /* Define as const if the declaration of iconv() needs const. */
-#define ICONV_CONST 
+#ifndef ICONV_CONST
+#define ICONV_CONST const
+#endif // ICONV_CONST
 
 /* Define to a symbolic name denoting the flavor of iconv_open()
 implementation. */
@@ -3763,7 +3767,9 @@ work. */
 /* #undef HAVE___SECURE_GETENV */
 
 /* Define as const if the declaration of iconv() needs const. */
-#define ICONV_CONST 
+#ifndef ICONV_CONST
+#define ICONV_CONST const
+#endif // ICONV_CONST
 
 /* Define to a symbolic name denoting the flavor of iconv_open()
 implementation. */
@@ -6061,7 +6067,9 @@ uintmax_t. */
 /* #undef HAVE___VA_COPY */
 
 /* Define as const if the declaration of iconv() needs const. */
-#define ICONV_CONST 
+#ifndef ICONV_CONST
+#define ICONV_CONST const
+#endif // ICONV_CONST
 
 /* Define to 1 if lseek does not detect pipes. */
 /* #undef LSEEK_PIPE_BROKEN */

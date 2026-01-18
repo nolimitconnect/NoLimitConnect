@@ -233,12 +233,14 @@ static void setup_rtcd_internal(void)
     if (flags & HAS_SSSE3) vp8_bilinear_predict16x16 = vp8_bilinear_predict16x16_ssse3;
     vp8_bilinear_predict8x8 = vp8_bilinear_predict8x8_sse2;
     if (flags & HAS_SSSE3) vp8_bilinear_predict8x8 = vp8_bilinear_predict8x8_ssse3;
+#if CONFIG_VP8_ENCODER
     vp8_copy32xn = vp8_copy32xn_sse2;
     if (flags & HAS_SSE3) vp8_copy32xn = vp8_copy32xn_sse3;
     vp8_fast_quantize_b = vp8_fast_quantize_b_sse2;
     if (flags & HAS_SSSE3) vp8_fast_quantize_b = vp8_fast_quantize_b_ssse3;
     vp8_regular_quantize_b = vp8_regular_quantize_b_sse2;
     if (flags & HAS_SSE4_1) vp8_regular_quantize_b = vp8_regular_quantize_b_sse4_1;
+#endif // CONFIG_VP8_ENCODER
     vp8_sixtap_predict16x16 = vp8_sixtap_predict16x16_sse2;
     if (flags & HAS_SSSE3) vp8_sixtap_predict16x16 = vp8_sixtap_predict16x16_ssse3;
     vp8_sixtap_predict4x4 = vp8_sixtap_predict4x4_mmx;

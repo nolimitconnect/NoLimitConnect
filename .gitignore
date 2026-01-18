@@ -2,17 +2,20 @@
 **/objs/
 **/myrepo/
 **/.flatpak-builder/
+**/.gitmodules
+**/shared-modules/
 **/build-dir/
 build/
 build-staticlibs/
 .vs/
 .gitmodules
-shared-modules/
+
 build/Android*
 build/Desktop_Qt*
 nolimitgui/bin-Linux/
 nolimitgui/bin-Windows/
 deploy/
+flatpak-repo/
 
 aboutme_thumb.png
 favicon.ico

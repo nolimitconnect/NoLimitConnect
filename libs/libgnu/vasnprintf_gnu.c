@@ -72,7 +72,7 @@
 # include <libgnu/xsize_gnu.h>
 # include <libgnu/localcharset.h>
 
-#if defined(TARGET_OS_ANDROID)
+#if defined(TARGET_OS_ANDROID) || defined(TARGET_OS_LINUX)
 #include <wchar.h>
 #endif // defined(TARGET_OS_ANDROID)
 

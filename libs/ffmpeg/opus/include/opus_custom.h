@@ -247,7 +247,7 @@ OPUS_CUSTOM_EXPORT int opus_custom_encoder_ctl(OpusCustomEncoder * OPUS_RESTRICT
   * @param [in] channels <tt>int</tt>: Number of channels
   * @returns size
   */
-int opus_custom_decoder_get_size(
+OPUS_CUSTOM_EXPORT_STATIC OPUS_WARN_UNUSED_RESULT int opus_custom_decoder_get_size(
     const OpusCustomMode *mode,
     int channels
 ) OPUS_ARG_NONNULL(1);
@@ -264,7 +264,7 @@ int opus_custom_decoder_get_size(
   * @param [in] channels <tt>int</tt>: Number of channels
   * @return OPUS_OK Success or @ref opus_errorcodes
   */
-int opus_custom_decoder_init(
+OPUS_CUSTOM_EXPORT_STATIC int opus_custom_decoder_init(
     OpusCustomDecoder *st,
     const OpusCustomMode *mode,
     int channels
@@ -281,7 +281,7 @@ int opus_custom_decoder_init(
   * @param [out] error <tt>int*</tt>: Returns an error code
   * @return Newly created decoder state.
   */
-OpusCustomDecoder *opus_custom_decoder_create(
+OPUS_CUSTOM_EXPORT OPUS_WARN_UNUSED_RESULT OpusCustomDecoder *opus_custom_decoder_create(
     const OpusCustomMode *mode,
     int channels,
     int *error
@@ -290,7 +290,7 @@ OpusCustomDecoder *opus_custom_decoder_create(
 /** Destroys a decoder state.
   * @param[in] st <tt>OpusCustomDecoder*</tt>: State to be freed.
   */
-void opus_custom_decoder_destroy(OpusCustomDecoder *st);
+OPUS_CUSTOM_EXPORT void opus_custom_decoder_destroy(OpusCustomDecoder *st);
 
 /** Decode an opus custom frame with floating point output
   * @param [in] st <tt>OpusCustomDecoder*</tt>: Decoder state
@@ -301,7 +301,7 @@ void opus_custom_decoder_destroy(OpusCustomDecoder *st);
   * @param [in] frame_size Number of samples per channel of available space in *pcm.
   * @returns Number of decoded samples or @ref opus_errorcodes
   */
-int opus_custom_decode_float(
+OPUS_CUSTOM_EXPORT OPUS_WARN_UNUSED_RESULT int opus_custom_decode_float(
     OpusCustomDecoder *st,
     const unsigned char *data,
     int len,
@@ -318,7 +318,7 @@ int opus_custom_decode_float(
   * @param [in] frame_size Number of samples per channel of available space in *pcm.
   * @returns Number of decoded samples or @ref opus_errorcodes
   */
-int opus_custom_decode(
+OPUS_CUSTOM_EXPORT OPUS_WARN_UNUSED_RESULT int opus_custom_decode(
     OpusCustomDecoder *st,
     const unsigned char *data,
     int len,
@@ -332,7 +332,7 @@ int opus_custom_decode(
   * by a convenience macro.
   * @see opus_genericctls
   */
-int opus_custom_decoder_ctl(OpusCustomDecoder * OPUS_RESTRICT st, int request, ...) OPUS_ARG_NONNULL(1);
+OPUS_CUSTOM_EXPORT int opus_custom_decoder_ctl(OpusCustomDecoder * OPUS_RESTRICT st, int request, ...) OPUS_ARG_NONNULL(1);
 
 /**@}*/
 

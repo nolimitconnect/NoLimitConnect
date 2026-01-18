@@ -6,8 +6,9 @@
 #include <stdio.h>
 
 #ifdef ENABLE_NLS
-#include <libgnu/libintl.h>
-#define _(X) gettext(X)
+//#include <libgnu/libintl.h>
+//#define _(X) gettext(X)
+#define _(X) X
 #else
 #define _(X) (X)
 #define textdomain(X)

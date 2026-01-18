@@ -31,10 +31,17 @@
 #include "malloca.h"
 #include "mbuiter.h"
 
+#ifdef TARGET_OS_LINUX
+// implicit declaration of function ‘basename’;
+char *basename(char *path);
+#endif // TARGET_OS_LINUX
+
 /* Knuth-Morris-Pratt algorithm.  */
 #define UNIT unsigned char
 #define CANON_ELEMENT(c) c
 #include "str-kmp.h"
+
+
 
 /* Knuth-Morris-Pratt algorithm.
    See http://en.wikipedia.org/wiki/Knuth-Morris-Pratt_algorithm
