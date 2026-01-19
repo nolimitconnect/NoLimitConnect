@@ -8,6 +8,26 @@ include(ConfigStaticDependLib)
 
 #=== project subdirectories ===#
 
+
+if(BUILD_SYSTEM_FLATPAK)
+    # FlatPak 6.7 works but 6.9 fails
+
+    # with Raspberry Pi 5:
+    # bwrap: execvp appstream-compose: No such file or directory
+
+    # with Ubuntu 24.04:
+    # /usr/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/../../../../x86_64-unknown-linux-gnu/bin/ld: cannot find -lGLU: No such file or directory
+    # even though modules has
+    # - shared-modules/glu/glu-9.json
+
+    # so build a static libGLU
+    set(BUILD_LIB_GLU true)
+endif()
+
+if(BUILD_LIB_GLU)
+    add_subdirectory(libGLU)
+endif()
+
 add_subdirectory(libvpx)
 
 add_subdirectory(ffmpeg)
@@ -30,6 +50,7 @@ add_subdirectory(libdav1d)
 add_subdirectory(libechocancel)
 add_subdirectory(libfreetype)
 add_subdirectory(libfribidi)
+
 add_subdirectory(libgnu)
 add_subdirectory(libiconv)
 

@@ -9,6 +9,7 @@ build/
 build-staticlibs/
 .vs/
 .gitmodules
+shared-modules/
 
 build/Android*
 build/Desktop_Qt*
