@@ -37,7 +37,7 @@ unsetenv(const char *name)
    * this the same as passing 'name='. */
   /* The cast is needed because POSIX specifies putenv() to take a non-const
    * parameter.  Our putenv is well-behaved, so this is OK.  */
-  putenv ( name );
+  putenv ( (char *)name );
 
   return 0;
 }

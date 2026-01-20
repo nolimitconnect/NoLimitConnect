@@ -503,7 +503,7 @@ static int tiff_uncompress(uint8_t *dst, unsigned long *len, const uint8_t *src,
     z_stream zstream = { 0 };
     int zret;
 
-    zstream.next_in   = src;
+    zstream.next_in   = (Bytef*)src;
     zstream.avail_in  = size;
     zstream.next_out  = dst;
     zstream.avail_out = *len;

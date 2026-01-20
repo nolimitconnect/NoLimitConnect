@@ -97,7 +97,7 @@ static void nlos2_initialize ()
     }
 
   if (strlen (_nlos2_localedir) <= MAXPATHLEN)
-    strcpy (libintl_nl_default_dirname, _nlos2_localedir);
+    strcpy ((char *)(libintl_nl_default_dirname), _nlos2_localedir);
 }
 
 //#endif // #if 0 // BRJ OS2 not supported

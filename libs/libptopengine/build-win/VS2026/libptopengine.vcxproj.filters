@@ -1,0 +1,1601 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\AssetMgr\AssetInfo.cpp">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetMgr\AssetInfoDb.cpp">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetMgr\AssetMgr.cpp">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetMgr\AssetRxSession.cpp">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetMgr\AssetTxSession.cpp">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetMgr\AssetXferDb.cpp">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetMgr\AssetXferMgr.cpp">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetMgr\AssetXferSession.cpp">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BigListLib\BigList.cpp">
+      <Filter>Source Files\BigListLib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BigListLib\BigListDb.cpp">
+      <Filter>Source Files\BigListLib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BigListLib\BigListInfo.cpp">
+      <Filter>Source Files\BigListLib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BigListLib\BigListMgr.cpp">
+      <Filter>Source Files\BigListLib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MediaProcessor\AudioUtil.cpp">
+      <Filter>Source Files\MediaProcessor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\MediaProcessor\MediaProcessor.cpp">
+      <Filter>Source Files\MediaProcessor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetServices\NetActionBase.cpp">
+      <Filter>Source Files\NetServices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetServices\NetActionIdle.cpp">
+      <Filter>Source Files\NetServices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetServices\NetActionIsMyPortOpen.cpp">
+      <Filter>Source Files\NetServices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetServices\NetServicesMgr.cpp">
+      <Filter>Source Files\NetServices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetServices\NetServiceUtils.cpp">
+      <Filter>Source Files\NetServices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Network\ConnectRequest.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Network\Firewall.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Network\NetworkMgr.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetworkMonitor\NetworkMonitor.cpp">
+      <Filter>Source Files\NetworkMonitor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\ContactList.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\EngineParams.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\EngineSettings.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\FileShareSettings.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PConnectList.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngine.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngineAssetMgrCallbacks.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngineConnect.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngineConnections.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngineContact.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngineFromGui.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngineIgnoredAndHackers.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEnginePktAnnChanged.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEnginePktHandlers.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngineRelay.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngineScan.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngineSearch.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\AudioJitterBuffer.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\FileRxSession.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\FileToXfer.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\FileTxSession.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\FileXferPluginSession.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\P2PSession.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginBase.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginInvalid.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginMgrSktApi.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginNetServices.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginSessionBase.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginSessionMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginTruthOrDare.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginVideoPhone.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginVoicePhone.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\RxSession.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\SessionMgrBase.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\TodGameSession.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\TxSession.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\VideoFeedMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\VoiceFeedMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Search\RcScan.cpp">
+      <Filter>Source Files\Search</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Search\RcScanAction.cpp">
+      <Filter>Source Files\Search</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Search\RcScanMatchedConnection.cpp">
+      <Filter>Source Files\Search</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginBaseService.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginBaseHostService.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginMessenger.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetworkMonitor\NetStatusAccum.cpp">
+      <Filter>Source Files\NetworkMonitor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngineHostList.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PluginSettings\PluginSetting.cpp">
+      <Filter>Source Files\PluginSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PluginSettings\PluginSettingDb.cpp">
+      <Filter>Source Files\PluginSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PluginSettings\PluginSettingMgr.cpp">
+      <Filter>Source Files\PluginSettings</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngineTimerThread.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetworkTest\QueryHostIdTest.cpp">
+      <Filter>Source Files\NetworkTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetworkTest\IsPortOpenTest.cpp">
+      <Filter>Source Files\NetworkTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetworkTest\PingResponseServer.cpp">
+      <Filter>Source Files\NetworkTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetworkTest\NetworkTestBase.cpp">
+      <Filter>Source Files\NetworkTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginChatRoomClient.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginBaseMultimedia.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetworkTest\RunUrlAction.cpp">
+      <Filter>Source Files\NetworkTest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Connections\ConnectionMgr.cpp">
+      <Filter>Source Files\Connections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Connections\ConnectedListBase.cpp">
+      <Filter>Source Files\Connections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Connections\ConnectedInfo.cpp">
+      <Filter>Source Files\Connections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Connections\IConnectedCallback.cpp">
+      <Filter>Source Files\Connections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Connections\IConnectRequest.cpp">
+      <Filter>Source Files\Connections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Connections\ConnectedListAll.cpp">
+      <Filter>Source Files\Connections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginChatRoomHost.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginConnectionTestClient.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginConnectionTestHost.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginGroupClient.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginNetworkHost.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginRandomConnectClient.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginRandomConnectHost.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginBaseHostClient.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginGroupHost.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\HostClientMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\HostBaseMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\HostServerMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Connections\ConnectReqInfo.cpp">
+      <Filter>Source Files\Connections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\HostServerSearchMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\HostClientSearchMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\HostSearchEntry.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BlobXferMgr\BlobInfo.cpp">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BlobXferMgr\BlobInfoDb.cpp">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BlobXferMgr\BlobRxSession.cpp">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BlobXferMgr\BlobXferDb.cpp">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BlobXferMgr\BlobXferSession.cpp">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BlobXferMgr\BlobMgr.cpp">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BlobXferMgr\BlobXferMgr.cpp">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BlobXferMgr\BlobTxSession.cpp">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Connections\HandshakeInfo.cpp">
+      <Filter>Source Files\Connections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Connections\HandshakeList.cpp">
+      <Filter>Source Files\Connections</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\User.cpp">
+      <Filter>Source Files\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\User\UserList.cpp">
+      <Filter>Source Files\User</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetBase\AssetBaseInfo.cpp">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetBase\AssetBaseInfoDb.cpp">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetBase\AssetBaseMgr.cpp">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetBase\AssetBaseRxSession.cpp">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetBase\AssetBaseTxSession.cpp">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetBase\AssetBaseXferDb.cpp">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetBase\AssetBaseXferMgr.cpp">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetBase\AssetBaseXferSession.cpp">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ThumbMgr\ThumbInfo.cpp">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ThumbMgr\ThumbInfoDb.cpp">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ThumbMgr\ThumbMgr.cpp">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ThumbMgr\ThumbRxSession.cpp">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ThumbMgr\ThumbTxSession.cpp">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ThumbMgr\ThumbXferDb.cpp">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ThumbMgr\ThumbXferMgr.cpp">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ThumbMgr\ThumbXferSession.cpp">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OfferBase\OfferBaseInfo.cpp">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OfferBase\OfferBaseInfoDb.cpp">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OfferBase\OfferBaseMgr.cpp">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OfferBase\OfferBaseRxSession.cpp">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OfferBase\OfferBaseTxSession.cpp">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OfferBase\OfferBaseXferDb.cpp">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OfferBase\OfferBaseXferMgr.cpp">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OfferBase\OfferBaseXferSession.cpp">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ConnectMgr\ConnectInfo.cpp">
+      <Filter>Source Files\ConnectMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ConnectMgr\ConnectInfoDb.cpp">
+      <Filter>Source Files\ConnectMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ConnectMgr\ConnectMgr.cpp">
+      <Filter>Source Files\ConnectMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BaseInfo\BaseInfo.cpp">
+      <Filter>Source Files\BaseInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\VxSktLoopback.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BaseInfo\BaseHostInfo.cpp">
+      <Filter>Source Files\BaseInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BaseInfo\BaseJoinInfo.cpp">
+      <Filter>Source Files\BaseInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\UserJoinMgr\UserJoinInfo.cpp">
+      <Filter>Source Files\UserJoinMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\UserJoinMgr\UserJoinInfoDb.cpp">
+      <Filter>Source Files\UserJoinMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\UserJoinMgr\UserJoinMgr.cpp">
+      <Filter>Source Files\UserJoinMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginBasePktHandlers.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\BaseInfo\BaseSessionInfo.cpp">
+      <Filter>Source Files\BaseInfo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetBase\AssetBaseXferPktCreate.cpp">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ThumbMgr\ThumbXferPktCreate.cpp">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetMgr\AssetXferPktCreate.cpp">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\IdentListMgrs\FriendListMgr.cpp">
+      <Filter>Source Files\IdentListMgrs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\IdentListMgrs\IdentListMgrBase.cpp">
+      <Filter>Source Files\IdentListMgrs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\IdentListMgrs\IgnoreListMgr.cpp">
+      <Filter>Source Files\IdentListMgrs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginPushToTalk.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PushToTalkFeedMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SktLists\SktListMgr.cpp">
+      <Filter>Source Files\SktLists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SktLists\SktListMgrBase.cpp">
+      <Filter>Source Files\SktLists</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginPeerUserClient.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginPeerUserHost.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\UrlMgr\UrlMgr.cpp">
+      <Filter>Source Files\UrlMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HostListMgr\HostUrlListDb.cpp">
+      <Filter>Source Files\HostListMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HostListMgr\HostUrlListMgr.cpp">
+      <Filter>Source Files\HostListMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HostListMgr\HostUrlInfo.cpp">
+      <Filter>Source Files\HostListMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HostListMgr\HostedInfo.cpp">
+      <Filter>Source Files\HostListMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HostListMgr\HostedListDb.cpp">
+      <Filter>Source Files\HostListMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HostListMgr\HostedListMgr.cpp">
+      <Filter>Source Files\HostListMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GroupieListMgr\GroupieInfo.cpp">
+      <Filter>Source Files\GroupieListMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GroupieListMgr\GroupieListDb.cpp">
+      <Filter>Source Files\GroupieListMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\GroupieListMgr\GroupieListMgr.cpp">
+      <Filter>Source Files\GroupieListMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\UserJoinMgr\UserJoinedLastDb.cpp">
+      <Filter>Source Files\UserJoinMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginAboutMePageClient.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginStoryboardClient.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginBaseFileShare.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginBaseFiles.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\FileInfoDb.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\FileInfo.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\FileInfoXferMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginAboutMePageServer.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngineStartup.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginStoryboardServer.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginBaseFilesClient.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginBaseFilesServer.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Relay\RelayMgr.cpp">
+      <Filter>Source Files\Relay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ConnectIdListMgr\ConnectIdListMgr.cpp">
+      <Filter>Source Files\ConnectIdListMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\IdentListMgrs\IgnoredHostsDb.cpp">
+      <Filter>Source Files\IdentListMgrs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\IdentListMgrs\IgnoredHostInfo.cpp">
+      <Filter>Source Files\IdentListMgrs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginCamClient.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginCamServer.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginFileShareClient.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginFileShareServer.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\FileInfoBaseMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\FileInfoSharedFilesMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\FileInfoClientFilesMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\FileShareXferSession.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginLibraryServer.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginPersonFileXfer.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WebPageMgr\WebPageMgr.cpp">
+      <Filter>Source Files\WebPageMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\OfferBase\OfferMgr.cpp">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEnginePktAnnHandlers.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HostServerJoinMgr\HostJoinedLastDb.cpp">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HostServerJoinMgr\HostJoinInfo.cpp">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HostServerJoinMgr\HostJoinInfoDb.cpp">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\HostServerJoinMgr\HostServerJoinMgr.cpp">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Membership\MemberActiveMgr.cpp">
+      <Filter>Source Files\Membership</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FromGuiMgr\FromGuiMgr.cpp">
+      <Filter>Source Files\FromGuiMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FromGuiMgr\FromGuiAction.cpp">
+      <Filter>Source Files\FromGuiMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginBaseNetworkService.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ThumbMgr\ThumbXferInterface.cpp">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PushToTalk\PushToTalkMgr.cpp">
+      <Filter>Source Files\PushToTalk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\RandConnect\RandConnectMgr.cpp">
+      <Filter>Source Files\RandConnect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SendQueue\SendQueueMgr.cpp">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SendQueue\SendQueueDb.cpp">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\SendQueue\SendQueInfo.cpp">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Membership\MemberConfirmMgr.cpp">
+      <Filter>Source Files\Membership</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\FileInfoPersonFileXferMgr.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngineInit.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetServices\NetActionResolveConnectTestUrl.cpp">
+      <Filter>Source Files\NetServices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetServices\NetActionResolveNetworkHostUrl.cpp">
+      <Filter>Source Files\NetServices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetServices\NetActionWaitForInternet.cpp">
+      <Filter>Source Files\NetServices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetServices\NetActionResolveDefaultUserHosts.cpp">
+      <Filter>Source Files\NetServices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\NetServices\NetActionRenewPortForward.cpp">
+      <Filter>Source Files\NetServices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Network\StayConnected.cpp">
+      <Filter>Source Files\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\P2PEngineSktCallback.cpp">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetBase\AssetPlaySession.cpp">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Plugins\PluginFriendRequest.cpp">
+      <Filter>Source Files\Plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FriendRequestMgr\FriendRequestInfo.cpp">
+      <Filter>Source Files\FriendRequestMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FriendRequestMgr\FriendRequestMgr.cpp">
+      <Filter>Source Files\FriendRequestMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\UserJoinMgr\LastJoined.cpp">
+      <Filter>Source Files\UserJoinMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\AppMonitor\AppMonitor.cpp">
+      <Filter>Source Files\AppMonitor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\FileMgr\FileMgr.cpp">
+      <Filter>Source Files\FileMgr</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\AssetMgr\AssetCallbackInterface.h">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetMgr\AssetInfo.h">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetMgr\AssetInfoDb.h">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetMgr\AssetMgr.h">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetMgr\AssetRxSession.h">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetMgr\AssetTxSession.h">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetMgr\AssetXferDb.h">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetMgr\AssetXferMgr.h">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetMgr\AssetXferSession.h">
+      <Filter>Source Files\AssetMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BigListLib\BigList.h">
+      <Filter>Source Files\BigListLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BigListLib\BigListDb.h">
+      <Filter>Source Files\BigListLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BigListLib\BigListInfo.h">
+      <Filter>Source Files\BigListLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BigListLib\BigListMgr.h">
+      <Filter>Source Files\BigListLib</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MediaProcessor\AudioUtil.h">
+      <Filter>Source Files\MediaProcessor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MediaProcessor\MediaClient.h">
+      <Filter>Source Files\MediaProcessor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MediaProcessor\MediaProcessor.h">
+      <Filter>Source Files\MediaProcessor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetServices\NetActionBase.h">
+      <Filter>Source Files\NetServices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetServices\NetActionIdle.h">
+      <Filter>Source Files\NetServices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetServices\NetActionIsMyPortOpen.h">
+      <Filter>Source Files\NetServices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetServices\NetServiceDefs.h">
+      <Filter>Source Files\NetServices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetServices\NetServiceHdr.h">
+      <Filter>Source Files\NetServices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetServices\NetServicesMgr.h">
+      <Filter>Source Files\NetServices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetServices\NetServiceUtils.h">
+      <Filter>Source Files\NetServices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Network\ConnectRequest.h">
+      <Filter>Source Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Network\Firewall.h">
+      <Filter>Source Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Network\NetworkDefs.h">
+      <Filter>Source Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Network\NetworkMgr.h">
+      <Filter>Source Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetworkMonitor\NetworkMonitor.h">
+      <Filter>Source Files\NetworkMonitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\P2PEngine\ContactList.h">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\P2PEngine\EngineParams.h">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\P2PEngine\EngineSettings.h">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\P2PEngine\EngineSettingsDefaultValues.h">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\P2PEngine\FileShareSettings.h">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\P2PEngine\P2PConnectList.h">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\P2PEngine\P2PEngine.h">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\AudioJitterBuffer.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\FileRxSession.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\FileToXfer.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\FileTxSession.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\FileXferPluginSession.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\P2PSession.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginBase.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginInvalid.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginMgr.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginNetServices.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginSessionBase.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginSessionMgr.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginTruthOrDare.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginVideoPhone.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginVoicePhone.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\RxSession.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\SessionMgrBase.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\TodGameSession.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\TxSession.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\VideoFeedMgr.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\VoiceFeedMgr.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Search\RcScan.h">
+      <Filter>Source Files\Search</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Search\RcScanAction.h">
+      <Filter>Source Files\Search</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Search\RcScanMatchedConnection.h">
+      <Filter>Source Files\Search</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Search\RcScanPic.h">
+      <Filter>Source Files\Search</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginBaseService.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginBaseHostService.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginMessenger.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetworkMonitor\NetStatusAccum.h">
+      <Filter>Source Files\NetworkMonitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PluginSettings\PluginSetting.h">
+      <Filter>Source Files\PluginSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PluginSettings\PluginSettingDb.h">
+      <Filter>Source Files\PluginSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PluginSettings\PluginSettingMgr.h">
+      <Filter>Source Files\PluginSettings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetworkTest\QueryHostIdTest.h">
+      <Filter>Source Files\NetworkTest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetworkTest\IsPortOpenTest.h">
+      <Filter>Source Files\NetworkTest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetworkTest\PingResponseServer.h">
+      <Filter>Source Files\NetworkTest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetworkTest\NetworkTestBase.h">
+      <Filter>Source Files\NetworkTest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginChatRoomClient.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginBaseMultimedia.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetworkTest\RunUrlAction.h">
+      <Filter>Source Files\NetworkTest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Connections\ConnectionMgr.h">
+      <Filter>Source Files\Connections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Connections\ConnectedListBase.h">
+      <Filter>Source Files\Connections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Connections\ConnectedInfo.h">
+      <Filter>Source Files\Connections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Connections\IConnectedCallback.h">
+      <Filter>Source Files\Connections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Connections\IConnectRequest.h">
+      <Filter>Source Files\Connections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Connections\ConnectedListAll.h">
+      <Filter>Source Files\Connections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginChatRoomHost.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginConnectionTestClient.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginConnectionTestHost.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginGroupClient.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginNetworkHost.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginRandomConnectClient.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginRandomConnectHost.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginBaseHostClient.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginGroupHost.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\HostBaseMgr.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\HostClientMgr.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\HostServerMgr.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Connections\ConnectReqInfo.h">
+      <Filter>Source Files\Connections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\HostServerSearchMgr.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\HostClientSearchMgr.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\HostSearchEntry.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BlobXferMgr\BlobCallbackInterface.h">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BlobXferMgr\BlobInfo.h">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BlobXferMgr\BlobInfoDb.h">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BlobXferMgr\BlobRxSession.h">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BlobXferMgr\BlobTxSession.h">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BlobXferMgr\BlobXferDb.h">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BlobXferMgr\BlobXferSession.h">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BlobXferMgr\BlobMgr.h">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BlobXferMgr\BlobXferMgr.h">
+      <Filter>Source Files\BlobXferMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Connections\HandshakeInfo.h">
+      <Filter>Source Files\Connections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Connections\HandshakeList.h">
+      <Filter>Source Files\Connections</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\User\User.h">
+      <Filter>Source Files\User</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\User\UserList.h">
+      <Filter>Source Files\User</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetBase\AssetBaseInfo.h">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetBase\AssetBaseInfoDb.h">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetBase\AssetBaseMgr.h">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetBase\AssetBaseRxSession.h">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetBase\AssetBaseTxSession.h">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetBase\AssetBaseXferDb.h">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetBase\AssetBaseXferMgr.h">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetBase\AssetBaseXferSession.h">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ThumbMgr\ThumbCallbackInterface.h">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ThumbMgr\ThumbInfo.h">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ThumbMgr\ThumbInfoDb.h">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ThumbMgr\ThumbMgr.h">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ThumbMgr\ThumbRxSession.h">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ThumbMgr\ThumbTxSession.h">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ThumbMgr\ThumbXferDb.h">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ThumbMgr\ThumbXferMgr.h">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ThumbMgr\ThumbXferSession.h">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\OfferBase\OfferBaseInfo.h">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\OfferBase\OfferBaseInfoDb.h">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\OfferBase\OfferBaseMgr.h">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\OfferBase\OfferBaseRxSession.h">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\OfferBase\OfferBaseTxSession.h">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\OfferBase\OfferBaseXferDb.h">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\OfferBase\OfferBaseXferMgr.h">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\OfferBase\OfferBaseXferSession.h">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ConnectMgr\ConnectCallbackInterface.h">
+      <Filter>Source Files\ConnectMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ConnectMgr\ConnectInfo.h">
+      <Filter>Source Files\ConnectMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ConnectMgr\ConnectInfoDb.h">
+      <Filter>Source Files\ConnectMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ConnectMgr\ConnectMgr.h">
+      <Filter>Source Files\ConnectMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BaseInfo\BaseInfo.h">
+      <Filter>Source Files\BaseInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\P2PEngine\VxSktLoopback.h">
+      <Filter>Source Files\P2PEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BaseInfo\BaseHostInfo.h">
+      <Filter>Source Files\BaseInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BaseInfo\BaseJoinInfo.h">
+      <Filter>Source Files\BaseInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\UserJoinMgr\UserJoinCallbackInterface.h">
+      <Filter>Source Files\UserJoinMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\UserJoinMgr\UserJoinInfo.h">
+      <Filter>Source Files\UserJoinMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\UserJoinMgr\UserJoinInfoDb.h">
+      <Filter>Source Files\UserJoinMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\UserJoinMgr\UserJoinMgr.h">
+      <Filter>Source Files\UserJoinMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\BaseInfo\BaseSessionInfo.h">
+      <Filter>Source Files\BaseInfo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetBase\AssetBaseCallbackInterface.h">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetBase\BaseXferInterface.h">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IdentListMgrs\FriendListMgr.h">
+      <Filter>Source Files\IdentListMgrs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IdentListMgrs\IdentListMgrBase.h">
+      <Filter>Source Files\IdentListMgrs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IdentListMgrs\IgnoreListMgr.h">
+      <Filter>Source Files\IdentListMgrs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IdentListMgrs\IdentListCallbackInterface.h">
+      <Filter>Source Files\IdentListMgrs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginPushToTalk.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PushToTalkFeedMgr.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SktLists\SktListCallbackInterface.h">
+      <Filter>Source Files\SktLists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SktLists\SktListMgr.h">
+      <Filter>Source Files\SktLists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SktLists\SktListMgrBase.h">
+      <Filter>Source Files\SktLists</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginPeerUserClient.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginPeerUserHost.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\UrlMgr\UrlMgr.h">
+      <Filter>Source Files\UrlMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HostListMgr\HostUrlListDb.h">
+      <Filter>Source Files\HostListMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HostListMgr\HostUrlListMgr.h">
+      <Filter>Source Files\HostListMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HostListMgr\HostUrlInfo.h">
+      <Filter>Source Files\HostListMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HostListMgr\HostedInfo.h">
+      <Filter>Source Files\HostListMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HostListMgr\HostedListDb.h">
+      <Filter>Source Files\HostListMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HostListMgr\HostedListMgr.h">
+      <Filter>Source Files\HostListMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HostListMgr\HostedListCallbackInterface.h">
+      <Filter>Source Files\HostListMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GroupieListMgr\GroupieInfo.h">
+      <Filter>Source Files\GroupieListMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GroupieListMgr\GroupieListCallbackInterface.h">
+      <Filter>Source Files\GroupieListMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GroupieListMgr\GroupieListDb.h">
+      <Filter>Source Files\GroupieListMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\GroupieListMgr\GroupieListMgr.h">
+      <Filter>Source Files\GroupieListMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\UserJoinMgr\UserJoinedLastDb.h">
+      <Filter>Source Files\UserJoinMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginAboutMePageClient.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginStoryboardClient.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginBaseFileShare.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginBaseFiles.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\FileInfoDb.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\FileInfo.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\FileInfoXferMgr.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginAboutMePageServer.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginStoryboardServer.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginBaseFilesClient.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginBaseFilesServer.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Relay\RelayMgr.h">
+      <Filter>Source Files\Relay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ConnectIdListMgr\ConnectIdListMgr.h">
+      <Filter>Source Files\ConnectIdListMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IdentListMgrs\IgnoredHostsDb.h">
+      <Filter>Source Files\IdentListMgrs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IdentListMgrs\IgnoredHostInfo.h">
+      <Filter>Source Files\IdentListMgrs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginCamClient.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginCamServer.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginFileShareClient.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginFileShareServer.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\FileInfoBaseMgr.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\FileInfoSharedFilesMgr.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\FileInfoClientFilesMgr.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\FileShareXferSession.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginLibraryServer.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginPersonFileXfer.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WebPageMgr\WebPageCallbackInterface.h">
+      <Filter>Source Files\WebPageMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WebPageMgr\WebPageMgr.h">
+      <Filter>Source Files\WebPageMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\OfferBase\OfferMgr.h">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HostServerJoinMgr\HostJoinCallbackInterface.h">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HostServerJoinMgr\HostJoinedLastDb.h">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HostServerJoinMgr\HostJoinInfo.h">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HostServerJoinMgr\HostJoinInfoDb.h">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\HostServerJoinMgr\HostServerJoinMgr.h">
+      <Filter>Source Files\HostServerJoinMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Membership\MemberActiveMgr.h">
+      <Filter>Source Files\Membership</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FromGuiMgr\FromGuiMgr.h">
+      <Filter>Source Files\FromGuiMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FromGuiMgr\FromGuiAction.h">
+      <Filter>Source Files\FromGuiMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginBaseNetworkService.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ThumbMgr\ThumbXferInterface.h">
+      <Filter>Source Files\ThumbMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Membership\MemberActiveCallback.h">
+      <Filter>Source Files\Membership</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PushToTalk\PushToTalkCallback.h">
+      <Filter>Source Files\PushToTalk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PushToTalk\PushToTalkMgr.h">
+      <Filter>Source Files\PushToTalk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\FileXferCallback.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\RandConnect\RandConnectCallback.h">
+      <Filter>Source Files\RandConnect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\RandConnect\RandConnectMgr.h">
+      <Filter>Source Files\RandConnect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SendQueue\SendQueueCallback.h">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SendQueue\SendQueueMgr.h">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SendQueue\SendQueueDb.h">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SendQueue\SendQueueDefs.h">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\SendQueue\SendQueInfo.h">
+      <Filter>Source Files\SendQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetBase\AssetXferCallback.h">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Membership\MemberConfirmMgr.h">
+      <Filter>Source Files\Membership</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\OfferBase\OfferCallback.h">
+      <Filter>Source Files\OfferBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\FileInfoPersonFileXferMgr.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\GuiInterface\IAudioDefs.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\GuiInterface\IAudioInterface.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\GuiInterface\IDefs.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\GuiInterface\IFromGui.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\GuiInterface\ILog.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\GuiInterface\IMediaPlayerInterface.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\GuiInterface\INlcEvents.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\GuiInterface\INlcGeometry.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\GuiInterface\INlcRender.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\GuiInterface\IScan.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\GuiInterface\ITimeDefs.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\GuiInterface\IToGui.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\GuiInterface\NlcRenderFrame.h">
+      <Filter>GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetServices\NetActionResolveConnectTestUrl.h">
+      <Filter>Source Files\NetServices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetServices\NetActionResolveNetworkHostUrl.h">
+      <Filter>Source Files\NetServices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetServices\NetActionWaitForInternet.h">
+      <Filter>Source Files\NetServices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetServices\NetActionResolveDefaultUserHosts.h">
+      <Filter>Source Files\NetServices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\NetServices\NetActionRenewPortForward.h">
+      <Filter>Source Files\NetServices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Network\StayConnected.h">
+      <Filter>Source Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AssetBase\AssetPlaySession.h">
+      <Filter>Source Files\AssetBase</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\MediaProcessor\CamJpgVideo.h">
+      <Filter>Source Files\MediaProcessor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Plugins\PluginFriendRequest.h">
+      <Filter>Source Files\Plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FriendRequestMgr\FriendRequestCallbackInterface.h">
+      <Filter>Source Files\FriendRequestMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FriendRequestMgr\FriendRequestInfo.h">
+      <Filter>Source Files\FriendRequestMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FriendRequestMgr\FriendRequestMgr.h">
+      <Filter>Source Files\FriendRequestMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\UserJoinMgr\LastJoined.h">
+      <Filter>Source Files\UserJoinMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ConnectIdListMgr\ConnectIdListCallback.h">
+      <Filter>Source Files\ConnectIdListMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\AppMonitor\AppMonitor.h">
+      <Filter>Source Files\AppMonitor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\FileMgr\FileMgr.h">
+      <Filter>Source Files\FileMgr</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="QtBuild">
+      <UniqueIdentifier>{0921fc77-19ec-4125-8b2f-00cc5b3f5e56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4ec8ff0d-76a6-4311-89b3-1305b2840f0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AssetMgr">
+      <UniqueIdentifier>{d695dc88-9f47-48f0-9a5b-e4bc8a13199a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BigListLib">
+      <UniqueIdentifier>{7c212114-33f1-4d7b-8bbb-a6c70525bc4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MediaProcessor">
+      <UniqueIdentifier>{7502e55c-5a94-4545-81cf-481112095776}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NetServices">
+      <UniqueIdentifier>{ec6ca72a-ea81-4adb-998b-76b54936e9f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Network">
+      <UniqueIdentifier>{802cfdd5-8c6a-47f9-a68d-cc5b138113c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NetworkMonitor">
+      <UniqueIdentifier>{c908196f-369b-47a6-bb2b-5097fb0d3570}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\P2PEngine">
+      <UniqueIdentifier>{153fa2e1-3837-4693-b311-aeef7be2cfcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Plugins">
+      <UniqueIdentifier>{cf562f1b-4f74-4a52-b52b-705d9b17025f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Search">
+      <UniqueIdentifier>{c0217daa-8641-440a-bf64-9fbed6a04b7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PluginSettings">
+      <UniqueIdentifier>{79d61f45-dfd4-45b2-aff4-e88593f636a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NetworkTest">
+      <UniqueIdentifier>{0f4e0e33-86c3-4f87-9a0e-ca56a6210b54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Connections">
+      <UniqueIdentifier>{43bc1941-42bb-4aa6-8541-8c04a3f317c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BlobXferMgr">
+      <UniqueIdentifier>{68c61962-7aad-4927-bc06-08d952dcc131}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\User">
+      <UniqueIdentifier>{d8b95c40-fa5a-4e3e-b03e-5a33c754d6b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ThumbMgr">
+      <UniqueIdentifier>{85ae1a80-8839-4ec0-8992-1e2098f01c0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AssetBase">
+      <UniqueIdentifier>{9f3693fb-5343-4243-af51-b0ed6fb60a55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\OfferBase">
+      <UniqueIdentifier>{df8389e0-0bdd-4773-9dfe-9ba516d0d026}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ConnectMgr">
+      <UniqueIdentifier>{26c521ac-2eac-49e1-b3c7-1edef2efe660}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BaseInfo">
+      <UniqueIdentifier>{019f1a11-04eb-4df7-a4e1-77d4aee987f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UserJoinMgr">
+      <UniqueIdentifier>{5e2fa986-b854-42bf-aa66-3f3e7c1b489d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IdentListMgrs">
+      <UniqueIdentifier>{2cde1acc-ffb6-4ce6-aafc-fa8155b40dab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SktLists">
+      <UniqueIdentifier>{f409edf1-aaed-4aeb-b380-02f4638df9ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Membership">
+      <UniqueIdentifier>{6a8cbc11-9cb6-40dc-9d8c-d9f4efe32988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\UrlMgr">
+      <UniqueIdentifier>{b8bc13e3-0f2e-4ddf-b28f-045608b10045}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HostListMgr">
+      <UniqueIdentifier>{3c0ac8c8-fcfa-42bb-922c-b041a277187c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GroupieListMgr">
+      <UniqueIdentifier>{26198458-8e0f-4ffc-bca9-924f271970a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Relay">
+      <UniqueIdentifier>{55109772-14b2-4267-901c-e08847444ab4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ConnectIdListMgr">
+      <UniqueIdentifier>{688ca6a4-b923-40f1-baa0-ff911d8e4fc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\WebPageMgr">
+      <UniqueIdentifier>{bee4bc25-082e-4a6b-94f9-532895b6b153}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HostServerJoinMgr">
+      <UniqueIdentifier>{07a4d6eb-cfe8-4ee9-b9a0-251e266a6fbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FromGuiMgr">
+      <UniqueIdentifier>{0f30dc4f-3c52-4c41-8476-2f4f9c47ebfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PushToTalk">
+      <UniqueIdentifier>{49a51a9a-7732-452a-b517-f9984a034821}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\RandConnect">
+      <UniqueIdentifier>{d670aa14-a948-4813-b129-485ea8782c59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SendQueue">
+      <UniqueIdentifier>{3ff26583-9932-4eac-a5f1-9fdeac26315c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GuiInterface">
+      <UniqueIdentifier>{2fd97754-7c51-411b-9283-fd6c558030a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FriendRequestMgr">
+      <UniqueIdentifier>{57e97fe6-412e-4ffb-9dca-b3c2d8d8dbb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AppMonitor">
+      <UniqueIdentifier>{0ab1212c-e452-44c5-9c6b-c3d14d7a8eea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FileMgr">
+      <UniqueIdentifier>{efae2ddc-ff9b-484b-8351-9f621075d8ab}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\CMakeLists.txt">
+      <Filter>QtBuild</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

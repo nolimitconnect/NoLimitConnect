@@ -14,7 +14,9 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Multimedia OpenGL Svg Widgets)
 
-find_package(OpenGL REQUIRED)
+if(NOT DEFINED TARGET_OS_ANDROID)
+    find_package(OpenGL REQUIRED)
+endif()
 
 set (_allTargets "")
 

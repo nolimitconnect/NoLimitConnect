@@ -1,0 +1,3212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>qrc;rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Translation Files">
+      <UniqueIdentifier>{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}</UniqueIdentifier>
+      <Extensions>ts</Extensions>
+    </Filter>
+    <Filter Include="Source Files\NoLimitConnectMain">
+      <UniqueIdentifier>{c566a0d6-f705-4d52-a22f-ff8c59bef879}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiHosted">
+      <UniqueIdentifier>{548f0231-f375-4d1b-801e-16dc63f80e72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiGroupie">
+      <UniqueIdentifier>{d0a9aaaf-a671-408e-9f6c-1bb5f85ca1e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiUser">
+      <UniqueIdentifier>{8dcc3af8-c664-4474-83ba-bc492b3650ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiUserJoin">
+      <UniqueIdentifier>{cf99d27b-981d-429e-801b-7485f733ca1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiWebPage">
+      <UniqueIdentifier>{5664b446-ed43-4439-b703-8055e1f48810}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AppCommon">
+      <UniqueIdentifier>{0eae3425-fb95-47be-b8a5-839f43e4d17a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiConnectId">
+      <UniqueIdentifier>{10d7bfbc-85f1-4fdd-b2c2-200c099d8913}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AssetWidgets">
+      <UniqueIdentifier>{b6e32014-8fda-412b-8ad1-d7cb6c816cbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiFavorite">
+      <UniqueIdentifier>{d27b18cc-badc-494e-87ee-61a4dffc42e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CompilerConfig">
+      <UniqueIdentifier>{4f792643-1bde-4a8d-87dd-372327a009dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiPlayerMgr">
+      <UniqueIdentifier>{163287ce-ab16-429f-8c1a-bee4fb842cc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\InputWidgets">
+      <UniqueIdentifier>{3c437382-3e3c-4d3a-a82e-10b168684117}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiInterface">
+      <UniqueIdentifier>{b197040c-2823-4a70-ade2-89ce94db8cbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiFileXfer">
+      <UniqueIdentifier>{e711297a-f8ae-4dc1-80bc-1c5f8caf7a11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiOffer">
+      <UniqueIdentifier>{dfce8df5-e755-440e-90c4-8804f5205a51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\IdentWidget">
+      <UniqueIdentifier>{a7ae16d0-a58c-4967-985f-aca279316bbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiThumb">
+      <UniqueIdentifier>{ff983f77-b0d6-45f7-aac4-e9456a4566b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\miniaudioio">
+      <UniqueIdentifier>{3b929ec3-6b03-4299-bde7-70639ea49722}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\miniaudioio\Qt">
+      <UniqueIdentifier>{81aaf2b7-9cfd-4772-8468-3b78e87e108e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="cmake_helpers">
+      <UniqueIdentifier>{b3ccd291-3db7-4f12-a49e-026f0d1854c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TitleAndBottomAndAvatarBar">
+      <UniqueIdentifier>{bc65c609-eba9-4de8-bb03-2aaf500ad8ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Applets">
+      <UniqueIdentifier>{9179203b-2524-4621-a35b-8e58453e67f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiPluginMgr">
+      <UniqueIdentifier>{c556a647-5103-4d79-b058-9aca6f55f45e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiHostServerJoin">
+      <UniqueIdentifier>{fadd8697-1109-45a8-8fa4-5bf871e49171}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiMemberActive">
+      <UniqueIdentifier>{4752cb1b-2eb1-49e3-a602-07cd0474b3f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiInterface">
+      <UniqueIdentifier>{416d4d2a-1f4a-415d-8d6d-be49708b1c9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AppInterface">
+      <UniqueIdentifier>{e65fda96-df98-4095-bc81-52822f3e2022}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AppInterface\OsAndroid">
+      <UniqueIdentifier>{59ffd79f-e444-4431-8dae-e6f83bae2927}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AppInterface\OsApple">
+      <UniqueIdentifier>{534acbe4-df53-44a9-bb39-c3ad10bd5aec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AppInterface\OsLinux">
+      <UniqueIdentifier>{a49a61a2-93b0-418d-9453-b31358df6708}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Activity">
+      <UniqueIdentifier>{566899b2-d032-4f7f-bcf9-98450f66532c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Activity">
+      <UniqueIdentifier>{71bf548e-fb92-41bc-ab4b-1550a28ad17a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\InputWidgets">
+      <UniqueIdentifier>{39f98708-ba03-4280-9547-52b67ee9f87c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiConnectId">
+      <UniqueIdentifier>{00289388-267c-4c45-9329-1e196bbb214d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiFavorite">
+      <UniqueIdentifier>{e458b2b9-e7ea-4d7d-818f-46ddc0708449}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiFileXfer">
+      <UniqueIdentifier>{450b9b8a-f701-487e-ba40-3b3a0d660854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiGroupie">
+      <UniqueIdentifier>{e488f393-6ae8-4a18-83ce-881e697e96a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiHosted">
+      <UniqueIdentifier>{47b79b71-c2ca-494a-a505-b24e812ffd24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiHostServerJoin">
+      <UniqueIdentifier>{2f217af2-db23-4847-a0d7-28e0994fd09c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiMemberActive">
+      <UniqueIdentifier>{d2b74e7a-4157-48e7-98ea-4696d5e8caf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiOffer">
+      <UniqueIdentifier>{3af48283-f744-4a2d-9144-4a5f006b92b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiPlayerMgr">
+      <UniqueIdentifier>{2da400da-5b21-425b-93f2-fcdf9b9b3258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiThumb">
+      <UniqueIdentifier>{e9c27a46-8dcb-42b4-b967-aff25617b999}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiUser">
+      <UniqueIdentifier>{420e5a4c-9826-43fb-83e7-bb030426bec6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiUserJoin">
+      <UniqueIdentifier>{17ab0fbf-6021-406b-822f-624226b3e180}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiWebPage">
+      <UniqueIdentifier>{471caebc-e9d7-466b-8f73-aac21cbaa8e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\IdentWidget">
+      <UniqueIdentifier>{9909c989-3535-4a84-a57c-1c1659258ea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\miniaudioio">
+      <UniqueIdentifier>{72f9399e-74f6-4e7b-a68b-49aeb66969a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TitleAndBottomAndAvatarBar">
+      <UniqueIdentifier>{b5c31bed-72ac-4e55-ac9c-41aba9ce7928}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiLoaderThread">
+      <UniqueIdentifier>{70e95096-2288-48ca-93eb-5c2ff3fddc22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiPushToTalk">
+      <UniqueIdentifier>{66cec2db-2ef0-47e9-8425-45593fe187f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiPushToTalk">
+      <UniqueIdentifier>{a5cbf18a-3ba2-4c1a-8fc0-92bcc0d0cabe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiRandConnect">
+      <UniqueIdentifier>{c697a842-920d-48e3-aaac-97433dfc56c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GuiRandConnect">
+      <UniqueIdentifier>{4c893022-96d9-4df8-b85b-8fee8447a934}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiSendQueue">
+      <UniqueIdentifier>{c04e7488-aba3-44af-afbe-50926f77dea7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\VirtStream">
+      <UniqueIdentifier>{c6ffb0a5-d2cc-4782-bf56-ca8f277df493}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="androidManifests">
+      <UniqueIdentifier>{6b0fc571-9dec-485e-aebe-bbcb5ad20a45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="androidManifests\android">
+      <UniqueIdentifier>{9e2b6cb6-9299-4f06-ac23-518343085f90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Cam">
+      <UniqueIdentifier>{f14c3319-b667-42bc-8aaa-688867613337}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PhoneRinger">
+      <UniqueIdentifier>{1caab6a7-3c45-4991-b350-6354ab192ec8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GuiFriendRequest">
+      <UniqueIdentifier>{4d381fe0-0556-4418-b7d7-baed63d37ee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TodGame">
+      <UniqueIdentifier>{11a0b59a-a5a6-4b21-9997-1d578cddd0a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Offer">
+      <UniqueIdentifier>{afb8f662-f4c0-4144-b5d5-d549d6b112ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GuiCmake">
+      <UniqueIdentifier>{251e4b5e-0d25-4ac9-9161-afc8277d76dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GitLabCiCd">
+      <UniqueIdentifier>{59827377-1ab1-46d1-9620-829750d4c710}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="..\..\..\src\AssetBaseWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AssetFaceWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AssetPhotoWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AssetTextWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AssetVideoWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AssetVoiceWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\CamLogic.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\CamTitleBarPreview.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ChatEntryWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\DialogConfirmRemoveMessage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\FileActionBarWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\FileActionMenu.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\FileListReplySession.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\FileShareItemWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\FileXferWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\FriendListEntryWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\FriendListWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\HomeWindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ImageListEntry.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ImageListRow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ImageListWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ImagePickBar.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\InformationWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\InstMsgWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\LogMgr.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\LogWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\MessengerPage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\MultiSessionState.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\NetAvailStatusWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\NetClientGuiLogic.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\NetHostGuiLogic.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\PermissionListItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\PermissionWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\PluginSettingsWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\RenderGlLogic.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\RenderGlOffScreenSurface.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\RenderGlWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\SearchParamsWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ServiceSettingsWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\SessionWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\StoryWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\TextChatLogic.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ThumbnailChooseWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ThumbnailEditWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ThumbnailViewWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\TodGameLogic.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\TodGameWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VidWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxAppDisplay.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxAppTheme.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxAspectFrame.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxAvatarImage.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxComboBox.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxContextMenu.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxFrame.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxLabel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxMenu.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxMenuButton.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxMenuButtonBottom.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxMenuButtonTop.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxPlainTextEdit.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxPushButton.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxScrollArea.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxSpinProgress.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxTagLabel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VxWidgetBase.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\HostJoinRequestListItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\HostJoinRequestListWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ListWidgetBase.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\HostedPluginWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\OfferSendWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\DialogAddComment.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ActivityBase.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ActivityBrowseFiles.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ActivityDownloadItemMenu.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ActivityFileSearch.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ActivityMessageBox.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ActivitySessionOptions.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ActivityShowHelp.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ActivityTimedMessage.h">
+      <Filter>Header Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AcceptCancelWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\RenderPlayerNlcThread.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\RichTextWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\SearchBarWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\SoundMgr.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\TestWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\PersonOfferListWidget.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\PersonOfferListItem.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\HistoryEntryWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\HistoryListWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\InputAllWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\InputBaseWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\InputFaceWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\InputPhotoWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\InputTextWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\InputVideoWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\InputVoiceWidget.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiConnectIdListMgr.h">
+      <Filter>Header Files\GuiConnectId</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiFileXferMgr.h">
+      <Filter>Header Files\GuiFileXfer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiGroupieListItem.h">
+      <Filter>Header Files\GuiGroupie</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiGroupieListMgr.h">
+      <Filter>Header Files\GuiGroupie</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiGroupieListWidget.h">
+      <Filter>Header Files\GuiGroupie</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiHostedListItem.h">
+      <Filter>Header Files\GuiHosted</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiHostedListWidget.h">
+      <Filter>Header Files\GuiHosted</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiMemberActiveMgr.h">
+      <Filter>Header Files\GuiMemberActive</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiOfferListItem.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiOfferListWidget.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiOfferMgr.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiOfferMgrBase.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiOfferSession.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\OfferBarWidget.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiUser.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiUserBase.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiUserListItem.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiUserListWidget.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiUserMgr.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiUserMultiListWidget.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiUserJoinListItem.h">
+      <Filter>Header Files\GuiUserJoin</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiUserJoinListWidget.h">
+      <Filter>Header Files\GuiUserJoin</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiUserJoinMgr.h">
+      <Filter>Header Files\GuiUserJoin</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiWebPageMgr.h">
+      <Filter>Header Files\GuiWebPage</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\IdentOfferWidget.h">
+      <Filter>Header Files\IdentWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\IdentWidget.h">
+      <Filter>Header Files\IdentWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\IdentLogicInterface.h">
+      <Filter>Header Files\IdentWidget</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\miniaudioio\AudioEchoCancel.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\miniaudioio\AudioEchoCancelImpl.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\miniaudioio\AudioMasterClock.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\miniaudioio\MiniAudioIn.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\miniaudioio\MiniAudioInDevice.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\miniaudioio\MiniAudioMgr.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\miniaudioio\MiniAudioOutDevice.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\BottomBarWidget.h">
+      <Filter>Header Files\TitleAndBottomAndAvatarBar</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AvatarBar.h">
+      <Filter>Header Files\TitleAndBottomAndAvatarBar</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\TitleBarWidget.h">
+      <Filter>Header Files\TitleAndBottomAndAvatarBar</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiPushToTalkMgr.h">
+      <Filter>Source Files\GuiPushToTalk</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiRandConnectMgr.h">
+      <Filter>Header Files\GuiRandConnect</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\WaitingSpinnerWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiSendQueueMgr.h">
+      <Filter>Source Files\GuiSendQueue</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiPluginMgr.h">
+      <Filter>Source Files\GuiPluginMgr</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiPlayerMgr.h">
+      <Filter>Source Files\GuiPlayerMgr</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\PlayControlWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppModuleState.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\FileFilterSelectWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletTestUpnp.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiHostedByMeJoinMgr.h">
+      <Filter>Header Files\GuiHostServerJoin</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiHostedListMgr.h">
+      <Filter>Source Files\GuiHosted</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\FileMediaSelectWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\VideoFrameProcessor.h">
+      <Filter>Source Files\Cam</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiThreadMainLoader.h">
+      <Filter>Source Files\GuiLoaderThread</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiThreadSettingsLoader.h">
+      <Filter>Source Files\GuiLoaderThread</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiThreadAppLoader.h">
+      <Filter>Source Files\GuiLoaderThread</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletAboutUser.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiUserSessionBase.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\PhoneRinger.h">
+      <Filter>Source Files\PhoneRinger</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ActivityMsgBoxOk.h">
+      <Filter>Source Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ActivityMsgBoxYesNo.h">
+      <Filter>Source Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsFriendRequest.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletFriendRequest.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\WebsiteWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ClipboardCopyWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ClipboardPasteWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ActionWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\InviteUrlWidget.h">
+      <Filter>Source Files</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiFriendRequest\GuiFriendRequestMgr.h">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiFriendRequest\GuiFriendRequestListItem.h">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiFriendRequest\GuiFriendRequestListWidget.h">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletFriendRequestList.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\ActivityGenerateHash.h">
+      <Filter>Source Files\Activity</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletCreateAccount.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletInformation.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppCommon.h">
+      <Filter>Source Files\AppCommon</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletOfferInfo.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\TodStatsWidget.h">
+      <Filter>Source Files\TodGame</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletHostJoinChoose.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletHostJoinConnect.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletAboutApp.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletAboutMeClient.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletAboutMeServerViewMine.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletApplicationInfo.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletAssetPlayerBase.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletBase.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletBrowseFiles.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletCamClient.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletCamServerViewMine.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletCamSettings.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletChatRoomClient.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletChatRoomHostAdmin.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletChatRoomJoin.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletChatRoomListLocalView.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletChooseThumbnail.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletClientAvatarImage.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletClientBase.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletDownloads.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletEditAboutMe.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletEditAvatarImage.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletEditStoryboard.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletFileOfferSelect.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletFileShareClientView.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletFileShareServerViewMine.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletFriendList.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletGalleryEmoticon.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletGalleryImage.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletGalleryThumb.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletGetStarted.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletGroupClient.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletGroupHostAdmin.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletGroupJoin.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletGroupJoinSearch.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletGroupListClient.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletGroupListLocalView.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletHackerList.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletHelpNetSignalBars.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletHostBase.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletHostChatRoomStatus.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletHostGroupStatus.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletHostJoinRequestList.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletHostNetworkStatus.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletHostRandomConnectStatus.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletIgnoredHosts.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletInviteAccept.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletInviteCreate.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletIsPortOpenTest.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletJoinBase.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletLaunchPage.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletLaunchWidget.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletLibrary.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletLog.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletLogSettings.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletMgr.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletMultiMessenger.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletNetHostingPage.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletNetworkSettings.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletOfferList.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletOfferResponse.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletOfferResponseAccept.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletOfferSend.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletOfferView.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPeerBase.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPeerChangeFriendship.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPeerReplyFileOffer.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPeerSessionFileOffer.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPeerTodGame.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPeerVideoPhone.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPeerVoicePhone.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPermissionList.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPersonalRecorder.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPersonOfferList.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPlayerBase.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPlayerCamClip.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPlayerNlc.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPlayerNlcBase.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPlayerPhoto.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPlayerVideo.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletPopupMenu.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletRandomConnectClient.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletRandomConnectHostAdmin.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletRandomConnectJoin.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletRandomConnectListLocalView.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSearchPage.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletServiceAboutMe.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletServiceBase.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletServiceBaseSettings.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletServiceConnectionTest.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletServiceHostNetwork.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletServiceShareFiles.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletServiceShareWebCam.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletServiceStoryboard.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsAboutMe.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsAvatarImage.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsBase.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsConnectionTest.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsFileXfer.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsHostBase.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsHostChatRoom.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsHostGroup.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsHostGroupListing.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsHostNetwork.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsHostRandomConnect.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsMessenger.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsPage.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsPushToTalk.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsRandomConnect.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsShareFiles.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsShareWebCam.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsStoryboard.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsTruthOrDare.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsVideoPhone.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSettingsVoicePhone.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletShareServicesPage.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSnapshot.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSocketList.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletSoundSettings.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletStoryboardClient.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletStoryboardServerViewMine.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletTestAndDebug.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletTheme.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletUploads.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletUserConnections.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletUserIdentity.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletUserPreferences.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletChatRoomJoinSearch.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletRandomConnectJoinSearch.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletHostClientBase.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletHostLeave.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\AppletAboutFile.h">
+      <Filter>Source Files\Applets</Filter>
+    </QtMoc>
+    <QtMoc Include="..\..\..\src\GuiThumbMgr.h">
+      <Filter>Source Files\GuiThumb</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\AcceptCancelWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AccountDb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AccountMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppDefs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppGlobals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppTranslate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ChatEntryWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\DialogConfirmRemoveMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\FileActionBarWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\FileActionMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\FileItemInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\FileListReplySession.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\FileShareItemWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\FileXferWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\FriendList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\FriendListDelegate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\FriendListEntryWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\FriendListWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiHostSession.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiParams.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\HomeWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ImageListEntry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ImageListRow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ImageListWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ImagePickBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\InformationWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\LogMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\LogWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\MessengerPage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\MultiSessionState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\MyIcons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\NetAvailStatusWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\NetClientGuiLogic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\NetHostGuiLogic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\PermissionListItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\PermissionWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\PluginSettingsWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\RenderGlLogic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\RenderGlMatrix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\RenderGlOffScreenSurface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\RenderGlShaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\RenderGlWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\RenderGlWidgetFonts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\RenderGlWidgetRender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\RenderGlWidgetShaderInterface.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\RenderGlWidgetTextures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\RenderLogoShaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\RenderShaderDefsGl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\RenderShaderDefsGles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\RenderShaderQt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\SearchParamsWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ServiceSettingsWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\SessionWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\StoryWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\TextChatLogic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ThumbnailChooseWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ThumbnailEditWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ThumbnailViewWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxAppDisplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxAppStyle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxAppTheme.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxAspectFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxAvatarImage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxComboBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxContextMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxLabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxMenuButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxMenuButtonBottom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxMenuButtonTop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxPlainTextEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxPushButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxResourceToRealFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxScrollArea.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxSndInstance.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxSpinProgress.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxTagLabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxTilePositioner.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VxWidgetBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\PersonOfferListItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\PersonOfferListWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\HostJoinRequestListItem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\HostJoinRequestListWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ListWidgetBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\NoLimitConnectMain\AppSource\main.cpp">
+      <Filter>Source Files\NoLimitConnectMain</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiHelpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\HostedPluginWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiGroupieListItem.cpp">
+      <Filter>Source Files\GuiGroupie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiGroupieListMgr.cpp">
+      <Filter>Source Files\GuiGroupie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiGroupieListSession.cpp">
+      <Filter>Source Files\GuiGroupie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiGroupieListWidget.cpp">
+      <Filter>Source Files\GuiGroupie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiHosted.cpp">
+      <Filter>Source Files\GuiHosted</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiHostedListItem.cpp">
+      <Filter>Source Files\GuiHosted</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiHostedListMgr.cpp">
+      <Filter>Source Files\GuiHosted</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiHostedListSession.cpp">
+      <Filter>Source Files\GuiHosted</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiHostedListWidget.cpp">
+      <Filter>Source Files\GuiHosted</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiGroupie.cpp">
+      <Filter>Source Files\GuiGroupie</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiUser.cpp">
+      <Filter>Source Files\GuiUser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiUserBase.cpp">
+      <Filter>Source Files\GuiUser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiUserListItem.cpp">
+      <Filter>Source Files\GuiUser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiUserListWidget.cpp">
+      <Filter>Source Files\GuiUser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiUserMgr.cpp">
+      <Filter>Source Files\GuiUser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiUserSessionBase.cpp">
+      <Filter>Source Files\GuiUser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiUserJoin.cpp">
+      <Filter>Source Files\GuiUserJoin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiUserJoinList.cpp">
+      <Filter>Source Files\GuiUserJoin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiUserJoinListItem.cpp">
+      <Filter>Source Files\GuiUserJoin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiUserJoinListWidget.cpp">
+      <Filter>Source Files\GuiUserJoin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiUserJoinMgr.cpp">
+      <Filter>Source Files\GuiUserJoin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiUserJoinSession.cpp">
+      <Filter>Source Files\GuiUserJoin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\RichTextWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppCommon.cpp">
+      <Filter>Source Files\AppCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppCommonAudio.cpp">
+      <Filter>Source Files\AppCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppCommonEvents.cpp">
+      <Filter>Source Files\AppCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppCommonFileMenu.cpp">
+      <Filter>Source Files\AppCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppCommonFileShare.cpp">
+      <Filter>Source Files\AppCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppCommonFriend.cpp">
+      <Filter>Source Files\AppCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppCommonLogin.cpp">
+      <Filter>Source Files\AppCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppCommonMedia.cpp">
+      <Filter>Source Files\AppCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppCommonNotify.cpp">
+      <Filter>Source Files\AppCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppCommonOfferToFriend.cpp">
+      <Filter>Source Files\AppCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppCommonRender.cpp">
+      <Filter>Source Files\AppCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppCommonSignalsAndSlots.cpp">
+      <Filter>Source Files\AppCommon</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiConnectIdListMgr.cpp">
+      <Filter>Source Files\GuiConnectId</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\InputAllWidget.cpp">
+      <Filter>Source Files\InputWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\InputBaseWidget.cpp">
+      <Filter>Source Files\InputWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\InputFaceWidget.cpp">
+      <Filter>Source Files\InputWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\InputPhotoWidget.cpp">
+      <Filter>Source Files\InputWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\InputTextWidget.cpp">
+      <Filter>Source Files\InputWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\InputVideoWidget.cpp">
+      <Filter>Source Files\InputWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\InputVoiceWidget.cpp">
+      <Filter>Source Files\InputWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\InstMsgWidget.cpp">
+      <Filter>Source Files\InputWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\HistoryEntryWidget.cpp">
+      <Filter>Source Files\InputWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\HistoryListWidget.cpp">
+      <Filter>Source Files\InputWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AssetBaseWidget.cpp">
+      <Filter>Source Files\AssetWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AssetFaceWidget.cpp">
+      <Filter>Source Files\AssetWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AssetPhotoWidget.cpp">
+      <Filter>Source Files\AssetWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AssetTextWidget.cpp">
+      <Filter>Source Files\AssetWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AssetVideoWidget.cpp">
+      <Filter>Source Files\AssetWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AssetVoiceWidget.cpp">
+      <Filter>Source Files\AssetWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiFavoriteMgr.cpp">
+      <Filter>Source Files\GuiFavorite</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\SoundMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\EventsQtToNlc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiPlayerMgr.cpp">
+      <Filter>Source Files\GuiPlayerMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiPluginMgr.cpp">
+      <Filter>Source Files\GuiPluginMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiWebPageMgr.cpp">
+      <Filter>Source Files\GuiWebPage</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiFileXferSession.cpp">
+      <Filter>Source Files\GuiFileXfer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiOfferMgrBase.cpp">
+      <Filter>Source Files\GuiOffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiOfferSession.cpp">
+      <Filter>Source Files\GuiOffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiFileXferMgr.cpp">
+      <Filter>Source Files\GuiFileXfer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\IdentLogicInterface.cpp">
+      <Filter>Source Files\IdentWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\IdentOfferWidget.cpp">
+      <Filter>Source Files\IdentWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\IdentWidget.cpp">
+      <Filter>Source Files\IdentWidget</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\TestWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiOfferMgr.cpp">
+      <Filter>Source Files\GuiOffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiThumb.cpp">
+      <Filter>Source Files\GuiThumb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiThumbList.cpp">
+      <Filter>Source Files\GuiThumb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiThumbMgr.cpp">
+      <Filter>Source Files\GuiThumb</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiOfferInfo.cpp">
+      <Filter>Source Files\GuiOffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiOfferListItem.cpp">
+      <Filter>Source Files\GuiOffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiOfferListWidget.cpp">
+      <Filter>Source Files\GuiOffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiUserMultiListWidget.cpp">
+      <Filter>Source Files\GuiUser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\SearchBarWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\DialogAddComment.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\miniaudioio\AudioBitrate.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\miniaudioio\AudioEchoBuf.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\miniaudioio\AudioEchoCancel.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\miniaudioio\AudioEchoCancelImpl.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\miniaudioio\AudioMasterClock.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\miniaudioio\AudioSampleBuf.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\miniaudioio\AudioTestGenerator.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\miniaudioio\AudioUtils.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\miniaudioio\MiniAudioDevices.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\miniaudioio\MiniAudioIn.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\miniaudioio\MiniAudioInDevice.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\miniaudioio\MiniAudioMgr.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\miniaudioio\MiniAudioOut.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\miniaudioio\MiniAudioOutDevice.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\RenderPlayerNlcThread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\miniaudioio\AudioMixerBuf.cpp">
+      <Filter>Source Files\miniaudioio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\TitleBarWidget.cpp">
+      <Filter>Source Files\TitleAndBottomAndAvatarBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\BottomBarWidget.cpp">
+      <Filter>Source Files\TitleAndBottomAndAvatarBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AvatarBar.cpp">
+      <Filter>Source Files\TitleAndBottomAndAvatarBar</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletAboutApp.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletAboutMeClient.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletAboutMeServerViewMine.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletApplicationInfo.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletAssetPlayerBase.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletBase.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletBrowseFiles.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletCamClient.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletCamServerViewMine.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletCamSettings.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletChatRoomClient.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletChatRoomJoin.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletChatRoomListLocalView.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletChooseThumbnail.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletClientAvatarImage.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletClientBase.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletDownloads.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletEditAboutMe.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletEditAvatarImage.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletEditStoryboard.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletFileOfferSelect.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletFileShareClientView.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletFileShareServerViewMine.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletGalleryEmoticon.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletGalleryImage.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletGalleryThumb.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletGetStarted.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletGroupClient.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletGroupHostAdmin.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletGroupJoin.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletGroupJoinSearch.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletGroupListClient.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletGroupListLocalView.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletHackerList.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletHelpNetSignalBars.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletHostBase.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletHostChatRoomStatus.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletHostGroupStatus.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletHostJoinRequestList.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletHostNetworkStatus.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletHostRandomConnectStatus.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletIgnoredHosts.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletInviteAccept.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletInviteCreate.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletIsPortOpenTest.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletJoinBase.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletLaunchPage.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletLaunchWidget.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletLibrary.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletLog.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletLogSettings.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletMgr.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletMultiMessenger.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletNetHostingPage.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletNetworkSettings.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletOfferList.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletOfferResponse.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletOfferResponseAccept.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletOfferSend.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletOfferView.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPeerBase.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPeerChangeFriendship.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPeerReplyFileOffer.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPeerSessionFileOffer.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPeerTodGame.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPeerVideoPhone.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPeerVoicePhone.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPermissionList.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPersonalRecorder.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPersonOfferList.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPlayerBase.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPlayerCamClip.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPlayerNlc.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPlayerPhoto.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPlayerVideo.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPopupMenu.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletRandomConnectClient.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletRandomConnectJoin.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletRandomConnectListLocalView.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSearchPage.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletServiceAboutMe.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletServiceBase.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletServiceBaseSettings.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletServiceConnectionTest.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletServiceHostNetwork.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletServiceShareFiles.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletServiceShareWebCam.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletServiceStoryboard.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsAboutMe.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsAvatarImage.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsBase.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsConnectionTest.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsFileXfer.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsHostBase.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsHostChatRoom.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsHostGroup.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsHostNetwork.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsHostRandomConnect.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsMessenger.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsPage.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsPushToTalk.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsRandomConnect.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsShareFiles.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsShareWebCam.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsStoryboard.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsTruthOrDare.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsVideoPhone.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsVoicePhone.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletShareServicesPage.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSnapshot.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSocketList.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSoundSettings.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletStoryboardClient.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletStoryboardServerViewMine.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletTestAndDebug.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletTheme.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletUploads.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletUserConnections.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletUserIdentity.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletUserPreferences.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiHostJoin.cpp">
+      <Filter>Source Files\GuiHostServerJoin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiHostJoinList.cpp">
+      <Filter>Source Files\GuiHostServerJoin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiHostJoinSession.cpp">
+      <Filter>Source Files\GuiHostServerJoin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletChatRoomHostAdmin.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletRandomConnectHostAdmin.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiMemberActiveMgr.cpp">
+      <Filter>Source Files\GuiMemberActive</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ActivityBase.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ActivityBrowseFiles.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ActivityDownloadItemMenu.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ActivityFileSearch.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ActivityMessageBox.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ActivitySessionOptions.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ActivityShowHelp.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ActivityTimedMessage.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\InputClientBaseCallback.cpp">
+      <Filter>Source Files\InputWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiPushToTalkMgr.cpp">
+      <Filter>Source Files\GuiPushToTalk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletPlayerNlcBase.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiRandConnectMgr.cpp">
+      <Filter>Source Files\GuiRandConnect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\WaitingSpinnerWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiSendQueueMgr.cpp">
+      <Filter>Source Files\GuiSendQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiOfferMgrBaseCallbacks.cpp">
+      <Filter>Source Files\GuiOffer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\PlayControlWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\GuiInterface\IDefs.cpp">
+      <Filter>Source Files\GuiInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\GuiInterface\ILog.cpp">
+      <Filter>Source Files\GuiInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppModuleState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VirtStream\VirtProviderFile.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VirtStream\VirtStorageProvider.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VirtStream\VirtStreamCache.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VirtStream\VirtStreamFile.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VirtStream\VirtStreamMgr.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VirtStream\VirtStreamMgrFileIo.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VirtStream\VirtStreamMgrProvider.cpp">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\FileFilterSelectWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletTestUpnp.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiHostedByMeJoinMgr.cpp">
+      <Filter>Source Files\GuiHostServerJoin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\FileMediaSelectWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiHelpersAndroidPermissions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\CamLogic.cpp">
+      <Filter>Source Files\Cam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\CamTitleBarPreview.cpp">
+      <Filter>Source Files\Cam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VidWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VideoFrameProcessor.cpp">
+      <Filter>Source Files\Cam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiThreadAppLoader.cpp">
+      <Filter>Source Files\GuiLoaderThread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiThreadMainLoader.cpp">
+      <Filter>Source Files\GuiLoaderThread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiThreadSettingsLoader.cpp">
+      <Filter>Source Files\GuiLoaderThread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletAboutUser.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletFriendList.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\PhoneRinger.cpp">
+      <Filter>Source Files\PhoneRinger</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ActivityMsgBoxOk.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ActivityMsgBoxYesNo.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\CamJavaClient.cpp">
+      <Filter>Source Files\Cam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\CamProcessor.cpp">
+      <Filter>Source Files\Cam</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletSettingsFriendRequest.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletFriendRequest.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\WebsiteWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ClipboardCopyWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ClipboardPasteWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ActionWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\InviteUrlWidget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiFriendRequest\GuiFriendRequest.cpp">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiFriendRequest\GuiFriendRequestMgr.cpp">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiFriendRequest\GuiFriendRequestListItem.cpp">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GuiFriendRequest\GuiFriendRequestListWidget.cpp">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletFriendRequestList.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ActivityGenerateHash.cpp">
+      <Filter>Source Files\Activity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletCreateAccount.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletInformation.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletOfferInfo.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\TodGameDefs.cpp">
+      <Filter>Source Files\TodGame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\TodGameLogic.cpp">
+      <Filter>Source Files\TodGame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\TodGameMgr.cpp">
+      <Filter>Source Files\TodGame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\TodGameWidget.cpp">
+      <Filter>Source Files\TodGame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\TodStatsWidget.cpp">
+      <Filter>Source Files\TodGame</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\OfferBarWidget.cpp">
+      <Filter>Source Files\Offer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\OfferSendWidget.cpp">
+      <Filter>Source Files\Offer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\OfferSessionLogic.cpp">
+      <Filter>Source Files\Offer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletHostJoinChoose.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletHostJoinConnect.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletChatRoomJoinSearch.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletRandomConnectJoinSearch.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletHostClientBase.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletHostLeave.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AdminAvailMgr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\AppletAboutFile.cpp">
+      <Filter>Source Files\Applets</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\AppDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\AppGlobals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\AppSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\AppTranslate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\AudioBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\FileItemInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\FriendList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\FriendListDelegate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiHelpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiHostSession.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiParams.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\MenuDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\MyIcons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\MyIconsDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\RenderGlShaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\RenderLogoShaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\RenderShaderQt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\SoundDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\TodGameDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ToGuiActivityInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ToGuiFileXferInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ToGuiHardwareControlInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ToGuiThumbUpdateInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ToGuiUserUpdateInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\UserProfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\VxAppStyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\VxResourceToRealFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\VxTilePositioner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\AccountMgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\AccountDb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\NlcRenderFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\OsInterface\AssetDirectoryList.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\OsInterface\OsInterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AppCompilerConfig.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AppCpuArchDefines.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AppDependLibrariesConfig.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AppTargetOsConfig.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\NlcCommonConfig.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\NlcCompilerConfig.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\NlcCpuArchDefines.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\NlcDependLibrariesConfig.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\NlcTargetOsConfig.h">
+      <Filter>CompilerConfig</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\EventsQtToNlc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IAudioDefs.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IAudioInterface.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IDefs.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IFromGui.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\ILog.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\INlcEvents.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\INlcGeometry.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\INlcRender.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IScan.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\ITimeDefs.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IToGui.h">
+      <Filter>Header Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AppInterface\OsAndroid\IAndroid.h">
+      <Filter>Header Files\AppInterface\OsAndroid</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\AppInterface\OsApple\IApple.h">
+      <Filter>Header Files\AppInterface\OsApple</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\InputClientCallback.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\InputClientBaseCallback.h">
+      <Filter>Header Files\InputWidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiConnectIdListCallback.h">
+      <Filter>Header Files\GuiConnectId</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiOnlineStatusCallback.h">
+      <Filter>Header Files\GuiConnectId</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiFavoriteMgr.h">
+      <Filter>Header Files\GuiFavorite</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiFileXferSession.h">
+      <Filter>Header Files\GuiFileXfer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\AppProfile.h">
+      <Filter>Header Files\GuiGroupie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiGroupie.h">
+      <Filter>Header Files\GuiGroupie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiGroupieListCallback.h">
+      <Filter>Header Files\GuiGroupie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiGroupieListSession.h">
+      <Filter>Header Files\GuiGroupie</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiHosted.h">
+      <Filter>Header Files\GuiHosted</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiHostedListCallback.h">
+      <Filter>Header Files\GuiHosted</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiHostedListSession.h">
+      <Filter>Header Files\GuiHosted</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiHostJoin.h">
+      <Filter>Header Files\GuiHostServerJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiHostJoinCallback.h">
+      <Filter>Header Files\GuiHostServerJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiHostJoinList.h">
+      <Filter>Header Files\GuiHostServerJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiHostJoinSession.h">
+      <Filter>Header Files\GuiHostServerJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiMemberActiveCallback.h">
+      <Filter>Header Files\GuiMemberActive</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiOfferCallback.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiOfferInfo.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\OfferSessionLogic.h">
+      <Filter>Header Files\GuiOffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiUserUpdateCallback.h">
+      <Filter>Header Files\GuiUser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiUserJoin.h">
+      <Filter>Header Files\GuiUserJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiUserJoinCallback.h">
+      <Filter>Header Files\GuiUserJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiUserJoinList.h">
+      <Filter>Header Files\GuiUserJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiUserJoinSession.h">
+      <Filter>Header Files\GuiUserJoin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiWebPageCallback.h">
+      <Filter>Header Files\GuiWebPage</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\miniaudioio\AudioBitrate.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\miniaudioio\AudioEchoBuf.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\miniaudioio\AudioMixerBuf.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\miniaudioio\AudioMixerInterface.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\miniaudioio\AudioSampleBuf.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\miniaudioio\AudioUtils.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\miniaudioio\MiniAudioDevices.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiPushToTalkCallback.h">
+      <Filter>Source Files\GuiPushToTalk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiRandConnectCallback.h">
+      <Filter>Header Files\GuiRandConnect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiSendQueueCallback.h">
+      <Filter>Source Files\GuiSendQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiPluginMgrCallback.h">
+      <Filter>Source Files\GuiPluginMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiPlayerCallback.h">
+      <Filter>Source Files\GuiPlayerMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IFromGuiDefs.h">
+      <Filter>Source Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IMediaPlayerCallback.h">
+      <Filter>Source Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IMediaPlayerInterface.h">
+      <Filter>Source Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\GuiInterface\IMediaPlayerRequests.h">
+      <Filter>Source Files\GuiInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\VirtStream\VirtProviderFile.h">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\VirtStream\VirtStorageProvider.h">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\VirtStream\VirtStreamCache.h">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\VirtStream\VirtStreamFile.h">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\VirtStream\VirtStreamMgr.h">
+      <Filter>Source Files\VirtStream</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\VxSndInstance.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiEchoCancelEnableCallback.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\CamJavaClient.h">
+      <Filter>Source Files\Cam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\CamProcessor.h">
+      <Filter>Source Files\Cam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\CamRgbVideo.h">
+      <Filter>Source Files\Cam</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiFriendRequest\GuiFriendRequest.h">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiFriendRequest\GuiFriendRequestCallback.h">
+      <Filter>Source Files\GuiFriendRequest</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\miniaudioio\AudioTestGenerator.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\miniaudioio\MiniAudioOut.h">
+      <Filter>Header Files\miniaudioio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\TodGameMgr.h">
+      <Filter>Source Files\TodGame</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\AdminAvailMgr.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiThumb.h">
+      <Filter>Source Files\GuiThumb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiThumbCallback.h">
+      <Filter>Source Files\GuiThumb</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GuiThumbList.h">
+      <Filter>Source Files\GuiThumb</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="..\..\..\src\NoLimitConnect.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <QtUic Include="..\..\..\src\Forms\AcceptCancelWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActivityBrowseFiles.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActivityDownloadItemMenu.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActivityFileSearch.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActivityMessageBox.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActivityNetworkStartupTest.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActivityNetworkTest.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActivityPersonalRecorder.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActivityPhoneShake.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActivityReplyFileOffer.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActivitySessionOptions.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActivityShowHelp.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActivityTimedMessage.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActivityYesNo.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletAboutApp.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletApplicationInfo.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletBrowseFiles.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletCamSettings.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletChooseThumbnail.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletDownloads.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletEditAboutMe.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletEditAvatarImage.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletEditStoryBoard.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletGalleryImage.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletGalleryThumb.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletLaunchWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletLibrary.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletLog.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletLogSettings.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletMultiMessenger.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletNetworkKey.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletNetworkSettings.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletPeerChangeFriendship.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletPeerReplyOfferFile.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletPeerSessionFileOffer.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletPeerTodGame.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletPeerVideoPhone.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletPeerVoicePhone.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletPermissionList.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletPersonalRecorder.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletPlayerVideo.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletServiceBase.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletServiceBaseSettings.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletServiceConnectionTest.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletServiceGroupListingHost.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletServiceNetworkHost.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletSnapshot.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletTestAndDebug.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletTheme.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletUploads.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletUserIdentity.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AssetFaceWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AssetPhotoWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AssetTextWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AssetVideoWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AssetVoiceWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AvatarBarWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\BottomBarWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\CentralFrame.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\CentralWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ChatEntryWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\DialogConfirmRemoveMessage.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\FileActionBarWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\FileActionMenu.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\FileDisplayWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\FileShareItemWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\FileXferWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\FriendListDlg.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\HistoryEntryWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\IdentWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ImageListEntry.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ImageListRow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ImageListWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ImagePickBar.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\InformationWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\InputAllWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\InputFaceWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\InputPhotoWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\InputTextWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\InputVideoWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\InputVoiceWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\InstMsgWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\LogWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\OfferBarWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\PermissionListItemWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\PermissionWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\PluginSettingsWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\SearchParamsWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ServiceSettingsWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\SessionWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\StoryWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ThumbnailChooseWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ThumbnailEditWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\TitleBarWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\TodGameWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\VidWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletHostNetworkStatus.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletGroupListLocalView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletPopupMenu.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletGroupListClient.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\PersonOfferListItem.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletPersonOfferList.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\HostJoinRequestListItem.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletHostJoinRequestList.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletGetStarted.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletHelpNetSignalBars.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletInviteCreate.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletInviteAccept.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletGalleryEmoticon.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\GuiHostedListItem.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\GuiGroupieListItem.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletSettingsNoUserSettings.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletAboutMeClient.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletStoryBoardClient.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletIgnoredHosts.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletSoundSettings.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletPlayerCamClip.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletPlayerPhoto.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletCamClient.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletFileShareClientView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletFileOfferSelect.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\OfferSendWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletOfferView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\TestWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletOfferResponse.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletOfferSend.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletOfferResponseAccept.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletOfferList.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletUserPreferences.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\GuiUserMultiListWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\SearchBarWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\DialogAddComment.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletChatRoomListLocalView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletRandomConnectListLocalView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletSettingsHostBase.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletHackerList.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletSocketList.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletIsPortOpenTest.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletPlayerNlc.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletUserConnections.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\PlayControlWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActivityBase.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\FileFilterSelectWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletTestUpnp.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\FileMediaSelectWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletAboutUser.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletFriendList.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletFriendRequest.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\WebsiteWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActionWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\InviteUrlWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletFriendRequestList.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\GuiFriendRequestWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\ActivityGenerateHash.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletCreateAccount.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletInformation.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletOfferInfo.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\TodStatsWidget.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletHostJoinChoose.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletHostJoinConnect.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletHostClient.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletChatRoomJoinSearch.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletRandomConnectJoinSearch.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletGroupJoinSearch.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletJoinHostList.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletHostLeave.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="..\..\..\src\Forms\AppletAboutFile.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\.gitlab-ci.yml">
+      <Filter>GitLabCiCd</Filter>
+    </None>
+    <None Include="..\..\..\..\cmake\cmake_helpers\AndroidOnLinuxCrossCompile.cmake">
+      <Filter>cmake_helpers</Filter>
+    </None>
+    <None Include="..\..\..\..\cmake\cmake_helpers\AndroidOnWindowsCrossCompile.cmake">
+      <Filter>cmake_helpers</Filter>
+    </None>
+    <None Include="..\..\..\..\cmake\cmake_helpers\ConfigStaticDependLib.cmake">
+      <Filter>cmake_helpers</Filter>
+    </None>
+    <None Include="..\..\..\..\cmake\cmake_helpers\NlcAssembler.cmake">
+      <Filter>cmake_helpers</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\src\NoLimitConnect.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\src\NoLimitConnect.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\src\Resources\CreditsArt.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="..\..\..\CMakeLists.txt">
+      <Filter>GuiCmake</Filter>
+    </Text>
+    <Text Include="..\..\..\..\libs\libminiaudio\CMakeLists.txt" />
+    <Text Include="..\..\..\..\libs\NlcPtoPVersion.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\..\android\AndroidManifest.xml">
+      <Filter>androidManifests\android</Filter>
+    </Xml>
+  </ItemGroup>
+</Project>

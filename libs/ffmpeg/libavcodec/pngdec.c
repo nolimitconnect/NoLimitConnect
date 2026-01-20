@@ -440,7 +440,7 @@ static int png_decode_idat(PNGDecContext *s, GetByteContext *gb,
     z_stream *const zstream = &s->zstream.zstream;
     int ret;
     zstream->avail_in = bytestream2_get_bytes_left(gb);
-    zstream->next_in  = gb->buffer;
+    zstream->next_in  = (Bytef*)(gb->buffer);
 
     /* decode one line if possible */
     while (zstream->avail_in > 0) {
@@ -476,7 +476,7 @@ static int decode_zbuf(AVBPrint *bp, const uint8_t *data,
     if (ret < 0)
         return ret;
 
-    zstream->next_in  = data;
+    zstream->next_in  = (Bytef*)data;
     zstream->avail_in = data_end - data;
     av_bprint_init(bp, 0, AV_BPRINT_SIZE_UNLIMITED);
 

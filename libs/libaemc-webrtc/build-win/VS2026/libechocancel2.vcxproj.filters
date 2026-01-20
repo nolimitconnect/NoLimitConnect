@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{9c6f5198-25d0-43cb-909e-f546bb8eb182}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\AecmWebRtc.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\aecm_core.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\complex_bit_reverse.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\complex_fft.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cross_correlation.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\delay_estimator.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\delay_estimator_wrapper.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\division_operations.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\downsample_fast.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\echo_control_mobile.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\min_max_operations.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\randomization_functions.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\real_fft.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ring_buffer.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\spl_init.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\spl_sqrt_floor.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\vector_scaling_operations.c">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\AecmWebRtc.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\aecm_core.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\aecm_defines.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\compile_assert.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\compile_assert_c.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\complex_fft_tables.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpu_features_wrapper.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\delay_estimator.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\delay_estimator_internal.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\delay_estimator_wrapper.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\echo_control_mobile.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\real_fft.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ring_buffer.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\signal_processing_library.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\spl_inl.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\typedefs.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -140,7 +140,7 @@ get_search_path (const char *sub)
   gettextdatadirs = getenv ("XDG_DATA_DIRS");
   if (gettextdatadirs != NULL)
     foreach_elements (gettextdatadirs, fill, &array);
-  free (array.sub);
+  free ((void *)array.sub);
 
   /* Append version specific directory.  */
   base = xasprintf ("%s%s", gettextdatadir, PACKAGE_SUFFIX);

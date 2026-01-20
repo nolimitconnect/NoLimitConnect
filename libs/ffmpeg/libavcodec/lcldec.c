@@ -140,7 +140,7 @@ static int zlib_decomp(AVCodecContext *avctx, const uint8_t *src, int src_len, i
         av_log(avctx, AV_LOG_ERROR, "Inflate reset error: %d\n", zret);
         return AVERROR_UNKNOWN;
     }
-    zstream->next_in   = src;
+    zstream->next_in   = (Bytef*)src;
     zstream->avail_in  = src_len;
     zstream->next_out  = c->decomp_buf + offset;
     zstream->avail_out = c->decomp_size - offset;

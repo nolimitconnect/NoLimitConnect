@@ -1,0 +1,21 @@
+ 
+Download and install nasm from https://www.nasm.us/
+If you installed using the defaults nasm.exe is located in C:\Program Files\NASM
+ 
+For Visual Studio the base nasm.exe binary (not vsyasm) should be in the PATH for Visual Studio.
+For most versions of studio it is sufficient to copy nasm.exe and place it in:
+a path similar to  Program Files (x86)/Microsoft Visual Studio/2019/<level>/Common7/Tools/
+or 
+Program Files (x86)/Microsoft Visual Studio/2019/VC/
+
+I was unable to make the property sheet work from a directory outside of the visual studio project directory
+so you will see copies of these nasm property sheets in each of the project directories instead of using
+the sheets in this directory
+
+These files came from
+https://github.com/ShiftMediaProject/VSNASM
+
+NOTE: In Properties C/C++ Set 
+Multi-processor Compilation to No
+Enable Address Sanitizer to No
+

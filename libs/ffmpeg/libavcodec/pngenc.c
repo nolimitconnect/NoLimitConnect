@@ -283,7 +283,7 @@ static int png_write_row(AVCodecContext *avctx, const uint8_t *data, int size)
     int ret;
 
     zstream->avail_in = size;
-    zstream->next_in  = data;
+    zstream->next_in  = (Bytef*)data;
     while (zstream->avail_in > 0) {
         ret = deflate(zstream, Z_NO_FLUSH);
         if (ret != Z_OK)

@@ -102,7 +102,7 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *frame,
         av_log(avctx, AV_LOG_ERROR, "Inflate reset error: %d\n", ret);
         return AVERROR_EXTERNAL;
     }
-    zstream->next_in   = buf;
+    zstream->next_in   = (Bytef*)buf;
     zstream->avail_in  = buf_size;
     zstream->next_out  = s->decomp_buf;
     zstream->avail_out = s->decomp_size;

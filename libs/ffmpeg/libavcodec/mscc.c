@@ -173,7 +173,7 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *frame,
     if (avctx->codec_id == AV_CODEC_ID_MSCC) {
         const uint8_t start = avpkt->data[2] ^ avpkt->data[0];
 
-        zstream->next_in  = &start;
+        zstream->next_in  = (Bytef*)(&start);
         zstream->avail_in = 1;
         ret = inflate(zstream, Z_NO_FLUSH);
         if (ret != Z_OK || zstream->avail_in != 0)
@@ -182,7 +182,7 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *frame,
         buf      += 3;
         buf_size -= 3;
     }
-    zstream->next_in   = buf;
+    zstream->next_in   = (Bytef*)buf;
     zstream->avail_in  = buf_size;
     ret = inflate(zstream, Z_FINISH);
     if (ret != Z_STREAM_END) {

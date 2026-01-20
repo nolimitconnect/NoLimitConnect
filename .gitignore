@@ -28,6 +28,7 @@ storyboard_thumb.png
 
 
 /**/*.user
+/**/*.user.*
 /**/*.a
 /**/*.aps
 /**/*.d

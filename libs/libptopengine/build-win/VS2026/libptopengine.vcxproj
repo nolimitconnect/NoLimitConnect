@@ -1,0 +1,988 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3A68081D-E8F9-4523-9436-530DE9E5530A}</ProjectGuid>
+    <RootNamespace>XBMC_PC</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectName>libptopengine</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Testsuite|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Testsuite|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)..\..\..\..\build-staticlibs\Windows\$(Platform)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Testsuite|Win32'">GoTvPtoP\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)objs\$(TargetName)\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Testsuite|Win32'">GoTvPtoP\$(Configuration)\objs\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)..\..\..\..\build-staticlibs\Windows\$(Platform)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)objs\$(TargetName)\$(Configuration)\</IntDir>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(WindowsSDK_IncludePath);$(DXSDK_DIR)Include;C:\Program Files %28x86%29\Visual Leak Detector\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(WindowsSDK_IncludePath);$(DXSDK_DIR)Include;C:\Program Files %28x86%29\Visual Leak Detector\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug Testsuite|Win32'">$(WindowsSDK_IncludePath);$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug Testsuite|x64'">$(WindowsSDK_IncludePath);$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(WindowsSDK_LibraryPath_x86);$(DXSDK_DIR)Lib\x86;C:\Program Files %28x86%29\Visual Leak Detector\lib\Win64;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(WindowsSDK_LibraryPath_x86);$(DXSDK_DIR)Lib\x86;C:\Program Files %28x86%29\Visual Leak Detector\lib\Win64;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug Testsuite|Win32'">$(WindowsSDK_LibraryPath_x86);$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug Testsuite|x64'">$(WindowsSDK_LibraryPath_x86);$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(WindowsSDK_IncludePath);$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(WindowsSDK_IncludePath);$(DXSDK_DIR)Include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(WindowsSDK_LibraryPath_x86);$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(WindowsSDK_LibraryPath_x86);$(DXSDK_DIR)Lib\x86;$(LibraryPath)</LibraryPath>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Testsuite|Win32'">$(ProjectName)-test</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Testsuite|x64'">$(ProjectName)-test</TargetName>
+    <CustomBuildBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    </CustomBuildBeforeTargets>
+    <CustomBuildBeforeTargets Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(ProjectName)D</TargetName>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>$(ProjectName)D</TargetName>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)..\..\..\..\build-staticlibs\Windows\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)objs\$(TargetName)\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetExt>.lib</TargetExt>
+    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>$(ProjectDir)..\..\..\..\build-staticlibs\Windows\$(Platform)\</OutDir>
+    <IntDir>$(SolutionDir)objs\$(TargetName)\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\libgotvptop;$(ProjectDir)..\..\..\libplayer-nlc\xbmc;$(ProjectDir)..\..\..\GoTvCore\xbmc;$(ProjectDir)..\..\..\DependLibs\openssl-1.0.2p\include;$(ProjectDir);$(ProjectDir)..\..\;$(ProjectDir)..\..\..\DependLibs;$(ProjectDir)..\..\xbmc;$(ProjectDir)..\..\..\libplayer-nlc\xbmc\cores\AudioEngine\;$(ProjectDir)..\..\..\DependLibs\ffmpeg;$(ProjectDir)..\..\..\DependLibs\libUPnP;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Devices\MediaRenderer;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Devices\MediaConnect;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Devices\MediaServer;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Platinum;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Core;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Extras;$(ProjectDir)..\..\..\DependLibs\libUPnP\Neptune\Source\Core;$(ProjectDir)..\..\..\DependLibs\libUPnP\Neptune\Source\System\Win32;$(ProjectDir)..\..\..\DependLibs\libpcre;$(ProjectDir)..\..\..\DependLibs\Effects11\inc;$(ProjectDir)..\..\..\DependLibs\libfreetype\include;$(ProjectDir)..\..\..\DependLibs\PlatformLib\win32;$(ProjectDir)..\..\xbmc\addons\library.GoTv.guilib;$(ProjectDir)..\..\xbmc\addons\library.xbmc.addon;$(ProjectDir)..\..\xbmc\addons\library.xbmc.pvr;$(ProjectDir)..\..\xbmc\addons\library.GoTv.adsp;$(ProjectDir)..\..\xbmc\addons\library.xbmc.codec;$(ProjectDir)..\..\..\;$(ProjectDir)..\..\..\..\sysheaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_DEBUG;TARGET_OS_WINDOWS;_LIB;LIB_STATIC;NOMINMAX;__STDC_CONSTANT_MACROS;</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
+      <ObjectFileName>$(SolutionDir)objs\$(TargetName)\$(Configuration)\</ObjectFileName>
+      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(SolutionDir)objs\$(TargetName)\$(Configuration)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(SolutionDir)objs\$(TargetName)\$(Configuration)\</AssemblerListingLocation>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <MinimalRebuild>false</MinimalRebuild>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <CallingConvention>Cdecl</CallingConvention>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
+      <StringPooling>false</StringPooling>
+      <ControlFlowGuard>false</ControlFlowGuard>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <CompileAsManaged>false</CompileAsManaged>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>false</OpenMPSupport>
+      <XMLDocumentationFileName>$(SolutionDir)objs\$(TargetName)\$(Configuration)\</XMLDocumentationFileName>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/IGNORE:4089 /ignore:4254 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>CoreLibD.lib;Upnp2LibD.lib;VxVideoLibD.lib;libcurlD.lib;libexpatD.lib;libcdioD.lib;libzipD.lib;libunrarxD.lib;libopencore-amrD.lib;libceltD.lib;libfaacD.lib;libxavsD.lib;Secur32.lib;librtmpD.lib;libbento4D.lib;CoreLibD.lib;Effects11D.lib;FfmpegAvCodecLibD.lib;FfmpegAvDeviceLibD.lib;FfmpegAvFilterLibD.lib;FfmpegAvFormatLibD.lib;FfmpegAvResampleLibD.lib;FfmpegAvUtilLibD.lib;FfmpegPostProcLibD.lib;FfmpegSwResampleLibD.lib;FfmpegSwScaleLibD.lib;libglewD.lib;libarmrwbencD.lib;libasprintfD.lib;libassD.lib;libbzip2D.lib;libcpluffD.lib;libcrocoD.lib;libcrossguidD.lib;libcrystalhdD.lib;libcurlD.lib;libdnssdD.lib;libexifD.lib;libfdk-aacD.lib;libflacD.lib;libfreetypeD.lib;libfribidiD.lib;libgnuD.lib;libgsmD.lib;libiconvD.lib;libilbcD.lib;libjpgD.lib;libkvazaarD.lib;liblameD.lib;liblzmaD.lib;liblzoD.lib;libmicrohttpdD.lib;libogg.lib;libopenjpegD.lib;libopusD.lib;libp8-platformD.lib;libpcreD.lib;libpngD.lib;libpthreadD.lib;libpythonD.lib;libshairplayD.lib;libshineD.lib;libsnappyD.lib;libspeexD.lib;libsshD.lib;libsslD.lib;libtagD.lib;libtheoraD.lib;libtinyxmlD.lib;libtwolameD.lib;libUPnPD.lib;libvorbisD.lib;libvpxD.lib;libwavepackD.lib;libwebpD.lib;libwelsdecD.lib;libx264D.lib;libx265D.lib;libxml2D.lib;libxsltD.lib;libxvidD.lib;libyajlD.lib;libzlibD.lib;libzvbiD.lib;MediaToolsLibD.lib;NetLibD.lib;PktLibD.lib;PlatformLibD.lib;d3d11.lib;DInput8.lib;DSound.lib;winmm.lib;Mpr.lib;Iphlpapi.lib;PowrProf.lib;setupapi.lib;dwmapi.lib;dxguid.lib;WS2_32.lib;WSock32.lib;Crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+      <DelayLoadDLLs>
+      </DelayLoadDLLs>
+      <ProgramDatabaseFile>$(SolutionDir)objs\$(TargetName)\$(Configuration)\vc$(PlatformToolsetVersion).pdb</ProgramDatabaseFile>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <FullProgramDatabaseFile>false</FullProgramDatabaseFile>
+      <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <EnableDPIAwareness>true</EnableDPIAwareness>
+    </Manifest>
+    <FxCompile />
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>QDIR;$(ProjectDir)..\..\..\libptopengine;$(ProjectDir)..\..\..\DependLibs\libplayer-nlc\xbmc;$(ProjectDir)..\..\..\DependLibs\openssl-1.0.2p\include;$(ProjectDir);$(ProjectDir)..\..\;$(ProjectDir)..\..\..\DependLibs;$(ProjectDir)..\..\xbmc;$(ProjectDir)..\..\xbmc\cores\AudioEngine\;$(ProjectDir)..\..\..\DependLibs\ffmpeg;$(ProjectDir)..\..\..\DependLibs\libUPnP;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Devices\MediaRenderer;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Devices\MediaConnect;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Devices\MediaServer;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Platinum;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Core;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Extras;$(ProjectDir)..\..\..\DependLibs\libUPnP\Neptune\Source\Core;$(ProjectDir)..\..\..\DependLibs\libUPnP\Neptune\Source\System\Win32;$(ProjectDir)..\..\..\DependLibs\libpcre;$(ProjectDir)..\..\..\DependLibs\Effects11\inc;$(ProjectDir)..\..\..\DependLibs\libfreetype\include;$(ProjectDir)..\..\..\DependLibs\PlatformLib\win32;$(ProjectDir)..\..\xbmc\addons\library.GoTv.guilib;$(ProjectDir)..\..\xbmc\addons\library.xbmc.addon;$(ProjectDir)..\..\xbmc\addons\library.xbmc.pvr;$(ProjectDir)..\..\xbmc\addons\library.GoTv.adsp;$(ProjectDir)..\..\xbmc\addons\library.xbmc.codec;$(ProjectDir)..\..\..\;$(ProjectDir)..\..\..\..\sysheaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENABLE_NLC_PLAYER;_DEBUG;DEBUG;TARGET_OS_WINDOWS;_LIB;LIB_STATIC;NOMINMAX;__STDC_CONSTANT_MACROS;</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4996;26812;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
+      <ObjectFileName>$(SolutionDir)objs\$(TargetName)\$(Configuration)\</ObjectFileName>
+      <UndefineAllPreprocessorDefinitions>false</UndefineAllPreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(SolutionDir)objs\$(TargetName)\$(Configuration)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(SolutionDir)objs\$(TargetName)\$(Configuration)\</AssemblerListingLocation>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <MinimalRebuild>
+      </MinimalRebuild>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <CallingConvention>Cdecl</CallingConvention>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
+      <StringPooling>false</StringPooling>
+      <ControlFlowGuard>false</ControlFlowGuard>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <CompileAsManaged>false</CompileAsManaged>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>false</OpenMPSupport>
+      <XMLDocumentationFileName>$(SolutionDir)objs\$(TargetName)\$(Configuration)\</XMLDocumentationFileName>
+      <ModuleDependenciesFile>$(IntDir)</ModuleDependenciesFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/IGNORE:4089 /ignore:4254 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>CoreLibD.lib;Upnp2LibD.lib;VxVideoLibD.lib;libcurlD.lib;libexpatD.lib;libcdioD.lib;libzipD.lib;libunrarxD.lib;libopencore-amrD.lib;libceltD.lib;libfaacD.lib;libxavsD.lib;Secur32.lib;librtmpD.lib;libbento4D.lib;CoreLibD.lib;Effects11D.lib;FfmpegAvCodecLibD.lib;FfmpegAvDeviceLibD.lib;FfmpegAvFilterLibD.lib;FfmpegAvFormatLibD.lib;FfmpegAvResampleLibD.lib;FfmpegAvUtilLibD.lib;FfmpegPostProcLibD.lib;FfmpegSwResampleLibD.lib;FfmpegSwScaleLibD.lib;libglewD.lib;libarmrwbencD.lib;libasprintfD.lib;libassD.lib;libbzip2D.lib;libcpluffD.lib;libcrocoD.lib;libcrossguidD.lib;libcrystalhdD.lib;libcurlD.lib;libdnssdD.lib;libexifD.lib;libfdk-aacD.lib;libflacD.lib;libfreetypeD.lib;libfribidiD.lib;libgnuD.lib;libgsmD.lib;libiconvD.lib;libilbcD.lib;libjpgD.lib;libkvazaarD.lib;liblameD.lib;liblzmaD.lib;liblzoD.lib;libmicrohttpdD.lib;libogg.lib;libopenjpegD.lib;libopusD.lib;libp8-platformD.lib;libpcreD.lib;libpngD.lib;libpthreadD.lib;libpythonD.lib;libshairplayD.lib;libshineD.lib;libsnappyD.lib;libspeexD.lib;libsshD.lib;libsslD.lib;libtagD.lib;libtheoraD.lib;libtinyxmlD.lib;libtwolameD.lib;libUPnPD.lib;libvorbisD.lib;libvpxD.lib;libwavepackD.lib;libwebpD.lib;libwelsdecD.lib;libx264D.lib;libx265D.lib;libxml2D.lib;libxsltD.lib;libxvidD.lib;libyajlD.lib;libzlibD.lib;libzvbiD.lib;MediaToolsLibD.lib;NetLibD.lib;PktLibD.lib;PlatformLibD.lib;d3d11.lib;DInput8.lib;DSound.lib;winmm.lib;Mpr.lib;Iphlpapi.lib;PowrProf.lib;setupapi.lib;dwmapi.lib;dxguid.lib;WS2_32.lib;WSock32.lib;Crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+      <DelayLoadDLLs>
+      </DelayLoadDLLs>
+      <ProgramDatabaseFile>$(SolutionDir)objs\$(TargetName)\$(Configuration)\vc$(PlatformToolsetVersion).pdb</ProgramDatabaseFile>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <FullProgramDatabaseFile>false</FullProgramDatabaseFile>
+      <ImageHasSafeExceptionHandlers>true</ImageHasSafeExceptionHandlers>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <EnableDPIAwareness>true</EnableDPIAwareness>
+    </Manifest>
+    <FxCompile />
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Testsuite|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\;..\..\xbmc\;..\..\xbmc\cores\VideoPlayer;..\..\xbmc\win32;..\..\lib;..\..\lib\win32\ffmpeg;..\..\lib\libUPnP;..\..\lib\libUPnP\Platinum\Source\Devices\MediaRenderer;..\..\lib\libUPnP\Platinum\Source\Devices\MediaConnect;..\..\lib\libUPnP\Platinum\Source\Devices\MediaServer;..\..\lib\libUPnP\Platinum\Source\Platinum;..\..\lib\libUPnP\Platinum\Source\Core;..\..\lib\libUPnP\Platinum\Source\Extras;..\..\lib\libUPnP\Neptune\Source\Core;..\..\lib\libUPnP\Neptune\Source\System\Win32;..\..\lib\win32\pcre;..\..\lib\win32\Effects11\inc;..\..\lib\win32;..\..\xbmc\cores\AudioEngine\;..\..\addons\library.GoTv.guilib;..\..\addons\library.xbmc.addon;..\..\addons\library.xbmc.pvr;..\..\addons\library.xbmc.codec;shaders;..\..\lib\gtest\include;..\..\tools\depends\native\libsquish-native\src;%(AdditionalIncludeDirectories);GoTvCore\$(Configuration);..\..\addons\library.xbmc.adsp</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CONSOLE;NOMINMAX;_USE_32BIT_TIME_T;HAS_DX;D3D_DEBUG_INFO;__STDC_CONSTANT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ForcedIncludeFiles>pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ObjectFileName>$(IntDir)\a\a\%(RelativeDir)</ObjectFileName>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/IGNORE:4089 /ignore:4254 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>d3d11.lib;DInput8.lib;DSound.lib;winmm.lib;CrossGuidd.lib;ws2_32.lib;Mpr.lib;Iphlpapi.lib;PowrProf.lib;setupapi.lib;dwmapi.lib;strmiids.lib;dxguid.lib;mfuuid.lib;comctl32.lib;yajl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)-test.exe</OutputFile>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>libc;msvcrt;libcmt;msvcrtd;msvcprtd;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+      <DelayLoadDLLs>libxslt.dll;dnssd.dll;dwmapi.dll;ssh.dll;sqlite3.dll;avcodec-56.dll;avfilter-5.dll;avformat-56.dll;avutil-54.dll;postproc-53.dll;swresample-1.dll;swscale-3.dll;d3dcompiler_47.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <ProgramDatabaseFile>$(OutDir)$(ProjectName).pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <AdditionalLibraryDirectories>..\..\lib\win32\ffmpeg\.libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>VC90.CRT.x86.manifest;win81.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <EnableDPIAwareness>true</EnableDPIAwareness>
+    </Manifest>
+    <FxCompile />
+    <PostBuildEvent>
+      <Command>copy “$(WindowsSdkDir)redist\d3d\x86\D3DCompile*.DLL” “$(TargetDir)”</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Testsuite|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\;..\..\xbmc\;..\..\xbmc\cores\VideoPlayer;..\..\xbmc\win32;..\..\lib;..\..\lib\win32\ffmpeg;..\..\lib\libUPnP;..\..\lib\libUPnP\Platinum\Source\Devices\MediaRenderer;..\..\lib\libUPnP\Platinum\Source\Devices\MediaConnect;..\..\lib\libUPnP\Platinum\Source\Devices\MediaServer;..\..\lib\libUPnP\Platinum\Source\Platinum;..\..\lib\libUPnP\Platinum\Source\Core;..\..\lib\libUPnP\Platinum\Source\Extras;..\..\lib\libUPnP\Neptune\Source\Core;..\..\lib\libUPnP\Neptune\Source\System\Win32;..\..\lib\win32\pcre;..\..\lib\win32\Effects11\inc;..\..\lib\win32;..\..\xbmc\cores\AudioEngine\;..\..\addons\library.GoTv.guilib;..\..\addons\library.xbmc.addon;..\..\addons\library.xbmc.pvr;..\..\addons\library.xbmc.codec;shaders;..\..\lib\gtest\include;..\..\tools\depends\native\libsquish-native\src;%(AdditionalIncludeDirectories);GoTvCore\$(Configuration);..\..\addons\library.xbmc.adsp</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CONSOLE;NOMINMAX;_USE_32BIT_TIME_T;HAS_DX;D3D_DEBUG_INFO;__STDC_CONSTANT_MACROS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ForcedIncludeFiles>pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ObjectFileName>$(IntDir)\a\a\%(RelativeDir)</ObjectFileName>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/IGNORE:4089 /ignore:4254 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>d3d11.lib;DInput8.lib;DSound.lib;winmm.lib;CrossGuidd.lib;ws2_32.lib;Mpr.lib;Iphlpapi.lib;PowrProf.lib;setupapi.lib;dwmapi.lib;strmiids.lib;dxguid.lib;mfuuid.lib;comctl32.lib;yajl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)-test.exe</OutputFile>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>libc;msvcrt;libcmt;msvcrtd;msvcprtd;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+      <DelayLoadDLLs>libxslt.dll;dnssd.dll;dwmapi.dll;ssh.dll;sqlite3.dll;avcodec-56.dll;avfilter-5.dll;avformat-56.dll;avutil-54.dll;postproc-53.dll;swresample-1.dll;swscale-3.dll;d3dcompiler_47.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <ProgramDatabaseFile>$(OutDir)$(ProjectName).pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <AdditionalLibraryDirectories>..\..\lib\win32\ffmpeg\.libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>VC90.CRT.x86.manifest;win81.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <EnableDPIAwareness>true</EnableDPIAwareness>
+    </Manifest>
+    <FxCompile />
+    <PostBuildEvent>
+      <Command>copy “$(WindowsSdkDir)redist\d3d\x86\D3DCompile*.DLL” “$(TargetDir)”</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\..\P2PCoreLibs\PlatformLib\win32;..\..\;..\..\DependLibs\;..\..\DependLibs\python\;..\..\xbmc\;..\..\xbmc\cores\VideoPlayer;..\..\xbmc\win32;..\..\DependLibs;..\..\DependLibs\ffmpeg;..\..\DependLibs\win32\ffmpeg;..\..\DependLibs\libUPnP;..\..\DependLibs\libUPnP\Platinum\Source\Devices\MediaRenderer;..\..\DependLibs\libUPnP\Platinum\Source\Devices\MediaConnect;..\..\DependLibs\libUPnP\Platinum\Source\Devices\MediaServer;..\..\DependLibs\libUPnP\Platinum\Source\Platinum;..\..\DependLibs\libUPnP\Platinum\Source\Core;..\..\DependLibs\libUPnP\Platinum\Source\Extras;..\..\DependLibs\libUPnP\Neptune\Source\Core;..\..\DependLibs\libUPnP\Neptune\Source\System\Win32;..\..\DependLibs\win32\pcre;..\..\DependLibs\Effects11\inc;..\..\DependLibs\win32;..\..\xbmc\cores\AudioEngine\;..\..\addons\library.GoTv.guilib;..\..\addons\library.xbmc.addon;..\..\addons\library.xbmc.pvr;..\..\addons\library.xbmc.codec;shaders;..\..\tools\depends\native\libsquish-native\src;%(AdditionalIncludeDirectories);GoTvCore\$(Configuration);..\..\addons\library.xbmc.adsp;../../xbmc/platform/win32/;$(ProjectDir)..\..\..\P2PCoreLibs;$(ProjectDir)..\..\..\P2PCoreLibs\FreeTypeLib\include;$(ProjectDir)..\..\..\P2PCoreLibs\PlatformLib\win32</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>TARGET_OS_WINDOWS;LIB_STATIC;NOMINMAX;_USE_32BIT_TIME_T;__STDC_CONSTANT_MACROS;</PreprocessorDefinitions>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ForcedIncludeFiles>pch.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <ObjectFileName>$(SolutionDir)objs\$(TargetName)\$(Configuration)\</ObjectFileName>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <ProgramDataBaseFileName>$(SolutionDir)objs\$(TargetName)\$(Configuration)\vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(SolutionDir)objs\$(TargetName)\$(Configuration)\</AssemblerListingLocation>
+      <StringPooling>false</StringPooling>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/IGNORE:4089 /ignore:4254 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>Mpr.lib;Iphlpapi.lib;PowrProf.lib;d3d11.lib;DInput8.lib;DSound.lib;winmm.lib;setupapi.lib;dwmapi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <DelayLoadDLLs>dwmapi.dll;;avcodec-56.dll;avfilter-5.dll;avformat-56.dll;avutil-54.dll;postproc-53.dll;swresample-1.dll;swscale-3.dll;d3dcompiler_47.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(ProjectName).pdb</ProgramDatabaseFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <AdditionalLibraryDirectories>$(OutDir);$(ProjectDir)..\..\..\lib\$(Platform)\%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>VC90.CRT.x86.manifest;win81.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <EnableDPIAwareness>true</EnableDPIAwareness>
+    </Manifest>
+    <FxCompile />
+    <PostBuildEvent>
+      <Command>copy "$(WindowsSdkDir)redist\d3d\x86\D3DCompile*.DLL" "$(TargetDir)"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>QDIR;$(ProjectDir)..\..\..\libptopengine;$(ProjectDir)..\..\..\DependLibs\libplayer-nlc\xbmc;$(ProjectDir)..\..\..\DependLibs\openssl-1.0.2p\include;$(ProjectDir);$(ProjectDir)..\..\;$(ProjectDir)..\..\..\DependLibs;$(ProjectDir)..\..\xbmc;$(ProjectDir)..\..\xbmc\cores\AudioEngine\;$(ProjectDir)..\..\..\DependLibs\ffmpeg;$(ProjectDir)..\..\..\DependLibs\libUPnP;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Devices\MediaRenderer;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Devices\MediaConnect;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Devices\MediaServer;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Platinum;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Core;$(ProjectDir)..\..\..\DependLibs\libUPnP\Platinum\Source\Extras;$(ProjectDir)..\..\..\DependLibs\libUPnP\Neptune\Source\Core;$(ProjectDir)..\..\..\DependLibs\libUPnP\Neptune\Source\System\Win32;$(ProjectDir)..\..\..\DependLibs\libpcre;$(ProjectDir)..\..\..\DependLibs\Effects11\inc;$(ProjectDir)..\..\..\DependLibs\libfreetype\include;$(ProjectDir)..\..\..\DependLibs\PlatformLib\win32;$(ProjectDir)..\..\xbmc\addons\library.GoTv.guilib;$(ProjectDir)..\..\xbmc\addons\library.xbmc.addon;$(ProjectDir)..\..\xbmc\addons\library.xbmc.pvr;$(ProjectDir)..\..\xbmc\addons\library.GoTv.adsp;$(ProjectDir)..\..\xbmc\addons\library.xbmc.codec;$(ProjectDir)..\..\..\;$(ProjectDir)..\..\..\..\;$(ProjectDir)..\..\..\..\sysheaders;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ENABLE_NLC_PLAYER;NDEBUG;TARGET_OS_WINDOWS;_LIB;LIB_STATIC;NOMINMAX;__STDC_CONSTANT_MACROS;</PreprocessorDefinitions>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <ForcedIncludeFiles>
+      </ForcedIncludeFiles>
+      <ObjectFileName>$(SolutionDir)objs\$(TargetName)\$(Configuration)\</ObjectFileName>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <ProgramDataBaseFileName>
+      </ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(SolutionDir)objs\$(TargetName)\$(Configuration)\</AssemblerListingLocation>
+      <StringPooling>
+      </StringPooling>
+      <PrecompiledHeaderOutputFile />
+      <CompileAsManaged>false</CompileAsManaged>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <ControlFlowGuard>false</ControlFlowGuard>
+      <EnableParallelCodeGeneration>false</EnableParallelCodeGeneration>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <OpenMPSupport>false</OpenMPSupport>
+      <XMLDocumentationFileName>$(SolutionDir)objs\$(TargetName)\$(Configuration)\</XMLDocumentationFileName>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <BufferSecurityCheck>
+      </BufferSecurityCheck>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <Optimization>MinSpace</Optimization>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <OmitFramePointers />
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <DebugInformationFormat />
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/IGNORE:4089 /ignore:4254 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>Mpr.lib;Iphlpapi.lib;PowrProf.lib;d3d11.lib;DInput8.lib;DSound.lib;winmm.lib;setupapi.lib;dwmapi.lib;dxguid.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)NoLimitConnectCore$(TargetExt)</OutputFile>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <DelayLoadDLLs>dwmapi.dll;;avcodec-56.dll;avfilter-5.dll;avformat-56.dll;avutil-54.dll;postproc-53.dll;swresample-1.dll;swscale-3.dll;d3dcompiler_47.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(ProjectName).pdb</ProgramDatabaseFile>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <AdditionalLibraryDirectories>$(OutDir);$(ProjectDir)..\..\..\lib\$(Platform)\%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>VC90.CRT.x86.manifest;win81.manifest;%(AdditionalManifestFiles)</AdditionalManifestFiles>
+      <EnableDPIAwareness>true</EnableDPIAwareness>
+    </Manifest>
+    <FxCompile />
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+      <LinkTimeCodeGeneration />
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\AppMonitor\AppMonitor.cpp" />
+    <ClCompile Include="..\..\AssetBase\AssetBaseInfo.cpp" />
+    <ClCompile Include="..\..\AssetBase\AssetBaseInfoDb.cpp" />
+    <ClCompile Include="..\..\AssetBase\AssetBaseMgr.cpp" />
+    <ClCompile Include="..\..\AssetBase\AssetBaseRxSession.cpp" />
+    <ClCompile Include="..\..\AssetBase\AssetBaseTxSession.cpp" />
+    <ClCompile Include="..\..\AssetBase\AssetBaseXferDb.cpp" />
+    <ClCompile Include="..\..\AssetBase\AssetBaseXferMgr.cpp" />
+    <ClCompile Include="..\..\AssetBase\AssetBaseXferPktCreate.cpp" />
+    <ClCompile Include="..\..\AssetBase\AssetBaseXferSession.cpp" />
+    <ClCompile Include="..\..\AssetBase\AssetPlaySession.cpp" />
+    <ClCompile Include="..\..\AssetMgr\AssetInfo.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ForcedIncludeFiles>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetMgr\AssetInfoDb.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ForcedIncludeFiles>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetMgr\AssetMgr.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ForcedIncludeFiles>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetMgr\AssetRxSession.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ForcedIncludeFiles>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetMgr\AssetTxSession.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ForcedIncludeFiles>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetMgr\AssetXferDb.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ForcedIncludeFiles>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetMgr\AssetXferMgr.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ForcedIncludeFiles>
+    </ClCompile>
+    <ClCompile Include="..\..\AssetMgr\AssetXferPktCreate.cpp" />
+    <ClCompile Include="..\..\AssetMgr\AssetXferSession.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ForcedIncludeFiles>
+    </ClCompile>
+    <ClCompile Include="..\..\BaseInfo\BaseHostInfo.cpp" />
+    <ClCompile Include="..\..\BaseInfo\BaseInfo.cpp" />
+    <ClCompile Include="..\..\BaseInfo\BaseJoinInfo.cpp" />
+    <ClCompile Include="..\..\BaseInfo\BaseSessionInfo.cpp" />
+    <ClCompile Include="..\..\BigListLib\BigList.cpp">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ForcedIncludeFiles>
+    </ClCompile>
+    <ClCompile Include="..\..\BigListLib\BigListDb.cpp" />
+    <ClCompile Include="..\..\BigListLib\BigListInfo.cpp" />
+    <ClCompile Include="..\..\BigListLib\BigListMgr.cpp" />
+    <ClCompile Include="..\..\BlobXferMgr\BlobInfo.cpp" />
+    <ClCompile Include="..\..\BlobXferMgr\BlobInfoDb.cpp" />
+    <ClCompile Include="..\..\BlobXferMgr\BlobMgr.cpp" />
+    <ClCompile Include="..\..\BlobXferMgr\BlobRxSession.cpp" />
+    <ClCompile Include="..\..\BlobXferMgr\BlobTxSession.cpp" />
+    <ClCompile Include="..\..\BlobXferMgr\BlobXferDb.cpp" />
+    <ClCompile Include="..\..\BlobXferMgr\BlobXferMgr.cpp" />
+    <ClCompile Include="..\..\BlobXferMgr\BlobXferSession.cpp" />
+    <ClCompile Include="..\..\ConnectIdListMgr\ConnectIdListMgr.cpp" />
+    <ClCompile Include="..\..\Connections\ConnectedInfo.cpp" />
+    <ClCompile Include="..\..\Connections\ConnectedListAll.cpp" />
+    <ClCompile Include="..\..\Connections\ConnectedListBase.cpp" />
+    <ClCompile Include="..\..\Connections\ConnectionMgr.cpp" />
+    <ClCompile Include="..\..\Connections\ConnectReqInfo.cpp" />
+    <ClCompile Include="..\..\Connections\HandshakeInfo.cpp" />
+    <ClCompile Include="..\..\Connections\HandshakeList.cpp" />
+    <ClCompile Include="..\..\Connections\IConnectedCallback.cpp" />
+    <ClCompile Include="..\..\Connections\IConnectRequest.cpp" />
+    <ClCompile Include="..\..\ConnectMgr\ConnectInfo.cpp" />
+    <ClCompile Include="..\..\ConnectMgr\ConnectInfoDb.cpp" />
+    <ClCompile Include="..\..\ConnectMgr\ConnectMgr.cpp" />
+    <ClCompile Include="..\..\FileMgr\FileMgr.cpp" />
+    <ClCompile Include="..\..\FriendRequestMgr\FriendRequestInfo.cpp" />
+    <ClCompile Include="..\..\FriendRequestMgr\FriendRequestMgr.cpp" />
+    <ClCompile Include="..\..\FromGuiMgr\FromGuiAction.cpp" />
+    <ClCompile Include="..\..\FromGuiMgr\FromGuiMgr.cpp" />
+    <ClCompile Include="..\..\GroupieListMgr\GroupieInfo.cpp" />
+    <ClCompile Include="..\..\GroupieListMgr\GroupieListDb.cpp" />
+    <ClCompile Include="..\..\GroupieListMgr\GroupieListMgr.cpp" />
+    <ClCompile Include="..\..\HostListMgr\HostedInfo.cpp" />
+    <ClCompile Include="..\..\HostListMgr\HostedListDb.cpp" />
+    <ClCompile Include="..\..\HostListMgr\HostedListMgr.cpp" />
+    <ClCompile Include="..\..\HostListMgr\HostUrlInfo.cpp" />
+    <ClCompile Include="..\..\HostListMgr\HostUrlListDb.cpp" />
+    <ClCompile Include="..\..\HostListMgr\HostUrlListMgr.cpp" />
+    <ClCompile Include="..\..\HostServerJoinMgr\HostJoinedLastDb.cpp" />
+    <ClCompile Include="..\..\HostServerJoinMgr\HostJoinInfo.cpp" />
+    <ClCompile Include="..\..\HostServerJoinMgr\HostJoinInfoDb.cpp" />
+    <ClCompile Include="..\..\HostServerJoinMgr\HostServerJoinMgr.cpp" />
+    <ClCompile Include="..\..\IdentListMgrs\FriendListMgr.cpp" />
+    <ClCompile Include="..\..\IdentListMgrs\IdentListMgrBase.cpp" />
+    <ClCompile Include="..\..\IdentListMgrs\IgnoredHostInfo.cpp" />
+    <ClCompile Include="..\..\IdentListMgrs\IgnoredHostsDb.cpp" />
+    <ClCompile Include="..\..\IdentListMgrs\IgnoreListMgr.cpp" />
+    <ClCompile Include="..\..\MediaProcessor\AudioUtil.cpp" />
+    <ClCompile Include="..\..\MediaProcessor\MediaProcessor.cpp" />
+    <ClCompile Include="..\..\Membership\MemberActiveMgr.cpp" />
+    <ClCompile Include="..\..\Membership\MemberConfirmMgr.cpp" />
+    <ClCompile Include="..\..\NetServices\NetActionBase.cpp" />
+    <ClCompile Include="..\..\NetServices\NetActionIdle.cpp" />
+    <ClCompile Include="..\..\NetServices\NetActionIsMyPortOpen.cpp" />
+    <ClCompile Include="..\..\NetServices\NetActionRenewPortForward.cpp" />
+    <ClCompile Include="..\..\NetServices\NetActionResolveConnectTestUrl.cpp" />
+    <ClCompile Include="..\..\NetServices\NetActionResolveDefaultUserHosts.cpp" />
+    <ClCompile Include="..\..\NetServices\NetActionResolveNetworkHostUrl.cpp" />
+    <ClCompile Include="..\..\NetServices\NetActionWaitForInternet.cpp" />
+    <ClCompile Include="..\..\NetServices\NetServicesMgr.cpp" />
+    <ClCompile Include="..\..\NetServices\NetServiceUtils.cpp" />
+    <ClCompile Include="..\..\NetworkMonitor\NetStatusAccum.cpp" />
+    <ClCompile Include="..\..\NetworkMonitor\NetworkMonitor.cpp" />
+    <ClCompile Include="..\..\NetworkTest\IsPortOpenTest.cpp" />
+    <ClCompile Include="..\..\NetworkTest\NetworkTestBase.cpp" />
+    <ClCompile Include="..\..\NetworkTest\PingResponseServer.cpp" />
+    <ClCompile Include="..\..\NetworkTest\QueryHostIdTest.cpp" />
+    <ClCompile Include="..\..\NetworkTest\RunUrlAction.cpp" />
+    <ClCompile Include="..\..\Network\ConnectRequest.cpp" />
+    <ClCompile Include="..\..\Network\Firewall.cpp" />
+    <ClCompile Include="..\..\Network\NetworkMgr.cpp" />
+    <ClCompile Include="..\..\Network\StayConnected.cpp" />
+    <ClCompile Include="..\..\OfferBase\OfferBaseInfo.cpp" />
+    <ClCompile Include="..\..\OfferBase\OfferBaseInfoDb.cpp" />
+    <ClCompile Include="..\..\OfferBase\OfferBaseMgr.cpp" />
+    <ClCompile Include="..\..\OfferBase\OfferBaseRxSession.cpp" />
+    <ClCompile Include="..\..\OfferBase\OfferBaseTxSession.cpp" />
+    <ClCompile Include="..\..\OfferBase\OfferBaseXferDb.cpp" />
+    <ClCompile Include="..\..\OfferBase\OfferBaseXferMgr.cpp" />
+    <ClCompile Include="..\..\OfferBase\OfferBaseXferSession.cpp" />
+    <ClCompile Include="..\..\OfferBase\OfferMgr.cpp" />
+    <ClCompile Include="..\..\P2PEngine\ContactList.cpp" />
+    <ClCompile Include="..\..\P2PEngine\EngineParams.cpp" />
+    <ClCompile Include="..\..\P2PEngine\EngineSettings.cpp">
+      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)objs\$(TargetName)\$(Configuration)\</XMLDocumentationFileName>
+      <XMLDocumentationFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)objs\$(TargetName)\$(Configuration)\</XMLDocumentationFileName>
+    </ClCompile>
+    <ClCompile Include="..\..\P2PEngine\FileShareSettings.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PConnectList.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngine.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngineAssetMgrCallbacks.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngineConnect.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngineConnections.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngineContact.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngineFromGui.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngineHostList.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngineIgnoredAndHackers.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngineInit.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEnginePktAnnChanged.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEnginePktAnnHandlers.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEnginePktHandlers.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngineRelay.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngineScan.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngineSearch.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngineSktCallback.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngineTimerThread.cpp" />
+    <ClCompile Include="..\..\P2PEngine\P2PEngineStartup.cpp" />
+    <ClCompile Include="..\..\P2PEngine\VxSktLoopback.cpp" />
+    <ClCompile Include="..\..\PluginSettings\PluginSetting.cpp" />
+    <ClCompile Include="..\..\PluginSettings\PluginSettingDb.cpp" />
+    <ClCompile Include="..\..\PluginSettings\PluginSettingMgr.cpp" />
+    <ClCompile Include="..\..\Plugins\AudioJitterBuffer.cpp" />
+    <ClCompile Include="..\..\Plugins\FileInfo.cpp" />
+    <ClCompile Include="..\..\Plugins\FileInfoBaseMgr.cpp" />
+    <ClCompile Include="..\..\Plugins\FileInfoClientFilesMgr.cpp" />
+    <ClCompile Include="..\..\Plugins\FileInfoDb.cpp" />
+    <ClCompile Include="..\..\Plugins\FileInfoPersonFileXferMgr.cpp" />
+    <ClCompile Include="..\..\Plugins\FileInfoSharedFilesMgr.cpp" />
+    <ClCompile Include="..\..\Plugins\FileInfoXferMgr.cpp" />
+    <ClCompile Include="..\..\Plugins\FileRxSession.cpp" />
+    <ClCompile Include="..\..\Plugins\FileShareXferSession.cpp" />
+    <ClCompile Include="..\..\Plugins\FileToXfer.cpp" />
+    <ClCompile Include="..\..\Plugins\FileTxSession.cpp" />
+    <ClCompile Include="..\..\Plugins\FileXferPluginSession.cpp" />
+    <ClCompile Include="..\..\Plugins\HostBaseMgr.cpp" />
+    <ClCompile Include="..\..\Plugins\HostClientMgr.cpp" />
+    <ClCompile Include="..\..\Plugins\HostClientSearchMgr.cpp" />
+    <ClCompile Include="..\..\Plugins\HostSearchEntry.cpp" />
+    <ClCompile Include="..\..\Plugins\HostServerMgr.cpp" />
+    <ClCompile Include="..\..\Plugins\HostServerSearchMgr.cpp" />
+    <ClCompile Include="..\..\Plugins\P2PSession.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginAboutMePageClient.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginAboutMePageServer.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginBase.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginBaseFiles.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginBaseFilesClient.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginBaseFileShare.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginBaseFilesServer.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginBaseHostClient.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginBaseHostService.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginBaseMultimedia.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginBaseNetworkService.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginBasePktHandlers.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginBaseService.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginCamClient.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginCamServer.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginChatRoomClient.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginChatRoomHost.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginConnectionTestClient.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginConnectionTestHost.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginFileShareClient.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginFileShareServer.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginFriendRequest.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginGroupClient.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginGroupHost.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginInvalid.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginLibraryServer.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginMessenger.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginMgr.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginMgrSktApi.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginNetServices.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginNetworkHost.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginPeerUserClient.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginPeerUserHost.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginPersonFileXfer.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginPushToTalk.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginRandomConnectClient.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginRandomConnectHost.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginSessionBase.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginSessionMgr.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginStoryboardClient.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginStoryboardServer.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginTruthOrDare.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginVideoPhone.cpp" />
+    <ClCompile Include="..\..\Plugins\PluginVoicePhone.cpp" />
+    <ClCompile Include="..\..\Plugins\PushToTalkFeedMgr.cpp" />
+    <ClCompile Include="..\..\Plugins\RxSession.cpp" />
+    <ClCompile Include="..\..\Plugins\SessionMgrBase.cpp" />
+    <ClCompile Include="..\..\Plugins\TodGameSession.cpp" />
+    <ClCompile Include="..\..\Plugins\TxSession.cpp" />
+    <ClCompile Include="..\..\Plugins\VideoFeedMgr.cpp" />
+    <ClCompile Include="..\..\Plugins\VoiceFeedMgr.cpp" />
+    <ClCompile Include="..\..\PushToTalk\PushToTalkMgr.cpp" />
+    <ClCompile Include="..\..\RandConnect\RandConnectMgr.cpp" />
+    <ClCompile Include="..\..\Relay\RelayMgr.cpp" />
+    <ClCompile Include="..\..\Search\RcScan.cpp" />
+    <ClCompile Include="..\..\Search\RcScanAction.cpp" />
+    <ClCompile Include="..\..\Search\RcScanMatchedConnection.cpp" />
+    <ClCompile Include="..\..\SendQueue\SendQueInfo.cpp" />
+    <ClCompile Include="..\..\SendQueue\SendQueueDb.cpp" />
+    <ClCompile Include="..\..\SendQueue\SendQueueMgr.cpp" />
+    <ClCompile Include="..\..\SktLists\SktListMgr.cpp" />
+    <ClCompile Include="..\..\SktLists\SktListMgrBase.cpp" />
+    <ClCompile Include="..\..\ThumbMgr\ThumbInfo.cpp" />
+    <ClCompile Include="..\..\ThumbMgr\ThumbInfoDb.cpp" />
+    <ClCompile Include="..\..\ThumbMgr\ThumbMgr.cpp" />
+    <ClCompile Include="..\..\ThumbMgr\ThumbRxSession.cpp" />
+    <ClCompile Include="..\..\ThumbMgr\ThumbTxSession.cpp" />
+    <ClCompile Include="..\..\ThumbMgr\ThumbXferDb.cpp" />
+    <ClCompile Include="..\..\ThumbMgr\ThumbXferInterface.cpp" />
+    <ClCompile Include="..\..\ThumbMgr\ThumbXferMgr.cpp" />
+    <ClCompile Include="..\..\ThumbMgr\ThumbXferPktCreate.cpp" />
+    <ClCompile Include="..\..\ThumbMgr\ThumbXferSession.cpp" />
+    <ClCompile Include="..\..\UrlMgr\UrlMgr.cpp" />
+    <ClCompile Include="..\..\UserJoinMgr\LastJoined.cpp" />
+    <ClCompile Include="..\..\UserJoinMgr\UserJoinedLastDb.cpp" />
+    <ClCompile Include="..\..\UserJoinMgr\UserJoinInfo.cpp" />
+    <ClCompile Include="..\..\UserJoinMgr\UserJoinInfoDb.cpp" />
+    <ClCompile Include="..\..\UserJoinMgr\UserJoinMgr.cpp" />
+    <ClCompile Include="..\..\User\User.cpp" />
+    <ClCompile Include="..\..\User\UserList.cpp" />
+    <ClCompile Include="..\..\WebPageMgr\WebPageMgr.cpp" />
+    <ClInclude Include="..\..\..\..\GuiInterface\IAudioDefs.h" />
+    <ClInclude Include="..\..\..\..\GuiInterface\IAudioInterface.h" />
+    <ClInclude Include="..\..\..\..\GuiInterface\IDefs.h" />
+    <ClInclude Include="..\..\..\..\GuiInterface\IFromGui.h" />
+    <ClInclude Include="..\..\..\..\GuiInterface\ILog.h" />
+    <ClInclude Include="..\..\..\..\GuiInterface\IMediaPlayerInterface.h" />
+    <ClInclude Include="..\..\..\..\GuiInterface\INlcEvents.h" />
+    <ClInclude Include="..\..\..\..\GuiInterface\INlcGeometry.h" />
+    <ClInclude Include="..\..\..\..\GuiInterface\INlcRender.h" />
+    <ClInclude Include="..\..\..\..\GuiInterface\IScan.h" />
+    <ClInclude Include="..\..\..\..\GuiInterface\ITimeDefs.h" />
+    <ClInclude Include="..\..\..\..\GuiInterface\IToGui.h" />
+    <ClInclude Include="..\..\..\..\GuiInterface\NlcRenderFrame.h" />
+    <ClInclude Include="..\..\AppMonitor\AppMonitor.h" />
+    <ClInclude Include="..\..\AssetBase\AssetBaseCallbackInterface.h" />
+    <ClInclude Include="..\..\AssetBase\AssetBaseInfo.h" />
+    <ClInclude Include="..\..\AssetBase\AssetBaseInfoDb.h" />
+    <ClInclude Include="..\..\AssetBase\AssetBaseMgr.h" />
+    <ClInclude Include="..\..\AssetBase\AssetBaseRxSession.h" />
+    <ClInclude Include="..\..\AssetBase\AssetBaseTxSession.h" />
+    <ClInclude Include="..\..\AssetBase\AssetBaseXferDb.h" />
+    <ClInclude Include="..\..\AssetBase\AssetBaseXferMgr.h" />
+    <ClInclude Include="..\..\AssetBase\AssetBaseXferSession.h" />
+    <ClInclude Include="..\..\AssetBase\AssetPlaySession.h" />
+    <ClInclude Include="..\..\AssetBase\AssetXferCallback.h" />
+    <ClInclude Include="..\..\AssetBase\BaseXferInterface.h" />
+    <ClInclude Include="..\..\AssetMgr\AssetCallbackInterface.h" />
+    <ClInclude Include="..\..\AssetMgr\AssetInfo.h" />
+    <ClInclude Include="..\..\AssetMgr\AssetInfoDb.h" />
+    <ClInclude Include="..\..\AssetMgr\AssetMgr.h" />
+    <ClInclude Include="..\..\AssetMgr\AssetRxSession.h" />
+    <ClInclude Include="..\..\AssetMgr\AssetTxSession.h" />
+    <ClInclude Include="..\..\AssetMgr\AssetXferDb.h" />
+    <ClInclude Include="..\..\AssetMgr\AssetXferMgr.h" />
+    <ClInclude Include="..\..\AssetMgr\AssetXferSession.h" />
+    <ClInclude Include="..\..\BaseInfo\BaseHostInfo.h" />
+    <ClInclude Include="..\..\BaseInfo\BaseInfo.h" />
+    <ClInclude Include="..\..\BaseInfo\BaseJoinInfo.h" />
+    <ClInclude Include="..\..\BaseInfo\BaseSessionInfo.h" />
+    <ClInclude Include="..\..\BigListLib\BigList.h" />
+    <ClInclude Include="..\..\BigListLib\BigListDb.h" />
+    <ClInclude Include="..\..\BigListLib\BigListInfo.h" />
+    <ClInclude Include="..\..\BigListLib\BigListMgr.h" />
+    <ClInclude Include="..\..\BlobXferMgr\BlobCallbackInterface.h" />
+    <ClInclude Include="..\..\BlobXferMgr\BlobInfo.h" />
+    <ClInclude Include="..\..\BlobXferMgr\BlobInfoDb.h" />
+    <ClInclude Include="..\..\BlobXferMgr\BlobMgr.h" />
+    <ClInclude Include="..\..\BlobXferMgr\BlobRxSession.h" />
+    <ClInclude Include="..\..\BlobXferMgr\BlobTxSession.h" />
+    <ClInclude Include="..\..\BlobXferMgr\BlobXferDb.h" />
+    <ClInclude Include="..\..\BlobXferMgr\BlobXferMgr.h" />
+    <ClInclude Include="..\..\BlobXferMgr\BlobXferSession.h" />
+    <ClInclude Include="..\..\ConnectIdListMgr\ConnectIdListCallback.h" />
+    <ClInclude Include="..\..\ConnectIdListMgr\ConnectIdListMgr.h" />
+    <ClInclude Include="..\..\Connections\ConnectedInfo.h" />
+    <ClInclude Include="..\..\Connections\ConnectedListAll.h" />
+    <ClInclude Include="..\..\Connections\ConnectedListBase.h" />
+    <ClInclude Include="..\..\Connections\ConnectionMgr.h" />
+    <ClInclude Include="..\..\Connections\ConnectReqInfo.h" />
+    <ClInclude Include="..\..\Connections\HandshakeInfo.h" />
+    <ClInclude Include="..\..\Connections\HandshakeList.h" />
+    <ClInclude Include="..\..\Connections\IConnectedCallback.h" />
+    <ClInclude Include="..\..\Connections\IConnectRequest.h" />
+    <ClInclude Include="..\..\ConnectMgr\ConnectCallbackInterface.h" />
+    <ClInclude Include="..\..\ConnectMgr\ConnectInfo.h" />
+    <ClInclude Include="..\..\ConnectMgr\ConnectInfoDb.h" />
+    <ClInclude Include="..\..\ConnectMgr\ConnectMgr.h" />
+    <ClInclude Include="..\..\FileMgr\FileMgr.h" />
+    <ClInclude Include="..\..\FriendRequestMgr\FriendRequestCallbackInterface.h" />
+    <ClInclude Include="..\..\FriendRequestMgr\FriendRequestInfo.h" />
+    <ClInclude Include="..\..\FriendRequestMgr\FriendRequestMgr.h" />
+    <ClInclude Include="..\..\FromGuiMgr\FromGuiAction.h" />
+    <ClInclude Include="..\..\FromGuiMgr\FromGuiMgr.h" />
+    <ClInclude Include="..\..\GroupieListMgr\GroupieInfo.h" />
+    <ClInclude Include="..\..\GroupieListMgr\GroupieListCallbackInterface.h" />
+    <ClInclude Include="..\..\GroupieListMgr\GroupieListDb.h" />
+    <ClInclude Include="..\..\GroupieListMgr\GroupieListMgr.h" />
+    <ClInclude Include="..\..\HostListMgr\HostedInfo.h" />
+    <ClInclude Include="..\..\HostListMgr\HostedListCallbackInterface.h" />
+    <ClInclude Include="..\..\HostListMgr\HostedListDb.h" />
+    <ClInclude Include="..\..\HostListMgr\HostedListMgr.h" />
+    <ClInclude Include="..\..\HostListMgr\HostUrlInfo.h" />
+    <ClInclude Include="..\..\HostListMgr\HostUrlListDb.h" />
+    <ClInclude Include="..\..\HostListMgr\HostUrlListMgr.h" />
+    <ClInclude Include="..\..\HostServerJoinMgr\HostJoinCallbackInterface.h" />
+    <ClInclude Include="..\..\HostServerJoinMgr\HostJoinedLastDb.h" />
+    <ClInclude Include="..\..\HostServerJoinMgr\HostJoinInfo.h" />
+    <ClInclude Include="..\..\HostServerJoinMgr\HostJoinInfoDb.h" />
+    <ClInclude Include="..\..\HostServerJoinMgr\HostServerJoinMgr.h" />
+    <ClInclude Include="..\..\IdentListMgrs\FriendListMgr.h" />
+    <ClInclude Include="..\..\IdentListMgrs\IdentListCallbackInterface.h" />
+    <ClInclude Include="..\..\IdentListMgrs\IdentListMgrBase.h" />
+    <ClInclude Include="..\..\IdentListMgrs\IgnoredHostInfo.h" />
+    <ClInclude Include="..\..\IdentListMgrs\IgnoredHostsDb.h" />
+    <ClInclude Include="..\..\IdentListMgrs\IgnoreListMgr.h" />
+    <ClInclude Include="..\..\MediaProcessor\AudioUtil.h" />
+    <ClInclude Include="..\..\MediaProcessor\CamJpgVideo.h" />
+    <ClInclude Include="..\..\MediaProcessor\MediaClient.h" />
+    <ClInclude Include="..\..\MediaProcessor\MediaProcessor.h" />
+    <ClInclude Include="..\..\Membership\MemberActiveCallback.h" />
+    <ClInclude Include="..\..\Membership\MemberActiveMgr.h" />
+    <ClInclude Include="..\..\Membership\MemberConfirmMgr.h" />
+    <ClInclude Include="..\..\NetServices\NetActionBase.h" />
+    <ClInclude Include="..\..\NetServices\NetActionIdle.h" />
+    <ClInclude Include="..\..\NetServices\NetActionIsMyPortOpen.h" />
+    <ClInclude Include="..\..\NetServices\NetActionRenewPortForward.h" />
+    <ClInclude Include="..\..\NetServices\NetActionResolveConnectTestUrl.h" />
+    <ClInclude Include="..\..\NetServices\NetActionResolveDefaultUserHosts.h" />
+    <ClInclude Include="..\..\NetServices\NetActionResolveNetworkHostUrl.h" />
+    <ClInclude Include="..\..\NetServices\NetActionWaitForInternet.h" />
+    <ClInclude Include="..\..\NetServices\NetServiceDefs.h" />
+    <ClInclude Include="..\..\NetServices\NetServiceHdr.h" />
+    <ClInclude Include="..\..\NetServices\NetServicesMgr.h" />
+    <ClInclude Include="..\..\NetServices\NetServiceUtils.h" />
+    <ClInclude Include="..\..\NetworkMonitor\NetStatusAccum.h" />
+    <ClInclude Include="..\..\NetworkMonitor\NetworkMonitor.h" />
+    <ClInclude Include="..\..\NetworkTest\IsPortOpenTest.h" />
+    <ClInclude Include="..\..\NetworkTest\NetworkTestBase.h" />
+    <ClInclude Include="..\..\NetworkTest\PingResponseServer.h" />
+    <ClInclude Include="..\..\NetworkTest\QueryHostIdTest.h" />
+    <ClInclude Include="..\..\NetworkTest\RunUrlAction.h" />
+    <ClInclude Include="..\..\Network\ConnectRequest.h" />
+    <ClInclude Include="..\..\Network\Firewall.h" />
+    <ClInclude Include="..\..\Network\NetworkDefs.h" />
+    <ClInclude Include="..\..\Network\NetworkMgr.h" />
+    <ClInclude Include="..\..\Network\StayConnected.h" />
+    <ClInclude Include="..\..\OfferBase\OfferBaseInfo.h" />
+    <ClInclude Include="..\..\OfferBase\OfferBaseInfoDb.h" />
+    <ClInclude Include="..\..\OfferBase\OfferBaseMgr.h" />
+    <ClInclude Include="..\..\OfferBase\OfferBaseRxSession.h" />
+    <ClInclude Include="..\..\OfferBase\OfferBaseTxSession.h" />
+    <ClInclude Include="..\..\OfferBase\OfferBaseXferDb.h" />
+    <ClInclude Include="..\..\OfferBase\OfferBaseXferMgr.h" />
+    <ClInclude Include="..\..\OfferBase\OfferBaseXferSession.h" />
+    <ClInclude Include="..\..\OfferBase\OfferCallback.h" />
+    <ClInclude Include="..\..\OfferBase\OfferMgr.h" />
+    <ClInclude Include="..\..\P2PEngine\ContactList.h" />
+    <ClInclude Include="..\..\P2PEngine\EngineParams.h" />
+    <ClInclude Include="..\..\P2PEngine\EngineSettings.h" />
+    <ClInclude Include="..\..\P2PEngine\EngineSettingsDefaultValues.h" />
+    <ClInclude Include="..\..\P2PEngine\FileShareSettings.h" />
+    <ClInclude Include="..\..\P2PEngine\P2PConnectList.h" />
+    <ClInclude Include="..\..\P2PEngine\P2PEngine.h" />
+    <ClInclude Include="..\..\P2PEngine\VxSktLoopback.h" />
+    <ClInclude Include="..\..\PluginSettings\PluginSetting.h" />
+    <ClInclude Include="..\..\PluginSettings\PluginSettingDb.h" />
+    <ClInclude Include="..\..\PluginSettings\PluginSettingMgr.h" />
+    <ClInclude Include="..\..\Plugins\AudioJitterBuffer.h" />
+    <ClInclude Include="..\..\Plugins\FileInfo.h" />
+    <ClInclude Include="..\..\Plugins\FileInfoBaseMgr.h" />
+    <ClInclude Include="..\..\Plugins\FileInfoClientFilesMgr.h" />
+    <ClInclude Include="..\..\Plugins\FileInfoDb.h" />
+    <ClInclude Include="..\..\Plugins\FileInfoPersonFileXferMgr.h" />
+    <ClInclude Include="..\..\Plugins\FileInfoSharedFilesMgr.h" />
+    <ClInclude Include="..\..\Plugins\FileInfoXferMgr.h" />
+    <ClInclude Include="..\..\Plugins\FileRxSession.h" />
+    <ClInclude Include="..\..\Plugins\FileShareXferSession.h" />
+    <ClInclude Include="..\..\Plugins\FileToXfer.h" />
+    <ClInclude Include="..\..\Plugins\FileTxSession.h" />
+    <ClInclude Include="..\..\Plugins\FileXferCallback.h" />
+    <ClInclude Include="..\..\Plugins\FileXferPluginSession.h" />
+    <ClInclude Include="..\..\Plugins\HostBaseMgr.h" />
+    <ClInclude Include="..\..\Plugins\HostClientMgr.h" />
+    <ClInclude Include="..\..\Plugins\HostClientSearchMgr.h" />
+    <ClInclude Include="..\..\Plugins\HostSearchEntry.h" />
+    <ClInclude Include="..\..\Plugins\HostServerMgr.h" />
+    <ClInclude Include="..\..\Plugins\HostServerSearchMgr.h" />
+    <ClInclude Include="..\..\Plugins\P2PSession.h" />
+    <ClInclude Include="..\..\Plugins\PluginAboutMePageClient.h" />
+    <ClInclude Include="..\..\Plugins\PluginAboutMePageServer.h" />
+    <ClInclude Include="..\..\Plugins\PluginBase.h" />
+    <ClInclude Include="..\..\Plugins\PluginBaseFiles.h" />
+    <ClInclude Include="..\..\Plugins\PluginBaseFilesClient.h" />
+    <ClInclude Include="..\..\Plugins\PluginBaseFileShare.h" />
+    <ClInclude Include="..\..\Plugins\PluginBaseFilesServer.h" />
+    <ClInclude Include="..\..\Plugins\PluginBaseHostClient.h" />
+    <ClInclude Include="..\..\Plugins\PluginBaseHostService.h" />
+    <ClInclude Include="..\..\Plugins\PluginBaseMultimedia.h" />
+    <ClInclude Include="..\..\Plugins\PluginBaseNetworkService.h" />
+    <ClInclude Include="..\..\Plugins\PluginBaseService.h" />
+    <ClInclude Include="..\..\Plugins\PluginCamClient.h" />
+    <ClInclude Include="..\..\Plugins\PluginCamServer.h" />
+    <ClInclude Include="..\..\Plugins\PluginChatRoomClient.h" />
+    <ClInclude Include="..\..\Plugins\PluginChatRoomHost.h" />
+    <ClInclude Include="..\..\Plugins\PluginConnectionTestClient.h" />
+    <ClInclude Include="..\..\Plugins\PluginConnectionTestHost.h" />
+    <ClInclude Include="..\..\Plugins\PluginFileShareClient.h" />
+    <ClInclude Include="..\..\Plugins\PluginFileShareServer.h" />
+    <ClInclude Include="..\..\Plugins\PluginFriendRequest.h" />
+    <ClInclude Include="..\..\Plugins\PluginGroupClient.h" />
+    <ClInclude Include="..\..\Plugins\PluginGroupHost.h" />
+    <ClInclude Include="..\..\Plugins\PluginInvalid.h" />
+    <ClInclude Include="..\..\Plugins\PluginLibraryServer.h" />
+    <ClInclude Include="..\..\Plugins\PluginMessenger.h" />
+    <ClInclude Include="..\..\Plugins\PluginMgr.h" />
+    <ClInclude Include="..\..\Plugins\PluginNetServices.h" />
+    <ClInclude Include="..\..\Plugins\PluginNetworkHost.h" />
+    <ClInclude Include="..\..\Plugins\PluginPeerUserClient.h" />
+    <ClInclude Include="..\..\Plugins\PluginPeerUserHost.h" />
+    <ClInclude Include="..\..\Plugins\PluginPersonFileXfer.h" />
+    <ClInclude Include="..\..\Plugins\PluginPushToTalk.h" />
+    <ClInclude Include="..\..\Plugins\PluginRandomConnectClient.h" />
+    <ClInclude Include="..\..\Plugins\PluginRandomConnectHost.h" />
+    <ClInclude Include="..\..\Plugins\PluginSessionBase.h" />
+    <ClInclude Include="..\..\Plugins\PluginSessionMgr.h" />
+    <ClInclude Include="..\..\Plugins\PluginStoryboardClient.h" />
+    <ClInclude Include="..\..\Plugins\PluginStoryboardServer.h" />
+    <ClInclude Include="..\..\Plugins\PluginTruthOrDare.h" />
+    <ClInclude Include="..\..\Plugins\PluginVideoPhone.h" />
+    <ClInclude Include="..\..\Plugins\PluginVoicePhone.h" />
+    <ClInclude Include="..\..\Plugins\PushToTalkFeedMgr.h" />
+    <ClInclude Include="..\..\Plugins\RxSession.h" />
+    <ClInclude Include="..\..\Plugins\SessionMgrBase.h" />
+    <ClInclude Include="..\..\Plugins\TodGameSession.h" />
+    <ClInclude Include="..\..\Plugins\TxSession.h" />
+    <ClInclude Include="..\..\Plugins\VideoFeedMgr.h" />
+    <ClInclude Include="..\..\Plugins\VoiceFeedMgr.h" />
+    <ClInclude Include="..\..\PushToTalk\PushToTalkCallback.h" />
+    <ClInclude Include="..\..\PushToTalk\PushToTalkMgr.h" />
+    <ClInclude Include="..\..\RandConnect\RandConnectCallback.h" />
+    <ClInclude Include="..\..\RandConnect\RandConnectMgr.h" />
+    <ClInclude Include="..\..\Relay\RelayMgr.h" />
+    <ClInclude Include="..\..\Search\RcScan.h" />
+    <ClInclude Include="..\..\Search\RcScanAction.h" />
+    <ClInclude Include="..\..\Search\RcScanMatchedConnection.h" />
+    <ClInclude Include="..\..\Search\RcScanPic.h" />
+    <ClInclude Include="..\..\SendQueue\SendQueInfo.h" />
+    <ClInclude Include="..\..\SendQueue\SendQueueCallback.h" />
+    <ClInclude Include="..\..\SendQueue\SendQueueDb.h" />
+    <ClInclude Include="..\..\SendQueue\SendQueueDefs.h" />
+    <ClInclude Include="..\..\SendQueue\SendQueueMgr.h" />
+    <ClInclude Include="..\..\SktLists\SktListCallbackInterface.h" />
+    <ClInclude Include="..\..\SktLists\SktListMgr.h" />
+    <ClInclude Include="..\..\SktLists\SktListMgrBase.h" />
+    <ClInclude Include="..\..\ThumbMgr\ThumbCallbackInterface.h" />
+    <ClInclude Include="..\..\ThumbMgr\ThumbInfo.h" />
+    <ClInclude Include="..\..\ThumbMgr\ThumbInfoDb.h" />
+    <ClInclude Include="..\..\ThumbMgr\ThumbMgr.h" />
+    <ClInclude Include="..\..\ThumbMgr\ThumbRxSession.h" />
+    <ClInclude Include="..\..\ThumbMgr\ThumbTxSession.h" />
+    <ClInclude Include="..\..\ThumbMgr\ThumbXferDb.h" />
+    <ClInclude Include="..\..\ThumbMgr\ThumbXferInterface.h" />
+    <ClInclude Include="..\..\ThumbMgr\ThumbXferMgr.h" />
+    <ClInclude Include="..\..\ThumbMgr\ThumbXferSession.h" />
+    <ClInclude Include="..\..\UrlMgr\UrlMgr.h" />
+    <ClInclude Include="..\..\UserJoinMgr\LastJoined.h" />
+    <ClInclude Include="..\..\UserJoinMgr\UserJoinCallbackInterface.h" />
+    <ClInclude Include="..\..\UserJoinMgr\UserJoinedLastDb.h" />
+    <ClInclude Include="..\..\UserJoinMgr\UserJoinInfo.h" />
+    <ClInclude Include="..\..\UserJoinMgr\UserJoinInfoDb.h" />
+    <ClInclude Include="..\..\UserJoinMgr\UserJoinMgr.h" />
+    <ClInclude Include="..\..\User\User.h" />
+    <ClInclude Include="..\..\User\UserList.h" />
+    <ClInclude Include="..\..\WebPageMgr\WebPageCallbackInterface.h" />
+    <ClInclude Include="..\..\WebPageMgr\WebPageMgr.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\CMakeLists.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="XBMC_PC.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\$(ProjectFileName).targets.user" Condition="Exists('$(SolutionDir)\$(ProjectFileName).targets.user')" />
+</Project>

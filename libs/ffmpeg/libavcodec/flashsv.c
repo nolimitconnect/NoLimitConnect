@@ -144,7 +144,7 @@ static int flashsv2_prime(FlashSVContext *s, const uint8_t *src, int size)
     if (!src)
         return AVERROR_INVALIDDATA;
 
-    zstream->next_in   = src;
+    zstream->next_in   = (Bytef*)src;
     zstream->avail_in  = size;
     zstream->next_out  = data;
     zstream->avail_out = s->block_size * 3;
@@ -164,7 +164,7 @@ static int flashsv2_prime(FlashSVContext *s, const uint8_t *src, int size)
      * the adler32 checksum is correctly initialized).
      * This is accomplished by synthetizing blocks of uncompressed data
      * out of the output from above. See section 3.2.4 of RFC 1951. */
-    zstream->next_in  = zlib_header;
+    zstream->next_in  = (Bytef*)zlib_header;
     zstream->avail_in = sizeof(zlib_header);
     zret = inflate(zstream, Z_SYNC_FLUSH);
     if (zret != Z_OK)
