@@ -1048,5 +1048,8 @@ NLC_INLINE static size_t max_user_send_size(gnutls_session_t session,
 	return max;
 }
 
+#if defined(TARGET_OS_LINUX)
+extern void *memmem(const void *haystack, size_t haystacklen, const void *needle, size_t needlele );
+#endif // defined(TARGET_OS_LINUX)
 
 #endif //__GNUTLS_INT_H

@@ -15,11 +15,12 @@
    You should have received a copy of the GNU General Public License along
    with this program; if not, see <http://www.gnu.org/licenses/>.  */
 
+#if 0 // provided in libasprintf
 #include  <config_libgnu.h>
 
 /* Specification.  */
 #ifdef IN_LIBASPRINTF
-# include "vasprintf.h"
+# include <vasprintf.h?
 #else
 # include <stdio.h>
 #endif
@@ -37,3 +38,5 @@ asprintf (char **resultp, const char *format, ...)
   va_end (args);
   return result;
 }
+
+#endif // 0 // provided in libasprintf
