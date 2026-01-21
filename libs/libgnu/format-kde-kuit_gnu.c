@@ -29,6 +29,10 @@
 #include "xvasprintf.h"
 #include "gettext.h"
 
+#if defined(TARGET_OS_LINUX)
+char* strchrnul( const char* s, int c );
+#endif // defined(TARGET_OS_LINUX)
+
 #if IN_LIBGETTEXTPO
 /* Use included markup parser to avoid extra dependency from
    libgettextpo to libxml2.  */

@@ -30,6 +30,10 @@
 #include "vasprintf.h"
 #include "extras/hex.h"
 
+#if defined(TARGET_OS_LINUX)
+int vasprintf( char** strp, const char* fmt, va_list ap );
+#endif // defined(TARGET_OS_LINUX)
+
 /* These functions are like strcat, strcpy. They only
  * do bound checking (they shouldn't cause buffer overruns),
  * and they always produce null terminated strings.

@@ -304,7 +304,7 @@ input file doesn't contain a header entry with a charset specification"));
 Cannot convert from \"%s\" to \"%s\". %s relies on iconv(), \
 and iconv() does not support this conversion."),
                               canon_from_code, canon_to_code,
-                              basename (program_name)));
+                              basename ((char *)program_name)));
 
       context.from_code = canon_from_code;
       context.to_code = canon_to_code;

@@ -975,6 +975,7 @@ target_compile_definitions(gnu
     _MBCS
     __need_nettle_getopt
     BUILD_GNU_INTERNAL
+    IN_LIBASPRINTF
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

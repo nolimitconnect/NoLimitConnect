@@ -21,6 +21,8 @@ list(APPEND asprintf_SOURCES
 
 add_library(asprintf STATIC ${asprintf_SOURCES})
 
+target_compile_definitions(asprintf PRIVATE IN_LIBASPRINTF)
+
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction

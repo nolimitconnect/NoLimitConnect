@@ -29,6 +29,10 @@
 #include "vasprintf.h"
 #include <gnutls_str.h>
 
+#if defined(TARGET_OS_LINUX)
+int vasprintf( char** strp, const char* fmt, va_list ap );
+#endif // defined(TARGET_OS_LINUX)
+
 #define ERROR_ENTRY(desc, name) \
 	{ desc, #name, name}
 

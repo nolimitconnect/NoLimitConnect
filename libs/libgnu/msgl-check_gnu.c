@@ -49,6 +49,10 @@
 
 #define _(str) gettext (str)
 
+#if defined(TARGET_OS_LINUX)
+char* strchrnul( const char* s, int c );
+#endif // defined(TARGET_OS_LINUX)
+
 #define SIZEOF(a) (sizeof(a) / sizeof(a[0]))
 
 

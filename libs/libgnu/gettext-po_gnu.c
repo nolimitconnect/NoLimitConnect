@@ -44,6 +44,9 @@
 
 #define _(str) gettext(str)
 
+#if defined(TARGET_OS_LINUX)
+int vasprintf( char** strp, const char* fmt, va_list ap );
+#endif // defined(TARGET_OS_LINUX)
 
 struct po_file
 {

@@ -4838,6 +4838,10 @@ extern void g_log( const char *domain, int level, const char *format, ... );
 #include <stdio.h>
 #include <stdarg.h>
 
+#if defined(TARGET_OS_LINUX)
+int vasprintf( char** strp, const char* fmt, va_list ap );
+#endif // defined(TARGET_OS_LINUX)
+
 #define g_printf printf
 #define g_fprintf fprintf
 #define g_sprintf sprintf
