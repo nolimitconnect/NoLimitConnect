@@ -947,15 +947,40 @@ void P2PEngine::updateMyPktAnnIpAddress( std::string ipAddr )
 //============================================================================
 void P2PEngine::updateMyNetworkServiceUrl( EHostType hostType )
 {
+	if( hostType != eHostTypeNetwork && hostType != eHostTypeConnectTest )
+	{
+		LogMsg( LOG_SEVERE, "P2PEngine::%s INVALID host type %d", __func__, hostType );
+		vx_assert( false );
+		return;
+	}
+
 	if( getIsMyHostServiceEnabled( hostType ) )
     {
-        // I am the host
+        // I have host service enabled
         std::string myUrl = getMyOnlineUrl();
-		VxGUID myOnlineId = getMyOnlineId();
-		getConnectionMgr().updateMyEnabledHostUrl( hostType, myUrl, myOnlineId );
-;
-        getUrlMgr().updateUrlCache( myUrl, myOnlineId );
-        getHostUrlListMgr().updateHostUrl( hostType, myOnlineId, myUrl );
+		VxPtopUrl myPtopUrl( myUrl );
+		// cannot assume that host url is same as my url when enabled but network settings has someone elses network host url
+		std::string netServiceUrl;
+		
+		if( hostType != eHostTypeNetwork )
+		{
+			getEngineSettings().getNetworkHostUrl( netServiceUrl );
+		}
+		else
+		{
+			getEngineSettings().getConnectTestUrl( netServiceUrl );
+		}		
+
+		VxPtopUrl netServicePtopUrl( netServiceUrl );
+		if( myPtopUrl.getHost() == netServicePtopUrl.getHost() )
+		{
+			VxGUID myOnlineId = getMyOnlineId();
+
+			getConnectionMgr().updateMyEnabledHostUrl( hostType, myUrl, myOnlineId );
+			;
+			getUrlMgr().updateUrlCache( myUrl, myOnlineId );
+			getHostUrlListMgr().updateHostUrl( hostType, myOnlineId, myUrl );
+		}
     }
 }
 
