@@ -682,3 +682,20 @@ void P2PEngine::onStreamStop( VxGUID& streamId )
 	getToGui().toGuiFileXferState( ePluginTypeFileShareClient, streamId, eXferDirectionRx, eXferStateStreamStopped, eXferErrorNone, 0 );
 	fromGuiCancelDownload( streamId );
 }
+
+//============================================================================
+VxGUID& P2PEngine::getMyOnlineId( void ) 
+{ 
+	if( m_MyOnlineId.isVxGUIDValid() )
+	{
+		return m_MyOnlineId;
+	}
+
+	m_MyOnlineId = m_PktAnn.getMyOnlineId();
+	if( ! m_MyOnlineId.isVxGUIDValid() )
+	{
+		LogMsg( LOG_SEVERE, "P2PEngine::getMyOnlineId id is INVALID" );
+	}
+
+	return m_MyOnlineId;
+}

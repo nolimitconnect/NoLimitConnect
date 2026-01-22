@@ -187,7 +187,7 @@ public:
     void                        setPktAnnLastModTime( int64_t timeMs )          { m_PktAnnLastModTime = timeMs; }
     int64_t                     getPktAnnLastModTime( void )                    { return m_PktAnnLastModTime; }
 
-    VxGUID&						getMyOnlineId( void )							{ return m_MyOnlineId; }
+    VxGUID&                     getMyOnlineId( void );
     std::string					getMyOnlineUrl( enum EHostType hostType = eHostTypeUnknown ) { m_AnnouncePktMutex.lock(); std::string myUrl( m_PktAnn.getMyOnlineUrl( hostType ) ); m_AnnouncePktMutex.unlock(); return myUrl; }
     VxNetIdent*				    getMyNetIdent( void )						    { return &m_PktAnn; }
     bool						addMyIdentToBlob( PktBlobEntry& blobEntry );

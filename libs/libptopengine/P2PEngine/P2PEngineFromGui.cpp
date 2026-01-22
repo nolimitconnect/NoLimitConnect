@@ -926,15 +926,19 @@ void P2PEngine::updateMyPktAnnIpAddress( std::string ipAddr )
 
 	EIpAddrType ipType;
 	std::string origIpAddr;
+	bool sameIpAddr{ false };
 	if( getMyPktAnnounce().getOnlineIpAddress( origIpAddr, ipType ) &&
 		origIpAddr == ipAddr )
 	{
-		LogMsg( LOG_WARN, "%s same ip %s", __func__, ipAddr.c_str() );
-		return;
+		LogMsg( LOG_DEBUG, "%s same ip %s", __func__, ipAddr.c_str() );
+		sameIpAddr = true;
 	}
 
-	getMyPktAnnounce().setOnlineIpAddress( ipAddr.c_str() );
-	setPktAnnLastModTime( GetTimeStampMs() );
+	if( !sameIpAddr )
+	{
+		getMyPktAnnounce().setOnlineIpAddress( ipAddr.c_str() );
+		setPktAnnLastModTime( GetTimeStampMs() );
+	}
 
 	updateMyNetworkServiceUrl( eHostTypeNetwork );
 	updateMyNetworkServiceUrl( eHostTypeConnectTest );

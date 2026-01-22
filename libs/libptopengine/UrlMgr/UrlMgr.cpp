@@ -10,6 +10,7 @@
 
 #include "UrlMgr.h"
 
+#include <CoreLib/VxDebug.h>
 #include <CoreLib/VxSktUtil.h>
 #include <string.h>
 
@@ -139,17 +140,25 @@ std::string UrlMgr::resolveUrl( std::string& hostUrl, EIpAddrType addrType )
 }
 
 //============================================================================
-void UrlMgr::updateUrlCache( std::string& hostUrl, VxGUID& onlineId, EIpAddrType addrType )
+void UrlMgr::updateUrlCache( std::string& hostUrlIn, VxGUID& onlineId, EIpAddrType addrType )
 {
     if( !onlineId.isVxGUIDValid() )
     {
+        LogMsg( LOG_SEVERE, "UrlMgr::updateUrlCache onlineId is INVALID" );
         return;
     }
 
     std::string ipAddr;
     uint16_t tcpPort{ 0 };
 
-    bool result = VxResolveUrl( hostUrl, tcpPort, ipAddr, addrType );
+    bool result = VxResolveUrl( hostUrlIn, tcpPort, ipAddr, addrType );
+    if( !result )
+    {
+        LogMsg( LOG_SEVERE, "UrlMgr::updateUrlCache url %s is INVALID", hostUrlIn.c_str() );
+        return;
+    }
+
+    std::string hostUrl = "ptop://" + ipAddr + ":" + std::to_string( tcpPort );
 
     bool foundUrl = false;
     m_UrlMutex.lock();
