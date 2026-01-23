@@ -350,7 +350,8 @@ void LogModule( ELogModule eLog, uint32_t u32MsgType, const char* msg, ... )
     {
         std::string timeStamp = GetLogTime();
         timeLen = timeStamp.length();
-        strcpy( strData.data(), timeStamp.c_str() );
+        strncpy( strData.data(), timeStamp.c_str(), MAX_ERR_MSG_SIZE - 1 );
+        strData.data()[MAX_ERR_MSG_SIZE - 1] = 0;
     }
 
     va_list argList;
@@ -416,7 +417,8 @@ void LogCModule( int logModuleType, uint32_t u32MsgType, const char* msg, ... )
     {
         std::string timeStamp = GetLogTime();
         timeLen = timeStamp.length();
-        strcpy( strData.data(), timeStamp.c_str() );
+        strncpy( strData.data(), timeStamp.c_str(), MAX_ERR_MSG_SIZE - 1 );
+        strData.data()[MAX_ERR_MSG_SIZE - 1] = 0;
     }
 
     va_list argList;
@@ -505,7 +507,8 @@ void VxSetLogToFile( const char* pFileName )
     }
 
     g_iLogNameLen = strLen;
-    strcpy( g_as8LogFileName, pFileName );
+    strncpy( g_as8LogFileName, pFileName, sizeof( g_as8LogFileName ) - 1 );
+    g_as8LogFileName[ sizeof( g_as8LogFileName ) - 1 ] = 0;
 }
 
 //============================================================================
@@ -598,7 +601,7 @@ void default_log_output( void* userData, uint32_t u32MsgType, const char* pLogMs
 #ifdef TARGET_OS_WINDOWS
     OutputDebugStringA( pLogMsg );
 #else
-    printf( pLogMsg );
+    printf( "%s", pLogMsg );
     fflush( stdout );
 #endif // TARGET_OS_WINDOWS
 #endif// TARGET_OS_ANDROID

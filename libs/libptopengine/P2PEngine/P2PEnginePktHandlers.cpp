@@ -109,22 +109,6 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		isFirstAnnounce = true;
 	}
 
-	if( isFirstAnnounce )
-	{
-		if( pktAnn->getIsPktAnnTempConnection() )
-		{
-			sktBase->setIsTempConnection( true );
-			pktAnn->setIsPktAnnTempConnection( false );
-			if( LogEnabled( eLogConnect ) ) LogModule( eLogConnect, LOG_WARN, "P2PEngine::%s temp connection %s connect reason %s", __func__, 
-				pktAnn->getOnlineName(), DescribeConnectReason( sktBase->getConnectReason() ) );
-		}
-		else
-		{
-			if( LogEnabled( eLogConnect ) ) LogModule( eLogConnect, LOG_WARN, "P2PEngine::%s Not temp %s connect reason %s", __func__, 
-				pktAnn->getOnlineName(), DescribeConnectReason( sktBase->getConnectReason() ) );
-		}
-	}
-
 	pktAnn->reversePermissions();
 	pktAnn->setTimeLastTcpContactMs( GetGmtTimeMs() );
 
@@ -150,6 +134,26 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 	GroupieId groupieId( pktAnn->getMyOnlineId(), isFirstAnnounce ? pktAnn->getMyOnlineId() : sktBase->getPeerOnlineId(), hostType );
 	ConnectId connectId( sktBase->getSocketId(), groupieId );
 	connectId.setIsRelayed( groupieId.getHostOnlineId() != groupieId.getUserOnlineId() );
+
+	if( isFirstAnnounce )
+	{
+		if( pktAnn->getIsPktAnnTempConnection() )
+		{
+			sktBase->setIsTempConnection( true );
+			pktAnn->setIsPktAnnTempConnection( false );
+			if( LogEnabled( eLogConnect ) ) LogModule( eLogConnect, LOG_WARN, "P2PEngine::%s temp connection %s connect reason %s", __func__, 
+				pktAnn->getOnlineName(), DescribeConnectReason( sktBase->getConnectReason() ) );
+		}
+		else
+		{
+			if( LogEnabled( eLogConnect ) ) LogModule( eLogConnect, LOG_WARN, "P2PEngine::%s Not temp %s connect reason %s", __func__, 
+				pktAnn->getOnlineName(), DescribeConnectReason( sktBase->getConnectReason() ) );
+		}
+	}
+	else
+	{
+		if( LogEnabled( eLogUsers ) )LogModule( eLogUsers, LOG_VERBOSE, "P2PEngine::%s %s %s", __func__, pktAnn->describeUser().c_str(), describeGroupieId( groupieId ).c_str() );
+	}
 
 	if( IsHostARelayForUsers( hostType ) && connectId.isRelayed() )
 	{

@@ -96,7 +96,7 @@ bool P2PEngine::onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, Pk
 {
     if( pktAnn->getMyOnlineId() == getMyOnlineId() )
     {
-        VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::onHostedUserPktAnnounce" );
+        VxReportHack( eHackerLevelSevere, eHackerReasonPktOnlineIdMeFromAnotherIp, sktBase, "P2PEngine::%s", __func__ );
         sktBase->closeSkt( eSktCloseHackLevelSevere );
         return false;
     }
@@ -104,6 +104,7 @@ bool P2PEngine::onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, Pk
     bool updateOk{ true };
 
     GroupieId groupieId( connectId.getGroupieId() );
+
     if( !sktBase->isTempConnection() )
     {
         EHostType hostType = connectId.getHostType();
@@ -113,9 +114,9 @@ bool P2PEngine::onHostedUserPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, Pk
             bigListInfo->setIsJoined( hostType, true );
         }    
 
-        if( LogEnabled( eLogConnect ) )LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::onHostedUserPktAnnounce %s %s at ip %s",
+        if( LogEnabled( eLogConnect ) )LogModule( eLogConnect, LOG_VERBOSE, "P2PEngine::%s %s %s at ip %s", __func__,
                    bigListInfo->getOnlineName(), bigListInfo->getMyOnlineId().toOnlineIdString().c_str(), sktBase->getRemoteIp().c_str() );
-        if( LogEnabled( eLogOnline ) )LogModule( eLogOnline, LOG_VERBOSE, "P2PEngine::onHostedUserPktAnnounce %s %s", pktAnn->describeUser().c_str(), describeGroupieId( groupieId ).c_str() );
+        if( LogEnabled( eLogOnline ) )LogModule( eLogOnline, LOG_VERBOSE, "P2PEngine::%s %s %s", __func__, pktAnn->describeUser().c_str(), describeGroupieId( groupieId ).c_str() );
     }
 
     getConnectIdListMgr().addConnection( connectId );

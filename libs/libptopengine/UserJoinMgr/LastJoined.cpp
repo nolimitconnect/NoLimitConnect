@@ -29,7 +29,7 @@ void LastJoined::setLastJoined( GroupieId& lastJoinedGroupie )
 			break;
 		case eHostTypeRandomConnect:
 			m_LastJoinedRandomConnect = lastJoinedGroupie;
-			m_LastHostType = eHostTypeGroup;
+			m_LastHostType = eHostTypeRandomConnect;
 			break;
 		default:
 			LogMsg( LOG_ERROR, "LastJoined::getLastJoined invalid host type" );

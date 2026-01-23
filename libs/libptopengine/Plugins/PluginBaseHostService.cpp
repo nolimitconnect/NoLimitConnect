@@ -298,7 +298,7 @@ void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBas
                 {
                     if( txPacket( groupieId.getUserOnlineId(), sktBase, &joinReply ) )
                     {
-                        broadcastToClients( &joinReply, groupieId.getUserOnlineId(), sktBase );    
+                        broadcastToClients( &joinReply, groupieId.getUserOnlineId(), sktBase, false );    
                     }
                 }
             }         
@@ -648,10 +648,10 @@ void PluginBaseHostService::updateHostInviteUrl( void )
         std::string myOnlineUrl = pktAnn.getMyOnlineUrl();
 
         pktAnn.setHostOrThumbModifiedTime( getPluginType(), m_HostInfoModifiedTime );
+        m_Engine.setPktAnnLastModTime( GetGmtTimeMs() );
+
         m_Engine.getToGui().toGuiSaveMyIdent( pktAnn.getVxNetIdent() );
         m_Engine.unlockAnnouncePktAccess();
-
-        m_Engine.setPktAnnLastModTime( GetGmtTimeMs() );
 
         std::string inviteUrl = Invite::makeInviteUrl( getHostType(), myOnlineUrl );
 

@@ -70,6 +70,12 @@ void GuiUserJoinMgr::callbackUserJoinAdded( UserJoinInfo* userJoinInfo )
         return;
     }
 
+    if( !userJoinInfo->getNetIdent().isValidNetIdent() )
+    {
+        LogMsg( LOG_ERROR, "GuiUserJoinMgr::%s invalid userJoinInfo->getNetIdent()->isValidNetIdent()", __func__ );
+        return;
+    }
+
     emit signalInternalUserJoinRequested( new UserJoinInfo( *userJoinInfo ) );
 }
 
@@ -248,7 +254,7 @@ GuiUserJoin* GuiUserJoinMgr::updateUserJoin( VxNetIdent* hisIdent, EHostType hos
 GuiUserJoin* GuiUserJoinMgr::updateUserJoin( UserJoinInfo* userJoinInfo, bool unJoin )
 {
     GuiUserJoin* guiUserJoin = findUserJoin( userJoinInfo->getGroupieId() );
-    GuiUser* guiUser = m_MyApp.getUserMgr().updateUser( userJoinInfo->getNetIdent() );
+    GuiUser* guiUser = m_MyApp.getUserMgr().updateUser( &userJoinInfo->getNetIdent() );
     if( guiUser )
     {
         if( guiUserJoin )

@@ -75,7 +75,7 @@ void UserJoinMgr::fromGuiUserLoggedOn( void )
         for( auto iter = m_UserJoinInfoList.begin();  iter != m_UserJoinInfoList.end(); ++iter )
         {
             UserJoinInfo* userJoinInfo = iter->second;
-            if( !userJoinInfo->getNetIdent() )
+            if( !userJoinInfo->getNetIdent().isValidNetIdent() )
             {
                 VxNetIdent* netIdent = m_Engine.getBigListMgr().findBigListInfo( userJoinInfo->getOnlineId() );
                 if( netIdent )
@@ -754,7 +754,7 @@ void UserJoinMgr::updateUserIsJoined( UserJoinInfo * userJoinInfo )
 
     EJoinState joinState = userJoinInfo->getJoinState();
     bool isJoinedGranted = eJoinStateJoinIsGranted == joinState;
-    VxNetIdent* netIdent = userJoinInfo->getNetIdent();
+    VxNetIdent* netIdent = &userJoinInfo->getNetIdent();
     if( netIdent && isJoinedGranted != netIdent->getIsJoined( hostType ) )
     {
         netIdent->setIsJoined( hostType, isJoinedGranted );

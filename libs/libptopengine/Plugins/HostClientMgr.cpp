@@ -311,7 +311,7 @@ enum EConnectReason HostClientMgr::hostTypeToConnectReason( EHostType hostType )
     switch( hostType )
     {
     case eHostTypeChatRoom:
-        connectReason = eConnectReasonGroupJoin;
+        connectReason = eConnectReasonChatRoomJoin;
         break;
     case eHostTypeGroup:
         connectReason = eConnectReasonGroupJoin;
@@ -642,9 +642,9 @@ void HostClientMgr::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase,
 
     PktBlobEntry& blobEntry = pktReply->getBlobEntry();
     blobEntry.resetRead();
-    bool writeResult{ true };
+
     int userCnt = pktReply->getHostUserCountThisPkt();
-    if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_VERBOSE, "HostClientMgr::%s member cnt %d", __func__, userCnt );
+    if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_VERBOSE, "HostClientMgr::%s member cnt %d host type %s", __func__, userCnt, DescribeHostType( pktReply->getHostType() ) );
 
     for( int i = 0; i < userCnt; i++ )
     {

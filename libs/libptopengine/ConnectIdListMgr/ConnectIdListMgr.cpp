@@ -259,8 +259,12 @@ bool ConnectIdListMgr::addConnection( ConnectId & connectId )
         return false;
     }
 
-    // make sure gui has updated ident before we change online status
-    m_Engine.toGuiContactAnythingChange( netIdent );
+    // avoid updating myself with info sent by host
+    if( onlineId != m_Engine.getMyOnlineId() )
+    {
+        // make sure gui has updated ident before we change online status
+        m_Engine.toGuiContactAnythingChange( netIdent );
+    }
 
     bool wasOnline = isUserOnline( onlineId );
     bool becameOnline{ false };

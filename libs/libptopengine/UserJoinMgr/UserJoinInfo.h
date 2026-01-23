@@ -10,8 +10,9 @@
 //============================================================================
 
 #include <BaseInfo/BaseJoinInfo.h>
-#include <GuiInterface/IDefs.h>
 #include <CoreLib/GroupieId.h>
+#include <GuiInterface/IDefs.h>
+#include <PktLib/VxCommon.h>
 
 #define HOST_FLAG_DEFAULT_HOST			0x0001
 #define HOST_FLAG_IS_TEMP			    0x0002
@@ -26,8 +27,8 @@ public:
 
     bool                        isValid( void ) { return true;  }
 
-    virtual void			    setNetIdent( VxNetIdent* netIdent )                 { m_NetIdent = netIdent; }
-    virtual VxNetIdent*         getNetIdent( void )                                 { return m_NetIdent; }
+    virtual void			    setNetIdent( VxNetIdent* netIdent )                 { m_NetIdent = *netIdent; }
+    virtual VxNetIdent&         getNetIdent( void )                                 { return m_NetIdent; }
 
     virtual void			    setHostFlags( uint32_t hostFlags )                  { m_HostFlags = hostFlags; }
     virtual uint32_t			getHostFlags( void )                                { return m_HostFlags; }
@@ -54,7 +55,7 @@ public:
 
 protected:
 	//=== vars ===//
-    VxNetIdent*                 m_NetIdent{ nullptr };
+    VxNetIdent                  m_NetIdent;
     EFriendState                m_FriendState{ eFriendStateIgnore };
     uint32_t                    m_HostFlags{ 0 };
     GroupieId                   m_GroupieId;

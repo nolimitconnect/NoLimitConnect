@@ -1277,6 +1277,13 @@ void AppCommon::toGuiAssetAdded( AssetBaseInfo* assetInfo )
 		return;
 	}
 
+	if( assetInfo->isThumbAsset() )
+	{
+		// TODO thumbs should only go to ThumbMgr
+		// thumbs are a support asset and never used as stand alone history widget
+		return;
+	}
+
 	emit signalInternalToGuiAssetAdded( *assetInfo );
 }
 
