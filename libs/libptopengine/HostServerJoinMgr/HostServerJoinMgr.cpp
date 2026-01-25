@@ -577,21 +577,30 @@ void HostServerJoinMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase, V
 }
 
 //============================================================================
-void HostServerJoinMgr::changeJoinState( GroupieId& groupieId, EJoinState joinState )
+void HostServerJoinMgr::updateJoinState( GroupieId& groupieId, EJoinState joinState )
 {
     lockHostJoinInfoList();
     HostJoinInfo* joinInfo = findUserJoinInfo( groupieId );
-    if( joinInfo && joinInfo->setJoinState( joinState ) )
+    if( joinInfo )
     {
-        if( groupieId.getUserOnlineId() != m_Engine.getMyOnlineId() )
+        if( joinInfo->getJoinState() != joinState )
         {
-            saveToDatabase( joinInfo, true );
-        }
+            joinInfo->setJoinState( joinState );
+            if( groupieId.getUserOnlineId() != m_Engine.getMyOnlineId() )
+            {
+                saveToDatabase( joinInfo, true );
+            }
 
-        announceHostJoinUpdated( joinInfo );
+            announceHostJoinUpdated( joinInfo );
+        }
     }
 
     unlockHostJoinInfoList();
+    if( !joinInfo )
+    {
+        LogMsg( LOG_ERROR, "HostServerJoinMgr::%s NULL joinInfo for %s joinState %s", __func__, 
+            groupieId.describeGroupieId().c_str(), DescribeJoinState( joinState ) );
+    }
 }
 
 //============================================================================
@@ -653,7 +662,7 @@ bool HostServerJoinMgr::isUserJoinedToRelayHost( VxGUID& onlineId )
 {
     bool isJoined{ false };
     lockHostJoinInfoList();
-    for( auto hostPair : m_HostJoinInfoList )
+    for( auto& hostPair : m_HostJoinInfoList )
     {
         GroupieId& groupieId = const_cast<GroupieId&>(hostPair.first);
         if( groupieId.getUserOnlineId() == onlineId && IsHostARelayForUsers( groupieId.getHostType() ) )

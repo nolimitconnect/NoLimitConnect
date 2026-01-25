@@ -12,9 +12,10 @@
 #include "PluginNetServices.h"
 #include "PluginMgr.h"
 
-#include <P2PEngine/P2PEngine.h>
 #include <BigListLib/BigListInfo.h>
+#include <HostServerJoinMgr/HostServerJoinMgr.h>
 #include <Membership/MemberActiveMgr.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/Invite.h>
 #include <CoreLib/VxDebug.h>
@@ -207,6 +208,14 @@ void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBas
 {
     LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseHostService PktHostJoinReq %s got PktHostJoinReq from %s %s", DescribeHostType( getHostType() ), 
                netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str() );
+
+    if( netIdent->isIgnored() )
+    {
+        LogMsg( LOG_ERROR, "PluginBaseHostService::%s user %s is ignored", __func__, netIdent->getOnlineName() );
+        vx_assert( false );
+        return;
+    }
+
     PktHostJoinReq * joinReq = (PktHostJoinReq *)pktHdr;
     if( !joinReq->isValidPktPrefix() )
     {
@@ -225,6 +234,7 @@ void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBas
         LogModule( eLogHostJoin, LOG_DEBUG, "PluginBaseHostService::onPktHostJoinReq %s from %s groupie %s does not match rxed %s", DescribePluginType( getPluginType() ), 
             netIdent->getOnlineName(), groupieId.describeGroupieId().c_str(), rxedGroupieId.describeGroupieId().c_str() );
     }
+
 
     joinReply.setGroupieId( groupieId );
     joinReply.setPluginType( getPluginType() );
@@ -249,43 +259,43 @@ void PluginBaseHostService::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBas
     }
     else if( ePluginAccessLocked == joinReply.getAccessState() )
     {
-        if( !netIdent->isIgnored() )
+        if( m_HostServerMgr.getJoinState( netIdent, joinReq->getHostType() ) == eJoinStateJoinWasGranted ||
+            m_HostServerMgr.getJoinState( netIdent, joinReq->getHostType() ) == eJoinStateJoinIsGranted )
         {
-            if( m_HostServerMgr.getJoinState( netIdent, joinReq->getHostType() ) == eJoinStateJoinWasGranted ||
-                m_HostServerMgr.getJoinState( netIdent, joinReq->getHostType() ) == eJoinStateJoinIsGranted )
-            {
-                broadcastPkt = true;
-                m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
-                // even though friendship not high enough if admin has accepted then send accepted
-                joinReply.setAccessState( ePluginAccessOk );
-                LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseHostService from %s %s host %s join granted", 
-                            netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(), DescribeHostType( getHostType() ) );
-            }
-            else
-            {
-                m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
-                sendPkt = true;
-                LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseHostService from %s %s host %s join requested", 
-                            netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(), DescribeHostType( getHostType() ) );
-            }
+            broadcastPkt = true;
+            m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
+            // even though friendship not high enough if admin has accepted then send accepted
+            joinReply.setAccessState( ePluginAccessOk );
+            LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseHostService from %s %s host %s join granted", 
+                        netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(), DescribeHostType( getHostType() ) );
         }
         else
         {
-            // TODO .. should we drop the connection or just ignore ?
+            m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
+
+            sendPkt = true;
+            LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseHostService::%s from %s %s host %s join requested", __func__,
+                        netIdent->getOnlineName(), netIdent->getMyOnlineId().toOnlineIdString().c_str(), DescribeHostType( getHostType() ) );
         }
     }
     else if( ePluginAccessDisabled == joinReply.getAccessState() )
     {
         m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
         // join request sent to disabled plugin.. this should not happen
-        LogMsg( LOG_ERROR, "PluginBaseHostService %s got join request to disabled plugin from %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
+        LogMsg( LOG_ERROR, "PluginBaseHostService ::%s %s got join request to disabled plugin from %s", __func__,
+            DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
     }
     else if( ePluginAccessIgnored == joinReply.getAccessState() )
     {
         m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, false );
         // TODO .. should we drop the connection of ignored person?
-        LogMsg( LOG_ERROR, "PluginBaseHostService %s got join request from ignored person %s", DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
+        LogMsg( LOG_ERROR, "PluginBaseHostService::%s %s got join request from ignored person %s", __func__,
+            DescribeHostType( getHostType() ), netIdent->getMyOnlineUrl().c_str() );
     }
+
+    // update join state for isUserJoinedToRelayHost
+    m_Engine.getHostJoinMgr().updateJoinState( groupieId, ePluginAccessOk == joinReply.getAccessState() ? eJoinStateJoinIsGranted : eJoinStateJoinDenied );
+
 
     if( broadcastPkt )
     {

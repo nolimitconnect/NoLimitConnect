@@ -59,7 +59,7 @@ public:
 
     HostJoinInfo*               findUserJoinInfo( GroupieId& groupieId );
 
-    void                        changeJoinState( GroupieId& groupieId, enum EJoinState joinState );
+    void                        updateJoinState( GroupieId& groupieId, enum EJoinState joinState );
     EJoinState                  getHostJoinState( GroupieId& groupieId );
     bool                        isUserJoinedToRelayHost( VxGUID& onlineId );
 

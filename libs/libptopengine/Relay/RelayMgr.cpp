@@ -8,11 +8,12 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include "RelayMgr.h"
-#include <P2PEngine/P2PEngine.h>
-#include <HostServerJoinMgr/HostServerJoinMgr.h>
+
 #include <BigListLib/BigListInfo.h>
+#include <HostServerJoinMgr/HostServerJoinMgr.h>
+#include <Membership/MemberActiveMgr.h>
+#include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxDebug.h>
 #include <NetLib/VxSktBase.h>
@@ -123,7 +124,7 @@ bool RelayMgr::handleRelayPkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 //============================================================================
 bool RelayMgr::isJoinedToRelayHost( VxGUID& onlineId )
 {
-	return m_Engine.getHostJoinMgr().isUserJoinedToRelayHost( onlineId );
+	return m_Engine.getMemberActiveMgr().isUserJoinedToRelayHost( onlineId, m_Engine.getMyOnlineId() );
 }
 
 //============================================================================

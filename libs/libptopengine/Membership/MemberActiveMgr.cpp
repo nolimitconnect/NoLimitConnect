@@ -207,3 +207,25 @@ void MemberActiveMgr::callbackConnectionStatusChange( ConnectId& connectId, bool
         announceMemberActive( groupieId, false );
     }
 }
+
+//============================================================================
+bool MemberActiveMgr::isUserJoinedToRelayHost( VxGUID& memberOnlineId, VxGUID& hostOnlineId )
+{
+    bool isJoined{ false };
+    lockMemberList();
+    for( auto& groupieId : m_MemberList )
+    {
+        if( groupieId.getUserOnlineId() == memberOnlineId || groupieId.getHostOnlineId() == hostOnlineId )
+        {
+            if( IsHostARelayForUsers( groupieId.getHostType() ) )
+            {
+                isJoined = true;
+                break;
+            }
+        }
+    }
+
+    unlockMemberList();
+
+    return isJoined;
+}

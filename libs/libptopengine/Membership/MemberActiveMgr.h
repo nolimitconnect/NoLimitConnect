@@ -39,6 +39,8 @@ public:
 
     void				        callbackConnectionStatusChange( ConnectId& connectId, bool isOnline ) override;
 
+    bool						isUserJoinedToRelayHost( VxGUID& memberOnlineId, VxGUID& hostOnlineId );
+
 protected:
 
     void                        lockMemberList( void )              { m_MemberListMutex.lock(); }

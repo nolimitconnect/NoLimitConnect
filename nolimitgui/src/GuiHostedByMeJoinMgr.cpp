@@ -339,7 +339,7 @@ void GuiHostedByMeJoinMgr::joinAccepted( GuiHostJoin* guiHostJoin )
 {
     if( guiHostJoin && guiHostJoin->setJoinState( eJoinStateJoinIsGranted ) )
     {
-        m_MyApp.getEngine().getHostJoinMgr().changeJoinState( guiHostJoin->getGroupieId(), eJoinStateJoinIsGranted );
+        m_MyApp.getEngine().getHostJoinMgr().updateJoinState( guiHostJoin->getGroupieId(), eJoinStateJoinIsGranted );
         announceJoinState( guiHostJoin, eJoinStateJoinIsGranted );
     }
 }
@@ -349,7 +349,7 @@ void GuiHostedByMeJoinMgr::joinRejected( GuiHostJoin* guiHostJoin )
 {
     if( guiHostJoin && guiHostJoin->setJoinState( eJoinStateJoinDenied ) )
     {
-        m_MyApp.getEngine().getHostJoinMgr().changeJoinState( guiHostJoin->getGroupieId(), eJoinStateJoinDenied );
+        m_MyApp.getEngine().getHostJoinMgr().updateJoinState( guiHostJoin->getGroupieId(), eJoinStateJoinDenied );
         announceJoinState( guiHostJoin, eJoinStateJoinDenied );
     }
 }

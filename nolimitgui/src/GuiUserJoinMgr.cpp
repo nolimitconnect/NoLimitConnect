@@ -253,35 +253,69 @@ GuiUserJoin* GuiUserJoinMgr::updateUserJoin( VxNetIdent* hisIdent, EHostType hos
 //============================================================================
 GuiUserJoin* GuiUserJoinMgr::updateUserJoin( UserJoinInfo* userJoinInfo, bool unJoin )
 {
-    GuiUserJoin* guiUserJoin = findUserJoin( userJoinInfo->getGroupieId() );
+    GroupieId groupieId = userJoinInfo->getGroupieId();
+    GuiUserJoin* guiUserJoin = findUserJoin( groupieId );
     GuiUser* guiUser = m_MyApp.getUserMgr().updateUser( &userJoinInfo->getNetIdent() );
     if( guiUser )
     {
+        EJoinState joinState = userJoinInfo->getJoinState();
+        if( joinState == eJoinStateJoinIsGranted )
+        {
+            if( groupieId.getUserOnlineId() == m_MyApp.getMyOnlineId() && groupieId.getHostOnlineId() != m_MyApp.getMyOnlineId() )
+            {
+                // we joined a host.. update last joined
+                m_LastJoinAttemptedHostInviteUrl.clear();
+
+                std::string hostUrl = userJoinInfo->getHostUrl();
+                VxPtopUrl ptopUrl( hostUrl );
+                ptopUrl.setUrlHostType( groupieId.getHostType() );
+                if( ptopUrl.isValid() && ptopUrl.getOnlineId() == groupieId.getHostOnlineId() )
+                {
+                    m_MyApp.getAppSettings().setLastHostJoined( groupieId.getHostType(), ptopUrl.getHostUrl() );
+                }
+                else
+                {
+                    LogMsg( LOG_SEVERE, "GuiUserJoinMgr::%s invalid host url", __func__ );
+                    vx_assert( false );
+                    return nullptr;
+                }
+            }
+        }
+
+        if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_VERBOSE, "GuiUserJoinMgr::%s user %s state %s %s", __func__,
+                    guiUser->getOnlineName().c_str(),
+                    DescribeJoinState( joinState ),
+                    m_MyApp.describeGroupieId( groupieId ).c_str() );
+            
+
         if( guiUserJoin )
         {
-            guiUserJoin->setJoinState( userJoinInfo->getJoinState() );
+            guiUserJoin->setJoinState( joinState );
             if( unJoin )
             {
-                LogModule( eLogHostJoin, LOG_VERBOSE, "GuiUserJoinMgr::updateUserJoin unjoin state %s %s", DescribeJoinState( guiUserJoin->getJoinState() ),
-                        m_MyApp.describeGroupieId( guiUserJoin->getGroupieId() ).c_str() );
+                if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_VERBOSE, "GuiUserJoinMgr::%s unjoin state %s %s", __func__, DescribeJoinState( joinState ),
+                        m_MyApp.describeGroupieId( groupieId ).c_str() );
                 onUserUnJoin( guiUserJoin );
             }
             else
             {
-                LogModule( eLogHostJoin, LOG_VERBOSE, "GuiUserJoinMgr::updateUserJoin update state %s %s", DescribeJoinState( guiUserJoin->getJoinState() ),         
-                    m_MyApp.describeGroupieId( guiUserJoin->getGroupieId() ).c_str() );
                 onUserJoinUpdated( guiUserJoin );
             }
         }
         else
         {
             guiUserJoin = new GuiUserJoin( m_MyApp, guiUser, userJoinInfo );
-            guiUserJoin->setJoinState( userJoinInfo->getJoinState() );
-            m_UserJoinList[guiUserJoin->getGroupieId()] = guiUserJoin;
+            guiUserJoin->setJoinState( joinState );
+            m_UserJoinList[ groupieId ] = guiUserJoin;
             onUserJoinAdded( guiUserJoin );
-            LogModule( eLogHostJoin, LOG_VERBOSE, "GuiUserJoinMgr::updateUserJoin add state %s %s", DescribeJoinState( guiUserJoin->getJoinState() ),
-                    m_MyApp.describeGroupieId( guiUserJoin->getGroupieId() ).c_str() );
+            if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_VERBOSE, "GuiUserJoinMgr::%s add state %s %s", __func__, DescribeJoinState( joinState ),
+                    m_MyApp.describeGroupieId( groupieId ).c_str() );
         }
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "GuiUserJoinMgr::%s guiUser is null", __func__ );
+        vx_assert( false );
     }
 
     return guiUserJoin;
@@ -429,16 +463,6 @@ void GuiUserJoinMgr::announceUserJoinIsGranted( GroupieId& groupieId, GuiUserJoi
     for( auto& client : m_UserJoinClients )
     {
         client->callbackGuiUserJoinIsGranted( groupieId, guiUserJoin );
-    }
-
-    if( !m_LastJoinAttemptedHostInviteUrl.empty() )
-    {
-        VxPtopUrl ptopUrl( m_LastJoinAttemptedHostInviteUrl );
-        if( ptopUrl.isValid() && ptopUrl.getOnlineId() == groupieId.getHostOnlineId() )
-        {
-            m_MyApp.getAppSettings().setLastHostJoined( m_LastJoinAttemptedHostInviteUrl );
-            m_LastJoinAttemptedHostInviteUrl.clear();
-        }
     }
 }
 
