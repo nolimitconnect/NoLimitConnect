@@ -799,6 +799,10 @@ void HostClientMgr::onPktHostUserInfoReply( std::shared_ptr<VxSktBase>& sktBase,
                         groupieUserId.toOnlineIdString().c_str(), memberId.toOnlineIdString().c_str(), pktAnn.getOnlineName() );
             }
 
+            // just to make sure has low friendship privilege until we get a real announce packet from user
+            pktAnn.setHisFriendshipToMe( eFriendStateGuest );
+            pktAnn.setMyFriendshipToHim( eFriendStateGuest );
+
             announceUserInfo( sktBase, &pktAnn, pktReply->getSessionId(), srcOnlineId, pktReply->getHostType() );
         }
         else
@@ -851,22 +855,30 @@ void HostClientMgr::announceUserInfo( std::shared_ptr<VxSktBase>& sktBase, PktAn
 
     if( IsHostARelayForUsers( hostType ) )
     {
-        // this is someone not in our database so start with guest friendships because is a member of the host we joined to
-    
+        // this is someone not in our database so start with guest friendships because is a member of the host we joined to  
         BigListInfo* bigListInfo = 0;
-        EPktAnnUpdateType updateType = m_Engine.getBigListMgr().updatePktAnn( pktAnn, &bigListInfo, hostType );		
-        if( !bigListInfo || !bigListInfo->isValidNetIdent() )
+        // the pktAnn does not have the correct friendship .. from host
+        bigListInfo = m_Engine.getBigListMgr().findBigListInfo( pktAnn->getMyOnlineId() );
+        if( !bigListInfo )
         {
-            LogMsg( LOG_ERROR, "HostClientMgr::%s INVALID", __func__ );
-            return;
+            // this user has not been encountered. add to big list as temporary until we get a actual pkt announce from user
+            EPktAnnUpdateType updateType = m_Engine.getBigListMgr().updatePktAnn( pktAnn, &bigListInfo, hostType );
+            if( !bigListInfo || !bigListInfo->isValidNetIdent() )
+            {
+                LogMsg( LOG_ERROR, "HostClientMgr::%s INVALID", __func__ );
+                return;
+            }
         }
 
-        if( ePktAnnUpdateTypeIgnored == updateType )
+
+        if( bigListInfo->isIgnored() )
         {
             LogMsg( LOG_INFO, "HostClientMgr::%s ignored user %s", __func__,
                    m_Engine.describeUser( memberOnlineId ).c_str() );
             return;
         }
+
+        bigListInfo->setIsJoined( getHostType(), true );
 
         if( !m_Engine.getConnectIdListMgr().isUserOnline( pktAnn->getMyOnlineId() ) )
         {

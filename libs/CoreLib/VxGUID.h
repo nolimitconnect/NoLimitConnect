@@ -27,6 +27,7 @@ public:
 	VxGUID( VxGUID& rhs );
 	VxGUID( const VxGUID& rhs );
 	VxGUID( uint64_t u64HiPart, uint64_t u64LoPart );
+    VxGUID( const char * hexOrOnlineIdStr );
 
 	VxGUID&						operator = ( const VxGUID& rhs );
 	bool						operator == ( const VxGUID& rhs ) const;

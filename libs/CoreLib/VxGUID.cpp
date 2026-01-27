@@ -68,6 +68,34 @@ VxGUID::VxGUID( uint64_t u64HiPart, uint64_t u64LoPart )
 }
 
 //============================================================================
+VxGUID::VxGUID( const char * hexOrOnlineIdStr )
+    : m_u64HiPart(0)
+    , m_u64LoPart(0)
+{
+    if( hexOrOnlineIdStr )
+    {
+        int len = strlen( hexOrOnlineIdStr );
+        if( len == 32 )
+        {
+            fromVxGUIDHexString( hexOrOnlineIdStr );
+        }
+        else if( len == 34 )
+        {
+            fromOnlineIdString( hexOrOnlineIdStr );
+        }
+        else
+        {
+            LogMsg( LOG_ERROR, "VxGUID::VxGUID invalid string len %d", len );
+        }
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "VxGUID::VxGUID NULL hexOrOnlineIdStr" );
+        return;
+    }
+}
+
+//============================================================================
 VxGUID & VxGUID::operator =( const VxGUID &rhs )
 {
 	if( this != &rhs )   

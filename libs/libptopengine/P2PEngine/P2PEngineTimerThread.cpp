@@ -222,17 +222,17 @@ void P2PEngine::onOncePer30Minutes( void )
 //============================================================================
 void P2PEngine::onOncePerHour( void )
 {
-// TODO running port forward causes connection drop and/or connection problems
-// FIXME BRJ
-#if !defined(ENABLE_RENEW_PORT_FORWARD)
-    if( !m_PktAnn.requiresRelay() && !getNetStatusAccum().isLocalAndExternIpsTheSame() )
-    {
-        if( getEngineSettings().getUseUpnp() )
-        {
-            // even if you give upnp a lease of 0 (forever) some routers do not honor this
-            // periodically update upnp
-            m_NetServicesMgr.addNetActionToQueue( eNetActionRenewPortForward );
-        }
-    }
-#endif // !defined(ENABLE_RENEW_PORT_FORWARD)
+// Attempting to renew port forward lease sometimes causes drop of all connections on hide.em
+// If router does not honer infinate lease there does not seem to be a good solution
+//#if defined(ENABLE_RENEW_PORT_FORWARD)
+//    if( !m_PktAnn.requiresRelay() && !getNetStatusAccum().isLocalAndExternIpsTheSame() )
+//    {
+//        if( getEngineSettings().getUseUpnp() )
+//        {
+//            // even if you give upnp a lease of 0 (forever) some routers do not honor this
+//            // periodically update upnp
+//            m_NetServicesMgr.addNetActionToQueue( eNetActionRenewPortForward );
+//        }
+//    }
+//#endif // !defined(ENABLE_RENEW_PORT_FORWARD)
 }

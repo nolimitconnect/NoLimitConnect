@@ -69,9 +69,15 @@ void P2PEngine::onPktAnnounce( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pk
 		return;
 	}
 
-	bool ipv6 = sktBase->getIsIpv6Connection();
 	PktAnnounce* pktAnn = (PktAnnounce *)pktHdr;
 	VxGUID contactOnlineId = pktAnn->getMyOnlineId();
+    // VxGUID winDevOnlineId("!62F5902FCDE74AAF4928FCE61975ECE4!");
+    // if( contactOnlineId == winDevOnlineId )
+    // {
+    //     LogMsg( LOG_VERBOSE, "GuiUserMgr::%s %s his friendship to me %s", __func__,
+    //            pktAnn->getOnlineName(), DescribeFriendState( pktAnn->getHisFriendshipToMe() ) );
+    // }
+
 	if( contactOnlineId == getMyOnlineId() )
 	{
 		// it is ourself

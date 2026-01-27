@@ -179,7 +179,7 @@ void UserJoinMgr::callbackOnlineStatusChange( VxGUID& onlineId, bool isOnline )
 
     lockResources();
 
-    for( auto joinPair : m_UserJoinInfoList )
+    for( auto& joinPair : m_UserJoinInfoList )
     {
         if( const_cast<GroupieId&>(joinPair.first).getHostOnlineId() == onlineId )
         {

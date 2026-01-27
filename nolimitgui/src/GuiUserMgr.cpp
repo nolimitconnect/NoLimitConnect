@@ -489,11 +489,18 @@ GuiUser* GuiUserMgr::updateUser( VxNetIdent* hisIdent )
 {
     if( !hisIdent || !hisIdent->isValidNetIdent() )
     {
-        LogMsg( LOG_ERROR, "GuiUserMgr::updateUser invalid param" );
+        LogMsg( LOG_ERROR, "GuiUserMgr::%s invalid param", __func__ );
         return nullptr;
     }
 
     LogModule( eLogUsers, LOG_VERBOSE, "GuiUserMgr::updateUser %s id %s", hisIdent->getOnlineName(), hisIdent->getMyOnlineId().toOnlineIdString().c_str() );
+
+    // VxGUID winDevOnlineId("!62F5902FCDE74AAF4928FCE61975ECE4!");
+    // if( hisIdent->getMyOnlineId() == winDevOnlineId )
+    // {
+    //     LogMsg( LOG_VERBOSE, "GuiUserMgr::%s %s his friendship to me %s", __func__,
+    //             hisIdent->getOnlineName(), DescribeFriendState( hisIdent->getHisFriendshipToMe() ) );
+    // }
 
     if( hisIdent->getMyOnlineId() == m_MyApp.getMyOnlineId() )
     {

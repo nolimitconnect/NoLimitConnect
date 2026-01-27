@@ -1570,13 +1570,13 @@ ENetCmdError NetServicesMgr::doRenewPortForward( void )
 		bool result = VxPortForward::removePortForward( isIpv6, port );
 		if( !result )
 		{
-			LogMsg( LOG_ERROR, "NetServicesMgr::%s failed to remove port formard", __func__ );
+			LogMsg( LOG_ERROR, "NetServicesMgr::%s failed to remove port formard ipv6 ? %d ip %s port %d", __func__, isIpv6, ipAddr.c_str(), port );
 		}
 
 		result = VxPortForward::addPortForward( isIpv6, ipAddr.c_str(), port, false );
 		if( !result )
 		{
-			LogMsg( LOG_ERROR, "NetServicesMgr::%s failed to renew port formard", __func__ );
+			LogMsg( LOG_ERROR, "NetServicesMgr::%s failed to renew port formard ipv6 ? %d ip %s port %d", __func__, isIpv6, ipAddr.c_str(), port );
 		}
 
 		return result ? eNetCmdErrorNone : eNetCmdErrorConnectFailed;

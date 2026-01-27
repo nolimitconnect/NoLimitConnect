@@ -51,7 +51,7 @@ namespace // anonymouse
 
 		void addArg( const std::string argStr )
 		{
-			cmdParams.push_back( argStr );
+			cmdParams.emplace_back( argStr );
 			argc++;
 		}
 
