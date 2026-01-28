@@ -1854,4 +1854,4 @@ update_msgstr_plurals (msgdomain_list_ty *mdlp)
     }
   return mdlp;
 }
-#endif BUILD_MSGINIT_TOOL
+#endif // BUILD_MSGINIT_TOOL

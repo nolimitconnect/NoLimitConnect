@@ -31,6 +31,7 @@
 #include <sys/param.h>
 #include <sys/select.h>
 #include <errno.h>
+#undef closesocket
 #define closesocket close
 #include <netdb.h>
 #include <netinet/in.h>

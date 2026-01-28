@@ -1473,6 +1473,19 @@ target_compile_definitions(avcodec
     ${ffmpeg_DEFINES}
 )
 
+target_compile_options(avcodec
+    PRIVATE
+    $<$<COMPILE_LANGUAGE:C>:
+         -Wno-deprecated-declarations
+         -Wno-pointer-sign
+         -Wno-shift-op-parentheses
+         -Wno-switch
+         -Wno-parentheses
+         -Wno-implicit-const-int-float-conversion
+         -Wno-dangling-else
+    >
+)
+
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction

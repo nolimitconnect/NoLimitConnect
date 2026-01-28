@@ -34,6 +34,14 @@ target_include_directories(fribidi
     charset
 )
 
+target_compile_options( fribidi
+    PRIVATE
+    $<$<COMPILE_LANGUAGE:C>:
+        -Wno-switch
+        -Wno-enum-conversion
+    >
+)
+
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction

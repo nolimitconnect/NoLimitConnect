@@ -92,6 +92,17 @@ target_compile_definitions(swscale
     ${ffmpeg_DEFINES}
 )
 
+target_compile_options(swscale
+    PRIVATE
+    $<$<COMPILE_LANGUAGE:C>:
+       -Wno-deprecated-declarations
+       -Wno-pointer-sign
+       -Wno-switch
+       -Wno-shift-op-parentheses
+       -Wno-dangling-else
+    >
+)
+
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction

@@ -13,6 +13,14 @@ list(APPEND iconv_SOURCES
 
 add_library(iconv STATIC ${iconv_SOURCES})
 
+target_compile_options( iconv
+    PRIVATE
+    $<$<COMPILE_LANGUAGE:C>:
+        -Wno-static-in-inline
+        -Wno-parentheses-equality
+    >
+)
+
 if(DEFINED TARGET_OS_WINDOWS)
     target_compile_definitions(iconv
       PRIVATE

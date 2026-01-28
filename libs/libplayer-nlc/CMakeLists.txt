@@ -618,6 +618,15 @@ target_include_directories(player-nlc
 
 target_link_libraries(player-nlc Qt::Core Qt::CorePrivate)
 
+target_compile_options( player-nlc
+    PRIVATE
+    $<$<COMPILE_LANGUAGE:CXX>:
+        -Wno-deprecated-declarations
+        -Wno-user-defined-warnings
+        -Wno-undefined-var-template
+    >
+)
+
 set_target_properties(player-nlc PROPERTIES
             CXX_STANDARD 17
             )

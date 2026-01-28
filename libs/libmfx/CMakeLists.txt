@@ -14,6 +14,13 @@ list(APPEND mfx_SOURCES
 
 add_library(mfx STATIC ${mfx_SOURCES})
 
+target_compile_options( mfx
+    PRIVATE
+    $<$<COMPILE_LANGUAGE:CXX>:
+        -Wno-undefined-bool-conversion
+    >
+)
+
 if(DEFINED TARGET_OS_WINDOWS)
     target_compile_definitions(mfx
       PRIVATE

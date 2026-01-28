@@ -223,7 +223,7 @@ void P2PEngine::onOncePer30Minutes( void )
 void P2PEngine::onOncePerHour( void )
 {
 // Attempting to renew port forward lease sometimes causes drop of all connections on hide.em
-// If router does not honer infinate lease there does not seem to be a good solution
+// If router does not honor infinate lease there does not seem to be a good solution
 //#if defined(ENABLE_RENEW_PORT_FORWARD)
 //    if( !m_PktAnn.requiresRelay() && !getNetStatusAccum().isLocalAndExternIpsTheSame() )
 //    {

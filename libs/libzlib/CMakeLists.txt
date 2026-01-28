@@ -28,6 +28,14 @@ list(APPEND zlib_SOURCES
 
 add_library(zlib STATIC ${zlib_SOURCES})
 
+target_compile_options( zlib
+    PRIVATE
+    $<$<COMPILE_LANGUAGE:C>:
+        -Wno-deprecated-non-prototype
+        -Wno-shift-negative-value
+    >
+)
+
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction

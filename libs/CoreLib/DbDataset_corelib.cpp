@@ -26,7 +26,7 @@
  *
  **********************************************************************/
 
-#include "config_corelib.h"
+//#include "config_corelib.h"
 
 #include "DbDataset.h"
 #include "VxDebug.h"

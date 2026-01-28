@@ -36,6 +36,18 @@ target_include_directories(ass
     ../libfreetype/include
 )
 
+target_compile_options( ass
+    PRIVATE
+    -Wno-constant-conversion
+)
+
+target_compile_options(ass
+    PRIVATE
+    $<$<COMPILE_LANGUAGE:C>:
+         -Wno-constant-conversion
+    >
+)
+
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction

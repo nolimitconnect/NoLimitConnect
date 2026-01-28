@@ -30,7 +30,7 @@
 #include "config_components.h"
 #if CONFIG_FRAMERATE_FILTER
 
-#define DEBUG
+//#define DEBUG
 
 #include "libavutil/avassert.h"
 #include "libavutil/imgutils_avutil.h"

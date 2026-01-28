@@ -63,6 +63,7 @@ struct sockaddr_un {
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <net/if.h>
+#undef closesocket
 #define closesocket close
 #endif
 

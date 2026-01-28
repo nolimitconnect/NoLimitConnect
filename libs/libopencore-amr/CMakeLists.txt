@@ -210,6 +210,13 @@ list(APPEND opencore-amr_SOURCES
 
 add_library(opencore-amr STATIC ${opencore-amr_SOURCES})
 
+target_compile_options( opencore-amr
+    PRIVATE
+    $<$<COMPILE_LANGUAGE:CXX>:
+        -Wno-delete-incomplete
+    >
+)
+
 target_include_directories(opencore-amr
   PRIVATE
     amrnb/dec

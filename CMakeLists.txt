@@ -8,6 +8,10 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=implicit-function-declaration>)
 add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=incompatible-pointer-types>)
 
+# These warnings as errors are not required but shall be fixed
+# commented out because works for Android but causes error in linux GCC
+#add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=macro-redefined>)
+
 include(cmake/version.cmake)
 
 # Split NLC_VERSION into major, minor, patch

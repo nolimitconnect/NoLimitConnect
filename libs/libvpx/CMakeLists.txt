@@ -897,6 +897,17 @@ endif()
 
 add_library(vpx STATIC ${vpx_SOURCES})
 
+target_compile_options(vpx
+    PRIVATE
+    $<$<COMPILE_LANGUAGE:C>:
+         -Wno-missing-prototypes
+         -Wno-strict-prototypes
+         -Wno-undef
+         -Wno-shadow
+         -Wno-unused-but-set-variable
+    >
+)
+
 if(DEFINED TARGET_CPU_X86_64)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mavx512f -mavx512cd -mavx512bw -mavx512dq -mavx512vl -mmmx -msse2 -msse3 -msse4.1 -mavx -mavx2")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx512f -mavx512cd -mavx512bw -mavx512dq -mavx512vl -mmmx -msse2 -msse3 -msse4.1 -mavx -mavx2")

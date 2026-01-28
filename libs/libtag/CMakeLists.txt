@@ -113,6 +113,13 @@ list(APPEND tag_SOURCES
 
 add_library(tag STATIC ${tag_SOURCES})
 
+target_compile_options( tag
+    PRIVATE
+    $<$<COMPILE_LANGUAGE:CXX>:
+        -Wno-delete-abstract-non-virtual-dtor
+    >
+)
+
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction

@@ -26,6 +26,7 @@
 
 #include "config_ffmpeg.h"
 
+#undef _DEFAULT_SOURCE
 #define _DEFAULT_SOURCE
 #define _BSD_SOURCE     /* Needed for using struct ip_mreq with recent glibc */
 

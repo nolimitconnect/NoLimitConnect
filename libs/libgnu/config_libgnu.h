@@ -3692,15 +3692,18 @@ termcap library functions. */
 #define HAVE_WCHAR_H 1
 
 /* Define if you have the 'wchar_t' type. */
+#undef HAVE_WCHAR_T
 #define HAVE_WCHAR_T 1
 
 /* Define to 1 if you have the `wcrtomb' function. */
 #define HAVE_WCRTOMB 1
 
 /* Define to 1 if you have the `wcslen' function. */
+#undef HAVE_WCSLEN
 #define HAVE_WCSLEN 1
 
 /* Define to 1 if you have the `wcsnlen' function. */
+#undef HAVE_WCSNLEN
 #define HAVE_WCSNLEN 1
 
 /* Define to 1 if you have the `wctob' function. */

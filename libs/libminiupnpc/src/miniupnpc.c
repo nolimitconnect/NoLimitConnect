@@ -46,6 +46,7 @@
 #endif
 #include <strings.h>
 #include <errno.h>
+#undef closesocket
 #define closesocket close
 #endif /* #else _WIN32 */
 #ifdef __GNU__

@@ -199,6 +199,13 @@ list(APPEND mediatools_SOURCES
 
 add_library(mediatools STATIC ${mediatools_SOURCES})
 
+target_compile_options( mediatools
+    PRIVATE
+    $<$<COMPILE_LANGUAGE:C>:
+        -Wno-macro-redefined
+    >
+)
+
 target_compile_definitions(mediatools
     PRIVATE
     OUTSIDE_SPEEX

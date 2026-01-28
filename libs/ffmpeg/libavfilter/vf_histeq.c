@@ -68,6 +68,7 @@ typedef struct HisteqContext {
 
 #define OFFSET(x) offsetof(HisteqContext, x)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM
+#undef CONST
 #define CONST(name, help, val, unit) { name, help, 0, AV_OPT_TYPE_CONST, {.i64=val}, INT_MIN, INT_MAX, FLAGS, unit }
 
 static const AVOption histeq_options[] = {

@@ -577,6 +577,25 @@ target_include_directories(avformat
     ../../libplayer-nlc
 )
 
+target_compile_options(avformat
+    PRIVATE
+    $<$<COMPILE_LANGUAGE:C>:
+        -Wno-tautological-constant-out-of-range-compare
+        -Wno-deprecated-declarations
+        -Wno-pointer-sign
+#         -Wno-shift-op-parentheses
+#         -Wno-missing-prototypes
+#         -Wno-strict-prototypes
+#         -Wno-undef
+#         -Wno-shadow
+#         -Wno-unused-but-set-variable
+        -Wno-switch
+        -Wno-parentheses
+        -Wno-implicit-const-int-float-conversion
+#         -Wno-dangling-else
+    >
+)
+
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction

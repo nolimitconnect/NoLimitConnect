@@ -58,6 +58,14 @@ list(APPEND freetype_SOURCES
 
 add_library(freetype STATIC ${freetype_SOURCES})
 
+target_compile_options( freetype
+    PRIVATE
+    $<$<COMPILE_LANGUAGE:C>:
+        -Wno-undefined-internal
+        -Wno-deprecated-declarations
+    >
+)
+
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction
