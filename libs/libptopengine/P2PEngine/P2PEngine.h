@@ -454,7 +454,7 @@ public:
 	void						onOncePerHour( void );
 
 	void						onBigListInfoRestored( BigListInfo * poInfo ); 
-	void						onBigListLoadComplete( RCODE rc );
+	void						onBigListLoadComplete( int32_t rc );
 	void						onBigListInfoDelete( BigListInfo * poInfo );
 
 	virtual	void				onContactConnected		( RcConnectInfo * poInfo, bool connectionListLocked, bool newContact = false );

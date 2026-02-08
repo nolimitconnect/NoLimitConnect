@@ -103,7 +103,7 @@ bool PluginBaseFiles::fromGuiBrowseFiles( VxGUID& appInstId, std::string& dir, u
 	}
 
 	std::vector<VxFileInfoBase> fileList;
-	RCODE rc = VxFileUtil::listFilesAndFolders( dir.c_str(), fileList, fileFilterMask );
+	int32_t rc = VxFileUtil::listFilesAndFolders( dir.c_str(), fileList, fileFilterMask );
 	if( rc )
 	{
 		LogMsg( LOG_ERROR, "PluginBaseFiles::fromGuiBrowseFiles error %d", rc );

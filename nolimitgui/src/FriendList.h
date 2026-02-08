@@ -31,7 +31,7 @@ protected:
 	//! update friend in list
 	void						updateFriendList( GuiUser* guiUser, bool sessionTimeChange );
 	//! remove friend from list.. return non zero if should not be removed
-	RCODE						removeFriendFromList( VxGUID& oId );
+	int32_t						removeFriendFromList( VxGUID& oId );
 
 	//=== vars ===//
 	std::vector<GuiUser*>		m_aoFriends;

@@ -293,13 +293,13 @@ void NetServicesMgr::runNetActions( void )
 }
 
 //============================================================================
-RCODE NetServicesMgr::handleNetCmdPing( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
+int32_t NetServicesMgr::handleNetCmdPing( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
 {
 	return  sendPong( sktBase, netServiceHdr, netServiceHdr.m_NetCmdType == eNetCmdClientPing );
 }
 
 //============================================================================
-RCODE NetServicesMgr::sendPong( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr, bool isClientPing )
+int32_t NetServicesMgr::sendPong( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr, bool isClientPing )
 {
     LogModule( eLogIsPortOpenTest, LOG_INFO, "Got ping from %s ", sktBase->getRemoteIp().c_str(), VxGetCurrentThreadId() );
 	std::string content;
@@ -308,14 +308,14 @@ RCODE NetServicesMgr::sendPong( std::shared_ptr<VxSktBase>& sktBase, NetServiceH
 }
 
 //============================================================================
-RCODE NetServicesMgr::handleNetCmdPong( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
+int32_t NetServicesMgr::handleNetCmdPong( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
 {
     LogModule( eLogIsPortOpenTest, LOG_INFO, "Got PONG from %s thread 0x%x", sktBase->getRemoteIp().c_str(), VxGetCurrentThreadId() );
 	return 0;
 }
 
 //============================================================================
-RCODE NetServicesMgr::handleNetCmdIsMyPortOpenReq( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
+int32_t NetServicesMgr::handleNetCmdIsMyPortOpenReq( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
 {
 	char * pSktBuf = (char *)sktBase->getSktReadBuf();
 	if( false == ( '/' == pSktBuf[ netServiceHdr.m_TotalDataLen - 1 ] ) )
@@ -336,7 +336,7 @@ RCODE NetServicesMgr::handleNetCmdIsMyPortOpenReq( std::shared_ptr<VxSktBase>& s
 }
 
 //============================================================================
-RCODE NetServicesMgr::handleNetCmdIsMyPortOpenReqContent( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr, std::string& fromClientNetCmdContent )
+int32_t NetServicesMgr::handleNetCmdIsMyPortOpenReqContent( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr, std::string& fromClientNetCmdContent )
 {
 	InetAddrAndPort rmtAddr;
     VxGetRmtAddress( sktBase->m_Socket, rmtAddr );
@@ -686,7 +686,7 @@ ENetCmdError NetServicesMgr::doIsMyPortOpen( std::string& retMyExternalIp, bool 
 	ENetCmdError portOpenTestError = eNetCmdErrorNone;
     if( VxSplitHostAndFile( netSrvUrl.c_str(), strHost, strFile, u16Port ) )
     {
-		RCODE rc = 0;
+		int32_t rc = 0;
         portOpenConn1.connectTo( strHost.c_str(), u16Port, eIpAddrTypeUnknown, NETSERVICE_CONNECT_TIMEOUT, &rc );
         if( !portOpenConn1.isConnected() )
         {
@@ -965,15 +965,15 @@ ENetCmdError NetServicesMgr::sendAndRecieveIsMyPortOpen( VxTimer&				portTestTim
 }
 
 //============================================================================
-RCODE NetServicesMgr::handleNetCmdIsMyPortOpenReply( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
+int32_t NetServicesMgr::handleNetCmdIsMyPortOpenReply( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
 {
-    RCODE rc = -1;
+    int32_t rc = -1;
     // not called here.. handled in NetAction
     return rc;
 }
 
 //============================================================================
-RCODE NetServicesMgr::handleNetCmdQueryHostIdReq( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
+int32_t NetServicesMgr::handleNetCmdQueryHostIdReq( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
 {
     std::string toClientContent = "0"; // assume fail
 
@@ -1027,7 +1027,7 @@ ENetCmdError NetServicesMgr::sendAndRecieveQueryHostId( VxTimer&				testTimer,
     LogMsg( LOG_INFO, "Query Host Online Id Connected in  %3.3f sec now Sending data thread 0x%x", testTimer.elapsedSec(), VxGetCurrentThreadId() );
     testTimer.startTimer();
 	setIsQueryUrlActive( true );
-    RCODE rc = m_NetServiceUtils.buildAndSendCmd( netServConn, eNetCmdQueryHostOnlineIdReq, strContent, eNetCmdErrorNone );
+    int32_t rc = m_NetServiceUtils.buildAndSendCmd( netServConn, eNetCmdQueryHostOnlineIdReq, strContent, eNetCmdErrorNone );
     if( rc )
     {
         LogMsg( LOG_ERROR, "Query Host Online Id Send Command Error (%3.3f sec) thread 0x%x", testTimer.elapsedSec(), VxGetCurrentThreadId() );
@@ -1119,9 +1119,9 @@ ENetCmdError NetServicesMgr::sendAndRecieveQueryHostId( VxTimer&				testTimer,
 }
 
 //============================================================================
-RCODE NetServicesMgr::handleNetCmdQueryHostIdReply( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
+int32_t NetServicesMgr::handleNetCmdQueryHostIdReply( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
 {
-    RCODE rc = -1;
+    int32_t rc = -1;
     // not called here.. handled in NetAction
     return rc;
 }
@@ -1518,7 +1518,7 @@ bool NetServicesMgr::sendNetServicePacket(	ENetCmdType         netCmdRequestType
 		txCrypto->setPassword( cryptoPwd.c_str(), cryptoPwd.length() );
 		if( 0 == txCrypto->encrypt( pktData, pktLen ) )
 		{
-			RCODE rc = sktBase->sendData( (char *)pktData, pktLen, txDataTimeout );
+			int32_t rc = sktBase->sendData( (char *)pktData, pktLen, txDataTimeout );
 			wasSent = 0 == rc;
 			if( !wasSent )
 			{

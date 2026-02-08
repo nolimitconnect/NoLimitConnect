@@ -72,7 +72,7 @@ VxListenLogic::VxListenLogic( VxServerMgr& serverMgr, bool ipv6 )
 //============================================================================
 bool VxListenLogic::startListeningThread( void )
 {
-    RCODE rc = 0;
+    int32_t rc = 0;
     std::string threadName;
     if( m_IsIpv6 )
     {
@@ -182,7 +182,7 @@ start_over:
     // on android when use select the select seems to work but in the accept it gets error 22 (invalid param) .. so do this crap
     while( !shouldListenAbort() )
     {
-        RCODE rc = 0;
+        int32_t rc = 0;
 
         int listenResult = listen( getListenSkt(), MAX_LISTEN_BACKLOG );
         if( 0 > listenResult )
@@ -245,7 +245,7 @@ start_over:
             break;
         }
 
-        RCODE acceptResult = m_ServerMgr.acceptConnection( m_IsIpv6, &m_ListenThread, getListenSkt(), m_ListenPort );
+        int32_t acceptResult = m_ServerMgr.acceptConnection( m_IsIpv6, &m_ListenThread, getListenSkt(), m_ListenPort );
         if( acceptResult )
         {
             LogMsg( LOG_DEBUG, "ListenLogic::%s acceptConnection ERROR %d %s", __func__, acceptResult, VxDescribeSktError( acceptResult ) );

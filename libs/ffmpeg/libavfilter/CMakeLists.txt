@@ -19,7 +19,7 @@ endif()
 
 set(avfilter_SOURCES)
 
-if(DEFINED TARGET_CPU_X86_64)
+if(DEFINED TARGET_CPU_X64)
     list(APPEND avfilter_SOURCES 
         x86/af_afir_init.c
         x86/af_anlmdn_init.c

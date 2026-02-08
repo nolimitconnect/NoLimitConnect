@@ -33,30 +33,30 @@ HostUrlListDb::HostUrlListDb()
 }
 
 //============================================================================
-RCODE HostUrlListDb::hostUrlListDbStartup( int dbVersion, const char* dbFileName )
+int32_t HostUrlListDb::hostUrlListDbStartup( int dbVersion, const char* dbFileName )
 {
 	dbShutdown();
 	return dbStartup( dbVersion, dbFileName );
 }
 
 //============================================================================
-RCODE HostUrlListDb::hostUrlListDbShutdown( void )
+int32_t HostUrlListDb::hostUrlListDbShutdown( void )
 {
 	return dbShutdown();
 }
 
 //============================================================================
-RCODE HostUrlListDb::onCreateTables( int iDbVersion )
+int32_t HostUrlListDb::onCreateTables( int iDbVersion )
 {
-	RCODE rc = sqlExec( "CREATE TABLE tblHostUrl (online_id TEXT, host_type INTEGER, hostUrl TEXT, timestamp BIGINT)" );
+	int32_t rc = sqlExec( "CREATE TABLE tblHostUrl (online_id TEXT, host_type INTEGER, hostUrl TEXT, timestamp BIGINT)" );
 	vx_assert( 0 == rc );
 	return rc;
 }
 
 //============================================================================
-RCODE HostUrlListDb::onDeleteTables( int iOldVersion )
+int32_t HostUrlListDb::onDeleteTables( int iOldVersion )
 {
-	RCODE rc = sqlExec( (char *)"DROP TABLE tblHostUrl" );
+	int32_t rc = sqlExec( (char *)"DROP TABLE tblHostUrl" );
 	vx_assert( 0 == rc );
 	return rc;
 }
@@ -89,7 +89,7 @@ void HostUrlListDb::getAllHostUrls( std::vector<HostUrlInfo>& hostUrlList )
 //============================================================================
 bool HostUrlListDb::saveHostUrl( HostUrlInfo& hostUrlInfo )
 {
-	RCODE rc = 0;
+	int32_t rc = 0;
 	std::string onlineId;
 	if( !hostUrlInfo.getOnlineId().toHexString( onlineId ) )
 	{

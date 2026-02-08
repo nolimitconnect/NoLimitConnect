@@ -1032,7 +1032,7 @@ bool ConnectionMgr::txPacket(	VxGUID&				        destinationId,
         {
             sktBase->m_u8TxSeqNum++;
             poPkt->setPktSeqNum( sktBase->m_u8TxSeqNum );
-            RCODE rc = sktBase->txPacket( destinationId, poPkt );
+            int32_t rc = sktBase->txPacket( destinationId, poPkt );
             if( 0 == rc )
             {
                 bSendSuccess = true;

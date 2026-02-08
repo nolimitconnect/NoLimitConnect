@@ -36,8 +36,8 @@ public:
 	void						cancelUpload( PluginBase& pluginBase, VxGUID& lclSessionId );
 	void						cancelDnload( PluginBase& pluginBase, VxGUID& lclSessionId );
 
-	void						setErrorCode( RCODE error )					{ if( error ) m_Error = error; } 
-	RCODE						getErrorCode( void )						{ return m_Error; }
+	void						setErrorCode( int32_t error )					{ if( error ) m_Error = error; } 
+	int32_t						getErrorCode( void )						{ return m_Error; }
 	void						clearErrorCode( void )						{ m_Error = 0; }
 
 

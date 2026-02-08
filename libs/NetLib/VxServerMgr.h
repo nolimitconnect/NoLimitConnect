@@ -54,7 +54,7 @@ public:
     void 						listenSktWasOpened( bool ipv6, SOCKET listenSkt );
     void 						listenSktWasClosed( bool ipv6, SOCKET listenSkt );
 
-    RCODE 						acceptConnection( bool ipv6, VxThread* poVxThread, SOCKET listenSkt, uint16_t port );
+    int32_t 						acceptConnection( bool ipv6, VxThread* poVxThread, SOCKET listenSkt, uint16_t port );
 
     virtual void				lockListenSettings( void ) 					{ m_ListenSettingsMutex.lock(); }
 	virtual void				unlockListenSettings( void )				{ m_ListenSettingsMutex.unlock(); }
@@ -78,7 +78,7 @@ protected:
 
     static constexpr size_t     m_u32MaxConnections = 30000;
     static int					m_iAcceptMgrCnt;				    // number of managers created
-    RCODE						m_rcLastError = 0;					// last error that occurred
+    int32_t						m_rcLastError = 0;					// last error that occurred
 
     bool						m_IsReadyToAcceptConnectionsIpv6{ false };
     bool						m_IsReadyToAcceptConnectionsIpv4{ false };   

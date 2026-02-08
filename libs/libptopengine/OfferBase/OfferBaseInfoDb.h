@@ -65,8 +65,8 @@ public:
 	void						updateOfferSendState( VxGUID& assetId, EOfferSendState sendState );
 
 protected:
-	virtual RCODE				onCreateTables( int iDbVersion );
-	virtual RCODE				onDeleteTables( int iOldVersion );
+	virtual int32_t				onCreateTables( int iDbVersion );
+	virtual int32_t				onDeleteTables( int iOldVersion );
 	void						insertOfferInTimeOrder( OfferBaseInfo* offerInfo, std::vector<OfferBaseInfo*>& assetList );
 
 	OfferBaseMgr&				m_OfferMgr;

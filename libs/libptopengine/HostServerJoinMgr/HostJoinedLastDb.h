@@ -34,8 +34,8 @@ public:
 
 protected:
 
-    virtual RCODE				onCreateTables( int iDbVersion );
-    virtual RCODE				onDeleteTables( int iOldVersion );
+    virtual int32_t				onCreateTables( int iDbVersion );
+    virtual int32_t				onDeleteTables( int iOldVersion );
 
     P2PEngine&					m_Engine;
     HostServerJoinMgr&				m_HostJoinMgr;

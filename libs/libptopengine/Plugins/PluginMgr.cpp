@@ -447,7 +447,7 @@ void PluginMgr::handleFirstNetServiceConnection( std::shared_ptr<VxSktBase>& skt
 		PluginBase* poPlugin = getPlugin( pluginType );
 		if( poPlugin )
 		{
-			RCODE rc = -1;
+			int32_t rc = -1;
 			if( ePluginTypeNetServices == poPlugin->getPluginType() || ePluginTypeHostConnectTest == poPlugin->getPluginType() )
 			{
 				rc = poPlugin->handlePtopConnection( sktBase, netServiceHdr );

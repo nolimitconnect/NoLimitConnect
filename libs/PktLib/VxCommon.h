@@ -277,8 +277,8 @@ void VxSetHackReportCallback( IHackReportCallbackInterface* hackReportCallback )
 ///						HackerReason hackerReason		// reason hack reported
 ///						ipAddr							// ip address of hacker
 ///						hackDescription					// description of hack attempt
-RCODE VxReportHack(	enum EHackerLevel hackerLevel, enum EHackerReason hackerReason, std::shared_ptr<VxSktBase>& sktBase, const char* hackDescription, ... );
-RCODE VxReportHack(	enum EHackerLevel hackerLevel, enum EHackerReason hackerReason, SOCKET skt, const char* ipAddr, const char* hackDescription, ... );
+int32_t VxReportHack(	enum EHackerLevel hackerLevel, enum EHackerReason hackerReason, std::shared_ptr<VxSktBase>& sktBase, const char* hackDescription, ... );
+int32_t VxReportHack(	enum EHackerLevel hackerLevel, enum EHackerReason hackerReason, SOCKET skt, const char* ipAddr, const char* hackDescription, ... );
 
 
 

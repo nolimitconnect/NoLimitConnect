@@ -4,7 +4,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 set(ffmpeg_DEFINES)
 
 
-if(DEFINED TARGET_CPU_X86_64)
+if(DEFINED TARGET_CPU_X64)
     list(APPEND ffmpeg_DEFINES
             #it seems the nasm -P does not work in flatpak so add all the defines here for ffmpeg etc.
             ARCH_AARCH64=0
@@ -1401,7 +1401,7 @@ elseif(DEFINED TARGET_CPU_ARM64)
             CONFIG_WMA_FREQS=1
             CONFIG_WMV2DSP=1
             )
-endif() # if(DEFINED TARGET_CPU_X86_64)
+endif() # if(DEFINED TARGET_CPU_X64)
 
 if(DEFINED TARGET_CPU_ARM64)
     list(APPEND ffmpeg_DEFINES
@@ -1446,7 +1446,7 @@ elseif(DEFINED TARGET_CPU_ARM32)
 
     endif()
 
-elseif(DEFINED TARGET_CPU_X86_64)
+elseif(DEFINED TARGET_CPU_X64)
     list(APPEND ffmpeg_DEFINES
         HAVE_ARMV8_INLINE=0
         HAVE_NEON_INLINE=0

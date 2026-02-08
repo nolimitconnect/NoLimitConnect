@@ -31,13 +31,13 @@ public:
 
 	//=== overrides ===//
 	//! override onCreateTables to create our tables
-	virtual RCODE		onCreateTables( int iDbVersion );
+	virtual int32_t		onCreateTables( int iDbVersion );
 	//! override onDeleteTables to delete our tables
-	virtual RCODE		onDeleteTables( int oldDbVersion );
+	virtual int32_t		onDeleteTables( int oldDbVersion );
 
 	//=== methods ===//
 	//! startup Settings.. if database doesnt exist then create it and call DbCreateTables
-	RCODE				vxSettingsStartup( const char* pDbFileName );
+	int32_t				vxSettingsStartup( const char* pDbFileName );
 	//! shutdown Settings
 	void				vxSettingsShutdown( void );
 
@@ -79,22 +79,22 @@ public:
 
 private:
 	//! prepare sql statement set value
-	RCODE				prepareIniSet(	sqlite3_stmt ** ppoRetSqlStatement, 
+	int32_t				prepareIniSet(	sqlite3_stmt ** ppoRetSqlStatement, 
 										const char*	pTableName,
 										const char*	pKey, 
 										const char*	pSettingName ); 
 
 	//! prepare sql statement to query value
-	RCODE				prepareIniQuery(	sqlite3_stmt ** ppoRetSqlStatement, 
+	int32_t				prepareIniQuery(	sqlite3_stmt ** ppoRetSqlStatement, 
 											const char*	pTableName,
 											const char*	pKey, 
 											const char*	pSettingName ); 
 
 	//! finalize and close db after setting 
-	RCODE				finalizeIniSetTransaction(	sqlite3_stmt * poSqlStatement, bool bErrorOccured = false ); 
+	int32_t				finalizeIniSetTransaction(	sqlite3_stmt * poSqlStatement, bool bErrorOccured = false ); 
 
 	//! finalize and close db
-	RCODE				finalizeIniGetTransaction(	sqlite3_stmt * poSqlStatement, bool bErrorOccured = false ); 
+	int32_t				finalizeIniGetTransaction(	sqlite3_stmt * poSqlStatement, bool bErrorOccured = false ); 
 
 	//=== vars ===//
 	bool				m_bIsValid;

@@ -335,7 +335,7 @@ void P2PEngine::onBigListInfoDelete( BigListInfo * poInfo )
 
 //============================================================================
 //! called by big list when all friends are loaded
-void P2PEngine::onBigListLoadComplete( RCODE rc )
+void P2PEngine::onBigListLoadComplete( int32_t rc )
 {
 	LogMsg( LOG_INFO, "onBigListLoadComplete %d", rc );
     getBigListMgr().bigListLock();

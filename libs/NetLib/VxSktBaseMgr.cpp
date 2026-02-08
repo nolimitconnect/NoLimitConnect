@@ -144,10 +144,10 @@ void VxSktBaseMgr::addSkt( std::shared_ptr<VxSktBase>& sktBase )
 
 //============================================================================
 //! remove a socket from management
-RCODE VxSktBaseMgr::removeSkt(  std::shared_ptr<VxSktBase>&	sktBase,		// skt to remove
+int32_t VxSktBaseMgr::removeSkt(  std::shared_ptr<VxSktBase>&	sktBase,		// skt to remove
 								bool		bDelete )	// if true delete the skt
 {
-	RCODE rc = -1;
+	int32_t rc = -1;
 	if( VxIsAppShuttingDown() )
 	{
 		return rc;
@@ -260,7 +260,7 @@ void VxSktBaseMgr::sendToAll( char * pData, int iDataLen, bool sktMgrLocked )
 		}
 		else
 		{
-			RCODE rc = skt->sendData( pData, iDataLen, true );
+			int32_t rc = skt->sendData( pData, iDataLen, true );
 			if( skt->isFatalSocketError( rc ) )
 			{
 				skt->closeSkt( eSktCloseTxFailed, true );

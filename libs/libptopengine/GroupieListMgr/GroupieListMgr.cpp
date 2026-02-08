@@ -30,16 +30,16 @@ GroupieListMgr::GroupieListMgr( P2PEngine& engine )
 }
 
 //============================================================================
-RCODE GroupieListMgr::groupieListMgrStartup( std::string& dbFileName )
+int32_t GroupieListMgr::groupieListMgrStartup( std::string& dbFileName )
 {
-    RCODE rc = m_GroupieInfoListDb.groupieListDbStartup( HOSTED_LIST_DB_VERSION, dbFileName.c_str() );
+    int32_t rc = m_GroupieInfoListDb.groupieListDbStartup( HOSTED_LIST_DB_VERSION, dbFileName.c_str() );
     m_GroupieInfoList.clear();
     m_GroupieInfoListDb.getAllGroupies( m_GroupieInfoList );
     return rc;
 }
 
 //============================================================================
-RCODE GroupieListMgr::groupieListMgrShutdown( void )
+int32_t GroupieListMgr::groupieListMgrShutdown( void )
 {
     return m_GroupieInfoListDb.groupieListDbShutdown();
 }

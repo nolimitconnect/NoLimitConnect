@@ -5,7 +5,7 @@ project(vpx, LANGUAGES C CXX ASM)
 
 set(vpx_SOURCES)
 
-if(DEFINED TARGET_CPU_X86_64)
+if(DEFINED TARGET_CPU_X64)
     list(APPEND vpx_SOURCES 
 
         vp9/common/x86/vp9_idct_intrin_sse2.c
@@ -873,7 +873,7 @@ list(APPEND vpx_SOURCES
 
 )
 
-if(DEFINED TARGET_CPU_X86_64)
+if(DEFINED TARGET_CPU_X64)
     if(DEFINED TARGET_OS_LINUX)
         list(APPEND vpx_SOURCES
             vpx_config_linux_x64.h
@@ -908,7 +908,7 @@ target_compile_options(vpx
     >
 )
 
-if(DEFINED TARGET_CPU_X86_64)
+if(DEFINED TARGET_CPU_X64)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mavx512f -mavx512cd -mavx512bw -mavx512dq -mavx512vl -mmmx -msse2 -msse3 -msse4.1 -mavx -mavx2")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx512f -mavx512cd -mavx512bw -mavx512dq -mavx512vl -mmmx -msse2 -msse3 -msse4.1 -mavx -mavx2")
 endif()

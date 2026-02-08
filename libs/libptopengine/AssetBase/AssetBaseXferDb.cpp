@@ -28,22 +28,22 @@ AssetBaseXferDb::AssetBaseXferDb( std::string stateDbName )
 
 //============================================================================
 //! create tables in database 
-RCODE AssetBaseXferDb::onCreateTables( int iDbVersion )
+int32_t AssetBaseXferDb::onCreateTables( int iDbVersion )
 {
 	lockAssetBaseXferDb();
     std::string strCmd = "CREATE TABLE " + TABLE_ASSET_XFER + CREATE_COLUMNS_ASSET_XFER;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
 	unlockAssetBaseXferDb();
 	return rc;
 }
 
 //============================================================================
 // delete tables in database
-RCODE AssetBaseXferDb::onDeleteTables( int iOldVersion ) 
+int32_t AssetBaseXferDb::onDeleteTables( int iOldVersion ) 
 {
 	lockAssetBaseXferDb();
     std::string strCmd = "DROP TABLE IF EXISTS " + TABLE_ASSET_XFER;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
 	unlockAssetBaseXferDb();
 	return rc;
 }
@@ -53,7 +53,7 @@ void AssetBaseXferDb::purgeAllAssetBaseXfer( void )
 {
 	lockAssetBaseXferDb();
     std::string strCmd = "DELETE FROM " + TABLE_ASSET_XFER;
-    RCODE rc = sqlExec( strCmd );
+    int32_t rc = sqlExec( strCmd );
 	unlockAssetBaseXferDb();
 	if( rc )
 	{
@@ -82,7 +82,7 @@ void AssetBaseXferDb::addAsset( VxGUID& assetUniqueId )
 	DbBindList bindList( strId.c_str() );
 	sqlExec( "DELETE FROM asset_xfer WHERE unique_id=?", bindList );
 
-	RCODE rc  = sqlExec( "INSERT INTO asset_xfer (unique_id) values(?)",
+	int32_t rc  = sqlExec( "INSERT INTO asset_xfer (unique_id) values(?)",
 		bindList );
 	if( rc )
 	{

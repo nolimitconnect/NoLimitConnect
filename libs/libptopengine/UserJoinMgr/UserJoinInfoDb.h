@@ -47,8 +47,8 @@ protected:
                                                 std::string     hostUrl
                                             );
 
-    virtual RCODE				onCreateTables( int iDbVersion );
-    virtual RCODE				onDeleteTables( int iOldVersion );
+    virtual int32_t				onCreateTables( int iDbVersion );
+    virtual int32_t				onDeleteTables( int iOldVersion );
     void						insertUserJoinInTimeOrder( UserJoinInfo * hostInfo, std::map<GroupieId, UserJoinInfo*>& assetList );
 
     P2PEngine&					m_Engine;

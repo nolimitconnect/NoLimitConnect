@@ -28,8 +28,8 @@ public:
     HostUrlListMgr( P2PEngine& engine );
     ~HostUrlListMgr() = default;
 
-    RCODE                       hostUrlListMgrStartup( std::string& dbFileName );
-    RCODE                       hostUrlListMgrShutdown( void );
+    int32_t                       hostUrlListMgrStartup( std::string& dbFileName );
+    int32_t                       hostUrlListMgrShutdown( void );
 
     void                        lockList( void )    { m_HostUrlsMutex.lock(); }
     void                        unlockList( void )  { m_HostUrlsMutex.unlock(); }

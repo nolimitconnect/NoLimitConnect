@@ -29,7 +29,7 @@
 
 
 //============================================================================
-RCODE VxFileCopier::copyDirectory(  std::string				 curPath,               // file or path to copy
+int32_t VxFileCopier::copyDirectory(  std::string				 curPath,               // file or path to copy
                                     std::string&			 srcPath,			    // start path to search in
 									std::string&             destPath,		        // destination directory
                                     std::vector<VxFileInfo>& aoFileList,			// return FileInfo in array
@@ -38,7 +38,7 @@ RCODE VxFileCopier::copyDirectory(  std::string				 curPath,               // fi
 {
 	m_bAbort = false;
     VxFileInfo oCurFileNode;
-    RCODE rc = createDestDirectoryIfNeeded( curPath, srcPath, destPath );
+    int32_t rc = createDestDirectoryIfNeeded( curPath, srcPath, destPath );
 
 #ifdef TARGET_OS_WINDOWS
     HANDLE hFind = INVALID_HANDLE_VALUE;
@@ -197,12 +197,12 @@ RCODE VxFileCopier::copyDirectory(  std::string				 curPath,               // fi
 }
 
 //============================================================================
-RCODE VxFileCopier::createDestDirectoryIfNeeded( std::string&		curPath,
+int32_t VxFileCopier::createDestDirectoryIfNeeded( std::string&		curPath,
                                                  std::string&		srcPath,
                                                  std::string&		destPath )
 {
     std::string destDirectory;
-    RCODE rc = substitutePath( curPath, srcPath, destPath, destDirectory );
+    int32_t rc = substitutePath( curPath, srcPath, destPath, destDirectory );
     if( rc )
     {
         LogMsg( LOG_ERROR, "Invalid Path %s", curPath.c_str() );
@@ -225,7 +225,7 @@ RCODE VxFileCopier::createDestDirectoryIfNeeded( std::string&		curPath,
 
 
 //============================================================================
-RCODE VxFileCopier::substitutePath( std::string&		curPath,
+int32_t VxFileCopier::substitutePath( std::string&		curPath,
                                      std::string&		srcPath,
                                      std::string&		destPath,
                                      std::string&		resultPath )
@@ -242,10 +242,10 @@ RCODE VxFileCopier::substitutePath( std::string&		curPath,
 }
 
 //============================================================================
-RCODE VxFileCopier::copyFileToDestDir( std::string& srcFileName, std::string& srcPath, std::string& destPath )
+int32_t VxFileCopier::copyFileToDestDir( std::string& srcFileName, std::string& srcPath, std::string& destPath )
 {
     std::string destFileName;
-    RCODE rc = substitutePath( srcFileName, srcPath, destPath, destFileName );
+    int32_t rc = substitutePath( srcFileName, srcPath, destPath, destFileName );
     if( !rc )
     {
         rc = VxFileUtil::copyFile( srcFileName.c_str(), destFileName.c_str() );

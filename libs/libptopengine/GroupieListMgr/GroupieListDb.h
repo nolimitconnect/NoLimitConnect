@@ -19,8 +19,8 @@ public:
 	GroupieListDb();
 	virtual ~GroupieListDb();
 
-	RCODE						groupieListDbStartup( int dbVersion, const char* dbFileName );
-	RCODE						groupieListDbShutdown( void );
+	int32_t						groupieListDbStartup( int dbVersion, const char* dbFileName );
+	int32_t						groupieListDbShutdown( void );
 
 	void						getAllGroupies( std::vector<GroupieInfo>& groupieList );
 	bool						saveGroupie( GroupieInfo& hostedInfo );
@@ -40,8 +40,8 @@ public:
 
 
 protected:
-	virtual RCODE				onCreateTables( int iDbVersion );
-	virtual RCODE				onDeleteTables( int iOldVersion );
+	virtual int32_t				onCreateTables( int iDbVersion );
+	virtual int32_t				onDeleteTables( int iOldVersion );
 
     bool						doesGroupieInfoExist( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, enum EHostType hostType, std::string& retGroupieOnlineHexStr, std::string& retHostOnlineHexStr );
 };

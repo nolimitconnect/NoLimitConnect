@@ -137,7 +137,7 @@ std::shared_ptr<VxSktBase> VxPeerMgr::connectTo(	const char*		pIpOrUrl,				// re
 	sktBase->m_SktMgr		= this;
 	sktBase->setReceiveCallback( m_pfnOurReceive, this );
 	sktBase->setTransmitCallback( m_pfnOurTransmit, this );
-	RCODE rc = sktBase->connectTo(	m_LclIp,
+	int32_t rc = sktBase->connectTo(	m_LclIp,
 									pIpOrUrl, 
 									u16Port, 
 									iTimeoutMilliSeconds );
@@ -209,7 +209,7 @@ bool VxPeerMgr::txPacketWithDestId(	std::shared_ptr<VxSktBase>&		sktBase,
 
     if( sktBase->isConnected() )
     {
-        RCODE rc = sktBase->txPacketWithDestId( pktHdr );
+        int32_t rc = sktBase->txPacketWithDestId( pktHdr );
         if( 0 != rc )
         {
             LogMsg( LOG_VERBOSE, "VxPeerMgr::txPacketWithDestId: skt %d returned error %d %s", sktBase->getSktNumber(), rc, sktBase->describeSktError( rc ) );

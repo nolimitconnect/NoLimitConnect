@@ -91,7 +91,7 @@ bool P2PEngine::txSystemPkt(	const VxGUID&		destOnlineId,
 		{
 			sktBase->m_u8TxSeqNum++;
 			poPkt->setPktSeqNum( sktBase->m_u8TxSeqNum );
-			RCODE rc = sktBase->txPacket( destOnlineId, poPkt );
+			int32_t rc = sktBase->txPacket( destOnlineId, poPkt );
 			if( 0 == rc )
 			{
 				bSendSuccess = true;
@@ -154,7 +154,7 @@ bool P2PEngine::txPluginPkt( enum EPluginType			pluginType,
 			poPkt->setPluginNum( (uint8_t)pluginType );
 			sktBase->m_u8TxSeqNum++;
 			poPkt->setPktSeqNum( sktBase->m_u8TxSeqNum );
-			RCODE rc = sktBase->txPacket( netIdent->getMyOnlineId(), poPkt );
+			int32_t rc = sktBase->txPacket( netIdent->getMyOnlineId(), poPkt );
 			if( 0 == rc )
 			{
 				bSendSuccess = true;

@@ -43,20 +43,20 @@ public:
 	bool						isValidDataLen( int iDataLen ) { return ( iDataLen & 0x0f ) ? 0 : 1; }
 
 	//! set key from data..
-	RCODE						importKey( unsigned char * pu8Data, int iLen );
+	int32_t						importKey( unsigned char * pu8Data, int iLen );
 	//! set encryption key from another
 	void						importKey( VxKey * poKey );
 	//! return key into data buffer
-	RCODE						exportKey( unsigned char * pu8RetKeyData, int iBufLen );
+	int32_t						exportKey( unsigned char * pu8RetKeyData, int iBufLen );
 	//! export encryption key to another another
 	void						exportKey( VxKey * poKey );
 	void						exportToAsciiString( std::string& exportedKey );
 	//! make encryption key from password
-	RCODE						setKeyFromPassword( const char*	pPassword,			// password
+	int32_t						setKeyFromPassword( const char*	pPassword,			// password
 													int			iPasswordLen,		// length of password
 													const char*	pSalt = "NoLm" );	// salt
 	//! make encryption key from user name and password 
-	RCODE						setKeyFromPassword( const char*	pUserName,			// user name
+	int32_t						setKeyFromPassword( const char*	pUserName,			// user name
 													const char*	pPassword,			// password
 													const char*	pSalt = "NoLm" );	// salt
 
@@ -82,28 +82,28 @@ public:
 	VxKey *						getKey( void ) { return &m_Key; }
 
 	//! set key used for encryption and decryption
-	RCODE						importKey( VxKey * poKey );
+	int32_t						importKey( VxKey * poKey );
 
 	//! generate key from password and set encryption key in one function call
 	//! NOTE: Max password len 255
-	RCODE						setPassword( const char* pPassword, int iPasswordLen );
+	int32_t						setPassword( const char* pPassword, int iPasswordLen );
 
 	//! Generate encryption key from password
-	RCODE						generateKey( const char* pPassword, int iPasswordLen, VxKey * pgRetKey );
+	int32_t						generateKey( const char* pPassword, int iPasswordLen, VxKey * pgRetKey );
 
 	//! encrypt some data
 	//! NOTE: iDataLen must be a multiple of 16
-	RCODE						encrypt( unsigned char * pu8Data, int iDataLen );
+	int32_t						encrypt( unsigned char * pu8Data, int iDataLen );
 
 	//! decrypt some data
 	//! NOTE: iDataLen must be a multiple of 16
-	RCODE						decrypt( unsigned char * pu8Data, int iDataLen );
+	int32_t						decrypt( unsigned char * pu8Data, int iDataLen );
 
 	//! encrypt known string
-	RCODE						EncryptKnownString( unsigned char * pu8RetData, int iDataLen );
+	int32_t						EncryptKnownString( unsigned char * pu8RetData, int iDataLen );
 
 	//! verify data is known text string
-	RCODE						VerifyKnownString( unsigned char * pu8Data, int iDataLen );
+	int32_t						VerifyKnownString( unsigned char * pu8Data, int iDataLen );
 
 	//=== vars ===//
 	BlowCtx						m_BlowCtx;				// context of blowfish
@@ -120,14 +120,14 @@ void CheezyFillRandom( void * pvData, int iLen );
 
 //============================================================================
 //! encrypt data with VxCryptoo
-RCODE VxSymEncrypt( VxKey *			poKey,			// Symmetric key must be 16 bytes long
+int32_t VxSymEncrypt( VxKey *			poKey,			// Symmetric key must be 16 bytes long
 	                char *			pData,			// buffer to encrypt
 	                int				iDataLen,		// data length ( must be multiple of key length )
 	                char *			pRetBuf = 0 );	// if null then encrypted data put in pData
 
 //============================================================================
 //! decrypt data with VxCryptoo
-RCODE VxSymDecrypt( VxKey *			poKey,			// Symmetric key must be 16 bytes long
+int32_t VxSymDecrypt( VxKey *			poKey,			// Symmetric key must be 16 bytes long
 	                char *			pData,			// buffer to decrypt
 	                int				iDataLen,		// data length ( must be multiple of key length )
 	                char *			pRetBuf = 0 );	// if null then encrypted data put in pData

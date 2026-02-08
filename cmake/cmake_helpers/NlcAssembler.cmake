@@ -144,8 +144,8 @@ if(DEFINED TARGET_OS_WINDOWS)
     endif()
 
 elseif(DEFINED TARGET_OS_LINUX)  
-    add_compile_definitions(TARGET_OS_LINUX TARGET_CPU_X86_64 TARGET_POSIX PIC)
-    set(TARGET_CPU_X86_64 true) #so can use in cmake as if(DEFINED TARGET_CPU_X86_64) statement
+    add_compile_definitions(TARGET_OS_LINUX TARGET_CPU_X64 TARGET_POSIX PIC)
+    set(TARGET_CPU_X64 true) #so can use in cmake as if(DEFINED TARGET_CPU_X64) statement
     set(TARGET_POSIX true)
 
     #-fpermissive # to allow address of temp to make VxPeerMgr.cpp

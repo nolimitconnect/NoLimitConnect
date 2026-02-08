@@ -152,7 +152,7 @@ double OsDetect::getWindowsVersionNumber( void )
 		return atof( buf );
 	}
 
-	RCODE rc = VxGetLastError();
+	int32_t rc = VxGetLastError();
 	LogMsg( LOG_ERROR, "OsDetect::getWindowsVersionNumber failed with error %d", rc );
 	return 0;
 #else

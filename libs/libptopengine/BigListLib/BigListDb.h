@@ -28,42 +28,42 @@ public:
 	void						threadedRestoreAll( void );
 
 	//! restore all of given network to lists from database
-	RCODE						dbRestoreAll( void );
+	int32_t						dbRestoreAll( void );
 
 	bool						isBigListInitialized( void )				{ return m_BigListDbInitialized; }
 
 	std::string					getNetworkKey( void );
 
-	RCODE						dbUpdateSessionTime( VxGUID& onlineId, int64_t lastSessionTime );
+	int32_t						dbUpdateSessionTime( VxGUID& onlineId, int64_t lastSessionTime );
 
-	RCODE						removeUserFromDatabase( VxGUID& onlineId );
+	int32_t						removeUserFromDatabase( VxGUID& onlineId );
 
 protected:
 	//=== overrides ===//
 	//! create tables in database 
-    virtual RCODE				onCreateTables( int iDbVersion ) override;
+    virtual int32_t				onCreateTables( int iDbVersion ) override;
 	//! delete tables from database 
-    virtual RCODE				onDeleteTables( int oldVersion ) override;
+    virtual int32_t				onDeleteTables( int oldVersion ) override;
 
-	RCODE						bigListDbStartup( const char* pDbFileName );
-	RCODE						bigListDbShutdown( void );
+	int32_t						bigListDbStartup( const char* pDbFileName );
+	int32_t						bigListDbShutdown( void );
 
 	//! if not in db insert BigListInfo else update database
-	RCODE						dbUpdateBigListInfo( BigListInfo * poInfo, const char* networkName );
+	int32_t						dbUpdateBigListInfo( BigListInfo * poInfo, const char* networkName );
 
 	//! remove friend by id
-	RCODE						dbRemoveBigListInfo( VxGUID& oId );
+	int32_t						dbRemoveBigListInfo( VxGUID& oId );
 
 	//! insert big list info node into database
-	RCODE						dbInsertBigListInfoIntoDb( BigListInfo * poInfo, const char* networkName );
+	int32_t						dbInsertBigListInfoIntoDb( BigListInfo * poInfo, const char* networkName );
 
 	//! update big list info node in database
-	RCODE						dbUpdateBigListInfoInDb( BigListInfo * poInfo, const char* networkName );
+	int32_t						dbUpdateBigListInfoInDb( BigListInfo * poInfo, const char* networkName );
 
 	//! make big list info into blob
-	RCODE						saveBigListInfoIntoBlob( BigListInfo * poInfo, uint8_t * * ppu8RetBlob, int * piRetBlobLen );
+	int32_t						saveBigListInfoIntoBlob( BigListInfo * poInfo, uint8_t * * ppu8RetBlob, int * piRetBlobLen );
 	//! restore big list info from blob
-	RCODE						restoreBigListInfoFromBlob( uint8_t * pu8Data, int iDataLen, BigListInfo * poInfo, uint64_t lastSessionTime, VxGUID& onlineId );
+	int32_t						restoreBigListInfoFromBlob( uint8_t * pu8Data, int iDataLen, BigListInfo * poInfo, uint64_t lastSessionTime, VxGUID& onlineId );
 
 	//=== vars ===//
 	P2PEngine&					m_Engine;

@@ -43,22 +43,22 @@ UserJoinInfoDb::UserJoinInfoDb( P2PEngine& engine, UserJoinMgr& hostListMgr, con
 
 //============================================================================
 //! create tables in database 
-RCODE UserJoinInfoDb::onCreateTables( int iDbVersion )
+int32_t UserJoinInfoDb::onCreateTables( int iDbVersion )
 {
     lockDb();
     std::string strCmd = "CREATE TABLE " + TABLE_USER_HOST + CREATE_COLUMNS_USER_HOST;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
     unlockDb();
     return rc;
 }
 
 //============================================================================
 // delete tables in database
-RCODE UserJoinInfoDb::onDeleteTables( int iOldVersion ) 
+int32_t UserJoinInfoDb::onDeleteTables( int iOldVersion ) 
 {
     lockDb();
     std::string strCmd = "DROP TABLE IF EXISTS " + TABLE_USER_HOST;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
     unlockDb();
     return rc;
 }
@@ -68,7 +68,7 @@ void UserJoinInfoDb::purgeAllUserJoins( void )
 {
     lockDb();
     std::string strCmd = "DELETE FROM " + TABLE_USER_HOST;
-    RCODE rc = sqlExec( strCmd );
+    int32_t rc = sqlExec( strCmd );
     unlockDb();
     if( rc )
     {
@@ -120,7 +120,7 @@ bool UserJoinInfoDb::addUserJoin(   GroupieId&      groupieId,
     bindList.add( (int)hostFlags );
     bindList.add( hostUrl.c_str() );
    
-    RCODE rc = sqlExec( "INSERT INTO tblUserJoin (onlineId, thumbId, infoModMs, hostType, friendState, joinState, lastConnMs, lastJoinMs, hostFlags, hostUrl) values(?,?,?,?,?,?,?,?,?,?)",
+    int32_t rc = sqlExec( "INSERT INTO tblUserJoin (onlineId, thumbId, infoModMs, hostType, friendState, joinState, lastConnMs, lastJoinMs, hostFlags, hostUrl) values(?,?,?,?,?,?,?,?,?,?)",
         bindList );
     vx_assert( 0 == rc );
     if( rc )

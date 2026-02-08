@@ -24,10 +24,10 @@ public:
 	void						lockSendQueueDb( void )				{ m_SendQueueDbMutex.lock(); }
 	void						unlockSendQueueDb( void )			{ m_SendQueueDbMutex.unlock(); }
 
-	virtual RCODE				onCreateTables( int iDbVersion );
-	virtual RCODE				onDeleteTables( int iOldVersion );
+	virtual int32_t				onCreateTables( int iDbVersion );
+	virtual int32_t				onDeleteTables( int iOldVersion );
 
-	RCODE 						updateSendQueueInfo( SendQueInfo& sendQueInfo );
+	int32_t 						updateSendQueueInfo( SendQueInfo& sendQueInfo );
     void						removeSendQueueInfo( GroupieId groupieId );
 
 	void						getAllQueInfo( std::vector<SendQueInfo>& sendStateList );

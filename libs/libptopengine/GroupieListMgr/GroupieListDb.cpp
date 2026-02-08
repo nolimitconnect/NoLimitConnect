@@ -44,30 +44,30 @@ GroupieListDb::~GroupieListDb()
 }
 
 //============================================================================
-RCODE GroupieListDb::groupieListDbStartup( int dbVersion, const char* dbFileName )
+int32_t GroupieListDb::groupieListDbStartup( int dbVersion, const char* dbFileName )
 {
 	dbShutdown();
 	return dbStartup( dbVersion, dbFileName );
 }
 
 //============================================================================
-RCODE GroupieListDb::groupieListDbShutdown( void )
+int32_t GroupieListDb::groupieListDbShutdown( void )
 {
 	return dbShutdown();
 }
 
 //============================================================================
-RCODE GroupieListDb::onCreateTables( int iDbVersion )
+int32_t GroupieListDb::onCreateTables( int iDbVersion )
 {
-	RCODE rc = sqlExec( "CREATE TABLE tblGroupie (groupieOnlineId TEXT, hostOnlineId TEXT, hostType INTEGER, groupieUrl TEXT, groupieTitle TEXT, groupieDesc TEXT, favorite INTEGER, connectTime BIGINT, joinTime BIGINT, infoTime BIGINT)" );
+	int32_t rc = sqlExec( "CREATE TABLE tblGroupie (groupieOnlineId TEXT, hostOnlineId TEXT, hostType INTEGER, groupieUrl TEXT, groupieTitle TEXT, groupieDesc TEXT, favorite INTEGER, connectTime BIGINT, joinTime BIGINT, infoTime BIGINT)" );
 	vx_assert( 0 == rc );
 	return rc;
 }
 
 //============================================================================
-RCODE GroupieListDb::onDeleteTables( int iOldVersion )
+int32_t GroupieListDb::onDeleteTables( int iOldVersion )
 {
-	RCODE rc = sqlExec( (char *)"DROP TABLE tblGroupie" );
+	int32_t rc = sqlExec( (char *)"DROP TABLE tblGroupie" );
 	vx_assert( 0 == rc );
 	return rc;
 }
@@ -177,7 +177,7 @@ bool GroupieListDb::updateIsFavorite( VxGUID& groupieOnlineId, VxGUID& hostOnlin
 		bindList.add( ( int )hostType );
 
 		m_DbMutex.lock();
-		RCODE rc = sqlExec( "UPDATE tblGroupie SET favorite=? WHERE groupieOnlineId=? hostOnlineId=? AND hostType=?", bindList );
+		int32_t rc = sqlExec( "UPDATE tblGroupie SET favorite=? WHERE groupieOnlineId=? hostOnlineId=? AND hostType=?", bindList );
 		m_DbMutex.unlock();
 		result = 0 == rc;
 	}
@@ -205,7 +205,7 @@ bool GroupieListDb::updateLastConnected( VxGUID& groupieOnlineId, VxGUID& hostOn
 		bindList.add( ( int )hostType );
 
 		m_DbMutex.lock();
-		RCODE rc = sqlExec( "UPDATE tblGroupie SET connectTime=? WHERE groupieOnlineId=? hostOnlineId=? AND hostType=?", bindList );
+		int32_t rc = sqlExec( "UPDATE tblGroupie SET connectTime=? WHERE groupieOnlineId=? hostOnlineId=? AND hostType=?", bindList );
 		m_DbMutex.unlock();
 		result = 0 == rc;
 	}
@@ -233,7 +233,7 @@ bool GroupieListDb::updateLastJoined( VxGUID& groupieOnlineId, VxGUID& hostOnlin
 		bindList.add( ( int )hostType );
 
 		m_DbMutex.lock();
-		RCODE rc = sqlExec( "UPDATE tblGroupie SET joinTime=? WHERE groupieOnlineId=? hostOnlineId=? AND hostType=?", bindList );
+		int32_t rc = sqlExec( "UPDATE tblGroupie SET joinTime=? WHERE groupieOnlineId=? hostOnlineId=? AND hostType=?", bindList );
 		m_DbMutex.unlock();
 		result = 0 == rc;
 	}
@@ -260,7 +260,7 @@ bool GroupieListDb::updateGroupieUrl( bool ipv6, VxGUID& groupieOnlineId, VxGUID
 		bindList.add( hostOnlineHexStr.c_str() );
 		bindList.add( ( int )hostType );
 
-		RCODE rc{ 0 };
+		int32_t rc{ 0 };
 		m_DbMutex.lock();
 		if( ipv6 )
 		{
@@ -300,7 +300,7 @@ bool GroupieListDb::updateGroupieTitleAndDescription( VxGUID& groupieOnlineId, V
 		bindList.add( ( int )hostType );
 
 		m_DbMutex.lock();
-		RCODE rc = sqlExec( "UPDATE tblGroupie SET groupieTitle=?, groupieDesc=?, infoTime=? WHERE groupieOnlineId=? hostOnlineId=? AND hostType=?", bindList );
+		int32_t rc = sqlExec( "UPDATE tblGroupie SET groupieTitle=?, groupieDesc=?, infoTime=? WHERE groupieOnlineId=? hostOnlineId=? AND hostType=?", bindList );
 		m_DbMutex.unlock();
 		result = 0 == rc;
 	}
@@ -344,7 +344,7 @@ bool GroupieListDb::saveGroupie( GroupieInfo& hostedInfo )
 	bindList.add( hostedInfo.getGroupieInfoTimestamp() );
 
 	// insert new record
-	RCODE rc = sqlExec( "INSERT INTO tblGroupie (groupieOnlineId, hostOnlineId, hostType, groupieUrl, groupieTitle, groupieDesc, favorite, connectTime, joinTime, infoTime) VALUES(?,?,?,?,?,?,?,?,?,?)", bindList );
+	int32_t rc = sqlExec( "INSERT INTO tblGroupie (groupieOnlineId, hostOnlineId, hostType, groupieUrl, groupieTitle, groupieDesc, favorite, connectTime, joinTime, infoTime) VALUES(?,?,?,?,?,?,?,?,?,?)", bindList );
 
 	if( rc )
 	{

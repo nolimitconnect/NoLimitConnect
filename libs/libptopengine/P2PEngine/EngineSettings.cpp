@@ -33,14 +33,14 @@ EngineSettings::~EngineSettings()
 }
 
 //============================================================================
-RCODE EngineSettings::engineSettingsStartup( std::string& strDbFileName )
+int32_t EngineSettings::engineSettingsStartup( std::string& strDbFileName )
 {
 	if( m_Initialized )
 	{
 		engineSettingsShutdown();
 	}
 
-	RCODE rc = dbStartup(MY_SETTINGS_DBVERSION, strDbFileName.c_str());
+	int32_t rc = dbStartup(MY_SETTINGS_DBVERSION, strDbFileName.c_str());
 	if( 0 == rc )
 	{
 		m_Initialized = true;

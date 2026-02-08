@@ -30,8 +30,8 @@ public:
     FriendRequestMgr() = default;
     virtual ~FriendRequestMgr() = default;
 
-    RCODE                       friendRequestMgrStartup( void );
-    RCODE                       friendRequestMgrShutdown( void );
+    int32_t                       friendRequestMgrStartup( void );
+    int32_t                       friendRequestMgrShutdown( void );
 
     void                        lockList( void )    { m_FriendRequestInfoMutex.lock(); }
     void                        unlockList( void )  { m_FriendRequestInfoMutex.unlock(); }

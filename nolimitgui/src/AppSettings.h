@@ -28,7 +28,7 @@ public:
 
 	const char*					getAppShortName( void );
 
-	RCODE						appSettingStartup( std::string dbSettingsFile );
+	int32_t						appSettingStartup( std::string dbSettingsFile );
 	void						appSettingShutdown( void );
 
 	bool						getIsAppSettingInitialized( void )			{ return m_AppSettingsInitialized; }

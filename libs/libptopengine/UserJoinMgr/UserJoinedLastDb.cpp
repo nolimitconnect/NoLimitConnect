@@ -41,11 +41,11 @@ UserJoinedLastDb::UserJoinedLastDb( P2PEngine& engine, UserJoinMgr& hostListMgr,
 
 //============================================================================
 //! create tables in database 
-RCODE UserJoinedLastDb::onCreateTables( int iDbVersion )
+int32_t UserJoinedLastDb::onCreateTables( int iDbVersion )
 {
     lockDb();
     std::string strCmd = "CREATE TABLE " + TABLE_USER_HOST + CREATE_COLUMNS_JOINED_LAST;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
     std::string strCmd2 = "CREATE TABLE " + TABLE_LAST_HOST_TYPE + CREATE_COLUMNS_LAST_HOST_TYPE;
     rc |= sqlExec( strCmd2 );
     unlockDb();
@@ -54,11 +54,11 @@ RCODE UserJoinedLastDb::onCreateTables( int iDbVersion )
 
 //============================================================================
 // delete tables in database
-RCODE UserJoinedLastDb::onDeleteTables( int iOldVersion ) 
+int32_t UserJoinedLastDb::onDeleteTables( int iOldVersion ) 
 {
     lockDb();
     std::string strCmd = "DROP TABLE IF EXISTS " + TABLE_USER_HOST;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
     std::string strCmd2 = "DROP TABLE IF EXISTS " + TABLE_LAST_HOST_TYPE;
     rc |= sqlExec( strCmd2 );
     unlockDb();
@@ -70,7 +70,7 @@ bool UserJoinedLastDb::setJoinedLastHostType( EHostType hostType )
 {
     lockDb();
     std::string strCmd = "DELETE FROM " + TABLE_LAST_HOST_TYPE;
-    RCODE rc = sqlExec( strCmd );
+    int32_t rc = sqlExec( strCmd );
 
     DbBindList bindList( ( int )hostType );
     rc |= sqlExec( "INSERT INTO tbLastHostType (hostType) values(?)",
@@ -118,7 +118,7 @@ void UserJoinedLastDb::purgeAllJoinedLast( void )
 {
     lockDb();
     std::string strCmd = "DELETE FROM " + TABLE_USER_HOST;
-    RCODE rc = sqlExec( strCmd );
+    int32_t rc = sqlExec( strCmd );
     unlockDb();
     if( rc )
     {
@@ -157,7 +157,7 @@ bool UserJoinedLastDb::setJoinedLast( EHostType hostType, VxGUID& onlineId, int6
     bindList.add( lastJoinMs ); 
     bindList.add( hostUrl.c_str() );
 
-    RCODE rc = sqlExec( "INSERT INTO tblUserJoinedLast (onlineId, hostType, lastJoinMs, hostUrl ) values(?,?,?,?)",
+    int32_t rc = sqlExec( "INSERT INTO tblUserJoinedLast (onlineId, hostType, lastJoinMs, hostUrl ) values(?,?,?,?)",
         bindList );
     vx_assert( 0 == rc );
     if( rc )

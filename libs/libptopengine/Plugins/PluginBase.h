@@ -299,8 +299,8 @@ public:
 
     //=== http ===//
 	virtual void				handlePluginSpecificSkt( std::shared_ptr<VxSktBase>& sktBase ) {};
-	virtual RCODE				handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )		{ return -1; }
-	virtual RCODE				handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )				{ return -1; }
+	virtual int32_t				handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )		{ return -1; }
+	virtual int32_t				handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent )				{ return -1; }
 	// default handlers
 	virtual void				handleToGuiOfferRequest( VxNetIdent* netIdent, PktPluginOfferReq* pktReq );
 	virtual void				handleToGuiOfferResponse( VxNetIdent* netIdent, PktPluginOfferReply* pktReply );

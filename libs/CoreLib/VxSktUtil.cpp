@@ -86,7 +86,7 @@ ISktStatCallbackInterface* VxGetSktStatCallback( void )
 
 //============================================================================
 //! initialize sockets
-RCODE VxSocketsStartup( void )
+int32_t VxSocketsStartup( void )
 {
 	srand( (unsigned int)time( NULL ) );
 	static bool bIsInitialized = 0;
@@ -458,7 +458,7 @@ bool VxIsIpPortInUse(  uint16_t u16Port, const char* pLocalIp, bool useBind )
         }
     }
 
-	RCODE rc;
+	int32_t rc;
 	if( 0 != ( rc = listen( listenSocket, SOMAXCONN ) ) )
 	{
 		//listen error
@@ -652,7 +652,7 @@ bool VxSetSktAllowReuseAddress( SOCKET skt )
 }
 
 //============================================================================
-SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16Port, int iConnectTimeoutMs, RCODE * retSktErr )
+SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16Port, int iConnectTimeoutMs, int32_t * retSktErr )
 {
 	if( 0 != retSktErr )
 	{
@@ -669,7 +669,7 @@ SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16
 
 	bool ipv6 = rmtIp.isIPv6();
 
-	RCODE rc = 0;
+	int32_t rc = 0;
     struct sockaddr_storage sktAddrStorage;
 	socklen_t sktAddrLen = VxSktAddrInit( ipv6, sktAddrStorage, strRmtIp, u16Port );
 
@@ -706,7 +706,7 @@ SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16
 
 		SOCKET skt = socket( ipv6 ? AF_INET6 : AF_INET, SOCK_STREAM, IPPROTO_TCP );
 		int connectResult = connect( skt, sktAddr, addrLen );
-		RCODE rc = VxGetLastError();
+		int32_t rc = VxGetLastError();
 		if( connectResult != 0 )
 		{
 			LogMsg( LOG_ERROR, "%s error %d %s connecting to ip %s", __func__, rc, VxDescribeSktError( rc ), strRmtIp.c_str());
@@ -716,7 +716,7 @@ SOCKET VxConnectTo( InetAddrAndPort& lclIp, InetAddrAndPort& rmtIp, uint16_t u16
 	}
 	*/
 
-	RCODE sktErr = 0;
+	int32_t sktErr = 0;
     sktHandle = socket( ipv6 ? AF_INET6 : AF_INET, SOCK_STREAM, IPPROTO_TCP );
 	struct sockaddr* sktAddr = reinterpret_cast<sockaddr*>(&sktAddrStorage);
     if( INVALID_SOCKET != sktHandle )
@@ -813,7 +813,7 @@ std::string VxSktAddrToString( struct sockaddr* sktAddr, int sktAddrLen, bool in
 }
 
 //============================================================================
-SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t sktAddrLen, int iConnectTimeoutMs, RCODE * retSktErr)
+SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t sktAddrLen, int iConnectTimeoutMs, int32_t * retSktErr)
 {
     if( INVALID_SOCKET == sktHandle )
     {
@@ -854,7 +854,7 @@ SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t skt
             return sktHandle;
         }
 
-        RCODE rc = VxGetLastError();
+        int32_t rc = VxGetLastError();
 
         if( VxIsFatalSktError( rc ) )
         {
@@ -1069,7 +1069,7 @@ SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t skt
         if( 0 != iResult )
         {
             // connect error
-            RCODE rc = VxGetLastError();
+            int32_t rc = VxGetLastError();
             LogModule( eLogConnect, LOG_VERBOSE, "VxConnectToAddr: skt %d connect error %s in %d seconds to %s",
                             sktHandle,
                             VxDescribeSktError( rc ), TimeElapsedGmtSec( timeStartConnect ), ipAndPort.c_str() );
@@ -1092,7 +1092,7 @@ SOCKET VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t skt
 }
 
 //============================================================================
-SOCKET VxConnectToIPv6( const char* ipv6Str, uint16_t u16Port, int iConnectTimeoutMs, RCODE * retSktErr )
+SOCKET VxConnectToIPv6( const char* ipv6Str, uint16_t u16Port, int iConnectTimeoutMs, int32_t * retSktErr )
 {
 	fd_set			oSktSet; 
 	socklen_t		iSktLen;
@@ -1101,7 +1101,7 @@ SOCKET VxConnectToIPv6( const char* ipv6Str, uint16_t u16Port, int iConnectTimeo
 	int             iResult = 0;
 	std::string		strRmtIp = ipv6Str;
 
-	RCODE rc = 0;
+	int32_t rc = 0;
 
 	struct addrinfo * poAddrInfo;
 	struct addrinfo * poResultAddr;
@@ -1297,7 +1297,7 @@ SOCKET VxConnectTo(		InetAddrAndPort&	lclIp,
 						uint16_t			u16Port,				// port to connect to
 						EIpAddrType			addrType,
 						int					iTimeoutMilliSeconds,
-						RCODE *				retSktError )	// milli seconds before connect attempt times out
+						int32_t *				retSktError )	// milli seconds before connect attempt times out
 {
 	if( VxIsIPv4Address( pIpAddr ) || VxIsIPv6Address( pIpAddr ) )
 	{
@@ -1340,7 +1340,7 @@ SOCKET VxConnectToWebsite(	InetAddrAndPort&	lclIp,			// ip of adapter to use
 							uint16_t&			u16Port,		// return port
 						    EIpAddrType			addrType,
 							int					iConnectTimeoutMs,
-						    RCODE*				retErrorCode )
+						    int32_t*				retErrorCode )
 {
 	// split host name from file path
 	bool bSplitOk = VxSplitHostAndFile(	pWebsiteUrl,	// full url.. example http://www.mysite.com/index.html or www.mysite.com/images/me.png
@@ -1614,10 +1614,10 @@ int VxGetIPv6ScopeID( const char* addr )
 }
 
 //============================================================================	
-RCODE VxGetRmtAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr, bool isSimpleSkt )
+int32_t VxGetRmtAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr, bool isSimpleSkt )
 {
 	// Get the IP address of the the remote side of connection
-	RCODE rc = 0;
+	int32_t rc = 0;
 	struct sockaddr sktAddr;
 	socklen_t sktAddrLen = sizeof( sktAddr );
 	memset( &sktAddr, 0, sizeof( sktAddr ) );
@@ -1644,10 +1644,10 @@ RCODE VxGetRmtAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr, bool isSimpl
 }
 
 //============================================================================
-RCODE VxGetLclAddress( SOCKET sktHandle, InetAddrAndPort& retAddr )
+int32_t VxGetLclAddress( SOCKET sktHandle, InetAddrAndPort& retAddr )
 {
 	// Get the IP address of the the local side of connection
-	RCODE rc = 0;
+	int32_t rc = 0;
 	struct sockaddr_storage sktStorage;
 	socklen_t sktAddrLen = sizeof( struct sockaddr_storage );
 	memset( &sktStorage, 0, sizeof( sockaddr_storage ) );
@@ -1695,7 +1695,7 @@ std::string	VxGetLclIpAddress( SOCKET sktHandle, uint16_t* retPort )
 	}
 	else
 	{
-		RCODE rc = VxGetLastError();
+		int32_t rc = VxGetLastError();
 		LogMsg( LOG_ERROR, "%s error %d %s", __func__, rc, VxDescribeSktError( rc ) );
 	}
 
@@ -1725,7 +1725,7 @@ std::string VxGetRmtHostName( SOCKET& skt )
 	}
 	else
 	{
-		RCODE rc = VxGetLastError();
+		int32_t rc = VxGetLastError();
 		LogMsg( LOG_ERROR, "%s error %d %s", __func__, rc, VxDescribeSktError( rc ) );
 	}
 
@@ -1799,13 +1799,13 @@ std::string VxGetRemoteIpAddress( SOCKET skt )
 
 //============================================================================
 //! receive data.. if timeout is set then will keep trying till buffer is full or error or timeout expires
-RCODE VxReceiveSktData( SOCKET&			sktHandle,
+int32_t VxReceiveSktData( SOCKET&			sktHandle,
 						char *			pRetBuf,				// buffer to receive data into
 						int				iBufLenIn,				// length of buffer
 						int *			iRetBytesReceived,		// number of bytes actually received
 						int				iTimeoutMilliSeconds )	// milliseconds before receive attempt times out ( 0 = dont wait )
 {
-	RCODE m_rcLastError = 0; // clear out any previous error
+	int32_t m_rcLastError = 0; // clear out any previous error
 	*iRetBytesReceived = 0;
 
 	int	iRecvResult;
@@ -1993,7 +1993,7 @@ NLC_BEGIN_CDECLARES
 
 //============================================================================
 //! set socket to blocking or not
-RCODE VxSetSktBlocking( SOCKET sktHandle, bool bBlock )
+int32_t VxSetSktBlocking( SOCKET sktHandle, bool bBlock )
 {
 
 #if defined(TARGET_OS_WINDOWS)
@@ -2118,14 +2118,14 @@ void VxSetSktAddressPort( struct sockaddr_storage * poAddr, uint16_t u16Port )
 
 
 //============================================================================
-RCODE VxSendSktData(	SOCKET			sktHandle,
+int32_t VxSendSktData(	SOCKET			sktHandle,
                         const char*     pData,					// data to send
 						int				iDataLen,				// length of data
 						int				iTimeoutSeconds )		// seconds before send attempt times out
 {
 	vx_assert( iDataLen > 0 );
 	int iSendResult		= 0;
-	RCODE m_rcLastError		= 0;
+	int32_t m_rcLastError		= 0;
 	if( iTimeoutSeconds )
 	{
 		do
@@ -2713,7 +2713,7 @@ bool VxGetDefaultLocalIp( bool ipv6, std::string& retLocalIp )
 	SOCKET skt = socket( ipv6 ? PF_INET6 : PF_INET, SOCK_DGRAM, 0 );
 	if( INVALID_SOCKET == skt )
 	{
-		RCODE rc = VxGetLastError();
+		int32_t rc = VxGetLastError();
 		LogMsg( LOG_ERROR, "%s could not create udp socket %s error %s", __func__, ipv6 ? "ipv6" :  "ipv4", VxDescribeSktError( rc ) );
 		return false;
 	}
@@ -2741,7 +2741,7 @@ bool VxGetDefaultLocalIp( bool ipv6, std::string& retLocalIp )
     }
 
 	InetAddrAndPort inetAddr;
-	RCODE rc = VxGetLclAddress( skt, inetAddr );
+	int32_t rc = VxGetLclAddress( skt, inetAddr );
 	VxCloseSkt( skt );
 	if( rc ) 
 	{

@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 3.22.1)
 
 project(jpegturbo, LANGUAGES C CXX ASM)
 
-if(DEFINED TARGET_CPU_X86_64)
+if(DEFINED TARGET_CPU_X64)
     enable_language(ASM_NASM)
     set(CMAKE_ASM_NASM_FLAGS "-DELF -D__x86_64__ -DPIC -D__CET__")
     set(NASM_INCLUDE_DIRS
@@ -163,7 +163,7 @@ list(APPEND jpegturbo_SOURCES
     VxJpg.cpp
 )
 
-if(DEFINED TARGET_CPU_X86_64)
+if(DEFINED TARGET_CPU_X64)
 
     list(APPEND jpegturbo_SOURCES
 
@@ -259,7 +259,7 @@ target_include_directories(jpegturbo
     ${CMAKE_CURRENT_SOURCE_DIR}/simd/nasm
     )
 
-if(DEFINED TARGET_CPU_X86_64)
+if(DEFINED TARGET_CPU_X64)
     target_include_directories(jpegturbo
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/simd/x86_64

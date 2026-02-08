@@ -25,8 +25,8 @@ public:
 	void						lockThumbXferDb( void )			        { m_ThumbXferDbMutex.lock(); }
 	void						unlockThumbXferDb( void )			    { m_ThumbXferDbMutex.unlock(); }
 
-	virtual RCODE				onCreateTables( int iDbVersion );
-	virtual RCODE				onDeleteTables( int iOldVersion );
+	virtual int32_t				onCreateTables( int iDbVersion );
+	virtual int32_t				onDeleteTables( int iOldVersion );
 
 	void 						addThumb( VxGUID& assetUniqueId );
 	void						removeThumb( VxGUID& assetUniqueId );

@@ -69,7 +69,7 @@ uint8_t * VxConvertToJpg(	uint32_t	u32FourCcIn,		// FOURCC of format to convert
 	int iMaxJpgSize = iImageWidthIn * iImageHeightIn * 3;
 
 	uint8_t* pu8JpgData = new uint8_t[ iMaxJpgSize ];
-	RCODE rc = VxBmp2Jpg(	24,					// number of bits each pixel..(For now must be 24)
+	int32_t rc = VxBmp2Jpg(	24,					// number of bits each pixel..(For now must be 24)
 							pu8VidData,			// bits of bmp to convert
 							iImageWidthIn,		// width of image in pixels
 							iImageHeightIn,		// height of image in pixels

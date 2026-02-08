@@ -28,22 +28,22 @@ OfferBaseXferDb::OfferBaseXferDb( const char* stateDbName )
 
 //============================================================================
 //! create tables in database 
-RCODE OfferBaseXferDb::onCreateTables( int iDbVersion )
+int32_t OfferBaseXferDb::onCreateTables( int iDbVersion )
 {
 	lockOfferBaseXferDb();
     std::string strCmd = "CREATE TABLE " + TABLE_OFFER_XFER + CREATE_COLUMNS_OFFER_XFER;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
 	unlockOfferBaseXferDb();
 	return rc;
 }
 
 //============================================================================
 // delete tables in database
-RCODE OfferBaseXferDb::onDeleteTables( int iOldVersion ) 
+int32_t OfferBaseXferDb::onDeleteTables( int iOldVersion ) 
 {
 	lockOfferBaseXferDb();
     std::string strCmd = "DROP TABLE IF EXISTS " + TABLE_OFFER_XFER;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
 	unlockOfferBaseXferDb();
 	return rc;
 }
@@ -53,7 +53,7 @@ void OfferBaseXferDb::purgeAllOfferBaseXfer( void )
 {
 	lockOfferBaseXferDb();
     std::string strCmd = "DELETE FROM " + TABLE_OFFER_XFER;
-    RCODE rc = sqlExec( strCmd );
+    int32_t rc = sqlExec( strCmd );
 	unlockOfferBaseXferDb();
 	if( rc )
 	{
@@ -82,7 +82,7 @@ void OfferBaseXferDb::addOffer( VxGUID& assetOfferId )
 	DbBindList bindList( strId.c_str() );
 	sqlExec( "DELETE FROM offer_xfer WHERE offerId=?", bindList );
 
-	RCODE rc  = sqlExec( "INSERT INTO offer_xfer (offerId) values(?)",
+	int32_t rc  = sqlExec( "INSERT INTO offer_xfer (offerId) values(?)",
 		bindList );
 	if( rc )
 	{

@@ -19,16 +19,16 @@ public:
 	HostUrlListDb();
 	virtual ~HostUrlListDb() = default;
 
-	RCODE						hostUrlListDbStartup( int dbVersion, const char* dbFileName );
-	RCODE						hostUrlListDbShutdown( void );
+	int32_t						hostUrlListDbStartup( int dbVersion, const char* dbFileName );
+	int32_t						hostUrlListDbShutdown( void );
 
 	void						getAllHostUrls( std::vector<HostUrlInfo>& hostUrlList );
 	bool						saveHostUrl( HostUrlInfo& hostUrlInfo );
 	void						removeClosedPortIdent( VxGUID& onlineId );
 
 protected:
-	virtual RCODE				onCreateTables( int iDbVersion );
-	virtual RCODE				onDeleteTables( int iOldVersion );
+	virtual int32_t				onCreateTables( int iDbVersion );
+	virtual int32_t				onDeleteTables( int iOldVersion );
 };
 
 

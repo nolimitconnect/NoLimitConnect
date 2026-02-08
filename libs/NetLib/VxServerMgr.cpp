@@ -113,14 +113,14 @@ void VxServerMgr::listenSktWasClosed( bool ipv6, SOCKET listenSkt )
 }
 
 //============================================================================
-RCODE VxServerMgr::acceptConnection( bool ipv6, VxThread* poVxThread, SOCKET listenSkt, uint16_t port )
+int32_t VxServerMgr::acceptConnection( bool ipv6, VxThread* poVxThread, SOCKET listenSkt, uint16_t port )
 {
     if( VxIsAppShuttingDown() )
     {
         return -1;
     }
 
-    RCODE rc = 0;
+    int32_t rc = 0;
     if( INVALID_SOCKET == listenSkt )
     {
         LogModule( eLogConnect, LOG_ERROR, "VxServerMgr::%s INVALID LISTEN SOCKET thread 0x%x", __func__, VxGetCurrentThreadId() );
@@ -315,7 +315,7 @@ RCODE VxServerMgr::acceptConnection( bool ipv6, VxThread* poVxThread, SOCKET lis
 
     LogModule( eLogConnect, LOG_INFO, "VxServerMgr::%s doing accept skt handle %d skt id %d thread 0x%x", __func__, sktBase->m_Socket, sktBase->getSktNumber(), VxGetCurrentThreadId() );
 
-    RCODE rcAccept = dynamic_cast<VxSktAccept*>( sktBase.get() )->doAccept( this, *acceptAddr );
+    int32_t rcAccept = dynamic_cast<VxSktAccept*>( sktBase.get() )->doAccept( this, *acceptAddr );
     if( rcAccept || poVxThread->isAborted() || INVALID_SOCKET == listenSkt )
     {
         sktBase->closeSkt( eSktCloseAcceptFailed );

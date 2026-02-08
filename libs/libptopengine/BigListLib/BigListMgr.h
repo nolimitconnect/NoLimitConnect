@@ -38,10 +38,10 @@ public:
 	BigListMgr( P2PEngine& engine );
 	virtual ~BigListMgr() override;
 
-	RCODE						bigListMgrStartup( const char* pDbFileName );
-	RCODE						bigListMgrShutdown( void );
+	int32_t						bigListMgrStartup( const char* pDbFileName );
+	int32_t						bigListMgrShutdown( void );
 
-	RCODE						updateBigListDatabase( BigListInfo * poInfo, const char* networkName );
+	int32_t						updateBigListDatabase( BigListInfo * poInfo, const char* networkName );
 
 	//=== add/remove functions ===//
 	//! add a or update remote friend
@@ -62,10 +62,10 @@ public:
 	//! return true if can add friend to list
 	bool						canAddFriend( void );
 	//! remove from big list.. also from db if bRemoveStorage = true 
-	RCODE						removeFriend( PktAnnounce * poPktAnn, bool  bRemoveStorage = true );
+	int32_t						removeFriend( PktAnnounce * poPktAnn, bool  bRemoveStorage = true );
 
 	//helpers
-	RCODE						FillAnnList(	PktAnnList * poPktAnnList, 
+	int32_t						FillAnnList(	PktAnnList * poPktAnnList, 
 												int iMaxListLen,
 												int64_t s64ContactTimeLimitMs,
 												bool bIncludeThisNode = false );

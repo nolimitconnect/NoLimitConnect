@@ -26,14 +26,14 @@
 #include <PktLib/PktsFriendRequest.h>
 
 //============================================================================
-RCODE FriendRequestMgr::friendRequestMgrStartup( void)
+int32_t FriendRequestMgr::friendRequestMgrStartup( void)
 {
     m_FriendRequestList.clear();
     return 0;
 }
 
 //============================================================================
-RCODE FriendRequestMgr::friendRequestMgrShutdown( void )
+int32_t FriendRequestMgr::friendRequestMgrShutdown( void )
 {
     return 0;
 }

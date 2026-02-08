@@ -51,7 +51,7 @@ int VxVidCap::startupVidCap( int iPreferedImageWidth, int iPreferedImageHeight )
 		m_iPreferedImageWidth = iPreferedImageWidth;
 		m_iPreferedImageHeight = iPreferedImageHeight;
 
-		RCODE rc;
+		int32_t rc;
 		VxVidCapImp * poVidCap;
 		//! initialize drivers for all video sources
 		for( int iIdx = 0; iIdx < MAX_VFW_DEVICES; iIdx++ )

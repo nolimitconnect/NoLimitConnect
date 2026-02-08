@@ -29,10 +29,10 @@ VxSettings::VxSettings( const char* settingDbName )
 
 //============================================================================
 //! override onCreateTables to create our tables
-RCODE VxSettings::onCreateTables( int iDbVersion )
+int32_t VxSettings::onCreateTables( int iDbVersion )
 {
 	m_DbMutex.lock();
-	RCODE rc = sqlExec( (char*)"CREATE TABLE BOOL (key TEXT, setting TEXT PRIMARY KEY, value TINYINT)" );
+	int32_t rc = sqlExec( (char*)"CREATE TABLE BOOL (key TEXT, setting TEXT PRIMARY KEY, value TINYINT)" );
 	rc |= sqlExec( (char*)"CREATE TABLE INT (key TEXT, setting TEXT PRIMARY KEY, value INTEGER)" );
 	rc |= sqlExec( (char*)"CREATE TABLE int8_t (key TEXT, setting TEXT PRIMARY KEY, value TINYINT)" );
 	rc |= sqlExec( (char*)"CREATE TABLE uint8_t (key TEXT, setting TEXT PRIMARY KEY, value TINYINT)" );
@@ -57,10 +57,10 @@ RCODE VxSettings::onCreateTables( int iDbVersion )
 }
 //============================================================================
 //! override onDeleteTables to delete our tables
-RCODE VxSettings::onDeleteTables( int oldDbVersion )
+int32_t VxSettings::onDeleteTables( int oldDbVersion )
 {
 	m_DbMutex.lock();
-	RCODE rc = sqlExec( (char*)"DROP TABLE BOOL" );
+	int32_t rc = sqlExec( (char*)"DROP TABLE BOOL" );
 	rc |= sqlExec( (char*)"DROP TABLE INT" );
 	rc |= sqlExec( (char*)"DROP TABLE int8_t" );
 	rc |= sqlExec( (char*)"DROP TABLE uint8_t" );
@@ -82,9 +82,9 @@ RCODE VxSettings::onDeleteTables( int oldDbVersion )
 
 //============================================================================
 //! startup Settings.. if database doesn't exist then create it and call DbCreateTables
-RCODE VxSettings::vxSettingsStartup( const char* pDbFileName )
+int32_t VxSettings::vxSettingsStartup( const char* pDbFileName )
 {
-	RCODE rc = dbStartup( VXSETTINGS_DB_VERSION, pDbFileName );
+	int32_t rc = dbStartup( VXSETTINGS_DB_VERSION, pDbFileName );
 	if( rc )
 	{
 		LogMsg( LOG_ERROR, "VxSettings::vxSettingsStartup:ERROR %d", rc );
@@ -96,7 +96,7 @@ RCODE VxSettings::vxSettingsStartup( const char* pDbFileName )
 //! shutdown Settings
 void VxSettings::vxSettingsShutdown( void )
 {
-	RCODE rc = dbShutdown();
+	int32_t rc = dbShutdown();
 	if( rc )
 	{
 		LogMsg( LOG_ERROR, "VxSettings::vxSettingsShutdown:ERROR %d", rc );
@@ -602,7 +602,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, std::s
 
 	sqlite3_stmt * poSqlStatement{ nullptr };
 	int  iBlobBytes;
-	RCODE rc = -1;
+	int32_t rc = -1;
 	if( 0 < ( iBlobBytes = prepareIniQuery( &poSqlStatement, "string", pKey, pSettingName ) ) )
 	{
 		int iStrLen = sqlite3_column_bytes( poSqlStatement, 0 );
@@ -634,7 +634,7 @@ void VxSettings::getIniValue( const char* pKey, const char* pSettingName, char *
 
 	sqlite3_stmt * poSqlStatement{ nullptr };
 	int  iBlobBytes;
-	RCODE rc = -1;
+	int32_t rc = -1;
 	if( 0 < ( iBlobBytes = prepareIniQuery( &poSqlStatement, "string", pKey, pSettingName ) ) )
 	{
 		if( iBlobBytes > iBufLen )
@@ -715,7 +715,7 @@ bool VxSettings::getIniValue( const char* pKey, const char* pSettingName, void *
 
 //============================================================================
 //! prepare sql statement set value
-RCODE VxSettings::prepareIniSet(	sqlite3_stmt ** ppoRetSqlStatement, 
+int32_t VxSettings::prepareIniSet(	sqlite3_stmt ** ppoRetSqlStatement, 
 									const char* pTableName,
 									const char* pKey, 
 									const char* pSettingName )
@@ -749,14 +749,14 @@ RCODE VxSettings::prepareIniSet(	sqlite3_stmt ** ppoRetSqlStatement,
 
 //============================================================================
 //! prepare sql statement to query value
-RCODE VxSettings::prepareIniQuery(	sqlite3_stmt ** ppoRetSqlStatement, 
+int32_t VxSettings::prepareIniQuery(	sqlite3_stmt ** ppoRetSqlStatement, 
 									const char*	pTableName,
 									const char*	pKey, 
 									const char*	pSettingName )
 {
 	char SQL_Statement[2048];
 	SQL_Statement[0] = 0;
-	RCODE rc = dbOpen();
+	int32_t rc = dbOpen();
 	if( 0 == rc )
 	{
 		sprintf(SQL_Statement, "SELECT value FROM %s WHERE key='%s' AND setting='%s'", pTableName, pKey, pSettingName );
@@ -812,9 +812,9 @@ RCODE VxSettings::prepareIniQuery(	sqlite3_stmt ** ppoRetSqlStatement,
 
 //============================================================================
 //! finalize and close db
-RCODE VxSettings::finalizeIniSetTransaction( sqlite3_stmt * poSqlStatement, bool bErrorOccured )
+int32_t VxSettings::finalizeIniSetTransaction( sqlite3_stmt * poSqlStatement, bool bErrorOccured )
 {
-	RCODE rc = -1;
+	int32_t rc = -1;
 	if( false == bErrorOccured )
 	{
 		if( SQLITE_DONE != sqlite3_step(poSqlStatement) )
@@ -849,9 +849,9 @@ RCODE VxSettings::finalizeIniSetTransaction( sqlite3_stmt * poSqlStatement, bool
 
 //============================================================================
 //! finalize and close db
-RCODE VxSettings::finalizeIniGetTransaction( sqlite3_stmt * poSqlStatement, bool bErrorOccured )
+int32_t VxSettings::finalizeIniGetTransaction( sqlite3_stmt * poSqlStatement, bool bErrorOccured )
 {
-	RCODE rc = -1;
+	int32_t rc = -1;
 	if( false == bErrorOccured )
 	{
 		if( SQLITE_OK == ( rc = sqlite3_finalize(poSqlStatement) ) )

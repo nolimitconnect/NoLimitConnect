@@ -8,9 +8,14 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=implicit-function-declaration>)
 add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=incompatible-pointer-types>)
 
-# These warnings as errors are not required but shall be fixed
-# commented out because works for Android but causes error in linux GCC
-#add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=macro-redefined>)
+if(MSVC)
+    # This turns off all warnings
+    # add_compile_options(/W0)
+
+    # Optional: If you want to suppress the "security" warnings (e.g., about strcpy)
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+endif()
+
 
 include(cmake/version.cmake)
 
@@ -101,8 +106,8 @@ if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux" AND NOT DEFINED MAKE_ENV)
                 if(NOT DEFINED X64)
                     set(X64 true)
                     add_compile_definitions(X64=1)
-                    set(TARGET_CPU_X86_64 true)
-                    add_compile_definitions(TARGET_CPU_X86_64=1)
+                    set(TARGET_CPU_X64 true)
+                    add_compile_definitions(TARGET_CPU_X64=1)
                 endif()
             endif()
 
@@ -154,12 +159,12 @@ if(DEFINED FLATPAKBUILD)
         add_compile_definitions(ARCH_AARCH64=1)
 
     else()
-        message(STATUS "Flatpak TARGET_CPU_X86_64")
+        message(STATUS "Flatpak TARGET_CPU_X64")
         set(NLC_CPU "CPU_X64")
         set(NLC_CPU_TYPE x64)
 
-        set(TARGET_CPU_X86_64 true)
-        add_compile_definitions(TARGET_CPU_X86_64=1)
+        set(TARGET_CPU_X64 true)
+        add_compile_definitions(TARGET_CPU_X64=1)
         set(ARCH_X86_64 true)
         add_compile_definitions(ARCH_X86_64=1)
 
@@ -440,9 +445,9 @@ else()
                 message(STATUS "QCreator x86_64 Build Target OS Linux built on host OS Linux")
                 set(X64 true)
                 add_compile_definitions(X64=1)
-                set(TARGET_CPU_X86_64 true)
-                add_compile_definitions(TARGET_CPU_X86_64=1)
-                message(STATUS "NLC_BUILD_HOST_ARCH TARGET_CPU_X86_64")
+                set(TARGET_CPU_X64 true)
+                add_compile_definitions(TARGET_CPU_X64=1)
+                message(STATUS "NLC_BUILD_HOST_ARCH TARGET_CPU_X64")
                 set(ARCH_X86_64 true)
                 add_compile_definitions(ARCH_X86_64=1)
 
@@ -582,13 +587,13 @@ else()
 
         set(TARGET_POSIX true)
         if(DEFINED TARGET_CPU_ARM64)
-            set(TARGET_CPU_ARM64 true) #so can use in cmake as if(DEFINED TARGET_CPU_X86_64) statement
+            set(TARGET_CPU_ARM64 true) #so can use in cmake as if(DEFINED TARGET_CPU_X64) statement
             message(STATUS "TARGET_OS_LINUX TARGET_CPU_ARM64")
             add_compile_definitions(TARGET_OS_LINUX TARGET_CPU_ARM64=1 TARGET_POSIX PIC)
         else()
-            set(TARGET_CPU_X86_64 true) #so can use in cmake as if(DEFINED TARGET_CPU_X86_64) statement
-            message(STATUS "TARGET_OS_LINUX TARGET_CPU_X86_64")
-            add_compile_definitions(TARGET_OS_LINUX TARGET_CPU_X86_64 TARGET_POSIX PIC)
+            set(TARGET_CPU_X64 true) #so can use in cmake as if(DEFINED TARGET_CPU_X64) statement
+            message(STATUS "TARGET_OS_LINUX TARGET_CPU_X64")
+            add_compile_definitions(TARGET_OS_LINUX TARGET_CPU_X64 TARGET_POSIX PIC)
         endif()
 
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")
@@ -852,8 +857,8 @@ else()
         add_compile_definitions(ENABLE_JAVA_CAM=1)
     endif()
 
-    if(DEFINED TARGET_CPU_X86_64)
-        message(STATUS "TARGET_CPU_X86_64 is defined")
+    if(DEFINED TARGET_CPU_X64)
+        message(STATUS "TARGET_CPU_X64 is defined")
         set(TARGET_CPU_64BIT true)
         add_compile_definitions(TARGET_CPU_64BIT=1)
         set(ARCH_32_BITS false)

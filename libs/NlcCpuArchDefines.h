@@ -35,7 +35,7 @@
 # define ARCH_64_BITS                   1
 # define ARCH_32_BITS                   0
 # define ARCH_X86_64_IS_AVAILABLE		1
-# define TARGET_CPU_X86_64					1  // general cpu type
+# define TARGET_CPU_X64					1  // general cpu type
 
 // some libraries require different defines
 # if !defined (__x86_64__)
@@ -101,7 +101,7 @@
 #  define HAVE_ARM_ARCH_V6				1				1
 
 # else // X64 android
-#  define TARGET_CPU_X86_64				1
+#  define TARGET_CPU_X64				1
 #  define ARCH_X86                      1
 #  define ARCH_ARM                      0
 
@@ -139,7 +139,7 @@
 # if defined(TARGET_CPU_ARM64)	
 #  define ARCH_AARCH64                  1
 # else
-#  define TARGET_CPU_X86_64			    1  // general cpu type
+#  define TARGET_CPU_X64			    1  // general cpu type
 #  define ARCH_X86                      1
 #  define ARCH_AARCH64                  0
 # endif // defined(TARGET_CPU_ARM64)
@@ -247,9 +247,9 @@ echo Nlc CPU Arch Defines error no cpu target defined
 #  define HAVE_ARMV6				0
 #  define HAVE_ARMV6T2				0
 
-#elif defined(TARGET_CPU_X86) || defined(TARGET_CPU_X86_64)
-# if defined(TARGET_CPU_X86_64)
-// less work to define TARGET_CPU_X86 also and then check for TARGET_CPU_X86_64 if needed
+#elif defined(TARGET_CPU_X86) || defined(TARGET_CPU_X64)
+# if defined(TARGET_CPU_X64)
+// less work to define TARGET_CPU_X86 also and then check for TARGET_CPU_X64 if needed
 #  define TARGET_CPU_X86 1
 #  define ARCH_32_BITS 0
 #  define ARCH_64_BITS 1

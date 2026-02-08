@@ -1117,7 +1117,7 @@ bool OpusFileDecoder::readTotalSndFrames( VFile * fileHandle )
 //============================================================================
 bool OpusFileDecoder::seekFile( VFile * fileHandle, uint64_t filePosition )
 {
-	RCODE rc = VFileSeek64( fileHandle, filePosition );
+	int32_t rc = VFileSeek64( fileHandle, filePosition );
 	if( rc )
 	{
 		LogMsg( LOG_ERROR, "ERROR OpusFileDecoder::seekFile err %d %s", rc, m_FileName.c_str() );

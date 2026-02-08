@@ -39,7 +39,7 @@ const int INET6_MAX_BINARY_LEN = 16;   // 16 bytes
 class ISktStatCallbackInterface;
 
 //! initialize sockets
-RCODE							VxSocketsStartup( void );
+int32_t							VxSocketsStartup( void );
 
 bool                            VxIsPortValid( uint16_t port );
 
@@ -85,23 +85,23 @@ SOCKET							VxConnectToWebsite( InetAddrAndPort&	oLclIp,			// ip of adapter to 
                                                     uint16_t&			u16Port,		// return port
 													EIpAddrType			addrType,
 													int					iConnectTimeoutMs,
-													RCODE*				retErrorCode = nullptr );
+													int32_t*				retErrorCode = nullptr );
 
 bool							VxBindSkt( SOCKET sktHandle, InetAddress & oLclAddr, uint16_t u16Port );
-SOCKET							VxConnectTo( InetAddrAndPort& oLclIp, InetAddrAndPort& oRmtIp, uint16_t u16Port, int iTimeoutMs = SKT_CONNECT_TIMEOUT, RCODE * retSktErr = nullptr );
+SOCKET							VxConnectTo( InetAddrAndPort& oLclIp, InetAddrAndPort& oRmtIp, uint16_t u16Port, int iTimeoutMs = SKT_CONNECT_TIMEOUT, int32_t * retSktErr = nullptr );
 SOCKET							VxConnectTo( InetAddrAndPort&	oLclIp,
 											 InetAddrAndPort&	oRmtIp,
 											 const char*		pIpOrUrl,				// remote ip or url
                                              uint16_t			u16Port,				// port to connect to
 											 EIpAddrType		addrType,
                                              int				iTimeoutMilliSeconds,	// milli seconds before connect attempt times out
-                                             RCODE*			    retSktErr = 0 );		// return connect error if retSktErr is not null
-SOCKET                          VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t sktAddrLen, int iConnectTimeoutMs = SKT_CONNECT_TIMEOUT, RCODE * retSktErr = nullptr);
+                                             int32_t*			    retSktErr = 0 );		// return connect error if retSktErr is not null
+SOCKET                          VxConnectToAddr(SOCKET sktHandle, struct sockaddr* sktAddr, socklen_t sktAddrLen, int iConnectTimeoutMs = SKT_CONNECT_TIMEOUT, int32_t * retSktErr = nullptr);
 std::string                     VxSktAddrToString( struct sockaddr* sktAddr, int sktAddrLen, bool includePort = true );
 
-RCODE							VxGetLclAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr );
+int32_t							VxGetLclAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr );
 std::string						VxGetLclIpAddress( SOCKET sktHandle, uint16_t *	retPort = nullptr );
-RCODE							VxGetRmtAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr, bool isSimpleSkt = false );
+int32_t							VxGetRmtAddress( SOCKET sktHandle, InetAddrAndPort& oRetAddr, bool isSimpleSkt = false );
 
 bool							VxIsIPv6Address( const char*addr );
 bool							VxIsIPv4Address( const char*addr, bool checkNoLocal = false );
@@ -109,9 +109,9 @@ int								VxGetIPv6ScopeID( const char*addr );
 
 void							VxRefreshDefaultIps( void );
 bool							VxCanConnectUsingIPv6( void );
-SOCKET							VxConnectToIPv6( const char* ipv6, uint16_t u16Port, int iTimeoutMs = SKT_IPV6_CONNECT_TIMEOUT, RCODE * retSktErr = nullptr );
+SOCKET							VxConnectToIPv6( const char* ipv6, uint16_t u16Port, int iTimeoutMs = SKT_IPV6_CONNECT_TIMEOUT, int32_t * retSktErr = nullptr );
 //! receive data.. if timeout is set then will keep trying till buffer is full or error or timeout expires
-RCODE							VxReceiveSktData( SOCKET& oSkt,
+int32_t							VxReceiveSktData( SOCKET& oSkt,
 												  char* pRetBuf,				// buffer to receive data into
 												  int	iBufLenIn,				// length of buffer
 												  int*  iRetBytesReceived,		// number of bytes actually received
@@ -139,14 +139,14 @@ bool							VxGetDefaultLocalIp( bool ipv6, std::string& retLocalIp );
 //============================================================================
 NLC_BEGIN_CDECLARES
 
-RCODE							VxSetSktBlocking( SOCKET sktHandle, bool bBlock );
+int32_t							VxSetSktBlocking( SOCKET sktHandle, bool bBlock );
 
 void							VxCloseSktNow( SOCKET& oSocket );
 void							VxCloseSkt( SOCKET& oSocket );
 
 socklen_t						VxGetSktAddressLength( struct sockaddr_storage * poAddr );
 void							VxSetSktAddressPort( struct sockaddr_storage * poAddr, uint16_t u16Port );
-RCODE							VxSendSktData( SOCKET			oSkt,
+int32_t							VxSendSktData( SOCKET			oSkt,
 											   const char*		pData,					// data to send
 											   int				iDataLen,				// length of data
 											   int				iTimeoutSeconds ); // = SKT_SEND_TIMEOUT // seconds before send attempt times out

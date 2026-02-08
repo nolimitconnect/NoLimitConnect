@@ -1785,10 +1785,6 @@ safe for multithreaded apps. */
 /* Define to the type qualifier of arg 5 for select. */
 //#define SELECT_QUAL_ARG5 
 
-
-#define RCODE long // clearer way to specify return error code
-
-
 //============================================================================
 //=== target windows specific ===//
 //============================================================================

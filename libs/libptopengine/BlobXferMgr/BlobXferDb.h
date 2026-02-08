@@ -25,8 +25,8 @@ public:
 	void						lockBlobXferDb( void )			    { m_BlobXferDbMutex.lock(); }
 	void						unlockBlobXferDb( void )			{ m_BlobXferDbMutex.unlock(); }
 
-	virtual RCODE				onCreateTables( int iDbVersion );
-	virtual RCODE				onDeleteTables( int iOldVersion );
+	virtual int32_t				onCreateTables( int iDbVersion );
+	virtual int32_t				onDeleteTables( int iOldVersion );
 
 	void 						addBlob( VxGUID& assetUniqueId );
 	void						removeBlob( VxGUID& assetUniqueId );

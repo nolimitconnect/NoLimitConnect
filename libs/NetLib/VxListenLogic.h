@@ -63,7 +63,7 @@ protected:
     VxMutex                     m_ListenMutex;
     VxThread					m_ListenThread;		// thread to listen for incoming connections
 
-    RCODE						m_rcLastError = 0;					// last error that occurred
+    int32_t						m_rcLastError = 0;					// last error that occurred
     
     uint16_t					m_ListenPort = 0;				// what port to listen on  
     SOCKET                      m_ListenSocket{INVALID_SOCKET};

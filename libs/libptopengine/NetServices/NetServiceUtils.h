@@ -61,8 +61,8 @@ public:
     bool					    buildCmd( std::string& retCmd, std::shared_ptr<VxSktBase>& sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode = eNetCmdErrorNone, int version = 1 );
     bool					    buildCmd( std::string& retCmd, VxSktConnectSimple* sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode = eNetCmdErrorNone, int version = 1 );
 
-	RCODE						buildAndSendCmd( std::shared_ptr<VxSktBase>& sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode = eNetCmdErrorNone, int version = 1 );
-    RCODE                       buildAndSendCmd( VxSktConnectSimple* sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode = eNetCmdErrorNone, int version = 1 );
+	int32_t						buildAndSendCmd( std::shared_ptr<VxSktBase>& sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode = eNetCmdErrorNone, int version = 1 );
+    int32_t                       buildAndSendCmd( VxSktConnectSimple* sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode = eNetCmdErrorNone, int version = 1 );
     
     bool						buildIsMyPortOpenUrl( VxSktConnectSimple * netServConn, std::string& strHttpUrl, uint16_t u16Port );
     bool						buildQueryHostIdUrl( VxSktConnectSimple * netServConn, std::string& strNetCmdHttpUrl );

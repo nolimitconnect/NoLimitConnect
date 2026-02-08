@@ -26,7 +26,7 @@
 
 #ifndef VIDCAP_HWND
 	#define VIDCAP_HWND void *
-#endif //RCODE
+#endif //int32_t
 
 #define VX_VIDCAP_BASE_ERR				1549088
 

@@ -29,14 +29,14 @@ EngineParams::~EngineParams()
 }
 
 //============================================================================
-RCODE EngineParams::engineParamsStartup( std::string& strDbFileName )
+int32_t EngineParams::engineParamsStartup( std::string& strDbFileName )
 {
 	if( m_Initialized )
 	{
 		engineParamsShutdown();
 	}
 
-	RCODE rc = dbStartup(ENGINE_PARAMS_DBVERSION, strDbFileName.c_str());
+	int32_t rc = dbStartup(ENGINE_PARAMS_DBVERSION, strDbFileName.c_str());
 	if( 0 == rc )
 	{
 		m_Initialized = true;

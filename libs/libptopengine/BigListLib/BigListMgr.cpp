@@ -66,7 +66,7 @@ BigListMgr::~BigListMgr()
 
 //============================================================================
 //! startup
-RCODE BigListMgr::bigListMgrStartup( const char* pDbFileName )
+int32_t BigListMgr::bigListMgrStartup( const char* pDbFileName )
 {
 	if( m_BigListMgrInitialized )
 	{
@@ -79,16 +79,16 @@ RCODE BigListMgr::bigListMgrStartup( const char* pDbFileName )
 
 //============================================================================
 //! shutdown
-RCODE BigListMgr::bigListMgrShutdown( void )
+int32_t BigListMgr::bigListMgrShutdown( void )
 {
     m_BigListMgrInitialized = false;
 	return bigListDbShutdown();
 }
 
 //============================================================================
-RCODE BigListMgr::updateBigListDatabase( BigListInfo * poInfo, const char* networkName )
+int32_t BigListMgr::updateBigListDatabase( BigListInfo * poInfo, const char* networkName )
 {
-	RCODE rc = 0;
+	int32_t rc = 0;
 	if( 0 == poInfo )
 	{
 		return rc;
@@ -376,10 +376,10 @@ bool BigListMgr::canAddFriend( void )
 
 //============================================================================
 //! remove from big list.. also from db if bRemoveStorage = true 
-RCODE BigListMgr::removeFriend( PktAnnounce * poPktAnn, bool  bRemoveStorage )
+int32_t BigListMgr::removeFriend( PktAnnounce * poPktAnn, bool  bRemoveStorage )
 {
 	BigListAutoLock bigListAutoLock( *this );
-	RCODE rc = 0;
+	int32_t rc = 0;
 	bigRemoveInfo( poPktAnn->getMyOnlineId(), true );
 	if( bRemoveStorage )
 	{
@@ -390,14 +390,14 @@ RCODE BigListMgr::removeFriend( PktAnnounce * poPktAnn, bool  bRemoveStorage )
 }
 
 //============================================================================
-RCODE BigListMgr::FillAnnList(	PktAnnList * poPktAnnList, 
+int32_t BigListMgr::FillAnnList(	PktAnnList * poPktAnnList, 
 								int iMaxListLen,
 								int64_t s64ContactTimeLimitMs,
 								bool bIncludeThisNode )
 {
 	BigListAutoLock bigListAutoLock( *this );
 
-	RCODE rc;
+	int32_t rc;
 	BigListInfo * poInfo;
 	int iemptyLen = poPktAnnList->emptyLen();
 

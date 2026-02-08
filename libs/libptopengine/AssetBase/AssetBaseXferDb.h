@@ -25,8 +25,8 @@ public:
 	void						lockAssetBaseXferDb( void )			{ m_AssetBaseXferDbMutex.lock(); }
 	void						unlockAssetBaseXferDb( void )			{ m_AssetBaseXferDbMutex.unlock(); }
 
-	virtual RCODE				onCreateTables( int iDbVersion );
-	virtual RCODE				onDeleteTables( int iOldVersion );
+	virtual int32_t				onCreateTables( int iDbVersion );
+	virtual int32_t				onDeleteTables( int iOldVersion );
 
 	void 						addAsset( VxGUID& assetUniqueId );
 	void						removeAsset( VxGUID& assetUniqueId );

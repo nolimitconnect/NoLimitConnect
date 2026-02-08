@@ -19,7 +19,7 @@ endif()
 
 set(swresample_SOURCES)
 
-if(DEFINED TARGET_CPU_X86_64)
+if(DEFINED TARGET_CPU_X64)
     list(APPEND swresample_SOURCES 
         x86/audio_convert_init.c
         x86/rematrix_init.c

@@ -57,22 +57,22 @@ OfferBaseInfoDb::OfferBaseInfoDb( OfferBaseMgr& hostListMgr  )
 
 //============================================================================
 //! create tables in database 
-RCODE OfferBaseInfoDb::onCreateTables( int iDbVersion )
+int32_t OfferBaseInfoDb::onCreateTables( int iDbVersion )
 {
 	lockOfferInfoDb();
 	std::string strCmd = "CREATE TABLE " + TABLE_OFFERS + CREATE_COLUMNS_OFFERS;
-	RCODE rc = sqlExec(strCmd);
+	int32_t rc = sqlExec(strCmd);
 	unlockOfferInfoDb();
 	return rc;
 }
 
 //============================================================================
 // delete tables in database
-RCODE OfferBaseInfoDb::onDeleteTables( int iOldVersion ) 
+int32_t OfferBaseInfoDb::onDeleteTables( int iOldVersion ) 
 {
 	lockOfferInfoDb();
 	std::string strCmd = "DROP TABLE IF EXISTS " + TABLE_OFFERS;
-	RCODE rc = sqlExec(strCmd);
+	int32_t rc = sqlExec(strCmd);
 	unlockOfferInfoDb();
 	return rc;
 }
@@ -82,7 +82,7 @@ void OfferBaseInfoDb::purgeAllOffers( void )
 {
 	lockOfferInfoDb();
 	std::string strCmd = "DELETE FROM " + TABLE_OFFERS;
-	RCODE rc = sqlExec( strCmd );
+	int32_t rc = sqlExec( strCmd );
 	unlockOfferInfoDb();
 	if( rc )
 	{
@@ -180,7 +180,7 @@ void OfferBaseInfoDb::addOffer( VxGUID&			offerId,
     bindList.add( (int)offerResponse );         // 23 offerResponse
     bindList.add( (int)offerMgr );              // 24 offerMgr
 
-    RCODE rc = sqlExec( "INSERT INTO tblOffers (offerId,creatorId,historyId,thumbId,sendToId,assetId,assetName,fileNameAndPath,length,type,hashId,locFlags,attribFlags,creationTime,modifiedTime,accessedTime,assetTag,sendState,pluginType,offerMsg,offerExpires,isTemp,offerResponse,offerMgr) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+    int32_t rc = sqlExec( "INSERT INTO tblOffers (offerId,creatorId,historyId,thumbId,sendToId,assetId,assetName,fileNameAndPath,length,type,hashId,locFlags,attribFlags,creationTime,modifiedTime,accessedTime,assetTag,sendState,pluginType,offerMsg,offerExpires,isTemp,offerResponse,offerMgr) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         bindList );
     if( rc )
     {
@@ -194,7 +194,7 @@ void OfferBaseInfoDb::updateOfferSendState( VxGUID& assetId, EOfferSendState sen
 	std::string assetIdStr		= assetId.toHexString();
 	DbBindList bindList(  (int)sendState );
 	bindList.add( assetIdStr.c_str() );
-	RCODE rc  = sqlExec( "UPDATE tblOffers SET sendState=? WHERE assetId=?",
+	int32_t rc  = sqlExec( "UPDATE tblOffers SET sendState=? WHERE assetId=?",
 		bindList );
 	if( rc )
 	{

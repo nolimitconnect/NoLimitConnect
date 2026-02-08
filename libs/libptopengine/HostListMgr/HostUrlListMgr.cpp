@@ -24,16 +24,16 @@ HostUrlListMgr::HostUrlListMgr( P2PEngine& engine )
 }
 
 //============================================================================
-RCODE HostUrlListMgr::hostUrlListMgrStartup( std::string& dbFileName )
+int32_t HostUrlListMgr::hostUrlListMgrStartup( std::string& dbFileName )
 {
-    RCODE rc = m_HostUrlListDb.hostUrlListDbStartup( HOST_URL_LIST_DB_VERSION, dbFileName.c_str() );
+    int32_t rc = m_HostUrlListDb.hostUrlListDbStartup( HOST_URL_LIST_DB_VERSION, dbFileName.c_str() );
     m_HostUrlsList.clear();
     m_HostUrlListDb.getAllHostUrls( m_HostUrlsList );
     return rc;
 }
 
 //============================================================================
-RCODE HostUrlListMgr::hostUrlListMgrShutdown( void )
+int32_t HostUrlListMgr::hostUrlListMgrShutdown( void )
 {
     return m_HostUrlListDb.hostUrlListDbShutdown();
 }

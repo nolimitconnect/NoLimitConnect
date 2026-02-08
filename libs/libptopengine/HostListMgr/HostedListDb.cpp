@@ -39,30 +39,30 @@ HostedListDb::HostedListDb()
 }
 
 //============================================================================
-RCODE HostedListDb::hostedListDbStartup( int dbVersion, const char* dbFileName )
+int32_t HostedListDb::hostedListDbStartup( int dbVersion, const char* dbFileName )
 {
 	dbShutdown();
 	return dbStartup( dbVersion, dbFileName );
 }
 
 //============================================================================
-RCODE HostedListDb::hostedListDbShutdown( void )
+int32_t HostedListDb::hostedListDbShutdown( void )
 {
 	return dbShutdown();
 }
 
 //============================================================================
-RCODE HostedListDb::onCreateTables( int iDbVersion )
+int32_t HostedListDb::onCreateTables( int iDbVersion )
 {
-	RCODE rc = sqlExec( "CREATE TABLE tblHosted (online_id TEXT, host_type INTEGER, hostUrl, host_title TEXT, host_desc TEXT, favorite INTEGER, connect_time BIGINT, join_time BIGINT, info_time BIGINT, thumb_id TEXT)" );
+	int32_t rc = sqlExec( "CREATE TABLE tblHosted (online_id TEXT, host_type INTEGER, hostUrl, host_title TEXT, host_desc TEXT, favorite INTEGER, connect_time BIGINT, join_time BIGINT, info_time BIGINT, thumb_id TEXT)" );
 	vx_assert( 0 == rc );
 	return rc;
 }
 
 //============================================================================
-RCODE HostedListDb::onDeleteTables( int iOldVersion )
+int32_t HostedListDb::onDeleteTables( int iOldVersion )
 {
-	RCODE rc = sqlExec( (char *)"DROP TABLE tblHosted" );
+	int32_t rc = sqlExec( (char *)"DROP TABLE tblHosted" );
 	vx_assert( 0 == rc );
 	return rc;
 }
@@ -158,7 +158,7 @@ bool HostedListDb::updateIsFavorite( enum EHostType hostType, VxGUID& onlineId, 
 		bindList.add( ( int )hostType );
 
 		m_DbMutex.lock();
-		RCODE rc = sqlExec( "UPDATE tblHosted SET favorite=? WHERE online_id=? AND host_type=?", bindList );
+		int32_t rc = sqlExec( "UPDATE tblHosted SET favorite=? WHERE online_id=? AND host_type=?", bindList );
 		m_DbMutex.unlock();
 		result = 0 == rc;
 	}
@@ -178,7 +178,7 @@ bool HostedListDb::updateLastConnected( enum EHostType hostType, VxGUID& onlineI
 		bindList.add( ( int )hostType );
 
 		m_DbMutex.lock();
-		RCODE rc = sqlExec( "UPDATE tblHosted SET connect_time=? WHERE online_id=? AND host_type=?", bindList );
+		int32_t rc = sqlExec( "UPDATE tblHosted SET connect_time=? WHERE online_id=? AND host_type=?", bindList );
 		m_DbMutex.unlock();
 		result = 0 == rc;
 	}
@@ -198,7 +198,7 @@ bool HostedListDb::updateLastJoined( enum EHostType hostType, VxGUID& onlineId, 
 		bindList.add( ( int )hostType );
 
 		m_DbMutex.lock();
-		RCODE rc = sqlExec( "UPDATE tblHosted SET join_time=? WHERE online_id=? AND host_type=?", bindList );
+		int32_t rc = sqlExec( "UPDATE tblHosted SET join_time=? WHERE online_id=? AND host_type=?", bindList );
 		m_DbMutex.unlock();
 		result = 0 == rc;
 	}
@@ -218,7 +218,7 @@ bool HostedListDb::updateHostUrl( enum EHostType hostType, VxGUID& onlineId, std
 		bindList.add( ( int )hostType );
 
 		m_DbMutex.lock();
-		RCODE rc = sqlExec( "UPDATE tblHosted SET host_url=? WHERE online_id=? AND host_type=?", bindList );
+		int32_t rc = sqlExec( "UPDATE tblHosted SET host_url=? WHERE online_id=? AND host_type=?", bindList );
 		m_DbMutex.unlock();
 		result = 0 == rc;
 	}
@@ -241,7 +241,7 @@ bool HostedListDb::updateHostTitleAndDescription( enum EHostType hostType, VxGUI
 		bindList.add( thumbId.toHexString().c_str() );
 
 		m_DbMutex.lock();
-		RCODE rc = sqlExec( "UPDATE tblHosted SET host_title=?, host_desc=?, info_time=?, thumb_id=? WHERE online_id=? AND host_type=?", bindList );
+		int32_t rc = sqlExec( "UPDATE tblHosted SET host_title=?, host_desc=?, info_time=?, thumb_id=? WHERE online_id=? AND host_type=?", bindList );
 		m_DbMutex.unlock();
 		result = 0 == rc;
 	}
@@ -280,7 +280,7 @@ bool HostedListDb::saveHosted( HostedInfo& hostedInfo )
 	bindList.add( hostedInfo.getThumbId().toHexString().c_str() );
 
 	// insert new record
-	RCODE rc = sqlExec( "INSERT INTO tblHosted (online_id, host_type, hostUrl, host_title, host_desc, favorite, connect_time, join_time, info_time, thumb_id) VALUES(?,?,?,?,?,?,?,?,?,?)", bindList );
+	int32_t rc = sqlExec( "INSERT INTO tblHosted (online_id, host_type, hostUrl, host_title, host_desc, favorite, connect_time, join_time, info_time, thumb_id) VALUES(?,?,?,?,?,?,?,?,?,?)", bindList );
 
 	if( rc )
 	{

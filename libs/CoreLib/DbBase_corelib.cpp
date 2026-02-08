@@ -303,12 +303,12 @@ DbBase::DbBase( std::string databaseName )
 
 //============================================================================
 //! Initialize the database.. if doesn't exist then call DbCreateDatabase and DbCreateTables
-RCODE DbBase::dbStartup( int iDbVersion, std::string pDbName )
+int32_t DbBase::dbStartup( int iDbVersion, std::string pDbName )
 {
 	// in theory although sqlite is not thread safe you should be able to access multiple separate instances as same time by different threads.
 	// Just to make sure we are only allowing one startup of database at a time
 	g_DbBaseStartupMutex.lock();
-	RCODE rc = 0;
+	int32_t rc = 0;
 
 	vx_assert( !pDbName.empty() );
 	m_strDbFileName = pDbName;
@@ -321,11 +321,11 @@ RCODE DbBase::dbStartup( int iDbVersion, std::string pDbName )
 }
 
 //============================================================================
-RCODE DbBase::doDatabaseStartup( void )
+int32_t DbBase::doDatabaseStartup( void )
 {
     LogModule( eLogStartup, LOG_INFO, "DbBase::dbStartup %s",  m_strDbFileName.c_str() );
 
-	RCODE rc = -1;
+	int32_t rc = -1;
 
 	// create paths and database if necessary
 	if( !VxFileUtil::fileExists( m_strDbFileName.c_str(), false ) )
@@ -372,17 +372,17 @@ RCODE DbBase::doDatabaseStartup( void )
 }
 
 //============================================================================
-RCODE DbBase::dbShutdown( void )
+int32_t DbBase::dbShutdown( void )
 {
 	return 0;
 }
 
 //============================================================================
 //! create initial database
-RCODE DbBase::onCreateDatabase( int iDbVersion )
+int32_t DbBase::onCreateDatabase( int iDbVersion )
 {
 	sqlite3 *db;
-	RCODE rc = sqlite3_open( m_strDbFileName.c_str(), &db);
+	int32_t rc = sqlite3_open( m_strDbFileName.c_str(), &db);
 	if( SQLITE_OK != rc )
 	{
 		handleSqlError( LOG_ERROR, "DbCreateDatabase:ERROR %d Unable to create database %s", rc, m_strDbFileName.c_str() );
@@ -412,9 +412,9 @@ RCODE DbBase::onCreateDatabase( int iDbVersion )
 
 //============================================================================
 //! upgrade db from old version to new version
-RCODE DbBase::onUpgradeDatabase(int iOldDbVersion, int iNewDbVersion)
+int32_t DbBase::onUpgradeDatabase(int iOldDbVersion, int iNewDbVersion)
 {
-	RCODE rc = onDeleteTables( iOldDbVersion );
+	int32_t rc = onDeleteTables( iOldDbVersion );
 	if( 0 == rc )
 	{
 		rc = onCreateTables( iNewDbVersion );
@@ -434,7 +434,7 @@ RCODE DbBase::onUpgradeDatabase(int iOldDbVersion, int iNewDbVersion)
 
 //============================================================================
 //! open the database
-RCODE DbBase::dbOpen( void )
+int32_t DbBase::dbOpen( void )
 {
 	if( 0 == m_strDbFileName.size() )
 	{
@@ -487,7 +487,7 @@ RCODE DbBase::dbOpen( void )
 
 //============================================================================
 //! close the database
-RCODE DbBase::dbClose( void )
+int32_t DbBase::dbClose( void )
 {
 	if( m_Db )
 	{
@@ -542,9 +542,9 @@ int DbBase::readDatabaseVersion( void )
 
 //============================================================================
 //! write database version to version table 
-RCODE DbBase::writeDatabaseVersion( int iDbVersion )
+int32_t DbBase::writeDatabaseVersion( int iDbVersion )
 {
-	RCODE rc = SQLITE_OK;
+	int32_t rc = SQLITE_OK;
 	DbBindList bindList( iDbVersion );
 	if( dbTableExists( "DBBASE_VERSION" ))
 	{
@@ -600,10 +600,10 @@ bool DbBase::dbTableExists( const char* pTableName )
 
 
 //============================================================================
-RCODE DbBase::sqlExec( const char*		SQL_Statement, 
+int32_t DbBase::sqlExec( const char*		SQL_Statement, 
                        DbBindList&		bindList )
 {
-    RCODE result = 0;
+    int32_t result = 0;
 	sqlite3_stmt* pSqlStatement	= nullptr;
 	enum ESqlExecStep sqlStep{eSqlExecStepDbOpen};
 	enum ESqlExecStep sqlErrorStep{eSqlExecStepDbOpen};
@@ -793,17 +793,17 @@ bool DbBase::bindParams( sqlite3_stmt* sqlStmt, DbBindList& bindParams )
 }
 
 //============================================================================
-RCODE DbBase::sqlExec( std::string& statement )
+int32_t DbBase::sqlExec( std::string& statement )
 {
 	return sqlExec( statement.c_str() );
 }
 
 //============================================================================
-RCODE DbBase::sqlExec( const char* SQL_Statement )
+int32_t DbBase::sqlExec( const char* SQL_Statement )
 {
 	char *SQL_Error;
 	int retval;
-	RCODE rc = dbOpen();
+	int32_t rc = dbOpen();
 	if( 0 == rc )
 	{
 		retval = sqlite3_exec( m_Db, SQL_Statement, NULL, NULL, &SQL_Error );
@@ -823,7 +823,7 @@ RCODE DbBase::sqlExec( const char* SQL_Statement )
 }
 
 //============================================================================
-void DbBase::handleSqlError( RCODE rc, const char* errMsg, ... )
+void DbBase::handleSqlError( int32_t rc, const char* errMsg, ... )
 {
 	std::array<char, 1024> szBuffer;
 	va_list arg_ptr;
@@ -841,7 +841,7 @@ void DbBase::handleSqlError( RCODE rc, const char* errMsg, ... )
 DbCursor * DbBase::startQuery( const char* pSqlString )
 {
 	vx_assert( pSqlString );
-	RCODE rc = dbOpen();
+	int32_t rc = dbOpen();
 	if( 0 == rc )
 	{
 		sqlite3_stmt * poSqlStatement = nullptr;
@@ -1183,7 +1183,7 @@ bool DbBase::deleteDatabase( void )
 		unlockDb();
 	}
 
-	RCODE rc = doDatabaseStartup();
+	int32_t rc = doDatabaseStartup();
 
 
 	return 0 == rc;

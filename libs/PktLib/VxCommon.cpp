@@ -36,7 +36,7 @@ void VxSetHackReportCallback( IHackReportCallbackInterface* hackReportCallback )
 }
 
 //============================================================================
-RCODE VxReportHack( EHackerLevel hackerLevel, EHackerReason hackerReason, std::shared_ptr<VxSktBase>& sktBase, const char* pDescription, ... )
+int32_t VxReportHack( EHackerLevel hackerLevel, EHackerReason hackerReason, std::shared_ptr<VxSktBase>& sktBase, const char* pDescription, ... )
 {
 	char as8Buf[2048];
 	va_list argList;
@@ -62,7 +62,7 @@ RCODE VxReportHack( EHackerLevel hackerLevel, EHackerReason hackerReason, std::s
 }
 
 //============================================================================
-RCODE VxReportHack( EHackerLevel hackerLevel, EHackerReason hackerReason, SOCKET skt, const char* ipAddr, const char* pDescription, ... )
+int32_t VxReportHack( EHackerLevel hackerLevel, EHackerReason hackerReason, SOCKET skt, const char* ipAddr, const char* pDescription, ... )
 {
 	char as8Buf[2048];
 	va_list argList;

@@ -32,9 +32,9 @@ public:
 
 	//=== overrides ===//
     //! delete tables from database
-    virtual RCODE				onDeleteTables( int oldVersion ) override;
+    virtual int32_t				onDeleteTables( int oldVersion ) override;
 	//! create tables in database 
-	virtual RCODE				onCreateTables( int iDbVersion ) override;
+	virtual int32_t				onCreateTables( int iDbVersion ) override;
 
 	//=== methods ===//
 	//! return true if online id exists in table

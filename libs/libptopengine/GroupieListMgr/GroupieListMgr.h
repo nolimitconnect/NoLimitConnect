@@ -34,8 +34,8 @@ public:
     GroupieListMgr( P2PEngine& engine );
     virtual ~GroupieListMgr() = default;
 
-    RCODE                       groupieListMgrStartup( std::string& dbFileName );
-    RCODE                       groupieListMgrShutdown( void );
+    int32_t                       groupieListMgrStartup( std::string& dbFileName );
+    int32_t                       groupieListMgrShutdown( void );
 
     void                        lockList( void )    { m_GroupieInfoMutex.lock(); }
     void                        unlockList( void )  { m_GroupieInfoMutex.unlock(); }

@@ -35,22 +35,22 @@ HostJoinedLastDb::HostJoinedLastDb( P2PEngine& engine, HostServerJoinMgr& hostLi
 
 //============================================================================
 //! create tables in database 
-RCODE HostJoinedLastDb::onCreateTables( int iDbVersion )
+int32_t HostJoinedLastDb::onCreateTables( int iDbVersion )
 {
     lockHostJoinedLastDb();
     std::string strCmd = "CREATE TABLE " + TABLE_USER_HOST + CREATE_COLUMNS_JOINED_LAST;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
     unlockHostJoinedLastDb();
     return rc;
 }
 
 //============================================================================
 // delete tables in database
-RCODE HostJoinedLastDb::onDeleteTables( int iOldVersion ) 
+int32_t HostJoinedLastDb::onDeleteTables( int iOldVersion ) 
 {
     lockHostJoinedLastDb();
     std::string strCmd = "DROP TABLE IF EXISTS " + TABLE_USER_HOST;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
     unlockHostJoinedLastDb();
     return rc;
 }
@@ -60,7 +60,7 @@ void HostJoinedLastDb::purgeAllHJoinedLast( void )
 {
     lockHostJoinedLastDb();
     std::string strCmd = "DELETE FROM " + TABLE_USER_HOST;
-    RCODE rc = sqlExec( strCmd );
+    int32_t rc = sqlExec( strCmd );
     unlockHostJoinedLastDb();
     if( rc )
     {
@@ -92,7 +92,7 @@ bool HostJoinedLastDb::setJoinedLast( EPluginType pluginType, VxGUID& onlineId, 
     bindList.add( lastJoinMs ); 
     bindList.add( hostUrl.c_str() );
 
-    RCODE rc = sqlExec( "INSERT INTO tblHostJoinedLast (onlineId, pluginType, lastJoinMs, userUrl) values(?,?,?,?)",
+    int32_t rc = sqlExec( "INSERT INTO tblHostJoinedLast (onlineId, pluginType, lastJoinMs, userUrl) values(?,?,?,?)",
         bindList );
     vx_assert( 0 == rc );
     if( rc )

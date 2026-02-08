@@ -14,8 +14,8 @@ if(DEFINED TARGET_OS_ANDROID)
     message(STATUS "dav1d TARGET_OS_ANDROID is defined")
 endif()
 
-if(DEFINED TARGET_CPU_X86_64)
-    message(STATUS "dav1d TARGET_CPU_X86_64 is defined")
+if(DEFINED TARGET_CPU_X64)
+    message(STATUS "dav1d TARGET_CPU_X64 is defined")
 endif()
 if(DEFINED TARGET_CPU_X86)
     message(STATUS "dav1d TARGET_CPU_X86 is defined")
@@ -73,7 +73,7 @@ endif()
 
 set(dav1d_SOURCES)
 
-if(DEFINED TARGET_CPU_X86_64)
+if(DEFINED TARGET_CPU_X64)
     list(APPEND dav1d_SOURCES
         #included by others src/x86/filmgrain_common.asm
         src/x86/cpu.c

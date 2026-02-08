@@ -60,10 +60,10 @@ AccountDb::AccountDb()
 
 //============================================================================
 //! create tables in database 
-RCODE AccountDb::onCreateTables( int iDbVersion )
+int32_t AccountDb::onCreateTables( int iDbVersion )
 {
     std::string exeStr = "CREATE TABLE " + TABLE_LAST_LOGIN + CREATE_COLUMNS_LAST_LOGIN;
-    RCODE rc = sqlExec(exeStr);
+    int32_t rc = sqlExec(exeStr);
     exeStr = "CREATE TABLE " + TABLE_ACCOUNT_LOGIN + CREATE_COLUMNS_ACOUNT_LOGIN;
     rc |= sqlExec( exeStr );
     exeStr = "CREATE TABLE " + TABLE_ACCOUNT_PROFILE + CREATE_COLUMNS_ACOUNT_PROFILE;
@@ -84,9 +84,9 @@ RCODE AccountDb::onCreateTables( int iDbVersion )
 
 //============================================================================
 // delete tables in database
-RCODE AccountDb::onDeleteTables( int oldVersion ) 
+int32_t AccountDb::onDeleteTables( int oldVersion ) 
 {
-    RCODE rc = sqlExec("DROP TABLE IF EXISTS last_login" );
+    int32_t rc = sqlExec("DROP TABLE IF EXISTS last_login" );
     rc |= sqlExec("DROP TABLE IF EXISTS account_login" );
     rc |= sqlExec("DROP TABLE IF EXISTS account_profile" );
     rc |= sqlExec("DROP TABLE IF EXISTS friends" );
@@ -124,7 +124,7 @@ bool AccountDb::onlineUidExistsInTable( VxGUID& onlineId, std::string& strTableN
 bool AccountDb::updateLastLogin( const char* pThingName ) 
 {
 	DbBindList bindList( pThingName );
-	RCODE rc = sqlExec(  "DELETE FROM last_login" );
+	int32_t rc = sqlExec(  "DELETE FROM last_login" );
 	rc |= sqlExec(  "INSERT INTO last_login (online_name) values(?)", bindList );
 	return rc ? false : true;
 }
@@ -161,7 +161,7 @@ bool AccountDb::insertAccount( VxNetIdent& oUserAccount )
 	bindList.add( &oUserAccount, sizeof( VxNetIdent ) );
 	bindList.add( strOnlineNameHex.c_str() );
 
-	RCODE rc = sqlExec( "INSERT INTO account_login (online_name,ident,online_id) values(?,?,?)", bindList );
+	int32_t rc = sqlExec( "INSERT INTO account_login (online_name,ident,online_id) values(?,?,?)", bindList );
 	if( rc )
 	{
 		LogMsg( LOG_ERROR, "AccountDb::insertAccount: ERROR %d %s", rc, sqlite3_errmsg(m_Db) );
@@ -206,7 +206,7 @@ bool AccountDb::getAccountByName(const char* name, VxNetIdent& oUserAccount )
 				cursor->close();
 				// remove the invalid blob
 				DbBindList bindList( name );
-				RCODE rc = sqlExec(  "DELETE FROM account_login WHERE online_name=?", bindList );
+				int32_t rc = sqlExec(  "DELETE FROM account_login WHERE online_name=?", bindList );
 				if( rc )
 				{
 					LogMsg( LOG_ERROR, "AccountDb::getAccountByName: could not remove login by name %s", name );
@@ -227,7 +227,7 @@ bool AccountDb::getAccountByName(const char* name, VxNetIdent& oUserAccount )
 bool AccountDb::removeAccountByName(const char* name ) 
 {
 	DbBindList bindList( name );
-	RCODE rc = sqlExec( "DELETE FROM account_login WHERE online_name=?", bindList );
+	int32_t rc = sqlExec( "DELETE FROM account_login WHERE online_name=?", bindList );
 	if( rc == SQLITE_OK )
 	{
 		return true;
@@ -285,7 +285,7 @@ bool AccountDb::getUserProfile( VxNetIdent& oUserAccount, UserProfile& oProfile 
 //! update user profile
 bool AccountDb::updateUserProfile( VxNetIdent& oUserAccount, UserProfile& oProfile ) 
 {
-	RCODE rc = 0;
+	int32_t rc = 0;
 	std::string strOnlineIdHex = oUserAccount.getMyOnlineId().toHexString();
 	DbBindList bindList( (const char*)oProfile.m_strGreeting.toUtf8().constData() );
 	bindList.add( (const char*)oProfile.m_strAboutMe.toUtf8().constData() );
@@ -333,7 +333,7 @@ void AccountDb::getFriendList(uint8_t u8MyFrienship,  std::vector<VxNetIdent>& a
 //! update net info about friend
 bool AccountDb::updateFriend( VxNetIdent& oIdent ) 
 {
-	RCODE rc;
+	int32_t rc;
 	std::string strOnlineIdHex = oIdent.getMyOnlineId().toHexString();
 	DbBindList bindList( oIdent.getHisFriendshipToMe() );
 	bindList.add( oIdent.getMyFriendshipToHim() );
@@ -372,7 +372,7 @@ bool AccountDb::updateNetHostSetting( NetHostSetting& netSetting )
 	bindList.add( netSetting.getFirewallTestType() );
 
 
-	RCODE rc = sqlExec( "INSERT INTO net_host_settings (net_host_setting_name,network_name,net_host_url,connect_test_url,rand_connect_url,group_host_url,chat_room_host_url,extern_ip_addr,pref_adapt_ip,use_upnp,tcp_port, firewall_type) values(?,?,?,?,?,?,?,?,?,?,?,?)", bindList );
+	int32_t rc = sqlExec( "INSERT INTO net_host_settings (net_host_setting_name,network_name,net_host_url,connect_test_url,rand_connect_url,group_host_url,chat_room_host_url,extern_ip_addr,pref_adapt_ip,use_upnp,tcp_port, firewall_type) values(?,?,?,?,?,?,?,?,?,?,?,?)", bindList );
 	return ( 0 == rc ) ? true : false;
 }
 
@@ -449,7 +449,7 @@ bool AccountDb::getAllNetHostSettings( std::vector<NetHostSetting>& netSettingLi
 bool AccountDb::removeNetHostSettingByName( const char* name )
 {
 	DbBindList bindList( name );
-	RCODE rc = sqlExec(  "DELETE FROM net_host_settings WHERE net_host_setting_name=?", bindList );
+	int32_t rc = sqlExec(  "DELETE FROM net_host_settings WHERE net_host_setting_name=?", bindList );
 	return rc ? false : true;
 }
 
@@ -457,7 +457,7 @@ bool AccountDb::removeNetHostSettingByName( const char* name )
 bool AccountDb::updateLastNetHostSettingName( const char* name )
 {
 	DbBindList bindList( name );
-	RCODE rc = sqlExec(  "DELETE FROM last_net_host_setting" );
+	int32_t rc = sqlExec(  "DELETE FROM last_net_host_setting" );
 	rc |= sqlExec(  "INSERT INTO last_net_host_setting (last_net_host_setting_name) values(?)", bindList );
 	return rc ? false : true;
 }
@@ -507,7 +507,7 @@ bool AccountDb::getAllAccounts( std::vector<VxNetIdent>& accountList )
                 cursor->close();
                 // remove the invalid blob
                 DbBindList bindList( netIdent->getOnlineName() );
-                RCODE rc = sqlExec( "DELETE FROM account_login WHERE online_name=?", bindList );
+                int32_t rc = sqlExec( "DELETE FROM account_login WHERE online_name=?", bindList );
                 if( rc )
                 {
                     LogMsg( LOG_ERROR, "AccountDb::getAccountByName: could not remove login by name %s", netIdent->getOnlineName() );

@@ -48,8 +48,8 @@ public:
 
 protected:
 
-    virtual RCODE				onCreateTables( int iDbVersion );
-    virtual RCODE				onDeleteTables( int iOldVersion );
+    virtual int32_t				onCreateTables( int iDbVersion );
+    virtual int32_t				onDeleteTables( int iOldVersion );
     void						insertConnectInTimeOrder(ConnectInfo * hostInfo, std::vector<ConnectInfo*>& assetList );
 
     P2PEngine&					m_Engine;

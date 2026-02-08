@@ -103,13 +103,13 @@ char * VxProxy::GetBasicAuth( void )
 	return m_as8BasicAuth;
 }
 
-RCODE VxProxy::SetProxy(	int iProxyType,	//Type of proxy	
+int32_t VxProxy::SetProxy(	int iProxyType,	//Type of proxy	
 							const char* pProxyHost,		//Proxy Host name
 							const unsigned short u16ProxyPort,//Proxy port
 							const char* pProxyAcctName,	//Proxy Account Name
 							const char* pProxyAcctPwd )	//Proxy Account Pwd
 {
-	RCODE rc = 0;
+	int32_t rc = 0;
 	m_iProxyType = iProxyType;
 
 	vx_assert( iProxyType >= 0 && iProxyType <= PROXYTYPE_HTTP11 );
@@ -138,10 +138,10 @@ RCODE VxProxy::SetProxy(	int iProxyType,	//Type of proxy
 	return rc;
 }
 
-RCODE VxProxy::OnConnect( VxSkt * sktBase, int iErrorCode ) 
+int32_t VxProxy::OnConnect( VxSkt * sktBase, int iErrorCode ) 
 {
 	/*
-	RCODE rc = PROXYERROR_INVALID_PARAM;
+	int32_t rc = PROXYERROR_INVALID_PARAM;
 	int iResult;
 	if(	iErrorCode && 
 		WSAEWOULDBLOCK != iErrorCode )
@@ -291,10 +291,10 @@ RCODE VxProxy::OnConnect( VxSkt * sktBase, int iErrorCode )
 }
 
 
-RCODE VxProxy::OnReceive( VxSkt * sktBase, int iErrorCode) 
+int32_t VxProxy::OnReceive( VxSkt * sktBase, int iErrorCode) 
 {
 	/*
-	RCODE rc  = PROXYERROR_INVALID_PARAM;
+	int32_t rc  = PROXYERROR_INVALID_PARAM;
 	if( 0 == m_iProxyType )
 	{
 		//no proxy

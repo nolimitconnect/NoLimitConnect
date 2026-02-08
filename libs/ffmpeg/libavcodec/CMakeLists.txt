@@ -19,7 +19,7 @@ endif()
 
 set(avcodec_SOURCES)
 
-if(DEFINED TARGET_CPU_X86_64)
+if(DEFINED TARGET_CPU_X64)
     list(APPEND avcodec_SOURCES 
         x86/aacencdsp_init.c
         x86/aacpsdsp_init.c

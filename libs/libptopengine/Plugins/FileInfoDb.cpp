@@ -39,22 +39,22 @@ FileInfoDb::FileInfoDb( std::string fileLibraryDbName )
 
 //============================================================================
 //! create tables in database 
-RCODE FileInfoDb::onCreateTables( int iDbVersion )
+int32_t FileInfoDb::onCreateTables( int iDbVersion )
 {
 	lockFileInfoDb();
     std::string strCmd = "CREATE TABLE " + TABLE_FILE_INFO + CREATE_COLUMNS_FILE_INFO;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
 	unlockFileInfoDb();
 	return rc;
 }
 
 //============================================================================
 // delete tables in database
-RCODE FileInfoDb::onDeleteTables( int iOldVersion ) 
+int32_t FileInfoDb::onDeleteTables( int iOldVersion ) 
 {
 	lockFileInfoDb();
     std::string strCmd = "DROP TABLE IF EXISTS " + TABLE_FILE_INFO;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
 	unlockFileInfoDb();
 	return rc;
 }
@@ -64,7 +64,7 @@ void FileInfoDb::purgeAllFileLibrary( void )
 {
 	lockFileInfoDb();
     std::string strCmd = "DELETE FROM " + TABLE_FILE_INFO;
-    RCODE rc = sqlExec( strCmd );
+    int32_t rc = sqlExec( strCmd );
 	unlockFileInfoDb();
 	if( rc )
 	{
@@ -110,7 +110,7 @@ void FileInfoDb::addFile( VxGUID& onlineId, std::string& fileName, std::string& 
 	bindList.add( fileTime );
 	bindList.add( (void *)fileHashId.getHashData(), FILE_HASH_LEN_BYTES );
 	
-	RCODE rc  = sqlExec( "INSERT INTO file_info (asset_id,thumb_id,online_id,file_name,fileNameAndPath,file_length,file_type,file_time,file_hash) values(?,?,?,?,?,?,?,?,?)",
+	int32_t rc  = sqlExec( "INSERT INTO file_info (asset_id,thumb_id,online_id,file_name,fileNameAndPath,file_length,file_type,file_time,file_hash) values(?,?,?,?,?,?,?,?,?)",
 		bindList );
 	if( rc )
 	{

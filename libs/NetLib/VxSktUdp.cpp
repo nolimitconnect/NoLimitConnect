@@ -44,13 +44,13 @@ VxSktUdp::~VxSktUdp()
 }
 
 //============================================================================
-RCODE VxSktUdp::udpOpen( InetAddress& oLclIp, uint16_t u16Port, bool enableReceive )	
+int VxSktUdp::udpOpen( InetAddress& oLclIp, uint16_t u16Port, bool enableReceive )	
 {
 	struct addrinfo * poResultAddr = 0;
 #ifdef DEBUG_VXSKT_UDP
 	LogMsg( LOG_INFO, "udpOpen port %d", u16Port );
 #endif // DEBUG_VXSKT_UDP
-	RCODE rc = createSocket( oLclIp, u16Port, &poResultAddr );
+	int rc = createSocket( oLclIp, u16Port, &poResultAddr );
 	if( 0 == rc )
 	{
 		// for udp always allow reuse
@@ -101,10 +101,10 @@ RCODE VxSktUdp::udpOpen( InetAddress& oLclIp, uint16_t u16Port, bool enableRecei
 }
 
 //============================================================================
-RCODE VxSktUdp::udpOpenUnicast( InetAddress& oLclIp, uint16_t u16Port )
+int VxSktUdp::udpOpenUnicast( InetAddress& oLclIp, uint16_t u16Port )
 {
 	struct addrinfo * poResultAddr = 0;
-	RCODE rc = createSocket( oLclIp, u16Port, &poResultAddr );
+	int rc = createSocket( oLclIp, u16Port, &poResultAddr );
 #if USE_BIND_LOCAL_IP
 	if( 0 == rc )
 	{
@@ -134,7 +134,7 @@ RCODE VxSktUdp::udpOpenUnicast( InetAddress& oLclIp, uint16_t u16Port )
 }
 
 //============================================================================
-RCODE VxSktUdp::createSocket( InetAddress& oLclIp, uint16_t u16Port, struct addrinfo ** ppoResultAddr )	
+int VxSktUdp::createSocket( InetAddress& oLclIp, uint16_t u16Port, struct addrinfo ** ppoResultAddr )	
 {
 	m_rcLastSktError = 0;
 	if( isConnected() )
@@ -213,7 +213,7 @@ void VxSktUdp::startReceive( void )
 
 //============================================================================
 //! send data to given ip 
-RCODE  VxSktUdp::sendTo(	const char*		pData,		// data to send
+int  VxSktUdp::sendTo(	const char*		pData,		// data to send
 							int				iDataLen,	// data len
 							const char*		pRmtIp, 	// destination ip in dotted format
 							uint16_t		u16Port )	// port to send to ( if 0 then port specified when opened )
@@ -224,7 +224,7 @@ RCODE  VxSktUdp::sendTo(	const char*		pData,		// data to send
 
 //============================================================================
 //! send data to given ip 
-RCODE  VxSktUdp::sendToMulticast(	const char*		pData,				// data to send
+int  VxSktUdp::sendToMulticast(	const char*		pData,				// data to send
 									int				iDataLen,			// data len
 									const char*		muliticastGroupIp, 	// destination multicast group ip in dotted format
 									uint16_t		u16Port )			// port to send to ( if 0 then port specified when opened )
@@ -236,7 +236,7 @@ RCODE  VxSktUdp::sendToMulticast(	const char*		pData,				// data to send
 
 //============================================================================
 //! send data to given ip 
-RCODE VxSktUdp::sendTo(		const char*		pData,		// data to send
+int VxSktUdp::sendTo(		const char*		pData,		// data to send
 							int				iDataLen,	// data len
 							InetAddress&	oRmtIp, 	// destination ip in host ordered u32
 							uint16_t		u16Port )	// port to send to ( if 0 then port specified when opened )

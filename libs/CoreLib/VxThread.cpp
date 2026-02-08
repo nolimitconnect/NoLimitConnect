@@ -269,7 +269,7 @@ void VxThread::setThreadExitCallback( VX_THREAD_EXIT_CALLBACK_T func )
 }
 
 //============================================================================
-RCODE VxThread::startThread(	VX_THREAD_FUNCTION_T	pfuncThreadFunc,	// function that thread calls
+int32_t VxThread::startThread(	VX_THREAD_FUNCTION_T	pfuncThreadFunc,	// function that thread calls
 								void *					pvUserParam, 		// caller defined param
 								const char*				pThreadName,		// thread name
 								int						iExtraStackSpace )	// will be added to minimum stack size	
@@ -575,7 +575,7 @@ void VxThread::threadAboutToExit( bool bExitThreadNow )
 
 //============================================================================
 //! end a thread
-RCODE VxThread::killThread( void )
+int32_t VxThread::killThread( void )
 {
     if( false == isThreadRunning() )
 	{

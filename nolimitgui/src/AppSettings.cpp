@@ -35,9 +35,9 @@ const char* AppSettings::getAppShortName( void )
 }
 
 //============================================================================
-RCODE AppSettings::appSettingStartup( std::string dbSettingsFile )
+int32_t AppSettings::appSettingStartup( std::string dbSettingsFile )
 {
-	RCODE rc = dbStartup( APP_SETTINGS_DBVERSION, dbSettingsFile );
+	int32_t rc = dbStartup( APP_SETTINGS_DBVERSION, dbSettingsFile );
 	if( 0 == rc )
 	{
 		m_AppSettingsInitialized = true;

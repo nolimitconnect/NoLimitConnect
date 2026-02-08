@@ -28,12 +28,12 @@ VxSktAccept::VxSktAccept()
 
 //============================================================================
 //! called when socket is accepted
-RCODE VxSktAccept::doAccept( VxServerMgr * poMgr, struct sockaddr& oAcceptAddr )
+int32_t VxSktAccept::doAccept( VxServerMgr * poMgr, struct sockaddr& oAcceptAddr )
 {
 	m_SktMgr = poMgr;
 	m_eSktCallbackReason = eSktCallbackReasonConnecting;
 	// get the peer address
-    RCODE rc = VxGetRmtAddress( m_Socket, m_RmtIp );
+    int32_t rc = VxGetRmtAddress( m_Socket, m_RmtIp );
     if( !rc )
     {
         rc = VxGetLclAddress( m_Socket, m_LclIp );

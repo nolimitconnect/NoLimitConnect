@@ -20,7 +20,7 @@ public:
 	EngineSettings();
 	virtual ~EngineSettings();
 
-	RCODE						engineSettingsStartup( std::string& strDbFileName );
+	int32_t						engineSettingsStartup( std::string& strDbFileName );
 	void						engineSettingsShutdown( void );
 
     void						getNetHostSettings( NetHostSetting& netSettings );

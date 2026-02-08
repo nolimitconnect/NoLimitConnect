@@ -64,8 +64,8 @@ protected:
     virtual AssetBaseInfo*     createAssetInfo( EAssetType assetType, const char* assetName, const char* fileNameAndPath, uint64_t assetLen ) = 0;
     virtual AssetBaseInfo*     createAssetInfo( AssetBaseInfo& assetInfo ) = 0;
 
-	virtual RCODE				onCreateTables( int iDbVersion );
-	virtual RCODE				onDeleteTables( int iOldVersion );
+	virtual int32_t				onCreateTables( int iDbVersion );
+	virtual int32_t				onDeleteTables( int iOldVersion );
 	void						insertAssetInTimeOrder( AssetBaseInfo*assetInfo, std::vector<AssetBaseInfo*>& assetList );
 
 	AssetBaseMgr&				m_AssetMgr;

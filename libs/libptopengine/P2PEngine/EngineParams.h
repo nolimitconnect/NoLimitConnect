@@ -20,7 +20,7 @@ public:
 	EngineParams();
 	virtual ~EngineParams();
 
-	RCODE						engineParamsStartup( std::string& strDbFileName );
+	int32_t						engineParamsStartup( std::string& strDbFileName );
 	void						engineParamsShutdown( void );
 
 	void						setLastHostWebsiteUrl( std::string& strWebsiteUrl );

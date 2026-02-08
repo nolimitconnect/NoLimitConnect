@@ -30,9 +30,9 @@ public:
 
     //=== overrides ===//
     //! delete tables from database 
-    virtual RCODE				onDeleteTables( int oldVersion );
+    virtual int32_t				onDeleteTables( int oldVersion );
     //! create tables in database 
-    virtual RCODE				onCreateTables( int iDbVersion );
+    virtual int32_t				onCreateTables( int iDbVersion );
 
     bool                        updatePluginSetting( EPluginType pluginType, PluginSetting& pluginSetting );
     bool                        getPluginSetting( EPluginType pluginType, PluginSetting& pluginSetting );

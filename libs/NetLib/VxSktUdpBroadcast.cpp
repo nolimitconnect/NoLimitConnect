@@ -22,7 +22,7 @@ VxSktUdpBroadcast::VxSktUdpBroadcast()
 //============================================================================
 //! startup broadcast socket if pBroadcastIp is null
 //! then will broadcast to 255.255.255.255 
-RCODE VxSktUdpBroadcast::udpBroadcastOpen(	InetAddress& oIpAddr,
+int32_t VxSktUdpBroadcast::udpBroadcastOpen(	InetAddress& oIpAddr,
 											uint16_t u16Port,	
 											const char* pBroadcastIp )
 {
@@ -43,7 +43,7 @@ RCODE VxSktUdpBroadcast::udpBroadcastOpen(	InetAddress& oIpAddr,
 	m_RmtIp.setIp( m_strBroadcastIp.c_str() );
 
 	// open socket
-	RCODE rc = VxSktUdp::udpOpen( oIpAddr, u16Port );
+	int32_t rc = VxSktUdp::udpOpen( oIpAddr, u16Port );
 	if( rc )
 	{
 		return rc;
@@ -61,7 +61,7 @@ RCODE VxSktUdpBroadcast::udpBroadcastOpen(	InetAddress& oIpAddr,
 
 //============================================================================
 //! broadcast data 
-RCODE VxSktUdpBroadcast::broadcastData(	const char*	pData,		// data to send
+int32_t VxSktUdpBroadcast::broadcastData(	const char*	pData,		// data to send
 										int				iDataLen,	// data length
 										uint16_t				u16Port )	// port to send to ( if 0 then port specified when opened )
 {

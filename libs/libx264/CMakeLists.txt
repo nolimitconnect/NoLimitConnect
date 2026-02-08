@@ -13,7 +13,7 @@ endif()
 
 set(x264_SOURCES)
 
-if(DEFINED TARGET_CPU_X86_64)
+if(DEFINED TARGET_CPU_X64)
     list(APPEND x264_SOURCES 
         common/x86/bitstream-a.asm
         common/x86/cabac-a.asm

@@ -36,16 +36,16 @@ HostedListMgr::HostedListMgr( P2PEngine& engine )
 }
 
 //============================================================================
-RCODE HostedListMgr::hostedListMgrStartup( std::string& dbFileName )
+int32_t HostedListMgr::hostedListMgrStartup( std::string& dbFileName )
 {
-    RCODE rc = m_HostedInfoListDb.hostedListDbStartup( HOSTED_LIST_DB_VERSION, dbFileName.c_str() );
+    int32_t rc = m_HostedInfoListDb.hostedListDbStartup( HOSTED_LIST_DB_VERSION, dbFileName.c_str() );
     m_HostedInfoList.clear();
     m_HostedInfoListDb.getAllHosteds( m_HostedInfoList );
     return rc;
 }
 
 //============================================================================
-RCODE HostedListMgr::hostedListMgrShutdown( void )
+int32_t HostedListMgr::hostedListMgrShutdown( void )
 {
     return m_HostedInfoListDb.hostedListDbShutdown();
 }

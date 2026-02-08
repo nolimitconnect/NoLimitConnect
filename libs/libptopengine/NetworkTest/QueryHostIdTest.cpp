@@ -117,7 +117,7 @@ ERunTestStatus QueryHostIdTest::doRunTest( std::string& nodeUrl )
     LogModule( eLogRunTest, LOG_INFO, "QueryHostIdTest: sec %3.3f : sending %d action data", 
                connectTime, (int)strNetActionUrl.length() );
 
-	RCODE rc = netServConn.sendData( strNetActionUrl.c_str(), (int)strNetActionUrl.length() );
+	int32_t rc = netServConn.sendData( strNetActionUrl.c_str(), (int)strNetActionUrl.length() );
 	if( rc )
 	{
         LogModule( eLogRunTest, LOG_ERROR, "QueryHostIdTest: sendData error %d", rc );

@@ -25,8 +25,8 @@ public:
     EMediaModule			    getMediaModule( void ) override { return eMediaModuleInvalid; }
 
     void                        testIsMyPortOpen( void );
-    RCODE                       handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr ) override;
-    RCODE                       internalHandlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );
+    int32_t                       handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr ) override;
+    int32_t                       internalHandlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr );
 
 protected:
     NetServicesMgr&				m_NetServicesMgr;

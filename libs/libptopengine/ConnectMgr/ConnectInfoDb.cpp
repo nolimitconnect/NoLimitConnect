@@ -41,22 +41,22 @@ ConnectInfoDb::ConnectInfoDb( P2PEngine& engine, ConnectMgr& hostListMgr, const 
 
 //============================================================================
 //! create tables in database 
-RCODE ConnectInfoDb::onCreateTables( int iDbVersion )
+int32_t ConnectInfoDb::onCreateTables( int iDbVersion )
 {
     lockConnectInfoDb();
     std::string strCmd = "CREATE TABLE " + TABLE_ASSETS + CREATE_COLUMNS_ASSETS;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
     unlockConnectInfoDb();
     return rc;
 }
 
 //============================================================================
 // delete tables in database
-RCODE ConnectInfoDb::onDeleteTables( int iOldVersion ) 
+int32_t ConnectInfoDb::onDeleteTables( int iOldVersion ) 
 {
     lockConnectInfoDb();
     std::string strCmd = "DROP TABLE IF EXISTS " + TABLE_ASSETS;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
     unlockConnectInfoDb();
     return rc;
 }
@@ -66,7 +66,7 @@ void ConnectInfoDb::purgeAllConnects( void )
 {
     lockConnectInfoDb();
     std::string strCmd = "DELETE FROM " + TABLE_ASSETS;
-    RCODE rc = sqlExec( strCmd );
+    int32_t rc = sqlExec( strCmd );
     unlockConnectInfoDb();
     if( rc )
     {
@@ -116,7 +116,7 @@ void ConnectInfoDb::addConnect(   EHostType       hostType,
     bindList.add( offerModTime );
     bindList.add( hostUrl.c_str() );
 
-    RCODE rc = sqlExec( "INSERT INTO tblConnects (hostId,hostType, hostModMs, hostFlags, thumbId, thumbModMs, offerId, offerState, offerModMs, hostUrl) values(?,?,?,?,?,?,?,?,?,?)",
+    int32_t rc = sqlExec( "INSERT INTO tblConnects (hostId,hostType, hostModMs, hostFlags, thumbId, thumbModMs, offerId, offerState, offerModMs, hostUrl) values(?,?,?,?,?,?,?,?,?,?)",
         bindList );
     vx_assert( 0 == rc );
     if( rc )

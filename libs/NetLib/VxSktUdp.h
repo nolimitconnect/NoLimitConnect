@@ -19,28 +19,28 @@ public:
     virtual ~VxSktUdp();
 
 	//! open a udp port
-	virtual long				udpOpen( InetAddress& oLclIp, uint16_t u16Port = 54321, bool enableReceiveThread = true );
-	virtual long				udpOpenUnicast( InetAddress& oLclIp, uint16_t u16Port );
+	virtual int					udpOpen( InetAddress& oLclIp, uint16_t u16Port = 54321, bool enableReceiveThread = true );
+	virtual int					udpOpenUnicast( InetAddress& oLclIp, uint16_t u16Port );
 
 	//! send data to given ip 
-	virtual long				sendTo(	const char*		pData,			// data to send
+	virtual int					sendTo(	const char*		pData,			// data to send
 										int				iDataLen,		// data length
 										InetAddress&	u32RmpIp,		// destination ip
 										uint16_t		u16Port = 0 );	// port to send to ( if 0 then port specified when opened )
 
 	//! send data to given ip 
-	virtual long				sendTo(	const char*		pData,			// data to send
+	virtual int					sendTo(	const char*		pData,			// data to send
 										int				iDataLen,		// data length
 										const char*		pRmpIp,			// destination ip in dotted format
 										uint16_t		u16Port = 0 );	// port to send to ( if 0 then port specified when opened )
 
 	//! send data to given ip 
-	virtual long				sendToMulticast(	const char*		pData,				// data to send
+	virtual int					sendToMulticast(	const char*		pData,				// data to send
 													int				iDataLen,			// data length
 													const char*		muliticastGroupIp,	// destination multicast group ip in dotted format
 													uint16_t		u16Port = 0 );		// port to send to ( if 0 then port specified when opened )
 protected:
-	long						createSocket( InetAddress& oLclIp, uint16_t u16Port, struct addrinfo ** ppoResultAddr );
+	int							createSocket( InetAddress& oLclIp, uint16_t u16Port, struct addrinfo ** ppoResultAddr );
 	void						startReceive( void );
 };
 

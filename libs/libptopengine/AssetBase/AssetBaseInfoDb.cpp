@@ -53,22 +53,22 @@ AssetBaseInfoDb::AssetBaseInfoDb( AssetBaseMgr& hostListMgr, const char*dbName  
 
 //============================================================================
 //! create tables in database 
-RCODE AssetBaseInfoDb::onCreateTables( int iDbVersion )
+int32_t AssetBaseInfoDb::onCreateTables( int iDbVersion )
 {
 	lockAssetInfoDb();
 	std::string strCmd = "CREATE TABLE " + TABLE_ASSETS + CREATE_COLUMNS_ASSETS;
-	RCODE rc = sqlExec(strCmd);
+	int32_t rc = sqlExec(strCmd);
 	unlockAssetInfoDb();
 	return rc;
 }
 
 //============================================================================
 // delete tables in database
-RCODE AssetBaseInfoDb::onDeleteTables( int iOldVersion ) 
+int32_t AssetBaseInfoDb::onDeleteTables( int iOldVersion ) 
 {
 	lockAssetInfoDb();
 	std::string strCmd = "DROP TABLE IF EXISTS " + TABLE_ASSETS;
-	RCODE rc = sqlExec(strCmd);
+	int32_t rc = sqlExec(strCmd);
 	unlockAssetInfoDb();
 	return rc;
 }
@@ -78,7 +78,7 @@ void AssetBaseInfoDb::purgeAllAssets( void )
 {
 	lockAssetInfoDb();
 	std::string strCmd = "DELETE FROM " + TABLE_ASSETS;
-	RCODE rc = sqlExec( strCmd );
+	int32_t rc = sqlExec( strCmd );
 	unlockAssetInfoDb();
 	if( rc )
 	{
@@ -182,7 +182,7 @@ bool AssetBaseInfoDb::addAsset( VxGUID&			assetId,
 	}
 
 	lockAssetInfoDb();
-    RCODE rc = sqlExec( "INSERT INTO tblAssets (unique_id,creatorId,historyId,adminId,thumbId,assetName,fileNameAndPath,length,type,hashId,locFlags,attribFlags,creationTime,modifiedTime,accessedTime,assetTag,sendState,pluginType,sendToId) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+    int32_t rc = sqlExec( "INSERT INTO tblAssets (unique_id,creatorId,historyId,adminId,thumbId,assetName,fileNameAndPath,length,type,hashId,locFlags,attribFlags,creationTime,modifiedTime,accessedTime,assetTag,sendState,pluginType,sendToId) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         bindList );
 	unlockAssetInfoDb();
 
@@ -203,7 +203,7 @@ void AssetBaseInfoDb::updateAssetSendState( VxGUID& assetId, EAssetSendState sen
 	bindList.add( assetIdStr.c_str() );
 
 	lockAssetInfoDb();
-	RCODE rc  = sqlExec( "UPDATE tblAssets SET sendState=? WHERE unique_id=?", bindList );
+	int32_t rc  = sqlExec( "UPDATE tblAssets SET sendState=? WHERE unique_id=?", bindList );
 	unlockAssetInfoDb();
     vx_assert( 0 == rc );
 	if( rc )

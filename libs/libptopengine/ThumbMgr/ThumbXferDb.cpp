@@ -33,22 +33,22 @@ ThumbXferDb::~ThumbXferDb()
 
 //============================================================================
 //! create tables in database 
-RCODE ThumbXferDb::onCreateTables( int iDbVersion )
+int32_t ThumbXferDb::onCreateTables( int iDbVersion )
 {
 	lockThumbXferDb();
     std::string strCmd = "CREATE TABLE " + TABLE_ASSET_XFER + CREATE_COLUMNS_ASSET_XFER;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
 	unlockThumbXferDb();
 	return rc;
 }
 
 //============================================================================
 // delete tables in database
-RCODE ThumbXferDb::onDeleteTables( int iOldVersion ) 
+int32_t ThumbXferDb::onDeleteTables( int iOldVersion ) 
 {
 	lockThumbXferDb();
     std::string strCmd = "DROP TABLE IF EXISTS " + TABLE_ASSET_XFER;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
 	unlockThumbXferDb();
 	return rc;
 }
@@ -58,7 +58,7 @@ void ThumbXferDb::purgeAllThumbXfer( void )
 {
 	lockThumbXferDb();
     std::string strCmd = "DELETE FROM " + TABLE_ASSET_XFER;
-    RCODE rc = sqlExec( strCmd );
+    int32_t rc = sqlExec( strCmd );
 	unlockThumbXferDb();
 	if( rc )
 	{
@@ -87,7 +87,7 @@ void ThumbXferDb::addThumb( VxGUID& assetUniqueId )
 	DbBindList bindList( strId.c_str() );
 	sqlExec( "DELETE FROM asset_xfer WHERE unique_id=?", bindList );
 
-	RCODE rc  = sqlExec( "INSERT INTO asset_xfer (unique_id) values(?)",
+	int32_t rc  = sqlExec( "INSERT INTO asset_xfer (unique_id) values(?)",
 		bindList );
 	if( rc )
 	{

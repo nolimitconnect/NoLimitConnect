@@ -646,7 +646,7 @@ void StoryWidget::insertPicture()
 		{
             std::string storyboardImage = VxGetStoryBoardPageServerDirectory();
 			storyboardImage += strJustFileName;
-			RCODE copyResult = 0;
+			int32_t copyResult = 0;
 			if( false == VxFileUtil::fileExists(strJustFileName.c_str()))
 			{
 				// if was not already in the story board directory then copy it there

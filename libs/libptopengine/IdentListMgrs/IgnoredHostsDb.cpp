@@ -39,22 +39,22 @@ IgnoredHostsDb::IgnoredHostsDb( P2PEngine& engine, IgnoreListMgr& hostListMgr, c
 
 //============================================================================
 //! create tables in database 
-RCODE IgnoredHostsDb::onCreateTables( int iDbVersion )
+int32_t IgnoredHostsDb::onCreateTables( int iDbVersion )
 {
     lockDb();
     std::string strCmd = "CREATE TABLE " + TABLE_IGNORE_HOST + CREATE_COLUMNS_HOST_IGNORE;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
     unlockDb();
     return rc;
 }
 
 //============================================================================
 // delete tables in database
-RCODE IgnoredHostsDb::onDeleteTables( int iOldVersion ) 
+int32_t IgnoredHostsDb::onDeleteTables( int iOldVersion ) 
 {
     lockDb();
     std::string strCmd = "DROP TABLE IF EXISTS " + TABLE_IGNORE_HOST;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
     unlockDb();
     return rc;
 }
@@ -64,7 +64,7 @@ bool IgnoredHostsDb::removeFromDatabase( VxGUID& onlineId )
 {
     std::string onlineIdStr = onlineId.toHexString();
     DbBindList bindList( onlineIdStr.c_str() );
-    RCODE rc = sqlExec( "DELETE FROM tblIgnoreHost WHERE onlineId=?", bindList );
+    int32_t rc = sqlExec( "DELETE FROM tblIgnoreHost WHERE onlineId=?", bindList );
     return 0 == rc;
 }
 
@@ -84,7 +84,7 @@ bool IgnoredHostsDb::saveToDatabase( IgnoredHostInfo& hostInfo )
     bindList.add( hostInfo.getHostDescription().c_str() );
     bindList.add( hostInfo.getTimestampMs() );  
    
-    RCODE rc = sqlExec( "INSERT INTO tblIgnoreHost (onlineId, thumbId, hostUrl, hostTitle, hostDescription, timestampdMs) values(?,?,?,?,?,?)",
+    int32_t rc = sqlExec( "INSERT INTO tblIgnoreHost (onlineId, thumbId, hostUrl, hostTitle, hostDescription, timestampdMs) values(?,?,?,?,?,?)",
         bindList );
     vx_assert( 0 == rc );
     if( rc )

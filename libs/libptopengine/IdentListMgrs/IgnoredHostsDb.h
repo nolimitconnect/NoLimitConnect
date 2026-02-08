@@ -32,8 +32,8 @@ public:
     bool                        restoreFromDatabase( std::map<VxGUID, IgnoredHostInfo>& ignoredHostList );
 
 protected:
-    virtual RCODE				onCreateTables( int iDbVersion );
-    virtual RCODE				onDeleteTables( int iOldVersion );
+    virtual int32_t				onCreateTables( int iDbVersion );
+    virtual int32_t				onDeleteTables( int iOldVersion );
 
     P2PEngine&					m_Engine;
     IgnoreListMgr&				m_IgnoreListMgr;

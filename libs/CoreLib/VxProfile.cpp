@@ -43,7 +43,7 @@ static void MyCopyString( char *pDest, const char*pSrc, unsigned long ulMaxLen )
 
 //============================================================================
 /// write a binary value to an entry in a ini file
-RCODE VxProfile::setProfileLong(	const char* pFileName, // name of file to access
+int32_t VxProfile::setProfileLong(	const char* pFileName, // name of file to access
 									const char* pSection,	// which section to write to
 									const char*pKey,		// which key to write
 									const long lValue,		// value to write
@@ -153,7 +153,7 @@ long VxProfile::getProfileLong(	const char*pFileName,		// name of file to access
 
 //============================================================================
 /// write an floating decimal point value to a entry in a ini file
-RCODE VxProfile::setProfileDouble(	const char*	pFileName,	// name of file to access
+int32_t VxProfile::setProfileDouble(	const char*	pFileName,	// name of file to access
 									const char*	pSection,	// which section to write to
 									const char*	pKey,		// which key to write
 									double			dValue )	// value to write
@@ -317,7 +317,7 @@ int VxProfile::getProfileString( const char*pFileName,		// name of file to acces
 
 //============================================================================
 /// write a string from a entry in a ini file
-RCODE VxProfile::setProfileString( const char*pFileName,	// name of file to access
+int32_t VxProfile::setProfileString( const char*pFileName,	// name of file to access
 							const char*pSection,	// which section to write to
 							const char*pKey,		// which key to write
 							const char*pStr, ... )	// string to write ( can be formatted like printf )

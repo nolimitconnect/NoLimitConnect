@@ -26,18 +26,13 @@
 #include <QSettings>
 #include <QStringList>
 #include <QStandardPaths>
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-# include <QGLFormat>
-# if defined (Q_OS_ANDROID)
-#  include <QtAndroid>
-# endif
-#else
-# if defined (Q_OS_ANDROID)
+
+#if defined(Q_OS_ANDROID)
+#include <QJniObject>
 #include <QCoreApplication>
 #include <QtCore/QLoggingCategory>
 #include <QtCore/QJniEnvironment>
 #include <QtCore/private/qandroidextras_p.h>
-# endif
 #endif
 
 #include <CoreLib/VxDebug.h>
@@ -50,6 +45,44 @@
 #include <NetLib/VxPeerMgr.h>
 
 namespace {
+
+#if defined(Q_OS_ANDROID)
+    //============================================================================
+    void setAndroidAudioMode()
+    {
+        QJniObject activity =
+            QNativeInterface::QAndroidApplication::context();
+
+        if (!activity.isValid())
+            return;
+
+        QJniObject audioService =
+            activity.callObjectMethod(
+                "getSystemService",
+                "(Ljava/lang/String;)Ljava/lang/Object;",
+                QJniObject::fromString("audio").object<jstring>()
+                );
+
+        if (!audioService.isValid())
+            return;
+
+        // Disable Android Audio Effects
+        // Otherwise Android AEC/NS will clash with built in.
+        // AudioManager.MODE_IN_COMMUNICATION = 3
+        audioService.callMethod<void>(
+            "setMode",
+            "(I)V",
+            3
+            );
+
+        // Force speakerphone on (important for AEC reference path)
+        audioService.callMethod<void>(
+            "setSpeakerphoneOn",
+            "(Z)V",
+            true
+            );
+    }
+#endif
 
     //============================================================================
     void setupRootStorageDirectory()
@@ -119,6 +152,10 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     QCoreApplication::setApplicationVersion( VxGetAppVersionString() );
     QGuiApplication::setApplicationDisplayName( VxGetApplicationTitle() );
     QCoreApplication::setOrganizationDomain( VxGetCompanyDomain() );
+
+ #if defined(Q_OS_ANDROID)
+    setAndroidAudioMode();
+#endif
 
     QSettings settings (VxGetCompanyDomain(), VxGetApplicationNameNoSpaces() );
 

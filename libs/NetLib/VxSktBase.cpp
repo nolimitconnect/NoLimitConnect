@@ -305,9 +305,9 @@ void VxSktBase::setTransmitCallback( VX_SKT_CALLBACK pfnTransmit, void * pvTxCal
 
 //============================================================================
 //! set socket to blocking or not
-RCODE VxSktBase::setSktBlocking( bool bBlock )
+int32_t VxSktBase::setSktBlocking( bool bBlock )
 {
-	RCODE rc = ::VxSetSktBlocking( m_Socket, bBlock );
+	int32_t rc = ::VxSetSktBlocking( m_Socket, bBlock );
 	if ( rc )
 	{
 		setLastSktError( rc );
@@ -330,7 +330,7 @@ void VxSktBase::updateLastSessionTime( void )
 }
 
 //============================================================================
-RCODE VxSktBase::connectTo(	InetAddress&	oLclIp,
+int32_t VxSktBase::connectTo(	InetAddress&	oLclIp,
 							const char*		pIpUrlOrIp,				// remote ip 
 							uint16_t		u16Port,				// port to connect to
 							int				iTimeoutMilliSeconds)	// milli seconds before connect attempt times out
@@ -370,7 +370,7 @@ RCODE VxSktBase::connectTo(	InetAddress&	oLclIp,
 	m_eSktCallbackReason	= eSktCallbackReasonConnecting;
 	m_iConnectTimeout		= iTimeoutMilliSeconds;
 
-	RCODE rc = doConnectTo();
+	int32_t rc = doConnectTo();
 	if( rc )
 	{
 		//LogMsg( LOG_INFO, "doConnectTo returned error %d", rc );
@@ -407,7 +407,7 @@ void VxSktBase::createConnectionUsingSocket( SOCKET skt, const char* rmtIp, uint
 
 //============================================================================
 //! Do connect to from thread
-RCODE VxSktBase::doConnectTo( void )
+int32_t VxSktBase::doConnectTo( void )
 {
 	uint16_t u16Port = m_RmtIp.getPort();
 
@@ -561,7 +561,7 @@ void VxSktBase::doCloseThisSocketHandle( void )
 
 //============================================================================
 //! send data without encrypting
-RCODE VxSktBase::sendData(const char* pData, int iDataLen, bool sktMgrLocked )	// if true disconnect after data is sent
+int32_t VxSktBase::sendData(const char* pData, int iDataLen, bool sktMgrLocked )	// if true disconnect after data is sent
 {
 	if( false == isConnected() )
 	{
@@ -582,9 +582,9 @@ RCODE VxSktBase::sendData(const char* pData, int iDataLen, bool sktMgrLocked )	/
 				// socket was closed while sending
 				if( LogEnabled( eLogSktData ) )LogModule( eLogSktData, LOG_VERBOSE, "skt %d was closed while sending to %s:%d", m_SktNumber, iDataLen, m_strRmtIp.c_str(), m_RmtIp.getPort() );
 				#if defined(TARGET_OS_WINDOWS)
-					RCODE sktClosedErr = WSAECONNRESET;
+					int32_t sktClosedErr = WSAECONNRESET;
 				#else
-					RCODE sktClosedErr = ECONNRESET;
+					int32_t sktClosedErr = ECONNRESET;
 				#endif
 
 				setLastSktError(sktClosedErr );
@@ -660,7 +660,7 @@ RCODE VxSktBase::sendData(const char* pData, int iDataLen, bool sktMgrLocked )	/
 
 //============================================================================
 //! encrypt then send data using session crypto
-RCODE VxSktBase::txEncrypted( const char* pDataIn, int iDataLen, bool sktMgrLocked )	
+int32_t VxSktBase::txEncrypted( const char* pDataIn, int iDataLen, bool sktMgrLocked )	
 {
     if( !pDataIn )
     {
@@ -722,7 +722,7 @@ RCODE VxSktBase::txEncrypted( const char* pDataIn, int iDataLen, bool sktMgrLock
     #endif // defined(DEBUG_SKT_TX_LOCK)
     
 	// encrypt
-	RCODE rc =	m_TxCrypto.encrypt( pu8Data, iDataLen );
+	int32_t rc =	m_TxCrypto.encrypt( pu8Data, iDataLen );
 	if( rc )
 	{
 		LogMsg( LOG_ERROR, "VxSktBase::txEncrypted: crypto error %d", rc );
@@ -753,7 +753,7 @@ RCODE VxSktBase::txEncrypted( const char* pDataIn, int iDataLen, bool sktMgrLock
 
 //============================================================================
 //! encrypt with given key then send.. does not affect session crypto
-RCODE VxSktBase::txEncrypted( VxKey* poKey,	const char*	pDataIn, int iDataLen, bool sktMgrLocked )		// length of data
+int32_t VxSktBase::txEncrypted( VxKey* poKey,	const char*	pDataIn, int iDataLen, bool sktMgrLocked )		// length of data
 {
     if( !pDataIn )
     {
@@ -807,7 +807,7 @@ RCODE VxSktBase::txEncrypted( VxKey* poKey,	const char*	pDataIn, int iDataLen, b
 	// encrypt
 	VxSymEncrypt( poKey, (char *)pData, iDataLen );
 	// send
-	RCODE rc = this->sendData( (char *)pData, iDataLen, sktMgrLocked );
+	int32_t rc = this->sendData( (char *)pData, iDataLen, sktMgrLocked );
 	#if defined(DEBUG_SKT_TX_LOCK)
         LogMsg( LOG_DEBUG, "VxSktBase::%s m_TxMutex.unlock", __func__ );
     #endif // defined(DEBUG_SKT_TX_LOCK)
@@ -825,14 +825,14 @@ RCODE VxSktBase::txEncrypted( VxKey* poKey,	const char*	pDataIn, int iDataLen, b
 }
 
 //============================================================================
-RCODE VxSktBase::txPacket(	VxGUID destOnlineId, VxPktHdr* pktHdr, bool sktMgrLocked )		// packet to send
+int32_t VxSktBase::txPacket(	VxGUID destOnlineId, VxPktHdr* pktHdr, bool sktMgrLocked )		// packet to send
 {
 	pktHdr->setDestOnlineId( destOnlineId );
 	return txPacketWithDestId( pktHdr, sktMgrLocked );
 }
 
 //============================================================================
-RCODE VxSktBase::txPacketWithDestId( VxPktHdr* pktHdr, bool sktMgrLocked ) 		// packet to send
+int32_t VxSktBase::txPacketWithDestId( VxPktHdr* pktHdr, bool sktMgrLocked ) 		// packet to send
 {
     if( !isConnected() )
     {
@@ -911,7 +911,7 @@ RCODE VxSktBase::txPacketWithDestId( VxPktHdr* pktHdr, bool sktMgrLocked ) 		// 
 
 //============================================================================
 //! decrypt as much as possible in receive buffer
-RCODE VxSktBase::decryptReceiveData( void )
+int32_t VxSktBase::decryptReceiveData( void )
 {
 	if( false == isRxEncryptionKeySet() )
 	{
@@ -968,7 +968,7 @@ bool VxSktBase::isConnected( void )
 
 //============================================================================
 //! get the sockets peer connection ip address as net order int32_t
-RCODE VxSktBase::getRemoteIp(	InetAddress &u32RetIp,		// return ip
+int32_t VxSktBase::getRemoteIp(	InetAddress &u32RetIp,		// return ip
 								uint16_t &u16RetPort )	// return port
 {
 	u32RetIp = m_RmtIp;
@@ -1028,7 +1028,7 @@ void VxSktBase::startReceiveThread( const char* pVxThreadName )
 }
 
 //============================================================================
-void VxSktBase::setLastSktError( RCODE rc )						
+void VxSktBase::setLastSktError( int32_t rc )						
 { 
 	m_rcLastSktError = rc; 
 	if( ( 0 != rc ) 
@@ -1182,7 +1182,7 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
 
 					if( iDataLen < 0 )
 					{
-						RCODE rc = VxGetLastError();
+						int32_t rc = VxGetLastError();
 						if( LogEnabled( eLogSktData ) )LogModule( eLogSktData, LOG_VERBOSE, "udp recvfrom skt %d skt id %d port %d error %d",
 							sktBase->getSktHandle(), sktBase->getSktNumber(), sktBase->m_RmtIp.getPort(), rc );
 						VxSleep( 500 );
@@ -1412,7 +1412,7 @@ bool VxSktBase::isRxCryptoKeySet( void )
 }
 
 //============================================================================
-const char* VxSktBase::describeSktError( RCODE rc )
+const char* VxSktBase::describeSktError( int32_t rc )
 {
 	return VxDescribeSktError( rc );
 }
@@ -1552,7 +1552,7 @@ const std::string& VxSktBase::describeSktDirection( void )
 }
 
 //============================================================================
-bool VxSktBase::isFatalSocketError( RCODE rc )
+bool VxSktBase::isFatalSocketError( int32_t rc )
 {
 	return VxIsFatalSktError( rc );
 }
@@ -1608,7 +1608,7 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId, bool sktMgrLocked )
 		pktImAliveReq.setSrcOnlineId( myOnlineId );
 		pktImAliveReq.setDestOnlineId( getPeerOnlineId() );
 
-		RCODE rc = txPacketWithDestId( &pktImAliveReq, sktMgrLocked );
+		int32_t rc = txPacketWithDestId( &pktImAliveReq, sktMgrLocked );
 		if( rc )
 		{
             LogMsg( LOG_VERBOSE, "VxSktBase::%s tx im alive error %d skt hande %d num %d id %s peer %s",

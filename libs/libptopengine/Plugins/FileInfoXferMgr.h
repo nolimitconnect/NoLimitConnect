@@ -154,7 +154,7 @@ protected:
 	virtual void				finishFileReceive( FileRxSession* xferSession, PktFileSendCompleteReq* poPkt );
 	virtual void				finishFileReceive( FileRxSession* xferSession, PktFileGetCompleteReq* poPkt );
 
-	virtual RCODE				sendFileShareError(		std::shared_ptr<VxSktBase>&		sktBase,		// socket
+	virtual int32_t				sendFileShareError(		std::shared_ptr<VxSktBase>&		sktBase,		// socket
 														int				iPktType,	// type of packet
 														unsigned short	u16Cmd,		// packet command
 														long			rc,			// error code

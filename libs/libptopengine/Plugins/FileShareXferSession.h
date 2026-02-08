@@ -53,8 +53,8 @@ public:
 	void						reset( void );
 	bool						isXferingFile( void );
 
-	void						setErrorCode( RCODE error )					{ m_Error = error; } 
-	RCODE						getErrorCode( void )						{ return m_Error; }
+	void						setErrorCode( int32_t error )					{ m_Error = error; } 
+	int32_t						getErrorCode( void )						{ return m_Error; }
 	void						clearErrorCode( void )						{ m_Error = 0; }
 
 	bool						offerAccepted( VxGUID& lclSessionId );

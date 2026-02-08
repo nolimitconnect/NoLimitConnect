@@ -99,8 +99,8 @@ public:
 	virtual void				setIsIpv6Connection( bool ipv6 )				{ m_IsIpv6Connection = ipv6; }
 	virtual bool				getIsIpv6Connection( void )						{ return m_IsIpv6Connection; }
 
-	virtual void				setLastSktError( RCODE rc );
-	virtual RCODE				getLastSktError( void )							{ return m_rcLastSktError; }
+	virtual void				setLastSktError( int32_t rc );
+	virtual int32_t				getLastSktError( void )							{ return m_rcLastSktError; }
 
 	virtual void				setUserExtraData( void * pvData )				{ m_pvUserExtraData = pvData; }
 	virtual void *				getUserExtraData( void )						{ return m_pvUserExtraData; }
@@ -163,7 +163,7 @@ public:
     virtual void				setInUseByRxThread( bool inUse )                { m_InUseByRxThread = inUse; }
     virtual bool		    	getInUseByRxThread( void )                      { return m_InUseByRxThread; }
 
-	virtual RCODE				connectTo(	InetAddress&	oLclIp,	
+	virtual int32_t				connectTo(	InetAddress&	oLclIp,	
 											const char*		pIpOrUrl,						// remote ip or url
 											uint16_t		u16Port,						// port to connect to
 											int				iTimeoutMilliSeconds = 10000 );	// milli seconds before connect attempt times out
@@ -171,7 +171,7 @@ public:
 	virtual void				createConnectionUsingSocket( SOCKET skt, const char* rmtIp, uint16_t port );
 
 	//! send data without encrypting
-	virtual RCODE				sendData( const char* pData, int iDataLen, bool sktMgrLocked );
+	virtual int32_t				sendData( const char* pData, int iDataLen, bool sktMgrLocked );
 
     virtual void				closeSkt( ESktCloseReason  closeReason, bool sktMgrLocked = false );
     virtual std::string		    describeSktConnection( void );
@@ -186,10 +186,10 @@ public:
 	void						setAllowBroadcast( bool allowBroadcast );
 
 	//! Do connect to from thread
-	RCODE						doConnectTo( void );
+	int32_t						doConnectTo( void );
 
 	//! get the sockets peer connection ip address as host order int32_t
-	virtual RCODE				getRemoteIp(	InetAddress &u32RetIp,		// return ip
+	virtual int32_t				getRemoteIp(	InetAddress &u32RetIp,		// return ip
 												uint16_t &u16RetPort );	// return port
 	//! get remote ip as string
 	virtual std::string		    getRemoteIp( void );
@@ -198,7 +198,7 @@ public:
     virtual void 		        getRemoteIp( std::string& rmtIp )   { rmtIp = m_strRmtIp.empty() ? "" : m_strRmtIp; }
 
 	//! simpler version of getRemoteIp returns ip as host order int32_t
-	//virtual RCODE				getRemoteIp( InetAddress &u32RetIp );			// return ip
+	//virtual int32_t				getRemoteIp( InetAddress &u32RetIp );			// return ip
 	//! get remote port connection is on
 	virtual InetAddress			getRemoteIpBinary( void )           { return m_RmtIp;}			// return ip in host ordered binary u32
 
@@ -206,7 +206,7 @@ public:
 	virtual std::string		    getLocalIp( void );
 
 	//! set socket to blocking or not
-	virtual	RCODE				setSktBlocking( bool bBlock );
+	virtual	int32_t				setSktBlocking( bool bBlock );
 
 	//=== encryption functions ===//
 	//! return true if transmit encryption key is set
@@ -215,17 +215,17 @@ public:
 	virtual bool				isRxEncryptionKeySet( void )        { return m_RxKey.isKeySet(); }
 
 	//! encrypt then send data using session crypto
-	virtual RCODE				txEncrypted( const char* pData, int	iDataLen, bool sktMgrLocked = false );			// length of data
+	virtual int32_t				txEncrypted( const char* pData, int	iDataLen, bool sktMgrLocked = false );			// length of data
 
 	//! encrypt with given key then send.. does not affect session crypto
-	virtual RCODE				txEncrypted( VxKey* poKey, const char* pData, int iDataLen, bool sktMgrLocked = false );
+	virtual int32_t				txEncrypted( VxKey* poKey, const char* pData, int iDataLen, bool sktMgrLocked = false );
 
-	virtual RCODE				txPacket( VxGUID destOnlineId, VxPktHdr* pktHdr, bool sktMgrLocked = false );				// packet to send
+	virtual int32_t				txPacket( VxGUID destOnlineId, VxPktHdr* pktHdr, bool sktMgrLocked = false );				// packet to send
 
-	virtual RCODE				txPacketWithDestId( VxPktHdr* pktHdr, bool sktMgrLocked = false );				// packet to send
+	virtual int32_t				txPacketWithDestId( VxPktHdr* pktHdr, bool sktMgrLocked = false );				// packet to send
 
 	//! decrypt as much as possible in receive buffer
-	virtual RCODE				decryptReceiveData( void );
+	virtual int32_t				decryptReceiveData( void );
 
 	//! fire up receive thread
 	void						startReceiveThread( const char* pVxThreadName );
@@ -246,7 +246,7 @@ public:
 
 	static int					getTotalCreatedSktCount( void )			        { return m_TotalCreatedSktCnt; }
 	static int					getCurrentSktCount( void )				        { return m_CurrentSktCnt; }
-    static const char*		    describeSktError( RCODE rc );
+    static const char*		    describeSktError( int32_t rc );
     static const char*		    describeSktCallbackReason( ESktCallbackReason reason );
 
     virtual bool                setPeerPktAnn( PktAnnounce& pktAnn );
@@ -268,7 +268,7 @@ public:
 
 	void						onOncePer30Seconds( VxGUID& myOnlineId, bool sktMgrLocked );
 
-	static bool					isFatalSocketError( RCODE rc );
+	static bool					isFatalSocketError( int32_t rc );
 
 	static void					incrementRunningRxSktThreadCnt( void )				{ m_RunningRxThreadCnt++; }
 	static void					decrementRunningRxSktThreadCnt( void )				{ m_RunningRxThreadCnt--; }
@@ -354,7 +354,7 @@ protected:
 	void *						m_pvRxCallbackUserData{ nullptr };  // user defined rx callback data
 	void *						m_pvTxCallbackUserData{ nullptr };  // user defined tx callback data
 	void *						m_pvUserExtraData{ nullptr };       // user defined extra data
-    RCODE						m_rcLastSktError{ 0 };			    // last error that occurred
+    int32_t						m_rcLastSktError{ 0 };			    // last error that occurred
     bool                        m_InUseByRxThread{ false };
 
     bool                        m_IsPeerPktAnnSet{ false };

@@ -87,7 +87,7 @@ void P2PEngine::fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fro
 
 	    std::string strDbFileName = VxGetSettingsDirectory();
 	    strDbFileName += "biglist.db3";
-	    RCODE rc = m_BigListMgr.bigListMgrStartup( strDbFileName.c_str() );
+	    int32_t rc = m_BigListMgr.bigListMgrStartup( strDbFileName.c_str() );
 	    if( rc )
 	    {
 		    LogMsg( LOG_ERROR, "P2PEngine::startupEngine error %d bigListMgrStartup", rc );

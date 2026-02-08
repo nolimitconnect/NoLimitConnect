@@ -828,7 +828,7 @@ void FileInfoXferMgr::onPktFileListReply( std::shared_ptr<VxSktBase>& sktBase, V
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 	FileRxSession* xferSession = findOrCreateRxSession( netIdent, sktBase );
 	PktFileListReply * poPkt = (PktFileListReply *)pktHdr;
-	RCODE rc = poPkt->getError();
+	int32_t rc = poPkt->getError();
 	if( 0 != rc )
 	{
 		LogMsg( LOG_ERROR, "FileInfoXferMgr::onPktFileListReply error %d\n", rc );
@@ -1249,7 +1249,7 @@ EXferError FileInfoXferMgr::beginFileSend( FileTxSession* xferSession )
 
 			if( eXferErrorNone == xferErr )
 			{
-				RCODE rc = -1;
+				int32_t rc = -1;
 				// we have valid file so seek to end so we can resume if partial file exists
 				if( 0 != (rc = VFileSeek64( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
 				{
@@ -1492,7 +1492,7 @@ EXferError FileInfoXferMgr::rxFileChunk( FileRxSession* xferSession, PktFileChun
 
 		if( u32BytesWritten != poPkt->getChunkLen() ) 
 		{
-			RCODE rc = VxGetLastError();
+			int32_t rc = VxGetLastError();
 			xferSession->setErrorCode( rc );
 			xferErr = eXferErrorFileWriteError;
 
@@ -1602,7 +1602,7 @@ void FileInfoXferMgr::onFileReceived( FileRxSession* xferSession, std::string& f
 					completedFile = VxFileUtil::makeUniqueFileName( completedFile.c_str() );
 				}
 
-				RCODE rc = 0;
+				int32_t rc = 0;
 				if( 0 == (rc = VxFileUtil::moveAFile( incompleteFile.c_str(), completedFile.c_str() )) )
 				{
 					m_FileInfoMgr.onFileDownloadComplete( xferSession->getSendToId(), xferSession->getSkt(), xferInfo.getLclSessionId(), completedFile, xferInfo.getAssetId(), xferInfo.getFileHashId() );
@@ -1701,14 +1701,14 @@ void FileInfoXferMgr::finishFileReceive( FileRxSession* xferSession, PktFileGetC
 }
 
 //============================================================================
-RCODE FileInfoXferMgr::sendFileShareError(		std::shared_ptr<VxSktBase>&		sktBase,		// socket
+int32_t FileInfoXferMgr::sendFileShareError(		std::shared_ptr<VxSktBase>&		sktBase,		// socket
 												int				iPktType,	// type of packet
 												unsigned short	u16Cmd,		// packet command
 												long			rc,			// error code
 												const char*		pMsg, ...)	// error message
 {
 	// send an error message
-	RCODE rcSendErr = 0;
+	int32_t rcSendErr = 0;
 	//build message on stack so no out of memory issue
 	std::array<char, 2048> szBuffer;
 	va_list argList;
@@ -1993,7 +1993,7 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID&
 					{
 						// failed to open file
 						xferInfo.m_hFile = NULL;
-						RCODE rc = VxGetLastError();
+						int32_t rc = VxGetLastError();
 						xferErr = eXferErrorFileOpenAppendError;
 
 						LogMsg( LOG_INFO, "FileXferBaseMgr: ERROR:(File Rx) %d File %s could not be created",
@@ -2024,7 +2024,7 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID&
 				{
 					xferErr = eXferErrorFileOpenError;
 					// failed to open file
-					RCODE rc = VxGetLastError();
+					int32_t rc = VxGetLastError();
 					LogMsg( LOG_INFO, "FileInfoXferMgr: ERROR: %d File %s could not be created",
 							rc,
 							xferInfo.getLclFileNameAndPath().c_str() );
@@ -2081,7 +2081,7 @@ EXferError FileInfoXferMgr::sendNextFileChunk( VxFileXferInfo& xferInfo, VxGUID 
 		xferInfo.m_hFile );
 	if( u32BytesRead != u32ChunkLen )
 	{
-		RCODE rc = VxGetLastError();
+		int32_t rc = VxGetLastError();
 		//xferSession->setErrorCode( rc );
 		xferErr = eXferErrorFileReadError;
 

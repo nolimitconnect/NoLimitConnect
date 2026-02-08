@@ -15,7 +15,7 @@ endif()
 
 set(x265_SOURCES)
 
-if(DEFINED TARGET_CPU_X86_64)
+if(DEFINED TARGET_CPU_X64)
     list(APPEND x265_SOURCES 
         common/x86/asm-primitives.cpp
         common/x86/blockcopy8.asm

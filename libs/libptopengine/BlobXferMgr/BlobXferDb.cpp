@@ -29,22 +29,22 @@ BlobXferDb::BlobXferDb( const char* stateDbName )
 
 //============================================================================
 //! create tables in database 
-RCODE BlobXferDb::onCreateTables( int iDbVersion )
+int32_t BlobXferDb::onCreateTables( int iDbVersion )
 {
 	lockBlobXferDb();
     std::string strCmd = "CREATE TABLE " + TABLE_ASSET_XFER + CREATE_COLUMNS_ASSET_XFER;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
 	unlockBlobXferDb();
 	return rc;
 }
 
 //============================================================================
 // delete tables in database
-RCODE BlobXferDb::onDeleteTables( int iOldVersion ) 
+int32_t BlobXferDb::onDeleteTables( int iOldVersion ) 
 {
 	lockBlobXferDb();
     std::string strCmd = "DROP TABLE IF EXISTS " + TABLE_ASSET_XFER;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
 	unlockBlobXferDb();
 	return rc;
 }
@@ -54,7 +54,7 @@ void BlobXferDb::purgeAllBlobXfer( void )
 {
 	lockBlobXferDb();
     std::string strCmd = "DELETE FROM " + TABLE_ASSET_XFER;
-    RCODE rc = sqlExec( strCmd );
+    int32_t rc = sqlExec( strCmd );
 	unlockBlobXferDb();
 	if( rc )
 	{
@@ -83,7 +83,7 @@ void BlobXferDb::addBlob( VxGUID& assetUniqueId )
 	DbBindList bindList( strId.c_str() );
 	sqlExec( "DELETE FROM asset_xfer WHERE unique_id=?", bindList );
 
-	RCODE rc  = sqlExec( "INSERT INTO asset_xfer (unique_id) values(?)",
+	int32_t rc  = sqlExec( "INSERT INTO asset_xfer (unique_id) values(?)",
 		bindList );
 	if( rc )
 	{

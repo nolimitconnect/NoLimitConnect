@@ -76,7 +76,7 @@ public:
 	//! add a new socket to manage
 	virtual void				addSkt( std::shared_ptr<VxSktBase>& sktBase );
 	//! remove a socket from management
-	virtual RCODE				removeSkt(	std::shared_ptr<VxSktBase>&	sktBase,				// skt to remove
+	virtual int32_t				removeSkt(	std::shared_ptr<VxSktBase>&	sktBase,				// skt to remove
 											bool		bDelete = true );	    // if true delete the skt
 	virtual bool				isSktActive( std::shared_ptr<VxSktBase>& sktBase, bool sktMgrLocked = false );
 
@@ -99,7 +99,7 @@ public:
 	virtual void                getSktStatRecords( std::vector<VxSktStatRecord>& sktStatList );
 
 	//=== vars ===//
-	RCODE						m_rcLastError{ 0 };
+	int32_t						m_rcLastError{ 0 };
     ESktMgrType					m_eSktMgrType{ eSktMgrTypeNone };   // type of sockets we manage
 
 	VX_SKT_CALLBACK				m_pfnUserReceive{ nullptr };		// receive function must be set by user

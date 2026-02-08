@@ -75,7 +75,7 @@ VxVidCapImp::~VxVidCapImp()
 }
 
 //============================================================================
-RCODE VxVidCapImp::Initialize( int iDriverIdx, int iVidSrcNum, int iPreferedImageWidth, int iPreferedImageHeight )
+int32_t VxVidCapImp::Initialize( int iDriverIdx, int iVidSrcNum, int iPreferedImageWidth, int iPreferedImageHeight )
 {
 	bool bResult = 0;
 	m_iDriverIdx = iDriverIdx;

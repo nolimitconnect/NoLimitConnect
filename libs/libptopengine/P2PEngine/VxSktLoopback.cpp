@@ -51,7 +51,7 @@ VxSktLoopback::VxSktLoopback( P2PEngine& engine )
 }
 
 //============================================================================
-RCODE VxSktLoopback::txPacketWithDestId( VxPktHdr* pktHdrIn, bool sktMgrLocked )
+int32_t VxSktLoopback::txPacketWithDestId( VxPktHdr* pktHdrIn, bool sktMgrLocked )
 {
     if( !VxIsAppShuttingDown() && pktHdrIn )
     {

@@ -464,7 +464,7 @@ void OfferBaseXferMgr::onPktOfferSendReply( std::shared_ptr<VxSktBase>& sktBase,
 			if( isFileXfer )
 			{
 				// we did txNextOfferBaseChunk in begin file send
-				//RCODE rc = txNextOfferBaseChunk( xferSession );
+				//int32_t rc = txNextOfferBaseChunk( xferSession );
 				//if( rc )
 				//{
 				//	//IToGui::getIToGui().toGuiUpdateOfferUpload( xferSession->getLclSessionId(), 0, rc );
@@ -1364,7 +1364,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseSend( OfferBaseTxSession * xferSessio
 
 			if( eXferErrorNone == xferErr )
 			{
-				RCODE rc = -1;
+				int32_t rc = -1;
 				// we have valid file so seek to end so we can resume if partial file exists
 				if( 0 != (rc = VFileSeek64( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
 				{
@@ -1453,7 +1453,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 		VxFileUtil::makeFullPath( strRmtOfferBaseNameOnly.c_str(), VxGetIncompleteDirectory().c_str(), xferInfo.getLclFileName() );
 		std::string strPath;
 		std::string strOfferBaseNameOnly;
-		RCODE rc = VxFileUtil::seperatePathAndFile(	xferInfo.getLclFileNameAndPath(),			
+		int32_t rc = VxFileUtil::seperatePathAndFile(	xferInfo.getLclFileNameAndPath(),			
 													strPath,			
 													strOfferBaseNameOnly );	
 		VxFileUtil::makeDirectory( strPath );
@@ -1602,7 +1602,7 @@ EXferError OfferBaseXferMgr::txNextOfferBaseChunk( OfferBaseTxSession * xferSess
 									xferInfo.m_hFile );
 	if( u32BytesRead != u32ChunkLen )
 	{
-		RCODE rc = VxGetLastError();
+		int32_t rc = VxGetLastError();
 		xferSession->setErrorCode( rc );
 		xferErr = eXferErrorFileReadError;
 
@@ -1672,7 +1672,7 @@ EXferError OfferBaseXferMgr::rxOfferBaseChunk( bool pluginIsLocked, OfferBaseRxS
 												xferInfo.m_hFile );
 		if( u32BytesWritten != poPkt->getChunkLen() ) 
 		{
-			RCODE rc = VxGetLastError();
+			int32_t rc = VxGetLastError();
 			xferSession->setErrorCode( rc );
 			xferErr = eXferErrorFileWriteError;
 
@@ -1752,7 +1752,7 @@ void OfferBaseXferMgr::onOfferBaseReceived( OfferBaseRxSession* xferSession, Off
 	{
 		std::string incompleteOffer = xferInfo.getDownloadIncompleteFileName();
 		std::string completedOfferBase = xferInfo.getDownloadCompleteFileName();
-		RCODE rc = 0;
+		int32_t rc = 0;
 		if( 0 == ( rc = VxFileUtil::moveAFile( incompleteOffer.c_str(), completedOfferBase.c_str() ) ) )
 		{
 			offerInfo.setOfferName( completedOfferBase );
@@ -1828,7 +1828,7 @@ void OfferBaseXferMgr::checkQueForMoreOffersToSend( bool pluginIsLocked, VxGUID 
 		{
 			// found asset to send
 			OfferBaseInfo& offerInfo = (*iter);
-			RCODE rc = createOfferTxSessionAndSend( pluginIsLocked, offerInfo, sendToId, sktBase );
+			int32_t rc = createOfferTxSessionAndSend( pluginIsLocked, offerInfo, sendToId, sktBase );
 			if( 0 == rc )
 			{
 				m_OfferBaseSendQue.erase(iter);

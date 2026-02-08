@@ -48,7 +48,7 @@ std::shared_ptr<VxSktBase> VxClientMgr::connectTo(	const char*		pIpOrUrl,				// 
 
 	std::shared_ptr<VxSktBase> sktBase = makeNewSkt();
 	sktBase->m_SktMgr		= this;
-	RCODE rc = sktBase->connectTo(	m_LclIp,
+	int32_t rc = sktBase->connectTo(	m_LclIp,
 									pIpOrUrl, 
 									u16Port, 
 									iTimeoutMilliSeconds );

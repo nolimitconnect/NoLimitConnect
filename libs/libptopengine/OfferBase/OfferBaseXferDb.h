@@ -23,8 +23,8 @@ public:
 	void						lockOfferBaseXferDb( void )				{ m_OfferBaseXferDbMutex.lock(); }
 	void						unlockOfferBaseXferDb( void )			{ m_OfferBaseXferDbMutex.unlock(); }
 
-	virtual RCODE				onCreateTables( int iDbVersion );
-	virtual RCODE				onDeleteTables( int iOldVersion );
+	virtual int32_t				onCreateTables( int iDbVersion );
+	virtual int32_t				onDeleteTables( int iOldVersion );
 
 	void 						addOffer( VxGUID& assetOfferId );
 	void						removeOffer( VxGUID& assetOfferId );

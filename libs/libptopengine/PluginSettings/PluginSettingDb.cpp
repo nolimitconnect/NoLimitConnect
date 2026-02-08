@@ -43,18 +43,18 @@ PluginSettingDb::PluginSettingDb()
 
 //============================================================================
 //! create tables in database 
-RCODE PluginSettingDb::onCreateTables( int iDbVersion )
+int32_t PluginSettingDb::onCreateTables( int iDbVersion )
 {
     std::string exeStr = "CREATE TABLE " + TABLE_PLUGIN_SETTING + CREATE_COLUMNS_PLUGIN_SETTING;
-    RCODE rc = sqlExec( exeStr );
+    int32_t rc = sqlExec( exeStr );
     return rc;
 }
 
 //============================================================================
 // delete tables in database
-RCODE PluginSettingDb::onDeleteTables( int oldVersion )
+int32_t PluginSettingDb::onDeleteTables( int oldVersion )
 {
-    RCODE rc = sqlExec( "DROP TABLE IF EXISTS plugin_setting" );
+    int32_t rc = sqlExec( "DROP TABLE IF EXISTS plugin_setting" );
     return rc;
 }
 
@@ -94,7 +94,7 @@ bool PluginSettingDb::updatePluginSetting( EPluginType pluginType, PluginSetting
             sqlExec( "DELETE FROM plugin_setting WHERE plugin_name=?", bindList );
             bindList.add( settingBinary.getBlobData(), settingBinary.getBlobLen() );
 
-            RCODE rc = sqlExec( "INSERT INTO plugin_setting (plugin_name,setting_blob) values(?,?)", bindList );
+            int32_t rc = sqlExec( "INSERT INTO plugin_setting (plugin_name,setting_blob) values(?,?)", bindList );
             if( rc )
             {
                 LogMsg( LOG_ERROR, "PluginSettingDb::updatePluginSetting: ERROR %d %s", rc, sqlite3_errmsg( m_Db ) );
@@ -142,7 +142,7 @@ bool PluginSettingDb::getPluginSetting( EPluginType pluginType, PluginSetting& p
                     cursor->close();
                     // remove the invalid blob
                     DbBindList bindList( pluginName.c_str() );
-                    RCODE rc = sqlExec( "DELETE FROM plugin_setting WHERE plugin_name=?", bindList );
+                    int32_t rc = sqlExec( "DELETE FROM plugin_setting WHERE plugin_name=?", bindList );
                     if( rc )
                     {
                         LogMsg( LOG_ERROR, "PluginSettingDb::getPluginSettings: could not remove plugin by name %s\n", pluginName.c_str() );
@@ -193,7 +193,7 @@ bool PluginSettingDb::getAllPluginSettings( std::vector<PluginSetting>& settingL
                     cursor->close();
                     // remove the invalid blob
                     DbBindList bindList( pluginName.c_str() );
-                    RCODE rc = sqlExec( "DELETE FROM plugin_setting WHERE plugin_name=?", bindList );
+                    int32_t rc = sqlExec( "DELETE FROM plugin_setting WHERE plugin_name=?", bindList );
                     if( rc )
                     {
                         LogMsg( LOG_ERROR, "PluginSettingDb::getAllPluginSettings: could not remove plugin by name %s\n", pluginName.c_str() );

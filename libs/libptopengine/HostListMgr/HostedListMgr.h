@@ -32,8 +32,8 @@ public:
     HostedListMgr( P2PEngine& engine );
     virtual ~HostedListMgr() = default;
 
-    RCODE                       hostedListMgrStartup( std::string& dbFileName );
-    RCODE                       hostedListMgrShutdown( void );
+    int32_t                       hostedListMgrStartup( std::string& dbFileName );
+    int32_t                       hostedListMgrShutdown( void );
 
     void                        lockList( void )    { m_HostedInfoMutex.lock(); }
     void                        unlockList( void )  { m_HostedInfoMutex.unlock(); }

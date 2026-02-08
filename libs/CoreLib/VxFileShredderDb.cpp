@@ -34,17 +34,17 @@ void VxFileShredderDb::initShredderDb( std::string& dataDirectory )
 }
 
 //============================================================================
-RCODE VxFileShredderDb::onCreateTables( int iDbVersion )
+int32_t VxFileShredderDb::onCreateTables( int iDbVersion )
 {
-	RCODE rc = sqlExec( "CREATE TABLE table_files (file_name TEXT)" );
+	int32_t rc = sqlExec( "CREATE TABLE table_files (file_name TEXT)" );
 	vx_assert( 0 == rc );
 	return rc;
 }
 
 //============================================================================
-RCODE VxFileShredderDb::onDeleteTables( int iOldVersion )
+int32_t VxFileShredderDb::onDeleteTables( int iOldVersion )
 {
-	RCODE rc = sqlExec( (char *)"DROP TABLE table_files" );
+	int32_t rc = sqlExec( (char *)"DROP TABLE table_files" );
 	vx_assert( 0 == rc );
 	return rc;
 }

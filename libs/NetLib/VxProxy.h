@@ -13,8 +13,8 @@
 #include <string>
 
 //=== proxy defs ===//
-#ifndef RCODE
-	#define RCODE long
+#ifndef int32_t
+	#define int32_t long
 #endif
 
 //Errorcodes
@@ -69,7 +69,7 @@ public:
 		m_bUseLogon = false;
 	}
 
-	RCODE SetProxy(	int iProxyType,	//Type of proxy	
+	int32_t SetProxy(	int iProxyType,	//Type of proxy	
 						const char* pProxyHost,		//firewall Host name
 						const unsigned short u16ProxyPort,//firewall port
 						const char* pProxyAcctName,	//firewall Account Name
@@ -87,8 +87,8 @@ public:
 	void SetProxyPwd( const char* pProxyPwd ){ strcpy( m_as8ProxyAcctPwd, pProxyPwd ); }
 	char * GetBasicAuth( void );
 
-	RCODE OnConnect( VxSkt * sktBase, int iErrorCode );
-	RCODE OnReceive( VxSkt * sktBase, int iErrorCode );
+	int32_t OnConnect( VxSkt * sktBase, int iErrorCode );
+	int32_t OnReceive( VxSkt * sktBase, int iErrorCode );
 
 	char * DescribeErr( long rc );
 

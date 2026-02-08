@@ -312,7 +312,7 @@ target_compile_options(ffmpegopus PRIVATE
     $<$<CONFIG:Release>:-O3>
 )
 
-if(DEFINED TARGET_CPU_X86_64)
+if(DEFINED TARGET_CPU_X64)
     message(STATUS "Adding opus flags -msse3 -msse4.1")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -msse3 -msse4.1")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse3 -msse4.1")
@@ -322,6 +322,7 @@ if(DEFINED TARGET_OS_WINDOWS)
     target_compile_definitions(ffmpegopus
         PRIVATE
         OPUS_BUILD
+        USE_ALLOCA
     )
 endif()
 
@@ -329,6 +330,7 @@ if(DEFINED TARGET_OS_LINUX)
     target_compile_definitions(ffmpegopus
         PRIVATE
         OPUS_BUILD
+        USE_ALLOCA
     )
 endif()
 

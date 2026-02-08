@@ -36,7 +36,7 @@ namespace
 //! thread function to load all nodes in big list
 static void * BigListLoadThreadFunction( void * pvParam )
 {
-    RCODE rc = 0;
+    int32_t rc = 0;
     VxThread* poThread = (VxThread*)pvParam;
     poThread->setIsThreadRunning( true );
 
@@ -88,7 +88,7 @@ void BigListDb::threadedRestoreAll( void )
 	}
 
     // load all lists urls from database
-    RCODE rc = dbRestoreAll();
+    int32_t rc = dbRestoreAll();
     if( rc )
     {
         LogMsg( LOG_ERROR, "BigListLoadThreadFunction: Restore Error %d", rc );
@@ -105,32 +105,32 @@ std::string BigListDb::getNetworkKey( void )
 
 //============================================================================
 //! create tables in the database
-RCODE BigListDb::onCreateTables( int iDbVersion )
+int32_t BigListDb::onCreateTables( int iDbVersion )
 {
-	RCODE rc = sqlExec( "CREATE TABLE BigList ( online_id TEXT PRIMARY KEY, NetworkName TEXT, ConnectTime BIGINT, Object BLOB)" );
+	int32_t rc = sqlExec( "CREATE TABLE BigList ( online_id TEXT PRIMARY KEY, NetworkName TEXT, ConnectTime BIGINT, Object BLOB)" );
 	vx_assert( 0 == rc );
 	return rc;
 }
 
 //============================================================================
 //! create tables in the database
-RCODE BigListDb::onDeleteTables( int oldVersion )
+int32_t BigListDb::onDeleteTables( int oldVersion )
 {
-	RCODE rc = sqlExec( (char *)"DROP TABLE BigList" );
+	int32_t rc = sqlExec( (char *)"DROP TABLE BigList" );
 	vx_assert( 0 == rc );
 	return rc;
 }
 
 //============================================================================
 //! startup
-RCODE BigListDb::bigListDbStartup(  const char* pDbFileName )
+int32_t BigListDb::bigListDbStartup(  const char* pDbFileName )
 {
 	if( m_BigListDbInitialized )
 	{
 		bigListDbShutdown();
 	}
 
-	RCODE rc = dbStartup(BIG_LIST_INFO_VERSION, pDbFileName );
+	int32_t rc = dbStartup(BIG_LIST_INFO_VERSION, pDbFileName );
 #ifdef DEBUG_BIGLIST_DB
     if( 0 == rc )
 	{
@@ -147,9 +147,9 @@ RCODE BigListDb::bigListDbStartup(  const char* pDbFileName )
 
 //============================================================================
 //! shutdown
-RCODE BigListDb::bigListDbShutdown( void )
+int32_t BigListDb::bigListDbShutdown( void )
 {
-	RCODE rc = 0;
+	int32_t rc = 0;
 	if( m_BigListDbInitialized )
 	{
 		m_BigListDbInitialized = false;
@@ -164,7 +164,7 @@ RCODE BigListDb::bigListDbShutdown( void )
 
 //============================================================================
 //! restore all of given network to lists from database
-RCODE BigListDb::dbRestoreAll( void )
+int32_t BigListDb::dbRestoreAll( void )
 {
 	int iRestoredCount = 0;
 	m_LastNetworkKey = getNetworkKey(); 
@@ -215,7 +215,7 @@ RCODE BigListDb::dbRestoreAll( void )
 }
 
 //============================================================================
-RCODE BigListDb::dbUpdateSessionTime( VxGUID& onlineId, int64_t lastSessionTime )
+int32_t BigListDb::dbUpdateSessionTime( VxGUID& onlineId, int64_t lastSessionTime )
 {
 	if( lastSessionTime )
 	{
@@ -223,7 +223,7 @@ RCODE BigListDb::dbUpdateSessionTime( VxGUID& onlineId, int64_t lastSessionTime 
 		std::string strHexOnlineId = onlineId.toHexString();
 		DbBindList bindList( lastSessionTime );
 		bindList.add( strHexOnlineId.c_str() );
-		RCODE rc = sqlExec( "UPDATE BigList SET ConnectTime=? WHERE online_id=?", bindList );
+		int32_t rc = sqlExec( "UPDATE BigList SET ConnectTime=? WHERE online_id=?", bindList );
 		unlockDb();
         return rc;
 	}
@@ -237,7 +237,7 @@ RCODE BigListDb::dbUpdateSessionTime( VxGUID& onlineId, int64_t lastSessionTime 
 
 //============================================================================
 //! if not in db insert BigListInfo else update database
-RCODE BigListDb::dbUpdateBigListInfo( BigListInfo * poInfo, const char* networkName )
+int32_t BigListDb::dbUpdateBigListInfo( BigListInfo * poInfo, const char* networkName )
 {
 	if( !networkName || 0 == strlen( networkName ) )
 	{
@@ -245,7 +245,7 @@ RCODE BigListDb::dbUpdateBigListInfo( BigListInfo * poInfo, const char* networkN
 		return -1;
 	}
 
-	RCODE rc = 0;
+	int32_t rc = 0;
 	if( poInfo->isInDatabase() )
 	{
 		rc = dbUpdateBigListInfoInDb( poInfo, networkName );
@@ -260,7 +260,7 @@ RCODE BigListDb::dbUpdateBigListInfo( BigListInfo * poInfo, const char* networkN
 
 //============================================================================
 //! remove friend by id
-RCODE BigListDb::dbRemoveBigListInfo( VxGUID& onlineId )
+int32_t BigListDb::dbRemoveBigListInfo( VxGUID& onlineId )
 {
 	std::string strHexOnlineId = onlineId.toHexString();
 
@@ -272,7 +272,7 @@ RCODE BigListDb::dbRemoveBigListInfo( VxGUID& onlineId )
 	sqlite3_stmt* pStatement{ nullptr };
 
 	lockDb();
-	RCODE rc = dbOpen();
+	int32_t rc = dbOpen();
 	if( rc )
 	{
 		vx_assert( false );
@@ -310,7 +310,7 @@ RCODE BigListDb::dbRemoveBigListInfo( VxGUID& onlineId )
 
 //============================================================================
 //! insert big list info node into database
-RCODE BigListDb::dbInsertBigListInfoIntoDb( BigListInfo * poInfo, const char* networkName )
+int32_t BigListDb::dbInsertBigListInfoIntoDb( BigListInfo * poInfo, const char* networkName )
 {
 	// there is a possibility the isInDatabase flag did not get set so remove first
 	dbRemoveBigListInfo( poInfo->getMyOnlineId() );
@@ -322,7 +322,7 @@ RCODE BigListDb::dbInsertBigListInfoIntoDb( BigListInfo * poInfo, const char* ne
 	int64_t				s64LastContactMs = poInfo->getLastSessionTimeMs();
 
 	// make big list info into blob
-	RCODE rc = saveBigListInfoIntoBlob( poInfo, &pu8Blob, &iBlobLen );
+	int32_t rc = saveBigListInfoIntoBlob( poInfo, &pu8Blob, &iBlobLen );
 	if( rc )
 	{
 		LogMsg( LOG_ERROR,"BigListDb::dbInsertBigListInfoIntoDb:Make Blob Error:%d", rc );
@@ -401,14 +401,14 @@ error_exit:
 
 //============================================================================
 //! update big list info node in database
-RCODE BigListDb::dbUpdateBigListInfoInDb( BigListInfo * poInfo, const char* networkName )
+int32_t BigListDb::dbUpdateBigListInfoInDb( BigListInfo * poInfo, const char* networkName )
 {
 	int64_t s64LastContact = poInfo->getLastSessionTimeMs();
 	uint8_t * pu8Blob = 0;
 	int iBlobLen = 0;
 
 	// make big list info into blob
-	RCODE rc = saveBigListInfoIntoBlob( poInfo, &pu8Blob, &iBlobLen );
+	int32_t rc = saveBigListInfoIntoBlob( poInfo, &pu8Blob, &iBlobLen );
 	if( rc )
 	{
 		LogMsg( LOG_ERROR,"BigListDb::InsertBlob:Make Blob Error:%d", rc );
@@ -481,10 +481,10 @@ error_exit:
 }
 //============================================================================
 //! restore big list info from blob
-RCODE BigListDb::restoreBigListInfoFromBlob( uint8_t * pu8Temp, int iDataLen, BigListInfo * poInfo, uint64_t lastSessionTime, VxGUID& onlineId )
+int32_t BigListDb::restoreBigListInfoFromBlob( uint8_t * pu8Temp, int iDataLen, BigListInfo * poInfo, uint64_t lastSessionTime, VxGUID& onlineId )
 {
 	VxPktHdr* pktHdr{ nullptr };
-	RCODE rc{ 0 };
+	int32_t rc{ 0 };
 	uint16_t u16PktLen{ 0 };
 
 	// NOTE: don't bother with encryption. maybe later will use user login key for encryption and separate Info databases
@@ -577,7 +577,7 @@ RCODE BigListDb::restoreBigListInfoFromBlob( uint8_t * pu8Temp, int iDataLen, Bi
 
 //============================================================================
 //! make big list info into blob
-RCODE BigListDb::saveBigListInfoIntoBlob( BigListInfo * poInfo, uint8_t * * ppu8RetBlob, int * piRetBlobLen )
+int32_t BigListDb::saveBigListInfoIntoBlob( BigListInfo * poInfo, uint8_t * * ppu8RetBlob, int * piRetBlobLen )
 {
 	VxPktHdr* pktHdr{ nullptr };
 
@@ -628,7 +628,7 @@ RCODE BigListDb::saveBigListInfoIntoBlob( BigListInfo * poInfo, uint8_t * * ppu8
 
 //============================================================================
 //! lock db and remove use
-RCODE BigListDb::removeUserFromDatabase( VxGUID& onlineId )
+int32_t BigListDb::removeUserFromDatabase( VxGUID& onlineId )
 {
 	return dbRemoveBigListInfo( onlineId );
 }

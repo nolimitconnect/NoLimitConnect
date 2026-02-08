@@ -35,14 +35,14 @@ public:
                                            uint16_t		u16Port,						// port to connect to
 										   EIpAddrType  addrType = eIpAddrTypeUnknown,
                                            int			iTimeoutMilliSeconds = WEBSITE_CONNECT_TIMEOUT,
-										   RCODE*		retErrorCode = nullptr );	
+										   int32_t*		retErrorCode = nullptr );	
 
     virtual SOCKET				connectTo( const char* lclAdapterIp,					// local adapter ip
                                            const char*	pIpOrUrl,						// remote ip or url
                                            uint16_t		u16Port,						// port to connect to
 										   EIpAddrType  addrType = eIpAddrTypeUnknown,
                                            int			iTimeoutMilliSeconds = WEBSITE_CONNECT_TIMEOUT,
-										   RCODE*		retErrorCode = nullptr );	
+										   int32_t*		retErrorCode = nullptr );	
 
 	virtual bool				connectToWebsite(	const char*			pWebsiteUrl,
 													std::string&		strHost,		// return host name.. example http://www.mysite.com/index.htm returns www.mysite.com
@@ -50,7 +50,7 @@ public:
 													uint16_t&			u16Port,
 													EIpAddrType			addrType = eIpAddrTypeUnknown,
 													int					iConnectTimeoutMs = WEBSITE_CONNECT_TIMEOUT,
-													RCODE*				retErrorCode = nullptr );	
+													int*				retErrorCode = nullptr );	
 
 	virtual bool				connectToWebsite(	const char*			pWebsiteUrl,
 													std::string&		strHost,		// return host name.. example http://www.mysite.com/index.htm returns www.mysite.com
@@ -59,14 +59,14 @@ public:
 													std::string&		strResolveIpAddr,
 													EIpAddrType			addrType = eIpAddrTypeUnknown,
 													int					iConnectTimeoutMs = WEBSITE_CONNECT_TIMEOUT,
-												    RCODE*				retErrorCode = nullptr );	
+												    int*				retErrorCode = nullptr );	
 
-	virtual RCODE				sendData(	const char*		pData,							// data to send
+	virtual int32_t				sendData(	const char*		pData,							// data to send
 											int				iDataLen,						// length of data	
 											int				timeoutMs = SKT_SEND_TIMEOUT );	// timeout attempt to send ( 0 = don't timeout )
 
 	//! receive data.. if timeout is set then will keep trying till buffer is full or error or timeout expires
-	virtual RCODE				recieveData( char* pRetDataBuf,					// data buffer to read into
+	virtual int32_t				recieveData( char* pRetDataBuf,					// data buffer to read into
 											 int   iBufLen,						// length of data	
 											 int*  iRetBytesReceived,				// number of bytes actually received
 											 int   timeoutMs = SKT_RECEIVE_TIMEOUT );	// timeout attempt to received
@@ -88,11 +88,11 @@ public:
 	/// decrypt data .. data is decrypted in place 
 	bool						decryptReceiveData( char* data, int iDataLen );
 
-	RCODE						setLastError( RCODE rc )			{ m_LastError = rc; return rc; }
-	RCODE						getLastError( void )				{ return m_LastError; }
+	int32_t						setLastError( int32_t rc )			{ m_LastError = rc; return rc; }
+	int32_t						getLastError( void )				{ return m_LastError; }
 
 	//=== vars ===//
-	RCODE						m_LastError{ 0 };
+	int32_t						m_LastError{ 0 };
 	SOCKET						m_Socket;				// handle to socket
 	bool						m_bIsConnected;			// return true if is connected
 

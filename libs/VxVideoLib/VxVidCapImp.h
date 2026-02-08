@@ -73,7 +73,7 @@ public:
 	VxVidCapImp(const VxVidCapImp &CopyFrom);
 	VxVidCapImp &operator =(const VxVidCapImp &CopyFrom);
 
-	RCODE						Initialize( int iVidSrcNum, int iDriverIdx, int iPreferedImageWidth = 320, int iPreferedImageHeight = 200 );
+	int32_t						Initialize( int iVidSrcNum, int iDriverIdx, int iPreferedImageWidth = 320, int iPreferedImageHeight = 200 );
 	void						Destroy();
 
 	VIDCAP_HWND					GetCapWindow( void )	{ return m_hWndVideo; };

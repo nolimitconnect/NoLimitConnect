@@ -37,14 +37,14 @@ void PluginConnectionTestHost::testIsMyPortOpen( void )
 }
 
 //============================================================================
-RCODE PluginConnectionTestHost::handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
+int32_t PluginConnectionTestHost::handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
 {
     //if( false == m_NetServiceUtil.isAllHttpContentArrived( sktBase ) )
     //{
     //	LogMsg( LOG_ERROR, "PluginNetServices::handlePtopConnection: not all of http content arrived\n" );
     //	return 0; // don't error.. we should get more later
     //}
-    RCODE rc = 0;
+    int32_t rc = 0;
     if( sktBase->isConnected() )
     {
         rc = internalHandlePtopConnection( sktBase, netServiceHdr );
@@ -58,7 +58,7 @@ RCODE PluginConnectionTestHost::handlePtopConnection( std::shared_ptr<VxSktBase>
 }
 
 //============================================================================
-RCODE PluginConnectionTestHost::internalHandlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
+int32_t PluginConnectionTestHost::internalHandlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
 {
     switch( netServiceHdr.m_NetCmdType )
     {

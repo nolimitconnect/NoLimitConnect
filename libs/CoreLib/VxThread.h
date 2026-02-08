@@ -57,12 +57,12 @@ public:
 	void						setIsThreadEndCallbackLocked( bool bIsLocked );
 	bool						isThreadEndCallbackLocked( void );
 
-	RCODE						startThread(	VX_THREAD_FUNCTION_T 	pfuncThreadFunc,				// function that thread calls
+	int32_t						startThread(	VX_THREAD_FUNCTION_T 	pfuncThreadFunc,				// function that thread calls
 												void * 					pvUserParam,					// user defined param
                                                 const char* 			pThreadName = nullptr,          // thread name
 												int 					iExtraStackSpace = 0);			// will be added to minimum stack size
 
-	RCODE						killThread( void );
+	int32_t						killThread( void );
 
 	//! Thread calls this just before exit
 	virtual void 				threadAboutToExit( bool bExitThreadNow = true );

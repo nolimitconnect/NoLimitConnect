@@ -75,7 +75,7 @@ SOCKET VxSktConnectSimple::connectTo(	const char*		pIpOrUrl,				// remote ip or 
 										uint16_t		u16Port,				// port to connect to
                                         EIpAddrType     addrType,
 										int				iTimeoutMilliSeconds,
-                                        RCODE*		    retErrorCode )	
+                                        int32_t*		    retErrorCode )	
 {
 	if( isConnected() )
 	{
@@ -104,9 +104,9 @@ SOCKET VxSktConnectSimple::connectTo( const char*   lclAdapterIp,					// local a
                                       uint16_t		u16Port,						// port to connect to
                                       EIpAddrType   addrType,
                                       int			iTimeoutMilliSeconds,
-                                      RCODE*		    retErrorCode )	       
+                                      int32_t*		    retErrorCode )	       
 {
-    RCODE rc = 0;
+    int32_t rc = 0;
     InetAddrAndPort	rmtIpAddr;
     if( VxIsIPv4Address( pIpOrUrl ) || VxIsIPv6Address( pIpOrUrl ) )
     {
@@ -202,11 +202,11 @@ SOCKET VxSktConnectSimple::connectTo( const char*   lclAdapterIp,					// local a
 }
 
 //============================================================================
-RCODE VxSktConnectSimple::sendData(	const char*		pData,					// data to send
+int32_t VxSktConnectSimple::sendData(	const char*		pData,					// data to send
 									int				iDataLen,				// length of data
 									int				timeoutMs )		        // milliseconds before send attempt times out
 {
-    RCODE rc = -1;
+    int32_t rc = -1;
     setLastError( rc );
 	if( false == this->isConnected() )
 	{
@@ -237,12 +237,12 @@ RCODE VxSktConnectSimple::sendData(	const char*		pData,					// data to send
 		
 //============================================================================
 //! receive data.. if timeout is set then will keep trying till buffer is full or error or timeout expires
-RCODE VxSktConnectSimple::recieveData(	char *			pRetBuf,				// buffer to receive data into
+int32_t VxSktConnectSimple::recieveData(	char *			pRetBuf,				// buffer to receive data into
 										int				iBufLenIn,				// length of buffer
 										int *			iRetBytesReceived,		// number of bytes actually received
 										int				iTimeoutMilliSeconds )	// milliseconds before receive attempt times out ( 0 = dont wait )
 {
-	RCODE rc = VxReceiveSktData( m_Socket, pRetBuf, iBufLenIn, iRetBytesReceived, iTimeoutMilliSeconds );
+	int32_t rc = VxReceiveSktData( m_Socket, pRetBuf, iBufLenIn, iRetBytesReceived, iTimeoutMilliSeconds );
     setLastError( rc );
     if( VxIsFatalSktError( rc ) )
     {
@@ -279,7 +279,7 @@ bool VxSktConnectSimple::connectToWebsite(	const char*			pWebsiteUrl,
 											uint16_t&           u16Port,
                                             EIpAddrType			addrType,
 											int					iConnectTimeoutMs,
-                                            long*		        retErrorCode )
+                                            int*		        retErrorCode )
 {
 	std::string strResolveIpAddr;
 	return connectToWebsite( pWebsiteUrl,
@@ -301,7 +301,7 @@ bool VxSktConnectSimple::connectToWebsite( const char*			pWebsiteUrl,
 											std::string&		strResolveIpAddr,
                                             EIpAddrType			addrType,
 											int					iConnectTimeoutMs,
-                                            long*		        retErrorCode )
+                                            int*		        retErrorCode )
 {
 	closeSkt( 99 );
     setLastError( 0 );
@@ -311,7 +311,7 @@ bool VxSktConnectSimple::connectToWebsite( const char*			pWebsiteUrl,
 	if( INVALID_SOCKET != m_Socket )
 	{
 		m_bIsConnected = true;
-        RCODE rc = VxGetLclAddress( m_Socket, m_LclIp );
+        int rc = VxGetLclAddress( m_Socket, m_LclIp );
         if( !rc )
         {
             rc = VxGetRmtAddress( m_Socket, m_RmtIp );
@@ -413,7 +413,7 @@ bool VxSktConnectSimple::encryptAndSendTxData( const char* pDataIn, int iDataLen
 	memcpy( pu8Data, pDataIn, iDataLen );
 
 	// encrypt
-	RCODE rc =	m_TxCrypto.encrypt( pu8Data, iDataLen );
+	int32_t rc =	m_TxCrypto.encrypt( pu8Data, iDataLen );
 	if( rc )
 	{
 		LogMsg( LOG_ERROR, "VxSktConnectSimple::encryptTxData: crypto error %d", rc );

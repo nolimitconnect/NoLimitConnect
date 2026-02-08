@@ -114,40 +114,40 @@ public:
 
     virtual std::string&        getDatabaseName( void )                 { return m_strDatabaseName; }
 
-	virtual	void				onSqlError( RCODE rc, const char* errMsg ){};
+	virtual	void				onSqlError( int32_t rc, const char* errMsg ){};
 	//=== overrides ===//
 	//! create initial database.. 
-	virtual RCODE				onCreateDatabase( int iDbVersion );
+	virtual int32_t				onCreateDatabase( int iDbVersion );
 	//! upgrade db from old version to new version
-	virtual RCODE				onUpgradeDatabase(int iOldDbVersion, int iNewDbVersion); 
+	virtual int32_t				onUpgradeDatabase(int iOldDbVersion, int iNewDbVersion); 
 	//! create tables in database 
-	virtual RCODE				onCreateTables( int iDbVersion ) = 0;
+	virtual int32_t				onCreateTables( int iDbVersion ) = 0;
 	//! delete tables from database 
-	virtual RCODE				onDeleteTables( int oldDbVersion ) = 0;
+	virtual int32_t				onDeleteTables( int oldDbVersion ) = 0;
 
 	//! Initialize the database.. if doesn't exist then call onCreateDatabase and onCreateTables
 	//! if version does not match then call onDeleteTables and onCreateTables
-	virtual RCODE				dbStartup( int iDbVersion, std::string pDbFileName );
+	virtual int32_t				dbStartup( int iDbVersion, std::string pDbFileName );
 
 	//! shutdown the database
-	virtual RCODE				dbShutdown( void );
+	virtual int32_t				dbShutdown( void );
 
 	//! open the database
-	virtual RCODE				dbOpen( void );
+	virtual int32_t				dbOpen( void );
 	//! close the database
-	virtual RCODE				dbClose( void );
+	virtual int32_t				dbClose( void );
 
 	//! read database version from version table 
 	virtual int					readDatabaseVersion( void );
 	//! write database version to version table 
-	virtual RCODE				writeDatabaseVersion( int iDbVersion );
+	virtual int32_t				writeDatabaseVersion( int iDbVersion );
 
 	//! open db then execute Sql statement then close db
-	virtual RCODE				sqlExec( std::string& statement );
+	virtual int32_t				sqlExec( std::string& statement );
 	//! open db then execute Sql statement then close db
-	virtual RCODE				sqlExec( const char* pSqlStatment );
+	virtual int32_t				sqlExec( const char* pSqlStatment );
 	//! open db then execute Sql statement then close db
-	virtual RCODE				sqlExec( const char* SQL_Statement, DbBindList& bindList );
+	virtual int32_t				sqlExec( const char* SQL_Statement, DbBindList& bindList );
 
 	virtual bool				bindParams( sqlite3_stmt* sqlStmt, DbBindList& bindList );
 
@@ -172,9 +172,9 @@ public:
 	bool						deleteDatabase( void );
 
 protected:
-	void						handleSqlError( RCODE rc, const char* errMsg, ... );
+	void						handleSqlError( int32_t rc, const char* errMsg, ... );
 
-	RCODE						doDatabaseStartup( void );
+	int32_t						doDatabaseStartup( void );
 
 public:
 	//=== vars ===//

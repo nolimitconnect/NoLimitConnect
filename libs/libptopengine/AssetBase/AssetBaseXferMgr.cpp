@@ -788,7 +788,7 @@ void AssetBaseXferMgr::onPktAssetBaseSendReply( std::shared_ptr<VxSktBase>& sktB
             if( isFileXfer )
             {
                 // we did txNextAssetBaseChunk in begin file send
-                //RCODE rc = txNextAssetBaseChunk( xferSession );
+                //int32_t rc = txNextAssetBaseChunk( xferSession );
                 //if( rc )
                 //{
                 //	//sendToGuiUpdateAssetUpload( xferSession->getLclSessionId(), 0, rc );
@@ -1833,7 +1833,7 @@ EXferError AssetBaseXferMgr::beginAssetBaseSend( AssetBaseTxSession* xferSession
 
             if( eXferErrorNone == xferErr )
             {
-                RCODE rc = -1;
+                int32_t rc = -1;
                 // we have valid file so seek to end so we can resume if partial file exists
                 if( 0 != (rc = VFileSeek64( xferInfo.m_hFile, xferInfo.m_u64FileOffs )) )
                 {
@@ -1944,7 +1944,7 @@ EXferError AssetBaseXferMgr::beginAssetBaseReceive( AssetBaseRxSession* xferSess
         VxFileUtil::makeFullPath( strRmtAssetBaseNameOnly.c_str(), VxGetIncompleteDirectory().c_str(), xferInfo.getLclFileNameAndPath() );
         std::string strPath;
         std::string strAssetBaseNameOnly;
-        RCODE rc = VxFileUtil::seperatePathAndFile(	xferInfo.getLclFileNameAndPath(),
+        int32_t rc = VxFileUtil::seperatePathAndFile(	xferInfo.getLclFileNameAndPath(),
                                                     strPath,
                                                     strAssetBaseNameOnly );
         VxFileUtil::makeDirectory( strPath );
@@ -2126,7 +2126,7 @@ EXferError AssetBaseXferMgr::txNextAssetBaseChunk( AssetBaseTxSession* xferSessi
                                                     xferInfo.m_hFile );
     if( u32BytesRead != u32ChunkLen )
     {
-        RCODE rc = VxGetLastError();
+        int32_t rc = VxGetLastError();
         xferSession->setErrorCode( rc );
         xferErr = eXferErrorFileReadError;
 
@@ -2230,7 +2230,7 @@ EXferError AssetBaseXferMgr::rxAssetBaseChunk( bool pluginIsLocked, AssetBaseRxS
                                                             xferInfo.m_hFile );
         if( u32BytesWritten != poPkt->getChunkLen() )
         {
-            RCODE rc = VxGetLastError();
+            int32_t rc = VxGetLastError();
             xferSession->setErrorCode( rc );
             xferErr = eXferErrorFileWriteError;
 
@@ -2337,7 +2337,7 @@ void AssetBaseXferMgr::onAssetBaseReceived( AssetBaseRxSession* xferSession, Ass
         std::string completedAssetBase = xferInfo.getDownloadCompleteFileName();
         if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "AssetBaseXferMgr::onAssetBaseReceived: moving completed file from: %s to: %s", incompleteAsset.c_str(), completedAssetBase.c_str() );
 
-        RCODE rc = 0;
+        int32_t rc = 0;
         if( 0 == ( rc = VxFileUtil::moveAFile( incompleteAsset.c_str(), completedAssetBase.c_str() ) ) )
         {
             assetInfo.setAssetNameAndPath( completedAssetBase.c_str() );
@@ -2422,7 +2422,7 @@ bool AssetBaseXferMgr::checkQueForMoreAssetsToSend( bool pluginIsLocked, VxGUID 
         {
             // found asset to send
             AssetBaseInfo& assetInfo = (*iter);
-            RCODE rc = createAssetTxSessionAndSend( pluginIsLocked, assetInfo, assetInfo.getSendToId(), sktBase );
+            int32_t rc = createAssetTxSessionAndSend( pluginIsLocked, assetInfo, assetInfo.getSendToId(), sktBase );
             if( 0 == rc )
             {
                 queuedAssetBeingSent = true;

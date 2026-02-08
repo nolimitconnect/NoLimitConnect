@@ -35,7 +35,7 @@ VxKey::~VxKey()
 
 //============================================================================
 //! set key from data..
-RCODE VxKey::importKey( unsigned char * pu8Data, int iLen )
+int32_t VxKey::importKey( unsigned char * pu8Data, int iLen )
 {
 	if( !pu8Data || 1 > iLen )
 	{
@@ -65,7 +65,7 @@ void VxKey::importKey( VxKey * poKey )
 
 //============================================================================
 //! return key into data buffer
-RCODE VxKey::exportKey( unsigned char * pu8RetKeyData, int iBufLen )
+int32_t VxKey::exportKey( unsigned char * pu8RetKeyData, int iBufLen )
 {
 	if ( iBufLen >= ( int )sizeof( m_au32Key ) )
 	{
@@ -106,7 +106,7 @@ void VxKey::exportToAsciiString( std::string& exportedKey )
 
 //============================================================================
 //! make encryption key from user name and password
-RCODE VxKey::setKeyFromPassword( const char*	pUserName,			// user name
+int32_t VxKey::setKeyFromPassword( const char*	pUserName,			// user name
 									const char*	pPassword,			// password
 									const char*	pSalt )				// salt
 {
@@ -118,7 +118,7 @@ RCODE VxKey::setKeyFromPassword( const char*	pUserName,			// user name
 
 //============================================================================
 //! make encryption key from password
-RCODE VxKey::setKeyFromPassword( const char*	pPassword,			// password
+int32_t VxKey::setKeyFromPassword( const char*	pPassword,			// password
 								 int			iPasswordLen,		// length of password	int iPasswordLen )
 								 const char*	pSalt )	// salt
 {
@@ -156,7 +156,7 @@ std::string	VxKey::describeKey( void )
 //============================================================================
 //! generate key from password and set encryption key in one function call
 //! NOTE: Max password len 255
-RCODE VxCrypto::setPassword( const char* pPassword, int iPasswordLen )
+int32_t VxCrypto::setPassword( const char* pPassword, int iPasswordLen )
 {
 	struct VxMD5Context   md5c;
 	unsigned char       bfvec[ CHEEZY_SYM_KEY_LEN ];
@@ -177,7 +177,7 @@ RCODE VxCrypto::setPassword( const char* pPassword, int iPasswordLen )
 }
 //============================================================================
 //! Generate encryption key from password
-RCODE VxCrypto::generateKey( const char* pPassword, int iPasswordLen, VxKey * poRetKey )
+int32_t VxCrypto::generateKey( const char* pPassword, int iPasswordLen, VxKey * poRetKey )
 {
 	struct VxMD5Context   md5c;
 	unsigned char       bfvec[ CHEEZY_SYM_KEY_LEN ];
@@ -196,7 +196,7 @@ RCODE VxCrypto::generateKey( const char* pPassword, int iPasswordLen, VxKey * po
 }
 //============================================================================
 //! set key used for encryption and decryption
-RCODE VxCrypto::importKey( VxKey * poKey )
+int32_t VxCrypto::importKey( VxKey * poKey )
 {
 	memcpy( &m_Key, poKey, sizeof( VxKey ) );
 	BlowsetKey( &m_BlowCtx, (unsigned char *)poKey->m_au32Key, CHEEZY_SYM_KEY_LEN );
@@ -207,7 +207,7 @@ RCODE VxCrypto::importKey( VxKey * poKey )
 //============================================================================
 //! encrypt some data
 //! NOTE: iDataLen must be a multiple of 16
-RCODE VxCrypto::encrypt( unsigned char * pu8Data, int iDataLen )
+int32_t VxCrypto::encrypt( unsigned char * pu8Data, int iDataLen )
 {
 	if ( ( false == m_bIsKeyValid ) || ( iDataLen & 0x0f ) )
 	{
@@ -221,7 +221,7 @@ RCODE VxCrypto::encrypt( unsigned char * pu8Data, int iDataLen )
 //============================================================================
 //! decrypt some data
 //! NOTE: iDataLen must be a multiple of 16
-RCODE VxCrypto::decrypt( unsigned char * pu8Data, int iDataLen )
+int32_t VxCrypto::decrypt( unsigned char * pu8Data, int iDataLen )
 {
 	if ( ( false == m_bIsKeyValid ) || ( iDataLen & 0x0f ) )
 	{
@@ -233,7 +233,7 @@ RCODE VxCrypto::decrypt( unsigned char * pu8Data, int iDataLen )
 
 //============================================================================
 //! encrypt known string
-RCODE VxCrypto::EncryptKnownString( unsigned char * pu8RetData, int iDataLen )
+int32_t VxCrypto::EncryptKnownString( unsigned char * pu8RetData, int iDataLen )
 {
 	if ( ( false == m_bIsKeyValid ) || ( iDataLen != CHEEZY_SYM_KEY_LEN ) )
 	{
@@ -246,7 +246,7 @@ RCODE VxCrypto::EncryptKnownString( unsigned char * pu8RetData, int iDataLen )
 
 //============================================================================
 //! verify data is known text string
-RCODE VxCrypto::VerifyKnownString( unsigned char * pu8Data, int iDataLen )
+int32_t VxCrypto::VerifyKnownString( unsigned char * pu8Data, int iDataLen )
 {
 	if ( ( false == m_bIsKeyValid ) || ( iDataLen != CHEEZY_SYM_KEY_LEN ) )
 	{
@@ -333,7 +333,7 @@ void CheezyFillRandom( void * pvData, int iLen )
 
 //============================================================================
 //! encrypt data with VxCryptoo
-RCODE VxSymEncrypt( VxKey *		poKey,			// Symmetric key must be 16 bytes long
+int32_t VxSymEncrypt( VxKey *		poKey,			// Symmetric key must be 16 bytes long
 					char *			pDataIn,		// buffer to encrypt
 					int				iDataLen,		// data length ( must be multiple of key length )
 					char *			pRetBuf )		// if null then encrypted data put in pData
@@ -355,7 +355,7 @@ RCODE VxSymEncrypt( VxKey *		poKey,			// Symmetric key must be 16 bytes long
 
 //============================================================================
 //! decrypt data with VxCryptoo
-RCODE VxSymDecrypt( VxKey *			poKey,			// Symmetric key must be 16 bytes long
+int32_t VxSymDecrypt( VxKey *			poKey,			// Symmetric key must be 16 bytes long
 	char *			pDataIn,		// buffer to decrypt
 	int				iDataLen,		// data length ( must be multiple of key length )
 	char *			pRetBuf )		// if null then encrypted data put in pData

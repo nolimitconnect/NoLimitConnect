@@ -39,22 +39,22 @@ void SendQueueDb::sendQueueDbStartup( std::string& dbName )
 
 //============================================================================
 //! create tables in database 
-RCODE SendQueueDb::onCreateTables( int iDbVersion )
+int32_t SendQueueDb::onCreateTables( int iDbVersion )
 {
 	lockSendQueueDb();
     std::string strCmd = "CREATE TABLE " + TABLE_SEND_QUEUE + CREATE_COLUMNS_SEND_QUEUE;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
 	unlockSendQueueDb();
 	return rc;
 }
 
 //============================================================================
 // delete tables in database
-RCODE SendQueueDb::onDeleteTables( int iOldVersion ) 
+int32_t SendQueueDb::onDeleteTables( int iOldVersion ) 
 {
 	lockSendQueueDb();
     std::string strCmd = "DROP TABLE IF EXISTS " + TABLE_SEND_QUEUE;
-    RCODE rc = sqlExec(strCmd);
+    int32_t rc = sqlExec(strCmd);
 	unlockSendQueueDb();
 	return rc;
 }
@@ -64,7 +64,7 @@ void SendQueueDb::purgeAllSendQueue( void )
 {
 	lockSendQueueDb();
     std::string strCmd = "DELETE FROM " + TABLE_SEND_QUEUE;
-    RCODE rc = sqlExec( strCmd );
+    int32_t rc = sqlExec( strCmd );
 	unlockSendQueueDb();
 	if( rc )
 	{
@@ -77,7 +77,7 @@ void SendQueueDb::purgeAllSendQueue( void )
 }
 
 //============================================================================
-RCODE SendQueueDb::updateSendQueueInfo( SendQueInfo& sendQueInfo )
+int32_t SendQueueDb::updateSendQueueInfo( SendQueInfo& sendQueInfo )
 {
 	removeSendQueueInfo( sendQueInfo.getGroupieId() );
 
@@ -91,7 +91,7 @@ RCODE SendQueueDb::updateSendQueueInfo( SendQueInfo& sendQueInfo )
 	bindList.add( sendQueInfo.getModTime() ? sendQueInfo.getModTime() : GetGmtTimeMs() );
 	bindList.add( (int)sendQueInfo.getSendQueState() );
 
-	RCODE rc  = sqlExec( "INSERT INTO send_queue (onlineId,assetId,modTime,sendState) values(?,?,?,?)",
+	int32_t rc  = sqlExec( "INSERT INTO send_queue (onlineId,assetId,modTime,sendState) values(?,?,?,?)",
 		bindList );
 	if( rc )
 	{

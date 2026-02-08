@@ -27,8 +27,8 @@ public:
 	void						lockFileInfoDb( void )				{ m_FileInfoDbMutex.lock(); }
 	void						unlockFileInfoDb( void )			{ m_FileInfoDbMutex.unlock(); }
 
-	virtual RCODE				onCreateTables( int iDbVersion );
-	virtual RCODE				onDeleteTables( int iOldVersion );
+	virtual int32_t				onCreateTables( int iDbVersion );
+	virtual int32_t				onDeleteTables( int iOldVersion );
 
 	void 						addFile( VxGUID& onlineId, std::string& fileName, std::string& fileNameAndPath, int64_t fileLen, uint8_t fileType, VxGUID& assetId, VxGUID& thumbId, VxSha1Hash& fileHashId, int64_t fileTime = 0 );
 	void 						addFile( FileInfo& libFileInfo );

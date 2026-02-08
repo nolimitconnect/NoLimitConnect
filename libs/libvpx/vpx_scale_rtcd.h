@@ -2,7 +2,7 @@
 
 // rtcd is only used for intel processors
 #if defined(TARGET_OS_LINUX)
-# if defined(TARGET_CPU_X86_64)
+# if defined(TARGET_CPU_X64)
 #  include "vpx_scale_rtcd_linux_x64.h"
 # endif // defined(TARGET_CPU_86_X64)
 #endif // defined(TARGET_OS_LINUX)

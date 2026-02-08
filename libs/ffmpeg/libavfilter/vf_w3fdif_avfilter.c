@@ -52,6 +52,7 @@ typedef struct W3FDIFContext {
 
 #define OFFSET(x) offsetof(W3FDIFContext, x)
 #define FLAGS AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_RUNTIME_PARAM
+#undef CONST
 #define CONST(name, help, val, unit) { name, help, 0, AV_OPT_TYPE_CONST, {.i64=val}, 0, 0, FLAGS, unit }
 
 static const AVOption w3fdif_options[] = {

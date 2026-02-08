@@ -16,7 +16,7 @@ endif()
 
 set(avutil_SOURCES)
 
-if(DEFINED TARGET_CPU_X86_64)
+if(DEFINED TARGET_CPU_X64)
     list(APPEND avutil_SOURCES 
         x86/cpu.c
         x86/fixed_dsp_init.c

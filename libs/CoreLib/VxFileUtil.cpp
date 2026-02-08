@@ -224,7 +224,7 @@ std::string VxFileUtil::readVersionFile( std::string& versionFileName )
 
     char * pvBuf = nullptr;
     uint32_t u32LenOfFile = 0;
-    RCODE rc = VxFileUtil::readWholeFile( versionFileName.c_str(), (void**)&pvBuf, &u32LenOfFile );
+    int32_t rc = VxFileUtil::readWholeFile( versionFileName.c_str(), (void**)&pvBuf, &u32LenOfFile );
     if( 0 == rc )
     {
         if( u32LenOfFile > 2 && u32LenOfFile < 32 && strlen(pvBuf) > 2 && strlen(pvBuf) < 32 )
@@ -329,7 +329,7 @@ std::string VxFileUtil::addFileToFolder( std::string& strFolder,  std::string& s
 }
 
 //============================================================================
-RCODE VxFileUtil::getCurrentWorkingDirectory( std::string strRetDir )
+int32_t VxFileUtil::getCurrentWorkingDirectory( std::string strRetDir )
 {
 	char* buffer;
 #ifdef TARGET_OS_WINDOWS
@@ -351,7 +351,7 @@ RCODE VxFileUtil::getCurrentWorkingDirectory( std::string strRetDir )
 }
 
 //============================================================================
-RCODE VxFileUtil::setCurrentWorkingDirectory( const char* pDir )
+int32_t VxFileUtil::setCurrentWorkingDirectory( const char* pDir )
 {
 #ifdef TARGET_OS_WINDOWS
 	return _chdir(pDir);
@@ -580,7 +580,7 @@ uint64_t VxFileUtil::getFileLen( const char* pFileName, bool printLogIfDoesNotEx
 }
 
 //============================================================================
-RCODE VxFileUtil::makeDirectory( std::string& strDirectoryPath )	
+int32_t VxFileUtil::makeDirectory( std::string& strDirectoryPath )	
 { 
 	return makeDirectory( strDirectoryPath.c_str()); 
 }
@@ -638,7 +638,7 @@ std::string VxFileUtil::makeUniqueFileName( const char* fileName )
 
 //============================================================================
 //! Make all directories that don't exist in a given path
-RCODE VxFileUtil::makeDirectory( const char* pDirectoryPath )
+int32_t VxFileUtil::makeDirectory( const char* pDirectoryPath )
 {
     vx_assert( pDirectoryPath );
     if( !pDirectoryPath )
@@ -729,7 +729,7 @@ RCODE VxFileUtil::makeDirectory( const char* pDirectoryPath )
 
 //============================================================================
 //! read a line from file into buffer and null terminate it
-RCODE VxFileUtil::readLine( VFile *pgFile, char *pBuf, int iBufLen )
+int32_t VxFileUtil::readLine( VFile *pgFile, char *pBuf, int iBufLen )
 {
     int c;
     int i= 0;
@@ -782,19 +782,19 @@ VFile * VxFileUtil::fileOpen( const char* pFileName, const char* pFileMode )
 
 //============================================================================
 //! File seek..NOTE: only seeks from beginning of file
-RCODE VxFileUtil::fileSeek ( VFile * poFile, uint32_t u32Pos )
+int32_t VxFileUtil::fileSeek ( VFile * poFile, uint32_t u32Pos )
 {
 	return VFileSeek64( poFile, u32Pos );
 }
 //============================================================================
 //! File seek..NOTE: only seeks from beginning of file
-RCODE VxFileUtil::fileSeek ( VFile * poFile, uint64_t u64Pos )
+int32_t VxFileUtil::fileSeek ( VFile * poFile, uint64_t u64Pos )
 {
 	return VFileSeek64( poFile, u64Pos );
 }
 
 //============================================================================
-RCODE VxFileUtil::copyFile( const char* pOldPath, const char* pNewPath )
+int32_t VxFileUtil::copyFile( const char* pOldPath, const char* pNewPath )
 {
 	#ifdef TARGET_OS_WINDOWS
 		if( CopyFileW( Utf8ToWide( pOldPath ).c_str(), Utf8ToWide( pNewPath ).c_str(), false ) )
@@ -813,9 +813,9 @@ RCODE VxFileUtil::copyFile( const char* pOldPath, const char* pNewPath )
 }
 //============================================================================
 //! copy all files and directories to destination directory
-RCODE VxFileUtil::recursiveCopyDirectory( const char* pSrcDir, const char* pDestDir, int64_t& totalCopied )
+int32_t VxFileUtil::recursiveCopyDirectory( const char* pSrcDir, const char* pDestDir, int64_t& totalCopied )
 {
-    RCODE rc = 0;
+    int32_t rc = 0;
     totalCopied = 0;
     if( pDestDir && pSrcDir )
     {
@@ -868,7 +868,7 @@ RCODE VxFileUtil::recursiveCopyDirectory( const char* pSrcDir, const char* pDest
 }
 
 //============================================================================
-RCODE VxFileUtil::deleteFile( const char* pFileName )
+int32_t VxFileUtil::deleteFile( const char* pFileName )
 {
 	#ifdef TARGET_OS_WINDOWS
 		return _unlink( pFileName );
@@ -878,7 +878,7 @@ RCODE VxFileUtil::deleteFile( const char* pFileName )
 }
 
 //============================================================================
-RCODE VxFileUtil::renameFile( const char* pFileOldName, const char* pFileNewName )
+int32_t VxFileUtil::renameFile( const char* pFileOldName, const char* pFileNewName )
 {
 	#ifdef TARGET_OS_WINDOWS
 		return rename( pFileOldName, pFileNewName );
@@ -889,7 +889,7 @@ RCODE VxFileUtil::renameFile( const char* pFileOldName, const char* pFileNewName
 
 //============================================================================
 //! copy files to destination directory then delete the source files
-RCODE VxFileUtil::moveFiles( char * pDestDir, char * pSrcDir )
+int32_t VxFileUtil::moveFiles( char * pDestDir, char * pSrcDir )
 {
 	// make directory if doesn't exits
 	makeDirectory( pDestDir );
@@ -1063,10 +1063,10 @@ RCODE VxFileUtil::moveFiles( char * pDestDir, char * pSrcDir )
 }
 
 //============================================================================
-RCODE VxFileUtil::moveAFile( const char* srcFile, const char* destFile )
+int32_t VxFileUtil::moveAFile( const char* srcFile, const char* destFile )
 {
 	int result = rename( srcFile, destFile );
-	RCODE rc = 0;
+	int32_t rc = 0;
 	if( result )
 	{
 		rc = VxGetLastError();
@@ -1155,7 +1155,7 @@ bool VxFileUtil::replaceExtension( std::string& fileName, std::string newExtensi
 
 //============================================================================
 //! separate Path and file name into separate strings
-RCODE VxFileUtil::seperatePathAndFile(	std::string &	strFullPath,	// path and file name			
+int32_t VxFileUtil::seperatePathAndFile(	std::string &	strFullPath,	// path and file name			
 										std::string &	strRetPath,		// return path to file
 										std::string &	strRetFile )	// return file name
 {
@@ -1164,7 +1164,7 @@ RCODE VxFileUtil::seperatePathAndFile(	std::string &	strFullPath,	// path and fi
 
 //============================================================================
 //! separate Path and file name into separate strings
-RCODE VxFileUtil::seperatePathAndFile(	const char*	pFullPath,		// path and file name			
+int32_t VxFileUtil::seperatePathAndFile(	const char*	pFullPath,		// path and file name			
 											std::string &	strRetPath,		// return path to file
 											std::string &	strRetFile )	// return file name
 {
@@ -1201,7 +1201,7 @@ void	VxFileUtil::getFileName(	const char*	pFullPath,				// file name may be full
 										std::string&	strRetJustFileName )	// return file name
 {
 	std::string	strRetPath;
-	RCODE rc = seperatePathAndFile(	pFullPath,				// path and file name			
+	int32_t rc = seperatePathAndFile(	pFullPath,				// path and file name			
 									strRetPath,				// return path to file
 									strRetJustFileName );	// return file name
 	if( rc )
@@ -1397,7 +1397,7 @@ bool VxFileUtil::makeShortFileName( const char* pFullFileName, std::string & str
 		// return just file name
 		std::string strFileName;
 		std::string strPath;
-		RCODE rc = seperatePathAndFile(	pFullFileName,	// path and file name			
+		int32_t rc = seperatePathAndFile(	pFullFileName,	// path and file name			
 			strPath,		// return path to file
 			strFileName );	// return file name
 		if( 0 == rc )
@@ -1420,18 +1420,18 @@ bool VxFileUtil::makeShortFileName( const char* pFullFileName, std::string & str
 
 //============================================================================
 //! Get execution full path
-RCODE	VxFileUtil::getExecuteFullPathAndName( std::string& strRetExePathAndFileName )
+int32_t	VxFileUtil::getExecuteFullPathAndName( std::string& strRetExePathAndFileName )
 {
 	std::string strRetExeDir;
 	std::string strRetExeFileName;
-	RCODE rc = getExecutePathAndName( strRetExeDir, strRetExeFileName );
+	int32_t rc = getExecutePathAndName( strRetExeDir, strRetExeFileName );
 	strRetExePathAndFileName = strRetExeDir + strRetExeFileName;
 	return rc;
 }
 
 //============================================================================
 //! Get directory we execute from
-RCODE	VxFileUtil::getExecuteDirectory( std::string& strRetExeDir )
+int32_t	VxFileUtil::getExecuteDirectory( std::string& strRetExeDir )
 {
 	std::string strRetExeFileName;
 	return getExecutePathAndName( strRetExeDir, strRetExeFileName );
@@ -1439,7 +1439,7 @@ RCODE	VxFileUtil::getExecuteDirectory( std::string& strRetExeDir )
 
 //============================================================================
 //! Get execution path and file name
-RCODE	VxFileUtil::getExecutePathAndName( std::string& strRetExeDir, std::string& strRetExeFileName )
+int32_t	VxFileUtil::getExecutePathAndName( std::string& strRetExeDir, std::string& strRetExeFileName )
 {
 #ifdef TARGET_OS_WINDOWS
 	wchar_t pRetBuf[ VX_MAX_PATH ];
@@ -1600,11 +1600,11 @@ bool VxFileUtil::fileNameWildMatch( const char  * pMatchName, const char* pWildN
 //============================================================================
 //! allocate memory and read whole file into memory
 //! NOTE: USER MUST DELETE THE RETURED POINTER OR MEMORY LEAK WILL OCCURE
-RCODE	VxFileUtil::readWholeFile(	const char*		pFileName,			// file to read	
+int32_t	VxFileUtil::readWholeFile(	const char*		pFileName,			// file to read	
 									void **			ppvRetBuf,			// return allocated buffer it was read into
                                     uint32_t *		pu32RetLenOfFile )	// return length of file
 {
-	RCODE rc = 0;
+	int32_t rc = 0;
 	uint32_t u32Len = (uint32_t)getFileLen( pFileName );
 	if( 0 == u32Len )
 	{
@@ -1619,7 +1619,7 @@ RCODE	VxFileUtil::readWholeFile(	const char*		pFileName,			// file to read
 	else
 	{
 		char * pTemp = new char[ u32Len + 16 ];
-		RCODE rc = readWholeFile( pFileName, pTemp, u32Len, nullptr );
+		int32_t rc = readWholeFile( pFileName, pTemp, u32Len, nullptr );
 		if( rc )
 		{
 			// error occurred so delete so no memory leak
@@ -1641,12 +1641,12 @@ RCODE	VxFileUtil::readWholeFile(	const char*		pFileName,			// file to read
 //============================================================================
 //! read whole file of known length into existing buffer
 //! NOTE assumes buffer has enough room for the whole file
-RCODE VxFileUtil::readWholeFile(	const char*		pFileName,				// file to read
+int32_t VxFileUtil::readWholeFile(	const char*		pFileName,				// file to read
 									void *			pvBuf,					// buffer to read into
                                     uint32_t		u32LenToRead,			// length to read ( assumes is same as file length
                                     uint32_t*		pu32RetAmountRead )		// return length actually read if not null
 {
-	RCODE rc = 0;
+	int32_t rc = 0;
 	if( pu32RetAmountRead  )
 	{
 		* pu32RetAmountRead = 0;
@@ -1725,14 +1725,14 @@ RCODE VxFileUtil::readWholeFile(	const char*		pFileName,				// file to read
 //============================================================================
 //! allocate memory and read whole file into memory and decrypt
 //! NOTE: USER MUST DELETE THE RETURED POINTER OR MEMORY LEAK WILL OCCURE
-RCODE	VxFileUtil::readWholeFile(	VxKey *				poKey,				// key to decrypt with
+int32_t	VxFileUtil::readWholeFile(	VxKey *				poKey,				// key to decrypt with
 									const char*			pFileName,			// file to read	
 									void **				ppvRetBuf,			// return allocated buffer it was read into
 									uint32_t *			pu32RetLenOfFile )	// return length of file
 {
 	uint32_t		u32FileLen;
 
-	RCODE rc = readWholeFile( pFileName,
+	int32_t rc = readWholeFile( pFileName,
 		                      ppvRetBuf,
 							  pu32RetLenOfFile );
 	if( rc )
@@ -1749,11 +1749,11 @@ RCODE	VxFileUtil::readWholeFile(	VxKey *				poKey,				// key to decrypt with
 
 //============================================================================
 //! write all of data to a file
-RCODE	VxFileUtil::writeWholeFile(	const char*		pFileName,			// file to write to
+int32_t	VxFileUtil::writeWholeFile(	const char*		pFileName,			// file to write to
 									void *			pvBuf,				// data to write
                                     uint32_t		u32LenOfData )		// data length
 {
-	RCODE rc = 0;
+	int32_t rc = 0;
 
 	if( fileIsProviderFile( pFileName ) )
 	{
@@ -1818,7 +1818,7 @@ RCODE	VxFileUtil::writeWholeFile(	const char*		pFileName,			// file to write to
 
 //============================================================================
 //! encrypt and write all of data to a file
-RCODE VxFileUtil::writeWholeFile(	VxKey *			poKey,				// key to encrypt with
+int32_t VxFileUtil::writeWholeFile(	VxKey *			poKey,				// key to encrypt with
 									const char*		pFileName,			// file to write to
 									void *			pvBuf,				// data to write
                                     uint32_t		u32LenOfData )		// data length
@@ -1833,7 +1833,7 @@ RCODE VxFileUtil::writeWholeFile(	VxKey *			poKey,				// key to encrypt with
 }
 
 //============================================================================
-RCODE VxFileUtil::listFilesInDirectory(	const char*					pSrcDir,
+int32_t VxFileUtil::listFilesInDirectory(	const char*					pSrcDir,
 										std::vector<std::string>&	fileList )
 {
 	vx_assert( pSrcDir );
@@ -1971,7 +1971,7 @@ RCODE VxFileUtil::listFilesInDirectory(	const char*					pSrcDir,
 }
 
 //============================================================================
-RCODE VxFileUtil::listFilesAndFolders( const char* pSrcDir, std::vector<VxFileInfoBase>& fileList, uint8_t fileFilterMask )
+int32_t VxFileUtil::listFilesAndFolders( const char* pSrcDir, std::vector<VxFileInfoBase>& fileList, uint8_t fileFilterMask )
 {
 	vx_assert( pSrcDir );
 

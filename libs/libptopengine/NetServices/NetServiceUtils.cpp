@@ -624,9 +624,9 @@ bool NetServiceUtils::buildCmd( std::string& retCmd, VxSktConnectSimple* sktBase
 }
 
 //============================================================================
-RCODE NetServiceUtils::buildAndSendCmd( std::shared_ptr<VxSktBase>& sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode, int version )
+int32_t NetServiceUtils::buildAndSendCmd( std::shared_ptr<VxSktBase>& sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode, int version )
 {
-	RCODE rc = -1;
+	int32_t rc = -1;
 	std::string retResult;
 	if( buildCmd( retResult, sktBase, netCmd, cmdContent, errCode, version ) && isAllAscii( retResult ) )
 	{
@@ -644,9 +644,9 @@ RCODE NetServiceUtils::buildAndSendCmd( std::shared_ptr<VxSktBase>& sktBase, ENe
 }
 
 //============================================================================
-RCODE NetServiceUtils::buildAndSendCmd( VxSktConnectSimple * sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode, int version )
+int32_t NetServiceUtils::buildAndSendCmd( VxSktConnectSimple * sktBase, ENetCmdType netCmd, std::string& cmdContent, ENetCmdError errCode, int version )
 {
-	RCODE rc = -1;
+	int32_t rc = -1;
     std::string retResult;
 	if( buildCmd( retResult, sktBase, netCmd, cmdContent, errCode, version ) && isAllAscii( retResult ) )
 	{
@@ -815,7 +815,7 @@ bool NetServiceUtils::sendNetServiceRequest( ENetCmdType netCmdRequestType, ///<
 		{
 			LogModule( eLogNetService, LOG_DEBUG, "NetServicesMgr::%s: cmd %s %s pwd %s ",
 					   __func__, DescribeNetCmdType( netCmdRequestType ), netCmd.c_str(), cryptoPwd.c_str() );
-			RCODE rc = netServConn->sendData( (char *)pktData, pktLen, txDataTimeout );
+			int32_t rc = netServConn->sendData( (char *)pktData, pktLen, txDataTimeout );
 			wasSent = 0 == rc;
 			if( !wasSent )
 			{

@@ -104,7 +104,7 @@ void FriendList::updateFriendList( GuiUser* guiUser, bool sessionTimeChange )
 
 //============================================================================
 //! remove friend from list.. return non zero if should not be removed
-RCODE FriendList::removeFriendFromList( VxGUID& oId )
+int32_t FriendList::removeFriendFromList( VxGUID& oId )
 {
 	for( auto iter = m_aoFriends.begin(); iter != m_aoFriends.end(); ++iter )
 	{
