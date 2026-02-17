@@ -261,10 +261,10 @@ protected slots:
 	virtual void				slotExpandWindowButtonClicked( void );
 
 protected:
-	virtual void				hideEvent( QHideEvent* hideEvent ) override;
-    virtual void				showEvent( QShowEvent* showEvent ) override;
-    virtual void				closeEvent( QCloseEvent* closeEvent ) override;
-    virtual void				resizeEvent( QResizeEvent* resizeEvent ) override;
+	void						hideEvent( QHideEvent* hideEvent ) override;
+    void						showEvent( QShowEvent* showEvent ) override;
+    void						closeEvent( QCloseEvent* closeEvent ) override;
+    void						resizeEvent( QResizeEvent* resizeEvent ) override;
 
 	virtual void                connectBarWidgets( bool removeConnections = false );
     virtual void                connectTitleBarWidget( TitleBarWidget * titleBar, bool removeConnections = false );

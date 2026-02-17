@@ -641,7 +641,7 @@ void LogMsg( uint32_t u32MsgType, const char* msg, ... )
             return;
         }
 
-        if( 0 == (g_u32LogFlags && u32MsgType) )
+        if( 0 == (g_u32LogFlags & u32MsgType) )
         {
             return; // don't log
         }

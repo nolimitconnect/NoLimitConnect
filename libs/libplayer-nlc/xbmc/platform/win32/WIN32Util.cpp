@@ -684,10 +684,10 @@ extern "C" {
   const char *am_pm[] = {
     "AM", "PM"
   };
-  char *d_t_fmt = "%a %Ef %T %Y";
-  char *t_fmt_ampm = "%I:%M:%S %p";
-  char *t_fmt = "%H:%M:%S";
-  char *d_fmt = "%m/%d/%y";
+  const char *d_t_fmt = "%a %Ef %T %Y";
+  const char *t_fmt_ampm = "%I:%M:%S %p";
+  const char *t_fmt = "%H:%M:%S";
+  const char *d_fmt = "%m/%d/%y";
   #define TM_YEAR_BASE 1900
   #define __UNCONST(x) ((char *)(((const char *)(x) - (const char *)0) + (char *)0))
 

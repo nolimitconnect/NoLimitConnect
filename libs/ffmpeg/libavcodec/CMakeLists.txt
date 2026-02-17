@@ -1473,6 +1473,21 @@ target_compile_definitions(avcodec
     ${ffmpeg_DEFINES}
 )
 
+if(DEFINED TARGET_OS_WINDOWS)
+    target_compile_definitions(avcodec
+        PRIVATE
+        TARGET_OS_WINDOWS
+        LIB_STATIC
+        WIN64
+        HAVE_CONFIG_H
+        _LIB
+        __STDC_CONSTANT_MACROS
+        _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1
+        _CRT_SECURE_NO_WARNINGS
+        _CRT_NONSTDC_NO_DEPRECATE
+    )
+endif()
+
 target_compile_options(avcodec
     PRIVATE
     $<$<COMPILE_LANGUAGE:C>:

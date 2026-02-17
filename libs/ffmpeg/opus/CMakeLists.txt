@@ -5,10 +5,9 @@ project(ffmpegopus, LANGUAGES C CXX ASM)
 
 set(ffmpegopus_SOURCES)
 
+
 if(DEFINED TARGET_OS_WINDOWS)
     list(APPEND ffmpegopus_SOURCES
-        #silk/fixed/x86/vector_ops_FIX_sse4_1.c
-        #silk/fixed/x86/burg_modified_FIX_sse4_1.c
         celt/x86/x86cpu.c
         celt/x86/x86_celt_map.c
         celt/x86/pitch_sse.c
@@ -306,40 +305,43 @@ list(APPEND ffmpegopus_HEADERS
 
 add_library(ffmpegopus STATIC ${ffmpegopus_SOURCES} ${ffmpegopus_HEADERS})
 
-# Override optimization flags for this library
-target_compile_options(ffmpegopus PRIVATE
-    $<$<CONFIG:Debug>:-O2 -g>
-    $<$<CONFIG:Release>:-O3>
+if(MSVC)
+    # should we try to optimize?
+else()
+    # Override optimization flags for this library
+    target_compile_options(ffmpegopus PRIVATE
+        $<$<CONFIG:Debug>:-O2 -g>
+        $<$<CONFIG:Release>:-O3>
+    )
+endif()
+
+target_compile_definitions(ffmpegopus
+    PRIVATE
+    OPUS_BUILD=1
+    USE_ALLOCA=1
+    HAVE_CONFIG_H=1
+    OPUS_HAVE_RTCD=1
 )
 
 if(DEFINED TARGET_CPU_X64)
-    message(STATUS "Adding opus flags -msse3 -msse4.1")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -msse3 -msse4.1")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse3 -msse4.1")
-endif()
-
-if(DEFINED TARGET_OS_WINDOWS)
+    if(NOT MSVC)
+        message(STATUS "Adding opus flags -msse3 -msse4.1")
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -msse3 -msse4.1")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -msse3 -msse4.1")
+    endif()
     target_compile_definitions(ffmpegopus
         PRIVATE
-        OPUS_BUILD
-        USE_ALLOCA
+        OPUS_X86_MAY_HAVE_SSE4_1=1
     )
+
 endif()
 
-if(DEFINED TARGET_OS_LINUX)
+if(DEFINED TARGET_CPU_ARM64)
     target_compile_definitions(ffmpegopus
         PRIVATE
-        OPUS_BUILD
-        USE_ALLOCA
-    )
-endif()
-
-if(DEFINED TARGET_OS_ANDROID)
-    target_compile_definitions(ffmpegopus
-        PRIVATE
-        OPUS_BUILD
         CPU_ARM
-        USE_ALLOCA
+        OPUS_ARM_PRESUME_NEON=1
+        OPUS_ARM_PRESUME_NEON_INTR=1
     )
 endif()
 

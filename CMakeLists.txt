@@ -2,18 +2,28 @@
 cmake_minimum_required(VERSION 3.22.1)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_C_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # These warnings as errors are required so can fix issues that fail build in FlatPack 6.9 (was allowed in 6.7)
-add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=implicit-function-declaration>)
-add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=incompatible-pointer-types>)
+if(NOT MSVC)
+    add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=implicit-function-declaration>)
+    add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=incompatible-pointer-types>)
+endif()
 
 if(MSVC)
     # This turns off all warnings
-    # add_compile_options(/W0)
+    add_compile_options(/W0)
 
-    # Optional: If you want to suppress the "security" warnings (e.g., about strcpy)
-    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+    # add_compile_options(/wd4005 /wd4098 /wd4100 /wd4101 /wd4127 /wd4201 /wd4324 /wd4505 /wd4514 /wd4710 /wd4711 /wd4820)
+
+    add_compile_definitions(
+        __STDC_CONSTANT_MACROS
+        _CRT_SECURE_NO_WARNINGS
+        _CRT_NONSTDC_NO_DEPRECATE
+        _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
+        _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS
+    )
 endif()
 
 
@@ -217,10 +227,33 @@ else()
     set(NLC_CPU "CPU_UNKNOWN")
     set(NLC_CPU_BITS "64")
 
+    enable_language(ASM_NASM)
     if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
         message(STATUS "Build host OS Windows")
         set(NLC_PREPATH "F:/Qt/")
-        set(TARGET_OS_ANDROID true)    
+        if(NOT DEFINED TARGET_OS_WINDOWS AND NOT DEFINED TARGET_OS_ANDROID)
+            if(MSVC)
+                set(CMAKE_ASM_NASM_OBJECT_FORMAT win64)
+
+                set(TARGET_OS_WINDOWS true)
+                add_compile_definitions(TARGET_OS_WINDOWS)
+
+                set(NLC_CPU "CPU_X64")
+                set(TARGET_CPU_X64 true)
+                add_compile_definitions(TARGET_CPU_X64)
+
+                set(TARGET_CPU_64BIT true)
+                add_compile_definitions(TARGET_CPU_64BIT=1)
+                set(ARCH_64_BITS true)
+                add_compile_definitions(ARCH_64_BITS=1)
+                add_compile_definitions(NLC_ARCH_LITTLE_ENDIAN=1)
+                # always used floating point instead of FIXED_POINT dsp operations
+                add_compile_definitions(NLC_FLOATING_POINT=1)
+
+            else()
+                set(TARGET_OS_ANDROID true)
+            endif()
+        endif()
 
     elseif(DEFINED MAKE_ENV)
         set(BUILD_SYSTEM_CI_CD true)
@@ -350,11 +383,16 @@ else()
 
     message(STATUS "2 - CMAKE_FIND_ROOT_PATH ${CMAKE_FIND_ROOT_PATH}")
 
-    if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
+    if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows" AND NOT DEFINED TARGET_OS_WINDOWS)
         message(STATUS "Windows Before CMAKE_ANDROID_NDK ${CMAKE_ANDROID_NDK}")
         set(CMAKE_ANDROID_NDK "F:/Android/Sdk/ndk/${NLC_NDK_VERSION}")
         set(CMAKE_TOOLCHAIN_FILE "${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake")
         message(STATUS "Windows After CMAKE_ANDROID_NDK ${CMAKE_ANDROID_NDK}")
+    endif()
+
+    if(DEFINED TARGET_OS_WINDOWS)
+        unset(TARGET_OS_ANDROID)
+        unset(TARGET_OS_ANDROID CACHE)
     endif()
 
     #=== detect build enviroment and target os ===#
@@ -407,19 +445,22 @@ else()
         message(STATUS "*** CMAKE_PREFIX_PATH (QtCreator) *** ${CMAKE_PREFIX_PATH}")
         #=== assumes cmake was called from QCreator
         set(BUILD_SYSTEM_QCREATOR true)
-        if(DEFINED ANDROID_NDK)
+        if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
+            if(MSVC AND NOT DEFINED ANDROID_NDK)
+                set(TARGET_OS_WINDOWS true)
+                message(STATUS "QCreator Build Target OS Windows built on host OS Windows (MSVC)")
+            else()
+                set(TARGET_OS_ANDROID true)
+                message(STATUS "QCreator Build Target OS Android built on host OS Windows (non-MSVC or ANDROID_NDK)")
+            endif()
+
+        elseif(DEFINED ANDROID_NDK)
             set(TARGET_OS_ANDROID true)
-            if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
-                message(STATUS "QCreator Build Target OS Android built on host OS Windows")
-            elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
+            if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
                 message(STATUS "QCreator Build Target OS Android built on host OS Linux")
             else()
                 message(FATAL_ERROR "QCreator Build host is Unknown OS attempting to compile Android")
             endif()
-
-        elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
-            set(TARGET_OS_WINDOWS true)
-            message(STATUS "QCreator Build Target OS Windows built on host OS Windows")
 
         elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
             set(TARGET_OS_LINUX true)
@@ -845,7 +886,7 @@ else()
     message(STATUS "project nlc toolchain file ${CMAKE_TOOLCHAIN_FILE}")
 
     if(DEFINED TARGET_OS_WINDOWS)
-        message(STATUS "TARGET_OS_WINDOWS is define")
+        message(STATUS "TARGET_OS_WINDOWS is defined")
     endif()
     if(DEFINED TARGET_OS_LINUX)
         message(STATUS "TARGET_OS_LINUX is defined")
@@ -865,11 +906,9 @@ else()
         add_compile_definitions(ARCH_32_BITS=0)
         set(ARCH_64_BITS true)
         add_compile_definitions(ARCH_64_BITS=1)
-        # libjpeg-turbo has speed advantage over libjpeg
-        # set if want to use libturbo-jpeg instead of libjpeg
-        set(USE_LIBJPEG_TURBO true)
-        add_compile_definitions(USE_LIBJPEG_TURBO=1)
+
     endif()
+
     if(DEFINED TARGET_CPU_X86)
         message(STATUS "TARGET_CPU_X86 is defined")
         set(TARGET_CPU_32BIT true)
@@ -879,6 +918,7 @@ else()
         set(ARCH_64_BITS false)
         add_compile_definitions(ARCH_64_BITS=0)
     endif()
+
     if(DEFINED TARGET_CPU_ARM64)
         message(STATUS "TARGET_CPU_ARM64 is defined")
         set(TARGET_CPU_64BIT true)
@@ -887,10 +927,12 @@ else()
         add_compile_definitions(ARCH_32_BITS=0)
         set(ARCH_64_BITS true)
         add_compile_definitions(ARCH_64_BITS=1)
-        # libjpeg-turbo has speed advantage over libjpeg
-        # set if want to use libturbo-jpeg instead of libjpeg
-        set(USE_LIBJPEG_TURBO true)
-        add_compile_definitions(USE_LIBJPEG_TURBO=1)
+        if(NOT DEFINED TARGET_OS_WINDOWS)
+            # libjpeg-turbo has speed advantage over libjpeg
+            # set if want to use libturbo-jpeg instead of libjpeg
+            set(USE_LIBJPEG_TURBO true)
+            add_compile_definitions(USE_LIBJPEG_TURBO=1)
+        endif()
     endif()
     if(DEFINED TARGET_CPU_ARM32)
         message(STATUS "TARGET_CPU_ARM32 is defined")
@@ -934,7 +976,6 @@ else()
 
     message(STATUS "project nlc applications was added with prefix ${CMAKE_PREFIX_PATH}")
 
-
     install(TARGETS nolimitconnect
         RUNTIME DESTINATION "${PROJECT_BIN_DIR}"
         BUNDLE DESTINATION "${PROJECT_PACKAGE_DIR}"
@@ -944,6 +985,32 @@ else()
 
     message(STATUS "project nlc end with prefix")
 endif() # flatpak build
+
+# --------------------------
+# Print summary
+# --------------------------
+message(STATUS "**** Target Summary ****")
+if(TARGET_OS_WINDOWS)
+    message(STATUS "OS: Windows")
+endif()
+if(TARGET_OS_LINUX)
+    message(STATUS "OS: Linux")
+endif()
+if(TARGET_OS_ANDROID)
+    message(STATUS "OS: Android")
+endif()
+if(TARGET_OS_APPLE)
+    message(STATUS "OS: Apple (macOS/iOS)")
+endif()
+
+if(TARGET_CPU_X64)
+    message(STATUS "CPU: x64 (64-bit)")
+elseif(TARGET_CPU_ARM64)
+    message(STATUS "CPU: ARM64 (64-bit)")
+else()
+    message(FATAL_ERROR "Unknown CPU Type for ${CMAKE_SYSTEM_NAME}")
+endif()
+
 if(BUILD_SYSTEM_FLATPAK)
     message(STATUS "BUILD_SYSTEM_FLATPAK true")
 endif()
@@ -956,4 +1023,8 @@ endif()
 if(BUILD_SYSTEM_CI_PIPELINE)
     message(STATUS "BUILD_SYSTEM_CI_PIPELINE true")
 endif()
-message(STATUS "Root CMakeLists.txt Done")
+if(TARGET_OS_WINDOWS)
+    message(STATUS "BUILD system using MSVC to compile for Windows")
+endif()
+
+message(STATUS "**** Root CMakeLists.txt Done ****")

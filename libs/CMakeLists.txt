@@ -4,6 +4,10 @@ add_compile_definitions(HAVE_CONFIG_H LIB_STATIC ENABLE_NLC_PLAYER)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/..)
 
+if(DEFINED TARGET_OS_WINDOWS)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sysheaders)
+endif()
+
 include(ConfigStaticDependLib)
 
 #=== project subdirectories ===#
@@ -54,10 +58,10 @@ add_subdirectory(libfribidi)
 add_subdirectory(libgnu)
 add_subdirectory(libiconv)
 
-if(USE_LIBJPEG_TURBO)
-    add_subdirectory(libjpeg-turbo)
-else()
+if(DEFINED TARGET_OS_WINDOWS)
     add_subdirectory(libjpg)
+else()
+    add_subdirectory(libjpeg-turbo)
 endif()
 
 add_subdirectory(liblame)
@@ -101,6 +105,38 @@ add_subdirectory(libxml2)
 #add_subdirectory(libxvid) # not used (video codec)
 add_subdirectory(libzip)
 add_subdirectory(libzlib)
+
+if(DEFINED TARGET_OS_WINDOWS)    
+    # glew is no longer supported on windows so build it ourselves. It is only used for the OpenGL renderer in the Qt overlay and is not needed on other platforms where we use the system's OpenGL implementation.
+    add_subdirectory(libglew) 
+endif()
+
+
+if(DEFINED TARGET_OS_WINDOWS)
+    function(nlc_strip_gcc_warning_options_from_dir dirPath)
+        get_property(dirTargets DIRECTORY "${dirPath}" PROPERTY BUILDSYSTEM_TARGETS)
+        foreach(targetName IN LISTS dirTargets)
+            get_target_property(targetOptions "${targetName}" COMPILE_OPTIONS)
+            if(targetOptions)
+                set(filteredTargetOptions "")
+                foreach(opt IN LISTS targetOptions)
+                    if(opt MATCHES "(^|:)\\-W" OR opt MATCHES "(^| )\\-W")
+                    else()
+                        list(APPEND filteredTargetOptions "${opt}")
+                    endif()
+                endforeach()
+                set_target_properties("${targetName}" PROPERTIES COMPILE_OPTIONS "${filteredTargetOptions}")
+            endif()
+        endforeach()
+
+        get_property(childDirs DIRECTORY "${dirPath}" PROPERTY SUBDIRECTORIES)
+        foreach(childDir IN LISTS childDirs)
+            nlc_strip_gcc_warning_options_from_dir("${childDir}")
+        endforeach()
+    endfunction()
+
+    nlc_strip_gcc_warning_options_from_dir("${CMAKE_CURRENT_SOURCE_DIR}")
+endif()
 
 
 

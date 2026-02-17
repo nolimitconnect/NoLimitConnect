@@ -189,6 +189,16 @@ target_compile_definitions(avutil
     ${ffmpeg_DEFINES}
 )
 
+if(DEFINED TARGET_OS_WINDOWS)
+    target_compile_definitions(avutil
+        PRIVATE
+        TARGET_OS_WINDOWS
+        LIB_STATIC
+        WIN64
+        _LIB
+    )
+endif()
+
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction

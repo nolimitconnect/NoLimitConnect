@@ -58,11 +58,23 @@ list(APPEND jpg_SOURCES
 
 add_library(jpg STATIC ${jpg_SOURCES})
 
-# Override optimization flags for this library
-target_compile_options(jpg PRIVATE
-    $<$<CONFIG:Debug>:-O2 -g>
-    $<$<CONFIG:Release>:-O3>
-)
+if(DEFINED TARGET_OS_WINDOWS)
+    target_compile_definitions(jpg PRIVATE
+        HAVE_CONFIG_H
+        WIN32
+        _LIB
+        _CRT_SECURE_NO_WARNINGS
+    )
+
+else()
+    # Override optimization flags for this library
+    target_compile_options(jpg PRIVATE
+        $<$<CONFIG:Debug>:-O2 -g>
+        $<$<CONFIG:Release>:-O3>
+    )
+
+endif()
+
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)

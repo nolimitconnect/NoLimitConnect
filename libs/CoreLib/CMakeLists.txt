@@ -175,6 +175,11 @@ list(APPEND CoreLib_SOURCES
     VxMd5.cpp
 )
 
+if(DEFINED TARGET_OS_WINDOWS)
+    list(APPEND CoreLib_SOURCES
+        dirent_sim.cpp
+    )
+endif()
 
 add_library(CoreLib
     STATIC
@@ -188,6 +193,11 @@ target_compile_options(CoreLib
          -Wno-deprecated-declarations
          -Wno-varargs
     >
+)
+
+target_compile_definitions(CoreLib
+    PRIVATE
+    ENABLE_VSTREAM
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

@@ -3,6 +3,10 @@
 // Created by Brett R. Jones in 2017 and issued to public domain
 //============================================================================
 
+#if defined(_MSC_VER)
+#pragma warning(disable: 4005)
+#endif
+
 #include "NlcCpuArchDefines.h"
 
 #include <inttypes.h> // all compilers must support this header to avoid massive typedef clashes
@@ -613,8 +617,6 @@ NLC_END_CDECLARES
 /* Define if you have the <ws2tcpip.h> header file. */
 #define HAVE_WS2TCPIP_H			1
 
-
-# define VxMkDir(exp,exp2)	_mkdir(exp)     //make directory command we can use in windows like linux
 # define sleep_os(exp)		VxSleep(exp*1000)
 # define msleep_os(exp)		VxSleep(exp)
 # define usleep_os(exp)		VxSleep(exp/1000)
@@ -1081,7 +1083,6 @@ typedef struct tWAVEFORMATEX
 #endif // TARGET_POSIX
 
 # define     VxGetLastError()	errno
-# define	 VxMkDir(exp,exp2)	mkdir(exp,exp2)     //make directory command we can use in windows like linux
 
 # if !defined(INVALID_SOCKET)
 #  define     INVALID_SOCKET		-1		// use windows style socket define

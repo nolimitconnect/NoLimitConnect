@@ -39,5 +39,11 @@ storyboard_thumb.png
 /**/*.idx
 /**/*.json
 
+# keep editor/build configuration JSON files under version control
+!/.vscode/
+!/.vscode/*.json
+!/CMakePresets.json
+!/CMakeUserPresets.json
+
 
 

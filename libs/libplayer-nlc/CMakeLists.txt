@@ -10,14 +10,10 @@ if(DEFINED TARGET_OS_ANDROID)
     message(STATUS "player-nlc prefix directory ${CMAKE_PREFIX_PATH}")
     message(STATUS "player-nlc find root path ${CMAKE_FIND_ROOT_PATH}")
     message(STATUS "player-nlc find module path ${CMAKE_MODULE_PATH}")
-    message(STATUS "player-nlc toolchain file ${CMAKE_TOOLCHAIN_FILE}")
     message(STATUS "player-nlc platform ${ANDROID_PLATFORM}")
     message(STATUS "player-nlc abi ${ANDROID_ABI}")
     message(STATUS "player-nlc ndk ${ANDROID_NDK}")
     message(STATUS "player-nlc sdk root ${ANDROID_SDK_ROOT}")
-    message(STATUS "player-nlc cpu ${NLC_CPU}")
-    message(STATUS "player-nlc CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}")
-    message(STATUS "player-nlc Qt6_DIR ${Qt6_DIR}")
     message(STATUS "player-nlc Qt6Core_DIR ${Qt6Core_DIR}")
     
     find_package(Qt6 REQUIRED COMPONENTS Core)
@@ -26,102 +22,15 @@ endif()
 
 set(player-nlc_SOURCES)
 
-if(DEFINED TARGET_OS_WINDOWS)
-    list(APPEND player-nlc_SOURCES 
-        xbmc/platform/win32/CharsetConverterWin32.cpp
-        xbmc/platform/win32/EnvironmentWin32.cpp
-        xbmc/platform/win32/FilesystemWin32.cpp
-        xbmc/platform/win32/MemUtils_w32.cpp
-        xbmc/platform/win32/MessagePrinterWin32.cpp
-        xbmc/platform/win32/WIN32Util.cpp
-        xbmc/platform/win32/WMIInterface.cpp
-        xbmc/platform/win32/WindowHelper.cpp
-        xbmc/platform/win32/crts_caller.cpp
-        xbmc/platform/win32/dxerr.cpp
-        xbmc/platform/win32/filesystem/Win32Directory.cpp
-        xbmc/platform/win32/filesystem/Win32File.cpp
-        xbmc/platform/win32/stat_utf8.cpp
-        xbmc/platform/win32/stdio_utf8.cpp
-        xbmc/platform/win32/storage/Win32StorageProvider.cpp
-        xbmc/platform/win32/strverscmp.cpp
-        xbmc/platform/win32/utils/Win32InterfaceForCLog.cpp
-    )
-endif()
-
-if(DEFINED TARGET_OS_LINUX OR DEFINED TARGET_OS_ANDROID)
-    list(APPEND player-nlc_SOURCES 
-        xbmc/platform/linux/ConvUtils.cpp
-        xbmc/platform/linux/DBusMessage.cpp
-        xbmc/platform/linux/DBusReserve.cpp
-        xbmc/platform/linux/DBusUtil.cpp
-        xbmc/platform/linux/FDEventMonitor.cpp
-        xbmc/platform/linux/LinuxResourceCounter.cpp
-        xbmc/platform/linux/OMXClock.cpp
-        xbmc/platform/linux/OMXCore.cpp
-        xbmc/platform/linux/OptionalsReg.cpp
-        xbmc/platform/linux/PosixMountProvider.cpp
-        xbmc/platform/linux/RBP.cpp
-        xbmc/platform/linux/TimeUtils.cpp
-        xbmc/platform/linux/XFileUtils.cpp
-        xbmc/platform/linux/XHandle.cpp
-        xbmc/platform/linux/XMemUtils.cpp
-        xbmc/platform/linux/XTimeUtils.cpp
-        xbmc/platform/linux/storage/LinuxStorageProvider.cpp
-        xbmc/platform/posix/filesystem/PosixDirectory.cpp
-        xbmc/platform/posix/filesystem/PosixFile.cpp
-        xbmc/platform/posix/utils/Mmap.cpp
-        xbmc/platform/posix/utils/PosixInterfaceForCLog.cpp
-        xbmc/platform/posix/utils/SharedMemory.cpp
-        xbmc/platform/posix/PosixResourceCounter.cpp
-        xbmc/platform/posix/PosixTimezone.cpp
-    )
-endif()
-
-if(DEFINED TARGET_OS_LINUX)
-    list(APPEND player-nlc_SOURCES 
-        xbmc/platform/linux/MemUtils_linux.cpp
-        xbmc/platform/posix/PosixResourceCounter.cpp
-    )
-endif()
-
-if (DEFINED TARGET_OS_ANDROID)
-    list(APPEND player-nlc_SOURCES 
-        #../androidNdk/android/cpufeatures/cpu-features_ndk.c # for android_getCpuFeatures etc
-        xbmc/filesystem/AndroidAppDirectory.cpp
-        xbmc/filesystem/AndroidAppFile.cpp
-        xbmc/filesystem/APKFile.cpp
-        xbmc/filesystem/APKDirectory.cpp
-        #xbmc/interfaces/builtins/AndroidBuiltins.cpp
-        xbmc/platform/qt/qtandroid/jni/BitmapDrawable.cpp
-        xbmc/platform/qt/qtandroid/jni/Build.cpp
-        xbmc/platform/qt/qtandroid/jni/Context.cpp
-        xbmc/platform/qt/qtandroid/jni/DisplayMetrics.cpp
-        xbmc/platform/qt/qtandroid/jni/PackageManager.cpp
-        xbmc/platform/qt/qtandroid/jni/Resources.cpp
-        xbmc/platform/qt/qtandroid/jni/JNIBase.cpp
-        xbmc/platform/qt/qtandroid/jni/JNIEnvironment.cpp
-        xbmc/platform/qt/qtandroid/jni/JNIFile.cpp
-        xbmc/platform/qt/qtandroid/jni/JNIThreading.cpp
-        xbmc/platform/qt/qtandroid/jni/jutils.cpp
-        xbmc/platform/android/MemUtils_android.cpp
-        xbmc/platform/android/peripherals/AndroidJoystickState.cpp
-        xbmc/platform/android/peripherals/PeripheralBusAndroid.cpp
-        xbmc/platform/qt/qtandroid/activity/AndroidFeatures.cpp
-        xbmc/platform/qt/qtandroid/jni/ApplicationInfo.cpp
-        xbmc/platform/qt/qtandroid/jni/Environment.cpp
-        xbmc/platform/qt/qtandroid/jni/File.cpp
-        xbmc/platform/qt/qtandroid/jni/PackageItemInfo.cpp
-        xbmc/platform/qt/qtandroid/jni/StatFs.cpp
-        xbmc/platform/qt/qtandroid/jni/System.cpp      
-    )
-endif()
-
+# ALL TARGET OSes
 list(APPEND player-nlc_SOURCES 
     xbmc/contrib/kissfft/kiss_fft.c
     xbmc/contrib/kissfft/kiss_fftr.c
     xbmc/commons/Exception.cpp
     xbmc/commons/ilog.cpp
+
     xbmc/cores/AudioEngine/Sinks/AESinkQt.cpp
+
     xbmc/cores/playercorefactory/PlayerCoreConfig.cpp
     xbmc/cores/playercorefactory/PlayerCoreFactory.cpp
     xbmc/cores/playercorefactory/PlayerSelectionRule.cpp
@@ -146,10 +55,12 @@ list(APPEND player-nlc_SOURCES
     xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAESink.cpp
     xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAESound.cpp
     xbmc/cores/AudioEngine/Engines/ActiveAE/ActiveAEStream.cpp
-    xbmc/cores/AudioEngine/Sinks/AESinkDirectSound.cpp
-    xbmc/cores/AudioEngine/Sinks/AESinkWASAPI.cpp
-    xbmc/cores/AudioEngine/Sinks/windows/AESinkFactoryWin.cpp
-    xbmc/cores/AudioEngine/Sinks/windows/AESinkFactoryWin32.cpp
+
+    # xbmc/cores/AudioEngine/Sinks/AESinkDirectSound.cpp
+    # xbmc/cores/AudioEngine/Sinks/AESinkWASAPI.cpp
+    # xbmc/cores/AudioEngine/Sinks/windows/AESinkFactoryWin.cpp
+    # xbmc/cores/AudioEngine/Sinks/windows/AESinkFactoryWin32.cpp
+
     xbmc/cores/AudioEngine/Utils/AEBitstreamPacker.cpp
     xbmc/cores/AudioEngine/Utils/AEChannelInfo.cpp
     xbmc/cores/AudioEngine/Utils/AEDeviceInfo.cpp
@@ -179,7 +90,9 @@ list(APPEND player-nlc_SOURCES
     xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodec.cpp
     xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoCodecFFmpeg.cpp
     xbmc/cores/VideoPlayer/DVDCodecs/Video/DVDVideoPPFFmpeg.cpp
-    xbmc/cores/VideoPlayer/DVDCodecs/Video/DXVA.cpp
+
+    # xbmc/cores/VideoPlayer/DVDCodecs/Video/DXVA.cpp
+
     xbmc/cores/VideoPlayer/DVDDemuxSPU.cpp
     xbmc/cores/VideoPlayer/DVDDemuxers/DVDDemux.cpp
     xbmc/cores/VideoPlayer/DVDDemuxers/DVDDemuxBXA.cpp
@@ -304,7 +217,9 @@ list(APPEND player-nlc_SOURCES
     xbmc/filesystem/File2.cpp
     xbmc/fmt/format_fmt.cpp
     xbmc/fmt/ostream.cpp
-    xbmc/fmt/posix.cpp
+
+    # xbmc/fmt/posix.cpp
+
     xbmc/guilib/guiinfo/GUIInfoBool.cpp
     xbmc/guilib/DDSImage.cpp
     xbmc/guilib/FFmpegImage.cpp
@@ -363,14 +278,18 @@ list(APPEND player-nlc_SOURCES
     xbmc/pictures/PictureInfoTag.cpp
     xbmc/pictures/PictureScalingAlgorithm.cpp
     xbmc/pictures/libexif.cpp
-    xbmc/platform/posix/FilesystemPosix.cpp
-    xbmc/platform/posix/MessagePrinterPosix.cpp
-    xbmc/platform/posix/XTimeUtils.cpp
-    xbmc/platform/win32/XTimeUtils.cpp
+
+    # xbmc/platform/posix/FilesystemPosix.cpp
+    # xbmc/platform/posix/MessagePrinterPosix.cpp
+    # xbmc/platform/posix/XTimeUtils.cpp
+    # xbmc/platform/win32/XTimeUtils.cpp
+
     xbmc/platform/qt/KodiQtApp.cpp
     xbmc/platform/Environment.cpp
     xbmc/platform/Platform.cpp
-    xbmc/platform/xbmc.cpp
+
+    # xbmc/platform/xbmc.cpp
+
     xbmc/playlists/PlayList.cpp
     xbmc/playlists/PlayListB4S.cpp
     xbmc/playlists/PlayListFactory.cpp
@@ -425,8 +344,10 @@ list(APPEND player-nlc_SOURCES
     xbmc/settings/SubtitlesSettings.cpp
 
     xbmc/storage/MediaManager.cpp
-    xbmc/threads/platform/win/ThreadImplWin32.cpp
-    xbmc/threads/platform/win/Win32Exception.cpp
+
+    # xbmc/threads/platform/win/ThreadImplWin32.cpp
+    # xbmc/threads/platform/win/Win32Exception.cpp
+
     xbmc/threads/Atomics.cpp
     xbmc/threads/Event.cpp
     xbmc/threads/SystemClock.cpp
@@ -499,7 +420,9 @@ list(APPEND player-nlc_SOURCES
     xbmc/utils/TextureUtils.h
     xbmc/utils/TextureUtils.cpp
     xbmc/utils/TimeUtils2.cpp
+
     xbmc/utils/URIUtils.cpp
+
     xbmc/utils/UrlOptions.cpp
     xbmc/utils/Utf8Utils.cpp
     xbmc/utils/VC1BitstreamParser.cpp
@@ -567,24 +490,175 @@ list(APPEND player-nlc_SOURCES
     xbmc/TextureCacheJob.cpp
     xbmc/XBDateTime.cpp
 
+    xbmc/platform/xbmc.cpp
 )
+
+# YES Windows
+if(DEFINED TARGET_OS_WINDOWS)
+    list(APPEND player-nlc_SOURCES
+
+        xbmc/platform/qt/KodiQtApp.h
+        xbmc/platform/qt/KodiQtApp.cpp
+
+        xbmc/platform/win32/CharsetConverterWin32.cpp
+        xbmc/platform/win32/EnvironmentWin32.cpp
+        xbmc/platform/win32/FilesystemWin32.cpp
+        xbmc/platform/win32/MemUtils_w32.cpp
+        xbmc/platform/win32/MessagePrinterWin32.cpp
+
+        xbmc/platform/win32/WIN32Util.cpp
+
+        #xbmc/platform/win32/WMIInterface.cpp
+        xbmc/platform/win32/WindowHelper.cpp
+        xbmc/platform/win32/crts_caller.cpp
+        # xbmc/platform/win32/dxerr.cpp
+        xbmc/platform/win32/filesystem/Win32Directory.cpp
+        xbmc/platform/win32/filesystem/Win32File.cpp
+        xbmc/platform/win32/stat_utf8.cpp
+        xbmc/platform/win32/stdio_utf8.cpp
+        xbmc/platform/win32/strverscmp.cpp
+
+        xbmc/platform/win32/XTimeUtils.cpp
+
+        xbmc/platform/win32/utils/Win32InterfaceForCLog.cpp
+
+        xbmc/platform/win32/storage/Win32StorageProvider.cpp
+
+        xbmc/threads/platform/win/Win32Exception.cpp
+        xbmc/threads/platform/win/ThreadImplWin32.cpp
+
+    )
+else()
+    # NOT Windows
+    list(APPEND player-nlc_SOURCES
+        xbmc/fmt/posix.cpp
+        xbmc/platform/posix/FilesystemPosix.cpp
+        xbmc/platform/posix/MessagePrinterPosix.cpp
+        xbmc/platform/posix/XTimeUtils.cpp
+        xbmc/platform/win32/XTimeUtils.cpp
+        xbmc/utils/URIUtils.cpp
+    )
+
+endif()
+
+if(DEFINED TARGET_OS_LINUX OR DEFINED TARGET_OS_ANDROID)
+    list(APPEND player-nlc_SOURCES
+        xbmc/platform/linux/ConvUtils.cpp
+        xbmc/platform/linux/DBusMessage.cpp
+        xbmc/platform/linux/DBusReserve.cpp
+        xbmc/platform/linux/DBusUtil.cpp
+        xbmc/platform/linux/FDEventMonitor.cpp
+        xbmc/platform/linux/LinuxResourceCounter.cpp
+        xbmc/platform/linux/OMXClock.cpp
+        xbmc/platform/linux/OMXCore.cpp
+        xbmc/platform/linux/OptionalsReg.cpp
+        xbmc/platform/linux/PosixMountProvider.cpp
+        xbmc/platform/linux/RBP.cpp
+        xbmc/platform/linux/TimeUtils.cpp
+        xbmc/platform/linux/XFileUtils.cpp
+        xbmc/platform/linux/XHandle.cpp
+        xbmc/platform/linux/XMemUtils.cpp
+        xbmc/platform/linux/XTimeUtils.cpp
+        xbmc/platform/linux/storage/LinuxStorageProvider.cpp
+        xbmc/platform/posix/filesystem/PosixDirectory.cpp
+        xbmc/platform/posix/filesystem/PosixFile.cpp
+        xbmc/platform/posix/utils/Mmap.cpp
+        xbmc/platform/posix/utils/PosixInterfaceForCLog.cpp
+        xbmc/platform/posix/utils/SharedMemory.cpp
+        xbmc/platform/posix/PosixResourceCounter.cpp
+        xbmc/platform/posix/PosixTimezone.cpp
+    )
+endif()
+
+if(DEFINED TARGET_OS_LINUX)
+    list(APPEND player-nlc_SOURCES
+        xbmc/platform/linux/MemUtils_linux.cpp
+        xbmc/platform/posix/PosixResourceCounter.cpp
+    )
+endif()
+
+if (DEFINED TARGET_OS_ANDROID)
+    list(APPEND player-nlc_SOURCES
+        #../androidNdk/android/cpufeatures/cpu-features_ndk.c # for android_getCpuFeatures etc
+        xbmc/filesystem/AndroidAppDirectory.cpp
+        xbmc/filesystem/AndroidAppFile.cpp
+        xbmc/filesystem/APKFile.cpp
+        xbmc/filesystem/APKDirectory.cpp
+        #xbmc/interfaces/builtins/AndroidBuiltins.cpp
+        xbmc/platform/qt/qtandroid/jni/BitmapDrawable.cpp
+        xbmc/platform/qt/qtandroid/jni/Build.cpp
+        xbmc/platform/qt/qtandroid/jni/Context.cpp
+        xbmc/platform/qt/qtandroid/jni/DisplayMetrics.cpp
+        xbmc/platform/qt/qtandroid/jni/PackageManager.cpp
+        xbmc/platform/qt/qtandroid/jni/Resources.cpp
+        xbmc/platform/qt/qtandroid/jni/JNIBase.cpp
+        xbmc/platform/qt/qtandroid/jni/JNIEnvironment.cpp
+        xbmc/platform/qt/qtandroid/jni/JNIFile.cpp
+        xbmc/platform/qt/qtandroid/jni/JNIThreading.cpp
+        xbmc/platform/qt/qtandroid/jni/jutils.cpp
+        xbmc/platform/android/MemUtils_android.cpp
+        xbmc/platform/android/peripherals/AndroidJoystickState.cpp
+        xbmc/platform/android/peripherals/PeripheralBusAndroid.cpp
+        xbmc/platform/qt/qtandroid/activity/AndroidFeatures.cpp
+        xbmc/platform/qt/qtandroid/jni/ApplicationInfo.cpp
+        xbmc/platform/qt/qtandroid/jni/Environment.cpp
+        xbmc/platform/qt/qtandroid/jni/File.cpp
+        xbmc/platform/qt/qtandroid/jni/PackageItemInfo.cpp
+        xbmc/platform/qt/qtandroid/jni/StatFs.cpp
+        xbmc/platform/qt/qtandroid/jni/System.cpp
+    )
+endif()
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Multimedia OpenGL OpenGLWidgets Svg Widgets)
 
-add_library(player-nlc STATIC
+add_library(player-nlc 
+    STATIC
     ${player-nlc_SOURCES}
 )
 
 target_compile_definitions(player-nlc
   PRIVATE
     ENABLE_NLC_PLAYER
+    HAVE_QT_GUI
 )
 
 if(DEFINED TARGET_OS_WINDOWS)
-    target_include_directories(player-nlc
-      PRIVATE
-        xbmc/platform/win32
+    target_compile_definitions(player-nlc
+        PRIVATE
+        NOMINMAX
+        _LIB
+        LIB_STATIC
+        WIN64
+        _WINDOWS
+        MS_WINDOWS
+        TARGET_WINDOWS
+        TARGET_WINDOWS_DESKTOP
+        _MBCS
+        __SSE__
+        HAVE_SSE
+        __SSE2__
+        HAVE_SSE2
+        __STDC_CONSTANT_MACROS
+        _CRT_SECURE_NO_WARNINGS
+        _CRT_NONSTDC_NO_DEPRECATE
+        _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
+        _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS
     )
+
+    if(MSVC)
+        target_compile_options(player-nlc PRIVATE /UUNICODE /U_UNICODE)
+        # This disables the specific check for string literal const-qualifiers
+        target_compile_options(player-nlc PRIVATE /Zc:strictStrings-)
+        # Allows the non-const char* conversion (Legacy behavior)
+        target_compile_options(player-nlc PRIVATE /permissive) 
+    endif()
+
+    target_include_directories(player-nlc
+          PRIVATE
+            xbmc/platform/win32
+            xbmc/cores/AudioEngine
+            ../sysheaders
+        )
 endif()
 
 if(DEFINED TARGET_OS_LINUX)
@@ -618,17 +692,24 @@ target_include_directories(player-nlc
 
 target_link_libraries(player-nlc Qt::Core Qt::CorePrivate)
 
-target_compile_options( player-nlc
-    PRIVATE
-    $<$<COMPILE_LANGUAGE:CXX>:
-        -Wno-deprecated-declarations
-        -Wno-user-defined-warnings
-        -Wno-undefined-var-template
-    >
-)
+
+if(NOT DEFINED TARGET_OS_WINDOWS)
+    target_compile_options( player-nlc
+        PRIVATE
+        $<$<COMPILE_LANGUAGE:CXX>:
+            -Wno-deprecated-declarations
+            -Wno-user-defined-warnings
+            -Wno-undefined-var-template
+        >
+    )
+endif()
+
 
 set_target_properties(player-nlc PROPERTIES
+            C_STANDARD 17
+            C_STANDARD_REQUIRED ON
             CXX_STANDARD 17
+            CXX_STANDARD_REQUIRED ON
             )
 
 target_compile_features(player-nlc PUBLIC cxx_std_17)

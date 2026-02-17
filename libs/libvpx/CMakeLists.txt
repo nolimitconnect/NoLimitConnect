@@ -5,417 +5,7 @@ project(vpx, LANGUAGES C CXX ASM)
 
 set(vpx_SOURCES)
 
-if(DEFINED TARGET_CPU_X64)
-    list(APPEND vpx_SOURCES 
-
-        vp9/common/x86/vp9_idct_intrin_sse2.c
-        #vp9/common/x86/vp9_highbd_iht4x4_add_sse4.c
-
-        vp8/common/x86/bilinear_filter_sse2.c
-        vp8/common/x86/dequantize_mmx.asm
-        vp8/common/x86/idct_blk_mmx.c
-        vp8/common/x86/idct_blk_sse2.c
-        vp8/common/x86/idctllm_mmx.asm
-        vp8/common/x86/idctllm_sse2.asm
-        vp8/common/x86/iwalsh_sse2.asm
-        vp8/common/x86/loopfilter_block_sse2_x86_64.asm
-        vp8/common/x86/loopfilter_sse2.asm
-        vp8/common/x86/loopfilter_x86.c
-
-        # no postproc
-        #vp8/common/x86/mfqe_sse2.asm
-
-        vp8/common/x86/recon_mmx.asm
-        vp8/common/x86/recon_sse2.asm
-        vp8/common/x86/subpixel_mmx.asm
-        vp8/common/x86/subpixel_sse2.asm
-        vp8/common/x86/subpixel_ssse3.asm
-        vp8/common/x86/vp8_asm_stubs.c
-
-        #vp8/encoder/x86/block_error_sse2.asm
-        #vp8/encoder/x86/copy_sse2.asm
-        #vp8/encoder/x86/copy_sse3.asm
-        #vp8/encoder/x86/dct_sse2.asm
-
-
-        #vp8/encoder/x86/fwalsh_sse2.asm
-        #vp8/encoder/x86/quantize_sse4.c
-        #vp8/encoder/x86/temporal_filter_apply_sse2.asm
-        #vp8/encoder/x86/vp8_enc_stubs_sse2.c
-        #vp8/encoder/x86/vp8_quantize_sse2.c
-        #vp8/encoder/x86/vp8_quantize_ssse3.c
-
-        #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
-        #vp9/common/x86/vp9_highbd_iht16x16_add_sse4.c
-        #vp9/common/x86/vp9_highbd_iht4x4_add_sse4.c
-        #vp9/common/x86/vp9_highbd_iht8x8_add_sse4.c
-
-        vp9/common/x86/vp9_idct_intrin_sse2.c
-
-        # no postproc
-        #vp9/common/x86/vp9_mfqe_sse2.asm
-
-        #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
-        #vp9/encoder/x86/highbd_temporal_filter_avx2.c
-        #vp9/encoder/x86/highbd_temporal_filter_sse4.c
-        #vp9/encoder/x86/highbd_temporal_filter_ssse3.c
-
-        # not in v1.13.1 vp9/encoder/x86/temporal_filter_avx2.c
-        #vp9/encoder/x86/temporal_filter_sse4.c
-        # not in v1.13.1 vp9/encoder/x86/temporal_filter_ssse3.c
-        #vp9/encoder/x86/vp9_dct_intrin_sse2.c
-        #vp9/encoder/x86/vp9_dct_sse2.asm
-
-        # not in v1.13.1 vp9/encoder/x86/vp9_error_avx2.c
-        # not in v1.13.1 vp9/encoder/x86/vp9_diamond_search_sad_avx2.c # only in v1.13.1
-        #vp9/encoder/x86/vp9_error_sse2.asm
-        # not in v1.13.1 vp9/encoder/x86/vp9_frame_scale_ssse3.c
-        #vp9/encoder/x86/vp9_highbd_block_error_intrin_sse2.c
-        #vp9/encoder/x86/vp9_quantize_avx2.c
-        #vp9/encoder/x86/vp9_quantize_sse2.c
-        #vp9/encoder/x86/vp9_quantize_ssse3.c
-
-        vpx_dsp/x86/add_noise_sse2.asm
-        vpx_dsp/x86/avg_intrin_avx2.c
-        vpx_dsp/x86/avg_intrin_sse2.c
-        # not in v1.13.1 vpx_dsp/x86/avg_pred_avx2.c
-        vpx_dsp/x86/avg_pred_sse2.c
-        vpx_dsp/x86/avg_ssse3_x86_64.asm
-        vpx_dsp/x86/bitdepth_conversion_avx2.h
-        vpx_dsp/x86/bitdepth_conversion_sse2.asm
-        vpx_dsp/x86/bitdepth_conversion_sse2.h
-        vpx_dsp/x86/convolve_avx2.h
-        vpx_dsp/x86/convolve.h
-        vpx_dsp/x86/convolve_sse2.h
-        vpx_dsp/x86/convolve_ssse3.h
-        vpx_dsp/x86/deblock_sse2.asm
-        vpx_dsp/x86/fwd_dct32x32_impl_avx2.h
-        vpx_dsp/x86/fwd_dct32x32_impl_sse2.h
-        vpx_dsp/x86/fwd_txfm_avx2.c
-        vpx_dsp/x86/fwd_txfm_impl_sse2.h
-        vpx_dsp/x86/fwd_txfm_sse2.c
-        vpx_dsp/x86/fwd_txfm_sse2.h
-        vpx_dsp/x86/fwd_txfm_ssse3_x86_64.asm
-
-        #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
-        #vpx_dsp/x86/highbd_convolve_avx2.c
-        #vpx_dsp/x86/highbd_idct16x16_add_sse2.c
-        #vpx_dsp/x86/highbd_idct16x16_add_sse4.c
-        #vpx_dsp/x86/highbd_idct32x32_add_sse2.c
-        #vpx_dsp/x86/highbd_idct32x32_add_sse4.c
-        #vpx_dsp/x86/highbd_idct4x4_add_sse2.c
-        #vpx_dsp/x86/highbd_idct4x4_add_sse4.c
-        #vpx_dsp/x86/highbd_idct8x8_add_sse2.c
-        #vpx_dsp/x86/highbd_idct8x8_add_sse4.c
-        #vpx_dsp/x86/highbd_intrapred_intrin_sse2.c
-        #vpx_dsp/x86/highbd_intrapred_intrin_ssse3.c
-        #vpx_dsp/x86/highbd_intrapred_sse2.asm
-        #vpx_dsp/x86/highbd_inv_txfm_sse2.h
-        #vpx_dsp/x86/highbd_inv_txfm_sse4.h
-        #vpx_dsp/x86/highbd_loopfilter_sse2.c
-        #vpx_dsp/x86/highbd_quantize_intrin_avx2.c
-        #vpx_dsp/x86/highbd_quantize_intrin_sse2.c
-        #vpx_dsp/x86/highbd_sad4d_avx2.c
-        #vpx_dsp/x86/highbd_sad4d_sse2.asm
-        #vpx_dsp/x86/highbd_sad_avx2.c
-        #vpx_dsp/x86/highbd_sad_sse2.asm
-        #vpx_dsp/x86/highbd_subpel_variance_impl_sse2.asm
-        #vpx_dsp/x86/highbd_variance_impl_sse2.asm
-        #vpx_dsp/x86/highbd_variance_sse2.c
-
-        vpx_dsp/x86/intrapred_sse2.asm
-        vpx_dsp/x86/intrapred_ssse3.asm
-        # not in v1.13.1 vpx_dsp/x86/inv_txfm_avx2.c
-        vpx_dsp/x86/inv_txfm_sse2.c
-        vpx_dsp/x86/inv_txfm_sse2.h
-        vpx_dsp/x86/inv_txfm_ssse3.c
-        vpx_dsp/x86/inv_txfm_ssse3.h
-        vpx_dsp/x86/inv_wht_sse2.asm
-        vpx_dsp/x86/loopfilter_avx2.c
-        vpx_dsp/x86/loopfilter_sse2.c
-        vpx_dsp/x86/mem_sse2.h
-        vpx_dsp/x86/post_proc_sse2.c
-        vpx_dsp/x86/quantize_avx2.c
-        vpx_dsp/x86/quantize_avx.c
-        vpx_dsp/x86/quantize_sse2.c
-        vpx_dsp/x86/quantize_sse2.h
-        vpx_dsp/x86/quantize_ssse3.c
-        vpx_dsp/x86/quantize_ssse3.h
-
-        vpx_dsp/x86/sad4d_avx2.c
-        vpx_dsp/x86/sad4d_avx512.c
-        vpx_dsp/x86/sad4d_sse2.asm
-        vpx_dsp/x86/sad_avx2.c
-        vpx_dsp/x86/sad_sse2.asm
-        # not in v1.13.1 vpx_dsp/x86/sse_avx2.c
-        # not in v1.13.1 vpx_dsp/x86/sse_sse4.c
-        vpx_dsp/x86/ssim_opt_x86_64.asm
-        vpx_dsp/x86/subpel_variance_sse2.asm
-        vpx_dsp/x86/subtract_avx2.c
-        vpx_dsp/x86/subtract_sse2.asm
-        vpx_dsp/x86/sum_squares_sse2.c
-        vpx_dsp/x86/transpose_sse2.h
-        vpx_dsp/x86/txfm_common_sse2.h
-        vpx_dsp/x86/variance_avx2.c
-        vpx_dsp/x86/variance_sse2.c
-        vpx_dsp/x86/vpx_convolve_copy_sse2.asm
-        vpx_dsp/x86/vpx_high_subpixel_8t_sse2.asm
-        vpx_dsp/x86/vpx_high_subpixel_bilinear_sse2.asm
-        vpx_dsp/x86/vpx_subpixel_4t_intrin_sse2.c
-        vpx_dsp/x86/vpx_subpixel_8t_intrin_avx2.c
-        vpx_dsp/x86/vpx_subpixel_8t_intrin_ssse3.c
-        vpx_dsp/x86/vpx_subpixel_8t_sse2.asm
-        vpx_dsp/x86/vpx_subpixel_8t_ssse3.asm
-        vpx_dsp/x86/vpx_subpixel_bilinear_sse2.asm
-        vpx_dsp/x86/vpx_subpixel_bilinear_ssse3.asm
-
-        vpx_ports/emms_mmx.asm
-        vpx_ports/emms_mmx.c
-        vpx_ports/msvc.h  # only in v1.13.1
-        #vp8/encoder/denoising.c
-        #vp8/encoder/denoising.h
-        #vp8/encoder/x86/denoising_sse2.c
-
-        #vp9/encoder/vp9_denoiser.c
-        #vp9/encoder/vp9_denoiser.h
-
-        #vp9/encoder/x86/vp9_denoiser_sse2.c
-        #vp9/encoder/x86/vp9_diamond_search_sad_avx.c
-        #vp9/encoder/x86/vp9_error_avx2.c
-        #vp9/encoder/x86/vp9_error_sse2.asm
-        #vp9/encoder/x86/vp9_frame_scale_ssse3.c
-
-        #vp9/encoder/x86/vp9_highbd_block_error_intrin_sse2.c
-
-        #vp9/encoder/x86/vp9_quantize_avx2.c
-        #vp9/encoder/x86/vp9_quantize_sse2.c
-        #vp9/encoder/x86/vp9_quantize_ssse3.c
-    )
-
-    if(DEFINED TARGET_OS_WINDOWS)
-        list(APPEND vpx_SOURCES
-            vpx_dsp/sse.c
-            vpx_config_win_x64.c
-            vpx_config_win_x64.asm
-
-        )
-    else()
-        if(DEFINED TARGET_OS_LINUX)
-            list(APPEND vpx_SOURCES
-                vpx_dsp/sse.c
-                vpx_config_linux_x64.h
-                vpx_config_linux_x64.c
-                vpx_config_linux_x64.asm
-                vpx_config_linux_x64.h
-                vpx_config_linux_x64.c
-
-                vp8/common/x86/mfqe_sse2.asm
-                vp8/common/mfqe.c
-                vp8/common/postproc.h
-                vp8/common/postproc.c
-                vp8_rtcd_linux_x64.h
-                vp9_rtcd_linux_x64.h
-                vpx_dsp_rtcd_linux_x64.h
-                vpx_scale_rtcd_linux_x64.h
-            )
-        endif()
-    endif()
-else()
-    list(APPEND vpx_SOURCES 
-        vp8_rtcd_arm64.h
-        vp9_rtcd_arm64.h
-        vpx_dsp_rtcd_arm64.h
-        vpx_scale_rtcd_arm64.h
-
-
-        vp8/common/arm/loopfilter_arm.c
-        vp8/common/arm/neon/bilinearpredict_neon.c
-        vp8/common/arm/neon/copymem_neon.c
-        vp8/common/arm/neon/dc_only_idct_add_neon.c
-        vp8/common/arm/neon/dequantizeb_neon.c
-        vp8/common/arm/neon/dequant_idct_neon.c
-        vp8/common/arm/neon/idct_blk_neon.c
-
-        vp8/common/arm/neon/iwalsh_neon.c
-        vp8/common/arm/neon/loopfiltersimplehorizontaledge_neon.c
-        vp8/common/arm/neon/loopfiltersimpleverticaledge_neon.c
-        vp8/common/arm/neon/mbloopfilter_neon.c
-        vp8/common/arm/neon/shortidct4x4llm_neon.c
-        vp8/common/arm/neon/sixtappredict_neon.c
-        vp8/common/arm/neon/vp8_loopfilter_neon.c
-
-        #vp8/encoder/arm/neon/fastquantizeb_neon.c # only in libvpx 1.13.1
-        #vp8/encoder/arm/neon/shortfdct_neon.c # only in libvpx 1.13.1
-        #vp8/encoder/arm/neon/vp8_shortwalsh4x4_neon.c # only in libvpx 1.13.1
-
-        #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
-        #vp9/common/arm/neon/vp9_highbd_iht16x16_add_neon.c
-        #vp9/common/arm/neon/vp9_highbd_iht4x4_add_neon.c
-        #vp9/common/arm/neon/vp9_highbd_iht8x8_add_neon.c
-
-        vp9/common/arm/neon/vp9_iht16x16_add_neon.c
-        vp9/common/arm/neon/vp9_iht4x4_add_neon.c
-        vp9/common/arm/neon/vp9_iht8x8_add_neon.c
-        vp9/common/arm/neon/vp9_iht_neon.h
-
-        #vp9/encoder/arm/neon/vp9_dct_neon.c
-        #denoiser not used
-        #vp9/encoder/arm/neon/vp9_denoiser_neon.c
-        #vp9/encoder/arm/neon/vp9_diamond_search_sad_neon.c
-        #vp9/encoder/arm/neon/vp9_error_neon.c
-
-        # sve not supported
-        #vp9/encoder/arm/neon/vp9_error_sve.c
-
-        #vp9/encoder/arm/neon/vp9_frame_scale_neon.c
-
-        #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
-        #vp9/encoder/arm/neon/vp9_highbd_error_neon.c
-        #vp9/encoder/arm/neon/vp9_highbd_temporal_filter_neon.c
-
-        vp9/encoder/arm/neon/vp9_quantize_neon.c
-        # not in v1.13.1 vp9/encoder/arm/neon/vp9_temporal_filter_neon.c
-
-        vpx_dsp/arm/avg_neon.c
-        vpx_dsp/arm/avg_pred_neon.c
-        vpx_dsp/arm/deblock_neon.c
-        vpx_dsp/arm/fdct16x16_neon.c
-        vpx_dsp/arm/fdct16x16_neon.h
-        vpx_dsp/arm/fdct32x32_neon.c
-        vpx_dsp/arm/fdct32x32_neon.h
-        vpx_dsp/arm/fdct4x4_neon.c
-        vpx_dsp/arm/fdct4x4_neon.h
-        vpx_dsp/arm/fdct8x8_neon.c
-        vpx_dsp/arm/fdct8x8_neon.h
-        vpx_dsp/arm/fdct_neon.h
-        vpx_dsp/arm/fdct_partial_neon.c
-        vpx_dsp/arm/hadamard_neon.c
-
-        #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
-        # not in v1.13.1 #vpx_dsp/arm/highbd_avg_neon.c
-        # not in v1.13.1 #vpx_dsp/arm/highbd_avg_pred_neon.c
-        # not in v1.13.1 #vpx_dsp/armhighbd_convolve8_neon.h
-        # not in v1.13.1 #vpx_dsp/armhighbd_convolve8_sve.h
-        # not in v1.13.1 #vpx_dsp/armhighbd_hadamard_neon.c
-        #vpx_dsp/arm/highbd_idct16x16_add_neon# not in v1.13.1 .c
-        #vpx_dsp/arm/highbd_idct32x32_1024_add_neon.c
-        #vpx_dsp/arm/highbd_idct32x32_135_add_neon.c
-        #vpx_dsp/arm/highbd_idct32x32_34_add_neon.c
-        #vpx_dsp/arm/highbd_idct32x32_add_neon.c
-        #vpx_dsp/arm/highbd_idct4x4_add_neon.c
-        #vpx_dsp/arm/highbd_idct8x8_add_neon.c
-        #vpx_dsp/arm/highbd_idct_neon.h
-        #vpx_dsp/arm/highbd_intrapred_neon.c
-        #vpx_dsp/arm/highbd_loopfilter_neon.c
-        #vpx_dsp/arm/highbd_quantize_neon.c
-        # not in v1.13.1 #vpx_dsp/arm/highbd_sad4d_neon.c
-        #vpx_dsp/arm/highbd_sad_neon.c
-        # not in v1.13.1 #vpx_dsp/arm/highbd_sse_neon.c
-        # not in v1.13.1 #vpx_dsp/arm/highbd_subpel_variance_neon.c
-        #vpx_dsp/arm/highbd_variance_neon.c
-        # not in v1.13.1 #vpx_dsp/arm/highbd_variance_neon_dotprod.c
-        # not in v1.13.1 #vpx_dsp/arm/highbd_variance_sve.c
-        #vpx_dsp/arm/highbd_vpx_convolve8_neon.c
-        # not in v1.13.1 #vpx_dsp/arm/highbd_vpx_convolve8_sve.c
-        # not in v1.13.1 #vpx_dsp/arm/highbd_vpx_convolve8_sve2.c
-        #vpx_dsp/arm/highbd_vpx_convolve_avg_neon.c
-        #vpx_dsp/arm/highbd_vpx_convolve_copy_neon.c
-
-
-        vpx_dsp/arm/idct16x16_1_add_neon.c
-        vpx_dsp/arm/idct16x16_add_neon.c
-        vpx_dsp/arm/idct32x32_135_add_neon.c
-        vpx_dsp/arm/idct32x32_1_add_neon.c
-        vpx_dsp/arm/idct32x32_34_add_neon.c
-        vpx_dsp/arm/idct32x32_add_neon.c
-        #vpx_dsp/arm/idct4x4_1_add_neon.asm
-        vpx_dsp/arm/idct4x4_1_add_neon.c
-        #vpx_dsp/arm/idct4x4_add_neon.asm
-        vpx_dsp/arm/idct4x4_add_neon.c
-        vpx_dsp/arm/idct8x8_1_add_neon.c
-        vpx_dsp/arm/idct8x8_add_neon.c
-        #vpx_dsp/arm/idct_neon.asm
-        vpx_dsp/arm/idct_neon.h
-        vpx_dsp/arm/intrapred_neon.c
-        #vpx_dsp/arm/intrapred_neon_asm.asm
-        #vpx_dsp/arm/loopfilter_16_neon.asm
-        #vpx_dsp/arm/loopfilter_4_neon.asm
-        #vpx_dsp/arm/loopfilter_8_neon.asm
-        vpx_dsp/arm/loopfilter_neon.c
-        vpx_dsp/arm/mem_neon.h
-        vpx_dsp/arm/quantize_neon.c
-        vpx_dsp/arm/sad4d_neon.c
-        # not in v1.13.1 vpx_dsp/arm/sad4d_neon_dotprod.c
-        vpx_dsp/arm/sad_neon.c
-        # not in v1.13.1 vpx_dsp/arm/sad_neon_dotprod.c
-        #vpx_dsp/arm/save_reg_neon.asm
-        # not in v1.13.1 vpx_dsp/arm/sse_neon.c
-        # not in v1.13.1 vpx_dsp/arm/sse_neon_dotprod.c
-        vpx_dsp/arm/subpel_variance_neon.c
-        vpx_dsp/arm/subtract_neon.c
-        vpx_dsp/arm/sum_neon.h
-        vpx_dsp/arm/sum_squares_neon.c
-
-        # sve not supported
-        # not in v1.13.1 #vpx_dsp/arm/sum_squares_sve.c
-
-        vpx_dsp/arm/transpose_neon.h
-        vpx_dsp/arm/variance_neon.c
-        # not in v1.13.1 vpx_dsp/arm/variance_neon_dotprod.c
-        #vpx_dsp/arm/vpx_convolve8_avg_horiz_filter_type1_neon.asm
-        #vpx_dsp/arm/vpx_convolve8_avg_horiz_filter_type2_neon.asm
-        #vpx_dsp/arm/vpx_convolve8_avg_vert_filter_type1_neon.asm
-        #vpx_dsp/arm/vpx_convolve8_avg_vert_filter_type2_neon.asm
-        #vpx_dsp/arm/vpx_convolve8_horiz_filter_type1_neon.asm
-        #vpx_dsp/arm/vpx_convolve8_horiz_filter_type2_neon.asm
-        vpx_dsp/arm/vpx_convolve8_neon.c
-        vpx_dsp/arm/vpx_convolve8_neon.h
-        #vpx_dsp/arm/vpx_convolve8_neon_asm.c
-        #vpx_dsp/arm/vpx_convolve8_neon_asm.h
-        # not in v1.13.1 vpx_dsp/arm/vpx_convolve8_neon_dotprod.c
-        # not in v1.13.1 vpx_dsp/arm/vpx_convolve8_neon_i8mm.c
-        #vpx_dsp/arm/vpx_convolve8_vert_filter_type1_neon.asm
-        #vpx_dsp/arm/vpx_convolve8_vert_filter_type2_neon.asm
-        vpx_dsp/arm/vpx_convolve_avg_neon.c
-        #vpx_dsp/arm/vpx_convolve_avg_neon_asm.asm
-        vpx_dsp/arm/vpx_convolve_copy_neon.c
-        #vpx_dsp/arm/vpx_convolve_copy_neon_asm.asm
-        vpx_dsp/arm/vpx_convolve_neon.c
-        # not in v1.13.1 #vpx_dsp/arm/vpx_neon_sve2_bridge.h
-        # not in v1.13.1 #vpx_dsp/arm/vpx_neon_sve_bridge.h
-        vpx_dsp/arm/vpx_scaled_convolve8_neon.c
-    )
-
-    if(DEFINED TARGET_OS_LINUX)
-        list(APPEND vpx_SOURCES
-            vpx_config_linux_arm64.c
-            # not in v1.13.1 vpx_ports/aarch64_cpudetect.c
-            )
-    endif()
-    
-    if(DEFINED TARGET_OS_ANDROID)
-        list(APPEND vpx_SOURCES 
-            ../androidNdk/android/cpufeatures/cpu-features_ndk.c
-            )
-        if(DEFINED TARGET_CPU_ARM64)
-            list(APPEND vpx_SOURCES
-                vpx_config_android_arm64.c
-                vpx_config_android_arm64.h
-                # not in v1.13.1 #vpx_ports/aarch64_cpudetect.c
-                )
-        else()
-            list(APPEND vpx_SOURCES
-                vpx_config_android_arm32.c
-                vpx_config_android_arm32.h
-                # not in v1.13.1 #vpx_ports/aarch32_cpudetect.c
-                )
-        endif()
-
-    endif()
-endif()
-
 list(APPEND vpx_SOURCES 
-
     args.c
     ivfdec.c
     ivfenc.c
@@ -423,7 +13,7 @@ list(APPEND vpx_SOURCES
     rate_hist.c
     video_reader.c
     video_writer.c
-    vpxdec.c
+    # vpxdec.c // do not include when building windows target
     #vpxenc.c
     vpxstats.c
     warnings.c
@@ -871,16 +461,443 @@ list(APPEND vpx_SOURCES
     vpx_dsp/vpx_dsp_rtcd.c
     vpx_scale/vpx_scale_rtcd.c
 
+    #vpxdec.c
 )
 
+# if(NOT DEFINED TARGET_OS_WINDOWS)
+#     list(APPEND vpx_SOURCES
+#         vpxdec.c
+#     )
+
+# endif()
+
+
 if(DEFINED TARGET_CPU_X64)
+    list(APPEND vpx_SOURCES 
+
+        vp9/common/x86/vp9_idct_intrin_sse2.c
+        #vp9/common/x86/vp9_highbd_iht4x4_add_sse4.c
+
+        vp8/common/x86/bilinear_filter_sse2.c
+        vp8/common/x86/dequantize_mmx.asm
+        vp8/common/x86/idct_blk_mmx.c
+        vp8/common/x86/idct_blk_sse2.c
+        vp8/common/x86/idctllm_mmx.asm
+        vp8/common/x86/idctllm_sse2.asm
+        vp8/common/x86/iwalsh_sse2.asm
+        vp8/common/x86/loopfilter_block_sse2_x86_64.asm
+        vp8/common/x86/loopfilter_sse2.asm
+        vp8/common/x86/loopfilter_x86.c
+
+        # no postproc
+        #vp8/common/x86/mfqe_sse2.asm
+
+        vp8/common/x86/recon_mmx.asm
+        vp8/common/x86/recon_sse2.asm
+        vp8/common/x86/subpixel_mmx.asm
+        vp8/common/x86/subpixel_sse2.asm
+        vp8/common/x86/subpixel_ssse3.asm
+        vp8/common/x86/vp8_asm_stubs.c
+
+        #vp8/encoder/x86/block_error_sse2.asm
+        #vp8/encoder/x86/copy_sse2.asm
+        #vp8/encoder/x86/copy_sse3.asm
+        #vp8/encoder/x86/dct_sse2.asm
+
+
+        #vp8/encoder/x86/fwalsh_sse2.asm
+        #vp8/encoder/x86/quantize_sse4.c
+        #vp8/encoder/x86/temporal_filter_apply_sse2.asm
+        #vp8/encoder/x86/vp8_enc_stubs_sse2.c
+        #vp8/encoder/x86/vp8_quantize_sse2.c
+        #vp8/encoder/x86/vp8_quantize_ssse3.c
+
+        #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
+        #vp9/common/x86/vp9_highbd_iht16x16_add_sse4.c
+        #vp9/common/x86/vp9_highbd_iht4x4_add_sse4.c
+        #vp9/common/x86/vp9_highbd_iht8x8_add_sse4.c
+
+        vp9/common/x86/vp9_idct_intrin_sse2.c
+
+        # no postproc
+        #vp9/common/x86/vp9_mfqe_sse2.asm
+
+        #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
+        #vp9/encoder/x86/highbd_temporal_filter_avx2.c
+        #vp9/encoder/x86/highbd_temporal_filter_sse4.c
+        #vp9/encoder/x86/highbd_temporal_filter_ssse3.c
+
+        # not in v1.13.1 vp9/encoder/x86/temporal_filter_avx2.c
+        #vp9/encoder/x86/temporal_filter_sse4.c
+        # not in v1.13.1 vp9/encoder/x86/temporal_filter_ssse3.c
+        #vp9/encoder/x86/vp9_dct_intrin_sse2.c
+        #vp9/encoder/x86/vp9_dct_sse2.asm
+
+        # not in v1.13.1 vp9/encoder/x86/vp9_error_avx2.c
+        # not in v1.13.1 vp9/encoder/x86/vp9_diamond_search_sad_avx2.c # only in v1.13.1
+        #vp9/encoder/x86/vp9_error_sse2.asm
+        # not in v1.13.1 vp9/encoder/x86/vp9_frame_scale_ssse3.c
+        #vp9/encoder/x86/vp9_highbd_block_error_intrin_sse2.c
+        #vp9/encoder/x86/vp9_quantize_avx2.c
+        #vp9/encoder/x86/vp9_quantize_sse2.c
+        #vp9/encoder/x86/vp9_quantize_ssse3.c
+
+        vpx_dsp/x86/add_noise_sse2.asm
+        vpx_dsp/x86/avg_intrin_avx2.c
+        vpx_dsp/x86/avg_intrin_sse2.c
+        # not in v1.13.1 vpx_dsp/x86/avg_pred_avx2.c
+        vpx_dsp/x86/avg_pred_sse2.c
+        vpx_dsp/x86/avg_ssse3_x86_64.asm
+        vpx_dsp/x86/bitdepth_conversion_avx2.h
+        vpx_dsp/x86/bitdepth_conversion_sse2.asm
+        vpx_dsp/x86/bitdepth_conversion_sse2.h
+        vpx_dsp/x86/convolve_avx2.h
+        vpx_dsp/x86/convolve.h
+        vpx_dsp/x86/convolve_sse2.h
+        vpx_dsp/x86/convolve_ssse3.h
+        vpx_dsp/x86/deblock_sse2.asm
+        vpx_dsp/x86/fwd_dct32x32_impl_avx2.h
+        vpx_dsp/x86/fwd_dct32x32_impl_sse2.h
+        vpx_dsp/x86/fwd_txfm_avx2.c
+        vpx_dsp/x86/fwd_txfm_impl_sse2.h
+        vpx_dsp/x86/fwd_txfm_sse2.c
+        vpx_dsp/x86/fwd_txfm_sse2.h
+        vpx_dsp/x86/fwd_txfm_ssse3_x86_64.asm
+
+        #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
+        #vpx_dsp/x86/highbd_convolve_avx2.c
+        #vpx_dsp/x86/highbd_idct16x16_add_sse2.c
+        #vpx_dsp/x86/highbd_idct16x16_add_sse4.c
+        #vpx_dsp/x86/highbd_idct32x32_add_sse2.c
+        #vpx_dsp/x86/highbd_idct32x32_add_sse4.c
+        #vpx_dsp/x86/highbd_idct4x4_add_sse2.c
+        #vpx_dsp/x86/highbd_idct4x4_add_sse4.c
+        #vpx_dsp/x86/highbd_idct8x8_add_sse2.c
+        #vpx_dsp/x86/highbd_idct8x8_add_sse4.c
+        #vpx_dsp/x86/highbd_intrapred_intrin_sse2.c
+        #vpx_dsp/x86/highbd_intrapred_intrin_ssse3.c
+        #vpx_dsp/x86/highbd_intrapred_sse2.asm
+        #vpx_dsp/x86/highbd_inv_txfm_sse2.h
+        #vpx_dsp/x86/highbd_inv_txfm_sse4.h
+        #vpx_dsp/x86/highbd_loopfilter_sse2.c
+        #vpx_dsp/x86/highbd_quantize_intrin_avx2.c
+        #vpx_dsp/x86/highbd_quantize_intrin_sse2.c
+        #vpx_dsp/x86/highbd_sad4d_avx2.c
+        #vpx_dsp/x86/highbd_sad4d_sse2.asm
+        #vpx_dsp/x86/highbd_sad_avx2.c
+        #vpx_dsp/x86/highbd_sad_sse2.asm
+        #vpx_dsp/x86/highbd_subpel_variance_impl_sse2.asm
+        #vpx_dsp/x86/highbd_variance_impl_sse2.asm
+        #vpx_dsp/x86/highbd_variance_sse2.c
+
+        vpx_dsp/x86/intrapred_sse2.asm
+        vpx_dsp/x86/intrapred_ssse3.asm
+        # not in v1.13.1 vpx_dsp/x86/inv_txfm_avx2.c
+        vpx_dsp/x86/inv_txfm_sse2.c
+        vpx_dsp/x86/inv_txfm_sse2.h
+        vpx_dsp/x86/inv_txfm_ssse3.c
+        vpx_dsp/x86/inv_txfm_ssse3.h
+        vpx_dsp/x86/inv_wht_sse2.asm
+        vpx_dsp/x86/loopfilter_avx2.c
+        vpx_dsp/x86/loopfilter_sse2.c
+        vpx_dsp/x86/mem_sse2.h
+        vpx_dsp/x86/post_proc_sse2.c
+        vpx_dsp/x86/quantize_avx2.c
+        vpx_dsp/x86/quantize_avx.c
+        vpx_dsp/x86/quantize_sse2.c
+        vpx_dsp/x86/quantize_sse2.h
+        vpx_dsp/x86/quantize_ssse3.c
+        vpx_dsp/x86/quantize_ssse3.h
+
+        vpx_dsp/x86/sad4d_avx2.c
+        vpx_dsp/x86/sad4d_avx512.c
+        vpx_dsp/x86/sad4d_sse2.asm
+        vpx_dsp/x86/sad_avx2.c
+        vpx_dsp/x86/sad_sse2.asm
+        # not in v1.13.1 vpx_dsp/x86/sse_avx2.c
+        # not in v1.13.1 vpx_dsp/x86/sse_sse4.c
+        vpx_dsp/x86/ssim_opt_x86_64.asm
+        vpx_dsp/x86/subpel_variance_sse2.asm
+        vpx_dsp/x86/subtract_avx2.c
+        vpx_dsp/x86/subtract_sse2.asm
+        vpx_dsp/x86/sum_squares_sse2.c
+        vpx_dsp/x86/transpose_sse2.h
+        vpx_dsp/x86/txfm_common_sse2.h
+        vpx_dsp/x86/variance_avx2.c
+        vpx_dsp/x86/variance_sse2.c
+        vpx_dsp/x86/vpx_convolve_copy_sse2.asm
+        vpx_dsp/x86/vpx_high_subpixel_8t_sse2.asm
+        vpx_dsp/x86/vpx_high_subpixel_bilinear_sse2.asm
+        vpx_dsp/x86/vpx_subpixel_4t_intrin_sse2.c
+        vpx_dsp/x86/vpx_subpixel_8t_intrin_avx2.c
+        vpx_dsp/x86/vpx_subpixel_8t_intrin_ssse3.c
+        vpx_dsp/x86/vpx_subpixel_8t_sse2.asm
+        vpx_dsp/x86/vpx_subpixel_8t_ssse3.asm
+        vpx_dsp/x86/vpx_subpixel_bilinear_sse2.asm
+        vpx_dsp/x86/vpx_subpixel_bilinear_ssse3.asm
+
+        vpx_ports/emms_mmx.asm
+        vpx_ports/emms_mmx.c
+        vpx_ports/msvc.h  # only in v1.13.1
+        #vp8/encoder/denoising.c
+        #vp8/encoder/denoising.h
+        #vp8/encoder/x86/denoising_sse2.c
+
+        #vp9/encoder/vp9_denoiser.c
+        #vp9/encoder/vp9_denoiser.h
+
+        #vp9/encoder/x86/vp9_denoiser_sse2.c
+        #vp9/encoder/x86/vp9_diamond_search_sad_avx.c
+        #vp9/encoder/x86/vp9_error_avx2.c
+        #vp9/encoder/x86/vp9_error_sse2.asm
+        #vp9/encoder/x86/vp9_frame_scale_ssse3.c
+
+        #vp9/encoder/x86/vp9_highbd_block_error_intrin_sse2.c
+
+        #vp9/encoder/x86/vp9_quantize_avx2.c
+        #vp9/encoder/x86/vp9_quantize_sse2.c
+        #vp9/encoder/x86/vp9_quantize_ssse3.c
+
+        vpx_dsp/sse.c
+    )
+
+    if(DEFINED TARGET_OS_WINDOWS)
+        list(REMOVE_ITEM vpx_SOURCES
+            vpx_ports/emms_mmx.c
+        )
+
+        # Windows add
+        list(APPEND vpx_SOURCES
+            vpx_config_win_x64.c
+            vpx_config_win_x64.h
+            vpx_config_win_x64.asm
+
+            vp8_rtcd_win_x64.h
+            vp9_rtcd_win_x64.h
+            vpx_dsp_rtcd_win_x64.h
+            vpx_scale_rtcd_win_x64.h
+
+            vp8/common/postproc.c
+            vp8/common/mfqe.c
+            vp8/common/x86/mfqe_sse2.asm
+
+        )
+    else()
+        # Linux only add
+        if(DEFINED TARGET_OS_LINUX)
+            list(APPEND vpx_SOURCES
+
+                vpx_config_linux_x64.h
+                vpx_config_linux_x64.c
+                vpx_config_linux_x64.asm
+                vpx_config_linux_x64.h
+                vpx_config_linux_x64.c
+
+                vp8/common/x86/mfqe_sse2.asm
+                vp8/common/mfqe.c
+                vp8/common/postproc.h
+                vp8/common/postproc.c
+                vp8_rtcd_linux_x64.h
+                vp9_rtcd_linux_x64.h
+                vpx_dsp_rtcd_linux_x64.h
+                vpx_scale_rtcd_linux_x64.h
+            )
+        endif()
+    endif()
+else()
+    list(APPEND vpx_SOURCES 
+        vp8_rtcd_arm64.h
+        vp9_rtcd_arm64.h
+        vpx_dsp_rtcd_arm64.h
+        vpx_scale_rtcd_arm64.h
+
+
+        vp8/common/arm/loopfilter_arm.c
+        vp8/common/arm/neon/bilinearpredict_neon.c
+        vp8/common/arm/neon/copymem_neon.c
+        vp8/common/arm/neon/dc_only_idct_add_neon.c
+        vp8/common/arm/neon/dequantizeb_neon.c
+        vp8/common/arm/neon/dequant_idct_neon.c
+        vp8/common/arm/neon/idct_blk_neon.c
+
+        vp8/common/arm/neon/iwalsh_neon.c
+        vp8/common/arm/neon/loopfiltersimplehorizontaledge_neon.c
+        vp8/common/arm/neon/loopfiltersimpleverticaledge_neon.c
+        vp8/common/arm/neon/mbloopfilter_neon.c
+        vp8/common/arm/neon/shortidct4x4llm_neon.c
+        vp8/common/arm/neon/sixtappredict_neon.c
+        vp8/common/arm/neon/vp8_loopfilter_neon.c
+
+        #vp8/encoder/arm/neon/fastquantizeb_neon.c # only in libvpx 1.13.1
+        #vp8/encoder/arm/neon/shortfdct_neon.c # only in libvpx 1.13.1
+        #vp8/encoder/arm/neon/vp8_shortwalsh4x4_neon.c # only in libvpx 1.13.1
+
+        #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
+        #vp9/common/arm/neon/vp9_highbd_iht16x16_add_neon.c
+        #vp9/common/arm/neon/vp9_highbd_iht4x4_add_neon.c
+        #vp9/common/arm/neon/vp9_highbd_iht8x8_add_neon.c
+
+        vp9/common/arm/neon/vp9_iht16x16_add_neon.c
+        vp9/common/arm/neon/vp9_iht4x4_add_neon.c
+        vp9/common/arm/neon/vp9_iht8x8_add_neon.c
+        vp9/common/arm/neon/vp9_iht_neon.h
+
+        #vp9/encoder/arm/neon/vp9_dct_neon.c
+        #denoiser not used
+        #vp9/encoder/arm/neon/vp9_denoiser_neon.c
+        #vp9/encoder/arm/neon/vp9_diamond_search_sad_neon.c
+        #vp9/encoder/arm/neon/vp9_error_neon.c
+
+        # sve not supported
+        #vp9/encoder/arm/neon/vp9_error_sve.c
+
+        #vp9/encoder/arm/neon/vp9_frame_scale_neon.c
+
+        #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
+        #vp9/encoder/arm/neon/vp9_highbd_error_neon.c
+        #vp9/encoder/arm/neon/vp9_highbd_temporal_filter_neon.c
+
+        vp9/encoder/arm/neon/vp9_quantize_neon.c
+        # not in v1.13.1 vp9/encoder/arm/neon/vp9_temporal_filter_neon.c
+
+        vpx_dsp/arm/avg_neon.c
+        vpx_dsp/arm/avg_pred_neon.c
+        vpx_dsp/arm/deblock_neon.c
+        vpx_dsp/arm/fdct16x16_neon.c
+        vpx_dsp/arm/fdct16x16_neon.h
+        vpx_dsp/arm/fdct32x32_neon.c
+        vpx_dsp/arm/fdct32x32_neon.h
+        vpx_dsp/arm/fdct4x4_neon.c
+        vpx_dsp/arm/fdct4x4_neon.h
+        vpx_dsp/arm/fdct8x8_neon.c
+        vpx_dsp/arm/fdct8x8_neon.h
+        vpx_dsp/arm/fdct_neon.h
+        vpx_dsp/arm/fdct_partial_neon.c
+        vpx_dsp/arm/hadamard_neon.c
+
+        #highbd files are for if CONFIG_VP9_HIGHBITDEPTH=1
+        # not in v1.13.1 #vpx_dsp/arm/highbd_avg_neon.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_avg_pred_neon.c
+        # not in v1.13.1 #vpx_dsp/armhighbd_convolve8_neon.h
+        # not in v1.13.1 #vpx_dsp/armhighbd_convolve8_sve.h
+        # not in v1.13.1 #vpx_dsp/armhighbd_hadamard_neon.c
+        #vpx_dsp/arm/highbd_idct16x16_add_neon# not in v1.13.1 .c
+        #vpx_dsp/arm/highbd_idct32x32_1024_add_neon.c
+        #vpx_dsp/arm/highbd_idct32x32_135_add_neon.c
+        #vpx_dsp/arm/highbd_idct32x32_34_add_neon.c
+        #vpx_dsp/arm/highbd_idct32x32_add_neon.c
+        #vpx_dsp/arm/highbd_idct4x4_add_neon.c
+        #vpx_dsp/arm/highbd_idct8x8_add_neon.c
+        #vpx_dsp/arm/highbd_idct_neon.h
+        #vpx_dsp/arm/highbd_intrapred_neon.c
+        #vpx_dsp/arm/highbd_loopfilter_neon.c
+        #vpx_dsp/arm/highbd_quantize_neon.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_sad4d_neon.c
+        #vpx_dsp/arm/highbd_sad_neon.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_sse_neon.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_subpel_variance_neon.c
+        #vpx_dsp/arm/highbd_variance_neon.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_variance_neon_dotprod.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_variance_sve.c
+        #vpx_dsp/arm/highbd_vpx_convolve8_neon.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_vpx_convolve8_sve.c
+        # not in v1.13.1 #vpx_dsp/arm/highbd_vpx_convolve8_sve2.c
+        #vpx_dsp/arm/highbd_vpx_convolve_avg_neon.c
+        #vpx_dsp/arm/highbd_vpx_convolve_copy_neon.c
+
+
+        vpx_dsp/arm/idct16x16_1_add_neon.c
+        vpx_dsp/arm/idct16x16_add_neon.c
+        vpx_dsp/arm/idct32x32_135_add_neon.c
+        vpx_dsp/arm/idct32x32_1_add_neon.c
+        vpx_dsp/arm/idct32x32_34_add_neon.c
+        vpx_dsp/arm/idct32x32_add_neon.c
+        #vpx_dsp/arm/idct4x4_1_add_neon.asm
+        vpx_dsp/arm/idct4x4_1_add_neon.c
+        #vpx_dsp/arm/idct4x4_add_neon.asm
+        vpx_dsp/arm/idct4x4_add_neon.c
+        vpx_dsp/arm/idct8x8_1_add_neon.c
+        vpx_dsp/arm/idct8x8_add_neon.c
+        #vpx_dsp/arm/idct_neon.asm
+        vpx_dsp/arm/idct_neon.h
+        vpx_dsp/arm/intrapred_neon.c
+        #vpx_dsp/arm/intrapred_neon_asm.asm
+        #vpx_dsp/arm/loopfilter_16_neon.asm
+        #vpx_dsp/arm/loopfilter_4_neon.asm
+        #vpx_dsp/arm/loopfilter_8_neon.asm
+        vpx_dsp/arm/loopfilter_neon.c
+        vpx_dsp/arm/mem_neon.h
+        vpx_dsp/arm/quantize_neon.c
+        vpx_dsp/arm/sad4d_neon.c
+        # not in v1.13.1 vpx_dsp/arm/sad4d_neon_dotprod.c
+        vpx_dsp/arm/sad_neon.c
+        # not in v1.13.1 vpx_dsp/arm/sad_neon_dotprod.c
+        #vpx_dsp/arm/save_reg_neon.asm
+        # not in v1.13.1 vpx_dsp/arm/sse_neon.c
+        # not in v1.13.1 vpx_dsp/arm/sse_neon_dotprod.c
+        vpx_dsp/arm/subpel_variance_neon.c
+        vpx_dsp/arm/subtract_neon.c
+        vpx_dsp/arm/sum_neon.h
+        vpx_dsp/arm/sum_squares_neon.c
+
+        # sve not supported
+        # not in v1.13.1 #vpx_dsp/arm/sum_squares_sve.c
+
+        vpx_dsp/arm/transpose_neon.h
+        vpx_dsp/arm/variance_neon.c
+        # not in v1.13.1 vpx_dsp/arm/variance_neon_dotprod.c
+        #vpx_dsp/arm/vpx_convolve8_avg_horiz_filter_type1_neon.asm
+        #vpx_dsp/arm/vpx_convolve8_avg_horiz_filter_type2_neon.asm
+        #vpx_dsp/arm/vpx_convolve8_avg_vert_filter_type1_neon.asm
+        #vpx_dsp/arm/vpx_convolve8_avg_vert_filter_type2_neon.asm
+        #vpx_dsp/arm/vpx_convolve8_horiz_filter_type1_neon.asm
+        #vpx_dsp/arm/vpx_convolve8_horiz_filter_type2_neon.asm
+        vpx_dsp/arm/vpx_convolve8_neon.c
+        vpx_dsp/arm/vpx_convolve8_neon.h
+        #vpx_dsp/arm/vpx_convolve8_neon_asm.c
+        #vpx_dsp/arm/vpx_convolve8_neon_asm.h
+        # not in v1.13.1 vpx_dsp/arm/vpx_convolve8_neon_dotprod.c
+        # not in v1.13.1 vpx_dsp/arm/vpx_convolve8_neon_i8mm.c
+        #vpx_dsp/arm/vpx_convolve8_vert_filter_type1_neon.asm
+        #vpx_dsp/arm/vpx_convolve8_vert_filter_type2_neon.asm
+        vpx_dsp/arm/vpx_convolve_avg_neon.c
+        #vpx_dsp/arm/vpx_convolve_avg_neon_asm.asm
+        vpx_dsp/arm/vpx_convolve_copy_neon.c
+        #vpx_dsp/arm/vpx_convolve_copy_neon_asm.asm
+        vpx_dsp/arm/vpx_convolve_neon.c
+        # not in v1.13.1 #vpx_dsp/arm/vpx_neon_sve2_bridge.h
+        # not in v1.13.1 #vpx_dsp/arm/vpx_neon_sve_bridge.h
+        vpx_dsp/arm/vpx_scaled_convolve8_neon.c
+    )
+
     if(DEFINED TARGET_OS_LINUX)
         list(APPEND vpx_SOURCES
-            vpx_config_linux_x64.h
-            vpx_config_linux_x64
-        )
+            vpx_config_linux_arm64.c
+            # not in v1.13.1 vpx_ports/aarch64_cpudetect.c
+            )
+    endif()
+    
+    if(DEFINED TARGET_OS_ANDROID)
+        list(APPEND vpx_SOURCES 
+            ../androidNdk/android/cpufeatures/cpu-features_ndk.c
+            )
+        if(DEFINED TARGET_CPU_ARM64)
+            list(APPEND vpx_SOURCES
+                vpx_config_android_arm64.c
+                vpx_config_android_arm64.h
+                # not in v1.13.1 #vpx_ports/aarch64_cpudetect.c
+                )
+        else()
+            list(APPEND vpx_SOURCES
+                vpx_config_android_arm32.c
+                vpx_config_android_arm32.h
+                # not in v1.13.1 #vpx_ports/aarch32_cpudetect.c
+                )
+        endif()
+
     endif()
 endif()
+
 if(DEFINED TARGET_CPU_ARM64)
     if(DEFINED TARGET_OS_LINUX)
         list(APPEND vpx_SOURCES
@@ -897,20 +914,33 @@ endif()
 
 add_library(vpx STATIC ${vpx_SOURCES})
 
-target_compile_options(vpx
-    PRIVATE
-    $<$<COMPILE_LANGUAGE:C>:
-         -Wno-missing-prototypes
-         -Wno-strict-prototypes
-         -Wno-undef
-         -Wno-shadow
-         -Wno-unused-but-set-variable
-    >
-)
+if(DEFINED TARGET_OS_WINDOWS)
+    target_compile_definitions(vpx
+        PRIVATE
+            WIN32
+            _CRT_SECURE_NO_WARNINGS
+            _CRT_SECURE_NO_DEPRECATE
+    )
 
-if(DEFINED TARGET_CPU_X64)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mavx512f -mavx512cd -mavx512bw -mavx512dq -mavx512vl -mmmx -msse2 -msse3 -msse4.1 -mavx -mavx2")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx512f -mavx512cd -mavx512bw -mavx512dq -mavx512vl -mmmx -msse2 -msse3 -msse4.1 -mavx -mavx2")
+else()
+    target_compile_options(vpx
+        PRIVATE
+        $<$<COMPILE_LANGUAGE:C>:
+             -Wno-missing-prototypes
+             -Wno-strict-prototypes
+             -Wno-undef
+             -Wno-shadow
+             -Wno-unused-but-set-variable
+        >
+    )
+endif()
+
+if(NOT DEFINED TARGET_OS_WINDOWS)
+    if(DEFINED TARGET_CPU_X64)
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mavx512f -mavx512cd -mavx512bw -mavx512dq -mavx512vl -mmmx -msse2 -msse3 -msse4.1 -mavx -mavx2")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx512f -mavx512cd -mavx512bw -mavx512dq -mavx512vl -mmmx -msse2 -msse3 -msse4.1 -mavx -mavx2")
+    endif()
+
 endif()
 
 if(DEFINED TARGET_CPU_ARM64)

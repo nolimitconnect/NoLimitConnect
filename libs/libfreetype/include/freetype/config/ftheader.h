@@ -22,7 +22,6 @@
 #define FT_DEBUG_LEVEL_ERROR 1
 #define FT_DEBUG_LEVEL_TRACE 1
 #define FT2_BUILD_LIBRARY 1
-#define FT_MAKE_OPTION_SINGLE_OBJECT
 
   /*@***********************************************************************/
   /*                                                                       */

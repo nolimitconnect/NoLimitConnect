@@ -82,7 +82,7 @@
 
 #include <winsock2.h>
 #include <windows.h>
-
+#include <winperf.h>
 
 #include "types_gnu.h"
 #include "g10lib.h"

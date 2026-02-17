@@ -255,6 +255,29 @@ target_include_directories(dav1d
     include
 )
 
+if(DEFINED TARGET_OS_WINDOWS)
+    target_include_directories(dav1d BEFORE PRIVATE
+        include/compat/msvc
+    )
+
+    target_compile_definitions(dav1d
+        PRIVATE
+        TARGET_OS_WINDOWS
+        LIB_STATIC
+        _WIN64
+        HAVE_CONFIG_H
+        _LIB
+        __STDC_CONSTANT_MACROS
+        _CRT_SECURE_NO_WARNINGS
+        _CRT_NONSTDC_NO_DEPRECATE
+    )
+
+    set_property(TARGET dav1d PROPERTY C_STANDARD 90)
+    set_property(TARGET dav1d PROPERTY C_STANDARD_REQUIRED OFF)
+    set_property(TARGET dav1d PROPERTY CXX_STANDARD 14)
+    set_property(TARGET dav1d PROPERTY CXX_STANDARD_REQUIRED OFF)
+endif()
+
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction

@@ -163,10 +163,16 @@ if(DEFINED TARGET_OS_WINDOWS)
         encoder
     )
 
-    target_compile_definitions(x265 PUBLIC  
-        X265_ARCH_X86=1 
+    target_compile_definitions(x265 PRIVATE
+        ARCH_X86_64=1
         X86_64=1
+        LIB_STATIC
+        WIN64
+        __STDC_CONSTANT_MACROS
+        _CRT_SECURE_NO_WARNINGS
+        _CRT_NONSTDC_NO_DEPRECATE
     )
+
 else()
     if(DEFINED TARGET_CPU_ARM64)
         target_include_directories(x265 PRIVATE

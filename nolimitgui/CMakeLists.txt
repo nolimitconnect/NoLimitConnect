@@ -1050,6 +1050,20 @@ qt_add_executable(nolimitconnect
     ${nlc_HEADERS}
     )
 
+if(DEFINED TARGET_OS_WINDOWS)
+    target_compile_definitions(x265 PRIVATE
+        NOMINMAX
+        WIN64
+        WIN32_LEAN_AND_MEAN
+        _MBCS
+        __STDC_CONSTANT_MACROS
+        _CRT_SECURE_NO_WARNINGS
+        _CRT_NONSTDC_NO_DEPRECATE
+        _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
+        _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS
+    )
+endif()
+
 if(DEFINED TARGET_OS_ANDROID)
     message(STATUS "nolimitconnect cpu ${NLC_CPU}")
     if(${NLC_CPU} STREQUAL "CPU_ARM32")
@@ -1123,16 +1137,79 @@ target_link_libraries(nolimitconnect
     wav-decoder
 )
 
-if (DEFINED USE_LIBJPEG_TURBO)
+if (DEFINED TARGET_OS_WINDOWS)
+    target_link_libraries(nolimitconnect
+        PUBLIC
+        jpg
+
+        x264
+        x265
+        dav1d
+        vpx
+
+        pcre
+        opencore-amr
+
+        mediatools
+        speex
+        lame
+        vorbis2
+
+        gnu
+        ass
+
+        fribidi
+
+        iconv
+
+        vxvideolib
+
+        speex
+        tag
+        theora
+        twolame
+        ogg
+
+        netlib
+        pktlib
+
+        echocancel
+        fribidi
+        freetype
+
+        tinyxml
+        xml2
+
+        lzma
+        lzo
+        zip
+        CoreLib
+        zlib
+        crossguid
+        pthread
+
+        aecm-webrtc
+        miniaudio
+        miniupnpc
+        opengl32
+        glu32
+        ole32
+        winmm
+        Rpcrt4
+        ws2_32
+        iphlpapi    # Fixes the unresolved symbols from miniupnpc
+        dwmapi      # Fixes DwmIsCompositionEnabled from player-nlc
+        cfgmgr32    # Fixes CM_Get_DevNode_Status from player-nlc
+        Setupapi    # Fixes SetupDiGetClassDevsA and related functions from player-nlc
+        glew        # Fixes glew32s static linking on Windows used by OverlayRendererQt.cpp from player-nlc
+    )
+
+else()
     target_link_libraries(nolimitconnect
         PUBLIC
         jpegturbo
     )
-else()
-    target_link_libraries(nolimitconnect
-        PUBLIC
-        jpg
-    )
+
 endif()
 
 if (DEFINED TARGET_OS_LINUX)
@@ -1370,66 +1447,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
     endif()
 
 elseif (DEFINED TARGET_OS_WINDOWS)
-    target_link_libraries(nolimitconnect
-        PUBLIC
-        # static nlc libraries
-
-        x264
-        x265
-        dav1d
-        vpx
-
-        pcre
-        opencore-amr
-
-        mediatools
-        speex
-        lame
-        vorbis2
-
-        gnu
-        ass
-
-        fribidi
-        #glew
-        iconv
-        ilb
-
-        vxvideolib
-
-        speex
-        tag
-        theora
-        twolame
-        ogg
-
-        netlib
-        pktlib
-
-        echocancel
-        fribidi
-        freetype
-
-        tinyxml
-        xml2
-
-        lzma
-        lzo
-        zip
-        CoreLib
-        zlib
-        crossguid
-
-        aecm-webrtc
-        miniaudio
-        miniupnpc
-        opengl32
-        glu32
-        ole32
-        winmm
-        Rpcrt4
-    )
-
+    # do nothing .. was already linked
 else()
     message(FATAL_ERROR "Unknown Target OS Defined for target_link_libraries")
 endif()

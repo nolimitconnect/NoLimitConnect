@@ -27,8 +27,30 @@
 
 #include <sys/stat.h>
 #ifdef TARGET_OS_WINDOWS
-	#include "shlobj.h" // for VxGetMyDocumentsDir
+	#include "shlobj.h" // for VxGetMyDocumentsDir and GetFullPathNameA
 	#include <direct.h>
+#define S_IRUSR 0000400
+#define S_IWUSR 0000200
+#define S_IXUSR 0000100
+#define	S_IRWXG	0000070			/* RWX mask for group */
+#define S_IRGRP 0000040
+#define S_IWGRP 0000020
+#define S_IXGRP 0000010
+#define	S_IRWXO	0000007			/* RWX mask for other */
+#define S_IROTH 0000004
+#define S_IWOTH 0000002
+#define S_IXOTH 0000001
+
+#if !S_IRWXU
+# define S_IRWXU (S_IRUSR | S_IWUSR | S_IXUSR)
+#endif
+#if !S_IRWXG
+# define S_IRWXG (S_IRGRP | S_IWGRP | S_IXGRP)
+#endif
+#if !S_IRWXO
+# define S_IRWXO (S_IROTH | S_IWOTH | S_IXOTH)
+#endif
+
 #else
 	#include <dirent.h> // for searching directories
 	#include <ctype.h>
@@ -699,7 +721,7 @@ int32_t VxFileUtil::makeDirectory( const char* pDirectoryPath )
             if(!directoryExists(tempDir))
             {
                 //make directory
-                int errCode = VxMkDir( tempDir, S_IRWXU | S_IRWXG | S_IRWXO );
+                int errCode = mkdir_os( tempDir, S_IRWXU | S_IRWXG | S_IRWXO );
                 if( 0 != errCode)
                 {
                     LogMsg( LOG_INFO, "CoreLib:FailedToMakeDir err %d dir %s", VxGetLastError(), tempDir );

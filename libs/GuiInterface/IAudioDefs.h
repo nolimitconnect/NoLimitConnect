@@ -27,6 +27,11 @@ constexpr int AUDIO_MS_PER_FRAME = 60;               // 60 ms = 0.06 sec of audi
 constexpr int AUDIO_SAMPLES_PER_FRAME = (ECHO_SAMPLE_RATE * AUDIO_CHANNELS * AUDIO_MS_PER_FRAME) / 1000; // 960 samples
 constexpr int AUDIO_BUF_SIZE = AUDIO_SAMPLES_PER_FRAME * AUDIO_BYTES_PER_SAMPLE; // 1,920 bytes
 
+constexpr int OPUS_FIXED_BITRATE_BPS = 32000;
+// Compressed payload size comes from bitrate/time math, not sample rate:
+// bytes_per_frame = bits_per_second * frame_ms / (1000 ms/s * 8 bits/byte) => /8000.
+constexpr int OPUS_COMPRESSED_BYTES_PER_FRAME = (OPUS_FIXED_BITRATE_BPS * AUDIO_MS_PER_FRAME) / 8000;
+
 constexpr int PLAYER_CACHE_FRAMES_CNT = 4; // how many frames of audio to cache for player
 
 constexpr int AUDIO_FRAME_TO_DEVICE_RATE_MULTIPLIER = AUDIO_DEVICE_SAMPLE_RATE / ECHO_SAMPLE_RATE;

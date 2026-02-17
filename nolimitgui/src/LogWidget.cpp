@@ -30,7 +30,7 @@ QPlainTextEdit* LogWidget::getLogEdit( void )  { return ui.m_LogPlainTextEdit;  
 LogWidget::LogWidget( QWidget* parent )
     : QWidget( parent )
     , m_MyApp( GetAppInstance() )
-    , ui(*(new Ui::LogWidgetClass))
+    , ui(*(new Ui::LogWidgetUi))
 {
     ui.setupUi( this );
     ui.m_VerboseCheckBox->setVisible( false );

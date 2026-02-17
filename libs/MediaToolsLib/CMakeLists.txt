@@ -214,6 +214,7 @@ target_compile_definitions(mediatools
 
 if(DEFINED TARGET_OS_WINDOWS)
     target_include_directories(mediatools
+        PRIVATE
         opus/win32
     )
 endif()

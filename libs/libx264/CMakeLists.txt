@@ -108,6 +108,19 @@ target_include_directories(x264 PRIVATE
     common/aarch64
 )
 
+if(DEFINED TARGET_OS_WINDOWS)
+
+    target_compile_definitions(x264 PRIVATE
+        ARCH_X86_64=1
+        X86_64=1
+        LIB_STATIC
+        WIN64
+        __STDC_CONSTANT_MACROS
+        _CRT_SECURE_NO_WARNINGS
+        _CRT_NONSTDC_NO_DEPRECATE
+    )
+endif()
+
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction

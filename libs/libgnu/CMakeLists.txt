@@ -969,14 +969,31 @@ list(APPEND gnu_SOURCES
 
 add_library(gnu STATIC ${gnu_SOURCES})
 
-target_compile_definitions(gnu
-    PRIVATE
-    GLIB_COMPILATION
-    _MBCS
-    __need_nettle_getopt
-    BUILD_GNU_INTERNAL
-    IN_LIBASPRINTF
-)
+if(DEFINED TARGET_OS_WINDOWS)
+    target_compile_definitions(gnu
+        PRIVATE
+        WIN64
+        _LIB
+        WIN32_LEAN_AND_MEAN
+        GLEW_STATIC
+    )
+
+    set_property(TARGET gnu PROPERTY C_STANDARD 90)
+    set_property(TARGET gnu PROPERTY C_STANDARD_REQUIRED OFF)
+    set_property(TARGET gnu PROPERTY CXX_STANDARD 14)
+    set_property(TARGET gnu PROPERTY CXX_STANDARD_REQUIRED OFF)
+
+else()
+    target_compile_definitions(gnu
+        PRIVATE
+        GLIB_COMPILATION
+        _MBCS
+        __need_nettle_getopt
+        BUILD_GNU_INTERNAL
+        IN_LIBASPRINTF
+    )
+
+endif()
 
 target_compile_options( gnu
     PRIVATE

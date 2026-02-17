@@ -625,6 +625,7 @@ RTCD_EXTERN unsigned int (*vpx_sad64x64_avg)(const uint8_t *src_ptr, int src_str
 void vpx_sad64x64x4d_c(const uint8_t *src_ptr, int src_stride, const uint8_t * const ref_array[4], int ref_stride, uint32_t sad_array[4]);
 void vpx_sad64x64x4d_sse2(const uint8_t *src_ptr, int src_stride, const uint8_t * const ref_array[4], int ref_stride, uint32_t sad_array[4]);
 void vpx_sad64x64x4d_avx2(const uint8_t *src_ptr, int src_stride, const uint8_t * const ref_array[4], int ref_stride, uint32_t sad_array[4]);
+void vpx_sad64x64x4d_avx512(const uint8_t *src_ptr, int src_stride, const uint8_t * const ref_array[4], int ref_stride, uint32_t sad_array[4]);
 RTCD_EXTERN void (*vpx_sad64x64x4d)(const uint8_t *src_ptr, int src_stride, const uint8_t * const ref_array[4], int ref_stride, uint32_t sad_array[4]);
 
 unsigned int vpx_sad8x16_c(const uint8_t *src_ptr, int src_stride, const uint8_t *ref_ptr, int ref_stride);
@@ -1043,6 +1044,7 @@ static void setup_rtcd_internal(void)
     if (flags & HAS_AVX2) vpx_sad64x64_avg = vpx_sad64x64_avg_avx2;
     vpx_sad64x64x4d = vpx_sad64x64x4d_sse2;
     if (flags & HAS_AVX2) vpx_sad64x64x4d = vpx_sad64x64x4d_avx2;
+        if (flags & HAS_AVX512) vpx_sad64x64x4d = vpx_sad64x64x4d_avx512;
     vpx_satd = vpx_satd_sse2;
     if (flags & HAS_AVX2) vpx_satd = vpx_satd_avx2;
     vpx_scaled_2d = vpx_scaled_2d_c;

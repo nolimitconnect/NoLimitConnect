@@ -812,6 +812,10 @@
 #define HAVE_SYSCTL 0
 
 #if defined(TARGET_OS_WINDOWS)
+#pragma warning(disable: 4005)
+#endif
+
+#if defined(TARGET_OS_WINDOWS)
 #define HAVE_USLEEP 0
 #else
 #define HAVE_USLEEP 1

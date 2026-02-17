@@ -62,6 +62,11 @@ std::string win32_exception::mVersion;
 bool win32_exception::write_minidump(EXCEPTION_POINTERS* pEp)
 {
   // Create the dump file where the xbmc.exe resides
+  HMODULE hDbgHelpDll = NULL;
+  MINIDUMPWRITEDUMP pDump = NULL;
+  BOOL bMiniDumpSuccessful = FALSE;
+
+
   bool returncode = false;
   std::string dumpFileName;
   std::wstring dumpFileNameW;
@@ -84,13 +89,13 @@ bool win32_exception::write_minidump(EXCEPTION_POINTERS* pEp)
   }
 
   // Load the DBGHELP DLL
-  HMODULE hDbgHelpDll = ::LoadLibraryA("DBGHELP.DLL");
+  hDbgHelpDll = ::LoadLibraryA("DBGHELP.DLL");
   if (!hDbgHelpDll)
   {
     goto cleanup;
   }
 
-  MINIDUMPWRITEDUMP pDump = (MINIDUMPWRITEDUMP)::GetProcAddress(hDbgHelpDll, "MiniDumpWriteDump");
+  pDump = (MINIDUMPWRITEDUMP)::GetProcAddress(hDbgHelpDll, "MiniDumpWriteDump");
   if (!pDump)
   {
     goto cleanup;
@@ -105,7 +110,7 @@ bool win32_exception::write_minidump(EXCEPTION_POINTERS* pEp)
   // Call the minidump api with normal dumping
   // We can get more detail information by using other minidump types but the dump file will be
   // extremely large.
-  BOOL bMiniDumpSuccessful = pDump(GetCurrentProcess(), GetCurrentProcessId(), hDumpFile, MiniDumpNormal, &mdei, 0, NULL);
+  bMiniDumpSuccessful = pDump(GetCurrentProcess(), GetCurrentProcessId(), hDumpFile, MiniDumpNormal, &mdei, 0, NULL);
   if( !bMiniDumpSuccessful )
   {
     goto cleanup;
@@ -132,6 +137,19 @@ bool win32_exception::write_stacktrace(EXCEPTION_POINTERS* pEp)
 {
   #define STACKWALK_MAX_NAMELEN 1024
 
+  int seq=0;
+  DWORD symOptions = 0;
+  tSI pSI       = NULL; 
+  tSGO pSGO     = NULL; 
+  tSSO pSSO     = NULL; 
+  //pSC           = (tSC) GetProcAddress(hDbgHelpDll, "SymCleanup" );
+  tSW pSW       = NULL; 
+  tSGSFA pSGSFA = NULL; 
+  tUDSN pUDSN   = NULL; 
+  tSGLFA pSGLFA = NULL; 
+  tSFTA pSFTA   = NULL; 
+  tSGMB pSGMB   = NULL;
+
   std::string dumpFileName, strOutput;
   std::wstring dumpFileNameW;
   CHAR cTemp[STACKWALK_MAX_NAMELEN];
@@ -151,16 +169,16 @@ bool win32_exception::write_stacktrace(EXCEPTION_POINTERS* pEp)
     goto cleanup;
   }
 
-  tSI pSI       = (tSI) GetProcAddress(hDbgHelpDll, "SymInitialize" );
-  tSGO pSGO     = (tSGO) GetProcAddress(hDbgHelpDll, "SymGetOptions" );
-  tSSO pSSO     = (tSSO) GetProcAddress(hDbgHelpDll, "SymSetOptions" );
+  pSI       = (tSI) GetProcAddress(hDbgHelpDll, "SymInitialize" );
+  pSGO     = (tSGO) GetProcAddress(hDbgHelpDll, "SymGetOptions" );
+  pSSO     = (tSSO) GetProcAddress(hDbgHelpDll, "SymSetOptions" );
   pSC           = (tSC) GetProcAddress(hDbgHelpDll, "SymCleanup" );
-  tSW pSW       = (tSW) GetProcAddress(hDbgHelpDll, "StackWalk64" );
-  tSGSFA pSGSFA = (tSGSFA) GetProcAddress(hDbgHelpDll, "SymGetSymFromAddr64" );
-  tUDSN pUDSN   = (tUDSN) GetProcAddress(hDbgHelpDll, "UnDecorateSymbolName" );
-  tSGLFA pSGLFA = (tSGLFA) GetProcAddress(hDbgHelpDll, "SymGetLineFromAddr64" );
-  tSFTA pSFTA   = (tSFTA) GetProcAddress(hDbgHelpDll, "SymFunctionTableAccess64" );
-  tSGMB pSGMB   = (tSGMB) GetProcAddress(hDbgHelpDll, "SymGetModuleBase64" );
+  pSW       = (tSW) GetProcAddress(hDbgHelpDll, "StackWalk64" );
+  pSGSFA = (tSGSFA) GetProcAddress(hDbgHelpDll, "SymGetSymFromAddr64" );
+  pUDSN   = (tUDSN) GetProcAddress(hDbgHelpDll, "UnDecorateSymbolName" );
+  pSGLFA = (tSGLFA) GetProcAddress(hDbgHelpDll, "SymGetLineFromAddr64" );
+  pSFTA   = (tSFTA) GetProcAddress(hDbgHelpDll, "SymFunctionTableAccess64" );
+  pSGMB   = (tSGMB) GetProcAddress(hDbgHelpDll, "SymGetModuleBase64" );
 
   if(pSI == NULL || pSGO == NULL || pSSO == NULL || pSC == NULL || pSW == NULL || pSGSFA == NULL || pUDSN == NULL || pSGLFA == NULL ||
      pSFTA == NULL || pSGMB == NULL)
@@ -198,7 +216,7 @@ bool win32_exception::write_stacktrace(EXCEPTION_POINTERS* pEp)
   if(pSI(hCurProc, NULL, TRUE) == FALSE)
     goto cleanup;
 
-  DWORD symOptions = pSGO();
+  symOptions = pSGO();
   symOptions |= SYMOPT_LOAD_LINES;
   symOptions |= SYMOPT_FAIL_CRITICAL_ERRORS;
   symOptions &= ~SYMOPT_UNDNAME;
@@ -218,8 +236,7 @@ bool win32_exception::write_stacktrace(EXCEPTION_POINTERS* pEp)
 
   IMAGEHLP_MODULE64 Module;
   memset(&Module, 0, sizeof(Module));
-  Module.SizeOfStruct = sizeof(Module);
-  int seq=0;
+  Module.SizeOfStruct = sizeof(Module); 
 
   strOutput = StringUtils::Format("Thread %d (process %d)\r\n", GetCurrentThreadId(), GetCurrentProcessId());
   WriteFile(hDumpFile, strOutput.c_str(), strOutput.size(), &dwBytes, NULL);
@@ -269,7 +286,7 @@ bool win32_exception::ShouldHook()
 
   bool result = true;
 
-  auto module = ::LoadLibrary("kernel32.dll");
+  auto module = ::LoadLibraryA("kernel32.dll");
   if (module)
   {
     auto func = reinterpret_cast<GCPFN>(::GetProcAddress(module, "GetCurrentPackageFullName"));

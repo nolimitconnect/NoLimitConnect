@@ -24,9 +24,17 @@ target_compile_options( iconv
 if(DEFINED TARGET_OS_WINDOWS)
     target_compile_definitions(iconv
       PRIVATE
+        _WIN64
+        _WINDOWS
         WINDOWS
-        USING_STATIC_LIBICONV
+        _USRDLL
+        BUILDING_LIBICONV
+        BUILDING_LIBCHARSET
+        LIBICONV_EXPORTS
     )
+
+# _WIN64;_DEBUG;_WINDOWS;_USRDLL;BUILDING_LIBICONV;BUILDING_LIBCHARSET;LIBICONV_EXPORTS;%(PreprocessorDefinitions)
+
 endif()
 
 if(DEFINED TARGET_OS_LINUX)

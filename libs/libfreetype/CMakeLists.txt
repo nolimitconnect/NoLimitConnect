@@ -15,13 +15,14 @@ list(APPEND freetype_SOURCES
     src/base/ftglyph_freetype.c
     src/base/ftinit_freetype.c
     src/base/ftmm_freetype.c
-    src/base/ftobjs_freetype.c
+    # src/base/ftobjs_freetype.c
     src/base/ftpfr_freetype.c
     src/base/ftstroke_freetype.c
     src/base/ftsynth_freetype.c
     src/base/ftsystem_freetype.c
     src/base/fttype1_freetype.c
     src/base/ftwinfnt_freetype.c
+
     src/bdf/bdf_freetype.c
     src/cache/ftcache_freetype.c
     src/cache/ftcbasic_freetype.c
@@ -56,15 +57,53 @@ list(APPEND freetype_SOURCES
     harfbuzz/src/hb-gobject-structs.cc
 )
 
+if(DEFINED TARGET_OS_WINDOWS)
+    list(APPEND freetype_SOURCES
+        src/ftdebug.c
+    )
+endif()
+
 add_library(freetype STATIC ${freetype_SOURCES})
 
-target_compile_options( freetype
-    PRIVATE
-    $<$<COMPILE_LANGUAGE:C>:
-        -Wno-undefined-internal
-        -Wno-deprecated-declarations
-    >
-)
+if(DEFINED TARGET_OS_WINDOWS)
+    target_compile_definitions(freetype
+        PRIVATE
+        TARGET_OS_WINDOWS
+        LIB_STATIC
+        WIN64
+        _WIN64
+        _LIB
+        FT_DEBUG_LEVEL_ERROR
+        FT_DEBUG_LEVEL_TRACE
+        FT2_BUILD_LIBRARY
+        __STDC_CONSTANT_MACROS
+        _CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1
+        _CRT_SECURE_NO_WARNINGS
+        _CRT_NONSTDC_NO_DEPRECATE
+    )
+
+    # TARGET_OS_WINDOWS;LIB_STATIC;_DEBUG;WIN64;_WIN64;_LIB;
+    # FT_DEBUG_LEVEL_ERROR;FT_DEBUG_LEVEL_TRACE;FT2_BUILD_LIBRARY;__STDC_CONSTANT_MACROS;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)
+    
+    set_property(TARGET freetype PROPERTY C_STANDARD 90)
+    set_property(TARGET freetype PROPERTY C_STANDARD_REQUIRED OFF)
+    set_property(TARGET freetype PROPERTY CXX_STANDARD 14)
+    set_property(TARGET freetype PROPERTY CXX_STANDARD_REQUIRED OFF)
+else()
+    target_compile_options( freetype
+        PRIVATE
+        $<$<COMPILE_LANGUAGE:C>:
+            -Wno-undefined-internal
+            -Wno-deprecated-declarations
+        >
+    )
+
+    list(APPEND freetype_SOURCES
+        src/base/ftobjs_freetype.c
+    )
+
+endif()
+
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)

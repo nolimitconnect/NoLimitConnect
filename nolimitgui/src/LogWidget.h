@@ -19,7 +19,7 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-    class LogWidgetClass;
+    class LogWidgetUi;
 }
 QT_END_NAMESPACE
 
@@ -49,7 +49,7 @@ protected slots:
 protected:
     QPlainTextEdit*             getLogEdit( void );
 
-    Ui::LogWidgetClass&	        ui;
+    Ui::LogWidgetUi&	        ui;
     AppCommon&                  m_MyApp;
     QFile                       m_LogFile;
     QMutex                      m_LogMutex;

@@ -10,6 +10,7 @@
 
 #ifdef TARGET_WINDOWS
 
+#include <WinSock2.h>
 #include <windows.h>
 
 #define __STDC_FORMAT_MACROS
