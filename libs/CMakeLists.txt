@@ -32,6 +32,8 @@ if(BUILD_LIB_GLU)
     add_subdirectory(libGLU)
 endif()
 
+add_subdirectory(libplayer-nlc)
+
 add_subdirectory(libvpx)
 
 add_subdirectory(ffmpeg)
@@ -76,7 +78,7 @@ add_subdirectory(libogg)
 add_subdirectory(libopencore-amr)
 
 add_subdirectory(libpcre)
-add_subdirectory(libplayer-nlc)
+
 #add_subdirectory(libplist) # not used ?? pretty sure it is needed
 
 if(DEFINED TARGET_OS_WINDOWS)

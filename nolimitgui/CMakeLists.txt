@@ -25,6 +25,17 @@ macro(add_executable _target)
     list (APPEND _allTargets ${_target})
 endmacro()
 
+if(MSVC)
+    # 1. The Preprocessor approach (Most effective for CRT/Standard Library)
+    # This stops the "This function or variable may be unsafe" warnings (e.g. strcpy)
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+    add_compile_definitions(_SCL_SECURE_NO_WARNINGS)
+
+    # 2. The Compiler Flag approach (Broadest hammer)
+    # /wd4996 tells the compiler to literally 'Warning Disable' 4996
+    add_compile_options(/wd4996)
+endif()
+
 #=== SETUP EXECUTABLE ===#
 message(STATUS "nolimitconnect gui project prefix ${CMAKE_PREFIX_PATH}")
 # Add the forms directory to the AUOUIC search paths

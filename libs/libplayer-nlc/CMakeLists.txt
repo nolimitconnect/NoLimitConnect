@@ -4,6 +4,7 @@ cmake_minimum_required (VERSION 3.22.1)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
 project(player-nlc, LANGUAGES C CXX)
 
 if(DEFINED TARGET_OS_ANDROID)
@@ -623,35 +624,6 @@ target_compile_definitions(player-nlc
 )
 
 if(DEFINED TARGET_OS_WINDOWS)
-    target_compile_definitions(player-nlc
-        PRIVATE
-        NOMINMAX
-        _LIB
-        LIB_STATIC
-        WIN64
-        _WINDOWS
-        MS_WINDOWS
-        TARGET_WINDOWS
-        TARGET_WINDOWS_DESKTOP
-        _MBCS
-        __SSE__
-        HAVE_SSE
-        __SSE2__
-        HAVE_SSE2
-        __STDC_CONSTANT_MACROS
-        _CRT_SECURE_NO_WARNINGS
-        _CRT_NONSTDC_NO_DEPRECATE
-        _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
-        _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS
-    )
-
-    if(MSVC)
-        target_compile_options(player-nlc PRIVATE /UUNICODE /U_UNICODE)
-        # This disables the specific check for string literal const-qualifiers
-        target_compile_options(player-nlc PRIVATE /Zc:strictStrings-)
-        # Allows the non-const char* conversion (Legacy behavior)
-        target_compile_options(player-nlc PRIVATE /permissive) 
-    endif()
 
     target_include_directories(player-nlc
           PRIVATE
@@ -693,6 +665,40 @@ target_include_directories(player-nlc
 target_link_libraries(player-nlc Qt::Core Qt::CorePrivate)
 
 
+if(MSVC)
+    # 1. This clears the inherited Unicode definitions from the target
+    set_target_properties(player-nlc PROPERTIES COMPILE_DEFINITIONS "")
+
+    # 2. Re-apply ONLY the ones you actually want for this target
+    target_compile_definitions(player-nlc
+        PRIVATE
+        NOMINMAX
+        _LIB
+        LIB_STATIC
+        WIN64
+        _WINDOWS
+        MS_WINDOWS
+        TARGET_WINDOWS
+        TARGET_WINDOWS_DESKTOP
+        _MBCS
+        __SSE__
+        HAVE_SSE
+        __SSE2__
+        HAVE_SSE2
+
+        _CRT_SECURE_NO_WARNINGS
+        _CRT_NONSTDC_NO_DEPRECATE
+        _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
+        _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS
+        _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
+    )
+
+    # 3. Use the 'Force Undefine' flag to undefine UNICODE that was set by target_link_libraries(player-nlc Qt::Core Qt::CorePrivate)
+    # This tells the compiler: "No matter what you saw earlier, UNSET Unicode"
+    target_compile_options(player-nlc PRIVATE /UUNICODE /U_UNICODE /permissive /Zc:strictStrings-)
+endif()
+
+
 if(NOT DEFINED TARGET_OS_WINDOWS)
     target_compile_options( player-nlc
         PRIVATE
@@ -704,15 +710,21 @@ if(NOT DEFINED TARGET_OS_WINDOWS)
     )
 endif()
 
+if(MSVC)
+    # Fix UNICODE definitions that may have been inherited from linked libraries (like Qt) or global settings
+    string(REPLACE "/DUNICODE" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+    string(REPLACE "/D_UNICODE" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 
-set_target_properties(player-nlc PROPERTIES
-            C_STANDARD 17
-            C_STANDARD_REQUIRED ON
-            CXX_STANDARD 17
-            CXX_STANDARD_REQUIRED ON
-            )
+    # This forcefully UNDEFINES the macros at the compiler level
+    # and ensures they are overridden even if they appear earlier in the command line.
+    add_compile_options(/UUNICODE /U_UNICODE)
 
-target_compile_features(player-nlc PUBLIC cxx_std_17)
+    # Disables specific check for string literal const-qualifiers
+    add_compile_options(/Zc:strictStrings-)
+
+    # This forces permissive mode to win over the later -permissive- flag
+    add_compile_options(/permissive)
+endif()
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)

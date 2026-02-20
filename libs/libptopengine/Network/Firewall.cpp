@@ -10,6 +10,22 @@
 
 #ifdef TARGET_OS_WINDOWS
 
+// why all these headers?
+// because the order of includes causes issues when building with the newer Microsoft Visual Studio 18 (2022) toolchain 
+// without these headers, we get atlchecked.h(142,9): error C2664: 'errno_t ATL::AtlCrtErrorCheck(errno_t)': 
+
+#include <WinSock2.h>
+#include <windows.h>
+#include <atldef.h>     // Add this: Explicitly defines ATL defaults
+#include <atlcomcli.h>  // ATL COM Client classes
+#include <netfw.h>      // Firewall API
+#include <objbase.h>
+#include <oleauto.h>
+#include <comutil.h>
+#include <crtdbg.h>
+#include <stdio.h>
+#include <stdint.h>
+
 #include "Firewall.h"
 
 #include <CoreLib/AppErr.h>

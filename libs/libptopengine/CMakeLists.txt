@@ -1,7 +1,39 @@
 cmake_minimum_required (VERSION 3.22.1)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+# set(CMAKE_CXX_STANDARD 17)
+# set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# if(MSVC)
+#     # Remove default flags from the global strings to prevent D9025
+#     string(REPLACE "/DUNICODE" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+#     string(REPLACE "/D_UNICODE" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+
+#     # Remove default Unicode definitions if they exist
+#     remove_definitions(-DUNICODE -D_UNICODE)
+#     # Force Multi-Byte Character Set
+#     add_definitions(-D_MBCS)
+
+#     # This turns off all warnings for windows builds
+#     add_compile_options(/W0)
+
+#     # add_compile_options(/wd4005 /wd4098 /wd4100 /wd4101 /wd4127 /wd4201 /wd4324 /wd4505 /wd4514 /wd4710 /wd4711 /wd4820)
+
+#     add_compile_definitions(
+#             __STDC_CONSTANT_MACROS
+#             _CRT_SECURE_NO_WARNINGS
+#             _CRT_NONSTDC_NO_DEPRECATE
+#             _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
+#             _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS
+#             _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
+#     )
+
+#     # Disables specific check for string literal const-qualifiers
+#     add_compile_options(/Zc:strictStrings-)
+
+#     # Allows non-const char* conversion (Legacy behavior).. Usually set by /std:c++17 or later
+#     add_compile_options(/permissive)
+
+# endif()
 
 project(ptopengine, LANGUAGES CXX)
 
@@ -287,6 +319,23 @@ target_compile_definitions(ptopengine
     PRIVATE
     ENABLE_NLC_PLAYER
 )
+
+if(MSVC)
+    # Fix UNICODE definitions that may have been inherited from linked libraries (like Qt) or global settings
+    string(REPLACE "/DUNICODE" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+    string(REPLACE "/D_UNICODE" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+
+    # This forcefully UNDEFINES the macros at the compiler level
+    # and ensures they are overridden even if they appear earlier in the command line.
+    add_compile_options(/UUNICODE /U_UNICODE)
+
+    # Disables specific check for string literal const-qualifiers
+    add_compile_options(/Zc:strictStrings-)
+
+    # This forces permissive mode to win over the later -permissive- flag
+    add_compile_options(/permissive)
+endif()
+
 
 target_include_directories(ptopengine
   PRIVATE

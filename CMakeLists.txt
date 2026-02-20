@@ -5,28 +5,45 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-# These warnings as errors are required so can fix issues that fail build in FlatPack 6.9 (was allowed in 6.7)
-if(NOT MSVC)
-    add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=implicit-function-declaration>)
-    add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=incompatible-pointer-types>)
-endif()
 
 if(MSVC)
-    # This turns off all warnings
+    # Remove default flags from the global strings to prevent D9025
+    string(REPLACE "/DUNICODE" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+    string(REPLACE "/D_UNICODE" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+
+    # Remove default Unicode definitions if they exist
+    remove_definitions(-DUNICODE -D_UNICODE)
+    # Force Multi-Byte Character Set
+    add_definitions(-D_MBCS)
+
+    # This turns off all warnings for windows builds
     add_compile_options(/W0)
 
     # add_compile_options(/wd4005 /wd4098 /wd4100 /wd4101 /wd4127 /wd4201 /wd4324 /wd4505 /wd4514 /wd4710 /wd4711 /wd4820)
 
     add_compile_definitions(
-        __STDC_CONSTANT_MACROS
-        _CRT_SECURE_NO_WARNINGS
-        _CRT_NONSTDC_NO_DEPRECATE
-        _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
-        _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS
+            __STDC_CONSTANT_MACROS
+            _CRT_SECURE_NO_WARNINGS
+            _CRT_NONSTDC_NO_DEPRECATE
+            _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
+            _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS
+            _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
     )
+
+    # Disables specific check for string literal const-qualifiers
+    add_compile_options(/Zc:strictStrings-)
+
+    # Allows non-const char* conversion (Legacy behavior).. Usually set by /std:c++17 or later
+    add_compile_options(/permissive)
+
+else()
+    # These warnings as errors are required so can fix issues that fail build in FlatPack 6.9 (was allowed in 6.7)
+    add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=implicit-function-declaration>)
+    add_compile_options($<$<COMPILE_LANGUAGE:C>:-Werror=incompatible-pointer-types>)
+
 endif()
 
-
+# Setup version of application
 include(cmake/version.cmake)
 
 # Split NLC_VERSION into major, minor, patch
@@ -51,8 +68,8 @@ message(STATUS "Version: ${NLC_VERSION} MAJOR ${NLC_VERSION_MAJOR} MINOR ${NLC_V
 # this should only be uncommented temporarily to debug release builds
 # add_compile_definitions(LOG_IN_RELEASE_BUILD=1)
 
-set(QT_NO_QML SCAN TRUE)
 
+# force define of DEBUG if build is debug
 set(CMAKE_CONFIGURATION_TYPES "Release;Debug" CACHE STRING "" FORCE)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
@@ -79,10 +96,12 @@ message(STATUS "CMakeArgs: END")
 
 message("CMAKE_HOST_SYSTEM_NAME ${CMAKE_HOST_SYSTEM_NAME} CMAKE_SYSTEM_PROCESSOR ${CMAKE_SYSTEM_PROCESSOR}")
 
+# determine build system type and OS and CPU TYPE
 set(BUILD_SYSTEM_FLATPAK false)
 set(BUILD_SYSTEM_CMDLINE false)
 set(BUILD_SYSTEM_QCREATOR false)
 set(BUILD_SYSTEM_CI_PIPELINE false)
+set(BUILD_SYSTEM_VISUAL_CODE false)
 
 project(nolimitconnect LANGUAGES C CXX ASM)
 

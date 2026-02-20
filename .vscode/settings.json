@@ -1,8 +1,10 @@
 {
     "cmake.configureSettings": {
+        // This variable can be used in your CMakeLists.txt to conditionally include Visual Studio Code specific code or settings
         "USING_VISUAL_CODE": true
     },
 
+    // Adjust the paths below to match your Qt installation and ensure that CMake can find the necessary Qt components
     "cmake.configureArgs": [
         "-DCMAKE_BUILD_TYPE=Debug",
         "-DCMAKE_PREFIX_PATH=F:/Qt/6.9.3/msvc2022_64",
@@ -10,5 +12,7 @@
     ],
 
     "cmake.configureOnOpen": true,
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "disabled",
+    // Uncomment the following line to force a single-core build to see errors clearly 
+    // "cmake.parallelJobs": 1
 }
