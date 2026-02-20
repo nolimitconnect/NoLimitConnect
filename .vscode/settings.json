@@ -1,0 +1,14 @@
+{
+    "cmake.configureSettings": {
+        "USING_VISUAL_CODE": true
+    },
+
+    "cmake.configureArgs": [
+        "-DCMAKE_BUILD_TYPE=Debug",
+        "-DCMAKE_PREFIX_PATH=F:/Qt/6.9.3/msvc2022_64",
+        "-DQT_QMAKE_EXECUTABLE=F:/Qt/6.9.3/msvc2022_64/bin/qmake.exe"
+    ],
+
+    "cmake.configureOnOpen": true,
+    "C_Cpp.errorSquiggles": "disabled"
+}
