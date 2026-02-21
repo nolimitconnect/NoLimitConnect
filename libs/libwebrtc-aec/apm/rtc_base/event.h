@@ -16,6 +16,7 @@
 #include "rtc_base/synchronization/yield_policy.h"
 
 #if defined(WEBRTC_WIN)
+#include <winsock2.h>
 #include <windows.h>
 #elif defined(WEBRTC_POSIX)
 #include <pthread.h>  // IWYU pragma: keep

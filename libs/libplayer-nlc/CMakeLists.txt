@@ -719,11 +719,11 @@ if(MSVC)
     # and ensures they are overridden even if they appear earlier in the command line.
     add_compile_options(/UUNICODE /U_UNICODE)
 
-    # Disables specific check for string literal const-qualifiers
-    add_compile_options(/Zc:strictStrings-)
-
-    # This forces permissive mode to win over the later -permissive- flag
-    add_compile_options(/permissive)
+    add_compile_options(
+        "$<$<OR:$<COMPILE_LANGUAGE:CXX>,$<COMPILE_LANGUAGE:C>>:/W0>"  # This turns off all warnings for windows builds
+        "$<$<OR:$<COMPILE_LANGUAGE:CXX>,$<COMPILE_LANGUAGE:C>>:/Zc:strictStrings->"  # Disables specific check for string literal const-qualifiers
+        "$<$<OR:$<COMPILE_LANGUAGE:CXX>,$<COMPILE_LANGUAGE:C>>:/permissive>" # Allows non-const char* conversion (Legacy behavior).. Usually set by /std:c++17 or later
+    )
 endif()
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

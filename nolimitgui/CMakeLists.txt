@@ -1146,6 +1146,10 @@ target_link_libraries(nolimitconnect
     ptopengine
     miniaudio
     wav-decoder
+    
+    # webrtc-aec # webrtc audio echo cancel
+    # absl::strings # absl support for webrtc audio echo cancel
+    # absl::base # absl support for webrtc audio echo cancel
 )
 
 if (DEFINED TARGET_OS_WINDOWS)

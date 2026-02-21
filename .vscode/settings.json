@@ -14,5 +14,5 @@
     "cmake.configureOnOpen": true,
     "C_Cpp.errorSquiggles": "disabled",
     // Uncomment the following line to force a single-core build to see errors clearly 
-    // "cmake.parallelJobs": 1
+    //"cmake.parallelJobs": 1
 }

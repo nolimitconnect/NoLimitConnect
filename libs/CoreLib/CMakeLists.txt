@@ -19,6 +19,7 @@ list(APPEND CoreLib_HEADERS
     HostedId.h
     InetAddress.h
     InetAddressParse.h
+    Logger.h
     ObjectCommon.h
     OsDetect.h
     PktBlobEntry.h

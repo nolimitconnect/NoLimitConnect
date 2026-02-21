@@ -19,6 +19,7 @@
 #if defined(WEBRTC_WIN)
 #include <malloc.h>
 #include <wchar.h>
+#include <winsock2.h>
 #include <windows.h>
 
 #endif  // WEBRTC_WIN

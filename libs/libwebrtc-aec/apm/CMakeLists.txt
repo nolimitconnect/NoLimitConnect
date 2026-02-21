@@ -17,8 +17,14 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/../abseil-cpp
 )
 
-# Define WebRTC platform macros (Linux)
-if(DEFINED TARGET_OS_LINUX  OR DEFINED TARGET_OS_ANDROID)
+if(MSVC)
+    add_compile_definitions(
+        WEBRTC_WIN
+        WEBRTC_APM_DEBUG_DUMP=0
+        RTC_DISABLE_VP9
+        NOMINMAX
+    )
+else()
     add_compile_definitions(
         WEBRTC_LINUX
         WEBRTC_POSIX
@@ -32,15 +38,6 @@ if(DEFINED TARGET_OS_LINUX  OR DEFINED TARGET_OS_ANDROID)
     if(DEFINED TARGET_CPU_ARM64)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-error -fno-exceptions -fno-rtti -fPIC")
     endif()
-endif()
-
-if(DEFINED TARGET_OS_WINDOWS)
-    add_compile_definitions(
-        WEBRTC_WIN
-        WEBRTC_APM_DEBUG_DUMP=0
-        RTC_DISABLE_VP9
-        NOMINMAX
-    )
 endif()
 
 # Logging stubs + explicit template instantiations
@@ -362,29 +359,29 @@ set(APM_SOURCES
 # file(GLOB VAD_SOURCES ...)         # Voice Activity Detection
 
 # Create static library
-add_library(webrtc-audio-dsp STATIC ${APM_SOURCES})
+add_library(webrtc-aec STATIC ${APM_SOURCES})
 
-target_compile_definitions(webrtc-audio-dsp
+target_compile_definitions(webrtc-aec
     PRIVATE
     WEBRTC_APM_DEBUG_DUMP=0
 )
 
 if(DEFINED TARGET_POSIX)
-    target_compile_definitions(webrtc-audio-dsp
+    target_compile_definitions(webrtc-aec
         PRIVATE
         WEBRTC_POSIX
     )
 endif()
 
 if(DEFINED TARGET_OS_WINDOWS)
-    target_compile_definitions(webrtc-audio-dsp
+    target_compile_definitions(webrtc-aec
         PRIVATE
         WEBRTC_WIN
     )
 endif()
 
 if(DEFINED TARGET_OS_APPLE)
-    target_compile_definitions(webrtc-audio-dsp
+    target_compile_definitions(webrtc-aec
         PRIVATE
         WEBRTC_MAC
     )
@@ -392,14 +389,14 @@ endif()
 
 
 # Set public include directories for users of this library
-target_include_directories(webrtc-audio-dsp PUBLIC
+target_include_directories(webrtc-aec PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/modules/audio_processing/include
     ${CMAKE_CURRENT_SOURCE_DIR}/api
 )
 
 # Library output name
-set_target_properties(webrtc-audio-dsp PROPERTIES
+set_target_properties(webrtc-aec PROPERTIES
     OUTPUT_NAME webrtc_apm
 )
 

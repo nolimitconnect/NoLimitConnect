@@ -1,14 +1,64 @@
 
 cmake_minimum_required(VERSION 3.22.1)
 
-# webrtc abseil is extreemly picky about how it is built so build it first with
+project(MainSystem LANGUAGES C CXX)
 
-# project(webrtc-abseil LANGUAGES CXX C)
+# --------------------------
+# Detect CPU architecture (only 64-bit allowed)
+# --------------------------
+set(TARGET_CPU_UNKNOWN TRUE)
 
-# set(CMAKE_CXX_STANDARD 20)
-# set(CMAKE_CXX_STANDARD_REQUIRED ON)
-# add_subdirectory(libs/libwebrtc-aec)
+if(MSVC)
+    # only x64 supported on windows
+    set(TARGET_CPU_X64 TRUE)
+    set(TARGET_OS_WINDOWS TRUE)
+    message(STATUS "*** TARGET_OS_WINDOWS ***")
+    add_compile_definitions(TARGET_OS_WINDOWS, TARGET_CPU_X64=1)
 
+else()
+    if(DEFINED ANDROID_ABI)
+        # Android ABIs
+        message(STATUS "*** TARGET_OS_ANDROID ***")
+        if(ANDROID_ABI STREQUAL "arm64-v8a")
+            set(TARGET_CPU_ARM64 TRUE)
+            set(TARGET_OS_ANDROID TRUE)
+            add_compile_definitions(TARGET_OS_ANDROID, TARGET_CPU_ARM64=1)
+        elseif(ANDROID_ABI STREQUAL "x86_64")
+            set(TARGET_CPU_X64 TRUE)
+            set(TARGET_OS_ANDROID TRUE)
+            add_compile_definitions(TARGET_OS_ANDROID, TARGET_CPU_X64=1)
+        else()
+            message(FATAL_ERROR "Unsupported Android ABI: ${ANDROID_ABI}. Only 64-bit CPUs allowed.")
+        endif()
+
+    else()
+        # Non-Android platforms
+
+        string(TOLOWER "${CMAKE_SYSTEM_PROCESSOR}" SYSTEM_PROC_LOWER)
+        if(SYSTEM_PROC_LOWER MATCHES "amd64|x86_64|x64")
+            set(TARGET_CPU_X64 TRUE)
+            set(TARGET_OS_LINUX TRUE)
+            add_compile_definitions(TARGET_OS_LINUX, TARGET_CPU_X64=1)
+        elseif(SYSTEM_PROC_LOWER MATCHES "aarch64|arm64")
+            set(TARGET_CPU_ARM64 TRUE)
+            set(TARGET_OS_LINUX TRUE)
+            add_compile_definitions(TARGET_OS_LINUX, TARGET_CPU_ARM64=1)
+        else()
+            message(FATAL_ERROR "Unsupported CPU: ${CMAKE_SYSTEM_PROCESSOR}. Only x64 or ARM64 allowed.")
+        endif()
+
+    endif()
+endif()
+
+# webrtc abseil is extreemly picky about how it is built so build it first
+include_directories("${CMAKE_CURRENT_LIST_DIR}/libs")
+add_subdirectory(libs/libwebrtc-aec)
+
+unset(TARGET_CPU_X64)
+unset(TARGET_CPU_ARM64)
+unset(TARGET_OS_WINDOWS)
+unset(TARGET_OS_ANDROID)
+unset(TARGET_OS_LINUX)
 
 # end of abseil.. now on to the build of many types mess
 
@@ -27,9 +77,6 @@ if(MSVC)
     # Force Multi-Byte Character Set
     add_definitions(-D_MBCS)
 
-    # This turns off all warnings for windows builds
-    add_compile_options(/W0)
-
     # add_compile_options(/wd4005 /wd4098 /wd4100 /wd4101 /wd4127 /wd4201 /wd4324 /wd4505 /wd4514 /wd4710 /wd4711 /wd4820)
 
     add_compile_definitions(
@@ -41,11 +88,11 @@ if(MSVC)
             _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
     )
 
-    # Disables specific check for string literal const-qualifiers
-    add_compile_options(/Zc:strictStrings-)
-
-    # Allows non-const char* conversion (Legacy behavior).. Usually set by /std:c++17 or later
-    add_compile_options(/permissive)
+    add_compile_options(
+        "$<$<OR:$<COMPILE_LANGUAGE:CXX>,$<COMPILE_LANGUAGE:C>>:/W0>"  # This turns off all warnings for windows builds
+        "$<$<OR:$<COMPILE_LANGUAGE:CXX>,$<COMPILE_LANGUAGE:C>>:/Zc:strictStrings->"  # Disables specific check for string literal const-qualifiers
+        "$<$<OR:$<COMPILE_LANGUAGE:CXX>,$<COMPILE_LANGUAGE:C>>:/permissive>" # Allows non-const char* conversion (Legacy behavior).. Usually set by /std:c++17 or later
+    )
 
 else()
     # These warnings as errors are required so can fix issues that fail build in FlatPack 6.9 (was allowed in 6.7)
@@ -639,8 +686,6 @@ else()
         endif()
 
     elseif(DEFINED TARGET_OS_WINDOWS)
-        message(STATUS "*** TARGET_OS_WINDOWS ***")
-        add_compile_definitions(TARGET_OS_WINDOWS)
         set(TARGET_CPU_X64 true)
         set(PROJECT_BIN_DIR ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Windows)
         set(PROJECT_ASSETS_DIR ${PROJECT_SRC_ROOT_DIR}/nolimitgui/bin-Windows/assets)

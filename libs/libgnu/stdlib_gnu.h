@@ -56,7 +56,7 @@
 #endif
 
 /* Native Windows platforms declare mktemp() in <io.h>.  */
-#if 0 && ((TARGET_OS_WINDOWS) && ! defined __CYGWIN__)
+#if defined(TARGET_OS_WINDOWS) && defined(_MSC_VER) 
 # include <io.h>
 #endif
 
