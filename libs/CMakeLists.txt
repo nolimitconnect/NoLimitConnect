@@ -1,4 +1,9 @@
 
+# CMakeLists.txt for nolimitapp libraries
+
+# Newer and better version of echo cancel library based on WebRTC
+# add_subdirectory(libwebrtc-aec)
+
 # all library project defines
 add_compile_definitions(HAVE_CONFIG_H LIB_STATIC ENABLE_NLC_PLAYER)
 
