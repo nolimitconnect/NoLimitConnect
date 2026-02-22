@@ -17,14 +17,12 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/../abseil-cpp
 )
 
-if(MSVC)
-    add_compile_definitions(
-        WEBRTC_WIN
-        WEBRTC_APM_DEBUG_DUMP=0
-        RTC_DISABLE_VP9
-        NOMINMAX
-    )
-else()
+if(DEFINED TARGET_OS_ANDROID AND DEFINED ANDROID_NDK)
+    include_directories(BEFORE "${ANDROID_NDK}/sources/android/cpufeatures")
+endif()
+
+# Define WebRTC platform macros (Linux)
+if(DEFINED TARGET_OS_LINUX  OR DEFINED TARGET_OS_ANDROID)
     add_compile_definitions(
         WEBRTC_LINUX
         WEBRTC_POSIX
@@ -38,6 +36,27 @@ else()
     if(DEFINED TARGET_CPU_ARM64)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wno-error -fno-exceptions -fno-rtti -fPIC")
     endif()
+endif()
+
+if(DEFINED TARGET_OS_ANDROID)
+    add_compile_definitions(WEBRTC_ANDROID)
+endif()
+
+if(DEFINED TARGET_CPU_ARM64)
+    add_compile_definitions(WEBRTC_ARCH_ARM64)
+endif()
+
+if(DEFINED TARGET_CPU_X64)
+    add_compile_definitions(WEBRTC_ARCH_X86_64)
+endif()
+
+if(DEFINED TARGET_OS_WINDOWS)
+    add_compile_definitions(
+        WEBRTC_WIN
+        WEBRTC_APM_DEBUG_DUMP=0
+        RTC_DISABLE_VP9
+        NOMINMAX
+    )
 endif()
 
 # Logging stubs + explicit template instantiations
@@ -284,6 +303,7 @@ if(DEFINED TARGET_CPU_ARM64)
     list(APPEND COMMON_AUDIO_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/common_audio/fir_filter_neon.cc"
         "${CMAKE_CURRENT_SOURCE_DIR}/common_audio/resampler/sinc_resampler_neon.cc"
+        "${CMAKE_CURRENT_SOURCE_DIR}/common_audio/third_party/ooura/fft_size_128/ooura_fft_neon.cc"
     )
 endif()
 
@@ -305,6 +325,12 @@ set(APM_API_SOURCES
 if(DEFINED TARGET_OS_WINDOWS)
     list(APPEND APM_API_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/api/task_queue/default_task_queue_factory_win.cc"
+    )
+endif()
+
+if(DEFINED TARGET_POSIX)
+    list(APPEND APM_API_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/api/task_queue/default_task_queue_factory_stdlib.cc"
     )
 endif()
 
@@ -335,11 +361,20 @@ if(DEFINED TARGET_OS_WINDOWS)
     )
 endif()
 
+if(DEFINED TARGET_POSIX)
+    list(APPEND APM_RTC_BASE_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/rtc_base/platform_thread.cc"
+        "${CMAKE_CURRENT_SOURCE_DIR}/rtc_base/platform_thread_types.cc"
+        "${CMAKE_CURRENT_SOURCE_DIR}/rtc_base/task_queue_stdlib.cc"
+    )
+endif()
+
 # Stub sources for removed RNNoise-dependent components
 set(APM_STUB_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/stubs/field_trials_registry_stub.cc"
     "${CMAKE_CURRENT_SOURCE_DIR}/stubs/vad_audio_proc_stub.cc"
     "${CMAKE_CURRENT_SOURCE_DIR}/stubs/vad_wrapper_stub.cc"
+    "${CMAKE_CURRENT_SOURCE_DIR}/stubs/warn_current_thread_is_deadlocked_stub.cc"
 )
 
 set(APM_SOURCES
@@ -354,6 +389,12 @@ set(APM_SOURCES
     ${CPU_INFO_SOURCES}
     ${RTC_BASE_UTIL_SOURCES}
 )
+
+if(DEFINED TARGET_OS_ANDROID AND DEFINED ANDROID_NDK)
+    list(APPEND APM_SOURCES
+        "${ANDROID_NDK}/sources/android/cpufeatures/cpu-features.c"
+    )
+endif()
 
 # Future phases:
 # file(GLOB VAD_SOURCES ...)         # Voice Activity Detection
@@ -393,6 +434,8 @@ if(DEFINED TARGET_CPU_ARM64)
         WEBRTC_HAS_NEON
     )
 endif()
+
+
 
 # Set public include directories for users of this library
 target_include_directories(webrtc-aec PUBLIC

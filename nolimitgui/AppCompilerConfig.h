@@ -836,7 +836,9 @@ typedef struct _TIME_ZONE_INFORMATION {
 #ifdef TARGET_OS_ANDROID
 # define stricmp						strcasecmp
 #endif // TARGET_OS_ANDROID
-#define strcmpi						strcasecmp
+#if !defined(TARGET_OS_LINUX)
+#define strnicmp					strncasecmp
+#endif // !defined(TARGET_OS_LINUX)
 #define strnicmp					strncasecmp
 #define _atoi64(x)					atoll(x)
 #define CopyMemory(dst,src,size)	memmove(dst, src, size)
