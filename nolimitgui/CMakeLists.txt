@@ -14,6 +14,10 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Multimedia OpenGL Svg Widgets)
 
+if(COMMAND qt_policy)
+    qt_policy(SET QTP0002 NEW)
+endif()
+
 if(NOT DEFINED TARGET_OS_ANDROID)
     find_package(OpenGL REQUIRED)
 endif()
@@ -1147,9 +1151,9 @@ target_link_libraries(nolimitconnect
     miniaudio
     wav-decoder
     
-    webrtc-aec # webrtc audio echo cancel
-    absl::strings # absl support for webrtc audio echo cancel
-    absl::base # absl support for webrtc audio echo cancel
+    # webrtc-aec # webrtc audio echo cancel
+    # absl::strings # absl support for webrtc audio echo cancel
+    # absl::base # absl support for webrtc audio echo cancel
 )
 
 if (DEFINED TARGET_OS_WINDOWS)
@@ -1689,9 +1693,15 @@ endif() # NOT DEFINED FLATPAKBUILD
 # if android release build then copy apk to /deploy/android
 if(ANDROID) # AND CMAKE_BUILD_TYPE STREQUAL "Release")
 
-    set(APK_RELEASE_DIR
-        ${CMAKE_BINARY_DIR}/nolimitgui/android-build-nolimitconnect/build/outputs/apk/release
-    )
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(APK_OUTPUT_DIR
+            ${CMAKE_BINARY_DIR}/nolimitgui/android-build-nolimitconnect/build/outputs/apk/debug
+        )
+    else()
+        set(APK_OUTPUT_DIR
+            ${CMAKE_BINARY_DIR}/nolimitgui/android-build-nolimitconnect/build/outputs/apk/release
+        )
+    endif()
 
     set(DEPLOY_DIR ${CMAKE_SOURCE_DIR}/deploy/android)
     set(APP_VERSION ${NLC_VERSION})  # your version
@@ -1701,7 +1711,7 @@ if(ANDROID) # AND CMAKE_BUILD_TYPE STREQUAL "Release")
     if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
         message(STATUS "Windows APK Copy")
         # Find all APK files
-        file(GLOB APK_FILES "${APK_RELEASE_DIR}/*.apk")
+        file(GLOB APK_FILES "${APK_OUTPUT_DIR}/*.apk")
 
         if(APK_FILES)
             # Take the first APK (adjust if multiple ABIs)
@@ -1718,7 +1728,7 @@ if(ANDROID) # AND CMAKE_BUILD_TYPE STREQUAL "Release")
                 COMMENT "Copy Release APK to deploy/android with version"
             )
         else()
-            message(WARNING "No APK found in ${APK_RELEASE_DIR}. Skipping copy.")
+            message(STATUS "No APK found in ${APK_OUTPUT_DIR}. Skipping copy.")
         endif()
 
     else()

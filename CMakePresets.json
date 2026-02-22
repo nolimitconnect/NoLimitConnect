@@ -12,7 +12,8 @@
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug"
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_MAKE_PROGRAM": "F:/Qt/Tools/Ninja/ninja.exe"
             }
         },
         {
@@ -62,7 +63,6 @@
                 "ANDROID_USE_LEGACY_TOOLCHAIN_FILE": "OFF",
                 "CMAKE_TOOLCHAIN_FILE": "F:/Android/Sdk/ndk/27.2.12479018/build/cmake/android.toolchain.cmake",
                 "CMAKE_COLOR_DIAGNOSTICS": "ON",
-                "CMAKE_CXX_FLAGS": "-DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++",
                 "CMAKE_CXX_FLAGS_INIT": "-DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++",
                 "CMAKE_FIND_ROOT_PATH": "F:/Qt/6.9.3/android_arm64_v8a;F:/Android/Sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
                 "CMAKE_PREFIX_PATH": "F:/Qt/6.9.3/android_arm64_v8a",
@@ -74,11 +74,16 @@
         },
         {
             "name": "linux-x64-debug",
-            "displayName": "VSCode Qt Debug",
-            "description": "Configure preset for VS Code using Qt",
+            "displayName": "Linux x64 Debug (Ubuntu 24.04 host)",
+            "description": "Build for Linux host/target using Qt desktop",
             "inherits": "base-debug",
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
                 "CMAKE_C_COMPILER": "/usr/bin/gcc",
@@ -100,6 +105,10 @@
         {
             "name": "android-arm64-debug",
             "configurePreset": "android-arm64-debug"
+        },
+        {
+            "name": "linux-x64-debug",
+            "configurePreset": "linux-x64-debug"
         }
     ]
 }
