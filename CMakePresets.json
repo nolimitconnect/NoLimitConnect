@@ -1,0 +1,105 @@
+{
+    "version": 6,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 28,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "base-debug",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "windows-debug",
+            "displayName": "Windows Debug (MSVC + Qt Desktop)",
+            "description": "Build for Windows host/target using Qt desktop",
+            "inherits": "base-debug",
+            "generator": "Ninja",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "toolset": {
+                "value": "host=x64",
+                "strategy": "external"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "cacheVariables": {
+                "CMAKE_PREFIX_PATH": "F:/Qt/6.9.3/msvc2022_64",
+                "QT_QMAKE_EXECUTABLE": "F:/Qt/6.9.3/msvc2022_64/bin/qmake.exe"
+            }
+        },
+        {
+            "name": "android-arm64-debug",
+            "displayName": "Android ARM64 Debug (Windows host)",
+            "description": "Cross-compile for Android arm64-v8a on Windows",
+            "inherits": "base-debug",
+            "warnings": {
+                "deprecated": false
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "cacheVariables": {
+                "CMAKE_SYSTEM_NAME": "Android",
+                "ANDROID_NDK": "F:/Android/Sdk/ndk/27.2.12479018",
+                "ANDROID_SDK_ROOT": "F:/Android/Sdk",
+                "ANDROID_ABI": "arm64-v8a",
+                "ANDROID_PLATFORM": "android-28",
+                "ANDROID_STL": "c++_shared",
+                "ANDROID_USE_LEGACY_TOOLCHAIN_FILE": "OFF",
+                "CMAKE_TOOLCHAIN_FILE": "F:/Android/Sdk/ndk/27.2.12479018/build/cmake/android.toolchain.cmake",
+                "CMAKE_COLOR_DIAGNOSTICS": "ON",
+                "CMAKE_CXX_FLAGS": "-DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++",
+                "CMAKE_CXX_FLAGS_INIT": "-DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++",
+                "CMAKE_FIND_ROOT_PATH": "F:/Qt/6.9.3/android_arm64_v8a;F:/Android/Sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
+                "CMAKE_PREFIX_PATH": "F:/Qt/6.9.3/android_arm64_v8a",
+                "QT_HOST_PATH": "F:/Qt/6.9.3/mingw_64",
+                "QT_MAINTENANCE_TOOL": "F:/Qt/MaintenanceTool.exe",
+                "QT_QMAKE_EXECUTABLE": "F:/Qt/6.9.3/android_arm64_v8a/bin/qmake.bat",
+                "QT_USE_TARGET_ANDROID_BUILD_DIR": "ON"
+            }
+        },
+        {
+            "name": "linux-x64-debug",
+            "displayName": "VSCode Qt Debug",
+            "description": "Configure preset for VS Code using Qt",
+            "inherits": "base-debug",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "/usr/bin/gcc",
+                "CMAKE_CXX_COMPILER": "/usr/bin/g++",
+                "CMAKE_COLOR_DIAGNOSTICS": "ON",
+                "CMAKE_CXX_FLAGS_INIT": "-DQT_QML_DEBUG",
+                "CMAKE_PREFIX_PATH": "/home/nolimit/Qt/6.9.3/gcc_64",
+                "CMAKE_PROJECT_INCLUDE_BEFORE": "/home/nolimit/nolimitapp/build/Desktop_Qt_6_9_3-Debug/.qtc/package-manager/auto-setup.cmake",
+                "QT_MAINTENANCE_TOOL": "/home/nolimit/Qt/MaintenanceTool",
+                "QT_QMAKE_EXECUTABLE": "/home/nolimit/Qt/6.9.3/gcc_64/bin/qmake"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "windows-debug",
+            "configurePreset": "windows-debug"
+        },
+        {
+            "name": "android-arm64-debug",
+            "configurePreset": "android-arm64-debug"
+        }
+    ]
+}
