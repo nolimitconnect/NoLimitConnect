@@ -16,6 +16,9 @@ if(MSVC)
     add_compile_definitions(TARGET_OS_WINDOWS, TARGET_CPU_X64=1)
 
 else()
+    set(TARGET_POSIX true)
+    add_compile_definitions(TARGET_POSIX=1)
+
     if(DEFINED ANDROID_ABI)
         # Android ABIs
         message(STATUS "*** TARGET_OS_ANDROID ***")
@@ -52,6 +55,34 @@ endif()
 
 # webrtc abseil is extreemly picky about how it is built so build it first
 include_directories("${CMAKE_CURRENT_LIST_DIR}/libs")
+# --------------------------
+# Print summary
+# --------------------------
+message(STATUS "**** webrtc-aec Summary Begin ****")
+if(TARGET_OS_WINDOWS)
+    message(STATUS "OS: Windows")
+endif()
+if(TARGET_OS_LINUX)
+    message(STATUS "OS: Linux")
+endif()
+if(TARGET_OS_ANDROID)
+    message(STATUS "OS: Android")
+    set(CMAKE_CXX_SCAN_FOR_MODULES OFF) # Disable C++20 Module Scanning because '"CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS-NOTFOUND"' is not recognized as an internal or external command,
+endif()
+if(TARGET_OS_APPLE)
+    message(STATUS "OS: Apple (macOS/iOS)")
+endif()
+
+if(TARGET_CPU_X64)
+    message(STATUS "CPU: x64 (64-bit)")
+elseif(TARGET_CPU_ARM64)
+    message(STATUS "CPU: ARM64 (64-bit)")
+else()
+    message(FATAL_ERROR "Unknown CPU Type for ${CMAKE_SYSTEM_NAME}")
+endif()
+message(STATUS "**** webrtc-aec Summary Summary end ****")
+message(STATUS "========================================")
+
 add_subdirectory(libs/libwebrtc-aec)
 
 unset(TARGET_CPU_X64)
@@ -60,7 +91,9 @@ unset(TARGET_OS_WINDOWS)
 unset(TARGET_OS_ANDROID)
 unset(TARGET_OS_LINUX)
 
-# end of abseil.. now on to the build of many types mess
+# # end of abseil.. now on to the build of many types mess
+message(STATUS "**** start nolimitconnect configure ****")
+message(STATUS "========================================")
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_C_STANDARD 11)

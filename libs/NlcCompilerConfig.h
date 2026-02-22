@@ -621,7 +621,7 @@ NLC_END_CDECLARES
 # define msleep_os(exp)		VxSleep(exp)
 # define usleep_os(exp)		VxSleep(exp/1000)
 
-# define VxGetLastError		GetLastError
+# define VxGetLastError()	GetLastError()
 
 #ifndef MIN
 # define MIN(x,y) (((x) < (y)) ? (x) : (y))

@@ -513,7 +513,7 @@ uint64_t VxFileUtil::fileExists( const char* fileName, bool printLogIfDoesNotExi
 	// Get data associated with the file
 	result = _wstat64( Utf8ToWide( fileName ).c_str(), &gStat );
 #else
-	struct stat64 gStat;
+	struct stat gStat;
 	// Get data associated with the file
     result = stat64( fileName, &gStat );
 #endif //TARGET_OS_WINDOWS
@@ -2120,7 +2120,7 @@ int32_t VxFileUtil::listFilesAndFolders( const char* pSrcDir, std::vector<VxFile
 				strcat( as8SrcFile, pFileEnt->d_name );
 				//LogMsg( LOG_INFO, "listFilesAndFolders:  found file %s", as8SrcFile );
 				//=== Last Modification Date ===//
-				struct stat64 oStat;
+				struct stat oStat;
 				if ( 0 != stat64( as8SrcFile, &oStat ) )
 				{
 					///ERROR how do we handle

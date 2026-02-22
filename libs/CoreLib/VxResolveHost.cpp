@@ -24,6 +24,7 @@
 #else
 #include <ctype.h>
 #include <netdb.h>
+#include <netinet/in.h>
 #endif
 
 //============================================================================

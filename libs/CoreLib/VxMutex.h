@@ -56,8 +56,8 @@ public:
 #ifdef DEBUG_VX_MUTEX
 	VxMutexDebug				m_agMutexThreadIds[ MAX_MUTEX_THREADS ];
 #endif //DEBUG_VX_MUTEX
-#if defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
-	UINT						m_uiLastLockThreadId;
+#if defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK) 
+	unsigned int				m_uiLastLockThreadId;
 #endif // defined(DEBUG_VX_MUTEX) || defined(DEBUG_VX_MUTEX_DEADLOCK)
 
 	//=== vars ===//

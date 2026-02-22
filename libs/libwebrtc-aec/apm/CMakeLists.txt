@@ -387,6 +387,12 @@ if(DEFINED TARGET_OS_APPLE)
     )
 endif()
 
+if(DEFINED TARGET_CPU_ARM64)
+    target_compile_definitions(webrtc-aec
+        PRIVATE
+        WEBRTC_HAS_NEON
+    )
+endif()
 
 # Set public include directories for users of this library
 target_include_directories(webrtc-aec PUBLIC

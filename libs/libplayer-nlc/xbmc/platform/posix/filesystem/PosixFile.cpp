@@ -206,8 +206,8 @@ int64_t CPosixFile::GetLength()
   if (m_fd < 0)
     return -1;
 
-  struct stat64 st;
-  if (fstat64(m_fd, &st) != 0)
+  struct stat st;
+  if (fstat(m_fd, &st) != 0)
     return -1;
   
   return st.st_size;

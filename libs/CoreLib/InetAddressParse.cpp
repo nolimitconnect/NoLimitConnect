@@ -9,6 +9,13 @@
 #include <string.h>
 #include <memory.h>
 
+#ifdef TARGET_OS_WINDOWS
+    #include <Winsock2.h>
+    #include <Ws2tcpip.h>
+#else
+    #include <arpa/inet.h>
+#endif
+
 //============================================================================
 static unsigned int _parseDecimal ( const char** pchCursor )
 {
