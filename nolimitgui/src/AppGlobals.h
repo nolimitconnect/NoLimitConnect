@@ -14,7 +14,7 @@
 #include <QString>
 
 class AppCommon;
-class SoundMgr;
+class SoundFxMgr;
 class QWidget;
 class P2PEngine;
 class IFromGui;

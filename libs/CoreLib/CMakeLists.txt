@@ -32,7 +32,7 @@ list(APPEND CoreLib_HEADERS
     sqlitedataset.h
     StdOutRedirect.h
     StringListBinary.h
-    TimeIntervalEstimator.h
+
     VxAppInfo.h
     Invite.h
     VFile.h
@@ -115,7 +115,7 @@ list(APPEND CoreLib_SOURCES
     sqlitedataset_corelib.cpp
     StdOutRedirect_corelib.cpp
 	StringListBinary.cpp
-    TimeIntervalEstimator.cpp
+
     VxAppInfo.cpp
     Invite.cpp
     VFile.cpp

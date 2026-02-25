@@ -12,10 +12,9 @@
 #include "AppletClientBase.h"
 
 #include "GuiAudioLevelCallback.h"
-#include "GuiEchoCancelEnableCallback.h"
 #include "GuiUserUpdateCallback.h"
 
-#include "miniaudioio/AudioTestGenerator.h"
+#include "miniaudio/AudioTestGenerator.h"
 
 #include <GuiInterface/IDefs.h>
 #include <GuiInterface/IAudioDefs.h>
@@ -35,7 +34,7 @@ QT_END_NAMESPACE
 class VxNetIdent;
 class GuiHostSession;
 
-class AppletSoundSettings : public AppletClientBase, public GuiAudioLevelCallback, public GuiEchoCancelEnableCallback
+class AppletSoundSettings : public AppletClientBase, public GuiAudioLevelCallback
 {
 	Q_OBJECT
 public:
@@ -62,14 +61,14 @@ protected slots:
     void                        slotApplyOutDeviceChange( void );
 
     void                        slotStartTestSoundDelay( void );
-    void                        slotEchoDelaySaveButtonClicked( void );
+
     void                        slotTestedSoundDelayResult( int echoDelayMs );
-    void                        slotEchoCancelEnableChange( int checkState );
+
     void                        slotAudioTestState( EAudioTestState audioTestState );
     void                        slotAudioTestMsg( QString audioTestMsg );
 
     void                        slotGenerateToneCheckBox( int checkedState );
-    void                        slotSendMicDirectlyToSpeakersCheckBox( int checkedState );
+
     void                        slotSendMicEchoCanceledToSpeakerCheckBox( int checkedState );
 
 protected:
@@ -79,7 +78,6 @@ protected:
     void                        showEchoDelayTestResults( void );
 
     void						callbackGuiMicrophoneLevel( int micLevel ) override;
-    void						callbackGuiEchoCancelEnable( bool echoCancelEnabled ) override;
 
     //=== vars ===//
     Ui::AppletSoundSettingsUi&  ui;

@@ -18,7 +18,7 @@
 #include "GuiParams.h"
 #include "LogMgr.h"
 #include "MyIcons.h"
-#include "SoundMgr.h"
+#include "SoundFxMgr.h"
 #include "TodGameMgr.h"
 
 #include "AppletCreateAccount.h"
@@ -79,6 +79,7 @@
 #include <QMessageBox>
 #include <QRegularExpression>
 #include <QSettings>
+#include <QTimer>
 
 #include "RenderGlWidget.h"
 
@@ -87,6 +88,8 @@
 
 #include "MediaPlayerNlc.h"
 #include "RenderGlLogic.h"
+#include "AudioMgr.h"
+#include "SoundFxMgr.h"
 
 namespace
 {
@@ -113,7 +116,7 @@ namespace
         AppCommon* appCommon = (AppCommon*)poThread->getThreadUserParam();
         if( appCommon )
         {
-            appCommon->getSoundMgr().audioIoSystemStartup();
+            appCommon->getAudioMgr().audioIoSystemStartup();
         }
 
         poThread->threadAboutToExit();
@@ -136,6 +139,8 @@ static GuiRandConnectMgr randConnectMgr;
 static GuiSendQueueMgr sendQueueMgr;
 static MyIcons myIcons;
 static TodGameMgr todGameMgr;
+static SoundFxMgr soundFxMgr;
+
     if( !g_AppCommon )
     {
 		// need sockets right away so can check for port in use when creating new account
@@ -144,7 +149,7 @@ static TodGameMgr todGameMgr;
         // constructor of AppCommon will set g_AppCommon
         new AppCommon( *myApp, adminAvailMgr, appModuleState, appSettings, accountMgr, favoritMgr,
 					   memberActiveMgr, playerMgr, pluginMgr, pushToTalkMgr, randConnectMgr, 
-					   sendQueueMgr, myIcons, todGameMgr );
+					   sendQueueMgr, myIcons, todGameMgr, soundFxMgr );
     }
 
     return *g_AppCommon;
@@ -177,7 +182,8 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 						GuiRandConnectMgr& randConnectMgr,
 						GuiSendQueueMgr& sendQueueMgr,
 						MyIcons&		myIcons,
-						TodGameMgr&		todGameMgr )
+						TodGameMgr&		todGameMgr,
+        				SoundFxMgr& soundFxMgr )
 : QWidget()
 , m_QApp( myQApp )
 , m_AppModuleState(appModuleState)
@@ -187,6 +193,9 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_AppTitle( GetAppTitle() )
 , m_AccountMgr( accountMgr )
 , m_AdminAvailMgr( adminAvailMgr )
+
+, m_AudioMgr( *this )
+
 , m_TodGameMgr( todGameMgr )
 
 , m_ConnectIdListMgr( *this )
@@ -215,7 +224,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 
 , m_CamLogic( *this )
 
-, m_SoundMgr( * new SoundMgr( *this ) )
+, m_SoundFxMgr( soundFxMgr )
 
 , m_OncePerSecondTimer( new QTimer( this ) )
 , m_eLastSelectedWhichContactsToView( eFriendViewEverybody )
@@ -342,7 +351,7 @@ void AppCommon::startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame )
 void AppCommon::slotGuiStartupTimer( void )
 {
 	static int guiStartupStep = 0;
-    if( !m_SoundMgr.isAudioInitialized() )
+    if( !m_AudioMgr.isAudioInitialized() )
     {
         // on android audio devices can take up to 30 seconds
         m_GuiStartupTimer->start();
@@ -353,14 +362,14 @@ void AppCommon::slotGuiStartupTimer( void )
 	if( 1 == guiStartupStep )
 	{
 		// load sounds to play and sound hardware
-		m_SoundMgr.sndMgrStartup();
+		m_SoundFxMgr.sndFxMgrStartup();
 
 		connectSignals();
 		m_GuiStartupTimer->start();
 	}
 	else if( 2 == guiStartupStep )
 	{
-		m_SoundMgr.audioIoSystemStartup();
+		m_AudioMgr.audioIoSystemStartup();
 
 		m_GuiStartupTimer->start();
 	}
@@ -401,7 +410,8 @@ void AppCommon::slotShutdownApp( void )
 {
 	VxSetAppIsShuttingDown( true );
 	m_CamLogic.shutdownCamLogic();
-	m_SoundMgr.sndMgrShutdown();
+	m_SoundFxMgr.sndFxMgrShutdown();
+	m_AudioMgr.audioIoSystemShutdown();
 
 	fromGuiCloseEvent( eMediaModuleAll );
 	ActivityBase* appPlayer = m_AppletMgr.findAppletDialog( eAppletPlayerNlc );
@@ -489,13 +499,13 @@ void AppCommon::applySoundSettings( bool useDefaultsInsteadOfSettings )
 {
 	if( useDefaultsInsteadOfSettings )
 	{
-		m_SoundMgr.muteNotifySound( false );
-		m_SoundMgr.mutePhoneRing( false );
+		m_SoundFxMgr.muteNotifySound( false );
+		m_SoundFxMgr.mutePhoneRing( false );
 	}
 	else
 	{
-		m_SoundMgr.muteNotifySound( m_AppSettings.getMuteNotifySound() );
-		m_SoundMgr.mutePhoneRing( m_AppSettings.getMutePhoneRing() );
+		m_SoundFxMgr.muteNotifySound( m_AppSettings.getMuteNotifySound() );
+		m_SoundFxMgr.mutePhoneRing( m_AppSettings.getMutePhoneRing() );
 	}
 }
 
@@ -531,7 +541,7 @@ void AppCommon::playSound( ESndDef sndDef )
 		return;
 	}
 
-	getSoundMgr().playSnd( sndDef );
+	getSoundFxMgr().playSnd( sndDef );
 }
 
 //============================================================================

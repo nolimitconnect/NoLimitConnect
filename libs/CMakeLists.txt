@@ -1,9 +1,6 @@
 
 # CMakeLists.txt for nolimitapp libraries
 
-# Newer and better version of echo cancel library based on WebRTC
-# add_subdirectory(libwebrtc-aec)
-
 # all library project defines
 add_compile_definitions(HAVE_CONFIG_H LIB_STATIC ENABLE_NLC_PLAYER)
 
@@ -16,7 +13,6 @@ endif()
 include(ConfigStaticDependLib)
 
 #=== project subdirectories ===#
-
 
 if(BUILD_SYSTEM_FLATPAK)
     # FlatPak 6.7 works but 6.9 fails
@@ -51,14 +47,13 @@ add_subdirectory(VxVideoLib)
 #add_subdirectory(androidNdk) # not used as library but used in android builds
 
 #add_subdirectory(flatbuffers) # not used directly but headers are used
-add_subdirectory(libaemc-webrtc)
 
 add_subdirectory(libasprintf)
 add_subdirectory(libass)
 
 add_subdirectory(libcrossguid)
 add_subdirectory(libdav1d)
-add_subdirectory(libechocancel)
+
 add_subdirectory(libfreetype)
 add_subdirectory(libfribidi)
 
@@ -76,7 +71,7 @@ add_subdirectory(liblame)
 add_subdirectory(liblzma)
 add_subdirectory(liblzo)
 add_subdirectory(libmfx)
-add_subdirectory(libminiaudio)
+
 add_subdirectory(libminiupnpc)
 
 add_subdirectory(libogg)

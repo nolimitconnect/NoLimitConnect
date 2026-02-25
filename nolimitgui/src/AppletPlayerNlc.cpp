@@ -18,7 +18,7 @@
 #include "GuiHelpers.h"
 #include "GuiPlayerMgr.h"
 #include "MyIcons.h"
-#include "SoundMgr.h"
+#include "AudioMgr.h"
 #include "VxMenuButton.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -245,7 +245,7 @@ void AppletPlayerNlc::onFileSelected( FileInfo& fileInfo )
 void AppletPlayerNlc::onMediaPlayerNlcReady( bool isReady )
 {
 	m_MediaPlayerReady = isReady;
-    m_MyApp.getSoundMgr().setPlayerNlcActive(m_MediaPlayerReady);
+    m_MyApp.getAudioMgr().setPlayerNlcActive(m_MediaPlayerReady);
 	updateRecentListVisibility();
 	if( m_MediaPlayerReady )
 	{       

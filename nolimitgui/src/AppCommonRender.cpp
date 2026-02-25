@@ -14,7 +14,7 @@
 #include "MyIcons.h"
 #include "AppletPopupMenu.h"
 #include "ToGuiActivityInterface.h"
-#include "SoundMgr.h"
+
 #include "MyIcons.h"
 
 #include "HomeWindow.h"

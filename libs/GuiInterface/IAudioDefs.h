@@ -9,13 +9,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-// only one of these echo cancelers may be defined at time
-// uncomment the define of the echo canceler desired to use
-// #define USE_SPEEX_ECHO_CANCEL
-// #define USE_WEB_RTC_ECHO_CANCEL_1
-// #define USE_WEB_RTC_ECHO_CANCEL_3
-#define USE_WEB_RTC_ECHO_CANCEL_MOBILE
-
 constexpr int ECHO_SAMPLE_RATE = 16000;
 constexpr int AUDIO_DEVICE_SAMPLE_RATE = 16000;
 

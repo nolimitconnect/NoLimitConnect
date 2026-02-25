@@ -21,7 +21,7 @@
 #include "GuiPluginMgr.h"
 
 #include "MyIcons.h"
-#include "SoundMgr.h"
+#include "AudioMgr.h"
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
@@ -157,14 +157,14 @@ void TitleBarWidget::wantCallbacks( bool enable )
 //============================================================================
 void TitleBarWidget::updateTitleBar( void )
 {
-    SoundMgr& sndMgr = m_MyApp.getSoundMgr();
-    bool isMicEnabled = sndMgr.isMicrophoneEnabled();
+    AudioMgr& audioMgr = m_MyApp.getAudioMgr();
+    bool isMicEnabled = audioMgr.getIsMicrophoneRunning();
     callbackToGuiWantMicrophoneRecording( isMicEnabled );
 
-    m_MutedMic = sndMgr.getIsMicrophoneMuted();
-    callbackToGuiMicrophoneMuted( m_MutedMic );
+    m_MutedMic = audioMgr.getMicrophoneMuted();
+    callbackToGuiMicrophoneMuted( m_MutedMic ); 
 
-    m_MutedSpeaker = sndMgr.getIsSpeakerMuted();
+    m_MutedSpeaker = audioMgr.getSpeakerMuted();
     callbackToGuiSpeakerMuted( m_MutedSpeaker );
 
     bool isCamRequested = m_MyApp.getCamLogic().isCamCaptureRequested();
@@ -795,15 +795,15 @@ void TitleBarWidget::updateAudioLevelCallbackRequests( void )
             if( isVisible() && !m_AudioLevelCallbacksRequested )
             {
                 m_AudioLevelCallbacksRequested = true;
-                m_MyApp.getSoundMgr().wantMicrophoneLevelCallbacks( this, true );
-                setWantMicrophoneCount( m_MyApp.getSoundMgr().getWantMicrophoneCount() );
-                setWantSpeakerCount( m_MyApp.getSoundMgr().getWantSpeakerCount() );
+                m_MyApp.getAudioMgr().wantMicrophoneLevelCallbacks( this, true );
+                setWantMicrophoneCount( m_MyApp.getAudioMgr().getWantMicrophoneCount() );
+                setWantSpeakerCount( m_MyApp.getAudioMgr().getWantSpeakerCount() );
             }
         }
         else
         {
             m_AudioLevelCallbacksRequested = false;
-            m_MyApp.getSoundMgr().wantMicrophoneLevelCallbacks( this, false );
+            m_MyApp.getAudioMgr().wantMicrophoneLevelCallbacks( this, false );
         }
     }
 }

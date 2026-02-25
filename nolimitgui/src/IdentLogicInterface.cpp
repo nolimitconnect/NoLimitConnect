@@ -20,7 +20,7 @@
 #include "GuiPushToTalkMgr.h"
 #include "GuiRandConnectMgr.h"
 #include "MyIcons.h"
-#include "SoundMgr.h"
+#include "SoundFxMgr.h"
 #include "VxPushButton.h"
 
 #include <P2PEngine/P2PEngine.h>

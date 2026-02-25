@@ -16,7 +16,8 @@
 #include "AppSettings.h"
 
 #include "GuiHelpers.h"
-#include "SoundMgr.h"
+#include "AudioMgr.h"
+#include "SoundFxMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <MediaProcessor/MediaProcessor.h>
@@ -55,25 +56,25 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
     ui.m_AudioInPeakProgressBar->setValue( 0 );
 
     int echoDelayMs = m_MyApp.getAppSettings().getEchoDelayParam();
-    ui.m_EchoDelayLineEdit->setText( QString::number( echoDelayMs ) );
+
     ui.m_TestDelayResultLineEdit->setText( QString::number( 0 ) );
 
     connectBarWidgets();
 
     connect( ui.m_TestSoundDelayButton, SIGNAL(clicked()), this, SLOT(slotStartTestSoundDelay()) );
-    connect( ui.m_EchoDelaySaveButton, SIGNAL(clicked()), this, SLOT(slotEchoDelaySaveButtonClicked()) );
-    connect( &m_MyApp.getSoundMgr(), SIGNAL(signalTestedSoundDelay(int)), this, SLOT(slotTestedSoundDelayResult(int)), Qt::QueuedConnection );
-    connect( &m_MyApp.getSoundMgr(), SIGNAL(signalAudioTestState(EAudioTestState)), this, SLOT(slotAudioTestState(EAudioTestState)), Qt::QueuedConnection );
-    connect( &m_MyApp.getSoundMgr(), SIGNAL(signalAudioTestMsg(QString)), this, SLOT(slotAudioTestMsg(QString)), Qt::QueuedConnection );
+
+    // connect( &m_MyApp.getAudioMgr(), SIGNAL(signalTestedSoundDelay(int)), this, SLOT(slotTestedSoundDelayResult(int)), Qt::QueuedConnection );
+    // connect( &m_MyApp.getAudioMgr(), SIGNAL(signalAudioTestState(EAudioTestState)), this, SLOT(slotAudioTestState(EAudioTestState)), Qt::QueuedConnection );
+    // connect( &m_MyApp.getAudioMgr(), SIGNAL(signalAudioTestMsg(QString)), this, SLOT(slotAudioTestMsg(QString)), Qt::QueuedConnection );
 
     connect( ui.m_GenerateToneCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotGenerateToneCheckBox(int)) );
-    connect( ui.m_SendMicDirectlyToSpeakersCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotSendMicDirectlyToSpeakersCheckBox(int)) );
+
     connect( ui.m_SendMicEchoCanceledToSpeakerCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotSendMicEchoCanceledToSpeakerCheckBox(int)) );
 
     updateInAudioDevices();
 
     int soundInDeviceIndex = 0;
-    m_MyApp.getSoundMgr().getSoundInDeviceIndex( soundInDeviceIndex );
+    m_MyApp.getAudioMgr().getSoundInDeviceIndex( soundInDeviceIndex );
     ui.m_InDeviceComboBox->setCurrentIndex( soundInDeviceIndex );
 
     connect( ui.m_InDeviceComboBox, QOverload<int>::of( &QComboBox::activated ), this, &AppletSoundSettings::inDeviceChanged );
@@ -83,7 +84,7 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
     updateOutAudioDevices();
 
     int soundOutDeviceIndex = 0;
-    m_MyApp.getSoundMgr().getSoundOutDeviceIndex( soundOutDeviceIndex );
+    m_MyApp.getAudioMgr().getSoundOutDeviceIndex( soundOutDeviceIndex );
     ui.m_OutDeviceComboBox->setCurrentIndex( soundOutDeviceIndex );
 
     connect( ui.m_OutDeviceComboBox, QOverload<int>::of( &QComboBox::activated ), this, &AppletSoundSettings::outDeviceChanged );
@@ -92,14 +93,14 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
 
     m_MyApp.activityStateChange( this, true );
 
-    if( !m_MyApp.getSoundMgr().isSpeakerDeviceAvailable() )
+    if( !m_MyApp.getAudioMgr().isSpeakerDeviceAvailable() )
     {
         ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Speaker Device Unavailable" ), QObject::tr( "No speaker device is available to enable" ) );
         msgBox.exec();
     }
-    else if( !m_MyApp.getSoundMgr().isMicrophoneDeviceAvailable() )
+    else if( !m_MyApp.getAudioMgr().isMicrophoneDeviceAvailable() )
     {
-        m_MyApp.getSoundMgr().playSnd( eSndDefBusy );
+        m_MyApp.getSoundFxMgr().playSnd( eSndDefBusy );
         ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Microphone Device Unavailable" ), QObject::tr( "No microphone device is available to enable" ) );
         msgBox.exec();
     }
@@ -108,21 +109,16 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
         ui.m_SendMicEchoCanceledToSpeakerCheckBox->setChecked( true );
     }
 
-    ui.m_EchoCancelEnableCheckBox->setChecked( m_MyApp.getSoundMgr().getEchoCancelEnable() );
-    connect( ui.m_EchoCancelEnableCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotEchoCancelEnableChange(int)) );
-
-
-    m_MyApp.getSoundMgr().wantMicrophoneLevelCallbacks( this, true );
-    m_MyApp.getSoundMgr().wantEchoCancelEnableCallbacks( this, true );
+    m_MyApp.getAudioMgr().wantMicrophoneLevelCallbacks( this, true );
 }
 
 //============================================================================
 AppletSoundSettings::~AppletSoundSettings()
 {
-    m_MyApp.getSoundMgr().wantMicrophoneLevelCallbacks( this, false );
+    m_MyApp.getAudioMgr().wantMicrophoneLevelCallbacks( this, false );
     m_MyApp.getFromGuiInterface().fromGuiPushToTalk( m_MyApp.getMyOnlineId(), false );
 
-    m_MyApp.getSoundMgr().setDirectLoopbackEnable( false );
+    m_MyApp.getAudioMgr().setAudioLoopbackEnable( false );
     m_MyApp.activityStateChange( this, false );
 }
 
@@ -186,7 +182,7 @@ void AppletSoundSettings::statusMsg( const char* errMsg, ... )
 //============================================================================
 void AppletSoundSettings::inDeviceChanged( int index )
 {
-    m_MyApp.getSoundMgr().soundInDeviceChanged( index );
+    m_MyApp.getAudioMgr().soundInDeviceChanged( index );
 }
 
 //============================================================================
@@ -194,7 +190,7 @@ void AppletSoundSettings::updateInAudioDevices( void )
 {
     ui.m_InDeviceComboBox->clear();
 
-    std::vector<std::string>& inDeviceList = m_MyApp.getSoundMgr().getAudioInDevices();
+    std::vector<std::string>& inDeviceList = m_MyApp.getAudioMgr().getAudioInDevices();
 
     int devIndex = 0;
     for( auto& deviceDesc : inDeviceList )
@@ -207,7 +203,7 @@ void AppletSoundSettings::updateInAudioDevices( void )
 //============================================================================
 void AppletSoundSettings::outDeviceChanged( int index )
 {
-    m_MyApp.getSoundMgr().soundOutDeviceChanged( index );
+    m_MyApp.getAudioMgr().soundOutDeviceChanged( index );
 }
 
 //============================================================================
@@ -215,7 +211,7 @@ void AppletSoundSettings::updateOutAudioDevices( void )
 {
     ui.m_OutDeviceComboBox->clear();
 
-    std::vector<std::string>& outDeviceList = m_MyApp.getSoundMgr().getAudioOutDevices();
+    std::vector<std::string>& outDeviceList = m_MyApp.getAudioMgr().getAudioOutDevices();
 
     int devIndex = 0;
     for( auto& deviceDesc : outDeviceList )
@@ -231,7 +227,7 @@ void AppletSoundSettings::slotApplyInDeviceChange( void )
     QString sndInDevDescription = ui.m_InDeviceComboBox->currentText();
     if( !sndInDevDescription.isEmpty() )
     {
-        if( m_MyApp.getSoundMgr().setSoundInDeviceIndex( ui.m_InDeviceComboBox->currentIndex() ) )
+        if( m_MyApp.getAudioMgr().setSoundInDeviceIndex( ui.m_InDeviceComboBox->currentIndex() ) )
         {            
             ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Sound In Device" ), sndInDevDescription + QObject::tr( " device is saved as preferred Sound In Device" ) );
             msgBox.exec();
@@ -255,7 +251,7 @@ void AppletSoundSettings::slotApplyOutDeviceChange( void )
     QString sndOutDevDescription = ui.m_OutDeviceComboBox->currentText();
     if( !sndOutDevDescription.isEmpty() )
     {
-        if( m_MyApp.getSoundMgr().setSoundOutDeviceIndex( ui.m_OutDeviceComboBox->currentIndex() ) )
+        if( m_MyApp.getAudioMgr().setSoundOutDeviceIndex( ui.m_OutDeviceComboBox->currentIndex() ) )
         {
             m_MyApp.getAppSettings().setSoundOutDeviceIndex( ui.m_OutDeviceComboBox->currentIndex() );
             ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Sound Out Device" ), sndOutDevDescription + QObject::tr( " device is saved as preferred Sound Out Device" ) );
@@ -280,29 +276,11 @@ void AppletSoundSettings::slotStartTestSoundDelay( void )
     if( eAudioTestStateNone == m_AudioTestState )
     {
         m_EchoDelayResultList.clear();
-        m_MyApp.getSoundMgr().runAudioDelayTest();
+        m_MyApp.getAudioMgr().runAudioDelayTest();
     }
     else
     {
         ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Echo delay test is running" ), QObject::tr( "Echo delay test can not be run until the previous test finishes" ) );
-        msgBox.exec();
-    }
-}
-
-//============================================================================
-void AppletSoundSettings::slotEchoDelaySaveButtonClicked( void )
-{
-    int delayMs = ui.m_EchoDelayLineEdit->text().toInt();
-    if( delayMs < 40 || delayMs > 500 )
-    {
-        ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Echo Delay Value Invalid" ), QObject::tr( "Echo Delay value must be between 40 and 500 milliseconds" ) );
-        msgBox.exec();
-    }
-    else
-    {
-        m_MyApp.getAppSettings().setEchoDelayParam( delayMs );
-        m_MyApp.getSoundMgr().setEchoDelayMsParam( delayMs );
-        ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Echo Delay Value Save" ), QObject::tr( "Echo Delay value has been saved for use by Echo Cancelation" ) );
         msgBox.exec();
     }
 }
@@ -397,32 +375,16 @@ void AppletSoundSettings::showEchoDelayTestResults( void )
 void AppletSoundSettings::slotGenerateToneCheckBox( int checkedState )
 {
     bool genTone = ui.m_GenerateToneCheckBox->isChecked();
-    m_MyApp.getSoundMgr().setEnableSpeakerTestTone( genTone );
-    ui.m_AudioInPeakProgressBar->setValue( 0 );
-}
-
-//============================================================================
-void AppletSoundSettings::slotSendMicDirectlyToSpeakersCheckBox( int checkedState )
-{
-    if( !m_MyApp.getSoundMgr().isMicrophoneDeviceAvailable() )
-    {
-        m_MyApp.getSoundMgr().playSnd( eSndDefBusy );
-        ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Microphone Device Unavailable" ), QObject::tr( "No microphone device is available to enable" ) );
-        msgBox.exec();
-        return;
-    }
-
-    bool directMicToSpeaker = ui.m_SendMicDirectlyToSpeakersCheckBox->isChecked();
-    m_MyApp.getSoundMgr().setDirectLoopbackEnable( directMicToSpeaker );
+    m_MyApp.getAudioMgr().setEnableSpeakerTestTone( genTone );
     ui.m_AudioInPeakProgressBar->setValue( 0 );
 }
 
 //============================================================================
 void AppletSoundSettings::slotSendMicEchoCanceledToSpeakerCheckBox( int checkedState )
 {
-    if( !m_MyApp.getSoundMgr().isMicrophoneDeviceAvailable() )
+    if( !m_MyApp.getAudioMgr().isMicrophoneDeviceAvailable() )
     {
-        m_MyApp.getSoundMgr().playSnd( eSndDefBusy );
+        m_MyApp.getSoundFxMgr().playSnd( eSndDefBusy );
         ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Microphone Device Unavailable" ), QObject::tr( "No microphone device is available to enable" ) );
         msgBox.exec();
         return;
@@ -433,7 +395,7 @@ void AppletSoundSettings::slotSendMicEchoCanceledToSpeakerCheckBox( int checkedS
     {
         if( enableLoopback )
         {
-            m_MyApp.getSoundMgr().playSnd( eSndDefBusy );
+            m_MyApp.getSoundFxMgr().playSnd( eSndDefBusy );
             ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Push To Talk" ), QObject::tr( "Sound settings Push To Talk failed to enable" ) );
             msgBox.exec();
         }
@@ -446,17 +408,4 @@ void AppletSoundSettings::slotSendMicEchoCanceledToSpeakerCheckBox( int checkedS
 void AppletSoundSettings::callbackGuiMicrophoneLevel( int micLevel )
 {
     ui.m_AudioInPeakProgressBar->setValue( micLevel );
-}
-
-//============================================================================
-void AppletSoundSettings::callbackGuiEchoCancelEnable( bool echoCancelEnabled )
-{
-    ui.m_EchoCancelEnableCheckBox->setChecked( echoCancelEnabled );
-}
-
-//============================================================================
-void AppletSoundSettings::slotEchoCancelEnableChange( int checkState )
-{
-    bool isEnabled = ui.m_EchoCancelEnableCheckBox->isChecked();
-    m_MyApp.getSoundMgr().setEchoCancelEnable( isEnabled );
 }

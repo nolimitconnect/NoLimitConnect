@@ -17,7 +17,7 @@
 #include "PlayControlWidget.h"
 #include "MediaPlayerNlc.h"
 #include "RenderGlWidget.h"
-#include "SoundMgr.h"
+#include "AudioMgr.h"
 #include "VxPushButton.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -59,7 +59,7 @@ AppletPlayerNlcBase::~AppletPlayerNlcBase()
 {
 	stopMediaIfPlaying();
 	IMediaPlayerRequests::getNlcPlayer().wantMediaPlayerCallback( this, false );
-	m_MyApp.getSoundMgr().setPlayerNlcActive( false );
+	m_MyApp.getAudioMgr().setPlayerNlcActive( false );
 	m_MyApp.activityStateChange( this, false );
 }
 
@@ -104,7 +104,7 @@ void AppletPlayerNlcBase::onAppletInitialized( void )
 	connect( this, SIGNAL(signalPlayEnd()), this, SLOT(slotPlayEnd()) );
 
 	m_MyApp.activityStateChange( this, true );
-	m_MyApp.getSoundMgr().setPlayerNlcActive( true );
+	m_MyApp.getAudioMgr().setPlayerNlcActive( true );
 }
 
 //============================================================================

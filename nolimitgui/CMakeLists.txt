@@ -235,6 +235,9 @@ list(APPEND nlc_HEADERS
     src/AssetVoiceWidget.h
     src/AssetBaseWidget.h
     src/AvatarBar.h
+
+    src/AudioMgr.h
+
     src/BottomBarWidget.h
     src/CamTitleBarPreview.h
 
@@ -397,24 +400,41 @@ list(APPEND nlc_HEADERS
     src/ServiceSettingsWidget.h
     src/SessionWidget.h
     src/StoryWidget.h
-    src/miniaudioio/AudioBitrate.h
-    src/miniaudioio/AudioEchoBuf.h
-    src/miniaudioio/AudioEchoCancel.h
-    src/miniaudioio/AudioEchoCancelImpl.h
-    src/miniaudioio/AudioMasterClock.h
-    src/miniaudioio/AudioMixerBuf.h
-    src/miniaudioio/AudioMixerInterface.h
-    src/miniaudioio/AudioSampleBuf.h
-    src/miniaudioio/AudioTestGenerator.h
-    src/miniaudioio/AudioUtils.h
-    src/miniaudioio/MiniAudioDevices.h
-    src/miniaudioio/MiniAudioIn.h
-    src/miniaudioio/MiniAudioInDevice.h
-    src/miniaudioio/MiniAudioMgr.h
-    src/miniaudioio/MiniAudioOut.h
-    src/miniaudioio/MiniAudioOutDevice.h
+    # src/miniaudioio/AudioBitrate.h
+    # src/miniaudioio/AudioEchoBuf.h
+    # src/miniaudioio/AudioEchoCancel.h
+    # src/miniaudioio/AudioEchoCancelImpl.h
+    # src/miniaudioio/AudioMasterClock.h
+    # src/miniaudioio/AudioMixerBuf.h
+    # src/miniaudioio/AudioMixerInterface.h
+    # src/miniaudioio/AudioSampleBuf.h
+    # src/miniaudioio/AudioTestGenerator.h
+    # src/miniaudioio/AudioUtils.h
+    # src/miniaudioio/MiniAudioDevices.h
+    # src/miniaudioio/MiniAudioIn.h
+    # src/miniaudioio/MiniAudioInDevice.h
+    # src/miniaudioio/MiniAudioMgr.h
+    # src/miniaudioio/MiniAudioOut.h
+    # src/miniaudioio/MiniAudioOutDevice.h
+
+    
+    src/TestFileWav.h
+    src/TestFileWavMgr.h
+
+    src/miniaudio/AudioMixerBuf.h
+    src/miniaudio/AudioMixerInterface.h
+    src/miniaudio/AudioSampleBuf.h
+    src/miniaudio/AudioTestGenerator.h
+    src/miniaudio/AudioUtils.h
+
+    src/miniaudio/MiniAudioDevices.h
+    src/miniaudio/MiniAudioIn.h
+    src/miniaudio/MiniAudioInDevice.h
+    src/miniaudio/MiniAudioOut.h
+    src/miniaudio/MiniAudioOutDevice.h
+
     src/SoundDefs.h
-    src/SoundMgr.h
+    src/SoundFxMgr.h
     src/TestWidget.h
     src/TextChatLogic.h
     src/ThumbnailEditWidget.h
@@ -667,6 +687,9 @@ list(APPEND nlc_SOURCES
     src/AssetVoiceWidget.cpp
     src/AvatarBar.cpp
 
+    src/AudioMgr.cpp
+    src/AudioMgrRequests.cpp
+
     src/CamJavaClient.cpp
     src/CamLogic.cpp
     src/CamProcessor.cpp
@@ -786,21 +809,35 @@ list(APPEND nlc_SOURCES
     src/LogMgr.cpp
     src/LogWidget.cpp
     src/LogoRenderer.cpp
-    src/miniaudioio/AudioBitrate.cpp
-    src/miniaudioio/AudioEchoBuf.cpp
-    src/miniaudioio/AudioEchoCancel.cpp
-    src/miniaudioio/AudioEchoCancelImpl.cpp
-    src/miniaudioio/AudioMasterClock.cpp
-    src/miniaudioio/AudioMixerBuf.cpp
-    src/miniaudioio/AudioSampleBuf.cpp
-    src/miniaudioio/AudioTestGenerator.cpp
-    src/miniaudioio/AudioUtils.cpp
-    src/miniaudioio/MiniAudioDevices.cpp
-    src/miniaudioio/MiniAudioIn.cpp
-    src/miniaudioio/MiniAudioInDevice.cpp
-    src/miniaudioio/MiniAudioMgr.cpp
-    src/miniaudioio/MiniAudioOut.cpp
-    src/miniaudioio/MiniAudioOutDevice.cpp
+
+    # src/miniaudioio/AudioBitrate.cpp
+    # src/miniaudioio/AudioEchoBuf.cpp
+    # src/miniaudioio/AudioEchoCancel.cpp
+    # src/miniaudioio/AudioEchoCancelImpl.cpp
+    # src/miniaudioio/AudioMasterClock.cpp
+    # src/miniaudioio/AudioMixerBuf.cpp
+    # src/miniaudioio/AudioSampleBuf.cpp
+    # src/miniaudioio/AudioTestGenerator.cpp
+    # src/miniaudioio/AudioUtils.cpp
+    # src/miniaudioio/MiniAudioDevices.cpp
+    # src/miniaudioio/MiniAudioIn.cpp
+    # src/miniaudioio/MiniAudioInDevice.cpp
+    # src/miniaudioio/MiniAudioMgr.cpp
+    # src/miniaudioio/MiniAudioOut.cpp
+    # src/miniaudioio/MiniAudioOutDevice.cpp
+
+    src/miniaudio/AudioMixerBuf.cpp
+    src/miniaudio/AudioSampleBuf.cpp
+    src/miniaudio/AudioTestGenerator.cpp
+    src/miniaudio/AudioUtils.cpp
+
+    src/miniaudio/MiniAudioDevices.cpp
+    src/miniaudio/MiniAudioIn.cpp
+    src/miniaudio/MiniAudioInDevice.cpp
+    src/miniaudio/MiniAudioOut.cpp
+    src/miniaudio/MiniAudioOutDevice.cpp
+    src/miniaudio/miniaudio-link.cpp
+
     src/MessengerPage.cpp
     src/MultiSessionState.cpp
     src/MyIcons.cpp
@@ -833,8 +870,12 @@ list(APPEND nlc_SOURCES
     src/SearchParamsWidget.cpp
     src/SessionWidget.cpp
     src/ServiceSettingsWidget.cpp
-    src/SoundMgr.cpp
+    src/SoundFxMgr.cpp
     src/StoryWidget.cpp
+
+    src/TestFileWav.cpp
+    src/TestFileWavMgr.cpp
+
     src/TestWidget.cpp
     src/TextChatLogic.cpp
     src/TitleBarWidget.cpp
@@ -1147,13 +1188,23 @@ target_link_libraries(nolimitconnect
     swscale
     avutil
     ffmpegopus
+
+    fribidi
+    freetype
+
+    miniupnpc
+
+    netlib
+    ogg
+    pktlib
+
     ptopengine
-    miniaudio
+
     wav-decoder
-    
-    # webrtc-aec # webrtc audio echo cancel
-    # absl::strings # absl support for webrtc audio echo cancel
-    # absl::base # absl support for webrtc audio echo cancel
+
+    webrtc-aec # webrtc audio echo cancel
+    absl::strings # absl support for webrtc audio echo cancel
+    absl::base # absl support for webrtc audio echo cancel
 )
 
 if (DEFINED TARGET_OS_WINDOWS)
@@ -1177,23 +1228,13 @@ if (DEFINED TARGET_OS_WINDOWS)
         gnu
         ass
 
-        fribidi
-
         iconv
-
         vxvideolib
 
-        speex
         tag
         theora
         twolame
-        ogg
 
-        netlib
-        pktlib
-
-        echocancel
-        fribidi
         freetype
 
         tinyxml
@@ -1207,9 +1248,6 @@ if (DEFINED TARGET_OS_WINDOWS)
         crossguid
         pthread
 
-        aecm-webrtc
-        miniaudio
-        miniupnpc
         opengl32
         glu32
         ole32
@@ -1250,8 +1288,7 @@ if (DEFINED TARGET_OS_LINUX)
 
             gnu
             ass
-            fribidi
-            #glew
+
             iconv
 
             vxvideolib
@@ -1259,13 +1296,6 @@ if (DEFINED TARGET_OS_LINUX)
             theora
             twolame
 
-            ogg
-            netlib
-            pktlib
-
-            echocancel
-            fribidi
-            freetype
 
             tinyxml
             xml2
@@ -1277,9 +1307,6 @@ if (DEFINED TARGET_OS_LINUX)
             zlib
             crossguid
 
-            aecm-webrtc
-            miniaudio
-            miniupnpc
             pthread
             dl
             GLU
@@ -1306,7 +1333,7 @@ if (DEFINED TARGET_OS_LINUX)
             gnu
             ass
             fribidi
-            #glew
+
             iconv
 
             vxvideolib
@@ -1314,11 +1341,6 @@ if (DEFINED TARGET_OS_LINUX)
             theora
             twolame
 
-            ogg
-            netlib
-            pktlib
-
-            echocancel
             fribidi
             freetype
 
@@ -1332,8 +1354,6 @@ if (DEFINED TARGET_OS_LINUX)
             zlib
             crossguid
 
-            aecm-webrtc
-            miniaudio
             miniupnpc
             pthread
             dl
@@ -1367,7 +1387,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
             gnu
             ass
             fribidi
-            #glew
+
             iconv
 
             vxvideolib
@@ -1379,7 +1399,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
             ogg
             netlib
             pktlib
-            echocancel
+
             fribidi
             freetype
 
@@ -1393,8 +1413,6 @@ elseif (DEFINED TARGET_OS_ANDROID)
             zlib
             crossguid
 
-            aecm-webrtc
-            miniaudio
             miniupnpc
             dl
             m
@@ -1424,8 +1442,8 @@ elseif (DEFINED TARGET_OS_ANDROID)
 
             gnu
             ass
-            fribidi
-            #glew
+
+
             iconv
 
             vxvideolib
@@ -1434,11 +1452,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
             theora
             twolame
 
-            ogg
-            netlib
-            pktlib
-            echocancel
-            fribidi
+
             freetype
 
             tinyxml
@@ -1450,9 +1464,6 @@ elseif (DEFINED TARGET_OS_ANDROID)
             CoreLib
             zlib
             crossguid
-
-            aecm-webrtc
-            miniaudio
             miniupnpc
             dl
             m

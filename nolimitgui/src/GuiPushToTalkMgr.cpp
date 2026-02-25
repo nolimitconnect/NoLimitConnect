@@ -16,7 +16,9 @@
 
 #include "AppCommon.h"
 #include "GuiUserMgr.h"
-#include "SoundMgr.h"
+
+#include "AudioMgr.h"
+#include "SoundFxMgr.h"
 
 #include <PushToTalk/PushToTalkMgr.h>
 
@@ -148,14 +150,14 @@ void GuiPushToTalkMgr::togglePushToTalk( VxGUID& onlineId )
 			{
 				if( !GetAppInstance().getFromGuiInterface().fromGuiPushToTalk( onlineId, false ) )
 				{
-					GetAppInstance().getSoundMgr().playSnd( eSndDefBusy );
+					GetAppInstance().getSoundFxMgr().playSnd( eSndDefBusy );
 				}
 			}
 			else
 			{
 				if( !GetAppInstance().getFromGuiInterface().fromGuiPushToTalk( onlineId, true ) )
 				{
-					GetAppInstance().getSoundMgr().playSnd( eSndDefBusy );
+					GetAppInstance().getSoundFxMgr().playSnd( eSndDefBusy );
 				}
 			}
 		}

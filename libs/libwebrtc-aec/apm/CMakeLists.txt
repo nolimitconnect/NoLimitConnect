@@ -66,6 +66,9 @@ set(LOGGING_STUBS
 
 # Core APM modules
 set(APM_MODULE_SOURCES
+    "${CMAKE_CURRENT_SOURCE_DIR}/WebRtcAec.h"
+    "${CMAKE_CURRENT_SOURCE_DIR}/WebRtcAec.cpp"
+
     "${CMAKE_CURRENT_SOURCE_DIR}/modules/audio_processing/aec3/adaptive_fir_filter.cc"
     "${CMAKE_CURRENT_SOURCE_DIR}/modules/audio_processing/aec3/adaptive_fir_filter_erl.cc"
     "${CMAKE_CURRENT_SOURCE_DIR}/modules/audio_processing/aec3/aec_state.cc"
@@ -442,6 +445,7 @@ target_include_directories(webrtc-aec PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/modules/audio_processing/include
     ${CMAKE_CURRENT_SOURCE_DIR}/api
+    ${CMAKE_CURRENT_SOURCE_DIR}/../abseil-cpp
 )
 
 # Library output name

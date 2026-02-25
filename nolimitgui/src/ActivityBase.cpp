@@ -24,7 +24,7 @@
 #include "HomeWindow.h"
 
 #include "MyIcons.h"
-#include "SoundMgr.h"
+#include "SoundFxMgr.h"
 #include "WaitingSpinnerWidget.h"
 #include "VxPushButton.h"
 
@@ -134,12 +134,12 @@ ActivityBase::ActivityBase( const char* objName, AppCommon& app, QWidget* parent
 
 	connect(	this, 
 				SIGNAL(signalPlayNotifySound()), 
-				&m_MyApp.getSoundMgr(), 
+				&m_MyApp.getSoundFxMgr(), 
 				SLOT(slotPlayNotifySound()) );
 
 	connect(	this, 
 				SIGNAL(signalPlayShredderSound()), 
-				&m_MyApp.getSoundMgr(), 
+				&m_MyApp.getSoundFxMgr(), 
 				SLOT(slotPlayShredderSound()) );
 
     if( !m_IsDialog && !m_IsPopup )

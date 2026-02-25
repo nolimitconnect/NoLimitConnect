@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "VxSndInstance.h"
-#include "SoundMgr.h"
+#include "SoundFxMgr.h"
 #include "VxResourceToRealFile.h"
 
 #include <MediaProcessor/MediaProcessor.h>

@@ -271,9 +271,6 @@
     <ClInclude Include="..\..\Sha1GeneratorMgr.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\TimeIntervalEstimator.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\VxGuidPairTimeList.h">
       <Filter>Source Files</Filter>
     </ClInclude>
@@ -523,9 +520,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Sha1GeneratorMgr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\TimeIntervalEstimator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\VxGuidPairTimeList.cpp">

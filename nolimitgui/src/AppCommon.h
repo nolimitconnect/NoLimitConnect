@@ -14,6 +14,8 @@
 #include "AppDefs.h"
 #include "AppGlobals.h"
 
+#include "AudioMgr.h"
+
 #include "CamLogic.h"
 
 #include "FriendList.h"
@@ -114,7 +116,9 @@ public:
         GuiRandConnectMgr& randConnectMgr,
         GuiSendQueueMgr& sendQueueMgr,
         MyIcons& myIcons,
-        TodGameMgr& todGameMgr );
+        TodGameMgr& todGameMgr,
+        SoundFxMgr& soundFxMgr
+    );
 
     AppCommon( const AppCommon& rhs ) = delete;
     virtual ~AppCommon() override = default;
@@ -152,6 +156,9 @@ public:
     VxAppStyle&                 getAppStyle( void ) { return m_AppStyle; }
     QString&                    getAppTitle( void ) { return m_AppTitle; }
     VxAppTheme&                 getAppTheme( void ) { return m_AppTheme; }
+
+    AudioMgr&                   getAudioMgr( void ) { return m_AudioMgr; }
+
     CamLogic&                   getCamLogic( void ) { return m_CamLogic; }
     P2PEngine&                  getEngine( void );
     IFromGui&                   getFromGuiInterface( void );
@@ -188,7 +195,8 @@ public:
     GuiUserMgr&                 getUserMgr( void ) { return m_UserMgr; }
 
     RenderGlWidget*             getRenderConsumer( void );
-    SoundMgr&                   getSoundMgr( void ) { return m_SoundMgr; }
+
+    SoundFxMgr&                 getSoundFxMgr( void ) { return m_SoundFxMgr; }
 
     QApplication&               getQApplication( void ) { return m_QApp; }
 
@@ -906,7 +914,8 @@ protected:
 
     CamLogic                    m_CamLogic;
 
-    SoundMgr&                   m_SoundMgr;
+    AudioMgr                    m_AudioMgr;
+    SoundFxMgr&                 m_SoundFxMgr;
 
     HomeWindow*					m_HomeWindow{ nullptr };
 
