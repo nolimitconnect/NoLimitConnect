@@ -1,0 +1,20 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Open current .ui in Qt Creator",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\.vscode\\open-ui-in-qtcreator.ps1",
+                "-UiFile",
+                "${file}"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}
