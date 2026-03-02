@@ -9,7 +9,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <GuiInterface/IAudioDefs.h>
+#include "AudioDefs.h"
+
+#include <inttypes.h>
 
 #include <vector>
 

@@ -63,7 +63,6 @@ void AppCommon::slotInternalWantMicrophoneRecording( EMediaModule mediaModule, b
 //============================================================================
 void AppCommon::toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput )
 {
-	
 	if( VxIsAppShuttingDown() )
 	{
 		return;
@@ -168,7 +167,7 @@ float AppCommon::toGuiGetAudioCacheTotalSeconds( EMediaModule mediaModule )
 /// Mute/Unmute microphone
 void AppCommon::fromGuiMuteMicrophone( bool muteMic )
 {
-	m_AudioMgr.setMicrophoneMuted( muteMic );
+	m_AudioMgr.setIsMicrophoneMuted( muteMic );
     getEngine().fromGuiMuteMicrophone( muteMic );
 
 	if( m_ToGuiHardwareCtrlBusy )
@@ -197,7 +196,7 @@ bool AppCommon::fromGuiIsMicrophoneMuted( void )
 /// Mute/Unmute speaker
 void AppCommon::fromGuiMuteSpeaker( bool muteSpeaker )
 {
-	m_AudioMgr.setSpeakerMuted( muteSpeaker );
+	m_AudioMgr.setIsSpeakerMuted( muteSpeaker );
     getEngine().fromGuiMuteSpeaker( muteSpeaker );
 
 	if( m_ToGuiHardwareCtrlBusy )
@@ -258,16 +257,4 @@ void AppCommon::fromGuiCaptureRunning( bool camCaptureRunning )
 bool AppCommon::fromGuiIsSpeakerMuted( void )
 {
     return getEngine().fromGuiIsSpeakerMuted();
-}
-
-//============================================================================
-void AppCommon::fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen )
-{
-	getEngine().getMediaProcessor().fromGuiAudioOutSpaceAvaiThreaded( freeSpaceLen );
-}
-
-//============================================================================
-void AppCommon::fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int sampleCnt, bool isSilence )
-{
-	getEngine().getMediaProcessor().fromGuiEchoCanceledSamplesThreaded( pcmData, sampleCnt, isSilence );
 }

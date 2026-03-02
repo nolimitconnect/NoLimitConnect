@@ -237,6 +237,8 @@ list(APPEND nlc_HEADERS
     src/AvatarBar.h
 
     src/AudioMgr.h
+    src/AudioInWaveformWidget.h
+    src/AudioOutWaveformWidget.h
 
     src/BottomBarWidget.h
     src/CamTitleBarPreview.h
@@ -400,31 +402,12 @@ list(APPEND nlc_HEADERS
     src/ServiceSettingsWidget.h
     src/SessionWidget.h
     src/StoryWidget.h
-    # src/miniaudioio/AudioBitrate.h
-    # src/miniaudioio/AudioEchoBuf.h
-    # src/miniaudioio/AudioEchoCancel.h
-    # src/miniaudioio/AudioEchoCancelImpl.h
-    # src/miniaudioio/AudioMasterClock.h
-    # src/miniaudioio/AudioMixerBuf.h
-    # src/miniaudioio/AudioMixerInterface.h
-    # src/miniaudioio/AudioSampleBuf.h
-    # src/miniaudioio/AudioTestGenerator.h
-    # src/miniaudioio/AudioUtils.h
-    # src/miniaudioio/MiniAudioDevices.h
-    # src/miniaudioio/MiniAudioIn.h
-    # src/miniaudioio/MiniAudioInDevice.h
-    # src/miniaudioio/MiniAudioMgr.h
-    # src/miniaudioio/MiniAudioOut.h
-    # src/miniaudioio/MiniAudioOutDevice.h
 
-    
-    src/TestFileWav.h
-    src/TestFileWavMgr.h
-
+    src/miniaudio/AudioFrameAecBuffer.h
     src/miniaudio/AudioMixerBuf.h
     src/miniaudio/AudioMixerInterface.h
     src/miniaudio/AudioSampleBuf.h
-    src/miniaudio/AudioTestGenerator.h
+    src/miniaudio/AudioTestToneGenerator.h
     src/miniaudio/AudioUtils.h
 
     src/miniaudio/MiniAudioDevices.h
@@ -432,6 +415,9 @@ list(APPEND nlc_HEADERS
     src/miniaudio/MiniAudioInDevice.h
     src/miniaudio/MiniAudioOut.h
     src/miniaudio/MiniAudioOutDevice.h
+
+    src/miniaudio/TestFileWav.h
+    src/miniaudio/TestFileWavMgr.h
 
     src/SoundDefs.h
     src/SoundFxMgr.h
@@ -688,7 +674,13 @@ list(APPEND nlc_SOURCES
     src/AvatarBar.cpp
 
     src/AudioMgr.cpp
+    src/AudioMgrDelayTest.cpp
+    src/AudioMgrIn.cpp
+    src/AudioMgrOut.cpp
     src/AudioMgrRequests.cpp
+
+    src/AudioInWaveformWidget.cpp
+    src/AudioOutWaveformWidget.cpp
 
     src/CamJavaClient.cpp
     src/CamLogic.cpp
@@ -810,25 +802,9 @@ list(APPEND nlc_SOURCES
     src/LogWidget.cpp
     src/LogoRenderer.cpp
 
-    # src/miniaudioio/AudioBitrate.cpp
-    # src/miniaudioio/AudioEchoBuf.cpp
-    # src/miniaudioio/AudioEchoCancel.cpp
-    # src/miniaudioio/AudioEchoCancelImpl.cpp
-    # src/miniaudioio/AudioMasterClock.cpp
-    # src/miniaudioio/AudioMixerBuf.cpp
-    # src/miniaudioio/AudioSampleBuf.cpp
-    # src/miniaudioio/AudioTestGenerator.cpp
-    # src/miniaudioio/AudioUtils.cpp
-    # src/miniaudioio/MiniAudioDevices.cpp
-    # src/miniaudioio/MiniAudioIn.cpp
-    # src/miniaudioio/MiniAudioInDevice.cpp
-    # src/miniaudioio/MiniAudioMgr.cpp
-    # src/miniaudioio/MiniAudioOut.cpp
-    # src/miniaudioio/MiniAudioOutDevice.cpp
-
     src/miniaudio/AudioMixerBuf.cpp
     src/miniaudio/AudioSampleBuf.cpp
-    src/miniaudio/AudioTestGenerator.cpp
+    src/miniaudio/AudioTestToneGenerator.cpp
     src/miniaudio/AudioUtils.cpp
 
     src/miniaudio/MiniAudioDevices.cpp
@@ -837,6 +813,9 @@ list(APPEND nlc_SOURCES
     src/miniaudio/MiniAudioOut.cpp
     src/miniaudio/MiniAudioOutDevice.cpp
     src/miniaudio/miniaudio-link.cpp
+
+    src/miniaudio/TestFileWav.cpp
+    src/miniaudio/TestFileWavMgr.cpp
 
     src/MessengerPage.cpp
     src/MultiSessionState.cpp
@@ -872,9 +851,6 @@ list(APPEND nlc_SOURCES
     src/ServiceSettingsWidget.cpp
     src/SoundFxMgr.cpp
     src/StoryWidget.cpp
-
-    src/TestFileWav.cpp
-    src/TestFileWavMgr.cpp
 
     src/TestWidget.cpp
     src/TextChatLogic.cpp
@@ -1106,8 +1082,13 @@ qt_add_executable(nolimitconnect
     ${nlc_HEADERS}
     )
 
+target_include_directories(nolimitconnect PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/miniaudio        
+)
+
 if(DEFINED TARGET_OS_WINDOWS)
-    target_compile_definitions(x265 PRIVATE
+    target_compile_definitions(nolimitconnect PRIVATE
         NOMINMAX
         WIN64
         WIN32_LEAN_AND_MEAN

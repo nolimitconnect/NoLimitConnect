@@ -192,7 +192,7 @@ public:
 												VxGUID&						sessionId,
 												bool						wantInput );
 
-	void						fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int sampleCnt, bool isSilence );
+	void						fromGuiEchoCanceledSamplesThreaded( const int16_t* pcmData, int sampleCnt );
 	void						fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen );
 
 	void						increasePcmSampleVolume( int16_t * pcmData, uint16_t pcmDataLen, float volumePercent0To100 );

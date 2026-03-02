@@ -47,7 +47,6 @@ namespace
 AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
 : AppletClientBase( OBJNAME_APPLET_SOUND_SETTINGS, app, parent )
 , ui(*(new Ui::AppletSoundSettingsUi))
-, m_devices( new QMediaDevices( this ) )
 {
     setAppletType( eAppletSoundSettings );
     ui.setupUi( getContentItemsFrame() );
@@ -55,41 +54,53 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
 
     ui.m_AudioInPeakProgressBar->setValue( 0 );
 
-    int echoDelayMs = m_MyApp.getAppSettings().getEchoDelayParam();
-
-    ui.m_TestDelayResultLineEdit->setText( QString::number( 0 ) );
-
     connectBarWidgets();
 
-    connect( ui.m_TestSoundDelayButton, SIGNAL(clicked()), this, SLOT(slotStartTestSoundDelay()) );
+    // before we connect signals we load the test files into the combo box so that signal handlers don't get called when we set the current index of the combo box
+    QStringList testFileList = getTestFileMgr().getTestFileList();
+    for( const QString& testFile : testFileList )
+    {
+        ui.m_TestFileComboBox->addItem( testFile );
+    }
 
-    // connect( &m_MyApp.getAudioMgr(), SIGNAL(signalTestedSoundDelay(int)), this, SLOT(slotTestedSoundDelayResult(int)), Qt::QueuedConnection );
-    // connect( &m_MyApp.getAudioMgr(), SIGNAL(signalAudioTestState(EAudioTestState)), this, SLOT(slotAudioTestState(EAudioTestState)), Qt::QueuedConnection );
-    // connect( &m_MyApp.getAudioMgr(), SIGNAL(signalAudioTestMsg(QString)), this, SLOT(slotAudioTestMsg(QString)), Qt::QueuedConnection );
+    int echoDelayMs = getAppSettings().getEchoDelayParam();
+    ui.m_EchoDelayLineEdit->setText( QString::number( echoDelayMs ) );
+    ui.m_TestDelayResultLineEdit->setText( QString::number( 0 ) );
 
     connect( ui.m_GenerateToneCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotGenerateToneCheckBox(int)) );
 
-    connect( ui.m_SendMicEchoCanceledToSpeakerCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotSendMicEchoCanceledToSpeakerCheckBox(int)) );
+    connect( ui.m_TestSoundDelayButton, SIGNAL(clicked()), this, SLOT(slotStartTestSoundDelay()) );
+    connect( ui.m_EchoDelaySaveButton, SIGNAL(clicked()), this, SLOT(slotEchoDelaySaveButtonClicked()) );
+
+    connect( &m_MyApp.getAudioMgr(), SIGNAL(signalTestedSoundDelay(int)), this, SLOT(slotTestedSoundDelayResult(int)), Qt::QueuedConnection );
+    connect( &m_MyApp.getAudioMgr(), SIGNAL(signalAudioTestState(EAudioTestState)), this, SLOT(slotAudioTestState(EAudioTestState)), Qt::QueuedConnection );
+    connect( &m_MyApp.getAudioMgr(), SIGNAL(signalAudioTestMsg(QString)), this, SLOT(slotAudioTestMsg(QString)), Qt::QueuedConnection );
 
     updateInAudioDevices();
 
-    int soundInDeviceIndex = 0;
-    m_MyApp.getAudioMgr().getSoundInDeviceIndex( soundInDeviceIndex );
-    ui.m_InDeviceComboBox->setCurrentIndex( soundInDeviceIndex );
+    connect( ui.m_InDeviceComboBox, SIGNAL(activated(int)), this, SLOT(slotInDeviceComboBoxChanged(int)) );
+    connect( ui.m_ApplyDefaultInDeviceButton, SIGNAL(clicked()), this, SLOT(slotApplyDefaultInDeviceButtonClicked()) );
 
-    connect( ui.m_InDeviceComboBox, QOverload<int>::of( &QComboBox::activated ), this, &AppletSoundSettings::inDeviceChanged );
-    connect( m_devices, &QMediaDevices::audioInputsChanged, this, &AppletSoundSettings::updateInAudioDevices );
-    connect( ui.m_ApplyDefaultInDeviceButton, SIGNAL(clicked()), this, SLOT(slotApplyInDeviceChange() ) );
-    
     updateOutAudioDevices();
 
-    int soundOutDeviceIndex = 0;
-    m_MyApp.getAudioMgr().getSoundOutDeviceIndex( soundOutDeviceIndex );
-    ui.m_OutDeviceComboBox->setCurrentIndex( soundOutDeviceIndex );
+    connect( ui.m_OutDeviceComboBox, SIGNAL(activated(int)), this, SLOT(slotOutDeviceComboBoxChanged(int)) );
+    connect( ui.m_ApplyDefaultOutDeviceButton, SIGNAL(clicked()), this, SLOT(slotApplyDefaultOutDeviceButtonClicked()) );
 
-    connect( ui.m_OutDeviceComboBox, QOverload<int>::of( &QComboBox::activated ), this, &AppletSoundSettings::outDeviceChanged );
-    connect( m_devices, &QMediaDevices::audioOutputsChanged, this, &AppletSoundSettings::updateOutAudioDevices );
-    connect( ui.m_ApplyDefaultOutDeviceButton, SIGNAL(clicked()), this, SLOT(slotApplyOutDeviceChange()) );
+    connect( ui.m_PlayTestFileButton, SIGNAL(clicked()), this, SLOT(slotPlayTestFileButtonClicked()) );
+
+    connect( ui.m_NoAecLoopbackCheckBox, SIGNAL(clicked()), this, SLOT(slotNoAecLoopbackCheckBoxClicked()) );
+    connect( ui.m_WithAecLoopbackCheckBox, SIGNAL(clicked()), this, SLOT(slotWithAecLoopbackCheckBoxClicked()) );
+
+    connect( ui.m_ShowInWaveFormCheckBox, SIGNAL(clicked()), this, SLOT(slotShowInWaveFormCheckBoxClicked()) );
+    connect( ui.m_ShowOutWaveFormCheckBox, SIGNAL(clicked()), this, SLOT(slotShowOutWaveFormCheckBoxClicked()) );
+    connect( ui.m_ShowSoundInCheckBox, SIGNAL(clicked()), this, SLOT(slotShowSoundInCheckBoxClicked()) );
+    connect( ui.m_ShowSoundOutCheckBox, SIGNAL(clicked()), this, SLOT(slotShowSoundOutCheckBoxClicked()) );
+    connect( ui.m_ShowLogCheckBox, SIGNAL(clicked()), this, SLOT(slotShowLogCheckBoxClicked()) );
+
+    connect( ui.m_LogWidget, SIGNAL(signalVerboseLogEnable(bool)), this, SLOT(slotVerboseLogEnable(bool)) );
+
+    connect( ui.m_AgcCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotAgcEnable(int)) );
+    connect( ui.m_UseMobileAecCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotUseMobileAecCheckBox(int)) );
 
     m_MyApp.activityStateChange( this, true );
 
@@ -104,10 +115,10 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
         ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Microphone Device Unavailable" ), QObject::tr( "No microphone device is available to enable" ) );
         msgBox.exec();
     }
-    else
-    {
-        ui.m_SendMicEchoCanceledToSpeakerCheckBox->setChecked( true );
-    }
+
+    loadUiFromAppSettings();
+
+    ui.m_LogWidget->initLogCallback();
 
     m_MyApp.getAudioMgr().wantMicrophoneLevelCallbacks( this, true );
 }
@@ -116,10 +127,20 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
 AppletSoundSettings::~AppletSoundSettings()
 {
     m_MyApp.getAudioMgr().wantMicrophoneLevelCallbacks( this, false );
-    m_MyApp.getFromGuiInterface().fromGuiPushToTalk( m_MyApp.getMyOnlineId(), false );
 
-    m_MyApp.getAudioMgr().setAudioLoopbackEnable( false );
     m_MyApp.activityStateChange( this, false );
+}
+
+//============================================================================
+AudioMgr& AppletSoundSettings::getAudioMgr( void )
+{
+    return m_MyApp.getAudioMgr();
+}
+
+//============================================================================
+AppSettings& AppletSoundSettings::getAppSettings( void )
+{
+    return m_MyApp.getAppSettings();
 }
 
 //============================================================================
@@ -276,12 +297,28 @@ void AppletSoundSettings::slotStartTestSoundDelay( void )
     if( eAudioTestStateNone == m_AudioTestState )
     {
         m_EchoDelayResultList.clear();
-        m_MyApp.getAudioMgr().runAudioDelayTest();
+        m_MyApp.getAudioMgr().runEchoDelayTest();
     }
     else
     {
         ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Echo delay test is running" ), QObject::tr( "Echo delay test can not be run until the previous test finishes" ) );
         msgBox.exec();
+    }
+}
+
+//============================================================================
+void AppletSoundSettings::slotEchoDelaySaveButtonClicked( void )
+{
+    int delayMs = ui.m_EchoDelayLineEdit->text().toInt();
+    if( delayMs < 40 || delayMs > 500 )
+    {
+        QMessageBox::information( this, QObject::tr( "Echo Delay Value Invalid" ), QObject::tr( "Echo Delay value must be between 40 and 500 milliseconds" ) );
+    }
+    else
+    {
+        getAppSettings().setEchoDelayParam( delayMs );
+        getAudioMgr().setEchoDelayParam( delayMs );
+        QMessageBox::information( this, QObject::tr( "Echo Delay Value Save" ), QObject::tr( "Echo Delay value has been saved for use by Echo Cancelation" ) );
     }
 }
 
@@ -297,6 +334,7 @@ void AppletSoundSettings::slotAudioTestState( EAudioTestState audioTestState )
         break;
 
     case eAudioTestStateDone:
+        getAudioMgr().setAudioTestState( eAudioTestStateNone );
         showEchoDelayTestResults();
         break;
 
@@ -309,7 +347,7 @@ void AppletSoundSettings::slotAudioTestState( EAudioTestState audioTestState )
 //============================================================================
 void AppletSoundSettings::slotTestedSoundDelayResult( int echoDelayMs )
 {
-    m_EchoDelayResultList.push_back( echoDelayMs );
+    m_EchoDelayResultList.emplace_back( echoDelayMs );
 }
 
 //============================================================================
@@ -360,47 +398,20 @@ void AppletSoundSettings::showEchoDelayTestResults( void )
             msg += QString::number( averageDelay - 5 );
             msg += QObject::tr( " into  Echo delay ms field and click Save Echo Delay To Echo Canceller button\n" );
             msg += resultMsg;
-            ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Echo Delay Test Is Valid" ), msg );
-            msgBox.exec();
+            QMessageBox::information( this, QObject::tr( "Echo Delay Test Is Valid" ), msg );
         }
         else
-        {   
-            ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Echo Delay Test Is Invalid. Check microphone and speaker. Try turning up the volume or placing microphone closer to speaker" ), resultMsg );
-            msgBox.exec();
+        {
+            QMessageBox::information( this, QObject::tr( "Echo Delay Test Is Invalid. Check microphone and speaker. Try turning up the volume or placing microphone closer to speaker" ), resultMsg );
         }
-    }  
+    }
 }
 
 //============================================================================
 void AppletSoundSettings::slotGenerateToneCheckBox( int checkedState )
 {
     bool genTone = ui.m_GenerateToneCheckBox->isChecked();
-    m_MyApp.getAudioMgr().setEnableSpeakerTestTone( genTone );
-    ui.m_AudioInPeakProgressBar->setValue( 0 );
-}
-
-//============================================================================
-void AppletSoundSettings::slotSendMicEchoCanceledToSpeakerCheckBox( int checkedState )
-{
-    if( !m_MyApp.getAudioMgr().isMicrophoneDeviceAvailable() )
-    {
-        m_MyApp.getSoundFxMgr().playSnd( eSndDefBusy );
-        ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Microphone Device Unavailable" ), QObject::tr( "No microphone device is available to enable" ) );
-        msgBox.exec();
-        return;
-    }
-
-    bool enableLoopback = ui.m_SendMicEchoCanceledToSpeakerCheckBox->isChecked();
-    if( !m_MyApp.getFromGuiInterface().fromGuiPushToTalk( m_MyApp.getMyOnlineId(), enableLoopback ) )
-    {
-        if( enableLoopback )
-        {
-            m_MyApp.getSoundFxMgr().playSnd( eSndDefBusy );
-            ActivityMsgBoxOk msgBox( m_MyApp, this, QObject::tr( "Push To Talk" ), QObject::tr( "Sound settings Push To Talk failed to enable" ) );
-            msgBox.exec();
-        }
-    }
-
+    getAudioMgr().setEnableSpeakerTestTone( genTone );
     ui.m_AudioInPeakProgressBar->setValue( 0 );
 }
 
@@ -408,4 +419,213 @@ void AppletSoundSettings::slotSendMicEchoCanceledToSpeakerCheckBox( int checkedS
 void AppletSoundSettings::callbackGuiMicrophoneLevel( int micLevel )
 {
     ui.m_AudioInPeakProgressBar->setValue( micLevel );
+}
+
+//============================================================================
+void AppletSoundSettings::slotPlayTestFileButtonClicked( void )
+{
+    int index = ui.m_TestFileComboBox->currentIndex();
+    if( getTestFileMgr().indexIsValid( index ) )
+    {
+        getAudioMgr().playTestFile( getTestFileMgr().getTestFileWav( index ) );
+    }
+    else
+    {
+        QMessageBox::information( this, QObject::tr( "Play Test File" ), QObject::tr( "No test file is selected or test file index is invalid" ) );
+    }
+}
+
+//============================================================================
+void AppletSoundSettings::slotInDeviceComboBoxChanged( int index )
+{
+    if( index < 0 || index >= ui.m_InDeviceComboBox->count() )
+    {
+        return;
+    }
+
+    if( getAudioMgr().getAudioInIo().soundInDeviceChanged( index ) )
+    {
+        getAudioMgr().setSoundInDeviceIndex( index );
+        getAppSettings().setSoundInDeviceIndex( index );
+    }
+}
+
+//============================================================================
+void AppletSoundSettings::slotOutDeviceComboBoxChanged( int index )
+{
+    if( index < 0 || index >= ui.m_OutDeviceComboBox->count() )
+    {
+        return;
+    }
+
+    if( getAudioMgr().getAudioOutIo().soundOutDeviceChanged( index ) )
+    {
+        getAudioMgr().setSoundOutDeviceIndex( index );
+        getAppSettings().setSoundOutDeviceIndex( index );
+    }
+}
+
+//============================================================================
+void AppletSoundSettings::slotApplyDefaultInDeviceButtonClicked( void )
+{
+    slotApplyInDeviceChange();
+}
+
+//============================================================================
+void AppletSoundSettings::slotApplyDefaultOutDeviceButtonClicked( void )
+{
+    slotApplyOutDeviceChange();
+}
+
+//============================================================================
+void AppletSoundSettings::slotNoAecLoopbackCheckBoxClicked( void )
+{
+    bool loopbackEnabled = ui.m_NoAecLoopbackCheckBox->isChecked();
+    getAudioMgr().setNoAecLoopbackEnable( loopbackEnabled );
+    getAppSettings().setNoAecLoopback( loopbackEnabled );
+}
+
+//============================================================================
+void AppletSoundSettings::slotWithAecLoopbackCheckBoxClicked( void )
+{
+    bool loopbackEnabled = ui.m_WithAecLoopbackCheckBox->isChecked();
+    getAudioMgr().setWithAecLoopbackEnable( loopbackEnabled );
+    getAppSettings().setWithAecLoopback( loopbackEnabled );
+}
+
+//============================================================================
+void AppletSoundSettings::slotShowInWaveFormCheckBoxClicked( void )
+{   
+    bool showWaveForm = ui.m_ShowInWaveFormCheckBox->isChecked();
+    ui.m_AudioInWaveFormFrame->setVisible( showWaveForm );
+    getAppSettings().setShowInWaveForm( showWaveForm );
+}
+
+//============================================================================
+void AppletSoundSettings::slotShowOutWaveFormCheckBoxClicked( void )
+{   
+    bool showWaveForm = ui.m_ShowOutWaveFormCheckBox->isChecked();
+    ui.m_AudioOutWaveFormFrame->setVisible( showWaveForm );
+    getAppSettings().setShowOutWaveForm( showWaveForm );
+}
+
+//============================================================================
+void AppletSoundSettings::slotShowSoundInCheckBoxClicked( void )
+{
+    bool showSoundIn = ui.m_ShowSoundInCheckBox->isChecked();
+    ui.m_InSettingsGroupBox->setVisible( showSoundIn );
+    getAppSettings().setShowSoundInSettings( showSoundIn );
+    getAudioMgr().wantMicrophoneLevelCallbacks( this, showSoundIn );
+}
+
+//============================================================================
+void AppletSoundSettings::slotShowSoundOutCheckBoxClicked( void )
+{
+    bool showSoundOut = ui.m_ShowSoundOutCheckBox->isChecked();
+    ui.m_OutSettingsGroupBox->setVisible( showSoundOut );
+    getAppSettings().setShowSoundOutSettings( showSoundOut );
+}
+
+//============================================================================
+void AppletSoundSettings::slotShowLogCheckBoxClicked( void )
+{
+    bool showLog = ui.m_ShowLogCheckBox->isChecked();
+    ui.m_LogWidget->setVisible( showLog );
+    getAppSettings().setShowSoundLog( showLog );
+}
+
+//============================================================================
+void AppletSoundSettings::loadUiFromAppSettings( void )
+{
+    bool showInWaveForm = getAppSettings().getShowInWaveForm();
+    ui.m_ShowInWaveFormCheckBox->setChecked( showInWaveForm );
+    ui.m_AudioInWaveFormFrame->setVisible( showInWaveForm );
+    bool showOutWaveForm = getAppSettings().getShowOutWaveForm();
+    ui.m_ShowOutWaveFormCheckBox->setChecked( showOutWaveForm );
+    ui.m_AudioOutWaveFormFrame->setVisible( showOutWaveForm );
+
+    bool enableAgc = getAppSettings().getAgcEnabled();
+    ui.m_AgcCheckBox->setChecked( enableAgc );
+
+    bool showSoundIn = getAppSettings().getShowSoundInSettings();
+    ui.m_ShowSoundInCheckBox->setChecked( showSoundIn );
+    ui.m_InSettingsGroupBox->setVisible( showSoundIn );
+    if( showSoundIn )
+    {
+        getAudioMgr().wantMicrophoneLevelCallbacks( this, showSoundIn );
+    }
+
+    bool showSoundOut = getAppSettings().getShowSoundOutSettings();
+    ui.m_ShowSoundOutCheckBox->setChecked( showSoundOut );
+    ui.m_OutSettingsGroupBox->setVisible( showSoundOut );
+
+    bool showLog = getAppSettings().getShowSoundLog();
+    ui.m_ShowLogCheckBox->setChecked( showLog );
+    ui.m_LogWidget->setVisible( showLog );
+
+
+    getAudioMgr().setNoAecLoopbackEnable( getAppSettings().getNoAecLoopback() ); 
+    getAudioMgr().setWithAecLoopbackEnable( getAppSettings().getWithAecLoopback() ); 
+
+    ui.m_NoAecLoopbackCheckBox->setChecked( getAppSettings().getNoAecLoopback() );
+    ui.m_WithAecLoopbackCheckBox->setChecked( getAppSettings().getWithAecLoopback() );
+
+
+    if( ui.m_InDeviceComboBox->count() > 0 )
+    {
+        int savedInDeviceIndex = getAppSettings().getSoundInDeviceIndex();
+        if( savedInDeviceIndex < 0 || savedInDeviceIndex >= ui.m_InDeviceComboBox->count() )
+        {
+            savedInDeviceIndex = 0;
+        }
+
+        ui.m_InDeviceComboBox->setCurrentIndex( savedInDeviceIndex );
+        if( getAudioMgr().getAudioInIo().soundInDeviceChanged( savedInDeviceIndex ) )
+        {
+            getAudioMgr().setSoundInDeviceIndex( savedInDeviceIndex );
+            getAppSettings().setSoundInDeviceIndex( savedInDeviceIndex );
+        }
+    }
+
+    if( ui.m_OutDeviceComboBox->count() > 0 )
+    {
+        int savedOutDeviceIndex = getAppSettings().getSoundOutDeviceIndex();
+        if( savedOutDeviceIndex < 0 || savedOutDeviceIndex >= ui.m_OutDeviceComboBox->count() )
+        {
+            savedOutDeviceIndex = 0;
+        }
+
+        ui.m_OutDeviceComboBox->setCurrentIndex( savedOutDeviceIndex );
+        if( getAudioMgr().getAudioOutIo().soundOutDeviceChanged( savedOutDeviceIndex ) )
+        {
+            getAudioMgr().setSoundOutDeviceIndex( savedOutDeviceIndex );
+            getAppSettings().setSoundOutDeviceIndex( savedOutDeviceIndex );
+        }
+    }
+
+    ui.m_AgcCheckBox->setChecked( getAppSettings().getAgcEnabled() );
+    ui.m_UseMobileAecCheckBox->setChecked( getAppSettings().getUseMobileAec() );
+}
+
+//============================================================================
+void AppletSoundSettings::slotVerboseLogEnable( bool verboseLogEnabled )
+{
+    // getAppSettings().setVerboseLog( verboseLogEnabled );
+    // VxSetLogLevelFlags( (uint32_t)(( verboseLogEnabled ? LOG_VERBOSE : 0 ) | 0x000001fe ) );
+}
+
+//============================================================================
+void AppletSoundSettings::slotAgcEnable( int checkedState )
+{
+    bool agcEnabled = ( checkedState != 0 );
+    getAudioMgr().setAgcEnabled( agcEnabled );
+    getAppSettings().setAgcEnabled( agcEnabled );
+}
+
+//============================================================================
+void AppletSoundSettings::slotUseMobileAecCheckBox( int checkedState )
+{
+    bool useMobileAec = ( checkedState != 0 );
+    getAudioMgr().setUseMobileAec( useMobileAec );
+    getAppSettings().setUseMobileAec( useMobileAec );
 }

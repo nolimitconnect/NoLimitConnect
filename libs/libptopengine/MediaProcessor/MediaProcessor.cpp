@@ -1052,7 +1052,7 @@ void MediaProcessor::doVideoClientRemovals( std::vector<ClientToRemove>& clientR
 }
 
 //============================================================================
-void MediaProcessor::fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int sampleCnt, bool isSilence )
+void MediaProcessor::fromGuiEchoCanceledSamplesThreaded( const int16_t* pcmData, int sampleCnt )
 {
 	vx_assert( sampleCnt == AUDIO_SAMPLES_PER_FRAME );
 	if( false == m_MicCaptureEnabled || !pcmData || sampleCnt < 100 )
@@ -1062,14 +1062,9 @@ void MediaProcessor::fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int s
 		return;
 	}
 
-	if( isMicrophoneMuted() )
-	{
-		memset( pcmData, 0, sampleCnt * AUDIO_BYTES_PER_SAMPLE );
-	}
-
 	if( m_ProcessAudioQue.size() < 5 )
 	{
-		RawAudio* rawAudio = new RawAudio( pcmData, AUDIO_BUF_SIZE, eMediaModuleMicrophone );
+		RawAudio* rawAudio = new RawAudio( const_cast<int16_t*>(pcmData), AUDIO_BUF_SIZE, eMediaModuleMicrophone );
 
 		m_AudioQueInMutex.lock();
 		m_ProcessAudioQue.emplace_back( rawAudio );

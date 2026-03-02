@@ -10,7 +10,8 @@
 //============================================================================
 
 #include "AudioSampleBuf.h"
-#include <GuiInterface/IAudioDefs.h>
+#include "AudioDefs.h"
+
 #include <CoreLib/VxAudioFormat.h>
 
 #include "MiniAudioOutDevice.h"
@@ -43,10 +44,9 @@ public:
 
     virtual int				    callbackAudioRead( int16_t* pcmData, int maxlen ) override;
 
+    int                        getHardwareDelayMs( void );
 
 protected:
-
-
     bool                        m_initialized{ false };
     bool                        m_SpeakerOutputEnabled{ false };
 

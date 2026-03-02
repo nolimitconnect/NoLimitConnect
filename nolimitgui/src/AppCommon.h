@@ -289,9 +289,6 @@ public:
     /// Returns true if speaker is muted
     virtual bool				fromGuiIsSpeakerMuted( void ) override;
 
-    virtual void				fromGuiEchoCanceledSamplesThreaded( int16_t* pcmData, int sampleCnt, bool isSilence );
-    virtual void				fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen );
-
     virtual void				fromGuiCameraEnable( bool enableCamera );
     virtual void				fromGuiCaptureRunning( bool camCaptureRunning );
 

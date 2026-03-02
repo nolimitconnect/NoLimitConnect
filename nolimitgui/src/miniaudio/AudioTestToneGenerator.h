@@ -13,13 +13,13 @@
 
 #include <QByteArray>
 
-class AudioTestGenerator
+class AudioTestToneGenerator
 {
 
 public:
-    AudioTestGenerator() = default;
-    AudioTestGenerator( const VxAudioFormat& format, int64_t durationUs, int toneHz );
-    ~AudioTestGenerator() = default;
+    AudioTestToneGenerator() = default;
+    AudioTestToneGenerator( const VxAudioFormat& format, int64_t durationUs, int toneHz );
+    ~AudioTestToneGenerator() = default;
 
     void                        setAudioFormat( VxAudioFormat& audioFormat );
     VxAudioFormat               getAudioFormat( void )                      { return m_AudioFormat;  }

@@ -132,8 +132,8 @@ bool MiniAudioInDevice::initalizeDevice( int deviceIndex, int sampleRate )
     m_MaDeviceConfig.pUserData = this;
 
     m_MaDeviceConfig.noPreSilencedOutputBuffer = true;
-    //m_MaDeviceConfig.performanceProfile = ma_performance_profile_conservative;
-    m_MaDeviceConfig.periodSizeInMilliseconds = AUDIO_MS_PER_FRAME % 3 ? AUDIO_MS_PER_FRAME / 2 : AUDIO_MS_PER_FRAME / 3;
+
+    m_MaDeviceConfig.periodSizeInFrames = ECHO_FRAME_SIZE_10MS;
 
     ma_result result = ma_device_init( NULL, &m_MaDeviceConfig, &m_MaDevice );
     if( result != MA_SUCCESS ) 

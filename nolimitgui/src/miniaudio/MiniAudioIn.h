@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <GuiInterface/IAudioDefs.h>
+#include "AudioDefs.h"
 
 #include <CoreLib/VxAudioFormat.h>
 
@@ -48,6 +48,8 @@ public:
     int                         getMicWriteDurationUs( void )       { return m_MicWriteDurationUs; }
 
     void						echoCancelSyncStateThreaded( bool inSync );
+
+	int                         getHardwareDelayMs( void );
 
 protected:
 

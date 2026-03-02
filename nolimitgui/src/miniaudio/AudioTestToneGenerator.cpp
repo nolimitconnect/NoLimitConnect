@@ -8,9 +8,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AudioTestGenerator.h"
+#include "AudioTestToneGenerator.h"
 
-#include <GuiInterface/IAudioDefs.h>
+#include "AudioDefs.h"
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/IsBigEndianCpu.h>
@@ -19,7 +19,7 @@
 #include <qendian.h>
 
 //============================================================================
-AudioTestGenerator::AudioTestGenerator( const VxAudioFormat& format, int64_t durationUs, int toneHz )
+AudioTestToneGenerator::AudioTestToneGenerator( const VxAudioFormat& format, int64_t durationUs, int toneHz )
 {
     m_AudioFormat = format;
     if( format.isValid() )
@@ -29,7 +29,7 @@ AudioTestGenerator::AudioTestGenerator( const VxAudioFormat& format, int64_t dur
 }
 
 //============================================================================
-void AudioTestGenerator::setAudioFormat( VxAudioFormat& audioFormat ) 
+void AudioTestToneGenerator::setAudioFormat( VxAudioFormat& audioFormat ) 
 { 
     m_AudioFormat = audioFormat; 
     if( m_AudioFormat.isValid() )
@@ -39,7 +39,7 @@ void AudioTestGenerator::setAudioFormat( VxAudioFormat& audioFormat )
 }
 
 //============================================================================
-void AudioTestGenerator::generateData( const VxAudioFormat &format, int64_t durationUs, int toneHz )
+void AudioTestToneGenerator::generateData( const VxAudioFormat &format, int64_t durationUs, int toneHz )
 {
     int rate = format.sampleRate();
     const int channelBytes = format.bytesPerSample();
@@ -80,7 +80,7 @@ void AudioTestGenerator::generateData( const VxAudioFormat &format, int64_t dura
 }
 
 //============================================================================
-int64_t AudioTestGenerator::readData( char *data, int64_t len )
+int64_t AudioTestToneGenerator::readData( char *data, int64_t len )
 {
     int64_t total = 0;
     if( !m_buffer.isEmpty() ) 
@@ -98,7 +98,7 @@ int64_t AudioTestGenerator::readData( char *data, int64_t len )
 }
 
 //============================================================================
-int16_t AudioTestGenerator::peekNextSample( void )
+int16_t AudioTestToneGenerator::peekNextSample( void )
 {
     int16_t nextSample{ 0 };
     if( !m_buffer.isEmpty() && m_AudioFormat.sampleFormat() == VxAudioFormat::Int16 ) 
@@ -119,7 +119,7 @@ int16_t AudioTestGenerator::peekNextSample( void )
 }
 
 //============================================================================
-void AudioTestGenerator::readToneSamples( int16_t* pcmData, int sampleCnt )
+void AudioTestToneGenerator::readToneSamples( int16_t* pcmData, int sampleCnt )
 {
     readData( (char*)pcmData, sampleCnt * AUDIO_BYTES_PER_SAMPLE );
 }

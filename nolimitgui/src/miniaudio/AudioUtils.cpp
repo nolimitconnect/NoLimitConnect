@@ -9,8 +9,7 @@
 //============================================================================
 
 #include "AudioUtils.h"
-
-#include <GuiInterface/IAudioDefs.h>
+#include "AudioDefs.h"
 
 #include <CoreLib/VxAudioFormat.h>
 
@@ -336,7 +335,7 @@ void AudioUtils::applyPcmVolume( float volume, uint8_t *data, int datalen )
 }
 
 //============================================================================
-int AudioUtils::peakPcmAmplitude0to100( int16_t* srcSamples, int sampleCnt )
+int AudioUtils::peakPcmAmplitude0to100( const int16_t* srcSamples, int sampleCnt )
 {
     int peakValue{ 0 };
     for( int i = 0; i < sampleCnt; i++ )

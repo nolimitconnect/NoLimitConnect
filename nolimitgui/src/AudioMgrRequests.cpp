@@ -13,6 +13,9 @@
 #include "AppCommon.h"
 #include "miniaudio/AudioUtils.h"
 
+#include <P2PEngine/P2PEngine.h>
+#include <MediaProcessor/MediaProcessor.h>
+
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
@@ -65,7 +68,7 @@ void AudioMgr::toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool want
             m_AudioInIo.stopAudioIn();
         }
 
-        wantMicrophoneCountChanged( wantMicCnt );
+        updateWantMicrophoneCount( static_cast<int>(wantMicCnt) );
     }
 }
 
@@ -111,7 +114,7 @@ void AudioMgr::toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeake
             m_AudioOutIo.stopAudioOut();
         }
 
-        wantSpeakerCountChanged( wantSpeakerCnt );
+        updateWantSpeakerCount( static_cast<int>(wantSpeakerCnt) );
     }
 
     if( LogEnabled( eLogVoice ) ) LogModule( eLogVoice, LOG_DEBUG, "AudioMgr::%s want speaker? %d module %s cnt %d", __func__, wantSpeakerOutput, DescribeMediaModule( mediaModule ), wantSpeakerCnt );
@@ -290,5 +293,11 @@ AudioMixerBuf& AudioMgr::getAudioMixerBuf( EMediaModule mediaModule )
 //============================================================================
 void AudioMgr::fromGuiAudioOutSpaceAvaiThreaded( int sampleCnt )
 {
-    m_MyApp.fromGuiAudioOutSpaceAvaiThreaded( sampleCnt );
+    m_MyApp.getEngine().getMediaProcessor().fromGuiAudioOutSpaceAvaiThreaded( sampleCnt );
+}
+
+//============================================================================
+float AudioMgr::calculateMsOfSamples( int sampleCount )
+{
+    return ((float)sampleCount / (ECHO_SAMPLE_RATE / AUDIO_CHANNELS) / 1000.0f);
 }

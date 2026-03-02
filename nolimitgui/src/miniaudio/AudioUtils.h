@@ -70,7 +70,7 @@ namespace AudioUtils
     // apply volume to pcm audio
     void                        applyPcmVolume( float volume, uint8_t* data, int datalen );
     // get peak amplitude of pcm audio (returns 0-100)
-    int                         peakPcmAmplitude0to100( int16_t* srcSamples, int sampleCnt );
+    int                         peakPcmAmplitude0to100( const int16_t* srcSamples, int sampleCnt );
 
     int                         hasSomeSilence( int16_t* srcSamples, int datalen );
     int                         countConsecutiveValues( int16_t* srcSamples, int datalen, int minConsecutiveToMatch );

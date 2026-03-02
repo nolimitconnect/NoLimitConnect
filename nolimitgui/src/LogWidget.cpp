@@ -33,16 +33,16 @@ LogWidget::LogWidget( QWidget* parent )
     , ui(*(new Ui::LogWidgetUi))
 {
     ui.setupUi( this );
-    ui.m_VerboseCheckBox->setVisible( false );
+    ui.m_VerboseLogCheckBox->setVisible( false );
 
     getLogEdit()->setMaximumBlockCount( MAX_LOG_EDIT_BLOCK_CNT );
     getLogEdit()->setReadOnly( true );
 
-    connect( ui.m_VerboseCheckBox, SIGNAL(clicked()), this, SLOT(slotVerboseCheckBoxClicked() ) );
-    connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT(slotCopyToClipboardClicked() ) );
+    connect( ui.m_VerboseLogCheckBox, SIGNAL(clicked()), this, SLOT(slotVerboseCheckBoxClicked()) );
+    connect( ui.m_ClearLogButton, SIGNAL(clicked()), this, SLOT(slotClearLogClicked()) );
+    connect( ui.m_CopyToClipboardButton, SIGNAL(clicked()), this, SLOT(slotCopyToClipboardClicked()) );
 
-    connect( this, SIGNAL(signalLogMsg( const QString& ) ), this, SLOT(slotLogMsg( const QString& ) ) );
-
+    connect( this, SIGNAL(signalLogMsg(const QString&)), this, SLOT(slotLogMsg(const QString&)) );
 }
 
 //============================================================================
@@ -80,7 +80,7 @@ void LogWidget::slotLogMsg( const QString& text )
 //============================================================================
 void LogWidget::slotVerboseCheckBoxClicked( void )
 {
-    // m_VerboseLog = ui.m_VerboseCheckBox->isChecked();
+    emit signalVerboseLogEnable( ui.m_VerboseLogCheckBox->isChecked() );
 }
 
 //============================================================================
@@ -89,3 +89,10 @@ void LogWidget::slotCopyToClipboardClicked( void )
     QClipboard * clipboard = QApplication::clipboard();
     clipboard->setText( getLogEdit()->toPlainText() );
 }
+
+//============================================================================
+void LogWidget::slotClearLogClicked( void )
+{
+    getLogEdit()->clear();
+}
+

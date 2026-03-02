@@ -13,9 +13,11 @@
 #include <string>
 
 #include "miniaudio.h"
+#include <QObject>
 
-class MiniAudioDevices
+class MiniAudioDevices : public QObject
 {
+    Q_OBJECT
 public:
 	MiniAudioDevices() = default;
 	~MiniAudioDevices() = default;

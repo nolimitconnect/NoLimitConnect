@@ -339,36 +339,6 @@ void AppSettings::getLastHostSearchContentRating( ESearchType searchType, EConte
 }
 
 //============================================================================
-void AppSettings::setMicMuted( bool isMuted )
-{
-	uint32_t isMutedVal = isMuted ? 1 : 0;
-	setIniValue( getAppShortName(), "MicMuted", isMutedVal );
-}
-
-//============================================================================
-bool AppSettings::getMicMuted( void )
-{
-	uint32_t isMutedVal = 0;
-	getIniValue( getAppShortName(), "MicMuted", isMutedVal, 0 );
-	return isMutedVal ? true : false;
-}
-
-//============================================================================
-void AppSettings::setSpeakerMuted( bool isMuted )
-{
-	uint32_t isMutedVal = isMuted ? 1 : 0;
-	setIniValue( getAppShortName(), "SpeakerMuted", isMutedVal );
-}
-
-//============================================================================
-bool AppSettings::getSpeakerMuted( void )
-{
-	uint32_t isMutedVal = 0;
-	getIniValue( getAppShortName(), "SpeakerMuted", isMutedVal, 0 );
-	return isMutedVal ? true : false;
-}
-
-//============================================================================
 void AppSettings::setCamRotation( std::string camId, uint32_t camRotation )
 {
 	std::string camKey;
@@ -682,20 +652,6 @@ int AppSettings::getEchoDelayParam( void )
 }
 
 //============================================================================
-void AppSettings::setEchoCancelEnable( bool enable )
-{
-	setIniValue( getAppShortName(), "EchoCancelEnable", enable );
-}
-
-//============================================================================
-bool AppSettings::getEchoCancelEnable( void )
-{
-	bool echoCancelEnable = true;
-	getIniValue( getAppShortName(), "EchoCancelEnable", echoCancelEnable, true );
-	return echoCancelEnable;
-}
-
-//============================================================================
 void AppSettings::setUseMilitaryTime( bool enable )
 {
 	setIniValue( getAppShortName(), "UseMilitaryTime", enable );
@@ -738,13 +694,13 @@ bool AppSettings::getWantMicrophone( void )
 }
 
 //============================================================================
-void AppSettings::setMuteMicrophone( bool enable )
+void AppSettings::setIsMicrophoneMuted( bool enable )
 {
 	setIniValue( getAppShortName(), "MuteMic", enable );
 }
 
 //============================================================================
-bool AppSettings::getMuteMicrophone( void )
+bool AppSettings::getIsMicrophoneMuted( void )
 {
 	bool muteMic = false;
 	getIniValue( getAppShortName(), "MuteMic", muteMic, false );
@@ -766,13 +722,13 @@ bool AppSettings::getWantSpeaker( void )
 }
 
 //============================================================================
-void AppSettings::setMuteSpeaker( bool enable )
+void AppSettings::setIsSpeakerMuted( bool enable )
 {
 	setIniValue( getAppShortName(), "MuteSpeaker", enable );
 }
 
 //============================================================================
-bool AppSettings::getMuteSpeaker( void )
+bool AppSettings::getIsSpeakerMuted( void )
 {
 	bool muteSpeaker = false;
 	getIniValue( getAppShortName(), "MuteSpeaker", muteSpeaker, false );
@@ -780,17 +736,31 @@ bool AppSettings::getMuteSpeaker( void )
 }
 
 //============================================================================
-void AppSettings::setSendMicInToSpeaker( bool enable )
+void AppSettings::setNoAecLoopback( bool enable )
 {
-	setIniValue( getAppShortName(), "SendMicToSpeaker", enable );
+	setIniValue( getAppShortName(), "NoAecLoopback", enable );	
 }
 
 //============================================================================
-bool AppSettings::getSendMicInToSpeaker( void )
+bool AppSettings::getNoAecLoopback( void )
 {
-	bool muteSpeaker = false;
-	getIniValue( getAppShortName(), "SendMicToSpeaker", muteSpeaker, false );
-	return muteSpeaker;
+	bool enableAudioLoopback = false;
+	getIniValue( getAppShortName(), "NoAecLoopback", enableAudioLoopback, false );
+	return enableAudioLoopback;
+}
+
+//============================================================================
+void AppSettings::setWithAecLoopback( bool enable )
+{
+	setIniValue( getAppShortName(), "WithAecLoopback", enable );	
+}
+
+//============================================================================
+bool AppSettings::getWithAecLoopback( void )
+{
+	bool enableAudioLoopback = false;
+	getIniValue( getAppShortName(), "WithAecLoopback", enableAudioLoopback, false );
+	return enableAudioLoopback;
 }
 
 //============================================================================
@@ -1011,4 +981,102 @@ void AppSettings::setLastPlayedMovie( std::string& movieFile )
 void AppSettings::getLastPlayedMovie( std::string& movieFile )
 {
     getIniValue( getAppShortName(), "LastPlayedMovie", movieFile, "" );
+}
+
+//============================================================================
+void AppSettings::setShowInWaveForm( bool show )
+{
+	setIniValue( getAppShortName(), "ShowInWaveForm", show );
+}
+
+//============================================================================
+bool AppSettings::getShowInWaveForm( void )
+{
+	bool showInWaveForm = false;
+	getIniValue( getAppShortName(), "ShowInWaveForm", showInWaveForm, true );
+	return showInWaveForm;
+}
+
+//============================================================================
+void AppSettings::setShowOutWaveForm(  bool show )
+{
+	setIniValue( getAppShortName(), "ShowOutWaveForm", show );
+}
+
+//============================================================================
+bool AppSettings::getShowOutWaveForm( void )
+{
+	bool showOutWaveForm = false;
+	getIniValue( getAppShortName(), "ShowOutWaveForm", showOutWaveForm, true );
+	return showOutWaveForm;
+}
+
+//============================================================================
+void AppSettings::setShowSoundOutSettings(  bool show )
+{
+	setIniValue( getAppShortName(), "ShowSoundOutSettings", show );
+}
+
+//============================================================================
+bool AppSettings::getShowSoundOutSettings( void )
+{
+	bool showSoundOut = false;
+	getIniValue( getAppShortName(), "ShowSoundOutSettings", showSoundOut, false );
+	return showSoundOut;
+}
+
+//============================================================================
+void AppSettings::setShowSoundInSettings(  bool show )
+{
+	setIniValue( getAppShortName(), "ShowSoundInSettings", show );
+}
+
+//============================================================================
+bool AppSettings::getShowSoundInSettings( void )
+{
+	bool showSoundIn = false;
+	getIniValue( getAppShortName(), "ShowSoundInSettings", showSoundIn, false );
+	return showSoundIn;
+}
+
+//============================================================================
+void AppSettings::setShowSoundLog(  bool show )
+{
+	setIniValue( getAppShortName(), "ShowSoundLog", show );
+}
+
+//============================================================================
+bool AppSettings::getShowSoundLog( void )
+{
+	bool showSoundLog = false;
+	getIniValue( getAppShortName(), "ShowSoundLog", showSoundLog, false );
+	return showSoundLog;
+}
+
+//============================================================================
+void AppSettings::setAgcEnabled( bool enabled )
+{
+	setIniValue( getAppShortName(), "AgcEnabled", enabled );
+}
+
+//============================================================================
+bool AppSettings::getAgcEnabled( void )
+{
+	bool agcEnabled = false;
+	getIniValue( getAppShortName(), "AgcEnabled", agcEnabled, false );
+	return agcEnabled;
+}
+
+//============================================================================
+void AppSettings::setUseMobileAec( bool enableMobileAec )
+{
+	setIniValue( getAppShortName(), "UseMobileAec", enableMobileAec );
+}
+
+//============================================================================
+bool AppSettings::getUseMobileAec( void )
+{
+	bool useMobileAec = true;
+	getIniValue( getAppShortName(), "UseMobileAec", useMobileAec, true );
+	return useMobileAec;
 }

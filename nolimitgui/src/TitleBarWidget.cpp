@@ -82,8 +82,8 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
 	ui.m_NoLimitAppButton->setProperty( "NoLimitConnectIcon", true );
 	ui.m_NoLimitAppButton->setAppIcon( eMyIconApp, parent );
 
-    m_MutedMic = m_MyApp.getAppSettings().getMicMuted();
-    m_MutedSpeaker = m_MyApp.getAppSettings().getSpeakerMuted();
+    m_MutedMic = m_MyApp.getAppSettings().getIsMicrophoneMuted();
+    m_MutedSpeaker = m_MyApp.getAppSettings().getIsSpeakerMuted();
 
 	setPowerButtonIcon();
 	setMicrophoneIcon( m_MutedMic ? eMyIconMicrophoneOff : eMyIconMicrophoneOn );
@@ -161,10 +161,10 @@ void TitleBarWidget::updateTitleBar( void )
     bool isMicEnabled = audioMgr.getIsMicrophoneRunning();
     callbackToGuiWantMicrophoneRecording( isMicEnabled );
 
-    m_MutedMic = audioMgr.getMicrophoneMuted();
+    m_MutedMic = audioMgr.getIsMicrophoneMuted();
     callbackToGuiMicrophoneMuted( m_MutedMic ); 
 
-    m_MutedSpeaker = audioMgr.getSpeakerMuted();
+    m_MutedSpeaker = audioMgr.getIsSpeakerMuted();
     callbackToGuiSpeakerMuted( m_MutedSpeaker );
 
     bool isCamRequested = m_MyApp.getCamLogic().isCamCaptureRequested();
@@ -324,7 +324,7 @@ void TitleBarWidget::slotMuteMicButtonClicked( void )
 {
 	m_MutedMic = !m_MutedMic;
     m_MyApp.fromGuiMuteMicrophone( m_MutedMic );
-    m_MyApp.getAppSettings().setMicMuted( m_MutedMic );
+    m_MyApp.getAppSettings().setIsMicrophoneMuted( m_MutedMic );
 }
 
 //============================================================================
@@ -332,7 +332,7 @@ void TitleBarWidget::slotMuteSpeakerButtonClicked( void )
 {
 	m_MutedSpeaker = !m_MutedSpeaker;
     m_MyApp.fromGuiMuteSpeaker( m_MutedSpeaker );
-    m_MyApp.getAppSettings().setSpeakerMuted( m_MutedSpeaker );
+    m_MyApp.getAppSettings().setIsSpeakerMuted( m_MutedSpeaker );
 }
 
 //============================================================================

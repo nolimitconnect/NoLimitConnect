@@ -10,6 +10,8 @@
 
 #include "TestFileWav.h"
 
+#include "AudioDefs.h"
+
 #include <libwav-decoder/WavMgr.h>
 
 #include <CoreLib/VxDebug.h>
@@ -19,6 +21,11 @@
 TestFileWav::TestFileWav( const QString& filePath )
     : m_FilePath( filePath )
 {
+    if( filePath.isEmpty() )
+    {
+        return;
+    }
+
     int bitsPerSample{0};
     m_Valid = loadWavFile( filePath, m_SampleRate, m_NumChannels, bitsPerSample, m_PcmData );
     if( m_Valid  )
@@ -37,9 +44,9 @@ TestFileWav::TestFileWav( const QString& filePath )
             return;
         }
 
-        if( m_SampleRate != 16000 )
+        if( m_SampleRate != AUDIO_DEVICE_SAMPLE_RATE )
         {
-            LogMsg( LOG_ERROR, "%s Invalid sample rate %d in file %s. Only 16kHz is supported.", __func__, m_SampleRate, filePath.toStdString().c_str() );
+            LogMsg( LOG_ERROR, "%s Invalid sample rate %d in file %s. Only %d Hz is supported.", __func__, m_SampleRate, filePath.toStdString().c_str(), AUDIO_DEVICE_SAMPLE_RATE );
             m_Valid = false;
             return;
         }
@@ -83,7 +90,17 @@ bool TestFileWav::getNextAudioFrame( int16_t* frameBuffer, int frameSize )
         return false; // No more frames to read
     }
 
-    std::copy_n(pcmDataPtr + (m_CurrentFrameIndex * samplesPerFrame), samplesPerFrame, frameBuffer);
+    int samplesAvailable = (m_NumFrames - m_CurrentFrameIndex) * samplesPerFrame;
+    if( samplesAvailable < samplesPerFrame )
+    {
+        std::copy_n(pcmDataPtr + (m_CurrentFrameIndex * samplesPerFrame), samplesAvailable, frameBuffer);
+        std::fill(frameBuffer + samplesAvailable, frameBuffer + samplesPerFrame, 0);
+    }
+    else
+    {
+        std::copy_n(pcmDataPtr + (m_CurrentFrameIndex * samplesPerFrame), samplesPerFrame, frameBuffer);
+    }
+
     m_CurrentFrameIndex++;
     return true;
 }

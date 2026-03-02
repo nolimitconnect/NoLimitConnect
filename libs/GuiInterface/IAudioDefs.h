@@ -9,34 +9,34 @@
 // https://nolimitconnect.com
 //============================================================================
 
-constexpr int ECHO_SAMPLE_RATE = 16000;
-constexpr int AUDIO_DEVICE_SAMPLE_RATE = 16000;
-
+constexpr int AUDIO_DEVICE_SAMPLE_RATE = 24000;
 constexpr int AUDIO_CHANNELS = 1;	
 constexpr int AUDIO_BYTES_PER_SAMPLE = 2;			// PCM 2 bytes per sample
 
 // internal to application a frame is 60 ms
-constexpr int AUDIO_MS_PER_FRAME = 60;               // 60 ms = 0.06 sec of audio data (required to be a multiple of 960 samples per frame to play nice with opus)
-constexpr int AUDIO_SAMPLES_PER_FRAME = (ECHO_SAMPLE_RATE * AUDIO_CHANNELS * AUDIO_MS_PER_FRAME) / 1000; // 960 samples
-constexpr int AUDIO_BUF_SIZE = AUDIO_SAMPLES_PER_FRAME * AUDIO_BYTES_PER_SAMPLE; // 1,920 bytes
-
-constexpr int OPUS_FIXED_BITRATE_BPS = 32000;
-// Compressed payload size comes from bitrate/time math, not sample rate:
-// bytes_per_frame = bits_per_second * frame_ms / (1000 ms/s * 8 bits/byte) => /8000.
-constexpr int OPUS_COMPRESSED_BYTES_PER_FRAME = (OPUS_FIXED_BITRATE_BPS * AUDIO_MS_PER_FRAME) / 8000;
-
-constexpr int PLAYER_CACHE_FRAMES_CNT = 4; // how many frames of audio to cache for player
-
-constexpr int AUDIO_FRAME_TO_DEVICE_RATE_MULTIPLIER = AUDIO_DEVICE_SAMPLE_RATE / ECHO_SAMPLE_RATE;
+constexpr int AUDIO_MS_PER_FRAME = 60;               // 60 ms = 0.06 sec of audio data (required to be a multiple of 10ms per frame to play nice with opus and echo canceler)
+constexpr int AUDIO_SAMPLES_PER_FRAME = (AUDIO_DEVICE_SAMPLE_RATE * AUDIO_CHANNELS * AUDIO_MS_PER_FRAME) / 1000; // 1,440 samples at 24000 Hz, 960 samples at 16000 Hz
+constexpr int AUDIO_BUF_SIZE = AUDIO_SAMPLES_PER_FRAME * AUDIO_BYTES_PER_SAMPLE; // 2,880 butes at 24000 Hz, 1,920 bytes at 16000 Hz
 
 constexpr double AUDIO_BYTES_TO_MS_MULTIPLIER = ((double)AUDIO_MS_PER_FRAME / (double)AUDIO_BUF_SIZE);
 
 // echo canceler can only handle 10 ms at a time
 constexpr int ECHO_MS_PER_FRAME = 10; 
+constexpr int ECHO_SAMPLE_RATE = AUDIO_DEVICE_SAMPLE_RATE; 	 // echo canceler sample rate must match audio device sample rate
+constexpr int ECHO_FRAME_SIZE_10MS = ECHO_SAMPLE_RATE / 100; // PCM Sample Count for 10ms at 24000 Hz is 240 samples, at 16000 Hz is 160 samples
 constexpr int ECHO_SAMPLES_PER_FRAME = AUDIO_SAMPLES_PER_FRAME / ( AUDIO_MS_PER_FRAME / ECHO_MS_PER_FRAME );
 constexpr int ECHO_BUF_SIZE = AUDIO_BUF_SIZE / (AUDIO_MS_PER_FRAME / ECHO_MS_PER_FRAME);
 
-// kodi and player-nlc output (float) 960 frames 
+constexpr int OPUS_FIXED_BITRATE_BPS = 32000;
+// Compressed payload size comes from bitrate/time math, not sample rate:
+// bytes_per_frame = bits_per_second * frame_ms / (1000 ms/s * 8 bits/byte) => /8000.
+constexpr int OPUS_COMPRESSED_BYTES_PER_FRAME = (OPUS_FIXED_BITRATE_BPS * AUDIO_MS_PER_FRAME) / 8000;
+constexpr int OPUS_COMPRESSED_SAMPLES_PER_FRAME = OPUS_COMPRESSED_BYTES_PER_FRAME / AUDIO_BYTES_PER_SAMPLE;
+
+// player-nlc output (float) 960 frames at 48000 Hz, 20 ms of audio data
+constexpr int PLAYER_CACHE_FRAMES_CNT = 4; // how many frames of audio to cache for player
+
+// player-nlc output (float) 960 frames 
 constexpr int AUDIO_SAMPLE_RATE_KODI = 48000;        // kodi is configured for 48000 hz
 constexpr int AUDIO_CHANNELS_KODI = 2;               // kodi is configured for stereo
 constexpr int AUDIO_MS_KODI = 20;                    // 20 ms = 0.02 sec of audio data
@@ -45,15 +45,5 @@ constexpr int AUDIO_BYTES_PER_SAMPLE_KODI = 4;       // 4 bytes per sample (size
 // size of kodi frame in float input stream
 constexpr int AUDIO_FRAME_SIZE_KODI = (int)((AUDIO_SAMPLE_RATE_KODI * ((float)AUDIO_MS_KODI/1000)) * AUDIO_BYTES_PER_SAMPLE_KODI * AUDIO_CHANNELS_KODI);   
 
-constexpr int AUDIO_KODI_TO_NLC_DNSAMPLE_RATIO = (AUDIO_SAMPLE_RATE_KODI / ECHO_SAMPLE_RATE) * (AUDIO_CHANNELS_KODI / AUDIO_CHANNELS);
+constexpr int AUDIO_KODI_TO_NLC_DNSAMPLE_RATIO = (AUDIO_SAMPLE_RATE_KODI / AUDIO_DEVICE_SAMPLE_RATE) * (AUDIO_CHANNELS_KODI / AUDIO_CHANNELS);
 
-enum EAudioTestState
-{
-	eAudioTestStateNone,
-	eAudioTestStateInit,
-	eAudioTestStateRun,
-	eAudioTestStateResult,
-	eAudioTestStateDone,
-
-	eMaxAudioTestState
-};

@@ -38,9 +38,16 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QCheckBox" name="m_VerboseCheckBox">
+      <widget class="QCheckBox" name="m_VerboseLogCheckBox">
        <property name="text">
         <string>Verbose Log</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="m_ClearLogButton">
+       <property name="text">
+        <string>Clear Log</string>
        </property>
       </widget>
      </item>

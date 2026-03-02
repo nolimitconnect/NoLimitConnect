@@ -43,6 +43,18 @@ bool MiniAudioIn::initAudioIn( VxAudioFormat& audioFormat, int deviceIndex )
 }
 
 //============================================================================
+int MiniAudioIn::getHardwareDelayMs( void )
+{
+    if( !m_initialized )
+    {
+        return 0;
+    }
+
+    float hardwareLatency = m_MaDevice.capture.internalPeriodSizeInFrames * 1000.0f / m_AudioFormat.sampleRate();
+    return static_cast<int>(hardwareLatency);
+}
+
+//============================================================================
 bool MiniAudioIn::soundInDeviceChanged( int deviceIndex )
 {
     int deviceCount = m_AudioIoMgr.getAudioInDeviceCount();
@@ -91,28 +103,6 @@ bool MiniAudioIn::soundInDeviceChanged( int deviceIndex )
 
     return m_initialized;
 }
-
-//============================================================================
-void MiniAudioIn::setMicrophoneVolume( int volume0to100 )
-{
-    //qreal linearVolume = QAudio::convertVolume( volume0to100 / qreal( 100 ),
-    //    QAudio::LogarithmicVolumeScale,
-    //    QAudio::LinearVolumeScale );
-
-    // m_AudioInputDevice->setVolume( linearVolume );
-}
-
-////============================================================================
-//static void apply_s16le_volume( float volume, uchar *data, int datalen )
-//{
-//    int samples = datalen / 2;
-//    float mult = pow( 10.0, 0.05 * volume );
-
-//    for( int i = 0; i < samples; i++ ) {
-//        qint16 val = qFromLittleEndian<qint16>( data + i * 2 )*mult;
-//        qToLittleEndian<qint16>( val, data + i * 2 );
-//    }
-//}
 
 //============================================================================
 void MiniAudioIn::startAudioIn( void )

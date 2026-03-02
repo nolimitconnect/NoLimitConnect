@@ -11,17 +11,18 @@
 
 #include "AppletClientBase.h"
 
+#include "AudioDefs.h"
+
 #include "GuiAudioLevelCallback.h"
 #include "GuiUserUpdateCallback.h"
 
-#include "miniaudio/AudioTestGenerator.h"
+#include "TestFileWavMgr.h"
 
 #include <GuiInterface/IDefs.h>
 #include <GuiInterface/IAudioDefs.h>
 
 #include <QString>
 #include <QDialog>
-#include <QMediaDevices>
 #include <QIODevice>
 #include <QTimer>
 
@@ -31,8 +32,8 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
-class VxNetIdent;
-class GuiHostSession;
+class AudioMgr;
+class AppSettings;
 
 class AppletSoundSettings : public AppletClientBase, public GuiAudioLevelCallback
 {
@@ -41,27 +42,32 @@ public:
 	AppletSoundSettings( AppCommon& app, QWidget* parent = nullptr );
 	virtual ~AppletSoundSettings() override;
 
+    AudioMgr&                   getAudioMgr( void );
+    TestFileWavMgr&             getTestFileMgr( void ) { return m_TestFileMgr; }
+    AppSettings&                getAppSettings( void );
+
     void                        infoMsg( const char* infoMsg, ... );
     void                        toGuiInfoMsg( char * logMsg );
 
     void                        statusMsg( const char* errMsg, ... );
     void						setStatusLabel( QString strMsg );
 
-signals:
-    void                        signalInfoMsg( QString& infoStr );
-
-protected slots:
     void                        inDeviceChanged( int index );
     void                        updateInAudioDevices( void );
 
     void                        outDeviceChanged( int index );
     void                        updateOutAudioDevices( void );
 
+signals:
+    void                        signalAudioTestMsg( QString audioTestMsg );
+    void                        signalInfoMsg( QString& infoStr );
+
+protected slots:
     void                        slotApplyInDeviceChange( void );
     void                        slotApplyOutDeviceChange( void );
 
     void                        slotStartTestSoundDelay( void );
-
+    void                        slotEchoDelaySaveButtonClicked( void );
     void                        slotTestedSoundDelayResult( int echoDelayMs );
 
     void                        slotAudioTestState( EAudioTestState audioTestState );
@@ -69,7 +75,27 @@ protected slots:
 
     void                        slotGenerateToneCheckBox( int checkedState );
 
-    void                        slotSendMicEchoCanceledToSpeakerCheckBox( int checkedState );
+    void                        slotPlayTestFileButtonClicked( void );
+
+    void                        slotInDeviceComboBoxChanged( int index );
+    void                        slotOutDeviceComboBoxChanged( int index );  
+
+    void                        slotApplyDefaultInDeviceButtonClicked( void );
+    void                        slotApplyDefaultOutDeviceButtonClicked( void ); 
+
+    void                        slotNoAecLoopbackCheckBoxClicked( void );
+    void                        slotWithAecLoopbackCheckBoxClicked( void );
+    
+    void                        slotShowInWaveFormCheckBoxClicked( void );
+    void                        slotShowOutWaveFormCheckBoxClicked( void );
+    void                        slotShowSoundInCheckBoxClicked( void );
+    void                        slotShowSoundOutCheckBoxClicked( void );
+    void                        slotShowLogCheckBoxClicked( void );
+
+    void                        slotVerboseLogEnable( bool verboseLogEnabled );
+
+    void                        slotAgcEnable( int checkedState );
+    void                        slotUseMobileAecCheckBox( int checkedState );
 
 protected:
     void                        showEvent( QShowEvent* ev ) override;
@@ -79,11 +105,12 @@ protected:
 
     void						callbackGuiMicrophoneLevel( int micLevel ) override;
 
+    void                        loadUiFromAppSettings( void );
+
     //=== vars ===//
     Ui::AppletSoundSettingsUi&  ui;
 
-    QMediaDevices*              m_devices = nullptr;
-    QScopedPointer<AudioTestGenerator>   m_Test8000HzMono200HzToneGenerator;
+    TestFileWavMgr              m_TestFileMgr;
     EAudioTestState             m_AudioTestState{ eAudioTestStateNone };
     std::vector<int>            m_EchoDelayResultList;
 };

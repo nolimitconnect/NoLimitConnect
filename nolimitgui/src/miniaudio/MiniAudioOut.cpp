@@ -40,6 +40,18 @@ bool MiniAudioOut::initAudioOut( VxAudioFormat& audioFormat, int deviceIndex )
 }
 
 //============================================================================
+int MiniAudioOut::getHardwareDelayMs( void )
+{
+    if( !m_initialized )
+    {
+        return 0;
+    }
+
+    float hardwareLatency = m_MaDevice.playback.internalPeriodSizeInFrames * 1000.0f / m_AudioFormat.sampleRate();
+    return static_cast<int>(hardwareLatency);
+}
+
+//============================================================================
 bool MiniAudioOut::soundOutDeviceChanged( int deviceIndex )
 {
     int deviceCount = m_AudioIoMgr.getAudioOutDeviceCount();

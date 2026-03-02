@@ -32,7 +32,7 @@ if (rtc_include_internal_audio_device) {
       "..:scoped_refptr",
       "../../modules/audio_device:audio_device_impl",
       "../environment",
-      "//third_party/abseil-cpp/absl/base:nullability",
+      "//libs/abseil-cpp/absl/base:nullability",
     ]
   }
 }
@@ -93,8 +93,8 @@ rtc_library("audio_processing") {
     "../../rtc_base/system:rtc_export",
     "../environment",
     "../task_queue",
-    "//third_party/abseil-cpp/absl/base:nullability",
-    "//third_party/abseil-cpp/absl/strings:string_view",
+    "//libs/abseil-cpp/absl/base:nullability",
+    "//libs/abseil-cpp/absl/strings:string_view",
   ]
 }
 
@@ -116,7 +116,7 @@ rtc_library("builtin_audio_processing_builder") {
     "../../rtc_base:logging",
     "../../rtc_base/system:rtc_export",
     "../environment",
-    "//third_party/abseil-cpp/absl/base:nullability",
+    "//libs/abseil-cpp/absl/base:nullability",
   ]
 }
 
@@ -157,7 +157,7 @@ rtc_library("aec3_factory") {
     "../../modules/audio_processing/aec3",
     "../../rtc_base/system:rtc_export",
     "../environment",
-    "//third_party/abseil-cpp/absl/base:nullability",
+    "//libs/abseil-cpp/absl/base:nullability",
   ]
 }
 
@@ -168,7 +168,7 @@ rtc_source_set("echo_control") {
     ":neural_residual_echo_estimator_api",
     "../../rtc_base:checks",
     "../environment",
-    "//third_party/abseil-cpp/absl/base:nullability",
+    "//libs/abseil-cpp/absl/base:nullability",
   ]
 }
 
@@ -195,13 +195,13 @@ if (rtc_enable_protobuf) {
       "../../modules/audio_processing/aec3/neural_residual_echo_estimator:neural_residual_echo_estimator_impl",
       "../../rtc_base:checks",
       "../../rtc_base/system:rtc_export",
-      "//third_party/abseil-cpp/absl/base:nullability",
-      "//third_party/abseil-cpp/absl/strings:string_view",
+      "//libs/abseil-cpp/absl/base:nullability",
+      "//libs/abseil-cpp/absl/strings:string_view",
     ]
     if (build_with_chromium) {
-      deps += [ "//third_party/tflite" ]
+      deps += [ "//libs/tflite" ]
     } else {
-      deps += [ "//third_party/tflite:tflite_standalone" ]
+      deps += [ "//libs/tflite:tflite_standalone" ]
     }
   }
 }

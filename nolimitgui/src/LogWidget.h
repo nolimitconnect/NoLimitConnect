@@ -40,10 +40,12 @@ public:
 
 signals:
     void                        signalLogMsg( const QString& logMsg );
+    void                        signalVerboseLogEnable( bool verboseLogEnabled );
 
 protected slots:
     void                        slotLogMsg( const QString& text );
     void                        slotVerboseCheckBoxClicked( void );
+    void                        slotClearLogClicked( void );
     void                        slotCopyToClipboardClicked( void );
 
 protected:

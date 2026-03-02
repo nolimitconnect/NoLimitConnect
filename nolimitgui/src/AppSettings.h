@@ -14,8 +14,7 @@
 #endif // defined(TARGET_OS_LINUX)
 
 #include "AppDefs.h"
-
-#include <GuiInterface/IDefs.h>
+#include "AudioDefs.h"
 
 #include <CoreLib/VxFileTypeMasks.h>
 #include <CoreLib/VxSettings.h>
@@ -96,12 +95,6 @@ public:
     void						setLastHostSearchContentRating( ESearchType searchType, EContentRating contentRating );
     void						getLastHostSearchContentRating( ESearchType searchType, EContentRating& contentRating );
 
-	void						setMicMuted( bool isMuted );
-	bool						getMicMuted( void );
-
-	void						setSpeakerMuted( bool isMuted );
-	bool						getSpeakerMuted( void );
-
 	void						setCamEnable( bool camEnable );
 	bool						getCamEnable( void );
 
@@ -135,44 +128,17 @@ public:
 	void						setFavoriteHostGroupUrl( std::string& hostUrl );
 	void						getFavoriteHostGroupUrl( std::string& hostUrl );
 
-	void						setSoundInDeviceIndex( int32_t deviceIndex );
-	int32_t						getSoundInDeviceIndex( void );
-
-	void						setSoundOutDeviceIndex( int32_t deviceIndex );
-	int32_t						getSoundOutDeviceIndex( void );
-
 	void						setRunOnStartupCamServer( bool runOnStartup );
 	bool						getRunOnStartupCamServer( void );
 
 	void						setRunOnStartupFileShareServer( bool runOnStartup );
 	bool						getRunOnStartupFileShareServer( void );
 
-	void						setEchoDelayParam( int delayMs );
-	int							getEchoDelayParam( void );
-
-	void						setEchoCancelEnable( bool enable );
-	bool						getEchoCancelEnable( void );
-
 	void						setUseMilitaryTime( bool enable );
 	bool						getUseMilitaryTime( void );
 
 	void						setMaxMessageHistory( int32_t maxHistory );
 	int32_t						getMaxMessageHistory( void );
-
-	void						setWantMicrophone( bool enable );
-	bool						getWantMicrophone( void );
-
-	void						setMuteMicrophone( bool enable );
-	bool						getMuteMicrophone( void );
-
-	void						setWantSpeaker( bool enable );
-	bool						getWantSpeaker( void );
-
-	void						setMuteSpeaker( bool enable );
-	bool						getMuteSpeaker( void );
-
-	void						setSendMicInToSpeaker( bool enable );
-	bool						getSendMicInToSpeaker( void );
 
 	void						setLastUserConnectionsUserViewType( int comboIdx );
 	int							getLastUserConnectionsUserViewType( void );
@@ -206,6 +172,64 @@ public:
 
 	void						setDisableSndMsgRx( bool disable );
 	bool						getDisableSndMsgRx( void );
+
+
+	void						setSoundInDeviceIndex( int32_t deviceIndex );
+	int32_t						getSoundInDeviceIndex( void );
+
+	void						setSoundOutDeviceIndex( int32_t deviceIndex );
+	int32_t						getSoundOutDeviceIndex( void );
+
+	void						setWantMicrophone( bool enable );
+	bool						getWantMicrophone( void );
+
+	void						setIsMicrophoneMuted( bool enable );
+	bool						getIsMicrophoneMuted( void );
+
+	void						setWantSpeaker( bool enable );
+	bool						getWantSpeaker( void );
+
+	void						setIsSpeakerMuted( bool enable );
+	bool						getIsSpeakerMuted( void );
+
+	void						setNoAecLoopback( bool enable );
+	bool						getNoAecLoopback( void );
+
+	void						setWithAecLoopback( bool enable );
+	bool						getWithAecLoopback( void );
+
+	void						setEnableNetworkLoopback( bool enable );
+	bool						getEnableNetworkLoopback( void );
+
+	void						setWantAudioIn( bool want );
+	bool						getWantAudioIn( void );
+
+	void						setWantAudioOut( bool want );
+	bool						getWantAudioOut( void );
+
+	void						setAgcEnabled( bool enabled );
+	bool						getAgcEnabled( void );
+
+    void						setEchoDelayParam( int delayMs );
+    int							getEchoDelayParam( void );
+	
+	void 						setUseMobileAec( bool enableMobileAec );
+	bool						getUseMobileAec( void );
+
+	void						setShowInWaveForm(  bool show );
+	bool						getShowInWaveForm( void );
+
+	void						setShowOutWaveForm(  bool show );
+	bool						getShowOutWaveForm( void );
+
+	void						setShowSoundInSettings(  bool show );
+	bool						getShowSoundInSettings( void );
+
+	void						setShowSoundOutSettings(  bool show );
+	bool						getShowSoundOutSettings( void );
+	
+	void						setShowSoundLog(  bool show );
+	bool						getShowSoundLog( void );
 
 protected:
     std::string                 getAppendedType( const char* key, ESearchType searchType );
