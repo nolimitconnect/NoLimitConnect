@@ -240,6 +240,8 @@ list(APPEND nlc_HEADERS
     src/AudioInWaveformWidget.h
     src/AudioOutWaveformWidget.h
 
+    src/AudioMixerMgr.h
+
     src/BottomBarWidget.h
     src/CamTitleBarPreview.h
 
@@ -678,6 +680,8 @@ list(APPEND nlc_SOURCES
     src/AudioMgrIn.cpp
     src/AudioMgrOut.cpp
     src/AudioMgrRequests.cpp
+
+    src/AudioMixerMgr.cpp
 
     src/AudioInWaveformWidget.cpp
     src/AudioOutWaveformWidget.cpp

@@ -10,30 +10,3 @@
 
 #include "AudioMixerBuf.h"
 
-#include "AppCommon.h"
-#include "AudioUtils.h"
-#include "AudioSampleBuf.h"
-#include "AudioMgr.h"
-
-#include <CoreLib/VxDebug.h>
-#include <CoreLib/VxTimer.h>
-
-//============================================================================
-int	AudioMixerBuf::writeSamples( int16_t* samplesBuf, int sampleCnt, bool isSilent )
-{
-	// if( m_AudioIoMgr && m_AudioIoMgr->getFrameTimingEnable() )
-	// {
-	// 	m_LastMixerPcmTime = m_TimeNow;
-	// 	m_TimeNow = GetHighResolutionTimeMs();
-
-	// 	m_FuncCallCnt++;
-	// 	if( m_LastMixerPcmTime )
-	// 	{
-	// 		int timeInterval = (int)(m_TimeNow - m_LastMixerPcmTime);
-	// 		LogMsg( LOG_VERBOSE, "AudioMixerBuf::writeSamples Frame call cnt %d  module %s elapsed %d ms overrrun ", m_FuncCallCnt,
-	// 			DescribeMediaModule( m_MediaModule ), timeInterval );
-	// 	}
-	// }
-
-	return AudioSampleBuf::writeSamples( samplesBuf, sampleCnt, isSilent );
-}

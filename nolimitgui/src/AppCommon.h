@@ -503,7 +503,7 @@ public:
 
     virtual void				toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput ) override;
 
-    virtual int				    toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
+    virtual int				    toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t* pu16PcmData, int pcmDataLenInBytes ) override;
 
     virtual int				    toGuiPlayerNlcAudio( EMediaModule mediaModule, float* audioDataFload, int audioDataLenInBytes ) override;
 

@@ -45,7 +45,7 @@ public:
     virtual void				toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput ) = 0;
 
     // add audio data to play.. assumes pcm mono 
-    virtual int				    toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence ) = 0;
+    virtual int				    toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t * pu16PcmData, int pcmDataLenInBytes ) = 0;
 
     // add audio data to play.. assumes float 2 channel 48000 Hz
     virtual int				    toGuiPlayerNlcAudio( EMediaModule mediaModule, float * audioSamples48000, int dataLenInBytes ) = 0;

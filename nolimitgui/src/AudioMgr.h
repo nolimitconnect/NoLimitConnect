@@ -10,21 +10,20 @@
 // https://nolimitconnect.com
 //============================================================================
 
-
 #include <libwebrtc-aec/apm/WebRtcAec.h>
 
-#include "miniaudio/AudioMixerBuf.h"
+#include "AudioMixerMgr.h"
+
+#include "miniaudio/AudioFrameAecBuffer.h"
+#include "miniaudio/AudioTestToneGenerator.h"
 
 #include "miniaudio/MiniAudioDevices.h"
 #include "miniaudio/MiniAudioIn.h"
 #include "miniaudio/MiniAudioOut.h"
-#include "miniaudio/AudioTestToneGenerator.h"
-#include "miniaudio/AudioFrameAecBuffer.h"
+
 #include "miniaudio/TestFileWav.h"
 
 #include "ToGuiHardwareControlInterface.h"
-
-#include <GuiInterface/IAudioInterface.h>
 
 #include <CoreLib/VxMutex.h>
 #include <CoreLib/VxSemaphore.h>
@@ -41,7 +40,7 @@ class AppCommon;
 class GuiAudioLevelCallback;
 class GuiEchoCancelEnableCallback;
 
-class AudioMgr : public MiniAudioDevices, public IAudioRequests, public ToGuiHardwareControlInterface
+class AudioMgr : public MiniAudioDevices, public AudioMixerMgr, public ToGuiHardwareControlInterface
 {
     Q_OBJECT
 public:
@@ -117,39 +116,14 @@ public:
  
     //=== IAudioRequests begin ===//
     // return true if any microphone device is available to be enabled
-    virtual bool				toGuiIsMicrophoneDeviceAvailable( void ) override;
+    bool				        toGuiIsMicrophoneDeviceAvailable( void ) override;
     // enable disable microphone data callback
-    virtual void				toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput ) override;
+    void				        toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput ) override;
     // enable disable sound out
-    virtual void				toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput ) override;
-    // add audio data to play.. assumes pcm mono 16000 Hz of mixer buffer length
-    virtual int				    toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t* pu16PcmData, int pcmDataLenInBytes, bool isSilence ) override;
-
-    virtual int				    toGuiPlayerNlcAudio( EMediaModule mediaModule, float* audioDataFloat, int audioDataLenInBytes ) override;
-
-    virtual float               toGuiGetAudioDelaySeconds( EMediaModule mediaModule ) override;
-
-    virtual float               toGuiGetAudioCacheFreeSpace( EMediaModule mediaModule ) override;
-
-    virtual float               toGuiGetAudioCacheTotalSeconds( EMediaModule mediaModule ) override;
-
-    virtual void				fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen );
-
-    float                       calculateMsOfSamples( int sampleCount );
+    void				        toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput ) override;
     //=== IAudioRequests end ===//
 
-	// player-nlc
-  	void						setPlayerNlcActive( bool isActive );
-    bool						getPlayerNlcActive( void ) { return m_PlayerNlcActive; }
-
-    void                        lockPlayerCache( void )                             { m_PlayerCacheMutex.lock(); }
-    void                        unlockPlayerCache( void )                           { m_PlayerCacheMutex.unlock(); }
-
-	// mixer
-    void                        lockModuleMixerBuffer( void )                       { m_ModuleMixerMutex.lock(); }
-    void                        unlockModuleMixerBuffer( void )                     { m_ModuleMixerMutex.unlock(); }
-    AudioMixerBuf&              getAudioMixerBuf( EMediaModule mediaModule );
-
+    void                        writeMixerAudioToSpeakerHardware( int16_t* pcmData, int sampleCount ) override;
 
 	void                        wantAudioIn( bool wanted );
     void                        wantAudioOut( bool wanted );
@@ -214,8 +188,6 @@ protected:
     void                        processQueuedAudioOutput( const int16_t* pcmData, int sampleCnt );
     void                        processAudioOutput10msFrame( const int16_t* pcmData, int sampleCnt );
 
-    virtual void				callbackAudioOut60msSpaceAvail( int freeSpaceLen ){};
-
 
     // Audio delay test related functions
     void                        setAudioTestSentTime( int64_t sentTime )        { m_AudioTestSentTimeMs = sentTime; }
@@ -271,7 +243,8 @@ protected:
     VxSemaphore                 m_AudioInWorkSemaphore;
     std::atomic<bool>           m_AudioInWorkerRunning{false};
     std::atomic<bool>           m_AudioInWorkerStopping{false};
-        // keep track of how many frames we've processed and call callbackAudioOut60msSpaceAvail when space for opus frame is available
+
+    // keep track of how many frames we've processed and call callbackAudioIn60msFrameAvail when enough audio for an opus frame is available
     int                         m_AudioInAecFramesProcessed{0};
     std::vector<int16_t>        m_OpusFrameBuffer;
 
@@ -352,15 +325,6 @@ protected:
     // test tone variables
     bool                        m_SpeakerTestToneEnable{ false };
     AudioTestToneGenerator      m_ToneGenerator;
-
- 	// player-nlc
-    bool                        m_PlayerNlcActive{ false };
-    AudioSampleBuf              m_PlayerCacheBuf;
-    VxMutex                     m_PlayerCacheMutex;
-
-    // mixer
-    std::map<EMediaModule, AudioMixerBuf> m_AppModuleToSpeakerMap;
-    VxMutex                     m_ModuleMixerMutex;
 
     // keep track of which modules want microphone and speaker output 
     std::vector<EMediaModule>   m_WantSpeakerList;

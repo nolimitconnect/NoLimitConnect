@@ -339,7 +339,7 @@ void AudioMgr::callbackAudioIn60msFrameAvail( const int16_t* pcmData, int sample
         return;
     }
 
-    m_MyApp.getEngine().getMediaProcessor().fromGuiEchoCanceledSamplesThreaded( pcmData, sampleCnt );
+    GetPtoPEngine().getMediaProcessor().fromGuiEchoCanceledSamplesThreaded( pcmData, sampleCnt );
 }
 
 //============================================================================

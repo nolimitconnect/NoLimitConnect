@@ -108,14 +108,14 @@ void AppCommon::slotInternalWantSpeakerOutput( EMediaModule mediaModule, bool wa
 
 //============================================================================
 //! playback audio
-int AppCommon::toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t * pu16PcmData, int pcmDataLenInBytes, bool isSilence )
+int AppCommon::toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t * pu16PcmData, int pcmDataLenInBytes )
 {
     if( VxIsAppShuttingDown() )
     {
         return 0;
     }
 
-    return m_AudioMgr.toGuiModuleAudioFrame( mediaModule, pu16PcmData, pcmDataLenInBytes, isSilence );
+    return m_AudioMgr.toGuiModuleAudioFrame( mediaModule, pu16PcmData, pcmDataLenInBytes );
 }
 
 //============================================================================

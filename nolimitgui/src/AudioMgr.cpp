@@ -26,7 +26,7 @@
 AudioMgr::AudioMgr( AppCommon& app )
     : m_MyApp( app )
     , MiniAudioDevices()
-    , IAudioRequests()
+    , AudioMixerMgr()
     , ToGuiHardwareControlInterface()
     , m_TestFile("")
     , m_AudioInIo( *this )
@@ -204,32 +204,6 @@ void AudioMgr::setUseMobileAec( bool enableMobileAec )
 }
 
 //============================================================================
-void AudioMgr::setPlayerNlcActive( bool isActive )
-{
-    if( isActive != m_PlayerNlcActive )
-    {
-        m_PlayerNlcActive = isActive;
-        if( m_PlayerNlcActive )
-        {
-            lockPlayerCache();
-
-            m_PlayerCacheBuf.clear();
-
-            unlockPlayerCache();
-
-            lockModuleMixerBuffer();
-
-            AudioMixerBuf& mixerBuf = getAudioMixerBuf( eMediaModulePlayerNlc );
-            mixerBuf.clear();
-
-            unlockModuleMixerBuffer();
-        }
-        
-        toGuiWantSpeakerOutput( eMediaModulePlayerNlc, m_PlayerNlcActive );
-    }
-}
-
-//============================================================================
 int AudioMgr::getWantMicrophoneCount( void ) 
 { 
     m_WantMicMutex.lock();
@@ -265,4 +239,10 @@ void AudioMgr::updateWantSpeakerCount( int wantSpeakerCnt )
 	{
 		client->callbackWantSpeakerCount( wantSpeakerCnt );
 	}
+}
+
+//============================================================================
+void AudioMgr::writeMixerAudioToSpeakerHardware( int16_t* pcmData, int sampleCount )
+{
+    sendToSpeakerOutput( pcmData, sampleCount );
 }
