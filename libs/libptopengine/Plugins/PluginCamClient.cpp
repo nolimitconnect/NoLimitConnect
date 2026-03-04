@@ -111,9 +111,9 @@ void PluginCamClient::callbackOpusPkt( PktVoiceReq * pktOpusAudio )
 }
 
 //============================================================================
-void PluginCamClient::callbackAudioOutSpaceAvail( int freeSpaceLen )
+void PluginCamClient::callbackAudioOutSpaceAvail( int freeSpaceLenBytes )
 {
-	m_VoiceFeedMgr.callbackAudioOutSpaceAvail( freeSpaceLen );
+	m_VoiceFeedMgr.callbackAudioOutSpaceAvail( freeSpaceLenBytes );
 }
 
 //============================================================================

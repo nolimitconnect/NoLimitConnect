@@ -999,19 +999,24 @@ const char* DescribeMediaModule( enum EMediaModule eMediaModule )
         return "eMediaModuleRandomConnectClient";
     case eMediaModuleRandomConnectHost:
         return "eMediaModulePeerUsertHost";
-    case eMediaModuleSoundEffects:
-        return "eMediaModuleSoundEffects";
+
     case eMediaModuleSnapshot:
         return "eMediaModuleSnapshot";
 
-    case eMediaModuleTest:
-        return "eMediaModuleTest";
     case eMediaModuleTruthOrDare:
         return "eMediaModuleTruthOrDare";
     case eMediaModuleVideoPhone:
         return "eMediaModuleVideoPhone";
     case eMediaModuleVoicePhone:
         return "eMediaModuleVoicePhone";
+
+    case eMediaModuleSoundFx:
+        return "eMediaModuleSoundFx";
+    case eMediaModuleSoundSettings:
+        return "eMediaModuleSoundSettings";
+    case eMediaModuleSoundTest:
+        return "eMediaModuleSoundTest";
+
 
     default:
         return "UNKNOWN EMediaModule";

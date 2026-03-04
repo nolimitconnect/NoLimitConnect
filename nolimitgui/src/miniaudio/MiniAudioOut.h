@@ -29,12 +29,12 @@ public:
     bool                        initAudioOut( VxAudioFormat& audioFormat, int deviceIndex );
     bool                        soundOutDeviceChanged( int deviceIndex );
 
-    void						audioOutShutdown( void ) { stopAudioOut(); }
+    void						audioOutShutdown( void ) { stopAudioOutHardware(); }
 
-    void                        startAudioOut( void );
-    void                        stopAudioOut( void );
+    bool                        startAudioOutHardware( void );
+    void                        stopAudioOutHardware( void );
 
-    void                        wantSpeakerOutput( bool enableOutput );
+    void                        wantSpeakerOutputHardware( bool enableOutput );
     bool                        isSpeakerOutputWanted( void )                   { return m_SpeakerOutputEnabled; }
 
     void                        setUpsampleMultiplier( int upSampleMult )       { m_UpsampleMutiplier = upSampleMult; }
@@ -44,7 +44,7 @@ public:
 
     virtual int				    callbackAudioRead( int16_t* pcmData, int maxlen ) override;
 
-    int                        getHardwareDelayMs( void );
+    int                         getHardwareDelayMs( void );
 
 protected:
     bool                        m_initialized{ false };

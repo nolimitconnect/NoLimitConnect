@@ -25,7 +25,7 @@ class SoundFxMgr : public QObject
 {
 	Q_OBJECT
 public:
-	SoundFxMgr();
+    SoundFxMgr() = default;
     virtual ~SoundFxMgr() = default;
 
 	bool						sndFxMgrStartup( void );

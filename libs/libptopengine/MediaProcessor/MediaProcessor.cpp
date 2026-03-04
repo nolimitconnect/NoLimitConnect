@@ -648,7 +648,7 @@ void MediaProcessor::wantMixerMediaInput(	VxGUID&						onlineId,
 		if( stopSpeakerOutput )
 		{
 			m_SpeakerOutputEnabled = false;
-            if( mediaModule != eMediaModuleSoundEffects && ( LogEnabled(eLogVoice) || LogEnabled(eLogAudioIo) ) )
+            if( mediaModule != eMediaModuleSoundFx && ( LogEnabled(eLogVoice) || LogEnabled(eLogAudioIo) ) )
             {
                 LogMsg( LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput stopping speaker output module %s", DescribeMediaModule( mediaModule ) );
             }
@@ -708,7 +708,7 @@ void MediaProcessor::wantMixerMediaInput(	VxGUID&						onlineId,
 
 	if( startSpeakerOutput )
 	{
-        if( mediaModule != eMediaModuleSoundEffects && ( LogEnabled(eLogVoice) || LogEnabled(eLogAudioIo) ) )
+        if( mediaModule != eMediaModuleSoundFx && ( LogEnabled(eLogVoice) || LogEnabled(eLogAudioIo) ) )
         {
             LogMsg( LOG_VERBOSE, "MediaProcessor::wantMixerMediaInput starting speaker output module %s", DescribeMediaModule( mediaModule ) );
         }
@@ -1079,7 +1079,7 @@ void MediaProcessor::fromGuiEchoCanceledSamplesThreaded( const int16_t* pcmData,
 }
 
 //============================================================================
-void MediaProcessor::fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen )
+void MediaProcessor::fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLenBytes )
 {
 	//#ifdef DEBUG_AUDIO_PROCESSOR_LOCK
 	//	LogMsg( LOG_INFO, "fromGuiAudioOutSpaceAvail m_MixerClientsMutex.lock start" );

@@ -9,6 +9,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <QWidget>
+
 #include "GuiHosted.h"
 
 #include <HostListMgr/HostedListCallbackInterface.h>
@@ -16,7 +18,6 @@
 
 #include <CoreLib/VxMutex.h>
 
-#include <QObject>
 
 class AppCommon;
 class VxNetIdent;

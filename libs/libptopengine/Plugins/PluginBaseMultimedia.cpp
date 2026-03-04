@@ -222,9 +222,9 @@ void PluginBaseMultimedia::callbackOpusPkt( PktVoiceReq * pktOpusAudio )
 }
 
 //============================================================================
-void PluginBaseMultimedia::callbackAudioOutSpaceAvail( int freeSpaceLen )
+void PluginBaseMultimedia::callbackAudioOutSpaceAvail( int freeSpaceLenBytes )
 {
-	m_VoiceFeedMgr.callbackAudioOutSpaceAvail( freeSpaceLen );
+	m_VoiceFeedMgr.callbackAudioOutSpaceAvail( freeSpaceLenBytes );
 }
 
 //============================================================================

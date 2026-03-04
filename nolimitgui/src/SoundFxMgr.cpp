@@ -89,12 +89,6 @@ SoundFxMgr& GetSndFxMgrInstance( void )
 	return GetAppInstance().getSoundFxMgr();
 }
 
-//============================================================================
-SoundFxMgr::SoundFxMgr(  )
-
-{
-}
-
 //============================================================================ 
 void SoundFxMgr::slotStartPhoneRinging( void )
 {
@@ -155,7 +149,6 @@ bool SoundFxMgr::sndFxMgrStartup( void )
 //============================================================================
 bool SoundFxMgr::sndFxMgrShutdown( void )
 {
-
 	return true;
 }
 
@@ -205,6 +198,7 @@ VxSndInstance * SoundFxMgr::playSnd( ESndDef sndDef, bool loopContinuous  )
 		if( LogEnabled( eLogUsers ) )LogModule( eLogUsers, LOG_VERBOSE, "SoundFxMgr::%s play sound %s", __func__, DescribeSnd( sndDef ) );
 		m_CurSndPlaying = m_SndList[ sndDef ];
 		m_CurSndPlaying->startPlay( loopContinuous );
+
 		return m_CurSndPlaying;
 	}
 	else
@@ -220,6 +214,7 @@ void SoundFxMgr::stopSnd( ESndDef sndDef )
 		&& ( sndDef == m_CurSndPlaying->getSndDef() ) )
 	{
 		m_CurSndPlaying->stopPlay();
+
 		m_CurSndPlaying = nullptr;
 	}
 }
@@ -229,6 +224,7 @@ void SoundFxMgr::slotSndFinished( VxSndInstance * sndInstance )
 {
 	if( m_CurSndPlaying == sndInstance )
 	{
+
 		m_CurSndPlaying = nullptr;
 	}
 }

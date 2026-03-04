@@ -55,18 +55,8 @@ bool AudioMgr::runEchoDelayTest( void )
     m_EchoDelayCurrentInteration = 0;
     m_EchoDelayResultList.clear();
 
-    m_AudioTestMicEnable = m_AudioInIo.isMicrophoneInputWanted();
-    m_AudioTestSpeakerEnable = m_AudioOutIo.isSpeakerOutputWanted();
-
-    if( !m_AudioTestMicEnable )
-    {
-        m_AudioInIo.wantMicrophoneInput( true );
-    }
-    
-    if( !m_AudioTestSpeakerEnable )
-    {
-        m_AudioOutIo.wantSpeakerOutput( true );
-    }
+    toGuiWantMicrophoneRecording( eMediaModuleSoundTest, true );
+    toGuiWantSpeakerOutput( eMediaModuleSoundTest, true );
 
     setAudioTestState( eAudioTestStateInit );
 
@@ -100,7 +90,8 @@ void AudioMgr::slotAudioTestTimer( void )
         if( !handleAudioTestResult( getAudioTestSentTime(), audioDetectTimeMs, audioPeakValue ) )
         {
             LogMsg( LOG_WARNING, "Echo Delay Test Faled" );
-            
+            toGuiWantMicrophoneRecording( eMediaModuleSoundTest, false );
+            toGuiWantSpeakerOutput( eMediaModuleSoundTest, false );
             setAudioTestState( eAudioTestStateDone );
             break;
         }
@@ -125,15 +116,8 @@ void AudioMgr::slotAudioTestTimer( void )
         m_AudioTestTimer->stop();
         setAudioTestState( eAudioTestStateNone );
 
-        if( !m_AudioTestMicEnable )
-        {
-            m_AudioInIo.wantMicrophoneInput( m_AudioTestMicEnable );
-        }
-
-        if( !m_AudioTestSpeakerEnable )
-        {
-            m_AudioOutIo.wantSpeakerOutput( m_AudioTestSpeakerEnable );
-        }
+        toGuiWantMicrophoneRecording( eMediaModuleSoundTest, false );
+        toGuiWantSpeakerOutput( eMediaModuleSoundTest, false );
 
         break;
 

@@ -50,17 +50,18 @@ WebRtcAec::WebRtcAec()
     // m_impl->apConfig.echo_canceller.mobile_mode = false;
 
     // sound does not fluctuate 
-    m_impl->apConfig.echo_canceller.enabled = false;
-    m_impl->apConfig.echo_canceller.mobile_mode = true;
+    // m_impl->apConfig.echo_canceller.enabled = false;
+    // m_impl->apConfig.echo_canceller.mobile_mode = true;
 
     // sound does not fluctuate
-    // m_impl->apConfig.echo_canceller.enabled = true;
-    // m_impl->apConfig.echo_canceller.mobile_mode = true;
+    m_impl->apConfig.echo_canceller.enabled = true;
+    m_impl->apConfig.echo_canceller.mobile_mode = true;
 
     // sound does not fluctuate
     // m_impl->apConfig.echo_canceller.enabled = false;
     // m_impl->apConfig.echo_canceller.mobile_mode = false;
 
+    m_impl->apConfig.echo_canceller.enforce_high_pass_filtering = true; 
     m_impl->apConfig.high_pass_filter.enabled = true;
     m_impl->apConfig.transient_suppression.enabled = true;
     m_impl->apConfig.noise_suppression.enabled = true;
@@ -70,8 +71,8 @@ WebRtcAec::WebRtcAec()
     m_impl->apConfig.gain_controller1.enabled = false; 
 
     // Use AGC2 for the actual volume leveling
-    m_impl->apConfig.gain_controller2.enabled = true;
-    m_impl->apConfig.gain_controller2.adaptive_digital.enabled = true;
+    m_impl->apConfig.gain_controller2.enabled = false;
+    m_impl->apConfig.gain_controller2.adaptive_digital.enabled = false;
 
     webrtc::BuiltinAudioProcessingBuilder builder(m_impl->apConfig);
     m_impl->apm = builder.Build(*m_impl->env);

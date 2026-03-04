@@ -28,12 +28,12 @@ public:
     bool                        initAudioIn( VxAudioFormat& audioFormat, int deviceIndex );
     bool                        soundInDeviceChanged( int deviceIndex );
 
-    void						audioInShutdown( void )             { stopAudioIn(); }
+    void						audioInShutdown( void )             { stopAudioInHardware(); }
 
-    void                        startAudioIn( void );
-    void                        stopAudioIn( void );
+    bool                        startAudioInHardware( void );
+    void                        stopAudioInHardware( void );
 
-    void                        wantMicrophoneInput( bool enableInput );
+    void                        wantMicrophoneInputHardware( bool enableInput );
     bool                        isMicrophoneInputWanted( void )     { return m_MicInputEnabled; }
 
     void                        setMicrophoneVolume( float volume ) { m_MicrophoneVolume = volume; }

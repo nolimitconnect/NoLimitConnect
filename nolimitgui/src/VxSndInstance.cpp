@@ -9,11 +9,11 @@
 //============================================================================
 
 #include "VxSndInstance.h"
+
+#include "AppCommon.h"
+#include "AudioMgr.h"
 #include "SoundFxMgr.h"
 #include "VxResourceToRealFile.h"
-
-#include <MediaProcessor/MediaProcessor.h>
-#include <P2PEngine/P2PEngine.h>
 
 #include "libwav-decoder/WavMgr.h"
 
@@ -58,7 +58,6 @@ VxSndInstance::VxSndInstance( ESndDef sndDef, QObject* parent )
 : QObject( parent )
 , m_SndDef( sndDef )
 {
-	m_MediaSessionId.initializeWithNewVxGUID();
 }
 
 //============================================================================
@@ -114,7 +113,6 @@ bool VxSndInstance::initSndInstance( void )
 		return true;
 	}
 
-	m_MediaSessionId.initializeWithNewVxGUID();
 	QString resourceFile = g_SndResourcePaths[ m_SndDef ];
 	VxResourceToRealFile realFile( resourceFile );
 
@@ -138,24 +136,57 @@ bool VxSndInstance::initSndInstance( void )
 		return false;
 	}
 
-	if( wavRate == 8000 )
+	m_WavSamples.clear();
+	int16_t* bytesAs16bit = (int16_t*)wavBytes.data();
+	int pcmSampleCnt = wavBytes.size() / 2;
+	
+	if( wavRate == AUDIO_DEVICE_SAMPLE_RATE )
 	{
-		m_WavSamples.clear();
-		int16_t* bytesAs16bit = (int16_t*)wavBytes.data();
-		for( int i = 0; i < wavBytes.size(); ++i )
+		std::copy( bytesAs16bit, bytesAs16bit + pcmSampleCnt, std::back_inserter( m_WavSamples ) );
+	}
+	else if( wavRate == 8000 && AUDIO_DEVICE_SAMPLE_RATE == 24000 )
+	{
+		for( int i = 0; i < pcmSampleCnt; ++i )
+		{
+			m_WavSamples.emplace_back( *bytesAs16bit );
+			m_WavSamples.emplace_back( *bytesAs16bit );
+			m_WavSamples.emplace_back( *bytesAs16bit );
+			bytesAs16bit += 1;
+		}
+	}
+	else if( wavRate == 8000 && AUDIO_DEVICE_SAMPLE_RATE == 16000 )
+	{	
+		for( int i = 0; i < pcmSampleCnt; ++i )
 		{
 			m_WavSamples.emplace_back( *bytesAs16bit );
 			m_WavSamples.emplace_back( *bytesAs16bit );
 			bytesAs16bit += 1;
 		}
 	}
-	else if( wavRate == 16000 )
-	{
-		m_WavSamples.clear();
-		int16_t* bytesAs16bit = (int16_t*)wavBytes.data();
-		std::copy( bytesAs16bit, bytesAs16bit + wavBytes.size() / 2, std::back_inserter( m_WavSamples ) );
-	}
 	else
+	{
+		double ratio = (double)wavRate / AUDIO_DEVICE_SAMPLE_RATE; 
+		size_t numFrames = wavBytes.size() / wavChannels;
+    	size_t newNumFrames = (size_t)(numFrames / ratio);
+
+		for (size_t i = 0; i < pcmSampleCnt; ++i) 
+		{
+			double sourcePos = i * ratio;
+			size_t indexLow = (size_t)std::floor(sourcePos);
+			size_t indexHigh = (indexLow + 1 < numFrames) ? indexLow + 1 : indexLow;
+			float weightHigh = (float)(sourcePos - indexLow);
+			float weightLow = 1.0f - weightHigh;
+
+			for (int ch = 0; ch < wavChannels; ++ch) 
+			{
+				int16_t sample = (int16_t)(wavBytes[indexLow * wavChannels + ch] * weightLow +
+										wavBytes[indexHigh * wavChannels + ch] * weightHigh);
+				m_WavSamples.emplace_back(sample);
+			}
+		}
+	}
+	
+	if(m_WavSamples.size() == 0)
 	{
 		m_IsInitialized = false;
 		LogMsg( LOG_ERROR, "%s unknown rate %d", __func__, wavRate );
@@ -175,23 +206,20 @@ bool VxSndInstance::initSndInstance( void )
 		m_WavSamples.emplace_back( 0 );
 	}
 
-	m_MyOnlineId = GetPtoPEngine().getMyOnlineId();
-	m_MediaProcessor = &GetPtoPEngine().getMediaProcessor();
-
 	return m_IsInitialized;
 }
 
 //============================================================================
-void VxSndInstance::callbackAudioOutSpaceAvail( int freeSpaceLen )
+void VxSndInstance::callbackAudioOutSpaceAvail( int freeSpaceLenBytes )
 {
-	int samplesRequested = freeSpaceLen / AUDIO_BYTES_PER_SAMPLE;
+	int samplesRequested = freeSpaceLenBytes / AUDIO_BYTES_PER_SAMPLE;
 	// only play same length as samplesRequested
 	int samplesAvailable = m_WavSamples.size() - m_PlaySndIdx;
 	if( samplesAvailable >= samplesRequested )
 	{
 		int16_t* buf = m_WavSamples.data();
 		buf += m_PlaySndIdx;
-		m_MediaProcessor->playAudio( buf, freeSpaceLen );
+		GetAppInstance().getAudioMgr().toGuiModuleAudioFrame( eMediaModuleSoundFx, buf, freeSpaceLenBytes );
 		m_PlaySndIdx += samplesRequested;
 		if( m_PlaySndIdx < m_WavSamples.size() )
 		{
@@ -210,19 +238,8 @@ void VxSndInstance::wantAudioCallbacks( bool wantCallbacks )
 {
 	if( m_EffectsAudioCallbacksRequested != wantCallbacks )
 	{
-		if( !m_MyOnlineId.isVxGUIDValid() || !m_MediaSessionId.isVxGUIDValid() )
-		{
-			LogMsg( LOG_ERROR, " VxSndInstance::%s %s m_MyOnlineId or m_MediaSessionId is invalid", __func__, DescribeSnd( m_SndDef ), wantCallbacks );
-			return;
-		}
-
 		m_EffectsAudioCallbacksRequested = wantCallbacks;
-		if( LogEnabled( eLogVoice ) )LogModule( eLogVoice, LOG_VERBOSE, "# VxSndInstance::%s %s requesting %d", __func__, DescribeSnd( m_SndDef ), wantCallbacks );
-		m_MediaProcessor->wantMediaInput( m_MyOnlineId, eMediaInputMixer, this, eMediaModuleSoundEffects, m_MediaSessionId, wantCallbacks );
-	}
-	else
-	{
-		// this happens when callbackAudioOutSpaceAvail finishes wav play and then again when stopPlay occurs
-		// LogMsg( LOG_VERBOSE, "# VxSndInstance::%s %s allready requested %d", __func__, DescribeSnd( m_SndDef ), wantCallbacks );
+		GetAppInstance().getAudioMgr().wantAudioOutSpaceAvailableCallback( this, wantCallbacks );
+		GetAppInstance().getAudioMgr().toGuiWantSpeakerOutput( eMediaModuleSoundFx, wantCallbacks );
 	}
 }

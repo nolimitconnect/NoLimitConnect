@@ -64,7 +64,7 @@ protected:
     virtual void				onPktVoiceReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 
     virtual void				callbackOpusPkt( PktVoiceReq * pktOpusAudio ) override;
-    virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen ) override;
+    virtual void				callbackAudioOutSpaceAvail( int freeSpaceLenBytes ) override;
 
     virtual void				callbackVideoJpg( VxGUID& feedId, std::shared_ptr<CamJpgVideo>& jpgVideo ) override;
     virtual void				callbackVideoPktPic( VxGUID& feedId, PktVideoFeedPic * pktVid, int pktsInSequence, int thisPktNum ) override;

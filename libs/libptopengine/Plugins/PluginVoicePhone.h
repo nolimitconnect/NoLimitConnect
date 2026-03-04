@@ -55,7 +55,7 @@ protected:
 
 protected:
     virtual void				callbackOpusPkt				( PktVoiceReq * pktOpusAudio ) override;
-    virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen ) override;
+    virtual void				callbackAudioOutSpaceAvail( int freeSpaceLenBytes ) override;
 
 	PluginSessionMgr			m_PluginSessionMgr;
 	VoiceFeedMgr				m_VoiceFeedMgr;

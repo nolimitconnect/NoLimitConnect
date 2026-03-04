@@ -117,7 +117,7 @@ void AudioMgr::callbackAudioDeviceWrite( int16_t* pcmData, int sampleCnt )
 }
 
 //============================================================================
-void AudioMgr::processQueuedAudioInput( const int16_t* pcmData, int sampleCnt )
+void AudioMgr::processQueuedAudioInput( int16_t* pcmData, int sampleCnt )
 {
     if( !pcmData || sampleCnt <= 0 )
     {
@@ -179,7 +179,7 @@ void AudioMgr::processQueuedAudioInput( const int16_t* pcmData, int sampleCnt )
         {
             if( m_AudioTestState == eAudioTestStateRun )
             {
-                audioTestDetectTestSound( pcmData, sampleCnt );
+                audioTestDetectTestSound( framePtr, sampleCnt );
             }
 
             return;
@@ -197,30 +197,13 @@ void AudioMgr::processQueuedAudioInput( const int16_t* pcmData, int sampleCnt )
             continue;
         }
 
+        m_MicInLowPassFilter.processBufferInPlace( framePtr, sampleCnt );
+        m_MicInHighPassFilter.processBufferInPlace( framePtr, sampleCnt );
+        applyMicInLimiters( framePtr, sampleCnt );
+       
         int echoDelayMs = m_EchoDelayMs + getEchoHardwareTotalLatencyMs();
-        int outJitterMs = 0;
-        if( m_OutExpectedRenderTimeMs != 0 )
-        {
-            m_OutExpectedRenderTimeMs += ECHO_MS_PER_FRAME;
-            int64_t nowMs = GetHighResolutionTimeMs();
-            outJitterMs = static_cast<int>(nowMs - m_OutExpectedRenderTimeMs);
-            if( std::abs(outJitterMs) > 5 )
-            {
-                outJitterMs = 0;
-                LogMsg( LOG_WARNING, "%s: Detected speaker output jitter of %d ms", __func__, outJitterMs );
-                m_OutExpectedRenderTimeMs = nowMs;
-            }
-            // else if( outJitterMs != 0 )
-            // {
-            //     LogMsg( LOG_VERBOSE, "%s: Speaker output jitter of %d ms", __func__, outJitterMs );
-            // }
-        }
-        else
-        {
-            m_OutExpectedRenderTimeMs = GetHighResolutionTimeMs();
-        }
 
-        m_Aec.setEchoDelay(echoDelayMs + outJitterMs);
+        m_Aec.setEchoDelay( echoDelayMs );
 
         // 1. Run through WebRTC AudioProcessing (AEC3, AGC2, VAD)
         m_Aec.processCapture(framePtr, ECHO_FRAME_SIZE_10MS);
@@ -244,6 +227,17 @@ void AudioMgr::processQueuedAudioInput( const int16_t* pcmData, int sampleCnt )
 
     // Any remaining samples (less than 160) stay in m_ResidualInBuffer
     // until the next callback arrives.
+}
+
+//============================================================================
+void AudioMgr::applyMicInLimiters( int16_t* pcmData, int sampleCnt )
+{
+    const int16_t threshold = 20000; // ~60% of max volume
+    for (int i = 0; i < sampleCnt; ++i) 
+    {
+        if (pcmData[i] > threshold) pcmData[i] = threshold;
+        else if (pcmData[i] < -threshold) pcmData[i] = -threshold;
+    }   
 }
 
 //============================================================================

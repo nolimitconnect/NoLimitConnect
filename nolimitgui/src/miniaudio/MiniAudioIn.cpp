@@ -70,7 +70,7 @@ bool MiniAudioIn::soundInDeviceChanged( int deviceIndex )
         deviceIndex = 0;
     }
 
-    stopAudioIn();
+    stopAudioInHardware();
     m_AudioFormat.setSampleRate( AUDIO_DEVICE_SAMPLE_RATE );
     m_AudioFormat.setChannelCount( AUDIO_CHANNELS );
 
@@ -93,7 +93,7 @@ bool MiniAudioIn::soundInDeviceChanged( int deviceIndex )
 
         if( m_AudioIoMgr.getIsMicrophoneWanted() )
         {
-            startAudioIn();
+            startAudioInHardware();
         }
     }
     else
@@ -105,7 +105,7 @@ bool MiniAudioIn::soundInDeviceChanged( int deviceIndex )
 }
 
 //============================================================================
-void MiniAudioIn::startAudioIn( void )
+bool MiniAudioIn::startAudioInHardware( void )
 {
     if( !m_AudioInDeviceIsStarted )
     {
@@ -116,13 +116,15 @@ void MiniAudioIn::startAudioIn( void )
         }
         else
         {
-            LogMsg( LOG_DEBUG, "MiniAudioIn::startAudioIn failed " );
+            LogMsg( LOG_DEBUG, "MiniAudioIn::startAudioInHardware failed " );
         }
     }
+
+    return m_AudioInDeviceIsStarted;
 }
 
 //============================================================================
-void MiniAudioIn::stopAudioIn( void )
+void MiniAudioIn::stopAudioInHardware( void )
 {
     if( m_AudioInDeviceIsStarted )
     {
@@ -142,18 +144,18 @@ void MiniAudioIn::echoCancelSyncStateThreaded( bool inSync )
 }
 
 //============================================================================
-void MiniAudioIn::wantMicrophoneInput( bool enableInput )
+void MiniAudioIn::wantMicrophoneInputHardware( bool enableInput )
 {
     m_MicInputEnabled = enableInput;
 
     if( enableInput )
     {
-        m_AudioInDeviceIsStarted = startAudioInDevice();
+        m_AudioInDeviceIsStarted = startAudioInHardware();
         m_AudioIoMgr.setIsMicrophoneRunning( m_AudioInDeviceIsStarted );
     }
     else
     {
-        stopAudioInDevice();
+        stopAudioInHardware();
         m_AudioInDeviceIsStarted = false;
         m_AudioIoMgr.setIsMicrophoneRunning( false );
     }

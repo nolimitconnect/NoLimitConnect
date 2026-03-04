@@ -9,6 +9,7 @@ list(APPEND CoreLib_HEADERS
     AppErr.h
     AppVersion.h
     AssetDefs.h
+    AudioCallbackSpaceAvailable.h
     BinaryBlob.h
     Blowfish.h
     ConnectId.h

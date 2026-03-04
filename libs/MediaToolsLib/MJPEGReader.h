@@ -89,7 +89,7 @@ public:
 	bool						getIsStartThreadCommanded( void )						{ return m_IsStartThreadCommanded; }
 
 protected:
-	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen );
+	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLenBytes );
 
 	void						closeAviFile( void );
 	bool						readRiffHeader( VFile * fileHandle );

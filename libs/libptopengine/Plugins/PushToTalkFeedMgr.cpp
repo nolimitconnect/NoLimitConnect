@@ -91,7 +91,7 @@ bool PushToTalkFeedMgr::enableAudioCapture( bool enable, VxGUID& onlineId, EMedi
 }
 
 //============================================================================
-void PushToTalkFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
+void PushToTalkFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLenBytes )
 {
 	#ifdef DEBUG_AUTOPLUGIN_LOCK
     LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail PluginBase::AutoPluginLock autoLock start" );

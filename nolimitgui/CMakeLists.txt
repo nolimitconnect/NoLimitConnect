@@ -1103,6 +1103,15 @@ if(DEFINED TARGET_OS_WINDOWS)
         _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
         _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS
     )
+
+    if(MSVC)
+        # Remove the conflicting flag from the default CXX flags
+        string(REPLACE "/permissive" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+
+        # Or simply suppress that specific warning ID
+        add_compile_options(/wd9025)
+    endif()
+
 endif()
 
 if(DEFINED TARGET_OS_ANDROID)

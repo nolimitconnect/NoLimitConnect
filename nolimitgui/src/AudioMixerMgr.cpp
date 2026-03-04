@@ -19,7 +19,7 @@
 #include <CoreLib/VxGlobals.h>
 
 //============================================================================
-void AudioMixerMgr::callbackAudioOut60msSpaceAvail(int freeSpaceLen) 
+void AudioMixerMgr::callbackAudioOut60msSpaceAvail(int freeSpaceLenBytes) 
 {
     std::vector<int32_t> accumulator(AUDIO_SAMPLES_PER_FRAME, 0);
     int16_t tempFrame[AUDIO_SAMPLES_PER_FRAME];
@@ -62,7 +62,7 @@ void AudioMixerMgr::callbackAudioOut60msSpaceAvail(int freeSpaceLen)
     }
 
     // After writing to speaker hardware, we can call fromGuiAudioOutSpaceAvaiThreaded to notify any clients that are waiting for space to write to mixer
-    fromGuiAudioOutSpaceAvaiThreaded( freeSpaceLen );
+    fromGuiAudioOutSpaceAvaiThreaded( freeSpaceLenBytes );
 }
 
 

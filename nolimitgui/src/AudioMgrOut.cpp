@@ -289,7 +289,10 @@ void AudioMgr::processQueuedAudioOutput( const int16_t* pcmData, int sampleCnt )
             last10msFrameTime = speaker10msFrameTime;
         }
 
-        m_Aec.processRender( m_ResidualOutBuffer.data(), ECHO_FRAME_SIZE_10MS );
+        if( getIsMicrophoneWanted() )
+        {
+            m_Aec.processRender( m_ResidualOutBuffer.data(), ECHO_FRAME_SIZE_10MS );
+        }
 
         if( m_VisualizeOutWanted )
         {

@@ -120,6 +120,8 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
 
     ui.m_LogWidget->initLogCallback();
 
+    m_MyApp.getAudioMgr().toGuiWantSpeakerOutput( eMediaModuleSoundSettings, true );
+    m_MyApp.getAudioMgr().toGuiWantMicrophoneRecording( eMediaModuleSoundSettings, true );
     m_MyApp.getAudioMgr().wantMicrophoneLevelCallbacks( this, true );
 }
 
@@ -127,6 +129,8 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
 AppletSoundSettings::~AppletSoundSettings()
 {
     m_MyApp.getAudioMgr().wantMicrophoneLevelCallbacks( this, false );
+    m_MyApp.getAudioMgr().toGuiWantMicrophoneRecording( eMediaModuleSoundSettings, false );
+    m_MyApp.getAudioMgr().toGuiWantSpeakerOutput( eMediaModuleSoundSettings, false );
 
     m_MyApp.activityStateChange( this, false );
 }

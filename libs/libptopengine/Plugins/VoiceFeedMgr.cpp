@@ -149,7 +149,7 @@ void VoiceFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr*
 }
 
 //============================================================================
-void VoiceFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLen )
+void VoiceFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLenBytes )
 {
 	PluginBase::AutoPluginLock autoLock( &m_Plugin );
 

@@ -160,9 +160,9 @@ void PluginTruthOrDare::callbackOpusPkt( PktVoiceReq* pktOpusAudio )
 }
 
 //============================================================================
-void PluginTruthOrDare::callbackAudioOutSpaceAvail( int freeSpaceLen )
+void PluginTruthOrDare::callbackAudioOutSpaceAvail( int freeSpaceLenBytes )
 {
-	m_VoiceFeedMgr.callbackAudioOutSpaceAvail( freeSpaceLen );
+	m_VoiceFeedMgr.callbackAudioOutSpaceAvail( freeSpaceLenBytes );
 }
 
 //============================================================================

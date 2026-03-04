@@ -340,7 +340,7 @@ void VxGUID::toHexString( char * retBuf ) const
 }
 
 //============================================================================
-//! set online id by converting hex string into U128
+//! set online id by converting hex string into 2 uint64_t parts
 bool VxGUID::fromVxGUIDHexString( const char* pHexString )
 {
     if( false == isVxGUIDHexStringValid( pHexString ) )

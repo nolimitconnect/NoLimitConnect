@@ -17,6 +17,9 @@
 #include "miniaudio/AudioFrameAecBuffer.h"
 #include "miniaudio/AudioTestToneGenerator.h"
 
+#include "miniaudio/HighPassFilter.h"
+#include "miniaudio/LowPassFilter.h"
+
 #include "miniaudio/MiniAudioDevices.h"
 #include "miniaudio/MiniAudioIn.h"
 #include "miniaudio/MiniAudioOut.h"
@@ -25,6 +28,7 @@
 
 #include "ToGuiHardwareControlInterface.h"
 
+#include <CoreLib/AudioCallbackSpaceAvailable.h>
 #include <CoreLib/VxMutex.h>
 #include <CoreLib/VxSemaphore.h>
 
@@ -122,11 +126,7 @@ public:
     // enable disable sound out
     void				        toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput ) override;
     //=== IAudioRequests end ===//
-
-    void                        writeMixerAudioToSpeakerHardware( int16_t* pcmData, int sampleCount ) override;
-
-	void                        wantAudioIn( bool wanted );
-    void                        wantAudioOut( bool wanted );
+    void                        wantAudioOutSpaceAvailableCallback( AudioCallbackSpaceAvailable* callback, bool want );
 
 	// Test Tone functions
     void                        setEnableSpeakerTestTone( int enableTestTone )  { m_SpeakerTestToneEnable = enableTestTone; }
@@ -175,13 +175,16 @@ protected slots:
 protected:
 	bool                        playFromTestFile( void );
 
+    void                        enableAudioIn( bool enable );
     void                        startAudioInWorker( void );
     void                        stopAudioInWorker( void );
     void                        audioInWorkerLoop( void );
-    void                        processQueuedAudioInput( const int16_t* pcmData, int sampleCnt );
+    void                        processQueuedAudioInput( int16_t* pcmData, int sampleCnt );
+    void                        applyMicInLimiters( int16_t* pcmData, int sampleCnt );
 
     virtual void				callbackAudioIn60msFrameAvail( const int16_t* pcmData, int sampleCnt );
 
+    void                        enableAudioOut( bool enable );
     void                        startAudioOutWorker( void );
     void                        stopAudioOutWorker( void );
     void                        audioOutWorkerLoop( void );
@@ -205,6 +208,9 @@ protected:
     void                        updateWantMicrophoneCount( int wantMicCnt );
     void                        updateWantSpeakerCount( int wantSpeakerCnt );
 
+    // internal
+    void                        writeMixerAudioToSpeakerHardware( int16_t* pcmData, int sampleCount ) override;
+
 	//=== variables ===//	
     AppCommon&                  m_MyApp;
 
@@ -216,8 +222,8 @@ protected:
     bool                        m_NoAecLoopbackEnabled{false};
     bool                        m_WithAecLoopbackEnabled{false};
 
-    bool                        m_MicrophoneWanted{true};
-    bool                        m_SpeakerWanted{true};
+    bool                        m_MicrophoneWanted{false};
+    bool                        m_SpeakerWanted{false};
 
     bool                        m_MicrophoneRunning{false};
     bool                        m_SpeakerRunning{false};
@@ -259,6 +265,9 @@ protected:
     QTimer*                     m_AudioLevelPeekTimer{ nullptr };
     std::atomic<int>            m_AudioInPeakAmplitude{0};
     std::vector<GuiAudioLevelCallback*> m_AudioLevelClientList;
+
+    // audio callback list
+    std::vector<AudioCallbackSpaceAvailable*> m_AudioOutSpaceAvailableClientList;
 
     // input debugging buffers and stats
     bool                        m_MicJitterStatsEnable{ false };
@@ -320,7 +329,6 @@ protected:
     int                         m_EchoDelayMs{ 0 }; 
     
     int                         m_EchoHardwareTotalLatencyMs{ 20 };
-    int64_t                     m_OutExpectedRenderTimeMs{ 0 };
 
     // test tone variables
     bool                        m_SpeakerTestToneEnable{ false };
@@ -334,4 +342,8 @@ protected:
     std::vector<EMediaModule>   m_WantMicList;
     VxMutex                     m_WantMicMutex;
     std::atomic<int>            m_WantMicCnt{0};
+
+    LowPassFilter               m_MicInLowPassFilter;
+    HighPassFilter              m_MicInHighPassFilter;
 };
+

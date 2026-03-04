@@ -9,11 +9,9 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "VxDefs.h"
+#include <GuiInterface/IAudioDefs.h>
 
 #include <stdint.h>
-
-
 
 class VxAudioFormat
 {
@@ -51,7 +49,7 @@ public:
 	bool						isValid( void ) const;
 
 protected:
-	int							m_Rate{ 16000 };
+	int							m_Rate{ AUDIO_DEVICE_SAMPLE_RATE };
 	int							m_ChannelBytes{ 2 };
 	int							m_ChannelCount{ 1 };
 	SampleFormat				m_SampleFormat{ Int16 };

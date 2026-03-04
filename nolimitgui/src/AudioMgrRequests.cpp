@@ -60,12 +60,12 @@ void AudioMgr::toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool want
         if( !prevWantMicCnt && wantMicCnt )
         {
             // mic count went from 0 to 1, enable mic
-            m_AudioInIo.startAudioIn();
+            enableAudioIn( true );
         }
         else if( prevWantMicCnt && !wantMicCnt )
         {
             // mic count went from 1 to 0, disable mic
-            m_AudioInIo.stopAudioIn();
+            enableAudioIn( false );
         }
 
         updateWantMicrophoneCount( static_cast<int>(wantMicCnt) );
@@ -77,8 +77,9 @@ void AudioMgr::toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool want
 void AudioMgr::toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput )
 {
     bool found{ false };
+
     m_WantSpeakerMutex.lock();
-    size_t prevWantSpeakerCnt = getWantSpeakerCount(); 
+    size_t prevWantSpeakerCnt = m_WantSpeakerList.size();
     for( auto iter = m_WantSpeakerList.begin(); iter != m_WantSpeakerList.end(); iter++ )
     {
         if( *iter == mediaModule )
@@ -97,8 +98,7 @@ void AudioMgr::toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeake
         m_WantSpeakerList.emplace_back( mediaModule );
     }
 
-    bool enableSpeaker = !m_WantSpeakerList.empty();
-    size_t wantSpeakerCnt = getWantSpeakerCount();
+    size_t wantSpeakerCnt = m_WantSpeakerList.size();
     m_WantSpeakerMutex.unlock();
 
     if( prevWantSpeakerCnt != wantSpeakerCnt )
@@ -106,16 +106,36 @@ void AudioMgr::toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeake
         if( !prevWantSpeakerCnt && wantSpeakerCnt )
         {
             // speaker count went from 0 to 1, enable speaker
-            m_AudioOutIo.startAudioOut();
+            enableAudioOut( true );
         }
         else if( prevWantSpeakerCnt && !wantSpeakerCnt )
         {
             // speaker count went from 1 to 0, disable speaker
-            m_AudioOutIo.stopAudioOut();
+            enableAudioOut( false );
         }
 
         updateWantSpeakerCount( static_cast<int>(wantSpeakerCnt) );
     }
 
     if( LogEnabled( eLogVoice ) ) LogModule( eLogVoice, LOG_DEBUG, "AudioMgr::%s want speaker? %d module %s cnt %d", __func__, wantSpeakerOutput, DescribeMediaModule( mediaModule ), wantSpeakerCnt );
+}
+
+//============================================================================
+void AudioMgr::wantAudioOutSpaceAvailableCallback( AudioCallbackSpaceAvailable* callback, bool want )
+{
+    auto iter = std::find( m_AudioOutSpaceAvailableClientList.begin(), m_AudioOutSpaceAvailableClientList.end(), callback );
+    if( want )
+    {
+        if( iter == m_AudioOutSpaceAvailableClientList.end() )
+        {
+            m_AudioOutSpaceAvailableClientList.emplace_back( callback );
+        }
+    }
+    else
+    {    
+        if( iter != m_AudioOutSpaceAvailableClientList.end() )
+        {
+            m_AudioOutSpaceAvailableClientList.erase( iter );
+        }
+    }
 }

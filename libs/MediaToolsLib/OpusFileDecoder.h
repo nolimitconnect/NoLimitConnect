@@ -50,7 +50,7 @@ public:
 	int							decodedNextFrame( uint8_t * frameBuffer, int frameBufferLen );
 	void						finishFileDecode( bool abortedByUser = false );
 
-	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen );
+	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLenBytes );
 
 protected:
 	int							moveOpusFramesToOutput( uint8_t * outBuffer );

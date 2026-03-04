@@ -43,7 +43,7 @@ public:
 	virtual void				onPktVoiceReply						( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent );
 
     virtual void				callbackOpusPkt( PktVoiceReq* pktOpusAudio );
-	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen );
+	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLenBytes );
 
 	virtual bool				addPushToTalkUserTx( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase );
 	virtual bool				addPushToTalkUserRx( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase );

@@ -13,14 +13,14 @@
 
 #include "SoundDefs.h"
 
-#include <CoreLib/MediaCallbackInterface.h>
+#include <CoreLib/AudioCallbackSpaceAvailable.h>
 #include <CoreLib/VxGUID.h>
 
 #include <vector>
 
 class MediaProcessor;
 
-class VxSndInstance : public QObject, public MediaCallbackInterface
+class VxSndInstance : public QObject, public AudioCallbackSpaceAvailable
 {
 public:
 	VxSndInstance( ESndDef sndDef, QObject* parent = nullptr );
@@ -37,14 +37,12 @@ public:
 protected:
 	bool						initSndInstance( void );
 
-	void						callbackAudioOutSpaceAvail( int freeSpaceLen ) override;
+	void						callbackAudioOutSpaceAvail( int freeSpaceLenBytes ) override;
 
 	void						wantAudioCallbacks( bool wantCallbacks );
 
 	//=== vars ===//
 	ESndDef						m_SndDef{ eSndDefNone };
-	MediaProcessor*				m_MediaProcessor{ nullptr };
-	VxGUID						m_MyOnlineId;
 
 	bool						m_IsPlaying{ false };
 	bool						m_IsInitialized{ false };
@@ -54,6 +52,6 @@ protected:
 	int							m_WavChannels{ 0 };
 	int							m_PlaySndIdx{ 0 };
 	bool						m_EffectsAudioCallbacksRequested{ false };
-	VxGUID						m_MediaSessionId;
+
 };
 

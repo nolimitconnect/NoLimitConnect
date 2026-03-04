@@ -45,8 +45,8 @@ public:
     
     virtual void                writeMixerAudioToSpeakerHardware( int16_t* pcmData, int sampleCount ) = 0;
 
-    virtual void                callbackAudioOut60msSpaceAvail( int freeSpaceLen );
-    virtual void				fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen );
+    virtual void                callbackAudioOut60msSpaceAvail( int freeSpaceLenBytes );
+    virtual void				fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLenBytes );
 
     float                       calculateMsOfSamples( int sampleCount );
 

@@ -10,6 +10,7 @@
 //============================================================================
 
 #include "VxDefs.h"
+#include "AudioCallbackSpaceAvailable.h"
 
 #include <memory>
 #include <vector>
@@ -20,13 +21,12 @@ class PktVideoFeedPic;
 class PktVideoFeedPicChunk;
 class VxGUID;
 
-class MediaCallbackInterface
+class MediaCallbackInterface : public AudioCallbackSpaceAvailable
 {
 public:
 	virtual void				callbackPcm( VxGUID& feedId, int16_t* pcmData, uint16_t pcmDataLen ){};
 	virtual void				callbackOpusEncoded( uint8_t* encodedAudio, std::vector<uint16_t>& encodedLenList ){};
 	virtual void				callbackOpusPkt( PktVoiceReq* pktOpusAudio ){};
-	virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen ){};
 
 	virtual void				callbackVideoJpg( VxGUID& vidFeedId, std::shared_ptr<CamJpgVideo>& jpgVideo ){};
 	virtual void				callbackVideoPktPic( VxGUID& onlineId, PktVideoFeedPic* pktVid, int pktsInSequence, int thisPktNum ){};

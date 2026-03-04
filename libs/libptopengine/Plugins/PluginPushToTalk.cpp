@@ -152,9 +152,9 @@ void PluginPushToTalk::callbackOpusPkt( PktVoiceReq * pktOpusAudio )
 }
 
 //============================================================================
-void PluginPushToTalk::callbackAudioOutSpaceAvail( int freeSpaceLen )
+void PluginPushToTalk::callbackAudioOutSpaceAvail( int freeSpaceLenBytes )
 {
-	m_PushToTalkFeedMgr.callbackAudioOutSpaceAvail( freeSpaceLen );
+	m_PushToTalkFeedMgr.callbackAudioOutSpaceAvail( freeSpaceLenBytes );
 }
 
 //============================================================================

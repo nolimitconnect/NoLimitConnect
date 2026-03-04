@@ -92,8 +92,8 @@ void AudioMgr::audioIoSystemShutdown()
 {
     if( m_AudioIoInitialized )
     {
-        wantAudioIn( false );
-        wantAudioOut( false );
+        enableAudioIn( false );
+        enableAudioOut( false );
         m_AudioIoInitialized = false;
         m_MyApp.wantToGuiHardwareCtrlCallbacks( this, false );
 	    audioIoSystemShutdown();
@@ -105,35 +105,35 @@ void AudioMgr::audioIoSystemShutdown()
 }
 
 //============================================================================
-void AudioMgr::wantAudioIn( bool wanted )
+void AudioMgr::enableAudioIn( bool enable )
 {
-    setIsMicrophoneWanted( wanted );
+    setIsMicrophoneWanted( enable );
 
-    if( wanted )
+    if( enable )
     {
         startAudioInWorker();
-        m_AudioInIo.startAudioIn();
+        m_AudioInIo.startAudioInHardware();
     }
     else
     {
-        m_AudioInIo.stopAudioIn();
+        m_AudioInIo.stopAudioInHardware();
         stopAudioInWorker();
     }
 }
 
 //============================================================================
-void AudioMgr::wantAudioOut( bool wanted )
+void AudioMgr::enableAudioOut( bool enable )
 {
-    setIsSpeakerWanted( wanted );
+    setIsSpeakerWanted( enable );
 
-    if( wanted )
+    if( enable )
     {
         startAudioOutWorker();
-        m_AudioOutIo.startAudioOut();
+        m_AudioOutIo.startAudioOutHardware();
     }
     else
     {
-        m_AudioOutIo.stopAudioOut();
+        m_AudioOutIo.stopAudioOutHardware();
         stopAudioOutWorker();
     }
 }

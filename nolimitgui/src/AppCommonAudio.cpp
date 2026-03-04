@@ -68,7 +68,7 @@ void AppCommon::toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeak
 		return;
 	}
 
-	if( mediaModule != eMediaModuleSoundEffects )
+    if( mediaModule != eMediaModuleSoundFx )
 	{
 		if( LogEnabled( eLogVoice ) ) LogModule( eLogVoice, LOG_VERBOSE, "AppCommon::%s want speaker? %d module %s", __func__, wantSpeakerOutput, DescribeMediaModule( mediaModule ) );
 	}

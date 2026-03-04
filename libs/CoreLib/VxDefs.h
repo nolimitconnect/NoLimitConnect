@@ -14,21 +14,6 @@
 
 #include <CoreLib/config_corelib.h>
 
-#pragma pack(push)
-#pragma pack(1)
-
-typedef union U128
-{
-	struct 
-	{
-		uint64_t  m_u64HiPart;
-		uint64_t  m_u64LoPart;
-	};
-	unsigned char m_u128AsBytes[16];
-} U128;
-
-#pragma pack(pop)
-
 // to avoid multiple defines and missing defines
 //#define VXMIN(_a,_b)      ((_a)<(_b)?(_a):(_b))
 //#define VXMAX(_a,_b)      ((_a)>(_b)?(_a):(_b))

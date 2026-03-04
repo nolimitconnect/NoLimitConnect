@@ -67,7 +67,7 @@ bool MiniAudioOut::soundOutDeviceChanged( int deviceIndex )
         deviceIndex = 0;
     }
 
-    stopAudioOut();
+    stopAudioOutHardware();
     if( !m_AudioFormat.sampleRate() )
     {
         emit signalShowErrorFromThread( QObject::tr( "Sound Out Device" ), QObject::tr( "Sound Output Device Invalid Format" ) );
@@ -97,7 +97,7 @@ bool MiniAudioOut::soundOutDeviceChanged( int deviceIndex )
 
         if( m_AudioIoMgr.getIsSpeakerWanted() )
         {
-            startAudioOut();
+            startAudioOutHardware();
         }
     }
     else
@@ -109,7 +109,7 @@ bool MiniAudioOut::soundOutDeviceChanged( int deviceIndex )
 }
 
 //============================================================================
-void MiniAudioOut::wantSpeakerOutput( bool enableOutput )
+void MiniAudioOut::wantSpeakerOutputHardware( bool enableOutput )
 {
     m_SpeakerOutputEnabled = enableOutput;
 
@@ -118,14 +118,14 @@ void MiniAudioOut::wantSpeakerOutput( bool enableOutput )
         if( !m_AudioOutDeviceIsStarted )
         {
             m_AudioIoMgr.setNeedAudioOutDeviceStop( false );
-            m_AudioOutDeviceIsStarted = startAudioOutDevice();
+            m_AudioOutDeviceIsStarted = startAudioOutHardware();
             if( m_AudioOutDeviceIsStarted )
             {
                 m_AudioIoMgr.setIsSpeakerRunning( true );
             }
             else
             {
-                LogMsg( LOG_DEBUG, "MiniAudioOut::wantSpeakerOutput failed to start audio out device" );
+                LogMsg( LOG_DEBUG, "MiniAudioOut::wantSpeakerOutputHardware failed to start audio out device" );
             }
         }
     }
@@ -136,7 +136,7 @@ void MiniAudioOut::wantSpeakerOutput( bool enableOutput )
 }
 
 //============================================================================
-void MiniAudioOut::startAudioOut( void )
+bool MiniAudioOut::startAudioOutHardware( void )
 {
     if( !m_AudioOutDeviceIsStarted )
     {
@@ -147,13 +147,15 @@ void MiniAudioOut::startAudioOut( void )
         }
         else
         {
-            LogMsg( LOG_DEBUG, "MiniAudioOut::startAudioOut failed " );
+            LogMsg( LOG_DEBUG, "MiniAudioOut::startAudioOutHardware failed " );
         }
     } 
+    
+    return m_AudioOutDeviceIsStarted;
 }
 
 //============================================================================
-void MiniAudioOut::stopAudioOut( void )
+void MiniAudioOut::stopAudioOutHardware( void )
 {
     if( m_AudioOutDeviceIsStarted )
     {

@@ -264,7 +264,7 @@ void OpusFileDecoder::enableSpaceAvailCallback( bool enableCallback, bool lockRe
 }
 
 //============================================================================
-void OpusFileDecoder::callbackAudioOutSpaceAvail( int freeSpaceLen )
+void OpusFileDecoder::callbackAudioOutSpaceAvail( int freeSpaceLenBytes )
 {
 	static int64_t lastCallMs = 0;
 	int64_t thisCallMs = GetGmtTimeMs();
@@ -274,7 +274,7 @@ void OpusFileDecoder::callbackAudioOutSpaceAvail( int freeSpaceLen )
 	{
 		int decodedLen = 0;
 		m_ResourceMutex.lock();
-		if( freeSpaceLen >= MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN )
+		if( freeSpaceLenBytes >= MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN )
 		{
 			uint8_t buf[MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN];
 			decodedLen = decodedNextFrame( buf, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );

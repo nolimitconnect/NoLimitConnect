@@ -63,12 +63,12 @@ bool AppGlobals::saveUserIdentToDatabase( void )
 void AppGlobals::launchWebBrowser( const char* pUri )
 {
 	// NOTE:qt crashes studio sometimes when openUrl so use ShellExecute
-#ifdef TARGET_OS_WINDOWS
-	ShellExecuteA(0, 0, pUri, 0, 0 , SW_SHOW );
-#else
+// #ifdef TARGET_OS_WINDOWS
+// 	ShellExecuteA(0, 0, pUri, 0, 0 , SW_SHOW );
+// #else
 	QString strUrl = pUri;
 	QDesktopServices::openUrl( QUrl(strUrl, QUrl::TolerantMode) );
-#endif //TARGET_OS_WINDOWS
+// #endif //TARGET_OS_WINDOWS
 }
 
 //============================================================================

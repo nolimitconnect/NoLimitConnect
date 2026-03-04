@@ -139,9 +139,9 @@ void PluginVideoPhone::callbackOpusPkt( PktVoiceReq* pktOpusAudio )
 }
 
 //============================================================================
-void PluginVideoPhone::callbackAudioOutSpaceAvail( int freeSpaceLen )
+void PluginVideoPhone::callbackAudioOutSpaceAvail( int freeSpaceLenBytes )
 {
-	m_VoiceFeedMgr.callbackAudioOutSpaceAvail( freeSpaceLen );
+	m_VoiceFeedMgr.callbackAudioOutSpaceAvail( freeSpaceLenBytes );
 }
 
 //============================================================================

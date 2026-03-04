@@ -49,7 +49,7 @@ protected:
 	virtual void				onPktSessionStopReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 
     virtual void				callbackOpusPkt( PktVoiceReq * pktOpusAudio ) override;
-    virtual void				callbackAudioOutSpaceAvail( int freeSpaceLen ) override;
+    virtual void				callbackAudioOutSpaceAvail( int freeSpaceLenBytes ) override;
 
     virtual void				callbackVideoPktPic( VxGUID& onlineId, PktVideoFeedPic * pktVid, int pktsInSequence, int thisPktNum ) override;
     virtual void				callbackVideoPktPicChunk( VxGUID& onlineId, PktVideoFeedPicChunk * pktVid, int pktsInSequence, int thisPktNum ) override;

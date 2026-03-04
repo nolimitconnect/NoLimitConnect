@@ -49,11 +49,14 @@ enum EMediaModule
     eMediaModuleRandomConnectClient,
     eMediaModuleRandomConnectHost,
     eMediaModuleSnapshot,
-    eMediaModuleSoundEffects,
-    eMediaModuleTest,
+
     eMediaModuleTruthOrDare,
     eMediaModuleVideoPhone,
     eMediaModuleVoicePhone,
+
+    eMediaModuleSoundFx,
+    eMediaModuleSoundSettings,
+    eMediaModuleSoundTest,
 
     eMaxMediaModule // must be last
 };

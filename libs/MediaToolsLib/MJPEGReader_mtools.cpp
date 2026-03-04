@@ -1106,7 +1106,7 @@ void MJPEGReader::readerThread( void )
 
 
 //============================================================================
-void MJPEGReader::callbackAudioOutSpaceAvail( int freeSpaceLen )
+void MJPEGReader::callbackAudioOutSpaceAvail( int freeSpaceLenBytes )
 {
 	if( !getIsPlaying() || getIsPlayingPaused() )
 	{

@@ -193,7 +193,7 @@ public:
 												bool						wantInput );
 
 	void						fromGuiEchoCanceledSamplesThreaded( const int16_t* pcmData, int sampleCnt );
-	void						fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLen );
+	void						fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLenBytes );
 
 	void						increasePcmSampleVolume( int16_t * pcmData, uint16_t pcmDataLen, float volumePercent0To100 );
 	void						playAudio( int16_t * pcmData, int dataLenInBytes );
