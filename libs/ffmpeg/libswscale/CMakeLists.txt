@@ -78,6 +78,14 @@ list(APPEND swscale_SOURCES
 
 )
 
+if(NOT DEFINED TARGET_OS_ANDROID)
+    foreach(ffmpeg_src IN LISTS swscale_SOURCES)
+        if(ffmpeg_src MATCHES "\\.asm$")
+            set_source_files_properties(${ffmpeg_src} PROPERTIES LANGUAGE ASM_NASM)
+        endif()
+    endforeach()
+endif()
+
 add_library(swscale STATIC ${swscale_SOURCES})
 
 target_include_directories(swscale

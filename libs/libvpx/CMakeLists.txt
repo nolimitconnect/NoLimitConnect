@@ -1,7 +1,19 @@
 
 cmake_minimum_required (VERSION 3.16.3)
 
-project(vpx, LANGUAGES C CXX ASM)
+project(vpx, LANGUAGES C CXX)
+
+# Use NASM/YASM for x64 assembly sources on desktop targets.
+# Android ARM builds in this tree use C/NEON sources and should not initialize ASM here.
+if(DEFINED TARGET_CPU_X64 AND NOT DEFINED TARGET_OS_ANDROID)
+    enable_language(ASM_NASM)
+    set(CMAKE_ASM_NASM_SOURCE_FILE_EXTENSIONS nasm asm)
+    if(DEFINED TARGET_OS_WINDOWS)
+        set(CMAKE_ASM_NASM_OBJECT_FORMAT win64)
+    elseif(DEFINED TARGET_OS_LINUX)
+        set(CMAKE_ASM_NASM_OBJECT_FORMAT elf64)
+    endif()
+endif()
 
 set(vpx_SOURCES)
 
@@ -911,6 +923,12 @@ if(DEFINED TARGET_CPU_ARM64)
         )
     endif()
 endif()
+
+foreach(vpx_src IN LISTS vpx_SOURCES)
+    if(vpx_src MATCHES "\\.asm$")
+        set_source_files_properties(${vpx_src} PROPERTIES LANGUAGE ASM_NASM)
+    endif()
+endforeach()
 
 add_library(vpx STATIC ${vpx_SOURCES})
 

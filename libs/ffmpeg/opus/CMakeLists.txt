@@ -302,6 +302,14 @@ list(APPEND ffmpegopus_HEADERS
     silk/typedef.h
 )
 
+if(NOT DEFINED TARGET_OS_ANDROID)
+    foreach(ffmpeg_src IN LISTS ffmpegopus_SOURCES)
+        if(ffmpeg_src MATCHES "\\.asm$")
+            set_source_files_properties(${ffmpeg_src} PROPERTIES LANGUAGE ASM_NASM)
+        endif()
+    endforeach()
+endif()
+
 
 add_library(ffmpegopus STATIC ${ffmpegopus_SOURCES} ${ffmpegopus_HEADERS})
 

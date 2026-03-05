@@ -139,6 +139,14 @@ list(APPEND x265_SOURCES
     #   x265.cpp
 )
 
+if(NOT DEFINED TARGET_OS_ANDROID)
+    foreach(x265_src IN LISTS x265_SOURCES)
+        if(x265_src MATCHES "\\.asm$")
+            set_source_files_properties(${x265_src} PROPERTIES LANGUAGE ASM_NASM)
+        endif()
+    endforeach()
+endif()
+
 add_library(x265 STATIC ${x265_SOURCES})
 
 if(DEFINED TARGET_OS_LINUX AND DEFINED TARGET_CPU_ARM64)

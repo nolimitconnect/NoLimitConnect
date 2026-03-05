@@ -67,6 +67,14 @@ list(APPEND swresample_SOURCES
 
 )
 
+if(NOT DEFINED TARGET_OS_ANDROID)
+    foreach(ffmpeg_src IN LISTS swresample_SOURCES)
+        if(ffmpeg_src MATCHES "\\.asm$")
+            set_source_files_properties(${ffmpeg_src} PROPERTIES LANGUAGE ASM_NASM)
+        endif()
+    endforeach()
+endif()
+
 add_library(swresample STATIC ${swresample_SOURCES})
 
 target_compile_definitions(swresample

@@ -37,6 +37,44 @@
                     "value": "F:/Qt/6.9.3/msvc2022_64/bin;${env:PATH}"
                 }
             ],
+        },
+        {
+            "name": "Android Debug nolimitconnect (Windows host)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${input:androidSymbolFile}",
+            "cwd": "${workspaceFolder}",
+            "MIMode": "lldb",
+            "miDebuggerPath": "${input:androidLldbPath}",
+            "miDebuggerServerAddress": "localhost:5039",
+            "stopAtEntry": false,
+            "externalConsole": false,
+            "preLaunchTask": "Android: Start app + forward LLDB (5039)",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "sourceFileMap": {
+                "/proc/self/cwd": "${workspaceFolder}",
+                "/": "${workspaceFolder}"
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "androidLldbPath",
+            "type": "promptString",
+            "description": "Path to NDK LLDB launcher",
+            "default": "F:/Android/Sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/windows-x86_64/bin/lldb.cmd"
+        },
+        {
+            "id": "androidSymbolFile",
+            "type": "promptString",
+            "description": "Path to native symbol file (.so)",
+            "default": "${workspaceFolder}/build/android-arm64-debug/nolimitgui/libnolimitconnect_arm64-v8a.so"
         }
     ]
 }

@@ -94,6 +94,14 @@ list(APPEND x264_SOURCES
     # common/opencl_x264.c
 )
 
+if(NOT DEFINED TARGET_OS_ANDROID)
+    foreach(x264_src IN LISTS x264_SOURCES)
+        if(x264_src MATCHES "\\.asm$")
+            set_source_files_properties(${x264_src} PROPERTIES LANGUAGE ASM_NASM)
+        endif()
+    endforeach()
+endif()
+
 add_library(x264 STATIC ${x264_SOURCES})
 
 target_compile_definitions(x264 PUBLIC 

@@ -15,6 +15,19 @@
                 "${file}"
             ],
             "problemMatcher": []
+        },
+        {
+            "label": "Android: Start app + forward LLDB (5039)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "F:/Android/Sdk/platform-tools/adb.exe start-server; F:/Android/Sdk/platform-tools/adb.exe shell am start -n com.nolimitconnect.nolimitconnect/org.qtproject.qt.android.bindings.QtActivity; F:/Android/Sdk/platform-tools/adb.exe forward tcp:5039 tcp:5039"
+            ],
+            "problemMatcher": []
         }
     ]
 }

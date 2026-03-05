@@ -1,6 +1,18 @@
 
 cmake_minimum_required(VERSION 3.22.1)
 
+# CMake 4.2+: MSVC is no longer treated as an ASM compiler.
+# Keep Android on clang for ASM and use NASM for non-Android builds.
+if(POLICY CMP0194)
+    cmake_policy(SET CMP0194 OLD)
+endif()
+
+# Keep MSVC runtime selection on legacy flag mode so ASM-based subprojects
+# are not validated against CMAKE_MSVC_RUNTIME_LIBRARY.
+if(POLICY CMP0091)
+    cmake_policy(SET CMP0091 OLD)
+endif()
+
 project(MainSystem LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -198,7 +210,7 @@ set(BUILD_SYSTEM_QCREATOR false)
 set(BUILD_SYSTEM_CI_PIPELINE false)
 set(BUILD_SYSTEM_VISUAL_CODE false)
 
-project(nolimitconnect LANGUAGES C CXX ASM)
+project(nolimitconnect LANGUAGES C CXX)
 
 # if linux we can use the arch command to determine host cpu and assuming it is not cross compiled then set default
 set(NLC_BUILD_HOST_ARCH "")
@@ -305,7 +317,9 @@ if(DEFINED FLATPAKBUILD)
     # set(NLC_BUILD_TYPE debug)
     set(NLC_BUILD_TYPE release)
 
-    enable_language(ASM_NASM)
+    if(NOT CMAKE_SYSTEM_NAME STREQUAL "Android")
+        enable_language(ASM_NASM)
+    endif()
     set(CMAKE_ASM_NASM_OBJECT_FORMAT elf64)
     set(CMAKE_ASM_NASM_SOURCE_FILE_EXTENSIONS nasm asm)
     
@@ -667,7 +681,6 @@ else()
                 message(STATUS "qt prefix path ${CMAKE_PREFIX_PATH}")
 
                 enable_language(ASM_NASM)
-                project(nolimitconnect LANGUAGES C CXX ASM)
                 set(CMAKE_ASM_NASM_OBJECT_FORMAT elf64)
                 set(CMAKE_ASM_NASM_SOURCE_FILE_EXTENSIONS nasm asm)
 
@@ -700,6 +713,7 @@ else()
 
     if(DEFINED TARGET_OS_ANDROID)
         message(STATUS "*** TARGET_OS_ANDROID ***")
+        enable_language(ASM)
         add_compile_definitions(ANDROID)
         set(CMAKE_SYSTEM_NAME Android)
         set(ANDROID_PLATFORM "android-23")

@@ -247,6 +247,14 @@ list(APPEND dav1d_HEADERS
     src/msac_dav1d.h
 )
 
+if(NOT DEFINED TARGET_OS_ANDROID)
+    foreach(dav1d_src IN LISTS dav1d_SOURCES)
+        if(dav1d_src MATCHES "\\.asm$")
+            set_source_files_properties(${dav1d_src} PROPERTIES LANGUAGE ASM_NASM)
+        endif()
+    endforeach()
+endif()
+
 add_library(dav1d STATIC ${dav1d_SOURCES} ${dav1d_HEADERS})
 
 target_include_directories(dav1d

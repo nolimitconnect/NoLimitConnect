@@ -568,6 +568,14 @@ list(APPEND avformat_SOURCES
 
 )
 
+if(NOT DEFINED TARGET_OS_ANDROID)
+    foreach(ffmpeg_src IN LISTS avformat_SOURCES)
+        if(ffmpeg_src MATCHES "\\.asm$")
+            set_source_files_properties(${ffmpeg_src} PROPERTIES LANGUAGE ASM_NASM)
+        endif()
+    endforeach()
+endif()
+
 add_library(avformat STATIC ${avformat_SOURCES})
 
 target_include_directories(avformat

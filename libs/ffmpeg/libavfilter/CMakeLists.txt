@@ -594,6 +594,14 @@ list(APPEND avfilter_SOURCES
     yadif_common.c
 )
 
+if(NOT DEFINED TARGET_OS_ANDROID)
+    foreach(ffmpeg_src IN LISTS avfilter_SOURCES)
+        if(ffmpeg_src MATCHES "\\.asm$")
+            set_source_files_properties(${ffmpeg_src} PROPERTIES LANGUAGE ASM_NASM)
+        endif()
+    endforeach()
+endif()
+
 add_library(avfilter STATIC ${avfilter_SOURCES})
 
 target_include_directories(avfilter

@@ -157,6 +157,14 @@ list(APPEND avutil_SOURCES
     xtea.c
 )
 
+if(NOT DEFINED TARGET_OS_ANDROID)
+    foreach(ffmpeg_src IN LISTS avutil_SOURCES)
+        if(ffmpeg_src MATCHES "\\.asm$")
+            set_source_files_properties(${ffmpeg_src} PROPERTIES LANGUAGE ASM_NASM)
+        endif()
+    endforeach()
+endif()
+
 add_library(avutil STATIC ${avutil_SOURCES})
 
 target_include_directories(avutil
