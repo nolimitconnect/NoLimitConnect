@@ -28,8 +28,6 @@ public:
     ~WebRtcAec();
 
     void                        setStreamFormat( int sample_rate_hz, size_t channels );
-
-    void                        setUseMobileAec( bool enableMobileAec );
     
     void                        setAgcEnabled( bool enabled );
     bool                        isAgcEnabled( void ) const;

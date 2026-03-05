@@ -95,7 +95,6 @@ protected slots:
     void                        slotVerboseLogEnable( bool verboseLogEnabled );
 
     void                        slotAgcEnable( int checkedState );
-    void                        slotUseMobileAecCheckBox( int checkedState );
 
 protected:
     void                        showEvent( QShowEvent* ev ) override;

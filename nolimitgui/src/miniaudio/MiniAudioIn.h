@@ -47,9 +47,7 @@ public:
 
     int                         getMicWriteDurationUs( void )       { return m_MicWriteDurationUs; }
 
-    void						echoCancelSyncStateThreaded( bool inSync );
-
-	int                         getHardwareDelayMs( void );
+    int                         getHardwareDelayMs( void );
 
 protected:
 
@@ -67,6 +65,5 @@ protected:
 
     int                         m_MicWriteDurationUs{ 0 };
 
-    bool                        m_EchoCancelInSync{ false };
     bool                        m_MicInputEnabled{ false }; 
 };

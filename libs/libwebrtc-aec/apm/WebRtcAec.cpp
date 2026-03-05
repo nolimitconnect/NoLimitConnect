@@ -139,21 +139,6 @@ bool WebRtcAec::isAgcEnabled() const
 }
 
 //============================================================================
-void WebRtcAec::setUseMobileAec( bool enableMobileAec )
-{
-    std::lock_guard<std::mutex> lock(m_impl->mutex);
-    if (!m_impl->apm) 
-    {
-        return;
-    }
-
-    m_impl->apConfig.echo_canceller.enabled = !enableMobileAec;
-    m_impl->apConfig.echo_canceller.mobile_mode = enableMobileAec;
-
-    m_impl->apm->ApplyConfig(m_impl->apConfig);
-}
-
-//============================================================================
 void WebRtcAec::setEchoDelay( int delayMs )
 {
     std::lock_guard<std::mutex> lock(m_impl->mutex);

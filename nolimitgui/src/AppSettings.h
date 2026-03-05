@@ -212,9 +212,6 @@ public:
 
     void						setEchoDelayParam( int delayMs );
     int							getEchoDelayParam( void );
-	
-	void 						setUseMobileAec( bool enableMobileAec );
-	bool						getUseMobileAec( void );
 
 	void						setShowInWaveForm(  bool show );
 	bool						getShowInWaveForm( void );

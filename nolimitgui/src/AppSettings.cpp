@@ -1066,17 +1066,3 @@ bool AppSettings::getAgcEnabled( void )
 	getIniValue( getAppShortName(), "AgcEnabled", agcEnabled, false );
 	return agcEnabled;
 }
-
-//============================================================================
-void AppSettings::setUseMobileAec( bool enableMobileAec )
-{
-	setIniValue( getAppShortName(), "UseMobileAec", enableMobileAec );
-}
-
-//============================================================================
-bool AppSettings::getUseMobileAec( void )
-{
-	bool useMobileAec = true;
-	getIniValue( getAppShortName(), "UseMobileAec", useMobileAec, true );
-	return useMobileAec;
-}

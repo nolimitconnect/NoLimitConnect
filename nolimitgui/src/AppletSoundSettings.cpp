@@ -100,7 +100,6 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
     connect( ui.m_LogWidget, SIGNAL(signalVerboseLogEnable(bool)), this, SLOT(slotVerboseLogEnable(bool)) );
 
     connect( ui.m_AgcCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotAgcEnable(int)) );
-    connect( ui.m_UseMobileAecCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotUseMobileAecCheckBox(int)) );
 
     m_MyApp.activityStateChange( this, true );
 
@@ -608,7 +607,6 @@ void AppletSoundSettings::loadUiFromAppSettings( void )
     }
 
     ui.m_AgcCheckBox->setChecked( getAppSettings().getAgcEnabled() );
-    ui.m_UseMobileAecCheckBox->setChecked( getAppSettings().getUseMobileAec() );
 }
 
 //============================================================================
@@ -624,12 +622,4 @@ void AppletSoundSettings::slotAgcEnable( int checkedState )
     bool agcEnabled = ( checkedState != 0 );
     getAudioMgr().setAgcEnabled( agcEnabled );
     getAppSettings().setAgcEnabled( agcEnabled );
-}
-
-//============================================================================
-void AppletSoundSettings::slotUseMobileAecCheckBox( int checkedState )
-{
-    bool useMobileAec = ( checkedState != 0 );
-    getAudioMgr().setUseMobileAec( useMobileAec );
-    getAppSettings().setUseMobileAec( useMobileAec );
 }

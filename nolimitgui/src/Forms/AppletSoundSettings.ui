@@ -200,13 +200,6 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_10">
         <item>
-         <widget class="QCheckBox" name="m_UseMobileAecCheckBox">
-          <property name="text">
-           <string>Use Mobile AEC</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QCheckBox" name="m_AgcCheckBox">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">

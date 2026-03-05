@@ -161,7 +161,6 @@ public:
 	// Echo Cancel options
     void                        setAgcEnabled( bool enabled )             { m_Aec.setAgcEnabled( enabled ); }
     bool                        getAgcEnabled( void )                     { return m_Aec.isAgcEnabled(); }
-    void                        setUseMobileAec( bool enableMobileAec );
     
 signals:
     void                        signalAudioTestState( EAudioTestState audioTestState );

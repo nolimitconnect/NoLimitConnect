@@ -197,13 +197,6 @@ void AudioMgr::setEchoDelayParam( int delayMs )
 }
 
 //============================================================================
-void AudioMgr::setUseMobileAec( bool enableMobileAec )
-{ 
-    m_Aec.setUseMobileAec( enableMobileAec );
-    LogMsg( LOG_DEBUG, "%s set use mobile AEC to %d", __func__, enableMobileAec );
-}
-
-//============================================================================
 int AudioMgr::getWantMicrophoneCount( void ) 
 { 
     m_WantMicMutex.lock();
