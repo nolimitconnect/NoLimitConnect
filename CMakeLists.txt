@@ -3,6 +3,10 @@ cmake_minimum_required(VERSION 3.22.1)
 
 project(MainSystem LANGUAGES C CXX)
 
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 # --------------------------
 # Detect CPU architecture (only 64-bit allowed)
 # --------------------------
@@ -124,7 +128,7 @@ if(MSVC)
     add_compile_options(
         "$<$<OR:$<COMPILE_LANGUAGE:CXX>,$<COMPILE_LANGUAGE:C>>:/W0>"  # This turns off all warnings for windows builds
         "$<$<OR:$<COMPILE_LANGUAGE:CXX>,$<COMPILE_LANGUAGE:C>>:/Zc:strictStrings->"  # Disables specific check for string literal const-qualifiers
-        "$<$<OR:$<COMPILE_LANGUAGE:CXX>,$<COMPILE_LANGUAGE:C>>:/permissive>" # Allows non-const char* conversion (Legacy behavior).. Usually set by /std:c++17 or later
+        #"$<$<OR:$<COMPILE_LANGUAGE:CXX>,$<COMPILE_LANGUAGE:C>>:/permissive>" # Allows non-const char* conversion (Legacy behavior).. Usually set by /std:c++17 or later
     )
 
 else()
