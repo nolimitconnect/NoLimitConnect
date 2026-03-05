@@ -17,17 +17,74 @@
             "problemMatcher": []
         },
         {
-            "label": "Android: Start app + forward LLDB (5039)",
+            "label": "Open Project in Qt Creator",
             "type": "shell",
+            "command": "F:/Qt/Tools/QtCreator/bin/qtcreator.exe",
+            "args": [
+                "${workspaceFolder}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Android: Start app + forward LLDB (5039)",
+            "type": "process",
             "command": "powershell",
+            "options": {
+                "env": {
+                    "ANDROID_SERIAL": "GN42DM044394023L"
+                }
+            },
             "args": [
                 "-NoProfile",
                 "-ExecutionPolicy",
                 "Bypass",
-                "-Command",
-                "F:/Android/Sdk/platform-tools/adb.exe start-server; F:/Android/Sdk/platform-tools/adb.exe shell am start -n com.nolimitconnect.nolimitconnect/org.qtproject.qt.android.bindings.QtActivity; F:/Android/Sdk/platform-tools/adb.exe forward tcp:5039 tcp:5039"
+                "-File",
+                "${workspaceFolder}\\.vscode\\android-start-forward-lldb.ps1"
             ],
             "problemMatcher": []
+        },
+        {
+            "label": "Android: Set CMake Tools presets (android-arm64-debug)",
+            "type": "shell",
+            "command": "echo",
+            "args": [
+                "Switched CMake presets to ${input:cmakeSetAndroidConfigurePreset} / ${input:cmakeSetAndroidBuildPreset}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Android: CMake Configure (android-arm64-debug)",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--preset",
+                "android-arm64-debug"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Android: Prepare Debug Session",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Android: Set CMake Tools presets (android-arm64-debug)",
+                "Android: CMake Configure (android-arm64-debug)",
+                "Android: Start app + forward LLDB (5039)"
+            ],
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "cmakeSetAndroidConfigurePreset",
+            "type": "command",
+            "command": "cmake.setConfigurePreset",
+            "args": "android-arm64-debug"
+        },
+        {
+            "id": "cmakeSetAndroidBuildPreset",
+            "type": "command",
+            "command": "cmake.setBuildPreset",
+            "args": "android-arm64-debug"
         }
     ]
 }
