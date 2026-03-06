@@ -53,6 +53,44 @@
             "problemMatcher": []
         },
         {
+            "label": "Windows: Set CMake Tools presets (windows-debug)",
+            "type": "shell",
+            "command": "echo",
+            "args": [
+                "Switched CMake presets to ${input:cmakeSetWindowsConfigurePreset} / ${input:cmakeSetWindowsBuildPreset}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Windows: CMake Configure (windows-debug)",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--preset",
+                "windows-debug"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Linux: Set CMake Tools presets (linux-x64-debug)",
+            "type": "shell",
+            "command": "echo",
+            "args": [
+                "Switched CMake presets to ${input:cmakeSetLinuxConfigurePreset} / ${input:cmakeSetLinuxBuildPreset}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Linux: CMake Configure (linux-x64-debug)",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--preset",
+                "linux-x64-debug"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "Android: CMake Configure (android-arm64-debug)",
             "type": "process",
             "command": "cmake",
@@ -71,6 +109,24 @@
                 "Android: Start app + forward LLDB (5039)"
             ],
             "problemMatcher": []
+        },
+        {
+            "label": "Windows: Prepare Debug Session",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Windows: Set CMake Tools presets (windows-debug)",
+                "Windows: CMake Configure (windows-debug)"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Linux: Prepare Debug Session",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Linux: Set CMake Tools presets (linux-x64-debug)",
+                "Linux: CMake Configure (linux-x64-debug)"
+            ],
+            "problemMatcher": []
         }
     ],
     "inputs": [
@@ -85,6 +141,30 @@
             "type": "command",
             "command": "cmake.setBuildPreset",
             "args": "android-arm64-debug"
+        },
+        {
+            "id": "cmakeSetWindowsConfigurePreset",
+            "type": "command",
+            "command": "cmake.setConfigurePreset",
+            "args": "windows-debug"
+        },
+        {
+            "id": "cmakeSetWindowsBuildPreset",
+            "type": "command",
+            "command": "cmake.setBuildPreset",
+            "args": "windows-debug"
+        },
+        {
+            "id": "cmakeSetLinuxConfigurePreset",
+            "type": "command",
+            "command": "cmake.setConfigurePreset",
+            "args": "linux-x64-debug"
+        },
+        {
+            "id": "cmakeSetLinuxBuildPreset",
+            "type": "command",
+            "command": "cmake.setBuildPreset",
+            "args": "linux-x64-debug"
         }
     ]
 }

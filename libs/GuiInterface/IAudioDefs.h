@@ -9,7 +9,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-constexpr int AUDIO_DEVICE_SAMPLE_RATE = 24000;
+constexpr int AUDIO_DEVICE_SAMPLE_RATE = 16000;
 constexpr int AUDIO_CHANNELS = 1;	
 constexpr int AUDIO_BYTES_PER_SAMPLE = 2;			// PCM 2 bytes per sample
 

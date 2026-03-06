@@ -5,6 +5,7 @@
             "name": "Linux Debug nolimitconnect",
             "type": "cppdbg",
             "request": "launch",
+            "preLaunchTask": "Linux: Prepare Debug Session",
             "program": "${command:cmake.launchTargetPath}",
             "args": [],
             "stopAtEntry": false,
@@ -29,6 +30,7 @@
             "name": "Windows Debug nolimitconnect",
             "type": "cppvsdbg",
             "request": "launch",
+            "preLaunchTask": "Windows: Prepare Debug Session",
             "program": "${command:cmake.launchTargetPath}",
             "cwd": "${command:cmake.launchTargetDirectory}",
             "environment": [
