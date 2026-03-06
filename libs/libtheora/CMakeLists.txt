@@ -53,7 +53,7 @@ target_compile_definitions(theora
 target_compile_options( theora
     PRIVATE
     $<$<COMPILE_LANGUAGE:C>:
-        -Wno-no-shift-negative-value
+        -Wno-shift-negative-value
         -Wno-shift-op-parentheses
         -Wno-shift-negative-value
         -Wno-parentheses

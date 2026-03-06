@@ -5,11 +5,36 @@
             "name": "Linux Debug nolimitconnect",
             "type": "cppdbg",
             "request": "launch",
-            "preLaunchTask": "Linux: Prepare Debug Session",
-            "program": "${command:cmake.launchTargetPath}",
+            "preLaunchTask": "Build Linux Debug",
+            "program": "${workspaceFolder}/out/build/linux-x64-debug/nolimitgui/nolimitconnect",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${command:cmake.launchTargetDirectory}",
+            "cwd": "${workspaceFolder}/out/build/linux-x64-debug/nolimitgui",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "Linux Release nolimitconnect",
+            "type": "cppdbg",
+            "request": "launch",
+            "preLaunchTask": "Build Linux Release",
+            "program": "${workspaceFolder}/out/build/linux-x64-release/nolimitgui/nolimitconnect",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/out/build/linux-x64-release/nolimitgui",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -30,9 +55,9 @@
             "name": "Windows Debug nolimitconnect",
             "type": "cppvsdbg",
             "request": "launch",
-            "preLaunchTask": "Windows: Prepare Debug Session",
-            "program": "${command:cmake.launchTargetPath}",
-            "cwd": "${command:cmake.launchTargetDirectory}",
+            "preLaunchTask": "Build Windows Debug",
+            "program": "${workspaceFolder}/build/windows-debug/nolimitgui/nolimitconnect.exe",
+            "cwd": "${workspaceFolder}/build/windows-debug/nolimitgui",
             "environment": [
                 {
                     "name": "PATH",
@@ -41,30 +66,58 @@
             ],
         },
         {
-            "name": "Android Debug nolimitconnect (CodeLLDB)",
+            "name": "Windows Release nolimitconnect",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "preLaunchTask": "Build Windows Release",
+            "program": "${workspaceFolder}/build/windows-release/nolimitgui/nolimitconnect.exe",
+            "cwd": "${workspaceFolder}/build/windows-release/nolimitgui",
+            "environment": [
+                {
+                    "name": "PATH",
+                    "value": "F:/Qt/6.9.3/msvc2022_64/bin;${env:PATH}"
+                }
+            ],
+        },
+        {
+            "name": "Android Debug nolimitconnect (LLDB)",
             "type": "lldb",
-            "request": "custom",
+            "request": "launch",
             "cwd": "${workspaceFolder}",
-            "preLaunchTask": "Android: Prepare Debug Session",
+            "preLaunchTask": "Deploy Android Debug",
+            "program": "${workspaceFolder}/build/android-arm64-debug/nolimitgui/libnolimitconnect_arm64-v8a.so",
+            "initCommands": [
+                "platform select remote-android",
+                "settings set target.source-map /proc/self/cwd ${workspaceFolder}",
+                "settings set target.source-map / ${workspaceFolder}"
+            ],
             "targetCreateCommands": [
-                "target create \"${input:androidSymbolFile}\""
+                "target create \"${workspaceFolder}/build/android-arm64-debug/nolimitgui/libnolimitconnect_arm64-v8a.so\"",
+                "target symbols add \"${workspaceFolder}/build/android-arm64-debug/nolimitgui/libnolimitconnect_arm64-v8a.so\""
             ],
             "processCreateCommands": [
-                "platform select remote-android",
-                "process connect connect://localhost:5039"
-            ],
-            "sourceMap": {
-                "/proc/self/cwd": "${workspaceFolder}",
-                "/": "${workspaceFolder}"
-            }
-        }
-    ],
-    "inputs": [
+                "gdb-remote localhost:5039"
+            ]
+        },
         {
-            "id": "androidSymbolFile",
-            "type": "promptString",
-            "description": "Path to native symbol file (.so)",
-            "default": "${workspaceFolder}/build/android-arm64-debug/nolimitgui/libnolimitconnect_arm64-v8a.so"
+            "name": "Android Release nolimitconnect (LLDB)",
+            "type": "lldb",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "Deploy Android Release",
+            "program": "${workspaceFolder}/build/android-arm64-release/nolimitgui/libnolimitconnect_arm64-v8a.so",
+            "initCommands": [
+                "platform select remote-android",
+                "settings set target.source-map /proc/self/cwd ${workspaceFolder}",
+                "settings set target.source-map / ${workspaceFolder}"
+            ],
+            "targetCreateCommands": [
+                "target create \"${workspaceFolder}/build/android-arm64-release/nolimitgui/libnolimitconnect_arm64-v8a.so\"",
+                "target symbols add \"${workspaceFolder}/build/android-arm64-release/nolimitgui/libnolimitconnect_arm64-v8a.so\""
+            ],
+            "processCreateCommands": [
+                "gdb-remote localhost:5039"
+            ]
         }
     ]
 }

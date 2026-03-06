@@ -5,8 +5,8 @@
     },
     "cmake.useCMakePresets": "always",
     "cmake.useVsDeveloperEnvironment": "always",
-    "cmake.defaultConfigurePreset": "android-arm64-debug",
-    "cmake.defaultBuildPreset": "android-arm64-debug",
+    "cmake.defaultConfigurePreset": "windows-debug",
+    "cmake.defaultBuildPreset": "windows-debug",
 
     "cmake.configureOnOpen": true,
     "C_Cpp.errorSquiggles": "disabled",

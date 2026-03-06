@@ -31,7 +31,7 @@
             "command": "powershell",
             "options": {
                 "env": {
-                    "ANDROID_SERIAL": "GN42DM044394023L"
+                    "ANDROID_SERIAL": "R8YW510D8KW"
                 }
             },
             "args": [
@@ -39,74 +39,329 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-File",
-                "${workspaceFolder}\\.vscode\\android-start-forward-lldb.ps1"
+                "${workspaceFolder}\\.vscode\\android-start-forward-lldb.ps1",
+                "-DebugSocketWaitSeconds",
+                "15"
             ],
             "problemMatcher": []
         },
         {
-            "label": "Android: Set CMake Tools presets (android-arm64-debug)",
-            "type": "shell",
-            "command": "echo",
-            "args": [
-                "Switched CMake presets to ${input:cmakeSetAndroidConfigurePreset} / ${input:cmakeSetAndroidBuildPreset}"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "Windows: Set CMake Tools presets (windows-debug)",
-            "type": "shell",
-            "command": "echo",
-            "args": [
-                "Switched CMake presets to ${input:cmakeSetWindowsConfigurePreset} / ${input:cmakeSetWindowsBuildPreset}"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "Windows: CMake Configure (windows-debug)",
+            "label": "Configure Windows Debug",
             "type": "process",
-            "command": "cmake",
+            "command": "powershell",
             "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\.vscode\\cmake-with-msvc-env.ps1",
                 "--preset",
-                "windows-debug"
+                "windows-debug",
+                "--fresh"
             ],
             "problemMatcher": []
         },
         {
-            "label": "Linux: Set CMake Tools presets (linux-x64-debug)",
-            "type": "shell",
-            "command": "echo",
-            "args": [
-                "Switched CMake presets to ${input:cmakeSetLinuxConfigurePreset} / ${input:cmakeSetLinuxBuildPreset}"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "Linux: CMake Configure (linux-x64-debug)",
+            "label": "Configure Windows Release",
             "type": "process",
-            "command": "cmake",
+            "command": "powershell",
             "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\.vscode\\cmake-with-msvc-env.ps1",
                 "--preset",
-                "linux-x64-debug"
+                "windows-release",
+                "--fresh"
             ],
             "problemMatcher": []
         },
         {
-            "label": "Android: CMake Configure (android-arm64-debug)",
-            "type": "process",
-            "command": "cmake",
-            "args": [
-                "--preset",
-                "android-arm64-debug"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "Android: Prepare Debug Session",
+            "label": "Build Windows Debug",
             "dependsOrder": "sequence",
             "dependsOn": [
-                "Android: Set CMake Tools presets (android-arm64-debug)",
-                "Android: CMake Configure (android-arm64-debug)",
+                "Configure Windows Debug"
+            ],
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\.vscode\\cmake-with-msvc-env.ps1",
+                "--build",
+                "--preset",
+                "windows-debug",
+                "--target",
+                "nolimitconnect"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Windows Release",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Configure Windows Release"
+            ],
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\.vscode\\cmake-with-msvc-env.ps1",
+                "--build",
+                "--preset",
+                "windows-release",
+                "--target",
+                "nolimitconnect"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Windows Debug",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Windows Debug"
+            ],
+            "type": "process",
+            "command": "${workspaceFolder}/build/windows-debug/nolimitgui/nolimitconnect.exe",
+            "options": {
+                "env": {
+                    "PATH": "F:/Qt/6.9.3/msvc2022_64/bin;${env:PATH}"
+                }
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Windows Release",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Windows Release"
+            ],
+            "type": "process",
+            "command": "${workspaceFolder}/build/windows-release/nolimitgui/nolimitconnect.exe",
+            "options": {
+                "env": {
+                    "PATH": "F:/Qt/6.9.3/msvc2022_64/bin;${env:PATH}"
+                }
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Windows",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Windows Debug"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Windows",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Run Windows Debug"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Configure Android Debug",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--preset",
+                "android-arm64-debug",
+                "--fresh"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Configure Android Release",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--preset",
+                "android-arm64-release",
+                "--fresh"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Android Debug",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Configure Android Debug"
+            ],
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "android-arm64-debug",
+                "--target",
+                "nolimitconnect"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Android Release",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Configure Android Release"
+            ],
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "android-arm64-release",
+                "--target",
+                "nolimitconnect"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Deploy Android Debug",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Android Debug",
                 "Android: Start app + forward LLDB (5039)"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Deploy Android Release",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Android Release",
+                "Android: Start app + forward LLDB (5039)"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Android Debug",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Deploy Android Debug"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Android Release",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Deploy Android Release"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Android",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Android Debug"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Android",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Run Android Debug"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Configure Linux Debug",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--preset",
+                "linux-x64-debug",
+                "--fresh"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Configure Linux Release",
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--preset",
+                "linux-x64-release",
+                "--fresh"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Linux Debug",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Configure Linux Debug"
+            ],
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "linux-x64-debug",
+                "--target",
+                "nolimitconnect"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Linux Release",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Configure Linux Release"
+            ],
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "linux-x64-release",
+                "--target",
+                "nolimitconnect"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Linux Debug",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Linux Debug"
+            ],
+            "type": "process",
+            "command": "${workspaceFolder}/out/build/linux-x64-debug/nolimitgui/nolimitconnect",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Linux Release",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Linux Release"
+            ],
+            "type": "process",
+            "command": "${workspaceFolder}/out/build/linux-x64-release/nolimitgui/nolimitconnect",
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Linux",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Linux Debug"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Linux",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Run Linux Debug"
             ],
             "problemMatcher": []
         },
@@ -114,8 +369,15 @@
             "label": "Windows: Prepare Debug Session",
             "dependsOrder": "sequence",
             "dependsOn": [
-                "Windows: Set CMake Tools presets (windows-debug)",
-                "Windows: CMake Configure (windows-debug)"
+                "Build Windows Debug"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Android: Prepare Debug Session",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Deploy Android Debug"
             ],
             "problemMatcher": []
         },
@@ -123,48 +385,9 @@
             "label": "Linux: Prepare Debug Session",
             "dependsOrder": "sequence",
             "dependsOn": [
-                "Linux: Set CMake Tools presets (linux-x64-debug)",
-                "Linux: CMake Configure (linux-x64-debug)"
+                "Build Linux Debug"
             ],
             "problemMatcher": []
-        }
-    ],
-    "inputs": [
-        {
-            "id": "cmakeSetAndroidConfigurePreset",
-            "type": "command",
-            "command": "cmake.setConfigurePreset",
-            "args": "android-arm64-debug"
-        },
-        {
-            "id": "cmakeSetAndroidBuildPreset",
-            "type": "command",
-            "command": "cmake.setBuildPreset",
-            "args": "android-arm64-debug"
-        },
-        {
-            "id": "cmakeSetWindowsConfigurePreset",
-            "type": "command",
-            "command": "cmake.setConfigurePreset",
-            "args": "windows-debug"
-        },
-        {
-            "id": "cmakeSetWindowsBuildPreset",
-            "type": "command",
-            "command": "cmake.setBuildPreset",
-            "args": "windows-debug"
-        },
-        {
-            "id": "cmakeSetLinuxConfigurePreset",
-            "type": "command",
-            "command": "cmake.setConfigurePreset",
-            "args": "linux-x64-debug"
-        },
-        {
-            "id": "cmakeSetLinuxBuildPreset",
-            "type": "command",
-            "command": "cmake.setBuildPreset",
-            "args": "linux-x64-debug"
         }
     ]
 }
