@@ -208,13 +208,12 @@ list(APPEND GLU_SOURCES
     src/libutil/project.c
     src/libutil/quad.c
     src/libutil/registry.c
-
-
 )
 
 add_library(GLU STATIC ${GLU_SOURCES})
 
 target_include_directories(GLU PRIVATE
+    include
     src/include
     src/libnurbs/interface
     src/libnurbs/internals

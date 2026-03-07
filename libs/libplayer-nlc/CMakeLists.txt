@@ -623,6 +623,13 @@ target_compile_definitions(player-nlc
     HAVE_QT_GUI
 )
 
+if(DEFINED BUILD_SYSTEM_FLATPAK)
+    # glu is no longer available in flatpak-sdk, so we need to use our own library
+    target_include_directories(player-nlc PRIVATE
+        ${PROJECT_SRC_ROOT_DIR}/libs/libGLU/include       
+    )
+endif()
+
 if(DEFINED TARGET_OS_WINDOWS)
 
     target_include_directories(player-nlc
