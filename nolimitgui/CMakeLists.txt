@@ -1175,9 +1175,6 @@ target_link_libraries(nolimitconnect
     avutil
     ffmpegopus
 
-    fribidi
-    freetype
-
     miniupnpc
 
     ptopengine
@@ -1212,6 +1209,8 @@ if (DEFINED TARGET_OS_WINDOWS)
 
         gnu
         ass
+        fribidi
+        freetype
 
         iconv
         vxvideolib
@@ -1219,8 +1218,6 @@ if (DEFINED TARGET_OS_WINDOWS)
         tag
         theora
         twolame
-
-        freetype
 
         tinyxml
         xml2
@@ -1275,6 +1272,8 @@ if (DEFINED TARGET_OS_LINUX)
 
             gnu
             ass
+            fribidi
+            freetype
 
             iconv
 
@@ -1293,6 +1292,7 @@ if (DEFINED TARGET_OS_LINUX)
             CoreLib
             zlib
             crossguid
+            miniupnpc
 
             pthread
             dl
@@ -1321,6 +1321,7 @@ if (DEFINED TARGET_OS_LINUX)
             gnu
             ass
             fribidi
+            freetype
 
             iconv
 
@@ -1329,7 +1330,6 @@ if (DEFINED TARGET_OS_LINUX)
             theora
             twolame
 
-            fribidi
             freetype
 
             tinyxml
@@ -1341,8 +1341,8 @@ if (DEFINED TARGET_OS_LINUX)
             CoreLib
             zlib
             crossguid
-
             miniupnpc
+
             pthread
             dl
             GLU
@@ -1375,6 +1375,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
             gnu
             ass
             fribidi
+            freetype
 
             iconv
 
@@ -1400,8 +1401,8 @@ elseif (DEFINED TARGET_OS_ANDROID)
             CoreLib
             zlib
             crossguid
-
             miniupnpc
+
             dl
             m
             EGL
@@ -1430,7 +1431,8 @@ elseif (DEFINED TARGET_OS_ANDROID)
 
             gnu
             ass
-
+            fribidi
+            freetype
 
             iconv
 
@@ -1453,6 +1455,7 @@ elseif (DEFINED TARGET_OS_ANDROID)
             zlib
             crossguid
             miniupnpc
+
             dl
             m
             EGL
@@ -1474,12 +1477,6 @@ qt_finalize_target(nolimitconnect)
 
 if(DEFINED FLATPAKBUILD)
 
-    #message("** Enabling Flatpak workarounds")
-    #add_definitions(-DPQMFLATPAKBUILD)
-    #include_directories(${GLIB_INCLUDE_DIRS})
-    #target_link_libraries(nolimitconnect PRIVATE ${GLIB_LIBRARIES})
-    #target_link_libraries(nolimitconnect PRIVATE "gobject-2.0")
-    #target_link_libraries(nolimitconnect PRIVATE "gio-2.0")
 
     #set(INSTALL_DIR "") # empty to not complicate run command
 
