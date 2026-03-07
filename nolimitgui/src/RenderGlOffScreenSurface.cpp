@@ -476,8 +476,12 @@ QImage RenderGlOffScreenSurface::grabFramebufferInternal( QOpenGLFramebufferObje
     m_Glf->glViewport( 0, 0, m_SurfaceSize.width(), m_SurfaceSize.height() );
 
 //    m_GlWidget->VerifyGLStateQt();
-
-    return ( image.flipped( Qt::Vertical ) );
+    # if QT_VERSION > QT_VERSION_CHECK(9,0,0)
+        return ( image.flipped( Qt::Vertical ) );
+    # else
+        return ( image.mirrored() );
+    # endif
+    
 }  // RenderGlOffScreenSurface::grabFramebufferInternal
 
 //============================================================================

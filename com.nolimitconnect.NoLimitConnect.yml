@@ -44,7 +44,7 @@ modules:
     ########################
     # GLU 
     ########################
-  - shared-modules/glu/glu-9.json
+    # built in project instead of as submodule - shared-modules/glu/glu-9.json
     ########################
     # No Limit Connect
     ########################  
