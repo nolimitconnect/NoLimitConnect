@@ -20,10 +20,11 @@
 //   https://sourceforge.net/p/predef/wiki/Architectures/
 //   or with gcc, run: "echo | gcc -E -dM -"
 #if defined(_M_X64) || defined(__x86_64__)
-#define WEBRTC_ARCH_X86_FAMILY
-#define WEBRTC_ARCH_X86_64
-#define WEBRTC_ARCH_64_BITS
-#define WEBRTC_ARCH_LITTLE_ENDIAN
+// these are defined in CMakeLists.txt
+// #define WEBRTC_ARCH_X86_FAMILY
+// #define WEBRTC_ARCH_X86_64
+// #define WEBRTC_ARCH_64_BITS
+// #define WEBRTC_ARCH_LITTLE_ENDIAN
 #elif defined(_M_ARM64) || defined(__aarch64__)
 #define WEBRTC_ARCH_ARM_FAMILY
 #define WEBRTC_ARCH_64_BITS

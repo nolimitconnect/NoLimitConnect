@@ -29,12 +29,9 @@ list(APPEND zlib_SOURCES
 add_library(zlib STATIC ${zlib_SOURCES})
 
 if(NOT DEFINED TARGET_OS_WINDOWS)
-    target_compile_options( zlib
-        PRIVATE
-        $<$<COMPILE_LANGUAGE:C>:
-            -Wno-deprecated-non-prototype
-            -Wno-shift-negative-value
-        >
+    nlc_target_add_supported_warning_options(zlib C
+        -Wno-deprecated-non-prototype
+        -Wno-shift-negative-value
     )
 
 endif()

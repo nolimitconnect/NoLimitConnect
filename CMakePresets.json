@@ -12,8 +12,7 @@
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_MAKE_PROGRAM": "F:/Qt/Tools/Ninja/ninja.exe"
+                "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
@@ -22,8 +21,7 @@
             "generator": "Ninja",
             "binaryDir": "${sourceDir}/build/${presetName}",
             "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Release",
-                "CMAKE_MAKE_PROGRAM": "F:/Qt/Tools/Ninja/ninja.exe"
+                "CMAKE_BUILD_TYPE": "Release"
             }
         },
         {
@@ -46,6 +44,7 @@
                 "rhs": "Windows"
             },
             "cacheVariables": {
+                "CMAKE_MAKE_PROGRAM": "F:/Qt/Tools/Ninja/ninja.exe",
                 "CMAKE_PREFIX_PATH": "F:/Qt/6.9.3/msvc2022_64",
                 "QT_QMAKE_EXECUTABLE": "F:/Qt/6.9.3/msvc2022_64/bin/qmake.exe",
                 "CMAKE_POLICY_DEFAULT_CMP0092": "NEW"
@@ -65,6 +64,7 @@
                 "rhs": "Windows"
             },
             "cacheVariables": {
+                "CMAKE_MAKE_PROGRAM": "F:/Qt/Tools/Ninja/ninja.exe",
                 "CMAKE_SYSTEM_NAME": "Android",
                 "ANDROID_NDK": "F:/Android/Sdk/ndk/27.2.12479018",
                 "ANDROID_SDK_ROOT": "F:/Android/Sdk",
@@ -103,6 +103,7 @@
                 "rhs": "Windows"
             },
             "cacheVariables": {
+                "CMAKE_MAKE_PROGRAM": "F:/Qt/Tools/Ninja/ninja.exe",
                 "CMAKE_PREFIX_PATH": "F:/Qt/6.9.3/msvc2022_64",
                 "QT_QMAKE_EXECUTABLE": "F:/Qt/6.9.3/msvc2022_64/bin/qmake.exe",
                 "CMAKE_POLICY_DEFAULT_CMP0092": "NEW"
@@ -122,6 +123,7 @@
                 "rhs": "Windows"
             },
             "cacheVariables": {
+                "CMAKE_MAKE_PROGRAM": "F:/Qt/Tools/Ninja/ninja.exe",
                 "CMAKE_SYSTEM_NAME": "Android",
                 "ANDROID_NDK": "F:/Android/Sdk/ndk/27.2.12479018",
                 "ANDROID_SDK_ROOT": "F:/Android/Sdk",

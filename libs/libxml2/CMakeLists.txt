@@ -62,16 +62,13 @@ target_compile_definitions(xml2
     LIBXML_STATIC
 )
 
-target_compile_options( xml2
-    PRIVATE
-    $<$<COMPILE_LANGUAGE:C>:
-        -Wno-enum-compare
-        -Wno-enum-conversion
-        -Wno-empty-body
-        -Wno-switch
-        -Wno-tautological-pointer-compare
-        -Wno-tautological-compare
-    >
+nlc_target_add_supported_warning_options(xml2 C
+    -Wno-enum-compare
+    -Wno-enum-conversion
+    -Wno-empty-body
+    -Wno-switch
+    -Wno-tautological-pointer-compare
+    -Wno-tautological-compare
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

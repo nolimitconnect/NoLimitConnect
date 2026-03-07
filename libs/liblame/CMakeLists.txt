@@ -39,15 +39,12 @@ list(APPEND lame_SOURCES
 
 add_library(lame STATIC ${lame_SOURCES})
 
-target_compile_options( lame
-    PRIVATE
-    $<$<COMPILE_LANGUAGE:C>:
-        -Wno-shift-negative-value
-        -Wno-absolute-value
-        -Wno-tautological-constant-out-of-range-compare
-        -Wno-unused-value
-        -Wno-tautological-pointer-compare
-    >
+nlc_target_add_supported_warning_options(lame C
+    -Wno-shift-negative-value
+    -Wno-absolute-value
+    -Wno-tautological-constant-out-of-range-compare
+    -Wno-unused-value
+    -Wno-tautological-pointer-compare
 )
 
 if(DEFINED TARGET_OS_WINDOWS)

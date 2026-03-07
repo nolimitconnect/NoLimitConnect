@@ -29,11 +29,8 @@ list(APPEND twolame_SOURCES
 
 add_library(twolame STATIC ${twolame_SOURCES})
 
-target_compile_options( twolame
-    PRIVATE
-    $<$<COMPILE_LANGUAGE:C>:
-        -Wno-deprecated-non-prototype
-    >
+nlc_target_add_supported_warning_options(twolame C
+    -Wno-deprecated-non-prototype
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

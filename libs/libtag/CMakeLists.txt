@@ -113,11 +113,8 @@ list(APPEND tag_SOURCES
 
 add_library(tag STATIC ${tag_SOURCES})
 
-target_compile_options( tag
-    PRIVATE
-    $<$<COMPILE_LANGUAGE:CXX>:
-        -Wno-delete-abstract-non-virtual-dtor
-    >
+nlc_target_add_supported_warning_options(tag CXX
+    -Wno-delete-abstract-non-virtual-dtor
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

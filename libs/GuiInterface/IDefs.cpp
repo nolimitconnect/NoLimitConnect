@@ -66,13 +66,13 @@ MediaPlayerNlc& IMediaPlayerRequests::getNlcPlayer( void )
 ////============================================================================
 OsInterface& IMediaPlayerRequests::getOsInterface( void )
 {
-    #ifdef TARGET_OS_WINDOWS
+#if defined(TARGET_OS_WINDOWS)
     static IWin32 osInterface;
-    #elif TARGET_OS_LINUX
+#elif defined(TARGET_OS_LINUX)
     static ILinux osInterface;
-    #elif TARGET_OS_ANDROID
+#elif defined(TARGET_OS_ANDROID)
     static IAndroid osInterface;
-    #endif 
+#endif
 
     return osInterface;
 }

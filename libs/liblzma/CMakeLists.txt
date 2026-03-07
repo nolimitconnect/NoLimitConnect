@@ -84,11 +84,8 @@ list(APPEND lzma_SOURCES
 
 add_library(lzma STATIC ${lzma_SOURCES})
 
-target_compile_options( lzma
-    PRIVATE
-    $<$<COMPILE_LANGUAGE:C>:
-        -Wno-unused-value
-    >
+nlc_target_add_supported_warning_options(lzma C
+    -Wno-unused-value
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

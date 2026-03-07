@@ -100,15 +100,12 @@ target_compile_definitions(swscale
     ${ffmpeg_DEFINES}
 )
 
-target_compile_options(swscale
-    PRIVATE
-    $<$<COMPILE_LANGUAGE:C>:
-       -Wno-deprecated-declarations
-       -Wno-pointer-sign
-       -Wno-switch
-       -Wno-shift-op-parentheses
-       -Wno-dangling-else
-    >
+nlc_target_add_supported_warning_options(swscale C
+    -Wno-deprecated-declarations
+    -Wno-pointer-sign
+    -Wno-switch
+    -Wno-shift-op-parentheses
+    -Wno-dangling-else
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

@@ -90,12 +90,9 @@ if(DEFINED TARGET_OS_WINDOWS)
     set_property(TARGET freetype PROPERTY CXX_STANDARD 14)
     set_property(TARGET freetype PROPERTY CXX_STANDARD_REQUIRED OFF)
 else()
-    target_compile_options( freetype
-        PRIVATE
-        $<$<COMPILE_LANGUAGE:C>:
-            -Wno-undefined-internal
-            -Wno-deprecated-declarations
-        >
+    nlc_target_add_supported_warning_options(freetype C
+        -Wno-undefined-internal
+        -Wno-deprecated-declarations
     )
 
     list(APPEND freetype_SOURCES

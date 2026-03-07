@@ -189,12 +189,9 @@ add_library(CoreLib
     ${CoreLib_HEADERS}
 )
 
-target_compile_options(CoreLib
-    PRIVATE
-    $<$<COMPILE_LANGUAGE:CXX>:
-         -Wno-deprecated-declarations
-         -Wno-varargs
-    >
+nlc_target_add_supported_warning_options(CoreLib CXX
+    -Wno-deprecated-declarations
+    -Wno-varargs
 )
 
 target_compile_definitions(CoreLib

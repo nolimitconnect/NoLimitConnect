@@ -1180,11 +1180,10 @@ target_link_libraries(nolimitconnect
 
     miniupnpc
 
-    netlib
-    ogg
-    pktlib
-
     ptopengine
+    netlib
+
+    pktlib
 
     wav-decoder
 
@@ -1233,6 +1232,7 @@ if (DEFINED TARGET_OS_WINDOWS)
         zlib
         crossguid
         pthread
+        ogg
 
         opengl32
         glu32
@@ -1271,6 +1271,7 @@ if (DEFINED TARGET_OS_LINUX)
             speex
             lame
             vorbis2
+            ogg
 
             gnu
             ass
@@ -1315,6 +1316,7 @@ if (DEFINED TARGET_OS_LINUX)
             speex
             lame
             vorbis2
+            ogg
 
             gnu
             ass

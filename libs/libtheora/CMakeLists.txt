@@ -50,14 +50,11 @@ target_compile_definitions(theora
     LIBTHEORA_EXPORTS
 )
 
-target_compile_options( theora
-    PRIVATE
-    $<$<COMPILE_LANGUAGE:C>:
-        -Wno-shift-negative-value
-        -Wno-shift-op-parentheses
-        -Wno-shift-negative-value
-        -Wno-parentheses
-    >
+nlc_target_add_supported_warning_options(theora C
+    -Wno-shift-negative-value
+    -Wno-shift-op-parentheses
+    -Wno-shift-negative-value
+    -Wno-parentheses
 )
 
 target_include_directories(theora

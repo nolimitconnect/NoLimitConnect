@@ -47,7 +47,10 @@ if(DEFINED TARGET_CPU_ARM64)
 endif()
 
 if(DEFINED TARGET_CPU_X64)
-    add_compile_definitions(WEBRTC_ARCH_X86_64)
+    add_compile_definitions(WEBRTC_ARCH_X86_64
+        WEBRTC_ARCH_X86_FAMILY
+        WEBRTC_ARCH_64_BITS
+        WEBRTC_ARCH_LITTLE_ENDIAN)
 endif()
 
 if(DEFINED TARGET_OS_WINDOWS)

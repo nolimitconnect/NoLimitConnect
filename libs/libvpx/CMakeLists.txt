@@ -941,15 +941,12 @@ if(DEFINED TARGET_OS_WINDOWS)
     )
 
 else()
-    target_compile_options(vpx
-        PRIVATE
-        $<$<COMPILE_LANGUAGE:C>:
-             -Wno-missing-prototypes
-             -Wno-strict-prototypes
-             -Wno-undef
-             -Wno-shadow
-             -Wno-unused-but-set-variable
-        >
+    nlc_target_add_supported_warning_options(vpx C
+        -Wno-missing-prototypes
+        -Wno-strict-prototypes
+        -Wno-undef
+        -Wno-shadow
+        -Wno-unused-but-set-variable
     )
 endif()
 

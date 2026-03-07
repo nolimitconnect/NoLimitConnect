@@ -211,6 +211,17 @@ if(DEFINED TARGET_CPU_X64)
     simd/x86_64/jsimdcpu.asm
     )
 
+    # Ensure x86_64 .asm sources are built with NASM, not the generic ASM compiler.
+    set(_jpegturbo_nasm_sources)
+    foreach(_jpegturbo_src IN LISTS jpegturbo_SOURCES)
+        if(_jpegturbo_src MATCHES "^simd/x86_64/.*\\.asm$")
+            list(APPEND _jpegturbo_nasm_sources ${_jpegturbo_src})
+        endif()
+    endforeach()
+    if(_jpegturbo_nasm_sources)
+        set_source_files_properties(${_jpegturbo_nasm_sources} PROPERTIES LANGUAGE ASM_NASM)
+    endif()
+
 endif()
 
 if(DEFINED TARGET_CPU_ARM64 OR DEFINED TARGET_CPU_ARM32)
@@ -293,7 +304,7 @@ endif()
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(CI_PIPELINE)
         # remove *.o and *.d files to avoid gitlab docker size restriction
-        add_custom_command(POST_BUILD TARGET miniupnpc
+        add_custom_command(POST_BUILD TARGET jpegturbo
             WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
             COMMAND find . -type f -name '*.o' -print -delete
             COMMAND find . -type f -name '*.d' -print -delete

@@ -995,24 +995,21 @@ else()
 
 endif()
 
-target_compile_options( gnu
-    PRIVATE
-    $<$<COMPILE_LANGUAGE:C>:
-        -Wno-deprecated-declarations
-        -Wno-deprecated-non-prototype
-        -Wno-switch
-        -Wno-visibility
-        -Wno-nonnull
-        -Wno-pointer-sign
-        -Wno-tautological-pointer-compare
-        -Wno-macro-redefined
-        -Wno-single-bit-bitfield-constant-conversion
-        -Wno-format
-        -Wno-enum-conversion
-        -Wno-pointer-bool-conversion
-        -Wno-logical-not-parentheses
-        -Wno-unused-value
-    >
+nlc_target_add_supported_warning_options(gnu C
+    -Wno-deprecated-declarations
+    -Wno-deprecated-non-prototype
+    -Wno-switch
+    -Wno-visibility
+    -Wno-nonnull
+    -Wno-pointer-sign
+    -Wno-tautological-pointer-compare
+    -Wno-macro-redefined
+    -Wno-single-bit-bitfield-constant-conversion
+    -Wno-format
+    -Wno-enum-conversion
+    -Wno-pointer-bool-conversion
+    -Wno-logical-not-parentheses
+    -Wno-unused-value
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

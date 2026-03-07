@@ -1496,17 +1496,14 @@ if(DEFINED TARGET_OS_WINDOWS)
     )
 endif()
 
-target_compile_options(avcodec
-    PRIVATE
-    $<$<COMPILE_LANGUAGE:C>:
-         -Wno-deprecated-declarations
-         -Wno-pointer-sign
-         -Wno-shift-op-parentheses
-         -Wno-switch
-         -Wno-parentheses
-         -Wno-implicit-const-int-float-conversion
-         -Wno-dangling-else
-    >
+nlc_target_add_supported_warning_options(avcodec C
+    -Wno-deprecated-declarations
+    -Wno-pointer-sign
+    -Wno-shift-op-parentheses
+    -Wno-switch
+    -Wno-parentheses
+    -Wno-implicit-const-int-float-conversion
+    -Wno-dangling-else
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

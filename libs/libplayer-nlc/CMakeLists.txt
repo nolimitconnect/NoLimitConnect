@@ -700,14 +700,16 @@ endif()
 
 
 if(NOT DEFINED TARGET_OS_WINDOWS)
-    target_compile_options( player-nlc
-        PRIVATE
-        $<$<COMPILE_LANGUAGE:CXX>:
-            -Wno-deprecated-declarations
+    nlc_target_add_supported_warning_options(player-nlc CXX
+        -Wno-deprecated-declarations
+    )
+
+    if(NOT CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        nlc_target_add_supported_warning_options(player-nlc CXX
             -Wno-user-defined-warnings
             -Wno-undefined-var-template
-        >
-    )
+        )
+    endif()
 endif()
 
 if(MSVC)

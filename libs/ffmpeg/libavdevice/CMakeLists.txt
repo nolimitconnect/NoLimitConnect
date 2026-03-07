@@ -66,22 +66,8 @@ target_include_directories(avdevice
     ../../libplayer-nlc
 )
 
-target_compile_options(avdevice
-    PRIVATE
-    $<$<COMPILE_LANGUAGE:C>:
-         -Wno-deprecated-declarations
-#         -Wno-pointer-sign
-#         -Wno-shift-op-parentheses
-#         -Wno-missing-prototypes
-#         -Wno-strict-prototypes
-#         -Wno-undef
-#         -Wno-shadow
-#         -Wno-unused-but-set-variable
-#         -Wno-switch
-#         -Wno-parentheses
-#         -Wno-implicit-const-int-float-conversion
-#         -Wno-dangling-else
-    >
+nlc_target_add_supported_warning_options(avdevice C
+    -Wno-deprecated-declarations
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

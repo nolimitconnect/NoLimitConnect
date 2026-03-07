@@ -9,6 +9,8 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#include <QWidget>
+
 #include "TestFileWav.h"
 
 #include <QString>

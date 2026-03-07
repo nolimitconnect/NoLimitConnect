@@ -37,11 +37,8 @@ list(APPEND pcre_SOURCES
 
 add_library(pcre STATIC ${pcre_SOURCES})
 
-target_compile_options( pcre
-    PRIVATE
-    $<$<COMPILE_LANGUAGE:C>:
-        -Wno-string-compare
-    >
+nlc_target_add_supported_warning_options(pcre C
+    -Wno-string-compare
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
