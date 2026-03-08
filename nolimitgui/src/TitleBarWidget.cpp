@@ -860,7 +860,7 @@ void TitleBarWidget::slotFriendRequestListButtonClicked( void )
 //============================================================================
 void TitleBarWidget::slotTestButtonClicked( void )
 {
-    m_MyApp.getSoundFxMgr().playSnd( eSndDefCameraClick );
+    m_MyApp.getSoundFxMgr().playSnd( eSndDefIgnore );
 }
 
 //============================================================================

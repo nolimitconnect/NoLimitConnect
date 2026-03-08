@@ -224,6 +224,7 @@ int AudioMixerMgr::toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t* pu1
     int wroteSamples = mixerBuf.writeSamples( pu16PcmData );
 
     unlockModuleMixerBuffer();
+    vx_assert( wroteSamples == AUDIO_SAMPLES_PER_FRAME );
     return wroteSamples * AUDIO_BYTES_PER_SAMPLE;
  }
 

@@ -13,7 +13,7 @@
 enum ESndDef
 {
 	eSndDefNone,
-	eSndDefIgnore, // also no joshua sound
+	eSndDefIgnore, // also no uhuh joshua sound
 	eSndDefCancel,
 	eSndDefAlarmPleasant,
 	eSndDefAlarmAnoying,

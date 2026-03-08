@@ -85,7 +85,6 @@ bool MiniAudioOut::soundOutDeviceChanged( int deviceIndex )
         if( actualRate != m_AudioFormat.sampleRate() )
         {
             m_AudioFormat.setSampleRate( actualRate );
-            //m_AudioIoMgr.setOutSampleRate( actualRate );
         }
 
         if( preferredDeviceIndex != deviceIndex )

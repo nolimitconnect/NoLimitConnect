@@ -178,6 +178,7 @@ protected slots:
     void                        slotAudioPeekTimeout( void );
     void                        slotEnableAudioIn( bool enable );
     void                        slotEnableAudioOut( bool enable );
+    void                        slotAudioOutDisablePoll( void );
     void                        slotUpdateWantMicrophoneCount( int wantMicCnt );
     void                        slotUpdateWantSpeakerCount( int wantSpeakerCnt );
 
@@ -211,11 +212,17 @@ protected:
 
     int                         updateHardwareTotalLatencyMs( void );
 
+    int                         getAudioOutPipelineQueuedSampleCnt( void );
+    void                        requestDeferredAudioOutDisable( void );
+    void                        cancelDeferredAudioOutDisable( void );
+    void                        completeAudioOutDisable( void );
+
     // internal
     void                        writeMixerAudioToSpeakerHardware( int16_t* pcmData, int sampleCount ) override;
     int                         getSpeakerHardwareBufferedSampleCnt( void ) override;
     int                         getSpeakerHardwareFreeSpaceSampleCnt( void ) override;
     void                        callbackAudioOut60msSpaceAvail( int freeSpaceLenBytes ) override;
+    bool                        isModuleOutputWanted( EMediaModule mediaModule ) override;
 
 	//=== variables ===//	
     AppCommon&                  m_MyApp;
@@ -356,5 +363,10 @@ protected:
 
     std::atomic<bool>           m_EnableAudioIn{0};
     std::atomic<bool>           m_EnableAudioOut{0};
+
+    // Delay stopping audio-out until queued data has drained to hardware.
+    QTimer*                     m_AudioOutDisableTimer{ nullptr };
+    std::atomic<bool>           m_AudioOutDisablePending{false};
+
 };
 

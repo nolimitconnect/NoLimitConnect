@@ -33,14 +33,16 @@ AudioMgr::AudioMgr( AppCommon& app )
     , m_AudioOutIo( *this )
 	, m_AudioTestTimer( new QTimer( this ) )
     , m_AudioLevelPeekTimer( new QTimer( this ) )
+    , m_AudioOutDisableTimer( new QTimer( this ) )
 {
 	m_AudioLevelPeekTimer->setInterval( 500 );
 	connect( m_AudioLevelPeekTimer, SIGNAL(timeout()), this, SLOT(slotAudioPeekTimeout()) );
 
     m_AudioTestTimer->setInterval( 1200 );
     connect( m_AudioTestTimer, SIGNAL(timeout()), this, SLOT(slotAudioTestTimer()) );
+    m_AudioOutDisableTimer->setInterval( 10 );
+    connect( m_AudioOutDisableTimer, SIGNAL(timeout()), this, SLOT(slotAudioOutDisablePoll()) );
     connect( this, &AudioMgr::signalEnableAudioIn, this, &AudioMgr::slotEnableAudioIn, Qt::QueuedConnection );
-    connect( this, &AudioMgr::signalEnableAudioOut, this, &AudioMgr::slotEnableAudioOut, Qt::QueuedConnection );
     connect( this, &AudioMgr::signalEnableAudioOut, this, &AudioMgr::slotEnableAudioOut, Qt::QueuedConnection );
     connect( this, &AudioMgr::signalUpdateWantMicrophoneCount, this, &AudioMgr::slotUpdateWantMicrophoneCount, Qt::QueuedConnection );
     connect( this, &AudioMgr::signalUpdateSpeakerOutputCount, this, &AudioMgr::slotUpdateWantSpeakerCount, Qt::QueuedConnection );
@@ -112,8 +114,14 @@ void AudioMgr::audioIoSystemShutdown()
 //============================================================================
 void AudioMgr::slotEnableAudioIn( bool enable )
 {
+    if( enable )
+    {
+        // If output stop is waiting for drain, keep output alive when input is re-enabled.
+        cancelDeferredAudioOutDisable();
+    }
+
     if( m_EnableAudioIn != enable )
-    {   
+    {
         m_EnableAudioIn = enable;
         setIsMicrophoneWanted( enable );
 
@@ -131,25 +139,137 @@ void AudioMgr::slotEnableAudioIn( bool enable )
 }
 
 //============================================================================
-void AudioMgr::slotEnableAudioOut( bool enable )
+void AudioMgr::requestDeferredAudioOutDisable( void )
 {
-    if( m_EnableAudioOut != enable )
+    m_AudioOutDisablePending = true;
+
+    if( !m_AudioOutDisableTimer->isActive() )
     {
-        m_EnableAudioOut = enable;
+        m_AudioOutDisableTimer->start();
+    }
+}
 
-        setIsSpeakerWanted( enable );
+//============================================================================
+void AudioMgr::cancelDeferredAudioOutDisable( void )
+{
+    if( !m_AudioOutDisablePending )
+    {
+        return;
+    }
 
-        if( enable )
+    m_AudioOutDisablePending = false;
+
+    if( m_AudioOutDisableTimer->isActive() )
+    {
+        m_AudioOutDisableTimer->stop();
+    }
+}
+
+//============================================================================
+int AudioMgr::getAudioOutPipelineQueuedSampleCnt( void )
+{
+    int queuedSamples = 0;
+
+    {
+        std::lock_guard<std::mutex> lk( m_SpeakerOutBufferMutex );
+        queuedSamples += static_cast<int>( m_SpeakerOutBuffer.size() );
+    }
+
+    int maxModuleSamplesInMixer = 0;
+    lockModuleMixerBuffer();
+    for( auto& [module, mixerBuf] : m_AppModuleToSpeakerMap )
+    {
+        if( !isModuleOutputWanted( module ) )
         {
-            startAudioOutWorker();
-            m_AudioOutIo.startAudioOutHardware();
+            continue;
         }
-        else
+
+        int mixerBufSamples = mixerBuf.getSampleCnt();
+        if( module == eMediaModulePlayerNlc )
         {
-            m_AudioOutIo.stopAudioOutHardware();
-            stopAudioOutWorker();
+            lockPlayerCache();
+            mixerBufSamples += m_PlayerCacheBuf.getSampleCnt();
+            unlockPlayerCache();
+        }
+
+        if( mixerBufSamples > maxModuleSamplesInMixer )
+        {
+            maxModuleSamplesInMixer = mixerBufSamples;
         }
     }
+    unlockModuleMixerBuffer();
+
+    return queuedSamples + maxModuleSamplesInMixer;
+}
+
+//============================================================================
+void AudioMgr::completeAudioOutDisable( void )
+{
+    m_AudioOutDisablePending = false;
+
+    if( m_AudioOutDisableTimer->isActive() )
+    {
+        m_AudioOutDisableTimer->stop();
+    }
+
+    if( !m_EnableAudioOut )
+    {
+        return;
+    }
+
+    m_EnableAudioOut = false;
+    m_AudioOutIo.stopAudioOutHardware();
+    stopAudioOutWorker();
+}
+
+//============================================================================
+void AudioMgr::slotAudioOutDisablePoll( void )
+{
+    if( !m_AudioOutDisablePending )
+    {
+        if( m_AudioOutDisableTimer->isActive() )
+        {
+            m_AudioOutDisableTimer->stop();
+        }
+
+        return;
+    }
+
+    const int queuedSamples = getAudioOutPipelineQueuedSampleCnt();
+
+    if( queuedSamples <= 0 )
+    {
+        completeAudioOutDisable();
+    }
+}
+
+//============================================================================
+void AudioMgr::slotEnableAudioOut( bool enable )
+{
+    if( enable )
+    {
+        cancelDeferredAudioOutDisable();
+        setIsSpeakerWanted( true );
+
+        if( m_EnableAudioOut )
+        {
+            return;
+        }
+
+        m_EnableAudioOut = true;
+        startAudioOutWorker();
+        m_AudioOutIo.startAudioOutHardware();
+        return;
+    }
+
+    // Disable requests are deferred until queued audio drains to speaker hardware.
+    setIsSpeakerWanted( false );
+    if( !m_EnableAudioOut )
+    {
+        return;
+    }
+
+    requestDeferredAudioOutDisable();
 }
 
 //============================================================================
@@ -283,4 +403,13 @@ void AudioMgr::callbackAudioOut60msSpaceAvail( int freeSpaceLenBytes )
     {
         client->callbackAudioOutSpaceAvail( freeSpaceLenBytes );
     }
+}
+
+//============================================================================
+bool AudioMgr::isModuleOutputWanted( EMediaModule mediaModule )
+{
+    m_WantSpeakerMutex.lock();
+    bool wanted = std::find( m_WantSpeakerList.begin(), m_WantSpeakerList.end(), mediaModule ) != m_WantSpeakerList.end();
+    m_WantSpeakerMutex.unlock();
+    return wanted;
 }

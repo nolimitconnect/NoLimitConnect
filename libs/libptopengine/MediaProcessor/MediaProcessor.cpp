@@ -1089,7 +1089,7 @@ void MediaProcessor::fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLenBytes )
 	//	LogMsg( LOG_INFO, "fromGuiAudioOutSpaceAvail m_MixerClientsMutex.lock done" );
 	//#endif // DEBUG_AUDIO_PROCESSOR_LOCK
 	doMixerClientRemovals( m_MixerClientRemoveList );
-
+	bool hasMixerClients = m_MixerList.size() > 0;
 	for( auto& client : m_MixerList )
 	{
 		//LogMsg( LOG_INFO, "fromGuiAudioOutSpaceAvail callbackAudioOutSpaceAvail %d", iClientIdx );
@@ -1104,13 +1104,16 @@ void MediaProcessor::fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLenBytes )
 	//	LogMsg( LOG_INFO, "fromGuiAudioOutSpaceAvail m_MixerBufferMutex.lock()" );
 	//#endif // DEBUG_AUDIO_PROCESSOR_LOCK
 	m_MixerBufferMutex.lock();
-	if( !m_MixerBufUsed || m_MuteSpeaker )
+	if( hasMixerClients || m_MixerBufUsed )
 	{
-		IAudioRequests::getIAudioRequests().toGuiModuleAudioFrame( eMediaModulePtoP, (int16_t*)m_QuietAudioBuf, AUDIO_BUF_SIZE );
-	}
-	else
-	{
-		IAudioRequests::getIAudioRequests().toGuiModuleAudioFrame( eMediaModulePtoP, (int16_t*)m_MixerBuf, AUDIO_BUF_SIZE );
+		if( !m_MixerBufUsed || m_MuteSpeaker )
+		{
+			IAudioRequests::getIAudioRequests().toGuiModuleAudioFrame( eMediaModulePtoP, (int16_t*)m_QuietAudioBuf, AUDIO_BUF_SIZE );
+		}
+		else
+		{
+			IAudioRequests::getIAudioRequests().toGuiModuleAudioFrame( eMediaModulePtoP, (int16_t*)m_MixerBuf, AUDIO_BUF_SIZE );
+		}
 	}
 
 	m_MixerBufUsed = false;

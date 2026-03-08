@@ -116,6 +116,7 @@ void AudioMgr::callbackReadSpeakerData( int16_t* pcmData, int sampleCnt )
     }
     else if( ( nowMs - m_LastSpeakerStatsLogMs ) >= 1000 )
     {
+        m_LastSpeakerStatsLogMs = nowMs;
         const uint64_t underflows = m_SpeakerUnderflowCount.exchange( 0 );
         const uint64_t overflows = m_SpeakerOverflowCount.exchange( 0 );
 
@@ -150,8 +151,6 @@ void AudioMgr::callbackReadSpeakerData( int16_t* pcmData, int sampleCnt )
 
             }
         }
-
-        m_LastSpeakerStatsLogMs = nowMs;
     }
 }
 

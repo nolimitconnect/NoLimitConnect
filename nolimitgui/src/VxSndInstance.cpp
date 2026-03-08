@@ -138,7 +138,7 @@ bool VxSndInstance::initSndInstance( void )
 
 	m_WavSamples.clear();
 	int16_t* bytesAs16bit = (int16_t*)wavBytes.data();
-	int pcmSampleCnt = wavBytes.size() / 2;
+	int pcmSampleCnt = wavBytes.size();
 	
 	if( wavRate == AUDIO_DEVICE_SAMPLE_RATE )
 	{
@@ -186,7 +186,7 @@ bool VxSndInstance::initSndInstance( void )
 		}
 	}
 	
-	if(m_WavSamples.size() == 0)
+	if( m_WavSamples.size() == 0 )
 	{
 		m_IsInitialized = false;
 		LogMsg( LOG_ERROR, "%s unknown rate %d", __func__, wavRate );

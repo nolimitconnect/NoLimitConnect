@@ -46,6 +46,7 @@ public:
     virtual void                writeMixerAudioToSpeakerHardware( int16_t* pcmData, int sampleCount ) = 0;
     virtual int                 getSpeakerHardwareBufferedSampleCnt( void ) = 0;
     virtual int                 getSpeakerHardwareFreeSpaceSampleCnt( void ) = 0;
+    virtual bool                isModuleOutputWanted( EMediaModule mediaModule ) = 0;
 
     virtual void                callbackAudioOut60msSpaceAvail( int freeSpaceLenBytes );
     virtual void				fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLenBytes );
@@ -65,6 +66,7 @@ protected:
     void                        unlockModuleMixerBuffer( void )                     { m_ModuleMixerMutex.unlock(); }
     AudioMixerBuf&              getAudioMixerBuf( EMediaModule mediaModule );
     void                        removeAudioMixerBuf( EMediaModule mediaModule );
+
 
     //=== variables ===//
 
