@@ -14,6 +14,7 @@
 #include "AppletMgr.h"
 #include "AppSettings.h"
 #include "AppletPopupMenu.h"
+#include "AudioMgr.h"
 #include "GuiOfferMgr.h"
 #include "GuiHelpers.h"
 #include "GuiParams.h"
@@ -21,7 +22,7 @@
 #include "GuiPluginMgr.h"
 
 #include "MyIcons.h"
-#include "AudioMgr.h"
+#include "SoundFxMgr.h"
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
@@ -120,6 +121,8 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
 
     connect( ui.m_FriendRequestListButton,  SIGNAL(clicked()),                          this, SLOT(slotFriendRequestListButtonClicked()) );
 
+    connect( ui.m_TestButton,               SIGNAL(clicked()),                          this, SLOT(slotTestButtonClicked()) );
+
     ui.m_MicVolPeakBar->setFixedWidth( GuiParams::getDefaultFontHeight() / 2 );
     ui.m_MicVolPeakBar->setRange( 0, 50 ); // make twice as sensitive to make it more obvious
 
@@ -128,6 +131,12 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
 
     callbackActiveOfferCount( m_MyApp.getOfferMgr().getActiveOfferCount(),  m_MyApp.getOfferMgr().getHistoryOfferCount() );
     callbackJoinRequestCount( m_MyApp.getHostJoinMgr().getJoinRequestCount() );
+
+    #ifdef QT_DEBUG
+        ui.m_TestButton->setVisible( true );
+    #else
+        ui.m_TestButton->setVisible( false );
+    #endif
 }
 
 //============================================================================
@@ -846,6 +855,12 @@ void TitleBarWidget::callbackGuiFriendRequestListRemoved( VxGUID requestId )
 void TitleBarWidget::slotFriendRequestListButtonClicked( void )
 {
     m_MyApp.getAppletMgr().launchApplet( eAppletFriendRequestList, getTitleBarParentPage()  );
+}
+
+//============================================================================
+void TitleBarWidget::slotTestButtonClicked( void )
+{
+    m_MyApp.getSoundFxMgr().playSnd( eSndDefCameraClick );
 }
 
 //============================================================================

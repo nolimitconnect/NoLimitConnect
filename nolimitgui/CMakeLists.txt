@@ -1079,6 +1079,12 @@ list(APPEND nlc_FORMS
     src/NoLimitConnect.qrc
     )
 
+if(DEFINED TARGET_OS_WINDOWS)
+    # Define the path to your resource file
+    set(EXE_ICON_RESOURCE "src/Resources/resources.rc")
+    list(APPEND nlc_SOURCES ${EXE_ICON_RESOURCE})
+endif()
+
 qt_add_executable(nolimitconnect
     MANUAL_FINALIZATION
     ${nlc_FORMS}

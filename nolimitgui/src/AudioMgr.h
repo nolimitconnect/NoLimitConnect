@@ -49,6 +49,7 @@ class AudioMgr : public MiniAudioDevices, public AudioMixerMgr, public ToGuiHard
     Q_OBJECT
 public:
     static const int AEC_FRAME_COUNT_PER_OPUS_FRAME = 6; // opus consumes 60 ms frames
+    static const int MAX_SPEAKER_OUT_BUFFER_SAMPLES = ECHO_FRAME_SIZE_10MS * 50;
 
     AudioMgr( AppCommon& app );
     ~AudioMgr() = default;
@@ -139,6 +140,7 @@ public:
     int                         getEchoDelayParam( void )                   { return m_EchoDelayMs; }
 
     int                         getEchoHardwareTotalLatencyMs( void )       { return m_EchoHardwareTotalLatencyMs; }
+    int                         getSpeakerHardwareLatencyMs( void )         { return m_SpeakerHardwareLatencyMs; }
 
     void                        setAudioTestState( EAudioTestState audioTestState ); // public so can be called by UI
     EAudioTestState             getAudioTestState( void ) { return m_AudioTestState; }
@@ -166,15 +168,22 @@ signals:
     void                        signalAudioTestState( EAudioTestState audioTestState );
     void                        signalTestedSoundDelay( int echoDelayMs );
     void                        signalAudioTestMsg( QString audioTestMsg );
-
+    void                        signalEnableAudioIn( bool enable );
+    void                        signalEnableAudioOut( bool enable );
+    void                        signalUpdateWantMicrophoneCount( int wantMicCnt );
+    void                        signalUpdateSpeakerOutputCount( int wantSpeakerCnt );
+    
 protected slots:
     void                        slotAudioTestTimer( void );
     void                        slotAudioPeekTimeout( void );
+    void                        slotEnableAudioIn( bool enable );
+    void                        slotEnableAudioOut( bool enable );
+    void                        slotUpdateWantMicrophoneCount( int wantMicCnt );
+    void                        slotUpdateWantSpeakerCount( int wantSpeakerCnt );
 
 protected:
 	bool                        playFromTestFile( void );
 
-    void                        enableAudioIn( bool enable );
     void                        startAudioInWorker( void );
     void                        stopAudioInWorker( void );
     void                        audioInWorkerLoop( void );
@@ -183,7 +192,6 @@ protected:
 
     virtual void				callbackAudioIn60msFrameAvail( const int16_t* pcmData, int sampleCnt );
 
-    void                        enableAudioOut( bool enable );
     void                        startAudioOutWorker( void );
     void                        stopAudioOutWorker( void );
     void                        audioOutWorkerLoop( void );
@@ -203,12 +211,11 @@ protected:
 
     int                         updateHardwareTotalLatencyMs( void );
 
-    // for title bar
-    void                        updateWantMicrophoneCount( int wantMicCnt );
-    void                        updateWantSpeakerCount( int wantSpeakerCnt );
-
     // internal
     void                        writeMixerAudioToSpeakerHardware( int16_t* pcmData, int sampleCount ) override;
+    int                         getSpeakerHardwareBufferedSampleCnt( void ) override;
+    int                         getSpeakerHardwareFreeSpaceSampleCnt( void ) override;
+    void                        callbackAudioOut60msSpaceAvail( int freeSpaceLenBytes ) override;
 
 	//=== variables ===//	
     AppCommon&                  m_MyApp;
@@ -267,13 +274,13 @@ protected:
 
     // audio callback list
     std::vector<AudioCallbackSpaceAvailable*> m_AudioOutSpaceAvailableClientList;
+    std::mutex                  m_AudioOutSpaceAvailableClientListMutex;
 
     // input debugging buffers and stats
     bool                        m_MicJitterStatsEnable{ false };
     int64_t                     m_MicInJitterLowMarkMs{0};
     int64_t                     m_MicInJitterHighMarkMs{0};
     int                         m_LastMicStatsLogMs{0};
-
 
     std::vector<int16_t>        m_SpeakerOutBuffer;
     std::mutex                  m_SpeakerOutBufferMutex;
@@ -293,6 +300,7 @@ protected:
 
     // Speaker output stats for debugging and optimization
     std::atomic<uint64_t>       m_SpeakerUnderflowCount{0};
+    std::atomic<uint64_t>       m_SpeakerOverflowCount{0};
     std::atomic<uint64_t>       m_SpeakerRequestedSamples{0};
     std::atomic<uint64_t>       m_SpeakerCopiedSamples{0};
     std::atomic<uint64_t>       m_SpeakerQueueHighWatermark{0};
@@ -328,6 +336,7 @@ protected:
     int                         m_EchoDelayMs{ 0 }; 
     
     int                         m_EchoHardwareTotalLatencyMs{ 20 };
+    int                         m_SpeakerHardwareLatencyMs{ 10 };
 
     // test tone variables
     bool                        m_SpeakerTestToneEnable{ false };
@@ -344,5 +353,8 @@ protected:
 
     LowPassFilter               m_MicInLowPassFilter;
     HighPassFilter              m_MicInHighPassFilter;
+
+    std::atomic<bool>           m_EnableAudioIn{0};
+    std::atomic<bool>           m_EnableAudioOut{0};
 };
 

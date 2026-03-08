@@ -60,15 +60,15 @@ void AudioMgr::toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool want
         if( !prevWantMicCnt && wantMicCnt )
         {
             // mic count went from 0 to 1, enable mic
-            enableAudioIn( true );
+            emit signalEnableAudioIn( true );
         }
         else if( prevWantMicCnt && !wantMicCnt )
         {
             // mic count went from 1 to 0, disable mic
-            enableAudioIn( false );
+            emit signalEnableAudioIn( false );
         }
 
-        updateWantMicrophoneCount( static_cast<int>(wantMicCnt) );
+        emit signalUpdateWantMicrophoneCount( static_cast<int>(wantMicCnt) );
     }
 }
 
@@ -106,15 +106,15 @@ void AudioMgr::toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeake
         if( !prevWantSpeakerCnt && wantSpeakerCnt )
         {
             // speaker count went from 0 to 1, enable speaker
-            enableAudioOut( true );
+            emit signalEnableAudioOut( true );
         }
         else if( prevWantSpeakerCnt && !wantSpeakerCnt )
         {
             // speaker count went from 1 to 0, disable speaker
-            enableAudioOut( false );
+            emit signalEnableAudioOut( false );
         }
 
-        updateWantSpeakerCount( static_cast<int>(wantSpeakerCnt) );
+        emit signalUpdateSpeakerOutputCount( static_cast<int>(wantSpeakerCnt) );
     }
 
     if( LogEnabled( eLogVoice ) ) LogModule( eLogVoice, LOG_DEBUG, "AudioMgr::%s want speaker? %d module %s cnt %d", __func__, wantSpeakerOutput, DescribeMediaModule( mediaModule ), wantSpeakerCnt );

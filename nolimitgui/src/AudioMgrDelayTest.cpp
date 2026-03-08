@@ -55,8 +55,8 @@ bool AudioMgr::runEchoDelayTest( void )
     m_EchoDelayCurrentInteration = 0;
     m_EchoDelayResultList.clear();
 
-    toGuiWantMicrophoneRecording( eMediaModuleSoundTest, true );
-    toGuiWantSpeakerOutput( eMediaModuleSoundTest, true );
+    toGuiWantMicrophoneRecording( eMediaModuleSoundDelayTest, true );
+    toGuiWantSpeakerOutput( eMediaModuleSoundDelayTest, true );
 
     setAudioTestState( eAudioTestStateInit );
 
@@ -90,8 +90,8 @@ void AudioMgr::slotAudioTestTimer( void )
         if( !handleAudioTestResult( getAudioTestSentTime(), audioDetectTimeMs, audioPeakValue ) )
         {
             LogMsg( LOG_WARNING, "Echo Delay Test Faled" );
-            toGuiWantMicrophoneRecording( eMediaModuleSoundTest, false );
-            toGuiWantSpeakerOutput( eMediaModuleSoundTest, false );
+            toGuiWantMicrophoneRecording( eMediaModuleSoundDelayTest, false );
+            toGuiWantSpeakerOutput( eMediaModuleSoundDelayTest, false );
             setAudioTestState( eAudioTestStateDone );
             break;
         }
@@ -116,8 +116,8 @@ void AudioMgr::slotAudioTestTimer( void )
         m_AudioTestTimer->stop();
         setAudioTestState( eAudioTestStateNone );
 
-        toGuiWantMicrophoneRecording( eMediaModuleSoundTest, false );
-        toGuiWantSpeakerOutput( eMediaModuleSoundTest, false );
+        toGuiWantMicrophoneRecording( eMediaModuleSoundDelayTest, false );
+        toGuiWantSpeakerOutput( eMediaModuleSoundDelayTest, false );
 
         break;
 

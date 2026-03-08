@@ -39,6 +39,11 @@ AudioMgr::AudioMgr( AppCommon& app )
 
     m_AudioTestTimer->setInterval( 1200 );
     connect( m_AudioTestTimer, SIGNAL(timeout()), this, SLOT(slotAudioTestTimer()) );
+    connect( this, &AudioMgr::signalEnableAudioIn, this, &AudioMgr::slotEnableAudioIn, Qt::QueuedConnection );
+    connect( this, &AudioMgr::signalEnableAudioOut, this, &AudioMgr::slotEnableAudioOut, Qt::QueuedConnection );
+    connect( this, &AudioMgr::signalEnableAudioOut, this, &AudioMgr::slotEnableAudioOut, Qt::QueuedConnection );
+    connect( this, &AudioMgr::signalUpdateWantMicrophoneCount, this, &AudioMgr::slotUpdateWantMicrophoneCount, Qt::QueuedConnection );
+    connect( this, &AudioMgr::signalUpdateSpeakerOutputCount, this, &AudioMgr::slotUpdateWantSpeakerCount, Qt::QueuedConnection );
 }
 
 //============================================================================
@@ -92,8 +97,8 @@ void AudioMgr::audioIoSystemShutdown()
 {
     if( m_AudioIoInitialized )
     {
-        enableAudioIn( false );
-        enableAudioOut( false );
+        slotEnableAudioIn( false );
+        slotEnableAudioOut( false );
         m_AudioIoInitialized = false;
         m_MyApp.wantToGuiHardwareCtrlCallbacks( this, false );
 	    audioIoSystemShutdown();
@@ -105,36 +110,45 @@ void AudioMgr::audioIoSystemShutdown()
 }
 
 //============================================================================
-void AudioMgr::enableAudioIn( bool enable )
+void AudioMgr::slotEnableAudioIn( bool enable )
 {
-    setIsMicrophoneWanted( enable );
+    if( m_EnableAudioIn != enable )
+    {   
+        m_EnableAudioIn = enable;
+        setIsMicrophoneWanted( enable );
 
-    if( enable )
-    {
-        startAudioInWorker();
-        m_AudioInIo.startAudioInHardware();
-    }
-    else
-    {
-        m_AudioInIo.stopAudioInHardware();
-        stopAudioInWorker();
+        if( enable )
+        {
+            startAudioInWorker();
+            m_AudioInIo.startAudioInHardware();
+        }
+        else
+        {
+            m_AudioInIo.stopAudioInHardware();
+            stopAudioInWorker();
+        }
     }
 }
 
 //============================================================================
-void AudioMgr::enableAudioOut( bool enable )
+void AudioMgr::slotEnableAudioOut( bool enable )
 {
-    setIsSpeakerWanted( enable );
+    if( m_EnableAudioOut != enable )
+    {
+        m_EnableAudioOut = enable;
 
-    if( enable )
-    {
-        startAudioOutWorker();
-        m_AudioOutIo.startAudioOutHardware();
-    }
-    else
-    {
-        m_AudioOutIo.stopAudioOutHardware();
-        stopAudioOutWorker();
+        setIsSpeakerWanted( enable );
+
+        if( enable )
+        {
+            startAudioOutWorker();
+            m_AudioOutIo.startAudioOutHardware();
+        }
+        else
+        {
+            m_AudioOutIo.stopAudioOutHardware();
+            stopAudioOutWorker();
+        }
     }
 }
 
@@ -157,9 +171,9 @@ void AudioMgr::sendToSpeakerOutput( int16_t* pcmData, int sampleCnt )
     }
 
     // remove old samples if buffer gets too large to prevent unbounded growth
-    const size_t MAX_SPEAKER_OUT_BUFFER_SAMPLES = ECHO_FRAME_SIZE_10MS * 50;
     if( m_SpeakerOutBuffer.size() > MAX_SPEAKER_OUT_BUFFER_SAMPLES )
-    {        
+    {      
+        m_SpeakerOverflowCount++;
         m_SpeakerOutBuffer.erase( m_SpeakerOutBuffer.begin(), 
             m_SpeakerOutBuffer.begin() + static_cast<std::vector<int16_t>::difference_type>(m_SpeakerOutBuffer.size() - MAX_SPEAKER_OUT_BUFFER_SAMPLES) );
     }
@@ -184,7 +198,8 @@ void AudioMgr::playTestFile( TestFileWav& testFile )
 //============================================================================
 int AudioMgr::updateHardwareTotalLatencyMs( void ) 
 {
-    m_EchoHardwareTotalLatencyMs = m_AudioInIo.getHardwareDelayMs() + m_AudioOutIo.getHardwareDelayMs();
+    m_SpeakerHardwareLatencyMs = m_AudioOutIo.getHardwareDelayMs();
+    m_EchoHardwareTotalLatencyMs = m_AudioInIo.getHardwareDelayMs() + m_SpeakerHardwareLatencyMs;
     return m_EchoHardwareTotalLatencyMs;
 }
 
@@ -215,7 +230,7 @@ int AudioMgr::getWantSpeakerCount( void )
 }
 
 //============================================================================
-void AudioMgr::updateWantMicrophoneCount( int wantMicCnt )
+void AudioMgr::slotUpdateWantMicrophoneCount( int wantMicCnt )
 {
 	m_WantMicCnt = wantMicCnt;
 	for( auto& client : m_AudioLevelClientList )
@@ -225,7 +240,7 @@ void AudioMgr::updateWantMicrophoneCount( int wantMicCnt )
 }
 
 //============================================================================
-void AudioMgr::updateWantSpeakerCount( int wantSpeakerCnt )
+void AudioMgr::slotUpdateWantSpeakerCount( int wantSpeakerCnt )
 {
 	m_WantSpeakerCnt = wantSpeakerCnt;
 	for( auto& client : m_AudioLevelClientList )
@@ -238,4 +253,34 @@ void AudioMgr::updateWantSpeakerCount( int wantSpeakerCnt )
 void AudioMgr::writeMixerAudioToSpeakerHardware( int16_t* pcmData, int sampleCount )
 {
     sendToSpeakerOutput( pcmData, sampleCount );
+}
+
+//============================================================================
+int AudioMgr::getSpeakerHardwareBufferedSampleCnt( void )
+{
+    return static_cast<int>( m_SpeakerOutBuffer.size() + getSpeakerHardwareLatencyMs() * m_AudioOutFormat.sampleRate() / 1000 );
+}
+
+//============================================================================
+int AudioMgr::getSpeakerHardwareFreeSpaceSampleCnt( void )
+{
+    int availPcmSamplesCache = 0;
+
+    {
+        std::lock_guard<std::mutex> lk( m_SpeakerOutBufferMutex );
+        availPcmSamplesCache += MAX_SPEAKER_OUT_BUFFER_SAMPLES - static_cast<int>( m_SpeakerOutBuffer.size() );
+    }
+
+    return availPcmSamplesCache;
+}
+
+//============================================================================
+void AudioMgr::callbackAudioOut60msSpaceAvail( int freeSpaceLenBytes )
+{
+    AudioMixerMgr::callbackAudioOut60msSpaceAvail( freeSpaceLenBytes );
+    std::lock_guard<std::mutex> lk( m_AudioOutSpaceAvailableClientListMutex );
+    for( auto& client : m_AudioOutSpaceAvailableClientList )
+    {
+        client->callbackAudioOutSpaceAvail( freeSpaceLenBytes );
+    }
 }

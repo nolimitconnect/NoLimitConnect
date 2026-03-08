@@ -1014,9 +1014,10 @@ const char* DescribeMediaModule( enum EMediaModule eMediaModule )
         return "eMediaModuleSoundFx";
     case eMediaModuleSoundSettings:
         return "eMediaModuleSoundSettings";
-    case eMediaModuleSoundTest:
-        return "eMediaModuleSoundTest";
-
+    case eMediaModuleSoundDelayTest:
+        return "eMediaModuleSoundDelayTest";
+    case eMediaModuleSoundLoopbackTest:
+        return "eMediaModuleSoundLoopbackTest";
 
     default:
         return "UNKNOWN EMediaModule";

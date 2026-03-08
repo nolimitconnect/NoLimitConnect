@@ -245,10 +245,10 @@
       <item>
        <spacer name="horizontalSpacer_3">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
+         <enum>QSizePolicy::Policy::Fixed</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -328,6 +328,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="m_TestButton">
+        <property name="text">
+         <string>Test</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="VxPushButton" name="m_MuteMicButton">
         <property name="minimumSize">
          <size>
@@ -379,10 +386,10 @@
          <number>0</number>
         </property>
         <property name="orientation">
-         <enum>Qt::Vertical</enum>
+         <enum>Qt::Orientation::Vertical</enum>
         </property>
         <property name="textDirection">
-         <enum>QProgressBar::BottomToTop</enum>
+         <enum>QProgressBar::Direction::BottomToTop</enum>
         </property>
        </widget>
       </item>
@@ -396,10 +403,10 @@
       <item>
        <spacer name="horizontalSpacer_2">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
+         <enum>QSizePolicy::Policy::Fixed</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -509,7 +516,7 @@
          <string notr="true"/>
         </property>
         <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+         <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
         </property>
        </widget>
       </item>

@@ -308,17 +308,15 @@ void AudioMgr::callbackAecProcessedAudio( int16_t* pcmData, int sampleCnt )
         }
     }
 
-    if( m_NoAecLoopbackEnabled || m_WithAecLoopbackEnabled )
-    {
-        // make available to speaker output callback to be played back immediately
-        sendToSpeakerOutput( pcmData, sampleCnt );
-        return;
-    }
-
     m_OpusFrameBuffer.insert( m_OpusFrameBuffer.end(), pcmData, pcmData + ECHO_FRAME_SIZE_10MS );
     m_AudioInAecFramesProcessed++;
     if( m_AudioInAecFramesProcessed >= AEC_FRAME_COUNT_PER_OPUS_FRAME )
     {
+        if( m_NoAecLoopbackEnabled || m_WithAecLoopbackEnabled )
+        {
+            toGuiModuleAudioFrame( eMediaModuleSoundLoopbackTest,  m_OpusFrameBuffer.data(), static_cast<int>(m_OpusFrameBuffer.size() * AUDIO_BYTES_PER_SAMPLE) );
+        }
+
         callbackAudioIn60msFrameAvail( m_OpusFrameBuffer.data(), static_cast<int>(m_OpusFrameBuffer.size()) );
         m_OpusFrameBuffer.clear();
         m_AudioInAecFramesProcessed = 0;

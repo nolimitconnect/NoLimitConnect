@@ -44,6 +44,8 @@ public:
     //=== IAudioRequests end ===//
     
     virtual void                writeMixerAudioToSpeakerHardware( int16_t* pcmData, int sampleCount ) = 0;
+    virtual int                 getSpeakerHardwareBufferedSampleCnt( void ) = 0;
+    virtual int                 getSpeakerHardwareFreeSpaceSampleCnt( void ) = 0;
 
     virtual void                callbackAudioOut60msSpaceAvail( int freeSpaceLenBytes );
     virtual void				fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLenBytes );
@@ -54,6 +56,7 @@ public:
   	virtual void				setPlayerNlcActive( bool isActive );
     bool						getPlayerNlcActive( void ) { return m_PlayerNlcActive; }
 
+protected:
     void                        lockPlayerCache( void )                             { m_PlayerCacheMutex.lock(); }
     void                        unlockPlayerCache( void )                           { m_PlayerCacheMutex.unlock(); }
 
@@ -61,6 +64,7 @@ public:
     void                        lockModuleMixerBuffer( void )                       { m_ModuleMixerMutex.lock(); }
     void                        unlockModuleMixerBuffer( void )                     { m_ModuleMixerMutex.unlock(); }
     AudioMixerBuf&              getAudioMixerBuf( EMediaModule mediaModule );
+    void                        removeAudioMixerBuf( EMediaModule mediaModule );
 
     //=== variables ===//
 
@@ -71,5 +75,5 @@ public:
 
     // mixer
     std::map<EMediaModule, AudioMixerBuf> m_AppModuleToSpeakerMap;
-    std::mutex                  m_ModuleMixerMutex;
+    std::mutex                  m_ModuleMixerMutex;    
 };

@@ -77,8 +77,6 @@ void AudioMgr::callbackReadSpeakerData( int16_t* pcmData, int sampleCnt )
     if( samplesToCopy < requestedSamples )
     {
         m_SpeakerUnderflowCount++;
-        LogMsg( LOG_VERBOSE, "%s: Underflow! Requested %zu samples but only %zu available. Zero filling the rest.", __func__, 
-            requestedSamples, samplesToCopy );
         std::fill( pcmData + samplesToCopy, pcmData + sampleCnt, 0 );
     }
 
@@ -90,30 +88,23 @@ void AudioMgr::callbackReadSpeakerData( int16_t* pcmData, int sampleCnt )
         readTestToneSamples( pcmData, sampleCnt );
     }
 
-    if( m_SpeakersMuted)
+    if( m_SpeakersMuted )
     {
         // If muted, zero out the entire buffer to prevent any sound from being heard in the speakers
         std::fill_n( pcmData, sampleCnt, 0 );
     }
 
-    if( samplesToCopy == 0 )
-    {
-        // No audio to process, so return early after zero filling if muted
-        return;
-    }
-
     constexpr size_t MAX_PENDING_AUDIO_OUT_BUFFERS = 3;
-
-    std::vector<int16_t> speakerSamples( pcmData, pcmData + samplesToCopy );
 
     {
         std::lock_guard<std::mutex> lk( m_PendingOutBuffersMutex );
         if( m_PendingOutBuffers.size() >= MAX_PENDING_AUDIO_OUT_BUFFERS )
         {
+            m_SpeakerOverflowCount++;
             m_PendingOutBuffers.erase( m_PendingOutBuffers.begin() );
-            LogMsg( LOG_WARNING, "%s: Audio output queue overflow; dropping oldest pending buffer", __func__ );
         }
-        m_PendingOutBuffers.emplace_back( std::move(speakerSamples) );
+
+        m_PendingOutBuffers.emplace_back( pcmData, pcmData + sampleCnt );
     }
 
     m_AudioOutWorkSemaphore.signal();
@@ -125,20 +116,24 @@ void AudioMgr::callbackReadSpeakerData( int16_t* pcmData, int sampleCnt )
     }
     else if( ( nowMs - m_LastSpeakerStatsLogMs ) >= 1000 )
     {
+        const uint64_t underflows = m_SpeakerUnderflowCount.exchange( 0 );
+        const uint64_t overflows = m_SpeakerOverflowCount.exchange( 0 );
+
         const uint64_t requested = m_SpeakerRequestedSamples.exchange( 0 );
         const uint64_t copied = m_SpeakerCopiedSamples.exchange( 0 );
-        const uint64_t underflows = m_SpeakerUnderflowCount.exchange( 0 );
+
         const uint64_t queueHighWater = m_SpeakerQueueHighWatermark.exchange( 0 );
         const uint64_t missing = ( requested > copied ) ? ( requested - copied ) : 0;
 
-        if( underflows > 0 || missing > 0 )
+        if( underflows > 0 || overflows > 0 || missing > 0 )
         {
-            LogMsg( LOG_WARNING, "%s: Detected speaker underflow! requested=%llu copied=%llu missing=%llu underflows=%llu pendingQ_highwater=%llu",
+            LogMsg( LOG_WARNING, "%s: Detected speaker issues! underflows=%llu overflows=%llu requested=%llu copied=%llu missing=%llu pendingQ_highwater=%llu",
                 __func__,
+                static_cast<unsigned long long>( underflows ),
+                static_cast<unsigned long long>( overflows ),
                 static_cast<unsigned long long>( requested ),
                 static_cast<unsigned long long>( copied ),
                 static_cast<unsigned long long>( missing ),
-                static_cast<unsigned long long>( underflows ),
                 static_cast<unsigned long long>( queueHighWater ) );
         }
 
@@ -299,10 +294,10 @@ void AudioMgr::processQueuedAudioOutput( const int16_t* pcmData, int sampleCnt )
             m_SpeakerOutWaveformBuffer.pushFrame( m_ResidualOutBuffer.data(), ECHO_FRAME_SIZE_10MS, 0.0f, 0.0f, false );
         }
 
-        m_AudioInAecFramesProcessed++;
+        m_AudioOutAecFramesProcessed++;
         if( m_AudioOutAecFramesProcessed >= AEC_FRAME_COUNT_PER_OPUS_FRAME )
         {
-            callbackAudioOut60msSpaceAvail( AUDIO_SAMPLES_PER_FRAME );
+            callbackAudioOut60msSpaceAvail( AUDIO_SAMPLES_PER_FRAME * AUDIO_BYTES_PER_SAMPLE );
             m_AudioOutAecFramesProcessed = 0;
         }
 

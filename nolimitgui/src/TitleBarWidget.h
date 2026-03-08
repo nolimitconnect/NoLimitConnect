@@ -137,6 +137,8 @@ public slots:
 
 	void           				slotFriendRequestListButtonClicked( void );
 
+	void           				slotTestButtonClicked( void );
+
 protected:
 	QWidget*					getTitleBarParentFrame( void );
 	QWidget*					getTitleBarParentPage( void );

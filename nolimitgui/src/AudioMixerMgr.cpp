@@ -56,8 +56,6 @@ void AudioMixerMgr::callbackAudioOut60msSpaceAvail(int freeSpaceLenBytes)
             finalMix[i] = static_cast<int16_t>(sample);
         }
 
-        // 1. MUST: Split finalMix into 6x 10ms blocks and call apm->AnalyzeReverseStream()
-        // 2. Write finalMix to your 24kHz Sound Device
         writeMixerAudioToSpeakerHardware( finalMix, AUDIO_SAMPLES_PER_FRAME );
     }
 
@@ -142,20 +140,23 @@ float AudioMixerMgr::toGuiGetAudioDelaySeconds( EMediaModule mediaModule )
         return 0;
     }
 
+    int cachedPcmSamples = 0;
     if( eMediaModulePlayerNlc == mediaModule )
     {
         lockPlayerCache();
-        int cachedPcmSamples = m_PlayerCacheBuf.getSampleCnt();
+        cachedPcmSamples += m_PlayerCacheBuf.getSampleCnt();
         unlockPlayerCache();
-
-        return calculateMsOfSamples( cachedPcmSamples ) * 1000;
     }
 
     lockModuleMixerBuffer();
-    int usedPcmSamples = getAudioMixerBuf( mediaModule ).getSampleCnt();
+    cachedPcmSamples += getAudioMixerBuf( mediaModule ).getSampleCnt();
     unlockModuleMixerBuffer();
 
-    return calculateMsOfSamples( usedPcmSamples ) * 1000;
+    cachedPcmSamples += getSpeakerHardwareBufferedSampleCnt();
+
+    double delayMs = calculateMsOfSamples( cachedPcmSamples );
+
+    return delayMs / 1000;
 }
 
 //============================================================================
@@ -166,20 +167,26 @@ float AudioMixerMgr::toGuiGetAudioCacheFreeSpace( EMediaModule mediaModule )
         return 0;
     }
 
+    int availPcmSamplesCache = 0;
     if( eMediaModulePlayerNlc == mediaModule )
     {
         lockPlayerCache();
-        int availPcmSamplesCache = m_PlayerCacheBuf.freeSpaceSampleCount();
+        availPcmSamplesCache += m_PlayerCacheBuf.freeSpaceSampleCount();
         unlockPlayerCache();
-
-        return availPcmSamplesCache * AUDIO_BYTES_PER_SAMPLE_KODI * AUDIO_KODI_TO_NLC_DNSAMPLE_RATIO;
-    }
+    }    
 
     lockModuleMixerBuffer();
-    int availablePcmSampleSpace = getAudioMixerBuf( mediaModule ).freeSpaceSampleCount();
+    availPcmSamplesCache += getAudioMixerBuf( mediaModule ).freeSpaceSampleCount();
     unlockModuleMixerBuffer();
 
-    return availablePcmSampleSpace;
+    availPcmSamplesCache += getSpeakerHardwareFreeSpaceSampleCnt();
+
+    if( eMediaModulePlayerNlc == mediaModule )
+    {
+        return availPcmSamplesCache * AUDIO_BYTES_PER_SAMPLE_KODI * AUDIO_KODI_TO_NLC_DNSAMPLE_RATIO;
+    } 
+
+    return availPcmSamplesCache;
 }
 
 //============================================================================
@@ -217,7 +224,7 @@ int AudioMixerMgr::toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t* pu1
     int wroteSamples = mixerBuf.writeSamples( pu16PcmData );
 
     unlockModuleMixerBuffer();
-    return wroteSamples * 2;
+    return wroteSamples * AUDIO_BYTES_PER_SAMPLE;
  }
 
 //============================================================================
@@ -247,7 +254,7 @@ void AudioMixerMgr::fromGuiAudioOutSpaceAvaiThreaded( int sampleCnt )
 //============================================================================
 float AudioMixerMgr::calculateMsOfSamples( int sampleCount )
 {
-    return ((float)sampleCount / (ECHO_SAMPLE_RATE / AUDIO_CHANNELS) / 1000.0f);
+    return (float) (sampleCount * 1000 ) / ECHO_SAMPLE_RATE;
 }
 
 //============================================================================
@@ -271,7 +278,18 @@ void AudioMixerMgr::setPlayerNlcActive( bool isActive )
 
             unlockModuleMixerBuffer();
         }
+        else
+        {
+            removeAudioMixerBuf( eMediaModulePlayerNlc );
+        }
         
         toGuiWantSpeakerOutput( eMediaModulePlayerNlc, m_PlayerNlcActive );
     }
+}
+
+//============================================================================
+void AudioMixerMgr::removeAudioMixerBuf( EMediaModule mediaModule )
+{
+    std::lock_guard<std::mutex> lock(m_ModuleMixerMutex);
+    m_AppModuleToSpeakerMap.erase(mediaModule);
 }
