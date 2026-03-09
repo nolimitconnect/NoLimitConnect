@@ -24,11 +24,9 @@ public:
 
 	AudioSampleBuf& operator = ( const AudioSampleBuf& rhs );
 
-	void						clear( void )							{ m_SampleCnt = 0; m_NotSilentCnt = 0; }
+	void						clear( void )							{ m_SampleCnt = 0; }
 	bool						empty( void )							{ return 0 == m_SampleCnt; }
 	int							freeSpaceSampleCount( void )			{ return m_MaxSamples - m_SampleCnt; }
-
-	bool						isSilent( void )						{ return 0 == m_NotSilentCnt; }
 
 	void						setMaxSamples( int maxSamples ); // also resizes m_PcmData
 	int							getMaxSamples( void )					{ return m_MaxSamples; }
@@ -38,8 +36,8 @@ public:
 
 	int16_t*					getSampleBuffer( bool atCurIdx = false ) { return atCurIdx ? &m_PcmData[ m_SampleCnt ] :  m_PcmData.data(); }
 
-	virtual int					writeSamples( int16_t* samplesBuf, int sampleCnt, bool isSilent = false );
-	void						samplesWereWritten( int sampleCnt, bool isSilent = false );
+	virtual int					writeSamples( int16_t* samplesBuf, int sampleCnt );
+	void						samplesWereWritten( int sampleCnt );
 
 	virtual int					readSamples( int16_t* srcSamplesBuf, int sampleCnt );
 	virtual void				samplesWereRead( int samplesRead ); // move remainder samples to begining of buffer and decrement sample count
@@ -55,5 +53,4 @@ private:
 
 	int							m_MaxSamples{ AUDIO_SAMPLES_PER_FRAME };
 	int							m_SampleCnt{ 0 };
-	int							m_NotSilentCnt{ 0 };
 };

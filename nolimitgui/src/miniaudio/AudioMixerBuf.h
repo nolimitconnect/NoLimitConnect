@@ -59,20 +59,20 @@ public:
     {
         std::lock_guard<std::mutex> lock(m_mutex);
         
-        if (m_queue.size() >= MAX_FRAMES) 
+        if( m_queue.size() >= MAX_FRAMES ) 
         {
             m_queue.pop_front();
         }
 
         // Emplace directly to avoid extra copies
-        m_queue.emplace_back(data, data + SAMPLES_PER_60MS);   
+        m_queue.emplace_back( data, data + SAMPLES_PER_60MS );   
         return SAMPLES_PER_60MS;
     }
 
     //============================================================================
     bool getFrame(int16_t* outData) 
     {
-        std::lock_guard<std::mutex> lock(m_mutex);
+        std::lock_guard<std::mutex> lock( m_mutex );
         if (m_queue.empty()) return false;
 
         auto& frame = m_queue.front();

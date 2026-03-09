@@ -189,6 +189,7 @@ int AudioMgr::getAudioOutPipelineQueuedSampleCnt( void )
         {
             lockPlayerCache();
             mixerBufSamples += m_PlayerCacheBuf.getSampleCnt();
+            mixerBufSamples += m_PlayerCacheQueue.size() * AUDIO_SAMPLES_PER_FRAME;
             unlockPlayerCache();
         }
 

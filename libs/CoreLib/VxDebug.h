@@ -15,9 +15,10 @@
 #include <stdarg.h>
 
 #undef LOG_DEBUG
-#undef LOG_INFO
+#undef LOG_ERR
 #undef LOG_WARNING
 #undef LOG_CRIT
+#undef LOG_INFO
 
 #define LOG_NONE    (0x0000)
 #define LOG_VERBOSE (0x0001)
@@ -33,7 +34,7 @@
 
 // defines so less work converting Linux code
 #define LOG_WARNING		LOG_WARN
-//#define LOG_ERR			LOG_ERROR
+#define LOG_ERR			LOG_ERROR
 #define LOG_CRIT		LOG_FATAL
 
 typedef void ( *LOG_FUNCTION )( void *, uint32_t, const char * );

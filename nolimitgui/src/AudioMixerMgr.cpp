@@ -25,6 +25,17 @@ void AudioMixerMgr::callbackAudioOut60msSpaceAvail(int freeSpaceLenBytes)
     int16_t tempFrame[AUDIO_SAMPLES_PER_FRAME];
     int activeSources = 0;
 
+    lockPlayerCache();
+    if( !m_PlayerCacheQueue.empty() )
+    {
+        // move a frame of player-nlc audio from the player cache queue to the mixer buffer so it can be mixed with other sources and played out
+        auto& frame = m_PlayerCacheQueue.front();  
+        getAudioMixerBuf( eMediaModulePlayerNlc ).writeSamples( frame.data() ); 
+        m_PlayerCacheQueue.pop_front();
+    }
+
+    unlockPlayerCache();
+
     {
         std::lock_guard<std::mutex> lock(m_ModuleMixerMutex);
         for (auto& [module, buffer] : m_AppModuleToSpeakerMap) 
@@ -63,7 +74,6 @@ void AudioMixerMgr::callbackAudioOut60msSpaceAvail(int freeSpaceLenBytes)
     fromGuiAudioOutSpaceAvaiThreaded( freeSpaceLenBytes );
 }
 
-
 //============================================================================
 int AudioMixerMgr::toGuiPlayerNlcAudio( EMediaModule mediaModule, float* audioDataFloat, int audioDataLenInBytes )
 {
@@ -87,18 +97,20 @@ int AudioMixerMgr::toGuiPlayerNlcAudio( EMediaModule mediaModule, float* audioDa
         int skipCnt = AUDIO_KODI_TO_NLC_DNSAMPLE_RATIO;
         int pcmSampleCnt = kodiSampleCnt / skipCnt;
 
-        lockPlayerCache();
+        bool printStats{ false };
 
+        lockPlayerCache();
         if( pcmSampleCnt > m_PlayerCacheBuf.freeSpaceSampleCount() )
         {
             unlockPlayerCache();
-            LogMsg( LOG_ERROR, "AudioMixerMgr::toGuiPlayerNlcAudio overrun PlayerNlc" );
+            LogMsg( LOG_ERROR, "AudioMixerMgr::%s overrun m_PlayerCacheBuf", __func__  );
             return 0;
         }
 
         int16_t* pcmBuf = m_PlayerCacheBuf.getSampleBuffer();
         pcmBuf += m_PlayerCacheBuf.getSampleCnt();
         int totalSamples{ 0 };
+
         for( int i = 0; i < audioDataLenInBytes / sizeof( float ); i += skipCnt )
         {
             pcmBuf[ totalSamples ] = AudioUtils::floatToPcm( audioDataFloat[ i ] );
@@ -108,21 +120,47 @@ int AudioMixerMgr::toGuiPlayerNlcAudio( EMediaModule mediaModule, float* audioDa
         m_PlayerCacheBuf.samplesWereWritten( totalSamples );
         if( m_PlayerCacheBuf.getSampleCnt() >= AUDIO_SAMPLES_PER_FRAME )
         {
-            getAudioMixerBuf( mediaModule ).writeSamples( m_PlayerCacheBuf.getSampleBuffer() );
+            // Emplace directly to avoid extra copies
+            m_PlayerCacheQueue.emplace_back( m_PlayerCacheBuf.getSampleBuffer(), m_PlayerCacheBuf.getSampleBuffer() + AUDIO_SAMPLES_PER_FRAME );
             m_PlayerCacheBuf.samplesWereRead( AUDIO_SAMPLES_PER_FRAME );
+
+            if( m_PlayerCacheQueue.size() > PLAYER_MAX_QUEUE_SIZE ) 
+            {
+                LogMsg( LOG_ERROR, "AudioMixerMgr::%s overrun m_PlayerCacheQueue", __func__  );
+                printStats = true;                            
+
+                m_PlayerCacheQueue.pop_front();
+            }
         }
 
         unlockPlayerCache();
-/*
-        if( LogEnabled( eLogAudioIo ) )
+
+        if( printStats )
         {
             float cachedTime = toGuiGetAudioDelaySeconds( mediaModule );
-            float totalCache = toGuiGetAudioCacheTotalSeconds( mediaModule );
+            float totalCache = toGuiGetAudioCacheMaxSeconds( mediaModule );
+            float cacheFreeBytes = toGuiGetAudioCacheFreeSpace( mediaModule );
 
-            if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_VERBOSE, "AudioMixerMgr::toGuiPlayerNlcAudio player-nlc samples %d cached sec %3.3f total cache %3.3f sec percent %d", 
-                       totalSamples, cachedTime, totalCache, (int)((cachedTime / totalCache )*100) );
+            LogMsg( LOG_VERBOSE, "AudioMixerMgr::%s free space %d cached sec %3.3f total cache sec %3.3f percent %d", __func__,
+                        cacheFreeBytes, cachedTime, totalCache, (int)((cachedTime / totalCache )*100) );
         }
-        */
+
+
+        if( LogEnabled( eLogPlayerNlc ) )
+        {
+            static int lastTimeMs = 0;
+            int timeNowMs = GetApplicationAliveMs();
+            if( timeNowMs - lastTimeMs > 5000 )
+            {
+                lastTimeMs = timeNowMs;
+                float cachedTime = toGuiGetAudioDelaySeconds( mediaModule );
+                float totalCache = toGuiGetAudioCacheMaxSeconds( mediaModule );
+                float cacheFreeBytes = toGuiGetAudioCacheFreeSpace( mediaModule );
+
+                LogMsg( LOG_VERBOSE, "AudioMixerMgr::%s free space %d cached sec %3.3f total cache sec %3.3f percent %d", __func__,
+                            cacheFreeBytes, cachedTime, totalCache, (int)((cachedTime / totalCache )*100) );
+            }
+        }
     }
     else
     {
@@ -144,15 +182,24 @@ float AudioMixerMgr::toGuiGetAudioDelaySeconds( EMediaModule mediaModule )
     if( eMediaModulePlayerNlc == mediaModule )
     {
         lockPlayerCache();
-        cachedPcmSamples += m_PlayerCacheBuf.getSampleCnt();
+        cachedPcmSamples += m_PlayerCacheQueue.size() * AUDIO_SAMPLES_PER_FRAME;
+        if( m_PlayerCacheQueue.size() == PLAYER_MAX_QUEUE_SIZE )
+        {
+            cachedPcmSamples -= m_PlayerCacheBuf.getSampleCnt();
+        }
+        else
+        {
+            cachedPcmSamples += m_PlayerCacheBuf.getSampleCnt();
+        }
+                
         unlockPlayerCache();
+
+        return calculateMsOfSamples( cachedPcmSamples ) / 1000;
     }
 
     lockModuleMixerBuffer();
     cachedPcmSamples += getAudioMixerBuf( mediaModule ).getSampleCnt();
     unlockModuleMixerBuffer();
-
-    cachedPcmSamples += getSpeakerHardwareBufferedSampleCnt();
 
     double delayMs = calculateMsOfSamples( cachedPcmSamples );
 
@@ -171,53 +218,55 @@ float AudioMixerMgr::toGuiGetAudioCacheFreeSpace( EMediaModule mediaModule )
     if( eMediaModulePlayerNlc == mediaModule )
     {
         lockPlayerCache();
-        availPcmSamplesCache += m_PlayerCacheBuf.freeSpaceSampleCount();
+        availPcmSamplesCache += (PLAYER_MAX_QUEUE_SIZE - m_PlayerCacheQueue.size()) * AUDIO_SAMPLES_PER_FRAME;
+        if( availPcmSamplesCache )
+        {
+            // player cannot handle 60ms jitter
+            availPcmSamplesCache -= m_PlayerCacheBuf.getSampleCnt();
+        }
+
+        vx_assert( availPcmSamplesCache >= 0 );
+
         unlockPlayerCache();
+
+        return availPcmSamplesCache * AUDIO_BYTES_PER_SAMPLE_KODI * AUDIO_KODI_TO_NLC_DNSAMPLE_RATIO;
     }    
 
     lockModuleMixerBuffer();
     availPcmSamplesCache += getAudioMixerBuf( mediaModule ).freeSpaceSampleCount();
     unlockModuleMixerBuffer();
-
-    availPcmSamplesCache += getSpeakerHardwareFreeSpaceSampleCnt();
-
-    if( eMediaModulePlayerNlc == mediaModule )
-    {
-        return availPcmSamplesCache * AUDIO_BYTES_PER_SAMPLE_KODI * AUDIO_KODI_TO_NLC_DNSAMPLE_RATIO;
-    } 
-
-    return availPcmSamplesCache;
+    
+    return availPcmSamplesCache * AUDIO_BYTES_PER_SAMPLE;
 }
 
 //============================================================================
-float AudioMixerMgr::toGuiGetAudioCacheTotalSeconds( EMediaModule mediaModule )
+float AudioMixerMgr::toGuiGetAudioCacheMaxSeconds( EMediaModule mediaModule )
 {
     if( VxIsAppShuttingDown() )
     {
         return 0;
     }
 
+    int maxPcmSamplesCache = 0;
+
     if( eMediaModulePlayerNlc == mediaModule )
     {
-        lockPlayerCache();
-        int maxPcmSamplesCache = m_PlayerCacheBuf.getMaxSamples();
-        unlockPlayerCache();
-
-        return calculateMsOfSamples( maxPcmSamplesCache ) * 1000;
+        maxPcmSamplesCache += (PLAYER_MAX_QUEUE_SIZE - 1) * AUDIO_SAMPLES_PER_FRAME;
+    }
+    else
+    {
+        lockModuleMixerBuffer();
+        maxPcmSamplesCache += getAudioMixerBuf( mediaModule ).getMaxSamples();
+        unlockModuleMixerBuffer();
     }
 
-    lockModuleMixerBuffer();
-    float mixerMaxSamples = getAudioMixerBuf( mediaModule ).getMaxSamples();
-    unlockModuleMixerBuffer();
-
-    return calculateMsOfSamples( mixerMaxSamples ) * 1000;
+    return calculateMsOfSamples( maxPcmSamplesCache ) / 1000;
 }
 
 //============================================================================
 int AudioMixerMgr::toGuiModuleAudioFrame( EMediaModule mediaModule, int16_t* pu16PcmData, int pcmDataLenInBytes )
 {
-    // assumes must be 80 ms of pcm mono
-    vx_assert( pcmDataLenInBytes == AUDIO_BUF_SIZE)
+    vx_assert( pcmDataLenInBytes == AUDIO_BUF_SIZE );
     lockModuleMixerBuffer();
 
     AudioMixerBuf& mixerBuf = getAudioMixerBuf( mediaModule );
@@ -255,7 +304,7 @@ void AudioMixerMgr::fromGuiAudioOutSpaceAvaiThreaded( int sampleCnt )
 //============================================================================
 float AudioMixerMgr::calculateMsOfSamples( int sampleCount )
 {
-    return (float) (sampleCount * 1000 ) / ECHO_SAMPLE_RATE;
+    return ( sampleCount * 1000.0f ) / ECHO_SAMPLE_RATE;
 }
 
 //============================================================================
@@ -267,8 +316,8 @@ void AudioMixerMgr::setPlayerNlcActive( bool isActive )
         if( m_PlayerNlcActive )
         {
             lockPlayerCache();
-
             m_PlayerCacheBuf.clear();
+            m_PlayerCacheQueue.clear();
 
             unlockPlayerCache();
 

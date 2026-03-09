@@ -511,7 +511,7 @@ public:
 
     virtual float               toGuiGetAudioCacheFreeSpace( EMediaModule mediaModule ) override;
 
-    virtual float               toGuiGetAudioCacheTotalSeconds( EMediaModule mediaModule ) override;
+    virtual float               toGuiGetAudioCacheMaxSeconds( EMediaModule mediaModule ) override;
 
     virtual void				toGuiWantVideoCapture( EMediaModule mediaModule, bool wantVidCapture ) override;
     virtual void				toGuiPlayJpgVideo( VxGUID& onlineId, std::shared_ptr<CamJpgVideo>& jpgVideo ) override;

@@ -153,14 +153,14 @@ float AppCommon::toGuiGetAudioCacheFreeSpace( EMediaModule mediaModule )
 }
 
 //============================================================================
-float AppCommon::toGuiGetAudioCacheTotalSeconds( EMediaModule mediaModule )
+float AppCommon::toGuiGetAudioCacheMaxSeconds( EMediaModule mediaModule )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return 0.0f;
 	}
 
-	return m_AudioMgr.toGuiGetAudioCacheTotalSeconds( mediaModule );
+	return m_AudioMgr.toGuiGetAudioCacheMaxSeconds( mediaModule );
 }
 
 //============================================================================

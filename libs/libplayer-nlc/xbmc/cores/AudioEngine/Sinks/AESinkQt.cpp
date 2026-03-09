@@ -168,7 +168,7 @@ void CAESinkQt::GetDelay( AEDelayStatus& status )
 double CAESinkQt::GetCacheTotal( )
 {
     // return total possible cached data duration in seconds 
-    return  IAudioRequests::getIAudioRequests().toGuiGetAudioCacheTotalSeconds( eMediaModulePlayerNlc );
+    return  IAudioRequests::getIAudioRequests().toGuiGetAudioCacheMaxSeconds( eMediaModulePlayerNlc );
 }
 
 extern bool movieStarted;

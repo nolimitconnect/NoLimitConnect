@@ -54,5 +54,5 @@ public:
 
     virtual float               toGuiGetAudioCacheFreeSpace( EMediaModule mediaModule ) = 0;
 
-    virtual float               toGuiGetAudioCacheTotalSeconds( EMediaModule mediaModule ) = 0;
+    virtual float               toGuiGetAudioCacheMaxSeconds( EMediaModule mediaModule ) = 0;
 };

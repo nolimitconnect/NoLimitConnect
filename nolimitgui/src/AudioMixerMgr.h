@@ -23,7 +23,8 @@
 class AudioMixerMgr : public IAudioRequests
 {
 public:
-    //=== IAudioRequests begin ===//
+    const int PLAYER_MAX_QUEUE_SIZE = 34; // approx 2 seconds of audio at 48000 Hz, kodi/player-nlc recommended cache size is between 2 and 5 seconds of audio
+    
     // return true if any microphone device is available to be enabled
     bool				        toGuiIsMicrophoneDeviceAvailable( void ) override{ return false; }; // this is handled by AudioMgr
     // enable disable microphone data callback
@@ -40,7 +41,7 @@ public:
 
     float                       toGuiGetAudioCacheFreeSpace( EMediaModule mediaModule ) override;
 
-    float                       toGuiGetAudioCacheTotalSeconds( EMediaModule mediaModule ) override;
+    float                       toGuiGetAudioCacheMaxSeconds( EMediaModule mediaModule ) override;
     //=== IAudioRequests end ===//
     
     virtual void                writeMixerAudioToSpeakerHardware( int16_t* pcmData, int sampleCount ) = 0;
@@ -73,6 +74,7 @@ protected:
     // player-nlc
     bool                        m_PlayerNlcActive{ false };
     AudioSampleBuf              m_PlayerCacheBuf;
+    std::deque<std::vector<int16_t>> m_PlayerCacheQueue;
     std::mutex                  m_PlayerCacheMutex;
 
     // mixer
