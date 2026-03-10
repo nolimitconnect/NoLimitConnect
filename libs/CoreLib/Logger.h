@@ -18,11 +18,10 @@
 #include <cstdarg>
 #include <cstdio>
 
-#include "LogDefs.h"
-
+#include <CoreLib/VxDebug.h>
 
 // Standard C Linkage for your LogMsg function
-extern "C" void LogMsg(uint32_t u32MsgType, const char* msg, ...);
+//extern "C" void LogMsg(uint32_t u32MsgType, const char* msg, ...);
 
 class NlcLogger {
 public:
@@ -82,6 +81,11 @@ public:
 
 
     void log(const char* fmt, ...) {
+        if(LogEnabled(eLogWebRtc) == false) 
+        {
+            return;
+        }
+
         char buf[1024]; // Standardize buffer size
         va_list args;
         va_start(args, fmt);
@@ -89,7 +93,7 @@ public:
         va_end(args);
 
         std::lock_guard<std::mutex> lock(m_mutex);
-        LogMsg(m_type, "%s", buf);
+        LogModule(eLogWebRtc, m_type, "%s", buf);
     }
 
 private:

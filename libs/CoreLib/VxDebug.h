@@ -48,49 +48,51 @@ typedef void ( *LOG_FUNCTION )( void *, uint32_t, const char * );
 #include <string>
 #include <vector>
 
-enum ELogModule
+enum ELogModule : uint64_t
 {
     eLogNone = 0,
 
-	eLogStartup			= 0x0001, // 1
-	eLogThread          = 0x0002, // 2
-	eLogWebCam          = 0x0004, // 3
-	eLogAssets			= 0x0008, // 4
+	eLogStartup			= 0x0001ULL, // 1
+	eLogThread          = 0x0002ULL, // 2
+	eLogWebCam          = 0x0004ULL, // 3
+	eLogAssets			= 0x0008ULL, // 4
 
-	eLogFileXfer 		= 0x0010, // 5
-	eLogConnect			= 0x0020, // 6 
-	eLogOffer			= 0x0040, // 7
-	eLogRelay           = 0x0080, // 8
+	eLogFileXfer 		= 0x0010ULL, // 5
+	eLogConnect			= 0x0020ULL, // 6 
+	eLogOffer			= 0x0040ULL, // 7
+	eLogRelay           = 0x0080ULL, // 8
 
-	eLogSkt				= 0x0100, // 9
-	eLogSktData         = 0x0200, // 10
-	eLogPkt				= 0x0400, // 11
-	eLogThumbnail		= 0x0800, // 12 
+	eLogSkt				= 0x0100ULL, // 9
+	eLogSktData         = 0x0200ULL, // 10
+	eLogPkt				= 0x0400ULL, // 11
+	eLogThumbnail		= 0x0800ULL, // 12 
 
-	eLogVoice			= 0x1000, // 13
-	eLogNetworkState	= 0x2000, // 14
-	eLogSession			= 0x4000, // 15
-	eLogNetService		= 0x8000, // 16
+	eLogVoice			= 0x1000ULL, // 13
+	eLogNetworkState	= 0x2000ULL, // 14
+	eLogSession			= 0x4000ULL, // 15
+	eLogNetService		= 0x8000ULL, // 16
 
-	eLogIsPortOpenTest 	= 0x00010000, // 17
-	eLogPortForward		= 0x00020000, // 18
-	eLogHostConnect		= 0x00040000, // 19
-	eLogRunTest			= 0x00080000, // 20
+	eLogIsPortOpenTest 	= 0x00010000ULL, // 17
+	eLogPortForward		= 0x00020000ULL, // 18
+	eLogHostConnect		= 0x00040000ULL, // 19
+	eLogRunTest			= 0x00080000ULL, // 20
 
-	eLogOnline			= 0x00100000, // 21
-	eLogHostJoin		= 0x00200000, // 22
-	eLogUsers			= 0x00400000, // 23
-	eLogHostedUser		= 0x00800000, // 24
+	eLogOnline			= 0x00100000ULL, // 21
+	eLogHostJoin		= 0x00200000ULL, // 22
+	eLogUsers			= 0x00400000ULL, // 23
+	eLogHostedUser		= 0x00800000ULL, // 24
 
-    eLogHostSearch      = 0x01000000, // 25
-	eLogHackers			= 0x02000000, // 26
-    eLogStreams			= 0x04000000, // 27
-	eLogPlayerNlc		= 0x08000000, // 28
+    eLogHostSearch      = 0x01000000ULL, // 25
+	eLogHackers			= 0x02000000ULL, // 26
+    eLogStreams			= 0x04000000ULL, // 27
+	eLogPlayerNlc		= 0x08000000ULL, // 28
 
-	eLogFfmpeg			= 0x10000000, // 29
-	eLogAudioIo			= 0x20000000, // 30
-	eLogVideoIo			= 0x40000000, // 31
-	eLogMembership		= 0x80000000, // 31
+	eLogFfmpeg			= 0x10000000ULL, // 29
+	eLogAudioIo			= 0x20000000ULL, // 30
+	eLogVideoIo			= 0x40000000ULL, // 31
+	eLogMembership		= 0x80000000ULL, // 32
+
+	eLogWebRtc			= 0x100000000ULL, // 33
 
     eMaxLogModule
 };

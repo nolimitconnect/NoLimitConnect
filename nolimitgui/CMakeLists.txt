@@ -1205,7 +1205,6 @@ target_link_libraries(nolimitconnect
 if (DEFINED TARGET_OS_WINDOWS)
     target_link_libraries(nolimitconnect
         PUBLIC
-        jpg
 
         x264
         x265
@@ -1255,12 +1254,6 @@ if (DEFINED TARGET_OS_WINDOWS)
         cfgmgr32    # Fixes CM_Get_DevNode_Status from player-nlc
         Setupapi    # Fixes SetupDiGetClassDevsA and related functions from player-nlc
         glew        # Fixes glew32s static linking on Windows used by OverlayRendererQt.cpp from player-nlc
-    )
-
-else()
-    target_link_libraries(nolimitconnect
-        PUBLIC
-        jpegturbo
     )
 
 endif()
@@ -1484,6 +1477,18 @@ elseif (DEFINED TARGET_OS_WINDOWS)
     # do nothing .. was already linked
 else()
     message(FATAL_ERROR "Unknown Target OS Defined for target_link_libraries")
+endif()
+
+if(USE_LIBJPEG_TURBO)
+    target_link_libraries(nolimitconnect
+        PUBLIC
+        jpegturbo
+    )
+else()
+    target_link_libraries(nolimitconnect
+        PUBLIC
+        jpg
+    )
 endif()
 
 qt_finalize_target(nolimitconnect)

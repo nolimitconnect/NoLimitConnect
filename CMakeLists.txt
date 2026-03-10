@@ -1055,6 +1055,14 @@ else()
         add_compile_definitions(ENABLE_JAVA_CAM=1)
     endif()
 
+
+    if(NOT TARGET_OS_WINDOWS)
+        # libjpeg-turbo has speed advantage over libjpeg
+        # set if want to use libturbo-jpeg instead of libjpeg
+        set(USE_LIBJPEG_TURBO true)
+        add_compile_definitions(USE_LIBJPEG_TURBO=1)
+    endif()
+
     if(DEFINED TARGET_CPU_X64)
         message(STATUS "TARGET_CPU_X64 is defined")
         set(TARGET_CPU_64BIT true)
@@ -1084,12 +1092,6 @@ else()
         add_compile_definitions(ARCH_32_BITS=0)
         set(ARCH_64_BITS true)
         add_compile_definitions(ARCH_64_BITS=1)
-        if(NOT DEFINED TARGET_OS_WINDOWS)
-            # libjpeg-turbo has speed advantage over libjpeg
-            # set if want to use libturbo-jpeg instead of libjpeg
-            set(USE_LIBJPEG_TURBO true)
-            add_compile_definitions(USE_LIBJPEG_TURBO=1)
-        endif()
     endif()
     if(DEFINED TARGET_CPU_ARM32)
         message(STATUS "TARGET_CPU_ARM32 is defined")
@@ -1143,6 +1145,7 @@ else()
     message(STATUS "project nlc end with prefix")
 endif() # flatpak build
 
+
 # --------------------------
 # Print summary
 # --------------------------
@@ -1183,5 +1186,12 @@ endif()
 if(TARGET_OS_WINDOWS)
     message(STATUS "BUILD system using MSVC to compile for Windows")
 endif()
+
+if(USE_LIBJPEG_TURBO)
+    message(STATUS "Using libjpeg-turbo")
+else()
+    message(STATUS "Using Vanilla libjpg")
+endif()
+
 
 message(STATUS "**** Root CMakeLists.txt Done ****")
