@@ -6,10 +6,10 @@
             "type": "cppdbg",
             "request": "launch",
             "preLaunchTask": "Build Linux Debug",
-            "program": "${workspaceFolder}/out/build/linux-x64-debug/nolimitgui/nolimitconnect",
+            "program": "${workspaceFolder}/nolimitgui/bin-Linux/nolimitconnect",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/out/build/linux-x64-debug/nolimitgui",
+            "cwd": "${workspaceFolder}/nolimitgui/bin-Linux",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -22,6 +22,11 @@
                 {
                     "description": "Set Disassembly Flavor to Intel",
                     "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Disable debuginfod",
+                    "text": "-gdb-set debuginfod enabled off",
                     "ignoreFailures": true
                 }
             ]
