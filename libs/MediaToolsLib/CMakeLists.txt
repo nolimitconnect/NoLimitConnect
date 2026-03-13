@@ -32,6 +32,13 @@ list(APPEND mediatools_SOURCES
 
 add_library(mediatools STATIC ${mediatools_SOURCES})
 
+# MediaTools uses OpusCodec implemented in libs/ffmpeg/opus/OpusCodec.cpp.
+# Keep this dependency explicit so static-link order does not drop symbols.
+target_link_libraries(mediatools
+    PRIVATE
+    ffmpegopus
+)
+
 nlc_target_add_supported_warning_options(mediatools C
     -Wno-macro-redefined
 )

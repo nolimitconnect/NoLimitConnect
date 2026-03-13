@@ -16,6 +16,7 @@
 class OpusCodec
 {
 public:
+    OpusCodec() = delete;
     OpusCodec(int sampleRate, int channels);
     ~OpusCodec();
     // assumes 60ms frames

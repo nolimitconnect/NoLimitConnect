@@ -1,16 +1,29 @@
 
 cmake_minimum_required(VERSION 3.22.1)
 
-# CMake 4.2+: MSVC is no longer treated as an ASM compiler.
-# Keep Android on clang for ASM and use NASM for non-Android builds.
-if(POLICY CMP0194)
-    cmake_policy(SET CMP0194 OLD)
+# Qt Creator can inject a per-build hook script through
+# CMAKE_PROJECT_INCLUDE_BEFORE. If that generated file is removed, CMake fails
+# inside project(). Clear stale paths so configure can continue.
+if(DEFINED CMAKE_PROJECT_INCLUDE_BEFORE
+   AND NOT CMAKE_PROJECT_INCLUDE_BEFORE STREQUAL ""
+   AND NOT EXISTS "${CMAKE_PROJECT_INCLUDE_BEFORE}")
+    message(WARNING "Ignoring missing CMAKE_PROJECT_INCLUDE_BEFORE: ${CMAKE_PROJECT_INCLUDE_BEFORE}")
+    unset(CMAKE_PROJECT_INCLUDE_BEFORE CACHE)
+    unset(CMAKE_PROJECT_INCLUDE_BEFORE)
 endif()
 
-# Keep MSVC runtime selection on legacy flag mode so ASM-based subprojects
-# are not validated against CMAKE_MSVC_RUNTIME_LIBRARY.
-if(POLICY CMP0091)
-    cmake_policy(SET CMP0091 OLD)
+if(WIN32)
+    # CMake 4.2+: MSVC is no longer treated as an ASM compiler.
+    # Keep Android on clang for ASM and use NASM for non-Android builds.
+    if(POLICY CMP0194)
+        cmake_policy(SET CMP0194 OLD)
+    endif()
+
+    # Keep MSVC runtime selection on legacy flag mode so ASM-based subprojects
+    # are not validated against CMAKE_MSVC_RUNTIME_LIBRARY.
+    if(POLICY CMP0091)
+        cmake_policy(SET CMP0091 OLD)
+    endif() 
 endif()
 
 project(MainSystem LANGUAGES C CXX)
@@ -82,8 +95,11 @@ else()
         endif()
 
     else()
-        # Non-Android platforms
-
+        # Non-Android or Windows platforms
+        if("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "")
+            message(FATAL_ERROR "CMAKE_SYSTEM_PROCESSOR is empty. Unable to determine CPU architecture.")   
+        endif()
+        message(STATUS "CMAKE_SYSTEM_PROCESSOR = ${CMAKE_SYSTEM_PROCESSOR}")
         string(TOLOWER "${CMAKE_SYSTEM_PROCESSOR}" SYSTEM_PROC_LOWER)
         if(SYSTEM_PROC_LOWER MATCHES "amd64|x86_64|x64")
             set(TARGET_CPU_X64 TRUE)

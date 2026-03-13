@@ -110,6 +110,7 @@ void AudioMgr::callbackAudioDeviceWrite( int16_t* pcmData, int sampleCnt )
             m_PendingInBuffers.erase( m_PendingInBuffers.begin() );
             LogMsg( LOG_WARNING, "%s: Audio input queue overflow; dropping oldest pending buffer", __func__ );
         }
+        
         m_PendingInBuffers.emplace_back( std::move(capturedSamples) );
     }
 
@@ -197,20 +198,27 @@ void AudioMgr::processQueuedAudioInput( int16_t* pcmData, int sampleCnt )
             continue;
         }
 
-        m_MicInLowPassFilter.processBufferInPlace( framePtr, sampleCnt );
-        m_MicInHighPassFilter.processBufferInPlace( framePtr, sampleCnt );
-        applyMicInLimiters( framePtr, sampleCnt );
+        // filters do not seem to reduce squeal much
+        //m_MicInLowPassFilter.processBufferInPlace( framePtr, sampleCnt );
+        //m_MicInHighPassFilter.processBufferInPlace( framePtr, sampleCnt );
+
+        // limiting the volume causes snapping sound when clipping occurs
+        //applyMicInLimiters( framePtr, sampleCnt );
        
-        int echoDelayMs = m_EchoDelayMs + getEchoHardwareTotalLatencyMs();
+        if( m_SpeakerRunning )
+        {
+            // if speaker is running, run AEC processing 
+            int echoDelayMs = m_EchoDelayMs + getEchoHardwareTotalLatencyMs();
 
-        m_Aec.setEchoDelay( echoDelayMs );
+            m_Aec.setEchoDelay( echoDelayMs );
 
-        // 1. Run through WebRTC AudioProcessing (AEC3, AGC2, VAD)
-        m_Aec.processCapture(framePtr, ECHO_FRAME_SIZE_10MS);
+            // 1. Run through WebRTC AudioProcessing (AEC3, AGC2, VAD)
+            m_Aec.processCapture(framePtr, ECHO_FRAME_SIZE_10MS);
 
-        // 2. Get the results (e.g., processed PCM, VAD probability)
-        m_CurrentVadProb = m_Aec.lastVadProbability();
-        m_CurrentErl = m_Aec.lastEchoReturnLoss();
+            // 2. Get the results (e.g., processed PCM, VAD probability)
+            m_CurrentVadProb = m_Aec.lastVadProbability();
+            m_CurrentErl = m_Aec.lastEchoReturnLoss();
+        }
 
         if( m_VisualizeInWanted )
         {
@@ -219,9 +227,6 @@ void AudioMgr::processQueuedAudioInput( int16_t* pcmData, int sampleCnt )
                                     m_CurrentVadProb, m_CurrentErl, true );
         }
 
-        // 4. Process the echo-cancelled audio for 
-        //  - speaker output (e.g., apply loopback or direct mic-to-speaker if enabled) 
-        //  - send to opus encoder to send over network if connected to a peer
         callbackAecProcessedAudio( framePtr, ECHO_FRAME_SIZE_10MS );
     }
 
