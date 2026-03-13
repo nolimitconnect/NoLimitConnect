@@ -17,7 +17,7 @@
 class P2PEngine;
 class MediaProcessor;
 class IToGui;
-class OpusAudioEncoder;
+class OpusCodec;
 class SndWriter;
 class SndReader;
 class MJPEGWriter;
@@ -29,7 +29,7 @@ public:
 	MediaTools( P2PEngine& engine, MediaProcessor& mediaProcessor );
 	virtual ~MediaTools();
 
-	OpusAudioEncoder&			getAudioEncoder( void )					{ return m_AudioEncoder; }
+	OpusCodec&					getOpusCodec( void )					{ return m_OpusCodec; }
 	SndWriter&					getAudioWriter( void )					{ return m_AudioWriter; }
 	SndReader&					getAudioReader( void )					{ return m_AudioReader; }
 	MJPEGWriter&				getVideoWriter( void )					{ return m_VideoWriter; }
@@ -47,7 +47,7 @@ protected:
 	P2PEngine&					m_Engine;
 	MediaProcessor&				m_MediaProcessor;
 	IToGui&						getToGui();
-	OpusAudioEncoder&			m_AudioEncoder;
+	OpusCodec&					m_OpusCodec;
 	SndWriter&					m_AudioWriter;
 	SndReader&					m_AudioReader;
 	MJPEGWriter&				m_VideoWriter;

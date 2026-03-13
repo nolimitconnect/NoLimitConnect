@@ -206,7 +206,6 @@ message(STATUS "Version: ${NLC_VERSION} MAJOR ${NLC_VERSION_MAJOR} MINOR ${NLC_V
 # this should only be uncommented temporarily to debug release builds
 # add_compile_definitions(LOG_IN_RELEASE_BUILD=1)
 
-
 # force define of DEBUG if build is debug
 set(CMAKE_CONFIGURATION_TYPES "Release;Debug" CACHE STRING "" FORCE)
 

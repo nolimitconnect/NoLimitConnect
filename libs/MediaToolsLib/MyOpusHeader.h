@@ -24,7 +24,7 @@ public:
 	uint8_t							m_Version{ 1 };
 	uint8_t							m_Channels{ 1 };			// Number of channels: 1..255 
 	uint16_t						m_Preskip{ 0 };			// calculated from look ahead and 
-	uint32_t						m_InputSampleRate{ MY_OPUS_SAMPLE_RATE };	// rate in frequency
+	uint32_t						m_InputSampleRate{ AUDIO_DEVICE_SAMPLE_RATE };	// rate in frequency
 	uint16_t						m_Gain{ 0 };				// in dB S7.8 should be zero whenever possible 
 	uint8_t							m_ChannelMapping{ 0 };
 	// These used only used if channel_mapping != 0 
@@ -32,8 +32,8 @@ public:
 	uint8_t							m_CoupledCnt{ 0 };
 	uint8_t							m_StreamMap[255];
 	// Other required for ogg stream etc
-	int32_t							m_MaxOpusPktSize{ (1275 * 3 + 7) * MY_OPUS_CHANNELS };
+	int32_t							m_MaxOpusPktSize{ (1275 * 3 + 7) * AUDIO_CHANNELS };
 	int32_t							m_LookAhead{ 0 };			// from OPUS_GET_LOOKAHEAD
 	int32_t							m_ExtraOut{ 0 };
-	int32_t							m_OpusFrameSize{ MY_OPUS_FRAME_SAMPLE_CNT };
+	int32_t							m_OpusFrameRate{ OPUS_FRAME_RATE };
 };

@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "SndReader.h"
-#include "OpusAudioDecoder.h"
+#include <opus/OpusCodec.h>
 #include "OpusFileDecoder.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -27,7 +27,7 @@ SndReader::SndReader( P2PEngine& engine, MediaProcessor& mediaProcessor )
 : m_Engine( engine )
 , m_MediaProcessor( mediaProcessor )
 , m_FileName( "" )
-, m_OpusDecoder( * ( new OpusAudioDecoder( MY_OPUS_SAMPLE_RATE, 1 ) ) )
+, m_OpusCodec( * ( new OpusCodec( AUDIO_DEVICE_SAMPLE_RATE, 1 ) ) )
 , m_OpusFileDecoder( * ( new OpusFileDecoder( engine, mediaProcessor ) ) )
 {
 }
@@ -35,7 +35,7 @@ SndReader::SndReader( P2PEngine& engine, MediaProcessor& mediaProcessor )
 //============================================================================
 SndReader::~SndReader()
 {
-	delete &m_OpusDecoder;
+	delete &m_OpusCodec;
 }
 
 //============================================================================

@@ -18,15 +18,13 @@ class OpusCodec
 public:
     OpusCodec(int sampleRate, int channels);
     ~OpusCodec();
+    // assumes 60ms frames
 
-    std::vector<unsigned char> encode(const int16_t* pcm, int frames);
+    // returns compressed data size in bytes or 0 if error
+    int encode( const int16_t* pcm, int sampleCnt, unsigned char* compressedDataBuf, int maxCompressedDataBufSize );
 
-    std::vector<int16_t> decode(const uint8_t* data, size_t len);
-
-    std::vector<int16_t> decode(const std::vector<unsigned char>& data)
-    {
-        return decode(data.data(), data.size());
-    }
+    // returns uncompressed data size in pcm samples or 0 if error
+    int decode( const uint8_t* data, int dataLen, int16_t* pcmRetSamples, int maxPcmRetSamples );
 
 private:
     OpusEncoder* encoder;

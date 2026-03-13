@@ -9,7 +9,9 @@
 //============================================================================
 
 #include "OpusCodec.h"
-#include "AudioDefs.h"
+#include <GuiInterface/IAudioDefs.h>
+
+#include <CoreLib/VxDebug.h>
 #include <stdexcept>
 
 //============================================================================
@@ -19,19 +21,31 @@ OpusCodec::OpusCodec(int sampleRate, int channels)
 
     encoder = opus_encoder_create(sampleRate, channels, OPUS_APPLICATION_VOIP, &error);
     if (error != OPUS_OK)
+    {
+        LogMsg( LOG_ERROR, "Opus encoder creation failed: %d", error );
         throw std::runtime_error("Failed to create Opus encoder");
+    }
 
     error = opus_encoder_ctl(encoder, OPUS_SET_VBR(0));
     if (error != OPUS_OK)
+    {
+        LogMsg( LOG_ERROR, "Failed to disable Opus VBR: %d", error );
         throw std::runtime_error("Failed to disable Opus VBR");
+    }
 
-    error = opus_encoder_ctl(encoder, OPUS_SET_BITRATE(OPUS_FIXED_BITRATE_BPS));
+    error = opus_encoder_ctl(encoder, OPUS_SET_BITRATE(OPUS_LO_FIXED_BITRATE_BPS));
     if (error != OPUS_OK)
-        throw std::runtime_error("Failed to set Opus bitrate");
+    {
+        LogMsg( LOG_ERROR, "Failed to set Opus low bandwidth bitrate: %d", error );
+        throw std::runtime_error("Failed to set Opus low bandwidth bitrate");
+    }
 
     decoder = opus_decoder_create(sampleRate, channels, &error);
     if (error != OPUS_OK)
+    {
+        LogMsg( LOG_ERROR, "Opus decoder creation failed: %d", error );
         throw std::runtime_error("Failed to create Opus decoder");
+    }
 }
 
 //============================================================================
@@ -42,29 +56,34 @@ OpusCodec::~OpusCodec()
 }
 
 //============================================================================
-std::vector<unsigned char> OpusCodec::encode(const int16_t* pcm, int frames)
+int OpusCodec::encode( const int16_t* pcm, int sampleCnt, unsigned char* compressedDataBuf, int maxCompressedDataBufSize )
 {
-    std::vector<unsigned char> out(OPUS_COMPRESSED_BYTES_PER_FRAME);
+    vx_assert( pcm != nullptr );
+    vx_assert( sampleCnt == AUDIO_SAMPLES_PER_FRAME );
+    vx_assert( compressedDataBuf != nullptr );
 
-    int len = opus_encode(encoder, pcm, frames, out.data(), out.size());
-
+    int len = opus_encode(encoder, pcm, OPUS_FRAME_RATE, compressedDataBuf, maxCompressedDataBufSize);
     if (len < 0)
-        throw std::runtime_error("Opus encode failed");
-
-    out.resize(len);
-    return out;
+    {
+        LogMsg( LOG_ERROR, "Opus encode failed: %d", len );
+        return 0;
+    }
+        
+    return len;
 }
 
 //============================================================================
-std::vector<int16_t> OpusCodec::decode(const uint8_t* data, size_t len)
+ // returns uncompressed data size in pcm samples or 0 if error
+int OpusCodec::decode( const uint8_t* data, int dataLen, int16_t* pcmRetSamples, int maxPcmRetSamples )
 {
-    std::vector<int16_t> out(AUDIO_SAMPLES_PER_FRAME);
+    int samplesDecoded  = opus_decode( decoder, data, dataLen, pcmRetSamples, maxPcmRetSamples, 0 );
 
-    int frames = opus_decode(decoder, data, len, out.data(), out.size(), 0);
+    if (samplesDecoded  < 0)
+    {
+        LogMsg( LOG_ERROR, "Opus decode failed: %d", samplesDecoded );
+        return 0;
+    }
 
-    if (frames < 0)
-        throw std::runtime_error("Opus decode failed");
 
-    out.resize(frames);
-    return out;
+    return samplesDecoded;
 }

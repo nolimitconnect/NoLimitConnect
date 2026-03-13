@@ -14,7 +14,7 @@
 #include <MediaToolsLib/SndDefs.h>
 
 // implements circular buffer and delays available data for anti jitter reasons
-// buffers are MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN long
+// buffers are AUDIO_BUF_SIZE long
 
 // #define DEBUG_AUDIO_JITTER_BUF
 
@@ -23,7 +23,7 @@ AudioJitterBuffer::AudioJitterBuffer( int queDepth )
 {
 	for( int i = 0; i < queDepth; i++ )
 	{
-		m_BufList.push_back( new char[ MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN] );
+		m_BufList.push_back( new char[ AUDIO_BUF_SIZE] );
 	}
 }
 

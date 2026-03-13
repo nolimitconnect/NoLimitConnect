@@ -33,7 +33,7 @@ enum EPluginSessionType
 
 class VxSktBase;
 class VxPktHdr;
-class OpusAudioDecoder;
+class OpusCodec;
 
 class PluginSessionBase
 {
@@ -53,7 +53,7 @@ public:
 	virtual std::shared_ptr<VxSktBase>&			getSkt( void );
 	virtual void				setSessionType( EPluginSessionType sessionType );
 	virtual EPluginSessionType	getSessionType( void );
-	virtual OpusAudioDecoder *	getAudioDecoder( void ); // will create decoder if doesn't already exist
+	virtual OpusCodec *			getOpusCodec( void ); // will create codec if doesn't already exist
 	virtual AudioJitterBuffer&  getJitterBuffer( void )						{ return m_JitterBuffer; }
 
 	virtual bool				isP2PSession( void );
@@ -99,7 +99,7 @@ protected:
 	VxGUID						m_AssetId;
 	OfferBaseInfo				m_OfferInfo;
 	EOfferResponse				m_eOfferResponse{ eOfferResponseNotSet };
-	OpusAudioDecoder *			m_AudioDecoder{ nullptr };
+	OpusCodec *					m_OpusCodec{ nullptr };
 	AudioJitterBuffer			m_JitterBuffer;
 
 	VxSemaphore					m_TestSemaphore; // semaphore used for synchronous tests

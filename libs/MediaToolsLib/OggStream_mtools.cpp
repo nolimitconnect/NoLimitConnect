@@ -12,7 +12,7 @@
 #include "SndDefs.h"
 #include "MyOpusHeader.h"
 
-#include "opus_defines.h"
+#include <opus/include/opus_defines.h>
 
 #include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxDebug.h>
@@ -208,7 +208,7 @@ int OggStream::writeEncodedFrame( uint8_t * encodedFrame, int32_t encodedLen )
 	int retVal = 0;
 	//enc_granulepos+=cur_frame_size*48000/coding_rate;
 	int sizeSegments = ( encodedLen + 255 ) / 255;
-	int encGranuleStep = m_OpusHeader->m_OpusFrameSize * 48000 / m_OpusHeader->m_InputSampleRate;
+	int encGranuleStep = m_OpusHeader->m_OpusFrameRate * 48000 / m_OpusHeader->m_InputSampleRate;
 	m_EncGranulePos += encGranuleStep;
 
 	// Flush early if adding this packet would make us end up with a
@@ -235,7 +235,7 @@ int OggStream::writeEncodedFrame( uint8_t * encodedFrame, int32_t encodedLen )
 	  to get cropped off. The downside of late reading is added delay.
 	  If your ogg_delay is 120ms or less we'll assume you want the
 	  low delay behavior.*/
-	int nb_samples = MY_OPUS_FRAME_SAMPLE_CNT;
+	int nb_samples = OPUS_FRAME_RATE;
 	if( ( m_OggPkt.e_o_s ) || m_MaxOggDelay <= 5760 )
 	{
 		nb_samples = -1;
@@ -250,7 +250,7 @@ int OggStream::writeEncodedFrame( uint8_t * encodedFrame, int32_t encodedLen )
 		/*We compute the final GP as ceil(len*48k/input_rate). When a resampling
 		  decoder does the matching floor(len*input/48k) conversion the length will
 		  be exactly the same as the input.*/
-		m_OggPkt.granulepos = ((MY_OPUS_FRAME_SAMPLE_CNT * 48000 + m_OpusHeader->m_InputSampleRate - 1 ) / m_OpusHeader->m_InputSampleRate ) + m_OpusHeader->m_Preskip;
+		m_OggPkt.granulepos = ((OPUS_FRAME_RATE * 48000 + m_OpusHeader->m_InputSampleRate - 1 ) / m_OpusHeader->m_InputSampleRate ) + m_OpusHeader->m_Preskip;
 	}
 
 	m_OggPkt.packetno = 2 + m_id;

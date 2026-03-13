@@ -20,6 +20,6 @@ PktVoiceReq::PktVoiceReq()
 //============================================================================
 void PktVoiceReq::calcPktLen( void )
 {
-	setPktLength( ROUND_TO_16BYTE_BOUNDRY( (sizeof( PktVoiceReq ) - ( sizeof( m_CompressedData ) ) + (getFrame1Len() + getFrame2Len() + getFrame3Len() + getFrame4Len()) ) ) );
+	setPktLength( ROUND_TO_16BYTE_BOUNDRY( (sizeof( PktVoiceReq ) - ( sizeof( m_CompressedData ) ) + (getCompressedDataLen()) ) ) );
 }
 

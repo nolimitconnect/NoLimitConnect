@@ -304,9 +304,9 @@ endif()
 
 target_include_directories(ptopengine
   PRIVATE
-    ../..
-    ../../DependLibs
-    ../../libs/libplayer-nlc/xbmc
+    ../
+    ../libplayer-nlc/xbmc
+    ../ffmpeg
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

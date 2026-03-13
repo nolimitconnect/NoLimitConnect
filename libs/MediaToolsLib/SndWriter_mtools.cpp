@@ -9,7 +9,7 @@
 //============================================================================
 
 #include "SndWriter.h"
-#include "OpusAudioEncoder.h"
+#include <opus/OpusCodec.h>
 #include "OpusFileEncoder.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -37,7 +37,7 @@ SndWriter::SndWriter( P2PEngine& engine, MediaProcessor& mediaProcessor )
 , m_MicroSecBetweenFrames( 0 )
 , m_TotalElapsedMs( 0 )
 , m_IsFirstFrameAfterResumeRecording( 0 )
-, m_OpusEncoder( * ( new OpusAudioEncoder( MY_OPUS_SAMPLE_RATE, 1 ) ) )
+, m_OpusCodec( * ( new OpusCodec( AUDIO_DEVICE_SAMPLE_RATE, AUDIO_CHANNELS ) ) )
 , m_OpusFileEncoder( * ( new OpusFileEncoder() ) )
 {
 	m_MediaSessionId.initializeWithNewVxGUID();
@@ -46,7 +46,8 @@ SndWriter::SndWriter( P2PEngine& engine, MediaProcessor& mediaProcessor )
 //============================================================================
 SndWriter::~SndWriter()
 {
-	delete &m_OpusEncoder;
+	delete &m_OpusCodec;
+	delete &m_OpusFileEncoder;
 }
 
 //============================================================================
@@ -213,7 +214,7 @@ void SndWriter::closeSndFile( void )
 }
 
 //============================================================================
-void SndWriter::callbackOpusEncoded( uint8_t* encodedAudio, std::vector<uint16_t>& encodedLenList )
+void SndWriter::callbackOpusEncoded( uint8_t* encodedAudio, uint16_t opusLenBytes )
 {
 	if( getIsRecording() )
 	{
@@ -223,15 +224,7 @@ void SndWriter::callbackOpusEncoded( uint8_t* encodedAudio, std::vector<uint16_t
 			fwrite( pu16PcmData, 1, u16PcmDataLen, m_FileHandle );
 		}
 #else
-		int encodedOffs{ 0 };
-		for( auto encodedLen : encodedLenList )
-		{
-			if( encodedLen )
-			{
-				m_OpusFileEncoder.writeEncodedFrame( &encodedAudio[ encodedOffs ], encodedLen );
-				encodedOffs += encodedLen;
-			}
-		}
+		m_OpusFileEncoder.writeEncodedFrame( encodedAudio, opusLenBytes );
 #endif // MAKE_PCM_INSTEAD_OF_OPUS
 	}
 }

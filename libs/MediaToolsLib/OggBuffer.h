@@ -43,10 +43,10 @@ public:
 	int							readChars( uint8_t * str, int charCount );
 
 	int							stuffOpusHeaderIntoPacket(	MyOpusHeader&			opusHeader, 
-															uint8_t *					packetBuf, 
+															uint8_t *				packetBuf, 
 															int						pktBufLen );
 
-	int							parsePktIntoOpusHeader(		uint8_t *					packetBuf, 
+	int							parsePktIntoOpusHeader(		uint8_t *				packetBuf, 
 															int						pktBufLen, 
 															MyOpusHeader&			opusHeader );
 

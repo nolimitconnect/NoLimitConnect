@@ -10,10 +10,10 @@
 
 #include "PluginSessionBase.h"
 
-#include <MediaToolsLib/OpusAudioDecoder.h>
+#include <opus/OpusCodec.h>
+#include <GuiInterface/IAudioDefs.h>
 
 #include <NetLib/VxSktBase.h>
-
 #include <PktLib/PktsSession.h>
 
 namespace
@@ -51,18 +51,18 @@ PluginSessionBase::PluginSessionBase( VxGUID& lclSessionId, std::shared_ptr<VxSk
 //============================================================================
 PluginSessionBase::~PluginSessionBase()
 {
-	delete m_AudioDecoder;
+	delete m_OpusCodec;
 }
 
 //============================================================================
-OpusAudioDecoder *	PluginSessionBase::getAudioDecoder( void )		
+OpusCodec *	PluginSessionBase::getOpusCodec( void )		
 { 
-	if( nullptr == m_AudioDecoder )
+	if( nullptr == m_OpusCodec )
 	{
-		m_AudioDecoder = new OpusAudioDecoder();
+		m_OpusCodec = new OpusCodec( AUDIO_DEVICE_SAMPLE_RATE, AUDIO_CHANNELS );
 	}
 
-	return m_AudioDecoder;
+	return m_OpusCodec;
 }
 
 //============================================================================

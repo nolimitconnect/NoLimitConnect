@@ -20,6 +20,8 @@
 #include <CoreLib/VxThread.h>
 #include <CoreLib/VxSemaphore.h>
 
+#include <ffmpeg/opus/OpusCodec.h>
+
 #include <memory>
 #include <vector>
 
@@ -336,4 +338,6 @@ protected:
 	int							m_VidPktListContainsMyIdCnt{ 0 };
 
 	MediaCallbackInterface*		m_GuiPlayerCallback = nullptr;
+
+	OpusCodec					m_OpusCodec;
 };

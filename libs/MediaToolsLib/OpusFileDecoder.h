@@ -16,11 +16,10 @@
 #include "SndDefs.h"
 #include "MyOpusHeader.h"
 
-#include <opus.h>
-#include <opus_multistream.h>
+#include <opus/include/opus.h>
+#include <opus/include/opus_multistream.h>
 #include <libogg/include/ogg/ogg.h>
 
-#include "opus_defines.h"
 #include "OpusTools/speex_resampler.h"
 
 #include <string>
@@ -34,7 +33,7 @@ struct shapestate
 	int mute;
 };
 
-class OpusAudioDecoder;
+class OpusCodec;
 class OggStream;
 class P2PEngine;
 class MediaProcessor;
@@ -74,7 +73,7 @@ protected:
 	//=== vars ===//
 	P2PEngine&					m_Engine;
 	MediaProcessor&				m_MediaProcessor;
-	OpusDecoder *				m_OpusDecoder;
+	OpusDecoder *				m_OpusCodec;
 	std::string					m_FileName;
 	VxGUID						m_AssetId; 
 	uint64_t					m_FileLen{ 0 };
@@ -98,8 +97,8 @@ protected:
 	int							m_PacketCount{ 0 };
 	opus_int64					m_LinkOut{ 0 };
 	float						m_ManualGain{ 0 };
-	int							m_Channels{ MY_OPUS_CHANNELS };
-	int							m_Rate{ MY_OPUS_SAMPLE_RATE };
+	int							m_Channels{ AUDIO_CHANNELS };
+	int							m_Rate{ AUDIO_DEVICE_SAMPLE_RATE };
 	int							m_Preskip{ 0 };
 	int 						m_GranOffset{ 0 };
 	SpeexResamplerState *		m_Resampler{ nullptr };

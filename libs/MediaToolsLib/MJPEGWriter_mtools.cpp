@@ -278,8 +278,8 @@ void MJPEGWriter::stopAviWrite( bool deleteFile )
 							videoTotalFrames, 
 							(uint32_t)m_TotalJpgDataLen );
 
-		m_AviHdr.m_AudioStream.setPcmAudioRate( MY_OPUS_SAMPLE_RATE );
-		m_AviHdr.m_AudioStream.setPcmChunkTotals( audioTotalChunks, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN ); 
+		m_AviHdr.m_AudioStream.setPcmAudioRate( AUDIO_DEVICE_SAMPLE_RATE );
+		m_AviHdr.m_AudioStream.setPcmChunkTotals( audioTotalChunks, AUDIO_BUF_SIZE ); 
 
 		uint64_t fileLen = VxFileUtil::getFileLen( m_FileName.c_str() );
 		m_RiffHdr.setTotalRiffLen( (uint32_t)(fileLen - 8) );

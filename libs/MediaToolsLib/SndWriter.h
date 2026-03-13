@@ -26,7 +26,7 @@ class P2PEngine;
 class MediaProcessor;
 class IToGui;
 class AssetInfo;
-class OpusAudioEncoder;
+class OpusCodec;
 class OpusFileEncoder;
 
 class SndWriter : public MediaCallbackInterface
@@ -43,7 +43,7 @@ public:
 
 	bool						fromGuiSndRecord( ESndRecordState eRecState, VxGUID& feedId, const char* fileName  );
 	bool						fromGuiAssetAction( AssetBaseInfo& assetInfo, EAssetAction assetAction, int pos0to100000 );
-	virtual void				callbackOpusEncoded( uint8_t* encodedAudio, std::vector<uint16_t>& encodedLenList ) override;
+	virtual void				callbackOpusEncoded( uint8_t* encodedAudio, uint16_t opusLenBytes ) override;
 
 	bool						startSndWrite( const char* fileName, bool beginInPausedState );
 	void						stopSndWrite( void );
@@ -76,7 +76,7 @@ protected:
 
 	std::vector<uint32_t>		m_FrameOffsetList;
 	VxMutex						m_RecMutex;
-	OpusAudioEncoder&			m_OpusEncoder;
+	OpusCodec&					m_OpusCodec;
 	OpusFileEncoder&			m_OpusFileEncoder;
 	VxGUID						m_MediaSessionId;
 };

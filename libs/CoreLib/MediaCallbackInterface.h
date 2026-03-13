@@ -25,7 +25,7 @@ class MediaCallbackInterface : public AudioCallbackSpaceAvailable
 {
 public:
 	virtual void				callbackPcm( VxGUID& feedId, int16_t* pcmData, uint16_t pcmDataLen ){};
-	virtual void				callbackOpusEncoded( uint8_t* encodedAudio, std::vector<uint16_t>& encodedLenList ){};
+	virtual void				callbackOpusEncoded( uint8_t* encodedAudio, uint16_t opusLenBytes ){};
 	virtual void				callbackOpusPkt( PktVoiceReq* pktOpusAudio ){};
 
 	virtual void				callbackVideoJpg( VxGUID& vidFeedId, std::shared_ptr<CamJpgVideo>& jpgVideo ){};

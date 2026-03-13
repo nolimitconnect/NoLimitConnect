@@ -6,171 +6,6 @@ project(mediatools, LANGUAGES C CXX)
 set(mediatools_SOURCES)
 
 list(APPEND mediatools_SOURCES 
-    opus/celt/mdct_mediatools.c
-    opus/silk/NSQ_del_dec.c
-    opus/silk/bwexpander_32.c
-    opus/silk/resampler_down2_3.c
-    OpusTools/resample_mediatools.c
-    opus/silk/debug_mtools.c
-    opus/silk/resampler_mtools.c
-    opus/silk/sort_mtools.c
-    opus/src/analysis_mtools.c
-    opus/src/mlp_mtools.c
-    opus/src/mlp_data_mtools.c
-    opus/src/opus_mtools.c
-    opus/src/opus_encoder_mtools.c
-    opus/src/opus_multistream_mtools.c
-    opus/src/opus_multistream_encoder_mtools.c
-    opus/src/opus_multistream_decoder_mtools.c
-    opus/src/repacketizer_mtools.c
-    ogg/bitwise_mtools.c
-    ogg/framing_mtools.c
-    opus/celt/arm/arm_celt_map_mtools.c
-    opus/celt/arm/armcpu_mtools.c
-    opus/celt/bands_mtools.c
-    opus/celt/celt_mtools.c
-    opus/celt/celt_encoder_mtools.c
-    opus/celt/celt_lpc_mtools.c
-    opus/celt/cwrs_mtools.c
-    opus/celt/entcode_mtools.c
-    opus/celt/entdec_mtools.c
-    opus/celt/entenc_mtools.c
-    opus/celt/kiss_fft_mtools.c
-    opus/celt/laplace_mtools.c
-    opus/celt/mathops_mtools.c
-    opus/celt/modes_mtools.c
-    opus/celt/pitch_mtools.c
-    opus/celt/quant_bands_mtools.c
-    opus/celt/rate_mtools.c
-    opus/celt/vq_mtools.c
-    opus/celt/celt_decoder_mtools.c
-    #opus/silk/fixed/apply_sine_window_FIX_mtools.c
-    #opus/silk/fixed/autocorr_FIX_mtools.c
-    #opus/silk/fixed/burg_modified_FIX_mtools.c
-    #opus/silk/fixed/corrMatrix_FIX_mtools.c
-    #opus/silk/fixed/encode_frame_FIX_mtools.c
-    #opus/silk/fixed/find_LPC_FIX_mtools.c
-    #opus/silk/fixed/find_LTP_FIX_mtools.c
-    #opus/silk/fixed/find_pitch_lags_FIX_mtools.c
-    #opus/silk/fixed/find_pred_coefs_FIX_mtools.c
-    #opus/silk/fixed/k2a_FIX_mtools.c
-    #opus/silk/fixed/k2a_Q16_FIX_mtools.c
-    #opus/silk/fixed/LTP_analysis_filter_FIX_mtools.c
-    #opus/silk/fixed/LTP_scale_ctrl_FIX_mtools.c
-    #opus/silk/fixed/noise_shape_analysis_FIX_mtools.c
-    #opus/silk/fixed/pitch_analysis_core_FIX_mtools.c
-    #opus/silk/fixed/prefilter_FIX_mtools.c
-    #opus/silk/fixed/process_gains_FIX_mtools.c
-    #opus/silk/fixed/regularize_correlations_FIX_mtools.c
-    #opus/silk/fixed/residual_energy16_FIX_mtools.c
-    #opus/silk/fixed/residual_energy_FIX_mtools.c
-    #opus/silk/fixed/schur64_FIX_mtools.c
-    #opus/silk/fixed/schur_FIX_mtools.c
-    #opus/silk/fixed/solve_LS_FIX_mtools.c
-    #opus/silk/fixed/vector_ops_FIX_mtools.c
-    #opus/silk/fixed/warped_autocorrelation_FIX_mtools.c
-    opus/silk/float/apply_sine_window_FLP_mtools.c
-    opus/silk/float/autocorrelation_FLP_mtools.c
-    opus/silk/float/burg_modified_FLP_mtools.c
-    opus/silk/float/bwexpander_FLP_mtools.c
-    opus/silk/float/corrMatrix_FLP_mtools.c
-    opus/silk/float/encode_frame_FLP_mtools.c
-    opus/silk/float/energy_FLP_mtools.c
-    opus/silk/float/find_LPC_FLP_mtools.c
-    opus/silk/float/find_LTP_FLP_mtools.c
-    opus/silk/float/find_pitch_lags_FLP_mtools.c
-    opus/silk/float/find_pred_coefs_FLP_mtools.c
-    opus/silk/float/inner_product_FLP_mtools.c
-    opus/silk/float/k2a_FLP_mtools.c
-    opus/silk/float/levinsondurbin_FLP_mtools.c
-    opus/silk/float/LPC_analysis_filter_FLP_mtools.c
-    opus/silk/float/LPC_inv_pred_gain_FLP_mtools.c
-    opus/silk/float/LTP_analysis_filter_FLP_mtools.c
-    opus/silk/float/LTP_scale_ctrl_FLP_mtools.c
-    opus/silk/float/noise_shape_analysis_FLP_mtools.c
-    opus/silk/float/pitch_analysis_core_FLP_mtools.c
-    opus/silk/float/prefilter_FLP_mtools.c
-    opus/silk/float/process_gains_FLP_mtools.c
-    opus/silk/float/regularize_correlations_FLP_mtools.c
-    opus/silk/float/residual_energy_FLP_mtools.c
-    opus/silk/float/scale_copy_vector_FLP_mtools.c
-    opus/silk/float/scale_vector_FLP_mtools.c
-    opus/silk/float/schur_FLP_mtools.c
-    opus/silk/float/solve_LS_FLP_mtools.c
-    opus/silk/float/sort_FLP_mtools.c
-    opus/silk/float/warped_autocorrelation_FLP_mtools.c
-    opus/silk/float/wrappers_FLP_mtools.c
-    opus/silk/A2NLSF_mtools.c
-    opus/silk/ana_filt_bank_1_mtools.c
-    opus/silk/biquad_alt_mtools.c
-    opus/silk/bwexpander_mtools_mtools.c
-    opus/silk/check_control_input_mtools.c
-    opus/silk/CNG_mtools.c
-    opus/silk/code_signs_mtools.c
-    opus/silk/control_audio_bandwidth_mtools.c
-    opus/silk/control_codec_mtools.c
-    opus/silk/control_SNR_mtools.c
-    opus/silk/dec_API_mtools.c
-    opus/silk/decode_core_mtools.c
-    opus/silk/decode_frame_mtools.c
-    opus/silk/decode_indices_mtools.c
-    opus/silk/decode_parameters_mtools.c
-    opus/silk/decode_pitch_mtools.c
-    opus/silk/decode_pulses_mtools.c
-    opus/silk/decoder_set_fs_mtools.c
-    opus/silk/enc_API_mtools.c
-    opus/silk/encode_indices_mtools.c
-    opus/silk/encode_pulses_mtools.c
-    opus/silk/gain_quant_mtools.c
-    opus/silk/HP_variable_cutoff_mtools.c
-    opus/silk/init_decoder_mtools.c
-    opus/silk/init_encoder_mtools.c
-    opus/silk/inner_prod_aligned_mtools.c
-    opus/silk/interpolate_mtools.c
-    opus/silk/lin2log_mtools.c
-    opus/silk/log2lin_mtools.c
-    opus/silk/LP_variable_cutoff_mtools.c
-    opus/silk/LPC_analysis_filter_mtools.c
-    opus/silk/LPC_inv_pred_gain_mtools.c
-    opus/silk/NLSF2A_mtools.c
-    opus/silk/NLSF_decode_mtools.c
-    opus/silk/NLSF_del_dec_quant_mtools.c
-    opus/silk/NLSF_encode_mtools.c
-    opus/silk/NLSF_stabilize_mtools.c
-    opus/silk/NLSF_unpack_mtools.c
-    opus/silk/NLSF_VQ_mtools.c
-    opus/silk/NLSF_VQ_weights_laroia_mtools.c
-    opus/silk/pitch_est_tables_mtools.c
-    opus/silk/NSQ_mtools.c
-    opus/silk/PLC_mtools.c
-    opus/silk/process_NLSFs_mtools.c
-    opus/silk/quant_LTP_gains_mtools.c
-    opus/silk/resampler_down2_mtools.c
-    opus/silk/resampler_private_AR2_mtools.c
-    opus/silk/resampler_private_down_FIR_mtools.c
-    opus/silk/resampler_private_IIR_FIR_mtools.c
-    opus/silk/resampler_private_up2_HQ_mtools.c
-    opus/silk/resampler_rom_mtools.c
-    opus/silk/shell_coder_mtools.c
-    opus/silk/sigm_Q15_mtools.c
-    opus/silk/stereo_decode_pred_mtools.c
-    opus/silk/stereo_encode_pred_mtools.c
-    opus/silk/stereo_find_predictor_mtools.c
-    opus/silk/stereo_LR_to_MS_mtools.c
-    opus/silk/stereo_MS_to_LR_mtools.c
-    opus/silk/stereo_quant_pred_mtools.c
-    opus/silk/sum_sqr_shift_mtools.c
-    opus/silk/table_LSF_cos_mtools.c
-    opus/silk/tables_gain_mtools.c
-    opus/silk/tables_LTP_mtools.c
-    opus/silk/tables_NLSF_CB_NB_MB_mtools.c
-    opus/silk/tables_NLSF_CB_WB_mtools.c
-    opus/silk/tables_other_mtools.c
-    opus/silk/tables_pitch_lag_mtools.c
-    opus/silk/tables_pulses_per_block_mtools.c
-    opus/silk/VAD_mtools.c
-    opus/silk/VQ_WMat_EC_mtools.c
-    opus/src/opus_decoder_mtools.c
     OpusTools/win32/unicode_support_mtools.c
     OpusTools/audio-in_mtools.c
     OpusTools/diag_range_mtools.c
@@ -189,8 +24,6 @@ list(APPEND mediatools_SOURCES
     MyOpusHeader_mtools.cpp
     OggBuffer_mtools.cpp
     OggStream_mtools.cpp
-    OpusAudioDecoder_mtools.cpp
-    OpusAudioEncoder_mtools.cpp
     OpusFileDecoder_mtools.cpp
     OpusFileEncoder_mtools.cpp
     SndReader_mtools.cpp
@@ -220,11 +53,8 @@ target_include_directories(mediatools
   PRIVATE
     OpusTools/include
     include
-    opus/win32
-    opus/celt
-    opus/silk
-    opus/silk/float
     ../libptopengine
+    ../ffmpeg
 )
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")

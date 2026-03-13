@@ -40,7 +40,7 @@ class P2PEngine;
 class MediaProcessor;
 class IToGui;
 class AssetInfo;
-class OpusAudioDecoder;
+class OpusCodec;
 class OpusFileDecoder;
 class VFile;
 
@@ -82,6 +82,6 @@ protected:
 	bool						m_IsFirstFrameAfterResumePlaying{ false };
 
 	VxMutex						m_RecMutex;
-	OpusAudioDecoder&			m_OpusDecoder;
+	OpusCodec&					m_OpusCodec;
 	OpusFileDecoder&			m_OpusFileDecoder;
 };

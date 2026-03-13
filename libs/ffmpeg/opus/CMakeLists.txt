@@ -238,6 +238,7 @@ list(APPEND ffmpegopus_SOURCES
     src/analysis.c
     src/mlp.c
     src/mlp_data.c
+    OpusCodec.cpp
 )
 
 set(ffmpegopus_HEADERS)
@@ -300,6 +301,7 @@ list(APPEND ffmpegopus_HEADERS
     silk/tables.h
     silk/tuning_parameters.h
     silk/typedef.h
+    OpusCodec.h
 )
 
 if(NOT DEFINED TARGET_OS_ANDROID)

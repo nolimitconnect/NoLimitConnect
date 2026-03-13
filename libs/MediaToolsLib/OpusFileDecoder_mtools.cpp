@@ -37,11 +37,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //============================================================================
 
 #include "OpusFileDecoder.h"
-#include "OpusAudioDecoder.h"
+
 #include "OggStream.h"
 
-#include "opus.h"
-#include "opus_types.h"
+#include <opus/OpusCodec.h>
 
 #include <P2PEngine/P2PEngine.h>
 #include <GuiInterface/IToGui.h>
@@ -274,13 +273,13 @@ void OpusFileDecoder::callbackAudioOutSpaceAvail( int freeSpaceLenBytes )
 	{
 		int decodedLen = 0;
 		m_ResourceMutex.lock();
-		if( freeSpaceLenBytes >= MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN )
+		if( freeSpaceLenBytes >= AUDIO_BUF_SIZE )
 		{
-			uint8_t buf[MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN];
-			decodedLen = decodedNextFrame( buf, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
-			if( decodedLen < MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN )
+			uint8_t buf[AUDIO_BUF_SIZE];
+			decodedLen = decodedNextFrame( buf, AUDIO_BUF_SIZE );
+			if( decodedLen < AUDIO_BUF_SIZE )
 			{
-				memset( &buf[decodedLen], 0, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN - decodedLen );
+				memset( &buf[decodedLen], 0, AUDIO_BUF_SIZE - decodedLen );
 				if( !m_TotalSndFramesInFile || m_ConsumedSndFrames == m_TotalSndFramesInFile )
 				{
 					// all done
@@ -294,7 +293,7 @@ void OpusFileDecoder::callbackAudioOutSpaceAvail( int freeSpaceLenBytes )
 				m_Engine.getToGui().toGuiAssetAction( eAssetActionPlayProgress, m_AssetId, (int)((m_ConsumedSndFrames * 100000UL) / m_TotalSndFramesInFile) );
 			}
 
-			m_MediaProcessor.playAudio( (int16_t *)buf, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
+			m_MediaProcessor.playAudio( (int16_t *)buf, AUDIO_BUF_SIZE );
 		}
 
 		m_ResourceMutex.unlock();
@@ -310,12 +309,12 @@ int OpusFileDecoder::moveOpusFramesToOutput( uint8_t* outBuffer )
 	{
 		char* frame1 =  m_DecodedFrames[0];
 		// in many android devices seem low volume. do a boost in volume
-		m_Engine.getMediaProcessor().increasePcmSampleVolume( (int16_t *)frame1, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN, 20 );
-		memcpy( outBuffer, frame1, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
+		m_Engine.getMediaProcessor().increasePcmSampleVolume( (int16_t *)frame1, AUDIO_BUF_SIZE, 20 );
+		memcpy( outBuffer, frame1, AUDIO_BUF_SIZE );
 		m_DecodedFrames.erase( m_DecodedFrames.begin() );
 		m_ConsumedSndFrames++;
 		delete frame1;
-		return MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN;
+		return AUDIO_BUF_SIZE;
 	}
 	else
 	{
@@ -486,7 +485,7 @@ int OpusFileDecoder::decodedNextFrame( uint8_t* frameBuffer, int frameBufferLen 
 					if (m_OggPkt.e_o_s && m_StreamState.serialno == m_OpusSerialNum)
 						m_Eos=1; /* don't care for anything except opus m_Eos */
 
-					int ret = opus_decode( m_OpusDecoder, (unsigned char*)m_OggPkt.packet, m_OggPkt.bytes, m_OpusOutput, MAX_FRAME_SIZE, 0);
+					int ret = opus_decode( m_OpusCodec, (unsigned char*)m_OggPkt.packet, m_OggPkt.bytes, m_OpusOutput, MAX_FRAME_SIZE, 0);
 
 					// If the decoder returned less than zero, we have an error.
 					if( ret < 0 )
@@ -557,12 +556,12 @@ int OpusFileDecoder::decodedNextFrame( uint8_t* frameBuffer, int frameBufferLen 
 		}
 
 		moveOpusFramesToOutput( frameBuffer );
-		return MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN;
+		return AUDIO_BUF_SIZE;
 	}
 	else
 	{
 		moveOpusFramesToOutput( frameBuffer );
-		return MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN;
+		return AUDIO_BUF_SIZE;
 	}
 }
 
@@ -582,14 +581,14 @@ bool OpusFileDecoder::processOggFileHeader( MyOpusHeader& header, ogg_packet *op
 	m_Channels	= header.m_Channels;
 	m_Rate		= header.m_InputSampleRate;
 	m_Preskip	= header.m_Preskip;
-	m_OpusDecoder = opus_decoder_create( MY_OPUS_SAMPLE_RATE, header.m_Channels, &err );
+	m_OpusCodec = opus_decoder_create( AUDIO_DEVICE_SAMPLE_RATE, header.m_Channels, &err );
 	if(err != OPUS_OK)
 	{
 		LogMsg( LOG_ERROR, "OpusFileDecoder::processOggFileHeader Cannot create decoder: %s", opus_strerror( err ) );
 		return false;
 	}
 
-	if( !m_OpusDecoder )
+	if( !m_OpusCodec )
 	{
 		LogMsg( LOG_ERROR, "Decoder initialization failed: %s", opus_strerror( err ) );
 		return false;
@@ -601,7 +600,7 @@ bool OpusFileDecoder::processOggFileHeader( MyOpusHeader& header, ogg_packet *op
 		we apply the gain ourselves. We also add in a user provided
 		manual gain at the same time.*/
 		int gainadj = (int)(m_ManualGain*256.)+header.m_Gain;
-		err=opus_decoder_ctl( m_OpusDecoder, OPUS_SET_GAIN(gainadj) );
+		err=opus_decoder_ctl( m_OpusCodec, OPUS_SET_GAIN(gainadj) );
 		if(err==OPUS_UNIMPLEMENTED)
 		{
 			//*gain = (float)pow(10., gainadj/5120.);
@@ -651,10 +650,10 @@ void OpusFileDecoder::finishFileDecode( bool abortedByUser )
 	ogg_stream_clear( &m_StreamState );
 	ogg_sync_clear( &m_OggSyncState );
 
-	if( m_OpusDecoder )
+	if( m_OpusCodec )
 	{
-		opus_decoder_destroy( m_OpusDecoder );
-		m_OpusDecoder = 0;
+		opus_decoder_destroy( m_OpusCodec );
+		m_OpusCodec = 0;
 	}
 
 	if( abortedByUser )
@@ -722,36 +721,36 @@ void OpusFileDecoder::finishFileDecode( bool abortedByUser )
 //			int totalLen = (int)(out_len < maxout ? out_len : maxout);
 //			int amountUsed = 0;
 //			char * tempOut = (char *)out;
-//			if( m_FirstDecodedFrame && ( totalLen < MY_OPUS_FRAME_SAMPLE_CNT ) )
+//			if( m_FirstDecodedFrame && ( totalLen < OPUS_FRAME_RATE ) )
 //			{
 //				// first frame not enough samples
 //				m_FirstDecodedFrame = false;
-//				char * outPcmOpusFrame = new char[ MY_OPUS_FRAME_BYTE_LEN ];
+//				char * outPcmOpusFrame = new char[ OPUS_COMPRESSED_BYTES_PER_FRAME ];
 //				int lenToCopy = totalLen * sizeof( int16_t );
-//				memset( outPcmOpusFrame, 0, MY_OPUS_FRAME_BYTE_LEN - lenToCopy );
-//				memcpy( &outPcmOpusFrame[ MY_OPUS_FRAME_BYTE_LEN - lenToCopy ], tempOut, lenToCopy );
+//				memset( outPcmOpusFrame, 0, OPUS_COMPRESSED_BYTES_PER_FRAME - lenToCopy );
+//				memcpy( &outPcmOpusFrame[ OPUS_COMPRESSED_BYTES_PER_FRAME - lenToCopy ], tempOut, lenToCopy );
 //				m_DecodedFrames.push_back( outPcmOpusFrame );
 //				amountUsed = totalLen;
 //			}
 //			else
 //			{
-//				while( totalLen >= MY_OPUS_FRAME_SAMPLE_CNT )
+//				while( totalLen >= OPUS_FRAME_RATE )
 //				{
-//					char * outPcmOpusFrame = new char[ MY_OPUS_FRAME_BYTE_LEN ];
-//					memcpy( outPcmOpusFrame, tempOut, MY_OPUS_FRAME_BYTE_LEN );
+//					char * outPcmOpusFrame = new char[ OPUS_COMPRESSED_BYTES_PER_FRAME ];
+//					memcpy( outPcmOpusFrame, tempOut, OPUS_COMPRESSED_BYTES_PER_FRAME );
 //					m_DecodedFrames.push_back( outPcmOpusFrame );
-//					amountUsed += MY_OPUS_FRAME_SAMPLE_CNT;
-//					totalLen -= MY_OPUS_FRAME_SAMPLE_CNT;
-//					tempOut += MY_OPUS_FRAME_BYTE_LEN;
+//					amountUsed += OPUS_FRAME_RATE;
+//					totalLen -= OPUS_FRAME_RATE;
+//					tempOut += OPUS_COMPRESSED_BYTES_PER_FRAME;
 //				}
 //
 //				if( 0 != totalLen )
 //				{
 //					// some left over.. may be tail end
 //					int lenToCopy = totalLen * sizeof( int16_t );
-//					char * outPcmOpusFrame = new char[ MY_OPUS_FRAME_BYTE_LEN ];
+//					char * outPcmOpusFrame = new char[ OPUS_COMPRESSED_BYTES_PER_FRAME ];
 //					memcpy( outPcmOpusFrame, tempOut, lenToCopy );
-//					memset( &outPcmOpusFrame[ lenToCopy ], 0, MY_OPUS_FRAME_BYTE_LEN - lenToCopy );
+//					memset( &outPcmOpusFrame[ lenToCopy ], 0, OPUS_COMPRESSED_BYTES_PER_FRAME - lenToCopy );
 //					m_DecodedFrames.push_back( outPcmOpusFrame );
 //					amountUsed += totalLen;
 //					totalLen = 0;
@@ -801,7 +800,7 @@ int OpusFileDecoder::opusPcmOutputToPcm(	int16_t*		opusOutput,
 			uint32_t in_len;
 			output = buf;
 			in_len = frame_size - tmp_skip;
-			out_len = in_len * (48000 / MY_OPUS_SAMPLE_RATE);  //0; // (unsigned int)sizeof( int16_t )* MAX_FRAME_SIZE* m_Channels; //  (1024 < maxout ? 1024 : maxout);
+			out_len = in_len * (48000 / AUDIO_DEVICE_SAMPLE_RATE);  //0; // (unsigned int)sizeof( int16_t )* MAX_FRAME_SIZE* m_Channels; //  (1024 < maxout ? 1024 : maxout);
 
 			// speex_resampler_process_interleaved_int( resampler, opusOutput + m_Channels * tmp_skip, &in_len, buf, &out_len );
 
@@ -854,36 +853,36 @@ int OpusFileDecoder::opusPcmOutputToPcm(	int16_t*		opusOutput,
 			int totalLen = (int)(out_len < maxout ? out_len : maxout);
 			int amountUsed = 0;
 			char * tempOut = (char *)out;
-			if( m_FirstDecodedFrame && ( totalLen < MY_OPUS_FRAME_SAMPLE_CNT ) )
+			if( m_FirstDecodedFrame && ( totalLen < OPUS_FRAME_RATE ) )
 			{
 				// first frame not enough samples
 				m_FirstDecodedFrame = false;
-				char * outPcmOpusFrame = new char[ MY_OPUS_FRAME_BYTE_LEN ];
+				char * outPcmOpusFrame = new char[ OPUS_COMPRESSED_BYTES_PER_FRAME ];
 				int lenToCopy = totalLen * sizeof( int16_t );
-				memset( outPcmOpusFrame, 0, MY_OPUS_FRAME_BYTE_LEN - lenToCopy );
-				memcpy( &outPcmOpusFrame[ MY_OPUS_FRAME_BYTE_LEN - lenToCopy ], tempOut, lenToCopy );
+				memset( outPcmOpusFrame, 0, OPUS_COMPRESSED_BYTES_PER_FRAME - lenToCopy );
+				memcpy( &outPcmOpusFrame[ OPUS_COMPRESSED_BYTES_PER_FRAME - lenToCopy ], tempOut, lenToCopy );
 				m_DecodedFrames.push_back( outPcmOpusFrame );
 				amountUsed = totalLen;
 			}
 			else
 			{
-				while( totalLen >= MY_OPUS_FRAME_SAMPLE_CNT )
+				while( totalLen >= OPUS_FRAME_RATE )
 				{
-					char * outPcmOpusFrame = new char[ MY_OPUS_FRAME_BYTE_LEN ];
-					memcpy( outPcmOpusFrame, tempOut, MY_OPUS_FRAME_BYTE_LEN );
+					char * outPcmOpusFrame = new char[ OPUS_COMPRESSED_BYTES_PER_FRAME ];
+					memcpy( outPcmOpusFrame, tempOut, OPUS_COMPRESSED_BYTES_PER_FRAME );
 					m_DecodedFrames.push_back( outPcmOpusFrame );
-					amountUsed += MY_OPUS_FRAME_SAMPLE_CNT;
-					totalLen -= MY_OPUS_FRAME_SAMPLE_CNT;
-					tempOut += MY_OPUS_FRAME_BYTE_LEN;
+					amountUsed += OPUS_FRAME_RATE;
+					totalLen -= OPUS_FRAME_RATE;
+					tempOut += OPUS_COMPRESSED_BYTES_PER_FRAME;
 				}
 
 				if( 0 != totalLen )
 				{
 					// some left over.. may be tail end
 					int lenToCopy = totalLen * sizeof( int16_t );
-					char * outPcmOpusFrame = new char[ MY_OPUS_FRAME_BYTE_LEN ];
+					char * outPcmOpusFrame = new char[ OPUS_COMPRESSED_BYTES_PER_FRAME ];
 					memcpy( outPcmOpusFrame, tempOut, lenToCopy );
-					memset( &outPcmOpusFrame[ lenToCopy ], 0, MY_OPUS_FRAME_BYTE_LEN - lenToCopy );
+					memset( &outPcmOpusFrame[ lenToCopy ], 0, OPUS_COMPRESSED_BYTES_PER_FRAME - lenToCopy );
 					m_DecodedFrames.push_back( outPcmOpusFrame );
 					amountUsed += totalLen;
 					totalLen = 0;

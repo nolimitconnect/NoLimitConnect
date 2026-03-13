@@ -14,7 +14,7 @@
 #include <vector>
 
 // implements circular buffer and delays available data for anti jitter reasons
-// buffers are MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN long
+// buffers are AUDIO_BUF_SIZE long
 class AudioJitterBuffer 
 {
 public:

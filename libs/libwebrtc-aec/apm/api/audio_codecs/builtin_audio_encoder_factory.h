@@ -20,7 +20,7 @@ namespace webrtc {
 // Note: This will link with all the code implementing those codecs, so if you
 // only need a subset of the codecs, consider using
 // CreateAudioEncoderFactory<...codecs listed here...>() or
-// CreateOpusAudioEncoderFactory() instead.
+// CreateOpusCodecFactory() instead.
 scoped_refptr<AudioEncoderFactory> CreateBuiltinAudioEncoderFactory();
 
 }  // namespace webrtc

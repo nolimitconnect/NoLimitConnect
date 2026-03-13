@@ -10,11 +10,11 @@
 //============================================================================
 
 #include "OpusCallbackInterface.h"
-#include "SndDefs.h"
+#include "MyOpusHeader.h"
 
 #include <string>
 
-class OpusAudioEncoder;
+class OpusCodec;
 class OggStream;
 class VFile;
 
@@ -24,7 +24,7 @@ public:
 	OpusFileEncoder( );
 	virtual ~OpusFileEncoder();
  
-	bool						beginFileEncode( const char* fileName, int sampleRate = MY_OPUS_SAMPLE_RATE, int channels = 1 );
+	bool						beginFileEncode( const char* fileName, int sampleRate = AUDIO_DEVICE_SAMPLE_RATE, int channels = 1 );
 	int							writeEncodedFrame( uint8_t * encodedFrameData, int32_t encodedLen );
 	void						finishFileEncode( void );
 
@@ -34,7 +34,8 @@ protected:
 	bool						writeTotalSndFrames( VFile * fileHandle );
 
 	//=== vars ===//
-	OpusAudioEncoder *			m_AudioEncoder;
+	OpusCodec *	     			m_OpusCodec{ nullptr };
+	MyOpusHeader				m_OpusHeader;
 	OggStream&					m_OggStream;
 	std::string					m_FileName;
 	VFile*						m_FileHandle{ nullptr };

@@ -15,36 +15,40 @@ constexpr int AUDIO_BYTES_PER_SAMPLE = 2;			// PCM 2 bytes per sample
 
 // internal to application a frame is 60 ms
 constexpr int AUDIO_MS_PER_FRAME = 60;               // 60 ms = 0.06 sec of audio data (required to be a multiple of 10ms per frame to play nice with opus and echo canceler)
-constexpr int AUDIO_SAMPLES_PER_FRAME = (AUDIO_DEVICE_SAMPLE_RATE * AUDIO_CHANNELS * AUDIO_MS_PER_FRAME) / 1000; // 1,440 samples at 24000 Hz, 960 samples at 16000 Hz
-constexpr int AUDIO_BUF_SIZE = AUDIO_SAMPLES_PER_FRAME * AUDIO_BYTES_PER_SAMPLE; // 2,880 butes at 24000 Hz, 1,920 bytes at 16000 Hz
+constexpr int AUDIO_SAMPLES_PER_FRAME = (AUDIO_DEVICE_SAMPLE_RATE * AUDIO_CHANNELS * AUDIO_MS_PER_FRAME) / 1000; // 960 samples at 16000 Hz, 1,440 samples at 24000 Hz
+constexpr int AUDIO_BUF_SIZE = AUDIO_SAMPLES_PER_FRAME * AUDIO_BYTES_PER_SAMPLE; // 1,920 bytes at 16000 Hz, 2,880 butes at 24000 Hz
 
 constexpr double AUDIO_BYTES_TO_MS_MULTIPLIER = ((double)AUDIO_MS_PER_FRAME / (double)AUDIO_BUF_SIZE);
 
 // echo canceler can only handle 10 ms at a time
 constexpr int ECHO_MS_PER_FRAME = 10; 
 constexpr int ECHO_SAMPLE_RATE = AUDIO_DEVICE_SAMPLE_RATE; 	 // echo canceler sample rate must match audio device sample rate
-constexpr int ECHO_FRAME_SIZE_10MS = ECHO_SAMPLE_RATE / 100; // PCM Sample Count for 10ms at 24000 Hz is 240 samples, at 16000 Hz is 160 samples
+constexpr int ECHO_FRAME_SIZE_10MS = ECHO_SAMPLE_RATE / 100; // PCM Sample Count for 10ms at 16000 Hz is 160 samples, at 24000 Hz is 240 samples
 constexpr int ECHO_SAMPLES_PER_FRAME = AUDIO_SAMPLES_PER_FRAME / ( AUDIO_MS_PER_FRAME / ECHO_MS_PER_FRAME );
 constexpr int ECHO_BUF_SIZE = AUDIO_BUF_SIZE / (AUDIO_MS_PER_FRAME / ECHO_MS_PER_FRAME);
 
+
+// Changes based on sample rate to maintain a constant duration in milliseconds
+constexpr int OPUS_FRAME_RATE = (AUDIO_DEVICE_SAMPLE_RATE * AUDIO_MS_PER_FRAME) / 1000; 
+
 // Opus Compressed payload size comes from bitrate/time math, not sample rate:
-// bytes_per_frame = bits_per_second * frame_ms / (1000 ms/s * 8 bits/byte) => /8000.
-constexpr int OPUS_HI_FIXED_BITRATE_BPS = 32000;
+// constexpr int OPUS_HI_FIXED_BITRATE_BPS = 32000; // Opus wide bandwidth mode
+constexpr int OPUS_LO_FIXED_BITRATE_BPS = 16000; // some distortion but I cannot tell the difference in audio quality between 16k and 32k
+
 // 32,000 bits/sec × 0.060 seconds =  1,920 bits.
 // 1,920 bits ÷ 8 bits per byte = 240 bytes.
-constexpr int OPUS_HI_COMPRESSED_BYTES_PER_FRAME = (OPUS_HI_FIXED_BITRATE_BPS * AUDIO_MS_PER_FRAME) / 8000;
-constexpr int OPUS_HI_COMPRESSED_SAMPLES_PER_FRAME = OPUS_HI_COMPRESSED_BYTES_PER_FRAME / AUDIO_BYTES_PER_SAMPLE;
 // 6 seconds of audio / 60ms per frame = 100 frames * 240 bytes/frame = 24,000 bytes
+// constexpr int OPUS_HI_COMPRESSED_BYTES_PER_FRAME = (OPUS_HI_FIXED_BITRATE_BPS * AUDIO_MS_PER_FRAME) / 8000;
+// constexpr int OPUS_HI_COMPRESSED_SAMPLES_PER_FRAME = OPUS_HI_COMPRESSED_BYTES_PER_FRAME / AUDIO_BYTES_PER_SAMPLE;
 
-constexpr int OPUS_LO_FIXED_BITRATE_BPS = 16000; // some distortion but still intelligible (metallic robotic voice and swishing around 's" and 't" sounds)
 // 16,000 bits/sec × 0.060 seconds = 960 bits.
 // 960 bits ÷ 8 bits per byte = 120 bytes.
-constexpr int OPUS_LO_COMPRESSED_BYTES_PER_FRAME = (OPUS_LO_FIXED_BITRATE_BPS * AUDIO_MS_PER_FRAME) / 8000;
-constexpr int OPUS_LO_COMPRESSED_SAMPLES_PER_FRAME = OPUS_LO_COMPRESSED_BYTES_PER_FRAME / AUDIO_BYTES_PER_SAMPLE;
 // 6 seconds of audio / 60ms per frame = 100 frames * 120 bytes/frame = 12,000 bytes
+constexpr int OPUS_COMPRESSED_BYTES_PER_FRAME = (OPUS_LO_FIXED_BITRATE_BPS * AUDIO_MS_PER_FRAME) / 8000;
+constexpr int OPUS_COMPRESSED_SAMPLES_PER_FRAME = OPUS_COMPRESSED_BYTES_PER_FRAME / AUDIO_BYTES_PER_SAMPLE;
 
-// player-nlc output (float) 960 frames at 48000 Hz, 20 ms of audio data
-constexpr int PLAYER_CACHE_FRAMES_CNT = 4; // how many frames of audio to cache for player
+constexpr int MIN_OPUS_FILE_LEN = 1104;
+
 
 // player-nlc output (float) 960 frames 
 constexpr int AUDIO_SAMPLE_RATE_KODI = 48000;        // kodi is configured for 48000 hz

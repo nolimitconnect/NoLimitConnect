@@ -9,12 +9,14 @@
 //============================================================================
 
 #include "MediaTools.h"
-#include "OpusAudioEncoder.h"
+
 #include "SndWriter.h"
 #include "SndReader.h"
 #include "MJPEGWriter.h"
 #include "MJPEGReader.h"
 #include <GuiInterface/IToGui.h>
+#include <GuiInterface/IAudioDefs.h>
+#include <opus/OpusCodec.h>
 
 #include <AssetMgr/AssetInfo.h>
 
@@ -22,7 +24,7 @@
 MediaTools::MediaTools( P2PEngine& engine, MediaProcessor& mediaProcessor )
 : m_Engine( engine )
 , m_MediaProcessor( mediaProcessor )
-, m_AudioEncoder(  * ( new OpusAudioEncoder( ECHO_SAMPLE_RATE, 1 ) ) )
+, m_OpusCodec(  * ( new OpusCodec( AUDIO_DEVICE_SAMPLE_RATE, AUDIO_CHANNELS ) ) )
 , m_AudioWriter(  * ( new SndWriter( engine, mediaProcessor ) ) )
 , m_AudioReader(  * ( new SndReader( engine, mediaProcessor ) ) )
 , m_VideoWriter(  * ( new MJPEGWriter( engine, mediaProcessor ) ) )
@@ -33,7 +35,7 @@ MediaTools::MediaTools( P2PEngine& engine, MediaProcessor& mediaProcessor )
 //============================================================================
 MediaTools::~MediaTools()
 {
-	delete &m_AudioEncoder;
+	delete &m_OpusCodec;
 	delete &m_AudioWriter;
 	delete &m_VideoWriter;
 }

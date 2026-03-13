@@ -25,7 +25,7 @@
 
 #include <P2PEngine/P2PEngine.h>
 
-#include <MediaToolsLib/OpusAudioDecoder.h>
+#include <opus/OpusCodec.h>
 
 #include <QFrame>
 #include <QTimer>

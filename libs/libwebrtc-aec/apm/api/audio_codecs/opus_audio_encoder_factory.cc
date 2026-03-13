@@ -54,7 +54,7 @@ struct NotAdvertised {
 
 }  // namespace
 
-scoped_refptr<AudioEncoderFactory> CreateOpusAudioEncoderFactory() {
+scoped_refptr<AudioEncoderFactory> CreateOpusCodecFactory() {
   return CreateAudioEncoderFactory<
       AudioEncoderOpus, NotAdvertised<AudioEncoderMultiChannelOpus>>();
 }

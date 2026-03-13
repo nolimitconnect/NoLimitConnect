@@ -30,7 +30,7 @@
 #include <VxVideoLib/VxRescaleRgb.h>
 
 #include <MediaToolsLib/MediaTools.h>
-#include <MediaToolsLib/OpusAudioEncoder.h>
+#include <opus/OpusCodec.h>
 
 #include <PktLib/PktsVideoFeed.h>
 #include <PktLib/PktVoiceReq.h>
@@ -77,6 +77,7 @@ namespace
 MediaProcessor::MediaProcessor( P2PEngine& engine )
 : m_Engine( engine )
 , m_MediaTools( * ( new MediaTools( engine, *this ) ) )
+, m_OpusCodec( AUDIO_DEVICE_SAMPLE_RATE, AUDIO_CHANNELS )
 {
 	memset( m_QuietAudioBuf, 0, sizeof( m_QuietAudioBuf ) );
 	memset( m_MixerBuf, 0, sizeof( m_MixerBuf ) );
@@ -193,7 +194,7 @@ void MediaProcessor::processRawAudioIn( RawAudio * rawAudio )
 {
 	int16_t * pcmData		    = rawAudio->m_PcmData;
 	uint16_t  pcmDataLen		= rawAudio->m_PcmDataLen;
-	// PCM data len = 80ms of sound
+	// PCM data len = 60ms of sound in bytes
 	// it seams that microphone volume is a bit low.. especially on android so increase volume before processing
     // TODO microphone boost
 
@@ -219,8 +220,15 @@ void MediaProcessor::processRawAudioIn( RawAudio * rawAudio )
 
 	if( m_AudioOpusList.size() || m_AudioPktsList.size() )
 	{
-		std::vector<uint16_t> encodedLenList;
-		m_MediaTools.getAudioEncoder().encodePcmData( pcmData, pcmDataLen, m_PktVoiceReq.getCompressedData(), encodedLenList );
+		int encodedLenBytes = m_OpusCodec.encode( pcmData, pcmDataLen / AUDIO_BYTES_PER_SAMPLE, m_PktVoiceReq.getCompressedData(), m_PktVoiceReq.getMaxCompressedDataBufLen() );
+		if( encodedLenBytes <= 0 )
+		{
+			LogMsg( LOG_ERROR, "MediaProcessor::processRawAudioIn opus encode failed %d", encodedLenBytes );
+			return;
+		}
+
+		uint16_t opusLenBytes = static_cast<uint16_t>( encodedLenBytes );
+
 		if( m_AudioOpusList.size() )
 		{
 			#ifdef DEBUG_AUDIO_PROCESSOR_LOCK
@@ -234,7 +242,7 @@ void MediaProcessor::processRawAudioIn( RawAudio * rawAudio )
 
 			for( auto& client : m_AudioOpusList )
 			{
-				client.m_Callback->callbackOpusEncoded( m_PktVoiceReq.getCompressedData(), encodedLenList );
+				client.m_Callback->callbackOpusEncoded( m_PktVoiceReq.getCompressedData(), opusLenBytes );
 			}
 
 			#ifdef DEBUG_AUDIO_PROCESSOR_LOCK
@@ -244,30 +252,7 @@ void MediaProcessor::processRawAudioIn( RawAudio * rawAudio )
 
 		if( m_AudioPktsList.size() )
 		{
-			int frameIdx = 0;
-			for( auto encodedLen : encodedLenList )
-			{
-				switch( frameIdx )
-				{
-				case 0:
-					m_PktVoiceReq.setFrame1Len( encodedLen );
-					break;
-				case 1:
-					m_PktVoiceReq.setFrame2Len( encodedLen );
-					break;
-				case 2:
-					m_PktVoiceReq.setFrame3Len( encodedLen );
-					break;
-				case 3:
-					m_PktVoiceReq.setFrame4Len( encodedLen );
-					break;
-				default:
-					break;
-				}
-
-				frameIdx++;
-			}
-
+			m_PktVoiceReq.setCompressedDataLen( opusLenBytes );
 			m_PktVoiceReq.setTimeMs( GetGmtTimeMs() );
 			m_PktVoiceReq.calcPktLen();
 

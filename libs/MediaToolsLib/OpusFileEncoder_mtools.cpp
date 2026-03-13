@@ -9,12 +9,10 @@
 //============================================================================
 
 #include "OpusFileEncoder.h"
-#include "OpusAudioEncoder.h"
+
 #include "OggStream.h"
 
-#include "opus_defines.h"
-#include "opus.h"
-#include "opus_types.h"
+#include <opus/OpusCodec.h>
 
 #include <CoreLib/IsBigEndianCpu.h>
 #include <CoreLib/VirtFileMgr.h>
@@ -26,8 +24,7 @@
 
 //============================================================================
 OpusFileEncoder::OpusFileEncoder(  )
-: m_AudioEncoder( 0 )
-, m_OggStream( * ( new OggStream() ) )
+: m_OggStream( * ( new OggStream() ) )
 , m_FileHandle( nullptr )
 , m_TotalSndFramesInFile( 0 )
 , m_EncoderInitialized( false )
@@ -37,7 +34,6 @@ OpusFileEncoder::OpusFileEncoder(  )
 //============================================================================
 OpusFileEncoder::~OpusFileEncoder()
 {
-	delete m_AudioEncoder;
 	delete &m_OggStream;
 }
 
@@ -63,7 +59,7 @@ bool OpusFileEncoder::beginFileEncode( const char* fileName, int sampleRate, int
 			//Write opus header into buffer
 			unsigned char opusHeaderData[ 100 ];
 			// writes "OpusHead" and channel/stream info into buffer ( 19 bytes )
-			int pktDataLen = m_OggStream.writeHeader( m_AudioEncoder->getOpusHeader(), opusHeaderData, 100 ); 
+			int pktDataLen = m_OggStream.writeHeader( m_OpusHeader, opusHeaderData, 100 ); 
 			if( 0 == pktDataLen )
 			{
 				m_EncoderInitialized = false;
@@ -89,13 +85,13 @@ bool OpusFileEncoder::beginFileEncode( const char* fileName, int sampleRate, int
 //============================================================================
 bool OpusFileEncoder::createAudioEncoder( int sampleRate, int channels )
 {
-	if( m_AudioEncoder )
+	if( m_OpusCodec )
 	{
-		delete m_AudioEncoder;
+		delete m_OpusCodec;
 	}
 
-	m_AudioEncoder = new OpusAudioEncoder( sampleRate, channels );
-	return m_AudioEncoder->isInitialized();
+	m_OpusCodec = new OpusCodec( sampleRate, channels );
+	return m_OpusCodec != nullptr;
 }
 
 
@@ -108,31 +104,24 @@ int OpusFileEncoder::encodePcmData( int16_t* pcmData, uint16_t pcmDataLen )
 		return false;
 	}
 
+	int result = 0;
 	m_TotalSndFramesInFile++;
 
-	uint8_t encodedBuf[ MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN ];
+	uint8_t encodedBuf[ AUDIO_BUF_SIZE ];
 	std::vector<uint16_t> opusEncodedLenList;
-	int result = m_AudioEncoder->encodePcmData(	pcmData, 
+	int encodedLen = m_OpusCodec->encode(	pcmData, 
 												pcmDataLen, 
 												encodedBuf,
-												opusEncodedLenList );
-	if( result )
+												sizeof( encodedBuf ));
+	if( encodedLen )
 	{
-		int encodeOffs = 0;
 
-		for( auto encodedLen : opusEncodedLenList )
+		result = m_OggStream.writeEncodedFrame( encodedBuf, encodedLen );
+		if( !result )
 		{
-			result = m_OggStream.writeEncodedFrame( &encodedBuf[ encodeOffs ], encodedLen );
-			if( result > 0 )
-			{
-				encodeOffs += encodedLen;
-			}
-			else
-			{
-				LogMsg( LOG_ERROR, "ERROR: OpusFileEncoder::encodePcmData failed to write %d encoded bytes", encodedLen );
-				break;
-			}			
+			LogMsg( LOG_ERROR, "ERROR: OpusFileEncoder::writePcmData failed to write encoded frame to file" );
 		}
+
 	}
 	else
 	{

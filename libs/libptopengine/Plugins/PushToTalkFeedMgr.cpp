@@ -19,7 +19,7 @@
 #include <PushToTalk/PushToTalkMgr.h>
 #include <MediaProcessor/MediaProcessor.h>
 
-#include <MediaToolsLib/OpusAudioDecoder.h>
+#include <opus/OpusCodec.h>
 
 #include <CoreLib/VxDebug.h>
 #include <PktLib/PktsPushToTalk.h>
@@ -114,12 +114,12 @@ void PushToTalkFeedMgr::callbackAudioOutSpaceAvail( int freeSpaceLenBytes )
 			if( audioBuf )
 			{
 				//LogMsg( LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail playAudio %d\n", sessionIdx );
-				m_PluginMgr.getEngine().getMediaProcessor().playAudio( (int16_t*)audioBuf, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
+				m_PluginMgr.getEngine().getMediaProcessor().playAudio( (int16_t*)audioBuf, AUDIO_BUF_SIZE );
 				//VxGUID onlineId = iter->first; // local session id
 				VxGUID onlineId = sessionBase->getSendToId();
 				// processor mutex was already locked by call to processor fromGuiAudioOutSpaceAvail which calls callbackAudioOutSpaceAvail
 				//LogMsg( LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail processFriendAudioFeed %d\n", sessionIdx );
-				m_PluginMgr.getEngine().getMediaProcessor().processFriendAudioFeed( onlineId, (int16_t*)audioBuf, MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN, true );
+				m_PluginMgr.getEngine().getMediaProcessor().processFriendAudioFeed( onlineId, (int16_t*)audioBuf, AUDIO_BUF_SIZE, true );
 			}
 
 			//LogMsg( LOG_INFO, "PushToTalkFeedMgr::callbackAudioOutSpaceAvail jitterBuf.unlockResource sessionIdx %d\n", sessionIdx );
@@ -218,13 +218,8 @@ void PushToTalkFeedMgr::onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 			if( audioBuf )
 			{
 				PktVoiceReq* pktReq = (PktVoiceReq*)pktHdr;
-				std::vector<uint16_t> opusEncodedLenList;
-				opusEncodedLenList.emplace_back( pktReq->getFrame1Len() );
-				opusEncodedLenList.emplace_back( pktReq->getFrame2Len() );
-				opusEncodedLenList.emplace_back( pktReq->getFrame3Len() );
-				opusEncodedLenList.emplace_back( pktReq->getFrame4Len() );
-				bool result = poSession->getAudioDecoder()->decodeToPcmData( pktReq->getCompressedData(), opusEncodedLenList, (int16_t*)audioBuf, (int32_t)MY_OPUS_PKT_UNCOMPRESSED_DATA_LEN );
-				if( !result )
+				int decodedSamples = poSession->getOpusCodec()->decode( pktReq->getCompressedData(), pktReq->getCompressedDataLen(), (int16_t*)audioBuf, (int32_t)AUDIO_SAMPLES_PER_FRAME );
+				if( !(decodedSamples == AUDIO_SAMPLES_PER_FRAME) )
 				{
 					LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s failed to decode opus", __func__ );
 				}
