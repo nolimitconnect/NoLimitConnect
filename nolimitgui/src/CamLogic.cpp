@@ -293,13 +293,11 @@ bool CamLogic::setCamera( const QCameraDevice& cameraDevice )
     m_CaptureSession->setCamera(m_Camera);
     if( m_CaptureSession->audioInput() )
     {
-        //m_CaptureSession->audioInput()->setMuted(true);
         m_CaptureSession->setAudioInput(nullptr);
     }
 
     if( m_CaptureSession->audioOutput() )
     {
-        //m_CaptureSession->audioOutput()->setMuted(true);
         m_CaptureSession->setAudioOutput(nullptr);
     }
 

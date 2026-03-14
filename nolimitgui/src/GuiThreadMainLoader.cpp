@@ -45,9 +45,6 @@ void GuiThreadMainLoader::run()
     CJNIContext::createJniContext( GetJavaEnvCache().getJavaVM(),  GetJavaEnvCache().getJavaEnv() );
     #endif // TARGET_OS_ANDROID
 
-    QString appCachePathQ = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/";
-    std::string appCachePath = appCachePathQ.toUtf8().constData();
-
     QString userWriteablePathQ = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/";
     std::string userWriteablePath = userWriteablePathQ.toUtf8().constData();
     if( !VxFileUtil::testIsWritablePath( userWriteablePath ) )
@@ -67,12 +64,11 @@ void GuiThreadMainLoader::run()
         }
     }
 
-    LogMsg( LOG_VERBOSE, "cache storage path %s disk space %s", appCachePath.c_str(), VxFileUtil::describeDiskSpace( appCachePath ).c_str() );
     LogMsg( LOG_VERBOSE, "user storage path %s disk space %s", userWriteablePath.c_str(), VxFileUtil::describeDiskSpace( userWriteablePath ).c_str() );
 
     bool result = IMediaPlayerRequests::getOsInterface().doPreStartup();
 
-    result &= IMediaPlayerRequests::getOsInterface().initUserPaths( appCachePath, userWriteablePath );
+    result &= IMediaPlayerRequests::getOsInterface().initUserPaths( userWriteablePath );
 
     int timePreStartupEnd = GetApplicationAliveMs();
     LogMsg( LOG_VERBOSE, "GuiThreadMainLoader::run os interface startup took %d ms at %d ms",

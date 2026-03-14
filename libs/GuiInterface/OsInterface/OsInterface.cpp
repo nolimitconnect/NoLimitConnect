@@ -292,14 +292,9 @@ bool OsInterface::doRun( EMediaModule mediaModule )
 //=== utilities ===//
 //============================================================================
 
-bool OsInterface::initUserPaths( std::string& appCachePath, std::string& userWriteablePath )
+bool OsInterface::initUserPaths( std::string& userWriteablePath )
 {
     LogModule( eLogStartup, LOG_VERBOSE, "OsInterface::initUserPaths");
-    //std::string playerData = VxGetAppDirectory( eAppDirAppPlayerNlcData );
-
-    //CSpecialProtocol::SetProfilePath( playerData );
-
-    //CSpecialProtocol::SetAppDataPath( playerData );
 
     CSpecialProtocol::SetHomePath( VxGetAppDirectory( eAppDirPlayerNlcData ) );
     CSpecialProtocol::SetTempPath( VxGetAppDirectory( eAppDirAppTempData ) );

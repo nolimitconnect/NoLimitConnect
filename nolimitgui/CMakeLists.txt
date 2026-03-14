@@ -440,7 +440,7 @@ list(APPEND nlc_HEADERS
     src/ToGuiThumbUpdateInterface.h
     src/TitleBarWidget.h
 
-    src/VideoFrameProcessor.h
+    src/CamFrameProcessor.h
 
     src/VxAspectFrame.h
     src/VxContextMenu.h
@@ -868,7 +868,7 @@ list(APPEND nlc_SOURCES
     src/ThumbnailChooseWidget.cpp
     src/ThumbnailViewWidget.cpp
 
-    src/VideoFrameProcessor.cpp
+    src/CamFrameProcessor.cpp
     src/VxAspectFrame.cpp
     src/VxComboBox.cpp
     src/VxContextMenu.cpp

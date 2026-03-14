@@ -38,7 +38,7 @@ public:
     virtual void                doShutdown( void ) = 0;
 
     //=== utilities ===//
-    virtual bool               initUserPaths( std::string& appCachePath, std::string& userWriteablePath ); // basically exe and user data paths
+    virtual bool               initUserPaths( std::string& userWriteablePath ); // basically exe and user data paths
     virtual bool               initDirectories( void );
 
 protected:

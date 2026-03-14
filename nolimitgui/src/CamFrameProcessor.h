@@ -20,13 +20,13 @@ class AppCommon;
 class CamLogic;
 class MediaProcessor;
 
-class VideoFrameProcessor : public QObject
+class CamFrameProcessor : public QObject
 {
     Q_OBJECT
 
 public:  
-    VideoFrameProcessor( AppCommon& myApp, CamLogic& camLogic, QObject* parent );
-    ~VideoFrameProcessor();
+    CamFrameProcessor( AppCommon& myApp, CamLogic& camLogic, QObject* parent );
+    ~CamFrameProcessor();
 
     void                        enableProcessing( bool enable );
 

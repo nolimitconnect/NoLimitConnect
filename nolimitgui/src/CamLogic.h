@@ -10,7 +10,7 @@
 #pragma once
 
 #include "CamProcessor.h"
-#include "VideoFrameProcessor.h"
+#include "CamFrameProcessor.h"
 
 #include <GuiInterface/IDefs.h>
 
@@ -31,11 +31,12 @@ class AppCommon;
 class CamJpgVideo;
 class MediaProcessor;
 
-class CamLogic : public QObject {
+class CamLogic : public QObject 
+{
     Q_OBJECT
 
 public:
-    static const int64_t CAM_SNAPSHOT_INTERVAL_MS = 60; // 60 = approx 15 frames per second 30 = approx 30 fps
+    static const int64_t CAM_SNAPSHOT_INTERVAL_MS = 60; // 60 ms = approx 15 frames per second 30 ms = approx 30 fps
 
     CamLogic( AppCommon& myApp, QObject* parent = nullptr );
     ~CamLogic();
@@ -43,7 +44,7 @@ public:
     void                        startupCamLogic( void );
     void                        shutdownCamLogic( void );
 
-    CamProcessor& getCamProcessor( void ) { return m_CamProcessor; }
+    CamProcessor&               getCamProcessor( void ) { return m_CamProcessor; }
 
     void                        onCamCaptureReady( bool isReady );
     bool                        canProcessCamCapture( void );
@@ -111,7 +112,7 @@ protected:
 
     QList<QCameraDevice>        m_AvailableCameras;
 
-    VideoFrameProcessor         m_VideoFrameProcessor;
+    CamFrameProcessor         m_VideoFrameProcessor;
 #endif // defined(ENABLE_JAVA_CAM)
 
     std::atomic<int>            m_CamImageInTransitCnt;

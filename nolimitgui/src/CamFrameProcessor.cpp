@@ -8,7 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "VideoFrameProcessor.h"
+#include "CamFrameProcessor.h"
 
 #include "AppCommon.h"
 #include "CamLogic.h"
@@ -28,7 +28,7 @@ namespace
 };
 
 //============================================================================
-VideoFrameProcessor::VideoFrameProcessor( AppCommon& myApp, CamLogic& camLogic, QObject* parent )
+CamFrameProcessor::CamFrameProcessor( AppCommon& myApp, CamLogic& camLogic, QObject* parent )
     : QObject( parent )
     , m_MyApp( myApp )
     , m_CamLogic( camLogic )
@@ -36,13 +36,13 @@ VideoFrameProcessor::VideoFrameProcessor( AppCommon& myApp, CamLogic& camLogic, 
 }
 
 //============================================================================
-VideoFrameProcessor::~VideoFrameProcessor()
+CamFrameProcessor::~CamFrameProcessor()
 {
     enableProcessing( false );
 }
 
 //============================================================================
-void VideoFrameProcessor::enableProcessing( bool enable )
+void CamFrameProcessor::enableProcessing( bool enable )
 {
     if( m_ProcessFramesEnabled != enable )
     {
@@ -55,7 +55,7 @@ void VideoFrameProcessor::enableProcessing( bool enable )
 }
 
 //============================================================================
-void VideoFrameProcessor::slotVideoFrameChanged( const QVideoFrame& frame )
+void CamFrameProcessor::slotVideoFrameChanged( const QVideoFrame& frame )
 {
     static int64_t lastTimeMs = 0;
     int64_t timeNow = GetGmtTimeMs();

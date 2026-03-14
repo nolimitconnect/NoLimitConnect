@@ -10,10 +10,24 @@
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/nolimitgui/bin-Linux",
-            "environment": [],
+            "environment": [
+                {
+                    "name": "DEBUGINFOD_URLS",
+                    "value": ""
+                }
+            ],
             "externalConsole": false,
             "MIMode": "gdb",
+            "symbolOptions": {
+                "searchPaths": [],
+                "loadAll": false
+            },
             "setupCommands": [
+                {
+                    "description": "Don't load shared library symbols automatically",
+                    "text": "set auto-solib-add off",
+                    "ignoreFailures": true
+                },
                 {
                     "description": "Enable pretty-printing for gdb",
                     "text": "-enable-pretty-printing",
@@ -40,7 +54,12 @@
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}/out/build/linux-x64-release/nolimitgui",
-            "environment": [],
+            "environment": [
+                {
+                    "name": "DEBUGINFOD_URLS",
+                    "value": ""
+                }
+            ],
             "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [
@@ -52,6 +71,11 @@
                 {
                     "description": "Set Disassembly Flavor to Intel",
                     "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Disable debuginfod",
+                    "text": "-gdb-set debuginfod enabled off",
                     "ignoreFailures": true
                 }
             ]
