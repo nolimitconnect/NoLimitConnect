@@ -48,29 +48,17 @@ int32_t VxBmp2Jpg(	int				iBitsPerPixel,	//number of bits each pixel..(For now m
 	* ps32RetJpgLen = 0;
 
 
-    const int JPEG_QUALITY = 75;
-
     long unsigned int _jpegSize = iJpgBufLen;
-    unsigned char* _compressedImage = NULL; //!< Memory is allocated by tjCompress2 if _jpegSize == 0
-
     tjhandle _jpegCompressor = GetJpegCompressorInstance();
 
-    tjCompress2(_jpegCompressor, pu8Bits, width, 0, height, TJPF_RGB,
-                &pu8RetJpg, &_jpegSize, TJSAMP_420, JPEG_QUALITY,
-                TJFLAG_FASTDCT);
+    int rc = tjCompress2( _jpegCompressor, pu8Bits, width, 0, height, TJPF_RGB,
+                          &pu8RetJpg, &_jpegSize, TJSAMP_420, iQuality,
+                          TJFLAG_FASTDCT | TJFLAG_NOREALLOC );
 
-    if(_jpegSize)
+    if( rc == 0 && _jpegSize )
     {
         *ps32RetJpgLen = _jpegSize;
-//        memcpy( pu8RetJpg, _compressedImage, _jpegSize );
     }
-
-
-    //tjDestroy(_jpegCompressor);
-
-    //to free the memory allocated by TurboJPEG (either by tjAlloc(),
-    //or by the Compress/Decompress) after you are done working on it:
-    //tjFree(_compressedImage);
 
 
 	/* And we're done! */

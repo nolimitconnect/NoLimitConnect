@@ -66,5 +66,5 @@ protected:
 	QAtomicInt					m_BehindMotionFrameCnt;
 	VxGUID						m_MediaSessionId;
 
-    int                         m_JpgCntInSignal = 0;
+	QAtomicInt					m_JpgCntInSignal{ 0 };
 };

@@ -86,8 +86,10 @@ protected:
     std::string                 selectLastUsedCamera( void ); // only called on startup
 
     bool                        setCamera( const QCameraDevice& cameraDevice );
-    void                        selectVideoFormat( const QCameraDevice& cameraDevice );
+    bool                        selectVideoFormat( const QCameraDevice& cameraDevice );
     bool                        isBetterVideoFormat( QSize& targetSize, const QCameraFormat& newFormat, const QCameraFormat& oldFormat );
+    bool                        isBetterConversionSpeed( const QCameraFormat& newFormat, const QCameraFormat& oldFormat );
+
     void                        updateCaptureRunning( bool capIsRunning );
 
     AppCommon&                  m_MyApp;

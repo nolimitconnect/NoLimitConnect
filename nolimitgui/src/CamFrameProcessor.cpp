@@ -21,6 +21,7 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxTime.h>
 
+
 namespace
 {
     // from fourcc.org
@@ -58,18 +59,20 @@ void CamFrameProcessor::enableProcessing( bool enable )
 void CamFrameProcessor::slotVideoFrameChanged( const QVideoFrame& frame )
 {
     static int64_t lastTimeMs = 0;
-    int64_t timeNow = GetGmtTimeMs();
+    int64_t timeNow = GetHighResolutionTimeMs();
     if( timeNow < lastTimeMs + CamLogic::CAM_SNAPSHOT_INTERVAL_MS )
     {
         //LogMsg( LOG_VERBOSE, "%s time ok %d ms", __func__, (int)(timeNow - lastTimeMs) );
         return;
     }
     
+    lastTimeMs = timeNow;
+
     if( !m_ProcessFramesEnabled || !m_CamLogic.canProcessCamCapture() )
     {
         //if( !m_ProcessFramesEnabled )
         //{
-        //    LogMsg( LOG_ERROR, "%s !m_ProcessFramesEnabled %d", __func__, GetApplicationAliveMs() );
+        //    LogMsg( LOG_ERROR, "%s !m_ProcessFramesEnabled %d", __func__, GetHighResolutionTimeMs() );
         //}
         //else
         //{
@@ -79,19 +82,41 @@ void CamFrameProcessor::slotVideoFrameChanged( const QVideoFrame& frame )
         return;
     }
 
-    lastTimeMs = timeNow;
-    QImage rgbImage = frame.toImage().convertToFormat( QImage::Format_RGB888 );
+    // IMPORTANT: Explicitly map the frame to ensure the buffer is accessible to the CPU
+    QVideoFrame cloneFrame(frame); 
+    if (!cloneFrame.map(QVideoFrame::ReadOnly)) {
+        LogMsg(LOG_ERROR, "%s Failed to map video frame", __func__);
+        return;
+    }
+
+    QImage rgbImage = cloneFrame.toImage().convertToFormat( QImage::Format_RGB888 );
+    // Always unmap after conversion
+    cloneFrame.unmap();
+
     if( !rgbImage.isNull() )
     {
-        uint32_t dataLen = 3 * rgbImage.width() * rgbImage.height();
-       
+        int rowBytes = 3 * rgbImage.width();
+        uint32_t dataLen = rowBytes * rgbImage.height();
         std::shared_ptr<uint8_t> rgbData( new uint8_t[dataLen] );
-        memcpy( rgbData.get(), rgbImage.bits(), dataLen);
+        if( rgbImage.bytesPerLine() == rowBytes )
+        {
+            memcpy( rgbData.get(), rgbImage.bits(), dataLen );
+        }
+        else
+        {
+            uint8_t* dest = rgbData.get();
+            for( int row = 0; row < rgbImage.height(); ++row )
+            {
+                memcpy( dest, rgbImage.scanLine( row ), rowBytes );
+                dest += rowBytes;
+            }
+        }
+
         // LogMsg( LOG_VERBOSE, "%s getCamProcessor().processCamCapture %d", __func__, GetApplicationAliveMs() );
         m_CamLogic.getCamProcessor().processCamCapture( rgbImage.width(), rgbImage.height(), rgbData, dataLen );
     }
     else
     {
-        LogMsg( LOG_ERROR, "%s !rgbImage.isNull() %d", __func__, GetApplicationAliveMs() );
+        LogMsg( LOG_ERROR, "%s !rgbImage.isNull() %d", __func__, GetHighResolutionTimeMs() );
     }
 }

@@ -13,12 +13,12 @@
 #include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 #endif // defined(TARGET_OS_LINUX)
 
-#include <CoreLib/VxMutex.h>
-#include <CoreLib/VxThread.h>
-#include <CoreLib/VxSemaphore.h>
-
+#include <atomic>
+#include <condition_variable>
 #include <memory>
-#include <vector>
+#include <mutex>
+#include <queue>
+#include <thread>
 
 class CamLogic;
 class CamRgbVideo;
@@ -30,19 +30,17 @@ public:
 	const int JPG_CONVERT_QUALITY = 75; // there is very little picture quality improvement above 75 
 
     CamProcessor( CamLogic& camLogic );
-    virtual ~CamProcessor() = default;
+    virtual ~CamProcessor();
 	
     void						shutdownCamProcessor( void );
 
     void                        processCamCapture( int width, int height, std::shared_ptr<uint8_t>& rgbData, int dataLen );
-    void                        fromGuiCamImageConsumed( void );
 
-    bool                        isStalled( void ) { return m_ProcessCamRgbQue.size() > 1 || m_ProcessCamJpgQue.size() > 1;  }
+    bool                        isStalled( void ) { return m_ProcessCamRgbQue.size() > 1; }
     size_t                      getRgbQueueSize( void ) { return m_ProcessCamRgbQue.size(); }
-    size_t                      getJpgQueueSize( void ) { return m_ProcessCamJpgQue.size(); }
+    size_t                      getJpgQueueSize( void ) { return 0; }
 
     void						processCamRgbThreaded( void );
-    void						processCamJpgThreaded( void );
 
 protected:
     void                        processCamVideoRgb( CamRgbVideo* rgbVideo );
@@ -51,15 +49,12 @@ protected:
 	//=== vars ===//
     CamLogic&					m_CamLogic;
 	
-    VxMutex						m_CamRgbMutex;
-    VxSemaphore					m_CamRgbSemaphore;
-    VxThread					m_ProcessCamRgbThread;
-    std::vector<CamRgbVideo *>	m_ProcessCamRgbQue;
-    std::vector<std::shared_ptr<uint8_t>>    m_LastRgbData;
+    std::atomic<bool>			m_Abort{ false };
+    std::mutex					m_CamRgbMutex;
+    std::condition_variable		m_CamRgbCondVar;
+    std::thread					m_ProcessCamRgbThread;
+    std::queue<CamRgbVideo*>	m_ProcessCamRgbQue;
+    std::shared_ptr<uint8_t>    m_LastRgbData;
     int                         m_LastRgbDataLen = 0;
 
-    VxMutex						m_CamJpgMutex;
-    VxSemaphore					m_CamJpgSemaphore;
-    VxThread					m_ProcessCamJpgThread;
-    std::vector<std::shared_ptr<CamJpgVideo>>	m_ProcessCamJpgQue;
 };

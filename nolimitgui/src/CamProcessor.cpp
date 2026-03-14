@@ -32,54 +32,31 @@
 
 namespace
 {
-	const int VIDEO_MAX_MOTION_VALUE				    = 100000;
-
-	//============================================================================
-    static void * CamProcessRgbThreadFunc( void * pvContext )
-	{
-		VxThread* poThread = (VxThread*)pvContext;
-		poThread->setIsThreadRunning( true );
-        CamProcessor * processor = (CamProcessor *)poThread->getThreadUserParam();
-        if( processor && false == poThread->isAborted() )
-        {
-            processor->processCamRgbThreaded();
-        }
-
-		poThread->threadAboutToExit();
-        return nullptr;
-	}
-
-    //============================================================================
-    static void * CamProcessJpgThreadFunc( void * pvContext )
-    {
-        VxThread* poThread = (VxThread*)pvContext;
-        poThread->setIsThreadRunning( true );
-        CamProcessor * processor = (CamProcessor *)poThread->getThreadUserParam();
-        if( processor && false == poThread->isAborted() )
-        {
-            processor->processCamJpgThreaded();
-        }
-
-        poThread->threadAboutToExit();
-        return nullptr;
-    }
+	const int VIDEO_MAX_MOTION_VALUE = 100000;
 };
 
 //============================================================================
 CamProcessor::CamProcessor( CamLogic& camLogic )
 : m_CamLogic( camLogic )
 {
-    m_ProcessCamRgbThread.startThread( (VX_THREAD_FUNCTION_T)CamProcessRgbThreadFunc, this, "CamRgbProcessor" );
-    m_ProcessCamJpgThread.startThread( (VX_THREAD_FUNCTION_T)CamProcessJpgThreadFunc, this, "CamJpgProcessor" );
+    m_ProcessCamRgbThread = std::thread( [this]() { processCamRgbThreaded(); } );
+}
+
+//============================================================================
+CamProcessor::~CamProcessor()
+{
+    shutdownCamProcessor();
 }
 
 //============================================================================
 void CamProcessor::shutdownCamProcessor( void )
 {
-    m_ProcessCamRgbThread.abortThreadRun( true );
-    m_CamRgbSemaphore.signal();
-    m_ProcessCamJpgThread.abortThreadRun( true );
-    m_CamJpgSemaphore.signal();
+    m_Abort.store( true );
+    m_CamRgbCondVar.notify_all();
+    if( m_ProcessCamRgbThread.joinable() )
+    {
+        m_ProcessCamRgbThread.join();
+    }
 }
 
 //============================================================================
@@ -89,42 +66,39 @@ void CamProcessor::processCamCapture( int width, int height, std::shared_ptr<uin
 {
     CamRgbVideo * rawVideo = new CamRgbVideo( rgbData, dataLen, width, height );
 
-    m_CamRgbMutex.lock();
-    m_ProcessCamRgbQue.emplace_back( rawVideo );
-    m_CamRgbMutex.unlock();
-    // LogMsg( LOG_WARN, "CamProcessor::%s signal %d", __func__, GetApplicationAliveMs() );
-    m_CamRgbSemaphore.signal();
+    {
+        std::lock_guard<std::mutex> lock( m_CamRgbMutex );
+        m_ProcessCamRgbQue.push( rawVideo );
+    }
+    m_CamRgbCondVar.notify_one();
 }
 
 //============================================================================
 void CamProcessor::processCamRgbThreaded( void )
 {
-    while( false == m_ProcessCamRgbThread.isAborted() )
-	{
-        m_CamRgbSemaphore.wait();
+    while( !m_Abort.load() )
+    {
+        CamRgbVideo* rawVideo = nullptr;
+        {
+            std::unique_lock<std::mutex> lock( m_CamRgbMutex );
+            m_CamRgbCondVar.wait( lock, [this](){ return m_Abort.load() || !m_ProcessCamRgbQue.empty(); } );
+            if( m_Abort.load() )
+                break;
+            rawVideo = m_ProcessCamRgbQue.front();
+            m_ProcessCamRgbQue.pop();
+        }
 
-        //LogMsg( LOG_WARN, "CamProcessor::%s release %d", __func__, GetApplicationAliveMs() );
-        if( m_ProcessCamRgbThread.isAborted() )
-		{
-            LogMsg( LOG_INFO, "CamProcessor::%s aborting1", __func__ );
-			break;
-		}
-
-        while( m_ProcessCamRgbQue.size() )
-		{
+        if( rawVideo )
+        {
             int64_t startTime;
             if( LogEnabled( eLogWebCam ) )
             {
-               startTime = GetGmtTimeMs();
+                startTime = GetGmtTimeMs();
             }
 
-            m_CamRgbMutex.lock();
-            CamRgbVideo * rawVideo = m_ProcessCamRgbQue[0];
-            m_ProcessCamRgbQue.erase( m_ProcessCamRgbQue.begin() );
-            m_CamRgbMutex.unlock();
-
             processCamVideoRgb( rawVideo );
-			delete rawVideo;
+            delete rawVideo;
+
             if( LogEnabled( eLogWebCam ) )
             {
                 static int frameCnt = 0;
@@ -137,20 +111,8 @@ void CamProcessor::processCamRgbThreaded( void )
                            (int)(endTime - startTime), GetApplicationAliveMs() );
                 }
             }
-
-            if( m_ProcessCamRgbThread.isAborted() )
-			{
-                LogMsg( LOG_INFO, "CamProcessor::%s aborting2", __func__ );
-				break;
-			}
-		}
-
-        if( m_ProcessCamRgbThread.isAborted() )
-		{
-            LogMsg( LOG_INFO, "CamProcessor::%s aborting3", __func__ );
-			break;
-		}
-	}
+        }
+    }
 
     LogMsg( LOG_INFO, "CamProcessor::%s leaving function", __func__ );
 }
@@ -158,27 +120,27 @@ void CamProcessor::processCamRgbThreaded( void )
 //============================================================================
 int CamProcessor::calculateImageMotion( std::shared_ptr<uint8_t> rgbData, int dataLen )
 {
-    if( dataLen != m_LastRgbDataLen || m_LastRgbData.empty() )
+    if( dataLen != m_LastRgbDataLen || !m_LastRgbData )
     {
-        m_LastRgbData.emplace_back( rgbData );
+        m_LastRgbData = rgbData;
         m_LastRgbDataLen = dataLen;
         return 0;
     }
 
-    std::shared_ptr<uint8_t> lastMotion = m_LastRgbData[0];
-    m_LastRgbData.clear();
+    constexpr int MOTION_STEP = 12; // sample every 4th pixel (3 bytes/pixel * 4)
+    std::shared_ptr<uint8_t> lastMotion = m_LastRgbData;
     const uint8_t* motionBuf = lastMotion.get();
     const uint8_t* cmpData = rgbData.get();
     unsigned int vidDiff = 0;
-    for( int i = 0; i < dataLen; i++ )
+    for( int i = 0; i < dataLen; i += MOTION_STEP )
     {
         vidDiff += cmpData[i] > motionBuf[i] ? ( cmpData[i] - motionBuf[i] ) : ( motionBuf[i] - cmpData[i] );
     }
 
-    double videoSensitivity = (dataLen*64);
+    double videoSensitivity = ( (double)dataLen / MOTION_STEP ) * 64.0;
     double difNormalized = ((double)vidDiff * VIDEO_MAX_MOTION_VALUE) / videoSensitivity;
     int motion0To100000 = difNormalized > VIDEO_MAX_MOTION_VALUE ? VIDEO_MAX_MOTION_VALUE : (int)difNormalized;
-    m_LastRgbData.emplace_back( rgbData );
+    m_LastRgbData = rgbData;
     m_LastRgbDataLen = dataLen;
     return motion0To100000;
 }
@@ -248,12 +210,8 @@ void CamProcessor::processCamVideoRgb( CamRgbVideo* rgbVideo )
 
 	if( 0 == rc )
 	{
-        // LogMsg( LOG_WARN, "CamProcessor::%s m_CamLogic.processCamCapture %d", __func__, GetApplicationAliveMs() );
         std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, s32JpgDataLen, motion ) );
-        m_CamJpgMutex.lock();
-        m_ProcessCamJpgQue.emplace_back( jpgVideo );
-        m_CamJpgMutex.unlock();
-        m_CamJpgSemaphore.signal();
+        m_CamLogic.processCamCapture( jpgVideo );
 	}
 	else
 	{
@@ -263,41 +221,3 @@ void CamProcessor::processCamVideoRgb( CamRgbVideo* rgbVideo )
 
 
 //============================================================================
-void CamProcessor::processCamJpgThreaded( void )
-{
-    while( false == m_ProcessCamJpgThread.isAborted() )
-    {
-        m_CamJpgSemaphore.wait();
-
-        //LogMsg( LOG_WARN, "CamProcessor::%s release %d", __func__, GetApplicationAliveMs() );
-        if( m_ProcessCamJpgThread.isAborted() )
-        {
-            LogMsg( LOG_INFO, "CamProcessor::%s aborting1", __func__ );
-            break;
-        }
-
-        while( m_ProcessCamJpgQue.size() )
-        {
-            m_CamJpgMutex.lock();
-            std::shared_ptr<CamJpgVideo> jpgVideo = m_ProcessCamJpgQue[0];
-            m_ProcessCamJpgQue.erase( m_ProcessCamJpgQue.begin() );
-            m_CamJpgMutex.unlock();
-
-            m_CamLogic.processCamCapture( jpgVideo );
-
-            if( m_ProcessCamJpgThread.isAborted() )
-            {
-                LogMsg( LOG_INFO, "CamProcessor::%s aborting2", __func__ );
-                break;
-            }
-        }
-
-        if( m_ProcessCamJpgThread.isAborted() )
-        {
-            LogMsg( LOG_INFO, "CamProcessor::%s aborting3", __func__ );
-            break;
-        }
-    }
-
-    LogMsg( LOG_INFO, "CamProcessor::%s leaving function", __func__ );
-}

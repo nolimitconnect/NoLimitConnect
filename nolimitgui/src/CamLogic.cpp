@@ -21,6 +21,8 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
+#include <QMessageBox>
+
 //============================================================================
 CamLogic::CamLogic(AppCommon& myApp, QObject *parent )
     : QObject(parent)
@@ -287,7 +289,17 @@ bool CamLogic::setCamera( const QCameraDevice& cameraDevice )
     //ProcessQtEvents( 300 ); // give qt time to clean up old capture
 
     m_Camera = new QCamera(cameraDevice);
-    selectVideoFormat( cameraDevice );
+    if( !selectVideoFormat( cameraDevice ) )
+    {
+        QString statusMsg = QString( "Camera '%1' has no supported format. JPEG and YUYV are disabled." )
+            .arg( cameraDevice.description() );
+        LogMsg( LOG_ERROR, "%s %s", __func__, statusMsg.toUtf8().constData() );
+
+        m_Camera->deleteLater();
+        m_Camera = nullptr;
+        QMessageBox::information( nullptr, "Camera Not Supported", statusMsg );
+        return false;
+    }
 
     m_CaptureSession = new QMediaCaptureSession();
     m_CaptureSession->setCamera(m_Camera);
@@ -402,17 +414,124 @@ QString CamLogic::getCameraBackgroundFile( void )
 }
 
 //============================================================================
-void CamLogic::selectVideoFormat( const QCameraDevice& cameraDevice )
+#if 0
+bool CamLogic::selectVideoFormat( const QCameraDevice& cameraDevice )
 {
     if( VxIsAppShuttingDown() )
     {
-        return;
+        return false;
     }
 
 #if defined(ENABLE_JAVA_CAM)
-    return;
+    return false;
 #else
 
+    auto isPreferredFormat = []( QVideoFrameFormat::PixelFormat pixelFormat )
+    {
+        return pixelFormat == QVideoFrameFormat::Format_YUV420P ||
+               pixelFormat == QVideoFrameFormat::Format_NV12 ||
+               pixelFormat == QVideoFrameFormat::Format_NV21 ||
+               pixelFormat == QVideoFrameFormat::Format_YV12;
+    };
+
+    auto isRejectedFormat = []( QVideoFrameFormat::PixelFormat pixelFormat )
+    {
+        return pixelFormat == QVideoFrameFormat::Format_Jpeg ||
+               pixelFormat == QVideoFrameFormat::Format_YUYV;
+    };
+
+    QSize targetSize = GuiParams::getSnapshotDesiredSize();
+    auto formats = cameraDevice.videoFormats();
+    if( !formats.isEmpty() ) 
+    {
+        auto chooseFormat = formats.first();
+        bool chooseFormatInvalid = true;
+        //LogModule( eLogWebCam, LOG_VERBOSE, "Default camera resolution w %d h %d min fps %3.1f max fps %3.1f", chooseFormat.resolution().width(),
+        //    chooseFormat.resolution().height(), chooseFormat.minFrameRate(), chooseFormat.maxFrameRate() );
+        if( !isRejectedFormat( chooseFormat.pixelFormat() ) &&
+            chooseFormat.resolution().width() >= targetSize.width() &&
+            chooseFormat.resolution().height() >= targetSize.height() )
+        {
+            chooseFormatInvalid = false;
+        }
+
+        int formatNum = 0;
+
+        for( const auto& format : formats ) 
+        {
+            formatNum++;
+            if( formatNum == 1 )
+            {
+                // no need to check the first format
+                continue;
+            }
+
+            if( format.resolution().width() >= targetSize.width() && format.resolution().height() >= targetSize.height() )
+            {
+                QVideoFrameFormat::PixelFormat newPixelFormat = format.pixelFormat();
+                if(LogEnabled( eLogWebCam ) ) LogModule( eLogWebCam, LOG_VERBOSE, "%s format resolution w %d h %d min fps %3.1f max fps %3.1f pix format %d", __func__, format.resolution().width(),
+                       format.resolution().height(), format.minFrameRate(), format.maxFrameRate(), newPixelFormat );
+
+                if( isRejectedFormat( newPixelFormat ) )
+                {
+                    continue;
+                }
+
+                if( chooseFormatInvalid )
+                {
+                    chooseFormat = format;
+                    chooseFormatInvalid = false;
+                    continue;
+                }
+
+                QVideoFrameFormat::PixelFormat pixelFormat = chooseFormat.pixelFormat();
+                if( isPreferredFormat( newPixelFormat ) && !isPreferredFormat( pixelFormat ) )
+                {
+                    chooseFormat = format;
+                    continue;
+                }
+
+                if( !isPreferredFormat( newPixelFormat ) && isPreferredFormat( pixelFormat ) )
+                {
+                    continue;
+                }
+
+                if( isBetterVideoFormat( targetSize, format, chooseFormat ) )
+                {
+                    chooseFormat = format;
+                    chooseFormatInvalid = false;
+                }
+            }
+        }
+
+        if( chooseFormatInvalid )
+        {
+            LogMsg( LOG_ERROR, "%s no supported camera format for %s target w %d h %d", __func__, cameraDevice.description().toUtf8().constData(), targetSize.width(), targetSize.height() );
+            return false;
+        }
+
+        QVideoFrameFormat::PixelFormat pixelFormat = chooseFormat.pixelFormat();
+        if(LogEnabled( eLogWebCam ) ) LogModule( eLogWebCam, LOG_VERBOSE, "%s Setting Format resolution w %d h %d min fps %3.1f max fps %3.1f pix format %d", __func__, chooseFormat.resolution().width(),
+            chooseFormat.resolution().height(), chooseFormat.minFrameRate(), chooseFormat.maxFrameRate(), pixelFormat );
+
+        m_Camera->setCameraFormat( chooseFormat );
+        return true;
+    }
+    return false;
+#endif // defined(ENABLE_JAVA_CAM)
+}
+#else
+bool CamLogic::selectVideoFormat( const QCameraDevice& cameraDevice )
+{
+    if( VxIsAppShuttingDown() )
+    {
+        return false;
+    }
+
+#if defined(ENABLE_JAVA_CAM)
+    return false;
+#else
+  
     QSize targetSize = GuiParams::getSnapshotDesiredSize();
     auto formats = cameraDevice.videoFormats();
     if( !formats.isEmpty() ) 
@@ -457,7 +576,10 @@ void CamLogic::selectVideoFormat( const QCameraDevice& cameraDevice )
         m_Camera->setCameraFormat( chooseFormat );
     }
 #endif // defined(ENABLE_JAVA_CAM)
+    return true;
 }
+
+#endif
 
 //============================================================================
 bool CamLogic::isBetterVideoFormat( QSize& targetSize, const QCameraFormat& newFormat, const QCameraFormat& oldFormat )
@@ -498,7 +620,7 @@ bool CamLogic::isBetterVideoFormat( QSize& targetSize, const QCameraFormat& newF
 
     if( newFormat.maxFrameRate() == targetRate )
     {
-        if( newFormat.pixelFormat() == QVideoFrameFormat::Format_YUV420P )
+        if( isBetterConversionSpeed( newFormat, oldFormat ) )
         {
             // some cameras have a faster rate with this format + used to be standard for android
             if(LogEnabled( eLogWebCam ) ) LogModule( eLogWebCam, LOG_VERBOSE, "%s new is better format match %d", __func__, newFormat.pixelFormat() );
@@ -509,6 +631,40 @@ bool CamLogic::isBetterVideoFormat( QSize& targetSize, const QCameraFormat& newF
     return false;
 
 #endif // defined(ENABLE_JAVA_CAM)
+}
+
+//============================================================================
+bool CamLogic::isBetterConversionSpeed( const QCameraFormat& newFormat, const QCameraFormat& oldFormat )
+{
+    // consider conversion speed for formats that are not a direct match to what we want to process
+    // faster formats will reduce cpu load and increase frame rate when we have to convert
+    // this is only used when resolution and frame rate are not a clear winner
+    auto getFormatPriority = [](QVideoFrameFormat::PixelFormat pixelFormat) -> int {
+        switch (pixelFormat) {
+            // Fast: Bi-planar (NV12/NV21) is typically most cache-friendly for YUV -> RGB
+            case QVideoFrameFormat::Format_NV12:
+            case QVideoFrameFormat::Format_NV21:
+                return 1; 
+
+            // Good: Standard 3-plane planar formats
+            case QVideoFrameFormat::Format_YUV420P:
+            case QVideoFrameFormat::Format_YV12:
+                return 2;
+
+            // Slow: Packed format requiring more bit-shifting
+            case QVideoFrameFormat::Format_YUYV:
+                return 3;
+
+            // Slowest: Requires full CPU decompression (JPEG decoding)
+            case QVideoFrameFormat::Format_Jpeg:
+                return 4;
+
+            default:
+                return 99; // Unknown/Unsupported
+        }
+    };
+
+    return getFormatPriority(newFormat.pixelFormat()) < getFormatPriority(oldFormat.pixelFormat());
 }
 
 //============================================================================
