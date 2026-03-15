@@ -245,9 +245,11 @@ list(APPEND nlc_HEADERS
     src/BottomBarWidget.h
     src/CamTitleBarPreview.h
 
+    src/CamFrameProcessor.h
     src/CamJavaClient.h
     src/CamLogic.h
     src/CamProcessor.h
+    src/CamV4L2.h
 
     src/ChatEntryWidget.h
     src/ClipboardCopyWidget.h
@@ -439,8 +441,6 @@ list(APPEND nlc_HEADERS
     src/ToGuiUserUpdateInterface.h
     src/ToGuiThumbUpdateInterface.h
     src/TitleBarWidget.h
-
-    src/CamFrameProcessor.h
 
     src/VxAspectFrame.h
     src/VxContextMenu.h
@@ -686,9 +686,11 @@ list(APPEND nlc_SOURCES
     src/AudioInWaveformWidget.cpp
     src/AudioOutWaveformWidget.cpp
 
+    src/CamFrameProcessor.cpp
     src/CamJavaClient.cpp
     src/CamLogic.cpp
     src/CamProcessor.cpp
+    src/CamV4L2.cpp
 
     src/CamTitleBarPreview.cpp
     src/ChatEntryWidget.cpp
@@ -868,7 +870,6 @@ list(APPEND nlc_SOURCES
     src/ThumbnailChooseWidget.cpp
     src/ThumbnailViewWidget.cpp
 
-    src/CamFrameProcessor.cpp
     src/VxAspectFrame.cpp
     src/VxComboBox.cpp
     src/VxContextMenu.cpp
@@ -1102,6 +1103,14 @@ if(DEFINED BUILD_SYSTEM_FLATPAK)
     target_include_directories(nolimitconnect PRIVATE
         ${PROJECT_SRC_ROOT_DIR}/libs/libGLU/include       
     )
+endif()
+
+if(DEFINED TARGET_OS_LINUX)
+    target_compile_definitions(nolimitconnect PRIVATE
+        # use v4l2 camera capture on linux instead of qt camera which scrables images when linux is running in a vm
+        ENABLE_V4L2_CAM
+    )
+
 endif()
 
 if(DEFINED TARGET_OS_WINDOWS)

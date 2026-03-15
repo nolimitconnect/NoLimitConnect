@@ -10,16 +10,25 @@
 #pragma once
 
 #include "CamProcessor.h"
+#if !defined(ENABLE_V4L2_CAM) && !defined(ENABLE_JAVA_CAM)
 #include "CamFrameProcessor.h"
+#endif
 
 #include <GuiInterface/IDefs.h>
 
 #include <QCoreApplication>
+#if !defined(ENABLE_V4L2_CAM) && !defined(ENABLE_JAVA_CAM)
 #include <QCamera>
 #include <QMediaCaptureSession>
 #include <QMediaDevices>
 #include <QVideoSink>
 #include <QImage>
+#endif
+
+#if defined(ENABLE_V4L2_CAM)
+#include "CamV4L2.h"
+#include <map>
+#endif
 
 #include <string>
 
@@ -85,10 +94,14 @@ signals:
 protected:
     std::string                 selectLastUsedCamera( void ); // only called on startup
 
+#if !defined(ENABLE_JAVA_CAM) && !defined(ENABLE_V4L2_CAM)
     bool                        setCamera( const QCameraDevice& cameraDevice );
     bool                        selectVideoFormat( const QCameraDevice& cameraDevice );
     bool                        isBetterVideoFormat( QSize& targetSize, const QCameraFormat& newFormat, const QCameraFormat& oldFormat );
     bool                        isBetterConversionSpeed( const QCameraFormat& newFormat, const QCameraFormat& oldFormat );
+#elif defined(ENABLE_V4L2_CAM)
+    bool                        setV4L2Camera( const std::string& devPath );
+#endif
 
     void                        updateCaptureRunning( bool capIsRunning );
 
@@ -108,13 +121,18 @@ protected:
     CamJavaClient               m_CamJavaClient;
     std::vector<std::pair<bool,std::string>> m_CamIdList;
 #else
+#  if defined(ENABLE_V4L2_CAM)
+    std::map<std::string, std::string>  m_V4L2DeviceMap; // cardName -> /dev/videoN
+    CamV4L2                             m_CamV4L2;
+#  else
     QCamera*                    m_Camera{ nullptr };
     QMediaCaptureSession *      m_CaptureSession{ nullptr };
     QVideoSink *                m_CamFrameSink{ nullptr };
 
     QList<QCameraDevice>        m_AvailableCameras;
 
-    CamFrameProcessor         m_VideoFrameProcessor;
+    CamFrameProcessor           m_CamFrameProcessor;
+#  endif // defined(ENABLE_V4L2_CAM)
 #endif // defined(ENABLE_JAVA_CAM)
 
     std::atomic<int>            m_CamImageInTransitCnt;

@@ -737,6 +737,7 @@ int32_t VxSettings::prepareIniSet(	sqlite3_stmt ** ppoRetSqlStatement,
 		else
 		{
 			LogMsg( LOG_ERROR, "VxSettings::prepareIniSet:ERROR %s", sqlite3_errmsg(m_Db) );
+			vx_assert( false );
 		}
 	}
 
@@ -772,6 +773,7 @@ int32_t VxSettings::prepareIniQuery(	sqlite3_stmt ** ppoRetSqlStatement,
 				else
 				{
 					LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %s column bytes", sqlite3_errmsg(m_Db) );
+					vx_assert( false );
 					rc = -2;
 				}
 			}
@@ -783,6 +785,7 @@ int32_t VxSettings::prepareIniQuery(	sqlite3_stmt ** ppoRetSqlStatement,
 			else 
 			{
 				LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %s stepping", sqlite3_errmsg(m_Db) );
+				vx_assert( false );
 				rc = -3;
 			}
 		}
@@ -804,7 +807,7 @@ int32_t VxSettings::prepareIniQuery(	sqlite3_stmt ** ppoRetSqlStatement,
 	if( rc )
 	{
 		LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %d preparing", rc );
-        //vx_assert( false );
+        vx_assert( false );
 	}
 
 	return rc;
@@ -839,6 +842,7 @@ int32_t VxSettings::finalizeIniSetTransaction( sqlite3_stmt * poSqlStatement, bo
 	{
         sqlite3_finalize( poSqlStatement );
 		LogMsg( LOG_ERROR, "VxSettings::finalizeIniSetTransaction:ERROR %s", sqlite3_errmsg(m_Db) );
+        vx_assert( false );
 	}
 
    

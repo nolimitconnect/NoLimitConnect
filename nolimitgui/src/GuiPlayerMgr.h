@@ -20,6 +20,8 @@
 #include <QSharedPointer>
 #include <QSize>
 
+#include <atomic>
+
 class AppCommon;
 class AssetBaseInfo;
 class CamJpgVideo;
@@ -66,5 +68,5 @@ protected:
 	QAtomicInt					m_BehindMotionFrameCnt;
 	VxGUID						m_MediaSessionId;
 
-	QAtomicInt					m_JpgCntInSignal{ 0 };
+	std::atomic<int>			m_JpgCntInSignal{ 0 };
 };

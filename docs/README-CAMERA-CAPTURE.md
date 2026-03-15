@@ -32,6 +32,10 @@ QCamera
                       └─► MediaProcessor::processCamCaptureJpgVideo()
 ```
 
+// CamV4L2 replaces the Qt Multimedia camera capture code when compiling on Linux
+// This is to avoid the Qt Multimedia bug where on Ubuntu running in a virtualbox the camera image is scrambled 
+// and only partial QVideoFrame is delivered.  
+
 ## Encoding Details
 
 | Property       | Value                          | Notes                                     |

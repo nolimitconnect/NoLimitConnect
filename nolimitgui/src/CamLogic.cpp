@@ -31,8 +31,10 @@ CamLogic::CamLogic(AppCommon& myApp, QObject *parent )
     , m_CamProcessor(*this)
 #if defined(ENABLE_JAVA_CAM)
     , m_CamJavaClient( myApp, *this, this )
+#elif defined(ENABLE_V4L2_CAM)
+    , m_CamV4L2( *this )
 #else
-    , m_VideoFrameProcessor( myApp, *this, this )
+    , m_CamFrameProcessor( myApp, *this, this )
 #endif // defined(ENABLE_JAVA_CAM)
 {
     memset( m_WantCamInput, 0, sizeof( m_WantCamInput ) );
@@ -41,7 +43,8 @@ CamLogic::CamLogic(AppCommon& myApp, QObject *parent )
 //============================================================================
 CamLogic::~CamLogic() {
 #if defined(ENABLE_JAVA_CAM)
-
+#elif defined(ENABLE_V4L2_CAM)
+    m_CamV4L2.closeDevice();
 #else
     if (m_Camera) 
     {
@@ -69,15 +72,19 @@ bool CamLogic::isCamCaptureRequested( void )
 //============================================================================
 void CamLogic::startupCamLogic( void )
 {
+#if defined(TARGET_OS_ANDROID)    
     if( !GuiParams::requestPermission("android.permission.CAMERA") )
     {
         LogMsg( LOG_ERROR, "%s Do Not have camera permission", __func__ );
         return;
     }
+#endif // defined(TARGET_OS_ANDROID)
 
 #if defined(ENABLE_JAVA_CAM)
     m_CamJavaClient.startupCamLogic();
     // onCamCaptureReady will get called after camera service starts
+#elif defined(ENABLE_V4L2_CAM)
+    onCamCaptureReady( true );
 #else
     onCamCaptureReady( true );
 #endif // defined(ENABLE_JAVA_CAM)
@@ -88,8 +95,10 @@ void CamLogic::shutdownCamLogic( void )
 {
 #if defined(ENABLE_JAVA_CAM)
     m_CamJavaClient.shutdownCamLogic();
+#elif defined(ENABLE_V4L2_CAM)
+    m_CamV4L2.closeDevice();
 #else
-    m_VideoFrameProcessor.enableProcessing( false );
+    m_CamFrameProcessor.enableProcessing( false );
 
     if( m_Camera )
     {
@@ -160,6 +169,11 @@ std::string CamLogic::selectLastUsedCamera( void )
         return m_CamIdList.front().second;
     }
 
+#elif defined(ENABLE_V4L2_CAM)
+    if( m_V4L2DeviceMap.size() )
+    {
+        return m_V4L2DeviceMap.begin()->first;
+    }
 #else
     // try back facing camera first
     for( auto device : m_AvailableCameras )
@@ -216,6 +230,14 @@ void CamLogic::updateCameraDevices( void )
 {
 #if defined(ENABLE_JAVA_CAM)
     m_CamJavaClient.getCameraDevices( m_CamIdList );
+#elif defined(ENABLE_V4L2_CAM)
+    m_V4L2DeviceMap.clear();
+    std::vector<std::pair<std::string, std::string>> devices;
+    CamV4L2::enumerateDevices( devices );
+    for( const auto& dev : devices )
+    {
+        m_V4L2DeviceMap[dev.first] = dev.second;
+    }
 #else
     m_AvailableCameras = QMediaDevices::videoInputs();
 #endif // defined(ENABLE_JAVA_CAM)
@@ -228,6 +250,11 @@ void CamLogic::getAvailableCameras( std::vector<QString>& retCamList )
     for( auto device : m_CamIdList )
     {
         retCamList.emplace_back( device.second.c_str() );
+    }
+#elif defined(ENABLE_V4L2_CAM)
+    for( const auto& device : m_V4L2DeviceMap )
+    {
+        retCamList.emplace_back( device.first.c_str() );
     }
 #else
     for( auto device : m_AvailableCameras )
@@ -254,11 +281,31 @@ bool CamLogic::startCamCapture( std::string camId )
 }
 
 //============================================================================
+#if defined(ENABLE_V4L2_CAM)
+bool CamLogic::setV4L2Camera( const std::string& devPath )
+{
+    if( !m_CameraEnabled )
+    {
+        LogModule( eLogWebCam, LOG_VERBOSE, "CamLogic::%s called but cam is disabled", __func__ );
+        return false;
+    }
+
+    QSize targetSize = GuiParams::getSnapshotDesiredSize();
+    m_CamV4L2.closeDevice();
+    bool opened = m_CamV4L2.openDevice( devPath, targetSize.width(), targetSize.height() );
+    if( !opened )
+    {
+        LogMsg( LOG_ERROR, "%s failed opening %s", __func__, devPath.c_str() );
+    }
+
+    return opened;
+}
+#endif
+
+//============================================================================
+#if !defined(ENABLE_JAVA_CAM) && !defined(ENABLE_V4L2_CAM)
 bool CamLogic::setCamera( const QCameraDevice& cameraDevice )
 {
-#if defined(ENABLE_JAVA_CAM)
-    return false;
-#else
     if( m_Camera )
     {
         m_Camera->stop();
@@ -274,8 +321,8 @@ bool CamLogic::setCamera( const QCameraDevice& cameraDevice )
 
     if( m_CamFrameSink )
     {
-        disconnect( m_CamFrameSink, SIGNAL(videoFrameChanged(const QVideoFrame&)), &m_VideoFrameProcessor, SLOT(slotVideoFrameChanged(const QVideoFrame&)) );
-        m_VideoFrameProcessor.enableProcessing( false );
+        disconnect( m_CamFrameSink, SIGNAL(videoFrameChanged(const QVideoFrame&)), &m_CamFrameProcessor, SLOT(slotVideoFrameChanged(const QVideoFrame&)) );
+        m_CamFrameProcessor.enableProcessing( false );
         m_CamFrameSink->deleteLater();
         m_CamFrameSink = nullptr;
     }
@@ -315,16 +362,16 @@ bool CamLogic::setCamera( const QCameraDevice& cameraDevice )
 
     m_CamFrameSink = new QVideoSink();
     m_CaptureSession->setVideoSink( m_CamFrameSink );
-    connect( m_CamFrameSink, SIGNAL(videoFrameChanged(const QVideoFrame&)), &m_VideoFrameProcessor, SLOT(slotVideoFrameChanged(const QVideoFrame&)) );
-    m_VideoFrameProcessor.enableProcessing( true );
+    connect( m_CamFrameSink, SIGNAL(videoFrameChanged(const QVideoFrame&)), &m_CamFrameProcessor, SLOT(slotVideoFrameChanged(const QVideoFrame&)) );
+    m_CamFrameProcessor.enableProcessing( true );
     if( m_CameraEnabled )
     {
         m_Camera->start();
     }
 
     return m_Camera->isActive();
-#endif // defined(ENABLE_JAVA_CAM)
 }
+#endif
 
 //============================================================================
 void CamLogic::toGuiWantVideoCapture( EMediaModule mediaModule, bool wantVidCapture )
@@ -361,6 +408,8 @@ bool CamLogic::cameraExists( std::string camId )
     }
 
     return false;
+#elif defined(ENABLE_V4L2_CAM)
+    return m_V4L2DeviceMap.find( camId ) != m_V4L2DeviceMap.end();
 #else
     QString camDescription = camId.c_str();
     for( auto device : m_AvailableCameras )
@@ -414,6 +463,7 @@ QString CamLogic::getCameraBackgroundFile( void )
 }
 
 //============================================================================
+#if !defined(ENABLE_JAVA_CAM) && !defined(ENABLE_V4L2_CAM)
 #if 0
 bool CamLogic::selectVideoFormat( const QCameraDevice& cameraDevice )
 {
@@ -666,6 +716,7 @@ bool CamLogic::isBetterConversionSpeed( const QCameraFormat& newFormat, const QC
 
     return getFormatPriority(newFormat.pixelFormat()) < getFormatPriority(oldFormat.pixelFormat());
 }
+#endif
 
 //============================================================================
 bool CamLogic::nextCamera( void )
@@ -692,6 +743,22 @@ bool CamLogic::nextCamera( void )
     }
 
     return startCamCapture( m_CamIdList.front().second );
+#elif defined(ENABLE_V4L2_CAM)
+    std::string camId = getCamId();
+    bool foundCurrent{false};
+    for( const auto& device : m_V4L2DeviceMap )
+    {
+        if( foundCurrent )
+        {
+            return startCamCapture( device.first );
+        }
+        else if( device.first == camId )
+        {
+            foundCurrent = true;
+        }
+    }
+
+    return startCamCapture( m_V4L2DeviceMap.begin()->first );
 #else
     QString camDesc = getCamId().c_str();
     bool foundCurrent{false};
@@ -716,6 +783,8 @@ int CamLogic::getCameraCount( void )
 {
 #if defined(ENABLE_JAVA_CAM)
     return m_CamIdList.size();
+#elif defined(ENABLE_V4L2_CAM)
+    return (int)m_V4L2DeviceMap.size();
 #else
     return m_AvailableCameras.size();
 #endif // defined(ENABLE_JAVA_CAM)
@@ -731,6 +800,8 @@ bool CamLogic::isCamAvailable( void )
 std::string CamLogic::getCamId( void )
 {
 #if defined(ENABLE_JAVA_CAM)
+    return m_CamId;
+#elif defined(ENABLE_V4L2_CAM)
     return m_CamId;
 #else
     return m_Camera ? m_Camera->cameraDevice().description().toUtf8().constData() : "";
@@ -750,6 +821,8 @@ bool CamLogic::enableCamCapture( bool enable )
     {
     #if defined(ENABLE_JAVA_CAM)
         m_CamJavaClient.stopCamCapture();
+    #elif defined(ENABLE_V4L2_CAM)
+        m_CamV4L2.closeDevice();
     #else
         if( m_Camera )
         {
@@ -791,6 +864,42 @@ bool CamLogic::enableCamCapture( bool enable )
 
 
     bool capRunning = m_CamJavaClient.startCamCapture( m_CamId );
+    if( m_CaptureRunning != capRunning )
+    {
+        updateCaptureRunning( capRunning );
+    }
+
+    return capRunning;
+#elif defined(ENABLE_V4L2_CAM)
+    auto devIter = m_V4L2DeviceMap.find( m_CamId );
+    if( devIter == m_V4L2DeviceMap.end() )
+    {
+        LogMsg( LOG_DEBUG, "%s camera %s NOT available", __func__, m_CamId.c_str() );
+        return false;
+    }
+
+    bool capRunning = setV4L2Camera( devIter->second );
+    if( !capRunning )
+    {
+        // Some webcams expose multiple /dev/video* nodes; try other nodes as fallback.
+        for( const auto& entry : m_V4L2DeviceMap )
+        {
+            if( entry.first == m_CamId )
+            {
+                continue;
+            }
+
+            if( setV4L2Camera( entry.second ) )
+            {
+                m_CamId = entry.first;
+                m_MyApp.getAppSettings().setCamSourceId( m_CamId );
+                capRunning = true;
+                LogMsg( LOG_WARN, "%s fallback camera selected %s", __func__, m_CamId.c_str() );
+                break;
+            }
+        }
+    }
+
     if( m_CaptureRunning != capRunning )
     {
         updateCaptureRunning( capRunning );

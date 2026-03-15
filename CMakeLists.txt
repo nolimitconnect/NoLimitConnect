@@ -551,7 +551,7 @@ else()
     elseif("${QT_VERSION}" STREQUAL "6_9_3" )
         set(NLC_NDK_VERSION 26.1.10909125)
     else()
-        #6.9.0 and higher
+        #6.10.0 and higher
         set(NLC_NDK_VERSION 27.2.12479018) #is release r26b
     endif()
 

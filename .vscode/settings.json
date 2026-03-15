@@ -7,6 +7,23 @@
     "cmake.useVsDeveloperEnvironment": "always",
     "cmake.defaultConfigurePreset": "windows-debug",
     "cmake.defaultBuildPreset": "windows-debug",
+    "cmake.debugConfig": {
+        "environment": [
+            {
+                "name": "DEBUGINFOD_URLS",
+                "value": ""
+            }
+        ],
+        "setupCommands": [
+            {
+                "description": "Disable debuginfod",
+                "text": "-gdb-set debuginfod enabled off",
+                "ignoreFailures": true
+            }
+        ],
+        "miDebuggerPath": "${workspaceFolder}/.vscode/gdb-no-debuginfod.sh",
+        "miDebuggerArgs": "-iex \"set debuginfod enabled off\""
+    },
 
     "cmake.configureOnOpen": true,
     "C_Cpp.errorSquiggles": "disabled",
