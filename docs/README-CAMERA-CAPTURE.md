@@ -2,6 +2,10 @@
 
 The Camera Capture module handles video chat and video recording/playback across various system modules.
 
+## Purpose
+
+Quick reference for camera capture flow, performance constraints, and Linux-specific capture behavior.
+
 ## Goals
 
 *   **Capture Source:** Use `QCamera` as the primary capture source.
@@ -32,9 +36,19 @@ QCamera
                       └─► MediaProcessor::processCamCaptureJpgVideo()
 ```
 
-// CamV4L2 replaces the Qt Multimedia camera capture code when compiling on Linux
-// This is to avoid the Qt Multimedia bug where on Ubuntu running in a virtualbox the camera image is scrambled 
-// and only partial QVideoFrame is delivered.  
+Code links:
+
+- [nolimitgui/src/CamLogic.cpp](nolimitgui/src/CamLogic.cpp)
+- [nolimitgui/src/CamProcessor.cpp](nolimitgui/src/CamProcessor.cpp)
+- [nolimitgui/src/CamFrameProcessor.cpp](nolimitgui/src/CamFrameProcessor.cpp)
+- [nolimitgui/src/CamV4L2.cpp](nolimitgui/src/CamV4L2.cpp)
+- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
+
+## Linux Capture Note
+
+On Linux builds, `CamV4L2` was added as a direct V4L2 capture path to avoid a Qt Multimedia issue seen in Ubuntu/VirtualBox environments where camera frames could appear scrambled or partially delivered.
+
+Qt Multimedia remains part of the non-Linux capture path, but Linux prefers `CamV4L2` specifically to avoid that corruption behavior.
 
 ## Encoding Details
 
@@ -58,17 +72,31 @@ previous two-thread design (separate RGB and JPG queues) to eliminate the inter-
 round-trip at 15 fps. The thread waits on a `std::condition_variable` and exits cleanly on
 `m_Abort` without polling.
 
+Code links:
+
+- [nolimitgui/src/CamProcessor.cpp](nolimitgui/src/CamProcessor.cpp)
+- [nolimitgui/src/CamProcessor.h](nolimitgui/src/CamProcessor.h)
+
 ### Queue
 
 Frames are queued as `CamRgbVideo*` in a `std::queue<CamRgbVideo*>` (O(1) push/pop). The
 `isStalled()` guard in `CamLogic::canProcessCamCapture()` drops incoming frames when the queue
 depth exceeds 1, preventing unbounded memory growth on slow hardware.
 
+Code links:
+
+- [nolimitgui/src/CamLogic.cpp](nolimitgui/src/CamLogic.cpp)
+- [nolimitgui/src/CamProcessor.cpp](nolimitgui/src/CamProcessor.cpp)
+
 ### Motion Detection Subsampling
 
 `calculateImageMotion` samples every 4th pixel (`MOTION_STEP = 12`, i.e. every 4th RGB triplet)
 giving an 8× speedup over full-scan with negligible accuracy loss for motion gating purposes.
 The sensitivity denominator is scaled proportionally: `(dataLen / MOTION_STEP) × 64`.
+
+Code links:
+
+- [nolimitgui/src/CamProcessor.cpp](nolimitgui/src/CamProcessor.cpp)
 
 
 
