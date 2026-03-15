@@ -74,10 +74,15 @@ void GuiPlayerMgr::wantPlayVideoCallbacks( VxGUID& feedOnlineId, GuiPlayerCallba
 void GuiPlayerMgr::toGuiPlayJpgVideo( VxGUID& vidFeedId, std::shared_ptr<CamJpgVideo>& camJpg )
 {
 	int inSignal = m_JpgCntInSignal.fetch_add( 1, std::memory_order_relaxed );
+
 	if( inSignal >= 1 )
 	{
 		m_JpgCntInSignal.fetch_sub( 1, std::memory_order_relaxed );
-		if( LogEnabled( eLogWebCam ) )LogModule( eLogWebCam, LOG_ERROR, "GuiPlayerMgr::%s too many in signal/slots", __func__ );
+		if( LogEnabled( eLogWebCam ) )LogModule( eLogWebCam, LOG_ERROR, "GuiPlayerMgr::%s too many in signal/slots tag=%llu src=%d(%s)",
+			__func__,
+			camJpg ? (unsigned long long)camJpg->m_FrameTag : 0ULL,
+			camJpg ? (int)camJpg->m_SourceModule : (int)eMediaModuleInvalid,
+			DescribeMediaModule( camJpg ? camJpg->m_SourceModule : eMediaModuleInvalid ) );
 		return;
 	}
 
@@ -143,10 +148,15 @@ void GuiPlayerMgr::slotInternalPlayCamJpg( VxGUID feedOnlineId, std::shared_ptr<
 void GuiPlayerMgr::callbackVideoJpg( VxGUID& vidFeedId, std::shared_ptr<CamJpgVideo>& camJpg )
 {
 	int inSignal = m_JpgCntInSignal.fetch_add( 1, std::memory_order_relaxed );
+
 	if( inSignal >= 1 )
 	{
 		m_JpgCntInSignal.fetch_sub( 1, std::memory_order_relaxed );
-		if( LogEnabled( eLogWebCam ) )LogModule( eLogWebCam, LOG_ERROR, "GuiPlayerMgr::%s too many in signal/slots", __func__ );
+		if( LogEnabled( eLogWebCam ) )LogModule( eLogWebCam, LOG_ERROR, "GuiPlayerMgr::%s too many in signal/slots tag=%llu src=%d(%s)",
+			__func__,
+			camJpg ? (unsigned long long)camJpg->m_FrameTag : 0ULL,
+			camJpg ? (int)camJpg->m_SourceModule : (int)eMediaModuleInvalid,
+			DescribeMediaModule( camJpg ? camJpg->m_SourceModule : eMediaModuleInvalid ) );
 		return;
 	}
 

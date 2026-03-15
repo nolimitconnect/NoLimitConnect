@@ -65,8 +65,8 @@ TxSession * PluginCamServer::createTxSession( std::shared_ptr<VxSktBase>& sktBas
 //============================================================================
 void PluginCamServer::callbackVideoJpg( VxGUID& feedId, std::shared_ptr<CamJpgVideo>& camJpg )
 {
-	//LogModule( eLogWebCam, LOG_INFO, "PluginCamServer::%s session count %d", __func__, m_PluginSessionMgr.getSessionCount() );
-	m_PluginMgr.pluginApiPlayJpgVideo( m_ePluginType, m_MyIdent, camJpg );
+	// Local camera frames already reach the GUI through MediaProcessor -> GuiPlayerMgr.
+	// Do not loop them back through PluginMgr or they will be enqueued twice.
 }
 
 //============================================================================
@@ -684,7 +684,7 @@ void PluginCamServer::onPktVideoFeedPicChunk( std::shared_ptr<VxSktBase>& sktBas
 
 			std::shared_ptr<uint8_t> jpgData( new uint8_t[poPktCastPic->getTotalDataLen()] );
 			memcpy( jpgData.get(), poPktCastPic->getDataPayload(), poPktCastPic->getTotalDataLen() );
-			std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, poPktCastPic->getTotalDataLen(), poPktCastPic->getMotionDetect() ) );
+			std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, poPktCastPic->getTotalDataLen(), poPktCastPic->getMotionDetect(), 0, eMediaModuleCamServer ) );
 
 			m_PluginMgr.pluginApiPlayJpgVideo( m_ePluginType, netIdent, jpgVideo  );
 			

@@ -456,7 +456,7 @@ void MediaProcessor::processFriendVideoFeed(	VxGUID&			onlineId,
 
 	std::shared_ptr<uint8_t> vidData( new uint8_t[jpgDataLen] );
 	memcpy( vidData.get(), pu8Jpg, jpgDataLen );
-	std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( vidData, jpgDataLen, motion0To100000 ) );
+	std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( vidData, jpgDataLen, motion0To100000, 0, eMediaModulePtoP ) );
 	sendJpgVideo( onlineId, jpgVideo );
 }
 

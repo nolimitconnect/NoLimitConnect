@@ -210,7 +210,7 @@ void CamProcessor::processCamVideoRgb( CamRgbVideo* rgbVideo )
 
 	if( 0 == rc )
 	{
-        std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, s32JpgDataLen, motion ) );
+    std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, s32JpgDataLen, motion, 0, eMediaModuleCamClient ) );
         m_CamLogic.processCamCapture( jpgVideo );
 	}
 	else

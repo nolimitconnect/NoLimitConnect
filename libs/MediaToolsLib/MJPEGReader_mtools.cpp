@@ -523,7 +523,7 @@ bool MJPEGReader::readFirstVidFrameFromFile( VFile * fileHandle, const char* fil
 					VxGUID onlineId;
 					onlineId.setVxGUID( assetId );
 
-					std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, aviChunk.m_PayloadDataSize, 0 ) );
+					std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, aviChunk.m_PayloadDataSize, 0, 0, eMediaModuleMediaReader ) );
 					IToGui::getIToGui().toGuiPlayJpgVideo( m_AssetId, jpgVideo );
 
 					return true;
@@ -1063,7 +1063,7 @@ void MJPEGReader::readerThread( void )
 			
 			std::shared_ptr<uint8_t> jpgData( new uint8_t[aviChunk->m_ChunkLen] );
 			memcpy( jpgData.get(), &aviChunk->m_DataPtr[8], aviChunk->m_ChunkLen );
-			std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, aviChunk->m_ChunkLen, 0 ) );
+			std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, aviChunk->m_ChunkLen, 0, 0, eMediaModuleMediaReader ) );
 
 			IToGui::getIToGui().toGuiPlayJpgVideo( m_AssetId, jpgVideo );
 			// LogMsg( LOG_INFO, "MJPEGReader vid chunk %d end", m_VidWriteIdx );
