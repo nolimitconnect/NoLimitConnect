@@ -40,6 +40,8 @@ AssetVoiceWidget::AssetVoiceWidget( AppCommon& appCommon, QWidget* parent )
 void AssetVoiceWidget::initAssetVoiceWidget( void )
 {
 	ui.setupUi( this );
+	setMediaModule( eMediaModuleAudioPlayWidget );
+
 	QSize buttonSize( GuiParams::getButtonSize( eButtonSizeTiny ) );
 	ui.m_PlayPauseButton->setFixedSizeAbsolute( buttonSize );
 

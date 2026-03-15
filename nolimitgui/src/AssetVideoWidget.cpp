@@ -43,6 +43,7 @@ void AssetVideoWidget::initAssetVideoWidget( void )
 {
 	ui.setupUi( this );
 	setXferBar( ui.m_XferProgressBar );
+	setMediaModule( eMediaModuleVideoPlayWidget );
 
 	ui.m_VidWidget->showAllControls( false );
 	ui.m_VidWidget->disablePreview( true );

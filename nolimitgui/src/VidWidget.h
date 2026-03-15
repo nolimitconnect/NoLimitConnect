@@ -38,8 +38,8 @@ public:
 	AppCommon&					getMyApp( void ) { return m_MyApp; }
 	MyIcons&					getMyIcons( void );
 
-	void						setMediaModule( EMediaModule mediaModule )		{ m_MediaModule = mediaModule; }
-	EMediaModule				getMediaModule( void )							{ return  m_MediaModule; }
+	virtual void				setMediaModule( EMediaModule mediaModule )		{ m_MediaModule = mediaModule; }
+	virtual EMediaModule		getMediaModule( void )							{ return  m_MediaModule; }
 
 	void						setVideoFeedId( VxGUID& feedOnlineId, EMediaModule mediaModule );
 	VxGUID&						getFeedId( void )								{ return m_VideoFeedId; }
@@ -140,5 +140,5 @@ protected:
 	bool						m_MotionRecordDetected;
 	QTimer *					m_MotionRecordExpireTimer;
 	bool						m_InNormalRecord;
-	EMediaModule					m_MediaModule{ eMediaModuleInvalid };
+	EMediaModule				m_MediaModule{ eMediaModuleInvalid };
 };

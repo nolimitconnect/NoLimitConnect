@@ -18,6 +18,15 @@
 #include <string.h>
 #include <stdio.h>
 
+namespace
+{
+bool IsCorruptDbError( int sqliteErrCode )
+{
+	const int primaryErrCode = sqliteErrCode & 0xFF;
+	return ( SQLITE_CORRUPT == primaryErrCode ) || ( SQLITE_NOTADB == primaryErrCode );
+}
+}
+
 
 #define VXSETTINGS_DB_VERSION 0x01
 
@@ -772,8 +781,8 @@ int32_t VxSettings::prepareIniQuery(	sqlite3_stmt ** ppoRetSqlStatement,
 				}
 				else
 				{
-					LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %s column bytes", sqlite3_errmsg(m_Db) );
-					vx_assert( false );
+					LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %s column bytes table %s key %s setting %s",
+						sqlite3_errmsg(m_Db), pTableName, pKey, pSettingName );
 					rc = -2;
 				}
 			}
@@ -784,14 +793,25 @@ int32_t VxSettings::prepareIniQuery(	sqlite3_stmt ** ppoRetSqlStatement,
 			}
 			else 
 			{
-				LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %s stepping", sqlite3_errmsg(m_Db) );
-				vx_assert( false );
+				const int sqliteErrCode = sqlite3_extended_errcode( m_Db );
+				LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %s stepping table %s key %s setting %s sqliteErrCode %d",
+					sqlite3_errmsg(m_Db), pTableName, pKey, pSettingName, sqliteErrCode );
+				if( IsCorruptDbError( sqliteErrCode ) )
+				{
+					setIsValid( false );
+				}
 				rc = -3;
 			}
 		}
 		else
 		{
-			LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %s preparing", sqlite3_errmsg(m_Db) );
+			const int sqliteErrCode = sqlite3_extended_errcode( m_Db );
+			LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %s preparing table %s key %s setting %s sqliteErrCode %d",
+				sqlite3_errmsg(m_Db), pTableName, pKey, pSettingName, sqliteErrCode );
+			if( IsCorruptDbError( sqliteErrCode ) )
+			{
+				setIsValid( false );
+			}
 			rc = -4;
 		}
 
@@ -806,8 +826,7 @@ int32_t VxSettings::prepareIniQuery(	sqlite3_stmt ** ppoRetSqlStatement,
 
 	if( rc )
 	{
-		LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %d preparing", rc );
-        vx_assert( false );
+		LogMsg( LOG_ERROR, "VxSettings::prepareIniQuery:ERROR %d table %s key %s setting %s", rc, pTableName, pKey, pSettingName );
 	}
 
 	return rc;

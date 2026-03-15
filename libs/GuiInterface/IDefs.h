@@ -59,6 +59,9 @@ enum EMediaModule
     eMediaModuleSoundDelayTest,
     eMediaModuleSoundLoopbackTest,
 
+    eMediaModuleAudioPlayWidget,
+    eMediaModuleVideoPlayWidget,
+
     eMaxMediaModule // must be last
 };
 
