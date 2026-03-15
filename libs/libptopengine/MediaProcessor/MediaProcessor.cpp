@@ -12,7 +12,6 @@
 
 #include "AudioUtil.h"
 #include "MediaClient.h"
-#include "RawAudio.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <GuiInterface/IToGui.h>
@@ -165,12 +164,11 @@ void MediaProcessor::processAudioInThreaded( void )
 		while( m_ProcessAudioQue.size() )
 		{
 			m_AudioQueInMutex.lock();
-			RawAudio * rawAudio = m_ProcessAudioQue[0];
+			AudioPcmData audioPcmData = std::move( m_ProcessAudioQue[0] );
 			m_ProcessAudioQue.erase( m_ProcessAudioQue.begin() );
 			m_AudioQueInMutex.unlock();
 
-			processRawAudioIn( rawAudio );
-			delete rawAudio;
+			processRawAudioIn( audioPcmData );
 
 			if( m_ProcessAudioInThread.isAborted() )
 			{
@@ -190,10 +188,12 @@ void MediaProcessor::processAudioInThreaded( void )
 }
 
 //============================================================================
-void MediaProcessor::processRawAudioIn( RawAudio * rawAudio )
+void MediaProcessor::processRawAudioIn( const AudioPcmData& audioPcmData )
 {
-	int16_t * pcmData		    = rawAudio->m_PcmData;
-	uint16_t  pcmDataLen		= rawAudio->m_PcmDataLen;
+	int16_t* pcmData			= const_cast<int16_t*>( audioPcmData.getPcmData() );
+	uint16_t pcmDataLen			= static_cast<uint16_t>( audioPcmData.getSampleCnt() * AUDIO_BYTES_PER_SAMPLE );
+	uint64_t frameTag			= audioPcmData.getFrameTag();
+	EMediaModule sourceModule	= audioPcmData.getSourceModule();
 	// PCM data len = 60ms of sound in bytes
 	// it seams that microphone volume is a bit low.. especially on android so increase volume before processing
     // TODO microphone boost
@@ -223,7 +223,7 @@ void MediaProcessor::processRawAudioIn( RawAudio * rawAudio )
 		int encodedLenBytes = m_OpusCodec.encode( pcmData, pcmDataLen / AUDIO_BYTES_PER_SAMPLE, m_PktVoiceReq.getCompressedData(), m_PktVoiceReq.getMaxCompressedDataBufLen() );
 		if( encodedLenBytes <= 0 )
 		{
-			LogMsg( LOG_ERROR, "MediaProcessor::processRawAudioIn opus encode failed %d", encodedLenBytes );
+			LogMsg( LOG_ERROR, "MediaProcessor::processRawAudioIn opus encode failed %d tag=%llu module=%d", encodedLenBytes, static_cast<unsigned long long>( frameTag ), static_cast<int>( sourceModule ) );
 			return;
 		}
 
@@ -1037,8 +1037,13 @@ void MediaProcessor::doVideoClientRemovals( std::vector<ClientToRemove>& clientR
 }
 
 //============================================================================
-void MediaProcessor::fromGuiEchoCanceledSamplesThreaded( const int16_t* pcmData, int sampleCnt )
+void MediaProcessor::fromGuiEchoCanceledSamplesThreaded( const AudioPcmData& audioPcmData )
 {
+	const int16_t* pcmData = audioPcmData.getPcmData();
+	const int sampleCnt = audioPcmData.getSampleCnt();
+	const EMediaModule sourceModule = audioPcmData.getSourceModule();
+	const uint64_t frameTag = audioPcmData.getFrameTag();
+
 	vx_assert( sampleCnt == AUDIO_SAMPLES_PER_FRAME );
 	if( false == m_MicCaptureEnabled || !pcmData || sampleCnt < 100 )
 	{
@@ -1049,15 +1054,21 @@ void MediaProcessor::fromGuiEchoCanceledSamplesThreaded( const int16_t* pcmData,
 
 	if( m_ProcessAudioQue.size() < 5 )
 	{
-		RawAudio* rawAudio = new RawAudio( const_cast<int16_t*>(pcmData), AUDIO_BUF_SIZE, eMediaModuleMicrophone );
+		AudioPcmData inAudioPcmData( pcmData, sampleCnt, sourceModule, frameTag );
 
 		m_AudioQueInMutex.lock();
-		m_ProcessAudioQue.emplace_back( rawAudio );
+		m_ProcessAudioQue.emplace_back( std::move( inAudioPcmData ) );
 		m_AudioQueInMutex.unlock();
 	}
 	else
 	{
-		LogModule( eLogStreams, LOG_WARN, "MediaProcessor::%s queue full", __func__ );
+		LogModule( eLogStreams, LOG_WARN,
+			"MediaProcessor::%s queue full drop tag=%llu module=%d sampleCnt=%d qSize=%zu",
+			__func__,
+			static_cast<unsigned long long>( frameTag ),
+			static_cast<int>( sourceModule ),
+			sampleCnt,
+			m_ProcessAudioQue.size() );
 	}
 
 	m_AudioInSemaphore.signal();

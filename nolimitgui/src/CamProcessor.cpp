@@ -99,18 +99,18 @@ void CamProcessor::processCamRgbThreaded( void )
             processCamVideoRgb( rawVideo );
             delete rawVideo;
 
-            if( LogEnabled( eLogWebCam ) )
-            {
-                static int frameCnt = 0;
-                frameCnt++;
-                if( frameCnt >= 100 )
-                {
-                    frameCnt = 0;
-                    int64_t endTime = GetGmtTimeMs();
-                    LogMsg( LOG_VERBOSE, "CamProcessor::%s took %d ms at %d", __func__,
-                           (int)(endTime - startTime), GetApplicationAliveMs() );
-                }
-            }
+            // if( LogEnabled( eLogWebCam ) )
+            // {
+            //     static int frameCnt = 0;
+            //     frameCnt++;
+            //     if( frameCnt >= 100 )
+            //     {
+            //         frameCnt = 0;
+            //         int64_t endTime = GetGmtTimeMs();
+            //         LogMsg( LOG_VERBOSE, "CamProcessor::%s took %d ms at %d", __func__,
+            //                (int)(endTime - startTime), GetApplicationAliveMs() );
+            //     }
+            // }
         }
     }
 

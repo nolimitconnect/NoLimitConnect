@@ -10,6 +10,7 @@
 //============================================================================
 
 #include "CamJpgVideo.h"
+#include "AudioPcmData.h"
 
 #include <GuiInterface/IFromGui.h>
 #include <GuiInterface/IAudioDefs.h>
@@ -44,7 +45,6 @@ class PktVideoFeedPicChunk;
 class P2PEngine;
 class PluginBase;
 class PluginMgr;
-class RawAudio;
 
 class ClientToRemove
 {
@@ -194,7 +194,7 @@ public:
 												VxGUID&						sessionId,
 												bool						wantInput );
 
-	void						fromGuiEchoCanceledSamplesThreaded( const int16_t* pcmData, int sampleCnt );
+	void						fromGuiEchoCanceledSamplesThreaded( const AudioPcmData& audioPcmData );
 	void						fromGuiAudioOutSpaceAvaiThreaded( int freeSpaceLenBytes );
 
 	void						increasePcmSampleVolume( int16_t * pcmData, uint16_t pcmDataLen, float volumePercent0To100 );
@@ -222,7 +222,7 @@ public:
 	int							getMyIdInVidPktListCount( void )	{ return m_VidPktListContainsMyIdCnt; }
 
 protected:
-	void						processRawAudioIn( RawAudio * rawAudio );
+	void						processRawAudioIn( const AudioPcmData& audioPcmData );
 	bool						isAudioMediaType( EMediaInputType mediaType );
 	void						wantAudioMediaInput(	VxGUID&						onlineId,
 														EMediaInputType				mediaType, 
@@ -297,7 +297,7 @@ protected:
 
 	std::vector<PluginBase*>	m_aoWantAppIdle;				// list of plugins that want called on app idle
 
-	std::vector<RawAudio *>		m_ProcessAudioQue;
+	std::vector<AudioPcmData>	m_ProcessAudioQue;
 	VxMutex						m_AudioQueInMutex;
 	VxThread					m_ProcessAudioInThread;
 	VxSemaphore					m_AudioInSemaphore;

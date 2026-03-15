@@ -16,6 +16,7 @@
 #include "GuiAudioLevelCallback.h"
 
 #include <P2PEngine/P2PEngine.h>
+#include <MediaProcessor/AudioPcmData.h>
 #include <MediaProcessor/MediaProcessor.h>
 
 #include <CoreLib/VxDebug.h>
@@ -336,7 +337,8 @@ void AudioMgr::callbackAudioIn60msFrameAvail( const int16_t* pcmData, int sample
         return;
     }
 
-    GetPtoPEngine().getMediaProcessor().fromGuiEchoCanceledSamplesThreaded( pcmData, sampleCnt );
+    AudioPcmData audioPcmData( pcmData, sampleCnt, eMediaModuleMicrophone );
+    GetPtoPEngine().getMediaProcessor().fromGuiEchoCanceledSamplesThreaded( audioPcmData );
 }
 
 //============================================================================
