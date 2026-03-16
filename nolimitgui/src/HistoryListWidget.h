@@ -59,6 +59,8 @@ protected:
 	
 	virtual void				wantActivityCallbacks( bool enable );
 
+	bool 						isHistoryMatch( AssetBaseInfo& assetInfo );
+
 	AppCommon&					m_MyApp;
 	P2PEngine&					m_Engine;
 	EPluginType					m_PluginType{ ePluginTypeInvalid };

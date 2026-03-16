@@ -25,9 +25,13 @@ class AppletPeerVoicePhone : public AppletPeerBase
 	Q_OBJECT
 public:
 	AppletPeerVoicePhone( AppCommon& app, QWidget*	parent = nullptr );
-	virtual ~AppletPeerVoicePhone() override = default;
+	virtual ~AppletPeerVoicePhone() override;
 
 	bool						setOfferSession( std::shared_ptr<GuiOfferSession>& offerSession ) override;
+
+protected slots:
+    void                        slotShowInWaveFormCheckBoxClicked( void );
+    void                        slotShowOutWaveFormCheckBoxClicked( void );
 
 protected:
     void						toGuiInstMsg( GuiUser* friendIdent, EPluginType pluginType, QString instMsg ) override;

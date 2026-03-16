@@ -212,7 +212,7 @@ void AssetVideoWidget::startMediaPlay( int startPos )
 	updateGuiPlayControls( playStarted );
 	if( false == playStarted )
 	{
-		m_MyApp.toGuiStatusMessage( "Video Play FAILED TO Begin" );
+		m_Engine.getToGui().toGuiAppPopupErr( eAppPopupErrVideoPlayFail, QObject::tr("Video Play Failed").toUtf8().constData() );
 	}
 }
 

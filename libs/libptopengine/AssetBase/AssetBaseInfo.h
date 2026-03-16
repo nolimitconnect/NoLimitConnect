@@ -70,6 +70,7 @@ public:
     virtual GroupieId		    getDestGroupieId( void );
     virtual GroupieId		    getHistoryGroupieId( void );
     virtual bool                isHistoryMatch( GroupieId& groupieId );
+    virtual bool                isPluginMatch( EPluginType pluginType );
 
     virtual bool				isValid( bool logErrIfInvalid = true );
     virtual bool				isValidFile( bool logErrIfInvalid = true );

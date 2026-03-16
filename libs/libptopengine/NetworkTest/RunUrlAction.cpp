@@ -583,13 +583,32 @@ void RunUrlAction::hostQueryIdConnectFailed( UrlActionInfo& urlInfo )
 {
     EHostType hostType = urlInfo.getHostType();
     EAppErr appErr{ eAppErrUnknown };
+    bool showPopup = true;
+    static bool hasShownNetworkHostConnectFail = false;
+    static bool hasShownConnectTestHostConnectFail = false;
     switch( hostType )
     {
     case eHostTypeConnectTest:
         appErr = eAppPopupErrConnectTestHostConnectFail;
+        if(!hasShownConnectTestHostConnectFail )
+        {
+            hasShownConnectTestHostConnectFail = true;
+        }
+        else
+        {
+            showPopup = false;
+        }
         break;
     case eHostTypeNetwork:
         appErr = eAppPopupErrNetworkHostConnectFail;
+        if(!hasShownNetworkHostConnectFail )
+        {
+            hasShownNetworkHostConnectFail = true;
+        }
+        else
+        {
+            showPopup = false;
+        }
         break;
     default:
         LogMsg( LOG_ERROR, "RunUrlAction::%s unknown host type for url %s", __func__,
@@ -597,5 +616,13 @@ void RunUrlAction::hostQueryIdConnectFailed( UrlActionInfo& urlInfo )
         return;
     }
 
-    m_Engine.getToGui().toGuiAppPopupErr( appErr, urlInfo.getRemoteVxUrl().getUrl().c_str() );
+    if( showPopup )
+    {
+        m_Engine.getToGui().toGuiAppPopupErr( appErr, urlInfo.getRemoteVxUrl().getUrl().c_str() );
+    }
+    else
+    {
+        LogMsg( LOG_ERROR, "RunUrlAction::%s connect failed to %s", __func__,
+            urlInfo.getRemoteVxUrl().getUrl().c_str() );
+    }
 }

@@ -123,7 +123,7 @@ void HistoryListWidget::toGuiClientAssetAction( EAssetAction assetAction, VxGUID
 //============================================================================
 void HistoryListWidget::toGuiAssetSessionHistory( AssetBaseInfo& assetInfo )
 {
-    if( assetInfo.isHistoryMatch( m_GroupieId ) )
+    if( isHistoryMatch( assetInfo ) )
 	{
 		LogMsg( LOG_VERBOSE, "HistoryListWidget::%s asset match", __func__ );
 		if( !findAssetWidget( assetInfo.getAssetUniqueId() ) )
@@ -296,4 +296,13 @@ void HistoryListWidget::wantActivityCallbacks( bool enable )
 		m_ActivityCallbacksRequested = enable;
 		m_MyApp.wantToGuiActivityCallbacks( this, enable );
 	}	
+}
+
+//============================================================================
+bool HistoryListWidget::isHistoryMatch( AssetBaseInfo& assetInfo )
+{
+	bool isAssetMatch = assetInfo.isHistoryMatch( m_GroupieId );
+	isAssetMatch &= assetInfo.isPluginMatch( m_PluginType );
+
+	return isAssetMatch;
 }

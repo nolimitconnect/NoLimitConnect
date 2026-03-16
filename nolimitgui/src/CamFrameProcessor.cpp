@@ -108,7 +108,6 @@ void CamFrameProcessor::enableProcessing( bool enable )
 void CamFrameProcessor::slotVideoFrameChanged( const QVideoFrame& frame )
 {
     static int64_t lastTimeMs = 0;
-    static bool firstFrameDumped = false;
     int64_t timeNow = GetHighResolutionTimeMs();
     if( timeNow < lastTimeMs + CamLogic::CAM_SNAPSHOT_INTERVAL_MS )
     {
@@ -202,20 +201,6 @@ void CamFrameProcessor::slotVideoFrameChanged( const QVideoFrame& frame )
         return;
     }
 
-    // LogMsg( LOG_INFO, "Valid mapped frame w=%d h=%d stride=%d mappedBytes=%d planes=%d fmt=%d",
-    //     cloneFrame.width(), cloneFrame.height(), frameStride, mappedBytes, planeCount,
-    //     (int)cloneFrame.surfaceFormat().pixelFormat() );
-    // return;
-
-    if( !firstFrameDumped )
-    {
-        LogMsg( LOG_INFO,
-            "%s first mapped frame w=%d h=%d stride=%d mappedBytes=%d planes=%d fmt=%d expected=%dx%d",
-            __func__, cloneFrame.width(), cloneFrame.height(), frameStride, mappedBytes, planeCount,
-            (int)cloneFrame.surfaceFormat().pixelFormat(), CAM_EXPECTED_WIDTH, CAM_EXPECTED_HEIGHT );
-        logCamFrameBytes( "slotVideoFrameChanged mapped frame", frameBits, mappedBytes );
-    }
-
     QImage rgbImage = cloneFrame.toImage().convertToFormat( QImage::Format_RGB888 );
     // Always unmap after conversion
     cloneFrame.unmap();
@@ -276,15 +261,6 @@ void CamFrameProcessor::slotVideoFrameChanged( const QVideoFrame& frame )
         }
 
         uint32_t dataLen = (uint32_t)(rowBytes * rgbImage.height());
-        if( !firstFrameDumped )
-        {
-            LogMsg( LOG_INFO,
-                "%s first rgb image w=%d h=%d stride=%d dataLen=%u available=%d expectedDataLen=%u",
-                __func__, rgbImage.width(), rgbImage.height(), imageStride, dataLen, rgbAvailableBytes,
-                CAM_EXPECTED_RGB_DATA_LEN );
-            logCamFrameBytes( "slotVideoFrameChanged rgb image", rgbImage.bits(), rgbAvailableBytes );
-            firstFrameDumped = true;
-        }
 
         std::shared_ptr<uint8_t> rgbData( new uint8_t[dataLen] );
         if( imageStride == rowBytes )

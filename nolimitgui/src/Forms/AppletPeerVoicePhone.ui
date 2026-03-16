@@ -64,21 +64,21 @@
      <property name="title">
       <string/>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QVBoxLayout" name="verticalLayout">
       <property name="spacing">
        <number>2</number>
       </property>
       <property name="leftMargin">
-       <number>5</number>
+       <number>2</number>
       </property>
       <property name="topMargin">
-       <number>5</number>
+       <number>2</number>
       </property>
       <property name="rightMargin">
-       <number>5</number>
+       <number>2</number>
       </property>
       <property name="bottomMargin">
-       <number>5</number>
+       <number>2</number>
       </property>
       <item>
        <widget class="QLabel" name="m_StatusLabel">
@@ -215,6 +215,55 @@
        </layout>
       </item>
       <item>
+       <widget class="QCheckBox" name="m_ShowInWaveFormCheckBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Show Audio In Waveforms</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="AudioInWaveformWidget" name="m_AudioInWaveFormFrame">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Shape::Box</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="m_ShowOutWaveFormCheckBox">
+        <property name="text">
+         <string>Show Audio Out Waveform</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="AudioOutWaveformWidget" name="m_AudioOutWaveFormFrame">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Shape::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Raised</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="InstMsgWidget" name="m_InstMsgWidget" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
@@ -251,6 +300,18 @@
    <class>VxLabel</class>
    <extends>QLabel</extends>
    <header>VxLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>AudioInWaveformWidget</class>
+   <extends>QFrame</extends>
+   <header location="global">AudioInWaveformWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>AudioOutWaveformWidget</class>
+   <extends>QFrame</extends>
+   <header>AudioOutWaveformWidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

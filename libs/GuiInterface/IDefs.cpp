@@ -998,7 +998,7 @@ const char* DescribeMediaModule( enum EMediaModule eMediaModule )
     case eMediaModuleRandomConnectClient:
         return "eMediaModuleRandomConnectClient";
     case eMediaModuleRandomConnectHost:
-        return "eMediaModulePeerUsertHost";
+        return "eMediaModuleRandomConnectHost";
 
     case eMediaModuleSnapshot:
         return "eMediaModuleSnapshot";
@@ -1018,6 +1018,11 @@ const char* DescribeMediaModule( enum EMediaModule eMediaModule )
         return "eMediaModuleSoundDelayTest";
     case eMediaModuleSoundLoopbackTest:
         return "eMediaModuleSoundLoopbackTest";
+
+    case eMediaModuleAudioPlayWidget:
+        return "eMediaModuleAudioPlayWidget";
+    case eMediaModuleVideoPlayWidget:
+        return "eMediaModuleVideoPlayWidget";
 
     default:
         return "UNKNOWN EMediaModule";

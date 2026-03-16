@@ -37,6 +37,9 @@ enum EAppErr
 	eAppPopupErrNetworkHostConnectFail		= 1100100,
 	eAppPopupErrConnectTestHostConnectFail  = 1100101,
 
+	eAppPopupErrVideoPlayFail  				= 1100102,
+	eAppPopupErrAudioPlayFail  				= 1100103,
+
 	eMaxAppErr
 };
 

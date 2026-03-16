@@ -313,7 +313,7 @@ int OpusFileDecoder::moveOpusFramesToOutput( uint8_t* outBuffer )
 		memcpy( outBuffer, frame1, AUDIO_BUF_SIZE );
 		m_DecodedFrames.erase( m_DecodedFrames.begin() );
 		m_ConsumedSndFrames++;
-		delete frame1;
+		delete[] frame1;
 		return AUDIO_BUF_SIZE;
 	}
 	else
@@ -622,7 +622,7 @@ void OpusFileDecoder::clearDecodedFrames( void )
 	std::vector<char *>::iterator iter;
 	for( iter = m_DecodedFrames.begin(); iter != m_DecodedFrames.end(); ++iter )
 	{
-		delete *iter;
+		delete[] *iter;
 	}
 
 	m_DecodedFrames.clear();
@@ -857,10 +857,10 @@ int OpusFileDecoder::opusPcmOutputToPcm(	int16_t*		opusOutput,
 			{
 				// first frame not enough samples
 				m_FirstDecodedFrame = false;
-				char * outPcmOpusFrame = new char[ OPUS_COMPRESSED_BYTES_PER_FRAME ];
+				char * outPcmOpusFrame = new char[ AUDIO_BUF_SIZE ];
 				int lenToCopy = totalLen * sizeof( int16_t );
-				memset( outPcmOpusFrame, 0, OPUS_COMPRESSED_BYTES_PER_FRAME - lenToCopy );
-				memcpy( &outPcmOpusFrame[ OPUS_COMPRESSED_BYTES_PER_FRAME - lenToCopy ], tempOut, lenToCopy );
+				memset( outPcmOpusFrame, 0, AUDIO_BUF_SIZE - lenToCopy );
+				memcpy( &outPcmOpusFrame[ AUDIO_BUF_SIZE - lenToCopy ], tempOut, lenToCopy );
 				m_DecodedFrames.push_back( outPcmOpusFrame );
 				amountUsed = totalLen;
 			}
@@ -868,22 +868,22 @@ int OpusFileDecoder::opusPcmOutputToPcm(	int16_t*		opusOutput,
 			{
 				while( totalLen >= OPUS_FRAME_RATE )
 				{
-					char * outPcmOpusFrame = new char[ OPUS_COMPRESSED_BYTES_PER_FRAME ];
-					memcpy( outPcmOpusFrame, tempOut, OPUS_COMPRESSED_BYTES_PER_FRAME );
+					char * outPcmOpusFrame = new char[ AUDIO_BUF_SIZE ];
+					memcpy( outPcmOpusFrame, tempOut, AUDIO_BUF_SIZE );
 					m_DecodedFrames.push_back( outPcmOpusFrame );
 					amountUsed += OPUS_FRAME_RATE;
 					totalLen -= OPUS_FRAME_RATE;
-					tempOut += OPUS_COMPRESSED_BYTES_PER_FRAME;
+					tempOut += AUDIO_BUF_SIZE;
 				}
 
 				if( 0 != totalLen )
 				{
 					// some left over.. may be tail end
 					int lenToCopy = totalLen * sizeof( int16_t );
-					char * outPcmOpusFrame = new char[ OPUS_COMPRESSED_BYTES_PER_FRAME ];
+					char * outPcmOpusFrame = new char[ AUDIO_BUF_SIZE ];
 					memcpy( outPcmOpusFrame, tempOut, lenToCopy );
-					memset( &outPcmOpusFrame[ lenToCopy ], 0, OPUS_COMPRESSED_BYTES_PER_FRAME - lenToCopy );
-					m_DecodedFrames.push_back( outPcmOpusFrame );
+					memset( &outPcmOpusFrame[ lenToCopy ], 0, AUDIO_BUF_SIZE - lenToCopy );
+					m_DecodedFrames.emplace_back( outPcmOpusFrame );
 					amountUsed += totalLen;
 					totalLen = 0;
 				}

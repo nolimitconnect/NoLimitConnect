@@ -214,7 +214,7 @@ void AssetVoiceWidget::startMediaPlay( int startPos )
     setReadyForCallbacks( playStarted );
 	if( false == playStarted )
 	{
-		m_MyApp.toGuiStatusMessage( "Voice Play FAILED TO Begin" );
+		m_Engine.getToGui().toGuiAppPopupErr( eAppPopupErrAudioPlayFail, QObject::tr("Audio Play Failed").toUtf8().constData() );
 	}
 }
 

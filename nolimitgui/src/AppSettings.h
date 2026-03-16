@@ -213,20 +213,26 @@ public:
     void						setEchoDelayParam( int delayMs );
     int							getEchoDelayParam( void );
 
-	void						setShowInWaveForm(  bool show );
+	void						setShowInWaveForm( bool show );
 	bool						getShowInWaveForm( void );
 
-	void						setShowOutWaveForm(  bool show );
+	void						setShowOutWaveForm( bool show );
 	bool						getShowOutWaveForm( void );
 
-	void						setShowSoundInSettings(  bool show );
+	void						setShowSoundInSettings( bool show );
 	bool						getShowSoundInSettings( void );
 
-	void						setShowSoundOutSettings(  bool show );
+	void						setShowSoundOutSettings( bool show );
 	bool						getShowSoundOutSettings( void );
 	
-	void						setShowSoundLog(  bool show );
+	void						setShowSoundLog( bool show );
 	bool						getShowSoundLog( void );
+
+	void						setShowVoicePhoneInWaveForm( bool show );
+	bool						getShowVoicePhoneInWaveForm( void );
+
+	void						setShowVoicePhoneOutWaveForm( bool show );
+	bool						getShowVoicePhoneOutWaveForm( void );
 
 protected:
     std::string                 getAppendedType( const char* key, ESearchType searchType );

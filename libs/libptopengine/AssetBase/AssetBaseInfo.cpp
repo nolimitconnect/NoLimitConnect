@@ -606,6 +606,21 @@ bool AssetBaseInfo::isHistoryMatch( GroupieId& groupieId )
 }
 
 //============================================================================
+bool AssetBaseInfo::isPluginMatch( EPluginType pluginType )
+{
+	if( pluginType == ePluginTypePersonalRecorder || getPluginType() == ePluginTypePersonalRecorder )
+	{
+		// personal records should not be visible anywhere except in personal recorder applet
+		if( pluginType != getPluginType() )
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+//============================================================================
 GroupieId AssetBaseInfo::getDestGroupieId( void )
 {
     HostedId hostedId = getHostedId();

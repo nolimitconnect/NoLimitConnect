@@ -1026,7 +1026,7 @@ bool AppSettings::getShowSoundOutSettings( void )
 }
 
 //============================================================================
-void AppSettings::setShowSoundInSettings(  bool show )
+void AppSettings::setShowSoundInSettings( bool show )
 {
 	setIniValue( getAppShortName(), "ShowSoundInSettings", show );
 }
@@ -1040,7 +1040,7 @@ bool AppSettings::getShowSoundInSettings( void )
 }
 
 //============================================================================
-void AppSettings::setShowSoundLog(  bool show )
+void AppSettings::setShowSoundLog( bool show )
 {
 	setIniValue( getAppShortName(), "ShowSoundLog", show );
 }
@@ -1065,4 +1065,32 @@ bool AppSettings::getAgcEnabled( void )
 	bool agcEnabled = false;
 	getIniValue( getAppShortName(), "AgcEnabled", agcEnabled, false );
 	return agcEnabled;
+}
+
+//============================================================================
+void AppSettings::setShowVoicePhoneInWaveForm( bool show )
+{
+	setIniValue( getAppShortName(), "ShowVoicePhoneInWaveForm", show );
+}
+
+//============================================================================
+bool AppSettings::getShowVoicePhoneInWaveForm( void )
+{
+	bool showVoicePhoneInWaveForm = false;
+	getIniValue( getAppShortName(), "ShowVoicePhoneInWaveForm", showVoicePhoneInWaveForm, false );
+	return showVoicePhoneInWaveForm;
+}
+
+//============================================================================
+void AppSettings::setShowVoicePhoneOutWaveForm( bool show )
+{
+	setIniValue( getAppShortName(), "ShowVoicePhoneOutWaveForm", show );
+}
+
+//============================================================================
+bool AppSettings::getShowVoicePhoneOutWaveForm( void )
+{
+	bool showVoicePhoneOutWaveForm = false;
+	getIniValue( getAppShortName(), "ShowVoicePhoneOutWaveForm", showVoicePhoneOutWaveForm, false );
+	return showVoicePhoneOutWaveForm;
 }

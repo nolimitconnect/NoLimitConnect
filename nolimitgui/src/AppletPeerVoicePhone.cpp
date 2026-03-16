@@ -11,6 +11,7 @@
 #include "AppletPeerVoicePhone.h"
 
 #include "AppCommon.h"
+#include "AppSettings.h"
 #include "GuiOfferSession.h"
 
 #include <CoreLib/ObjectCommonDefs.h>
@@ -33,6 +34,24 @@ AppletPeerVoicePhone::AppletPeerVoicePhone(	AppCommon& app, QWidget* parent )
     ui.m_HangUpButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
 	ui.m_HangUpButton->setIcon( eMyIconRedX );
 	connect( ui.m_HangUpButton, SIGNAL(clicked()), this, SLOT(slotEndSession()) );
+    connect( ui.m_ShowInWaveFormCheckBox, SIGNAL(clicked()), this, SLOT(slotShowInWaveFormCheckBoxClicked()) );
+    connect( ui.m_ShowOutWaveFormCheckBox, SIGNAL(clicked()), this, SLOT(slotShowOutWaveFormCheckBoxClicked()) );
+
+	ui.m_ShowInWaveFormCheckBox->setChecked( m_MyApp.getAppSettings().getShowVoicePhoneInWaveForm() );
+	ui.m_ShowOutWaveFormCheckBox->setChecked( m_MyApp.getAppSettings().getShowVoicePhoneOutWaveForm() );
+
+    //m_MyApp.getAudioMgr().toGuiWantSpeakerOutput( eMediaModuleSoundSettings, true );
+    //m_MyApp.getAudioMgr().toGuiWantMicrophoneRecording( eMediaModuleSoundSettings, true );
+	m_MyApp.activityStateChange( this, true );
+}
+
+//============================================================================
+AppletPeerVoicePhone::~AppletPeerVoicePhone()
+{
+    m_MyApp.getAudioMgr().toGuiWantMicrophoneRecording( eMediaModuleSoundSettings, false );
+    m_MyApp.getAudioMgr().toGuiWantSpeakerOutput( eMediaModuleSoundSettings, false );
+
+    m_MyApp.activityStateChange( this, false );
 }
 
 //============================================================================
@@ -128,4 +147,20 @@ void AppletPeerVoicePhone::callbackToGuiPluginSessionEnded( std::shared_ptr<GuiO
 	{
 		LogMsg( LOG_VERBOSE, "AppletPeerVideoPhone::%s NOT match", __func__ );
 	}
+}
+
+//============================================================================
+void AppletPeerVoicePhone::slotShowInWaveFormCheckBoxClicked( void )
+{   
+    bool showWaveForm = ui.m_ShowInWaveFormCheckBox->isChecked();
+    ui.m_AudioInWaveFormFrame->setVisible( showWaveForm );
+    m_MyApp.getAppSettings().setShowVoicePhoneInWaveForm( showWaveForm );
+}
+
+//============================================================================
+void AppletPeerVoicePhone::slotShowOutWaveFormCheckBoxClicked( void )
+{   
+    bool showWaveForm = ui.m_ShowOutWaveFormCheckBox->isChecked();
+    ui.m_AudioOutWaveFormFrame->setVisible( showWaveForm );
+    m_MyApp.getAppSettings().setShowVoicePhoneOutWaveForm( showWaveForm );
 }

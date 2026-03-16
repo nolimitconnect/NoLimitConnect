@@ -610,7 +610,7 @@ void AppCommon::toGuiAppErr( EAppErr eAppErr, const char* errMsg )
 	}
 
 	std::string formatedErr;
-	if( errMsg )
+	if( errMsg && 0 != errMsg[0] )
 	{
 		StdStringFormat( formatedErr, "#App Error %d %s", eAppErr, errMsg );
 	}
@@ -642,15 +642,21 @@ void AppCommon::slotInternalAppPopupErr( EAppErr appErr, QString errMsg )
 		return;
 	}
 
-	QString title{ "Unknown Error" };
-	QString msg{ "Please Check Network Settings\n" };
+	QString title{ QObject::tr("Unknown Error") };
+	QString msg{ QObject::tr("ERROR:\n") };
 	switch( appErr )
 	{
 	case eAppPopupErrNetworkHostConnectFail:
-		title = "Failed to connect to Network host";
+		title = QObject::tr("Failed to connect to Network host");
 		break;
 	case eAppPopupErrConnectTestHostConnectFail:
-		title = "Failed to connect to Connection Test host";
+		title = QObject::tr("Failed to connect to Connection Test host");
+		break;
+	case eAppPopupErrVideoPlayFail:
+		title = QObject::tr("Video Play Failed");
+		break;
+	case eAppPopupErrAudioPlayFail:
+		title = QObject::tr("Audio Play Failed");
 		break;
 	default:
 		break;
