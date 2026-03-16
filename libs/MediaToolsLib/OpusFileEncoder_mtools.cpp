@@ -34,6 +34,8 @@ OpusFileEncoder::OpusFileEncoder(  )
 //============================================================================
 OpusFileEncoder::~OpusFileEncoder()
 {
+	delete m_OpusCodec;
+	m_OpusCodec = nullptr;
 	delete &m_OggStream;
 }
 
@@ -105,7 +107,6 @@ int OpusFileEncoder::encodePcmData( int16_t* pcmData, uint16_t pcmDataLen )
 	}
 
 	int result = 0;
-	m_TotalSndFramesInFile++;
 
 	uint8_t encodedBuf[ AUDIO_BUF_SIZE ];
 	std::vector<uint16_t> opusEncodedLenList;
@@ -117,7 +118,11 @@ int OpusFileEncoder::encodePcmData( int16_t* pcmData, uint16_t pcmDataLen )
 	{
 
 		result = m_OggStream.writeEncodedFrame( encodedBuf, encodedLen );
-		if( !result )
+		if( result )
+		{
+			m_TotalSndFramesInFile++;
+		}
+		else
 		{
 			LogMsg( LOG_ERROR, "ERROR: OpusFileEncoder::writePcmData failed to write encoded frame to file" );
 		}
@@ -140,8 +145,19 @@ int OpusFileEncoder::writeEncodedFrame( uint8_t* encodedFrameData, int32_t encod
 		return 0;
 	}
 
-	m_TotalSndFramesInFile++;
-	return m_OggStream.writeEncodedFrame( encodedFrameData, encodedLen );
+	if( encodedLen <= 0 )
+	{
+		LogMsg( LOG_ERROR, "ERROR: OpusFileEncoder::writeEncodedFrame invalid encoded len %d", encodedLen );
+		return 0;
+	}
+
+	int result = m_OggStream.writeEncodedFrame( encodedFrameData, encodedLen );
+	if( result )
+	{
+		m_TotalSndFramesInFile++;
+	}
+
+	return result;
 }
 
 //============================================================================

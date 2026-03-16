@@ -35,6 +35,7 @@ SndReader::SndReader( P2PEngine& engine, MediaProcessor& mediaProcessor )
 //============================================================================
 SndReader::~SndReader()
 {
+	delete &m_OpusFileDecoder;
 	delete &m_OpusCodec;
 }
 

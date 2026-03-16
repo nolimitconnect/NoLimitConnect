@@ -41,36 +41,36 @@ void OggStream::setTitle( const char* title )
 //============================================================================
 void OggStream::setArtist( const char* artist )
 {
-	m_Title = "artist=";
-	m_Title += artist;
+	m_Artist = "artist=";
+	m_Artist += artist;
 }
 
 //============================================================================
 void OggStream::setAlbum( const char* album )
 {
-	m_Title = "album=";
-	m_Title += album;
+	m_Album = "album=";
+	m_Album += album;
 }
 
 //============================================================================
 void OggStream::setDate( const char* date )
 {
-	m_Title = "date=";
-	m_Title += date;
+	m_Date = "date=";
+	m_Date += date;
 }
 
 //============================================================================
 void OggStream::setGenre( const char* genre )
 {
-	m_Title = "genre=";
-	m_Title += genre;
+	m_Genre = "genre=";
+	m_Genre += genre;
 }
 
 //============================================================================
 void OggStream::setUserComment( const char* userComment )
 {
-	m_Title = "comment=";
-	m_Title += userComment;
+	m_UserTag = "comment=";
+	m_UserTag += userComment;
 }
 
 //============================================================================

@@ -189,7 +189,14 @@ OpusFileDecoder::OpusFileDecoder( P2PEngine& engine, MediaProcessor& mediaProces
 //============================================================================
 OpusFileDecoder::~OpusFileDecoder()
 {
-	delete m_OpusOutput;
+	if( m_Resampler )
+	{
+		speex_resampler_destroy( m_Resampler );
+		m_Resampler = nullptr;
+	}
+
+	free( m_OpusOutput );
+	m_OpusOutput = nullptr;
 	clearDecodedFrames();
 }
 
@@ -280,7 +287,7 @@ void OpusFileDecoder::callbackAudioOutSpaceAvail( int freeSpaceLenBytes )
 			if( decodedLen < AUDIO_BUF_SIZE )
 			{
 				memset( &buf[decodedLen], 0, AUDIO_BUF_SIZE - decodedLen );
-				if( !m_TotalSndFramesInFile || m_ConsumedSndFrames == m_TotalSndFramesInFile )
+				if( decodedLen <= 0 || !m_TotalSndFramesInFile || m_ConsumedSndFrames >= m_TotalSndFramesInFile )
 				{
 					// all done
 					m_InputInitialized = false;
@@ -654,6 +661,12 @@ void OpusFileDecoder::finishFileDecode( bool abortedByUser )
 	{
 		opus_decoder_destroy( m_OpusCodec );
 		m_OpusCodec = 0;
+	}
+
+	if( m_Resampler )
+	{
+		speex_resampler_destroy( m_Resampler );
+		m_Resampler = nullptr;
 	}
 
 	if( abortedByUser )

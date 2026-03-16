@@ -207,16 +207,18 @@ int OggBuffer::parsePktIntoOpusHeader( uint8_t * packetBuf, int pktBufLen, MyOpu
 		return 0;
 	}
 
-	if( !oggPkt.readChars( &ch, opusHeader.m_Version ) )
+	if( !oggPkt.readChars( &ch, 1 ) )
 		return 0;
+	opusHeader.m_Version = ch;
 	if( 0 != ( opusHeader.m_Version & 240 ) ) 
 	{
 		LogMsg( LOG_ERROR, "parsePktIntoOpusHeader only major version 0 supported" );
 		return 0;
 	}
 
-	if( !oggPkt.readChars( &ch, opusHeader.m_Channels ) )
+	if( !oggPkt.readChars( &ch, 1 ) )
 		return 0;
+	opusHeader.m_Channels = ch;
 	if( 0 == opusHeader.m_Channels )
 	{
 		LogMsg( LOG_ERROR, "parsePktIntoOpusHeader 0 channels specified" );
@@ -232,8 +234,9 @@ int OggBuffer::parsePktIntoOpusHeader( uint8_t * packetBuf, int pktBufLen, MyOpu
 	if( !oggPkt.readU16( &opusHeader.m_Gain ) )
 		return 0;
 
-	if( !oggPkt.readChars( &ch, opusHeader.m_ChannelMapping ) )
+	if( !oggPkt.readChars( &ch, 1 ) )
 		return 0;
+	opusHeader.m_ChannelMapping = ch;
 	if( 0 != opusHeader.m_ChannelMapping )
 	{
 		if( !oggPkt.readChars( &ch, 1 ) )
