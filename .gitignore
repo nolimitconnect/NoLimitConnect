@@ -15,6 +15,7 @@ build/Android*
 build/Desktop_Qt*
 nolimitgui/bin-Linux/
 nolimitgui/bin-Windows/
+package/
 deploy/
 flatpak-repo/
 
