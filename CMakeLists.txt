@@ -1150,11 +1150,19 @@ else()
 
     message(STATUS "project nlc applications was added with prefix ${CMAKE_PREFIX_PATH}")
 
+    if(TARGET_OS_WINDOWS)
+        set(NLC_INSTALL_RUNTIME_DIR ".")
+    elseif(TARGET_OS_LINUX)
+        set(NLC_INSTALL_RUNTIME_DIR "usr/bin")
+    else()
+        set(NLC_INSTALL_RUNTIME_DIR "bin")
+    endif()
+
     install(TARGETS nolimitconnect
-        RUNTIME DESTINATION "${PROJECT_BIN_DIR}"
-        BUNDLE DESTINATION "${PROJECT_PACKAGE_DIR}"
-        LIBRARY DESTINATION "${PROJECT_BIN_DIR}"
-        ARCHIVE DESTINATION "${PROJECT_STATIC_LIB_DIR}"
+        RUNTIME DESTINATION "${NLC_INSTALL_RUNTIME_DIR}"
+        BUNDLE DESTINATION "${NLC_INSTALL_RUNTIME_DIR}"
+        LIBRARY DESTINATION "lib"
+        ARCHIVE DESTINATION "lib"
     )
 
     message(STATUS "project nlc end with prefix")
@@ -1164,6 +1172,7 @@ endif() # flatpak build
 # --------------------------
 # Print summary
 # --------------------------
+
 message(STATUS "**** Target Summary ****")
 if(TARGET_OS_WINDOWS)
     message(STATUS "OS: Windows")
@@ -1202,11 +1211,114 @@ if(TARGET_OS_WINDOWS)
     message(STATUS "BUILD system using MSVC to compile for Windows")
 endif()
 
-if(USE_LIBJPEG_TURBO)
-    message(STATUS "Using libjpeg-turbo")
+string(TOLOWER "${CMAKE_SYSTEM_PROCESSOR}" NLC_ARCH)
+message(STATUS "NLC_ARCH ${NLC_ARCH}")
+if(BUILD_SYSTEM_FLATPAK)
+    if(NLC_ARCH MATCHES "arm64|aarch64")
+        set(PACKAGE_ARCH "aarch64")
+    elseif(NLC_ARCH MATCHES "x86_64|amd64")
+        set(PACKAGE_ARCH "x86_64")
+    else()
+        set(PACKAGE_ARCH ${NLC_ARCH})
+    endif()
+    set(PACKAGE_FILENAME "${NLC_NAME}-${NLC_VERSION}-${PACKAGE_ARCH}.flatpak")
+    set(FLATPAK_REF "${NLC_ID}/${PACKAGE_ARCH}/${NLC_VERSION}")
+    message(STATUS "package filename ${PACKAGE_FILENAME} with ref ${FLATPAK_REF}")
 else()
-    message(STATUS "Using Vanilla libjpg")
+    if(NLC_ARCH MATCHES "arm64|aarch64")
+        set(PACKAGE_ARCH "arm64-v8a")
+    elseif(NLC_ARCH MATCHES "x86_64|amd64")
+        set(PACKAGE_ARCH "x64")
+    else()
+        set(PACKAGE_ARCH ${NLC_ARCH})
+    endif()
+    if(TARGET_OS_WINDOWS)
+        set(PACKAGE_FILENAME "${NLC_NAME}-${NLC_VERSION}-${PACKAGE_ARCH}.exe")
+        message(STATUS "package filename ${PACKAGE_FILENAME}")
+    elseif(TARGET_OS_LINUX)
+        set(PACKAGE_FILENAME "${NLC_NAME}-${NLC_VERSION}-${PACKAGE_ARCH}.deb")
+        message(STATUS "package filename ${PACKAGE_FILENAME}")
+    elseif(TARGET_OS_ANDROID)
+        set(PACKAGE_FILENAME "${NLC_NAME}-${NLC_VERSION}-${PACKAGE_ARCH}.apk")
+        message(STATUS "package filename ${PACKAGE_FILENAME}")
+    else()
+        message(FATAL_ERROR "Unknown target OS for packaging")
+    endif()
 endif()
 
+# --------------------------
+# Packaging targets
+# --------------------------
+if(BUILD_SYSTEM_FLATPAK)
+    set(PACKAGE_OUTPUT_DIR "${PROJECT_SRC_ROOT_DIR}/package/flatpack")
+elseif(TARGET_OS_ANDROID)
+    set(PACKAGE_OUTPUT_DIR "${PROJECT_SRC_ROOT_DIR}/package/android")
+elseif(TARGET_OS_LINUX)
+    set(PACKAGE_OUTPUT_DIR "${PROJECT_SRC_ROOT_DIR}/package/linux")
+elseif(TARGET_OS_WINDOWS)
+    set(PACKAGE_OUTPUT_DIR "${PROJECT_SRC_ROOT_DIR}/package/windows")
+else()
+    message(FATAL_ERROR "Unknown target OS for package output directory")
+endif()
+
+file(MAKE_DIRECTORY "${PACKAGE_OUTPUT_DIR}")
+set(PACKAGE_FILEPATH "${PACKAGE_OUTPUT_DIR}/${PACKAGE_FILENAME}")
+message(STATUS "package output ${PACKAGE_FILEPATH}")
+
+if(BUILD_SYSTEM_FLATPAK)
+    add_custom_target(package_flatpak
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${PACKAGE_OUTPUT_DIR}"
+        COMMAND ${CMAKE_COMMAND} -E echo "Flatpak package target path: ${PACKAGE_FILEPATH}"
+        COMMENT "Preparing flatpak package output path"
+    )
+    add_custom_target(package_nolimitconnect DEPENDS package_flatpak)
+
+elseif(TARGET_OS_ANDROID)
+    add_custom_target(package_android
+        COMMAND ${CMAKE_COMMAND} -E make_directory "${PACKAGE_OUTPUT_DIR}"
+        COMMAND ${CMAKE_COMMAND}
+            -DAPK_FILE_PRIMARY="${CMAKE_BINARY_DIR}/nolimitgui/android-build-nolimitconnect/nolimitconnect.apk"
+            -DAPK_OUTPUT_DIR_RELEASE="${CMAKE_BINARY_DIR}/nolimitgui/android-build-nolimitconnect/build/outputs/apk/release"
+            -DAPK_OUTPUT_DIR_DEBUG="${CMAKE_BINARY_DIR}/nolimitgui/android-build-nolimitconnect/build/outputs/apk/debug"
+            -DPACKAGE_OUTPUT_DIR="${PACKAGE_OUTPUT_DIR}"
+            -DPACKAGE_FILENAME="${PACKAGE_FILENAME}"
+            -P "${CMAKE_SOURCE_DIR}/cmake/copy_package_apk.cmake"
+        COMMENT "Copying Android APK to package/android"
+    )
+    add_dependencies(package_android nolimitconnect_make_apk)
+    add_custom_target(package_nolimitconnect DEPENDS package_android)
+
+else()
+    set(CPACK_PACKAGE_NAME "${NLC_NAME}")
+    set(CPACK_PACKAGE_VERSION "${NLC_VERSION}")
+    set(CPACK_PACKAGE_VERSION_MAJOR "${NLC_VERSION_MAJOR}")
+    set(CPACK_PACKAGE_VERSION_MINOR "${NLC_VERSION_MINOR}")
+    set(CPACK_PACKAGE_VERSION_PATCH "${NLC_VERSION_PATCH}")
+    set(CPACK_RESOURCE_FILE_README "${PROJECT_SRC_ROOT_DIR}/README.md")
+    set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SRC_ROOT_DIR}/LICENSE")
+    set(CPACK_PACKAGE_DIRECTORY "${PACKAGE_OUTPUT_DIR}")
+    set(CPACK_PACKAGE_FILE_NAME "${NLC_NAME}-${NLC_VERSION}-${PACKAGE_ARCH}")
+    set(CPACK_SET_DESTDIR OFF)
+    set(CPACK_PACKAGING_INSTALL_PREFIX "/")
+    set(CPACK_PACKAGE_INSTALL_DIRECTORY "${NLC_NAME}")
+    if(TARGET_OS_WINDOWS)
+        set(CPACK_GENERATOR "NSIS")
+        set(CPACK_NSIS_INSTALL_ROOT "$PROGRAMFILES64")
+    elseif(TARGET_OS_LINUX)
+        set(CPACK_GENERATOR "DEB")
+        set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${PROJECT_MAINTAINER}")
+    else()
+        message(FATAL_ERROR "Unsupported CPack platform")
+    endif()
+
+    include(CPack)
+
+    add_custom_target(package_cpack
+        COMMAND "${CMAKE_CPACK_COMMAND}" --config "${CMAKE_BINARY_DIR}/CPackConfig.cmake" -B "${PACKAGE_OUTPUT_DIR}"
+        COMMENT "Running CPack to generate ${CPACK_GENERATOR} package"
+    )
+    add_dependencies(package_cpack nolimitconnect)
+    add_custom_target(package_nolimitconnect DEPENDS package_cpack)
+endif()
 
 message(STATUS "**** Root CMakeLists.txt Done ****")

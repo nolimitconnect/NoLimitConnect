@@ -152,6 +152,28 @@
             "problemMatcher": []
         },
         {
+            "label": "Package Windows Release",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Windows Release"
+            ],
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\.vscode\\cmake-with-msvc-env.ps1",
+                "--build",
+                "--preset",
+                "windows-release",
+                "--target",
+                "package_nolimitconnect"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "Build Windows",
             "dependsOrder": "sequence",
             "dependsOn": [
@@ -164,6 +186,31 @@
             "dependsOrder": "sequence",
             "dependsOn": [
                 "Run Windows Debug"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Package Windows",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Package Windows Release"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Deploy Windows Package",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Package Windows"
+            ],
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "$pkgDir='${workspaceFolder}/package/windows'; if(Test-Path $pkgDir){ $pkg = Get-ChildItem -Path $pkgDir -File | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($pkg){ Write-Host \"Deploy package: $($pkg.FullName)\" } else { Write-Host \"No package found in $pkgDir\" } } else { Write-Host \"Package directory not found: $pkgDir\" }"
             ],
             "problemMatcher": []
         },
@@ -224,6 +271,40 @@
             "problemMatcher": []
         },
         {
+            "label": "Package Android Release",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Android Release"
+            ],
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "android-arm64-release",
+                "--target",
+                "package_nolimitconnect"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Package Android Signed Release",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Package Android Release"
+            ],
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\.vscode\\sign-android-package.ps1"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "Deploy Android Debug",
             "dependsOrder": "sequence",
             "dependsOn": [
@@ -270,6 +351,56 @@
             "dependsOrder": "sequence",
             "dependsOn": [
                 "Run Android Debug"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Package Android",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Package Android Release"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Package Android Signed",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Package Android Signed Release"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Deploy Android Package",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Package Android"
+            ],
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "$pkgDir='${workspaceFolder}/package/android'; if(Test-Path $pkgDir){ $pkg = Get-ChildItem -Path $pkgDir -File | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($pkg){ Write-Host \"Deploy package: $($pkg.FullName)\" } else { Write-Host \"No package found in $pkgDir\" } } else { Write-Host \"Package directory not found: $pkgDir\" }"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Deploy Android Signed Package",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Package Android Signed"
+            ],
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "$pkgDir='${workspaceFolder}/package/android'; if(Test-Path $pkgDir){ $pkg = Get-ChildItem -Path $pkgDir -File -Filter '*-signed.apk' | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($pkg){ Write-Host \"Deploy signed package: $($pkg.FullName)\" } else { Write-Host \"No signed package found in $pkgDir\" } } else { Write-Host \"Package directory not found: $pkgDir\" }"
             ],
             "problemMatcher": []
         },
@@ -330,6 +461,23 @@
             "problemMatcher": []
         },
         {
+            "label": "Package Linux Release",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Linux Release"
+            ],
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "linux-x64-release",
+                "--target",
+                "package_nolimitconnect"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "Run Linux Debug",
             "dependsOrder": "sequence",
             "dependsOn": [
@@ -362,6 +510,58 @@
             "dependsOrder": "sequence",
             "dependsOn": [
                 "Run Linux Debug"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Package Linux",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Package Linux Release"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Deploy Linux Package",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Package Linux"
+            ],
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "$pkgDir='${workspaceFolder}/package/linux'; if(Test-Path $pkgDir){ $pkg = Get-ChildItem -Path $pkgDir -File | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($pkg){ Write-Host \"Deploy package: $($pkg.FullName)\" } else { Write-Host \"No package found in $pkgDir\" } } else { Write-Host \"Package directory not found: $pkgDir\" }"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Package Flatpak",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "-lc",
+                "mkdir -p '${workspaceFolder}/build/flatpak-repo' '${workspaceFolder}/build/flatpak-build-dir' '${workspaceFolder}/package/flatpack'; flatpak-builder --force-clean --repo='${workspaceFolder}/build/flatpak-repo' '${workspaceFolder}/build/flatpak-build-dir' '${workspaceFolder}/com.nolimitconnect.NoLimitConnect.yml'; flatpak build-bundle '${workspaceFolder}/build/flatpak-repo' '${workspaceFolder}/package/flatpack/nolimitconnect.flatpak' com.nolimitconnect.NoLimitConnect"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Deploy Flatpak Package",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Package Flatpak"
+            ],
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "$pkgDir='${workspaceFolder}/package/flatpack'; if(Test-Path $pkgDir){ $pkg = Get-ChildItem -Path $pkgDir -File | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($pkg){ Write-Host \"Deploy package: $($pkg.FullName)\" } else { Write-Host \"No package found in $pkgDir\" } } else { Write-Host \"Package directory not found: $pkgDir\" }"
             ],
             "problemMatcher": []
         },

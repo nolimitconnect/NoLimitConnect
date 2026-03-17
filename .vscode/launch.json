@@ -20,10 +20,6 @@
             "MIMode": "gdb",
             "miDebuggerPath": "${workspaceFolder}/.vscode/gdb-no-debuginfod.sh",
             "miDebuggerArgs": "-iex \"set debuginfod enabled off\"",
-            "symbolOptions": {
-                "searchPaths": [],
-                "loadAll": false
-            },
             "setupCommands": [
                 {
                     "description": "Don't load shared library symbols automatically",
@@ -151,6 +147,76 @@
             "processCreateCommands": [
                 "gdb-remote localhost:5039"
             ]
+        },
+        {
+            "name": "Task: Package Windows",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "Package Windows",
+            "command": "echo Package Windows completed"
+        },
+        {
+            "name": "Task: Package Android",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "Package Android",
+            "command": "echo Package Android completed"
+        },
+        {
+            "name": "Task: Package Android Signed",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "Package Android Signed",
+            "command": "echo Package Android Signed completed"
+        },
+        {
+            "name": "Task: Package Linux",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "Package Linux",
+            "command": "echo Package Linux completed"
+        },
+        {
+            "name": "Task: Package Flatpak",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "Package Flatpak",
+            "command": "echo Package Flatpak completed"
+        },
+        {
+            "name": "Task: Deploy Windows Package",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "Deploy Windows Package",
+            "command": "echo Deploy Windows Package completed"
+        },
+        {
+            "name": "Task: Deploy Android Package",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "Deploy Android Package",
+            "command": "echo Deploy Android Package completed"
+        },
+        {
+            "name": "Task: Deploy Android Signed Package",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "Deploy Android Signed Package",
+            "command": "echo Deploy Android Signed Package completed"
+        },
+        {
+            "name": "Task: Deploy Linux Package",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "Deploy Linux Package",
+            "command": "echo Deploy Linux Package completed"
+        },
+        {
+            "name": "Task: Deploy Flatpak Package",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "Deploy Flatpak Package",
+            "command": "echo Deploy Flatpak Package completed"
         }
     ]
 }
