@@ -37,8 +37,8 @@ compile_nlc_linux:
     entrypoint: [""]
 
   before_script:
-    - ls /builds/nolimitconnectapps/nolimitapp
-    - cd /builds/nolimitconnectapps/nolimitapp
+    - ls /builds/nolimitapps/nolimitconnect
+    - cd /builds/nolimitapps/nolimitconnect
     - mkdir package
     - mkdir package/linux
     - mkdir package/android
@@ -58,9 +58,9 @@ compile_nlc_linux:
     - echo 'make complete'
 
     - echo 'publish_android_package'
-    - ls /builds/nolimitconnectapps/nolimitapp/dockerbuild/nlcbuild/nolimitgui/android-build//build/outputs/apk/release
+    - ls /builds/nolimitapps/nolimitconnect/dockerbuild/nlcbuild/nolimitgui/android-build//build/outputs/apk/release
     - ssh -o StrictHostKeyChecking=no -i $SSH_NET_SRV_PRIV_KEY root@nolimitconnect.net 
-    - scp -i $SSH_NET_SRV_PRIV_KEY -r /builds/nolimitconnectapps/nolimitapp/dockerbuild/nlcbuild/nolimitgui/android-build//build/outputs/apk/release/*.apk root@nolimitconnect.net:/var/www/html/download/android
+    - scp -i $SSH_NET_SRV_PRIV_KEY -r /builds/nolimitapps/nolimitconnect/dockerbuild/nlcbuild/nolimitgui/android-build//build/outputs/apk/release/*.apk root@nolimitconnect.net:/var/www/html/download/android
 
     - rm -rf *
     - rm -rf ../../package/linux
@@ -70,13 +70,13 @@ compile_nlc_linux:
       
     - echo 'publish_linux_package'
     - ssh -o StrictHostKeyChecking=no -i $SSH_NET_SRV_PRIV_KEY root@nolimitconnect.net 
-    - scp -i $SSH_NET_SRV_PRIV_KEY -r /builds/nolimitconnectapps/nolimitapp/package/linux/*.deb root@nolimitconnect.net:/var/www/html/download/linux
+    - scp -i $SSH_NET_SRV_PRIV_KEY -r /builds/nolimitapps/nolimitconnect/package/linux/*.deb root@nolimitconnect.net:/var/www/html/download/linux
 
   # NOTE: artifacts are for testers only and NOT for general public users so use at your own risk
 #  artifacts:
 #    name: "NoLimitConnect_$CI_COMMIT_TAG"
 #    paths:
-#      - /builds/nolimitconnectapps/nolimitapp/package/linux/*.deb
+#      - /builds/nolimitapps/nolimitconnect/package/linux/*.deb
       #- ../../package/android/*.apk
 
 #    expire_in: 1 week  

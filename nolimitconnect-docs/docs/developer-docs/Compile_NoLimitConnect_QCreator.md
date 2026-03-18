@@ -1,12 +1,12 @@
 # Compile NoLimitConnect Using Qt Creator
 
 ## Compile in Qt Creator
-git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+git clone https://gitlab.com/nolimitapps/nolimitconnect.git
 Open nolimitapp/CMakeList.txt in Qt Creator
 Configure and Compile
 
 ## Compile from command line in Linux
-git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+git clone https://gitlab.com/nolimitapps/nolimitconnect.git
 mkdir -p nolimitapp/build/nlc_build
 cd nolimitapp/build/nlc_build
 rm -rf *

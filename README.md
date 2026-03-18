@@ -26,7 +26,7 @@ Portable across systems.
 
 ## Source Code
 Open Sourced code that can be cloned with 
-git clone https://gitlab.com/nolimitconnectapps/nolimitapp
+git clone https://gitlab.com/nolimitapps/nolimitconnect
 
 ## Description
 A independent social network designed to be hosted on any device with an internet connection. 
@@ -54,7 +54,7 @@ No log files
 
 ## Support
 Planned issue tracking:
-https://gitlab.com/nolimitconnectapps/nolimitapp/issues
+https://gitlab.com/nolimitapps/nolimitconnect/issues
 
 ## Roadmap
 * o Update/Improve documentation

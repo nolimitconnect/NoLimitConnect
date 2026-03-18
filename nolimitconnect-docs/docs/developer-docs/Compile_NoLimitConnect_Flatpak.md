@@ -1,7 +1,7 @@
 # Compile NoLimitConnect Using Flatpak
 
 1. Checkout NoLimitConnect:
-git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+git clone https://gitlab.com/nolimitapps/nolimitconnect.git
 cd nolimitapp
 
 2. Allow flatpak submodules (required for GL/glu lib):

@@ -1,7 +1,7 @@
 # Windows Compile NoLimitConnect in Visual Studio
 
 ## Checkout code
-git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+git clone https://gitlab.com/nolimitapps/nolimitconnect.git
 
 ## Compile in Visual Studio
 Open nolimitapp/nolimitgui/build/VS2026/NoLimitConnectAll.sln

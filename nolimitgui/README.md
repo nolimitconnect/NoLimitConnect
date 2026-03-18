@@ -2,7 +2,7 @@
 Website: http://nolimitconnect.org
 No Limit Connect Application - A distributed social network
 Open Sourced mostly C/C++ code can be cloned with 
-git clone https://gitlab.com/nolimitconnectapps/nolimitapp.git
+git clone https://gitlab.com/nolimitapps/nolimitconnect.git
 
 
 ## Getting started
@@ -18,14 +18,14 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://gitlab.com/nolimitconnectapps/nolimitapp.git
+git remote add origin https://gitlab.com/nolimitapps/nolimitconnect.git
 git branch -M main
 git push -uf origin main
 ```
 
 ## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.com/nolimitconnectapps/nolimitapp/-/settings/integrations)
+- [ ] [Set up project integrations](https://gitlab.com/nolimitapps/nolimitconnect/-/settings/integrations)
 
 ## Collaborate with your team
 
