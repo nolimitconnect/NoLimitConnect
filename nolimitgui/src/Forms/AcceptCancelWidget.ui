@@ -77,7 +77,7 @@
       <enum>Qt::TabFocus</enum>
      </property>
      <property name="text">
-      <string/>
+      <string notr="true"/>
      </property>
     </widget>
    </item>
@@ -99,7 +99,7 @@
       <enum>Qt::TabFocus</enum>
      </property>
      <property name="text">
-      <string/>
+      <string notr="true"/>
      </property>
     </widget>
    </item>
