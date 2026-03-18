@@ -23,14 +23,14 @@ NetActionResolveDefaultUserHosts::NetActionResolveDefaultUserHosts( NetServicesM
 void NetActionResolveDefaultUserHosts::doAction( void )
 {
     std::string chatUrl;
-    m_Engine.getEngineSettings().getRandomConnectUrl( chatUrl );
+    m_Engine.getEngineSettings().getChatRoomHostUrl( chatUrl );
     if( !chatUrl.empty() )
     {
         m_Engine.getConnectionMgr().applyDefaultHostUrl( eHostTypeChatRoom, chatUrl );
     }
 
     std::string groupUrl;
-    m_Engine.getEngineSettings().getRandomConnectUrl( groupUrl );
+    m_Engine.getEngineSettings().getGroupHostUrl( groupUrl );
     if( !groupUrl.empty() )
     {
         m_Engine.getConnectionMgr().applyDefaultHostUrl( eHostTypeGroup, groupUrl );

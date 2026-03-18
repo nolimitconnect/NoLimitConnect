@@ -57,20 +57,13 @@ namespace
             return QString();
         }
 
-        QStringList candidateDirs;
         const std::string& translationsDir = VxGetTranslationsDirectory();
-        if( !translationsDir.empty() )
+        if( translationsDir.empty() )
         {
-            candidateDirs << QString::fromUtf8( translationsDir.c_str() );
+            return QString();
         }
 
-        const QString appDir = QCoreApplication::applicationDirPath();
-        candidateDirs << QDir( appDir ).filePath( "translations" )
-                      << QDir( appDir ).filePath( "../translations" )
-                      << QDir( appDir ).filePath( "../../translations" )
-                      << QDir( appDir ).filePath( "../../../translations" )
-                      << QDir::current().filePath( "translations" );
-
+        const QStringList candidateDirs{ QString::fromUtf8( translationsDir.c_str() ) };
         for( const QString& dirPath : candidateDirs )
         {
             QDir dir( dirPath );

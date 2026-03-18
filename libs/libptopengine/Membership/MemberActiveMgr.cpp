@@ -215,7 +215,7 @@ bool MemberActiveMgr::isUserJoinedToRelayHost( VxGUID& memberOnlineId, VxGUID& h
     lockMemberList();
     for( auto& groupieId : m_MemberList )
     {
-        if( groupieId.getUserOnlineId() == memberOnlineId || groupieId.getHostOnlineId() == hostOnlineId )
+        if( groupieId.getUserOnlineId() == memberOnlineId && groupieId.getHostOnlineId() == hostOnlineId )
         {
             if( IsHostARelayForUsers( groupieId.getHostType() ) )
             {
