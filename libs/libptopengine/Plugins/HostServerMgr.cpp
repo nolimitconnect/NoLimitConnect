@@ -639,7 +639,7 @@ bool HostServerMgr::sendMemberListToClient( std::shared_ptr<VxSktBase>& sktBase,
             }
         }
 
-        if( sktBase->isConnected() )
+        if( !sktBase->isConnected() )
         {
             break;
         }
