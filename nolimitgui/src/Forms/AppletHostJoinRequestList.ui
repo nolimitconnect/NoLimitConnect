@@ -94,7 +94,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string/>
+           <string notr="true"/>
           </property>
          </widget>
         </item>
@@ -120,7 +120,7 @@
            </sizepolicy>
           </property>
           <property name="text">
-           <string/>
+           <string notr="true"/>
           </property>
          </widget>
         </item>

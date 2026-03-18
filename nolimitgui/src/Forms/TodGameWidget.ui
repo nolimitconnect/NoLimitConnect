@@ -187,7 +187,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Challenge Truth</string>
+         <string notr="true">Challenge Truth</string>
         </property>
        </widget>
       </item>
@@ -212,7 +212,7 @@
          </size>
         </property>
         <property name="text">
-         <string>Challenge Dare</string>
+         <string notr="true">Challenge Dare</string>
         </property>
        </widget>
       </item>

@@ -234,7 +234,7 @@
       <item>
        <widget class="VxPushButton" name="m_NetworkSettingsInfoButton">
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
        </widget>
       </item>

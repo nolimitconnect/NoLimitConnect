@@ -149,7 +149,7 @@
       <item>
        <widget class="VxPushButton" name="m_BrowseButton">
         <property name="text">
-         <string>Browse For File To Send</string>
+         <string notr="true">Browse For File To Send</string>
         </property>
        </widget>
       </item>

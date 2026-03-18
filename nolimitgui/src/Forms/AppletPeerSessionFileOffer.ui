@@ -84,7 +84,7 @@
            </size>
           </property>
           <property name="text">
-           <string/>
+           <string notr="true"/>
           </property>
           <property name="iconSize">
            <size>
@@ -193,7 +193,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Continue Transfer</string>
+            <string notr="true">Continue Transfer</string>
            </property>
           </widget>
          </item>
@@ -206,7 +206,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Cancel Transfer</string>
+            <string notr="true">Cancel Transfer</string>
            </property>
           </widget>
          </item>

@@ -129,7 +129,7 @@
            </size>
           </property>
           <property name="text">
-           <string/>
+           <string notr="true"/>
           </property>
           <property name="iconSize">
            <size>
@@ -231,7 +231,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Accept File</string>
+            <string notr="true">Accept File</string>
            </property>
           </widget>
          </item>
@@ -244,7 +244,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Reject File</string>
+            <string notr="true">Reject File</string>
            </property>
           </widget>
          </item>

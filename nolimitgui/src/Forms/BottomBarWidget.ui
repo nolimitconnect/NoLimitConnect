@@ -83,7 +83,7 @@
       </font>
      </property>
      <property name="text">
-      <string/>
+      <string notr="true"/>
      </property>
     </widget>
    </item>
@@ -130,7 +130,7 @@
       </font>
      </property>
      <property name="text">
-      <string/>
+      <string notr="true"/>
      </property>
     </widget>
    </item>
@@ -149,7 +149,7 @@
       </size>
      </property>
      <property name="text">
-      <string/>
+      <string notr="true"/>
      </property>
      <property name="iconSize">
       <size>
@@ -180,7 +180,7 @@
       </size>
      </property>
      <property name="text">
-      <string/>
+      <string notr="true"/>
      </property>
      <property name="iconSize">
       <size>
@@ -233,7 +233,7 @@
       </font>
      </property>
      <property name="text">
-      <string/>
+      <string notr="true"/>
      </property>
     </widget>
    </item>
@@ -277,7 +277,7 @@
       </font>
      </property>
      <property name="text">
-      <string/>
+      <string notr="true"/>
      </property>
     </widget>
    </item>
@@ -296,7 +296,7 @@
       </size>
      </property>
      <property name="text">
-      <string/>
+      <string notr="true"/>
      </property>
      <property name="iconSize">
       <size>
@@ -327,7 +327,7 @@
       </size>
      </property>
      <property name="text">
-      <string/>
+      <string notr="true"/>
      </property>
      <property name="iconSize">
       <size>
@@ -411,7 +411,7 @@
       </font>
      </property>
      <property name="text">
-      <string/>
+      <string notr="true"/>
      </property>
     </widget>
    </item>

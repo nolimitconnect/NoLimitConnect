@@ -194,7 +194,7 @@
        <item>
         <widget class="VxPushButton" name="m_AcceptButton">
          <property name="text">
-          <string/>
+          <string notr="true"/>
          </property>
         </widget>
        </item>
@@ -214,7 +214,7 @@
        <item>
         <widget class="VxPushButton" name="m_RejectButton">
          <property name="text">
-          <string/>
+          <string notr="true"/>
          </property>
         </widget>
        </item>

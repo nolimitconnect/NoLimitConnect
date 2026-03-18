@@ -305,7 +305,7 @@
             </size>
            </property>
            <property name="text">
-            <string/>
+            <string notr="true"/>
            </property>
            <property name="iconSize">
             <size>
@@ -336,7 +336,7 @@
             </size>
            </property>
            <property name="text">
-            <string/>
+            <string notr="true"/>
            </property>
            <property name="iconSize">
             <size>

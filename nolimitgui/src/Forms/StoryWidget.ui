@@ -107,7 +107,7 @@
          <string>New File</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -141,7 +141,7 @@
          <string>New File</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -175,7 +175,7 @@
          <string>Open File</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -209,7 +209,7 @@
          <string>Save File As..</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -243,7 +243,7 @@
          <string>Export to PDF file</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -322,7 +322,7 @@
          <string>Save File</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -356,7 +356,7 @@
          <string>Insert Picture</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -390,7 +390,7 @@
          <string>Undo</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -424,7 +424,7 @@
          <string>Redo</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -458,7 +458,7 @@
          <string>Cut</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -492,7 +492,7 @@
          <string>Copy</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -526,7 +526,7 @@
          <string>Paste</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -560,7 +560,7 @@
          <string>Print</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -639,7 +639,7 @@
          <string>Bold</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -676,7 +676,7 @@
          <string>Italic</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -713,7 +713,7 @@
          <string>Underline</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -750,7 +750,7 @@
          <string>Left Justify</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -784,7 +784,7 @@
          <string>Center Text</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -818,7 +818,7 @@
          <string>Right Justify</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -852,7 +852,7 @@
          <string>Text Justify</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>
@@ -886,7 +886,7 @@
          <string>Text Color</string>
         </property>
         <property name="text">
-         <string/>
+         <string notr="true"/>
         </property>
         <property name="iconSize">
          <size>

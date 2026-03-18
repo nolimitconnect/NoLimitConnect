@@ -233,7 +233,7 @@
           <item>
            <widget class="VxPushButton" name="m_JoinButton">
             <property name="text">
-             <string/>
+             <string notr="true"/>
             </property>
            </widget>
           </item>
@@ -253,7 +253,7 @@
           <item>
            <widget class="VxPushButton" name="m_ConnectButton">
             <property name="text">
-             <string/>
+             <string notr="true"/>
             </property>
            </widget>
           </item>
