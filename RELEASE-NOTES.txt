@@ -1,6 +1,6 @@
 No Limit Connect
 https://nolimitconnect.com
-NLC git source code repo: https://gitlab.com/nolimitapps/nolimitconnect.git
+NLC git source code repo: https://gitlab.com/nolimitcode/nolimitconnect.git
 
 
 Version repo tag v1.01.00
