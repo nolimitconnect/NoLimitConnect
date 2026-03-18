@@ -8,8 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-// #include <PktLib/VxCommon.h>
-// #include <CoreLib/VxGUID.h>
+
 
 #include "AppTranslate.h"
 
@@ -113,6 +112,15 @@ QString AppTranslate::describeLanguage( ELanguageType langType )
     case eLangUkrainian:
         lang = "Ukrainian";
         break;
+    case eLangArabic:
+        lang = "Arabic";
+        break;
+    case eLangKorean:
+        lang = "Korean";
+        break;
+    case eLangIndonesian:
+        lang = "Indonesian";
+        break;
 
     default:
         break;
@@ -213,6 +221,15 @@ QLocale AppTranslate::getLocale( ELanguageType langType )
         break;
     case eLangUkrainian:
         locale = QLocale::Ukrainian;
+        break;
+    case eLangArabic:
+        locale = QLocale::Arabic;
+        break;
+    case eLangKorean:
+        locale = QLocale::Korean;
+        break;
+    case eLangIndonesian:
+        locale = QLocale::Indonesian;
         break;
 
     default:

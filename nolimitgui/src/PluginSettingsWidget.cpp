@@ -153,7 +153,7 @@ void PluginSettingsWidget::loadUiFromSetting()
     if( ePluginTypeInvalid != getPluginType() )
     {
         ui.m_ContentRatingComboBox->setCurrentIndex( GuiHelpers::contentRatingToIndex( m_PluginSetting.getContentRating() ) );
-        ui.m_LanguageComboBox->setCurrentIndex( GuiHelpers::languageToIndex( m_PluginSetting.getLanguage() ) );
+        GuiHelpers::setLanguage( ui.m_LanguageComboBox, m_PluginSetting.getLanguage() );
         ui.m_UrlEdit->setText( m_PluginSetting.getPluginUrl().c_str() );
         ui.m_ServiceTitleEdit->setText( m_PluginSetting.getTitle().c_str() );
         ui.m_DescriptionEdit->appendPlainText( m_PluginSetting.getDescription().c_str() );
@@ -167,7 +167,7 @@ void PluginSettingsWidget::saveUiToSetting()
     if( ePluginTypeInvalid != getPluginType() )
     {
         m_PluginSetting.setContentRating( ( EContentRating)ui.m_ContentRatingComboBox->currentIndex() );
-        m_PluginSetting.setLanguage( ( ELanguageType )ui.m_LanguageComboBox->currentIndex() );
+        m_PluginSetting.setLanguage( GuiHelpers::getLanguage( ui.m_LanguageComboBox ) );
         m_PluginSetting.setPluginUrl( ui.m_UrlEdit->text().toUtf8().constData() );
         m_PluginSetting.setTitle( ui.m_ServiceTitleEdit->text().toUtf8().constData() );
         m_PluginSetting.setThumnailId( ui.m_ThumbnailChooseWidget->getThumbnailId(), ui.m_ThumbnailChooseWidget->getThumbnailIsCircular() );

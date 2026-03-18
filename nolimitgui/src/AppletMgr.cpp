@@ -73,6 +73,7 @@
 #include "AppletInviteCreate.h"
 #include "AppletInvites.h"
 
+#include "AppletLanguageSelect.h"
 #include "AppletLibrary.h"
 #include "AppletLog.h"
 #include "AppletLogSettings.h"
@@ -434,6 +435,8 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
 
     case eAppletInviteAccept:               if( launchAppletAllowed( eAppletInviteAccept ) ) appletDialog = new AppletInviteAccept( m_MyApp, parent ); break;
     case eAppletInviteCreate:               if( launchAppletAllowed( eAppletInviteCreate ) ) appletDialog = new AppletInviteCreate( m_MyApp, parent ); break;
+
+    case eAppletLanguageSelect:             if( launchAppletAllowed( eAppletLanguageSelect ) ) appletDialog = new AppletLanguageSelect( m_MyApp, parent ); break;
 
     case eAppletNetHostingPage:             if( launchAppletAllowed( eAppletNetHostingPage ) ) appletDialog = new AppletNetHostingPage( m_MyApp, parent ); break;
     case eAppletPersonOfferList:            if( launchAppletAllowed( eAppletPersonOfferList ) ) appletDialog = new AppletPersonOfferList( m_MyApp, parent ); break;

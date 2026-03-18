@@ -366,5 +366,6 @@
         <file>Resources/mediatype-other.svg</file>
         <file>Resources/overlay-admin.svg</file>
         <file>Resources/user-leave.svg</file>
+        <file>Resources/language-change.svg</file>
     </qresource>
 </RCC>

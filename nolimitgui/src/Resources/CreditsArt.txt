@@ -137,6 +137,7 @@ image-rotate.svg (modified)
 invite.svg
 key-disabled.svg
 key-enabled.svg
+language-change.svg
 library.svg
 library-removed.svg (modified)
 linked.svg

@@ -42,6 +42,8 @@ enum EApplet
     eAppletSettingsPage,            // page of setting applets
     eAppletAboutNoLimitConnect,
 
+    eAppletLanguageSelect,
+
 	eMaxBasicApplets,               // marker.. end of home page applets.. start of settings applets
 
     eAppletTheme,

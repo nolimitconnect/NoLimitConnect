@@ -579,6 +579,9 @@ enum ELanguageType
     eLangThai,          //  (th) Thiawanese
     eLangTurkish,       //  (tr) Turkish
     eLangUkrainian,     //	(uk) Ukrainian
+    eLangArabic,        //  (ar) Arabic
+    eLangKorean,        //  (ko) Korean
+    eLangIndonesian,    //  (id) Indonesian
 
     eMaxLanguageType
 };

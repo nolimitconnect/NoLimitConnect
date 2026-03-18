@@ -1619,10 +1619,26 @@ void GuiHelpers::fillLanguage( QComboBox * comboBox )
 {
     if( comboBox )
     {
-        comboBox->clear();
-        for( int i = 0; i < eMaxLanguageType; i++ )
+        static const ELanguageType kSupportedLanguages[] =
         {
-            comboBox->addItem(  GuiParams::describeLanguage( (ELanguageType)i ) );
+            eLangEnglish,
+            eLangGerman,
+            eLangChinese,
+            eLangSpanish,
+            eLangFrench,
+            eLangArabic,
+            eLangHindi,
+            eLangPortuguese,
+            eLangJapanese,
+            eLangKorean,
+            eLangRussian,
+            eLangIndonesian,
+        };
+
+        comboBox->clear();
+        for( ELanguageType language : kSupportedLanguages )
+        {
+            comboBox->addItem( GuiParams::describeLanguage( language ), (int)language );
         }
     }
 }
@@ -1632,7 +1648,19 @@ ELanguageType GuiHelpers::getLanguage( QComboBox * comboBox )
 {
     if( comboBox )
     {
-        return (ELanguageType)comboBox->currentIndex();
+        QVariant langData = comboBox->currentData();
+        if( langData.isValid() )
+        {
+            return (ELanguageType)langData.toInt();
+        }
+
+        int currentIdx = comboBox->currentIndex();
+        if( ( 0 <= currentIdx ) && ( currentIdx < eMaxLanguageType ) )
+        {
+            return (ELanguageType)currentIdx;
+        }
+
+        return eLangUnspecified;
     }
     else
     {
@@ -1645,7 +1673,16 @@ bool GuiHelpers::setLanguage( QComboBox * comboBox, ELanguageType language)
 {
     if( comboBox )
     {
-        comboBox->setCurrentIndex(languageToIndex(language));
+        int itemIdx = comboBox->findData( (int)language );
+        if( 0 <= itemIdx )
+        {
+            comboBox->setCurrentIndex( itemIdx );
+        }
+        else
+        {
+            comboBox->setCurrentIndex( languageToIndex( language ) );
+        }
+
         return true;
     }
     else
@@ -1657,12 +1694,23 @@ bool GuiHelpers::setLanguage( QComboBox * comboBox, ELanguageType language)
 //============================================================================
 uint16_t GuiHelpers::languageToIndex( ELanguageType language )
 {
-    if( ( language >= 0 ) && ( language < eMaxLanguageType ) )
+    switch( language )
     {
-        return ( uint16_t )language;
+    case eLangEnglish:      return 0;
+    case eLangGerman:       return 1;
+    case eLangChinese:      return 2;
+    case eLangSpanish:      return 3;
+    case eLangFrench:       return 4;
+    case eLangArabic:       return 5;
+    case eLangHindi:        return 6;
+    case eLangPortuguese:   return 7;
+    case eLangJapanese:     return 8;
+    case eLangKorean:       return 9;
+    case eLangRussian:      return 10;
+    case eLangIndonesian:   return 11;
+    default:
+        return 0;
     }
-
-    return 0;
 }
 
 //============================================================================
@@ -1969,7 +2017,7 @@ bool GuiHelpers::pluginSettingsToWidget( EPluginType pluginType, PluginSetting& 
         settingsWidget->getAgeComboBox()->setCurrentIndex( GuiHelpers::ageToIndex( pluginSetting.getAgeType() ) );
         settingsWidget->getGenderComboBox()->setCurrentIndex( GuiHelpers::genderToIndex( pluginSetting.getGender() ) );
         settingsWidget->getContentRatingComboBox()->setCurrentIndex( GuiHelpers::contentRatingToIndex( pluginSetting.getContentRating() ) );
-        settingsWidget->getLanguageComboBox()->setCurrentIndex( GuiHelpers::languageToIndex( pluginSetting.getLanguage() ) );
+        GuiHelpers::setLanguage( settingsWidget->getLanguageComboBox(), pluginSetting.getLanguage() );
 
         settingsWidget->getServiceUrlEdit()->setText( pluginSetting.getPluginUrl().c_str() );
 

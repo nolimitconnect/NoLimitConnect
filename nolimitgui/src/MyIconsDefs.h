@@ -450,5 +450,7 @@ enum EMyIcons
 
 	eMyIconUserLeave,
 
+	eMyIconLanguageSelect,
+
 	eMaxMyIcon	// must be last
 };

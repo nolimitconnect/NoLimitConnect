@@ -103,6 +103,7 @@
 #define OBJNAME_APPLET_LAUNCH_PAGE						"AppletLaunchPage"
 #define OBJNAME_APPLET_LAUNCH_WIDGET					"AppletLaunchWidget"
 
+#define OBJNAME_APPLET_LANGUAGE_SELECT			        "AppletLanguageSelect"
 #define OBJNAME_APPLET_LIBRARY					        "AppletLibrary"
 #define OBJNAME_APPLET_LOG				                "AppletLog"
 

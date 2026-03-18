@@ -54,12 +54,13 @@ void AppletCreateAccount::slotButtonLoginClicked( void )
         std::string strUserName = ui.m_UserNameEdit->text().toUtf8().data();
 
         m_MyApp.loadAccountSpecificSettings( strUserName.c_str() );
+        ELanguageType selectedLanguage = GuiHelpers::getLanguage( ui.m_LanguageComboBox );
         m_MyApp.createAccountForUser( strUserName, m_UserAccount, (const char*)ui.m_MoodMessageEdit->text().toUtf8().constData(), 
-                                      ui.m_GenderComboBox->currentIndex(), (EAgeType)ui.m_AgeComboBox->currentIndex(), ui.m_LanguageComboBox->currentIndex(), ui.m_ContentComboBox->currentIndex() );
+                          ui.m_GenderComboBox->currentIndex(), (EAgeType)ui.m_AgeComboBox->currentIndex(), (int)selectedLanguage, ui.m_ContentComboBox->currentIndex() );
         m_MyApp.setAccountUserName( strUserName.c_str() );
         m_UserAccount.setAgeType( (EAgeType)ui.m_AgeComboBox->currentIndex() );
         m_UserAccount.setGender( (EGenderType)ui.m_GenderComboBox->currentIndex() );
-        m_UserAccount.setPrimaryLanguage( (ELanguageType)ui.m_LanguageComboBox->currentIndex() );
+        m_UserAccount.setPrimaryLanguage( selectedLanguage );
         m_UserAccount.setPreferredContent( (EContentRating)ui.m_ContentComboBox->currentIndex() );
         m_UserAccount.setOnlineDescription( ( const char* )ui.m_MoodMessageEdit->text().toUtf8().constData() );
 

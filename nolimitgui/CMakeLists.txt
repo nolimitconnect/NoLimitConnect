@@ -144,6 +144,7 @@ list(APPEND nlc_HEADERS
     src/AppletInviteCreate.h
     src/AppletIsPortOpenTest.h
     src/AppletJoinBase.h
+    src/AppletLanguageSelect.h   
     src/AppletLaunchPage.h
     src/AppletLaunchWidget.h
     src/AppletLibrary.h
@@ -581,6 +582,7 @@ list(APPEND nlc_SOURCES
     src/AppletInviteCreate.cpp
     src/AppletIsPortOpenTest.cpp
     src/AppletJoinBase.cpp
+    src/AppletLanguageSelect.cpp
     src/AppletLaunchPage.cpp
     src/AppletLaunchWidget.cpp
     src/AppletLibrary.cpp
@@ -969,6 +971,7 @@ list(APPEND nlc_FORMS
     src/Forms/AppletIsPortOpenTest.ui
 
     src/Forms/AppletJoinHostList.ui
+    src/Forms/AppletLanguageSelect.ui
     src/Forms/AppletLaunchWidget.ui
     src/Forms/AppletLibrary.ui
     src/Forms/AppletLog.ui

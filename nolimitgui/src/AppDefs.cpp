@@ -58,6 +58,7 @@ EMyIcons GetAppletIcon( EApplet applet )
     case eAppletInviteAccept:	            return eMyIconInviteAccept;
     case eAppletInviteCreate:	            return eMyIconInviteCreate;
 
+    case eAppletLanguageSelect:	            return eMyIconLanguageSelect;
     case eAppletLibrary:				    return eMyIconLibraryNormal;
     case eAppletLog:	                    return eMyIconDebug;
     case eAppletLogSettings:                return eMyIconDebug;
@@ -266,6 +267,7 @@ QString DescribeApplet( EApplet applet )
     case eAppletInviteAccept:               return QObject::tr( "Accept Invite" );
     case eAppletInviteCreate:               return QObject::tr( "Create Invite" );
 
+    case eAppletLanguageSelect:			    return QObject::tr( "Select Language" );
     case eAppletLibrary:				    return QObject::tr( "My Library Of Media" );
     case eAppletLog:                        return QObject::tr( "Application Log" );
     case eAppletLogSettings:		        return QObject::tr( "Log Settings" );
