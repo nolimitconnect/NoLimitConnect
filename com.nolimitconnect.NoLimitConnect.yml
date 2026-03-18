@@ -13,7 +13,7 @@ app-id: com.nolimitconnect.NoLimitConnect
 # So build with 6.7 for now
 
 runtime: org.kde.Platform
-runtime-version: '6.7'
+runtime-version: '6.9'
 sdk: org.kde.Sdk
 
 command: nolimitconnect
