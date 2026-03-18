@@ -12,7 +12,78 @@
 
 #include "AppTranslate.h"
 
+#include <QApplication>
+#include <QCoreApplication>
+#include <QDir>
+#include <QEvent>
+#include <QGuiApplication>
 #include <QLocale>
+#include <QTranslator>
+#include <QWidget>
+
+#include <memory>
+
+namespace
+{
+    std::unique_ptr<QTranslator> g_AppTranslator;
+
+    QString languageCode( ELanguageType langType )
+    {
+        switch( langType )
+        {
+        case eLangEnglish:      return "en";
+        case eLangGerman:       return "de";
+        case eLangChinese:      return "zh";
+        case eLangSpanish:      return "es";
+        case eLangFrench:       return "fr";
+        case eLangArabic:       return "ar";
+        case eLangHindi:        return "hi";
+        case eLangPortuguese:   return "pt";
+        case eLangJapanese:     return "ja";
+        case eLangKorean:       return "ko";
+        case eLangRussian:      return "ru";
+        case eLangIndonesian:   return "id";
+        default:                return "";
+        }
+    }
+
+    QString findTranslationFile( ELanguageType langType )
+    {
+        const QString langCode = languageCode( langType );
+        if( langCode.isEmpty() )
+        {
+            return QString();
+        }
+
+        QStringList candidateDirs;
+        const QString appDir = QCoreApplication::applicationDirPath();
+        candidateDirs << QDir( appDir ).filePath( "translations" )
+                      << QDir( appDir ).filePath( "../translations" )
+                      << QDir( appDir ).filePath( "../../translations" )
+                      << QDir( appDir ).filePath( "../../../translations" )
+                      << QDir::current().filePath( "translations" );
+
+        for( const QString& dirPath : candidateDirs )
+        {
+            QDir dir( dirPath );
+            if( !dir.exists() )
+            {
+                continue;
+            }
+
+            const QStringList fileNames = dir.entryList(
+                QStringList() << QString( "nolimitconnect_%1*.qm" ).arg( langCode ),
+                QDir::Files,
+                QDir::Name );
+            if( !fileNames.isEmpty() )
+            {
+                return dir.filePath( fileNames.first() );
+            }
+        }
+
+        return QString();
+    }
+}
 
 // for reference
 // QT_TRANSLATE_NOOP( "QObject","Greek" ),      "el", QLocale::Greek );
@@ -237,4 +308,51 @@ QLocale AppTranslate::getLocale( ELanguageType langType )
     }
 
     return locale;
+}
+
+//============================================================================
+bool AppTranslate::applyLanguage( ELanguageType langType )
+{
+    QApplication* app = qobject_cast<QApplication*>( QCoreApplication::instance() );
+    if( !app )
+    {
+        return false;
+    }
+
+    if( g_AppTranslator )
+    {
+        app->removeTranslator( g_AppTranslator.get() );
+    }
+
+    g_AppTranslator.reset( new QTranslator() );
+    QLocale::setDefault( getLocale( langType ) );
+
+    bool translationLoaded = true;
+    if( eLangEnglish != langType )
+    {
+        const QString qmFile = findTranslationFile( langType );
+        if( qmFile.isEmpty() || !g_AppTranslator->load( qmFile ) )
+        {
+            translationLoaded = false;
+        }
+        else
+        {
+            app->installTranslator( g_AppTranslator.get() );
+        }
+    }
+
+    QGuiApplication::setApplicationDisplayName( QObject::tr( "No Limit Connect" ) );
+
+    QEvent langChangeEvent( QEvent::LanguageChange );
+    const auto widgets = QApplication::allWidgets();
+    for( QWidget* widget : widgets )
+    {
+        if( widget )
+        {
+            QApplication::sendEvent( widget, &langChangeEvent );
+            widget->update();
+        }
+    }
+
+    return translationLoaded;
 }

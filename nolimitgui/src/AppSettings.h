@@ -38,6 +38,9 @@ public:
 	void						setLastSelectedTheme( EThemeType selectedTheme );
 	EThemeType					getLastSelectedTheme( void );
 
+	void					setSelectedLanguage( ELanguageType selectedLanguage );
+	ELanguageType				getSelectedLanguage( void );
+
 	void						setMutePhoneRing( bool bMutePhoneRing );
 	bool						getMutePhoneRing( void );
 

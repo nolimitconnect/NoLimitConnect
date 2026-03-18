@@ -17,6 +17,7 @@
 
 #include <src/AppCommon.h>
 #include <src/AppSettings.h>
+#include <src/AppTranslate.h>
 #include <src/HomeWindow.h>
 #include <src/GuiParams.h>
 
@@ -278,6 +279,9 @@ int runApplication( QApplication* myApp, int argc, char** argv )
         LogMsg( LOG_VERBOSE, "%s time register %d app fonts %d", __func__, timeRegisterMetadata - timeStart,
                 timeInitFonts - timeRegisterMetadata );
     }
+
+    const ELanguageType selectedLanguage = appSettings.getSelectedLanguage();
+    AppTranslate::applyLanguage( selectedLanguage );
 
     AppCommon& appCommon = CreateAppInstance( myApp, appSettings );
 

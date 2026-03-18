@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en_US">
+<TS version="2.1" language="ja_JP">
 <context>
     <name>AcceptCancelWidgetClass</name>
     <message>
         <location filename="../nolimitgui/src/Forms/AcceptCancelWidget.ui" line="38"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -14,7 +14,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActionWidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -22,7 +22,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityGenerateHash.ui" line="17"/>
         <source>Generate Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>ハッシュの生成</translation>
     </message>
 </context>
 <context>
@@ -30,37 +30,37 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutApp.ui" line="32"/>
         <source>About NoLimitConnect</source>
-        <translation type="unfinished"></translation>
+        <translation>ノーリミットコネクトについて</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutApp.ui" line="92"/>
         <source>No Limit Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>ノーリミット接続</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutApp.ui" line="102"/>
         <source>(c) Brett R. Jones 2013,2025</source>
-        <translation type="unfinished"></translation>
+        <translation>(c) ブレット R. ジョーンズ 2013、2025</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutApp.ui" line="117"/>
         <source>Version 1.0.12</source>
-        <translation type="unfinished"></translation>
+        <translation>バージョン1.0.12</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutApp.ui" line="130"/>
         <source>Device Information</source>
-        <translation type="unfinished"></translation>
+        <translation>デバイス情報</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutApp.ui" line="143"/>
         <source>Connection Information</source>
-        <translation type="unfinished"></translation>
+        <translation>接続情報</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutApp.ui" line="156"/>
         <source>Show Application Information</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーション情報の表示</translation>
     </message>
 </context>
 <context>
@@ -68,27 +68,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutFile.ui" line="26"/>
         <source>About User</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーについて</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutFile.ui" line="64"/>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>サイズ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutFile.ui" line="107"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>パス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutFile.ui" line="182"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>情報</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutFile.ui" line="230"/>
         <source>Thumbnail ID</source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイルID</translation>
     </message>
 </context>
 <context>
@@ -96,7 +96,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutMeClient.ui" line="20"/>
         <source>Edit Storyboard</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーボードの編集</translation>
     </message>
 </context>
 <context>
@@ -104,57 +104,57 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="26"/>
         <source>About User</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーについて</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="67"/>
         <source>User Message</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーメッセージ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="85"/>
         <source>My Friendship To User:</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーに対する私の友情:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="120"/>
         <source>Users Friendship To Me:</source>
-        <translation type="unfinished"></translation>
+        <translation>私に対するユーザーの友情:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="153"/>
         <source>Age:</source>
-        <translation type="unfinished"></translation>
+        <translation>年齢:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="182"/>
         <source>Gender</source>
-        <translation type="unfinished"></translation>
+        <translation>性別</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="215"/>
         <source>Primary Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>第一言語:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="244"/>
         <source>Preffered Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>推奨コンテンツ:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="277"/>
         <source>Truths:</source>
-        <translation type="unfinished"></translation>
+        <translation>真実:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="306"/>
         <source>Dares:</source>
-        <translation type="unfinished"></translation>
+        <translation>敢えて:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="333"/>
         <source>URL:</source>
-        <translation type="unfinished"></translation>
+        <translation>URL:</translation>
     </message>
 </context>
 <context>
@@ -162,17 +162,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletApplicationInfo.ui" line="32"/>
         <source>App Information</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリ情報</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletApplicationInfo.ui" line="89"/>
         <source>Browse App Storage (Do Not Delete)</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリのストレージを参照する (削除しないでください)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletApplicationInfo.ui" line="99"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>ログ</translation>
     </message>
 </context>
 <context>
@@ -180,27 +180,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletBrowseFiles.ui" line="14"/>
         <source>Browse Files</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを参照する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletBrowseFiles.ui" line="141"/>
         <source>Click File Icon or Double Click File Item to Select The File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルアイコンをクリックするか、ファイル項目をダブルクリックしてファイルを選択します</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletBrowseFiles.ui" line="194"/>
         <source>Move Up A Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>フォルダーを上に移動</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletBrowseFiles.ui" line="226"/>
         <source>Selected A Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>フォルダを選択しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletBrowseFiles.ui" line="282"/>
         <source>Add All Files To Library</source>
-        <translation type="unfinished"></translation>
+        <translation>すべてのファイルをライブラリに追加</translation>
     </message>
 </context>
 <context>
@@ -208,7 +208,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCamClient.ui" line="23"/>
         <source>Web Cam Client</source>
-        <translation type="unfinished"></translation>
+        <translation>ウェブカメラクライアント</translation>
     </message>
 </context>
 <context>
@@ -216,17 +216,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPlayerCamClip.ui" line="23"/>
         <source>Cam Video Player</source>
-        <translation type="unfinished"></translation>
+        <translation>カムビデオプレーヤー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPlayerCamClip.ui" line="327"/>
         <source>Tag:</source>
-        <translation type="unfinished"></translation>
+        <translation>タグ:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPlayerCamClip.ui" line="388"/>
         <source>File Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル名:</translation>
     </message>
 </context>
 <context>
@@ -234,17 +234,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCamSettings.ui" line="23"/>
         <source>Web Cam Client</source>
-        <translation type="unfinished"></translation>
+        <translation>ウェブカメラクライアント</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCamSettings.ui" line="60"/>
         <source>Apply Video In Device As Default</source>
-        <translation type="unfinished"></translation>
+        <translation>デバイス内のビデオをデフォルトとして適用</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCamSettings.ui" line="69"/>
         <source>Cam Device</source>
-        <translation type="unfinished"></translation>
+        <translation>カム装置</translation>
     </message>
 </context>
 <context>
@@ -252,7 +252,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletChatRoomJoinSearch.ui" line="20"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>検索</translation>
     </message>
 </context>
 <context>
@@ -260,12 +260,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletChatRoomListLocalView.ui" line="20"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>検索</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletChatRoomListLocalView.ui" line="106"/>
         <source>Refresh list of announced hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>発表されたホストのリストを更新する</translation>
     </message>
 </context>
 <context>
@@ -273,7 +273,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletChooseThumbnail.ui" line="26"/>
         <source>Choose Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイルを選択</translation>
     </message>
 </context>
 <context>
@@ -281,72 +281,72 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="20"/>
         <source>Edit About Me</source>
-        <translation type="unfinished"></translation>
+        <translation>私についての編集</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="71"/>
         <source>View My About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>私の自己紹介ページを見る</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="111"/>
         <source>Apply About Me Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>自己紹介の変更を適用する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="118"/>
         <source>Greeting:</source>
-        <translation type="unfinished"></translation>
+        <translation>挨拶:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="125"/>
         <source>Hi There!</source>
-        <translation type="unfinished"></translation>
+        <translation>こんにちは！</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="132"/>
         <source>About Me:</source>
-        <translation type="unfinished"></translation>
+        <translation>私について:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="151"/>
         <source>I&apos;m Wonderfull!</source>
-        <translation type="unfinished"></translation>
+        <translation>私はワンダフルです！</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="158"/>
         <source>My Picture</source>
-        <translation type="unfinished"></translation>
+        <translation>私の写真</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="182"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>閲覧する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="189"/>
         <source>Take Snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>スナップショットを撮る</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="211"/>
         <source>My Favorite Websites</source>
-        <translation type="unfinished"></translation>
+        <translation>私のお気に入りのウェブサイト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="221"/>
         <source>https://donate.doctorswithoutborders.org</source>
-        <translation type="unfinished"></translation>
+        <translation>https://donate.doctorswithoutborders.org</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="228"/>
         <source>https://nolimitconnect.com</source>
-        <translation type="unfinished"></translation>
+        <translation>https://nolimitconnect.com</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="235"/>
         <source>Donation Information</source>
-        <translation type="unfinished"></translation>
+        <translation>寄付に関する情報</translation>
     </message>
 </context>
 <context>
@@ -354,32 +354,32 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAvatarImage.ui" line="14"/>
         <source>Edit My Avatar Imae</source>
-        <translation type="unfinished"></translation>
+        <translation>エディットマイアバター今江</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAvatarImage.ui" line="51"/>
         <source>Edit My Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>アバター画像を編集する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAvatarImage.ui" line="84"/>
         <source>Apply Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>アバター画像の適用</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAvatarImage.ui" line="91"/>
         <source>Remove Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>アバター画像の削除</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAvatarImage.ui" line="100"/>
         <source>My Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>私のアバター画像</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAvatarImage.ui" line="161"/>
         <source>Delete Image Permenantly</source>
-        <translation type="unfinished"></translation>
+        <translation>画像を完全に削除</translation>
     </message>
 </context>
 <context>
@@ -387,12 +387,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditStoryBoard.ui" line="20"/>
         <source>Edit Storyboard</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーボードの編集</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditStoryBoard.ui" line="80"/>
         <source>View My Storyboard Page</source>
-        <translation type="unfinished"></translation>
+        <translation>私のストーリーボードページを表示</translation>
     </message>
 </context>
 <context>
@@ -400,27 +400,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFileOfferSelect.ui" line="23"/>
         <source>Select File Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルオファーを選択</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFileOfferSelect.ui" line="98"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>ステータス:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFileOfferSelect.ui" line="137"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFileOfferSelect.ui" line="173"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>パス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFileOfferSelect.ui" line="199"/>
         <source>Open Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>フォルダーを開く</translation>
     </message>
 </context>
 <context>
@@ -428,12 +428,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFileShareClientView.ui" line="23"/>
         <source>Browse Files</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを参照する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFileShareClientView.ui" line="101"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>ステータス:</translation>
     </message>
 </context>
 <context>
@@ -441,22 +441,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendList.ui" line="20"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>検索</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendList.ui" line="95"/>
         <source>Online</source>
-        <translation type="unfinished"></translation>
+        <translation>オンライン</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendList.ui" line="141"/>
         <source>Blocked</source>
-        <translation type="unfinished"></translation>
+        <translation>ブロックされました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendList.ui" line="187"/>
         <source>Offline</source>
-        <translation type="unfinished"></translation>
+        <translation>オフライン</translation>
     </message>
 </context>
 <context>
@@ -464,7 +464,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendRequestList.ui" line="20"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>検索</translation>
     </message>
 </context>
 <context>
@@ -472,32 +472,32 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendRequest.ui" line="32"/>
         <source>Friend Request</source>
-        <translation type="unfinished"></translation>
+        <translation>友達リクエスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendRequest.ui" line="50"/>
         <source>Reason Text</source>
-        <translation type="unfinished"></translation>
+        <translation>理由のテキスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendRequest.ui" line="103"/>
         <source>Accept Friend Request</source>
-        <translation type="unfinished"></translation>
+        <translation>友達リクエストを承認する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendRequest.ui" line="123"/>
         <source>Reject Friend Request</source>
-        <translation type="unfinished"></translation>
+        <translation>友達リクエストを拒否する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendRequest.ui" line="176"/>
         <source>Send Friend Request</source>
-        <translation type="unfinished"></translation>
+        <translation>友達リクエストを送る</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendRequest.ui" line="196"/>
         <source>Cancel Friend Request</source>
-        <translation type="unfinished"></translation>
+        <translation>友達リクエストをキャンセルする</translation>
     </message>
 </context>
 <context>
@@ -505,7 +505,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGalleryEmoticon.ui" line="26"/>
         <source>Thumbnail Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイルギャラリー</translation>
     </message>
 </context>
 <context>
@@ -513,7 +513,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGalleryImage.ui" line="26"/>
         <source>Image Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>画像ギャラリー</translation>
     </message>
 </context>
 <context>
@@ -521,12 +521,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGalleryThumb.ui" line="26"/>
         <source>Thumbnail Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイルギャラリー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGalleryThumb.ui" line="58"/>
         <source>Thumb Dir:</source>
-        <translation type="unfinished"></translation>
+        <translation>親指のディレクトリ:</translation>
     </message>
 </context>
 <context>
@@ -534,111 +534,111 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="32"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>情報</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="74"/>
         <source>Navigation</source>
-        <translation type="unfinished"></translation>
+        <translation>ナビゲーション</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="89"/>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="150"/>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="205"/>
         <source>Use the </source>
-        <translation type="unfinished"></translation>
+        <translation>を使用します。 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="133"/>
         <source>button to return to previous page</source>
-        <translation type="unfinished"></translation>
+        <translation>前のページに戻るボタン</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="188"/>
         <source>button to expand page to full size of application</source>
-        <translation type="unfinished"></translation>
+        <translation>ページをアプリケーションのフルサイズに拡大するボタン</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="243"/>
         <source>button to return to dual page display</source>
-        <translation type="unfinished"></translation>
+        <translation>2ページ表示に戻るボタン</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="252"/>
         <source>Join</source>
-        <translation type="unfinished"></translation>
+        <translation>参加する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="267"/>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="322"/>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="377"/>
         <source>Click</source>
-        <translation type="unfinished"></translation>
+        <translation>クリック</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="305"/>
         <source>to join a group</source>
-        <translation type="unfinished"></translation>
+        <translation>グループに参加する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="360"/>
         <source>to join a chat room</source>
-        <translation type="unfinished"></translation>
+        <translation>チャットルームに参加するには</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="415"/>
         <source>to join random connect</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダムコネクトに参加するには</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="430"/>
         <source>Personal</source>
-        <translation type="unfinished"></translation>
+        <translation>個人的な</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="470"/>
         <source>Personal notes and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>個人的なメモと記録</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="512"/>
         <source>Add media to your library</source>
-        <translation type="unfinished"></translation>
+        <translation>メディアをライブラリに追加する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="527"/>
         <source>Publish</source>
-        <translation type="unfinished"></translation>
+        <translation>発行する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="567"/>
         <source>Change your avatar icon</source>
-        <translation type="unfinished"></translation>
+        <translation>アバターアイコンを変更する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="609"/>
         <source>Set up your about me page</source>
-        <translation type="unfinished"></translation>
+        <translation>自己紹介ページを設定する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="651"/>
         <source>Add stories to your storyboard page</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーボード ページにストーリーを追加する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="666"/>
         <source>Share</source>
-        <translation type="unfinished"></translation>
+        <translation>シェアする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="706"/>
         <source>Share your camera as web cam server</source>
-        <translation type="unfinished"></translation>
+        <translation>カメラを Web カメラサーバーとして共有する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="721"/>
         <source>Visit No Limit Connect website for more information</source>
-        <translation type="unfinished"></translation>
+        <translation>詳細については、No Limit Connect Web サイトをご覧ください。</translation>
     </message>
 </context>
 <context>
@@ -646,22 +646,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupHostSettings.ui" line="20"/>
         <source>Host A Group</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストAグループ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupHostSettings.ui" line="53"/>
         <source>View Hosting Requirements</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスティング要件を表示する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupHostSettings.ui" line="63"/>
         <source>Other Services Required To Host A Group</source>
-        <translation type="unfinished"></translation>
+        <translation>グループをホストするために必要なその他のサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupHostSettings.ui" line="70"/>
         <source>Recommend Anybody permission level</source>
-        <translation type="unfinished"></translation>
+        <translation>「誰にでも推奨」権限レベル</translation>
     </message>
 </context>
 <context>
@@ -669,7 +669,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupJoinSearch.ui" line="20"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>検索</translation>
     </message>
 </context>
 <context>
@@ -677,7 +677,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupListClient.ui" line="20"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>検索</translation>
     </message>
 </context>
 <context>
@@ -685,12 +685,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupListLocalView.ui" line="20"/>
         <source>Group List Local View</source>
-        <translation type="unfinished"></translation>
+        <translation>グループリストのローカルビュー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupListLocalView.ui" line="106"/>
         <source>Refresh list of announced hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>発表されたホストのリストを更新する</translation>
     </message>
 </context>
 <context>
@@ -698,12 +698,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHackerList.ui" line="32"/>
         <source>Hacker List</source>
-        <translation type="unfinished"></translation>
+        <translation>ハッカーリスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHackerList.ui" line="88"/>
         <source>Copy To Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>クリップボードにコピー</translation>
     </message>
 </context>
 <context>
@@ -711,52 +711,52 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="32"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>情報</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="71"/>
         <source>Information: What do the signal bars indicate?</source>
-        <translation type="unfinished"></translation>
+        <translation>情報: 信号バーは何を示していますか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="117"/>
         <source>Connected To Internet</source>
-        <translation type="unfinished"></translation>
+        <translation>インターネットに接続済み</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="165"/>
         <source>Connection Test Available</source>
-        <translation type="unfinished"></translation>
+        <translation>接続テストが可能</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="213"/>
         <source>Network Host Available</source>
-        <translation type="unfinished"></translation>
+        <translation>利用可能なネットワークホスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="261"/>
         <source>Searching For Relay</source>
-        <translation type="unfinished"></translation>
+        <translation>リレーを探しています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="309"/>
         <source>Connected With Relay</source>
-        <translation type="unfinished"></translation>
+        <translation>リレーで接続</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="357"/>
         <source>Direct Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>ダイレクト接続</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="411"/>
         <source>Directly Connected To Host</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストに直接接続</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="459"/>
         <source>Connected To Host With Relay</source>
-        <translation type="unfinished"></translation>
+        <translation>リレーを使用してホストに接続</translation>
     </message>
 </context>
 <context>
@@ -764,7 +764,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostClient.ui" line="20"/>
         <source>Host Client</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストクライアント</translation>
     </message>
 </context>
 <context>
@@ -772,22 +772,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="20"/>
         <source>Choose User</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーの選択</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="63"/>
         <source>View Current Host</source>
-        <translation type="unfinished"></translation>
+        <translation>現在のホストを表示</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="110"/>
         <source>Rejoin last joined Host</source>
-        <translation type="unfinished"></translation>
+        <translation>最後に参加したホストに再参加する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="157"/>
         <source>Search for a different host to join</source>
-        <translation type="unfinished"></translation>
+        <translation>参加する別のホストを検索する</translation>
     </message>
 </context>
 <context>
@@ -795,22 +795,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinConnect.ui" line="20"/>
         <source>Choose User</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーの選択</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinConnect.ui" line="73"/>
         <source>View Current Host</source>
-        <translation type="unfinished"></translation>
+        <translation>現在のホストを表示</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinConnect.ui" line="120"/>
         <source>Rejoin last joined Host</source>
-        <translation type="unfinished"></translation>
+        <translation>最後に参加したホストに再参加する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinConnect.ui" line="167"/>
         <source>Search for a different host to join</source>
-        <translation type="unfinished"></translation>
+        <translation>参加する別のホストを検索する</translation>
     </message>
 </context>
 <context>
@@ -818,17 +818,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinRequestList.ui" line="110"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Create Invite&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;招待の作成&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinRequestList.ui" line="136"/>
         <source>Accept Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>招待を承諾する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinRequestList.ui" line="176"/>
         <source>Accept All</source>
-        <translation type="unfinished"></translation>
+        <translation>すべてを受け入れる</translation>
     </message>
 </context>
 <context>
@@ -836,32 +836,32 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostLeave.ui" line="20"/>
         <source>Host Leave</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト休暇</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostLeave.ui" line="34"/>
         <source>Admin</source>
-        <translation type="unfinished"></translation>
+        <translation>管理者</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostLeave.ui" line="133"/>
         <source>Leave</source>
-        <translation type="unfinished"></translation>
+        <translation>休暇を取る</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostLeave.ui" line="186"/>
         <source>Remove Membership And Leave</source>
-        <translation type="unfinished"></translation>
+        <translation>メンバーシップを削除して退会する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostLeave.ui" line="245"/>
         <source>Block Host</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストをブロックする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostLeave.ui" line="302"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>キャンセル</translation>
     </message>
 </context>
 <context>
@@ -869,57 +869,57 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="20"/>
         <source>Hosting Requirements Status</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスティング要件のステータス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="68"/>
         <source>View Hosting Requirements</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスティング要件を表示する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="78"/>
         <source>Optional Services That May Be Provided By Host</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストが提供するオプションのサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="85"/>
         <source>Recommend Connection Test Permission Anybody</source>
-        <translation type="unfinished"></translation>
+        <translation>誰でも接続テスト許可を推奨</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="95"/>
         <source>Has open port to recieve connections</source>
-        <translation type="unfinished"></translation>
+        <translation>接続を受信するためにポートが開いています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="102"/>
         <source>Host Permission Is Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト権限が有効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="109"/>
         <source>Connection Test Is Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>接続テストが有効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="118"/>
         <source>Url:</source>
-        <translation type="unfinished"></translation>
+        <translation>URL:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="148"/>
         <source>Status:  </source>
-        <translation type="unfinished"></translation>
+        <translation>ステータス:  </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="201"/>
         <source>For author of NLC evaluation of VPNs that can open a port </source>
-        <translation type="unfinished"></translation>
+        <translation>ポートを開くことができる VPN の NLC 評価の著者向け </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="213"/>
         <source>Members Count:</source>
-        <translation type="unfinished"></translation>
+        <translation>メンバー数:</translation>
     </message>
 </context>
 <context>
@@ -927,12 +927,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletIgnoredHosts.ui" line="14"/>
         <source>Test Host Clent</source>
-        <translation type="unfinished"></translation>
+        <translation>テストホストのクレント</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletIgnoredHosts.ui" line="69"/>
         <source>Ignored Host List</source>
-        <translation type="unfinished"></translation>
+        <translation>無視されるホストのリスト</translation>
     </message>
 </context>
 <context>
@@ -941,22 +941,22 @@
         <location filename="../nolimitgui/src/Forms/AppletInviteAccept.ui" line="32"/>
         <location filename="../nolimitgui/src/Forms/AppletInviteAccept.ui" line="146"/>
         <source>Accept Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>招待を承諾する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInviteAccept.ui" line="113"/>
         <source>What is a invite?</source>
-        <translation type="unfinished"></translation>
+        <translation>招待状とは何ですか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInviteAccept.ui" line="191"/>
         <source>Invite to accept text</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストを受け入れるよう招待する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInviteAccept.ui" line="166"/>
         <source>Reject Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>招待を拒否する</translation>
     </message>
 </context>
 <context>
@@ -964,17 +964,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInviteCreate.ui" line="32"/>
         <source>Create Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>招待の作成</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInviteCreate.ui" line="113"/>
         <source>What is a invite?</source>
-        <translation type="unfinished"></translation>
+        <translation>招待状とは何ですか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInviteCreate.ui" line="135"/>
         <source>Invite Message (Optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>招待メッセージ (オプション)</translation>
     </message>
 </context>
 <context>
@@ -983,32 +983,32 @@
         <location filename="../nolimitgui/src/Forms/AppletInvites.ui" line="32"/>
         <location filename="../nolimitgui/src/Forms/AppletInvites.ui" line="173"/>
         <source>Accept Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>招待を承諾する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInvites.ui" line="107"/>
         <source>Paste Invite From Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>クリップボードから招待を貼り付け</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInvites.ui" line="121"/>
         <source>Person URL:</source>
-        <translation type="unfinished"></translation>
+        <translation>人物の URL:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInvites.ui" line="139"/>
         <source>Group  URL:</source>
-        <translation type="unfinished"></translation>
+        <translation>グループURL:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInvites.ui" line="193"/>
         <source>Reject Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>招待を拒否する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInvites.ui" line="218"/>
         <source>Invite Text</source>
-        <translation type="unfinished"></translation>
+        <translation>招待テキスト</translation>
     </message>
 </context>
 <context>
@@ -1016,12 +1016,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletIsPortOpenTest.ui" line="17"/>
         <source>Net Service Test</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットサービステスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletIsPortOpenTest.ui" line="81"/>
         <source>Test Log:</source>
-        <translation type="unfinished"></translation>
+        <translation>テストログ:</translation>
     </message>
 </context>
 <context>
@@ -1029,27 +1029,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletJoinHostList.ui" line="14"/>
         <source>Test Host Clent</source>
-        <translation type="unfinished"></translation>
+        <translation>テストホストのクレント</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletJoinHostList.ui" line="71"/>
         <source>Host Administrator</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト管理者</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletJoinHostList.ui" line="78"/>
         <source>Show Ignored Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>無視されたホストを表示</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletJoinHostList.ui" line="90"/>
         <source>Choose An Different Host</source>
-        <translation type="unfinished"></translation>
+        <translation>別のホストを選択してください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletJoinHostList.ui" line="97"/>
         <source>Group Host List</source>
-        <translation type="unfinished"></translation>
+        <translation>グループホストリスト</translation>
     </message>
 </context>
 <context>
@@ -1057,7 +1057,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLibrary.ui" line="35"/>
         <source>Library</source>
-        <translation type="unfinished"></translation>
+        <translation>図書館</translation>
     </message>
 </context>
 <context>
@@ -1065,95 +1065,95 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="14"/>
         <source>Log Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ログ設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="100"/>
         <source>Save Log Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ログ設定の保存</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="107"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>キャンセル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="134"/>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="309"/>
         <source>Check All</source>
-        <translation type="unfinished"></translation>
+        <translation>すべてチェックする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="141"/>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="316"/>
         <source>Uncheck All</source>
-        <translation type="unfinished"></translation>
+        <translation>すべてのチェックを外します</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="148"/>
         <source>Log Level Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>ログレベルの設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="160"/>
         <source>Enable Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>ロギングを有効にする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="180"/>
         <source>Log Fatal</source>
-        <translation type="unfinished"></translation>
+        <translation>致命的なログ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="193"/>
         <source>Log Assert</source>
-        <translation type="unfinished"></translation>
+        <translation>ログアサート</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="206"/>
         <source>Log Severe</source>
-        <translation type="unfinished"></translation>
+        <translation>深刻なログ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="219"/>
         <source>Log Error</source>
-        <translation type="unfinished"></translation>
+        <translation>ログエラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="232"/>
         <source>Log Warn</source>
-        <translation type="unfinished"></translation>
+        <translation>ログ警告</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="245"/>
         <source>Log Debug</source>
-        <translation type="unfinished"></translation>
+        <translation>デバッグのログを記録する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="258"/>
         <source>Log Info</source>
-        <translation type="unfinished"></translation>
+        <translation>ログ情報</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="271"/>
         <source>Log Status</source>
-        <translation type="unfinished"></translation>
+        <translation>ログステータス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="284"/>
         <source>Log Verbose</source>
-        <translation type="unfinished"></translation>
+        <translation>詳細なログを記録する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="323"/>
         <source>Log Modules Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>ログモジュールの設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="681"/>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="688"/>
         <source>CheckBox</source>
-        <translation type="unfinished"></translation>
+        <translation>チェックボックス</translation>
     </message>
 </context>
 <context>
@@ -1161,17 +1161,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLog.ui" line="32"/>
         <source>Application Log</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーションログ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLog.ui" line="91"/>
         <source>Show Log Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ログ設定を表示</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLog.ui" line="98"/>
         <source>Show App Info</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリ情報を表示</translation>
     </message>
 </context>
 <context>
@@ -1179,7 +1179,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletMultiMessenger.ui" line="32"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>ダイアログ</translation>
     </message>
 </context>
 <context>
@@ -1187,7 +1187,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkKey.ui" line="20"/>
         <source>Applete Network Key</source>
-        <translation type="unfinished"></translation>
+        <translation>アップルテネットワークキー</translation>
     </message>
 </context>
 <context>
@@ -1195,12 +1195,12 @@
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="610"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="610"/>
         <source>You cannot delete the last network setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>最後のネットワーク設定は削除できません。</translation>
     </message>
 </context>
 <context>
@@ -1208,97 +1208,97 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="14"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="49"/>
         <source>Select Network Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク設定を選択します</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="104"/>
         <source>Save Network Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク設定の保存</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="136"/>
         <source>Delete Network Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク設定の削除</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="147"/>
         <source>Incomming Connections Listen Port:</source>
-        <translation type="unfinished"></translation>
+        <translation>受信接続のリッスン ポート:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="157"/>
         <source>Ramdomize Port</source>
-        <translation type="unfinished"></translation>
+        <translation>ポートのランダム化</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="193"/>
         <source>Use IPv6 Network</source>
-        <translation type="unfinished"></translation>
+        <translation>IPv6ネットワークを使用する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="237"/>
         <source>Network Host URL</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホストURL</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="290"/>
         <source>Network Key</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークキー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="377"/>
         <source>Connection Test Service URL</source>
-        <translation type="unfinished"></translation>
+        <translation>接続テストサービスURL</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="469"/>
         <source>Assume Users Can Connect Directly (Port Is Always Open)</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーが直接接続できると想定します (ポートは常に開いています)。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="429"/>
         <source>Enable UPNP port forward</source>
-        <translation type="unfinished"></translation>
+        <translation>UPNP ポート転送を有効にする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="436"/>
         <source>How To Determine If Can Direct Connect ( Is Port Open? )</source>
-        <translation type="unfinished"></translation>
+        <translation>直接接続できるかどうかを確認する方法 (ポートは開いていますか?)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="462"/>
         <source>Use Connection Test Service To Test Is Port Open (Recommended)</source>
-        <translation type="unfinished"></translation>
+        <translation>接続テスト サービスを使用してポートが開いているかどうかをテストする (推奨)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="487"/>
         <source>External IP</source>
-        <translation type="unfinished"></translation>
+        <translation>外部IP</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="503"/>
         <source>Assume Relay Service Is Required ( Device Is Behind Firewall ).</source>
-        <translation type="unfinished"></translation>
+        <translation>リレー サービスが必要であると仮定します (デバイスはファイアウォールの背後にあります)。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="542"/>
         <source>My URL:</source>
-        <translation type="unfinished"></translation>
+        <translation>私のURL:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="613"/>
         <source>Test Is My Port Open</source>
-        <translation type="unfinished"></translation>
+        <translation>テストはポートが開いていますか</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="620"/>
         <source>Test UPNP</source>
-        <translation type="unfinished"></translation>
+        <translation>UPNP をテストする</translation>
     </message>
 </context>
 <context>
@@ -1306,47 +1306,47 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="23"/>
         <source>Offer Info</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー情報</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="58"/>
         <source>Offer Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーステータス:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="88"/>
         <source>Offer Time:</source>
-        <translation type="unfinished"></translation>
+        <translation>提供時間:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="120"/>
         <source>Offer Message (if any)</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーメッセージ (ある場合)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="138"/>
         <source>Expires</source>
-        <translation type="unfinished"></translation>
+        <translation>有効期限が切れます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="151"/>
         <source>When Offer Response Recieved</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー応答を受け取ったとき</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="160"/>
         <source>File Info</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル情報</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="217"/>
         <source>File Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル名:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="259"/>
         <source>File Size:</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルサイズ:</translation>
     </message>
 </context>
 <context>
@@ -1354,17 +1354,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferList.ui" line="20"/>
         <source>Offer List</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーリスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferList.ui" line="110"/>
         <source>Active Offers</source>
-        <translation type="unfinished"></translation>
+        <translation>アクティブなオファー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferList.ui" line="143"/>
         <source>Offer History</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー履歴</translation>
     </message>
 </context>
 <context>
@@ -1372,42 +1372,42 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="23"/>
         <source>Offer Accept Response</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー承諾応答</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="88"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>ステータス:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="122"/>
         <source>Expires</source>
-        <translation type="unfinished"></translation>
+        <translation>有効期限が切れます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="135"/>
         <source>When Offer Response Recieved</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー応答を受け取ったとき</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="144"/>
         <source>Response</source>
-        <translation type="unfinished"></translation>
+        <translation>応答</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="163"/>
         <source>File Info</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル情報</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="201"/>
         <source>File:</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="243"/>
         <source>Path:</source>
-        <translation type="unfinished"></translation>
+        <translation>パス:</translation>
     </message>
 </context>
 <context>
@@ -1415,42 +1415,42 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="23"/>
         <source>Offer Response</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーの応答</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="88"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>ステータス:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="122"/>
         <source>Expires</source>
-        <translation type="unfinished"></translation>
+        <translation>有効期限が切れます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="135"/>
         <source>When Offer Response Recieved</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー応答を受け取ったとき</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="144"/>
         <source>Response</source>
-        <translation type="unfinished"></translation>
+        <translation>応答</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="163"/>
         <source>File Info</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル情報</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="201"/>
         <source>File:</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="243"/>
         <source>Path:</source>
-        <translation type="unfinished"></translation>
+        <translation>パス:</translation>
     </message>
 </context>
 <context>
@@ -1458,17 +1458,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferSend.ui" line="23"/>
         <source>Offer Send</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー送信</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferSend.ui" line="88"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>ステータス:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferSend.ui" line="120"/>
         <source>Send</source>
-        <translation type="unfinished"></translation>
+        <translation>送信</translation>
     </message>
 </context>
 <context>
@@ -1476,47 +1476,47 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="23"/>
         <source>Offer Details</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーの詳細</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="88"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>ステータス:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="122"/>
         <source>Expires</source>
-        <translation type="unfinished"></translation>
+        <translation>有効期限が切れます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="135"/>
         <source>When Offer Response Recieved</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー応答を受け取ったとき</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="144"/>
         <source>Send</source>
-        <translation type="unfinished"></translation>
+        <translation>送信</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="156"/>
         <source>Response</source>
-        <translation type="unfinished"></translation>
+        <translation>応答</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="175"/>
         <source>File Info</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル情報</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="213"/>
         <source>File:</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="255"/>
         <source>Path:</source>
-        <translation type="unfinished"></translation>
+        <translation>パス:</translation>
     </message>
 </context>
 <context>
@@ -1524,79 +1524,79 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="26"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>ダイアログ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="86"/>
         <source>Age:</source>
-        <translation type="unfinished"></translation>
+        <translation>年齢:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="116"/>
         <source>Gender:</source>
-        <translation type="unfinished"></translation>
+        <translation>性別:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="153"/>
         <source>Preferred Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>好ましいコンテンツ:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="183"/>
         <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>言語:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="258"/>
         <source>Make Friend</source>
-        <translation type="unfinished"></translation>
+        <translation>友達になる</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="297"/>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>無視する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="365"/>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="413"/>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="526"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストラベル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="428"/>
         <source>Set To Administrator Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>管理者権限に設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="441"/>
         <source>Set To Friend Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>友達に設定許可</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="454"/>
         <source>Set To Guest Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>ゲスト権限に設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="467"/>
         <source>Set To Anybody Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>「誰にでも設定」権限</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="480"/>
         <source>Ignore This Person</source>
-        <translation type="unfinished"></translation>
+        <translation>この人を無視する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="569"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="602"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>キャンセル</translation>
     </message>
 </context>
 <context>
@@ -1604,17 +1604,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerReplyOfferFile.ui" line="20"/>
         <source>Offer Session</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーセッション</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerReplyOfferFile.ui" line="123"/>
         <source>Offer A File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを提供する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerReplyOfferFile.ui" line="199"/>
         <source>View Uploads</source>
-        <translation type="unfinished"></translation>
+        <translation>アップロードの表示</translation>
     </message>
 </context>
 <context>
@@ -1622,22 +1622,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerSessionFileOffer.ui" line="20"/>
         <source>Accept File Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルのオファーを受け入れる</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerSessionFileOffer.ui" line="100"/>
         <source>File Transfer</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル転送</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerSessionFileOffer.ui" line="122"/>
         <source>File:</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerSessionFileOffer.ui" line="152"/>
         <source>Progress:</source>
-        <translation type="unfinished"></translation>
+        <translation>進捗状況:</translation>
     </message>
 </context>
 <context>
@@ -1645,7 +1645,7 @@
     <message>
         <location filename="../nolimitgui/src/AppletPeerTodGame.cpp" line="67"/>
         <source>Truth Or Dare Session Ended</source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦かセッションが終了しました</translation>
     </message>
 </context>
 <context>
@@ -1653,17 +1653,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerTodGame.ui" line="20"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>ダイアログ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerTodGame.ui" line="135"/>
         <source>Truth Or Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦か</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerTodGame.ui" line="195"/>
         <source>End Call</source>
-        <translation type="unfinished"></translation>
+        <translation>通話を終了する</translation>
     </message>
 </context>
 <context>
@@ -1671,17 +1671,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVideoPhone.ui" line="20"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>ダイアログ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVideoPhone.ui" line="129"/>
         <source>Video Phone </source>
-        <translation type="unfinished"></translation>
+        <translation>テレビ電話 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVideoPhone.ui" line="189"/>
         <source>End Call</source>
-        <translation type="unfinished"></translation>
+        <translation>通話を終了する</translation>
     </message>
 </context>
 <context>
@@ -1689,27 +1689,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVoicePhone.ui" line="32"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>ダイアログ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVoicePhone.ui" line="151"/>
         <source>Voice Phone </source>
-        <translation type="unfinished"></translation>
+        <translation>音声電話 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVoicePhone.ui" line="211"/>
         <source>End Call</source>
-        <translation type="unfinished"></translation>
+        <translation>通話を終了する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVoicePhone.ui" line="226"/>
         <source>Show Audio In Waveforms</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオを波形で表示</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVoicePhone.ui" line="246"/>
         <source>Show Audio Out Waveform</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ出力波形を表示</translation>
     </message>
 </context>
 <context>
@@ -1717,17 +1717,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPermissionList.ui" line="14"/>
         <source>Permission List</source>
-        <translation type="unfinished"></translation>
+        <translation>権限リスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPermissionList.ui" line="47"/>
         <source>Services Permission List For Convenience</source>
-        <translation type="unfinished"></translation>
+        <translation>便宜上のサービス許可リスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPermissionList.ui" line="60"/>
         <source>Permission Can Also Be Set In The Service Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>アクセス許可はサービス設定でも設定できます</translation>
     </message>
 </context>
 <context>
@@ -1736,7 +1736,7 @@
         <location filename="../nolimitgui/src/Forms/AppletPersonOfferList.ui" line="117"/>
         <location filename="../nolimitgui/src/Forms/AppletPersonOfferList.ui" line="124"/>
         <source>PushButton</source>
-        <translation type="unfinished"></translation>
+        <translation>プッシュボタン</translation>
     </message>
 </context>
 <context>
@@ -1744,7 +1744,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPlayerNlc.ui" line="32"/>
         <source>Applet Player</source>
-        <translation type="unfinished"></translation>
+        <translation>アプレットプレーヤー</translation>
     </message>
 </context>
 <context>
@@ -1752,7 +1752,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPlayerPhoto.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -1760,7 +1760,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPlayerVideo.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -1768,7 +1768,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletRandomConnectJoinSearch.ui" line="20"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>検索</translation>
     </message>
 </context>
 <context>
@@ -1776,12 +1776,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletRandomConnectListLocalView.ui" line="20"/>
         <source>Random Connect Local List</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダム接続ローカルリスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletRandomConnectListLocalView.ui" line="106"/>
         <source>Refresh list of announced hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>発表されたホストのリストを更新する</translation>
     </message>
 </context>
 <context>
@@ -1789,42 +1789,42 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="14"/>
         <source>Applet Service Base Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>アプレットサービスの基本設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="20"/>
         <source>Service Title</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスタイトル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="39"/>
         <source>Apply Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>変更を適用する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="46"/>
         <source>Permission Level Required To Use Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスを使用するために必要な権限レベル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="63"/>
         <source>Optional Image For Detail Information</source>
-        <translation type="unfinished"></translation>
+        <translation>詳細情報のためのオプションの画像</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="80"/>
         <source>Service URL or IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスURLまたはIPアドレス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="94"/>
         <source>Name Of Service (optional), max length 63</source>
-        <translation type="unfinished"></translation>
+        <translation>サービス名 (オプション)、最大長 63</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="108"/>
         <source>Description Of Service (optional), max length 511</source>
-        <translation type="unfinished"></translation>
+        <translation>サービス説明 (オプション)、最大長 511</translation>
     </message>
 </context>
 <context>
@@ -1832,68 +1832,69 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="14"/>
         <source>Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="35"/>
         <source>Service Title</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスタイトル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="48"/>
         <source>Permission Level Required To Use Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスを使用するために必要な権限レベル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="58"/>
         <source>Run Service On Application Startup</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーションの起動時にサービスを実行する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="67"/>
         <source>Start Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスを開始する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="86"/>
         <source>Stop Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスの停止</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="95"/>
         <source>Apply Service Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>サービス設定の適用</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="104"/>
         <source>Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>評価</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="124"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>言語</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="143"/>
         <source>Service URL or IP Address </source>
-        <translation type="unfinished"></translation>
+        <translation>サービスURLまたはIPアドレス </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="157"/>
         <source>Title Of Service ( Optional For Detail Information )</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスのタイトル (詳細情報についてはオプション)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="177"/>
         <source>Comma Delimited Key Words ( Optional For Searches )</source>
-        <translation type="unfinished"></translation>
+        <translation>カンマ区切りのキーワード (検索の場合はオプション)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="191"/>
         <source>Description Of Service ( Optional For Detail Information )
 ( max 511 characters )</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスの説明 (詳細情報についてはオプション)
+(最大511文字)</translation>
     </message>
 </context>
 <context>
@@ -1901,17 +1902,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSettingsHostBase.ui" line="20"/>
         <source>Host Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSettingsHostBase.ui" line="73"/>
         <source>View Hosting Requirements</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスティング要件を表示する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSettingsHostBase.ui" line="80"/>
         <source>View My Host</source>
-        <translation type="unfinished"></translation>
+        <translation>私のホストを見る</translation>
     </message>
 </context>
 <context>
@@ -1919,17 +1920,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSettingsNoUserSettings.ui" line="20"/>
         <source>Offer Session</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーセッション</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSettingsNoUserSettings.ui" line="74"/>
         <source>There Are No User Settings For This Service Except Permission Level</source>
-        <translation type="unfinished"></translation>
+        <translation>このサービスには、許可レベル以外のユーザー設定はありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSettingsNoUserSettings.ui" line="81"/>
         <source>Please vist https://nolimitconnect.com for more information.</source>
-        <translation type="unfinished"></translation>
+        <translation>詳細については、https://nolimitconnect.com をご覧ください。</translation>
     </message>
 </context>
 <context>
@@ -1937,17 +1938,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSnapshot.ui" line="20"/>
         <source>Take Snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>スナップショットを撮る</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSnapshot.ui" line="312"/>
         <source>Take Snap Shot</source>
-        <translation type="unfinished"></translation>
+        <translation>スナップショットを撮る</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSnapshot.ui" line="319"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>完了</translation>
     </message>
 </context>
 <context>
@@ -1955,12 +1956,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSocketList.ui" line="32"/>
         <source>Connected Socket List</source>
-        <translation type="unfinished"></translation>
+        <translation>接続されているソケットのリスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSocketList.ui" line="88"/>
         <source>Copy To Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>クリップボードにコピー</translation>
     </message>
 </context>
 <context>
@@ -1968,112 +1969,112 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="23"/>
         <source>Sound Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>サウンド設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="74"/>
         <source>No AEC Loopback</source>
-        <translation type="unfinished"></translation>
+        <translation>AEC ループバックなし</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="81"/>
         <source>With AEC Loopback</source>
-        <translation type="unfinished"></translation>
+        <translation>AEC ループバックあり</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="104"/>
         <source>Show Audio In Waveforms</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオを波形で表示</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="124"/>
         <source>Show Audio Out Waveform</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ出力波形を表示</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="147"/>
         <source>Show Sound In Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>設定でサウンドを表示</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="154"/>
         <source>Sound Input</source>
-        <translation type="unfinished"></translation>
+        <translation>音声入力</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="175"/>
         <source>Apply Sound In Device As Default</source>
-        <translation type="unfinished"></translation>
+        <translation>デバイスのサウンドをデフォルトとして適用</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="184"/>
         <source>Sound In Device</source>
-        <translation type="unfinished"></translation>
+        <translation>サウンドインデバイス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="211"/>
         <source>Enable AGC ( Automatic Gain Control )</source>
-        <translation type="unfinished"></translation>
+        <translation>AGC (自動ゲイン制御) を有効にする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="222"/>
         <source>Microphone Peak Level: </source>
-        <translation type="unfinished"></translation>
+        <translation>マイクのピークレベル: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="241"/>
         <source>Show Sound Out Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>サウンドアウト設定を表示</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="305"/>
         <source>Generate 400Hz tone for speakers</source>
-        <translation type="unfinished"></translation>
+        <translation>スピーカー用の 400Hz トーンを生成</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="409"/>
         <source>Play Test File</source>
-        <translation type="unfinished"></translation>
+        <translation>テストファイルの再生</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="429"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>ログを表示</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="248"/>
         <source>Sound Output</source>
-        <translation type="unfinished"></translation>
+        <translation>音声出力</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="269"/>
         <source>Apply Sound Out Device As Default</source>
-        <translation type="unfinished"></translation>
+        <translation>サウンドアウトデバイスをデフォルトとして適用</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="278"/>
         <source>Sound Out Device</source>
-        <translation type="unfinished"></translation>
+        <translation>サウンドアウトデバイス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="316"/>
         <source>Test Sound Delay For Echo Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>エコーキャンセルの音の遅延をテストする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="329"/>
         <source>Test result ms:</source>
-        <translation type="unfinished"></translation>
+        <translation>テスト結果ミリ秒:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="356"/>
         <source>Echo delay ms:</source>
-        <translation type="unfinished"></translation>
+        <translation>エコー遅延ミリ秒:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="373"/>
         <source>Save Echo Delay To Echo Canceler</source>
-        <translation type="unfinished"></translation>
+        <translation>エコー遅延をエコーキャンセラーに保存</translation>
     </message>
 </context>
 <context>
@@ -2081,7 +2082,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletStoryBoardClient.ui" line="20"/>
         <source>Edit Storyboard</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーボードの編集</translation>
     </message>
 </context>
 <context>
@@ -2089,27 +2090,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestAndDebug.ui" line="32"/>
         <source>Test And Debug</source>
-        <translation type="unfinished"></translation>
+        <translation>テストとデバッグ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestAndDebug.ui" line="105"/>
         <source>1 minute Host Announce interval (NOT Recommended)</source>
-        <translation type="unfinished"></translation>
+        <translation>1 分間のホストアナウンス間隔 (非推奨)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestAndDebug.ui" line="118"/>
         <source>Allow delete user from database</source>
-        <translation type="unfinished"></translation>
+        <translation>データベースからのユーザーの削除を許可する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestAndDebug.ui" line="244"/>
         <source>Reset Truth Or Dare Count</source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦かカウントをリセット</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestAndDebug.ui" line="269"/>
         <source>4512448476bf2836979cf61b7c88f8fc70099NoLimitNet172.94.58.10345124</source>
-        <translation type="unfinished"></translation>
+        <translation>4512448476bf2836979cf61b7c88f8fc70099NoLimitNet172.94.58.10345124</translation>
     </message>
 </context>
 <context>
@@ -2117,57 +2118,57 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="32"/>
         <source>Test UPNP Port Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>UPNP ポートフォワードのテスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="55"/>
         <source>Test Port Forward IP</source>
-        <translation type="unfinished"></translation>
+        <translation>ポートフォワードIPのテスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="75"/>
         <source>Test Port Forward Port</source>
-        <translation type="unfinished"></translation>
+        <translation>テストポート転送ポート</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="89"/>
         <source>Add Port Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>ポートフォワードの追加</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="96"/>
         <source>Remove Port Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>ポートフォワードの削除</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="107"/>
         <source>List Port Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>リストポートフォワード</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="114"/>
         <source>Copy Log To Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>ログをクリップボードにコピー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="125"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>ログ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="132"/>
         <source>Verbose</source>
-        <translation type="unfinished"></translation>
+        <translation>冗長</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="139"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation>デバッグ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="146"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>エラー</translation>
     </message>
 </context>
 <context>
@@ -2175,7 +2176,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUploads.ui" line="35"/>
         <source>Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>メニュー</translation>
     </message>
 </context>
 <context>
@@ -2183,12 +2184,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserConnections.ui" line="20"/>
         <source>User Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー接続</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserConnections.ui" line="34"/>
         <source>List View Type</source>
-        <translation type="unfinished"></translation>
+        <translation>リストビューのタイプ</translation>
     </message>
 </context>
 <context>
@@ -2196,104 +2197,104 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="20"/>
         <source>User Identity</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーID</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="76"/>
         <source>Delete Account</source>
-        <translation type="unfinished"></translation>
+        <translation>アカウントの削除</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="85"/>
         <source>Online Identity</source>
-        <translation type="unfinished"></translation>
+        <translation>オンラインアイデンティティ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="113"/>
         <source>Select Account</source>
-        <translation type="unfinished"></translation>
+        <translation>アカウントの選択</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="134"/>
         <source>Mood Message: ( Up to 27 characters )</source>
-        <translation type="unfinished"></translation>
+        <translation>ムードメッセージ：（最大27文字）</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="147"/>
         <source>Let&apos;s Communicate!</source>
-        <translation type="unfinished"></translation>
+        <translation>コミュニケーションを取ろう！</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="156"/>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="201"/>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="246"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>申し込む</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="167"/>
         <source>Age:</source>
-        <translation type="unfinished"></translation>
+        <translation>年齢:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="184"/>
         <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>言語:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="212"/>
         <source>Gender:</source>
-        <translation type="unfinished"></translation>
+        <translation>性別:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="229"/>
         <source>Preferred Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>好ましいコンテンツ:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="264"/>
         <source>Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>アバター画像</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="310"/>
         <source>Edit My Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>アバター画像を編集する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="351"/>
         <source>About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>自己紹介ページ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="382"/>
         <source>Edit My About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>自己紹介ページを編集する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="414"/>
         <source>View My About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>私の自己紹介ページを見る</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="430"/>
         <source>Story Board Page (Blog)</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーボードページ (ブログ)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="461"/>
         <source>Edit My Story Board Page</source>
-        <translation type="unfinished"></translation>
+        <translation>マイストーリーボードページの編集</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="493"/>
         <source>View My Story Board Page</source>
-        <translation type="unfinished"></translation>
+        <translation>私のストーリーボードページを見る</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="503"/>
         <source>Create New Account</source>
-        <translation type="unfinished"></translation>
+        <translation>新しいアカウントを作成する</translation>
     </message>
 </context>
 <context>
@@ -2301,62 +2302,62 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="14"/>
         <source>Log Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ログ設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="49"/>
         <source>Save User Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー設定の保存</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="56"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>キャンセル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="81"/>
         <source>Use system player for media instead of NLC player</source>
-        <translation type="unfinished"></translation>
+        <translation>NLC プレーヤーの代わりにシステム プレーヤーをメディアに使用する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="88"/>
         <source>Unattended host (Disable Offers, Messages Etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>無人ホスト (オファー、メッセージなどを無効にする)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="101"/>
         <source>Use 24 hour (military) time format</source>
-        <translation type="unfinished"></translation>
+        <translation>24 時間 (軍事) 時間形式を使用する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="123"/>
         <source>Max Message History Retained</source>
-        <translation type="unfinished"></translation>
+        <translation>保持されるメッセージ履歴の最大数</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="152"/>
         <source>Diable All Sound Effects (Key Click, Notify, Etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>すべてのサウンドエフェクト (キークリック、通知など) を無効にする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="183"/>
         <source>Disable Trash Sound Effect</source>
-        <translation type="unfinished"></translation>
+        <translation>ゴミ箱の効果音を無効にする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="190"/>
         <source>Disable Button Press Sound</source>
-        <translation type="unfinished"></translation>
+        <translation>ボタンを押す音を無効にする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="197"/>
         <source>Dsiable Notify Sound</source>
-        <translation type="unfinished"></translation>
+        <translation>Dsiable通知音</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="204"/>
         <source>Disable Message Received Sound</source>
-        <translation type="unfinished"></translation>
+        <translation>メッセージ受信音を無効にする</translation>
     </message>
 </context>
 <context>
@@ -2364,7 +2365,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AssetFaceWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -2372,7 +2373,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AssetPhotoWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -2380,12 +2381,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AssetTextWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AssetTextWidget.ui" line="369"/>
         <source>Copy Text</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストをコピーする</translation>
     </message>
 </context>
 <context>
@@ -2393,12 +2394,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AssetVideoWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AssetVideoWidget.ui" line="391"/>
         <source>File Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル名:</translation>
     </message>
 </context>
 <context>
@@ -2406,12 +2407,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AssetVoiceWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AssetVoiceWidget.ui" line="341"/>
         <source>File Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル名:</translation>
     </message>
 </context>
 <context>
@@ -2419,7 +2420,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AvatarBarWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -2427,32 +2428,32 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityBrowseFiles.ui" line="23"/>
         <source>Browse Files</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを参照する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityBrowseFiles.ui" line="151"/>
         <source>Move Up A Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>フォルダーを上に移動</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityBrowseFiles.ui" line="183"/>
         <source>Select A Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>フォルダーを選択してください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityBrowseFiles.ui" line="267"/>
         <source>Folder:</source>
-        <translation type="unfinished"></translation>
+        <translation>フォルダー:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityBrowseFiles.ui" line="316"/>
         <source>Double Click File Item to Select The File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル項目をダブルクリックしてファイルを選択します</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityBrowseFiles.ui" line="242"/>
         <source>Add All Files To Library</source>
-        <translation type="unfinished"></translation>
+        <translation>すべてのファイルをライブラリに追加</translation>
     </message>
 </context>
 <context>
@@ -2460,17 +2461,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityDownloadItemMenu.ui" line="14"/>
         <source>Cancel Download</source>
-        <translation type="unfinished"></translation>
+        <translation>ダウンロードのキャンセル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityDownloadItemMenu.ui" line="133"/>
         <source>Recieve File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルの受信</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityDownloadItemMenu.ui" line="154"/>
         <source>File:</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル:</translation>
     </message>
 </context>
 <context>
@@ -2479,7 +2480,7 @@
         <location filename="../nolimitgui/src/Forms/CentralFrame.ui" line="14"/>
         <location filename="../nolimitgui/src/Forms/CentralWidget.ui" line="14"/>
         <source>Frame</source>
-        <translation type="unfinished"></translation>
+        <translation>フレーム</translation>
     </message>
 </context>
 <context>
@@ -2487,7 +2488,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ChatEntryWidget.ui" line="32"/>
         <source>Chat Entry</source>
-        <translation type="unfinished"></translation>
+        <translation>チャットエントリー</translation>
     </message>
 </context>
 <context>
@@ -2496,42 +2497,42 @@
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="23"/>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="113"/>
         <source>Confirm Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>削除の確認</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="157"/>
         <source>X</source>
-        <translation type="unfinished"></translation>
+        <translation>×</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="194"/>
         <source>Click trash can to just remove message from chat history</source>
-        <translation type="unfinished"></translation>
+        <translation>ゴミ箱をクリックしてチャット履歴からメッセージを削除するだけです</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="240"/>
         <source>Remove Message</source>
-        <translation type="unfinished"></translation>
+        <translation>メッセージの削除</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="255"/>
         <source>Click shredder to write random data to the file and PERMENENTLY delete the file</source>
-        <translation type="unfinished"></translation>
+        <translation>シュレッダーをクリックしてランダムなデータをファイルに書き込み、ファイルを完全に削除します</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="301"/>
         <source>Shred File And Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを細断して削除する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="316"/>
         <source>Cancel - Do nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>キャンセル - 何もしません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="362"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>キャンセル</translation>
     </message>
 </context>
 <context>
@@ -2539,57 +2540,57 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="26"/>
         <source>Create New Account</source>
-        <translation type="unfinished"></translation>
+        <translation>新しいアカウントを作成する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="53"/>
         <source>No Registration Required.</source>
-        <translation type="unfinished"></translation>
+        <translation>登録は必要ありません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="66"/>
         <source>Enter A User Name and Log In!</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー名を入力してログインしてください!</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="79"/>
         <source>User Name: (4 to 31 characters)</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー名：（4～31文字）</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="105"/>
         <source>Mood Message: (Up to 31 characters)</source>
-        <translation type="unfinished"></translation>
+        <translation>ムードメッセージ：（最大31文字）</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="118"/>
         <source>Let&apos;s Communicate!</source>
-        <translation type="unfinished"></translation>
+        <translation>コミュニケーションを取ろう！</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="139"/>
         <source>Age</source>
-        <translation type="unfinished"></translation>
+        <translation>年齢</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="162"/>
         <source>Content</source>
-        <translation type="unfinished"></translation>
+        <translation>内容</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="195"/>
         <source>Gender</source>
-        <translation type="unfinished"></translation>
+        <translation>性別</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="218"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>言語</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="243"/>
         <source>Login!</source>
-        <translation type="unfinished"></translation>
+        <translation>ログインしてください！</translation>
     </message>
 </context>
 <context>
@@ -2598,12 +2599,12 @@
         <location filename="../nolimitgui/src/Forms/DialogAddComment.ui" line="23"/>
         <location filename="../nolimitgui/src/Forms/DialogAddComment.ui" line="119"/>
         <source>Add Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>コメントの追加</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogAddComment.ui" line="203"/>
         <source>Optional Add Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>オプションのコメントの追加</translation>
     </message>
 </context>
 <context>
@@ -2612,121 +2613,121 @@
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="20"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="20"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>メインウィンドウ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="97"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="97"/>
         <source>Sound Input</source>
-        <translation type="unfinished"></translation>
+        <translation>音声入力</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="118"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="118"/>
         <source>Apply Sound In Device As Default</source>
-        <translation type="unfinished"></translation>
+        <translation>デバイスのサウンドをデフォルトとして適用</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="127"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="127"/>
         <source>Sound In Device</source>
-        <translation type="unfinished"></translation>
+        <translation>サウンドインデバイス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="146"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="146"/>
         <source>Want Microphone Input</source>
-        <translation type="unfinished"></translation>
+        <translation>マイク入力が必要</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="153"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="153"/>
         <source>Mute Microphone</source>
-        <translation type="unfinished"></translation>
+        <translation>マイクをミュートする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="160"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="160"/>
         <source>Send Microphone Input To Speakers</source>
-        <translation type="unfinished"></translation>
+        <translation>マイク入力をスピーカーに送信</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="169"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="169"/>
         <source>Microphone Input Peak Level</source>
-        <translation type="unfinished"></translation>
+        <translation>マイク入力ピークレベル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="194"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="194"/>
         <source>Sound Output</source>
-        <translation type="unfinished"></translation>
+        <translation>音声出力</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="215"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="215"/>
         <source>Apply Sound Out Device As Default</source>
-        <translation type="unfinished"></translation>
+        <translation>サウンドアウトデバイスをデフォルトとして適用</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="224"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="224"/>
         <source>Sound Out Device</source>
-        <translation type="unfinished"></translation>
+        <translation>サウンドアウトデバイス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="243"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="243"/>
         <source>Want Speaker Output</source>
-        <translation type="unfinished"></translation>
+        <translation>スピーカー出力が欲しい</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="250"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="250"/>
         <source>Mute Speakers</source>
-        <translation type="unfinished"></translation>
+        <translation>スピーカーをミュートにする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="257"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="257"/>
         <source>Generate 400Hz tone Mono Channel PCM </source>
-        <translation type="unfinished"></translation>
+        <translation>400HzトーンモノラルチャンネルPCMを生成 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="266"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="266"/>
         <source>Speaker Output Peak Level</source>
-        <translation type="unfinished"></translation>
+        <translation>スピーカー出力ピークレベル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="282"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="282"/>
         <source> Enable Echo Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation> エコーキャンセルを有効にする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="291"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="291"/>
         <source>Test Sound Delay For Echo Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>エコーキャンセルの音の遅延をテストする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="304"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="304"/>
         <source>Test result ms:</source>
-        <translation type="unfinished"></translation>
+        <translation>テスト結果ミリ秒:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="331"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="331"/>
         <source>Echo delay ms:</source>
-        <translation type="unfinished"></translation>
+        <translation>エコー遅延ミリ秒:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="348"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="348"/>
         <source>Save Echo Delay To Echo Canceler</source>
-        <translation type="unfinished"></translation>
+        <translation>エコー遅延をエコーキャンセラーに保存</translation>
     </message>
 </context>
 <context>
@@ -2734,7 +2735,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileActionBarWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -2742,27 +2743,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileActionMenu.ui" line="17"/>
         <source>Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>メニュー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileActionMenu.ui" line="93"/>
         <source>File Action Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルアクションメニュー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileActionMenu.ui" line="261"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストラベル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileActionMenu.ui" line="281"/>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>サイズ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileActionMenu.ui" line="299"/>
         <source>FilePath</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルパス</translation>
     </message>
 </context>
 <context>
@@ -2770,17 +2771,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileDisplayWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileDisplayWidget.ui" line="107"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストラベル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileDisplayWidget.ui" line="129"/>
         <source>FileSize</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルサイズ</translation>
     </message>
 </context>
 <context>
@@ -2788,32 +2789,32 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileFilterSelectWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileFilterSelectWidget.ui" line="56"/>
         <source>Filter By</source>
-        <translation type="unfinished"></translation>
+        <translation>フィルター条件</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileFilterSelectWidget.ui" line="88"/>
         <source>Video</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileFilterSelectWidget.ui" line="120"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileFilterSelectWidget.ui" line="152"/>
         <source>Image</source>
-        <translation type="unfinished"></translation>
+        <translation>画像</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileFilterSelectWidget.ui" line="184"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>すべて</translation>
     </message>
 </context>
 <context>
@@ -2821,32 +2822,32 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileMediaSelectWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileMediaSelectWidget.ui" line="56"/>
         <source>Add Media</source>
-        <translation type="unfinished"></translation>
+        <translation>メディアの追加</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileMediaSelectWidget.ui" line="88"/>
         <source>Video</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileMediaSelectWidget.ui" line="120"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileMediaSelectWidget.ui" line="152"/>
         <source>Image</source>
-        <translation type="unfinished"></translation>
+        <translation>画像</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileMediaSelectWidget.ui" line="184"/>
         <source>Scan folder for media</source>
-        <translation type="unfinished"></translation>
+        <translation>フォルダーをスキャンしてメディアを探す</translation>
     </message>
 </context>
 <context>
@@ -2854,7 +2855,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityFileSearch.ui" line="17"/>
         <source>Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>メニュー</translation>
     </message>
 </context>
 <context>
@@ -2862,12 +2863,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileShareItemWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileShareItemWidget.ui" line="145"/>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>サイズ</translation>
     </message>
 </context>
 <context>
@@ -2875,27 +2876,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileTypeSelectWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileTypeSelectWidget.ui" line="75"/>
         <source>Video</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileTypeSelectWidget.ui" line="107"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileTypeSelectWidget.ui" line="139"/>
         <source>Image</source>
-        <translation type="unfinished"></translation>
+        <translation>画像</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileTypeSelectWidget.ui" line="171"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>すべて</translation>
     </message>
 </context>
 <context>
@@ -2903,22 +2904,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileViewSharedActionBar.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileViewSharedActionBar.ui" line="87"/>
         <source>Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>ストリーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileViewSharedActionBar.ui" line="119"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>ダウンロード</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileViewSharedActionBar.ui" line="151"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>について</translation>
     </message>
 </context>
 <context>
@@ -2926,17 +2927,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileXferWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileXferWidget.ui" line="155"/>
         <source>FileSize</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルサイズ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileXferWidget.ui" line="202"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>ステータス:</translation>
     </message>
 </context>
 <context>
@@ -2944,48 +2945,49 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="14"/>
         <source>Group Listing Host Service</source>
-        <translation type="unfinished"></translation>
+        <translation>グループリストホストサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="54"/>
         <source>Host Group Listing Service</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストグループリストサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="67"/>
         <source>Start Service When App Is Launched</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリ起動時にサービスを開始する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="74"/>
         <source>Permission Level Required To Use Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスを使用するために必要な権限レベル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="84"/>
         <source>This Service  URL or IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>本サービスのURLまたはIPアドレス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="94"/>
         <source>Name Service</source>
-        <translation type="unfinished"></translation>
+        <translation>ネームサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="104"/>
         <source>Description Of Service  
 ( maximum 512 characters )</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスの説明  
+(最大512文字)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="122"/>
         <source>Start Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスを開始する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="141"/>
         <source>Stop Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスの停止</translation>
     </message>
 </context>
 <context>
@@ -2993,22 +2995,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/GuiFriendRequestWidget.ui" line="37"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiFriendRequestWidget.ui" line="190"/>
         <source>User Details</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーの詳細</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiFriendRequestWidget.ui" line="210"/>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>受け入れる</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiFriendRequestWidget.ui" line="230"/>
         <source>Reject</source>
-        <translation type="unfinished"></translation>
+        <translation>拒否する</translation>
     </message>
 </context>
 <context>
@@ -3016,17 +3018,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/GuiGroupieListItem.ui" line="37"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiGroupieListItem.ui" line="249"/>
         <source>Join</source>
-        <translation type="unfinished"></translation>
+        <translation>参加する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiGroupieListItem.ui" line="269"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>接続する</translation>
     </message>
 </context>
 <context>
@@ -3034,22 +3036,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/GuiHostedListItem.ui" line="264"/>
         <source>Join</source>
-        <translation type="unfinished"></translation>
+        <translation>参加する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiHostedListItem.ui" line="284"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>接続する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiHostedListItem.ui" line="304"/>
         <source>Revoke Join</source>
-        <translation type="unfinished"></translation>
+        <translation>結合の取り消し</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiHostedListItem.ui" line="324"/>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>無視する</translation>
     </message>
 </context>
 <context>
@@ -3057,47 +3059,47 @@
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="32"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>ダイアログ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="129"/>
         <source>Everyone</source>
-        <translation type="unfinished"></translation>
+        <translation>みんな</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="167"/>
         <source>Friends</source>
-        <translation type="unfinished"></translation>
+        <translation>友達</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="205"/>
         <source>Group Members</source>
-        <translation type="unfinished"></translation>
+        <translation>グループメンバー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="243"/>
         <source>Chat Room Members</source>
-        <translation type="unfinished"></translation>
+        <translation>チャットルームのメンバー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="281"/>
         <source>Random Connect Members</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダムコネクトメンバー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="384"/>
         <source>Admin</source>
-        <translation type="unfinished"></translation>
+        <translation>管理者</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="448"/>
         <source>Send To:</source>
-        <translation type="unfinished"></translation>
+        <translation>送信先:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="474"/>
         <source>All Members</source>
-        <translation type="unfinished"></translation>
+        <translation>メンバー全員</translation>
     </message>
 </context>
 <context>
@@ -3105,7 +3107,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/HistoryEntryWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -3113,17 +3115,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/HostJoinRequestListItem.ui" line="37"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/HostJoinRequestListItem.ui" line="273"/>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>受け入れる</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/HostJoinRequestListItem.ui" line="293"/>
         <source>Reject</source>
-        <translation type="unfinished"></translation>
+        <translation>拒否する</translation>
     </message>
 </context>
 <context>
@@ -3131,7 +3133,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ImageListEntry.ui" line="14"/>
         <source>ImageListEntry</source>
-        <translation type="unfinished"></translation>
+        <translation>画像リストエントリ</translation>
     </message>
 </context>
 <context>
@@ -3139,7 +3141,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ImageListRow.ui" line="26"/>
         <source>ImageListRow</source>
-        <translation type="unfinished"></translation>
+        <translation>画像リスト行</translation>
     </message>
 </context>
 <context>
@@ -3147,7 +3149,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ImageListWidget.ui" line="14"/>
         <source>ImageListWidget</source>
-        <translation type="unfinished"></translation>
+        <translation>画像リストウィジェット</translation>
     </message>
 </context>
 <context>
@@ -3155,7 +3157,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ImagePickBar.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -3164,7 +3166,7 @@
         <location filename="../nolimitgui/src/Forms/AppletInformation.ui" line="32"/>
         <location filename="../nolimitgui/src/Forms/AppletInformation.ui" line="121"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>情報</translation>
     </message>
 </context>
 <context>
@@ -3173,7 +3175,7 @@
         <location filename="../nolimitgui/src/Forms/InformationWidget.ui" line="14"/>
         <location filename="../nolimitgui/src/Forms/InformationWidget.ui" line="103"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>情報</translation>
     </message>
 </context>
 <context>
@@ -3181,12 +3183,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InputAllWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InputAllWidget.ui" line="110"/>
         <source>Enter Text</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストを入力してください</translation>
     </message>
 </context>
 <context>
@@ -3194,7 +3196,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InputFaceWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -3202,7 +3204,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InputPhotoWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -3210,7 +3212,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InputTextWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -3218,7 +3220,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InputVideoWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -3226,12 +3228,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InputVoiceWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InputVoiceWidget.ui" line="224"/>
         <source>Click Microphone To Finish Or X To Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>[マイク]をクリックして終了するか、[X]をクリックしてキャンセルします</translation>
     </message>
 </context>
 <context>
@@ -3239,7 +3241,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InstMsgWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -3247,42 +3249,42 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="32"/>
         <source>Create Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>招待の作成</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="53"/>
         <source>Check desired invites</source>
-        <translation type="unfinished"></translation>
+        <translation>希望の招待状にチェックを入れる</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="78"/>
         <source>Personal</source>
-        <translation type="unfinished"></translation>
+        <translation>個人的な</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="116"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>グループ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="154"/>
         <source>Chat Room</source>
-        <translation type="unfinished"></translation>
+        <translation>チャットルーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="192"/>
         <source>Random Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダムコネクト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="230"/>
         <source>Network Settings (Only for network invites)</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク設定 (ネットワーク招待のみ)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="267"/>
         <source>Invite Text</source>
-        <translation type="unfinished"></translation>
+        <translation>招待テキスト</translation>
     </message>
 </context>
 <context>
@@ -3290,17 +3292,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLanguageSelect.ui" line="26"/>
         <source>Create New Account</source>
-        <translation type="unfinished"></translation>
+        <translation>新しいアカウントを作成する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLanguageSelect.ui" line="38"/>
         <source>Select Language.</source>
-        <translation type="unfinished"></translation>
+        <translation>言語を選択します。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLanguageSelect.ui" line="61"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>申し込む</translation>
     </message>
 </context>
 <context>
@@ -3308,7 +3310,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLaunchWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -3316,22 +3318,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/LogWidget.ui" line="20"/>
         <source>Log Widget</source>
-        <translation type="unfinished"></translation>
+        <translation>ログウィジェット</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/LogWidget.ui" line="43"/>
         <source>Verbose Log</source>
-        <translation type="unfinished"></translation>
+        <translation>詳細ログ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/LogWidget.ui" line="50"/>
         <source>Clear Log</source>
-        <translation type="unfinished"></translation>
+        <translation>ログをクリアする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/LogWidget.ui" line="57"/>
         <source>Copy Log To Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>ログをクリップボードにコピー</translation>
     </message>
 </context>
 <context>
@@ -3339,7 +3341,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityMessageBox.ui" line="32"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>ダイアログ</translation>
     </message>
 </context>
 <context>
@@ -3347,62 +3349,62 @@
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="335"/>
         <source>Waiting Phone Answer</source>
-        <translation type="unfinished"></translation>
+        <translation>待機中電話応答</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="338"/>
         <source>Waiting Video Chat Offer Response</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオチャットオファーの応答を待っています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="341"/>
         <source>Waiting Truth Or Dare Offer Response</source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦かオファーの応答を待っています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="357"/>
         <source>Please Answer Phone</source>
-        <translation type="unfinished"></translation>
+        <translation>電話に出てください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="360"/>
         <source>Video Chat Offer Available</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオチャットオファーが利用可能</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="363"/>
         <source>Truth Or Dare Offer Available</source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦かオファーが利用可能</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="414"/>
         <source>Phone Connected</source>
-        <translation type="unfinished"></translation>
+        <translation>電話が接続されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="420"/>
         <source>In Video Chat Session</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオチャットセッション中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="426"/>
         <source>In Truth Or Dare Session</source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦かセッション</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="449"/>
         <source>Phone Offer Rejected</source>
-        <translation type="unfinished"></translation>
+        <translation>電話の申し出が拒否されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="452"/>
         <source>Video Chat Offer Rejected</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオチャットのオファーが拒否されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="455"/>
         <source>Truth Or Dare Offer Rejected</source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦かというオファーは拒否されました</translation>
     </message>
 </context>
 <context>
@@ -3410,48 +3412,49 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="14"/>
         <source>Network Host Service</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホストサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="54"/>
         <source>Network Host  Service</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホストサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="67"/>
         <source>Start Service When App Is Launched</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリ起動時にサービスを開始する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="74"/>
         <source>Permission Level Required To Use Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスを使用するために必要な権限レベル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="84"/>
         <source>This Service  URL or IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>本サービスのURLまたはIPアドレス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="94"/>
         <source>Name Service</source>
-        <translation type="unfinished"></translation>
+        <translation>ネームサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="104"/>
         <source>Description Of Service  
 ( maximum 512 characters )</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスの説明  
+(最大512文字)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="122"/>
         <source>Start Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスを開始する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="141"/>
         <source>Stop Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスの停止</translation>
     </message>
 </context>
 <context>
@@ -3459,37 +3462,37 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkTest.ui" line="17"/>
         <source>Connection Test</source>
-        <translation type="unfinished"></translation>
+        <translation>接続テスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkTest.ui" line="110"/>
         <source>Network Test Log:</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークテストログ:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkTest.ui" line="117"/>
         <source>Run Full Network Test</source>
-        <translation type="unfinished"></translation>
+        <translation>完全なネットワーク テストを実行する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkTest.ui" line="127"/>
         <source>Verbose Test Log</source>
-        <translation type="unfinished"></translation>
+        <translation>詳細なテストログ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkTest.ui" line="134"/>
         <source>Network Test</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークテスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkTest.ui" line="141"/>
         <source>Is My Port Open</source>
-        <translation type="unfinished"></translation>
+        <translation>ポートは開いていますか</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkTest.ui" line="148"/>
         <source>What Is My IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>私のIPアドレスは何ですか</translation>
     </message>
 </context>
 <context>
@@ -3497,12 +3500,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkStartupTest.ui" line="17"/>
         <source>Connection Test</source>
-        <translation type="unfinished"></translation>
+        <translation>接続テスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkStartupTest.ui" line="93"/>
         <source>Network Test Log:</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークテストログ:</translation>
     </message>
 </context>
 <context>
@@ -3510,48 +3513,49 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="14"/>
         <source>NoLimitConnect Network Host</source>
-        <translation type="unfinished"></translation>
+        <translation>NoLimitConnect ネットワークホスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="54"/>
         <source>Host A NoLimitConnect Network ( Global Network Service )</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト A NoLimitConnect ネットワーク (グローバル ネットワーク サービス)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="67"/>
         <source>Start Service When App Is Launched</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリ起動時にサービスを開始する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="74"/>
         <source>Permission Level Required To Use Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスを使用するために必要な権限レベル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="84"/>
         <source>This NoLimitConnect Network URL or IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>この NoLimitConnect ネットワーク URL または IP アドレス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="94"/>
         <source>Name Of NoLimitConnect Network</source>
-        <translation type="unfinished"></translation>
+        <translation>NoLimitConnect ネットワークの名前</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="104"/>
         <source>Description Of NoLimitConnect Network 
 ( maximum 512 characters )</source>
-        <translation type="unfinished"></translation>
+        <translation>NoLimitConnect ネットワークの説明 
+(最大512文字)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="122"/>
         <source>Start NoLimitConnect Network Service</source>
-        <translation type="unfinished"></translation>
+        <translation>NoLimitConnectネットワークサービスを開始する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="141"/>
         <source>Stop NoLimitConnect Network Service</source>
-        <translation type="unfinished"></translation>
+        <translation>NoLimitConnect ネットワーク サービスを停止する</translation>
     </message>
 </context>
 <context>
@@ -3560,27 +3564,27 @@
         <location filename="../nolimitgui/src/Forms/OfferBarWidget.ui" line="241"/>
         <location filename="../nolimitgui/src/Forms/OfferBarWidget.ui" line="335"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストラベル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferBarWidget.ui" line="254"/>
         <source> - </source>
-        <translation type="unfinished"></translation>
+        <translation> - </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferBarWidget.ui" line="267"/>
         <source>Guest</source>
-        <translation type="unfinished"></translation>
+        <translation>ゲスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferBarWidget.ui" line="303"/>
         <source>Missed Calls -</source>
-        <translation type="unfinished"></translation>
+        <translation>不在着信 -</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferBarWidget.ui" line="316"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
 </context>
 <context>
@@ -3588,27 +3592,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/OfferSendWidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferSendWidget.ui" line="104"/>
         <source>Offer Expires</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーの有効期限が切れます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferSendWidget.ui" line="137"/>
         <source>Offer Message (Optional):</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーメッセージ (オプション):</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferSendWidget.ui" line="234"/>
         <source>Send Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーを送信する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferSendWidget.ui" line="275"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>キャンセル</translation>
     </message>
 </context>
 <context>
@@ -3616,12 +3620,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/PermissionListItemWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PermissionListItemWidget.ui" line="136"/>
         <source>Permission:</source>
-        <translation type="unfinished"></translation>
+        <translation>許可:</translation>
     </message>
 </context>
 <context>
@@ -3629,12 +3633,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/PermissionWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PermissionWidget.ui" line="113"/>
         <source>Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>許可</translation>
     </message>
 </context>
 <context>
@@ -3642,17 +3646,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/PersonOfferListItem.ui" line="37"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PersonOfferListItem.ui" line="233"/>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>受け入れる</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PersonOfferListItem.ui" line="271"/>
         <source>Block</source>
-        <translation type="unfinished"></translation>
+        <translation>ブロック</translation>
     </message>
 </context>
 <context>
@@ -3660,7 +3664,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityPersonalRecorder.ui" line="26"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>ダイアログ</translation>
     </message>
 </context>
 <context>
@@ -3668,7 +3672,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPersonalRecorder.ui" line="32"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>ダイアログ</translation>
     </message>
 </context>
 <context>
@@ -3676,17 +3680,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityPhoneShake.ui" line="14"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>検索</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityPhoneShake.ui" line="95"/>
         <source>Shake Phone At Same Time As Friend To Get Connected</source>
-        <translation type="unfinished"></translation>
+        <translation>友達と同時に電話をシェイクして接続する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityPhoneShake.ui" line="111"/>
         <source>Simulate Phone Shake</source>
-        <translation type="unfinished"></translation>
+        <translation>電話の揺れをシミュレートする</translation>
     </message>
 </context>
 <context>
@@ -3694,72 +3698,72 @@
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="20"/>
         <source>Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="49"/>
         <source>Start Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスを開始する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="68"/>
         <source>Stop Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスの停止</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="77"/>
         <source>Apply Host Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト設定の適用</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="87"/>
         <source>Run service when application is started.</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーションの起動時にサービスを実行します。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="96"/>
         <source>Age</source>
-        <translation type="unfinished"></translation>
+        <translation>年齢</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="116"/>
         <source>Content Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>コンテンツのレーティング</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="140"/>
         <source>Gender:</source>
-        <translation type="unfinished"></translation>
+        <translation>性別:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="157"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>言語</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="176"/>
         <source>Service URL or IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスURLまたはIPアドレス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="190"/>
         <source>Title Of Service (Required)</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスタイトル (必須)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="204"/>
         <source>Description Of Service (Optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスの説明 (オプション)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="224"/>
         <source>Greeting When Joined (Optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>入社時の挨拶（任意）</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="241"/>
         <source>Message If Rejected (Optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>拒否された場合のメッセージ (オプション)</translation>
     </message>
 </context>
 <context>
@@ -3767,134 +3771,137 @@
     <message>
         <location filename="../nolimitgui/src/GuiThreadMainLoader.cpp" line="58"/>
         <source>No Writable Location for user data</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーデータの書き込み可能な場所がありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThreadMainLoader.cpp" line="59"/>
         <source>No location found to store user data.
  Application will exit</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーデータを保存する場所が見つかりません。
+ アプリケーションが終了します</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityBase.cpp" line="416"/>
         <source>Session End Message</source>
-        <translation type="unfinished"></translation>
+        <translation>セッション終了メッセージ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2532"/>
         <source>Confirm Shred File</source>
-        <translation type="unfinished"></translation>
+        <translation>細断ファイルの確認</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2532"/>
         <source>Confirm Delete File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル削除の確認</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="470"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2536"/>
         <source>Are You Sure You Want To Write Random Data Into The File Then Delete From The Device?</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダムなデータをファイルに書き込んでからデバイスから削除してもよろしいですか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="474"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2540"/>
         <source>Are You Sure To Delete The File From The Device?</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルをデバイスから削除してもよろしいですか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityBrowseFiles.cpp" line="49"/>
         <location filename="../nolimitgui/src/AppletBrowseFiles.cpp" line="45"/>
         <source>Browse Device Files</source>
-        <translation type="unfinished"></translation>
+        <translation>デバイスファイルの参照</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityBrowseFiles.cpp" line="323"/>
         <location filename="../nolimitgui/src/AppletBrowseFiles.cpp" line="322"/>
         <source>Confirm add all Files to library</source>
-        <translation type="unfinished"></translation>
+        <translation>すべてのファイルをライブラリに追加することを確認します</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityBrowseFiles.cpp" line="324"/>
         <location filename="../nolimitgui/src/AppletBrowseFiles.cpp" line="323"/>
         <source>Do you want to add All the files in the list to the library?</source>
-        <translation type="unfinished"></translation>
+        <translation>リスト内のすべてのファイルをライブラリに追加しますか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityBrowseFiles.cpp" line="658"/>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="562"/>
         <source>Storage Space Available: </source>
-        <translation type="unfinished"></translation>
+        <translation>利用可能なストレージ容量: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="241"/>
         <source>Create Account</source>
-        <translation type="unfinished"></translation>
+        <translation>アカウントの作成</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="84"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1422"/>
         <source>Application</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーション</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="84"/>
         <source>Insert New User into Database failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>新しいユーザーをデータベースに挿入できませんでした。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="114"/>
         <source>Create an account or exit</source>
-        <translation type="unfinished"></translation>
+        <translation>アカウントを作成するか終了してください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="115"/>
         <source>User must create an account or exit
 Do you want to exit the application?</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーはアカウントを作成するか、終了する必要があります
+アプリケーションを終了しますか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityDownloadItemMenu.cpp" line="32"/>
         <source>Download Item Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>ダウンロードアイテムメニュー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityFileSearch.cpp" line="29"/>
         <source>File Search</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル検索</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityGenerateHash.cpp" line="47"/>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="376"/>
         <source>Generate Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>ハッシュの生成</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityGenerateHash.cpp" line="48"/>
         <source>Please wait while hash is generated.
 This message will disappear when generate hash is completed.</source>
-        <translation type="unfinished"></translation>
+        <translation>ハッシュが生成されるまでお待ちください。
+ハッシュの生成が完了すると、このメッセージは消えます。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="145"/>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="48"/>
         <location filename="../nolimitgui/src/AssetTextWidget.cpp" line="221"/>
         <source>Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>クリップボード</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="145"/>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="48"/>
         <location filename="../nolimitgui/src/AssetTextWidget.cpp" line="221"/>
         <source>Text was copied to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストがクリップボードにコピーされました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="113"/>
         <source>No Information is localy available. please visit https://nolimitconnect.com for latest infomation and help</source>
-        <translation type="unfinished"></translation>
+        <translation>現地で入手可能な情報はありません。最新情報とヘルプについては、https://nolimitconnect.com にアクセスしてください。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="115"/>
@@ -3936,7 +3943,41 @@ Person To Person and Person To Host Members And Friends services
 
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== ネットワーク設計 ===
+注: ポート転送機能を備えた VPN をお勧めします。
+1.) オープンポートはホスティングに必要であり、ユーザー間の直接接続に推奨されます。
+2.) 別のネットワークをホストする予定がある場合は、固定アドレスを持つ VPN をお勧めします。
+Pure VPN は、アドイン機能の有料としてポート転送と固定 IP アドレスを備えた VPN です。
+ *ユーザー ホスト リスト サービス: ユーザーが接続し、検索または参加するためのグループ、チャット ルーム、ランダム接続ホストとそのアドレスのリストを提供します。
+ *接続テスト サービス: デバイスが Web IP アドレスを検出し、直接接続用に開いているポートがあるか、リレー サービスが必要かどうかを確認するためのサービス*。
+
+=== 階層 1: NOLIMITCONNECT ネットワーク ホスト サービス* ===
+注: このサービスには、固定 IP アドレスまたは http://www.nolimitconnect.net のような DNS URL が必要です。
+必要なサービス* と推奨される許可レベル*
+ NOLIMITCONNECT ネットワーク サービス - 誰でも
+ 接続テストサービス - 誰でも
+
+=== 階層 2: ユーザーがホストするサービス* ===
+注: ユーザーはホスティングを提供するためにポートを要求し、開く必要があります
+ グループホスティング - グループのメンバーに通信サービスを提供します
+ チャット ルーム ホスティング - メンバーにチャット ルームを提供します
+ ランダム接続ホスティング - 誰でも誰にでも接続できる方法を提供します (誰にでもアクセス許可レベルを推奨)
+
+=== 階層 3: 個人間サービス* ===
+ 開いているポートで直接接続できる友人は、通信が高速になり、ホストの負荷が少なくなります。
+ 直接接続できないホストは、接続されているホストをリレーとして使用します。
+ リレーを使用する場合、ユーザーは、メンバーがホストに接続されている間のみ、ホストの別のメンバーと通信できます。
+
+個人対個人および個人対ホストメンバーおよび友人サービス
+ *ページサービスについて - ホストまたは人物に関する情報ページを提供します。
+ *CAM ストリーム サービス: ホストまたはユーザーは、デバイスのカメラまたはカムからストリーミング ビデオをライブで提供できます。
+ *ファイル共有プラグイン: ユーザーまたはホストの他のユーザーとのファイル共有を提供します。
+ *ファイル転送プラグイン: ユーザーに他の人へのファイル転送を提供します。
+ *PUSH TO TALK プラグイン: ボタンを 1 つ押して話すだけでユーザーに音声通信を提供します。
+ *ストーリーボードページサービス - ホストまたは個人が他の人が閲覧/閲覧できるように投稿できるブログのようなページを提供します。
+ *真実か挑戦かプラグイン: 個人間の真実か挑戦のビデオチャットゲームを提供します
+ *ビデオ チャット プラグイン: NoLimitConnect アプリとインターネットを使用して、ユーザーに他のユーザーにビデオ チャットを提供します。
+ *音声電話プラグイン: NoLimitConnect アプリとインターネットを使用して、ユーザーに他のユーザーへの音声電話通話を提供します。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="156"/>
@@ -3959,7 +4000,23 @@ DEFINITIONS:
  *VIDEO CHAT PLUGIN: Provides user video chat to others using the NoLimitConnect app and internet.
  *VOICE PHONE PLUGIN: Provides user with voice phone calling to others using the NoLimitConnect app and internet.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>定義:
+ *ページサービスについて - ホストまたは人物に関する情報ページを提供します。
+ *CAM ストリーム サービス: ホストまたはユーザーは、デバイスのカメラまたはカムからストリーミング ビデオをライブで提供できます。
+ *チャットルームホストサービス：グループベースのテキストチャットサービスを提供します。
+ *接続テストサービス: ユーザーのIPアドレスを確認し、ポートが開いているか、リレーが必要かを判断するための接続テストをユーザーに提供します。
+ ※グループホストサービス：グループホストに参加したメンバーに接続サービス等を提供します。
+ *ファイル共有プラグイン: ユーザーまたはホストの他のユーザーとのファイル共有を提供します。
+ *ファイル転送プラグイン: ユーザーに他の人へのファイル転送を提供します。
+ *ネットワーク ホスト サービス: 参加するホストを検索するためのホスト リストをユーザーに提供します。
+ *許可レベル: サービスの使用または人との接続を許可するには、友好度レベルが必要です。
+ *PUSH TO TALK プラグイン: ボタンを 1 つ押して話すだけでユーザーに音声通信を提供します。
+ *ランダム接続ホストサービス: 他のユーザーと通信するために参加するユーザーを提供します。
+ *検索およびスキャンサービス: 必要な検索基準、サービス、ストリーム、またはファイルを備えた既知の人物のリストをユーザーに提供します。
+ *ストーリーボードページサービス - ホストまたは個人が他の人が閲覧/閲覧できるように投稿できるブログのようなページを提供します。
+ *真実か挑戦かプラグイン: 個人間の真実か挑戦のビデオチャットゲームを提供します
+ *ビデオ チャット プラグイン: NoLimitConnect アプリとインターネットを使用して、ユーザーに他のユーザーにビデオ チャットを提供します。
+ *音声電話プラグイン: NoLimitConnect アプリとインターネットを使用して、ユーザーに他のユーザーへの音声電話通話を提供します。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="177"/>
@@ -3991,7 +4048,32 @@ DEFINITIONS:
  This permission level when applied to a plugin or service means that the plugin or sevice will be completely disabled and nobody can access that plugin or service.
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== 許可レベル ===
+ 権限レベルは、プラグインにアクセスするために必要な権限レベル、またはその人がアクセスできる内容を制御するために別の人に付与される権限レベルを設定するために使用されます。
+
+ 注 1: グループに参加すると、そのグループの他のメンバーにはゲスト権限レベルが自動的に付与され、必要に応じて個々のユーザーに高い権限レベルを付与できます。
+
+ 注 2: デバイスを RANDOM CONNECT CONNECT モードにすると、RANDOM CONNECT CONNECT モードにある他のデバイスにはゲスト権限レベルが自動的に付与され、必要に応じて個々のユーザーに高い権限レベルを付与できます。
+
+=== 管理者の許可 ===
+ これは最高レベルの許可です。
+ この権限レベルを付与されたユーザーは、権限レベル「管理者」、「友人」、「ゲスト」、または「誰でも」に設定されたプラグインまたはサービスにアクセスできます。
+ 使用例としては、Web カメラ ストリーム サービスを、自分だけがアクセスできる乳母カメラまたはセキュリティ カメラとして設定する場合が挙げられます。 Web カメラ サービスを管理者権限レベルに設定し、自分の管理者権限レベルのみを付与します。
+
+=== 友達の許可 ===
+ この権限レベルを付与されたユーザーは、権限レベルが「友達」、「ゲスト」、または「誰でも」に設定されているプラグインまたはサービスにアクセスできます。
+ 使用例としては、参加しているグループの他のメンバーがあなたにメッセージを送ったり、自己紹介ページを閲覧したりできるが、共有ファイルにはアクセスできないようにしたい場合などが挙げられます。ファイル共有サービスをフレンド (またはそれ以上) のアクセス許可レベルに設定し、メッセンジャーとアバウト ページのアクセス許可をゲスト レベルに設定します。
+
+=== ゲストの許可 ===
+ この権限レベルを付与されたユーザーは、権限レベルが「ゲスト」または「誰でも」に設定されているプラグインまたはサービスにアクセスできます。
+ 使用例としては、グループのメンバーでない場合でもゲスト権限を付与することが挙げられます。
+
+=== 誰でも許可 ===
+ この権限により、接続できるすべてのユーザーに、このレベルに設定されたプラグインまたはサービスへのアクセスが許可されます。使用例としては、STORY BOARD サービスを誰でもに設定して、誰でもストーリーを閲覧できるようにすることが挙げられます。
+
+=== 誰も (無効または無視) 許可 ===
+ この権限レベルを人に適用すると、その人は無視され、サービスやプラグインにアクセスできなくなります。
+ この権限レベルをプラグインまたはサービスに適用すると、プラグインまたはサービスが完全に無効になり、誰もそのプラグインまたはサービスにアクセスできなくなります。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="223"/>
@@ -4003,7 +4085,14 @@ A private network can be hosted/connected to without changing the network key, h
 
 
 Use of a VPN is recommended to improve your privacy.</source>
-        <translation type="unfinished"></translation>
+        <translation>=== ネットワークキー ===
+ネットワーク キーは、ユーザー データ ネットワークの暗号化に使用されるテキスト文字列です。
+ネットワーク キーは、NoLimitConnect とは別のプライベート ネットワークに接続またはホストしている場合にのみ変更する必要があります。
+ネットワーク キーが変更されると、パブリック NoLimitConnect ネットワークに接続できなくなります。
+ネットワーク キーを変更せずにプライベート ネットワークをホスト/接続できますが、ネットワーク キーを変更すると、NoLimitConnect が提供する最高のプライバシーが得られます。
+
+
+プライバシーを向上させるために、VPN の使用をお勧めします。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="235"/>
@@ -4022,7 +4111,20 @@ NOTE 1: The network host IP port is normally 45124 but can be any open port.
 NOTE 2: The network host address must eitehr be a fixed/static IP or be a URL
  that can be resolved to a IP using DNS ( Domain Name Service ).
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== ネットワークホスト ===
+ネットワーク ホストは、PtoP ネットワークのグループ ホスト リストと接続テスト サービスを提供します。
+ネットワーク ホスト URL は、NoLimitConnect とは別のプライベート ネットワークに接続またはホストしている場合にのみ変更する必要があります。
+ネットワーク ホスト URL は 2 つの形式のいずれかになります。
+
+ホストの Web 名とポートを使用した形式 1
+ 例 1 ptop://www.nolimitconnect.net:45124
+
+ホストの外部 IP アドレスとポートを使用する形式 2
+ 例 2 ptop://111.122.133.144:45124
+
+注 1: ネットワーク ホストの IP ポートは通常 45124 ですが、開いている任意のポートにすることができます。
+注 2: ネットワーク ホスト アドレスは、固定/静的 IP または URL である必要があります。
+ DNS (ドメイン ネーム サービス) を使用して IP に解決できます。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="252"/>
@@ -4039,7 +4141,17 @@ Format 2 using host external IP Adrress and port
  Example 2 ptop://111.122.133.144:45124
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== 接続テストURL ===
+接続テスト サービスは、デバイスのポートが開いているかどうかをテストするサービスを提供します。
+ポートが開いている場合、他の人があなたのデバイスに直接接続できます。
+ポートが開いていると、可能な限り最高の接続速度とデータ転送速度が得られます。
+ポートがブロックされると、デバイスはリレー サービスを使用する必要があり、速度と可能な接続数が大幅に制限されます。
+
+ホストの Web 名とポートを使用した形式 1
+ 例 1 ptop://www.nolimitconnect.net:45124
+
+ホストの外部 IP アドレスとポートを使用する形式 2
+ 例 2 ptop://111.122.133.144:45124</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="267"/>
@@ -4068,7 +4180,28 @@ It will bypass testing your connection
 
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== UPNP チェックボックスを有効にする ===
+有効にすると、UPNP プロトコルを使用してデバイスへのポートを開こうとします。
+UPNP は Hide.me VPN とうまく連携します
+ポート転送を備えた VPN を使用していない場合は、ルーターでポート転送を構成してみてください。
+ルーターのファームウェアにはさまざまな実装があるため、ポートを開くのに成功するのはまれです。  
+ポートをデバイスに転送する方法については、ルーター固有の手順を参照するか、次のサイトにアクセスしてください。
+https://www.wikihow.com/Open-Ports
+
+=== 接続テストの設定 ===
+
+オプション 1 - 接続テスト サービスを使用します。
+これは、外部 IP アドレスを決定する最も信頼性が高く、推奨される方法です。
+デバイスのポートが開いているかどうかを確認します。
+
+オプション 2 - 外部 IP アドレスを指定し、ポートが開いていると想定します。
+この設定は、固定 IP アドレスがある場合にのみ推奨されます。
+IP アドレスは、インターネット サービス プロバイダーの都合により変更される場合があります。
+「私の IP アドレスは何ですか」と Google 検索すると、自分の IP アドレスを確認できます。
+
+オプション 3 - デバイスのポートがブロックされていると常に想定します。
+このオプションは、常にモバイル データ サービスを使用し、VPN を使用しないユーザーにのみ推奨されます。
+接続のテストをバイパスします</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="292"/>
@@ -4078,7 +4211,11 @@ The person listed could be anyone in the world also using the random connect fea
 Random connect works by listing persons who pressed the random connect button.
 Within 20 seconds of the random connect button press.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== ランダム接続サービス URL ===
+ランダム接続機能を利用して2人をリストアップ・接続するサービスを提供します。
+リストされている人物は、ランダム接続機能を使用している世界中の誰でも構いません。
+ランダム接続は、ランダム接続ボタンを押した人をリストすることによって機能します。
+ランダム接続ボタンを押してから 20 秒以内。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="300"/>
@@ -4087,7 +4224,10 @@ No Limit Connect will attempt to connect the this group
 When Log In is completed.
 If connect fails or no url is provided then you can search for a Group to join
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== デフォルトのグループホスト URL ===
+No Limit Connect はこのグループへの接続を試みます
+ログインが完了すると。
+接続が失敗した場合、または URL が指定されていない場合は、参加するグループを検索できます。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="307"/>
@@ -4096,7 +4236,10 @@ No Limit Connect will attempt to connect the this Chat Room
 When Log In is completed.
 If connect fails or no url is provided then you can search for a Chat Room to join
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== デフォルトのチャット ルーム ホスト URL ===
+No Limit Connect はこのチャット ルームへの接続を試みます
+ログインが完了すると。
+接続に失敗した場合、または URL が提供されていない場合は、チャット ルームを検索して参加できます。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="314"/>
@@ -4110,7 +4253,15 @@ The Network Key is NOT part of a Invite
 Warning: If accepting a network host be sure you have the correct network key before saving the network settings
 If you do not have the correct network key you will get banned as a hacker
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== ネットワーク設定の招待 ===
+ネットワーク ホスト URL を変更するネットワーク設定の招待を受け入れることにより、次のようになります。
+ユーザーは No Limit Connect ネットワークに接続できなくなります。
+ネットワーク ホスト URL とネットワーク キーは、次の場合にのみ変更してください。
+プライベート ネットワーク ホスト サーバーを備えたプライベート ネットワーク
+ネットワーク キーは招待の一部ではありません
+
+警告: ネットワーク ホストを受け入れる場合は、ネットワーク設定を保存する前に、正しいネットワーク キーがあることを確認してください。
+正しいネットワークキーを持っていない場合、ハッカーとして禁止されます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="342"/>
@@ -4122,7 +4273,13 @@ The author of No Limit Connect uses https://hide.me VPN because:
 3. hide.me has a free version but is relatively inexpensive to buy.
 Articles about port forwarding can be found by search engine or at https://www.jguru.com/vpn-port-forwarding 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== ホスティング要件 ホスティング サービスのいずれか チャット ルーム、グループ、ランダム接続 ===
+ネットワーク設定で指定したリッスン ポートをポート転送する必要があります。
+No Limit Connect の作成者は、次の理由から https://hide.me VPN を使用しています。
+1. hide.me は、No Limit Connect が自動的にポートを開くことができる UPNP プロトコルを理解します。
+2. hide.me は、Windows、Linux、Android、Raspberry Pi など、ほとんどすべての OS にインストールできます。
+3. hide.me には無料版がありますが、比較的安価に購入できます。
+ポート転送に関する記事は、検索エンジンまたは https://www.jguru.com/vpn-port-forwarding で見つけることができます。 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="357"/>
@@ -4133,7 +4290,12 @@ The limit is applied for the total messages recieved in chat room.
 The limit removes the message from history but does NOT delete any files such as photos and videos etc.
 To delete files recieved from a user you can delete them using the Library Applet.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== 最大メッセージ履歴 ===
+保存されるメッセージ履歴を、指定された最大メッセージ履歴に制限します。
+制限はメッセンジャーのユーザーごとに適用されます。
+この制限は、チャット ルームで受信するメッセージの総数に適用されます。
+この制限によりメッセージは履歴から削除されますが、写真やビデオなどのファイルは削除されません。
+ユーザーから受け取ったファイルを削除するには、ライブラリ アプレットを使用してファイルを削除できます。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="366"/>
@@ -4144,7 +4306,12 @@ IPv6 Protocol is different from IPv4 and a connection from IPv6 to IPv4 is not i
 If you choose IPv6 then the Network Host and Connection Test Host must also be IPv6 enabled.
 This means the host listing on the IPv6 network might not have the same hosts listed as the IPv4 network.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== IPv6 と IPv4 ===
+IPv4 最大アドレス 4,294,967,296 (2^32)
+IPv6 最大アドレス 340,282,366,920,938,463,463,374,607,431,768,211,456 (2^128)
+IPv6 プロトコルは IPv4 とは異なり、IPv6 から IPv4 への接続はプロトコルに含まれていません。
+IPv6 を選択した場合は、ネットワーク ホストと接続テスト ホストも IPv6 を有効にする必要があります。
+これは、IPv6 ネットワーク上のホストのリストには、IPv4 ネットワークと同じホストがリストされていない可能性があることを意味します。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="375"/>
@@ -4152,7 +4319,8 @@ This means the host listing on the IPv6 network might not have the same hosts li
  Friend request is a way for someone you do not know to request friendship or request to join your host. Friend request is defaulted to Anonymous permission level, however, to avoid any requests by people you . do not know you can set it to disabled .
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== 友達リクエスト ===
+ フレンドリクエストは、知らない人がフレンドシップをリクエストしたり、ホストへの参加をリクエストしたりする方法です。ただし、友達リクエストはデフォルトで匿名のアクセス許可レベルに設定されており、自分が作成したユーザーからのリクエストを避けることができます。それを無効に設定できるかどうかはわかりません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="384"/>
@@ -4163,14 +4331,19 @@ In the case of a personal invites a user can directly connect to another user wi
 If user is a friend with open port a attempt to reconnect will occur even after restart
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== 招待とは ===
+招待は、!Invite! で始まるテキストです。通常は電子メールまたはテキスト メッセージで送信されます
+招待により、ユーザーはホストやプライベート ネットワークに参加できます。
+個人的な招待の場合、ユーザーはホストに参加せずに別のユーザーに直接接続できます。
+ユーザーがポートを開いている友人である場合、再起動後でも再接続が試行されます。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="325"/>
         <source>=== Friends List ===
 A list showing users set to friend or administrator permission level.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== 友達リスト ===
+フレンドまたは管理者のアクセス許可レベルに設定されているユーザーを示すリスト。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="330"/>
@@ -4178,7 +4351,9 @@ A list showing users set to friend or administrator permission level.
 A list showing ignored (blocked) users.
 You can unblock a user by clicking the friendship icon or select Change Friendship from the menu button on right side of list entry.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== 無視されるリスト ===
+無視された (ブロックされた) ユーザーを示すリスト。
+ユーザーのブロックを解除するには、友情アイコンをクリックするか、リスト エントリの右側にあるメニュー ボタンから「友情の変更」を選択します。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="336"/>
@@ -4186,52 +4361,55 @@ You can unblock a user by clicking the friendship icon or select Change Friendsh
 A list showing offline friends and admins.
 You can change friendship even when offline (Set to anonymouse or guest so network no longer tries to stay connected).
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== オフラインの友達リスト ===
+オフラインの友達と管理者を示すリスト。
+オフラインでも友情を変更できます (匿名またはゲストに設定すると、ネットワークは接続を維持しようとしなくなります)。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="352"/>
         <source>=== Hosting Requirements Network Host ===
 If you want to host your own network the network host must have port forwarding and also a fixed ip address.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== ホスティング要件 ネットワークホスト ===
+独自のネットワークをホストしたい場合は、ネットワーク ホストにポート転送と固定 IP アドレスが必要です。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="94"/>
         <source>Message</source>
-        <translation type="unfinished"></translation>
+        <translation>メッセージ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="163"/>
         <source>Invalid Offer Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>無効なオファーマネージャー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="170"/>
         <source>Unknown User</source>
-        <translation type="unfinished"></translation>
+        <translation>不明なユーザー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="176"/>
         <source>Offer: </source>
-        <translation type="unfinished"></translation>
+        <translation>オファー: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="179"/>
         <source>
 File: </source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="180"/>
         <source>
 File Length: </source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルの長さ: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="181"/>
         <source>
 File Type: </source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルの種類: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomJoinSearch.cpp" line="126"/>
@@ -4239,7 +4417,7 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletGroupListClient.cpp" line="130"/>
         <location filename="../nolimitgui/src/AppletRandomConnectJoinSearch.cpp" line="126"/>
         <source>Search must have at least 3 characters</source>
-        <translation type="unfinished"></translation>
+        <translation>検索には少なくとも 3 文字が必要です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomJoinSearch.cpp" line="137"/>
@@ -4247,7 +4425,7 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletGroupListClient.cpp" line="141"/>
         <location filename="../nolimitgui/src/AppletRandomConnectJoinSearch.cpp" line="137"/>
         <source>Search Started</source>
-        <translation type="unfinished"></translation>
+        <translation>検索を開始しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomJoinSearch.cpp" line="158"/>
@@ -4255,474 +4433,474 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletGroupListClient.cpp" line="163"/>
         <location filename="../nolimitgui/src/AppletRandomConnectJoinSearch.cpp" line="158"/>
         <source>Search Stopped</source>
-        <translation type="unfinished"></translation>
+        <translation>検索を停止しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="101"/>
         <location filename="../nolimitgui/src/AppTranslate.cpp" line="344"/>
         <source>No Limit Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>ノーリミット接続</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="646"/>
         <source>ERROR:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>エラー:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="650"/>
         <source>Failed to connect to Network host</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホストへの接続に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="653"/>
         <source>Failed to connect to Connection Test host</source>
-        <translation type="unfinished"></translation>
+        <translation>接続テストホストへの接続に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="656"/>
         <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="215"/>
         <source>Video Play Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオの再生に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="659"/>
         <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="217"/>
         <source>Audio Play Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオの再生に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="1133"/>
         <source>Close Application</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーションを閉じる</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="1134"/>
         <source>Are you sure you want to exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>終了してもよろしいですか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="1250"/>
         <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="354"/>
         <source>Application Error</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーションエラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommonMedia.cpp" line="123"/>
         <source>Web Cam Video</source>
-        <translation type="unfinished"></translation>
+        <translation>ウェブカメラビデオ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommonMedia.cpp" line="123"/>
         <source>No Video Capture Devices Found</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオ キャプチャ デバイスが見つかりません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="204"/>
         <source>Edit My About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>自己紹介ページを編集する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="205"/>
         <source>Edit My Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>アバター画像を編集する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="206"/>
         <source>Edit My Story Board (Blog)</source>
-        <translation type="unfinished"></translation>
+        <translation>私のストーリーボードを編集する (ブログ)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="207"/>
         <source>View Story Page (Blog)</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーページを見る (ブログ)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="208"/>
         <source>View My Story Page (Blog)</source>
-        <translation type="unfinished"></translation>
+        <translation>私のストーリーページを表示 (ブログ)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="209"/>
         <source>Sound Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>サウンド設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="210"/>
         <source>About File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルについて</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="211"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="459"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1068"/>
         <source>View About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>自己紹介ページを見る</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="212"/>
         <source>View My About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>私の自己紹介ページを見る</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="213"/>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="991"/>
         <source>User Details</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーの詳細</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="215"/>
         <location filename="../nolimitgui/src/AppletLaunchPage.cpp" line="32"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>ホーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="216"/>
         <source>About No Limit Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>ノーリミットコネクトについて</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="217"/>
         <source>Application Information</source>
-        <translation type="unfinished"></translation>
+        <translation>申請情報</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="218"/>
         <source>Browse Files</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを参照する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="219"/>
         <source>Offer List</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーリスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="221"/>
         <source>Cam Video Player</source>
-        <translation type="unfinished"></translation>
+        <translation>カムビデオプレーヤー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="222"/>
         <source>Photo Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>写真ビューア</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="223"/>
         <source>Media Player</source>
-        <translation type="unfinished"></translation>
+        <translation>メディアプレーヤー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="225"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="598"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1202"/>
         <source>View Shared Web Cam</source>
-        <translation type="unfinished"></translation>
+        <translation>共有 Web カメラを表示する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="226"/>
         <source>View My Shared Web Cam</source>
-        <translation type="unfinished"></translation>
+        <translation>私の共有ウェブカメラを表示する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="227"/>
         <source>Cam Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>カム設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="228"/>
         <source>Join Chat Room</source>
-        <translation type="unfinished"></translation>
+        <translation>チャットルームに参加する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="229"/>
         <location filename="../nolimitgui/src/AppletChatRoomJoinSearch.cpp" line="67"/>
         <source>Search For Chat Room To Join</source>
-        <translation type="unfinished"></translation>
+        <translation>参加するチャット ルームを検索する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="230"/>
         <source>Chat Room Hosts Announced To Network</source>
-        <translation type="unfinished"></translation>
+        <translation>チャット ルームのホストがネットワークに発表されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="232"/>
         <source>Choose Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイルを選択</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="238"/>
         <source>Chat Room</source>
-        <translation type="unfinished"></translation>
+        <translation>チャットルーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="239"/>
         <source>Random Person Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダムパーソンコネクト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="240"/>
         <source>Get Persons Avatar Image For Contact List</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先リスト用の人のアバター画像を取得する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="242"/>
         <source>Friend List</source>
-        <translation type="unfinished"></translation>
+        <translation>友達リスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="245"/>
         <source>Emoticon Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>絵文字ギャラリー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="246"/>
         <source>Image Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>画像ギャラリー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="247"/>
         <source>Thumbnail Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイルギャラリー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="248"/>
         <source>Get Started</source>
-        <translation type="unfinished"></translation>
+        <translation>始めましょう</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="250"/>
         <source>Group Client</source>
-        <translation type="unfinished"></translation>
+        <translation>グループクライアント</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="251"/>
         <source>Group Host Admin</source>
-        <translation type="unfinished"></translation>
+        <translation>Group Host Admin</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="252"/>
         <source>Join Group</source>
-        <translation type="unfinished"></translation>
+        <translation>グループに参加する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="253"/>
         <source>Search For Group To Join</source>
-        <translation type="unfinished"></translation>
+        <translation>参加するグループを検索</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="254"/>
         <source>Group List</source>
-        <translation type="unfinished"></translation>
+        <translation>グループリスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="255"/>
         <source>Group Hosts Announced To Network</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークに通知されたグループ ホスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="257"/>
         <source>Network Signal Bars</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク信号バー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="259"/>
         <source>Chat Room Host Admin</source>
-        <translation type="unfinished"></translation>
+        <translation>チャットルームホスト管理者</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="260"/>
         <source>Chat Room Host Status</source>
-        <translation type="unfinished"></translation>
+        <translation>チャット ルームのホストのステータス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="261"/>
         <source>Group Host Status</source>
-        <translation type="unfinished"></translation>
+        <translation>グループホストのステータス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="262"/>
         <source>Network Host Status</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホストのステータス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="263"/>
         <source>Random Connect Host Status</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダム接続ホストのステータス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="265"/>
         <source>Ignored Hosts List</source>
-        <translation type="unfinished"></translation>
+        <translation>無視されるホストのリスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="268"/>
         <source>Create Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>招待の作成</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="271"/>
         <source>My Library Of Media</source>
-        <translation type="unfinished"></translation>
+        <translation>私のメディアライブラリ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="272"/>
         <source>Application Log</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーションログ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="273"/>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="85"/>
         <source>Log Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ログ設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="275"/>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="276"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="976"/>
         <source>Messenger</source>
-        <translation type="unfinished"></translation>
+        <translation>メッセンジャー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="277"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="278"/>
         <source>Join Host Requests</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストへの参加リクエスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="280"/>
         <source>Persons Offers</source>
-        <translation type="unfinished"></translation>
+        <translation>人のオファー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="282"/>
         <source>Personal Notes And Records</source>
-        <translation type="unfinished"></translation>
+        <translation>個人的なメモと記録</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="284"/>
         <source>Random Connect Host Admin</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダムコネクトホスト管理者</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="285"/>
         <source>Join Random Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダムコネクトに参加する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="286"/>
         <location filename="../nolimitgui/src/AppletRandomConnectJoinSearch.cpp" line="67"/>
         <source>Search For Random Connect Host To Join</source>
-        <translation type="unfinished"></translation>
+        <translation>参加するランダム接続ホストを検索</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="287"/>
         <source>Random Connect Announced Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダムコネクトが発表したホスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="289"/>
         <source>Take Snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>スナップショットを撮る</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="291"/>
         <source>Test And Debug</source>
-        <translation type="unfinished"></translation>
+        <translation>テストとデバッグ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="293"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>テーマ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="295"/>
         <source>User Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー接続</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="296"/>
         <source>User Identity</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーID</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="299"/>
         <location filename="../nolimitgui/src/ServiceSettingsWidget.cpp" line="69"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="301"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>検索</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="302"/>
         <source>Search Group For Person Name</source>
-        <translation type="unfinished"></translation>
+        <translation>人名のグループを検索</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="303"/>
         <source>Search Group For Mood Message</source>
-        <translation type="unfinished"></translation>
+        <translation>グループで気分メッセージを検索</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="304"/>
         <source>Search Group For About Me Pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>グループで自己紹介の写真を検索</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="305"/>
         <source>Search Group For Story Boards</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーボードの検索グループ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="306"/>
         <source>Search Group For Shared Files</source>
-        <translation type="unfinished"></translation>
+        <translation>共有ファイルのグループを検索</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="307"/>
         <source>Search Group For Shared Web Cams</source>
-        <translation type="unfinished"></translation>
+        <translation>共有 Web カメラの検索グループ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="309"/>
         <source>Hosting Services</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスティングサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="310"/>
         <source>Share Permission List</source>
-        <translation type="unfinished"></translation>
+        <translation>共有許可リスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="312"/>
         <source>Share With Others Services</source>
-        <translation type="unfinished"></translation>
+        <translation>他の人と共有するサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="313"/>
         <source>Share About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>自己紹介ページを共有する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="234"/>
         <source>Choose Host</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストの選択</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="235"/>
         <source>Join Host Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト接続に参加</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="236"/>
         <source>Leave Host</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストから離れる</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="243"/>
@@ -4730,277 +4908,277 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="117"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1048"/>
         <source>Friend Request</source>
-        <translation type="unfinished"></translation>
+        <translation>友達リクエスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="244"/>
         <source>Friend Request List</source>
-        <translation type="unfinished"></translation>
+        <translation>フレンド申請リスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="267"/>
         <source>Accept Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>招待を承諾する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="270"/>
         <source>Select Language</source>
-        <translation type="unfinished"></translation>
+        <translation>言語の選択</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="281"/>
         <source>Video Player</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオプレーヤー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="292"/>
         <source>Test UPNP Port Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>UPNP ポートフォワードのテスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="297"/>
         <source>User Prefernces</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="315"/>
         <source>Service Connection Test</source>
-        <translation type="unfinished"></translation>
+        <translation>サービス接続テスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="316"/>
         <source>Host A NoLimitConnect Network</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト A NoLimitConnect ネットワーク</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="317"/>
         <source>Share Media Files</source>
-        <translation type="unfinished"></translation>
+        <translation>メディアファイルを共有する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="318"/>
         <source>Share your web cam</source>
-        <translation type="unfinished"></translation>
+        <translation>ウェブカメラを共有する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="319"/>
         <source>Share Story Page (Blog)</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーページをシェア（ブログ）</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="321"/>
         <location filename="../nolimitgui/src/AppletServiceBase.cpp" line="195"/>
         <location filename="../nolimitgui/src/AppletSettingsBase.cpp" line="91"/>
         <source>Service Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>サービス設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="323"/>
         <source>About Me Page Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>自己紹介ページの設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="324"/>
         <source>Avatar Image Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>アバター画像の設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="325"/>
         <source>Shared Web Cam Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>共有ウェブカメラ設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="326"/>
         <source>Connection Test Service Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>接続テストサービスの設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="327"/>
         <source>Shared Files Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>共有ファイル設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="328"/>
         <source>Person To Person File Xfer Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>個人間のファイル転送設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="330"/>
         <source>Chat Room Host Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>チャット ルームのホスト設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="331"/>
         <source>Group Host Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>グループホスト設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="332"/>
         <source>Network Host Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホスト設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="333"/>
         <source>Random Connect Host Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダム接続ホストの設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="335"/>
         <source>Messenger Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>メッセンジャーの設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="336"/>
         <source>Push To Talk Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>プッシュトゥトーク設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="337"/>
         <source>Random Connect Service Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダムコネクトサービスの設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="338"/>
         <source>Shared Story (Blog) Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>共有ストーリー (ブログ) 設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="339"/>
         <source>Truth Or Dare Video Chat Game Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦かビデオチャットゲームの設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="340"/>
         <source>Video Chat Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオチャットの設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="341"/>
         <source>Voice Only Phone Call Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>音声のみ通話設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="345"/>
         <source>Provide Cam Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>カムストリームを提供する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="346"/>
         <source>Manage Station</source>
-        <translation type="unfinished"></translation>
+        <translation>ステーションの管理</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="347"/>
         <source>Manage Station Network Host</source>
-        <translation type="unfinished"></translation>
+        <translation>ステーションネットワークホストの管理</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="349"/>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="935"/>
         <source>Change Friendship</source>
-        <translation type="unfinished"></translation>
+        <translation>友情を変える</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="350"/>
         <source>Reply Offer File</source>
-        <translation type="unfinished"></translation>
+        <translation>返信オファーファイル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="351"/>
         <source>Truth Or Dare Game</source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦かゲーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="352"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="988"/>
         <source>Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオチャット</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="353"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="564"/>
         <source>View Shared Files</source>
-        <translation type="unfinished"></translation>
+        <translation>共有ファイルの表示</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="354"/>
         <source>Offer File</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーファイル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="356"/>
         <source>Offer Information</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー情報</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="357"/>
         <source>Send Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーを送信する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="358"/>
         <source>Respond To Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーに応答する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="359"/>
         <source>Accept Offer Response</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー応答を受け入れる</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="360"/>
         <source>Offer Details</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーの詳細</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="361"/>
         <source>Voice Phone (VOIP)</source>
-        <translation type="unfinished"></translation>
+        <translation>音声電話（VOIP）</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="363"/>
         <source>File Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルオファー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="365"/>
         <source>Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>ダウンロード</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="366"/>
         <source>Uploads</source>
-        <translation type="unfinished"></translation>
+        <translation>アップロード</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="368"/>
         <source>View My Shared Files</source>
-        <translation type="unfinished"></translation>
+        <translation>私の共有ファイルを表示する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="370"/>
         <source>Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>メニュー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="372"/>
         <source>Blocked Hackers</source>
-        <translation type="unfinished"></translation>
+        <translation>ブロックされたハッカー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="373"/>
         <source>Socket Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>ソケット接続</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="374"/>
         <source>Test Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>テスト接続</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="377"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>情報</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="382"/>
@@ -5013,68 +5191,68 @@ File Type: </source>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1667"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1771"/>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>不明</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="54"/>
         <source>Copy device info to clipboard (For Bug Report)</source>
-        <translation type="unfinished"></translation>
+        <translation>デバイス情報をクリップボードにコピー (バグレポート用)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="56"/>
         <source> Version </source>
-        <translation type="unfinished"></translation>
+        <translation> バージョン </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="91"/>
         <source>Copy connection info to clipboard (NOT RECOMMENDED)</source>
-        <translation type="unfinished"></translation>
+        <translation>接続情報をクリップボードにコピーします (非推奨)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="64"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2447"/>
         <source>Invalid Host Id</source>
-        <translation type="unfinished"></translation>
+        <translation>無効なホストID</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="65"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2448"/>
         <source>Host Id has not been set</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストIDが設定されていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="73"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2474"/>
         <source>No Members Online</source>
-        <translation type="unfinished"></translation>
+        <translation>オンラインのメンバーはいません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="74"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2475"/>
         <source>There are no members online to send to</source>
-        <translation type="unfinished"></translation>
+        <translation>オンラインに送信できるメンバーがいません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2483"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2492"/>
         <source>Failed to add asset</source>
-        <translation type="unfinished"></translation>
+        <translation>アセットの追加に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2484"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2493"/>
         <source>Failed to add asset. Please check disk space</source>
-        <translation type="unfinished"></translation>
+        <translation>アセットの追加に失敗しました。ディスク容量を確認してください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletBase.cpp" line="86"/>
         <source>Failed to send</source>
-        <translation type="unfinished"></translation>
+        <translation>送信に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletBase.cpp" line="87"/>
         <source>Failed to send to </source>
-        <translation type="unfinished"></translation>
+        <translation>に送信できませんでした </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="40"/>
@@ -5082,7 +5260,7 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletSnapshot.cpp" line="86"/>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="176"/>
         <source>Camera Capture</source>
-        <translation type="unfinished"></translation>
+        <translation>カメラキャプチャ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="40"/>
@@ -5090,7 +5268,7 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletSnapshot.cpp" line="86"/>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="176"/>
         <source>No Camera Source Available.</source>
-        <translation type="unfinished"></translation>
+        <translation>利用可能なカメラ ソースがありません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="217"/>
@@ -5098,17 +5276,17 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="265"/>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="271"/>
         <source>Video In Device</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオ入力デバイス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="260"/>
         <source> device is saved as preferred Video In Device</source>
-        <translation type="unfinished"></translation>
+        <translation> デバイスは優先ビデオ入力デバイスとして保存されます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="271"/>
         <source>No Video In Device Is Available</source>
-        <translation type="unfinished"></translation>
+        <translation>利用可能なビデオ入力デバイスがありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomJoinSearch.cpp" line="150"/>
@@ -5116,7 +5294,7 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletGroupListClient.cpp" line="155"/>
         <location filename="../nolimitgui/src/AppletRandomConnectJoinSearch.cpp" line="150"/>
         <source>Search Params Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>検索パラメータが無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomJoinSearch.cpp" line="207"/>
@@ -5127,75 +5305,75 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletRandomConnectJoinSearch.cpp" line="207"/>
         <location filename="../nolimitgui/src/AppletRandomConnectListLocalView.cpp" line="230"/>
         <source>Match found: </source>
-        <translation type="unfinished"></translation>
+        <translation>一致が見つかりました: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomListLocalView.cpp" line="66"/>
         <location filename="../nolimitgui/src/AppletChatRoomListLocalView.cpp" line="67"/>
         <source>Chat Room Hosts Announced To Network Host</source>
-        <translation type="unfinished"></translation>
+        <translation>チャット ルーム ホストがネットワーク ホストに通知されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomListLocalView.cpp" line="73"/>
         <location filename="../nolimitgui/src/AppletGroupListLocalView.cpp" line="76"/>
         <location filename="../nolimitgui/src/AppletRandomConnectListLocalView.cpp" line="73"/>
         <source>Service Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスが利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomListLocalView.cpp" line="73"/>
         <source>Network Host Service Is Not Enabled. You can not view chat rooms announced to this device because the service is not enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク ホスト サービスが有効になっていません。サービスが有効になっていないため、このデバイスに通知されたチャット ルームを表示できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomListLocalView.cpp" line="80"/>
         <location filename="../nolimitgui/src/AppletGroupListLocalView.cpp" line="83"/>
         <location filename="../nolimitgui/src/AppletRandomConnectListLocalView.cpp" line="80"/>
         <source>Service Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスが無効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomListLocalView.cpp" line="80"/>
         <location filename="../nolimitgui/src/AppletGroupListLocalView.cpp" line="83"/>
         <location filename="../nolimitgui/src/AppletRandomConnectListLocalView.cpp" line="80"/>
         <source>Network Host Service is not enabled because it requires an open port.</source>
-        <translation type="unfinished"></translation>
+        <translation>ポートが開いている必要があるため、ネットワーク ホスト サービスは有効になっていません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChooseThumbnail.cpp" line="43"/>
         <source>Image for thumbnail will be resized to width </source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイルの画像は幅に合わせてサイズ変更されます </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChooseThumbnail.cpp" line="45"/>
         <source> height </source>
-        <translation type="unfinished"></translation>
+        <translation> 身長 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChooseThumbnail.cpp" line="47"/>
         <source> pixels. </source>
-        <translation type="unfinished"></translation>
+        <translation> ピクセル。 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="69"/>
         <source>Choose Chat Room Host</source>
-        <translation type="unfinished"></translation>
+        <translation>チャット ルームのホストを選択してください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="77"/>
         <source>Choose Group Host</source>
-        <translation type="unfinished"></translation>
+        <translation>グループホストの選択</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="84"/>
         <source>Choose Random Connect Host</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダム接続ホストの選択</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="91"/>
         <location filename="../nolimitgui/src/AppletHostLeave.cpp" line="97"/>
         <source>Unknown Host Type</source>
-        <translation type="unfinished"></translation>
+        <translation>不明なホストタイプ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="67"/>
@@ -5204,7 +5382,7 @@ File Type: </source>
         <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="198"/>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="208"/>
         <source>Failed To Read Image File </source>
-        <translation type="unfinished"></translation>
+        <translation>画像ファイルの読み込みに失敗しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="68"/>
@@ -5213,104 +5391,104 @@ File Type: </source>
         <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="199"/>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="209"/>
         <source>Error Reading Image</source>
-        <translation type="unfinished"></translation>
+        <translation>画像読み取りエラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="117"/>
         <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="189"/>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="200"/>
         <source>Open Image</source>
-        <translation type="unfinished"></translation>
+        <translation>画像を開く</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="175"/>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="113"/>
         <source>Failed to read snapshot </source>
-        <translation type="unfinished"></translation>
+        <translation>スナップショットの読み取りに失敗しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="176"/>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="114"/>
         <source>Error Reading snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>スナップショットの読み取りエラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="202"/>
         <source>Failed to write into </source>
-        <translation type="unfinished"></translation>
+        <translation>への書き込みに失敗しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="203"/>
         <source>Error Writing</source>
-        <translation type="unfinished"></translation>
+        <translation>書き込みエラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="227"/>
         <source>About Me Change</source>
-        <translation type="unfinished"></translation>
+        <translation>私についての変更</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="228"/>
         <source>Applied About Me Changes </source>
-        <translation type="unfinished"></translation>
+        <translation>自己紹介の変更を適用しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="229"/>
         <source>Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="229"/>
         <source>Success</source>
-        <translation type="unfinished"></translation>
+        <translation>成功</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="98"/>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="125"/>
         <source>Applied Avatar Image Changes </source>
-        <translation type="unfinished"></translation>
+        <translation>アバター画像の変更を適用 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="99"/>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="126"/>
         <source>Applied Avatar Image Success</source>
-        <translation type="unfinished"></translation>
+        <translation>アバター画像の適用が成功しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="145"/>
         <source>Cannot Delete Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>アバター画像が削除できない</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="146"/>
         <source>Cannot remove image that is a emoticon</source>
-        <translation type="unfinished"></translation>
+        <translation>絵文字である画像は削除できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="150"/>
         <source>Are you sure you want to remove your avatar image?</source>
-        <translation type="unfinished"></translation>
+        <translation>アバター画像を削除してもよろしいですか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="151"/>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="156"/>
         <source>Remove Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>アバター画像の削除</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="155"/>
         <source>Remove Avatar Image Success</source>
-        <translation type="unfinished"></translation>
+        <translation>アバター画像の削除に成功しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="161"/>
         <source>Remove Avatar Image canceled </source>
-        <translation type="unfinished"></translation>
+        <translation>アバター画像の削除がキャンセルされました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="208"/>
         <source>Cannot shred image </source>
-        <translation type="unfinished"></translation>
+        <translation>画像を細断できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFileOfferSelect.cpp" line="289"/>
@@ -5320,564 +5498,566 @@ File Type: </source>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2366"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1358"/>
         <source>File Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルが見つかりません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendList.cpp" line="136"/>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="126"/>
         <location filename="../nolimitgui/src/AppletOfferList.cpp" line="125"/>
         <source>List</source>
-        <translation type="unfinished"></translation>
+        <translation>リスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletGroupJoinSearch.cpp" line="68"/>
         <source>Search For Group Host To Join</source>
-        <translation type="unfinished"></translation>
+        <translation>参加するグループホストを検索</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletGroupListClient.cpp" line="67"/>
         <source>Fetch Group Host List</source>
-        <translation type="unfinished"></translation>
+        <translation>グループホストリストの取得</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletGroupListLocalView.cpp" line="69"/>
         <source>Group Hosts Announced To Network Host</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホストに通知されたグループホスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletGroupListLocalView.cpp" line="70"/>
         <source>Groups Announced To Network Host</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホストに通知されたグループ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletGroupListLocalView.cpp" line="76"/>
         <source>Network Host Service Is Not Enabled. You can not view groups announced to this device because the service is not enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク ホスト サービスが有効になっていません。サービスが有効になっていないため、このデバイスに通知されたグループを表示できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHackerList.cpp" line="53"/>
         <source>Count</source>
-        <translation type="unfinished"></translation>
+        <translation>カウント</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHackerList.cpp" line="54"/>
         <location filename="../nolimitgui/src/AppletSocketList.cpp" line="63"/>
         <source>IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>IPアドレス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHackerList.cpp" line="55"/>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation>レベル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHackerList.cpp" line="56"/>
         <source>Offense</source>
-        <translation type="unfinished"></translation>
+        <translation>オフェンス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHackerList.cpp" line="57"/>
         <source>Signature</source>
-        <translation type="unfinished"></translation>
+        <translation>署名</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostBase.cpp" line="93"/>
         <source>Cannot join our host as user</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーとしてホストに参加できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostBase.cpp" line="94"/>
         <source>Cannot join our host as user.
  You can join host from host admin page instead.</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーとしてホストに参加できません。
+ 代わりに、ホスト管理ページからホストに参加できます。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostChatRoomStatus.cpp" line="96"/>
         <source>Open Port Required. Check ChatRoom Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>オープンポートが必要です。チャットルームの設定を確認する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostChatRoomStatus.cpp" line="100"/>
         <source>Chat Room Hosting Permission is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>チャット ルームのホスティング権限が無効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostChatRoomStatus.cpp" line="104"/>
         <source>Chat Room Hosting Conditions Are Met</source>
-        <translation type="unfinished"></translation>
+        <translation>チャット ルームのホスティング条件が満たされている</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostGroupStatus.cpp" line="93"/>
         <location filename="../nolimitgui/src/AppletHostNetworkStatus.cpp" line="89"/>
         <source>Open Port Required. Check Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>オープンポートが必要です。ネットワーク設定を確認する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostGroupStatus.cpp" line="97"/>
         <source>Group Hosting Permission is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>グループホスティング権限が無効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostGroupStatus.cpp" line="101"/>
         <source>Group Hosting Conditions Are Met</source>
-        <translation type="unfinished"></translation>
+        <translation>グループホスティング条件が満たされている</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostNetworkStatus.cpp" line="47"/>
         <source>Hosts announced to network count:</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークカウントに発表されたホスト:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostNetworkStatus.cpp" line="93"/>
         <source>Network Hosting Permission is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホスティング許可が無効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostNetworkStatus.cpp" line="97"/>
         <source>Connection Test Permission is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>接続テスト権限が無効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostNetworkStatus.cpp" line="101"/>
         <source>Network Hosting Conditions Are Met</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホスティング条件が満たされている</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostRandomConnectStatus.cpp" line="95"/>
         <source>Open Port Required. Check RandomConnect Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>オープンポートが必要です。ランダムコネクト設定を確認する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostRandomConnectStatus.cpp" line="99"/>
         <source>Random Connect Hosting Permission is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダム接続ホスティング権限が無効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostRandomConnectStatus.cpp" line="103"/>
         <source>Random Connect Hosting Conditions Are Met</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダム接続ホスティング条件が満たされている</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteAccept.cpp" line="60"/>
         <source>Paste invite from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>クリップボードから招待を貼り付けます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteAccept.cpp" line="89"/>
         <location filename="../nolimitgui/src/AppletInvites.cpp" line="92"/>
         <location filename="../nolimitgui/src/ClipboardPasteWidget.cpp" line="33"/>
         <source>Clipboard Is Empty</source>
-        <translation type="unfinished"></translation>
+        <translation>クリップボードが空です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteAccept.cpp" line="89"/>
         <location filename="../nolimitgui/src/AppletInvites.cpp" line="92"/>
         <source>Cannot Paste Empty Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>空のクリップボードを貼り付けることができません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteAccept.cpp" line="96"/>
         <source>Clipboard Text Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>クリップボードのテキストが無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteAccept.cpp" line="96"/>
         <source>Clipboard does not contain a valid invite</source>
-        <translation type="unfinished"></translation>
+        <translation>クリップボードに有効な招待が含まれていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInvites.cpp" line="99"/>
         <source>Clipboard Contained Invalid Invite Text</source>
-        <translation type="unfinished"></translation>
+        <translation>クリップボードに無効な招待テキストが含まれています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInvites.cpp" line="99"/>
         <source>Clipboard Has Text That Cannot Be Parsed Into An Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>クリップボードに解析して招待にできないテキストが含まれています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteCreate.cpp" line="60"/>
         <source>Copy invite to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>招待をクリップボードにコピー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteCreate.cpp" line="81"/>
         <source>Invite Was Copied To Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>招待がクリップボードにコピーされました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteCreate.cpp" line="85"/>
         <source>Invite Is Empty</source>
-        <translation type="unfinished"></translation>
+        <translation>招待は空です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteCreate.cpp" line="85"/>
         <source>Cannot create an Invite if Invite is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>招待が空の場合は招待を作成できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="116"/>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="174"/>
         <source>User List</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーリスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="158"/>
         <source>Network Host Url Is Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホストのURLが無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="158"/>
         <source>You need to set a valid Network Host URL or IP:Port in network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク設定で有効なネットワーク ホスト URL または IP:ポートを設定する必要があります</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="184"/>
         <source>Host List</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストリスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="264"/>
         <source>Host list from network host completed</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホストからのホストリストが完成しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="281"/>
         <source>User list from host completed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストからのユーザーリストが完成しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2456"/>
         <source>Invalid URL</source>
-        <translation type="unfinished"></translation>
+        <translation>無効な URL</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="46"/>
         <source>Network Host URL was not resolved</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホストURLが解決されませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="51"/>
         <source>Online Id query failed</source>
-        <translation type="unfinished"></translation>
+        <translation>オンライン ID クエリが失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="148"/>
         <source>Network Host list request is queued</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホストリストリクエストがキューに入れられています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="153"/>
         <source>Network Host list query failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホストリストのクエリが失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="260"/>
         <source>NO HOSTS FOUND</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストが見つかりません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="371"/>
         <source>Do you also want to disconnect from user?</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーとの接続も切断しますか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="372"/>
         <source>Do you also want to disconnect from user </source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーとの接続も切断しますか? </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="374"/>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="128"/>
         <source>?</source>
-        <translation type="unfinished"></translation>
+        <translation>?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="403"/>
         <source>Revoke Membership</source>
-        <translation type="unfinished"></translation>
+        <translation>メンバーシップを取り消す</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="403"/>
         <source>Are You Sure You Want To Revoke Membership?</source>
-        <translation type="unfinished"></translation>
+        <translation>メンバーシップを取り消してもよろしいですか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="432"/>
         <source>No Ignored Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>無視されるホストはありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="432"/>
         <source>The Ignored Hosts List Is Empty</source>
-        <translation type="unfinished"></translation>
+        <translation>無視されたホストのリストが空である</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2384"/>
         <source>Application Not Ready</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーションの準備ができていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2385"/>
         <source>Cannot Launch Applet Until Application Has Initialized</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーションが初期化されるまでアプレットを起動できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="30"/>
         <source>Log None</source>
-        <translation type="unfinished"></translation>
+        <translation>ログなし</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="33"/>
         <source>Log Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>ログ接続</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="35"/>
         <source>Log Relay</source>
-        <translation type="unfinished"></translation>
+        <translation>ログリレー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="37"/>
         <source>Log Skt</source>
-        <translation type="unfinished"></translation>
+        <translation>ログ・スクト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="39"/>
         <source>Log Network State</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク状態のログを記録する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="42"/>
         <source>Log Net Service</source>
-        <translation type="unfinished"></translation>
+        <translation>ログネットサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="43"/>
         <source>Log Thread</source>
-        <translation type="unfinished"></translation>
+        <translation>ログスレッド</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="45"/>
         <source>Log Assets</source>
-        <translation type="unfinished"></translation>
+        <translation>ログアセット</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="47"/>
         <source>Log Startup</source>
-        <translation type="unfinished"></translation>
+        <translation>ログの起動</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="48"/>
         <source>Log Skt Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Skt データをログに記録する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="49"/>
         <source>Log Pkt</source>
-        <translation type="unfinished"></translation>
+        <translation>ログパケット</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="55"/>
         <source>Log Hosted User</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストされているユーザーのログを記録する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="57"/>
         <source>Log Port Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>ポートフォワードのログを記録する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="58"/>
         <source>Log Is Port Open Test</source>
-        <translation type="unfinished"></translation>
+        <translation>ログはポートオープンテストです</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="59"/>
         <source>Log Run Test</source>
-        <translation type="unfinished"></translation>
+        <translation>ログ実行テスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="60"/>
         <source>Log Host Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>ログホスト接続</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="32"/>
         <source>Log File Xfer</source>
-        <translation type="unfinished"></translation>
+        <translation>ログファイル転送</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="34"/>
         <source>Log Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>ログオファー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="38"/>
         <source>Log Voice (VOIP)</source>
-        <translation type="unfinished"></translation>
+        <translation>音声ログ (VOIP)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="40"/>
         <source>Log User Sessions</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーセッションをログに記録する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="44"/>
         <source>Log Web Cam</source>
-        <translation type="unfinished"></translation>
+        <translation>ログウェブカメラ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="50"/>
         <source>Log Thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>ログのサムネイル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="52"/>
         <source>Log User Online Status</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーのオンライン ステータスをログに記録する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="53"/>
         <source>Log Host Join From Client</source>
-        <translation type="unfinished"></translation>
+        <translation>クライアントからのログホスト参加</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="54"/>
         <source>Log Users</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーをログに記録する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="62"/>
         <source>Log Host Announce/Search</source>
-        <translation type="unfinished"></translation>
+        <translation>ログホストのアナウンス/検索</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="63"/>
         <source>Log Hackers</source>
-        <translation type="unfinished"></translation>
+        <translation>ログハッカー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="64"/>
         <source>Log Media Streams</source>
-        <translation type="unfinished"></translation>
+        <translation>メディアストリームのログを記録する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="65"/>
         <source>Log Media Player NLC</source>
-        <translation type="unfinished"></translation>
+        <translation>ログメディアプレーヤーNLC</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="67"/>
         <source>Log FFMPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>ログFFMPEG</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="68"/>
         <source>Log Audio IO</source>
-        <translation type="unfinished"></translation>
+        <translation>ログオーディオIO</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="69"/>
         <source>Log Video IO</source>
-        <translation type="unfinished"></translation>
+        <translation>ログビデオIO</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="70"/>
         <source>Log Membership</source>
-        <translation type="unfinished"></translation>
+        <translation>メンバーシップをログに記録する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="73"/>
         <source>Unused Log Module</source>
-        <translation type="unfinished"></translation>
+        <translation>未使用のログモジュール</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="301"/>
         <source>Applet Not Yet Implemented</source>
-        <translation type="unfinished"></translation>
+        <translation>アプレットはまだ実装されていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="507"/>
         <source>Unknown Or Not Implemented</source>
-        <translation type="unfinished"></translation>
+        <translation>不明または実装されていない</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="510"/>
         <source>AppCommon::launchApplet</source>
-        <translation type="unfinished"></translation>
+        <translation>AppCommon::launchアプレット</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="510"/>
         <source>Invalid Applet enum %d</source>
-        <translation type="unfinished"></translation>
+        <translation>無効なアプレット列挙型 %d</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="692"/>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="700"/>
         <source>Cannot View Disabled Service</source>
-        <translation type="unfinished"></translation>
+        <translation>無効なサービスを表示できない</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="693"/>
         <source>Unknown Plugin Service</source>
-        <translation type="unfinished"></translation>
+        <translation>不明なプラグイン サービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="701"/>
         <source> Cannot be viewed when permission is disable</source>
-        <translation type="unfinished"></translation>
+        <translation> 権限が無効の場合は閲覧できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="178"/>
         <source> with </source>
-        <translation type="unfinished"></translation>
+        <translation> と </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="191"/>
         <source> requires user be online </source>
-        <translation type="unfinished"></translation>
+        <translation> ユーザーはオンラインである必要があります </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2227"/>
         <source> is online</source>
-        <translation type="unfinished"></translation>
+        <translation> オンラインです</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="247"/>
         <source>Requested Text Chat Session with </source>
-        <translation type="unfinished"></translation>
+        <translation>リクエストされたテキスト チャット セッション </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="427"/>
         <source>TCP Listen Port Error</source>
-        <translation type="unfinished"></translation>
+        <translation>TCPリッスンポートエラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="427"/>
         <source>TCP Listen Port cannot be less that 10000.</source>
-        <translation type="unfinished"></translation>
+        <translation>TCP リッスン ポートを 10000 未満にすることはできません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="511"/>
         <source>IPv6 not detected</source>
-        <translation type="unfinished"></translation>
+        <translation>IPv6が検出されない</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="511"/>
         <source>The device does not seem to be IPv6 capable
  Please uncheck Use IPv6 Network</source>
-        <translation type="unfinished"></translation>
+        <translation>デバイスは IPv6 に対応していないようです
+ 「IPv6 ネットワークを使用する」のチェックを外してください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="515"/>
         <source>Confirm Use Of Experimental IPv6 Network?</source>
-        <translation type="unfinished"></translation>
+        <translation>実験的な IPv6 ネットワークの使用を確認しますか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="516"/>
         <source>IPv6 is experimental and the network for IPv6 is not visible on the IPv4 network</source>
-        <translation type="unfinished"></translation>
+        <translation>IPv6 は実験的なものであり、IPv6 のネットワークは IPv4 ネットワーク上では認識されません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="539"/>
@@ -5888,403 +6068,408 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="585"/>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="593"/>
         <source>Network Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="539"/>
         <source>Network setting name cannot be blank.</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク設定名を空白にすることはできません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="547"/>
         <source>Network host URL cannot be blank.</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク ホスト URL を空白にすることはできません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="553"/>
         <source>Network key cannot be blank.</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク キーを空白にすることはできません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="564"/>
         <source>Connection Test URL cannot be blank.</source>
-        <translation type="unfinished"></translation>
+        <translation>接続テスト URL を空白にすることはできません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="574"/>
         <source>Are you sure you want to overwrite existing network setting?.
  The network setting name can be changed in Select Network Setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>既存のネットワーク設定を上書きしてもよろしいですか?
+ ネットワーク設定名は、「ネットワーク設定の選択」で変更できます。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="585"/>
         <source>Private Network Key requires restart to avoid use of wrong network key.
  Quitting application so you can start it again.</source>
-        <translation type="unfinished"></translation>
+        <translation>間違ったネットワーク キーの使用を避けるために、プライベート ネットワーク キーを再起動する必要があります。
+ アプリケーションを終了して、再度起動できるようにします。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="593"/>
         <source>Network setting was saved.</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク設定が保存されました。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="686"/>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="694"/>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="700"/>
         <source>Network Key</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークキー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="686"/>
         <source>Network Key must be at least 6 characters ( 8 or more characters recommended ).</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク キーは少なくとも 6 文字である必要があります (8 文字以上を推奨)。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="694"/>
         <source>Current Network Key is public, you must obtain and set the private network key associated with this network invit.</source>
-        <translation type="unfinished"></translation>
+        <translation>現在のネットワーク キーは公開されているため、このネットワーク招待に関連付けられたプライベート ネットワーク キーを取得して設定する必要があります。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="701"/>
         <source>Are you sure you want to change the network key?
  All users of your network will need to have the same key or you will be banned as a hacker.</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークキーを変更してもよろしいですか?
+ ネットワークのすべてのユーザーが同じキーを持っている必要があり、そうでない場合はハッカーとして禁止されます。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="718"/>
         <source>Invalid External IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>無効な外部 IP アドレス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="722"/>
         <source>If assumed user can direct connect then external IP must be specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>想定されるユーザーが直接接続できる場合は、外部 IP を指定する必要があります。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="730"/>
         <source>External IP is invalid.</source>
-        <translation type="unfinished"></translation>
+        <translation>外部 IP が無効です。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="739"/>
         <source>When using IPv4 network a IPv4 external IP must be specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>IPv4 ネットワークを使用する場合は、IPv4 外部 IP を指定する必要があります。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="747"/>
         <source>When using IPv6 network a IPv6 external IP must be specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>IPv6 ネットワークを使用する場合は、IPv6 外部 IP を指定する必要があります。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="784"/>
         <source>Your device does not seem to be capable of IPv6</source>
-        <translation type="unfinished"></translation>
+        <translation>お使いのデバイスは IPv6 に対応していないようです</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="785"/>
         <source>Your device does not seem to be capable of IPv6. Continue Anyway?</source>
-        <translation type="unfinished"></translation>
+        <translation>お使いのデバイスは IPv6 に対応していないようです。とにかく続行しますか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="801"/>
         <source>Accepting Network Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークへの招待を受け入れる</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="802"/>
         <source>You are accepting a network invite.
 Be sure the Network Key is correct before pressing save.
 If the Network Key is incorrect, you will probably be banned as a hacker.</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークへの招待を受け入れています。
+保存を押す前に、ネットワーク キーが正しいことを確認してください。
+ネットワーク キーが間違っている場合は、ハッカーとして禁止される可能性があります。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="98"/>
         <source>&apos;s Friendship To Me -</source>
-        <translation type="unfinished"></translation>
+        <translation>私への友情 -</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="109"/>
         <source>My Friendship To </source>
-        <translation type="unfinished"></translation>
+        <translation>私の友情へ </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="263"/>
         <source>Click icon to unmark preferred</source>
-        <translation type="unfinished"></translation>
+        <translation>アイコンをクリックして優先のマークを解除します</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="267"/>
         <source>Click icon to mark preferred</source>
-        <translation type="unfinished"></translation>
+        <translation>アイコンをクリックして優先マークを付けます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerReplyFileOffer.cpp" line="41"/>
         <source>Receive File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを受信する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="63"/>
         <source>In Voice Phone Session</source>
-        <translation type="unfinished"></translation>
+        <translation>音声電話セッション中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="67"/>
         <source>Voice Phone Session Ended</source>
-        <translation type="unfinished"></translation>
+        <translation>音声電話セッションが終了しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerCamClip.cpp" line="251"/>
         <source>Video file could not be played</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオファイルを再生できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="240"/>
         <source>Unknown Media File Type</source>
-        <translation type="unfinished"></translation>
+        <translation>不明なメディア ファイル タイプ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="286"/>
         <source>Media Player empty file list</source>
-        <translation type="unfinished"></translation>
+        <translation>メディアプレーヤーの空のファイルリスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="308"/>
         <source>Media Player could not play file</source>
-        <translation type="unfinished"></translation>
+        <translation>メディアプレーヤーがファイルを再生できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="313"/>
         <location filename="../nolimitgui/src/AppletPlayerNlcBase.cpp" line="185"/>
         <location filename="../nolimitgui/src/AppletPlayerNlcBase.cpp" line="334"/>
         <source>File does not exist</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルが存在しません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="320"/>
         <source>Exception playing</source>
-        <translation type="unfinished"></translation>
+        <translation>例外再生中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="360"/>
         <source>Media Player not read</source>
-        <translation type="unfinished"></translation>
+        <translation>メディアプレーヤーが読み込まれていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="360"/>
         <source>Try again when Media Player is ready</source>
-        <translation type="unfinished"></translation>
+        <translation>メディアプレーヤーの準備ができたらもう一度お試しください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="416"/>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="453"/>
         <source>Could not read file</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを読み取れませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="416"/>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="453"/>
         <source>Failed to get file info</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル情報の取得に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="863"/>
         <source>Anonymous</source>
-        <translation type="unfinished"></translation>
+        <translation>匿名</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="216"/>
         <source>Unblock User</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーのブロックを解除する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="233"/>
         <source>Block User</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーをブロックする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="924"/>
         <source>Unset Preferred</source>
-        <translation type="unfinished"></translation>
+        <translation>優先の設定を解除</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="997"/>
         <source>Delete User From Database</source>
-        <translation type="unfinished"></translation>
+        <translation>データベースからユーザーを削除</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1032"/>
         <location filename="../nolimitgui/src/FriendListWidget.cpp" line="188"/>
         <location filename="../nolimitgui/src/PersonOfferListWidget.cpp" line="189"/>
         <source>Insufficient Permission Level</source>
-        <translation type="unfinished"></translation>
+        <translation>不十分な権限レベル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1033"/>
         <source> Requires </source>
-        <translation type="unfinished"></translation>
+        <translation> 必要なもの </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1034"/>
         <location filename="../nolimitgui/src/FriendListWidget.cpp" line="189"/>
         <location filename="../nolimitgui/src/PersonOfferListWidget.cpp" line="190"/>
         <source> To Access Plugin </source>
-        <translation type="unfinished"></translation>
+        <translation> プラグインにアクセスするには </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FriendListWidget.cpp" line="190"/>
         <location filename="../nolimitgui/src/PersonOfferListWidget.cpp" line="191"/>
         <source>Insufficient Permission Level </source>
-        <translation type="unfinished"></translation>
+        <translation>不十分な権限レベル </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="663"/>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="664"/>
         <source>Offer Friendship</source>
-        <translation type="unfinished"></translation>
+        <translation>友情を申し出る</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="665"/>
         <source>Offer Join Group</source>
-        <translation type="unfinished"></translation>
+        <translation>グループに参加するオファー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="928"/>
         <source>Set Preferred</source>
-        <translation type="unfinished"></translation>
+        <translation>優先設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="755"/>
         <source>Applet Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>アプレットメニュー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="878"/>
         <source>Delete A Database</source>
-        <translation type="unfinished"></translation>
+        <translation>データベースを削除する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="911"/>
         <source>Database Deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>データベースが削除されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="911"/>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="915"/>
         <source>Database </source>
-        <translation type="unfinished"></translation>
+        <translation>データベース </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="911"/>
         <source> was deleted</source>
-        <translation type="unfinished"></translation>
+        <translation> 削除されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="915"/>
         <source>Database Delete Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>データベースの削除に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="915"/>
         <source> could not be deleted</source>
-        <translation type="unfinished"></translation>
+        <translation> 削除できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="960"/>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="976"/>
         <source>Friendship Request</source>
-        <translation type="unfinished"></translation>
+        <translation>フレンドシップリクエスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="976"/>
         <source>To send a frienship request you must set </source>
-        <translation type="unfinished"></translation>
+        <translation>フレンドシップリクエストを送信するには、次のように設定する必要があります </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="976"/>
         <source> as friend or higher first</source>
-        <translation type="unfinished"></translation>
+        <translation> まずは友達以上として</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletRandomConnectListLocalView.cpp" line="66"/>
         <location filename="../nolimitgui/src/AppletRandomConnectListLocalView.cpp" line="67"/>
         <source>Random Connect Hosts Announced To Network Host</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク ホストに通知されたランダム接続ホスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletRandomConnectListLocalView.cpp" line="73"/>
         <source>Network Host Service Is Not Enabled. You can not view random connect hosts announced to this device because the service is not enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク ホスト サービスが有効になっていません。サービスが有効になっていないため、このデバイスに通知されたランダム接続ホストを表示できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletServiceBase.cpp" line="195"/>
         <location filename="../nolimitgui/src/AppletSettingsBase.cpp" line="91"/>
         <source>Service Settings Applied</source>
-        <translation type="unfinished"></translation>
+        <translation>サービス設定が適用されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSettingsHostBase.cpp" line="82"/>
         <source>Host Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSettingsHostBase.cpp" line="82"/>
         <source>Host Settings Applied</source>
-        <translation type="unfinished"></translation>
+        <translation>適用されたホスト設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSettingsHostBase.cpp" line="87"/>
         <source>Host Settings Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト設定に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSettingsHostBase.cpp" line="87"/>
         <source>Host Settings Could Not Be Applied</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト設定を適用できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSocketList.cpp" line="62"/>
         <source>Socket</source>
-        <translation type="unfinished"></translation>
+        <translation>ソケット</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSocketList.cpp" line="64"/>
         <source>Txed</source>
-        <translation type="unfinished"></translation>
+        <translation>送信済み</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSocketList.cpp" line="65"/>
         <source>Rxed</source>
-        <translation type="unfinished"></translation>
+        <translation>受信</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSocketList.cpp" line="66"/>
         <source>Peer User</source>
-        <translation type="unfinished"></translation>
+        <translation>ピアユーザー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSocketList.cpp" line="67"/>
         <source>Temp?</source>
-        <translation type="unfinished"></translation>
+        <translation>温度？</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="108"/>
         <source>Speaker Device Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>スピーカーデバイスが使用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="108"/>
         <source>No speaker device is available to enable</source>
-        <translation type="unfinished"></translation>
+        <translation>有効にできるスピーカー デバイスがありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="114"/>
         <source>Microphone Device Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>マイクデバイスが使用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="114"/>
         <source>No microphone device is available to enable</source>
-        <translation type="unfinished"></translation>
+        <translation>有効にできるマイク デバイスがありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="256"/>
@@ -6294,12 +6479,12 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
         <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="69"/>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="101"/>
         <source>Sound In Device</source>
-        <translation type="unfinished"></translation>
+        <translation>サウンドインデバイス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="256"/>
         <source> device is saved as preferred Sound In Device</source>
-        <translation type="unfinished"></translation>
+        <translation> デバイスは優先サウンド入力デバイスとして保存されます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="217"/>
@@ -6307,12 +6492,12 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="261"/>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="286"/>
         <source> failed to initialize</source>
-        <translation type="unfinished"></translation>
+        <translation> 初期化に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="267"/>
         <source>No Sound In Device Is Available</source>
-        <translation type="unfinished"></translation>
+        <translation>デバイスにサウンドがありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="281"/>
@@ -6323,307 +6508,307 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
         <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="73"/>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="104"/>
         <source>Sound Out Device</source>
-        <translation type="unfinished"></translation>
+        <translation>サウンドアウトデバイス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="281"/>
         <source> device is saved as preferred Sound Out Device</source>
-        <translation type="unfinished"></translation>
+        <translation> デバイスは優先サウンドアウトデバイスとして保存されます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="292"/>
         <source>No Sound Out Device Is Available</source>
-        <translation type="unfinished"></translation>
+        <translation>使用可能なサウンド出力デバイスがありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="307"/>
         <source>Echo delay test is running</source>
-        <translation type="unfinished"></translation>
+        <translation>エコー遅延テストが実行中です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="307"/>
         <source>Echo delay test can not be run until the previous test finishes</source>
-        <translation type="unfinished"></translation>
+        <translation>エコー遅延テストは、前のテストが終了するまで実行できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="318"/>
         <source>Echo Delay Value Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>エコー遅延値が無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="318"/>
         <source>Echo Delay value must be between 40 and 500 milliseconds</source>
-        <translation type="unfinished"></translation>
+        <translation>エコー遅延値は 40 ～ 500 ミリ秒でなければなりません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="324"/>
         <source>Echo Delay Value Save</source>
-        <translation type="unfinished"></translation>
+        <translation>エコー遅延値の保存</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="324"/>
         <source>Echo Delay value has been saved for use by Echo Cancelation</source>
-        <translation type="unfinished"></translation>
+        <translation>エコー遅延値は、エコー キャンセルで使用するために保存されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="369"/>
         <source>Echo Delays </source>
-        <translation type="unfinished"></translation>
+        <translation>エコー遅延 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="382"/>
         <source>, </source>
-        <translation type="unfinished"></translation>
+        <translation>、 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="396"/>
         <source>
 Delay Test Is Valid
 </source>
-        <translation type="unfinished"></translation>
+        <translation>遅延テストは有効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="396"/>
         <source>
 Delay Test Is Invalid
 </source>
-        <translation type="unfinished"></translation>
+        <translation>遅延テストは無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="400"/>
         <source>If you are having echo issues you may want to enter value </source>
-        <translation type="unfinished"></translation>
+        <translation>エコーの問題が発生している場合は、値を入力するとよいでしょう。 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="402"/>
         <source> into  Echo delay ms field and click Save Echo Delay To Echo Canceller button
 </source>
-        <translation type="unfinished"></translation>
+        <translation> エコー遅延ミリ秒フィールドに入力し、エコー遅延をエコー キャンセラーに保存ボタンをクリックします。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="404"/>
         <source>Echo Delay Test Is Valid</source>
-        <translation type="unfinished"></translation>
+        <translation>エコー遅延テストは有効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="408"/>
         <source>Echo Delay Test Is Invalid. Check microphone and speaker. Try turning up the volume or placing microphone closer to speaker</source>
-        <translation type="unfinished"></translation>
+        <translation>エコー遅延テストは無効です。マイクとスピーカーを確認してください。音量を上げるか、マイクをスピーカーの近くに置いてみてください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="437"/>
         <source>Play Test File</source>
-        <translation type="unfinished"></translation>
+        <translation>テストファイルの再生</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="437"/>
         <source>No test file is selected or test file index is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>テスト ファイルが選択されていないか、テスト ファイルのインデックスが無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="984"/>
         <source>Push To Talk</source>
-        <translation type="unfinished"></translation>
+        <translation>プッシュトゥトーク</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="472"/>
         <source>Are you sure?</source>
-        <translation type="unfinished"></translation>
+        <translation>よろしいですか？</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="472"/>
         <source>This will delete all thumbnail images not currently in use by your identity or hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>これにより、あなたのアイデンティティまたはホストによって現在使用されていないすべてのサムネイル画像が削除されます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="475"/>
         <source> of disk space freed by deleting cached thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation> キャッシュされたサムネイルを削除することで解放されたディスク容量</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTheme.cpp" line="36"/>
         <source>Some Text To Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>編集するテキスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTheme.cpp" line="118"/>
         <source>Selection 1</source>
-        <translation type="unfinished"></translation>
+        <translation>選択 1</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTheme.cpp" line="119"/>
         <source>Selection 2</source>
-        <translation type="unfinished"></translation>
+        <translation>セレクション2</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTheme.cpp" line="120"/>
         <source>Selection 3</source>
-        <translation type="unfinished"></translation>
+        <translation>選択 3</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTheme.cpp" line="121"/>
         <source>Selection 4</source>
-        <translation type="unfinished"></translation>
+        <translation>セレクション4</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTheme.cpp" line="122"/>
         <source>Selection 5</source>
-        <translation type="unfinished"></translation>
+        <translation>セレクション5</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="125"/>
         <source>Confirm Login To Account</source>
-        <translation type="unfinished"></translation>
+        <translation>アカウントへのログインの確認</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="126"/>
         <source>Are You Sure You Want To Login To Account </source>
-        <translation type="unfinished"></translation>
+        <translation>アカウントにログインしてもよろしいですか? </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="197"/>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="236"/>
         <source>Applied Mood Message Change </source>
-        <translation type="unfinished"></translation>
+        <translation>ムードメッセージの変更を適用 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="198"/>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="237"/>
         <source>Mood Message Change Success</source>
-        <translation type="unfinished"></translation>
+        <translation>ムードメッセージ変更成功</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="217"/>
         <source>Applied Age and Preferred Content Change </source>
-        <translation type="unfinished"></translation>
+        <translation>適用年齢と優先コンテンツの変更 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="218"/>
         <source>Age and Preferred Content Success</source>
-        <translation type="unfinished"></translation>
+        <translation>年齢と好みのコンテンツの成功</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="255"/>
         <source>Applied Gender Change </source>
-        <translation type="unfinished"></translation>
+        <translation>適用された性別変更 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="256"/>
         <source>Gender Change Success</source>
-        <translation type="unfinished"></translation>
+        <translation>性別変更の成功</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="298"/>
         <source>Confirm Create New Account</source>
-        <translation type="unfinished"></translation>
+        <translation>新しいアカウントの作成を確認する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="299"/>
         <source>Are You Sure You Want To Create A New Account?</source>
-        <translation type="unfinished"></translation>
+        <translation>新しいアカウントを作成してもよろしいですか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="319"/>
         <source>Cannot Delete Account</source>
-        <translation type="unfinished"></translation>
+        <translation>アカウントを削除できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="320"/>
         <source>Cannot Delete An Account That Is In Use</source>
-        <translation type="unfinished"></translation>
+        <translation>使用中のアカウントを削除できない</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="325"/>
         <source>Confirm Delete Account</source>
-        <translation type="unfinished"></translation>
+        <translation>アカウント削除の確認</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="326"/>
         <source>Are You Sure You Want To Delete This Account?</source>
-        <translation type="unfinished"></translation>
+        <translation>このアカウントを削除してもよろしいですか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="332"/>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="333"/>
         <source>Account was removed</source>
-        <translation type="unfinished"></translation>
+        <translation>アカウントが削除されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="338"/>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="339"/>
         <source>A error occured and account was not removed</source>
-        <translation type="unfinished"></translation>
+        <translation>エラーが発生したためアカウントは削除されませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="348"/>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="349"/>
         <source>Connot delete the last account</source>
-        <translation type="unfinished"></translation>
+        <translation>最後のアカウントは削除しないでください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AvatarBar.cpp" line="58"/>
         <source>queued</source>
-        <translation type="unfinished"></translation>
+        <translation>列に並んだ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="307"/>
         <source>Use camcorder button on right to start and stop recording video.</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオの録画を開始および停止するには、右側のビデオカメラ ボタンを使用します。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="354"/>
         <source>ChatEntryWidget client callback is not set</source>
-        <translation type="unfinished"></translation>
+        <translation>ChatEntryWidget クライアント コールバックが設定されていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="84"/>
         <source>Open File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを開く</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="98"/>
         <source>Insufficient Permission To Send File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを送信するための十分な権限がありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="107"/>
         <source>File Sharing Is Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル共有が無効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="112"/>
         <source>Stop Sharing This File</source>
-        <translation type="unfinished"></translation>
+        <translation>このファイルの共有を停止する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="117"/>
         <source>Start Sharing This File</source>
-        <translation type="unfinished"></translation>
+        <translation>このファイルの共有を開始します</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="124"/>
         <source>Remove From My Library</source>
-        <translation type="unfinished"></translation>
+        <translation>マイライブラリから削除</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="129"/>
         <source>Add To My Library</source>
-        <translation type="unfinished"></translation>
+        <translation>マイライブラリに追加</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="134"/>
         <source>Delete File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルの削除</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="138"/>
         <source>Shred File</source>
-        <translation type="unfinished"></translation>
+        <translation>細断ファイル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="61"/>
         <source>Open Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>フォルダーを開く</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1367"/>
@@ -6634,391 +6819,393 @@ Delay Test Is Invalid
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1397"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1403"/>
         <source>Invalid User Name</source>
-        <translation type="unfinished"></translation>
+        <translation>無効なユーザー名</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1367"/>
         <source>User Name cannot have NoLimitConnect in name.</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー名に NoLimitConnect を含めることはできません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1373"/>
         <source>User Name cannot have special character quote.</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー名に特殊文字の引用符を含めることはできません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1379"/>
         <source>User Name cannot have comma.</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー名にカンマを含めることはできません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1385"/>
         <source>User Name cannot have special character parentheses.</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー名には特殊文字の括弧を含めることはできません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1391"/>
         <source>User Name cannot have special character slashes.</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー名には特殊文字のスラッシュを含めることはできません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1403"/>
         <source>User Name is too short (minimum 4 chars).</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー名が短すぎます (最低 4 文字)。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1434"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1440"/>
         <source>Age Verify</source>
-        <translation type="unfinished"></translation>
+        <translation>年齢確認</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1434"/>
         <source>Invalid Age</source>
-        <translation type="unfinished"></translation>
+        <translation>無効な年齢です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1440"/>
         <source>Age Connot be greater than 120 years old</source>
-        <translation type="unfinished"></translation>
+        <translation>年齢 120 歳を超えないこと</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2295"/>
         <source>User Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーが利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2296"/>
         <source>User </source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2296"/>
         <source> Is Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation> 利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2305"/>
         <source>Already In A Session</source>
-        <translation type="unfinished"></translation>
+        <translation>すでにセッション中です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2306"/>
         <source>Already in session. Please close existing session and try again</source>
-        <translation type="unfinished"></translation>
+        <translation>すでにセッション中です。既存のセッションを閉じて再試行してください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2315"/>
         <source>Sent User An Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーにオファーを送信しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2316"/>
         <source>Offer Was Sent To  </source>
-        <translation type="unfinished"></translation>
+        <translation>オファーの送信先  </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2320"/>
         <source>Send Offer Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーの送信に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2321"/>
         <source>Offer Send Failed  </source>
-        <translation type="unfinished"></translation>
+        <translation>オファーの送信に失敗しました  </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2325"/>
         <source>Not Connected</source>
-        <translation type="unfinished"></translation>
+        <translation>接続されていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2326"/>
         <source>You are not connected to host </source>
-        <translation type="unfinished"></translation>
+        <translation>ホストに接続されていません </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2330"/>
         <source>No User Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーが選択されていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2331"/>
         <source>You must select a user to send to </source>
-        <translation type="unfinished"></translation>
+        <translation>送信先のユーザーを選択する必要があります </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2300"/>
         <source>User is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーはオフラインです</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="298"/>
         <source>Select Media File</source>
-        <translation type="unfinished"></translation>
+        <translation>メディアファイルの選択</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="305"/>
         <source>Select Video File</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオファイルの選択</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="311"/>
         <source>Select Audio File</source>
-        <translation type="unfinished"></translation>
+        <translation>音声ファイルの選択</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="317"/>
         <source>Select Image File</source>
-        <translation type="unfinished"></translation>
+        <translation>画像ファイルの選択</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="388"/>
         <source>Cannot Read File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを読み取れません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1397"/>
         <source>User Name is too long (maximum 31 chars).</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー名が長すぎます (最大 31 文字)。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1422"/>
         <source>Mood Message is too long (maximum 31 chars)</source>
-        <translation type="unfinished"></translation>
+        <translation>ムードメッセージが長すぎます (最大 31 文字)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2301"/>
         <source>User is no longer connected</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーはもう接続されていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2310"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2311"/>
         <source>Session not found</source>
-        <translation type="unfinished"></translation>
+        <translation>セッションが見つかりません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2335"/>
         <source>Purge Everthing Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>すべてをパージする警告</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2336"/>
         <source>This action will delete everything not locked including Identity, Downloaded Files, Storyboard, Message History Etc.
 The action cannot be undone
 Are you very sure you want to proceed?</source>
-        <translation type="unfinished"></translation>
+        <translation>このアクションにより、ID、ダウンロードされたファイル、ストーリーボード、メッセージ履歴など、ロックされていないすべてが削除されます。
+アクションは元に戻せません
+続行してもよろしいですか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2340"/>
         <source>Voice Message Too Short</source>
-        <translation type="unfinished"></translation>
+        <translation>音声メッセージが短すぎます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2341"/>
         <source>The Voice Message was too short and will not be sent.</source>
-        <translation type="unfinished"></translation>
+        <translation>ボイスメッセージが短すぎるため、送信されません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2345"/>
         <source>Video clip Too Short</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオクリップが短すぎます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2346"/>
         <source>The Video Clip was too short and will not be sent.</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオクリップは短すぎるため、送信されません。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2350"/>
         <source>Video record failed to start</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオ録画を開始できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2351"/>
         <source>Video record failed to start.</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオ録画を開始できませんでした。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2367"/>
         <source>File Name Is Empty</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル名が空です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2375"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2376"/>
         <source>Access File Permissions Denied By User</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルへのアクセス許可がユーザーによって拒否されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2385"/>
         <source>Cannot launch applet until network is available</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークが利用可能になるまでアプレットを起動できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2393"/>
         <source>Requires Open Port</source>
-        <translation type="unfinished"></translation>
+        <translation>オープンポートが必要です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2394"/>
         <source>Action requires a open port</source>
-        <translation type="unfinished"></translation>
+        <translation>アクションには開いているポートが必要です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2402"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2411"/>
         <source>Invalid Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>無効な招待です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2403"/>
         <source>The invite is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>招待は無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2412"/>
         <source>Cannot accept invite from myself</source>
-        <translation type="unfinished"></translation>
+        <translation>自分からの招待を受け入れることができません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2420"/>
         <source>Invalid User</source>
-        <translation type="unfinished"></translation>
+        <translation>無効なユーザー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2421"/>
         <source>Could not find the user</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーが見つかりませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2429"/>
         <source>User Not Online</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーがオンラインではありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2430"/>
         <source>The user is not currently online</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーは現在オンラインではありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2438"/>
         <source>Friendship Level To Low</source>
-        <translation type="unfinished"></translation>
+        <translation>友好度が低い</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2439"/>
         <source>Requires friendship of friend or higher</source>
-        <translation type="unfinished"></translation>
+        <translation>フレンド以上の友情が必要です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2457"/>
         <source>The host url is not valid</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト URL が無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2465"/>
         <source>Invalid Host Type</source>
-        <translation type="unfinished"></translation>
+        <translation>無効なホストタイプ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2466"/>
         <source>The host url does not have a vailid host type</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト URL には有効なホスト タイプがありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="645"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2355"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1388"/>
         <source>Unknown Error</source>
-        <translation type="unfinished"></translation>
+        <translation>不明なエラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2356"/>
         <source>Unknown Error </source>
-        <translation type="unfinished"></translation>
+        <translation>不明なエラー </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2356"/>
         <source> for user </source>
-        <translation type="unfinished"></translation>
+        <translation> ユーザーにとって </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHostedListItem.cpp" line="152"/>
         <location filename="../nolimitgui/src/HostedPluginWidget.cpp" line="113"/>
         <location filename="../nolimitgui/src/HostJoinRequestListItem.cpp" line="133"/>
         <source> Hosted By Me</source>
-        <translation type="unfinished"></translation>
+        <translation> 私が主催</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHostedListItem.cpp" line="207"/>
         <source>Stop Ignoring Host</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストの無視をやめる</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="501"/>
         <source> Is Offline </source>
-        <translation type="unfinished"></translation>
+        <translation> オフラインです </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="941"/>
         <source>Not enough storage available</source>
-        <translation type="unfinished"></translation>
+        <translation>十分なストレージがありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="942"/>
         <source>Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>必要なもの </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="942"/>
         <source> but only </source>
-        <translation type="unfinished"></translation>
+        <translation> しかし、ただ </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="943"/>
         <source> available </source>
-        <translation type="unfinished"></translation>
+        <translation> 利用可能 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1041"/>
         <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="182"/>
         <source>Plugin Type Not Set</source>
-        <translation type="unfinished"></translation>
+        <translation>プラグインタイプが設定されていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1051"/>
         <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="192"/>
         <source>User Not Set</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーが設定されていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1062"/>
         <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="202"/>
         <source>Offer Not Set</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーが設定されていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1072"/>
         <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="212"/>
         <source>File Hash Is Not Valid</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルのハッシュが無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferSession.cpp" line="95"/>
         <source>Offer Uninitialized</source>
-        <translation type="unfinished"></translation>
+        <translation>初期化されていないオファー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferSession.cpp" line="108"/>
         <source>User Uninitialized</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーが初期化されていない</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1802"/>
         <source> </source>
-        <translation type="unfinished"></translation>
+        <translation> </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="145"/>
@@ -7027,376 +7214,376 @@ Are you very sure you want to proceed?</source>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="241"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="283"/>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>どれでも</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="147"/>
         <source>Under 21</source>
-        <translation type="unfinished"></translation>
+        <translation>21歳未満</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="149"/>
         <source>21 Or Older</source>
-        <translation type="unfinished"></translation>
+        <translation>21歳以上</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="161"/>
         <source>Old</source>
-        <translation type="unfinished"></translation>
+        <translation>古い</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="169"/>
         <source>Young</source>
-        <translation type="unfinished"></translation>
+        <translation>ヤング</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="173"/>
         <source>Middle Age</source>
-        <translation type="unfinished"></translation>
+        <translation>中年</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="186"/>
         <source>No Error </source>
-        <translation type="unfinished"></translation>
+        <translation>エラーなし </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="188"/>
         <source>Comm Error Invalid Packet </source>
-        <translation type="unfinished"></translation>
+        <translation>通信エラー無効なパケット </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="190"/>
         <source>Comm Error User Offline </source>
-        <translation type="unfinished"></translation>
+        <translation>通信エラー ユーザーがオフラインです </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="192"/>
         <source>Comm Error Search Text To Short </source>
-        <translation type="unfinished"></translation>
+        <translation>通信エラー検索テキストが短い </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="194"/>
         <source>Comm Error Search Text To Long </source>
-        <translation type="unfinished"></translation>
+        <translation>通信エラー検索テキストが長すぎます </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="196"/>
         <source>Comm Error Search No Match </source>
-        <translation type="unfinished"></translation>
+        <translation>通信エラー検索一致なし </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="198"/>
         <source>Comm Error Invalid Host Type </source>
-        <translation type="unfinished"></translation>
+        <translation>通信エラー 無効なホスト タイプ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="200"/>
         <source>Comm Error Plugin Not Enabled </source>
-        <translation type="unfinished"></translation>
+        <translation>通信エラー プラグインが有効になっていません </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="202"/>
         <source>Comm Error Plugin Permission Level </source>
-        <translation type="unfinished"></translation>
+        <translation>通信エラープラグインの許可レベル </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="204"/>
         <source>Comm Error Invalid Param </source>
-        <translation type="unfinished"></translation>
+        <translation>通信エラー無効なパラメータ </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="206"/>
         <source>Comm Error Invalid </source>
-        <translation type="unfinished"></translation>
+        <translation>通信エラーが無効です </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="218"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1642"/>
         <source>Video</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="220"/>
         <source>Auidio</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="222"/>
         <source>Image</source>
-        <translation type="unfinished"></translation>
+        <translation>画像</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="224"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>テキスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="226"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="251"/>
         <source>Personal</source>
-        <translation type="unfinished"></translation>
+        <translation>個人的な</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="228"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1658"/>
         <source>Other</source>
-        <translation type="unfinished"></translation>
+        <translation>その他</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="243"/>
         <source>Family</source>
-        <translation type="unfinished"></translation>
+        <translation>家族</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="245"/>
         <source>Adult</source>
-        <translation type="unfinished"></translation>
+        <translation>大人</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="247"/>
         <source>XXX</source>
-        <translation type="unfinished"></translation>
+        <translation>XXX</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="249"/>
         <source>DarkWeb</source>
-        <translation type="unfinished"></translation>
+        <translation>ダークウェブ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="265"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1862"/>
         <source>Anonymous </source>
-        <translation type="unfinished"></translation>
+        <translation>匿名 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="267"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1864"/>
         <source>Guest </source>
-        <translation type="unfinished"></translation>
+        <translation>ゲスト </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="269"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1866"/>
         <source>Friend </source>
-        <translation type="unfinished"></translation>
+        <translation>友達 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="271"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1868"/>
         <source>Administrator </source>
-        <translation type="unfinished"></translation>
+        <translation>管理者 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="273"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1870"/>
         <source>Ignore </source>
-        <translation type="unfinished"></translation>
+        <translation>無視する </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="285"/>
         <source>Male</source>
-        <translation type="unfinished"></translation>
+        <translation>男性</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="287"/>
         <source>Female</source>
-        <translation type="unfinished"></translation>
+        <translation>女性</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="299"/>
         <source>Group Host </source>
-        <translation type="unfinished"></translation>
+        <translation>グループホスト </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="301"/>
         <source>Chat Room Host </source>
-        <translation type="unfinished"></translation>
+        <translation>チャットルームホスト </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="303"/>
         <source>Random Connect Host </source>
-        <translation type="unfinished"></translation>
+        <translation>ランダムコネクトホスト </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="305"/>
         <source>Peer User </source>
-        <translation type="unfinished"></translation>
+        <translation>ピアユーザー </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="307"/>
         <source>Network Host </source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークホスト </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="309"/>
         <source>Connect Test Host </source>
-        <translation type="unfinished"></translation>
+        <translation>テストホストに接続する </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="311"/>
         <source>Unknown Host Type </source>
-        <translation type="unfinished"></translation>
+        <translation>不明なホストタイプ </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="353"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1554"/>
         <source>Host Search Status Unknown </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索ステータスが不明 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="355"/>
         <source>Host Search Invalid Url </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索の無効な URL </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="357"/>
         <source>Host Search Querying Id In Progress </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索の ID クエリが進行中です </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="359"/>
         <source>Host Search Querying Id Success </source>
-        <translation type="unfinished"></translation>
+        <translation>ID クエリのホスト検索が成功しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="361"/>
         <source>Host Search Query Id Failed </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索クエリ ID が失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="363"/>
         <source>Host Search Connecting </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索接続中 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="365"/>
         <source>Host Search Connect Success </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索接続成功 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="367"/>
         <source>Host Search Connect Failed </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索接続に失敗しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="369"/>
         <source>Host Search Handshaking </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索ハンドシェイク </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="371"/>
         <source>Host Search Handshake Timeout </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索ハンドシェイクのタイムアウト </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="374"/>
         <source>Host Search Sending Request </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索送信リクエスト </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="376"/>
         <source>Host Search Send Request Failed </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索送信リクエストが失敗しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="378"/>
         <source>Host Search Success </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索成功 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="380"/>
         <source>Host Search Failed </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索に失敗しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="383"/>
         <source>Host Search Fail Permission </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索失敗許可 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="385"/>
         <source>Host Search Fail Connect Dropped </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索失敗 接続切断 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="387"/>
         <source>Host Search Invalid Param </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索のパラメータが無効です </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="389"/>
         <source>Host Search Plugin Disabled </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索プラグインが無効になっています </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="391"/>
         <source>Host Search No Matches </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索で一致しない </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="393"/>
         <source>Host Search Completed </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索が完了しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="395"/>
         <source>Invalid Host Search Param </source>
-        <translation type="unfinished"></translation>
+        <translation>無効なホスト検索パラメータ </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="405"/>
         <source>Join Again</source>
-        <translation type="unfinished"></translation>
+        <translation>もう一度参加する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="408"/>
         <source>Join Granted</source>
-        <translation type="unfinished"></translation>
+        <translation>参加が許可されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="411"/>
         <source>Sending</source>
-        <translation type="unfinished"></translation>
+        <translation>送信中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="414"/>
         <source>Send FAILED</source>
-        <translation type="unfinished"></translation>
+        <translation>送信失敗</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="417"/>
         <source>Send Acked</source>
-        <translation type="unfinished"></translation>
+        <translation>送信確認済み</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="420"/>
         <source>Join Requested</source>
-        <translation type="unfinished"></translation>
+        <translation>参加が要求されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="423"/>
         <source>Join Denied</source>
-        <translation type="unfinished"></translation>
+        <translation>参加が拒否されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="426"/>
         <source>Left Host</source>
-        <translation type="unfinished"></translation>
+        <translation>左ホスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="429"/>
         <source>Connect And Join</source>
-        <translation type="unfinished"></translation>
+        <translation>接続して参加</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="432"/>
         <source>Uknown Join State</source>
-        <translation type="unfinished"></translation>
+        <translation>不明な結合状態</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="462"/>
         <source>View About Me Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>自己紹介の要件を表示 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="464"/>
@@ -7409,2236 +7596,2236 @@ Are you very sure you want to proceed?</source>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="705"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="740"/>
         <source> permission</source>
-        <translation type="unfinished"></translation>
+        <translation> 許可</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="469"/>
         <source>About Me Page is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>自己紹介ページが無効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="472"/>
         <source>About Me Page is inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>自己紹介ページは非アクティブです</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="475"/>
         <source>About Me Page unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>ステータスが無視されているため、自己紹介ページが利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="478"/>
         <source>About Me Page unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>忙しいため自己紹介ページが利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="481"/>
         <source>Contact must have direct connect to provide About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先は自己紹介ページを提供するには直接接続する必要があります</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="484"/>
         <source>About Me Page unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先がオフラインのため、自己紹介ページを利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="493"/>
         <source>View Story Board</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーボードを見る</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="496"/>
         <source>View Story Board Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーボードの要件を表示する </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="503"/>
         <source>Story Board is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーボードが無効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="506"/>
         <source>Story Board is inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーボードは非アクティブです</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="509"/>
         <source>Story Board unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>無視ステータスのためストーリーボードを利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="512"/>
         <source>Story Board unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>ビジーのためストーリーボードを利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="515"/>
         <source>Contact must have direct connect to provide Story Board Page</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーボード ページを提供するには連絡先が直接接続する必要があります</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="518"/>
         <source>Story Board unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先がオフラインのためストーリーボードを利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="528"/>
         <source>Offer Send A File</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー ファイルを送信</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="532"/>
         <source>Send A File Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルの送信に必要なもの </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="540"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="577"/>
         <source>Shared Files is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>共有ファイルが無効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="543"/>
         <source>Send File unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>無視ステータスのためファイルを送信できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="546"/>
         <source>Send File unavailable because is inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>が非アクティブであるため、ファイルを送信できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="549"/>
         <source>Send File unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>ビジーのためファイルを送信できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="552"/>
         <source>Contact must have direct connect to receive Send File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル送信を受信するには連絡先に直接接続が必要です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="555"/>
         <source>Send File unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先がオフラインのためファイルを送信できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="567"/>
         <source>Shared Files Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>共有ファイルの要件 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="572"/>
         <source>No Shared Files</source>
-        <translation type="unfinished"></translation>
+        <translation>共有ファイルなし</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="580"/>
         <source>Shared Files unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>無視ステータスのため、共有ファイルは使用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="583"/>
         <source>Shared Files unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>ビジーのため共有ファイルを利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="586"/>
         <source>Contact must have direct connect to Share Files</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先はファイル共有に直接接続する必要があります</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="589"/>
         <source>Shared Files unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先がオフラインのため、共有ファイルを利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="601"/>
         <source>Shared Web Cam Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>共有 Web カメラの要件 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="608"/>
         <source>Shared Web Cam is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>共有 Web カメラが無効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="611"/>
         <source>Shared Web Cam is not active</source>
-        <translation type="unfinished"></translation>
+        <translation>共有 Web カメラがアクティブではありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="614"/>
         <source>Shared Web Cam unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>無視ステータスのため、共有 Web カメラは利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="617"/>
         <source>Shared Web Cam unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>ビジーのため共有 Web カメラを利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="620"/>
         <source>Contact must have direct connect to Share Web Cam</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先は共有 Web カメラに直接接続する必要があります</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="623"/>
         <source>Shared Web Cam unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先がオフラインのため、共有 Web カメラを利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="632"/>
         <source>Offer Voice Call</source>
-        <translation type="unfinished"></translation>
+        <translation>音声通話を提供する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="635"/>
         <source>Voice Call Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>音声通話の要件 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="642"/>
         <source>Voice Call is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>音声通話が無効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="645"/>
         <source>Voice Call unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>無視ステータスのため音声通話が利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="648"/>
         <source>Voice Call unavailable because is Inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>が非アクティブのため、音声通話が利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="651"/>
         <source>Voice Call unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>話中のため音声通話が利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="654"/>
         <source>Contact must have direct connect for Voice Call</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先は音声通話のために直接接続する必要があります</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="657"/>
         <source>Voice Call unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先がオフラインのため音声通話が利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="666"/>
         <source>Offer Play Truth Or Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー プレイ 真実か挑戦か</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="992"/>
         <source>Truth Or Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦か</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1702"/>
         <source>Sending Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーの送信</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2227"/>
         <source> is offline</source>
-        <translation type="unfinished"></translation>
+        <translation> オフラインです</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="669"/>
         <source>Truth Or Dare Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦かが必要 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="676"/>
         <source>Truth Or Dare is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦かが無効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="679"/>
         <source>Truth Or Dare unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>無視ステータスのため真実か挑戦は利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="682"/>
         <source>Truth Or Dare unavailable because is Inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>「真実か挑戦か」は非アクティブのため利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="685"/>
         <source>Truth Or Dare unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>忙しいため「真実か挑戦か」を利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="688"/>
         <source>Contact must have direct connect for Truth Or Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先は真実か挑戦かに直接接続する必要があります</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="691"/>
         <source>Truth Or Dare unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先がオフラインのため「真実か挑戦か」を利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="700"/>
         <source>Offer Text Chat Session</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストチャットセッションをオファーする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="703"/>
         <source>Text Chat Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>テキストチャットの要件 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="710"/>
         <source>Text Chat is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストチャットが無効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="716"/>
         <source>Text Chat unavailable because is Inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>が非アクティブであるため、テキスト チャットは利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="719"/>
         <source>Text Chat unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>忙しいためテキストチャットできません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="722"/>
         <source>Contact must have direct connect for Text Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先はテキスト チャットに直接接続する必要があります</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="725"/>
         <source>Text Chat unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先がオフラインのため、テキスト チャットが利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="735"/>
         <source>Offer Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオチャットを提供する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="738"/>
         <source>Video Chat Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオチャットの要件</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="745"/>
         <source>Video Chat is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオチャットが無効になっています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="748"/>
         <source>Video Chat unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>無視ステータスのためビデオチャットは利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="751"/>
         <source>Video Chat unavailable because is Inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>が非アクティブのため、ビデオチャットは利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="754"/>
         <source>Video Chat unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>ビジー状態のためビデオチャットが利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="757"/>
         <source>Contact must have direct connect for Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先はビデオ チャットに直接接続する必要があります</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="760"/>
         <source>Video Chat unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先がオフラインのためビデオチャットが利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="780"/>
         <source>Administrator</source>
-        <translation type="unfinished"></translation>
+        <translation>管理者</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="784"/>
         <source>Friend</source>
-        <translation type="unfinished"></translation>
+        <translation>友達</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="788"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="865"/>
         <source>Guest</source>
-        <translation type="unfinished"></translation>
+        <translation>ゲスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="792"/>
         <source>Anybody</source>
-        <translation type="unfinished"></translation>
+        <translation>誰でも</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="796"/>
         <source>Disabled or ignored</source>
-        <translation type="unfinished"></translation>
+        <translation>無効または無視</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="813"/>
         <source>Access Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>アクセス不明</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="817"/>
         <source>Access Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>アクセスOK</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="821"/>
         <source>Insufficient Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>不十分な権限</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="825"/>
         <source>Plugin Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>プラグインが無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="829"/>
         <source>Contact Ignored</source>
-        <translation type="unfinished"></translation>
+        <translation>連絡先は無視されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="833"/>
         <source>Plugin Inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>プラグインが非アクティブ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="837"/>
         <source>Plugin Busy</source>
-        <translation type="unfinished"></translation>
+        <translation>プラグインがビジー状態</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="841"/>
         <source>Requires Direct Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>直接接続が必要です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="845"/>
         <source>Requires User Be Online</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーがオンラインである必要がある</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="849"/>
         <source>Unknown Plugin Access</source>
-        <translation type="unfinished"></translation>
+        <translation>不明なプラグインアクセス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="861"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>障害者</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="867"/>
         <source>Friends</source>
-        <translation type="unfinished"></translation>
+        <translation>友達</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="880"/>
         <source>Msg None</source>
-        <translation type="unfinished"></translation>
+        <translation>メッセージなし</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="884"/>
         <source>Connecting</source>
-        <translation type="unfinished"></translation>
+        <translation>接続中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="888"/>
         <source>Connect Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>接続に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="892"/>
         <source>Retrieving Info</source>
-        <translation type="unfinished"></translation>
+        <translation>情報の取得</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="896"/>
         <source>Retrieve Info Complete</source>
-        <translation type="unfinished"></translation>
+        <translation>情報の取得が完了しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="900"/>
         <source>Retrieve Info Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>情報の取得に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="904"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1422"/>
         <source>Downloading</source>
-        <translation type="unfinished"></translation>
+        <translation>ダウンロード中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="908"/>
         <source>Downloading Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ダウンロードに失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="912"/>
         <source>Downloading Complete</source>
-        <translation type="unfinished"></translation>
+        <translation>ダウンロード完了</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="916"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1360"/>
         <source>Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>キャンセルされました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="920"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1356"/>
         <source>Permission Error</source>
-        <translation type="unfinished"></translation>
+        <translation>許可エラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="924"/>
         <source>Low Disk Space</source>
-        <translation type="unfinished"></translation>
+        <translation>ディスク容量が少ない</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="928"/>
         <source>Invalid Parameter</source>
-        <translation type="unfinished"></translation>
+        <translation>無効なパラメータ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="932"/>
         <source>Unknown Plugin Message</source>
-        <translation type="unfinished"></translation>
+        <translation>不明なプラグインのメッセージ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="948"/>
         <source>About Me Page Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>自己紹介ページ ビューア</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="952"/>
         <source>About Me Page Server</source>
-        <translation type="unfinished"></translation>
+        <translation>自己紹介ページサーバー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="956"/>
         <source>Client Peer user</source>
-        <translation type="unfinished"></translation>
+        <translation>クライアント ピアユーザー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="960"/>
         <source>Host Peer user</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストピアユーザー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="964"/>
         <source>Send A File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを送信する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="968"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1097"/>
         <source>Shared Files</source>
-        <translation type="unfinished"></translation>
+        <translation>共有ファイル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="972"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1086"/>
         <source>Shared Web Cam</source>
-        <translation type="unfinished"></translation>
+        <translation>共有ウェブカメラ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="980"/>
         <source>Voice Call</source>
-        <translation type="unfinished"></translation>
+        <translation>音声通話</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="386"/>
         <source>Play Truth Or Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦かをプレイする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="996"/>
         <source>Story Board Server</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーボードサーバー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1000"/>
         <source>Story Board Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーボードビューア</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1004"/>
         <source>Client Group</source>
-        <translation type="unfinished"></translation>
+        <translation>クライアントグループ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1007"/>
         <source>Client Chat Room</source>
-        <translation type="unfinished"></translation>
+        <translation>クライアントチャットルーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1010"/>
         <source>Client Random Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>クライアントランダム接続</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1013"/>
         <source>Client No Limit Network</source>
-        <translation type="unfinished"></translation>
+        <translation>クライアント無制限ネットワーク</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1016"/>
         <source>Client Connect Test</source>
-        <translation type="unfinished"></translation>
+        <translation>クライアント接続テスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1020"/>
         <source>Host Group</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストグループ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1023"/>
         <source>Host Chat Room</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストチャットルーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1026"/>
         <source>Host Random Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストランダムコネクト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1029"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1146"/>
         <source>Host No Limit Network</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト制限なしネットワーク</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1032"/>
         <source>Host Connect Test</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト接続テスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1036"/>
         <source>Shared Files Client</source>
-        <translation type="unfinished"></translation>
+        <translation>共有ファイルクライアント</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1040"/>
         <source>Web Cam Client</source>
-        <translation type="unfinished"></translation>
+        <translation>ウェブカメラクライアント</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1044"/>
         <location filename="../nolimitgui/src/VxContextMenu.cpp" line="185"/>
         <source>Library</source>
-        <translation type="unfinished"></translation>
+        <translation>図書館</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1052"/>
         <source>Unknown Plugin</source>
-        <translation type="unfinished"></translation>
+        <translation>不明なプラグイン</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1072"/>
         <source>About Me Page Service</source>
-        <translation type="unfinished"></translation>
+        <translation>自己紹介ページサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1076"/>
         <source>Peer User Client</source>
-        <translation type="unfinished"></translation>
+        <translation>ピアユーザークライアント</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1080"/>
         <source>Peer User Host (me)</source>
-        <translation type="unfinished"></translation>
+        <translation>ピアユーザーホスト (私)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1090"/>
         <source>Web Cam Service</source>
-        <translation type="unfinished"></translation>
+        <translation>ウェブカメラサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1101"/>
         <source>Shared Files Service</source>
-        <translation type="unfinished"></translation>
+        <translation>共有ファイルサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1106"/>
         <source>Person To Person File Transfer</source>
-        <translation type="unfinished"></translation>
+        <translation>個人間のファイル転送</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1110"/>
         <source>Connection Test Service</source>
-        <translation type="unfinished"></translation>
+        <translation>接続テストサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1114"/>
         <source>Connection Test Client</source>
-        <translation type="unfinished"></translation>
+        <translation>接続テストクライアント</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1121"/>
         <source>Group User</source>
-        <translation type="unfinished"></translation>
+        <translation>グループユーザー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1125"/>
         <source>Host Group Service</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストグループサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1130"/>
         <source>Chat Room User</source>
-        <translation type="unfinished"></translation>
+        <translation>チャットルームユーザー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1134"/>
         <source>Host Chat Room Service</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストチャットルームサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1138"/>
         <source>Connect To Random Person</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダムな人に接続する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1142"/>
         <source>Connect To Random Person Service</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダムな人サービスに接続する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1150"/>
         <source>Messanger Service</source>
-        <translation type="unfinished"></translation>
+        <translation>メッセンジャーサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1154"/>
         <source>Story Page (Blog) Service</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーページ（ブログ）サービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1158"/>
         <source>View Story Board Page (Blog)</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーボードページを表示 (ブログ)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1162"/>
         <source>Truth Or Dare Video Chat Game</source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦かビデオチャットゲーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1166"/>
         <source>Phone Call With Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオチャット付き電話</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1170"/>
         <source>Phone Call With Voice Only</source>
-        <translation type="unfinished"></translation>
+        <translation>音声のみでの通話</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1174"/>
         <source>MJPEG Movie Reader</source>
-        <translation type="unfinished"></translation>
+        <translation>MJPEG ムービーリーダー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1178"/>
         <source>MJPEG Movie Recorder</source>
-        <translation type="unfinished"></translation>
+        <translation>MJPEGムービーレコーダー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1182"/>
         <source>Personal Notes And Media Recorder</source>
-        <translation type="unfinished"></translation>
+        <translation>個人的なメモとメディアレコーダー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1186"/>
         <source>Network Services</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワークサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1190"/>
         <source>Recorded Audio Reader</source>
-        <translation type="unfinished"></translation>
+        <translation>録音された音声リーダー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1194"/>
         <source>Audio Recorder</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオレコーダー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1198"/>
         <source>Download Shared Files</source>
-        <translation type="unfinished"></translation>
+        <translation>共有ファイルをダウンロードする</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1206"/>
         <source>UNKNOWN PLUGIN</source>
-        <translation type="unfinished"></translation>
+        <translation>不明なプラグイン</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1220"/>
         <source> About Me Page Service </source>
-        <translation type="unfinished"></translation>
+        <translation> 自己紹介ページサービス </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1224"/>
         <source> View About Me Page </source>
-        <translation type="unfinished"></translation>
+        <translation> 自己紹介ページを見る </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1228"/>
         <source> Receive A File </source>
-        <translation type="unfinished"></translation>
+        <translation> ファイルを受信する </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1232"/>
         <source> View Shared Files </source>
-        <translation type="unfinished"></translation>
+        <translation> 共有ファイルの表示</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1236"/>
         <source> Join Chat Session </source>
-        <translation type="unfinished"></translation>
+        <translation>チャットセッションに参加する </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1240"/>
         <source> Voice Phone Call </source>
-        <translation type="unfinished"></translation>
+        <translation> 音声電話通話 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1244"/>
         <source> Video Chat Offer </source>
-        <translation type="unfinished"></translation>
+        <translation> ビデオチャットオファー </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1248"/>
         <source> Play Truth Or Dare </source>
-        <translation type="unfinished"></translation>
+        <translation> 真実か挑戦かをプレイする </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1252"/>
         <source> Story Board Service</source>
-        <translation type="unfinished"></translation>
+        <translation> ストーリーボードサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1256"/>
         <source> View Story Board </source>
-        <translation type="unfinished"></translation>
+        <translation> ストーリーボードを見る </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1260"/>
         <source> Shared Files Client </source>
-        <translation type="unfinished"></translation>
+        <translation> 共有ファイルクライアント </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1264"/>
         <source> Web Cam Server Service</source>
-        <translation type="unfinished"></translation>
+        <translation> Webカメラサーバーサービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1268"/>
         <source> View Shared Web Cam </source>
-        <translation type="unfinished"></translation>
+        <translation> 共有 Web カメラを表示する </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1272"/>
         <source>Unknown Plugin Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>不明なプラグインのオファー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1287"/>
         <source> Invalid </source>
-        <translation type="unfinished"></translation>
+        <translation> 無効です </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1291"/>
         <source> Not Active </source>
-        <translation type="unfinished"></translation>
+        <translation> アクティブではありません </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1295"/>
         <source> Tx Enabled </source>
-        <translation type="unfinished"></translation>
+        <translation> 送信が有効 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1299"/>
         <source> Rx Enabled </source>
-        <translation type="unfinished"></translation>
+        <translation> 受信可能 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1303"/>
         <source> Duplex Enabled </source>
-        <translation type="unfinished"></translation>
+        <translation> 二重通信が有効 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1307"/>
         <source> No Connection </source>
-        <translation type="unfinished"></translation>
+        <translation> 接続がありません </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1311"/>
         <source>Unknown PushToTalkStatus</source>
-        <translation type="unfinished"></translation>
+        <translation>不明な PushToTalk ステータス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1324"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1712"/>
         <source>Offer Accepted</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーが受け入れられました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1327"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1412"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1714"/>
         <source>Offer Rejected</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーが拒否されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1330"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1366"/>
         <source>Busy</source>
-        <translation type="unfinished"></translation>
+        <translation>忙しい</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1333"/>
         <source>Session Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>セッションがキャンセルされました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1336"/>
         <source>User Ended Session</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーが終了したセッション</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1339"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1718"/>
         <source>User Is Offline</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーはオフラインです</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerVideoPhone.cpp" line="50"/>
         <source>In Video Phone Session</source>
-        <translation type="unfinished"></translation>
+        <translation>テレビ電話セッション中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerVideoPhone.cpp" line="54"/>
         <source>Video Phone Session Ended</source>
-        <translation type="unfinished"></translation>
+        <translation>テレビ電話セッションが終了しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerVideoPhone.cpp" line="121"/>
         <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="130"/>
         <source>Session Started</source>
-        <translation type="unfinished"></translation>
+        <translation>セッションが開始されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerVideoPhone.cpp" line="135"/>
         <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="144"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1342"/>
         <source>Session Ended</source>
-        <translation type="unfinished"></translation>
+        <translation>セッションが終了しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1352"/>
         <source>No Error</source>
-        <translation type="unfinished"></translation>
+        <translation>エラーなし</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1354"/>
         <source>Disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>切断されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1362"/>
         <source>Bad Param</source>
-        <translation type="unfinished"></translation>
+        <translation>不正なパラメータ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1364"/>
         <source>Error At Source</source>
-        <translation type="unfinished"></translation>
+        <translation>ソースでのエラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1368"/>
         <source>Already Downloading</source>
-        <translation type="unfinished"></translation>
+        <translation>すでにダウンロード中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1370"/>
         <source>Already Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>すでにダウンロードされています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1372"/>
         <source>Already Uploading</source>
-        <translation type="unfinished"></translation>
+        <translation>すでにアップロードしています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1374"/>
         <source>File Create Error</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル作成エラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1376"/>
         <source>File Append Error</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル追加エラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1378"/>
         <source>File Open Error</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルオープンエラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1380"/>
         <source>Seek Error</source>
-        <translation type="unfinished"></translation>
+        <translation>シークエラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1382"/>
         <source>Read Error</source>
-        <translation type="unfinished"></translation>
+        <translation>読み取りエラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1384"/>
         <source>Write Error</source>
-        <translation type="unfinished"></translation>
+        <translation>書き込みエラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1386"/>
         <source>Move File Error</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル移動エラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1398"/>
         <source>Upload Not Started</source>
-        <translation type="unfinished"></translation>
+        <translation>アップロードが開始されていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1400"/>
         <source>Waiting Response</source>
-        <translation type="unfinished"></translation>
+        <translation>応答待ち</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1402"/>
         <source>In Upload Que</source>
-        <translation type="unfinished"></translation>
+        <translation>アップロードキュー中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1404"/>
         <source>Start Upload</source>
-        <translation type="unfinished"></translation>
+        <translation>アップロードの開始</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1406"/>
         <source>Uploading</source>
-        <translation type="unfinished"></translation>
+        <translation>アップロード中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1408"/>
         <source>Completed Upload</source>
-        <translation type="unfinished"></translation>
+        <translation>アップロードが完了しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1410"/>
         <source>Upload Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>アップロードがキャンセルされました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1414"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1428"/>
         <source>ERROR</source>
-        <translation type="unfinished"></translation>
+        <translation>エラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1416"/>
         <source>Download Not Started</source>
-        <translation type="unfinished"></translation>
+        <translation>ダウンロードは開始されていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1418"/>
         <source>In Download Que</source>
-        <translation type="unfinished"></translation>
+        <translation>ダウンロードキュー中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1420"/>
         <source>Start Download</source>
-        <translation type="unfinished"></translation>
+        <translation>ダウンロードの開始</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1424"/>
         <source>Completed Download</source>
-        <translation type="unfinished"></translation>
+        <translation>ダウンロードが完了しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1426"/>
         <source>Download Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>ダウンロードがキャンセルされました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1431"/>
         <source>Unknown State</source>
-        <translation type="unfinished"></translation>
+        <translation>不明な状態</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1441"/>
         <source>Host Announce Status Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストアナウンスステータスが不明</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1443"/>
         <source>Host Announce Invalid Url</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストが無効な URL をアナウンス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1445"/>
         <source>Host Announce Querying Id In Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストが ID のクエリを実行中であることをアナウンスします</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1447"/>
         <source>Host Announce Querying Id Success</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストが ID クエリの成功を発表しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1449"/>
         <source>Host Announce Query Id Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストアナウンスクエリIDが失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1451"/>
         <source>Host Announce Connecting</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストアナウンス接続中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1453"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1566"/>
         <source>Host Announce Handshaking</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストがハンドシェイクをアナウンス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1455"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1568"/>
         <source>Host Announce Handshake Timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストアナウンスハンドシェイクタイムアウト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1457"/>
         <source>Host Announce Connect Success</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストが接続成功をアナウンス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1459"/>
         <source>Host Announce Connect Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストアナウンス接続失敗</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1461"/>
         <source>Host Announce Sending Request</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストアナウンス送信リクエスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1463"/>
         <source>Host Announce Send Request Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストのアナウンス送信リクエストが失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1465"/>
         <source>Host Announce Success</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストが成功をアナウンスしました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1467"/>
         <source>Host Announce Fail (No Open Port)</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストアナウンス失敗 (オープンポートなし)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1469"/>
         <source>Host Announce Fail Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストアナウンス失敗許可</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1471"/>
         <source>Host Announce Fail Connect Dropped</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストアナウンス失敗接続ドロップ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1473"/>
         <source>Host Announce Invalid Param</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストは無効なパラメータをアナウンスします</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1475"/>
         <source>Host Announce Done</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストアナウンス完了</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1477"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1544"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1590"/>
         <source>Invalid Host Param</source>
-        <translation type="unfinished"></translation>
+        <translation>無効なホストパラメータ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1487"/>
         <source>Host Join Status Unknown </source>
-        <translation type="unfinished"></translation>
+        <translation>ホストの参加ステータスが不明 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1489"/>
         <source>Host Join Invalid Url</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト参加無効な URL</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1491"/>
         <source>Host Join Querying Id In Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト参加の ID クエリが進行中です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1493"/>
         <source>Host Join Querying Id Success</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト参加の ID クエリ成功</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1495"/>
         <source>Host Join Query Id Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト参加クエリ ID が失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1497"/>
         <source>Host Join Connecting</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト参加接続中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1499"/>
         <source>Host Join Handshaking</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト参加ハンドシェイク</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1501"/>
         <source>Host Join Handshake Timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト参加ハンドシェイクのタイムアウト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1503"/>
         <source>Host Join Connect Success</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストの参加接続成功</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1505"/>
         <source>Host Join Connect Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストの参加接続に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1508"/>
         <source>Host Join Fail Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト参加失敗許可</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1510"/>
         <source>Host Join Fail Connect Dropped</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストの参加失敗、接続の切断</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1512"/>
         <source>Host Join Invalid Param</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト参加のパラメータが無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1514"/>
         <source>Host Join Done</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストの参加が完了しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1517"/>
         <source>Host Join Sending Request</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト参加送信リクエスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1519"/>
         <source>Host Join Send Request Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト参加送信リクエストが失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1521"/>
         <source>Host Join Success</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストの参加成功</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1523"/>
         <source>Host Join Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストの参加に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1526"/>
         <source>Host Leave Sending Request</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト脱退送信リクエスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1528"/>
         <source>Host Leave Send Request Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト脱退送信リクエストが失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1530"/>
         <source>Host Leave Success</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストの退出成功</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1532"/>
         <source>Host Leave Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストの脱退に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1535"/>
         <source>Host Sending UnJoin Request</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストが参加解除リクエストを送信中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1537"/>
         <source>Host Send UnJoin Request Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストが参加解除リクエストを送信できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1539"/>
         <source>Host UnJoin Success</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストの参加解除に成功しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1541"/>
         <source>Host UnJoin Fail</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストの参加解除の失敗</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1556"/>
         <source>Host Search Invalid Url</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索の無効な URL</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1558"/>
         <source>Host Search Querying Id In Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索の ID クエリが進行中です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1560"/>
         <source>Host Search Querying Id Success</source>
-        <translation type="unfinished"></translation>
+        <translation>ID クエリのホスト検索が成功しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1562"/>
         <source>Host Search Query Id Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索クエリ ID が失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1564"/>
         <source>Host Search Connecting</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索接続中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1570"/>
         <source>Host Search Connect Success</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索接続成功</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1572"/>
         <source>Host Search Connect Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索接続に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1574"/>
         <source>Host Search Sending Request</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索送信リクエスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1576"/>
         <source>Host Search Send Request Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索送信リクエストが失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1578"/>
         <source>Host Search Success</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索成功</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1580"/>
         <source>Host Search Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1582"/>
         <source>Host Search Fail Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索失敗許可</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1584"/>
         <source>Host Search Fail Connect Dropped</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索失敗 接続切断</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1586"/>
         <source>Host Search Invalid Param</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索のパラメータが無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1588"/>
         <source>Host Search Done</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト検索が完了しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1601"/>
         <source>TB</source>
-        <translation type="unfinished"></translation>
+        <translation>結核</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1606"/>
         <source>GB</source>
-        <translation type="unfinished"></translation>
+        <translation>GB</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1611"/>
         <source>MB</source>
-        <translation type="unfinished"></translation>
+        <translation>MB</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1616"/>
         <source>KB</source>
-        <translation type="unfinished"></translation>
+        <translation>KB</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1621"/>
         <source>Bytes</source>
-        <translation type="unfinished"></translation>
+        <translation>バイト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1634"/>
         <source>Photo</source>
-        <translation type="unfinished"></translation>
+        <translation>写真</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1638"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>オーディオ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1646"/>
         <source>Document</source>
-        <translation type="unfinished"></translation>
+        <translation>文書</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1650"/>
         <source>Archive Or ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>アーカイブまたは ISO</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1654"/>
         <source>Executable</source>
-        <translation type="unfinished"></translation>
+        <translation>実行可能ファイル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1662"/>
         <source>Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>フォルダー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1700"/>
         <source>No Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーなし</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1704"/>
         <source>Offer Sent</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーを送信しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1706"/>
         <source>Offer Send Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーの送信に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1708"/>
         <source>Offer Recieved By User</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーが受け取ったオファー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1710"/>
         <source>User Is Busy</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーは忙しいです</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1716"/>
         <source>Offer Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーはキャンセルされました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1720"/>
         <source>Offer Is In Session</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーはセッション中です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1722"/>
         <source>Offer Session Complete</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーセッションが完了しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1724"/>
         <source>Offer Session Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>オファーセッションが失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1726"/>
         <source>Offer No Response</source>
-        <translation type="unfinished"></translation>
+        <translation>応答なしのオファー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1728"/>
         <source>Missed Call</source>
-        <translation type="unfinished"></translation>
+        <translation>不在着信</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1730"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1763"/>
         <source>Unknown Offer Type</source>
-        <translation type="unfinished"></translation>
+        <translation>不明なオファー タイプ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1740"/>
         <source>Unknonn Offer Type</source>
-        <translation type="unfinished"></translation>
+        <translation>不明なオファーのタイプ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1742"/>
         <source>Offer: Join Group</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー: グループに参加</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1744"/>
         <source>Offer: Join Chat Roome</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー: チャット ルームに参加する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1746"/>
         <source>Offer: Join Random Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー: ランダムコネクトに参加する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1748"/>
         <source>Offer: Personal File</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー: 個人ファイル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1750"/>
         <source>Offer: Friendship</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー: 友情</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1752"/>
         <source>Offer: Instant Message Session</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー: インスタント メッセージ セッション</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1754"/>
         <source>Offer: Truth Or Dare Game</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー: 真実か挑戦かゲーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1756"/>
         <source>Offer: Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー: ビデオチャット</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1758"/>
         <source>Offer: Voice Phone Call</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー: 音声電話通話</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1774"/>
         <source>Accepted</source>
-        <translation type="unfinished"></translation>
+        <translation>承認されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1778"/>
         <source>Rejected</source>
-        <translation type="unfinished"></translation>
+        <translation>拒否されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1782"/>
         <source>User Offline</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーがオフライン</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1786"/>
         <source>Expired</source>
-        <translation type="unfinished"></translation>
+        <translation>期限切れ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1790"/>
         <source>Waiting for response</source>
-        <translation type="unfinished"></translation>
+        <translation>応答を待っています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1796"/>
         <source>Expires </source>
-        <translation type="unfinished"></translation>
+        <translation>有効期限が切れます </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1814"/>
         <source>Horizontal</source>
-        <translation type="unfinished"></translation>
+        <translation>水平</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1817"/>
         <source>Vertical</source>
-        <translation type="unfinished"></translation>
+        <translation>垂直</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1827"/>
         <source>Everybody </source>
-        <translation type="unfinished"></translation>
+        <translation>みんな </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1829"/>
         <source>Friends Online </source>
-        <translation type="unfinished"></translation>
+        <translation>オンラインの友達 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1831"/>
         <source>Friends Offline </source>
-        <translation type="unfinished"></translation>
+        <translation>オフラインの友達 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1834"/>
         <source>Group </source>
-        <translation type="unfinished"></translation>
+        <translation>グループ </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1836"/>
         <source>Chat Room </source>
-        <translation type="unfinished"></translation>
+        <translation>チャットルーム </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1838"/>
         <source>Random Connect </source>
-        <translation type="unfinished"></translation>
+        <translation>ランダムコネクト </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1841"/>
         <source>Ignored </source>
-        <translation type="unfinished"></translation>
+        <translation>無視されました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1844"/>
         <source>Online </source>
-        <translation type="unfinished"></translation>
+        <translation>オンライン </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1846"/>
         <source>Direct Connect </source>
-        <translation type="unfinished"></translation>
+        <translation>ダイレクトコネクト </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1848"/>
         <source>Offline </source>
-        <translation type="unfinished"></translation>
+        <translation>オフライン </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1852"/>
         <source>Unknown </source>
-        <translation type="unfinished"></translation>
+        <translation>不明 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1880"/>
         <source>Sending Join Request </source>
-        <translation type="unfinished"></translation>
+        <translation>参加リクエストの送信 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1882"/>
         <source>Send Join Failed </source>
-        <translation type="unfinished"></translation>
+        <translation>参加の送信に失敗しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1884"/>
         <source>Send Join Acked </source>
-        <translation type="unfinished"></translation>
+        <translation>参加確認を送信 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1886"/>
         <source>Join Requested </source>
-        <translation type="unfinished"></translation>
+        <translation>参加が要求されました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1888"/>
         <source>Join Was Accepted </source>
-        <translation type="unfinished"></translation>
+        <translation>参加が承認されました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1890"/>
         <source>Join Is Accepted </source>
-        <translation type="unfinished"></translation>
+        <translation>参加が承認されました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1892"/>
         <source>Join Denied </source>
-        <translation type="unfinished"></translation>
+        <translation>参加が拒否されました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1894"/>
         <source>Disconnected From Host </source>
-        <translation type="unfinished"></translation>
+        <translation>ホストから切断されました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1896"/>
         <source>Unknown Join State </source>
-        <translation type="unfinished"></translation>
+        <translation>不明な結合状態 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1906"/>
         <source>All Files </source>
-        <translation type="unfinished"></translation>
+        <translation>すべてのファイル </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1908"/>
         <source>Photo Files </source>
-        <translation type="unfinished"></translation>
+        <translation>写真ファイル </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1910"/>
         <source>Audio Files </source>
-        <translation type="unfinished"></translation>
+        <translation>音声ファイル </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1912"/>
         <source>Video Files </source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオファイル </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1914"/>
         <source>Document Files </source>
-        <translation type="unfinished"></translation>
+        <translation>文書ファイル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1916"/>
         <source>Archive Files </source>
-        <translation type="unfinished"></translation>
+        <translation>アーカイブファイル </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1918"/>
         <source>Other Files </source>
-        <translation type="unfinished"></translation>
+        <translation>その他のファイル </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1921"/>
         <source>Unknown File Filter </source>
-        <translation type="unfinished"></translation>
+        <translation>不明なファイルフィルター </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2043"/>
         <source>When Recieve Response</source>
-        <translation type="unfinished"></translation>
+        <translation>応答受信時</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2045"/>
         <source>20 Seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>20秒</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2047"/>
         <source>1 Minute</source>
-        <translation type="unfinished"></translation>
+        <translation>1分</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2049"/>
         <source>10 Minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>10分</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2051"/>
         <source>1 Hour</source>
-        <translation type="unfinished"></translation>
+        <translation>1時間</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2053"/>
         <source>24 Hours</source>
-        <translation type="unfinished"></translation>
+        <translation>24時間</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2055"/>
         <source>1 Week</source>
-        <translation type="unfinished"></translation>
+        <translation>1週間</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2057"/>
         <source>1 Month</source>
-        <translation type="unfinished"></translation>
+        <translation>1ヶ月</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2059"/>
         <source>1 Year</source>
-        <translation type="unfinished"></translation>
+        <translation>1年</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2062"/>
         <source>Unknown Expire Time </source>
-        <translation type="unfinished"></translation>
+        <translation>不明な有効期限 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2101"/>
         <source>Active Offers </source>
-        <translation type="unfinished"></translation>
+        <translation>アクティブなオファー </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2103"/>
         <source>Offer History </source>
-        <translation type="unfinished"></translation>
+        <translation>オファー履歴 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2106"/>
         <source>Unknown Offer View Type </source>
-        <translation type="unfinished"></translation>
+        <translation>不明なオファー ビュー タイプ </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2116"/>
         <source>Any Connection </source>
-        <translation type="unfinished"></translation>
+        <translation>あらゆる接続 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2118"/>
         <source>Host Connection </source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト接続 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2120"/>
         <source>Client Connection </source>
-        <translation type="unfinished"></translation>
+        <translation>クライアント接続 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2122"/>
         <source>Direct Connection </source>
-        <translation type="unfinished"></translation>
+        <translation>ダイレクト接続 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2124"/>
         <source>Unknown Connect Type </source>
-        <translation type="unfinished"></translation>
+        <translation>不明な接続タイプ </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2134"/>
         <source>Connect Status Ready </source>
-        <translation type="unfinished"></translation>
+        <translation>接続ステータス準備完了 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2136"/>
         <source>Connect Status Bad Param </source>
-        <translation type="unfinished"></translation>
+        <translation>接続ステータスの不正なパラメータ </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2138"/>
         <source>Connect Status Bad Address </source>
-        <translation type="unfinished"></translation>
+        <translation>接続ステータス不正なアドレス </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2140"/>
         <source>Connect Status Permission Denied </source>
-        <translation type="unfinished"></translation>
+        <translation>接続ステータス 許可が拒否されました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2142"/>
         <source>Connect Status Connecting </source>
-        <translation type="unfinished"></translation>
+        <translation>接続ステータス 接続中 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2144"/>
         <source>Connect Status Connect Failed </source>
-        <translation type="unfinished"></translation>
+        <translation>接続ステータス 接続失敗 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2146"/>
         <source>Connect Status Send PktAnn Failed </source>
-        <translation type="unfinished"></translation>
+        <translation>接続ステータス PktAnn の送信に失敗しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2148"/>
         <source>Connect Status Handshaking </source>
-        <translation type="unfinished"></translation>
+        <translation>接続ステータスハンドシェイク </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2150"/>
         <source>Connect Status Handshake Timed Out </source>
-        <translation type="unfinished"></translation>
+        <translation>接続ステータス ハンドシェイクがタイムアウトしました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2152"/>
         <source>Connect Status Connect Success </source>
-        <translation type="unfinished"></translation>
+        <translation>接続ステータス 接続成功 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2154"/>
         <source>Connect Status Dropped </source>
-        <translation type="unfinished"></translation>
+        <translation>接続ステータスがドロップされました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2156"/>
         <source>Connect Status Rx PktAnn Timeout </source>
-        <translation type="unfinished"></translation>
+        <translation>接続ステータス Rx PktAnn タイムアウト </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2158"/>
         <source>Connect Status Unknown </source>
-        <translation type="unfinished"></translation>
+        <translation>接続ステータスが不明 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2198"/>
         <source>Database None</source>
-        <translation type="unfinished"></translation>
+        <translation>データベースなし</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2200"/>
         <source>Database Assets</source>
-        <translation type="unfinished"></translation>
+        <translation>データベース資産</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2202"/>
         <source>Database Blob Assets</source>
-        <translation type="unfinished"></translation>
+        <translation>データベース BLOB アセット</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2204"/>
         <source>Database Connect Mgr</source>
-        <translation type="unfinished"></translation>
+        <translation>データベース接続マネージャー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2206"/>
         <source>Database Engine Params</source>
-        <translation type="unfinished"></translation>
+        <translation>データベース エンジンのパラメータ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2208"/>
         <source>Database Engine Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>データベース エンジンの設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2210"/>
         <source>Database Host Server Join</source>
-        <translation type="unfinished"></translation>
+        <translation>データベースホストサーバーの参加</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2212"/>
         <source>Database Offers</source>
-        <translation type="unfinished"></translation>
+        <translation>データベースのオファー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2214"/>
         <source>Database Thumbs</source>
-        <translation type="unfinished"></translation>
+        <translation>データベースの親指</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2216"/>
         <source>Database User Join</source>
-        <translation type="unfinished"></translation>
+        <translation>データベースユーザーの参加</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2218"/>
         <source>Database All Users</source>
-        <translation type="unfinished"></translation>
+        <translation>すべてのユーザーをデータベース化</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2220"/>
         <source>Unkonwn Database Type</source>
-        <translation type="unfinished"></translation>
+        <translation>不明なデータベース タイプ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiPlayerMgr.cpp" line="231"/>
         <source>Attempted to play an executable which is not allowed</source>
-        <translation type="unfinished"></translation>
+        <translation>許可されていない実行可能ファイルを再生しようとしました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiPlayerMgr.cpp" line="237"/>
         <source>Attempted to open an archive file which is not allowed</source>
-        <translation type="unfinished"></translation>
+        <translation>許可されていないアーカイブ ファイルを開こうとしました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="347"/>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="439"/>
         <source>Invalid emoticon id</source>
-        <translation type="unfinished"></translation>
+        <translation>無効な絵文字IDです</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="481"/>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="487"/>
         <source>Error occured creating emoticon file </source>
-        <translation type="unfinished"></translation>
+        <translation>絵文字ファイルの作成中にエラーが発生しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="440"/>
         <source>Invalid emoticon id </source>
-        <translation type="unfinished"></translation>
+        <translation>無効な絵文字IDです </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="383"/>
         <source>Error occured creating emoticon file</source>
-        <translation type="unfinished"></translation>
+        <translation>絵文字ファイルの作成中にエラーが発生しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="474"/>
         <source>Could not create emoticon asset</source>
-        <translation type="unfinished"></translation>
+        <translation>絵文字アセットを作成できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="475"/>
         <source>Error occured creating emoticon asset </source>
-        <translation type="unfinished"></translation>
+        <translation>絵文字アセットの作成中にエラーが発生しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="480"/>
         <source>Could not get file info of emoticon png file</source>
-        <translation type="unfinished"></translation>
+        <translation>顔文字 PNG ファイルのファイル情報を取得できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="486"/>
         <source>Could not create emoticon png file</source>
-        <translation type="unfinished"></translation>
+        <translation>絵文字の PNG ファイルを作成できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="492"/>
         <source>Could not create emoticon image</source>
-        <translation type="unfinished"></translation>
+        <translation>絵文字画像を作成できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="493"/>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="513"/>
         <source>Error occured creating emoticon image %1</source>
-        <translation type="unfinished"></translation>
+        <translation>絵文字画像 %1 の作成中にエラーが発生しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="512"/>
         <source>Could create emoticon image</source>
-        <translation type="unfinished"></translation>
+        <translation>絵文字画像を作成できます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1014"/>
         <source>User was deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーが削除されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1015"/>
         <source>User was deleted from database</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーがデータベースから削除されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1022"/>
         <source>User was NOT deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーは削除されませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1023"/>
         <source>User failed to be deleted from database</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーをデータベースから削除できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/IdentLogicInterface.cpp" line="236"/>
         <source>Truths: </source>
-        <translation type="unfinished"></translation>
+        <translation>真実: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/IdentLogicInterface.cpp" line="237"/>
         <source> Dares: </source>
-        <translation type="unfinished"></translation>
+        <translation> 敢えて: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="68"/>
         <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="90"/>
         <source>Photo Snapshot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>写真スナップショットエラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="68"/>
         <source>Photo Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>写真が利用できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="80"/>
         <source>Failed to write photo to file </source>
-        <translation type="unfinished"></translation>
+        <translation>写真をファイルに書き込めませんでした </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="81"/>
         <source>Error Writing Photo To File</source>
-        <translation type="unfinished"></translation>
+        <translation>写真をファイルに書き込むときにエラーが発生しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="90"/>
         <source>Photo File Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation>写真ファイルが見つかりません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InputVoiceWidget.cpp" line="68"/>
         <source>Click Microphone To Finish Or X To Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>[マイク]をクリックして終了するか、[X]をクリックしてキャンセルします</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InputVoiceWidget.cpp" line="68"/>
         <source>Click Microphone To Begin Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>マイクをクリックして録音を開始します</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="63"/>
         <source>No Sound Input Devices Avalable</source>
-        <translation type="unfinished"></translation>
+        <translation>利用可能なサウンド入力デバイスがありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="69"/>
         <source>Sound Input Device Index Out Of Range. Will Use Default Device</source>
-        <translation type="unfinished"></translation>
+        <translation>サウンド入力デバイスのインデックスが範囲外です。デフォルトのデバイスを使用します</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="101"/>
         <source>Could not initialize sound in device </source>
-        <translation type="unfinished"></translation>
+        <translation>デバイスのサウンドを初期化できませんでした </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AudioMgrDelayTest.cpp" line="155"/>
         <source>Sound Delay Not Detected. Check speaker volume and that microphone is on </source>
-        <translation type="unfinished"></translation>
+        <translation>音の遅延は検出されませんでした。スピーカーの音量とマイクがオンになっていることを確認してください </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AudioMgrDelayTest.cpp" line="159"/>
         <source>Sound Delay too short.. probably noise </source>
-        <translation type="unfinished"></translation>
+        <translation>音声遅延が短すぎます。おそらくノイズです。 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AudioMgrDelayTest.cpp" line="163"/>
         <source>Sound Delay too long.. probably mic level low </source>
-        <translation type="unfinished"></translation>
+        <translation>サウンド遅延が長すぎます。おそらくマイクレベルが低いです。 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AudioMgrDelayTest.cpp" line="167"/>
         <source>Sound Delay is </source>
-        <translation type="unfinished"></translation>
+        <translation>音の遅延は </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="60"/>
         <source>No Sound Output Devices Avalable</source>
-        <translation type="unfinished"></translation>
+        <translation>利用可能なサウンド出力デバイスがありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="66"/>
         <source>Sound Output Device Index Out Of Range. Will Use Default Device</source>
-        <translation type="unfinished"></translation>
+        <translation>サウンド出力デバイスのインデックスが範囲外です。デフォルトのデバイスを使用します</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="73"/>
         <source>Sound Output Device Invalid Format</source>
-        <translation type="unfinished"></translation>
+        <translation>サウンド出力デバイスのフォーマットが無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="104"/>
         <source>Could not initialize sound out device </source>
-        <translation type="unfinished"></translation>
+        <translation>サウンドアウトデバイスを初期化できませんでした </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="378"/>
         <source>Answer Phone</source>
-        <translation type="unfinished"></translation>
+        <translation>留守番電話</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="379"/>
         <source>Reject Phone Call</source>
-        <translation type="unfinished"></translation>
+        <translation>電話を拒否する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="382"/>
         <source>Accept Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオチャットを受け入れる</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="383"/>
         <source>Reject Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>ビデオチャットを拒否する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="387"/>
         <source>Reject Truth Or Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦かを拒否する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="500"/>
         <source>User Hung Up Phone</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーが電話を切った</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="503"/>
         <source>User Ended Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーが終了したビデオチャット</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="506"/>
         <source>User Ended Truth Or Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザー終了の真実か挑戦か</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/OfferSessionLogic.cpp" line="306"/>
         <source>Sent Offer Reply</source>
-        <translation type="unfinished"></translation>
+        <translation>オファー返信を送信しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ServiceSettingsWidget.cpp" line="74"/>
         <source>View </source>
-        <translation type="unfinished"></translation>
+        <translation>見る </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ServiceSettingsWidget.cpp" line="108"/>
         <source>Unable to determine parent</source>
-        <translation type="unfinished"></translation>
+        <translation>親を特定できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ServiceSettingsWidget.cpp" line="114"/>
         <source>Unknown Applet </source>
-        <translation type="unfinished"></translation>
+        <translation>不明なアプレット </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2236"/>
         <source>Could not create thumbnail asset</source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイル アセットを作成できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="69"/>
         <source>Requesting Library File List </source>
-        <translation type="unfinished"></translation>
+        <translation>ライブラリファイルリストのリクエスト </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="128"/>
         <source>List Get Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>リストの完成</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="151"/>
         <source>Folder Scan Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>フォルダーのスキャンがキャンセルされました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="155"/>
         <source>Folder Scan Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>フォルダーのスキャンが完了しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="593"/>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="623"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>エラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="593"/>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="623"/>
         <source>Unknown Media Type</source>
-        <translation type="unfinished"></translation>
+        <translation>不明なメディアタイプ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="654"/>
@@ -9647,7 +9834,7 @@ Are you very sure you want to proceed?</source>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2242"/>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="104"/>
         <source>Could not get thumbnail file info</source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイルファイル情報を取得できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="655"/>
@@ -9657,525 +9844,527 @@ Are you very sure you want to proceed?</source>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2243"/>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="105"/>
         <source>Error occured creating thumbnail asset </source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイル アセットの作成中にエラーが発生しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="692"/>
         <source>Scaning folder</source>
-        <translation type="unfinished"></translation>
+        <translation>フォルダーをスキャン中</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="713"/>
         <source>Already in library</source>
-        <translation type="unfinished"></translation>
+        <translation>すでに図書館にあります</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="713"/>
         <source>File is already in library </source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルはすでにライブラリにあります </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="788"/>
         <source>File Error</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルエラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="788"/>
         <source>Could not add file to library </source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルをライブラリに追加できませんでした </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="110"/>
         <source>Could not save thumbnail image</source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイル画像を保存できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="111"/>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="150"/>
         <source>Error occured saving thumbnail to file </source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイルをファイルに保存中にエラーが発生しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="143"/>
         <source>Could not update thumbnail asset</source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイル アセットを更新できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="144"/>
         <source>Error occured update thumbnail asset </source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイル アセットの更新中にエラーが発生しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="149"/>
         <source>Could not save updated thumbnail image</source>
-        <translation type="unfinished"></translation>
+        <translation>更新されたサムネイル画像を保存できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="155"/>
         <source>thumbnail id was invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイルIDが無効でした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="156"/>
         <source>Error occured updatin thumbnail </source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイルの更新中にエラーが発生しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="95"/>
         <source>Failed to create pixmap </source>
-        <translation type="unfinished"></translation>
+        <translation>ピックスマップの作成に失敗しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="96"/>
         <source>Error loading from file</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルからの読み込みエラー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="175"/>
         <source>Failed to scale and crop image </source>
-        <translation type="unfinished"></translation>
+        <translation>画像の拡大縮小とトリミングに失敗しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="176"/>
         <source>Error scaling image.</source>
-        <translation type="unfinished"></translation>
+        <translation>画像のスケーリングエラー。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="181"/>
         <source>Null image </source>
-        <translation type="unfinished"></translation>
+        <translation>ヌル画像 </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="182"/>
         <source>Null image.</source>
-        <translation type="unfinished"></translation>
+        <translation>ヌル画像。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="245"/>
         <source>Perform Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>デアを実行する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="250"/>
         <source>Tell Truth</source>
-        <translation type="unfinished"></translation>
+        <translation>真実を語ってください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="180"/>
         <source>Choose Truth</source>
-        <translation type="unfinished"></translation>
+        <translation>真実を選択してください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="181"/>
         <source>Choose Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>あえて選択してください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="184"/>
         <source>Dare Performed</source>
-        <translation type="unfinished"></translation>
+        <translation>あえて実行しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="185"/>
         <source>Dare NOT Performed</source>
-        <translation type="unfinished"></translation>
+        <translation>あえて実行しない</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="188"/>
         <source>I Believe</source>
-        <translation type="unfinished"></translation>
+        <translation>私は信じます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="189"/>
         <source>I Do NOT Believe</source>
-        <translation type="unfinished"></translation>
+        <translation>信じられない</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="221"/>
         <source>Waiting for Game Start</source>
-        <translation type="unfinished"></translation>
+        <translation>ゲーム開始を待っています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="226"/>
         <source>Game Ended</source>
-        <translation type="unfinished"></translation>
+        <translation>ゲーム終了</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="232"/>
         <source>Wait for Truth or Dare Choice</source>
-        <translation type="unfinished"></translation>
+        <translation>真実か挑戦かの選択を待つ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="239"/>
         <source>Press Choose Truth Or Dare Button</source>
-        <translation type="unfinished"></translation>
+        <translation>「真実か挑戦かを選択」ボタンを押してください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="259"/>
         <source>Evaluate Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>あえて評価する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="266"/>
         <source>You have gained 1 Dare Point</source>
-        <translation type="unfinished"></translation>
+        <translation>デアポイントを 1 獲得しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="274"/>
         <source>Dare Perfomance was Rejected</source>
-        <translation type="unfinished"></translation>
+        <translation>あえてのパフォーマンスは拒否されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="284"/>
         <source>Evaluate Truth</source>
-        <translation type="unfinished"></translation>
+        <translation>真実を評価する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="291"/>
         <source>You have gained 1 Truth Point</source>
-        <translation type="unfinished"></translation>
+        <translation>真実ポイントを 1 獲得しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="299"/>
         <source>Your Truth was not believed</source>
-        <translation type="unfinished"></translation>
+        <translation>あなたの真実は信じられませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/VxContextMenu.cpp" line="181"/>
         <source>Recent</source>
-        <translation type="unfinished"></translation>
+        <translation>最近の</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/VxContextMenu.cpp" line="183"/>
         <source>Watched</source>
-        <translation type="unfinished"></translation>
+        <translation>見た</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/VxContextMenu.cpp" line="187"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>閲覧する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/VxContextMenu.cpp" line="190"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>キャンセル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutFile.cpp" line="129"/>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="116"/>
         <source> : Yes</source>
-        <translation type="unfinished"></translation>
+        <translation> ：はい</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutFile.cpp" line="130"/>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="117"/>
         <source> : No</source>
-        <translation type="unfinished"></translation>
+        <translation> ：いいえ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutFile.cpp" line="132"/>
         <source>Is Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>ストリームです</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="108"/>
         <source>Requires Relay</source>
-        <translation type="unfinished"></translation>
+        <translation>リレーが必要です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="112"/>
         <source>Can Direct Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>直接接続可能</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="115"/>
         <source>Is member of </source>
-        <translation type="unfinished"></translation>
+        <translation>のメンバーです </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="140"/>
         <source>no shared files</source>
-        <translation type="unfinished"></translation>
+        <translation>共有ファイルはありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="153"/>
         <source> -- has about me content</source>
-        <translation type="unfinished"></translation>
+        <translation> -- 私に関するコンテンツが含まれています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="157"/>
         <source> -- no about me content</source>
-        <translation type="unfinished"></translation>
+        <translation> -- 私のことに関するコンテンツはありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="164"/>
         <source> -- has storyboard content</source>
-        <translation type="unfinished"></translation>
+        <translation> -- ストーリーボード コンテンツあり</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="168"/>
         <source> -- no storyboard content</source>
-        <translation type="unfinished"></translation>
+        <translation>-- ストーリーボードのコンテンツはありません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="175"/>
         <source> -- has shared web cam</source>
-        <translation type="unfinished"></translation>
+        <translation> -- ウェブカメラを共有しています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="179"/>
         <source> -- no shared web cam</source>
-        <translation type="unfinished"></translation>
+        <translation> -- 共有ウェブカメラなし</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="186"/>
         <source>=== Disabled Plugins ===</source>
-        <translation type="unfinished"></translation>
+        <translation>=== 無効化されたプラグイン ===</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFileShareClientView.cpp" line="484"/>
         <source>Failed to play stream </source>
-        <translation type="unfinished"></translation>
+        <translation>ストリームの再生に失敗しました </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="64"/>
         <source>User not found</source>
-        <translation type="unfinished"></translation>
+        <translation>ユーザーが見つかりません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="64"/>
         <source>No user found with id </source>
-        <translation type="unfinished"></translation>
+        <translation>ID を持つユーザーが見つかりませんでした </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="117"/>
         <source>Friend Request requires a message with request reason</source>
-        <translation type="unfinished"></translation>
+        <translation>友達リクエストにはリクエスト理由を含むメッセージが必要です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="123"/>
         <source>Friend Request Send Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>友達リクエストの送信に失敗しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="127"/>
         <source>Friend Request Sent</source>
-        <translation type="unfinished"></translation>
+        <translation>友達リクエストを送信しました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="127"/>
         <source>Friend Request was sent</source>
-        <translation type="unfinished"></translation>
+        <translation>フレンドリクエストが送信されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendRequestList.cpp" line="79"/>
         <source>No Friend Requests Available</source>
-        <translation type="unfinished"></translation>
+        <translation>友達リクエストは受け付けていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostJoinConnect.cpp" line="63"/>
         <source>Host URL is not valid</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスト URL が無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostJoinConnect.cpp" line="68"/>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="55"/>
         <source>Failed to resolve into valid ptop url</source>
-        <translation type="unfinished"></translation>
+        <translation>有効な ptop URL に解決できませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostJoinConnect.cpp" line="72"/>
         <source>Host Type Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>ホストタイプが無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostLeave.cpp" line="78"/>
         <source>Leave Chat Room</source>
-        <translation type="unfinished"></translation>
+        <translation>チャット ルームから退出する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostLeave.cpp" line="85"/>
         <source>Leave Group</source>
-        <translation type="unfinished"></translation>
+        <translation>グループを離れる</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostLeave.cpp" line="91"/>
         <source>Leave Random Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>ランダム接続を終了する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="130"/>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="136"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>言語</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="130"/>
         <source>Language updated.</source>
-        <translation type="unfinished"></translation>
+        <translation>言語が更新されました。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="137"/>
         <source>Language updated, but no translation file was found in the translations folder.</source>
-        <translation type="unfinished"></translation>
+        <translation>言語が更新されましたが、翻訳フォルダーに翻訳ファイルが見つかりませんでした。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="197"/>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="209"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>英語</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="198"/>
         <source>German</source>
-        <translation type="unfinished"></translation>
+        <translation>ドイツ語</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="199"/>
         <source>Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>中国語</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="200"/>
         <source>Spanish</source>
-        <translation type="unfinished"></translation>
+        <translation>スペイン語</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="201"/>
         <source>French</source>
-        <translation type="unfinished"></translation>
+        <translation>フランス語</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="202"/>
         <source>Arabic</source>
-        <translation type="unfinished"></translation>
+        <translation>アラビア語</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="203"/>
         <source>Hindi</source>
-        <translation type="unfinished"></translation>
+        <translation>ヒンディー語</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="204"/>
         <source>Portuguese</source>
-        <translation type="unfinished"></translation>
+        <translation>ポルトガル語</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="205"/>
         <source>Japanese</source>
-        <translation type="unfinished"></translation>
+        <translation>日本語</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="206"/>
         <source>Korean</source>
-        <translation type="unfinished"></translation>
+        <translation>韓国人</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="207"/>
         <source>Russian</source>
-        <translation type="unfinished"></translation>
+        <translation>ロシア語</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="208"/>
         <source>Indonesian</source>
-        <translation type="unfinished"></translation>
+        <translation>インドネシア語</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletOfferInfo.cpp" line="107"/>
         <source>Invalid Offer. Please Decline Offer.</source>
-        <translation type="unfinished"></translation>
+        <translation>無効なオファーです。申し出を断ってください。</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTestUpnp.cpp" line="232"/>
         <source>Invalid Port</source>
-        <translation type="unfinished"></translation>
+        <translation>無効なポート</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTestUpnp.cpp" line="232"/>
         <source>Port must be greater than 79</source>
-        <translation type="unfinished"></translation>
+        <translation>ポートは 79 より大きくなければなりません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTestUpnp.cpp" line="242"/>
         <source>Invalid IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>無効なIPアドレス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTestUpnp.cpp" line="242"/>
         <source>IP Address is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>IPアドレスが無効です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ClipboardCopyWidget.cpp" line="23"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>クリップボードにコピー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ClipboardCopyWidget.cpp" line="32"/>
         <source>Text Is Empty</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストが空です</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ClipboardCopyWidget.cpp" line="32"/>
         <source>Cannot copy empty text to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>空のテキストをクリップボードにコピーできません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ClipboardPasteWidget.cpp" line="22"/>
         <source>Paste from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>クリップボードから貼り付け</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ClipboardPasteWidget.cpp" line="33"/>
         <source>Cannot paste empty clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>空のクリップボードを貼り付けることができません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileMediaSelectWidget.cpp" line="96"/>
         <source>Cancel scan</source>
-        <translation type="unfinished"></translation>
+        <translation>スキャンのキャンセル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileMediaSelectWidget.cpp" line="102"/>
         <source>Scan folder for media</source>
-        <translation type="unfinished"></translation>
+        <translation>フォルダーをスキャンしてメディアを探す</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InviteUrlWidget.cpp" line="86"/>
         <source>Pasted invite text</source>
-        <translation type="unfinished"></translation>
+        <translation>招待文を貼り付けました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InviteUrlWidget.cpp" line="113"/>
         <source>Private Key Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>秘密キーの警告</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InviteUrlWidget.cpp" line="114"/>
         <source>Be sure to get the Network Key for this Network before saving network settings.
 Wrong network key will cause you to be banned as a Hacker</source>
-        <translation type="unfinished"></translation>
+        <translation>ネットワーク設定を保存する前に、必ずこのネットワークのネットワーク キーを取得してください。
+ネットワーク キーが間違っていると、ハッカーとして禁止されます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InviteUrlWidget.cpp" line="728"/>
         <source>Cannot create Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>招待を作成できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InviteUrlWidget.cpp" line="728"/>
         <source>Do NOT create Invite without a open Network Port.
 No one can connect to you directly</source>
-        <translation type="unfinished"></translation>
+        <translation>開いているネットワーク ポートなしで招待を作成しないでください。
+誰もあなたに直接接続できません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InviteUrlWidget.cpp" line="746"/>
         <source>Hosting plugin not enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>ホスティングプラグインが有効になっていません</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InviteUrlWidget.cpp" line="746"/>
         <source> has permission level of disabled</source>
-        <translation type="unfinished"></translation>
+        <translation> 許可レベルが無効になっています</translation>
     </message>
 </context>
 <context>
@@ -10183,22 +10372,22 @@ No one can connect to you directly</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityReplyFileOffer.ui" line="26"/>
         <source>Accept File Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルのオファーを受け入れる</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityReplyFileOffer.ui" line="145"/>
         <source>Recieve File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルの受信</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityReplyFileOffer.ui" line="167"/>
         <source>File:</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイル:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityReplyFileOffer.ui" line="197"/>
         <source>Message:</source>
-        <translation type="unfinished"></translation>
+        <translation>メッセージ:</translation>
     </message>
 </context>
 <context>
@@ -10206,48 +10395,49 @@ No one can connect to you directly</source>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="140"/>
         <source>RichText Board</source>
-        <translation type="unfinished"></translation>
+        <translation>リッチテキストボード</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="141"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>ドキュメントが変更されました。
+変更を保存しますか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="169"/>
         <source>%1[*] - %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1[*] - %2</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="169"/>
         <source>Rich Text</source>
-        <translation type="unfinished"></translation>
+        <translation>リッチテキスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="177"/>
         <source>Open File...</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを開く...</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="178"/>
         <source>HTML-Files (*.htm *.html);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML ファイル (*.htm *.html);;すべてのファイル (*)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="206"/>
         <source>Save as...</source>
-        <translation type="unfinished"></translation>
+        <translation>名前を付けて保存...</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="207"/>
         <source>ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>ODF ファイル (*.odt);;HTML ファイル (*.htm *.html);;すべてのファイル (*)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="226"/>
         <source>Print Document</source>
-        <translation type="unfinished"></translation>
+        <translation>ドキュメントの印刷</translation>
     </message>
 </context>
 <context>
@@ -10255,7 +10445,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchBarWidget.ui" line="65"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>検索</translation>
     </message>
 </context>
 <context>
@@ -10263,42 +10453,42 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="20"/>
         <source>Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービス</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="52"/>
         <source>Start Search</source>
-        <translation type="unfinished"></translation>
+        <translation>検索を開始する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="71"/>
         <source>Stop Search</source>
-        <translation type="unfinished"></translation>
+        <translation>検索の停止</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="82"/>
         <source>Search:</source>
-        <translation type="unfinished"></translation>
+        <translation>検索:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="100"/>
         <source>Age</source>
-        <translation type="unfinished"></translation>
+        <translation>年齢</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="120"/>
         <source>Content Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>コンテンツのレーティング</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="144"/>
         <source>Gender:</source>
-        <translation type="unfinished"></translation>
+        <translation>性別:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="161"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>言語</translation>
     </message>
 </context>
 <context>
@@ -10306,17 +10496,17 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ServiceSettingsWidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ServiceSettingsWidget.ui" line="78"/>
         <source>Service Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>サービス設定</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ServiceSettingsWidget.ui" line="116"/>
         <source>View Service</source>
-        <translation type="unfinished"></translation>
+        <translation>サービスを見る</translation>
     </message>
 </context>
 <context>
@@ -10324,7 +10514,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivitySessionOptions.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>ダイアログ</translation>
     </message>
 </context>
 <context>
@@ -10332,12 +10522,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/SessionWidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SessionWidget.ui" line="84"/>
         <source>Create Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>招待の作成</translation>
     </message>
 </context>
 <context>
@@ -10345,27 +10535,27 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityAddRemoveLibraryFiles.ui" line="17"/>
         <source>Browse Files</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを参照する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityAddRemoveLibraryFiles.ui" line="112"/>
         <source>Share Your Files</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを共有する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityAddRemoveLibraryFiles.ui" line="200"/>
         <source>Click A File Lock To Share Or UnShare</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルロックをクリックして共有または共有解除します</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityAddRemoveLibraryFiles.ui" line="221"/>
         <source>If Locked then Not Shared.Else If Unlocked then Is Shared</source>
-        <translation type="unfinished"></translation>
+        <translation>ロックされている場合は共有されません。それ以外の場合、ロックが解除されている場合は共有されます</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityAddRemoveLibraryFiles.ui" line="325"/>
         <source>Move Up A Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>ディレクトリを上に移動</translation>
     </message>
 </context>
 <context>
@@ -10373,7 +10563,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityShowHelp.ui" line="26"/>
         <source>Debug Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>デバッグ設定</translation>
     </message>
 </context>
 <context>
@@ -10381,100 +10571,101 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="202"/>
         <source>&amp;Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>元に戻す(&amp;U)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="208"/>
         <source>&amp;Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>やり直し(&amp;R)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="214"/>
         <source>Cu&amp;t</source>
-        <translation type="unfinished"></translation>
+        <translation>カット(&amp;T)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="220"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>コピー(&amp;C)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="226"/>
         <source>&amp;Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>貼り付け(&amp;P)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="316"/>
         <source>Create link</source>
-        <translation type="unfinished"></translation>
+        <translation>リンクの作成</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="376"/>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="671"/>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="678"/>
         <source>Story Board</source>
-        <translation type="unfinished"></translation>
+        <translation>ストーリーボード</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="377"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>ドキュメントが変更されました。
+変更を保存しますか?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="405"/>
         <source>%1[*] - %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1[*] - %2</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="405"/>
         <source>Rich Text</source>
-        <translation type="unfinished"></translation>
+        <translation>リッチテキスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="424"/>
         <source>Open File...</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを開く...</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="425"/>
         <source>HTML-Files (*.htm *.html);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML ファイル (*.htm *.html);;すべてのファイル (*)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="454"/>
         <source>Save as...</source>
-        <translation type="unfinished"></translation>
+        <translation>名前を付けて保存...</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="455"/>
         <source>ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>ODF ファイル (*.odt);;HTML ファイル (*.htm *.html);;すべてのファイル (*)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="474"/>
         <source>Print Document</source>
-        <translation type="unfinished"></translation>
+        <translation>ドキュメントの印刷</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="633"/>
         <source>Select an image</source>
-        <translation type="unfinished"></translation>
+        <translation>画像を選択してください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="635"/>
         <source>Image Files (*.bmp *.jpg *jpeg *.gif *.png)</source>
-        <translation type="unfinished"></translation>
+        <translation>画像ファイル (*.bmp *.jpg *jpeg *.gif *.png)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="672"/>
         <source>Could not copy image to story board directory</source>
-        <translation type="unfinished"></translation>
+        <translation>画像をストーリーボード ディレクトリにコピーできませんでした</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="679"/>
         <source>Could not load the image</source>
-        <translation type="unfinished"></translation>
+        <translation>画像を読み込めませんでした</translation>
     </message>
 </context>
 <context>
@@ -10482,108 +10673,108 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="107"/>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="141"/>
         <source>New File</source>
-        <translation type="unfinished"></translation>
+        <translation>新しいファイル</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="175"/>
         <source>Open File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルを開く</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="209"/>
         <source>Save File As..</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルに名前を付けて保存..</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="243"/>
         <source>Export to PDF file</source>
-        <translation type="unfinished"></translation>
+        <translation>PDF ファイルにエクスポート</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="322"/>
         <source>Save File</source>
-        <translation type="unfinished"></translation>
+        <translation>ファイルの保存</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="356"/>
         <source>Insert Picture</source>
-        <translation type="unfinished"></translation>
+        <translation>画像の挿入</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="390"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>元に戻す</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="424"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>やり直し</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="458"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>カット</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="492"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>コピー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="526"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>ペースト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="560"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>印刷する</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="639"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>太字</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="676"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>イタリック体</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="713"/>
         <source>Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>下線</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="750"/>
         <source>Left Justify</source>
-        <translation type="unfinished"></translation>
+        <translation>左揃え</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="784"/>
         <source>Center Text</source>
-        <translation type="unfinished"></translation>
+        <translation>中央のテキスト</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="818"/>
         <source>Right Justify</source>
-        <translation type="unfinished"></translation>
+        <translation>右寄せ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="852"/>
         <source>Text Justify</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストの両端揃え</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="886"/>
         <source>Text Color</source>
-        <translation type="unfinished"></translation>
+        <translation>文字の色</translation>
     </message>
 </context>
 <context>
@@ -10591,12 +10782,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/TestWidget.ui" line="38"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/TestWidget.ui" line="84"/>
         <source>Some Text</source>
-        <translation type="unfinished"></translation>
+        <translation>いくつかのテキスト</translation>
     </message>
 </context>
 <context>
@@ -10604,77 +10795,77 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="83"/>
         <source>Select A Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>テーマを選択してください</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="129"/>
         <source>Push Button Example</source>
-        <translation type="unfinished"></translation>
+        <translation>押しボタンの例</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="151"/>
         <source>Theme Appearence</source>
-        <translation type="unfinished"></translation>
+        <translation>テーマの外観</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="196"/>
         <source>Radio Button 1 Example</source>
-        <translation type="unfinished"></translation>
+        <translation>ラジオボタン 1 の例</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="212"/>
         <source>Radio Button 2 Example</source>
-        <translation type="unfinished"></translation>
+        <translation>ラジオボタン 2 の例</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="225"/>
         <source>Scroll Bar Example</source>
-        <translation type="unfinished"></translation>
+        <translation>スクロールバーの例</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="251"/>
         <source>Slider Example</source>
-        <translation type="unfinished"></translation>
+        <translation>スライダーの例</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="277"/>
         <source>Progress Bar Example</source>
-        <translation type="unfinished"></translation>
+        <translation>プログレスバーの例</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="303"/>
         <source>Combo Box Example</source>
-        <translation type="unfinished"></translation>
+        <translation>コンボボックスの例</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="326"/>
         <source>Spin Box Example</source>
-        <translation type="unfinished"></translation>
+        <translation>スピンボックスの例</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="349"/>
         <source>Check Box Example</source>
-        <translation type="unfinished"></translation>
+        <translation>チェックボックスの例</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="356"/>
         <source>Line Edit Example</source>
-        <translation type="unfinished"></translation>
+        <translation>行編集の例</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="399"/>
         <source>Some text example</source>
-        <translation type="unfinished"></translation>
+        <translation>テキストの例</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="445"/>
         <source>Accept Or Cancel New Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>新しいテーマを受け入れるかキャンセルする</translation>
     </message>
 </context>
 <context>
@@ -10682,12 +10873,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ThumbnailChooseWidget.ui" line="20"/>
         <source>Thumbnail Choose Widget</source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイル ウィジェットを選択</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ThumbnailChooseWidget.ui" line="96"/>
         <source>Choose Image</source>
-        <translation type="unfinished"></translation>
+        <translation>画像の選択</translation>
     </message>
 </context>
 <context>
@@ -10695,27 +10886,27 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ThumbnailEditWidget.ui" line="20"/>
         <source>Thumbnail Edit Widget</source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイル編集ウィジェット</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ThumbnailEditWidget.ui" line="122"/>
         <source>Thumbnail Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>サムネイルギャラリー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ThumbnailEditWidget.ui" line="109"/>
         <source>Emoticon Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>絵文字ギャラリー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ThumbnailEditWidget.ui" line="154"/>
         <source>Take Snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>スナップショットを撮る</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ThumbnailEditWidget.ui" line="167"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>閲覧する</translation>
     </message>
 </context>
 <context>
@@ -10723,12 +10914,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityTimedMessage.ui" line="17"/>
         <source>Message</source>
-        <translation type="unfinished"></translation>
+        <translation>メッセージ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityTimedMessage.ui" line="90"/>
         <source>Message:</source>
-        <translation type="unfinished"></translation>
+        <translation>メッセージ:</translation>
     </message>
 </context>
 <context>
@@ -10736,7 +10927,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/TitleBarWidget.ui" line="333"/>
         <source>Test</source>
-        <translation type="unfinished"></translation>
+        <translation>テスト</translation>
     </message>
 </context>
 <context>
@@ -10744,7 +10935,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/TodGameWidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
 </context>
 <context>
@@ -10752,34 +10943,34 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="35"/>
         <source>Waiting</source>
-        <translation type="unfinished"></translation>
+        <translation>待っています</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="55"/>
         <source>Truths</source>
-        <translation type="unfinished"></translation>
+        <translation>真実</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="74"/>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="143"/>
         <source>Accepted</source>
-        <translation type="unfinished"></translation>
+        <translation>承認されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="98"/>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="167"/>
         <source>Rejected</source>
-        <translation type="unfinished"></translation>
+        <translation>拒否されました</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="124"/>
         <source>Dares</source>
-        <translation type="unfinished"></translation>
+        <translation>デアレス</translation>
     </message>
 </context>
 <context>
@@ -10787,12 +10978,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/VidWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/VidWidget.ui" line="567"/>
         <source>Motion Sensitivity</source>
-        <translation type="unfinished"></translation>
+        <translation>動きの感度</translation>
     </message>
 </context>
 <context>
@@ -10800,7 +10991,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/VxMenu.cpp" line="32"/>
         <source>&lt;b&gt;Title&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;タイトル&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -10808,7 +10999,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/VxPlainTextEdit.cpp" line="34"/>
         <source>My Menu Item</source>
-        <translation type="unfinished"></translation>
+        <translation>私のメニュー項目</translation>
     </message>
 </context>
 <context>
@@ -10816,12 +11007,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/WebsiteWidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>フォーム</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/WebsiteWidget.ui" line="71"/>
         <source>Click to visit website</source>
-        <translation type="unfinished"></translation>
+        <translation>クリックしてウェブサイトにアクセス</translation>
     </message>
 </context>
 <context>
@@ -10829,12 +11020,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityYesNo.ui" line="17"/>
         <source>Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>メニュー</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityYesNo.ui" line="130"/>
         <source>Never Show This Message Again</source>
-        <translation type="unfinished"></translation>
+        <translation>このメッセージを二度と表示しない</translation>
     </message>
 </context>
 <context>
@@ -10842,7 +11033,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/FriendListDlg.ui" line="14"/>
         <source>Friend List</source>
-        <translation type="unfinished"></translation>
+        <translation>友達リスト</translation>
     </message>
 </context>
 </TS>

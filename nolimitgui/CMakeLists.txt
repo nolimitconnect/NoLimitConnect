@@ -12,7 +12,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Multimedia OpenGL Svg Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui LinguistTools Multimedia OpenGL Svg Widgets)
 
 if(COMMAND qt_policy)
     qt_policy(SET QTP0002 NEW)
@@ -1095,6 +1095,72 @@ qt_add_executable(nolimitconnect
     ${nlc_SOURCES}
     ${nlc_HEADERS}
     )
+
+file(GLOB nlc_TS_FILES CONFIGURE_DEPENDS
+    "${PROJECT_SRC_ROOT_DIR}/translations/*.ts"
+    "${CMAKE_SOURCE_DIR}/translations/*.ts"
+)
+list(REMOVE_DUPLICATES nlc_TS_FILES)
+
+set(nlc_QM_FILES)
+set(nlc_LUPDATE_EXECUTABLE "")
+set(nlc_LRELEASE_EXECUTABLE "")
+
+set(nlc_QT_BIN_HINTS)
+if(DEFINED Qt6_DIR)
+    get_filename_component(nlc_qt_cmake_dir "${Qt6_DIR}" ABSOLUTE)
+    get_filename_component(nlc_qt_root_dir "${nlc_qt_cmake_dir}/../../.." ABSOLUTE)
+    list(APPEND nlc_QT_BIN_HINTS "${nlc_qt_root_dir}/bin")
+endif()
+if(DEFINED QT_QMAKE_EXECUTABLE)
+    get_filename_component(nlc_qmake_bin_dir "${QT_QMAKE_EXECUTABLE}" DIRECTORY)
+    list(APPEND nlc_QT_BIN_HINTS "${nlc_qmake_bin_dir}")
+endif()
+if(CMAKE_PREFIX_PATH)
+    list(GET CMAKE_PREFIX_PATH 0 nlc_qt_prefix_path)
+    list(APPEND nlc_QT_BIN_HINTS "${nlc_qt_prefix_path}/bin")
+endif()
+list(REMOVE_DUPLICATES nlc_QT_BIN_HINTS)
+
+foreach(nlc_qt_bin_dir IN LISTS nlc_QT_BIN_HINTS)
+    if(NOT nlc_LUPDATE_EXECUTABLE AND EXISTS "${nlc_qt_bin_dir}/lupdate.exe")
+        set(nlc_LUPDATE_EXECUTABLE "${nlc_qt_bin_dir}/lupdate.exe")
+    endif()
+
+    if(NOT nlc_LRELEASE_EXECUTABLE AND EXISTS "${nlc_qt_bin_dir}/lrelease.exe")
+        set(nlc_LRELEASE_EXECUTABLE "${nlc_qt_bin_dir}/lrelease.exe")
+    endif()
+endforeach()
+
+if(nlc_TS_FILES AND nlc_LUPDATE_EXECUTABLE AND nlc_LRELEASE_EXECUTABLE)
+    foreach(tsFile IN LISTS nlc_TS_FILES)
+        get_filename_component(tsFileName "${tsFile}" NAME_WE)
+        set(qmFile "${PROJECT_SRC_ROOT_DIR}/translations/${tsFileName}.qm")
+        add_custom_command(
+            OUTPUT "${qmFile}"
+            COMMAND "${nlc_LRELEASE_EXECUTABLE}" "${tsFile}" -qm "${qmFile}"
+            DEPENDS "${tsFile}"
+            VERBATIM
+        )
+        list(APPEND nlc_QM_FILES "${qmFile}")
+    endforeach()
+
+    add_custom_target(nolimitconnect_lupdate
+        COMMAND "${nlc_LUPDATE_EXECUTABLE}"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/Forms"
+            -ts ${nlc_TS_FILES}
+        WORKING_DIRECTORY "${PROJECT_SRC_ROOT_DIR}"
+        VERBATIM
+    )
+
+    add_custom_target(nolimitconnect_translations ALL
+        DEPENDS ${nlc_QM_FILES}
+    )
+
+    add_dependencies(nolimitconnect_translations nolimitconnect_lupdate)
+    add_dependencies(nolimitconnect nolimitconnect_translations)
+endif()
 
 target_include_directories(nolimitconnect PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src

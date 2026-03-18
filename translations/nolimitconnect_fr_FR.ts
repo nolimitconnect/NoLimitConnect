@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en_US">
+<TS version="2.1" language="fr_FR">
 <context>
     <name>AcceptCancelWidgetClass</name>
     <message>
         <location filename="../nolimitgui/src/Forms/AcceptCancelWidget.ui" line="38"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -14,7 +14,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActionWidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -22,7 +22,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityGenerateHash.ui" line="17"/>
         <source>Generate Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>Générer du hachage</translation>
     </message>
 </context>
 <context>
@@ -30,37 +30,37 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutApp.ui" line="32"/>
         <source>About NoLimitConnect</source>
-        <translation type="unfinished"></translation>
+        <translation>À propos de NoLimitConnect</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutApp.ui" line="92"/>
         <source>No Limit Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion sans limite</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutApp.ui" line="102"/>
         <source>(c) Brett R. Jones 2013,2025</source>
-        <translation type="unfinished"></translation>
+        <translation>(c) Brett R. Jones 2013,2025</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutApp.ui" line="117"/>
         <source>Version 1.0.12</source>
-        <translation type="unfinished"></translation>
+        <translation>Version 1.0.12</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutApp.ui" line="130"/>
         <source>Device Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations sur l&apos;appareil</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutApp.ui" line="143"/>
         <source>Connection Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations de connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutApp.ui" line="156"/>
         <source>Show Application Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les informations sur l&apos;application</translation>
     </message>
 </context>
 <context>
@@ -68,27 +68,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutFile.ui" line="26"/>
         <source>About User</source>
-        <translation type="unfinished"></translation>
+        <translation>À propos de l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutFile.ui" line="64"/>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Taille</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutFile.ui" line="107"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutFile.ui" line="182"/>
         <source>Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutFile.ui" line="230"/>
         <source>Thumbnail ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ID de miniature</translation>
     </message>
 </context>
 <context>
@@ -96,7 +96,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutMeClient.ui" line="20"/>
         <source>Edit Storyboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier le storyboard</translation>
     </message>
 </context>
 <context>
@@ -104,57 +104,57 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="26"/>
         <source>About User</source>
-        <translation type="unfinished"></translation>
+        <translation>À propos de l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="67"/>
         <source>User Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Message utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="85"/>
         <source>My Friendship To User:</source>
-        <translation type="unfinished"></translation>
+        <translation>Mon amitié avec l&apos;utilisateur&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="120"/>
         <source>Users Friendship To Me:</source>
-        <translation type="unfinished"></translation>
+        <translation>Amitié des utilisateurs avec moi&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="153"/>
         <source>Age:</source>
-        <translation type="unfinished"></translation>
+        <translation>Âge&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="182"/>
         <source>Gender</source>
-        <translation type="unfinished"></translation>
+        <translation>Sexe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="215"/>
         <source>Primary Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue principale&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="244"/>
         <source>Preffered Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>Contenu préféré&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="277"/>
         <source>Truths:</source>
-        <translation type="unfinished"></translation>
+        <translation>Vérités&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="306"/>
         <source>Dares:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ose&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletAboutUser.ui" line="333"/>
         <source>URL:</source>
-        <translation type="unfinished"></translation>
+        <translation>URL&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -162,17 +162,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletApplicationInfo.ui" line="32"/>
         <source>App Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations sur l&apos;application</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletApplicationInfo.ui" line="89"/>
         <source>Browse App Storage (Do Not Delete)</source>
-        <translation type="unfinished"></translation>
+        <translation>Parcourir le stockage des applications (ne pas supprimer)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletApplicationInfo.ui" line="99"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal</translation>
     </message>
 </context>
 <context>
@@ -180,27 +180,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletBrowseFiles.ui" line="14"/>
         <source>Browse Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Parcourir les fichiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletBrowseFiles.ui" line="141"/>
         <source>Click File Icon or Double Click File Item to Select The File</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez sur l&apos;icône du fichier ou double-cliquez sur l&apos;élément du fichier pour sélectionner le fichier.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletBrowseFiles.ui" line="194"/>
         <source>Move Up A Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Déplacer vers le haut d&apos;un dossier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletBrowseFiles.ui" line="226"/>
         <source>Selected A Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionné un dossier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletBrowseFiles.ui" line="282"/>
         <source>Add All Files To Library</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter tous les fichiers à la bibliothèque</translation>
     </message>
 </context>
 <context>
@@ -208,7 +208,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCamClient.ui" line="23"/>
         <source>Web Cam Client</source>
-        <translation type="unfinished"></translation>
+        <translation>Client de webcam</translation>
     </message>
 </context>
 <context>
@@ -216,17 +216,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPlayerCamClip.ui" line="23"/>
         <source>Cam Video Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Lecteur vidéo de caméra</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPlayerCamClip.ui" line="327"/>
         <source>Tag:</source>
-        <translation type="unfinished"></translation>
+        <translation>Étiquette&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPlayerCamClip.ui" line="388"/>
         <source>File Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom du fichier&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -234,17 +234,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCamSettings.ui" line="23"/>
         <source>Web Cam Client</source>
-        <translation type="unfinished"></translation>
+        <translation>Client de webcam</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCamSettings.ui" line="60"/>
         <source>Apply Video In Device As Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Appliquer la vidéo sur l&apos;appareil par défaut</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCamSettings.ui" line="69"/>
         <source>Cam Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Appareil à came</translation>
     </message>
 </context>
 <context>
@@ -252,7 +252,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletChatRoomJoinSearch.ui" line="20"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher</translation>
     </message>
 </context>
 <context>
@@ -260,12 +260,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletChatRoomListLocalView.ui" line="20"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletChatRoomListLocalView.ui" line="106"/>
         <source>Refresh list of announced hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualiser la liste des hôtes annoncés</translation>
     </message>
 </context>
 <context>
@@ -273,7 +273,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletChooseThumbnail.ui" line="26"/>
         <source>Choose Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisir la vignette</translation>
     </message>
 </context>
 <context>
@@ -281,72 +281,72 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="20"/>
         <source>Edit About Me</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier À propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="71"/>
         <source>View My About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher ma page À propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="111"/>
         <source>Apply About Me Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Appliquer les modifications à propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="118"/>
         <source>Greeting:</source>
-        <translation type="unfinished"></translation>
+        <translation>Salutation&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="125"/>
         <source>Hi There!</source>
-        <translation type="unfinished"></translation>
+        <translation>Salut!</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="132"/>
         <source>About Me:</source>
-        <translation type="unfinished"></translation>
+        <translation>À propos de moi&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="151"/>
         <source>I&apos;m Wonderfull!</source>
-        <translation type="unfinished"></translation>
+        <translation>Je suis merveilleux&#xa0;!</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="158"/>
         <source>My Picture</source>
-        <translation type="unfinished"></translation>
+        <translation>Ma photo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="182"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Parcourir</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="189"/>
         <source>Take Snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Prendre un instantané</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="211"/>
         <source>My Favorite Websites</source>
-        <translation type="unfinished"></translation>
+        <translation>Mes sites Web préférés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="221"/>
         <source>https://donate.doctorswithoutborders.org</source>
-        <translation type="unfinished"></translation>
+        <translation>https://donate.doctorswithoutborders.org</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="228"/>
         <source>https://nolimitconnect.com</source>
-        <translation type="unfinished"></translation>
+        <translation>https://nolimitconnect.com</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="235"/>
         <source>Donation Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations sur les dons</translation>
     </message>
 </context>
 <context>
@@ -354,32 +354,32 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAvatarImage.ui" line="14"/>
         <source>Edit My Avatar Imae</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier l&apos;image de mon avatar</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAvatarImage.ui" line="51"/>
         <source>Edit My Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier mon image d&apos;avatar</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAvatarImage.ui" line="84"/>
         <source>Apply Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Appliquer une image d&apos;avatar</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAvatarImage.ui" line="91"/>
         <source>Remove Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer l&apos;image d&apos;avatar</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAvatarImage.ui" line="100"/>
         <source>My Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Mon image d&apos;avatar</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAvatarImage.ui" line="161"/>
         <source>Delete Image Permenantly</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer l&apos;image définitivement</translation>
     </message>
 </context>
 <context>
@@ -387,12 +387,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditStoryBoard.ui" line="20"/>
         <source>Edit Storyboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier le storyboard</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditStoryBoard.ui" line="80"/>
         <source>View My Storyboard Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher ma page de storyboard</translation>
     </message>
 </context>
 <context>
@@ -400,27 +400,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFileOfferSelect.ui" line="23"/>
         <source>Select File Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez l&apos;offre de fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFileOfferSelect.ui" line="98"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFileOfferSelect.ui" line="137"/>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFileOfferSelect.ui" line="173"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFileOfferSelect.ui" line="199"/>
         <source>Open Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir le dossier</translation>
     </message>
 </context>
 <context>
@@ -428,12 +428,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFileShareClientView.ui" line="23"/>
         <source>Browse Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Parcourir les fichiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFileShareClientView.ui" line="101"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -441,22 +441,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendList.ui" line="20"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendList.ui" line="95"/>
         <source>Online</source>
-        <translation type="unfinished"></translation>
+        <translation>En ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendList.ui" line="141"/>
         <source>Blocked</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloqué</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendList.ui" line="187"/>
         <source>Offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Hors ligne</translation>
     </message>
 </context>
 <context>
@@ -464,7 +464,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendRequestList.ui" line="20"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher</translation>
     </message>
 </context>
 <context>
@@ -472,32 +472,32 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendRequest.ui" line="32"/>
         <source>Friend Request</source>
-        <translation type="unfinished"></translation>
+        <translation>Demande d&apos;ami</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendRequest.ui" line="50"/>
         <source>Reason Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texte du motif</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendRequest.ui" line="103"/>
         <source>Accept Friend Request</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter la demande d&apos;ami</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendRequest.ui" line="123"/>
         <source>Reject Friend Request</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejeter la demande d&apos;ami</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendRequest.ui" line="176"/>
         <source>Send Friend Request</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer une demande d&apos;ami</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletFriendRequest.ui" line="196"/>
         <source>Cancel Friend Request</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler la demande d&apos;ami</translation>
     </message>
 </context>
 <context>
@@ -505,7 +505,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGalleryEmoticon.ui" line="26"/>
         <source>Thumbnail Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Galerie de vignettes</translation>
     </message>
 </context>
 <context>
@@ -513,7 +513,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGalleryImage.ui" line="26"/>
         <source>Image Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Galerie d&apos;images</translation>
     </message>
 </context>
 <context>
@@ -521,12 +521,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGalleryThumb.ui" line="26"/>
         <source>Thumbnail Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Galerie de vignettes</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGalleryThumb.ui" line="58"/>
         <source>Thumb Dir:</source>
-        <translation type="unfinished"></translation>
+        <translation>Répertoire du pouce&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -534,111 +534,111 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="32"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="74"/>
         <source>Navigation</source>
-        <translation type="unfinished"></translation>
+        <translation>Navigation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="89"/>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="150"/>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="205"/>
         <source>Use the </source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisez le </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="133"/>
         <source>button to return to previous page</source>
-        <translation type="unfinished"></translation>
+        <translation>bouton pour revenir à la page précédente</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="188"/>
         <source>button to expand page to full size of application</source>
-        <translation type="unfinished"></translation>
+        <translation>bouton pour agrandir la page à la taille complète de l&apos;application</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="243"/>
         <source>button to return to dual page display</source>
-        <translation type="unfinished"></translation>
+        <translation>bouton pour revenir à l’affichage double page</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="252"/>
         <source>Join</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="267"/>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="322"/>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="377"/>
         <source>Click</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="305"/>
         <source>to join a group</source>
-        <translation type="unfinished"></translation>
+        <translation>rejoindre un groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="360"/>
         <source>to join a chat room</source>
-        <translation type="unfinished"></translation>
+        <translation>rejoindre un salon de discussion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="415"/>
         <source>to join random connect</source>
-        <translation type="unfinished"></translation>
+        <translation>pour rejoindre une connexion aléatoire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="430"/>
         <source>Personal</source>
-        <translation type="unfinished"></translation>
+        <translation>Personnel</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="470"/>
         <source>Personal notes and recordings</source>
-        <translation type="unfinished"></translation>
+        <translation>Notes et enregistrements personnels</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="512"/>
         <source>Add media to your library</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajoutez des médias à votre bibliothèque</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="527"/>
         <source>Publish</source>
-        <translation type="unfinished"></translation>
+        <translation>Publier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="567"/>
         <source>Change your avatar icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Changez l&apos;icône de votre avatar</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="609"/>
         <source>Set up your about me page</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurez votre page à propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="651"/>
         <source>Add stories to your storyboard page</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajoutez des histoires à votre page de storyboard</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="666"/>
         <source>Share</source>
-        <translation type="unfinished"></translation>
+        <translation>Partager</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="706"/>
         <source>Share your camera as web cam server</source>
-        <translation type="unfinished"></translation>
+        <translation>Partagez votre caméra en tant que serveur de webcam</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGetStarted.ui" line="721"/>
         <source>Visit No Limit Connect website for more information</source>
-        <translation type="unfinished"></translation>
+        <translation>Visitez le site Web No Limit Connect pour plus d&apos;informations</translation>
     </message>
 </context>
 <context>
@@ -646,22 +646,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupHostSettings.ui" line="20"/>
         <source>Host A Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Héberger un groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupHostSettings.ui" line="53"/>
         <source>View Hosting Requirements</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les exigences d&apos;hébergement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupHostSettings.ui" line="63"/>
         <source>Other Services Required To Host A Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Autres services requis pour héberger un groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupHostSettings.ui" line="70"/>
         <source>Recommend Anybody permission level</source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau d&apos;autorisation Recommander à tout le monde</translation>
     </message>
 </context>
 <context>
@@ -669,7 +669,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupJoinSearch.ui" line="20"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher</translation>
     </message>
 </context>
 <context>
@@ -677,7 +677,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupListClient.ui" line="20"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher</translation>
     </message>
 </context>
 <context>
@@ -685,12 +685,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupListLocalView.ui" line="20"/>
         <source>Group List Local View</source>
-        <translation type="unfinished"></translation>
+        <translation>Vue locale de la liste des groupes</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletGroupListLocalView.ui" line="106"/>
         <source>Refresh list of announced hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualiser la liste des hôtes annoncés</translation>
     </message>
 </context>
 <context>
@@ -698,12 +698,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHackerList.ui" line="32"/>
         <source>Hacker List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des pirates</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHackerList.ui" line="88"/>
         <source>Copy To Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Copier dans le presse-papiers</translation>
     </message>
 </context>
 <context>
@@ -711,52 +711,52 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="32"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="71"/>
         <source>Information: What do the signal bars indicate?</source>
-        <translation type="unfinished"></translation>
+        <translation>Information : Qu&apos;indiquent les barres de signal ?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="117"/>
         <source>Connected To Internet</source>
-        <translation type="unfinished"></translation>
+        <translation>Connecté à Internet</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="165"/>
         <source>Connection Test Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Test de connexion disponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="213"/>
         <source>Network Host Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte réseau disponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="261"/>
         <source>Searching For Relay</source>
-        <translation type="unfinished"></translation>
+        <translation>Recherche de relais</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="309"/>
         <source>Connected With Relay</source>
-        <translation type="unfinished"></translation>
+        <translation>Connecté avec relais</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="357"/>
         <source>Direct Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion directe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="411"/>
         <source>Directly Connected To Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Directement connecté à l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHelpNetSignalBars.ui" line="459"/>
         <source>Connected To Host With Relay</source>
-        <translation type="unfinished"></translation>
+        <translation>Connecté à l&apos;hôte avec relais</translation>
     </message>
 </context>
 <context>
@@ -764,7 +764,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostClient.ui" line="20"/>
         <source>Host Client</source>
-        <translation type="unfinished"></translation>
+        <translation>Client hôte</translation>
     </message>
 </context>
 <context>
@@ -772,22 +772,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="20"/>
         <source>Choose User</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisir un utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="63"/>
         <source>View Current Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher l&apos;hôte actuel</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="110"/>
         <source>Rejoin last joined Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre le dernier hôte rejoint</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="157"/>
         <source>Search for a different host to join</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher un autre hôte à rejoindre</translation>
     </message>
 </context>
 <context>
@@ -795,22 +795,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinConnect.ui" line="20"/>
         <source>Choose User</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisir un utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinConnect.ui" line="73"/>
         <source>View Current Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher l&apos;hôte actuel</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinConnect.ui" line="120"/>
         <source>Rejoin last joined Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre le dernier hôte rejoint</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinConnect.ui" line="167"/>
         <source>Search for a different host to join</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher un autre hôte à rejoindre</translation>
     </message>
 </context>
 <context>
@@ -818,17 +818,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinRequestList.ui" line="110"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Create Invite&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Créer une invitation&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinRequestList.ui" line="136"/>
         <source>Accept Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter l&apos;invitation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostJoinRequestList.ui" line="176"/>
         <source>Accept All</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter tout</translation>
     </message>
 </context>
 <context>
@@ -836,32 +836,32 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostLeave.ui" line="20"/>
         <source>Host Leave</source>
-        <translation type="unfinished"></translation>
+        <translation>Congé d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostLeave.ui" line="34"/>
         <source>Admin</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostLeave.ui" line="133"/>
         <source>Leave</source>
-        <translation type="unfinished"></translation>
+        <translation>Partir</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostLeave.ui" line="186"/>
         <source>Remove Membership And Leave</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer l&apos;adhésion et quitter</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostLeave.ui" line="245"/>
         <source>Block Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloquer l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostLeave.ui" line="302"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
 </context>
 <context>
@@ -869,57 +869,57 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="20"/>
         <source>Hosting Requirements Status</source>
-        <translation type="unfinished"></translation>
+        <translation>État des exigences d&apos;hébergement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="68"/>
         <source>View Hosting Requirements</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les exigences d&apos;hébergement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="78"/>
         <source>Optional Services That May Be Provided By Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Services optionnels pouvant être fournis par l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="85"/>
         <source>Recommend Connection Test Permission Anybody</source>
-        <translation type="unfinished"></translation>
+        <translation>Recommander l&apos;autorisation de test de connexion à tout le monde</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="95"/>
         <source>Has open port to recieve connections</source>
-        <translation type="unfinished"></translation>
+        <translation>A un port ouvert pour recevoir des connexions</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="102"/>
         <source>Host Permission Is Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;autorisation de l&apos;hôte est activée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="109"/>
         <source>Connection Test Is Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Le test de connexion est activé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="118"/>
         <source>Url:</source>
-        <translation type="unfinished"></translation>
+        <translation>URL&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="148"/>
         <source>Status:  </source>
-        <translation type="unfinished"></translation>
+        <translation>Statut&#xa0;:  </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="201"/>
         <source>For author of NLC evaluation of VPNs that can open a port </source>
-        <translation type="unfinished"></translation>
+        <translation>Pour l&apos;auteur de l&apos;évaluation NLC des VPN pouvant ouvrir un port </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletHostNetworkStatus.ui" line="213"/>
         <source>Members Count:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de membres&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -927,12 +927,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletIgnoredHosts.ui" line="14"/>
         <source>Test Host Clent</source>
-        <translation type="unfinished"></translation>
+        <translation>Tester le client hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletIgnoredHosts.ui" line="69"/>
         <source>Ignored Host List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des hôtes ignorés</translation>
     </message>
 </context>
 <context>
@@ -941,22 +941,22 @@
         <location filename="../nolimitgui/src/Forms/AppletInviteAccept.ui" line="32"/>
         <location filename="../nolimitgui/src/Forms/AppletInviteAccept.ui" line="146"/>
         <source>Accept Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter l&apos;invitation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInviteAccept.ui" line="113"/>
         <source>What is a invite?</source>
-        <translation type="unfinished"></translation>
+        <translation>Qu&apos;est-ce qu&apos;une invitation ?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInviteAccept.ui" line="191"/>
         <source>Invite to accept text</source>
-        <translation type="unfinished"></translation>
+        <translation>Inviter à accepter le texte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInviteAccept.ui" line="166"/>
         <source>Reject Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejeter l&apos;invitation</translation>
     </message>
 </context>
 <context>
@@ -964,17 +964,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInviteCreate.ui" line="32"/>
         <source>Create Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une invitation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInviteCreate.ui" line="113"/>
         <source>What is a invite?</source>
-        <translation type="unfinished"></translation>
+        <translation>Qu&apos;est-ce qu&apos;une invitation ?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInviteCreate.ui" line="135"/>
         <source>Invite Message (Optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>Message d&apos;invitation (facultatif)</translation>
     </message>
 </context>
 <context>
@@ -983,32 +983,32 @@
         <location filename="../nolimitgui/src/Forms/AppletInvites.ui" line="32"/>
         <location filename="../nolimitgui/src/Forms/AppletInvites.ui" line="173"/>
         <source>Accept Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter l&apos;invitation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInvites.ui" line="107"/>
         <source>Paste Invite From Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Coller l&apos;invitation à partir du presse-papiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInvites.ui" line="121"/>
         <source>Person URL:</source>
-        <translation type="unfinished"></translation>
+        <translation>URL de la personne&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInvites.ui" line="139"/>
         <source>Group  URL:</source>
-        <translation type="unfinished"></translation>
+        <translation>URL du groupe&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInvites.ui" line="193"/>
         <source>Reject Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejeter l&apos;invitation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletInvites.ui" line="218"/>
         <source>Invite Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Inviter un texte</translation>
     </message>
 </context>
 <context>
@@ -1016,12 +1016,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletIsPortOpenTest.ui" line="17"/>
         <source>Net Service Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Test de service réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletIsPortOpenTest.ui" line="81"/>
         <source>Test Log:</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal des tests&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -1029,27 +1029,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletJoinHostList.ui" line="14"/>
         <source>Test Host Clent</source>
-        <translation type="unfinished"></translation>
+        <translation>Tester le client hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletJoinHostList.ui" line="71"/>
         <source>Host Administrator</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrateur hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletJoinHostList.ui" line="78"/>
         <source>Show Ignored Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les hôtes ignorés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletJoinHostList.ui" line="90"/>
         <source>Choose An Different Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisissez un autre hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletJoinHostList.ui" line="97"/>
         <source>Group Host List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des hôtes du groupe</translation>
     </message>
 </context>
 <context>
@@ -1057,7 +1057,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLibrary.ui" line="35"/>
         <source>Library</source>
-        <translation type="unfinished"></translation>
+        <translation>Bibliothèque</translation>
     </message>
 </context>
 <context>
@@ -1065,95 +1065,95 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="14"/>
         <source>Log Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres du journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="100"/>
         <source>Save Log Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer les paramètres du journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="107"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="134"/>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="309"/>
         <source>Check All</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout vérifier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="141"/>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="316"/>
         <source>Uncheck All</source>
-        <translation type="unfinished"></translation>
+        <translation>Décocher tout</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="148"/>
         <source>Log Level Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètre du niveau de journalisation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="160"/>
         <source>Enable Logging</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer la journalisation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="180"/>
         <source>Log Fatal</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal fatal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="193"/>
         <source>Log Assert</source>
-        <translation type="unfinished"></translation>
+        <translation>Assert de journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="206"/>
         <source>Log Severe</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal Grave</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="219"/>
         <source>Log Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="232"/>
         <source>Log Warn</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal d&apos;avertissement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="245"/>
         <source>Log Debug</source>
-        <translation type="unfinished"></translation>
+        <translation>Débogage du journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="258"/>
         <source>Log Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations de connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="271"/>
         <source>Log Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut du journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="284"/>
         <source>Log Verbose</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal détaillé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="323"/>
         <source>Log Modules Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres des modules de journalisation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="681"/>
         <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="688"/>
         <source>CheckBox</source>
-        <translation type="unfinished"></translation>
+        <translation>Case à cocher</translation>
     </message>
 </context>
 <context>
@@ -1161,17 +1161,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLog.ui" line="32"/>
         <source>Application Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal des applications</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLog.ui" line="91"/>
         <source>Show Log Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les paramètres du journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLog.ui" line="98"/>
         <source>Show App Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les informations sur l&apos;application</translation>
     </message>
 </context>
 <context>
@@ -1179,7 +1179,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletMultiMessenger.ui" line="32"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Boîte de dialogue</translation>
     </message>
 </context>
 <context>
@@ -1187,7 +1187,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkKey.ui" line="20"/>
         <source>Applete Network Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé réseau Applete</translation>
     </message>
 </context>
 <context>
@@ -1195,12 +1195,12 @@
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="610"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="610"/>
         <source>You cannot delete the last network setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous ne pouvez pas supprimer le dernier paramètre réseau.</translation>
     </message>
 </context>
 <context>
@@ -1208,97 +1208,97 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="14"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="49"/>
         <source>Select Network Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez les paramètres réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="104"/>
         <source>Save Network Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer les paramètres réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="136"/>
         <source>Delete Network Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer le paramètre réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="147"/>
         <source>Incomming Connections Listen Port:</source>
-        <translation type="unfinished"></translation>
+        <translation>Port d&apos;écoute des connexions entrantes&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="157"/>
         <source>Ramdomize Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Ramdomiser le port</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="193"/>
         <source>Use IPv6 Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser le réseau IPv6</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="237"/>
         <source>Network Host URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL de l&apos;hôte réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="290"/>
         <source>Network Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="377"/>
         <source>Connection Test Service URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL du service de test de connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="469"/>
         <source>Assume Users Can Connect Directly (Port Is Always Open)</source>
-        <translation type="unfinished"></translation>
+        <translation>Supposons que les utilisateurs puissent se connecter directement (le port est toujours ouvert)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="429"/>
         <source>Enable UPNP port forward</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer le transfert de port UPNP</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="436"/>
         <source>How To Determine If Can Direct Connect ( Is Port Open? )</source>
-        <translation type="unfinished"></translation>
+        <translation>Comment déterminer si une connexion directe est possible (le port est-il ouvert&#xa0;?)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="462"/>
         <source>Use Connection Test Service To Test Is Port Open (Recommended)</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser le service de test de connexion pour tester si le port est ouvert (recommandé)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="487"/>
         <source>External IP</source>
-        <translation type="unfinished"></translation>
+        <translation>IP externe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="503"/>
         <source>Assume Relay Service Is Required ( Device Is Behind Firewall ).</source>
-        <translation type="unfinished"></translation>
+        <translation>Supposons que le service de relais soit requis (le périphérique est derrière le pare-feu).</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="542"/>
         <source>My URL:</source>
-        <translation type="unfinished"></translation>
+        <translation>Mon URL&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="613"/>
         <source>Test Is My Port Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Tester si mon port est ouvert</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="620"/>
         <source>Test UPNP</source>
-        <translation type="unfinished"></translation>
+        <translation>Tester UPNP</translation>
     </message>
 </context>
 <context>
@@ -1306,47 +1306,47 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="23"/>
         <source>Offer Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations sur l&apos;offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="58"/>
         <source>Offer Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut de l&apos;offre&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="88"/>
         <source>Offer Time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Durée de l&apos;offre&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="120"/>
         <source>Offer Message (if any)</source>
-        <translation type="unfinished"></translation>
+        <translation>Message d&apos;offre (le cas échéant)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="138"/>
         <source>Expires</source>
-        <translation type="unfinished"></translation>
+        <translation>Expire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="151"/>
         <source>When Offer Response Recieved</source>
-        <translation type="unfinished"></translation>
+        <translation>Quand la réponse à l&apos;offre est-elle reçue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="160"/>
         <source>File Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations sur le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="217"/>
         <source>File Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom du fichier&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferInfo.ui" line="259"/>
         <source>File Size:</source>
-        <translation type="unfinished"></translation>
+        <translation>Taille du fichier&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -1354,17 +1354,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferList.ui" line="20"/>
         <source>Offer List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des offres</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferList.ui" line="110"/>
         <source>Active Offers</source>
-        <translation type="unfinished"></translation>
+        <translation>Offres actives</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferList.ui" line="143"/>
         <source>Offer History</source>
-        <translation type="unfinished"></translation>
+        <translation>Historique de l&apos;offre</translation>
     </message>
 </context>
 <context>
@@ -1372,42 +1372,42 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="23"/>
         <source>Offer Accept Response</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre Accepter Réponse</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="88"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="122"/>
         <source>Expires</source>
-        <translation type="unfinished"></translation>
+        <translation>Expire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="135"/>
         <source>When Offer Response Recieved</source>
-        <translation type="unfinished"></translation>
+        <translation>Quand la réponse à l&apos;offre est-elle reçue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="144"/>
         <source>Response</source>
-        <translation type="unfinished"></translation>
+        <translation>Réponse</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="163"/>
         <source>File Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations sur le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="201"/>
         <source>File:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponseAccept.ui" line="243"/>
         <source>Path:</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -1415,42 +1415,42 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="23"/>
         <source>Offer Response</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre de réponse</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="88"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="122"/>
         <source>Expires</source>
-        <translation type="unfinished"></translation>
+        <translation>Expire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="135"/>
         <source>When Offer Response Recieved</source>
-        <translation type="unfinished"></translation>
+        <translation>Quand la réponse à l&apos;offre est-elle reçue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="144"/>
         <source>Response</source>
-        <translation type="unfinished"></translation>
+        <translation>Réponse</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="163"/>
         <source>File Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations sur le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="201"/>
         <source>File:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferResponse.ui" line="243"/>
         <source>Path:</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -1458,17 +1458,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferSend.ui" line="23"/>
         <source>Offer Send</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre Envoyer</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferSend.ui" line="88"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferSend.ui" line="120"/>
         <source>Send</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer</translation>
     </message>
 </context>
 <context>
@@ -1476,47 +1476,47 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="23"/>
         <source>Offer Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Détails de l&apos;offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="88"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="122"/>
         <source>Expires</source>
-        <translation type="unfinished"></translation>
+        <translation>Expire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="135"/>
         <source>When Offer Response Recieved</source>
-        <translation type="unfinished"></translation>
+        <translation>Quand la réponse à l&apos;offre est-elle reçue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="144"/>
         <source>Send</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="156"/>
         <source>Response</source>
-        <translation type="unfinished"></translation>
+        <translation>Réponse</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="175"/>
         <source>File Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations sur le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="213"/>
         <source>File:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletOfferView.ui" line="255"/>
         <source>Path:</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -1524,79 +1524,79 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="26"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Boîte de dialogue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="86"/>
         <source>Age:</source>
-        <translation type="unfinished"></translation>
+        <translation>Âge&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="116"/>
         <source>Gender:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sexe&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="153"/>
         <source>Preferred Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>Contenu préféré&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="183"/>
         <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="258"/>
         <source>Make Friend</source>
-        <translation type="unfinished"></translation>
+        <translation>Se faire un ami</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="297"/>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorer</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="365"/>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="413"/>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="526"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>Étiquette de texte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="428"/>
         <source>Set To Administrator Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>Définir sur l&apos;autorisation d&apos;administrateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="441"/>
         <source>Set To Friend Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>Définir l&apos;autorisation comme ami</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="454"/>
         <source>Set To Guest Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>Définir sur l&apos;autorisation d&apos;invité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="467"/>
         <source>Set To Anybody Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>Définir sur l&apos;autorisation de n&apos;importe qui</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="480"/>
         <source>Ignore This Person</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorer cette personne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="569"/>
         <source>OK</source>
-        <translation type="unfinished"></translation>
+        <translation>D&apos;accord</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="602"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
 </context>
 <context>
@@ -1604,17 +1604,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerReplyOfferFile.ui" line="20"/>
         <source>Offer Session</source>
-        <translation type="unfinished"></translation>
+        <translation>Séance d&apos;offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerReplyOfferFile.ui" line="123"/>
         <source>Offer A File</source>
-        <translation type="unfinished"></translation>
+        <translation>Proposer un fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerReplyOfferFile.ui" line="199"/>
         <source>View Uploads</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les téléchargements</translation>
     </message>
 </context>
 <context>
@@ -1622,22 +1622,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerSessionFileOffer.ui" line="20"/>
         <source>Accept File Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter l&apos;offre de fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerSessionFileOffer.ui" line="100"/>
         <source>File Transfer</source>
-        <translation type="unfinished"></translation>
+        <translation>Transfert de fichiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerSessionFileOffer.ui" line="122"/>
         <source>File:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerSessionFileOffer.ui" line="152"/>
         <source>Progress:</source>
-        <translation type="unfinished"></translation>
+        <translation>Progrès&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -1645,7 +1645,7 @@
     <message>
         <location filename="../nolimitgui/src/AppletPeerTodGame.cpp" line="67"/>
         <source>Truth Or Dare Session Ended</source>
-        <translation type="unfinished"></translation>
+        <translation>Fin de la session Action ou Vérité</translation>
     </message>
 </context>
 <context>
@@ -1653,17 +1653,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerTodGame.ui" line="20"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Boîte de dialogue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerTodGame.ui" line="135"/>
         <source>Truth Or Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerTodGame.ui" line="195"/>
         <source>End Call</source>
-        <translation type="unfinished"></translation>
+        <translation>Terminer l&apos;appel</translation>
     </message>
 </context>
 <context>
@@ -1671,17 +1671,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVideoPhone.ui" line="20"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Boîte de dialogue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVideoPhone.ui" line="129"/>
         <source>Video Phone </source>
-        <translation type="unfinished"></translation>
+        <translation>Visiophone </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVideoPhone.ui" line="189"/>
         <source>End Call</source>
-        <translation type="unfinished"></translation>
+        <translation>Terminer l&apos;appel</translation>
     </message>
 </context>
 <context>
@@ -1689,27 +1689,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVoicePhone.ui" line="32"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Boîte de dialogue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVoicePhone.ui" line="151"/>
         <source>Voice Phone </source>
-        <translation type="unfinished"></translation>
+        <translation>Téléphone vocal </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVoicePhone.ui" line="211"/>
         <source>End Call</source>
-        <translation type="unfinished"></translation>
+        <translation>Terminer l&apos;appel</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVoicePhone.ui" line="226"/>
         <source>Show Audio In Waveforms</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher l&apos;audio dans les formes d&apos;onde</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPeerVoicePhone.ui" line="246"/>
         <source>Show Audio Out Waveform</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher la forme d&apos;onde de sortie audio</translation>
     </message>
 </context>
 <context>
@@ -1717,17 +1717,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPermissionList.ui" line="14"/>
         <source>Permission List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des autorisations</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPermissionList.ui" line="47"/>
         <source>Services Permission List For Convenience</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des autorisations de services pour plus de commodité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPermissionList.ui" line="60"/>
         <source>Permission Can Also Be Set In The Service Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;autorisation peut également être définie dans les paramètres du service</translation>
     </message>
 </context>
 <context>
@@ -1736,7 +1736,7 @@
         <location filename="../nolimitgui/src/Forms/AppletPersonOfferList.ui" line="117"/>
         <location filename="../nolimitgui/src/Forms/AppletPersonOfferList.ui" line="124"/>
         <source>PushButton</source>
-        <translation type="unfinished"></translation>
+        <translation>Bouton-poussoir</translation>
     </message>
 </context>
 <context>
@@ -1744,7 +1744,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPlayerNlc.ui" line="32"/>
         <source>Applet Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Lecteur d&apos;applets</translation>
     </message>
 </context>
 <context>
@@ -1752,7 +1752,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPlayerPhoto.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -1760,7 +1760,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPlayerVideo.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -1768,7 +1768,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletRandomConnectJoinSearch.ui" line="20"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher</translation>
     </message>
 </context>
 <context>
@@ -1776,12 +1776,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletRandomConnectListLocalView.ui" line="20"/>
         <source>Random Connect Local List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste locale de connexion aléatoire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletRandomConnectListLocalView.ui" line="106"/>
         <source>Refresh list of announced hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualiser la liste des hôtes annoncés</translation>
     </message>
 </context>
 <context>
@@ -1789,42 +1789,42 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="14"/>
         <source>Applet Service Base Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de base du service Applet</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="20"/>
         <source>Service Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titre du service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="39"/>
         <source>Apply Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Appliquer les modifications</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="46"/>
         <source>Permission Level Required To Use Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau d&apos;autorisation requis pour utiliser le service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="63"/>
         <source>Optional Image For Detail Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Image facultative pour des informations détaillées</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="80"/>
         <source>Service URL or IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>URL du service ou adresse IP</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="94"/>
         <source>Name Of Service (optional), max length 63</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom du service (facultatif), longueur maximale 63</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBaseSettings.ui" line="108"/>
         <source>Description Of Service (optional), max length 511</source>
-        <translation type="unfinished"></translation>
+        <translation>Description du service (facultatif), longueur maximale 511</translation>
     </message>
 </context>
 <context>
@@ -1832,68 +1832,69 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="14"/>
         <source>Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="35"/>
         <source>Service Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titre du service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="48"/>
         <source>Permission Level Required To Use Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau d&apos;autorisation requis pour utiliser le service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="58"/>
         <source>Run Service On Application Startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Exécuter le service au démarrage de l&apos;application</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="67"/>
         <source>Start Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer le service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="86"/>
         <source>Stop Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêter le service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="95"/>
         <source>Apply Service Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Appliquer les paramètres du service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="104"/>
         <source>Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>Note</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="124"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="143"/>
         <source>Service URL or IP Address </source>
-        <translation type="unfinished"></translation>
+        <translation>URL du service ou adresse IP </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="157"/>
         <source>Title Of Service ( Optional For Detail Information )</source>
-        <translation type="unfinished"></translation>
+        <translation>Titre du service (facultatif pour des informations détaillées)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="177"/>
         <source>Comma Delimited Key Words ( Optional For Searches )</source>
-        <translation type="unfinished"></translation>
+        <translation>Mots clés délimités par des virgules (facultatif pour les recherches)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceBase.ui" line="191"/>
         <source>Description Of Service ( Optional For Detail Information )
 ( max 511 characters )</source>
-        <translation type="unfinished"></translation>
+        <translation>Description du service (facultatif pour des informations détaillées)
+(maximum 511 caractères)</translation>
     </message>
 </context>
 <context>
@@ -1901,17 +1902,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSettingsHostBase.ui" line="20"/>
         <source>Host Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSettingsHostBase.ui" line="73"/>
         <source>View Hosting Requirements</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les exigences d&apos;hébergement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSettingsHostBase.ui" line="80"/>
         <source>View My Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher mon hôte</translation>
     </message>
 </context>
 <context>
@@ -1919,17 +1920,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSettingsNoUserSettings.ui" line="20"/>
         <source>Offer Session</source>
-        <translation type="unfinished"></translation>
+        <translation>Séance d&apos;offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSettingsNoUserSettings.ui" line="74"/>
         <source>There Are No User Settings For This Service Except Permission Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Il n&apos;y a aucun paramètre utilisateur pour ce service, à l&apos;exception du niveau d&apos;autorisation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSettingsNoUserSettings.ui" line="81"/>
         <source>Please vist https://nolimitconnect.com for more information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez visiter https://nolimitconnect.com pour plus d&apos;informations.</translation>
     </message>
 </context>
 <context>
@@ -1937,17 +1938,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSnapshot.ui" line="20"/>
         <source>Take Snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Prendre un instantané</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSnapshot.ui" line="312"/>
         <source>Take Snap Shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Prendre une photo instantanée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSnapshot.ui" line="319"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Terminé</translation>
     </message>
 </context>
 <context>
@@ -1955,12 +1956,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSocketList.ui" line="32"/>
         <source>Connected Socket List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des prises connectées</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSocketList.ui" line="88"/>
         <source>Copy To Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Copier dans le presse-papiers</translation>
     </message>
 </context>
 <context>
@@ -1968,112 +1969,112 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="23"/>
         <source>Sound Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres sonores</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="74"/>
         <source>No AEC Loopback</source>
-        <translation type="unfinished"></translation>
+        <translation>Pas de bouclage AEC</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="81"/>
         <source>With AEC Loopback</source>
-        <translation type="unfinished"></translation>
+        <translation>Avec bouclage AEC</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="104"/>
         <source>Show Audio In Waveforms</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher l&apos;audio dans les formes d&apos;onde</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="124"/>
         <source>Show Audio Out Waveform</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher la forme d&apos;onde de sortie audio</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="147"/>
         <source>Show Sound In Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher le son dans les paramètres</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="154"/>
         <source>Sound Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée sonore</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="175"/>
         <source>Apply Sound In Device As Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Appliquer le son sur l&apos;appareil par défaut</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="184"/>
         <source>Sound In Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Son dans l&apos;appareil</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="211"/>
         <source>Enable AGC ( Automatic Gain Control )</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer AGC (contrôle automatique du gain)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="222"/>
         <source>Microphone Peak Level: </source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau de crête du microphone&#xa0;: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="241"/>
         <source>Show Sound Out Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les paramètres de sortie audio</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="305"/>
         <source>Generate 400Hz tone for speakers</source>
-        <translation type="unfinished"></translation>
+        <translation>Générer une tonalité de 400&#xa0;Hz pour les haut-parleurs</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="409"/>
         <source>Play Test File</source>
-        <translation type="unfinished"></translation>
+        <translation>Lire le fichier de test</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="429"/>
         <source>Show Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher le journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="248"/>
         <source>Sound Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortie sonore</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="269"/>
         <source>Apply Sound Out Device As Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Appliquer le périphérique de sortie audio par défaut</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="278"/>
         <source>Sound Out Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Appareil de sortie sonore</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="316"/>
         <source>Test Sound Delay For Echo Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Test du délai sonore pour l&apos;annulation de l&apos;écho</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="329"/>
         <source>Test result ms:</source>
-        <translation type="unfinished"></translation>
+        <translation>Résultat du test ms&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="356"/>
         <source>Echo delay ms:</source>
-        <translation type="unfinished"></translation>
+        <translation>Délai d&apos;écho ms&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="373"/>
         <source>Save Echo Delay To Echo Canceler</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer le délai d&apos;écho dans l&apos;annuleur d&apos;écho</translation>
     </message>
 </context>
 <context>
@@ -2081,7 +2082,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletStoryBoardClient.ui" line="20"/>
         <source>Edit Storyboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier le storyboard</translation>
     </message>
 </context>
 <context>
@@ -2089,27 +2090,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestAndDebug.ui" line="32"/>
         <source>Test And Debug</source>
-        <translation type="unfinished"></translation>
+        <translation>Test et débogage</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestAndDebug.ui" line="105"/>
         <source>1 minute Host Announce interval (NOT Recommended)</source>
-        <translation type="unfinished"></translation>
+        <translation>Intervalle d&apos;annonce de l&apos;hôte d&apos;une minute (NON recommandé)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestAndDebug.ui" line="118"/>
         <source>Allow delete user from database</source>
-        <translation type="unfinished"></translation>
+        <translation>Autoriser la suppression d&apos;un utilisateur de la base de données</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestAndDebug.ui" line="244"/>
         <source>Reset Truth Or Dare Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Réinitialiser le décompte Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestAndDebug.ui" line="269"/>
         <source>4512448476bf2836979cf61b7c88f8fc70099NoLimitNet172.94.58.10345124</source>
-        <translation type="unfinished"></translation>
+        <translation>4512448476bf2836979cf61b7c88f8fc70099NoLimitNet172.94.58.10345124</translation>
     </message>
 </context>
 <context>
@@ -2117,57 +2118,57 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="32"/>
         <source>Test UPNP Port Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>Testez le transfert de port UPNP</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="55"/>
         <source>Test Port Forward IP</source>
-        <translation type="unfinished"></translation>
+        <translation>Tester l&apos;adresse IP de transfert du port</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="75"/>
         <source>Test Port Forward Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Port de test Port de transfert</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="89"/>
         <source>Add Port Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter une redirection de port</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="96"/>
         <source>Remove Port Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer le transfert de port</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="107"/>
         <source>List Port Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des transferts de ports</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="114"/>
         <source>Copy Log To Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Copier le journal dans le presse-papiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="125"/>
         <source>Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="132"/>
         <source>Verbose</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbeux</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="139"/>
         <source>Debug</source>
-        <translation type="unfinished"></translation>
+        <translation>Débogage</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTestUpnp.ui" line="146"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur</translation>
     </message>
 </context>
 <context>
@@ -2175,7 +2176,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUploads.ui" line="35"/>
         <source>Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Menus</translation>
     </message>
 </context>
 <context>
@@ -2183,12 +2184,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserConnections.ui" line="20"/>
         <source>User Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexions utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserConnections.ui" line="34"/>
         <source>List View Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type d&apos;affichage de liste</translation>
     </message>
 </context>
 <context>
@@ -2196,104 +2197,104 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="20"/>
         <source>User Identity</source>
-        <translation type="unfinished"></translation>
+        <translation>Identité de l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="76"/>
         <source>Delete Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer le compte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="85"/>
         <source>Online Identity</source>
-        <translation type="unfinished"></translation>
+        <translation>Identité en ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="113"/>
         <source>Select Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez un compte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="134"/>
         <source>Mood Message: ( Up to 27 characters )</source>
-        <translation type="unfinished"></translation>
+        <translation>Message d&apos;humeur&#xa0;: (jusqu&apos;à 27&#xa0;caractères)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="147"/>
         <source>Let&apos;s Communicate!</source>
-        <translation type="unfinished"></translation>
+        <translation>Communiquons !</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="156"/>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="201"/>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="246"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Postuler</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="167"/>
         <source>Age:</source>
-        <translation type="unfinished"></translation>
+        <translation>Âge&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="184"/>
         <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="212"/>
         <source>Gender:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sexe&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="229"/>
         <source>Preferred Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>Contenu préféré&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="264"/>
         <source>Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Image d&apos;avatar</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="310"/>
         <source>Edit My Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier mon image d&apos;avatar</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="351"/>
         <source>About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Page À propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="382"/>
         <source>Edit My About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier ma page À propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="414"/>
         <source>View My About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher ma page À propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="430"/>
         <source>Story Board Page (Blog)</source>
-        <translation type="unfinished"></translation>
+        <translation>Page de story-board (blog)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="461"/>
         <source>Edit My Story Board Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier ma page Story Board</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="493"/>
         <source>View My Story Board Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher ma page Story Board</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserIdentity.ui" line="503"/>
         <source>Create New Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouveau compte</translation>
     </message>
 </context>
 <context>
@@ -2301,62 +2302,62 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="14"/>
         <source>Log Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres du journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="49"/>
         <source>Save User Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer les paramètres utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="56"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="81"/>
         <source>Use system player for media instead of NLC player</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisez le lecteur système pour les médias au lieu du lecteur NLC</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="88"/>
         <source>Unattended host (Disable Offers, Messages Etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte sans surveillance (désactiver les offres, les messages, etc.)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="101"/>
         <source>Use 24 hour (military) time format</source>
-        <translation type="unfinished"></translation>
+        <translation>Utiliser le format horaire (militaire) de 24&#xa0;heures</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="123"/>
         <source>Max Message History Retained</source>
-        <translation type="unfinished"></translation>
+        <translation>Historique maximum des messages conservés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="152"/>
         <source>Diable All Sound Effects (Key Click, Notify, Etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Désactivez tous les effets sonores (clic sur une touche, notification, etc.)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="183"/>
         <source>Disable Trash Sound Effect</source>
-        <translation type="unfinished"></translation>
+        <translation>Désactiver l&apos;effet sonore de la corbeille</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="190"/>
         <source>Disable Button Press Sound</source>
-        <translation type="unfinished"></translation>
+        <translation>Désactiver le son de la pression sur les boutons</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="197"/>
         <source>Dsiable Notify Sound</source>
-        <translation type="unfinished"></translation>
+        <translation>Son de notification réglable</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="204"/>
         <source>Disable Message Received Sound</source>
-        <translation type="unfinished"></translation>
+        <translation>Désactiver le son des messages reçus</translation>
     </message>
 </context>
 <context>
@@ -2364,7 +2365,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AssetFaceWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -2372,7 +2373,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AssetPhotoWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -2380,12 +2381,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AssetTextWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AssetTextWidget.ui" line="369"/>
         <source>Copy Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Copier le texte</translation>
     </message>
 </context>
 <context>
@@ -2393,12 +2394,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AssetVideoWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AssetVideoWidget.ui" line="391"/>
         <source>File Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom du fichier&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -2406,12 +2407,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AssetVoiceWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AssetVoiceWidget.ui" line="341"/>
         <source>File Name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom du fichier&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -2419,7 +2420,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AvatarBarWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -2427,32 +2428,32 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityBrowseFiles.ui" line="23"/>
         <source>Browse Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Parcourir les fichiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityBrowseFiles.ui" line="151"/>
         <source>Move Up A Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Déplacer vers le haut d&apos;un dossier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityBrowseFiles.ui" line="183"/>
         <source>Select A Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez un dossier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityBrowseFiles.ui" line="267"/>
         <source>Folder:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dossier&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityBrowseFiles.ui" line="316"/>
         <source>Double Click File Item to Select The File</source>
-        <translation type="unfinished"></translation>
+        <translation>Double-cliquez sur l&apos;élément de fichier pour sélectionner le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityBrowseFiles.ui" line="242"/>
         <source>Add All Files To Library</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter tous les fichiers à la bibliothèque</translation>
     </message>
 </context>
 <context>
@@ -2460,17 +2461,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityDownloadItemMenu.ui" line="14"/>
         <source>Cancel Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler le téléchargement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityDownloadItemMenu.ui" line="133"/>
         <source>Recieve File</source>
-        <translation type="unfinished"></translation>
+        <translation>Recevoir le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityDownloadItemMenu.ui" line="154"/>
         <source>File:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -2479,7 +2480,7 @@
         <location filename="../nolimitgui/src/Forms/CentralFrame.ui" line="14"/>
         <location filename="../nolimitgui/src/Forms/CentralWidget.ui" line="14"/>
         <source>Frame</source>
-        <translation type="unfinished"></translation>
+        <translation>Cadre</translation>
     </message>
 </context>
 <context>
@@ -2487,7 +2488,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ChatEntryWidget.ui" line="32"/>
         <source>Chat Entry</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée dans le chat</translation>
     </message>
 </context>
 <context>
@@ -2496,42 +2497,42 @@
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="23"/>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="113"/>
         <source>Confirm Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmer la suppression</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="157"/>
         <source>X</source>
-        <translation type="unfinished"></translation>
+        <translation>X</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="194"/>
         <source>Click trash can to just remove message from chat history</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez sur la corbeille pour simplement supprimer le message de l&apos;historique des discussions</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="240"/>
         <source>Remove Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer le message</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="255"/>
         <source>Click shredder to write random data to the file and PERMENENTLY delete the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez sur Shredder pour écrire des données aléatoires dans le fichier et supprimer définitivement le fichier.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="301"/>
         <source>Shred File And Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Déchiqueter le fichier et le supprimer</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="316"/>
         <source>Cancel - Do nothing</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler - Ne rien faire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogConfirmRemoveMessage.ui" line="362"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
 </context>
 <context>
@@ -2539,57 +2540,57 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="26"/>
         <source>Create New Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouveau compte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="53"/>
         <source>No Registration Required.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucune inscription requise.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="66"/>
         <source>Enter A User Name and Log In!</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrez un nom d&apos;utilisateur et connectez-vous&#xa0;!</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="79"/>
         <source>User Name: (4 to 31 characters)</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom d&apos;utilisateur&#xa0;: (4 à 31&#xa0;caractères)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="105"/>
         <source>Mood Message: (Up to 31 characters)</source>
-        <translation type="unfinished"></translation>
+        <translation>Message d&apos;humeur&#xa0;: (jusqu&apos;à 31&#xa0;caractères)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="118"/>
         <source>Let&apos;s Communicate!</source>
-        <translation type="unfinished"></translation>
+        <translation>Communiquons !</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="139"/>
         <source>Age</source>
-        <translation type="unfinished"></translation>
+        <translation>Âge</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="162"/>
         <source>Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Contenu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="195"/>
         <source>Gender</source>
-        <translation type="unfinished"></translation>
+        <translation>Sexe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="218"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="243"/>
         <source>Login!</source>
-        <translation type="unfinished"></translation>
+        <translation>Connectez-vous&#xa0;!</translation>
     </message>
 </context>
 <context>
@@ -2598,12 +2599,12 @@
         <location filename="../nolimitgui/src/Forms/DialogAddComment.ui" line="23"/>
         <location filename="../nolimitgui/src/Forms/DialogAddComment.ui" line="119"/>
         <source>Add Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un commentaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/DialogAddComment.ui" line="203"/>
         <source>Optional Add Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Facultatif Ajouter un commentaire</translation>
     </message>
 </context>
 <context>
@@ -2612,121 +2613,121 @@
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="20"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="20"/>
         <source>MainWindow</source>
-        <translation type="unfinished"></translation>
+        <translation>Fenêtre principale</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="97"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="97"/>
         <source>Sound Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrée sonore</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="118"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="118"/>
         <source>Apply Sound In Device As Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Appliquer le son sur l&apos;appareil par défaut</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="127"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="127"/>
         <source>Sound In Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Son dans l&apos;appareil</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="146"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="146"/>
         <source>Want Microphone Input</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous voulez une entrée microphone</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="153"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="153"/>
         <source>Mute Microphone</source>
-        <translation type="unfinished"></translation>
+        <translation>Microphone muet</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="160"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="160"/>
         <source>Send Microphone Input To Speakers</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer l&apos;entrée du microphone aux haut-parleurs</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="169"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="169"/>
         <source>Microphone Input Peak Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau de crête d’entrée du microphone</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="194"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="194"/>
         <source>Sound Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Sortie sonore</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="215"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="215"/>
         <source>Apply Sound Out Device As Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Appliquer le périphérique de sortie audio par défaut</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="224"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="224"/>
         <source>Sound Out Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Appareil de sortie sonore</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="243"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="243"/>
         <source>Want Speaker Output</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous voulez une sortie haut-parleur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="250"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="250"/>
         <source>Mute Speakers</source>
-        <translation type="unfinished"></translation>
+        <translation>Haut-parleurs muets</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="257"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="257"/>
         <source>Generate 400Hz tone Mono Channel PCM </source>
-        <translation type="unfinished"></translation>
+        <translation>Générer une tonalité de 400 Hz PCM mono canal </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="266"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="266"/>
         <source>Speaker Output Peak Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau de crête de sortie du haut-parleur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="282"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="282"/>
         <source> Enable Echo Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation> Activer l&apos;annulation de l&apos;écho</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="291"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="291"/>
         <source>Test Sound Delay For Echo Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Test du délai sonore pour l&apos;annulation de l&apos;écho</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="304"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="304"/>
         <source>Test result ms:</source>
-        <translation type="unfinished"></translation>
+        <translation>Résultat du test ms&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="331"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="331"/>
         <source>Echo delay ms:</source>
-        <translation type="unfinished"></translation>
+        <translation>Délai d&apos;écho ms&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/EchoCancelTestMainWindow.ui" line="348"/>
         <location filename="../nolimitgui/src/Forms/MiniAudioLibTestMainWindow.ui" line="348"/>
         <source>Save Echo Delay To Echo Canceler</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer le délai d&apos;écho dans l&apos;annuleur d&apos;écho</translation>
     </message>
 </context>
 <context>
@@ -2734,7 +2735,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileActionBarWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -2742,27 +2743,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileActionMenu.ui" line="17"/>
         <source>Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Menus</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileActionMenu.ui" line="93"/>
         <source>File Action Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Menu d&apos;actions de fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileActionMenu.ui" line="261"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>Étiquette de texte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileActionMenu.ui" line="281"/>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Taille</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileActionMenu.ui" line="299"/>
         <source>FilePath</source>
-        <translation type="unfinished"></translation>
+        <translation>Chemin du fichier</translation>
     </message>
 </context>
 <context>
@@ -2770,17 +2771,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileDisplayWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileDisplayWidget.ui" line="107"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>Étiquette de texte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileDisplayWidget.ui" line="129"/>
         <source>FileSize</source>
-        <translation type="unfinished"></translation>
+        <translation>Taille du fichier</translation>
     </message>
 </context>
 <context>
@@ -2788,32 +2789,32 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileFilterSelectWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileFilterSelectWidget.ui" line="56"/>
         <source>Filter By</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtrer par</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileFilterSelectWidget.ui" line="88"/>
         <source>Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileFilterSelectWidget.ui" line="120"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileFilterSelectWidget.ui" line="152"/>
         <source>Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Images</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileFilterSelectWidget.ui" line="184"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout</translation>
     </message>
 </context>
 <context>
@@ -2821,32 +2822,32 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileMediaSelectWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileMediaSelectWidget.ui" line="56"/>
         <source>Add Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter un média</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileMediaSelectWidget.ui" line="88"/>
         <source>Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileMediaSelectWidget.ui" line="120"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileMediaSelectWidget.ui" line="152"/>
         <source>Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Images</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileMediaSelectWidget.ui" line="184"/>
         <source>Scan folder for media</source>
-        <translation type="unfinished"></translation>
+        <translation>Analyser le dossier pour les médias</translation>
     </message>
 </context>
 <context>
@@ -2854,7 +2855,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityFileSearch.ui" line="17"/>
         <source>Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Menus</translation>
     </message>
 </context>
 <context>
@@ -2862,12 +2863,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileShareItemWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileShareItemWidget.ui" line="145"/>
         <source>Size</source>
-        <translation type="unfinished"></translation>
+        <translation>Taille</translation>
     </message>
 </context>
 <context>
@@ -2875,27 +2876,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileTypeSelectWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileTypeSelectWidget.ui" line="75"/>
         <source>Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileTypeSelectWidget.ui" line="107"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileTypeSelectWidget.ui" line="139"/>
         <source>Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Images</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileTypeSelectWidget.ui" line="171"/>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout</translation>
     </message>
 </context>
 <context>
@@ -2903,22 +2904,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileViewSharedActionBar.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileViewSharedActionBar.ui" line="87"/>
         <source>Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Flux</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileViewSharedActionBar.ui" line="119"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Télécharger</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileViewSharedActionBar.ui" line="151"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>À propos</translation>
     </message>
 </context>
 <context>
@@ -2926,17 +2927,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/FileXferWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileXferWidget.ui" line="155"/>
         <source>FileSize</source>
-        <translation type="unfinished"></translation>
+        <translation>Taille du fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/FileXferWidget.ui" line="202"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -2944,48 +2945,49 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="14"/>
         <source>Group Listing Host Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service d&apos;hébergement d&apos;annonces de groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="54"/>
         <source>Host Group Listing Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service de liste de groupes d&apos;hôtes</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="67"/>
         <source>Start Service When App Is Launched</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer le service au lancement de l&apos;application</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="74"/>
         <source>Permission Level Required To Use Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau d&apos;autorisation requis pour utiliser le service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="84"/>
         <source>This Service  URL or IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette URL de service ou cette adresse IP</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="94"/>
         <source>Name Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service de noms</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="104"/>
         <source>Description Of Service  
 ( maximum 512 characters )</source>
-        <translation type="unfinished"></translation>
+        <translation>Description du service  
+(maximum 512 caractères)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="122"/>
         <source>Start Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer le service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceGroupListingHost.ui" line="141"/>
         <source>Stop Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêter le service</translation>
     </message>
 </context>
 <context>
@@ -2993,22 +2995,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/GuiFriendRequestWidget.ui" line="37"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiFriendRequestWidget.ui" line="190"/>
         <source>User Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Détails de l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiFriendRequestWidget.ui" line="210"/>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiFriendRequestWidget.ui" line="230"/>
         <source>Reject</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejeter</translation>
     </message>
 </context>
 <context>
@@ -3016,17 +3018,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/GuiGroupieListItem.ui" line="37"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiGroupieListItem.ui" line="249"/>
         <source>Join</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiGroupieListItem.ui" line="269"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Se connecter</translation>
     </message>
 </context>
 <context>
@@ -3034,22 +3036,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/GuiHostedListItem.ui" line="264"/>
         <source>Join</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiHostedListItem.ui" line="284"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Se connecter</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiHostedListItem.ui" line="304"/>
         <source>Revoke Join</source>
-        <translation type="unfinished"></translation>
+        <translation>Révoquer l&apos;adhésion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiHostedListItem.ui" line="324"/>
         <source>Ignore</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorer</translation>
     </message>
 </context>
 <context>
@@ -3057,47 +3059,47 @@
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="32"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Boîte de dialogue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="129"/>
         <source>Everyone</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout le monde</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="167"/>
         <source>Friends</source>
-        <translation type="unfinished"></translation>
+        <translation>Amis</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="205"/>
         <source>Group Members</source>
-        <translation type="unfinished"></translation>
+        <translation>Membres du groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="243"/>
         <source>Chat Room Members</source>
-        <translation type="unfinished"></translation>
+        <translation>Membres du salon de discussion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="281"/>
         <source>Random Connect Members</source>
-        <translation type="unfinished"></translation>
+        <translation>Membres connectés au hasard</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="384"/>
         <source>Admin</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="448"/>
         <source>Send To:</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer à&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="474"/>
         <source>All Members</source>
-        <translation type="unfinished"></translation>
+        <translation>Tous les membres</translation>
     </message>
 </context>
 <context>
@@ -3105,7 +3107,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/HistoryEntryWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -3113,17 +3115,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/HostJoinRequestListItem.ui" line="37"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/HostJoinRequestListItem.ui" line="273"/>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/HostJoinRequestListItem.ui" line="293"/>
         <source>Reject</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejeter</translation>
     </message>
 </context>
 <context>
@@ -3131,7 +3133,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ImageListEntry.ui" line="14"/>
         <source>ImageListEntry</source>
-        <translation type="unfinished"></translation>
+        <translation>EntréeListeImage</translation>
     </message>
 </context>
 <context>
@@ -3139,7 +3141,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ImageListRow.ui" line="26"/>
         <source>ImageListRow</source>
-        <translation type="unfinished"></translation>
+        <translation>ImageListRow</translation>
     </message>
 </context>
 <context>
@@ -3147,7 +3149,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ImageListWidget.ui" line="14"/>
         <source>ImageListWidget</source>
-        <translation type="unfinished"></translation>
+        <translation>ImageListWidget</translation>
     </message>
 </context>
 <context>
@@ -3155,7 +3157,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ImagePickBar.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -3164,7 +3166,7 @@
         <location filename="../nolimitgui/src/Forms/AppletInformation.ui" line="32"/>
         <location filename="../nolimitgui/src/Forms/AppletInformation.ui" line="121"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations</translation>
     </message>
 </context>
 <context>
@@ -3173,7 +3175,7 @@
         <location filename="../nolimitgui/src/Forms/InformationWidget.ui" line="14"/>
         <location filename="../nolimitgui/src/Forms/InformationWidget.ui" line="103"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations</translation>
     </message>
 </context>
 <context>
@@ -3181,12 +3183,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InputAllWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InputAllWidget.ui" line="110"/>
         <source>Enter Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Saisir du texte</translation>
     </message>
 </context>
 <context>
@@ -3194,7 +3196,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InputFaceWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -3202,7 +3204,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InputPhotoWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -3210,7 +3212,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InputTextWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -3218,7 +3220,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InputVideoWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -3226,12 +3228,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InputVoiceWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InputVoiceWidget.ui" line="224"/>
         <source>Click Microphone To Finish Or X To Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez sur Microphone pour terminer ou sur X pour annuler</translation>
     </message>
 </context>
 <context>
@@ -3239,7 +3241,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InstMsgWidget.ui" line="32"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -3247,42 +3249,42 @@
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="32"/>
         <source>Create Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une invitation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="53"/>
         <source>Check desired invites</source>
-        <translation type="unfinished"></translation>
+        <translation>Vérifiez les invitations souhaitées</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="78"/>
         <source>Personal</source>
-        <translation type="unfinished"></translation>
+        <translation>Personnel</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="116"/>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="154"/>
         <source>Chat Room</source>
-        <translation type="unfinished"></translation>
+        <translation>Salon de discussion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="192"/>
         <source>Random Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion aléatoire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="230"/>
         <source>Network Settings (Only for network invites)</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres réseau (uniquement pour les invitations réseau)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/InviteUrlWidget.ui" line="267"/>
         <source>Invite Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Inviter un texte</translation>
     </message>
 </context>
 <context>
@@ -3290,17 +3292,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLanguageSelect.ui" line="26"/>
         <source>Create New Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un nouveau compte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLanguageSelect.ui" line="38"/>
         <source>Select Language.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez Langue.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLanguageSelect.ui" line="61"/>
         <source>Apply</source>
-        <translation type="unfinished"></translation>
+        <translation>Postuler</translation>
     </message>
 </context>
 <context>
@@ -3308,7 +3310,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletLaunchWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -3316,22 +3318,22 @@
     <message>
         <location filename="../nolimitgui/src/Forms/LogWidget.ui" line="20"/>
         <source>Log Widget</source>
-        <translation type="unfinished"></translation>
+        <translation>Widget de journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/LogWidget.ui" line="43"/>
         <source>Verbose Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal détaillé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/LogWidget.ui" line="50"/>
         <source>Clear Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Effacer le journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/LogWidget.ui" line="57"/>
         <source>Copy Log To Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Copier le journal dans le presse-papiers</translation>
     </message>
 </context>
 <context>
@@ -3339,7 +3341,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityMessageBox.ui" line="32"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Boîte de dialogue</translation>
     </message>
 </context>
 <context>
@@ -3347,62 +3349,62 @@
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="335"/>
         <source>Waiting Phone Answer</source>
-        <translation type="unfinished"></translation>
+        <translation>En attente d&apos;une réponse téléphonique</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="338"/>
         <source>Waiting Video Chat Offer Response</source>
-        <translation type="unfinished"></translation>
+        <translation>En attente de réponse à l&apos;offre de chat vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="341"/>
         <source>Waiting Truth Or Dare Offer Response</source>
-        <translation type="unfinished"></translation>
+        <translation>En attendant la réponse de l&apos;offre Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="357"/>
         <source>Please Answer Phone</source>
-        <translation type="unfinished"></translation>
+        <translation>S&apos;il vous plaît répondre au téléphone</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="360"/>
         <source>Video Chat Offer Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre de chat vidéo disponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="363"/>
         <source>Truth Or Dare Offer Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre Action ou Vérité disponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="414"/>
         <source>Phone Connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléphone connecté</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="420"/>
         <source>In Video Chat Session</source>
-        <translation type="unfinished"></translation>
+        <translation>En session de chat vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="426"/>
         <source>In Truth Or Dare Session</source>
-        <translation type="unfinished"></translation>
+        <translation>En séance Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="449"/>
         <source>Phone Offer Rejected</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre téléphonique rejetée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="452"/>
         <source>Video Chat Offer Rejected</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre de chat vidéo rejetée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="455"/>
         <source>Truth Or Dare Offer Rejected</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre Action ou Vérité rejetée</translation>
     </message>
 </context>
 <context>
@@ -3410,48 +3412,49 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="14"/>
         <source>Network Host Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service d&apos;hôte réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="54"/>
         <source>Network Host  Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service d&apos;hôte réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="67"/>
         <source>Start Service When App Is Launched</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer le service au lancement de l&apos;application</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="74"/>
         <source>Permission Level Required To Use Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau d&apos;autorisation requis pour utiliser le service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="84"/>
         <source>This Service  URL or IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette URL de service ou cette adresse IP</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="94"/>
         <source>Name Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service de noms</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="104"/>
         <source>Description Of Service  
 ( maximum 512 characters )</source>
-        <translation type="unfinished"></translation>
+        <translation>Description du service  
+(maximum 512 caractères)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="122"/>
         <source>Start Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer le service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceNetworkHost.ui" line="141"/>
         <source>Stop Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêter le service</translation>
     </message>
 </context>
 <context>
@@ -3459,37 +3462,37 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkTest.ui" line="17"/>
         <source>Connection Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Test de connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkTest.ui" line="110"/>
         <source>Network Test Log:</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal de test réseau&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkTest.ui" line="117"/>
         <source>Run Full Network Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Exécuter un test réseau complet</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkTest.ui" line="127"/>
         <source>Verbose Test Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal de test détaillé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkTest.ui" line="134"/>
         <source>Network Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Test de réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkTest.ui" line="141"/>
         <source>Is My Port Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Mon port est-il ouvert</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkTest.ui" line="148"/>
         <source>What Is My IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Quelle est mon adresse IP</translation>
     </message>
 </context>
 <context>
@@ -3497,12 +3500,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkStartupTest.ui" line="17"/>
         <source>Connection Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Test de connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityNetworkStartupTest.ui" line="93"/>
         <source>Network Test Log:</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal de test réseau&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -3510,48 +3513,49 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="14"/>
         <source>NoLimitConnect Network Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte réseau NoLimitConnect</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="54"/>
         <source>Host A NoLimitConnect Network ( Global Network Service )</source>
-        <translation type="unfinished"></translation>
+        <translation>Héberger un réseau NoLimitConnect (service de réseau mondial)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="67"/>
         <source>Start Service When App Is Launched</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer le service au lancement de l&apos;application</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="74"/>
         <source>Permission Level Required To Use Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau d&apos;autorisation requis pour utiliser le service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="84"/>
         <source>This NoLimitConnect Network URL or IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette URL ou adresse IP du réseau NoLimitConnect</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="94"/>
         <source>Name Of NoLimitConnect Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom du réseau NoLimitConnect</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="104"/>
         <source>Description Of NoLimitConnect Network 
 ( maximum 512 characters )</source>
-        <translation type="unfinished"></translation>
+        <translation>Description du réseau NoLimitConnect 
+(maximum 512 caractères)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="122"/>
         <source>Start NoLimitConnect Network Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer le service réseau NoLimitConnect</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletServiceConnectionTest.ui" line="141"/>
         <source>Stop NoLimitConnect Network Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêter le service réseau NoLimitConnect</translation>
     </message>
 </context>
 <context>
@@ -3560,27 +3564,27 @@
         <location filename="../nolimitgui/src/Forms/OfferBarWidget.ui" line="241"/>
         <location filename="../nolimitgui/src/Forms/OfferBarWidget.ui" line="335"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>Étiquette de texte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferBarWidget.ui" line="254"/>
         <source> - </source>
-        <translation type="unfinished"></translation>
+        <translation> - </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferBarWidget.ui" line="267"/>
         <source>Guest</source>
-        <translation type="unfinished"></translation>
+        <translation>Invité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferBarWidget.ui" line="303"/>
         <source>Missed Calls -</source>
-        <translation type="unfinished"></translation>
+        <translation>Appels manqués -</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferBarWidget.ui" line="316"/>
         <source>1</source>
-        <translation type="unfinished"></translation>
+        <translation>1</translation>
     </message>
 </context>
 <context>
@@ -3588,27 +3592,27 @@
     <message>
         <location filename="../nolimitgui/src/Forms/OfferSendWidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferSendWidget.ui" line="104"/>
         <source>Offer Expires</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;offre expire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferSendWidget.ui" line="137"/>
         <source>Offer Message (Optional):</source>
-        <translation type="unfinished"></translation>
+        <translation>Message d&apos;offre (facultatif)&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferSendWidget.ui" line="234"/>
         <source>Send Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer une offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/OfferSendWidget.ui" line="275"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
 </context>
 <context>
@@ -3616,12 +3620,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/PermissionListItemWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PermissionListItemWidget.ui" line="136"/>
         <source>Permission:</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorisation&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -3629,12 +3633,12 @@
     <message>
         <location filename="../nolimitgui/src/Forms/PermissionWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PermissionWidget.ui" line="113"/>
         <source>Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorisation</translation>
     </message>
 </context>
 <context>
@@ -3642,17 +3646,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/PersonOfferListItem.ui" line="37"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PersonOfferListItem.ui" line="233"/>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PersonOfferListItem.ui" line="271"/>
         <source>Block</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloquer</translation>
     </message>
 </context>
 <context>
@@ -3660,7 +3664,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityPersonalRecorder.ui" line="26"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Boîte de dialogue</translation>
     </message>
 </context>
 <context>
@@ -3668,7 +3672,7 @@
     <message>
         <location filename="../nolimitgui/src/Forms/AppletPersonalRecorder.ui" line="32"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Boîte de dialogue</translation>
     </message>
 </context>
 <context>
@@ -3676,17 +3680,17 @@
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityPhoneShake.ui" line="14"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityPhoneShake.ui" line="95"/>
         <source>Shake Phone At Same Time As Friend To Get Connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Secouez le téléphone en même temps qu&apos;un ami pour vous connecter</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityPhoneShake.ui" line="111"/>
         <source>Simulate Phone Shake</source>
-        <translation type="unfinished"></translation>
+        <translation>Simuler le tremblement du téléphone</translation>
     </message>
 </context>
 <context>
@@ -3694,72 +3698,72 @@
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="20"/>
         <source>Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="49"/>
         <source>Start Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer le service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="68"/>
         <source>Stop Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêter le service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="77"/>
         <source>Apply Host Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Appliquer les paramètres de l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="87"/>
         <source>Run service when application is started.</source>
-        <translation type="unfinished"></translation>
+        <translation>Exécutez le service au démarrage de l&apos;application.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="96"/>
         <source>Age</source>
-        <translation type="unfinished"></translation>
+        <translation>Âge</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="116"/>
         <source>Content Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>Évaluation du contenu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="140"/>
         <source>Gender:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sexe&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="157"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="176"/>
         <source>Service URL or IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>URL du service ou adresse IP</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="190"/>
         <source>Title Of Service (Required)</source>
-        <translation type="unfinished"></translation>
+        <translation>Titre de service (obligatoire)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="204"/>
         <source>Description Of Service (Optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>Description du service (facultatif)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="224"/>
         <source>Greeting When Joined (Optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>Accueil lorsque vous êtes rejoint (facultatif)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/PluginSettingsWidget.ui" line="241"/>
         <source>Message If Rejected (Optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>Message en cas de rejet (facultatif)</translation>
     </message>
 </context>
 <context>
@@ -3767,134 +3771,137 @@
     <message>
         <location filename="../nolimitgui/src/GuiThreadMainLoader.cpp" line="58"/>
         <source>No Writable Location for user data</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun emplacement accessible en écriture pour les données utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThreadMainLoader.cpp" line="59"/>
         <source>No location found to store user data.
  Application will exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun emplacement trouvé pour stocker les données utilisateur.
+ L&apos;application va se fermer</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityBase.cpp" line="416"/>
         <source>Session End Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Message de fin de session</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2532"/>
         <source>Confirm Shred File</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmer la destruction du fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2532"/>
         <source>Confirm Delete File</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmer la suppression du fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="470"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2536"/>
         <source>Are You Sure You Want To Write Random Data Into The File Then Delete From The Device?</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir écrire des données aléatoires dans le fichier, puis les supprimer de l&apos;appareil&#xa0;?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="474"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2540"/>
         <source>Are You Sure To Delete The File From The Device?</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de supprimer le fichier de l&apos;appareil&#xa0;?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityBrowseFiles.cpp" line="49"/>
         <location filename="../nolimitgui/src/AppletBrowseFiles.cpp" line="45"/>
         <source>Browse Device Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Parcourir les fichiers de l&apos;appareil</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityBrowseFiles.cpp" line="323"/>
         <location filename="../nolimitgui/src/AppletBrowseFiles.cpp" line="322"/>
         <source>Confirm add all Files to library</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmez l&apos;ajout de tous les fichiers à la bibliothèque</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityBrowseFiles.cpp" line="324"/>
         <location filename="../nolimitgui/src/AppletBrowseFiles.cpp" line="323"/>
         <source>Do you want to add All the files in the list to the library?</source>
-        <translation type="unfinished"></translation>
+        <translation>Voulez-vous ajouter tous les fichiers de la liste à la bibliothèque&#xa0;?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityBrowseFiles.cpp" line="658"/>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="562"/>
         <source>Storage Space Available: </source>
-        <translation type="unfinished"></translation>
+        <translation>Espace de stockage disponible&#xa0;: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="241"/>
         <source>Create Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un compte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="84"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1422"/>
         <source>Application</source>
-        <translation type="unfinished"></translation>
+        <translation>Demande</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="84"/>
         <source>Insert New User into Database failed.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;insertion d&apos;un nouvel utilisateur dans la base de données a échoué.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="114"/>
         <source>Create an account or exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un compte ou quitter</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="115"/>
         <source>User must create an account or exit
 Do you want to exit the application?</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;utilisateur doit créer un compte ou quitter
+Voulez-vous quitter l&apos;application ?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityDownloadItemMenu.cpp" line="32"/>
         <source>Download Item Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Télécharger le menu des éléments</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityFileSearch.cpp" line="29"/>
         <source>File Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Recherche de fichiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityGenerateHash.cpp" line="47"/>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="376"/>
         <source>Generate Hash</source>
-        <translation type="unfinished"></translation>
+        <translation>Générer du hachage</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityGenerateHash.cpp" line="48"/>
         <source>Please wait while hash is generated.
 This message will disappear when generate hash is completed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Veuillez patienter pendant que le hachage est généré.
+Ce message disparaîtra une fois la génération du hachage terminée.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="145"/>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="48"/>
         <location filename="../nolimitgui/src/AssetTextWidget.cpp" line="221"/>
         <source>Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Presse-papiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="145"/>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="48"/>
         <location filename="../nolimitgui/src/AssetTextWidget.cpp" line="221"/>
         <source>Text was copied to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Le texte a été copié dans le presse-papiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="113"/>
         <source>No Information is localy available. please visit https://nolimitconnect.com for latest infomation and help</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucune information n’est disponible localement. veuillez visiter https://nolimitconnect.com pour les dernières informations et aide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="115"/>
@@ -3936,7 +3943,41 @@ Person To Person and Person To Host Members And Friends services
 
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== CONCEPTION DE RÉSEAU ===
+REMARQUE&#xa0;:&#xa0;un VPN avec fonction de redirection de port est suggéré
+1.) Un port ouvert est requis pour l&apos;hébergement et recommandé pour une connexion directe entre les utilisateurs
+2.) Si vous envisagez d&apos;héberger un réseau séparé, un VPN avec une adresse fixe est recommandé
+Pure VPN est un VPN avec redirection de port et adresse IP fixe en guise de paiement pour les fonctionnalités complémentaires
+ * SERVICE DE LISTE D&apos;HÔTES D&apos;UTILISATEUR&#xa0;: fournit une liste des hôtes de groupe, de salle de discussion et de connexion aléatoire ainsi que leur adresse à laquelle les utilisateurs peuvent se connecter et rechercher ou rejoindre.
+ *SERVICE DE TEST DE CONNEXION&#xa0;: service permettant aux appareils de découvrir leur adresse IP Web et s&apos;ils disposent d&apos;un port ouvert pour une connexion directe ou nécessitent un SERVICE DE RELAIS*.
+
+=== NIVEAU 1&#xa0;: SERVICE D&apos;HÉBERGEMENT RÉSEAU NOLIMITCONNECT* ===
+REMARQUE&#xa0;: Ce service nécessite une adresse IP fixe ou une URL DNS telle que http://www.nolimitconnect.net.
+SERVICES REQUIS* ET NIVEAUX D&apos;AUTORISATION SUGGÉRÉS*
+ SERVICE RÉSEAU NOLIMITCONNECT - TOUT LE MONDE
+ SERVICE DE TEST DE CONNEXION - TOUT LE MONDE
+
+=== NIVEAU 2&#xa0;: SERVICES HÉBERGÉS PAR L&apos;UTILISATEUR* ===
+REMARQUE&#xa0;: les utilisateurs ont besoin d&apos;un port ouvert pour fournir l&apos;hébergement.
+ HÉBERGEMENT DE GROUPE - fourni des services de communication pour les membres du groupe
+ HÉBERGEMENT DE SALLE DE CHAT - fournit une salle de discussion aux membres
+ HÉBERGEMENT DE CONNEXION ALÉATOIRE - permet à quiconque de se connecter à n&apos;importe qui (niveau d&apos;autorisation recommandé à tout le monde)
+
+=== NIVEAU 3&#xa0;:&#xa0;Services DE PERSONNE À PERSONNE* ===
+ Les amis qui peuvent se connecter directement avec le port ouvert auront une communication plus rapide et moins de chargement de l&apos;hôte
+ Ceux qui ne peuvent pas se connecter directement utiliseront l&apos;hôte auquel ils sont connectés comme relais.
+ Lors de l&apos;utilisation du relais, un utilisateur ne peut communiquer qu&apos;avec un autre membre de son hôte lorsque le membre est connecté à l&apos;hôte.
+
+Services de personne à personne et de personne pour accueillir des membres et des amis
+ * À PROPOS DU SERVICE DE PAGE - Fournissez une page d&apos;informations sur un hôte ou une personne
+ * SERVICE CAM STREAM&#xa0;: un hôte ou un utilisateur peut fournir du streaming vidéo en direct à partir de la caméra ou de la caméra de son appareil.
+ *PLUGIN DE PARTAGE DE FILE&#xa0;: permet le partage de fichiers utilisateur ou hôte avec d&apos;autres utilisateurs.
+ *PLUGIN DE TRANSFERT DE FICHIER&#xa0;: permet le transfert de fichiers utilisateur vers une autre personne.
+ *PLUGIN PUSH TO TALK&#xa0;: Fournit à l&apos;utilisateur une communication vocale en appuyant sur un seul bouton pour parler.
+ * SERVICE DE PAGE DE STORY BOARD - Fournissez une page de type blog sur laquelle un hôte ou une personne peut publier pour que d&apos;autres puissent la voir/lire
+ *PLUGIN VÉRITÉ OU OSE&#xa0;: propose un jeu de chat vidéo Action ou Vérité entre individus
+ *PLUGIN DE CHAT VIDÉO&#xa0;: Fournit un chat vidéo aux autres utilisateurs utilisant l&apos;application NoLimitConnect et Internet.
+ *PLUGIN DE TÉLÉPHONE VOCAL&#xa0;: Fournit à l&apos;utilisateur des appels téléphoniques vocaux vers d&apos;autres personnes utilisant l&apos;application NoLimitConnect et Internet.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="156"/>
@@ -3959,7 +4000,23 @@ DEFINITIONS:
  *VIDEO CHAT PLUGIN: Provides user video chat to others using the NoLimitConnect app and internet.
  *VOICE PHONE PLUGIN: Provides user with voice phone calling to others using the NoLimitConnect app and internet.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>DÉFINITIONS&#xa0;:
+ * À PROPOS DU SERVICE DE PAGE - Fournissez une page d&apos;informations sur un hôte ou une personne
+ * SERVICE CAM STREAM&#xa0;: un hôte ou un utilisateur peut fournir du streaming vidéo en direct à partir de la caméra ou de la caméra de son appareil.
+ * SERVICE D&apos;HÔTE DE CHAT ROOM&#xa0;: Fournit un service de chat textuel en groupe.
+ * SERVICE DE TEST DE CONNEXION&#xa0;: fournissez à l&apos;utilisateur un test de connexion pour déterminer l&apos;adresse IP de l&apos;utilisateur et si son port est ouvert ou nécessite un relais.
+ *SERVICE D&apos;HÔTE DE GROUPE&#xa0;: Fournit des services de connexion et d&apos;autres services aux membres qui ont rejoint l&apos;hôte de groupe.
+ *PLUGIN DE PARTAGE DE FILE&#xa0;: permet le partage de fichiers utilisateur ou hôte avec d&apos;autres utilisateurs.
+ *PLUGIN DE TRANSFERT DE FICHIER&#xa0;: permet le transfert de fichiers utilisateur vers une autre personne.
+ * SERVICE D&apos;HÔTE RÉSEAU&#xa0;: fournit une liste d&apos;hôtes d&apos;utilisateurs pour la recherche d&apos;hôtes à rejoindre.
+ *NIVEAUX DE PERMISSION&#xa0;: niveau d&apos;amitié requis pour être autorisé à utiliser un service ou à se connecter à une personne.
+ *PLUGIN PUSH TO TALK&#xa0;: Fournit à l&apos;utilisateur une communication vocale en appuyant sur un seul bouton pour parler.
+ *SERVICE HÔTE CONNECT RANDOM&#xa0;: permet aux utilisateurs qui se joignent de communiquer avec les autres.
+ * SERVICES DE RECHERCHE ET D&apos;ANALYSE&#xa0;: fournir à l&apos;utilisateur une liste de personnes connues avec les critères de recherche, le service, le flux ou les fichiers souhaités.
+ * SERVICE DE PAGE DE STORY BOARD - Fournissez une page de type blog sur laquelle un hôte ou une personne peut publier pour que d&apos;autres puissent la voir/lire
+ *PLUGIN VÉRITÉ OU OSE&#xa0;: propose un jeu de chat vidéo Action ou Vérité entre individus
+ *PLUGIN DE CHAT VIDÉO&#xa0;: Fournit un chat vidéo aux autres utilisateurs utilisant l&apos;application NoLimitConnect et Internet.
+ *PLUGIN DE TÉLÉPHONE VOCAL&#xa0;: Fournit à l&apos;utilisateur des appels téléphoniques vocaux vers d&apos;autres personnes utilisant l&apos;application NoLimitConnect et Internet.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="177"/>
@@ -3991,7 +4048,32 @@ DEFINITIONS:
  This permission level when applied to a plugin or service means that the plugin or sevice will be completely disabled and nobody can access that plugin or service.
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== NIVEAUX D&apos;AUTORISATION ===
+ Les niveaux d&apos;autorisation sont utilisés pour définir soit le niveau d&apos;autorisation requis pour accéder à un plugin, soit le niveau d&apos;autorisation accordé à une autre personne pour contrôler ce à quoi cette personne a accès.
+
+ REMARQUE 1&#xa0;: Si vous rejoignez un groupe, les autres membres de ce groupe se voient automatiquement accorder un niveau d&apos;autorisation d&apos;invité et vous pouvez accorder à des utilisateurs individuels un niveau d&apos;autorisation plus élevé si vous le souhaitez.
+
+ REMARQUE 2&#xa0;: Si vous mettez votre appareil en mode RANDOM CONNECT CONNECT, les autres appareils qui sont en mode RANDOM CONNECT CONNECT se voient automatiquement accorder un niveau d&apos;autorisation d&apos;invité et vous pouvez accorder à des utilisateurs individuels un niveau d&apos;autorisation plus élevé si vous le souhaitez.
+
+=== AUTORISATION DE L&apos;ADMINISTRATEUR ===
+ Il s&apos;agit du niveau d&apos;autorisation le plus élevé.
+ Une personne disposant de ce niveau d&apos;autorisation peut accéder aux plugins ou aux services définis au niveau d&apos;autorisation Administrateur, Ami, Invité ou N&apos;importe qui.
+ Un exemple d&apos;utilisation serait si vous souhaitiez configurer un service de flux de webcam en tant que nounou ou caméra de sécurité auquel vous seul pouvez accéder. Vous devez définir le service de webcam sur le niveau d&apos;autorisation d&apos;administrateur et accorder uniquement votre niveau d&apos;autorisation d&apos;auto-administrateur.
+
+=== AUTORISATION D&apos;AMI ===
+ Une personne disposant de ce niveau d&apos;autorisation peut accéder aux plugins ou aux services définis au niveau d&apos;autorisation Ami, Invité ou N&apos;importe qui.
+ Un exemple d&apos;utilisation serait si vous vouliez que les autres membres d&apos;un groupe que vous avez rejoint puissent vous envoyer des messages et consulter votre page À propos, mais ne puissent pas accéder à vos fichiers partagés. Vous devez définir le service de partage de fichiers sur le niveau d&apos;autorisation &quot;ami&quot; (ou supérieur) et définir la messagerie et la page &quot;À propos&quot; sur l&apos;autorisation de niveau invité.
+
+=== AUTORISATION INVITÉ ===
+ Une personne disposant de ce niveau d&apos;autorisation peut accéder aux plugins ou aux services définis au niveau d&apos;autorisation Invité ou N&apos;importe qui.
+ Un exemple d&apos;utilisation serait d&apos;accorder l&apos;autorisation à une personne invitée même si elle n&apos;est pas membre de votre groupe.
+
+=== AUTORISATION DE PERSONNE ===
+ Cette autorisation accorde à toute personne pouvant se connecter à vous l&apos;accès au plugin ou au service défini à ce niveau. Un exemple d&apos;utilisation serait de configurer le service STORY BOARD pour que tout le monde puisse voir votre histoire.
+
+=== PERMISSION DE PERSONNE (DÉSACTIVÉE ou IGNORÉE) ===
+ Ce niveau d&apos;autorisation, lorsqu&apos;il est appliqué à une personne, signifie que cette personne sera ignorée et ne pourra accéder à aucun de vos services ou plugins.
+ Ce niveau d&apos;autorisation, lorsqu&apos;il est appliqué à un plugin ou un service, signifie que le plugin ou le service sera complètement désactivé et que personne ne pourra accéder à ce plugin ou à ce service.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="223"/>
@@ -4003,7 +4085,14 @@ A private network can be hosted/connected to without changing the network key, h
 
 
 Use of a VPN is recommended to improve your privacy.</source>
-        <translation type="unfinished"></translation>
+        <translation>=== CLÉ RÉSEAU ===
+La clé réseau est une chaîne de texte utilisée pour le cryptage du réseau de données utilisateur.
+La clé réseau ne doit être modifiée que si vous vous connectez ou hébergez un réseau privé distinct de NoLimitConnect.
+Si la clé réseau est modifiée, la connexion au réseau public NoLimitConnect ne sera plus possible.
+Un réseau privé peut être hébergé/connecté sans changer la clé réseau, cependant, changer la clé réseau vous offrira la meilleure confidentialité que NoLimitConnect puisse offrir.
+
+
+L&apos;utilisation d&apos;un VPN est recommandée pour améliorer votre confidentialité.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="235"/>
@@ -4022,7 +4111,20 @@ NOTE 1: The network host IP port is normally 45124 but can be any open port.
 NOTE 2: The network host address must eitehr be a fixed/static IP or be a URL
  that can be resolved to a IP using DNS ( Domain Name Service ).
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== HÔTE RÉSEAU ===
+L&apos;hôte réseau fournit des services de liste d&apos;hôtes de groupe et de test de connexion pour un réseau PtoP.
+L&apos;URL de l&apos;hôte du réseau ne doit être modifiée que si vous vous connectez ou hébergez un réseau privé distinct de NoLimitConnect.
+L&apos;URL de l&apos;hôte réseau peut être dans l&apos;un des deux formats suivants.
+
+Format&#xa0;1 en utilisant le nom Web de l&apos;hôte et le port
+ Exemple 1 ptop://www.nolimitconnect.net:45124
+
+Format 2 en utilisant l&apos;adresse IP et le port externes de l&apos;hôte
+ Exemple 2 ptop://111.122.133.144:45124
+
+REMARQUE 1&#xa0;: Le port IP de l&apos;hôte du réseau est normalement 45124 mais peut être n&apos;importe quel port ouvert.
+REMARQUE 2&#xa0;: L&apos;adresse de l&apos;hôte réseau doit être une adresse IP fixe/statique ou une URL.
+ qui peut être résolu en une adresse IP à l&apos;aide de DNS (Domain Name Service).</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="252"/>
@@ -4039,7 +4141,17 @@ Format 2 using host external IP Adrress and port
  Example 2 ptop://111.122.133.144:45124
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== URL DE TEST DE CONNEXION ===
+Le service de test de connexion fournit des services pour tester si le port de votre appareil est ouvert.
+Si votre port est ouvert, d&apos;autres peuvent se connecter directement à votre appareil.
+Un port ouvert offre la vitesse de connexion et de transfert de données la plus élevée possible.
+Un port bloqué oblige l&apos;appareil à utiliser un service de relais ce qui limite fortement la vitesse et le nombre de connexions possibles.
+
+Format&#xa0;1 en utilisant le nom Web de l&apos;hôte et le port
+ Exemple 1 ptop://www.nolimitconnect.net:45124
+
+Format 2 en utilisant l&apos;adresse IP et le port externes de l&apos;hôte
+ Exemple 2 ptop://111.122.133.144:45124</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="267"/>
@@ -4068,7 +4180,28 @@ It will bypass testing your connection
 
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== Case à cocher Activer UPNP ===
+S&apos;il est activé, le protocole UPNP sera utilisé pour tenter d&apos;ouvrir un port sur votre appareil.
+UPNP fonctionne bien avec Hide.me VPN
+Si vous n&apos;utilisez pas de VPN avec redirection de port, vous pouvez essayer de configurer la redirection de port sur votre routeur.
+En raison des différentes implémentations du micrologiciel du routeur, cela ne réussit que parfois à ouvrir votre port.  
+Consultez les instructions spécifiques à votre routeur pour savoir comment transférer un port vers votre appareil ou visitez
+https://www.wikihow.com/Open-Ports
+
+=== PARAMÈTRES DE TEST DE CONNEXION ===
+
+Option 1&#xa0;:&#xa0;Utilisez le service de test de connexion.
+Il s&apos;agit de la méthode la plus fiable et la plus recommandée pour déterminer votre adresse IP externe et
+déterminer si le port de votre appareil est ouvert.
+
+Option 2 - Spécifiez votre adresse IP externe et supposez que votre port est ouvert.
+Ce paramètre n&apos;est recommandé que si vous disposez d&apos;une adresse IP fixe car
+votre adresse IP peut changer au gré de votre fournisseur de services Internet.
+Vous pouvez déterminer votre adresse IP en effectuant une recherche Google sur &quot;quelle est mon adresse IP&quot;
+
+Option 3 - Supposez toujours que le port de votre appareil est bloqué.
+Cette option n&apos;est recommandée que pour les utilisateurs qui utilisent toujours le service de données mobiles et n&apos;utilisent pas de VPN.
+Cela contournera le test de votre connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="292"/>
@@ -4078,7 +4211,11 @@ The person listed could be anyone in the world also using the random connect fea
 Random connect works by listing persons who pressed the random connect button.
 Within 20 seconds of the random connect button press.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== URL DU SERVICE DE CONNEXION ALÉATOIRE ===
+Fournit un service de référencement/connexion de 2 personnes à l&apos;aide de la fonction de connexion aléatoire.
+La personne répertoriée pourrait être n&apos;importe qui dans le monde utilisant également la fonction de connexion aléatoire.
+La connexion aléatoire fonctionne en répertoriant les personnes qui ont appuyé sur le bouton de connexion aléatoire.
+Dans les 20 secondes suivant la pression sur le bouton de connexion aléatoire.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="300"/>
@@ -4087,7 +4224,10 @@ No Limit Connect will attempt to connect the this group
 When Log In is completed.
 If connect fails or no url is provided then you can search for a Group to join
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== URL d&apos;hôte de groupe par défaut ===
+No Limit Connect tentera de connecter ce groupe
+Lorsque la connexion est terminée.
+Si la connexion échoue ou si aucune URL n&apos;est fournie, vous pouvez rechercher un groupe à rejoindre.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="307"/>
@@ -4096,7 +4236,10 @@ No Limit Connect will attempt to connect the this Chat Room
 When Log In is completed.
 If connect fails or no url is provided then you can search for a Chat Room to join
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== URL d&apos;hôte de la salle de discussion par défaut ===
+No Limit Connect tentera de connecter ce salon de discussion
+Lorsque la connexion est terminée.
+Si la connexion échoue ou si aucune URL n&apos;est fournie, vous pouvez rechercher une salle de discussion à rejoindre.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="314"/>
@@ -4110,7 +4253,15 @@ The Network Key is NOT part of a Invite
 Warning: If accepting a network host be sure you have the correct network key before saving the network settings
 If you do not have the correct network key you will get banned as a hacker
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== Inviter les paramètres réseau ===
+En acceptant une invitation aux paramètres réseau qui modifie l&apos;URL de l&apos;hôte réseau&#xa0;:
+L&apos;utilisateur ne pourra plus se connecter au réseau No Limit Connect.
+Vous ne devez modifier l&apos;URL de l&apos;hôte réseau et la clé réseau que si vous avez
+Un réseau privé avec un serveur hôte réseau privé
+La clé réseau ne fait PAS partie d&apos;une invitation
+
+Avertissement&#xa0;: Si vous acceptez un hôte réseau, assurez-vous d&apos;avoir la bonne clé réseau avant d&apos;enregistrer les paramètres réseau.
+Si vous n&apos;avez pas la bonne clé réseau, vous serez banni en tant que pirate informatique</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="342"/>
@@ -4122,7 +4273,13 @@ The author of No Limit Connect uses https://hide.me VPN because:
 3. hide.me has a free version but is relatively inexpensive to buy.
 Articles about port forwarding can be found by search engine or at https://www.jguru.com/vpn-port-forwarding 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== Exigences d&apos;hébergement pour l&apos;un de ces services d&apos;hébergement Salon de discussion, groupe, connexion aléatoire ===
+Vous devrez rediriger le port d&apos;écoute que vous avez spécifié dans les paramètres réseau.
+L&apos;auteur de No Limit Connect utilise le VPN https://hide.me car&#xa0;:
+1. hide.me comprend le protocole UPNP qui permet à No Limit Connect d&apos;ouvrir automatiquement un port.
+2. hide.me peut être installé sur presque tous les systèmes d&apos;exploitation, notamment Windows, Linux, Android et Raspberry Pi.
+3. hide.me propose une version gratuite mais son achat est relativement peu coûteux.
+Les articles sur la redirection de port peuvent être trouvés via le moteur de recherche ou sur https://www.jguru.com/vpn-port-forwarding. </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="357"/>
@@ -4133,7 +4290,12 @@ The limit is applied for the total messages recieved in chat room.
 The limit removes the message from history but does NOT delete any files such as photos and videos etc.
 To delete files recieved from a user you can delete them using the Library Applet.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== Historique maximal des messages ===
+Limite l&apos;historique des messages stocké à l&apos;historique des messages maximum spécifié.
+La limite est appliquée par utilisateur pour Messenger.
+La limite est appliquée au nombre total de messages reçus dans le salon de discussion.
+La limite supprime le message de l&apos;historique mais ne supprime AUCUN fichier tel que des photos, des vidéos, etc.
+Pour supprimer les fichiers reçus d&apos;un utilisateur, vous pouvez les supprimer à l&apos;aide de l&apos;applet Bibliothèque.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="366"/>
@@ -4144,7 +4306,12 @@ IPv6 Protocol is different from IPv4 and a connection from IPv6 to IPv4 is not i
 If you choose IPv6 then the Network Host and Connection Test Host must also be IPv6 enabled.
 This means the host listing on the IPv6 network might not have the same hosts listed as the IPv4 network.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== IPv6 contre IPv4 ===
+Adresses IPv4 maximales 4&#xa0;294&#xa0;967&#xa0;296 (2^32)
+Adresses IPv6 maximales 340&#xa0;282&#xa0;366&#xa0;920&#xa0;938&#xa0;463&#xa0;463&#xa0;374&#xa0;607&#xa0;431&#xa0;768&#xa0;211&#xa0;456 (2&#xa0;^&#xa0;128)
+Le protocole IPv6 est différent d&apos;IPv4 et une connexion d&apos;IPv6 à IPv4 ne fait pas partie des protocoles.
+Si vous choisissez IPv6, l&apos;hôte réseau et l&apos;hôte de test de connexion doivent également être activés IPv6.
+Cela signifie que la liste des hôtes sur le réseau IPv6 peut ne pas contenir les mêmes hôtes que sur le réseau IPv4.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="375"/>
@@ -4152,7 +4319,8 @@ This means the host listing on the IPv6 network might not have the same hosts li
  Friend request is a way for someone you do not know to request friendship or request to join your host. Friend request is defaulted to Anonymous permission level, however, to avoid any requests by people you . do not know you can set it to disabled .
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== DEMANDE D&apos;AMI ===
+ La demande d&apos;amitié est un moyen pour quelqu&apos;un que vous ne connaissez pas de demander une amitié ou de rejoindre votre hôte. La demande d&apos;ami est cependant définie par défaut sur le niveau d&apos;autorisation Anonyme, afin d&apos;éviter toute demande de la part de personnes que vous connaissez. Je ne sais pas, vous pouvez le désactiver.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="384"/>
@@ -4163,14 +4331,19 @@ In the case of a personal invites a user can directly connect to another user wi
 If user is a friend with open port a attempt to reconnect will occur even after restart
 
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== Qu&apos;est-ce qu&apos;une invitation ===
+Une invitation est un texte qui commence par !Invite! et est généralement envoyé par e-mail ou par SMS
+Une invitation permet aux utilisateurs de rejoindre un hôte et/ou un réseau privé
+Dans le cas d&apos;invitations personnelles, un utilisateur peut se connecter directement à un autre utilisateur sans rejoindre un hôte.
+Si l&apos;utilisateur est un ami avec un port ouvert, une tentative de reconnexion se produira même après le redémarrage.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="325"/>
         <source>=== Friends List ===
 A list showing users set to friend or administrator permission level.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== Liste d&apos;amis ===
+Une liste montrant les utilisateurs définis sur le niveau d&apos;autorisation ami ou administrateur.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="330"/>
@@ -4178,7 +4351,9 @@ A list showing users set to friend or administrator permission level.
 A list showing ignored (blocked) users.
 You can unblock a user by clicking the friendship icon or select Change Friendship from the menu button on right side of list entry.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== Liste ignorée ===
+Une liste montrant les utilisateurs ignorés (bloqués).
+Vous pouvez débloquer un utilisateur en cliquant sur l&apos;icône d&apos;amitié ou en sélectionnant Modifier l&apos;amitié à partir du bouton de menu situé à droite de l&apos;entrée de la liste.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="336"/>
@@ -4186,52 +4361,55 @@ You can unblock a user by clicking the friendship icon or select Change Friendsh
 A list showing offline friends and admins.
 You can change friendship even when offline (Set to anonymouse or guest so network no longer tries to stay connected).
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== Liste d&apos;amis hors ligne ===
+Une liste affichant les amis et les administrateurs hors ligne.
+Vous pouvez changer d&apos;amitié même hors ligne (défini sur anonyme ou invité pour que le réseau n&apos;essaye plus de rester connecté).</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="352"/>
         <source>=== Hosting Requirements Network Host ===
 If you want to host your own network the network host must have port forwarding and also a fixed ip address.
 </source>
-        <translation type="unfinished"></translation>
+        <translation>=== Exigences d&apos;hébergement Hôte réseau ===
+Si vous souhaitez héberger votre propre réseau, l&apos;hôte du réseau doit disposer d&apos;une redirection de port ainsi que d&apos;une adresse IP fixe.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="94"/>
         <source>Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Message</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="163"/>
         <source>Invalid Offer Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestionnaire d&apos;offres invalides</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="170"/>
         <source>Unknown User</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="176"/>
         <source>Offer: </source>
-        <translation type="unfinished"></translation>
+        <translation>Offre&#xa0;: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="179"/>
         <source>
 File: </source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier&#xa0;: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="180"/>
         <source>
 File Length: </source>
-        <translation type="unfinished"></translation>
+        <translation>Longueur du fichier&#xa0;: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="181"/>
         <source>
 File Type: </source>
-        <translation type="unfinished"></translation>
+        <translation>Type de fichier&#xa0;: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomJoinSearch.cpp" line="126"/>
@@ -4239,7 +4417,7 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletGroupListClient.cpp" line="130"/>
         <location filename="../nolimitgui/src/AppletRandomConnectJoinSearch.cpp" line="126"/>
         <source>Search must have at least 3 characters</source>
-        <translation type="unfinished"></translation>
+        <translation>La recherche doit comporter au moins 3&#xa0;caractères</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomJoinSearch.cpp" line="137"/>
@@ -4247,7 +4425,7 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletGroupListClient.cpp" line="141"/>
         <location filename="../nolimitgui/src/AppletRandomConnectJoinSearch.cpp" line="137"/>
         <source>Search Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Recherche lancée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomJoinSearch.cpp" line="158"/>
@@ -4255,474 +4433,474 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletGroupListClient.cpp" line="163"/>
         <location filename="../nolimitgui/src/AppletRandomConnectJoinSearch.cpp" line="158"/>
         <source>Search Stopped</source>
-        <translation type="unfinished"></translation>
+        <translation>Recherche arrêtée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="101"/>
         <location filename="../nolimitgui/src/AppTranslate.cpp" line="344"/>
         <source>No Limit Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion sans limite</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="646"/>
         <source>ERROR:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>ERREUR&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="650"/>
         <source>Failed to connect to Network host</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la connexion à l&apos;hôte réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="653"/>
         <source>Failed to connect to Connection Test host</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la connexion à l&apos;hôte de test de connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="656"/>
         <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="215"/>
         <source>Video Play Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la lecture vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="659"/>
         <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="217"/>
         <source>Audio Play Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la lecture audio</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="1133"/>
         <source>Close Application</source>
-        <translation type="unfinished"></translation>
+        <translation>Fermer l&apos;application</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="1134"/>
         <source>Are you sure you want to exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir quitter&#xa0;?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="1250"/>
         <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="354"/>
         <source>Application Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur d&apos;application</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommonMedia.cpp" line="123"/>
         <source>Web Cam Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Vidéo de webcam</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommonMedia.cpp" line="123"/>
         <source>No Video Capture Devices Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun périphérique de capture vidéo trouvé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="204"/>
         <source>Edit My About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier ma page À propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="205"/>
         <source>Edit My Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier mon image d&apos;avatar</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="206"/>
         <source>Edit My Story Board (Blog)</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier mon Story Board (Blog)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="207"/>
         <source>View Story Page (Blog)</source>
-        <translation type="unfinished"></translation>
+        <translation>Voir la page de l&apos;histoire (Blog)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="208"/>
         <source>View My Story Page (Blog)</source>
-        <translation type="unfinished"></translation>
+        <translation>Voir ma page d&apos;histoire (Blog)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="209"/>
         <source>Sound Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres sonores</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="210"/>
         <source>About File</source>
-        <translation type="unfinished"></translation>
+        <translation>À propos du fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="211"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="459"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1068"/>
         <source>View About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher la page À propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="212"/>
         <source>View My About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher ma page À propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="213"/>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="991"/>
         <source>User Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Détails de l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="215"/>
         <location filename="../nolimitgui/src/AppletLaunchPage.cpp" line="32"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Accueil</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="216"/>
         <source>About No Limit Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>À propos de la connexion sans limite</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="217"/>
         <source>Application Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations sur la candidature</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="218"/>
         <source>Browse Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Parcourir les fichiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="219"/>
         <source>Offer List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des offres</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="221"/>
         <source>Cam Video Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Lecteur vidéo de caméra</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="222"/>
         <source>Photo Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visionneuse de photos</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="223"/>
         <source>Media Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Lecteur multimédia</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="225"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="598"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1202"/>
         <source>View Shared Web Cam</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher la webcam partagée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="226"/>
         <source>View My Shared Web Cam</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher ma webcam partagée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="227"/>
         <source>Cam Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de la caméra</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="228"/>
         <source>Join Chat Room</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre le salon de discussion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="229"/>
         <location filename="../nolimitgui/src/AppletChatRoomJoinSearch.cpp" line="67"/>
         <source>Search For Chat Room To Join</source>
-        <translation type="unfinished"></translation>
+        <translation>Recherchez un salon de discussion à rejoindre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="230"/>
         <source>Chat Room Hosts Announced To Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Les hôtes des salons de discussion annoncés pour réseauter</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="232"/>
         <source>Choose Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisir la vignette</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="238"/>
         <source>Chat Room</source>
-        <translation type="unfinished"></translation>
+        <translation>Salon de discussion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="239"/>
         <source>Random Person Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Personne aléatoire se connecte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="240"/>
         <source>Get Persons Avatar Image For Contact List</source>
-        <translation type="unfinished"></translation>
+        <translation>Obtenir une image d&apos;avatar de personne pour la liste de contacts</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="242"/>
         <source>Friend List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste d&apos;amis</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="245"/>
         <source>Emoticon Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Galerie d&apos;émoticônes</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="246"/>
         <source>Image Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Galerie d&apos;images</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="247"/>
         <source>Thumbnail Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Galerie de vignettes</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="248"/>
         <source>Get Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Commencer</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="250"/>
         <source>Group Client</source>
-        <translation type="unfinished"></translation>
+        <translation>Client de groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="251"/>
         <source>Group Host Admin</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrateur de l&apos;hôte du groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="252"/>
         <source>Join Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre le groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="253"/>
         <source>Search For Group To Join</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher un groupe à rejoindre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="254"/>
         <source>Group List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des groupes</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="255"/>
         <source>Group Hosts Announced To Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Les hôtes du groupe annoncés pour réseauter</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="257"/>
         <source>Network Signal Bars</source>
-        <translation type="unfinished"></translation>
+        <translation>Barres de signal réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="259"/>
         <source>Chat Room Host Admin</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrateur hôte de la salle de discussion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="260"/>
         <source>Chat Room Host Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut d&apos;hôte de salle de discussion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="261"/>
         <source>Group Host Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut d&apos;hôte de groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="262"/>
         <source>Network Host Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut de l&apos;hôte réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="263"/>
         <source>Random Connect Host Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut de l&apos;hôte de connexion aléatoire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="265"/>
         <source>Ignored Hosts List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des hôtes ignorés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="268"/>
         <source>Create Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une invitation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="271"/>
         <source>My Library Of Media</source>
-        <translation type="unfinished"></translation>
+        <translation>Ma bibliothèque de médias</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="272"/>
         <source>Application Log</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal des applications</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="273"/>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="85"/>
         <source>Log Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres du journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="275"/>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="276"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="976"/>
         <source>Messenger</source>
-        <translation type="unfinished"></translation>
+        <translation>Messager</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="277"/>
         <source>Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="278"/>
         <source>Join Host Requests</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre les demandes d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="280"/>
         <source>Persons Offers</source>
-        <translation type="unfinished"></translation>
+        <translation>Offres Personnes</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="282"/>
         <source>Personal Notes And Records</source>
-        <translation type="unfinished"></translation>
+        <translation>Notes et dossiers personnels</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="284"/>
         <source>Random Connect Host Admin</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrateur hôte de connexion aléatoire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="285"/>
         <source>Join Random Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoignez Random Connect</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="286"/>
         <location filename="../nolimitgui/src/AppletRandomConnectJoinSearch.cpp" line="67"/>
         <source>Search For Random Connect Host To Join</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher un hôte de connexion aléatoire à rejoindre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="287"/>
         <source>Random Connect Announced Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôtes annoncés par Random Connect</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="289"/>
         <source>Take Snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Prendre un instantané</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="291"/>
         <source>Test And Debug</source>
-        <translation type="unfinished"></translation>
+        <translation>Test et débogage</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="293"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Thème</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="295"/>
         <source>User Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexions utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="296"/>
         <source>User Identity</source>
-        <translation type="unfinished"></translation>
+        <translation>Identité de l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="299"/>
         <location filename="../nolimitgui/src/ServiceSettingsWidget.cpp" line="69"/>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="301"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="302"/>
         <source>Search Group For Person Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Groupe de recherche pour le nom de la personne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="303"/>
         <source>Search Group For Mood Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Groupe de recherche pour un message d&apos;humeur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="304"/>
         <source>Search Group For About Me Pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher dans le groupe des photos à propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="305"/>
         <source>Search Group For Story Boards</source>
-        <translation type="unfinished"></translation>
+        <translation>Groupe de recherche pour les story boards</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="306"/>
         <source>Search Group For Shared Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Groupe de recherche de fichiers partagés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="307"/>
         <source>Search Group For Shared Web Cams</source>
-        <translation type="unfinished"></translation>
+        <translation>Groupe de recherche de webcams partagées</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="309"/>
         <source>Hosting Services</source>
-        <translation type="unfinished"></translation>
+        <translation>Services d&apos;hébergement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="310"/>
         <source>Share Permission List</source>
-        <translation type="unfinished"></translation>
+        <translation>Partager la liste des autorisations</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="312"/>
         <source>Share With Others Services</source>
-        <translation type="unfinished"></translation>
+        <translation>Partager avec d&apos;autres services</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="313"/>
         <source>Share About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Page Partager à propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="234"/>
         <source>Choose Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisir l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="235"/>
         <source>Join Host Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre Host Connect</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="236"/>
         <source>Leave Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Quitter l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="243"/>
@@ -4730,277 +4908,277 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="117"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1048"/>
         <source>Friend Request</source>
-        <translation type="unfinished"></translation>
+        <translation>Demande d&apos;ami</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="244"/>
         <source>Friend Request List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste de demandes d&apos;amis</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="267"/>
         <source>Accept Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter l&apos;invitation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="270"/>
         <source>Select Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez la langue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="281"/>
         <source>Video Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Lecteur vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="292"/>
         <source>Test UPNP Port Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>Testez le transfert de port UPNP</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="297"/>
         <source>User Prefernces</source>
-        <translation type="unfinished"></translation>
+        <translation>Préférences utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="315"/>
         <source>Service Connection Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Test de connexion aux services</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="316"/>
         <source>Host A NoLimitConnect Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Héberger un réseau NoLimitConnect</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="317"/>
         <source>Share Media Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Partager des fichiers multimédias</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="318"/>
         <source>Share your web cam</source>
-        <translation type="unfinished"></translation>
+        <translation>Partagez votre webcam</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="319"/>
         <source>Share Story Page (Blog)</source>
-        <translation type="unfinished"></translation>
+        <translation>Partager la page d&apos;histoire (Blog)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="321"/>
         <location filename="../nolimitgui/src/AppletServiceBase.cpp" line="195"/>
         <location filename="../nolimitgui/src/AppletSettingsBase.cpp" line="91"/>
         <source>Service Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres des services</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="323"/>
         <source>About Me Page Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de la page À propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="324"/>
         <source>Avatar Image Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de l&apos;image de l&apos;avatar</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="325"/>
         <source>Shared Web Cam Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de la webcam partagée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="326"/>
         <source>Connection Test Service Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres du service de test de connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="327"/>
         <source>Shared Files Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres des fichiers partagés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="328"/>
         <source>Person To Person File Xfer Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de transfert de fichiers de personne à personne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="330"/>
         <source>Chat Room Host Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de l&apos;hôte de la salle de discussion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="331"/>
         <source>Group Host Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de l&apos;hôte du groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="332"/>
         <source>Network Host Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de l&apos;hôte réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="333"/>
         <source>Random Connect Host Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de l&apos;hôte de connexion aléatoire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="335"/>
         <source>Messenger Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de messagerie</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="336"/>
         <source>Push To Talk Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres Push-To-Talk</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="337"/>
         <source>Random Connect Service Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres du service de connexion aléatoire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="338"/>
         <source>Shared Story (Blog) Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de l&apos;histoire partagée (blog)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="339"/>
         <source>Truth Or Dare Video Chat Game Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres du jeu de chat vidéo Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="340"/>
         <source>Video Chat Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de chat vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="341"/>
         <source>Voice Only Phone Call Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres d&apos;appel téléphonique vocal uniquement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="345"/>
         <source>Provide Cam Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Fournir un flux de caméras</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="346"/>
         <source>Manage Station</source>
-        <translation type="unfinished"></translation>
+        <translation>Gérer la gare</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="347"/>
         <source>Manage Station Network Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Gérer l&apos;hôte du réseau de stations</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="349"/>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="935"/>
         <source>Change Friendship</source>
-        <translation type="unfinished"></translation>
+        <translation>Changer l&apos;amitié</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="350"/>
         <source>Reply Offer File</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier d&apos;offre de réponse</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="351"/>
         <source>Truth Or Dare Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeu Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="352"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="988"/>
         <source>Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Chat vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="353"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="564"/>
         <source>View Shared Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher les fichiers partagés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="354"/>
         <source>Offer File</source>
-        <translation type="unfinished"></translation>
+        <translation>Dossier d&apos;offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="356"/>
         <source>Offer Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations sur l&apos;offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="357"/>
         <source>Send Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer une offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="358"/>
         <source>Respond To Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>Répondre à l&apos;offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="359"/>
         <source>Accept Offer Response</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter la réponse à l&apos;offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="360"/>
         <source>Offer Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Détails de l&apos;offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="361"/>
         <source>Voice Phone (VOIP)</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléphone vocal (VOIP)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="363"/>
         <source>File Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre de dossier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="365"/>
         <source>Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargements</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="366"/>
         <source>Uploads</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargements</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="368"/>
         <source>View My Shared Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher mes fichiers partagés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="370"/>
         <source>Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Menus</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="372"/>
         <source>Blocked Hackers</source>
-        <translation type="unfinished"></translation>
+        <translation>Pirates bloqués</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="373"/>
         <source>Socket Connections</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexions de prise</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="374"/>
         <source>Test Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>Tester la connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="377"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppDefs.cpp" line="382"/>
@@ -5013,68 +5191,68 @@ File Type: </source>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1667"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1771"/>
         <source>Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="54"/>
         <source>Copy device info to clipboard (For Bug Report)</source>
-        <translation type="unfinished"></translation>
+        <translation>Copier les informations sur l&apos;appareil dans le presse-papiers (pour le rapport de bug)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="56"/>
         <source> Version </source>
-        <translation type="unfinished"></translation>
+        <translation> Version </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="91"/>
         <source>Copy connection info to clipboard (NOT RECOMMENDED)</source>
-        <translation type="unfinished"></translation>
+        <translation>Copier les informations de connexion dans le presse-papiers (NON RECOMMANDÉ)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="64"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2447"/>
         <source>Invalid Host Id</source>
-        <translation type="unfinished"></translation>
+        <translation>ID d&apos;hôte invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="65"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2448"/>
         <source>Host Id has not been set</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;ID d&apos;hôte n&apos;a pas été défini</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="73"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2474"/>
         <source>No Members Online</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun membre en ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="74"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2475"/>
         <source>There are no members online to send to</source>
-        <translation type="unfinished"></translation>
+        <translation>Il n&apos;y a aucun membre en ligne à qui envoyer</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2483"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2492"/>
         <source>Failed to add asset</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;ajout de l&apos;élément</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2484"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2493"/>
         <source>Failed to add asset. Please check disk space</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;ajout de l&apos;élément. Veuillez vérifier l&apos;espace disque</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletBase.cpp" line="86"/>
         <source>Failed to send</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;envoi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletBase.cpp" line="87"/>
         <source>Failed to send to </source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;envoi à </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="40"/>
@@ -5082,7 +5260,7 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletSnapshot.cpp" line="86"/>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="176"/>
         <source>Camera Capture</source>
-        <translation type="unfinished"></translation>
+        <translation>Capture de caméra</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="40"/>
@@ -5090,7 +5268,7 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletSnapshot.cpp" line="86"/>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="176"/>
         <source>No Camera Source Available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucune source de caméra disponible.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="217"/>
@@ -5098,17 +5276,17 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="265"/>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="271"/>
         <source>Video In Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Vidéo dans l&apos;appareil</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="260"/>
         <source> device is saved as preferred Video In Device</source>
-        <translation type="unfinished"></translation>
+        <translation> l&apos;appareil est enregistré comme vidéo préférée dans l&apos;appareil</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="271"/>
         <source>No Video In Device Is Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucune vidéo dans l&apos;appareil n&apos;est disponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomJoinSearch.cpp" line="150"/>
@@ -5116,7 +5294,7 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletGroupListClient.cpp" line="155"/>
         <location filename="../nolimitgui/src/AppletRandomConnectJoinSearch.cpp" line="150"/>
         <source>Search Params Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de recherche invalides</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomJoinSearch.cpp" line="207"/>
@@ -5127,75 +5305,75 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletRandomConnectJoinSearch.cpp" line="207"/>
         <location filename="../nolimitgui/src/AppletRandomConnectListLocalView.cpp" line="230"/>
         <source>Match found: </source>
-        <translation type="unfinished"></translation>
+        <translation>Correspondance trouvée&#xa0;: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomListLocalView.cpp" line="66"/>
         <location filename="../nolimitgui/src/AppletChatRoomListLocalView.cpp" line="67"/>
         <source>Chat Room Hosts Announced To Network Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Les hôtes de la salle de discussion annoncés comme hôte du réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomListLocalView.cpp" line="73"/>
         <location filename="../nolimitgui/src/AppletGroupListLocalView.cpp" line="76"/>
         <location filename="../nolimitgui/src/AppletRandomConnectListLocalView.cpp" line="73"/>
         <source>Service Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Service indisponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomListLocalView.cpp" line="73"/>
         <source>Network Host Service Is Not Enabled. You can not view chat rooms announced to this device because the service is not enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Le service hôte réseau n’est pas activé. Vous ne pouvez pas afficher les salons de discussion annoncés sur cet appareil, car le service n&apos;est pas activé.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomListLocalView.cpp" line="80"/>
         <location filename="../nolimitgui/src/AppletGroupListLocalView.cpp" line="83"/>
         <location filename="../nolimitgui/src/AppletRandomConnectListLocalView.cpp" line="80"/>
         <source>Service Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Service désactivé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChatRoomListLocalView.cpp" line="80"/>
         <location filename="../nolimitgui/src/AppletGroupListLocalView.cpp" line="83"/>
         <location filename="../nolimitgui/src/AppletRandomConnectListLocalView.cpp" line="80"/>
         <source>Network Host Service is not enabled because it requires an open port.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le service hôte réseau n&apos;est pas activé car il nécessite un port ouvert.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChooseThumbnail.cpp" line="43"/>
         <source>Image for thumbnail will be resized to width </source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;image de la vignette sera redimensionnée à la largeur </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChooseThumbnail.cpp" line="45"/>
         <source> height </source>
-        <translation type="unfinished"></translation>
+        <translation> hauteur </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletChooseThumbnail.cpp" line="47"/>
         <source> pixels. </source>
-        <translation type="unfinished"></translation>
+        <translation> pixels. </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="69"/>
         <source>Choose Chat Room Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisir l&apos;hôte de la salle de discussion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="77"/>
         <source>Choose Group Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisir l&apos;hôte du groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="84"/>
         <source>Choose Random Connect Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisissez un hôte de connexion aléatoire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="91"/>
         <location filename="../nolimitgui/src/AppletHostLeave.cpp" line="97"/>
         <source>Unknown Host Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type d&apos;hôte inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="67"/>
@@ -5204,7 +5382,7 @@ File Type: </source>
         <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="198"/>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="208"/>
         <source>Failed To Read Image File </source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la lecture du fichier image </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="68"/>
@@ -5213,104 +5391,104 @@ File Type: </source>
         <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="199"/>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="209"/>
         <source>Error Reading Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de lecture de l&apos;image</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="117"/>
         <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="189"/>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="200"/>
         <source>Open Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir l&apos;image</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="175"/>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="113"/>
         <source>Failed to read snapshot </source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la lecture de l&apos;instantané </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="176"/>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="114"/>
         <source>Error Reading snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur lors de la lecture de l&apos;instantané</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="202"/>
         <source>Failed to write into </source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;écriture dans </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="203"/>
         <source>Error Writing</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur d&apos;écriture</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="227"/>
         <source>About Me Change</source>
-        <translation type="unfinished"></translation>
+        <translation>À propos de moi Changer</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="228"/>
         <source>Applied About Me Changes </source>
-        <translation type="unfinished"></translation>
+        <translation>Modifications appliquées à propos de moi </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="229"/>
         <source>Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAboutMe.cpp" line="229"/>
         <source>Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Succès</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="98"/>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="125"/>
         <source>Applied Avatar Image Changes </source>
-        <translation type="unfinished"></translation>
+        <translation>Modifications appliquées à l&apos;image de l&apos;avatar </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="99"/>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="126"/>
         <source>Applied Avatar Image Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Succès de l&apos;image d&apos;avatar appliquée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="145"/>
         <source>Cannot Delete Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de supprimer l&apos;image de l&apos;avatar</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="146"/>
         <source>Cannot remove image that is a emoticon</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de supprimer l&apos;image qui est une émoticône</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="150"/>
         <source>Are you sure you want to remove your avatar image?</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir supprimer votre image d&apos;avatar&#xa0;?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="151"/>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="156"/>
         <source>Remove Avatar Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer l&apos;image d&apos;avatar</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="155"/>
         <source>Remove Avatar Image Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer le succès de l&apos;image d&apos;avatar</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="161"/>
         <source>Remove Avatar Image canceled </source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer l&apos;image de l&apos;avatar annulé </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletEditAvatarImage.cpp" line="208"/>
         <source>Cannot shred image </source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de détruire l&apos;image</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFileOfferSelect.cpp" line="289"/>
@@ -5320,564 +5498,566 @@ File Type: </source>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2366"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1358"/>
         <source>File Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier introuvable</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendList.cpp" line="136"/>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="126"/>
         <location filename="../nolimitgui/src/AppletOfferList.cpp" line="125"/>
         <source>List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletGroupJoinSearch.cpp" line="68"/>
         <source>Search For Group Host To Join</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher un hôte de groupe à rejoindre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletGroupListClient.cpp" line="67"/>
         <source>Fetch Group Host List</source>
-        <translation type="unfinished"></translation>
+        <translation>Récupérer la liste des hôtes du groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletGroupListLocalView.cpp" line="69"/>
         <source>Group Hosts Announced To Network Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôtes de groupe annoncés à l&apos;hôte du réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletGroupListLocalView.cpp" line="70"/>
         <source>Groups Announced To Network Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Groupes annoncés à l&apos;hôte du réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletGroupListLocalView.cpp" line="76"/>
         <source>Network Host Service Is Not Enabled. You can not view groups announced to this device because the service is not enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Le service hôte réseau n’est pas activé. Vous ne pouvez pas afficher les groupes annoncés sur cet appareil car le service n&apos;est pas activé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHackerList.cpp" line="53"/>
         <source>Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Compter</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHackerList.cpp" line="54"/>
         <location filename="../nolimitgui/src/AppletSocketList.cpp" line="63"/>
         <source>IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse IP</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHackerList.cpp" line="55"/>
         <source>Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHackerList.cpp" line="56"/>
         <source>Offense</source>
-        <translation type="unfinished"></translation>
+        <translation>Infraction</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHackerList.cpp" line="57"/>
         <source>Signature</source>
-        <translation type="unfinished"></translation>
+        <translation>Signature</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostBase.cpp" line="93"/>
         <source>Cannot join our host as user</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de rejoindre notre hôte en tant qu&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostBase.cpp" line="94"/>
         <source>Cannot join our host as user.
  You can join host from host admin page instead.</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de rejoindre notre hôte en tant qu&apos;utilisateur.
+ Vous pouvez plutôt rejoindre l&apos;hôte à partir de la page d&apos;administration de l&apos;hôte.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostChatRoomStatus.cpp" line="96"/>
         <source>Open Port Required. Check ChatRoom Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Port ouvert requis. Vérifier les paramètres du salon de discussion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostChatRoomStatus.cpp" line="100"/>
         <source>Chat Room Hosting Permission is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;autorisation d&apos;hébergement de salle de discussion est désactivée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostChatRoomStatus.cpp" line="104"/>
         <source>Chat Room Hosting Conditions Are Met</source>
-        <translation type="unfinished"></translation>
+        <translation>Les conditions d’hébergement des salons de discussion sont respectées</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostGroupStatus.cpp" line="93"/>
         <location filename="../nolimitgui/src/AppletHostNetworkStatus.cpp" line="89"/>
         <source>Open Port Required. Check Network Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Port ouvert requis. Vérifier les paramètres réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostGroupStatus.cpp" line="97"/>
         <source>Group Hosting Permission is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;autorisation d&apos;hébergement de groupe est désactivée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostGroupStatus.cpp" line="101"/>
         <source>Group Hosting Conditions Are Met</source>
-        <translation type="unfinished"></translation>
+        <translation>Les conditions d&apos;hébergement de groupe sont respectées</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostNetworkStatus.cpp" line="47"/>
         <source>Hosts announced to network count:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre d&apos;hôtes annoncés sur le réseau&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostNetworkStatus.cpp" line="93"/>
         <source>Network Hosting Permission is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;autorisation d&apos;hébergement réseau est désactivée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostNetworkStatus.cpp" line="97"/>
         <source>Connection Test Permission is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;autorisation de test de connexion est désactivée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostNetworkStatus.cpp" line="101"/>
         <source>Network Hosting Conditions Are Met</source>
-        <translation type="unfinished"></translation>
+        <translation>Les conditions d&apos;hébergement réseau sont remplies</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostRandomConnectStatus.cpp" line="95"/>
         <source>Open Port Required. Check RandomConnect Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Port ouvert requis. Vérifiez les paramètres de RandomConnect</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostRandomConnectStatus.cpp" line="99"/>
         <source>Random Connect Hosting Permission is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;autorisation d&apos;hébergement Random Connect est désactivée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostRandomConnectStatus.cpp" line="103"/>
         <source>Random Connect Hosting Conditions Are Met</source>
-        <translation type="unfinished"></translation>
+        <translation>Les conditions d’hébergement Random Connect sont remplies</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteAccept.cpp" line="60"/>
         <source>Paste invite from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Coller l&apos;invitation depuis le presse-papiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteAccept.cpp" line="89"/>
         <location filename="../nolimitgui/src/AppletInvites.cpp" line="92"/>
         <location filename="../nolimitgui/src/ClipboardPasteWidget.cpp" line="33"/>
         <source>Clipboard Is Empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Le presse-papiers est vide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteAccept.cpp" line="89"/>
         <location filename="../nolimitgui/src/AppletInvites.cpp" line="92"/>
         <source>Cannot Paste Empty Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de coller le presse-papiers vide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteAccept.cpp" line="96"/>
         <source>Clipboard Text Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Texte du Presse-papiers invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteAccept.cpp" line="96"/>
         <source>Clipboard does not contain a valid invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Le Presse-papiers ne contient pas d&apos;invitation valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInvites.cpp" line="99"/>
         <source>Clipboard Contained Invalid Invite Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Le presse-papiers contenait un texte d&apos;invitation non valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInvites.cpp" line="99"/>
         <source>Clipboard Has Text That Cannot Be Parsed Into An Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Le Presse-papiers contient du texte qui ne peut pas être analysé dans une invitation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteCreate.cpp" line="60"/>
         <source>Copy invite to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Copier l&apos;invitation dans le presse-papiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteCreate.cpp" line="81"/>
         <source>Invite Was Copied To Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;invitation a été copiée dans le presse-papiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteCreate.cpp" line="85"/>
         <source>Invite Is Empty</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;invitation est vide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInviteCreate.cpp" line="85"/>
         <source>Cannot create an Invite if Invite is empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de créer une invitation si l&apos;invitation est vide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="116"/>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="174"/>
         <source>User List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des utilisateurs</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="158"/>
         <source>Network Host Url Is Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;URL de l&apos;hôte réseau n&apos;est pas valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="158"/>
         <source>You need to set a valid Network Host URL or IP:Port in network settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous devez définir une URL d&apos;hôte réseau ou un IP&#xa0;:&#xa0;Port valide dans les paramètres réseau.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="184"/>
         <source>Host List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des hôtes</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="264"/>
         <source>Host list from network host completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste d&apos;hôtes de l&apos;hôte réseau terminée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="281"/>
         <source>User list from host completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste des utilisateurs de l&apos;hôte terminée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2456"/>
         <source>Invalid URL</source>
-        <translation type="unfinished"></translation>
+        <translation>URL invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="46"/>
         <source>Network Host URL was not resolved</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;URL de l&apos;hôte réseau n&apos;a pas été résolue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="51"/>
         <source>Online Id query failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la requête d&apos;identification en ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="148"/>
         <source>Network Host list request is queued</source>
-        <translation type="unfinished"></translation>
+        <translation>La demande de liste d&apos;hôtes réseau est en file d&apos;attente</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="153"/>
         <source>Network Host list query failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la requête de la liste d&apos;hôtes réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="260"/>
         <source>NO HOSTS FOUND</source>
-        <translation type="unfinished"></translation>
+        <translation>AUCUN HÔTE TROUVÉ</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="371"/>
         <source>Do you also want to disconnect from user?</source>
-        <translation type="unfinished"></translation>
+        <translation>Voulez-vous également vous déconnecter de l&apos;utilisateur&#xa0;?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="372"/>
         <source>Do you also want to disconnect from user </source>
-        <translation type="unfinished"></translation>
+        <translation>Voulez-vous également vous déconnecter de l&apos;utilisateur </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="374"/>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="128"/>
         <source>?</source>
-        <translation type="unfinished"></translation>
+        <translation>?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="403"/>
         <source>Revoke Membership</source>
-        <translation type="unfinished"></translation>
+        <translation>Révoquer l&apos;adhésion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="403"/>
         <source>Are You Sure You Want To Revoke Membership?</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir révoquer votre adhésion&#xa0;?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="432"/>
         <source>No Ignored Hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun hôte ignoré</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="432"/>
         <source>The Ignored Hosts List Is Empty</source>
-        <translation type="unfinished"></translation>
+        <translation>La liste des hôtes ignorés est vide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2384"/>
         <source>Application Not Ready</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;application n&apos;est pas prête</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2385"/>
         <source>Cannot Launch Applet Until Application Has Initialized</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de lancer l&apos;applet tant que l&apos;application n&apos;a pas été initialisée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="30"/>
         <source>Log None</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal Aucun</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="33"/>
         <source>Log Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion au journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="35"/>
         <source>Log Relay</source>
-        <translation type="unfinished"></translation>
+        <translation>Relais de journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="37"/>
         <source>Log Skt</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal Skt</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="39"/>
         <source>Log Network State</source>
-        <translation type="unfinished"></translation>
+        <translation>Consigner l&apos;état du réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="42"/>
         <source>Log Net Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service de connexion Internet</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="43"/>
         <source>Log Thread</source>
-        <translation type="unfinished"></translation>
+        <translation>Fil de discussion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="45"/>
         <source>Log Assets</source>
-        <translation type="unfinished"></translation>
+        <translation>Consigner les actifs</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="47"/>
         <source>Log Startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrage du journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="48"/>
         <source>Log Skt Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Consigner les données Skt</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="49"/>
         <source>Log Pkt</source>
-        <translation type="unfinished"></translation>
+        <translation>Paquet de journaux</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="55"/>
         <source>Log Hosted User</source>
-        <translation type="unfinished"></translation>
+        <translation>Journaliser l&apos;utilisateur hébergé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="57"/>
         <source>Log Port Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>Redirection du port de journalisation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="58"/>
         <source>Log Is Port Open Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Le journal est le test d&apos;ouverture du port</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="59"/>
         <source>Log Run Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Test d&apos;exécution du journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="60"/>
         <source>Log Host Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion à l&apos;hôte de journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="32"/>
         <source>Log File Xfer</source>
-        <translation type="unfinished"></translation>
+        <translation>Transfert du fichier journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="34"/>
         <source>Log Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre de journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="38"/>
         <source>Log Voice (VOIP)</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal vocal (VOIP)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="40"/>
         <source>Log User Sessions</source>
-        <translation type="unfinished"></translation>
+        <translation>Consigner les sessions utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="44"/>
         <source>Log Web Cam</source>
-        <translation type="unfinished"></translation>
+        <translation>Journaliser la webcam</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="50"/>
         <source>Log Thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>Miniatures du journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="52"/>
         <source>Log User Online Status</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer le statut en ligne de l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="53"/>
         <source>Log Host Join From Client</source>
-        <translation type="unfinished"></translation>
+        <translation>Journaliser la connexion de l&apos;hôte à partir du client</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="54"/>
         <source>Log Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Consigner les utilisateurs</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="62"/>
         <source>Log Host Announce/Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Annonce/Recherche de l&apos;hôte de journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="63"/>
         <source>Log Hackers</source>
-        <translation type="unfinished"></translation>
+        <translation>Pirates de journaux</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="64"/>
         <source>Log Media Streams</source>
-        <translation type="unfinished"></translation>
+        <translation>Journaliser les flux multimédias</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="65"/>
         <source>Log Media Player NLC</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal Media Player NLC</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="67"/>
         <source>Log FFMPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>Journal FFMPEG</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="68"/>
         <source>Log Audio IO</source>
-        <translation type="unfinished"></translation>
+        <translation>Journaliser les E/S audio</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="69"/>
         <source>Log Video IO</source>
-        <translation type="unfinished"></translation>
+        <translation>Journaliser les E/S vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="70"/>
         <source>Log Membership</source>
-        <translation type="unfinished"></translation>
+        <translation>Adhésion au journal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="73"/>
         <source>Unused Log Module</source>
-        <translation type="unfinished"></translation>
+        <translation>Module de journal inutilisé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="301"/>
         <source>Applet Not Yet Implemented</source>
-        <translation type="unfinished"></translation>
+        <translation>Applet pas encore implémentée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="507"/>
         <source>Unknown Or Not Implemented</source>
-        <translation type="unfinished"></translation>
+        <translation>Inconnu ou non mis en œuvre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="510"/>
         <source>AppCommon::launchApplet</source>
-        <translation type="unfinished"></translation>
+        <translation>AppCommon&#xa0;:&#xa0;launchApplet</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="510"/>
         <source>Invalid Applet enum %d</source>
-        <translation type="unfinished"></translation>
+        <translation>Énumération d&apos;applet %d non valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="692"/>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="700"/>
         <source>Cannot View Disabled Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;afficher le service désactivé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="693"/>
         <source>Unknown Plugin Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service de plug-in inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMgr.cpp" line="701"/>
         <source> Cannot be viewed when permission is disable</source>
-        <translation type="unfinished"></translation>
+        <translation> Ne peut pas être consulté lorsque l&apos;autorisation est désactivée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="178"/>
         <source> with </source>
-        <translation type="unfinished"></translation>
+        <translation> avec </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="191"/>
         <source> requires user be online </source>
-        <translation type="unfinished"></translation>
+        <translation> nécessite que l&apos;utilisateur soit en ligne </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2227"/>
         <source> is online</source>
-        <translation type="unfinished"></translation>
+        <translation> est en ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="247"/>
         <source>Requested Text Chat Session with </source>
-        <translation type="unfinished"></translation>
+        <translation>Session de discussion textuelle demandée avec </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="427"/>
         <source>TCP Listen Port Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur du port d&apos;écoute TCP</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="427"/>
         <source>TCP Listen Port cannot be less that 10000.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le port d&apos;écoute TCP ne peut pas être inférieur à 10 000.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="511"/>
         <source>IPv6 not detected</source>
-        <translation type="unfinished"></translation>
+        <translation>IPv6 non détecté</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="511"/>
         <source>The device does not seem to be IPv6 capable
  Please uncheck Use IPv6 Network</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;appareil ne semble pas être compatible IPv6
+ Veuillez décocher Utiliser le réseau IPv6</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="515"/>
         <source>Confirm Use Of Experimental IPv6 Network?</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmer l&apos;utilisation du réseau IPv6 expérimental&#xa0;?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="516"/>
         <source>IPv6 is experimental and the network for IPv6 is not visible on the IPv4 network</source>
-        <translation type="unfinished"></translation>
+        <translation>IPv6 est expérimental et le réseau pour IPv6 n&apos;est pas visible sur le réseau IPv4</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="539"/>
@@ -5888,403 +6068,408 @@ File Type: </source>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="585"/>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="593"/>
         <source>Network Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="539"/>
         <source>Network setting name cannot be blank.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le nom du paramètre réseau ne peut pas être vide.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="547"/>
         <source>Network host URL cannot be blank.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;URL de l&apos;hôte du réseau ne peut pas être vide.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="553"/>
         <source>Network key cannot be blank.</source>
-        <translation type="unfinished"></translation>
+        <translation>La clé réseau ne peut pas être vide.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="564"/>
         <source>Connection Test URL cannot be blank.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;URL du test de connexion ne peut pas être vide.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="574"/>
         <source>Are you sure you want to overwrite existing network setting?.
  The network setting name can be changed in Select Network Setting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir écraser les paramètres réseau existants&#xa0;?
+ Le nom du paramètre réseau peut être modifié dans Sélectionner les paramètres réseau.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="585"/>
         <source>Private Network Key requires restart to avoid use of wrong network key.
  Quitting application so you can start it again.</source>
-        <translation type="unfinished"></translation>
+        <translation>La clé de réseau privée nécessite un redémarrage pour éviter l&apos;utilisation d&apos;une mauvaise clé de réseau.
+ Quittez l&apos;application pour pouvoir la redémarrer.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="593"/>
         <source>Network setting was saved.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les paramètres réseau ont été enregistrés.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="686"/>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="694"/>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="700"/>
         <source>Network Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="686"/>
         <source>Network Key must be at least 6 characters ( 8 or more characters recommended ).</source>
-        <translation type="unfinished"></translation>
+        <translation>La clé réseau doit comporter au moins 6 caractères (8 caractères ou plus recommandés).</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="694"/>
         <source>Current Network Key is public, you must obtain and set the private network key associated with this network invit.</source>
-        <translation type="unfinished"></translation>
+        <translation>La clé réseau actuelle est publique, vous devez obtenir et définir la clé réseau privée associée à cette invitation réseau.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="701"/>
         <source>Are you sure you want to change the network key?
  All users of your network will need to have the same key or you will be banned as a hacker.</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir modifier la clé réseau&#xa0;?
+ Tous les utilisateurs de votre réseau devront avoir la même clé, sinon vous serez banni en tant que pirate informatique.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="718"/>
         <source>Invalid External IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse IP externe invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="722"/>
         <source>If assumed user can direct connect then external IP must be specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si l&apos;utilisateur supposé peut se connecter directement, une adresse IP externe doit être spécifiée.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="730"/>
         <source>External IP is invalid.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;adresse IP externe n&apos;est pas valide.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="739"/>
         <source>When using IPv4 network a IPv4 external IP must be specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lors de l&apos;utilisation d&apos;un réseau IPv4, une adresse IP externe IPv4 doit être spécifiée.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="747"/>
         <source>When using IPv6 network a IPv6 external IP must be specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lors de l&apos;utilisation d&apos;un réseau IPv6, une adresse IP externe IPv6 doit être spécifiée.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="784"/>
         <source>Your device does not seem to be capable of IPv6</source>
-        <translation type="unfinished"></translation>
+        <translation>Votre appareil ne semble pas être compatible IPv6</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="785"/>
         <source>Your device does not seem to be capable of IPv6. Continue Anyway?</source>
-        <translation type="unfinished"></translation>
+        <translation>Votre appareil ne semble pas être compatible IPv6. Continuer quand même ?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="801"/>
         <source>Accepting Network Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter une invitation réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="802"/>
         <source>You are accepting a network invite.
 Be sure the Network Key is correct before pressing save.
 If the Network Key is incorrect, you will probably be banned as a hacker.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous acceptez une invitation réseau.
+Assurez-vous que la clé réseau est correcte avant d&apos;appuyer sur Enregistrer.
+Si la clé réseau est incorrecte, vous serez probablement banni en tant que pirate informatique.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="98"/>
         <source>&apos;s Friendship To Me -</source>
-        <translation type="unfinished"></translation>
+        <translation>l&apos;amitié pour moi -</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="109"/>
         <source>My Friendship To </source>
-        <translation type="unfinished"></translation>
+        <translation>Mon amitié pour </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="263"/>
         <source>Click icon to unmark preferred</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez sur l&apos;icône pour décocher la préférence</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="267"/>
         <source>Click icon to mark preferred</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez sur l&apos;icône pour marquer préféré</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerReplyFileOffer.cpp" line="41"/>
         <source>Receive File</source>
-        <translation type="unfinished"></translation>
+        <translation>Recevoir le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="63"/>
         <source>In Voice Phone Session</source>
-        <translation type="unfinished"></translation>
+        <translation>En session téléphonique vocale</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="67"/>
         <source>Voice Phone Session Ended</source>
-        <translation type="unfinished"></translation>
+        <translation>Session téléphonique vocale terminée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerCamClip.cpp" line="251"/>
         <source>Video file could not be played</source>
-        <translation type="unfinished"></translation>
+        <translation>Le fichier vidéo n&apos;a pas pu être lu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="240"/>
         <source>Unknown Media File Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type de fichier multimédia inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="286"/>
         <source>Media Player empty file list</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste de fichiers vide du Media Player</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="308"/>
         <source>Media Player could not play file</source>
-        <translation type="unfinished"></translation>
+        <translation>Media Player n&apos;a pas pu lire le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="313"/>
         <location filename="../nolimitgui/src/AppletPlayerNlcBase.cpp" line="185"/>
         <location filename="../nolimitgui/src/AppletPlayerNlcBase.cpp" line="334"/>
         <source>File does not exist</source>
-        <translation type="unfinished"></translation>
+        <translation>Le fichier n&apos;existe pas</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="320"/>
         <source>Exception playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeu d&apos;exception</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="360"/>
         <source>Media Player not read</source>
-        <translation type="unfinished"></translation>
+        <translation>Lecteur multimédia non lu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="360"/>
         <source>Try again when Media Player is ready</source>
-        <translation type="unfinished"></translation>
+        <translation>Réessayez lorsque Media Player sera prêt</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="416"/>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="453"/>
         <source>Could not read file</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de lire le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="416"/>
         <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="453"/>
         <source>Failed to get file info</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;obtenir les informations sur le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="863"/>
         <source>Anonymous</source>
-        <translation type="unfinished"></translation>
+        <translation>Anonyme</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="216"/>
         <source>Unblock User</source>
-        <translation type="unfinished"></translation>
+        <translation>Débloquer l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="233"/>
         <source>Block User</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloquer l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="924"/>
         <source>Unset Preferred</source>
-        <translation type="unfinished"></translation>
+        <translation>Désactiver les préférences</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="997"/>
         <source>Delete User From Database</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer un utilisateur de la base de données</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1032"/>
         <location filename="../nolimitgui/src/FriendListWidget.cpp" line="188"/>
         <location filename="../nolimitgui/src/PersonOfferListWidget.cpp" line="189"/>
         <source>Insufficient Permission Level</source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau d&apos;autorisation insuffisant</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1033"/>
         <source> Requires </source>
-        <translation type="unfinished"></translation>
+        <translation> Nécessite </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1034"/>
         <location filename="../nolimitgui/src/FriendListWidget.cpp" line="189"/>
         <location filename="../nolimitgui/src/PersonOfferListWidget.cpp" line="190"/>
         <source> To Access Plugin </source>
-        <translation type="unfinished"></translation>
+        <translation> Pour accéder au plugin </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FriendListWidget.cpp" line="190"/>
         <location filename="../nolimitgui/src/PersonOfferListWidget.cpp" line="191"/>
         <source>Insufficient Permission Level </source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau d&apos;autorisation insuffisant </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="663"/>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="664"/>
         <source>Offer Friendship</source>
-        <translation type="unfinished"></translation>
+        <translation>Offrez de l&apos;amitié</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="665"/>
         <source>Offer Join Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre Rejoindre le groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="928"/>
         <source>Set Preferred</source>
-        <translation type="unfinished"></translation>
+        <translation>Définir comme préféré</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="755"/>
         <source>Applet Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Menu Applet</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="878"/>
         <source>Delete A Database</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer une base de données</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="911"/>
         <source>Database Deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>Base de données supprimée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="911"/>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="915"/>
         <source>Database </source>
-        <translation type="unfinished"></translation>
+        <translation>Base de données </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="911"/>
         <source> was deleted</source>
-        <translation type="unfinished"></translation>
+        <translation> a été supprimé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="915"/>
         <source>Database Delete Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la suppression de la base de données</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="915"/>
         <source> could not be deleted</source>
-        <translation type="unfinished"></translation>
+        <translation> n&apos;a pas pu être supprimé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="960"/>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="976"/>
         <source>Friendship Request</source>
-        <translation type="unfinished"></translation>
+        <translation>Demande d&apos;amitié</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="976"/>
         <source>To send a frienship request you must set </source>
-        <translation type="unfinished"></translation>
+        <translation>Pour envoyer une demande d&apos;amitié, vous devez définir </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="976"/>
         <source> as friend or higher first</source>
-        <translation type="unfinished"></translation>
+        <translation> en tant qu&apos;ami ou supérieur d&apos;abord</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletRandomConnectListLocalView.cpp" line="66"/>
         <location filename="../nolimitgui/src/AppletRandomConnectListLocalView.cpp" line="67"/>
         <source>Random Connect Hosts Announced To Network Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôtes à connexion aléatoire annoncés à l&apos;hôte du réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletRandomConnectListLocalView.cpp" line="73"/>
         <source>Network Host Service Is Not Enabled. You can not view random connect hosts announced to this device because the service is not enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Le service hôte réseau n’est pas activé. Vous ne pouvez pas afficher les hôtes de connexion aléatoire annoncés sur cet appareil car le service n&apos;est pas activé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletServiceBase.cpp" line="195"/>
         <location filename="../nolimitgui/src/AppletSettingsBase.cpp" line="91"/>
         <source>Service Settings Applied</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de service appliqués</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSettingsHostBase.cpp" line="82"/>
         <source>Host Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSettingsHostBase.cpp" line="82"/>
         <source>Host Settings Applied</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de l&apos;hôte appliqués</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSettingsHostBase.cpp" line="87"/>
         <source>Host Settings Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec des paramètres de l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSettingsHostBase.cpp" line="87"/>
         <source>Host Settings Could Not Be Applied</source>
-        <translation type="unfinished"></translation>
+        <translation>Les paramètres de l&apos;hôte n&apos;ont pas pu être appliqués</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSocketList.cpp" line="62"/>
         <source>Socket</source>
-        <translation type="unfinished"></translation>
+        <translation>Prise</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSocketList.cpp" line="64"/>
         <source>Txed</source>
-        <translation type="unfinished"></translation>
+        <translation>Txé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSocketList.cpp" line="65"/>
         <source>Rxed</source>
-        <translation type="unfinished"></translation>
+        <translation>Réceptionné</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSocketList.cpp" line="66"/>
         <source>Peer User</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur homologue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSocketList.cpp" line="67"/>
         <source>Temp?</source>
-        <translation type="unfinished"></translation>
+        <translation>Température ?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="108"/>
         <source>Speaker Device Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Périphérique haut-parleur indisponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="108"/>
         <source>No speaker device is available to enable</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun haut-parleur n&apos;est disponible pour activer</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="114"/>
         <source>Microphone Device Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Appareil microphone indisponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="114"/>
         <source>No microphone device is available to enable</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun périphérique de microphone n&apos;est disponible pour activer</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="256"/>
@@ -6294,12 +6479,12 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
         <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="69"/>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="101"/>
         <source>Sound In Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Son dans l&apos;appareil</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="256"/>
         <source> device is saved as preferred Sound In Device</source>
-        <translation type="unfinished"></translation>
+        <translation> l&apos;appareil est enregistré comme son préféré dans l&apos;appareil</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="217"/>
@@ -6307,12 +6492,12 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="261"/>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="286"/>
         <source> failed to initialize</source>
-        <translation type="unfinished"></translation>
+        <translation> échec de l&apos;initialisation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="267"/>
         <source>No Sound In Device Is Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun son dans l&apos;appareil n&apos;est disponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="281"/>
@@ -6323,307 +6508,307 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
         <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="73"/>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="104"/>
         <source>Sound Out Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Appareil de sortie sonore</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="281"/>
         <source> device is saved as preferred Sound Out Device</source>
-        <translation type="unfinished"></translation>
+        <translation> l&apos;appareil est enregistré en tant que périphérique de sortie audio préféré</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="292"/>
         <source>No Sound Out Device Is Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun périphérique de sortie audio n&apos;est disponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="307"/>
         <source>Echo delay test is running</source>
-        <translation type="unfinished"></translation>
+        <translation>Le test de retard d&apos;écho est en cours</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="307"/>
         <source>Echo delay test can not be run until the previous test finishes</source>
-        <translation type="unfinished"></translation>
+        <translation>Le test de retard d&apos;écho ne peut pas être exécuté tant que le test précédent n&apos;est pas terminé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="318"/>
         <source>Echo Delay Value Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Valeur du délai d&apos;écho invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="318"/>
         <source>Echo Delay value must be between 40 and 500 milliseconds</source>
-        <translation type="unfinished"></translation>
+        <translation>La valeur du délai d&apos;écho doit être comprise entre 40 et 500 millisecondes</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="324"/>
         <source>Echo Delay Value Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Sauvegarde de la valeur du délai d&apos;écho</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="324"/>
         <source>Echo Delay value has been saved for use by Echo Cancelation</source>
-        <translation type="unfinished"></translation>
+        <translation>La valeur du délai d&apos;écho a été enregistrée pour être utilisée par l&apos;annulation d&apos;écho.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="369"/>
         <source>Echo Delays </source>
-        <translation type="unfinished"></translation>
+        <translation>Délais d&apos;écho </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="382"/>
         <source>, </source>
-        <translation type="unfinished"></translation>
+        <translation>, </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="396"/>
         <source>
 Delay Test Is Valid
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Le test de retard est valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="396"/>
         <source>
 Delay Test Is Invalid
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Le test de retard est invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="400"/>
         <source>If you are having echo issues you may want to enter value </source>
-        <translation type="unfinished"></translation>
+        <translation>Si vous rencontrez des problèmes d&apos;écho, vous souhaiterez peut-être saisir une valeur </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="402"/>
         <source> into  Echo delay ms field and click Save Echo Delay To Echo Canceller button
 </source>
-        <translation type="unfinished"></translation>
+        <translation> dans le champ Echo delay ms et cliquez sur le bouton Enregistrer le délai d&apos;écho dans l&apos;annuleur d&apos;écho</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="404"/>
         <source>Echo Delay Test Is Valid</source>
-        <translation type="unfinished"></translation>
+        <translation>Le test de retard d&apos;écho est valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="408"/>
         <source>Echo Delay Test Is Invalid. Check microphone and speaker. Try turning up the volume or placing microphone closer to speaker</source>
-        <translation type="unfinished"></translation>
+        <translation>Le test de délai d&apos;écho n&apos;est pas valide. Vérifiez le microphone et le haut-parleur. Essayez d&apos;augmenter le volume ou de rapprocher le microphone du haut-parleur.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="437"/>
         <source>Play Test File</source>
-        <translation type="unfinished"></translation>
+        <translation>Lire le fichier de test</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="437"/>
         <source>No test file is selected or test file index is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun fichier de test n&apos;est sélectionné ou l&apos;index du fichier de test n&apos;est pas valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="984"/>
         <source>Push To Talk</source>
-        <translation type="unfinished"></translation>
+        <translation>Pousser pour parler</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="472"/>
         <source>Are you sure?</source>
-        <translation type="unfinished"></translation>
+        <translation>Etes-vous sûr ?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="472"/>
         <source>This will delete all thumbnail images not currently in use by your identity or hosts</source>
-        <translation type="unfinished"></translation>
+        <translation>Cela supprimera toutes les images miniatures qui ne sont pas actuellement utilisées par votre identité ou vos hôtes.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="475"/>
         <source> of disk space freed by deleting cached thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation> d&apos;espace disque libéré en supprimant les vignettes mises en cache</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTheme.cpp" line="36"/>
         <source>Some Text To Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Du texte à modifier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTheme.cpp" line="118"/>
         <source>Selection 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélection 1</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTheme.cpp" line="119"/>
         <source>Selection 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélection 2</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTheme.cpp" line="120"/>
         <source>Selection 3</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélection 3</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTheme.cpp" line="121"/>
         <source>Selection 4</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélection 4</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTheme.cpp" line="122"/>
         <source>Selection 5</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélection 5</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="125"/>
         <source>Confirm Login To Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmer la connexion au compte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="126"/>
         <source>Are You Sure You Want To Login To Account </source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir vous connecter au compte </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="197"/>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="236"/>
         <source>Applied Mood Message Change </source>
-        <translation type="unfinished"></translation>
+        <translation>Changement de message d&apos;humeur appliqué </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="198"/>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="237"/>
         <source>Mood Message Change Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Succès du changement de message d’humeur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="217"/>
         <source>Applied Age and Preferred Content Change </source>
-        <translation type="unfinished"></translation>
+        <translation>Âge appliqué et changement de contenu préféré </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="218"/>
         <source>Age and Preferred Content Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Âge et succès du contenu préféré</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="255"/>
         <source>Applied Gender Change </source>
-        <translation type="unfinished"></translation>
+        <translation>Changement de genre appliqué </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="256"/>
         <source>Gender Change Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Succès du changement de genre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="298"/>
         <source>Confirm Create New Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmer Créer un nouveau compte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="299"/>
         <source>Are You Sure You Want To Create A New Account?</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir créer un nouveau compte&#xa0;?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="319"/>
         <source>Cannot Delete Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de supprimer le compte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="320"/>
         <source>Cannot Delete An Account That Is In Use</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de supprimer un compte en cours d&apos;utilisation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="325"/>
         <source>Confirm Delete Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirmer la suppression du compte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="326"/>
         <source>Are You Sure You Want To Delete This Account?</source>
-        <translation type="unfinished"></translation>
+        <translation>Êtes-vous sûr de vouloir supprimer ce compte&#xa0;?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="332"/>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="333"/>
         <source>Account was removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Le compte a été supprimé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="338"/>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="339"/>
         <source>A error occured and account was not removed</source>
-        <translation type="unfinished"></translation>
+        <translation>Une erreur s&apos;est produite et le compte n&apos;a pas été supprimé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="348"/>
         <location filename="../nolimitgui/src/AppletUserIdentity.cpp" line="349"/>
         <source>Connot delete the last account</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de supprimer le dernier compte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AvatarBar.cpp" line="58"/>
         <source>queued</source>
-        <translation type="unfinished"></translation>
+        <translation>en file d&apos;attente</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="307"/>
         <source>Use camcorder button on right to start and stop recording video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisez le bouton du caméscope à droite pour démarrer et arrêter l&apos;enregistrement vidéo.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="354"/>
         <source>ChatEntryWidget client callback is not set</source>
-        <translation type="unfinished"></translation>
+        <translation>Le rappel du client ChatEntryWidget n&apos;est pas défini</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="84"/>
         <source>Open File</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="98"/>
         <source>Insufficient Permission To Send File</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorisation insuffisante pour envoyer un fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="107"/>
         <source>File Sharing Is Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Le partage de fichiers est désactivé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="112"/>
         <source>Stop Sharing This File</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêtez de partager ce fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="117"/>
         <source>Start Sharing This File</source>
-        <translation type="unfinished"></translation>
+        <translation>Commencez à partager ce fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="124"/>
         <source>Remove From My Library</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer de ma bibliothèque</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="129"/>
         <source>Add To My Library</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajouter à ma bibliothèque</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="134"/>
         <source>Delete File</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileActionMenu.cpp" line="138"/>
         <source>Shred File</source>
-        <translation type="unfinished"></translation>
+        <translation>Déchiqueter le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="61"/>
         <source>Open Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir le dossier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1367"/>
@@ -6634,391 +6819,393 @@ Delay Test Is Invalid
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1397"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1403"/>
         <source>Invalid User Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom d&apos;utilisateur invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1367"/>
         <source>User Name cannot have NoLimitConnect in name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le nom d&apos;utilisateur ne peut pas contenir NoLimitConnect dans son nom.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1373"/>
         <source>User Name cannot have special character quote.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le nom d&apos;utilisateur ne peut pas contenir de guillemets spéciaux.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1379"/>
         <source>User Name cannot have comma.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le nom d&apos;utilisateur ne peut pas contenir de virgule.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1385"/>
         <source>User Name cannot have special character parentheses.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le nom d&apos;utilisateur ne peut pas contenir de parenthèses de caractères spéciaux.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1391"/>
         <source>User Name cannot have special character slashes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le nom d&apos;utilisateur ne peut pas comporter de barres obliques de caractères spéciaux.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1403"/>
         <source>User Name is too short (minimum 4 chars).</source>
-        <translation type="unfinished"></translation>
+        <translation>Le nom d&apos;utilisateur est trop court (minimum 4 caractères).</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1434"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1440"/>
         <source>Age Verify</source>
-        <translation type="unfinished"></translation>
+        <translation>Vérifier l&apos;âge</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1434"/>
         <source>Invalid Age</source>
-        <translation type="unfinished"></translation>
+        <translation>Âge invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1440"/>
         <source>Age Connot be greater than 120 years old</source>
-        <translation type="unfinished"></translation>
+        <translation>Âge Ne peut pas être supérieur à 120 ans</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2295"/>
         <source>User Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur indisponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2296"/>
         <source>User </source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2296"/>
         <source> Is Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation> N&apos;est pas disponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2305"/>
         <source>Already In A Session</source>
-        <translation type="unfinished"></translation>
+        <translation>Déjà en session</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2306"/>
         <source>Already in session. Please close existing session and try again</source>
-        <translation type="unfinished"></translation>
+        <translation>Déjà en séance. Veuillez fermer la session existante et réessayer</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2315"/>
         <source>Sent User An Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyé une offre à l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2316"/>
         <source>Offer Was Sent To  </source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;offre a été envoyée à  </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2320"/>
         <source>Send Offer Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;envoi de l&apos;offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2321"/>
         <source>Offer Send Failed  </source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;envoi de l&apos;offre  </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2325"/>
         <source>Not Connected</source>
-        <translation type="unfinished"></translation>
+        <translation>Non connecté</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2326"/>
         <source>You are not connected to host </source>
-        <translation type="unfinished"></translation>
+        <translation>Vous n&apos;êtes pas connecté à l&apos;hôte </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2330"/>
         <source>No User Selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun utilisateur sélectionné</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2331"/>
         <source>You must select a user to send to </source>
-        <translation type="unfinished"></translation>
+        <translation>Vous devez sélectionner un utilisateur à qui envoyer </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2300"/>
         <source>User is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;utilisateur est hors ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="298"/>
         <source>Select Media File</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez un fichier multimédia</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="305"/>
         <source>Select Video File</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez un fichier vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="311"/>
         <source>Select Audio File</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez un fichier audio</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="317"/>
         <source>Select Image File</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez un fichier image</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="388"/>
         <source>Cannot Read File</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de lire le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1397"/>
         <source>User Name is too long (maximum 31 chars).</source>
-        <translation type="unfinished"></translation>
+        <translation>Le nom d&apos;utilisateur est trop long (31&#xa0;caractères maximum).</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1422"/>
         <source>Mood Message is too long (maximum 31 chars)</source>
-        <translation type="unfinished"></translation>
+        <translation>Le message d&apos;humeur est trop long (maximum 31&#xa0;caractères)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2301"/>
         <source>User is no longer connected</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;utilisateur n&apos;est plus connecté</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2310"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2311"/>
         <source>Session not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Séance introuvable</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2335"/>
         <source>Purge Everthing Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Avertissement de purge de tout</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2336"/>
         <source>This action will delete everything not locked including Identity, Downloaded Files, Storyboard, Message History Etc.
 The action cannot be undone
 Are you very sure you want to proceed?</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette action supprimera tout ce qui n&apos;est pas verrouillé, y compris l&apos;identité, les fichiers téléchargés, le storyboard, l&apos;historique des messages, etc.
+L&apos;action ne peut pas être annulée
+Êtes-vous vraiment sûr de vouloir continuer&#xa0;?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2340"/>
         <source>Voice Message Too Short</source>
-        <translation type="unfinished"></translation>
+        <translation>Message vocal trop court</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2341"/>
         <source>The Voice Message was too short and will not be sent.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le message vocal était trop court et ne sera pas envoyé.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2345"/>
         <source>Video clip Too Short</source>
-        <translation type="unfinished"></translation>
+        <translation>Clip vidéo Trop court</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2346"/>
         <source>The Video Clip was too short and will not be sent.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le clip vidéo était trop court et ne sera pas envoyé.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2350"/>
         <source>Video record failed to start</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;enregistrement vidéo n&apos;a pas pu démarrer</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2351"/>
         <source>Video record failed to start.</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;enregistrement vidéo n&apos;a pas pu démarrer.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2367"/>
         <source>File Name Is Empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Le nom du fichier est vide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2375"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2376"/>
         <source>Access File Permissions Denied By User</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorisations d&apos;accès aux fichiers refusées par l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2385"/>
         <source>Cannot launch applet until network is available</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de lancer l&apos;applet tant que le réseau n&apos;est pas disponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2393"/>
         <source>Requires Open Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Nécessite un port ouvert</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2394"/>
         <source>Action requires a open port</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;action nécessite un port ouvert</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2402"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2411"/>
         <source>Invalid Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Invitation invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2403"/>
         <source>The invite is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;invitation n&apos;est pas valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2412"/>
         <source>Cannot accept invite from myself</source>
-        <translation type="unfinished"></translation>
+        <translation>Je ne peux pas accepter d&apos;invitation de ma part</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2420"/>
         <source>Invalid User</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2421"/>
         <source>Could not find the user</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de trouver l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2429"/>
         <source>User Not Online</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur non en ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2430"/>
         <source>The user is not currently online</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;utilisateur n&apos;est pas en ligne actuellement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2438"/>
         <source>Friendship Level To Low</source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau d&apos;amitié trop bas</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2439"/>
         <source>Requires friendship of friend or higher</source>
-        <translation type="unfinished"></translation>
+        <translation>Nécessite l&apos;amitié d&apos;un ami ou supérieur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2457"/>
         <source>The host url is not valid</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;URL de l&apos;hôte n&apos;est pas valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2465"/>
         <source>Invalid Host Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type d&apos;hôte invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2466"/>
         <source>The host url does not have a vailid host type</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;URL de l&apos;hôte n&apos;a pas de type d&apos;hôte valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppCommon.cpp" line="645"/>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2355"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1388"/>
         <source>Unknown Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur inconnue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2356"/>
         <source>Unknown Error </source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur inconnue </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2356"/>
         <source> for user </source>
-        <translation type="unfinished"></translation>
+        <translation> pour l&apos;utilisateur </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHostedListItem.cpp" line="152"/>
         <location filename="../nolimitgui/src/HostedPluginWidget.cpp" line="113"/>
         <location filename="../nolimitgui/src/HostJoinRequestListItem.cpp" line="133"/>
         <source> Hosted By Me</source>
-        <translation type="unfinished"></translation>
+        <translation> Hébergé par moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHostedListItem.cpp" line="207"/>
         <source>Stop Ignoring Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêtez d&apos;ignorer l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="501"/>
         <source> Is Offline </source>
-        <translation type="unfinished"></translation>
+        <translation> Est hors ligne </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="941"/>
         <source>Not enough storage available</source>
-        <translation type="unfinished"></translation>
+        <translation>Pas assez de stockage disponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="942"/>
         <source>Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>Nécessite </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="942"/>
         <source> but only </source>
-        <translation type="unfinished"></translation>
+        <translation> mais seulement </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="943"/>
         <source> available </source>
-        <translation type="unfinished"></translation>
+        <translation> disponible </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1041"/>
         <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="182"/>
         <source>Plugin Type Not Set</source>
-        <translation type="unfinished"></translation>
+        <translation>Type de plugin non défini</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1051"/>
         <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="192"/>
         <source>User Not Set</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur non défini</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1062"/>
         <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="202"/>
         <source>Offer Not Set</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre non définie</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1072"/>
         <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="212"/>
         <source>File Hash Is Not Valid</source>
-        <translation type="unfinished"></translation>
+        <translation>Le hachage du fichier n&apos;est pas valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferSession.cpp" line="95"/>
         <source>Offer Uninitialized</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre non initialisée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiOfferSession.cpp" line="108"/>
         <source>User Uninitialized</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur non initialisé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1802"/>
         <source> </source>
-        <translation type="unfinished"></translation>
+        <translation> </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="145"/>
@@ -7027,376 +7214,376 @@ Are you very sure you want to proceed?</source>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="241"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="283"/>
         <source>Any</source>
-        <translation type="unfinished"></translation>
+        <translation>N&apos;importe lequel</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="147"/>
         <source>Under 21</source>
-        <translation type="unfinished"></translation>
+        <translation>Moins de 21 ans</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="149"/>
         <source>21 Or Older</source>
-        <translation type="unfinished"></translation>
+        <translation>21 ans ou plus</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="161"/>
         <source>Old</source>
-        <translation type="unfinished"></translation>
+        <translation>Vieux</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="169"/>
         <source>Young</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeune</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="173"/>
         <source>Middle Age</source>
-        <translation type="unfinished"></translation>
+        <translation>Moyen Âge</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="186"/>
         <source>No Error </source>
-        <translation type="unfinished"></translation>
+        <translation>Aucune erreur </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="188"/>
         <source>Comm Error Invalid Packet </source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de communication, paquet invalide </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="190"/>
         <source>Comm Error User Offline </source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de communication Utilisateur hors ligne </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="192"/>
         <source>Comm Error Search Text To Short </source>
-        <translation type="unfinished"></translation>
+        <translation>Texte de recherche d&apos;erreur de communication à court </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="194"/>
         <source>Comm Error Search Text To Long </source>
-        <translation type="unfinished"></translation>
+        <translation>Texte de recherche d&apos;erreur de communication trop long </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="196"/>
         <source>Comm Error Search No Match </source>
-        <translation type="unfinished"></translation>
+        <translation>Recherche d&apos;erreur de communication Aucune correspondance </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="198"/>
         <source>Comm Error Invalid Host Type </source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de communication Type d&apos;hôte non valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="200"/>
         <source>Comm Error Plugin Not Enabled </source>
-        <translation type="unfinished"></translation>
+        <translation>Plugin d&apos;erreur de communication non activé </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="202"/>
         <source>Comm Error Plugin Permission Level </source>
-        <translation type="unfinished"></translation>
+        <translation>Niveau d&apos;autorisation du plug-in d&apos;erreur de communication </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="204"/>
         <source>Comm Error Invalid Param </source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de communication, paramètre non valide </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="206"/>
         <source>Comm Error Invalid </source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de communication invalide </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="218"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1642"/>
         <source>Video</source>
-        <translation type="unfinished"></translation>
+        <translation>Vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="220"/>
         <source>Auidio</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="222"/>
         <source>Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Images</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="224"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="226"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="251"/>
         <source>Personal</source>
-        <translation type="unfinished"></translation>
+        <translation>Personnel</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="228"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1658"/>
         <source>Other</source>
-        <translation type="unfinished"></translation>
+        <translation>Autre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="243"/>
         <source>Family</source>
-        <translation type="unfinished"></translation>
+        <translation>Famille</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="245"/>
         <source>Adult</source>
-        <translation type="unfinished"></translation>
+        <translation>Adulte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="247"/>
         <source>XXX</source>
-        <translation type="unfinished"></translation>
+        <translation>XXX</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="249"/>
         <source>DarkWeb</source>
-        <translation type="unfinished"></translation>
+        <translation>Web sombre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="265"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1862"/>
         <source>Anonymous </source>
-        <translation type="unfinished"></translation>
+        <translation>Anonyme </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="267"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1864"/>
         <source>Guest </source>
-        <translation type="unfinished"></translation>
+        <translation>Invité </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="269"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1866"/>
         <source>Friend </source>
-        <translation type="unfinished"></translation>
+        <translation>Ami </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="271"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1868"/>
         <source>Administrator </source>
-        <translation type="unfinished"></translation>
+        <translation>Administrateur </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="273"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1870"/>
         <source>Ignore </source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorer </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="285"/>
         <source>Male</source>
-        <translation type="unfinished"></translation>
+        <translation>Mâle</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="287"/>
         <source>Female</source>
-        <translation type="unfinished"></translation>
+        <translation>Femme</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="299"/>
         <source>Group Host </source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte de groupe </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="301"/>
         <source>Chat Room Host </source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte de la salle de discussion </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="303"/>
         <source>Random Connect Host </source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte de connexion aléatoire </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="305"/>
         <source>Peer User </source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur homologue </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="307"/>
         <source>Network Host </source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte réseau </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="309"/>
         <source>Connect Test Host </source>
-        <translation type="unfinished"></translation>
+        <translation>Connecter l&apos;hôte de test </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="311"/>
         <source>Unknown Host Type </source>
-        <translation type="unfinished"></translation>
+        <translation>Type d&apos;hôte inconnu </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="353"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1554"/>
         <source>Host Search Status Unknown </source>
-        <translation type="unfinished"></translation>
+        <translation>Statut de recherche d&apos;hôte inconnu </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="355"/>
         <source>Host Search Invalid Url </source>
-        <translation type="unfinished"></translation>
+        <translation>URL de recherche d&apos;hôte non valide </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="357"/>
         <source>Host Search Querying Id In Progress </source>
-        <translation type="unfinished"></translation>
+        <translation>ID de requête de recherche d&apos;hôte en cours </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="359"/>
         <source>Host Search Querying Id Success </source>
-        <translation type="unfinished"></translation>
+        <translation>Réussite de l&apos;ID de requête de recherche d&apos;hôte </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="361"/>
         <source>Host Search Query Id Failed </source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la requête de recherche d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="363"/>
         <source>Host Search Connecting </source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion de recherche d&apos;hôte </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="365"/>
         <source>Host Search Connect Success </source>
-        <translation type="unfinished"></translation>
+        <translation>Réussite de la connexion à la recherche d&apos;hôte </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="367"/>
         <source>Host Search Connect Failed </source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la connexion à la recherche d&apos;hôte </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="369"/>
         <source>Host Search Handshaking </source>
-        <translation type="unfinished"></translation>
+        <translation>Établissement de liaison pour la recherche d&apos;hôte </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="371"/>
         <source>Host Search Handshake Timeout </source>
-        <translation type="unfinished"></translation>
+        <translation>Délai d&apos;expiration de la négociation de recherche d&apos;hôte </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="374"/>
         <source>Host Search Sending Request </source>
-        <translation type="unfinished"></translation>
+        <translation>Demande d&apos;envoi de recherche d&apos;hôte </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="376"/>
         <source>Host Search Send Request Failed </source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la demande d&apos;envoi de la recherche d&apos;hôte </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="378"/>
         <source>Host Search Success </source>
-        <translation type="unfinished"></translation>
+        <translation>Succès de la recherche d&apos;hôte </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="380"/>
         <source>Host Search Failed </source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la recherche d&apos;hôte </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="383"/>
         <source>Host Search Fail Permission </source>
-        <translation type="unfinished"></translation>
+        <translation>Autorisation d&apos;échec de recherche d&apos;hôte </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="385"/>
         <source>Host Search Fail Connect Dropped </source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la recherche d&apos;hôte Connexion abandonnée </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="387"/>
         <source>Host Search Invalid Param </source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de recherche d&apos;hôte non valides </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="389"/>
         <source>Host Search Plugin Disabled </source>
-        <translation type="unfinished"></translation>
+        <translation>Plugin de recherche d&apos;hôte désactivé </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="391"/>
         <source>Host Search No Matches </source>
-        <translation type="unfinished"></translation>
+        <translation>Recherche d&apos;hôte Aucune correspondance </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="393"/>
         <source>Host Search Completed </source>
-        <translation type="unfinished"></translation>
+        <translation>Recherche d&apos;hôte terminée </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="395"/>
         <source>Invalid Host Search Param </source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètre de recherche d&apos;hôte non valide </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="405"/>
         <source>Join Again</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoignez-nous à nouveau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="408"/>
         <source>Join Granted</source>
-        <translation type="unfinished"></translation>
+        <translation>Adhésion accordée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="411"/>
         <source>Sending</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="414"/>
         <source>Send FAILED</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;envoi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="417"/>
         <source>Send Acked</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer avec accusé de réception</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="420"/>
         <source>Join Requested</source>
-        <translation type="unfinished"></translation>
+        <translation>Adhésion demandée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="423"/>
         <source>Join Denied</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre refusé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="426"/>
         <source>Left Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte gauche</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="429"/>
         <source>Connect And Join</source>
-        <translation type="unfinished"></translation>
+        <translation>Connectez-vous et rejoignez</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="432"/>
         <source>Uknown Join State</source>
-        <translation type="unfinished"></translation>
+        <translation>État de jointure inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="462"/>
         <source>View About Me Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher À propos de moi Nécessite </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="464"/>
@@ -7409,2236 +7596,2236 @@ Are you very sure you want to proceed?</source>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="705"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="740"/>
         <source> permission</source>
-        <translation type="unfinished"></translation>
+        <translation> autorisation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="469"/>
         <source>About Me Page is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>La page À propos de moi est désactivée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="472"/>
         <source>About Me Page is inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>La page À propos de moi est inactive</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="475"/>
         <source>About Me Page unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>Page À propos de moi indisponible en raison du statut d&apos;ignorance</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="478"/>
         <source>About Me Page unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>Page À propos de moi indisponible car occupée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="481"/>
         <source>Contact must have direct connect to provide About Me Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Le contact doit avoir une connexion directe pour fournir la page À propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="484"/>
         <source>About Me Page unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Page À propos de moi indisponible car le contact est hors ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="493"/>
         <source>View Story Board</source>
-        <translation type="unfinished"></translation>
+        <translation>Voir le story-board</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="496"/>
         <source>View Story Board Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>Voir le Story Board requis </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="503"/>
         <source>Story Board is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Le Story Board est désactivé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="506"/>
         <source>Story Board is inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Le Story Board est inactif</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="509"/>
         <source>Story Board unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>Story Board indisponible en raison du statut ignoré</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="512"/>
         <source>Story Board unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>Story Board indisponible car occupé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="515"/>
         <source>Contact must have direct connect to provide Story Board Page</source>
-        <translation type="unfinished"></translation>
+        <translation>Le contact doit avoir une connexion directe pour fournir la page Story Board</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="518"/>
         <source>Story Board unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Story Board indisponible car le contact est hors ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="528"/>
         <source>Offer Send A File</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre Envoyer un fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="532"/>
         <source>Send A File Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer un fichier requis </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="540"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="577"/>
         <source>Shared Files is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Les fichiers partagés sont désactivés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="543"/>
         <source>Send File unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer le fichier indisponible en raison du statut ignoré</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="546"/>
         <source>Send File unavailable because is inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer le fichier indisponible car inactif</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="549"/>
         <source>Send File unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer le fichier indisponible car occupé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="552"/>
         <source>Contact must have direct connect to receive Send File</source>
-        <translation type="unfinished"></translation>
+        <translation>Le contact doit avoir une connexion directe pour recevoir Envoyer un fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="555"/>
         <source>Send File unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer le fichier indisponible car le contact est hors ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="567"/>
         <source>Shared Files Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers partagés requis </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="572"/>
         <source>No Shared Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun fichier partagé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="580"/>
         <source>Shared Files unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers partagés indisponibles en raison du statut d&apos;ignorance</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="583"/>
         <source>Shared Files unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers partagés indisponibles car occupés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="586"/>
         <source>Contact must have direct connect to Share Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Le contact doit avoir une connexion directe à Partager des fichiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="589"/>
         <source>Shared Files unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers partagés indisponibles car le contact est hors ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="601"/>
         <source>Shared Web Cam Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>Web Cam partagée requise </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="608"/>
         <source>Shared Web Cam is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>La webcam partagée est désactivée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="611"/>
         <source>Shared Web Cam is not active</source>
-        <translation type="unfinished"></translation>
+        <translation>La webcam partagée n&apos;est pas active</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="614"/>
         <source>Shared Web Cam unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>Web Cam partagée indisponible en raison du statut d&apos;ignorance</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="617"/>
         <source>Shared Web Cam unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>Web Cam partagée indisponible car occupée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="620"/>
         <source>Contact must have direct connect to Share Web Cam</source>
-        <translation type="unfinished"></translation>
+        <translation>Le contact doit avoir une connexion directe à Share Web Cam</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="623"/>
         <source>Shared Web Cam unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Web Cam partagée indisponible car le contact est hors ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="632"/>
         <source>Offer Voice Call</source>
-        <translation type="unfinished"></translation>
+        <translation>Offrir un appel vocal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="635"/>
         <source>Voice Call Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>Appel vocal requis </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="642"/>
         <source>Voice Call is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;appel vocal est désactivé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="645"/>
         <source>Voice Call unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>Appel vocal indisponible en raison du statut d&apos;ignorance</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="648"/>
         <source>Voice Call unavailable because is Inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Appel vocal indisponible car inactif</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="651"/>
         <source>Voice Call unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>Appel vocal indisponible car occupé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="654"/>
         <source>Contact must have direct connect for Voice Call</source>
-        <translation type="unfinished"></translation>
+        <translation>Le contact doit avoir une connexion directe pour l&apos;appel vocal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="657"/>
         <source>Voice Call unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Appel vocal indisponible car le contact est hors ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="666"/>
         <source>Offer Play Truth Or Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>Offrez Jouez à Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="992"/>
         <source>Truth Or Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1702"/>
         <source>Sending Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoi de l&apos;offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2227"/>
         <source> is offline</source>
-        <translation type="unfinished"></translation>
+        <translation> est hors ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="669"/>
         <source>Truth Or Dare Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>Action ou Vérité nécessite </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="676"/>
         <source>Truth Or Dare is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Action ou Vérité est désactivé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="679"/>
         <source>Truth Or Dare unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>Action ou Vérité indisponible en raison du statut d&apos;ignorance</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="682"/>
         <source>Truth Or Dare unavailable because is Inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Action ou Vérité indisponible car inactif</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="685"/>
         <source>Truth Or Dare unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>Action ou Vérité indisponible car occupé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="688"/>
         <source>Contact must have direct connect for Truth Or Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>Le contact doit avoir une connexion directe pour Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="691"/>
         <source>Truth Or Dare unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Action ou Vérité indisponible car le contact est hors ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="700"/>
         <source>Offer Text Chat Session</source>
-        <translation type="unfinished"></translation>
+        <translation>Offrez une session de chat textuel</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="703"/>
         <source>Text Chat Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>Le chat textuel nécessite </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="710"/>
         <source>Text Chat is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Le chat textuel est désactivé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="716"/>
         <source>Text Chat unavailable because is Inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Chat textuel indisponible car inactif</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="719"/>
         <source>Text Chat unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>Chat textuel indisponible car occupé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="722"/>
         <source>Contact must have direct connect for Text Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Le contact doit avoir une connexion directe pour le chat textuel</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="725"/>
         <source>Text Chat unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Chat textuel indisponible car le contact est hors ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="735"/>
         <source>Offer Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Proposer un chat vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="738"/>
         <source>Video Chat Requires </source>
-        <translation type="unfinished"></translation>
+        <translation>Le chat vidéo nécessite</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="745"/>
         <source>Video Chat is disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Le chat vidéo est désactivé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="748"/>
         <source>Video Chat unavailable due to ignore status</source>
-        <translation type="unfinished"></translation>
+        <translation>Chat vidéo indisponible en raison du statut d&apos;ignorance</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="751"/>
         <source>Video Chat unavailable because is Inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Le chat vidéo n&apos;est pas disponible car il est inactif</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="754"/>
         <source>Video Chat unavailable because is busy</source>
-        <translation type="unfinished"></translation>
+        <translation>Chat vidéo indisponible car occupé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="757"/>
         <source>Contact must have direct connect for Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Le contact doit avoir une connexion directe pour le chat vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="760"/>
         <source>Video Chat unavailable because contact is offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Chat vidéo indisponible car le contact est hors ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="780"/>
         <source>Administrator</source>
-        <translation type="unfinished"></translation>
+        <translation>Administrateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="784"/>
         <source>Friend</source>
-        <translation type="unfinished"></translation>
+        <translation>Ami</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="788"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="865"/>
         <source>Guest</source>
-        <translation type="unfinished"></translation>
+        <translation>Invité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="792"/>
         <source>Anybody</source>
-        <translation type="unfinished"></translation>
+        <translation>N&apos;importe qui</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="796"/>
         <source>Disabled or ignored</source>
-        <translation type="unfinished"></translation>
+        <translation>Désactivé ou ignoré</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="813"/>
         <source>Access Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Accès inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="817"/>
         <source>Access Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>Accès OK</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="821"/>
         <source>Insufficient Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorisation insuffisante</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="825"/>
         <source>Plugin Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugin désactivé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="829"/>
         <source>Contact Ignored</source>
-        <translation type="unfinished"></translation>
+        <translation>Contact ignoré</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="833"/>
         <source>Plugin Inactive</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugin inactif</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="837"/>
         <source>Plugin Busy</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugin occupé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="841"/>
         <source>Requires Direct Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Nécessite une connexion directe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="845"/>
         <source>Requires User Be Online</source>
-        <translation type="unfinished"></translation>
+        <translation>Nécessite que l&apos;utilisateur soit en ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="849"/>
         <source>Unknown Plugin Access</source>
-        <translation type="unfinished"></translation>
+        <translation>Accès au plugin inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="861"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Désactivé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="867"/>
         <source>Friends</source>
-        <translation type="unfinished"></translation>
+        <translation>Amis</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="880"/>
         <source>Msg None</source>
-        <translation type="unfinished"></translation>
+        <translation>Message Aucun</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="884"/>
         <source>Connecting</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="888"/>
         <source>Connect Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="892"/>
         <source>Retrieving Info</source>
-        <translation type="unfinished"></translation>
+        <translation>Récupération d&apos;informations</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="896"/>
         <source>Retrieve Info Complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Récupération des informations terminée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="900"/>
         <source>Retrieve Info Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la récupération des informations</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="904"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1422"/>
         <source>Downloading</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="908"/>
         <source>Downloading Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec du téléchargement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="912"/>
         <source>Downloading Complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargement terminé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="916"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1360"/>
         <source>Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="920"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1356"/>
         <source>Permission Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur d&apos;autorisation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="924"/>
         <source>Low Disk Space</source>
-        <translation type="unfinished"></translation>
+        <translation>Espace disque faible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="928"/>
         <source>Invalid Parameter</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètre invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="932"/>
         <source>Unknown Plugin Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Message de plug-in inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="948"/>
         <source>About Me Page Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visionneuse de pages À propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="952"/>
         <source>About Me Page Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Serveur de pages À propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="956"/>
         <source>Client Peer user</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur client homologue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="960"/>
         <source>Host Peer user</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur homologue hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="964"/>
         <source>Send A File</source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer un fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="968"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1097"/>
         <source>Shared Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers partagés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="972"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1086"/>
         <source>Shared Web Cam</source>
-        <translation type="unfinished"></translation>
+        <translation>Webcam partagée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="980"/>
         <source>Voice Call</source>
-        <translation type="unfinished"></translation>
+        <translation>Appel vocal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="386"/>
         <source>Play Truth Or Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>Jouez à Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="996"/>
         <source>Story Board Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Serveur de story-board</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1000"/>
         <source>Story Board Viewer</source>
-        <translation type="unfinished"></translation>
+        <translation>Visionneuse de story-boards</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1004"/>
         <source>Client Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Groupe de clients</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1007"/>
         <source>Client Chat Room</source>
-        <translation type="unfinished"></translation>
+        <translation>Salon de discussion client</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1010"/>
         <source>Client Random Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion aléatoire du client</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1013"/>
         <source>Client No Limit Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Réseau client sans limite</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1016"/>
         <source>Client Connect Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Test de connexion client</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1020"/>
         <source>Host Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Groupe hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1023"/>
         <source>Host Chat Room</source>
-        <translation type="unfinished"></translation>
+        <translation>Salle de discussion hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1026"/>
         <source>Host Random Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion aléatoire de l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1029"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1146"/>
         <source>Host No Limit Network</source>
-        <translation type="unfinished"></translation>
+        <translation>Héberger un réseau sans limite</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1032"/>
         <source>Host Connect Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Test de connexion à l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1036"/>
         <source>Shared Files Client</source>
-        <translation type="unfinished"></translation>
+        <translation>Client de fichiers partagés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1040"/>
         <source>Web Cam Client</source>
-        <translation type="unfinished"></translation>
+        <translation>Client de webcam</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1044"/>
         <location filename="../nolimitgui/src/VxContextMenu.cpp" line="185"/>
         <source>Library</source>
-        <translation type="unfinished"></translation>
+        <translation>Bibliothèque</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1052"/>
         <source>Unknown Plugin</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugin inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1072"/>
         <source>About Me Page Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service de pages À propos de moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1076"/>
         <source>Peer User Client</source>
-        <translation type="unfinished"></translation>
+        <translation>Client utilisateur homologue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1080"/>
         <source>Peer User Host (me)</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte utilisateur homologue (moi)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1090"/>
         <source>Web Cam Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service de webcam</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1101"/>
         <source>Shared Files Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service de fichiers partagés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1106"/>
         <source>Person To Person File Transfer</source>
-        <translation type="unfinished"></translation>
+        <translation>Transfert de fichiers de personne à personne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1110"/>
         <source>Connection Test Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service de test de connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1114"/>
         <source>Connection Test Client</source>
-        <translation type="unfinished"></translation>
+        <translation>Client de test de connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1121"/>
         <source>Group User</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur du groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1125"/>
         <source>Host Group Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service de groupe d&apos;hôtes</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1130"/>
         <source>Chat Room User</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur du salon de discussion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1134"/>
         <source>Host Chat Room Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service de salle de discussion hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1138"/>
         <source>Connect To Random Person</source>
-        <translation type="unfinished"></translation>
+        <translation>Connectez-vous à une personne aléatoire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1142"/>
         <source>Connect To Random Person Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Connectez-vous au service de personne aléatoire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1150"/>
         <source>Messanger Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service de messagerie</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1154"/>
         <source>Story Page (Blog) Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service de page d&apos;histoire (blog)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1158"/>
         <source>View Story Board Page (Blog)</source>
-        <translation type="unfinished"></translation>
+        <translation>Voir la page du Story Board (Blog)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1162"/>
         <source>Truth Or Dare Video Chat Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeu de chat vidéo Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1166"/>
         <source>Phone Call With Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Appel téléphonique avec chat vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1170"/>
         <source>Phone Call With Voice Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Appel téléphonique avec voix uniquement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1174"/>
         <source>MJPEG Movie Reader</source>
-        <translation type="unfinished"></translation>
+        <translation>Lecteur de film MJPEG</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1178"/>
         <source>MJPEG Movie Recorder</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistreur de film MJPEG</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1182"/>
         <source>Personal Notes And Media Recorder</source>
-        <translation type="unfinished"></translation>
+        <translation>Notes personnelles et enregistreur multimédia</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1186"/>
         <source>Network Services</source>
-        <translation type="unfinished"></translation>
+        <translation>Services réseau</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1190"/>
         <source>Recorded Audio Reader</source>
-        <translation type="unfinished"></translation>
+        <translation>Lecteur audio enregistré</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1194"/>
         <source>Audio Recorder</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistreur audio</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1198"/>
         <source>Download Shared Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Télécharger des fichiers partagés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1206"/>
         <source>UNKNOWN PLUGIN</source>
-        <translation type="unfinished"></translation>
+        <translation>PLUGIN INCONNU</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1220"/>
         <source> About Me Page Service </source>
-        <translation type="unfinished"></translation>
+        <translation> Service de pages À propos de moi </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1224"/>
         <source> View About Me Page </source>
-        <translation type="unfinished"></translation>
+        <translation> Afficher la page À propos de moi </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1228"/>
         <source> Receive A File </source>
-        <translation type="unfinished"></translation>
+        <translation> Recevoir un fichier </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1232"/>
         <source> View Shared Files </source>
-        <translation type="unfinished"></translation>
+        <translation> Afficher les fichiers partagés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1236"/>
         <source> Join Chat Session </source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre une session de discussion </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1240"/>
         <source> Voice Phone Call </source>
-        <translation type="unfinished"></translation>
+        <translation> Appel téléphonique vocal </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1244"/>
         <source> Video Chat Offer </source>
-        <translation type="unfinished"></translation>
+        <translation> Offre de chat vidéo </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1248"/>
         <source> Play Truth Or Dare </source>
-        <translation type="unfinished"></translation>
+        <translation> Jouez à Action ou Vérité </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1252"/>
         <source> Story Board Service</source>
-        <translation type="unfinished"></translation>
+        <translation> Service de story-board</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1256"/>
         <source> View Story Board </source>
-        <translation type="unfinished"></translation>
+        <translation> Voir le story-board </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1260"/>
         <source> Shared Files Client </source>
-        <translation type="unfinished"></translation>
+        <translation> Client de fichiers partagés </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1264"/>
         <source> Web Cam Server Service</source>
-        <translation type="unfinished"></translation>
+        <translation> Service de serveur de webcam</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1268"/>
         <source> View Shared Web Cam </source>
-        <translation type="unfinished"></translation>
+        <translation> Afficher la webcam partagée </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1272"/>
         <source>Unknown Plugin Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre de plugin inconnue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1287"/>
         <source> Invalid </source>
-        <translation type="unfinished"></translation>
+        <translation> Invalide </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1291"/>
         <source> Not Active </source>
-        <translation type="unfinished"></translation>
+        <translation> Pas actif </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1295"/>
         <source> Tx Enabled </source>
-        <translation type="unfinished"></translation>
+        <translation> Émission activée </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1299"/>
         <source> Rx Enabled </source>
-        <translation type="unfinished"></translation>
+        <translation> Réception activée </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1303"/>
         <source> Duplex Enabled </source>
-        <translation type="unfinished"></translation>
+        <translation> Recto verso activé </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1307"/>
         <source> No Connection </source>
-        <translation type="unfinished"></translation>
+        <translation> Aucune connexion </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1311"/>
         <source>Unknown PushToTalkStatus</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut PushToTalk inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1324"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1712"/>
         <source>Offer Accepted</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre acceptée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1327"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1412"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1714"/>
         <source>Offer Rejected</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre rejetée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1330"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1366"/>
         <source>Busy</source>
-        <translation type="unfinished"></translation>
+        <translation>Occupé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1333"/>
         <source>Session Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>Séance annulée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1336"/>
         <source>User Ended Session</source>
-        <translation type="unfinished"></translation>
+        <translation>Session terminée par l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1339"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1718"/>
         <source>User Is Offline</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;utilisateur est hors ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerVideoPhone.cpp" line="50"/>
         <source>In Video Phone Session</source>
-        <translation type="unfinished"></translation>
+        <translation>En session de visiophonie</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerVideoPhone.cpp" line="54"/>
         <source>Video Phone Session Ended</source>
-        <translation type="unfinished"></translation>
+        <translation>Session de visiophonie terminée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerVideoPhone.cpp" line="121"/>
         <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="130"/>
         <source>Session Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Séance démarrée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletPeerVideoPhone.cpp" line="135"/>
         <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="144"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1342"/>
         <source>Session Ended</source>
-        <translation type="unfinished"></translation>
+        <translation>Session terminée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1352"/>
         <source>No Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucune erreur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1354"/>
         <source>Disconnected</source>
-        <translation type="unfinished"></translation>
+        <translation>Déconnecté</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1362"/>
         <source>Bad Param</source>
-        <translation type="unfinished"></translation>
+        <translation>Mauvais paramètre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1364"/>
         <source>Error At Source</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur à la source</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1368"/>
         <source>Already Downloading</source>
-        <translation type="unfinished"></translation>
+        <translation>Déjà en cours de téléchargement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1370"/>
         <source>Already Downloaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Déjà téléchargé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1372"/>
         <source>Already Uploading</source>
-        <translation type="unfinished"></translation>
+        <translation>Déjà en train de télécharger</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1374"/>
         <source>File Create Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de création de fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1376"/>
         <source>File Append Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur d&apos;ajout de fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1378"/>
         <source>File Open Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur d&apos;ouverture de fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1380"/>
         <source>Seek Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher une erreur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1382"/>
         <source>Read Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de lecture</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1384"/>
         <source>Write Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur d&apos;écriture</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1386"/>
         <source>Move File Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de déplacement du fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1398"/>
         <source>Upload Not Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargement non démarré</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1400"/>
         <source>Waiting Response</source>
-        <translation type="unfinished"></translation>
+        <translation>En attente de réponse</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1402"/>
         <source>In Upload Que</source>
-        <translation type="unfinished"></translation>
+        <translation>Dans la file de téléchargement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1404"/>
         <source>Start Upload</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer le téléchargement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1406"/>
         <source>Uploading</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1408"/>
         <source>Completed Upload</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargement terminé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1410"/>
         <source>Upload Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargement annulé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1414"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1428"/>
         <source>ERROR</source>
-        <translation type="unfinished"></translation>
+        <translation>ERREUR</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1416"/>
         <source>Download Not Started</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargement non démarré</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1418"/>
         <source>In Download Que</source>
-        <translation type="unfinished"></translation>
+        <translation>En téléchargement Que</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1420"/>
         <source>Start Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Démarrer le téléchargement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1424"/>
         <source>Completed Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargement terminé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1426"/>
         <source>Download Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléchargement annulé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1431"/>
         <source>Unknown State</source>
-        <translation type="unfinished"></translation>
+        <translation>État inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1441"/>
         <source>Host Announce Status Unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>Statut d&apos;annonce de l&apos;hôte inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1443"/>
         <source>Host Announce Invalid Url</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;hôte annonce une URL invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1445"/>
         <source>Host Announce Querying Id In Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;hôte annonce l&apos;interrogation de l&apos;identifiant en cours</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1447"/>
         <source>Host Announce Querying Id Success</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;hôte annonce le succès de l&apos;interrogation de l&apos;identifiant</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1449"/>
         <source>Host Announce Query Id Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;ID de requête d&apos;annonce de l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1451"/>
         <source>Host Announce Connecting</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;hôte annonce la connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1453"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1566"/>
         <source>Host Announce Handshaking</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;hôte annonce la poignée de main</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1455"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1568"/>
         <source>Host Announce Handshake Timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;hôte annonce l&apos;expiration du délai d&apos;établissement de la liaison</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1457"/>
         <source>Host Announce Connect Success</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;hôte annonce le succès de Connect</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1459"/>
         <source>Host Announce Connect Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;hôte annonce l&apos;échec de la connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1461"/>
         <source>Host Announce Sending Request</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;hôte annonce la demande d&apos;envoi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1463"/>
         <source>Host Announce Send Request Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;hôte annonce l&apos;échec de la demande d&apos;envoi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1465"/>
         <source>Host Announce Success</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;hôte annonce le succès</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1467"/>
         <source>Host Announce Fail (No Open Port)</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;annonce de l&apos;hôte (pas de port ouvert)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1469"/>
         <source>Host Announce Fail Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;hôte annonce l&apos;autorisation d&apos;échec</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1471"/>
         <source>Host Announce Fail Connect Dropped</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;hôte annonce l&apos;abandon de la connexion en cas d&apos;échec</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1473"/>
         <source>Host Announce Invalid Param</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;hôte annonce un paramètre invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1475"/>
         <source>Host Announce Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Annonce de l&apos;hôte effectuée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1477"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1544"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1590"/>
         <source>Invalid Host Param</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètre d&apos;hôte invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1487"/>
         <source>Host Join Status Unknown </source>
-        <translation type="unfinished"></translation>
+        <translation>Statut de connexion de l&apos;hôte inconnu </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1489"/>
         <source>Host Join Invalid Url</source>
-        <translation type="unfinished"></translation>
+        <translation>URL de connexion de l&apos;hôte non valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1491"/>
         <source>Host Join Querying Id In Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifiant de requête de jointure d&apos;hôte en cours</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1493"/>
         <source>Host Join Querying Id Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Réussite de l&apos;interrogation de la jointure de l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1495"/>
         <source>Host Join Query Id Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;ID de requête de jointure de l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1497"/>
         <source>Host Join Connecting</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte Rejoindre Connexion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1499"/>
         <source>Host Join Handshaking</source>
-        <translation type="unfinished"></translation>
+        <translation>Établissement de liaison entre l&apos;hôte et l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1501"/>
         <source>Host Join Handshake Timeout</source>
-        <translation type="unfinished"></translation>
+        <translation>Délai d&apos;expiration de la prise de contact pour la connexion de l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1503"/>
         <source>Host Join Connect Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte Rejoignez Connect Succès</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1505"/>
         <source>Host Join Connect Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la connexion de l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1508"/>
         <source>Host Join Fail Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorisation d’échec de jointure de l’hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1510"/>
         <source>Host Join Fail Connect Dropped</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la connexion à l&apos;hôte Connexion abandonnée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1512"/>
         <source>Host Join Invalid Param</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètre non valide de jointure d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1514"/>
         <source>Host Join Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre l&apos;hôte terminé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1517"/>
         <source>Host Join Sending Request</source>
-        <translation type="unfinished"></translation>
+        <translation>Demande d&apos;envoi de participation à l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1519"/>
         <source>Host Join Send Request Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la demande d&apos;envoi de participation à l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1521"/>
         <source>Host Join Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Réussite de l&apos;adhésion de l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1523"/>
         <source>Host Join Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la connexion à l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1526"/>
         <source>Host Leave Sending Request</source>
-        <translation type="unfinished"></translation>
+        <translation>Demande d&apos;envoi de congé d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1528"/>
         <source>Host Leave Send Request Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la demande d&apos;envoi de congé de l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1530"/>
         <source>Host Leave Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Succès du congé d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1532"/>
         <source>Host Leave Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec du congé de l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1535"/>
         <source>Host Sending UnJoin Request</source>
-        <translation type="unfinished"></translation>
+        <translation>Hôte envoyant une demande de désadhésion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1537"/>
         <source>Host Send UnJoin Request Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la demande de désassociation de l&apos;envoi par l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1539"/>
         <source>Host UnJoin Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Réussite de la désadhésion de l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1541"/>
         <source>Host UnJoin Fail</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la désadhésion de l&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1556"/>
         <source>Host Search Invalid Url</source>
-        <translation type="unfinished"></translation>
+        <translation>URL de recherche d&apos;hôte non valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1558"/>
         <source>Host Search Querying Id In Progress</source>
-        <translation type="unfinished"></translation>
+        <translation>ID de requête de recherche d&apos;hôte en cours</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1560"/>
         <source>Host Search Querying Id Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Réussite de l&apos;ID de requête de recherche d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1562"/>
         <source>Host Search Query Id Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la requête de recherche d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1564"/>
         <source>Host Search Connecting</source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion de recherche d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1570"/>
         <source>Host Search Connect Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Réussite de la connexion à la recherche d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1572"/>
         <source>Host Search Connect Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la connexion à la recherche d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1574"/>
         <source>Host Search Sending Request</source>
-        <translation type="unfinished"></translation>
+        <translation>Demande d&apos;envoi de recherche d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1576"/>
         <source>Host Search Send Request Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la demande d&apos;envoi de la recherche d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1578"/>
         <source>Host Search Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Succès de la recherche d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1580"/>
         <source>Host Search Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la recherche d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1582"/>
         <source>Host Search Fail Permission</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorisation d&apos;échec de recherche d&apos;hôte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1584"/>
         <source>Host Search Fail Connect Dropped</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la recherche d&apos;hôte Connexion abandonnée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1586"/>
         <source>Host Search Invalid Param</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de recherche d&apos;hôte non valides</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1588"/>
         <source>Host Search Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Recherche d&apos;hôte terminée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1601"/>
         <source>TB</source>
-        <translation type="unfinished"></translation>
+        <translation>tuberculose</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1606"/>
         <source>GB</source>
-        <translation type="unfinished"></translation>
+        <translation>FR</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1611"/>
         <source>MB</source>
-        <translation type="unfinished"></translation>
+        <translation>Mo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1616"/>
         <source>KB</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1621"/>
         <source>Bytes</source>
-        <translation type="unfinished"></translation>
+        <translation>Octets</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1634"/>
         <source>Photo</source>
-        <translation type="unfinished"></translation>
+        <translation>Photos</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1638"/>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1646"/>
         <source>Document</source>
-        <translation type="unfinished"></translation>
+        <translation>Documenter</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1650"/>
         <source>Archive Or ISO</source>
-        <translation type="unfinished"></translation>
+        <translation>Archiver ou ISO</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1654"/>
         <source>Executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Exécutable</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1662"/>
         <source>Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Dossier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1700"/>
         <source>No Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucune offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1704"/>
         <source>Offer Sent</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre envoyée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1706"/>
         <source>Offer Send Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;envoi de l&apos;offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1708"/>
         <source>Offer Recieved By User</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre reçue par l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1710"/>
         <source>User Is Busy</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;utilisateur est occupé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1716"/>
         <source>Offer Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre annulée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1720"/>
         <source>Offer Is In Session</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;offre est en session</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1722"/>
         <source>Offer Session Complete</source>
-        <translation type="unfinished"></translation>
+        <translation>Session d&apos;offre terminée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1724"/>
         <source>Offer Session Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la session d&apos;offre</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1726"/>
         <source>Offer No Response</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre sans réponse</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1728"/>
         <source>Missed Call</source>
-        <translation type="unfinished"></translation>
+        <translation>Appel manqué</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1730"/>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1763"/>
         <source>Unknown Offer Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type d&apos;offre inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1740"/>
         <source>Unknonn Offer Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type d&apos;offre inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1742"/>
         <source>Offer: Join Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre&#xa0;: Rejoindre le groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1744"/>
         <source>Offer: Join Chat Roome</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre&#xa0;: Rejoignez Chat Roome</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1746"/>
         <source>Offer: Join Random Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre&#xa0;: Rejoignez Random Connect</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1748"/>
         <source>Offer: Personal File</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre : Dossier Personnel</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1750"/>
         <source>Offer: Friendship</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre&#xa0;: Amitié</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1752"/>
         <source>Offer: Instant Message Session</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre&#xa0;: Session de messagerie instantanée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1754"/>
         <source>Offer: Truth Or Dare Game</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre&#xa0;: Jeu Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1756"/>
         <source>Offer: Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre&#xa0;: Chat vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1758"/>
         <source>Offer: Voice Phone Call</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre&#xa0;: Appel téléphonique vocal</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1774"/>
         <source>Accepted</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepté</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1778"/>
         <source>Rejected</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejeté</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1782"/>
         <source>User Offline</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur hors ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1786"/>
         <source>Expired</source>
-        <translation type="unfinished"></translation>
+        <translation>Expiré</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1790"/>
         <source>Waiting for response</source>
-        <translation type="unfinished"></translation>
+        <translation>En attente de réponse</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1796"/>
         <source>Expires </source>
-        <translation type="unfinished"></translation>
+        <translation>Expire </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1814"/>
         <source>Horizontal</source>
-        <translation type="unfinished"></translation>
+        <translation>Horizontale</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1817"/>
         <source>Vertical</source>
-        <translation type="unfinished"></translation>
+        <translation>Verticale</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1827"/>
         <source>Everybody </source>
-        <translation type="unfinished"></translation>
+        <translation>Tout le monde </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1829"/>
         <source>Friends Online </source>
-        <translation type="unfinished"></translation>
+        <translation>Amis en ligne </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1831"/>
         <source>Friends Offline </source>
-        <translation type="unfinished"></translation>
+        <translation>Amis hors ligne </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1834"/>
         <source>Group </source>
-        <translation type="unfinished"></translation>
+        <translation>Groupe </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1836"/>
         <source>Chat Room </source>
-        <translation type="unfinished"></translation>
+        <translation>Salon de discussion </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1838"/>
         <source>Random Connect </source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion aléatoire </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1841"/>
         <source>Ignored </source>
-        <translation type="unfinished"></translation>
+        <translation>Ignoré </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1844"/>
         <source>Online </source>
-        <translation type="unfinished"></translation>
+        <translation>En ligne </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1846"/>
         <source>Direct Connect </source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion directe </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1848"/>
         <source>Offline </source>
-        <translation type="unfinished"></translation>
+        <translation>Hors ligne </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1852"/>
         <source>Unknown </source>
-        <translation type="unfinished"></translation>
+        <translation>Inconnu </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1880"/>
         <source>Sending Join Request </source>
-        <translation type="unfinished"></translation>
+        <translation>Envoi d&apos;une demande d&apos;adhésion </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1882"/>
         <source>Send Join Failed </source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;envoi de la jointure </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1884"/>
         <source>Send Join Acked </source>
-        <translation type="unfinished"></translation>
+        <translation>Envoyer Rejoindre avec accusé de réception </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1886"/>
         <source>Join Requested </source>
-        <translation type="unfinished"></translation>
+        <translation>Adhésion demandée </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1888"/>
         <source>Join Was Accepted </source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;adhésion a été acceptée </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1890"/>
         <source>Join Is Accepted </source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;adhésion est acceptée </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1892"/>
         <source>Join Denied </source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre refusé </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1894"/>
         <source>Disconnected From Host </source>
-        <translation type="unfinished"></translation>
+        <translation>Déconnecté de l&apos;hôte </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1896"/>
         <source>Unknown Join State </source>
-        <translation type="unfinished"></translation>
+        <translation>État de jointure inconnu </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1906"/>
         <source>All Files </source>
-        <translation type="unfinished"></translation>
+        <translation>Tous les fichiers </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1908"/>
         <source>Photo Files </source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers photos </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1910"/>
         <source>Audio Files </source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers audio </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1912"/>
         <source>Video Files </source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers vidéo </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1914"/>
         <source>Document Files </source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers de documents</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1916"/>
         <source>Archive Files </source>
-        <translation type="unfinished"></translation>
+        <translation>Archiver des fichiers </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1918"/>
         <source>Other Files </source>
-        <translation type="unfinished"></translation>
+        <translation>Autres fichiers </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="1921"/>
         <source>Unknown File Filter </source>
-        <translation type="unfinished"></translation>
+        <translation>Filtre de fichiers inconnus </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2043"/>
         <source>When Recieve Response</source>
-        <translation type="unfinished"></translation>
+        <translation>Quand recevoir une réponse</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2045"/>
         <source>20 Seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>20 secondes</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2047"/>
         <source>1 Minute</source>
-        <translation type="unfinished"></translation>
+        <translation>1 minute</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2049"/>
         <source>10 Minutes</source>
-        <translation type="unfinished"></translation>
+        <translation>10 minutes</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2051"/>
         <source>1 Hour</source>
-        <translation type="unfinished"></translation>
+        <translation>1 heure</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2053"/>
         <source>24 Hours</source>
-        <translation type="unfinished"></translation>
+        <translation>24 heures</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2055"/>
         <source>1 Week</source>
-        <translation type="unfinished"></translation>
+        <translation>1 semaine</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2057"/>
         <source>1 Month</source>
-        <translation type="unfinished"></translation>
+        <translation>1 mois</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2059"/>
         <source>1 Year</source>
-        <translation type="unfinished"></translation>
+        <translation>1 an</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2062"/>
         <source>Unknown Expire Time </source>
-        <translation type="unfinished"></translation>
+        <translation>Heure d&apos;expiration inconnue </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2101"/>
         <source>Active Offers </source>
-        <translation type="unfinished"></translation>
+        <translation>Offres actives </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2103"/>
         <source>Offer History </source>
-        <translation type="unfinished"></translation>
+        <translation>Historique de l&apos;offre </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2106"/>
         <source>Unknown Offer View Type </source>
-        <translation type="unfinished"></translation>
+        <translation>Type d&apos;affichage de l&apos;offre inconnu </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2116"/>
         <source>Any Connection </source>
-        <translation type="unfinished"></translation>
+        <translation>N&apos;importe quelle connexion </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2118"/>
         <source>Host Connection </source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion hôte </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2120"/>
         <source>Client Connection </source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion client </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2122"/>
         <source>Direct Connection </source>
-        <translation type="unfinished"></translation>
+        <translation>Connexion directe </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2124"/>
         <source>Unknown Connect Type </source>
-        <translation type="unfinished"></translation>
+        <translation>Type de connexion inconnu </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2134"/>
         <source>Connect Status Ready </source>
-        <translation type="unfinished"></translation>
+        <translation>Statut de connexion Prêt </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2136"/>
         <source>Connect Status Bad Param </source>
-        <translation type="unfinished"></translation>
+        <translation>État de connexion mauvais paramètre </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2138"/>
         <source>Connect Status Bad Address </source>
-        <translation type="unfinished"></translation>
+        <translation>Mauvaise adresse de l&apos;état de connexion </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2140"/>
         <source>Connect Status Permission Denied </source>
-        <translation type="unfinished"></translation>
+        <translation>Autorisation d&apos;état de connexion refusée </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2142"/>
         <source>Connect Status Connecting </source>
-        <translation type="unfinished"></translation>
+        <translation>État de connexion Connexion </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2144"/>
         <source>Connect Status Connect Failed </source>
-        <translation type="unfinished"></translation>
+        <translation>État de la connexion Échec de la connexion </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2146"/>
         <source>Connect Status Send PktAnn Failed </source>
-        <translation type="unfinished"></translation>
+        <translation>Statut de connexion Échec de l&apos;envoi de PktAnn </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2148"/>
         <source>Connect Status Handshaking </source>
-        <translation type="unfinished"></translation>
+        <translation>Établissement de liaison avec l&apos;état de connexion </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2150"/>
         <source>Connect Status Handshake Timed Out </source>
-        <translation type="unfinished"></translation>
+        <translation>La poignée de main d&apos;état de connexion a expiré</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2152"/>
         <source>Connect Status Connect Success </source>
-        <translation type="unfinished"></translation>
+        <translation>Statut de connexion Réussite de la connexion </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2154"/>
         <source>Connect Status Dropped </source>
-        <translation type="unfinished"></translation>
+        <translation>Statut de connexion abandonné </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2156"/>
         <source>Connect Status Rx PktAnn Timeout </source>
-        <translation type="unfinished"></translation>
+        <translation>État de connexion Rx PktAnn Timeout </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2158"/>
         <source>Connect Status Unknown </source>
-        <translation type="unfinished"></translation>
+        <translation>État de connexion inconnu </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2198"/>
         <source>Database None</source>
-        <translation type="unfinished"></translation>
+        <translation>Base de données Aucune</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2200"/>
         <source>Database Assets</source>
-        <translation type="unfinished"></translation>
+        <translation>Actifs de base de données</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2202"/>
         <source>Database Blob Assets</source>
-        <translation type="unfinished"></translation>
+        <translation>Actifs blob de base de données</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2204"/>
         <source>Database Connect Mgr</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestionnaire de connexion à la base de données</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2206"/>
         <source>Database Engine Params</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres du moteur de base de données</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2208"/>
         <source>Database Engine Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres du moteur de base de données</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2210"/>
         <source>Database Host Server Join</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre le serveur hôte de base de données</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2212"/>
         <source>Database Offers</source>
-        <translation type="unfinished"></translation>
+        <translation>Offres de bases de données</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2214"/>
         <source>Database Thumbs</source>
-        <translation type="unfinished"></translation>
+        <translation>Thumbs de base de données</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2216"/>
         <source>Database User Join</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre un utilisateur de base de données</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2218"/>
         <source>Database All Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Base de données Tous les utilisateurs</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiParams.cpp" line="2220"/>
         <source>Unkonwn Database Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type de base de données inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiPlayerMgr.cpp" line="231"/>
         <source>Attempted to play an executable which is not allowed</source>
-        <translation type="unfinished"></translation>
+        <translation>Tentative de lecture d&apos;un exécutable non autorisé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiPlayerMgr.cpp" line="237"/>
         <source>Attempted to open an archive file which is not allowed</source>
-        <translation type="unfinished"></translation>
+        <translation>Tentative d&apos;ouverture d&apos;un fichier d&apos;archive non autorisé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="347"/>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="439"/>
         <source>Invalid emoticon id</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifiant d&apos;émoticône invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="481"/>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="487"/>
         <source>Error occured creating emoticon file </source>
-        <translation type="unfinished"></translation>
+        <translation>Une erreur s&apos;est produite lors de la création du fichier d&apos;émoticône </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="440"/>
         <source>Invalid emoticon id </source>
-        <translation type="unfinished"></translation>
+        <translation>Identifiant d&apos;émoticône invalide </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="383"/>
         <source>Error occured creating emoticon file</source>
-        <translation type="unfinished"></translation>
+        <translation>Une erreur s&apos;est produite lors de la création du fichier d&apos;émoticône</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="474"/>
         <source>Could not create emoticon asset</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de créer l&apos;élément émoticône</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="475"/>
         <source>Error occured creating emoticon asset </source>
-        <translation type="unfinished"></translation>
+        <translation>Une erreur s&apos;est produite lors de la création de l&apos;élément émoticône </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="480"/>
         <source>Could not get file info of emoticon png file</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;obtenir les informations sur le fichier png d&apos;émoticône</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="486"/>
         <source>Could not create emoticon png file</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de créer le fichier png d&apos;émoticône</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="492"/>
         <source>Could not create emoticon image</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de créer une image d&apos;émoticône</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="493"/>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="513"/>
         <source>Error occured creating emoticon image %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Une erreur s&apos;est produite lors de la création de l&apos;image d&apos;émoticône %1</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="512"/>
         <source>Could create emoticon image</source>
-        <translation type="unfinished"></translation>
+        <translation>Pourrait créer une image d&apos;émoticône</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1014"/>
         <source>User was deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;utilisateur a été supprimé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1015"/>
         <source>User was deleted from database</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;utilisateur a été supprimé de la base de données</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1022"/>
         <source>User was NOT deleted</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;utilisateur n&apos;a PAS été supprimé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1023"/>
         <source>User failed to be deleted from database</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;utilisateur n&apos;a pas pu être supprimé de la base de données</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/IdentLogicInterface.cpp" line="236"/>
         <source>Truths: </source>
-        <translation type="unfinished"></translation>
+        <translation>Vérités&#xa0;: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/IdentLogicInterface.cpp" line="237"/>
         <source> Dares: </source>
-        <translation type="unfinished"></translation>
+        <translation> Ose&#xa0;: </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="68"/>
         <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="90"/>
         <source>Photo Snapshot Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur d&apos;instantané photo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="68"/>
         <source>Photo Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>Photo indisponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="80"/>
         <source>Failed to write photo to file </source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;écriture de la photo dans le fichier </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="81"/>
         <source>Error Writing Photo To File</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur lors de l&apos;écriture d&apos;une photo dans un fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="90"/>
         <source>Photo File Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier photo introuvable</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InputVoiceWidget.cpp" line="68"/>
         <source>Click Microphone To Finish Or X To Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez sur Microphone pour terminer ou sur X pour annuler</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InputVoiceWidget.cpp" line="68"/>
         <source>Click Microphone To Begin Recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez sur le microphone pour commencer l&apos;enregistrement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="63"/>
         <source>No Sound Input Devices Avalable</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun périphérique d&apos;entrée sonore disponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="69"/>
         <source>Sound Input Device Index Out Of Range. Will Use Default Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Index du périphérique d’entrée sonore hors de portée. Utilisera le périphérique par défaut</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="101"/>
         <source>Could not initialize sound in device </source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;initialiser le son sur l&apos;appareil </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AudioMgrDelayTest.cpp" line="155"/>
         <source>Sound Delay Not Detected. Check speaker volume and that microphone is on </source>
-        <translation type="unfinished"></translation>
+        <translation>Retard sonore non détecté. Vérifiez le volume du haut-parleur et que le microphone est allumé </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AudioMgrDelayTest.cpp" line="159"/>
         <source>Sound Delay too short.. probably noise </source>
-        <translation type="unfinished"></translation>
+        <translation>Délai sonore trop court... probablement du bruit </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AudioMgrDelayTest.cpp" line="163"/>
         <source>Sound Delay too long.. probably mic level low </source>
-        <translation type="unfinished"></translation>
+        <translation>Délai sonore trop long. Probablement le niveau du micro est faible. </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AudioMgrDelayTest.cpp" line="167"/>
         <source>Sound Delay is </source>
-        <translation type="unfinished"></translation>
+        <translation>Le délai sonore est </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="60"/>
         <source>No Sound Output Devices Avalable</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun périphérique de sortie sonore disponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="66"/>
         <source>Sound Output Device Index Out Of Range. Will Use Default Device</source>
-        <translation type="unfinished"></translation>
+        <translation>Index du périphérique de sortie sonore hors de portée. Utilisera le périphérique par défaut</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="73"/>
         <source>Sound Output Device Invalid Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Format non valide du périphérique de sortie audio</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="104"/>
         <source>Could not initialize sound out device </source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;initialiser le périphérique de sortie audio </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="378"/>
         <source>Answer Phone</source>
-        <translation type="unfinished"></translation>
+        <translation>Répondre au téléphone</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="379"/>
         <source>Reject Phone Call</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejeter l&apos;appel téléphonique</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="382"/>
         <source>Accept Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter le chat vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="383"/>
         <source>Reject Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejeter le chat vidéo</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="387"/>
         <source>Reject Truth Or Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejeter Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="500"/>
         <source>User Hung Up Phone</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;utilisateur a raccroché le téléphone</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="503"/>
         <source>User Ended Video Chat</source>
-        <translation type="unfinished"></translation>
+        <translation>Chat vidéo terminé par l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/MultiSessionState.cpp" line="506"/>
         <source>User Ended Truth Or Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;utilisateur a terminé Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/OfferSessionLogic.cpp" line="306"/>
         <source>Sent Offer Reply</source>
-        <translation type="unfinished"></translation>
+        <translation>Réponse à l&apos;offre envoyée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ServiceSettingsWidget.cpp" line="74"/>
         <source>View </source>
-        <translation type="unfinished"></translation>
+        <translation>Voir </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ServiceSettingsWidget.cpp" line="108"/>
         <source>Unable to determine parent</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de déterminer le parent</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ServiceSettingsWidget.cpp" line="114"/>
         <source>Unknown Applet </source>
-        <translation type="unfinished"></translation>
+        <translation>Applet inconnu </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2236"/>
         <source>Could not create thumbnail asset</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de créer une miniature</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="69"/>
         <source>Requesting Library File List </source>
-        <translation type="unfinished"></translation>
+        <translation>Demande de liste de fichiers de bibliothèque </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="128"/>
         <source>List Get Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>La liste est complétée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="151"/>
         <source>Folder Scan Canceled</source>
-        <translation type="unfinished"></translation>
+        <translation>Analyse de dossier annulée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="155"/>
         <source>Folder Scan Completed</source>
-        <translation type="unfinished"></translation>
+        <translation>Analyse des dossiers terminée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="593"/>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="623"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="593"/>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="623"/>
         <source>Unknown Media Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type de support inconnu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="654"/>
@@ -9647,7 +9834,7 @@ Are you very sure you want to proceed?</source>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2242"/>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="104"/>
         <source>Could not get thumbnail file info</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;obtenir les informations sur le fichier miniature</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="655"/>
@@ -9657,525 +9844,527 @@ Are you very sure you want to proceed?</source>
         <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2243"/>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="105"/>
         <source>Error occured creating thumbnail asset </source>
-        <translation type="unfinished"></translation>
+        <translation>Une erreur s&apos;est produite lors de la création de la miniature </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="692"/>
         <source>Scaning folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Dossier de numérisation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="713"/>
         <source>Already in library</source>
-        <translation type="unfinished"></translation>
+        <translation>Déjà en bibliothèque</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="713"/>
         <source>File is already in library </source>
-        <translation type="unfinished"></translation>
+        <translation>Le fichier est déjà dans la bibliothèque </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="788"/>
         <source>File Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLibrary.cpp" line="788"/>
         <source>Could not add file to library </source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;ajouter le fichier à la bibliothèque </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="110"/>
         <source>Could not save thumbnail image</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;enregistrer l&apos;image miniature</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="111"/>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="150"/>
         <source>Error occured saving thumbnail to file </source>
-        <translation type="unfinished"></translation>
+        <translation>Une erreur s&apos;est produite lors de l&apos;enregistrement de la miniature dans un fichier </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="143"/>
         <source>Could not update thumbnail asset</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de mettre à jour l&apos;élément miniature</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="144"/>
         <source>Error occured update thumbnail asset </source>
-        <translation type="unfinished"></translation>
+        <translation>Une erreur s&apos;est produite lors de la mise à jour de la miniature </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="149"/>
         <source>Could not save updated thumbnail image</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible d&apos;enregistrer l&apos;image miniature mise à jour</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="155"/>
         <source>thumbnail id was invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>l&apos;identifiant de la vignette n&apos;était pas valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="156"/>
         <source>Error occured updatin thumbnail </source>
-        <translation type="unfinished"></translation>
+        <translation>Une erreur s&apos;est produite lors de la mise à jour de la vignette </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="95"/>
         <source>Failed to create pixmap </source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la création du pixmap </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="96"/>
         <source>Error loading from file</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de chargement à partir du fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="175"/>
         <source>Failed to scale and crop image </source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la mise à l&apos;échelle et du recadrage de l&apos;image </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="176"/>
         <source>Error scaling image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Erreur de mise à l&apos;échelle de l&apos;image.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="181"/>
         <source>Null image </source>
-        <translation type="unfinished"></translation>
+        <translation>Image nulle </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ThumbnailViewWidget.cpp" line="182"/>
         <source>Null image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Image nulle.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="245"/>
         <source>Perform Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>Exécuter Oser</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="250"/>
         <source>Tell Truth</source>
-        <translation type="unfinished"></translation>
+        <translation>Dire la vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="180"/>
         <source>Choose Truth</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisissez la vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="181"/>
         <source>Choose Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisissez Oser</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="184"/>
         <source>Dare Performed</source>
-        <translation type="unfinished"></translation>
+        <translation>Osez réalisé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="185"/>
         <source>Dare NOT Performed</source>
-        <translation type="unfinished"></translation>
+        <translation>Osez NE PAS Effectué</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="188"/>
         <source>I Believe</source>
-        <translation type="unfinished"></translation>
+        <translation>Je crois</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="189"/>
         <source>I Do NOT Believe</source>
-        <translation type="unfinished"></translation>
+        <translation>Je ne crois PAS</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="221"/>
         <source>Waiting for Game Start</source>
-        <translation type="unfinished"></translation>
+        <translation>En attente du début du jeu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="226"/>
         <source>Game Ended</source>
-        <translation type="unfinished"></translation>
+        <translation>Jeu terminé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="232"/>
         <source>Wait for Truth or Dare Choice</source>
-        <translation type="unfinished"></translation>
+        <translation>Attendez le choix Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="239"/>
         <source>Press Choose Truth Or Dare Button</source>
-        <translation type="unfinished"></translation>
+        <translation>Appuyez sur le bouton Choisir Action ou Vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="259"/>
         <source>Evaluate Dare</source>
-        <translation type="unfinished"></translation>
+        <translation>Évaluer Oser</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="266"/>
         <source>You have gained 1 Dare Point</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous avez gagné 1 Dare Point</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="274"/>
         <source>Dare Perfomance was Rejected</source>
-        <translation type="unfinished"></translation>
+        <translation>Dare Performance a été rejetée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="284"/>
         <source>Evaluate Truth</source>
-        <translation type="unfinished"></translation>
+        <translation>Évaluer la vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="291"/>
         <source>You have gained 1 Truth Point</source>
-        <translation type="unfinished"></translation>
+        <translation>Vous avez gagné 1 point de vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/TodGameLogic.cpp" line="299"/>
         <source>Your Truth was not believed</source>
-        <translation type="unfinished"></translation>
+        <translation>On n&apos;a pas cru ta vérité</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/VxContextMenu.cpp" line="181"/>
         <source>Recent</source>
-        <translation type="unfinished"></translation>
+        <translation>Récent</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/VxContextMenu.cpp" line="183"/>
         <source>Watched</source>
-        <translation type="unfinished"></translation>
+        <translation>Regardé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/VxContextMenu.cpp" line="187"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Parcourir</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/VxContextMenu.cpp" line="190"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutFile.cpp" line="129"/>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="116"/>
         <source> : Yes</source>
-        <translation type="unfinished"></translation>
+        <translation> : Oui</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutFile.cpp" line="130"/>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="117"/>
         <source> : No</source>
-        <translation type="unfinished"></translation>
+        <translation> : Non</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutFile.cpp" line="132"/>
         <source>Is Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Est un flux</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="108"/>
         <source>Requires Relay</source>
-        <translation type="unfinished"></translation>
+        <translation>Nécessite un relais</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="112"/>
         <source>Can Direct Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Peut se connecter directement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="115"/>
         <source>Is member of </source>
-        <translation type="unfinished"></translation>
+        <translation>Est membre de </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="140"/>
         <source>no shared files</source>
-        <translation type="unfinished"></translation>
+        <translation>pas de fichiers partagés</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="153"/>
         <source> -- has about me content</source>
-        <translation type="unfinished"></translation>
+        <translation> -- a du contenu sur moi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="157"/>
         <source> -- no about me content</source>
-        <translation type="unfinished"></translation>
+        <translation> -- non, je suis content</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="164"/>
         <source> -- has storyboard content</source>
-        <translation type="unfinished"></translation>
+        <translation> -- a du contenu de storyboard</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="168"/>
         <source> -- no storyboard content</source>
-        <translation type="unfinished"></translation>
+        <translation>-- pas de contenu de storyboard</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="175"/>
         <source> -- has shared web cam</source>
-        <translation type="unfinished"></translation>
+        <translation> -- a partagé une webcam</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="179"/>
         <source> -- no shared web cam</source>
-        <translation type="unfinished"></translation>
+        <translation> -- pas de webcam partagée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletAboutUser.cpp" line="186"/>
         <source>=== Disabled Plugins ===</source>
-        <translation type="unfinished"></translation>
+        <translation>=== Plugins désactivés ===</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFileShareClientView.cpp" line="484"/>
         <source>Failed to play stream </source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la lecture du flux </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="64"/>
         <source>User not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisateur introuvable</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="64"/>
         <source>No user found with id </source>
-        <translation type="unfinished"></translation>
+        <translation>Aucun utilisateur trouvé avec identifiant </translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="117"/>
         <source>Friend Request requires a message with request reason</source>
-        <translation type="unfinished"></translation>
+        <translation>La demande d&apos;ami nécessite un message avec le motif de la demande</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="123"/>
         <source>Friend Request Send Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de l&apos;envoi de la demande d&apos;ami</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="127"/>
         <source>Friend Request Sent</source>
-        <translation type="unfinished"></translation>
+        <translation>Demande d&apos;ami envoyée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="127"/>
         <source>Friend Request was sent</source>
-        <translation type="unfinished"></translation>
+        <translation>La demande d&apos;ami a été envoyée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletFriendRequestList.cpp" line="79"/>
         <source>No Friend Requests Available</source>
-        <translation type="unfinished"></translation>
+        <translation>Aucune demande d&apos;ami disponible</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostJoinConnect.cpp" line="63"/>
         <source>Host URL is not valid</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;URL de l&apos;hôte n&apos;est pas valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostJoinConnect.cpp" line="68"/>
         <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="55"/>
         <source>Failed to resolve into valid ptop url</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec de la résolution en URL ptop valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostJoinConnect.cpp" line="72"/>
         <source>Host Type Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>Type d&apos;hôte non valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostLeave.cpp" line="78"/>
         <source>Leave Chat Room</source>
-        <translation type="unfinished"></translation>
+        <translation>Quitter le salon de discussion</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostLeave.cpp" line="85"/>
         <source>Leave Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Quitter le groupe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletHostLeave.cpp" line="91"/>
         <source>Leave Random Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>Quitter la connexion aléatoire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="130"/>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="136"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="130"/>
         <source>Language updated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue mise à jour.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="137"/>
         <source>Language updated, but no translation file was found in the translations folder.</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue mise à jour, mais aucun fichier de traduction n&apos;a été trouvé dans le dossier des traductions.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="197"/>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="209"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>Anglais</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="198"/>
         <source>German</source>
-        <translation type="unfinished"></translation>
+        <translation>Allemand</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="199"/>
         <source>Chinese</source>
-        <translation type="unfinished"></translation>
+        <translation>Chinois</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="200"/>
         <source>Spanish</source>
-        <translation type="unfinished"></translation>
+        <translation>Espagnol</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="201"/>
         <source>French</source>
-        <translation type="unfinished"></translation>
+        <translation>Français</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="202"/>
         <source>Arabic</source>
-        <translation type="unfinished"></translation>
+        <translation>arabe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="203"/>
         <source>Hindi</source>
-        <translation type="unfinished"></translation>
+        <translation>hindi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="204"/>
         <source>Portuguese</source>
-        <translation type="unfinished"></translation>
+        <translation>Portugais</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="205"/>
         <source>Japanese</source>
-        <translation type="unfinished"></translation>
+        <translation>Japonais</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="206"/>
         <source>Korean</source>
-        <translation type="unfinished"></translation>
+        <translation>Coréen</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="207"/>
         <source>Russian</source>
-        <translation type="unfinished"></translation>
+        <translation>russe</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="208"/>
         <source>Indonesian</source>
-        <translation type="unfinished"></translation>
+        <translation>Indonésien</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletOfferInfo.cpp" line="107"/>
         <source>Invalid Offer. Please Decline Offer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Offre invalide. Veuillez refuser l&apos;offre.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTestUpnp.cpp" line="232"/>
         <source>Invalid Port</source>
-        <translation type="unfinished"></translation>
+        <translation>Port invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTestUpnp.cpp" line="232"/>
         <source>Port must be greater than 79</source>
-        <translation type="unfinished"></translation>
+        <translation>Le port doit être supérieur à 79</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTestUpnp.cpp" line="242"/>
         <source>Invalid IP Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse IP invalide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletTestUpnp.cpp" line="242"/>
         <source>IP Address is invalid</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;adresse IP n&apos;est pas valide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ClipboardCopyWidget.cpp" line="23"/>
         <source>Copy to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Copier dans le presse-papier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ClipboardCopyWidget.cpp" line="32"/>
         <source>Text Is Empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Le texte est vide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ClipboardCopyWidget.cpp" line="32"/>
         <source>Cannot copy empty text to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de copier du texte vide dans le presse-papiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ClipboardPasteWidget.cpp" line="22"/>
         <source>Paste from clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Coller depuis le presse-papiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/ClipboardPasteWidget.cpp" line="33"/>
         <source>Cannot paste empty clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de coller le presse-papier vide</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileMediaSelectWidget.cpp" line="96"/>
         <source>Cancel scan</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler l&apos;analyse</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/FileMediaSelectWidget.cpp" line="102"/>
         <source>Scan folder for media</source>
-        <translation type="unfinished"></translation>
+        <translation>Analyser le dossier pour les médias</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InviteUrlWidget.cpp" line="86"/>
         <source>Pasted invite text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texte d&apos;invitation collé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InviteUrlWidget.cpp" line="113"/>
         <source>Private Key Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Avertissement de clé privée</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InviteUrlWidget.cpp" line="114"/>
         <source>Be sure to get the Network Key for this Network before saving network settings.
 Wrong network key will cause you to be banned as a Hacker</source>
-        <translation type="unfinished"></translation>
+        <translation>Assurez-vous d&apos;obtenir la clé réseau pour ce réseau avant d&apos;enregistrer les paramètres réseau.
+Une mauvaise clé de réseau vous entraînera à être banni en tant que pirate informatique</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InviteUrlWidget.cpp" line="728"/>
         <source>Cannot create Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de créer une invitation</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InviteUrlWidget.cpp" line="728"/>
         <source>Do NOT create Invite without a open Network Port.
 No one can connect to you directly</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne créez PAS d’invitation sans un port réseau ouvert.
+Personne ne peut vous contacter directement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InviteUrlWidget.cpp" line="746"/>
         <source>Hosting plugin not enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugin d&apos;hébergement non activé</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/InviteUrlWidget.cpp" line="746"/>
         <source> has permission level of disabled</source>
-        <translation type="unfinished"></translation>
+        <translation> a un niveau d&apos;autorisation désactivé</translation>
     </message>
 </context>
 <context>
@@ -10183,22 +10372,22 @@ No one can connect to you directly</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityReplyFileOffer.ui" line="26"/>
         <source>Accept File Offer</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter l&apos;offre de fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityReplyFileOffer.ui" line="145"/>
         <source>Recieve File</source>
-        <translation type="unfinished"></translation>
+        <translation>Recevoir le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityReplyFileOffer.ui" line="167"/>
         <source>File:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichier&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityReplyFileOffer.ui" line="197"/>
         <source>Message:</source>
-        <translation type="unfinished"></translation>
+        <translation>Message&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -10206,48 +10395,49 @@ No one can connect to you directly</source>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="140"/>
         <source>RichText Board</source>
-        <translation type="unfinished"></translation>
+        <translation>Tableau RichText</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="141"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>Le document a été modifié.
+Voulez-vous enregistrer vos modifications&#xa0;?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="169"/>
         <source>%1[*] - %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1[*] - %2</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="169"/>
         <source>Rich Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texte enrichi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="177"/>
         <source>Open File...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir le fichier...</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="178"/>
         <source>HTML-Files (*.htm *.html);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers HTML (*.htm *.html);;Tous les fichiers (*)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="206"/>
         <source>Save as...</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer sous...</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="207"/>
         <source>ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers ODF (*.odt);;Fichiers HTML (*.htm *.html);;Tous les fichiers (*)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/RichTextWidget.cpp" line="226"/>
         <source>Print Document</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimer le document</translation>
     </message>
 </context>
 <context>
@@ -10255,7 +10445,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchBarWidget.ui" line="65"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher</translation>
     </message>
 </context>
 <context>
@@ -10263,42 +10453,42 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="20"/>
         <source>Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Service</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="52"/>
         <source>Start Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Lancer la recherche</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="71"/>
         <source>Stop Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêter la recherche</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="82"/>
         <source>Search:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechercher&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="100"/>
         <source>Age</source>
-        <translation type="unfinished"></translation>
+        <translation>Âge</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="120"/>
         <source>Content Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>Évaluation du contenu</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="144"/>
         <source>Gender:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sexe&#xa0;:</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SearchParamsWidget.ui" line="161"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue</translation>
     </message>
 </context>
 <context>
@@ -10306,17 +10496,17 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ServiceSettingsWidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ServiceSettingsWidget.ui" line="78"/>
         <source>Service Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres des services</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ServiceSettingsWidget.ui" line="116"/>
         <source>View Service</source>
-        <translation type="unfinished"></translation>
+        <translation>Voir le service</translation>
     </message>
 </context>
 <context>
@@ -10324,7 +10514,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivitySessionOptions.ui" line="14"/>
         <source>Dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Boîte de dialogue</translation>
     </message>
 </context>
 <context>
@@ -10332,12 +10522,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/SessionWidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/SessionWidget.ui" line="84"/>
         <source>Create Invite</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer une invitation</translation>
     </message>
 </context>
 <context>
@@ -10345,27 +10535,27 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityAddRemoveLibraryFiles.ui" line="17"/>
         <source>Browse Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Parcourir les fichiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityAddRemoveLibraryFiles.ui" line="112"/>
         <source>Share Your Files</source>
-        <translation type="unfinished"></translation>
+        <translation>Partagez vos fichiers</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityAddRemoveLibraryFiles.ui" line="200"/>
         <source>Click A File Lock To Share Or UnShare</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez sur un verrou de fichier pour partager ou annuler le partage</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityAddRemoveLibraryFiles.ui" line="221"/>
         <source>If Locked then Not Shared.Else If Unlocked then Is Shared</source>
-        <translation type="unfinished"></translation>
+        <translation>S&apos;il est verrouillé, il n&apos;est pas partagé. Sinon, s&apos;il est déverrouillé, il est partagé.</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityAddRemoveLibraryFiles.ui" line="325"/>
         <source>Move Up A Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Remonter dans un répertoire</translation>
     </message>
 </context>
 <context>
@@ -10373,7 +10563,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityShowHelp.ui" line="26"/>
         <source>Debug Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Paramètres de débogage</translation>
     </message>
 </context>
 <context>
@@ -10381,100 +10571,101 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="202"/>
         <source>&amp;Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Annuler</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="208"/>
         <source>&amp;Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Rétablir</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="214"/>
         <source>Cu&amp;t</source>
-        <translation type="unfinished"></translation>
+        <translation>Couper</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="220"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Copier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="226"/>
         <source>&amp;Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Coller</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="316"/>
         <source>Create link</source>
-        <translation type="unfinished"></translation>
+        <translation>Créer un lien</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="376"/>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="671"/>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="678"/>
         <source>Story Board</source>
-        <translation type="unfinished"></translation>
+        <translation>Story-board</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="377"/>
         <source>The document has been modified.
 Do you want to save your changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>Le document a été modifié.
+Voulez-vous enregistrer vos modifications&#xa0;?</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="405"/>
         <source>%1[*] - %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1[*] - %2</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="405"/>
         <source>Rich Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texte enrichi</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="424"/>
         <source>Open File...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir le fichier...</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="425"/>
         <source>HTML-Files (*.htm *.html);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers HTML (*.htm *.html);;Tous les fichiers (*)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="454"/>
         <source>Save as...</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer sous...</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="455"/>
         <source>ODF files (*.odt);;HTML-Files (*.htm *.html);;All Files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers ODF (*.odt);;Fichiers HTML (*.htm *.html);;Tous les fichiers (*)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="474"/>
         <source>Print Document</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimer le document</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="633"/>
         <source>Select an image</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez une image</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="635"/>
         <source>Image Files (*.bmp *.jpg *jpeg *.gif *.png)</source>
-        <translation type="unfinished"></translation>
+        <translation>Fichiers images (*.bmp *.jpg *jpeg *.gif *.png)</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="672"/>
         <source>Could not copy image to story board directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de copier l&apos;image dans le répertoire du story board</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/StoryWidget.cpp" line="679"/>
         <source>Could not load the image</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossible de charger l&apos;image</translation>
     </message>
 </context>
 <context>
@@ -10482,108 +10673,108 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="107"/>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="141"/>
         <source>New File</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="175"/>
         <source>Open File</source>
-        <translation type="unfinished"></translation>
+        <translation>Ouvrir le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="209"/>
         <source>Save File As..</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer le fichier sous..</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="243"/>
         <source>Export to PDF file</source>
-        <translation type="unfinished"></translation>
+        <translation>Exporter vers un fichier PDF</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="322"/>
         <source>Save File</source>
-        <translation type="unfinished"></translation>
+        <translation>Enregistrer le fichier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="356"/>
         <source>Insert Picture</source>
-        <translation type="unfinished"></translation>
+        <translation>Insérer une image</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="390"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="424"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>Refaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="458"/>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Couper</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="492"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Copier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="526"/>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Coller</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="560"/>
         <source>Print</source>
-        <translation type="unfinished"></translation>
+        <translation>Imprimer</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="639"/>
         <source>Bold</source>
-        <translation type="unfinished"></translation>
+        <translation>Audacieux</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="676"/>
         <source>Italic</source>
-        <translation type="unfinished"></translation>
+        <translation>Italique</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="713"/>
         <source>Underline</source>
-        <translation type="unfinished"></translation>
+        <translation>Souligner</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="750"/>
         <source>Left Justify</source>
-        <translation type="unfinished"></translation>
+        <translation>Justifier à gauche</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="784"/>
         <source>Center Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Texte central</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="818"/>
         <source>Right Justify</source>
-        <translation type="unfinished"></translation>
+        <translation>Justifier à droite</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="852"/>
         <source>Text Justify</source>
-        <translation type="unfinished"></translation>
+        <translation>Texte Justifier</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/StoryWidget.ui" line="886"/>
         <source>Text Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Couleur du texte</translation>
     </message>
 </context>
 <context>
@@ -10591,12 +10782,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/TestWidget.ui" line="38"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/TestWidget.ui" line="84"/>
         <source>Some Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Un peu de texte</translation>
     </message>
 </context>
 <context>
@@ -10604,77 +10795,77 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="83"/>
         <source>Select A Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez un thème</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="129"/>
         <source>Push Button Example</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemple de bouton poussoir</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="151"/>
         <source>Theme Appearence</source>
-        <translation type="unfinished"></translation>
+        <translation>Apparence du thème</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="196"/>
         <source>Radio Button 1 Example</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemple de bouton radio 1</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="212"/>
         <source>Radio Button 2 Example</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemple de bouton radio 2</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="225"/>
         <source>Scroll Bar Example</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemple de barre de défilement</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="251"/>
         <source>Slider Example</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemple de curseur</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="277"/>
         <source>Progress Bar Example</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemple de barre de progression</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="303"/>
         <source>Combo Box Example</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemple de zone de liste déroulante</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="326"/>
         <source>Spin Box Example</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemple de boîte à spin</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="349"/>
         <source>Check Box Example</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemple de case à cocher</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="356"/>
         <source>Line Edit Example</source>
-        <translation type="unfinished"></translation>
+        <translation>Exemple de modification de ligne</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="399"/>
         <source>Some text example</source>
-        <translation type="unfinished"></translation>
+        <translation>Un exemple de texte</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletTheme.ui" line="445"/>
         <source>Accept Or Cancel New Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepter ou annuler un nouveau thème</translation>
     </message>
 </context>
 <context>
@@ -10682,12 +10873,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ThumbnailChooseWidget.ui" line="20"/>
         <source>Thumbnail Choose Widget</source>
-        <translation type="unfinished"></translation>
+        <translation>Miniature Choisir un widget</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ThumbnailChooseWidget.ui" line="96"/>
         <source>Choose Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisir une image</translation>
     </message>
 </context>
 <context>
@@ -10695,27 +10886,27 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ThumbnailEditWidget.ui" line="20"/>
         <source>Thumbnail Edit Widget</source>
-        <translation type="unfinished"></translation>
+        <translation>Widget d&apos;édition de vignettes</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ThumbnailEditWidget.ui" line="122"/>
         <source>Thumbnail Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Galerie de vignettes</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ThumbnailEditWidget.ui" line="109"/>
         <source>Emoticon Gallery</source>
-        <translation type="unfinished"></translation>
+        <translation>Galerie d&apos;émoticônes</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ThumbnailEditWidget.ui" line="154"/>
         <source>Take Snapshot</source>
-        <translation type="unfinished"></translation>
+        <translation>Prendre un instantané</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ThumbnailEditWidget.ui" line="167"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Parcourir</translation>
     </message>
 </context>
 <context>
@@ -10723,12 +10914,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityTimedMessage.ui" line="17"/>
         <source>Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Message</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityTimedMessage.ui" line="90"/>
         <source>Message:</source>
-        <translation type="unfinished"></translation>
+        <translation>Message&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -10736,7 +10927,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/TitleBarWidget.ui" line="333"/>
         <source>Test</source>
-        <translation type="unfinished"></translation>
+        <translation>Tester</translation>
     </message>
 </context>
 <context>
@@ -10744,7 +10935,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/TodGameWidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
 </context>
 <context>
@@ -10752,34 +10943,34 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="35"/>
         <source>Waiting</source>
-        <translation type="unfinished"></translation>
+        <translation>En attente</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="55"/>
         <source>Truths</source>
-        <translation type="unfinished"></translation>
+        <translation>Vérités</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="74"/>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="143"/>
         <source>Accepted</source>
-        <translation type="unfinished"></translation>
+        <translation>Accepté</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="98"/>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="167"/>
         <source>Rejected</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejeté</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/TodStatsWidget.ui" line="124"/>
         <source>Dares</source>
-        <translation type="unfinished"></translation>
+        <translation>Défis</translation>
     </message>
 </context>
 <context>
@@ -10787,12 +10978,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/VidWidget.ui" line="26"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/VidWidget.ui" line="567"/>
         <source>Motion Sensitivity</source>
-        <translation type="unfinished"></translation>
+        <translation>Sensibilité au mouvement</translation>
     </message>
 </context>
 <context>
@@ -10800,7 +10991,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/VxMenu.cpp" line="32"/>
         <source>&lt;b&gt;Title&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Titre&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -10808,7 +10999,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/VxPlainTextEdit.cpp" line="34"/>
         <source>My Menu Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Mon élément de menu</translation>
     </message>
 </context>
 <context>
@@ -10816,12 +11007,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/WebsiteWidget.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/WebsiteWidget.ui" line="71"/>
         <source>Click to visit website</source>
-        <translation type="unfinished"></translation>
+        <translation>Cliquez pour visiter le site Web</translation>
     </message>
 </context>
 <context>
@@ -10829,12 +11020,12 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityYesNo.ui" line="17"/>
         <source>Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Menus</translation>
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/ActivityYesNo.ui" line="130"/>
         <source>Never Show This Message Again</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne plus jamais afficher ce message</translation>
     </message>
 </context>
 <context>
@@ -10842,7 +11033,7 @@ Do you want to save your changes?</source>
     <message>
         <location filename="../nolimitgui/src/Forms/FriendListDlg.ui" line="14"/>
         <source>Friend List</source>
-        <translation type="unfinished"></translation>
+        <translation>Liste d&apos;amis</translation>
     </message>
 </context>
 </TS>

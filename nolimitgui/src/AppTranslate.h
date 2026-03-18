@@ -19,4 +19,5 @@ class AppTranslate
 public:
     static QString              describeLanguage( ELanguageType langType );
     static QLocale              getLocale( ELanguageType langType );
+    static bool                 applyLanguage( ELanguageType langType );
 };

@@ -265,10 +265,13 @@ protected:
     void						showEvent( QShowEvent* showEvent ) override;
     void						closeEvent( QCloseEvent* closeEvent ) override;
     void						resizeEvent( QResizeEvent* resizeEvent ) override;
+	void						changeEvent( QEvent* event ) override;
 
 	virtual void                connectBarWidgets( bool removeConnections = false );
     virtual void                connectTitleBarWidget( TitleBarWidget * titleBar, bool removeConnections = false );
     virtual void                connectBottomBarWidget( BottomBarWidget * bottomBar, bool removeConnections = false );
+	virtual void                retranslateUi( void );
+	virtual QString             getTranslatedTitleBarText( void ) const;
 
     virtual void                updateExpandWindowIcon( void );
 	virtual void				repositionToParent( void );

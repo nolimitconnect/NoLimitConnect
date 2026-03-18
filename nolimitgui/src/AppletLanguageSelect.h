@@ -28,9 +28,19 @@ public:
 
 private slots:
 	void						slotApplyButtonClicked( void );
+	void                        slotLanguageComboIndexChanged( int index );
 
 protected:
 	virtual void				onLanguageSelected( void );
+	virtual void                retranslateUi( void ) override;
+	virtual QString             getTranslatedTitleBarText( void ) const override;
+
+    void                        populateLanguageComboBox( void );
+	void                        updateLanguagePreview( ELanguageType language );
+    QString                     nativeLanguageName( ELanguageType language ) const;
+    QString                     translatedLanguageName( ELanguageType language ) const;
+	QString                     previewSelectLanguageText( ELanguageType language ) const;
+	QString                     previewApplyText( ELanguageType language ) const;
 
 	//=== vars ===//
 	Ui::LanguageSelectUi&		ui;

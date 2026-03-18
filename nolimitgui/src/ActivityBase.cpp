@@ -545,6 +545,42 @@ void ActivityBase::showEvent( QShowEvent* showEvent )
 }
 
 //============================================================================
+void ActivityBase::changeEvent( QEvent* event )
+{
+	QDialog::changeEvent( event );
+	if( event && ( QEvent::LanguageChange == event->type() ) )
+	{
+		retranslateUi();
+	}
+}
+
+//============================================================================
+void ActivityBase::retranslateUi( void )
+{
+	if( !m_IsDialog && !m_IsPopup )
+	{
+		ui.retranslateUi( this );
+	}
+
+	const QString titleText = getTranslatedTitleBarText();
+	if( !titleText.isEmpty() && getTitleBarWidget() )
+	{
+		setTitleBarText( titleText );
+	}
+}
+
+//============================================================================
+QString ActivityBase::getTranslatedTitleBarText( void ) const
+{
+	if( eAppletUnknown == m_EAppletType )
+	{
+		return QString();
+	}
+
+	return DescribeApplet( m_EAppletType );
+}
+
+//============================================================================
 void ActivityBase::resizeEvent( QResizeEvent* ev )
 {
 	QDialog::resizeEvent( ev );

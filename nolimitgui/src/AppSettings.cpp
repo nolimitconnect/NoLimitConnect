@@ -82,6 +82,21 @@ EThemeType AppSettings::getLastSelectedTheme( void )
 }
 
 //============================================================================
+void AppSettings::setSelectedLanguage( ELanguageType selectedLanguage )
+{
+	uint32_t langType = (uint32_t)selectedLanguage;
+	setIniValue( getAppShortName(), "SelectedLanguage", langType );
+}
+
+//============================================================================
+ELanguageType AppSettings::getSelectedLanguage( void )
+{
+	uint32_t langType = (uint32_t)eLangEnglish;
+	getIniValue( getAppShortName(), "SelectedLanguage", langType, (uint32_t)eLangEnglish );
+	return (ELanguageType)langType;
+}
+
+//============================================================================
 void AppSettings::setLastBrowseDir( EFileFilterType eFileFilterType, std::string& browseDir )
 {
 	if( 0 != browseDir.length() )
