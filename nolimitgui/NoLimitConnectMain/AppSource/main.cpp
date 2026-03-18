@@ -47,6 +47,44 @@
 
 namespace {
 
+    //============================================================================
+    void copyBundledTranslationsIfRequired()
+    {
+        static const char* kTranslationFiles[] =
+        {
+            "nolimitconnect_ar_SA.qm",
+            "nolimitconnect_de_DE.qm",
+            "nolimitconnect_es_ES.qm",
+            "nolimitconnect_fr_FR.qm",
+            "nolimitconnect_hi_IN.qm",
+            "nolimitconnect_id_ID.qm",
+            "nolimitconnect_ja_JP.qm",
+            "nolimitconnect_ko_KR.qm",
+            "nolimitconnect_pt_PT.qm",
+            "nolimitconnect_ru_RU.qm",
+            "nolimitconnect_zh_CN.qm",
+        };
+
+        std::string translationsDir = VxGetTranslationsDirectory();
+        if( translationsDir.empty() )
+        {
+            return;
+        }
+
+        VxFileUtil::assurePathEndWithSlash( translationsDir );
+        VxFileUtil::makeDirectory( translationsDir.c_str() );
+
+        for( const char* translationFile : kTranslationFiles )
+        {
+            std::string onDiskFile = translationsDir + translationFile;
+            if( false == VxFileUtil::fileExists( onDiskFile.c_str() ) )
+            {
+                const QString resourcePath = QString( ":/AppRes/translations/%1" ).arg( translationFile );
+                GuiHelpers::copyResourceToOnDiskFile( resourcePath.toUtf8().constData(), onDiskFile.c_str() );
+            }
+        }
+    }
+
 #if defined(Q_OS_ANDROID)
     //============================================================================
     void setAndroidAudioMode()
@@ -197,6 +235,7 @@ int runApplication( QApplication* myApp, int argc, char** argv )
 
     // must be ran after application name is set or paths with app name may be lower case instead of upper case
     setupRootStorageDirectory();
+    copyBundledTranslationsIfRequired();
 
     threadSettingsLoader.start();
 
@@ -299,6 +338,8 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     {
         GuiHelpers::copyResourceToOnDiskFile( ":/AppRes/Resources/teletext.ttf", teletextFont.c_str() );
     }
+
+    std::string translationsDir = VxGetTranslationsDirectory();
 
     int copyFonts = GetApplicationAliveMs();
 

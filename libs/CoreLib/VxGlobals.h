@@ -52,6 +52,8 @@ enum EAppDir
 
 	eAppDirFonts,
 
+	eAppDirTranslations,
+
 	eMaxAppDir
 
 };
@@ -98,6 +100,8 @@ std::string&					VxGetAboutMePageServerDirectory( void );
 std::string                     VxGetAboutMePageClientDirectory( VxGUID& onlineId );
 std::string&					VxGetStoryBoardPageServerDirectory( void );
 std::string                     VxGetStoryBoardPageClientDirectory( VxGUID& onlineId );
+
+std::string&                    VxGetTranslationsDirectory( void );
 
 void							VxSetRootXferDirectory( const char* rootXferDir  );
 std::string&					VxGetRootXferDirectory( void ) ;

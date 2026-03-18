@@ -1,13 +1,16 @@
 #!/usr/bin/env python3
-"""Generate translated Qt .ts files for supported NoLimitConnect languages.
+"""Incrementally update translated Qt .ts files for NoLimitConnect.
 
-Uses translate.googleapis.com (client=gtx) for automated translation.
+This script avoids re-translating everything:
+- Reuses existing translations from each locale .ts file.
+- Reuses cached translations from per-locale JSON cache.
+- Translates only source strings that are new or changed.
 """
 
 from __future__ import annotations
 
-import json
 import argparse
+import json
 import re
 import subprocess
 import sys
@@ -31,7 +34,6 @@ def get_repo_root() -> Path:
         )
         return Path(result.stdout.strip())
     except (subprocess.SubprocessError, FileNotFoundError):
-        # Fallback for environments where git is unavailable.
         return script_dir.parent
 
 
@@ -61,7 +63,7 @@ TOKEN_PATTERNS = [
     re.compile(r"<[^>]+>"),
 ]
 
-SEP = "⟪NLCSEP_4271⟫"
+SEP = "<<<NLCSEP_4271>>>"
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
 
 
@@ -154,10 +156,36 @@ def save_cache(path: Path, cache: Dict[str, str]) -> None:
     path.write_text(json.dumps(cache, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8")
 
 
-def translate_language(root: ET.Element, target_lang: str, ts_locale: str) -> ET.ElementTree:
-    cache_path = OUT_DIR / f".cache_{ts_locale}.json"
-    cache = load_cache(cache_path)
+def clone_xml(root: ET.Element) -> ET.ElementTree:
+    return ET.ElementTree(ET.fromstring(ET.tostring(root, encoding="utf-8")))
 
+
+def build_existing_translation_map(locale_file: Path) -> Dict[str, str]:
+    if not locale_file.exists():
+        return {}
+
+    existing_tree = ET.parse(locale_file)
+    out: Dict[str, str] = {}
+
+    for msg in existing_tree.getroot().findall(".//message"):
+        source_el = msg.find("source")
+        tr_el = msg.find("translation")
+        if source_el is None or source_el.text is None or tr_el is None:
+            continue
+
+        if tr_el.attrib.get("type") == "unfinished":
+            continue
+
+        translated = (tr_el.text or "").strip()
+        if not translated:
+            continue
+
+        out[source_el.text] = translated
+
+    return out
+
+
+def gather_sources(root: ET.Element) -> List[str]:
     sources: List[str] = []
     for msg in root.findall(".//message"):
         source_el = msg.find("source")
@@ -166,10 +194,30 @@ def translate_language(root: ET.Element, target_lang: str, ts_locale: str) -> ET
         src = source_el.text
         if src.strip() and src not in sources:
             sources.append(src)
+    return sources
 
+
+def translate_language_incremental(base_root: ET.Element, target_lang: str, ts_locale: str) -> Tuple[ET.ElementTree, int, int, int]:
+    out_file = OUT_DIR / f"nolimitconnect_{ts_locale}.ts"
+    cache_path = OUT_DIR / f".cache_{ts_locale}.json"
+
+    existing_map = build_existing_translation_map(out_file)
+    cache = load_cache(cache_path)
+
+    reused_count = 0
+    for src, tr in existing_map.items():
+        if src not in cache:
+            cache[src] = tr
+            reused_count += 1
+
+    sources = gather_sources(base_root)
     pending = [s for s in sources if s not in cache]
-    print(f"[{ts_locale}] unique={len(sources)} pending={len(pending)}")
+    print(
+        f"[{ts_locale}] unique={len(sources)} reused={reused_count} "
+        f"cached={len(cache)} pending={len(pending)}"
+    )
 
+    translated_now = 0
     if pending:
         for batch in make_batches(pending):
             masked_batch: List[str] = []
@@ -183,23 +231,24 @@ def translate_language(root: ET.Element, target_lang: str, ts_locale: str) -> ET
                 translated_batch = translate_batch(masked_batch, target_lang)
                 for src, translated, mapping in zip(batch, translated_batch, token_maps):
                     cache[src] = unmask_tokens(translated, mapping)
+                    translated_now += 1
             except Exception as batch_exc:  # pylint: disable=broad-except
                 print(f"[{ts_locale}] batch failed ({batch_exc}); falling back to single-item translation")
                 for src, masked_src, mapping in zip(batch, masked_batch, token_maps):
                     try:
                         translated = translate_one(masked_src, target_lang)
                         cache[src] = unmask_tokens(translated, mapping)
+                        translated_now += 1
                     except Exception as one_exc:  # pylint: disable=broad-except
-                        print(f"[{ts_locale}] single translate failed, using source: {one_exc}")
-                        cache[src] = src
+                        print(f"[{ts_locale}] single translate failed, leaving unfinished: {one_exc}")
 
             save_cache(cache_path, cache)
-            print(f"[{ts_locale}] translated {len(batch)} (cache {len(cache)})")
 
-    tree = ET.ElementTree(ET.fromstring(ET.tostring(root, encoding="utf-8")))
-    out_root = tree.getroot()
+    out_tree = clone_xml(base_root)
+    out_root = out_tree.getroot()
     out_root.set("language", ts_locale)
 
+    missing_after = 0
     for msg in out_root.findall(".//message"):
         source_el = msg.find("source")
         if source_el is None or source_el.text is None:
@@ -210,11 +259,16 @@ def translate_language(root: ET.Element, target_lang: str, ts_locale: str) -> ET
         if tr_el is None:
             tr_el = ET.SubElement(msg, "translation")
 
-        tr_el.attrib.pop("type", None)
-        translated_text = cache.get(src, src)
-        tr_el.text = translated_text
+        translated_text = cache.get(src)
+        if translated_text is None:
+            tr_el.attrib["type"] = "unfinished"
+            tr_el.text = ""
+            missing_after += 1
+        else:
+            tr_el.attrib.pop("type", None)
+            tr_el.text = translated_text
 
-    return tree
+    return out_tree, translated_now, missing_after, len(pending)
 
 
 def indent_xml(elem: ET.Element, level: int = 0) -> None:
@@ -231,12 +285,19 @@ def indent_xml(elem: ET.Element, level: int = 0) -> None:
         elem.tail = i
 
 
-def write_ts(tree: ET.ElementTree, out_path: Path) -> None:
+def render_ts_bytes(tree: ET.ElementTree) -> bytes:
     root = tree.getroot()
     indent_xml(root)
     xml = ET.tostring(root, encoding="utf-8")
-    content = b'<?xml version="1.0" encoding="utf-8"?>\n<!DOCTYPE TS>\n' + xml + b"\n"
+    return b'<?xml version="1.0" encoding="utf-8"?>\n<!DOCTYPE TS>\n' + xml + b"\n"
+
+
+def write_if_changed(tree: ET.ElementTree, out_path: Path) -> bool:
+    content = render_ts_bytes(tree)
+    if out_path.exists() and out_path.read_bytes() == content:
+        return False
     out_path.write_bytes(content)
+    return True
 
 
 def main() -> int:
@@ -244,7 +305,7 @@ def main() -> int:
     parser.add_argument(
         "--locales",
         nargs="*",
-        help="Optional list of TS locales to generate, e.g. de_DE zh_CN",
+        help="Optional list of TS locales to update, e.g. de_DE zh_CN",
     )
     args = parser.parse_args()
 
@@ -256,15 +317,29 @@ def main() -> int:
     base_root = base_tree.getroot()
 
     selected = set(args.locales) if args.locales else None
+    total_translated = 0
+    total_written = 0
+
     for google_lang, ts_locale in SUPPORTED:
         if selected and ts_locale not in selected:
             continue
-        out_tree = translate_language(base_root, google_lang, ts_locale)
-        out_file = OUT_DIR / f"nolimitconnect_{ts_locale}.ts"
-        write_ts(out_tree, out_file)
-        print(f"Wrote: {out_file}")
 
-    print("Done.")
+        out_tree, translated_now, missing_after, pending_before = translate_language_incremental(
+            base_root, google_lang, ts_locale
+        )
+        out_file = OUT_DIR / f"nolimitconnect_{ts_locale}.ts"
+        wrote = write_if_changed(out_tree, out_file)
+
+        total_translated += translated_now
+        total_written += 1 if wrote else 0
+
+        status = "Wrote" if wrote else "Up-to-date"
+        print(
+            f"[{ts_locale}] {status}: {out_file} "
+            f"(pending-before={pending_before}, translated-now={translated_now}, missing-after={missing_after})"
+        )
+
+    print(f"Done. translated-now={total_translated} files-written={total_written}")
     return 0
 
 

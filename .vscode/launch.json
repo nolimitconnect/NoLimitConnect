@@ -156,6 +156,13 @@
             "command": "echo Package Windows completed"
         },
         {
+            "name": "Task: Update TS Translations",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "Update TS Translations",
+            "command": "echo Update TS Translations completed"
+        },
+        {
             "name": "Task: Package Android",
             "type": "node-terminal",
             "request": "launch",

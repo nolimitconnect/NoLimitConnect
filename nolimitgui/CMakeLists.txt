@@ -1158,7 +1158,6 @@ if(nlc_TS_FILES AND nlc_LUPDATE_EXECUTABLE AND nlc_LRELEASE_EXECUTABLE)
         DEPENDS ${nlc_QM_FILES}
     )
 
-    add_dependencies(nolimitconnect_translations nolimitconnect_lupdate)
     add_dependencies(nolimitconnect nolimitconnect_translations)
 endif()
 

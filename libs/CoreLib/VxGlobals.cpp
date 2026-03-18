@@ -77,6 +77,8 @@ namespace
     std::string			g_strAppThumbsDir               = "";
     std::string			g_strAppCamRecord               = "";
 
+	std::string			g_strTranslationsDir			= "";
+
 	bool				g_bIsAppShuttingDown			= false;
 	bool				g_bIsNetLoopbackAllowed			= false;
 
@@ -210,6 +212,9 @@ void VxSetAppDirectory( enum EAppDir appDir, std::string setDir )
         case eAppDirFonts:
             g_strFontsDir = setDir;
             break;
+		case eAppDirTranslations:
+			g_strTranslationsDir = setDir;
+			break;
         default:
             LogMsg( LOG_ERROR, "VxSetAppDirectory invalid param %d", appDir);
         }
@@ -285,6 +290,8 @@ std::string& VxGetAppDirectory( EAppDir appDir )
         return g_strAppCamRecord;
     case eAppDirFonts:
         return g_strFontsDir;
+	case eAppDirTranslations:
+		return g_strTranslationsDir;
     default:
         break;
 	}
@@ -412,6 +419,9 @@ void VxSetRootDataStorageDirectory(const char* rootDataDir)
 	g_strFontsDir = g_strRootDataStorageDir + "fonts/";
 	VxFileUtil::makeDirectory( g_strFontsDir.c_str());
 
+	g_strTranslationsDir = g_strRootDataStorageDir + "translations/";
+	VxFileUtil::makeDirectory( g_strTranslationsDir.c_str() );
+
 	GetVxFileShredder().initShredder( g_strAppNoLimitDataDir );
 }
 
@@ -456,6 +466,7 @@ std::string& VxGetSettingsDirectory( void )					{ return g_strSettingsDir; }
 std::string& VxGetFontDirectory( void )						{ return g_strFontsDir; }
 std::string& VxGetAboutMePageServerDirectory( void )		{ return g_strAboutMePageServerDir; }
 std::string& VxGetStoryBoardPageServerDirectory( void )		{ return g_strStoryBoardPageServerDir; }
+std::string& VxGetTranslationsDirectory( void )				{ return g_strTranslationsDir; }
 
 //============================================================================
 std::string VxGetAboutMePageClientDirectory( VxGUID& onlineId )

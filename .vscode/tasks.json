@@ -26,6 +26,15 @@
             "problemMatcher": []
         },
         {
+            "label": "Update TS Translations",
+            "type": "process",
+            "command": "python",
+            "args": [
+                "${workspaceFolder}/tools/update_ts_translations.py"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "Android: Start app + forward LLDB (5039)",
             "type": "process",
             "command": "powershell",

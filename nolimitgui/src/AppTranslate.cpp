@@ -21,6 +21,8 @@
 #include <QTranslator>
 #include <QWidget>
 
+#include <CoreLib/VxGlobals.h>
+
 #include <memory>
 
 namespace
@@ -56,6 +58,12 @@ namespace
         }
 
         QStringList candidateDirs;
+        const std::string& translationsDir = VxGetTranslationsDirectory();
+        if( !translationsDir.empty() )
+        {
+            candidateDirs << QString::fromUtf8( translationsDir.c_str() );
+        }
+
         const QString appDir = QCoreApplication::applicationDirPath();
         candidateDirs << QDir( appDir ).filePath( "translations" )
                       << QDir( appDir ).filePath( "../translations" )
