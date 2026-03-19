@@ -377,6 +377,7 @@
         <file alias="translations/nolimitconnect_ko_KR.qm">../../translations/nolimitconnect_ko_KR.qm</file>
         <file alias="translations/nolimitconnect_pt_PT.qm">../../translations/nolimitconnect_pt_PT.qm</file>
         <file alias="translations/nolimitconnect_ru_RU.qm">../../translations/nolimitconnect_ru_RU.qm</file>
+        <file alias="translations/nolimitconnect_th_TH.qm">../../translations/nolimitconnect_th_TH.qm</file>
         <file alias="translations/nolimitconnect_zh_CN.qm">../../translations/nolimitconnect_zh_CN.qm</file>
     </qresource>
 </RCC>

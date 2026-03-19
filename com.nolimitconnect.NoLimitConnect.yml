@@ -1,16 +1,11 @@
 app-id: com.nolimitconnect.NoLimitConnect
 
-# FlatPak 6.7 works but 6.9 fails
+# FlatPak 6.9 requires additional installs on Raspberry Pi 5
 
 # with Raspberry Pi 5:
-# bwrap: execvp appstream-compose: No such file or directory
-
-# with Ubuntu 24.04:
-# /usr/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/../../../../x86_64-unknown-linux-gnu/bin/ld: cannot find -lGLU: No such file or directory
-# even though modules has
-# - shared-modules/glu/glu-9.json
-
-# So build with 6.7 for now
+# if you get the error bwrap: execvp appstream-compose: No such file or directory
+# then use the following command to install the missing dependency:
+# sudo apt install appstream-compose
 
 runtime: org.kde.Platform
 runtime-version: '6.9'

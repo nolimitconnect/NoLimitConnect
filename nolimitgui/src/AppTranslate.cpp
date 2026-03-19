@@ -44,6 +44,7 @@ namespace
         case eLangJapanese:     return "ja";
         case eLangKorean:       return "ko";
         case eLangRussian:      return "ru";
+        case eLangThai:         return "th";
         case eLangIndonesian:   return "id";
         default:                return "";
         }

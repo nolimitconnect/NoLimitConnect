@@ -62,6 +62,7 @@ namespace {
             "nolimitconnect_ko_KR.qm",
             "nolimitconnect_pt_PT.qm",
             "nolimitconnect_ru_RU.qm",
+            "nolimitconnect_th_TH.qm",
             "nolimitconnect_zh_CN.qm",
         };
 

@@ -52,6 +52,7 @@ SUPPORTED = [
     ("ja", "ja_JP"),
     ("ko", "ko_KR"),
     ("ru", "ru_RU"),
+    ("th", "th_TH"),
     ("id", "id_ID"),
 ]
 
@@ -197,7 +198,7 @@ def gather_sources(root: ET.Element) -> List[str]:
     return sources
 
 
-def translate_language_incremental(base_root: ET.Element, target_lang: str, ts_locale: str) -> Tuple[ET.ElementTree, int, int, int]:
+def translate_language_incremental(base_root: ET.Element, target_lang: str, ts_locale: str) -> Tuple[ET.ElementTree, int, int, int, int]:
     out_file = OUT_DIR / f"nolimitconnect_{ts_locale}.ts"
     cache_path = OUT_DIR / f".cache_{ts_locale}.json"
 
@@ -212,10 +213,9 @@ def translate_language_incremental(base_root: ET.Element, target_lang: str, ts_l
 
     sources = gather_sources(base_root)
     pending = [s for s in sources if s not in cache]
-    print(
-        f"[{ts_locale}] unique={len(sources)} reused={reused_count} "
-        f"cached={len(cache)} pending={len(pending)}"
-    )
+    total = len(sources)
+    if pending:
+        print(f"[{ts_locale}] {total} strings total | {len(cache)} cached | {len(pending)} to translate ...")
 
     translated_now = 0
     if pending:
@@ -268,7 +268,7 @@ def translate_language_incremental(base_root: ET.Element, target_lang: str, ts_l
             tr_el.attrib.pop("type", None)
             tr_el.text = translated_text
 
-    return out_tree, translated_now, missing_after, len(pending)
+    return out_tree, translated_now, missing_after, len(pending), len(sources)
 
 
 def indent_xml(elem: ET.Element, level: int = 0) -> None:
@@ -319,12 +319,13 @@ def main() -> int:
     selected = set(args.locales) if args.locales else None
     total_translated = 0
     total_written = 0
+    total_strings_all = 0
 
     for google_lang, ts_locale in SUPPORTED:
         if selected and ts_locale not in selected:
             continue
 
-        out_tree, translated_now, missing_after, pending_before = translate_language_incremental(
+        out_tree, translated_now, missing_after, pending_before, total_strings = translate_language_incremental(
             base_root, google_lang, ts_locale
         )
         out_file = OUT_DIR / f"nolimitconnect_{ts_locale}.ts"
@@ -332,14 +333,22 @@ def main() -> int:
 
         total_translated += translated_now
         total_written += 1 if wrote else 0
+        total_strings_all = total_strings  # same base for all locales
 
-        status = "Wrote" if wrote else "Up-to-date"
-        print(
-            f"[{ts_locale}] {status}: {out_file} "
-            f"(pending-before={pending_before}, translated-now={translated_now}, missing-after={missing_after})"
-        )
+        finished = total_strings - missing_after
+        if translated_now:
+            status = f"Updated ({translated_now} newly translated)"
+        elif wrote:
+            status = "Updated (file changed, no new translations)"
+        else:
+            status = "Up-to-date"
+        print(f"[{ts_locale}] {status} | {finished}/{total_strings} strings translated")
 
-    print(f"Done. translated-now={total_translated} files-written={total_written}")
+    print(
+        f"\nDone: {len([1 for g, l in SUPPORTED if selected is None or l in selected])} locale(s) | "
+        f"{total_translated} newly translated this run | "
+        f"{total_strings_all} total strings per locale"
+    )
     return 0
 
 

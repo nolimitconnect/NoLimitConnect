@@ -1632,6 +1632,7 @@ void GuiHelpers::fillLanguage( QComboBox * comboBox )
             eLangJapanese,
             eLangKorean,
             eLangRussian,
+            eLangThai,
             eLangIndonesian,
         };
 
@@ -1707,7 +1708,8 @@ uint16_t GuiHelpers::languageToIndex( ELanguageType language )
     case eLangJapanese:     return 8;
     case eLangKorean:       return 9;
     case eLangRussian:      return 10;
-    case eLangIndonesian:   return 11;
+    case eLangThai:         return 11;
+    case eLangIndonesian:   return 12;
     default:
         return 0;
     }

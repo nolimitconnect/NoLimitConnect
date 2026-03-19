@@ -47,6 +47,7 @@ namespace
         eLangJapanese,
         eLangKorean,
         eLangRussian,
+        eLangThai,
         eLangIndonesian,
     };
 }
@@ -184,6 +185,7 @@ QString AppletLanguageSelect::nativeLanguageName( ELanguageType language ) const
     case eLangJapanese:     return QString::fromUtf8( "日本語" );
     case eLangKorean:       return QString::fromUtf8( "한국어" );
     case eLangRussian:      return QString::fromUtf8( "Русский" );
+    case eLangThai:         return QString::fromUtf8( "ไทย" );
     case eLangIndonesian:   return QString::fromUtf8( "Bahasa Indonesia" );
     default:                return QString::fromUtf8( "English" );
     }
@@ -205,6 +207,7 @@ QString AppletLanguageSelect::translatedLanguageName( ELanguageType language ) c
     case eLangJapanese:     return QObject::tr( "Japanese" );
     case eLangKorean:       return QObject::tr( "Korean" );
     case eLangRussian:      return QObject::tr( "Russian" );
+    case eLangThai:         return QObject::tr( "Thai" );
     case eLangIndonesian:   return QObject::tr( "Indonesian" );
     default:                return QObject::tr( "English" );
     }
@@ -234,6 +237,7 @@ QString AppletLanguageSelect::previewSelectLanguageText( ELanguageType language 
     case eLangJapanese:     return QString::fromUtf8( "言語を選択" );
     case eLangKorean:       return QString::fromUtf8( "언어 선택" );
     case eLangRussian:      return QString::fromUtf8( "Выбрать язык" );
+    case eLangThai:         return QString::fromUtf8( "เลือกภาษา" );
     case eLangIndonesian:   return QString::fromUtf8( "Pilih Bahasa" );
     case eLangEnglish:
     default:                return QString::fromUtf8( "Select Language" );
@@ -255,6 +259,7 @@ QString AppletLanguageSelect::previewApplyText( ELanguageType language ) const
     case eLangJapanese:     return QString::fromUtf8( "適用" );
     case eLangKorean:       return QString::fromUtf8( "적용하기" );
     case eLangRussian:      return QString::fromUtf8( "Применить" );
+    case eLangThai:         return QString::fromUtf8( "ใช้" );
     case eLangIndonesian:   return QString::fromUtf8( "Terapkan" );
     case eLangEnglish:
     default:                return QString::fromUtf8( "Apply" );
