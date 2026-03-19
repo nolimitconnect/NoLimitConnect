@@ -66,6 +66,7 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxGUID.h>
 #include <CoreLib/VxSktUtil.h>
+#include <CoreLib/VxTime.h>
 
 #include <CoreLib/InetAddressParse.h>
 
@@ -261,8 +262,12 @@ IFromGui& AppCommon::getFromGuiInterface( void )
 //============================================================================
 bool AppCommon::loadWithThread( void )
 {
+	const int loadStartMs = GetApplicationAliveMs();
+	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread begin at %d ms", loadStartMs );
+
 	GuiThreadAppLoader appLoaderThread( *this );
 	appLoaderThread.start();
+	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread app loader thread started at %d ms", GetApplicationAliveMs() );
 
     // asset database and user specific setting database will be created in sub directory of account login
     // after user has logged into account
@@ -270,13 +275,17 @@ bool AppCommon::loadWithThread( void )
 	GuiParams::requestPermission("android.permission.RECORD_AUDIO");
 	// once settings has been loaded the audo can be started
     m_AudioDevicesThread.startThread( (VX_THREAD_FUNCTION_T)AudioDevicesStartupThreadFunc, this, "AudioDevicesStartupThreadFunc" );
+	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread audio startup thread started at %d ms", GetApplicationAliveMs() );
 
 	getQApplication().setStyle( &m_AppStyle );
+	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread style applied at %d ms", GetApplicationAliveMs() );
 
+	int waitAccountMgrStartMs = GetApplicationAliveMs();
 	while( !appLoaderThread.getIsAccountMgrLoaded() )
 	{
 		GuiHelpers::processQtEvents();
 	}
+	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread waited %d ms for account manager", GetApplicationAliveMs() - waitAccountMgrStartMs );
 
 	m_ThumbMgr.onAppCommonCreated();
 	m_UserMgr.onAppCommonCreated();
@@ -291,27 +300,41 @@ bool AppCommon::loadWithThread( void )
 	m_SendQueueMgr.onAppCommonCreated();
 	m_GroupieListMgr.onAppCommonCreated();
 	m_FriendRequestMgr.onAppCommonCreated();
+	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread manager onAppCommonCreated callbacks done at %d ms", GetApplicationAliveMs() );
 
+	int waitIconsStartMs = GetApplicationAliveMs();
 	while( !appLoaderThread.getIsIconsLoaded() )
 	{
 		GuiHelpers::processQtEvents();
 	}
+	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread waited %d ms for icon load", GetApplicationAliveMs() - waitIconsStartMs );
 
 	m_HomeWindow = new HomeWindow(*this, m_AppTitle);
 	getAppTheme().selectTheme(getAppSettings().getLastSelectedTheme(), m_HomeWindow);
     m_HomeWindow->initializeHomePage();
+	startupAppCommon( m_HomeWindow->getAppletFrame( eAppletHomePage ), m_HomeWindow->getAppletFrame( eAppletMessengerFrame ) );
+	if( !m_LoginBegin )
+	{
+		m_LoginBegin = true;
+		LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread begin login at %d ms", GetApplicationAliveMs() );
+		doLogin();
+	}
+    LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread home window initialized at %d ms", GetApplicationAliveMs() );
 
     connect( m_HomeWindow, SIGNAL(signalMainWindowResized()), this, SLOT(slotMainWindowResized()) );
 	m_HomeWindow->show();
 
 	connect( this, SIGNAL(signalInternalNetAvailStatus(ENetAvailStatus)), this, SLOT(slotInternalNetAvailStatus(ENetAvailStatus)), Qt::QueuedConnection );
 
+	int waitLoaderCompleteStartMs = GetApplicationAliveMs();
 	while( !appLoaderThread.getIsLoadComplete() )
 	{
 		GuiHelpers::processQtEvents();
 	}
+	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread waited %d ms for app loader completion", GetApplicationAliveMs() - waitLoaderCompleteStartMs );
 
 	appLoaderThread.quit();
+	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread done in %d ms", GetApplicationAliveMs() - loadStartMs );
 
 	return true;
 }
@@ -330,6 +353,8 @@ void AppCommon::startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame )
         return;
     }
 
+	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::startupAppCommon begin at %d ms", GetApplicationAliveMs() );
+
     m_AppCommonInitialized = true;
 
     m_AppletDownloads = new AppletDownloads( *this, appletFrame );
@@ -341,51 +366,58 @@ void AppCommon::startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame )
 	std::string strAssetDir = VxGetRootUserDataDirectory() + "assets/";
 	VxFileUtil::makeDirectory( strAssetDir );
 
-	connect( m_GuiStartupTimer, SIGNAL(timeout()), this, SLOT(slotGuiStartupTimer()), Qt::QueuedConnection );
 	m_GuiStartupTimer->setSingleShot( true );
-	m_GuiStartupTimer->setInterval( 1000 );
+	m_GuiStartupTimer->setInterval( 0 );
 	m_GuiStartupTimer->start();
+	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::startupAppCommon queued startup timer at %d ms", GetApplicationAliveMs() );
 }
 
 //============================================================================
 void AppCommon::slotGuiStartupTimer( void )
 {
 	static int guiStartupStep = 0;
+	const int stepStartMs = GetApplicationAliveMs();
+
     if( !m_AudioMgr.isAudioInitialized() )
     {
         // on android audio devices can take up to 30 seconds
+		LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer waiting for audio init at %d ms", stepStartMs );
+		m_GuiStartupTimer->setInterval( 100 );
         m_GuiStartupTimer->start();
         return;
     }
 
-	guiStartupStep++;
-	if( 1 == guiStartupStep )
+	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer step %d begin at %d ms", guiStartupStep + 1, stepStartMs );
+
+	if( 0 == guiStartupStep )
 	{
 		// load sounds to play and sound hardware
 		m_SoundFxMgr.sndFxMgrStartup();
 
 		connectSignals();
+		guiStartupStep = 1;
+		m_GuiStartupTimer->setInterval( 0 );
+		m_GuiStartupTimer->start();
+	}
+	else if( 1 == guiStartupStep )
+	{
+		std::string strAssetDir = VxGetRootUserDataDirectory() + "assets/";
+		getEngine().fromGuiAppStartup( strAssetDir.c_str(), VxGetRootUserDataDirectory().c_str() );
+		guiStartupStep = 2;
+		m_GuiStartupTimer->setInterval( 0 );
 		m_GuiStartupTimer->start();
 	}
 	else if( 2 == guiStartupStep )
 	{
-		m_AudioMgr.audioIoSystemStartup();
-
-		m_GuiStartupTimer->start();
-	}
-	else if( 4 == guiStartupStep )
-	{
-		std::string strAssetDir = VxGetRootUserDataDirectory() + "assets/";
-		getEngine().fromGuiAppStartup( strAssetDir.c_str(), VxGetRootUserDataDirectory().c_str() );
-		m_GuiStartupTimer->start();
-	}
-	else if( 6 == guiStartupStep )
-	{
 		m_PlayerMgr.playerMgrStartup();
 		m_OncePerSecondTimer->setInterval( 1000 ); 
-		connect( m_OncePerSecondTimer, SIGNAL(timeout()), this, SLOT(onOncePerSecond()) );
+		connect( m_OncePerSecondTimer, SIGNAL(timeout()), this, SLOT(onOncePerSecond()), Qt::UniqueConnection );
 		m_OncePerSecondTimer->start();
+
+		guiStartupStep = 3;
 	}
+
+	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer step %d end at %d ms", guiStartupStep, GetApplicationAliveMs() );
 }
 
 //============================================================================
@@ -1164,26 +1196,16 @@ void AppCommon::onOncePerSecond( void )
 		startTime = GetHighResolutionTimeMs();
 	}
 
-    // the wait is probably no longer needed since not running seperate threads for loading
-    // but it does give other things a chance to run a bit
-    static int waitCnt = 0;
-    if( waitCnt > 1 )
+	if( !m_LoginBegin )
     {
-        if( !m_LoginBegin )
-        {
-            m_LoginBegin = true;
-            doLogin();
-        }
+		m_LoginBegin = true;
+		LogModule( eLogStartup, LOG_VERBOSE, "onOncePerSecond begin login at %d ms", GetApplicationAliveMs() );
+		doLogin();
+	}
 
-        if( getLoginCompleted() )
-        {
-            getEngine().fromGuiOncePerSecond();
-        }
-    }
-    else
+	if( getLoginCompleted() )
     {
-        waitCnt++;
-        LogMsg( LOG_VERBOSE, "Wait to login seconds %d alive ms %d", waitCnt, GetApplicationAliveMs() );
+		getEngine().fromGuiOncePerSecond();
     }
 
 	static int64_t endTime = 0;

@@ -40,11 +40,14 @@ storyboard_thumb.png
 /**/*.idx
 /**/*.json
 
+# do not check in changes to user-specific CMake presets
+CMakeUserPresets.json
+
 # keep editor/build configuration JSON files under version control
 !/.vscode/
 !/.vscode/*.json
 !/CMakePresets.json
-!/CMakeUserPresets.json
+
 
 
 

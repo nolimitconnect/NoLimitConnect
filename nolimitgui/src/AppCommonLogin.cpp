@@ -84,24 +84,43 @@ void AppCommon::doLogin()
 //============================================================================
 void AppCommon::doAccountStartup( void )
 {
-    LogModule( eLogStartup, LOG_DEBUG, "doAccountStartup");
+    const uint64_t startupBeginMs = GetApplicationAliveMs();
+    LogModule( eLogStartup, LOG_VERBOSE, "doAccountStartup begin at %llu ms", startupBeginMs );
+
     // tell engine were to load settings from
     loadAccountSpecificSettings( getAppGlobals().getMyNetIdent()->getOnlineName() );
     uint64_t startMs = GetApplicationAliveMs();
+    LogModule( eLogStartup, LOG_VERBOSE, "doAccountStartup loadAccountSpecificSettings took %llu ms",
+               startMs - startupBeginMs );
 
     getAppGlobals().getMyNetIdent()->setHasSharedWebCam( false ); // user must restart cam server each startup.. assume no shared cam yet
 
     applySoundSettings();
-    LogModule( eLogStartup, LOG_DEBUG, "applySoundSettings" );
-
-    sendAppSettingsToEngine();
-    LogModule( eLogStartup, LOG_DEBUG, "sendAppSettingsToEngine" );
+    uint64_t afterSoundMs = GetApplicationAliveMs();
+    LogModule( eLogStartup, LOG_VERBOSE, "doAccountStartup applySoundSettings took %llu ms", afterSoundMs - startMs );
 
     completeLogin();
-    LogModule( eLogStartup, LOG_DEBUG, "completed Login" );
+    uint64_t afterCompleteLoginMs = GetApplicationAliveMs();
+    LogModule( eLogStartup, LOG_VERBOSE, "doAccountStartup completeLogin took %llu ms",
+               afterCompleteLoginMs - afterSoundMs );
+
+    // Apply network host settings on the next event-loop cycle so startup/login UI is not blocked.
+    QTimer::singleShot( 0, this, SLOT(slotApplyStartupSettingsToEngine()) );
+    LogModule( eLogStartup, LOG_VERBOSE, "doAccountStartup deferred sendAppSettingsToEngine at %llu ms", afterCompleteLoginMs );
 
     uint64_t endMs = GetApplicationAliveMs();
-    LogMsg( LOG_DEBUG, "Applied settings ms %" PRId64 " alive ms %" PRId64 "", endMs - startMs, endMs );
+    LogModule( eLogStartup, LOG_VERBOSE, "doAccountStartup total %llu ms (post-load %llu ms) alive %llu ms",
+               endMs - startupBeginMs, endMs - startMs, endMs );
+}
+
+//============================================================================
+void AppCommon::slotApplyStartupSettingsToEngine( void )
+{
+    const uint64_t beginMs = GetApplicationAliveMs();
+    sendAppSettingsToEngine();
+    const uint64_t endMs = GetApplicationAliveMs();
+    LogModule( eLogStartup, LOG_VERBOSE, "slotApplyStartupSettingsToEngine took %llu ms at %llu ms",
+               endMs - beginMs, endMs );
 }
 
 //============================================================================

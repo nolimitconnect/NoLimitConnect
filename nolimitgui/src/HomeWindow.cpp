@@ -127,12 +127,6 @@ void HomeWindow::showEvent( QShowEvent* ev )
 void HomeWindow::paintEvent( QPaintEvent* ev )
 {
      QDialog::paintEvent( ev );
-static bool firstPaint = true;
-    if( firstPaint )
-    {
-        firstPaint = false;
-        m_MyApp.startupAppCommon( getAppletFrame( eAppletHomePage ), getAppletFrame( eAppletMessengerFrame ) );
-    }
 }
 
 //============================================================================

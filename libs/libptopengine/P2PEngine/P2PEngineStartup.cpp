@@ -25,6 +25,7 @@
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxFileShredder.h>
 #include <CoreLib/VxParse.h>
+#include <CoreLib/VxTime.h>
 
 //============================================================================
 void P2PEngine::fromGuiAppStartup( std::string assetsDir, std::string rootDataDir, bool fromThread )
@@ -74,6 +75,7 @@ void P2PEngine::fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fro
 {
     if( fromThread )
     {
+        const int startupStartMs = GetApplicationAliveMs();
         static std::string userDir;
         if( userDir == userSpecificDir )
         {
@@ -109,6 +111,9 @@ void P2PEngine::fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fro
 	    strDbFileName += "HostedList.db3";
 	    getHostedListMgr().hostedListMgrStartup( strDbFileName );
 
+        LogModule( eLogStartup, LOG_VERBOSE, "P2PEngine::fromGuiSetUserSpecificDir db startup took %d ms",
+                   GetApplicationAliveMs() - startupStartMs );
+
         // if application was aborted it may have left the listen socket in a state
         // that the port cannot be listened to for incomming connections
         // ANDROID crashes if attempt to close an unowned socket so is excluded
@@ -125,6 +130,9 @@ void P2PEngine::fromGuiSetUserSpecificDir( std::string userSpecificDir, bool fro
 
 	    m_IsUserSpecificDirSet = true;
 	    m_AppStartupCalled = true;
+
+        LogModule( eLogStartup, LOG_VERBOSE, "P2PEngine::fromGuiSetUserSpecificDir done in %d ms at %d ms",
+               GetApplicationAliveMs() - startupStartMs, GetApplicationAliveMs() );
     }
     else
     {
@@ -138,18 +146,24 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
 {
     if( fromThread )
     {
-        if(LogEnabled(eLogStartup))LogMsg( LOG_INFO, "P2PEngine fromGuiUserLoggedOn" );
+        const int startupStartMs = GetApplicationAliveMs();
+        if( LogEnabled( eLogStartup ) ) LogModule( eLogStartup, LOG_VERBOSE, "P2PEngine::fromGuiUserLoggedOn begin at %d ms", startupStartMs );
         memcpy( ( VxNetIdent* )&m_PktAnn, netIdent, sizeof( VxNetIdent ) );
         m_PktAnn.setSrcOnlineId( netIdent->getMyOnlineId() );
         m_MyOnlineId = netIdent->getMyOnlineId();
 
         m_HostJoinMgr.fromGuiUserLoggedOn();
         m_UserJoinMgr.fromGuiUserLoggedOn();
+        if( LogEnabled( eLogStartup ) ) LogModule( eLogStartup, LOG_VERBOSE, "P2PEngine::fromGuiUserLoggedOn join managers took %d ms", GetApplicationAliveMs() - startupStartMs );
 
         // set network settings from saved settings
         startupEngine();
+        const int startupEngineDoneMs = GetApplicationAliveMs();
+        if( LogEnabled( eLogStartup ) ) LogModule( eLogStartup, LOG_VERBOSE, "P2PEngine::fromGuiUserLoggedOn startupEngine took %d ms", startupEngineDoneMs - startupStartMs );
         //updateFromEngineSettings( getEngineSettings() );
         m_PluginMgr.fromGuiUserLoggedOn();
+        const int pluginLogonDoneMs = GetApplicationAliveMs();
+        if( LogEnabled( eLogStartup ) ) LogModule( eLogStartup, LOG_VERBOSE, "P2PEngine::fromGuiUserLoggedOn plugin logon took %d ms", pluginLogonDoneMs - startupEngineDoneMs );
 
         m_AssetMgr.onPluginsInitialized();
         m_OfferMgr.fromGuiUserLoggedOn();
@@ -157,11 +171,13 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
         m_ThumbMgr.onPluginsInitialized();
 
         m_SendQueueMgr.fromGuiUserLoggedOn();
-        if(LogEnabled(eLogStartup))LogMsg( LOG_INFO, "P2PEngine fromGuiUserLoggedOn done" );
+        const int serviceReadyMs = GetApplicationAliveMs();
+        if( LogEnabled( eLogStartup ) ) LogModule( eLogStartup, LOG_VERBOSE, "P2PEngine::fromGuiUserLoggedOn post-plugin init took %d ms", serviceReadyMs - pluginLogonDoneMs );
+        if( LogEnabled( eLogStartup ) ) LogModule( eLogStartup, LOG_VERBOSE, "P2PEngine::fromGuiUserLoggedOn done in %d ms", serviceReadyMs - startupStartMs );
         m_IsEngineReady = true;
 
         m_PluginMgr.onAfterUserLogOnThreaded();
-        if(LogEnabled(eLogStartup))LogMsg( LOG_INFO, "P2PEngine PluginMgr onAfterUserLogOnThreaded done" );
+        if( LogEnabled( eLogStartup ) ) LogModule( eLogStartup, LOG_VERBOSE, "P2PEngine::fromGuiUserLoggedOn onAfterUserLogOnThreaded complete in %d ms total", GetApplicationAliveMs() - startupStartMs );
 
         if( m_NetworkConnectionReady && !m_PktMgrNetworkReadyWasCalled )
         {
@@ -173,7 +189,7 @@ void P2PEngine::fromGuiUserLoggedOn( VxNetIdent* netIdent, bool fromThread )
     }
     else
     {
-        if(LogEnabled(eLogStartup))LogMsg( LOG_VERBOSE, "P2PEngine::fromGuiUserLoggedOn queued" );
+        if( LogEnabled( eLogStartup ) ) LogModule( eLogStartup, LOG_VERBOSE, "P2PEngine::fromGuiUserLoggedOn queued" );
         m_FromGuiMgr.fromGuiUserLoggedOn( netIdent );
     }
 }

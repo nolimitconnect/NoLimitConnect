@@ -39,6 +39,7 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxFileUtil.h>
+#include <CoreLib/VxTime.h>
 
 #include "AccountMgr.h"
 #include "GuiHelpers.h"
@@ -186,6 +187,15 @@ namespace {
 //============================================================================
 int runApplication( QApplication* myApp, int argc, char** argv )
 {
+    const int startupStartMs = GetApplicationAliveMs();
+    auto logStartupStep = []( const char* stepName, int stepStartMs ) -> int
+    {
+        const int nowMs = GetApplicationAliveMs();
+        LogModule( eLogStartup, LOG_VERBOSE, "runApplication step %s took %d ms (alive %d ms)",
+                   stepName, nowMs - stepStartMs, nowMs );
+        return nowMs;
+    };
+
     // NOTE OrganizationName and ApplicationName become part of data storage location path
     QCoreApplication::setOrganizationName( "" ); // leave blank or will become part of data storage path
     QCoreApplication::setApplicationName( VxGetApplicationNameNoSpaces() );
@@ -224,6 +234,7 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     }
 
     int timeStart = GetApplicationAliveMs();
+    LogModule( eLogStartup, LOG_VERBOSE, "runApplication startup begin at %d ms", timeStart );
 
     static AppSettings appSettings;
     GuiThreadSettingsLoader threadSettingsLoader(appSettings);
@@ -231,14 +242,21 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     // register types first so connections made in construction have registered signal/slot values
     AppCommon::registerMetaData();
     int timeRegisterMetadata = GetApplicationAliveMs();
+    LogModule( eLogStartup, LOG_VERBOSE, "runApplication registerMetaData took %d ms",
+               timeRegisterMetadata - timeStart );
 
 
 
     // must be ran after application name is set or paths with app name may be lower case instead of upper case
+    int stepStartMs = GetApplicationAliveMs();
     setupRootStorageDirectory();
+    stepStartMs = logStartupStep( "setupRootStorageDirectory", stepStartMs );
+
     copyBundledTranslationsIfRequired();
+    stepStartMs = logStartupStep( "copyBundledTranslationsIfRequired", stepStartMs );
 
     threadSettingsLoader.start();
+    stepStartMs = logStartupStep( "threadSettingsLoader.start", stepStartMs );
 
     QStringList downloadPath =  QStandardPaths::standardLocations(QStandardPaths::DownloadLocation );
     std::string download = downloadPath[0].toUtf8().constData();
@@ -269,26 +287,29 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     // the best method I have found to scale the gui is to use the default font height as the scaling factor
     QFontMetrics fontMetrics( myApp->font() );
     GuiParams::initGuiParams(fontMetrics.height());
+    stepStartMs = logStartupStep( "GuiParams::initGuiParams", stepStartMs );
 
     GuiThreadMainLoader mainLoaderThread;
     mainLoaderThread.start();
+    stepStartMs = logStartupStep( "mainLoaderThread.start", stepStartMs );
 
     int timeInitFonts = GetApplicationAliveMs();
 
-    LogMsg( LOG_VERBOSE, "root storage disk space path %s %s", VxGetRootDataStorageDirectory().c_str(), VxFileUtil::describeDiskSpace( VxGetRootDataStorageDirectory() ).c_str() );
+    LogModule( eLogStartup, LOG_VERBOSE, "root storage disk space path %s %s",
+               VxGetRootDataStorageDirectory().c_str(), VxFileUtil::describeDiskSpace( VxGetRootDataStorageDirectory() ).c_str() );
 
     bool haveWaitTime{ false };
     if( !mainLoaderThread.getIsLoadComplete() )
     {
         haveWaitTime = true;
-        LogMsg( LOG_VERBOSE, "%s waiting for main loader thread", __func__ );
+        LogModule( eLogStartup, LOG_VERBOSE, "%s waiting for main loader thread", __func__ );
         while( !mainLoaderThread.getIsLoadComplete() )
         {
             GuiHelpers::processQtEvents();
         }
 
         int waitMainLoaderThread = GetApplicationAliveMs();
-        LogMsg( LOG_VERBOSE, "%s waited for main loader thread %d ms", __func__, waitMainLoaderThread - timeInitFonts );
+        LogModule( eLogStartup, LOG_VERBOSE, "%s waited for main loader thread %d ms", __func__, waitMainLoaderThread - timeInitFonts );
     }
 
     if( !threadSettingsLoader.getIsSettingsLoaded() )
@@ -304,7 +325,7 @@ int runApplication( QApplication* myApp, int argc, char** argv )
         if( LogEnabled( eLogStartup ) )
         {
             int waitEnd = GetApplicationAliveMs();
-            LogMsg( LOG_VERBOSE, "%s waited for settings loader thread %d ms", __func__, waitEnd - waitStart );
+            LogModule( eLogStartup, LOG_VERBOSE, "%s waited for settings loader thread %d ms", __func__, waitEnd - waitStart );
         }
     }
 
@@ -313,11 +334,11 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     {     
         if( haveWaitTime )
         {
-            LogMsg( LOG_VERBOSE, "%s time waiting for loaders %d ms", __func__, timePreStartApp - timeInitFonts );
+            LogModule( eLogStartup, LOG_VERBOSE, "%s time waiting for loaders %d ms", __func__, timePreStartApp - timeInitFonts );
         }
 
-        LogMsg( LOG_VERBOSE, "%s time register %d app fonts %d", __func__, timeRegisterMetadata - timeStart,
-                timeInitFonts - timeRegisterMetadata );
+        LogModule( eLogStartup, LOG_VERBOSE, "%s time register %d app fonts %d", __func__, timeRegisterMetadata - timeStart,
+                   timeInitFonts - timeRegisterMetadata );
     }
 
     const ELanguageType selectedLanguage = appSettings.getSelectedLanguage();
@@ -326,6 +347,8 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     AppCommon& appCommon = CreateAppInstance( myApp, appSettings );
 
     int createAppCommon = GetApplicationAliveMs();
+    LogModule( eLogStartup, LOG_VERBOSE, "runApplication CreateAppInstance took %d ms",
+               createAppCommon - timePreStartApp );
 
     std::string fontDir = VxGetFontDirectory();
     std::string defaultFont = fontDir + "arial.ttf";
@@ -343,6 +366,8 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     std::string translationsDir = VxGetTranslationsDirectory();
 
     int copyFonts = GetApplicationAliveMs();
+    LogModule( eLogStartup, LOG_VERBOSE, "runApplication font verification/copy took %d ms",
+               copyFonts - createAppCommon );
 
     if( !appCommon.loadWithThread() )
     {
@@ -353,8 +378,10 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     if( LogEnabled( eLogStartup ) )
     {
         int timeNow = GetApplicationAliveMs();
-        LogMsg( LOG_VERBOSE, "%s setup %d md create AppCommon %d font copy %d load %d total %d ms", __func__,
-           timePreStartApp - timeStart, createAppCommon - timePreStartApp, copyFonts - createAppCommon, timeNow - copyFonts, timeNow - timeStart );
+        LogModule( eLogStartup, LOG_VERBOSE, "%s setup %d md create AppCommon %d font copy %d load %d total %d ms", __func__,
+                   timePreStartApp - timeStart, createAppCommon - timePreStartApp, copyFonts - createAppCommon, timeNow - copyFonts, timeNow - timeStart );
+        LogModule( eLogStartup, LOG_VERBOSE, "%s total startup since runApplication entry %d ms", __func__,
+                   timeNow - startupStartMs );
     }
 
     int result = myApp->exec();
@@ -369,12 +396,18 @@ int main( int argc, char** argv )
     // unfortunatly this does not fix the issue but since it only happens in debug builds the crash on shutdown can be ignored
     // QTBUG-118330 
     qputenv( "QT_FFMPEG_HWACCEL", "none" ); // to stop crash by Qt6Multimediad.dll not releasing d3d11 textures
+
+    // Force Qt render backends to OpenGL on Windows.
+    // Note: some DirectX-related system DLLs may still load due to OS/driver internals.
+    qputenv( "QT_OPENGL", "desktop" );
+    qputenv( "QT_DISABLE_ANGLE", "1" );
+    qputenv( "QSG_RHI_BACKEND", "opengl" );
 #endif // defined(TARGET_OS_WINDOWS)
 
     int retVal{ 0 };
 
     VxSetGuiThreadId();
-    LogMsg( LOG_DEBUG, "Creating QApplication" );
+    LogModule( eLogStartup, LOG_VERBOSE, "main Creating QApplication at %d ms", GetApplicationAliveMs() );
 
     QCoreApplication::addLibraryPath( "." );
     QApplication::setAttribute( Qt::AA_ShareOpenGLContexts );

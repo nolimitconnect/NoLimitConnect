@@ -38,6 +38,7 @@ private:
 	QVector<VxWidgetBase*>		m_AppletList;
 	
     WaitingSpinnerWidget*       m_BusySpinner{ nullptr };
+	bool                        m_ShouldShowSpinner{ true };
 };
 
 

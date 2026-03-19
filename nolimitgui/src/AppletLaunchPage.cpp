@@ -78,17 +78,22 @@ void AppletLaunchPage::showEvent( QShowEvent* showEvent )
     static bool firstShowHomePage{ true };
     if( firstShowHomePage )
     {    
-        if( eAppletHomePage == getAppletType() )
+        if( eAppletHomePage == getAppletType() && m_ShouldShowSpinner )
         {
             firstShowHomePage = false;
             startSpinner();
-        }        
+        }
+        else if( eAppletHomePage == getAppletType() )
+        {
+            firstShowHomePage = false;
+        }
     }
 }
 
 //============================================================================
 void AppletLaunchPage::startSpinner( void )
 {
+    m_ShouldShowSpinner = true;
     if( !m_BusySpinner )
     {
         m_BusySpinner = new WaitingSpinnerWidget( this );
@@ -99,10 +104,12 @@ void AppletLaunchPage::startSpinner( void )
 //============================================================================
 void AppletLaunchPage::stopSpinner( void )
 {
+    m_ShouldShowSpinner = false;
     if( m_BusySpinner )
     {
         m_BusySpinner->stopWaiting();
 	    m_BusySpinner->close();
+	    m_BusySpinner->deleteLater();
 	    m_BusySpinner = nullptr;
     }
 }

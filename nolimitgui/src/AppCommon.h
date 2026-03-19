@@ -843,6 +843,8 @@ protected slots:
 
     void						slotGuiStartupTimer( void );
 
+    void                        slotApplyStartupSettingsToEngine( void );
+
     void						slotAccountCreated( bool wasCreated );
 
     void						slotInternalAppPopupErr( EAppErr eAppErr, QString errMsg );
