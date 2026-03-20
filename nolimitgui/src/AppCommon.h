@@ -953,6 +953,7 @@ protected:
     bool						m_SpeakerHardwareEnabled = false;
     AppletMgr&                  m_AppletMgr;
     bool                        m_AppCommonInitialized = false;
+    bool                        m_SignalsConnected = false;
     bool                        m_LoginBegin = false;
     bool                        m_LoginComplete = false;
     bool                        m_AppInitialized = false;

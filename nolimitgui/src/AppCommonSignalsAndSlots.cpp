@@ -109,6 +109,13 @@ void  AppCommon::registerMetaData( void )
 //============================================================================
 void AppCommon::connectSignals( void )
 {
+	if( m_SignalsConnected )
+	{
+		return;
+	}
+
+	m_SignalsConnected = true;
+
     connect( this, SIGNAL(signalStatusMsg(QString)), this, SLOT(slotStatusMsg(QString)));
 
     connect( this, SIGNAL(signalAppErr(EAppErr,QString)), this, SLOT(slotAppErr(EAppErr,QString)));

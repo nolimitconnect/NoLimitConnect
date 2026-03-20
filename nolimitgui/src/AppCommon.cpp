@@ -245,6 +245,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 #endif // !defined(TARGET_OS_WINDOWS)
 
 	connect( m_GuiStartupTimer, SIGNAL(timeout()), this, SLOT(slotGuiStartupTimer()) );
+	connectSignals();
 }
 
 //============================================================================
@@ -311,7 +312,9 @@ bool AppCommon::loadWithThread( void )
 
 	m_HomeWindow = new HomeWindow(*this, m_AppTitle);
 	getAppTheme().selectTheme(getAppSettings().getLastSelectedTheme(), m_HomeWindow);
-    m_HomeWindow->initializeHomePage();
+
+    connect( m_HomeWindow, SIGNAL(signalMainWindowResized()), this, SLOT(slotMainWindowResized()) );
+	m_HomeWindow->initializeHomePage();
 	startupAppCommon( m_HomeWindow->getAppletFrame( eAppletHomePage ), m_HomeWindow->getAppletFrame( eAppletMessengerFrame ) );
 	if( !m_LoginBegin )
 	{
@@ -320,9 +323,6 @@ bool AppCommon::loadWithThread( void )
 		doLogin();
 	}
     LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread home window initialized at %d ms", GetApplicationAliveMs() );
-
-    connect( m_HomeWindow, SIGNAL(signalMainWindowResized()), this, SLOT(slotMainWindowResized()) );
-	m_HomeWindow->show();
 
 	connect( this, SIGNAL(signalInternalNetAvailStatus(ENetAvailStatus)), this, SLOT(slotInternalNetAvailStatus(ENetAvailStatus)), Qt::QueuedConnection );
 
@@ -336,6 +336,7 @@ bool AppCommon::loadWithThread( void )
 	appLoaderThread.quit();
 	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread done in %d ms", GetApplicationAliveMs() - loadStartMs );
 
+	m_HomeWindow->show();
 	return true;
 }
 
@@ -393,8 +394,6 @@ void AppCommon::slotGuiStartupTimer( void )
 	{
 		// load sounds to play and sound hardware
 		m_SoundFxMgr.sndFxMgrStartup();
-
-		connectSignals();
 		guiStartupStep = 1;
 		m_GuiStartupTimer->setInterval( 0 );
 		m_GuiStartupTimer->start();
