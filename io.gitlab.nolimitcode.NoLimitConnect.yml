@@ -58,5 +58,13 @@ modules:
       #  url: https://gitlab.com/nolimitcode/nolimitconnect.git
       #   commit: de146ed09e9da127c224c50d2ed07672ff2edf46
       #   tag: v1.0.8
+    post-install:
+      # Install the icon to the standard 256x256 location
+      - install -Dm644 io.gitlab.nolimitcode.NoLimitConnect.png /app/share/icons/hicolor/256x256/apps/io.gitlab.nolimitcode.NoLimitConnect.png
+      # Install your desktop file as well
+      - install -Dm644 com.nolimitconnect.NoLimitConnect.desktop /app/share/applications/io.gitlab.nolimitcode.NoLimitConnect.desktop
+
+
+
 
 
