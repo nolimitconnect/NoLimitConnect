@@ -123,7 +123,7 @@ set(QT_PATH_ARM_NEW "$ENV{HOME}/Qt/6.9.3/gcc_arm64")
 set(QT_PATH_ARM_OLD "$ENV{HOME}/Qt/6.7.3/gcc_arm64")
 # Only override Qt path if not set or invalid
 if(NOT DEFINED CMAKE_PREFIX_PATH OR NOT EXISTS "${CMAKE_PREFIX_PATH}")
-    if(TARGET_OS_LINUX)
+    if(NOT DEFINED FLATPAKBUILD AND TARGET_OS_LINUX)
         if(TARGET_CPU_ARM64)
             if(EXISTS "${QT_PATH_ARM_NEW}")
                 set(CMAKE_PREFIX_PATH "${QT_PATH_ARM_NEW}")
