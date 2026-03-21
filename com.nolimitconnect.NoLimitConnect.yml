@@ -2,10 +2,6 @@ app-id: com.nolimitconnect.NoLimitConnect
 
 # FlatPak 6.9 requires additional installs on Raspberry Pi 5
 
-# with Raspberry Pi 5:
-# if you get the error bwrap: execvp appstream-compose: No such file or directory
-# then use the following command to install the missing dependency:
-# sudo apt install appstream-compose
 
 runtime: org.kde.Platform
 runtime-version: '6.9'
@@ -60,9 +56,9 @@ modules:
       #   tag: v1.0.8
     post-install:
       # Install the icon to the standard 256x256 location
-      - install -Dm644 io.gitlab.nolimitcode.NoLimitConnect.png /app/share/icons/hicolor/256x256/apps/io.gitlab.nolimitcode.NoLimitConnect.png
+      - install -Dm644 com.nolimitconnect.NoLimitConnect.png /app/share/icons/hicolor/256x256/apps/com.nolimitconnect.NoLimitConnect.png
       # Install your desktop file as well
-      - install -Dm644 com.nolimitconnect.NoLimitConnect.desktop /app/share/applications/io.gitlab.nolimitcode.NoLimitConnect.desktop
+      - install -Dm644 com.nolimitconnect.NoLimitConnect.desktop /app/share/applications/com.nolimitconnect.NoLimitConnect.desktop
 
 
 

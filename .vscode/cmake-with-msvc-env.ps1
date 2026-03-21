@@ -8,6 +8,22 @@ if (-not $CMakeArgs -or $CMakeArgs.Count -eq 0) {
     exit 1
 }
 
+$qtBinCandidates = @(
+    "F:/Qt/6.9.3/msvc2022_64/bin",
+    "F:/Qt/6.7.3/msvc2022_64/bin"
+)
+
+$qtBins = @()
+foreach ($qtBin in $qtBinCandidates) {
+    if (Test-Path $qtBin) {
+        $qtBins += $qtBin
+    }
+}
+
+if ($qtBins.Count -gt 0) {
+    $env:PATH = (($qtBins -join ';') + ';' + $env:PATH)
+}
+
 $vswhere = Join-Path ${env:ProgramFiles(x86)} "Microsoft Visual Studio\Installer\vswhere.exe"
 if (-not (Test-Path $vswhere)) {
     Write-Error "vswhere.exe not found at '$vswhere'. Install Visual Studio 2022 Build Tools with C++ workload."

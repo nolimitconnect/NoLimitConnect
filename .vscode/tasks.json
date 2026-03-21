@@ -140,7 +140,7 @@
             "command": "${workspaceFolder}/build/windows-debug/nolimitgui/nolimitconnect.exe",
             "options": {
                 "env": {
-                    "PATH": "F:/Qt/6.9.3/msvc2022_64/bin;${env:PATH}"
+                    "PATH": "F:/Qt/6.9.3/msvc2022_64/bin;F:/Qt/6.7.3/msvc2022_64/bin;${env:PATH}"
                 }
             },
             "problemMatcher": []
@@ -155,7 +155,7 @@
             "command": "${workspaceFolder}/build/windows-release/nolimitgui/nolimitconnect.exe",
             "options": {
                 "env": {
-                    "PATH": "F:/Qt/6.9.3/msvc2022_64/bin;${env:PATH}"
+                    "PATH": "F:/Qt/6.9.3/msvc2022_64/bin;F:/Qt/6.7.3/msvc2022_64/bin;${env:PATH}"
                 }
             },
             "problemMatcher": []
