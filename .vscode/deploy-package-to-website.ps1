@@ -1,12 +1,13 @@
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateSet('windows', 'linux', 'android', 'android-signed', 'flatpak')]
+    [ValidateSet('windows', 'linux', 'android-signed', 'flatpak')]
     [string]$PackageType,
 
     [string]$WorkspaceRoot = '',
     [string]$WebsiteRoot = $(if ($env:NLC_WEBSITE_ROOT) { $env:NLC_WEBSITE_ROOT } else { 'F:\nlc-nolimitconnect.com' }),
     [string]$GitLabProjectPath = 'nolimitcode/nolimitconnect',
     [string]$GitLabBaseUrl = 'https://gitlab.com',
+    [switch]$SkipWebsiteUpdate,
     [ValidateRange(0, 100)]
     [int]$KeepLatestVersions = 0
 )
@@ -43,18 +44,11 @@ function Get-PackageConfig {
             DisplayName = 'Linux'
             Notes       = 'Debian package for Linux x64.'
         }
-        'android' = @{
-            SourceDir   = 'package\android'
-            Include     = @('*.apk')
-            Exclude     = @('*-signed.apk')
-            DisplayName = 'Android'
-            Notes       = 'Unsigned APK intended for internal testing and validation.'
-        }
         'android-signed' = @{
             SourceDir   = 'package\android'
             Include     = @('*-signed.apk')
             Exclude     = @()
-            DisplayName = 'Android Signed'
+            DisplayName = 'Android'
             Notes       = 'Signed APK intended for release distribution.'
         }
         'flatpak' = @{
@@ -238,6 +232,43 @@ function Remove-OldGitLabGenericPackageVersions {
     return $toDelete.Count
 }
 
+function New-LatestReleaseIndexJson {
+    param(
+        [string]$PackageType,
+        [string]$DisplayName,
+        [string]$Version,
+        [string]$ArtifactName,
+        [string]$ArtifactUrl,
+        [string]$HashName,
+        [string]$HashUrl,
+        [string]$Notes,
+        [string]$OutputDirectory
+    )
+
+    $timestamp = [System.DateTime]::UtcNow.ToString('o')
+    $jsonObject = [ordered]@{
+        schemaVersion = 1
+        packageType = $PackageType
+        displayName = $DisplayName
+        version = $Version
+        publishedAtUtc = $timestamp
+        artifact = [ordered]@{
+            name = $ArtifactName
+            url = $ArtifactUrl
+        }
+        sha256 = [ordered]@{
+            name = $HashName
+            url = $HashUrl
+        }
+        notes = $Notes
+    }
+
+    $json = $jsonObject | ConvertTo-Json -Depth 6
+    $filePath = Join-Path $OutputDirectory ($PackageType + '.json')
+    Set-Content -Path $filePath -Value $json -Encoding utf8
+    return $filePath
+}
+
 function Update-DownloadPageSection {
     param(
         [string]$WebsiteRepoRoot,
@@ -292,8 +323,15 @@ if (-not $config) {
     throw "Unsupported package type: $PackageType"
 }
 
-if (-not (Test-Path $WebsiteRoot)) {
-    throw "Website repository not found: $WebsiteRoot"
+$canUpdateWebsite = $false
+if (-not $SkipWebsiteUpdate) {
+    if (Test-Path $WebsiteRoot) {
+        $canUpdateWebsite = $true
+    }
+    else {
+        Write-Warning "Website repository not found at '$WebsiteRoot'. Continuing without website download page updates."
+        Write-Warning "Use -SkipWebsiteUpdate to suppress this warning when running GitLab-only deploys."
+    }
 }
 
 Assert-GitLabPackageRegistryEnabled -BaseUrl $GitLabBaseUrl -ProjectPath $GitLabProjectPath -Token $gitLabToken
@@ -315,7 +353,24 @@ $artifactUrl = Invoke-GitLabUpload -FilePath $artifact.FullName -BaseUrl $GitLab
 $hashUrl = Invoke-GitLabUpload -FilePath $sha256FilePath -BaseUrl $GitLabBaseUrl `
     -ProjectPath $GitLabProjectPath -PackageName $PackageType -Version $version -Token $gitLabToken
 
+$indexPackageName = 'download-index'
+$indexVersion = 'v1'
+$latestIndexJsonPath = New-LatestReleaseIndexJson `
+    -PackageType $PackageType `
+    -DisplayName $config.DisplayName `
+    -Version $version `
+    -ArtifactName $artifact.Name `
+    -ArtifactUrl $artifactUrl `
+    -HashName $sha256FileName `
+    -HashUrl $hashUrl `
+    -Notes $config.Notes `
+    -OutputDirectory $tempDir
+
+$latestIndexUrl = Invoke-GitLabUpload -FilePath $latestIndexJsonPath -BaseUrl $GitLabBaseUrl `
+    -ProjectPath $GitLabProjectPath -PackageName $indexPackageName -Version $indexVersion -Token $gitLabToken
+
 Remove-Item $sha256FilePath -Force -ErrorAction SilentlyContinue
+Remove-Item $latestIndexJsonPath -Force -ErrorAction SilentlyContinue
 
 $deletedVersionCount = Remove-OldGitLabGenericPackageVersions `
     -BaseUrl $GitLabBaseUrl `
@@ -324,19 +379,21 @@ $deletedVersionCount = Remove-OldGitLabGenericPackageVersions `
     -Token $gitLabToken `
     -KeepLatest $KeepLatestVersions
 
-# Update the platform section of the website download page
+# Update the platform section of the website download page (optional)
 $timestamp = [System.DateTime]::UtcNow.ToString('yyyy-MM-dd HH:mm:ss UTC')
 
-Update-DownloadPageSection `
-    -WebsiteRepoRoot $WebsiteRoot `
-    -SectionKey      $PackageType `
-    -DisplayName     $config.DisplayName `
-    -ArtifactName    $artifact.Name `
-    -ArtifactUrl     $artifactUrl `
-    -HashName        $sha256FileName `
-    -HashUrl         $hashUrl `
-    -Notes           $config.Notes `
-    -Timestamp       $timestamp
+if ($canUpdateWebsite) {
+    Update-DownloadPageSection `
+        -WebsiteRepoRoot $WebsiteRoot `
+        -SectionKey      $PackageType `
+        -DisplayName     $config.DisplayName `
+        -ArtifactName    $artifact.Name `
+        -ArtifactUrl     $artifactUrl `
+        -HashName        $sha256FileName `
+        -HashUrl         $hashUrl `
+        -Notes           $config.Notes `
+        -Timestamp       $timestamp
+}
 
 Write-Host ""
 Write-Host "Deployed package type : $PackageType"
@@ -346,8 +403,16 @@ Write-Host "  GitLab project      : $GitLabProjectPath"
 Write-Host "  GitLab package      : $PackageType / $version"
 Write-Host "  Artifact URL        : $artifactUrl"
 Write-Host "  SHA-256 URL         : $hashUrl"
+Write-Host "  Index URL           : $latestIndexUrl"
 Write-Host "  Retention keep      : $KeepLatestVersions latest version(s)"
 Write-Host "  Versions removed    : $deletedVersionCount"
-Write-Host "  Download page       : $(Join-Path $WebsiteRoot 'docs\download.md')"
+if ($canUpdateWebsite) {
+    Write-Host "  Download page       : $(Join-Path $WebsiteRoot 'docs\download.md')"
+}
 Write-Host ""
-Write-Host "Next: review and commit the website repository changes to publish the updated download page."
+if ($canUpdateWebsite) {
+    Write-Host "Next: review and commit the website repository changes to publish the updated download page."
+}
+else {
+    Write-Host "Next: have the website fetch the Index URL for this package type (GitLab as source of truth)."
+}

@@ -6,8 +6,6 @@ sdk: org.kde.Sdk
 
 command: nolimitconnect
 
-appstream-compose: false
-
 finish-args:
   # Display
   - --socket=wayland
@@ -56,8 +54,10 @@ modules:
     post-install:
       # Install the icon to the standard 256x256 location
       - install -Dm644 com.nolimitconnect.NoLimitConnect.png /app/share/icons/hicolor/256x256/apps/com.nolimitconnect.NoLimitConnect.png
-      # Install your desktop file as well
+      # Install the desktop file as well
       - install -Dm644 com.nolimitconnect.NoLimitConnect.desktop /app/share/applications/com.nolimitconnect.NoLimitConnect.desktop
+      # Install metainfo file for appstream
+      - install -Dm644 com.nolimitconnect.NoLimitConnect.metainfo.xml /app/share/metainfo/com.nolimitconnect.NoLimitConnect.metainfo.xml
 
 
 

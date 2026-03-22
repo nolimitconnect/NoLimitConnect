@@ -163,13 +163,6 @@
             "command": "echo Update TS Translations completed"
         },
         {
-            "name": "Task: Package Android",
-            "type": "node-terminal",
-            "request": "launch",
-            "preLaunchTask": "Package Android",
-            "command": "echo Package Android completed"
-        },
-        {
             "name": "Task: Package Android Signed",
             "type": "node-terminal",
             "request": "launch",
@@ -196,13 +189,6 @@
             "request": "launch",
             "preLaunchTask": "Deploy Windows Package",
             "command": "echo Deploy Windows Package completed"
-        },
-        {
-            "name": "Task: Deploy Android Package",
-            "type": "node-terminal",
-            "request": "launch",
-            "preLaunchTask": "Deploy Android Package",
-            "command": "echo Deploy Android Package completed"
         },
         {
             "name": "Task: Deploy Android Signed Package",

@@ -65,7 +65,7 @@ function Get-DefaultInputApk {
         Select-Object -First 1
 
     if (-not $apk) {
-        throw "No unsigned Android APK found in $PackageDir. Run 'Package Android' first."
+        throw "No unsigned Android APK found in $PackageDir. Run 'Package Android Signed' first so it can build the release APK before signing."
     }
 
     return $apk.FullName
@@ -86,7 +86,14 @@ if ([string]::IsNullOrWhiteSpace($OutputApk)) {
 $keystorePath = Get-RequiredEnv -Name 'NLC_ANDROID_KEYSTORE_PATH'
 $null = Get-RequiredEnv -Name 'NLC_ANDROID_KEYSTORE_PASSWORD'
 $keyAlias = Get-RequiredEnv -Name 'NLC_ANDROID_KEY_ALIAS'
-$null = Get-RequiredEnv -Name 'NLC_ANDROID_KEY_PASSWORD'
+
+# NLC_ANDROID_KEY_PASSWORD is optional - falls back to the keystore password
+# (the common case when both were set to the same value during keytool -genkey)
+$keyPassword = [Environment]::GetEnvironmentVariable('NLC_ANDROID_KEY_PASSWORD')
+if ([string]::IsNullOrWhiteSpace($keyPassword)) {
+    $env:NLC_ANDROID_KEY_PASSWORD = [Environment]::GetEnvironmentVariable('NLC_ANDROID_KEYSTORE_PASSWORD')
+    Write-Host "  NLC_ANDROID_KEY_PASSWORD not set - falling back to NLC_ANDROID_KEYSTORE_PASSWORD"
+}
 
 if (-not (Test-Path $keystorePath)) {
     throw "Keystore file not found: $keystorePath"

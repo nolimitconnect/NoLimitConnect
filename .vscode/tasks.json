@@ -222,6 +222,7 @@
                 "${workspaceFolder}\\.vscode\\deploy-package-to-website.ps1",
                 "-PackageType",
                 "windows",
+                "-SkipWebsiteUpdate",
                 "-KeepLatestVersions",
                 "2"
             ],
@@ -289,6 +290,7 @@
             "dependsOn": [
                 "Build Android Release"
             ],
+            "hide": true,
             "type": "process",
             "command": "cmake",
             "args": [
@@ -368,39 +370,10 @@
             "problemMatcher": []
         },
         {
-            "label": "Package Android",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "Package Android Release"
-            ],
-            "problemMatcher": []
-        },
-        {
             "label": "Package Android Signed",
             "dependsOrder": "sequence",
             "dependsOn": [
                 "Package Android Signed Release"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "Deploy Android Package",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "Package Android"
-            ],
-            "type": "process",
-            "command": "powershell",
-            "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}\\.vscode\\deploy-package-to-website.ps1",
-                "-PackageType",
-                "android",
-                "-KeepLatestVersions",
-                "2"
             ],
             "problemMatcher": []
         },
@@ -420,6 +393,7 @@
                 "${workspaceFolder}\\.vscode\\deploy-package-to-website.ps1",
                 "-PackageType",
                 "android-signed",
+                "-SkipWebsiteUpdate",
                 "-KeepLatestVersions",
                 "2"
             ],
@@ -558,6 +532,7 @@
                 "${workspaceFolder}\\.vscode\\deploy-package-to-website.ps1",
                 "-PackageType",
                 "linux",
+                "-SkipWebsiteUpdate",
                 "-KeepLatestVersions",
                 "2"
             ],
@@ -589,6 +564,7 @@
                 "${workspaceFolder}\\.vscode\\deploy-package-to-website.ps1",
                 "-PackageType",
                 "flatpak",
+                "-SkipWebsiteUpdate",
                 "-KeepLatestVersions",
                 "2"
             ],

@@ -2,37 +2,9 @@
 
 ## Android
 
-There are now two Android packaging flows in the workspace:
-
-1. Unsigned packaging for local build output collection.
-2. Signed packaging for distributable release APKs.
+Android website distribution is signed-only.
 
 The related tasks are defined in [.vscode/tasks.json](.vscode/tasks.json) and are also exposed in the Run and Debug dropdown through [.vscode/launch.json](.vscode/launch.json).
-
-## Unsigned Android Package
-
-Use this when you want the build system to generate an APK and copy it into the package folder without signing it.
-
-Available task names:
-
-1. `Package Android Release`
-2. `Package Android`
-3. `Deploy Android Package`
-
-What happens:
-
-1. The Android release build runs.
-2. The Qt APK target is built.
-3. The generated APK is copied into `package/android`.
-
-Current output file pattern:
-
-1. `package/android/NoLimitConnect-<version>-arm64-v8a.apk`
-
-Important:
-
-1. This APK is not signed for release distribution.
-2. It is useful as an intermediate artifact for the signed packaging step.
 
 ## Signed Android Package
 
@@ -91,30 +63,27 @@ These values are intentionally read from environment variables so secrets are no
 
 Use the VS Code task runner and choose one of these:
 
-1. `Package Android`
-2. `Package Android Signed`
-3. `Deploy Android Package`
-4. `Deploy Android Signed Package`
+1. `Package Android Signed`
+2. `Deploy Android Signed Package`
 
 ### From Run And Debug
 
 The same actions are available from the Run and Debug dropdown:
 
-1. `Task: Package Android`
-2. `Task: Package Android Signed`
-3. `Task: Deploy Android Package`
-4. `Task: Deploy Android Signed Package`
+1. `Task: Package Android Signed`
+2. `Task: Deploy Android Signed Package`
 
 ## What Deploy Means Here
 
-Deploy now means publishing the newest packaged artifact to the website repository.
+Deploy now means publishing the newest packaged artifact metadata to GitLab as the source of truth.
 
-For Android package tasks, deploy does all of the following:
+For Android signed package tasks, deploy does all of the following:
 
 1. Locates the newest package artifact.
 2. Generates a `.sha256` file for that artifact.
-3. Copies the package and hash into the website repository download tree.
-4. Updates the generated download section on the website download page.
+3. Uploads package and hash to GitLab Generic Package Registry.
+4. Publishes a stable JSON index at `download-index/v1/android-signed.json`.
+5. Optionally updates website markdown when the website repository is available.
 
 It still does not:
 
@@ -134,9 +103,9 @@ For a normal Android release build:
 
 ## Notes
 
-1. The signed task depends on the unsigned package task, so you do not need to run both manually.
+1. The signed task internally depends on the unsigned release packaging step, so you do not need to run that intermediate step manually.
 2. The signing script automatically locates the newest Android SDK build-tools directory.
-3. If both signed and unsigned APKs exist, the unsigned package step still produces the base APK and the signed step creates a separate `-signed.apk` artifact.
+3. Only the `-signed.apk` artifact should be published to users.
 
 ## Linux `.deb` Package
 
@@ -209,7 +178,9 @@ Recommended Flatpak sequence:
 
 ## Linux And Flatpak Deploy Behavior
 
-For Linux and Flatpak package families, deploy now means publishing the newest package and its SHA-256 sidecar into the website repository and updating the website download page.
+For Linux and Flatpak package families, deploy means publishing the newest package and SHA-256 sidecar to GitLab and publishing a stable per-platform JSON index (`download-index/v1/linux.json` and `download-index/v1/flatpak.json`).
+
+When the website repository is available, deploy can also update the website download markdown sections.
 
 It still does not:
 
