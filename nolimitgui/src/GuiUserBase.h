@@ -103,10 +103,13 @@ public:
 
     virtual QString             describeUser( bool verbose = false );
 
+    ELanguageType               getPrimaryLanguage( void )              { return m_NetIdent.getPrimaryLanguage(); }
+    EContentRating              getPreferredContent( void )             { return m_NetIdent.getPreferredContent(); }
+    EAgeType                    getAgeType( void )                      { return m_NetIdent.getAgeType(); }
+    EGenderType                 getGender( void )                       { return m_NetIdent.getGender(); }
+
     void                        setIsJoined( EHostType hostType, bool isJoined ) { m_NetIdent.setIsJoined( hostType, isJoined ); }
     bool                        getIsJoined( EHostType hostType )       { return m_NetIdent.getIsJoined( hostType ); }
-
-
 
 signals:
     void						signalUserUpdated( void );

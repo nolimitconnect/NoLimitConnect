@@ -25,5 +25,5 @@
 #define BUILD_REVISION			APP_VERSION
 
 /* The time this package was configured for a build */
-#define BUILD_TIMESTAMP			"2026-01-10T20:45+0000"
+#define BUILD_TIMESTAMP			"@NLC_BUILD_TIMESTAMP@"
 

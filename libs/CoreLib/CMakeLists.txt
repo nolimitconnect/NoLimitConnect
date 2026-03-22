@@ -7,7 +7,7 @@ set(CoreLib_HEADERS)
 list(APPEND CoreLib_HEADERS
 
     AppErr.h
-    AppVersion.h
+    AppVersion.h.in
     AssetDefs.h
     AudioCallbackSpaceAvailable.h
     BinaryBlob.h
@@ -183,16 +183,22 @@ if(DEFINED TARGET_OS_WINDOWS)
     )
 endif()
 
+# Generate AppVersion.h from the template with the CMake-configured build timestamp
+configure_file(AppVersion.h.in "${CMAKE_CURRENT_BINARY_DIR}/AppVersion.h" @ONLY)
+
 add_library(CoreLib
     STATIC
     ${CoreLib_SOURCES}
     ${CoreLib_HEADERS}
+    "${CMAKE_CURRENT_BINARY_DIR}/AppVersion.h"
 )
 
 nlc_target_add_supported_warning_options(CoreLib CXX
     -Wno-deprecated-declarations
     -Wno-varargs
 )
+
+target_include_directories(CoreLib PUBLIC "${CMAKE_CURRENT_BINARY_DIR}/..")
 
 target_compile_definitions(CoreLib
     PRIVATE

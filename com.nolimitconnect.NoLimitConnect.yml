@@ -1,13 +1,12 @@
-app-id: com.nolimitconnect.NoLimitConnect
-
-# FlatPak 6.9 requires additional installs on Raspberry Pi 5
-
+id: com.nolimitconnect.NoLimitConnect
 
 runtime: org.kde.Platform
 runtime-version: '6.9'
 sdk: org.kde.Sdk
 
 command: nolimitconnect
+
+appstream-compose: false
 
 finish-args:
   # Display

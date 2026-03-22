@@ -184,6 +184,12 @@ void AppletApplicationInfo::fillBasicInfo( void )
     }
 
     infoMsg( "directories:" );
+    getInfoEdit()->appendPlainText( QString( "Root Data Directory: %1" ).arg( VxGetRootDataStorageDirectory().c_str() ) );
+    getInfoEdit()->appendPlainText( QString( "User Data Directory: %1" ).arg( VxGetUserSpecificDataDirectory().c_str() ) );
+    getInfoEdit()->appendPlainText( QString( "Settings Directory: %1" ).arg( VxGetSettingsDirectory().c_str() ) );
+    getInfoEdit()->appendPlainText( QString( "Logs Directory: %1" ).arg( VxGetAppLogsDirectory().c_str() ) );
+    getInfoEdit()->appendPlainText( QString( "Temp Directory: %1" ).arg( VxGetAppTempDirectory().c_str() ) );
+
     infoMsg( "app data: %s", VxGetAppDirectory( eAppData ).c_str() );
 
     infoMsg( "storage: %s", VxGetAppDirectory( eAppDirRootDataStorage ).c_str() );

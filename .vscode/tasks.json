@@ -218,8 +218,12 @@
                 "-NoProfile",
                 "-ExecutionPolicy",
                 "Bypass",
-                "-Command",
-                "$pkgDir='${workspaceFolder}/package/windows'; if(Test-Path $pkgDir){ $pkg = Get-ChildItem -Path $pkgDir -File | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($pkg){ Write-Host \"Deploy package: $($pkg.FullName)\" } else { Write-Host \"No package found in $pkgDir\" } } else { Write-Host \"Package directory not found: $pkgDir\" }"
+                "-File",
+                "${workspaceFolder}\\.vscode\\deploy-package-to-website.ps1",
+                "-PackageType",
+                "windows",
+                "-KeepLatestVersions",
+                "2"
             ],
             "problemMatcher": []
         },
@@ -391,8 +395,12 @@
                 "-NoProfile",
                 "-ExecutionPolicy",
                 "Bypass",
-                "-Command",
-                "$pkgDir='${workspaceFolder}/package/android'; if(Test-Path $pkgDir){ $pkg = Get-ChildItem -Path $pkgDir -File | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($pkg){ Write-Host \"Deploy package: $($pkg.FullName)\" } else { Write-Host \"No package found in $pkgDir\" } } else { Write-Host \"Package directory not found: $pkgDir\" }"
+                "-File",
+                "${workspaceFolder}\\.vscode\\deploy-package-to-website.ps1",
+                "-PackageType",
+                "android",
+                "-KeepLatestVersions",
+                "2"
             ],
             "problemMatcher": []
         },
@@ -408,8 +416,12 @@
                 "-NoProfile",
                 "-ExecutionPolicy",
                 "Bypass",
-                "-Command",
-                "$pkgDir='${workspaceFolder}/package/android'; if(Test-Path $pkgDir){ $pkg = Get-ChildItem -Path $pkgDir -File -Filter '*-signed.apk' | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($pkg){ Write-Host \"Deploy signed package: $($pkg.FullName)\" } else { Write-Host \"No signed package found in $pkgDir\" } } else { Write-Host \"Package directory not found: $pkgDir\" }"
+                "-File",
+                "${workspaceFolder}\\.vscode\\deploy-package-to-website.ps1",
+                "-PackageType",
+                "android-signed",
+                "-KeepLatestVersions",
+                "2"
             ],
             "problemMatcher": []
         },
@@ -542,8 +554,12 @@
                 "-NoProfile",
                 "-ExecutionPolicy",
                 "Bypass",
-                "-Command",
-                "$pkgDir='${workspaceFolder}/package/linux'; if(Test-Path $pkgDir){ $pkg = Get-ChildItem -Path $pkgDir -File | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($pkg){ Write-Host \"Deploy package: $($pkg.FullName)\" } else { Write-Host \"No package found in $pkgDir\" } } else { Write-Host \"Package directory not found: $pkgDir\" }"
+                "-File",
+                "${workspaceFolder}\\.vscode\\deploy-package-to-website.ps1",
+                "-PackageType",
+                "linux",
+                "-KeepLatestVersions",
+                "2"
             ],
             "problemMatcher": []
         },
@@ -569,8 +585,12 @@
                 "-NoProfile",
                 "-ExecutionPolicy",
                 "Bypass",
-                "-Command",
-                "$pkgDir='${workspaceFolder}/package/flatpack'; if(Test-Path $pkgDir){ $pkg = Get-ChildItem -Path $pkgDir -File | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($pkg){ Write-Host \"Deploy package: $($pkg.FullName)\" } else { Write-Host \"No package found in $pkgDir\" } } else { Write-Host \"Package directory not found: $pkgDir\" }"
+                "-File",
+                "${workspaceFolder}\\.vscode\\deploy-package-to-website.ps1",
+                "-PackageType",
+                "flatpak",
+                "-KeepLatestVersions",
+                "2"
             ],
             "problemMatcher": []
         },

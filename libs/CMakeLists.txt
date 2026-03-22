@@ -5,6 +5,9 @@
 add_compile_definitions(HAVE_CONFIG_H LIB_STATIC ENABLE_NLC_PLAYER)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/..)
+# Mirror source include path in binary tree so generated headers (e.g. CoreLib/AppVersion.h)
+# are found with the same #include <CoreLib/...> pattern used across all libraries.
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 if(DEFINED TARGET_OS_WINDOWS)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sysheaders)

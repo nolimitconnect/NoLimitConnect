@@ -107,13 +107,19 @@ The same actions are available from the Run and Debug dropdown:
 
 ## What Deploy Means Here
 
-For Android package tasks, deploy currently means locating the newest package artifact and printing its path in the terminal.
+Deploy now means publishing the newest packaged artifact to the website repository.
 
-It does not currently:
+For Android package tasks, deploy does all of the following:
+
+1. Locates the newest package artifact.
+2. Generates a `.sha256` file for that artifact.
+3. Copies the package and hash into the website repository download tree.
+4. Updates the generated download section on the website download page.
+
+It still does not:
 
 1. Upload to Google Play.
 2. Install to a device.
-3. Copy to an external distribution service.
 
 If a fuller release workflow is needed later, this can be extended with a real distribution step.
 
@@ -203,9 +209,9 @@ Recommended Flatpak sequence:
 
 ## Linux And Flatpak Deploy Behavior
 
-For both Linux package families, deploy currently means locating the newest package artifact and printing its path in the terminal.
+For Linux and Flatpak package families, deploy now means publishing the newest package and its SHA-256 sidecar into the website repository and updating the website download page.
 
-It does not currently:
+It still does not:
 
 1. Publish to an APT repository.
 2. Publish to Flathub.
