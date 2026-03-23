@@ -523,13 +523,9 @@
                 "Package Linux"
             ],
             "type": "process",
-            "command": "powershell",
+            "command": "python3",
             "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}\\.vscode\\deploy-package-to-website.ps1",
+                "${workspaceFolder}/.vscode/deploy-package-to-website.py",
                 "-PackageType",
                 "linux",
                 "-SkipWebsiteUpdate",
@@ -540,11 +536,11 @@
         },
         {
             "label": "Package Flatpak",
-            "type": "shell",
+            "type": "process",
             "command": "bash",
             "args": [
                 "-lc",
-                "mkdir -p '${workspaceFolder}/build/flatpak-repo' '${workspaceFolder}/build/flatpak-build-dir' '${workspaceFolder}/package/flatpack'; flatpak-builder --force-clean --repo='${workspaceFolder}/build/flatpak-repo' '${workspaceFolder}/build/flatpak-build-dir' '${workspaceFolder}/com.nolimitconnect.NoLimitConnect.yml'; flatpak build-bundle '${workspaceFolder}/build/flatpak-repo' '${workspaceFolder}/package/flatpack/nolimitconnect.flatpak' com.nolimitconnect.NoLimitConnect"
+                "grep -q -- \"-DCMAKE_BUILD_TYPE=Release\" \"${workspaceFolder}/com.nolimitconnect.NoLimitConnect.yml\" || { echo \"Flatpak manifest must set -DCMAKE_BUILD_TYPE=Release\"; exit 1; }; mkdir -p \"${workspaceFolder}/build/flatpak-repo\" \"${workspaceFolder}/build/flatpak-build-release-dir\" \"${workspaceFolder}/package/flatpack\"; flatpak-builder --force-clean --repo=\"${workspaceFolder}/build/flatpak-repo\" \"${workspaceFolder}/build/flatpak-build-release-dir\" \"${workspaceFolder}/com.nolimitconnect.NoLimitConnect.yml\"; flatpak build-bundle \"${workspaceFolder}/build/flatpak-repo\" \"${workspaceFolder}/package/flatpack/nolimitconnect.flatpak\" com.nolimitconnect.NoLimitConnect"
             ],
             "problemMatcher": []
         },
@@ -555,13 +551,9 @@
                 "Package Flatpak"
             ],
             "type": "process",
-            "command": "powershell",
+            "command": "python3",
             "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}\\.vscode\\deploy-package-to-website.ps1",
+                "${workspaceFolder}/.vscode/deploy-package-to-website.py",
                 "-PackageType",
                 "flatpak",
                 "-SkipWebsiteUpdate",
