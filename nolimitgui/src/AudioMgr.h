@@ -10,7 +10,11 @@
 // https://nolimitconnect.com
 //============================================================================
 
+#if defined(USE_AEC2) && USE_AEC2
+#include <libwebrtc-aec2/apm/WebRtcAec.h>
+#else
 #include <libwebrtc-aec/apm/WebRtcAec.h>
+#endif
 
 #include "AudioMixerMgr.h"
 

@@ -1274,10 +1274,23 @@ target_link_libraries(nolimitconnect
 
     wav-decoder
 
-    webrtc-aec # webrtc audio echo cancel
-    absl::strings # absl support for webrtc audio echo cancel
-    absl::base # absl support for webrtc audio echo cancel
 )
+
+if(USE_AEC2)
+    target_link_libraries(nolimitconnect
+        PUBLIC
+        webrtc-aec2 # webrtc audio echo cancel
+        #absl::strings # absl support for webrtc audio echo cancel
+        #absl::base # absl support for webrtc audio echo cancel
+    )
+else()
+    target_link_libraries(nolimitconnect
+        PUBLIC
+        webrtc-aec # webrtc audio echo cancel
+        absl::strings # absl support for webrtc audio echo cancel
+        absl::base # absl support for webrtc audio echo cancel
+    )
+endif()
 
 if (DEFINED TARGET_OS_WINDOWS)
     target_link_libraries(nolimitconnect
