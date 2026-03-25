@@ -84,6 +84,8 @@ add_subdirectory(libopencore-amr)
 
 add_subdirectory(libpcre)
 
+add_subdirectory(librnnoise)
+
 #add_subdirectory(libplist) # not used ?? pretty sure it is needed
 
 if(DEFINED TARGET_OS_WINDOWS)

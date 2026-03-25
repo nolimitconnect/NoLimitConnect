@@ -199,12 +199,6 @@ void AudioMgr::processQueuedAudioInput( int16_t* pcmData, int sampleCnt )
             continue;
         }
 
-        // filters do not seem to reduce squeal much
-        //m_MicInLowPassFilter.processBufferInPlace( framePtr, sampleCnt );
-        //m_MicInHighPassFilter.processBufferInPlace( framePtr, sampleCnt );
-
-        // limiting the volume causes snapping sound when clipping occurs
-        //applyMicInLimiters( framePtr, sampleCnt );
        
         if( m_SpeakerRunning )
         {
@@ -254,6 +248,8 @@ void AudioMgr::callbackAecProcessedAudio( int16_t* pcmData, int sampleCnt )
         return;
     }
 
+    m_RNNoise.reduceNoise( pcmData, sampleCnt );
+    
     if( m_MicJitterStatsEnable)
     {
         // callbacks to write mic data to aec should happen every 10ms

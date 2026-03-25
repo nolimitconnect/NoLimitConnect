@@ -1273,7 +1273,7 @@ target_link_libraries(nolimitconnect
     pktlib
 
     wav-decoder
-
+    rnnoise
 )
 
 if(USE_AEC2)

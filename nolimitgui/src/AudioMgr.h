@@ -16,6 +16,8 @@
 #include <libwebrtc-aec/apm/WebRtcAec.h>
 #endif
 
+#include <librnnoise/RNNoise.h>
+
 #include "AudioMixerMgr.h"
 
 #include "miniaudio/AudioFrameAecBuffer.h"
@@ -362,9 +364,6 @@ protected:
     VxMutex                     m_WantMicMutex;
     std::atomic<int>            m_WantMicCnt{0};
 
-    LowPassFilter               m_MicInLowPassFilter;
-    HighPassFilter              m_MicInHighPassFilter;
-
     std::atomic<bool>           m_EnableAudioIn{0};
     std::atomic<bool>           m_EnableAudioOut{0};
 
@@ -372,5 +371,6 @@ protected:
     QTimer*                     m_AudioOutDisableTimer{ nullptr };
     std::atomic<bool>           m_AudioOutDisablePending{false};
 
+    RNNoise                     m_RNNoise;
 };
 
