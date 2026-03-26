@@ -103,10 +103,10 @@ Any contribution — technical, organizational, or community-focused — is grea
 
 ## Authors and acknowledgment
 Thanks to the thousands of open source developers that made No Limit Connect possible.
-Special thanks to Carlonluca for his docker image for Qt development - Carlonluca blog at https://bugfreeblog.duckdns.org/
 
 ## License
 Many open source licenses listed in LICENSE and LEGAL file. 
+Code written by Brett R. Jones is under dual license similar to Ruby's and clearly marked in each source code file
 
 ## Project status
 Active Development

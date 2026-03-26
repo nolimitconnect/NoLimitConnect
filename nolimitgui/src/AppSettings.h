@@ -38,7 +38,7 @@ public:
 	void						setLastSelectedTheme( EThemeType selectedTheme );
 	EThemeType					getLastSelectedTheme( void );
 
-	void					setSelectedLanguage( ELanguageType selectedLanguage );
+	void						setSelectedLanguage( ELanguageType selectedLanguage );
 	ELanguageType				getSelectedLanguage( void );
 
 	void						setMutePhoneRing( bool bMutePhoneRing );
@@ -212,6 +212,9 @@ public:
 
 	void						setAgcEnabled( bool enabled );
 	bool						getAgcEnabled( void );
+
+	void						setNoiseSuppressionEnabled( bool enabled );
+	bool						getNoiseSuppressionEnabled( void );
 
     void						setEchoDelayParam( int delayMs );
     int							getEchoDelayParam( void );

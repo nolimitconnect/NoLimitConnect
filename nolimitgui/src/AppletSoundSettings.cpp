@@ -100,6 +100,7 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
     connect( ui.m_LogWidget, SIGNAL(signalVerboseLogEnable(bool)), this, SLOT(slotVerboseLogEnable(bool)) );
 
     connect( ui.m_AgcCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotAgcEnable(int)) );
+    connect( ui.m_NoiseSuppressionCheckBox, SIGNAL(stateChanged(int)), this, SLOT(slotNoiseSuppressionEnable(int)) );
 
     m_MyApp.activityStateChange( this, true );
 
@@ -607,6 +608,7 @@ void AppletSoundSettings::loadUiFromAppSettings( void )
     }
 
     ui.m_AgcCheckBox->setChecked( getAppSettings().getAgcEnabled() );
+    ui.m_NoiseSuppressionCheckBox->setChecked( getAppSettings().getNoiseSuppressionEnabled() );
 }
 
 //============================================================================
@@ -622,4 +624,12 @@ void AppletSoundSettings::slotAgcEnable( int checkedState )
     bool agcEnabled = ( checkedState != 0 );
     getAudioMgr().setAgcEnabled( agcEnabled );
     getAppSettings().setAgcEnabled( agcEnabled );
+}
+
+//============================================================================
+void AppletSoundSettings::slotNoiseSuppressionEnable( int checkedState )
+{
+    bool noiseSuppressionEnabled = ( checkedState != 0 );
+    getAudioMgr().setNoiseSuppressionEnabled( noiseSuppressionEnabled );
+    getAppSettings().setNoiseSuppressionEnabled( noiseSuppressionEnabled );
 }

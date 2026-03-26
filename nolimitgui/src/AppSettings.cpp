@@ -1083,6 +1083,20 @@ bool AppSettings::getAgcEnabled( void )
 }
 
 //============================================================================
+void AppSettings::setNoiseSuppressionEnabled( bool enabled )
+{
+	setIniValue( getAppShortName(), "NoiseSuppressionEnabled", enabled );
+}
+
+//============================================================================
+bool AppSettings::getNoiseSuppressionEnabled( void )
+{
+	bool noiseSuppressionEnabled = true;
+	getIniValue( getAppShortName(), "NoiseSuppressionEnabled", noiseSuppressionEnabled, true );
+	return noiseSuppressionEnabled;
+}
+
+//============================================================================
 void AppSettings::setShowVoicePhoneInWaveForm( bool show )
 {
 	setIniValue( getAppShortName(), "ShowVoicePhoneInWaveForm", show );

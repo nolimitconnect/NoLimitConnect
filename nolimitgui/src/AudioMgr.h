@@ -169,6 +169,9 @@ public:
 	// Echo Cancel options
     void                        setAgcEnabled( bool enabled )             { m_Aec.setAgcEnabled( enabled ); }
     bool                        getAgcEnabled( void )                     { return m_Aec.isAgcEnabled(); }
+
+    void                        setNoiseSuppressionEnabled( bool enabled ) { m_EnableNoiseSuppression = enabled; }
+    bool                        getNoiseSuppressionEnabled( void )         { return m_EnableNoiseSuppression; }
     
 signals:
     void                        signalAudioTestState( EAudioTestState audioTestState );
@@ -372,5 +375,6 @@ protected:
     std::atomic<bool>           m_AudioOutDisablePending{false};
 
     RNNoise                     m_RNNoise;
+    std::atomic<bool>           m_EnableNoiseSuppression{0};
 };
 

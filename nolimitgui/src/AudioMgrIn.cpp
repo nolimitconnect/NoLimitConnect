@@ -248,7 +248,10 @@ void AudioMgr::callbackAecProcessedAudio( int16_t* pcmData, int sampleCnt )
         return;
     }
 
-    m_RNNoise.reduceNoise( pcmData, sampleCnt );
+    if( m_EnableNoiseSuppression )
+    {
+        m_RNNoise.reduceNoise( pcmData, sampleCnt );
+    }
     
     if( m_MicJitterStatsEnable)
     {
