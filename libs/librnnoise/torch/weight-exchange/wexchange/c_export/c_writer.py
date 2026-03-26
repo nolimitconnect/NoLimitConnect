@@ -110,7 +110,7 @@ f'''
             self.source.write(
 f"""
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "config_rnnoise.h"
 #endif
 
 """)

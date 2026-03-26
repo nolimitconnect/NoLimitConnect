@@ -32,14 +32,14 @@
 */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "config_rnnoise.h"
 #endif
 
 #include "pitch.h"
 #include "common.h"
 #include "denoise.h"
 #include "celt_lpc.h"
-#include "math.h"
+#include <math.h>
 
 static void find_best_pitch(opus_val32 *xcorr, opus_val16 *y, int len,
                             int max_pitch, int *best_pitch

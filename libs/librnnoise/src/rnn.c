@@ -26,7 +26,7 @@
 */
 
 #ifdef HAVE_CONFIG_H
-#include "config.h"
+#include "config_rnnoise.h"
 #endif
 
 #include <math.h>
