@@ -175,7 +175,7 @@ endif()
 message(STATUS "**** webrtc-aec Summary Summary end ****")
 message(STATUS "========================================")
 
-option(USE_AEC2 "Use legacy WebRTC AEC2 implementation instead of AEC3" ON)
+option(USE_AEC2 "Use legacy WebRTC AEC2 implementation instead of AEC3" OFF)
 if(USE_AEC2)
     add_compile_definitions(USE_AEC2=1)
     message(STATUS "Echo canceller backend: AEC2 (libs/libwebrtc-aec2)")
@@ -292,9 +292,7 @@ message("CMAKE_HOST_SYSTEM_NAME ${CMAKE_HOST_SYSTEM_NAME} CMAKE_SYSTEM_PROCESSOR
 
 # determine build system type and OS and CPU TYPE
 set(BUILD_SYSTEM_FLATPAK false)
-set(BUILD_SYSTEM_CMDLINE false)
 set(BUILD_SYSTEM_QCREATOR false)
-set(BUILD_SYSTEM_CI_PIPELINE false)
 set(BUILD_SYSTEM_VISUAL_CODE false)
 
 project(nolimitconnect LANGUAGES C CXX)
@@ -339,7 +337,7 @@ function(nlc_apply_qt_fallback_for_var var_name)
         set(QT_VERSION "${_qt_version_underscored}" PARENT_SCOPE)
     endif()
 endfunction()
-if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux" AND NOT DEFINED MAKE_ENV)
+if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
     if(NOT DEFINED ANDROID_ARCH AND NOT DEFINED TARGET_OS_ANDROID AND NOT DEFINED TARGET_OS_WINDOWS )
         EXECUTE_PROCESS( COMMAND arch COMMAND tr -d '\n' OUTPUT_VARIABLE BUILD_HOST_ARCH )
         message(STATUS "Linux Host Arch ${BUILD_HOST_ARCH}")
@@ -349,7 +347,7 @@ if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux" AND NOT DEFINED MAKE_ENV)
         endif()
 
         if(NOT DEFINED TARGET_OS_LINUX AND NOT DEFINED TARGET_OS_WINDOWS AND NOT DEFINED TARGET_OS_ANDROID AND
-            NOT DEFINED ANDROID_NDK AND NOT DEFINED MAKE_ENV)
+            NOT DEFINED ANDROID_NDK)
 
             set(TARGET_OS_LINUX true)
             add_compile_definitions(TARGET_OS_LINUX=1)
@@ -384,7 +382,7 @@ set(PROJECT_PACKAGE_ROOT_DIR "${PROJECT_SRC_ROOT_DIR}/package")
  set(NLC_QT "${NLC_QT_PRIMARY_VERSION}")
  set(NLC_QT_VER "${NLC_QT}")
  if(DEFINED QT_VERSION)
-    #replace qt version like "6_6_3" with path variable like "6.6.3"
+    #replace qt version like "6_9_3" with path variable like "6.9.3"
     string(REPLACE "_" "." NLC_QT_VER ${QT_VERSION})
     message(STATUS "QT_VERSION " ${QT_VERSION} " NLC_QT_VERSION " ${NLC_QT_VER} )
 else()
@@ -509,49 +507,9 @@ else()
             endif()
         endif()
 
-    elseif(DEFINED MAKE_ENV)
-        set(BUILD_SYSTEM_CI_CD true)
-        message(STATUS "Build host GitLab")
-
-        set(NLC_PREPATH "/opt/qt/")
-
-    elseif(DEFINED QT_VERSION)
-        set(BUILD_SYSTEM_CMDLINE true)
-        message(STATUS "Build host Command Line Linux")
-        message(STATUS "Build host OS Linux")
-        set(NLC_PREPATH "/home/nolimit/Qt/")
-
-        #replace qt version like "6_9_3" with path variable like "6.9.3"
-        string(REPLACE "_" "." NLC_QT_VER ${QT_VERSION})
-        message(STATUS "QT_VERSION " ${QT_VERSION} " NLC_QT_VER " ${NLC_QT_VER} )
     else()
         message(STATUS "Build host OS Linux")
         set(NLC_PREPATH "/home/nolimit/Qt/")
-    endif()
-
-    # when run from command line
-    if(DEFINED ARM32)
-        set(NLC_CPU "CPU_ARM32")
-        set(NLC_CPU_BITS "32")
-        if(DEFINED TARGET_OS_ANDROID)
-            set(NLC_POSTPATH "/android_armv7")
-        endif()
-
-        set(TARGET_CPU_ARM32 true)
-        add_compile_definitions(TARGET_CPU_ARM32=1)
-
-    elseif(DEFINED ARM64)
-        set(NLC_CPU "CPU_ARM64")
-        set(NLC_CPU_BITS "64")
-        if(DEFINED TARGET_OS_ANDROID)
-            set(NLC_POSTPATH "/android_arm64_v8a")
-        endif()
-
-        set(TARGET_CPU_ARM64 true)
-        add_compile_definitions(TARGET_CPU_ARM64=1)
-
-    elseif(DEFINED X64)
-        set(NLC_CPU "CPU_X64")
     endif()
 
     # when run from within QtCreator
@@ -581,47 +539,19 @@ else()
 
         set(POS1 -1)
         if(DEFINED CMAKE_PREFIX_PATH)
-            STRING( FIND "${CMAKE_PREFIX_PATH}" "6.6.3" POS1)
-            if( POS1 GREATER -1)
-                message(STATUS "PREFIX_PATH contains 6.6.3 ")
-                set(NLC_QT_VER "6.6.3")
-                set(QT_VERSION "6_6_3")
-
+            string(FIND "${CMAKE_PREFIX_PATH}" "6.9.3" POS1)
+            if(POS1 GREATER -1)
+                message(STATUS "PREFIX_PATH contains 6.9.3 ")
+                set(NLC_QT_VER "6.9.3")
+                set(QT_VERSION "6_9_3")
             else()
-                set(POS2 -1)
-                STRING( FIND "${CMAKE_PREFIX_PATH}" "6.7.3" POS2)
-                if( POS2 GREATER -1)
+                string(FIND "${CMAKE_PREFIX_PATH}" "6.7.3" POS1)
+                if(POS1 GREATER -1)
                     message(STATUS "PREFIX_PATH contains 6.7.3 ")
                     set(NLC_QT_VER "6.7.3")
                     set(QT_VERSION "6_7_3")
-
                 else()
-                    set(POS2 -1)
-                    STRING( FIND "${CMAKE_PREFIX_PATH}" "6.9.3" POS2)
-                    if( POS2 GREATER -1)
-                        message(STATUS "PREFIX_PATH contains 6.9.3 ")
-                        set(NLC_QT_VER "6.9.3")
-                        set(QT_VERSION "6_9_3")
-
-                    else()
-                        set(POS2 -1)
-                        STRING( FIND "${CMAKE_PREFIX_PATH}" "6.10.0" POS2)
-                        if( POS2 GREATER -1)
-                            message(STATUS "PREFIX_PATH contains 6.10.0 ")
-                            set(NLC_QT_VER "6.10.0")
-                            set(QT_VERSION "6_10_0")
-                        else()
-                            set(POS2 -1)
-                            STRING( FIND "${CMAKE_PREFIX_PATH}" "6.10.1" POS2)
-                            if( POS2 GREATER -1)
-                                message(STATUS "PREFIX_PATH contains 6.10.1 ")
-                                set(NLC_QT_VER "6.10.1")
-                                set(QT_VERSION "6_10_1")
-                            else()
-                                message(ERROR "PREFIX_PATH did not contain any known QT Version ")
-                            endif()
-                        endif()
-                    endif()
+                    message(FATAL_ERROR "PREFIX_PATH did not contain a supported Qt version (6.9.3 or 6.7.3)")
                 endif()
             endif()
         endif()
@@ -633,16 +563,37 @@ else()
     message(STATUS "CPU TYPE " ${NLC_CPU})
     message(STATUS "ANDROID ABI " ${ANDROID_ABI})
 
-    if("${QT_VERSION}" STREQUAL "6_6_3" )
-        #set(NLC_NDK_VERSION 25.1.8937393)
-        set(NLC_NDK_VERSION 26.1.10909125)
-    elseif("${QT_VERSION}" STREQUAL "6_7_3" )
-        set(NLC_NDK_VERSION 26.1.10909125)
-    elseif("${QT_VERSION}" STREQUAL "6_9_3" )
+    if("${QT_VERSION}" STREQUAL "")
+        # Default to 6.9.3 when QT_VERSION is not provided. If that Qt path
+        # is unavailable, transparently fall back to 6.7.3.
+        set(_nlc_default_qt_version "6.9.3")
+        set(_nlc_fallback_qt_version "6.7.3")
+
+        if(DEFINED CMAKE_PREFIX_PATH)
+            string(FIND "${CMAKE_PREFIX_PATH}" "${_nlc_default_qt_version}" _nlc_default_qt_pos)
+            if(_nlc_default_qt_pos GREATER -1)
+                set(NLC_QT_VER "${_nlc_default_qt_version}")
+                set(QT_VERSION "6_9_3")
+            else()
+                string(REPLACE "${_nlc_default_qt_version}" "${_nlc_fallback_qt_version}" _nlc_fallback_prefix "${CMAKE_PREFIX_PATH}")
+                if(EXISTS "${_nlc_fallback_prefix}")
+                    message(WARNING "Qt ${_nlc_default_qt_version} path not found in CMAKE_PREFIX_PATH. Falling back to Qt ${_nlc_fallback_qt_version}: ${_nlc_fallback_prefix}")
+                    set(CMAKE_PREFIX_PATH "${_nlc_fallback_prefix}")
+                    set(NLC_QT_VER "${_nlc_fallback_qt_version}")
+                    set(QT_VERSION "6_7_3")
+                else()
+                    message(FATAL_ERROR "QT_VERSION is not set and no supported Qt installation was found. Tried Qt ${_nlc_default_qt_version} and fallback Qt ${_nlc_fallback_qt_version} using CMAKE_PREFIX_PATH='${CMAKE_PREFIX_PATH}'.")
+                endif()
+            endif()
+        else()
+            message(FATAL_ERROR "QT_VERSION is not set and CMAKE_PREFIX_PATH is not defined. Cannot locate supported Qt 6.9.3 or 6.7.3.")
+        endif()
+    endif()
+
+    if("${QT_VERSION}" STREQUAL "6_7_3" OR "${QT_VERSION}" STREQUAL "6_9_3")
         set(NLC_NDK_VERSION 26.1.10909125)
     else()
-        #6.10.0 and higher
-        set(NLC_NDK_VERSION 27.2.12479018) #is release r26b
+        message(FATAL_ERROR "Unsupported Qt version: ${QT_VERSION}. Only 6.9.3 and 6.7.3 are supported.")
     endif()
 
     message(STATUS "2 - CMAKE_FIND_ROOT_PATH ${CMAKE_FIND_ROOT_PATH}")
@@ -660,52 +611,7 @@ else()
     endif()
 
     #=== detect build enviroment and target os ===#
-    if(DEFINED MAKE_ENV)
-        message(STATUS "*** MAKE_ENV (GitLab) ***")
-        #=== assume called from gitlab ci pipeline.. linux only compile and cross compile of android
-        set(BUILD_SYSTEM_CI_PIPELINE true)
-        set(CI_PIPELINE true)
-        set(MANUAL_PACKAGE true)
-        add_compile_definitions(CI_PIPELINE)
-        message(STATUS "CI Pipeline Build")
-        if(DEFINED TARGET_OS_ANDROID)
-            set(TARGET_OS_ANDROID true)
-
-            # turn off warnings or gitlab will stop logging
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
-            set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w")
-            add_compile_options (-w)
-
-            if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
-                message(STATUS "CI Build Target OS Android built on host OS Windows")
-            elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
-                message(STATUS "CI Build Target OS Android built on host OS Linux")
-            else()
-                message(FATAL_ERROR "CI Build host is Unknown OS attempting to compile Android")
-            endif()
-        elseif(DEFINED TARGET_OS_WINDOWS)
-            set(TARGET_OS_WINDOWS true)
-
-            message(STATUS "CI Build Target OS Windows built on host OS Windows")
-        elseif(DEFINED TARGET_OS_LINUX)
-            set(TARGET_OS_LINUX true)
-
-            # turn off warnings or gitlab will stop logging
-            add_compile_options(-Wno-everything)
-            set(NLC_POSTPATH "/gcc_64")
-
-            message(STATUS "CI Build Target OS Linux built on host OS Linux " ${CMAKE_PREFIX_PATH})
-
-            enable_language(ASM_NASM)
-            set(CMAKE_ASM_NASM_OBJECT_FORMAT elf64)
-            set(CMAKE_ASM_NASM_SOURCE_FILE_EXTENSIONS nasm asm)
-
-            set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <FLAGS> <DEFINES> <INCLUDES> -f ${CMAKE_ASM_NASM_OBJECT_FORMAT} -o <OBJECT> <SOURCE>")
-            set(CMAKE_DEPFILE_FLAGS_ASM_NASM "-MD <DEP_FILE> -MT <DEP_TARGET>")
-            string(APPEND CMAKE_ASM_NASM_FLAGS " -DPIC -F dwarf -DARCH_X86_64=1 ")
-        endif()
-
-    elseif(DEFINED CMAKE_PREFIX_PATH)
+    if(DEFINED CMAKE_PREFIX_PATH)
         message(STATUS "*** CMAKE_PREFIX_PATH (QtCreator) *** ${CMAKE_PREFIX_PATH}")
         #=== assumes cmake was called from QCreator
         set(BUILD_SYSTEM_QCREATOR true)
@@ -764,86 +670,6 @@ else()
                 set(CMAKE_DEPFILE_FLAGS_ASM_NASM "-MD <DEP_FILE> -MT <DEP_TARGET>")
                 set(CMAKE_ASM_NASM_FLAGS "${CMAKE_ASM_NASM_FLAGS} -DPIC -F dwarf --DARCH_X86_64=1 ")
             endif()
-        endif()
-
-    else()
-        message(STATUS "*** CMD_LINE_MAKE ***")
-        #=== assumes cmake was called from command line and needs the enviroment setup
-        set(BUILD_SYSTEM_CMDLINE true)
-
-        #set define so can deterimine if need additional enviroment params missing in command line compile
-        set(CMD_LINE_MAKE true)
-        set(MANUAL_PACKAGE true)
-        add_compile_definitions(CMD_LINE_MAKE)
-
-        set(CMAKE_GENERATOR "Unix Makefiles")
-
-        if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
-            message(STATUS "Build host OS Windows")
-            message(STATUS "3 - CMAKE_FIND_ROOT_PATH ${CMAKE_FIND_ROOT_PATH}")
-            message(STATUS "3 - CMAKE_ANDROID_NDK ${CMAKE_ANDROID_NDK}")
-            if(TARGET_OS_LINUX)
-                message(FATAL_ERROR "Target OS Linux built project(nolimitconnect LANGUAGES C CXX ASM)on Windows OS is NOT supported")
-            elseif(TARGET_OS_ANDROID)
-                set(CMAKE_ANDROID_NDK F:/Android/Sdk/ndk/${NLC_NDK_VERSION})
-                if(${NLC_CPU_BITS} STREQUAL "32")
-                    set(ARM_ASM ${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang)
-                else()
-                    set(ARM_ASM ${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang)       
-                endif()
-
-                set(ARM_SYSROOT --sysroot=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/sysroot)
-           
-            elseif(TARGET_OS_WINDOWS)
-                set(NLC_POST_PATH, "msvc2019_64")
-
-                list(APPEND CMAKE_PREFIX_PATH  ${NLC_PREPATH} ${NLC_QT_VER} ${NLC_POSTPATH})
-                message(STATUS "qt prefix path ${CMAKE_PREFIX_PATH}")
-
-                set(CMAKE_ASM_NASM_OBJECT_FORMAT win64)
-                set(CMAKE_ASM_NASM_SOURCE_FILE_EXTENSIONS nasm asm)
-                enable_language(ASM_NASM)
-                set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES> -f ${CMAKE_ASM_NASM_OBJECT_FORMAT} -o <OBJECT> <SOURCE>")
-                set(CMAKE_DEPFILE_FLAGS_ASM_NASM "-MD <DEP_FILE> -MT <DEP_TARGET>")
-
-            else()
-               message(FATAL_ERROR "TARGET OS is not defined.. caller must define TARGET_OS_LINUX, TARGET_OS_WINDOWS or TARGET_OS_ANDROID")
-            endif()
-
-        elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
-            message(STATUS "Build host OS Linux")
-            if(TARGET_OS_LINUX)
-
-                message(STATUS "qt prefix path ${CMAKE_PREFIX_PATH}")
-
-                enable_language(ASM_NASM)
-                set(CMAKE_ASM_NASM_OBJECT_FORMAT elf64)
-                set(CMAKE_ASM_NASM_SOURCE_FILE_EXTENSIONS nasm asm)
-
-                set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <FLAGS> <DEFINES> <INCLUDES> -f ${CMAKE_ASM_NASM_OBJECT_FORMAT} -o <OBJECT> <SOURCE>")
-                set(CMAKE_DEPFILE_FLAGS_ASM_NASM "-MD <DEP_FILE> -MT <DEP_TARGET>")
-                string(APPEND CMAKE_ASM_NASM_FLAGS " -DPIC -F dwarf -DARCH_X86_64=1 ")
-
-           elseif(TARGET_OS_ANDROID)
-     
-               set(CMAKE_ANDROID_NDK /home/nolimit/Android/Sdk/ndk/${NLC_NDK_VERSION})
-               
-               set(ANDROID_SDK_ROOT /home/nolimit/Android/Sdk)
-
-               set(ARM_SYSROOT --sysroot=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/sysroot)
-                if(${NLC_CPU_BITS} STREQUAL "32")
-                    set(ARM_ASM ${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/armv7a-linux-androideabi24-clang)
-                else()
-                    set(ARM_ASM ${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android24-clang)       
-                endif()
-
-           elseif(TARGET_OS_WINDOWS)
-                message(FATAL_ERROR "Target OS Windows built on Linux OS is not yet supported")
-           else()
-               message(FATAL_ERROR "TARGET OS is not defined.. caller must define TARGET_OS_LINUX, TARGET_OS_WINDOWS or TARGET_OS_ANDROID")
-           endif()
-        else()
-           message(FATAL_ERROR "Build host is Unknown OS")
         endif()
     endif()
 
@@ -917,94 +743,6 @@ else()
 
     else()
         message(FATAL_ERROR "TARGET OS is not defined.. caller must define TARGET_OS_LINUX, TARGET_OS_WINDOWS or TARGET_OS_ANDROID")
-    endif()
-
-    if(CMD_LINE_MAKE)
-        message(STATUS "*** CMD_LINE_MAKE ***")
-
-        if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
-            message(STATUS "HOST OS Windows")
-
-            if(DEFINED TARGET_OS_ANDROID)
-                # path should be set correctly already
-
-                message(STATUS "CMD_LINE_MAKE Target Android on os windows")
-
-            elseif(DEFINED TARGET_OS_WINDOWS)
-                if(${CMAKE_CXX_COMPILER_ID} STREQUAL "MSVC")
-                    set(NLC_POSTPATH "/msvc2019_64")
-                    
-                    message(STATUS "CMD_LINE_MAKE Compiling windows with MSVC")
-                else()
-                    set(NLC_POSTPATH "/mingw_64")
-                    message(STATUS "CMD_LINE_MAKE Compiling windows with mingw")
-                endif()
-
-                list(APPEND CMAKE_PREFIX_PATH "${NLC_PREPATH}${NLC_QT_VER}${NLC_POSTPATH}")
-
-            else()
-                message("CMD_LINE_MAKE TARGET UNKNOWN")
-            endif()
-
-        elseif(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
-            message("HOST OS Linux")
-            if(DEFINED TARGET_OS_ANDROID)
-                # path should be set correctly already
-                list(APPEND CMAKE_PREFIX_PATH "${NLC_PREPATH}${NLC_QT_VER}${NLC_POSTPATH}")
-                
-                message(STATUS "CMD_LINE_MAKE Target Android")
-
-            elseif(DEFINED TARGET_OS_LINUX)
-                # path should be set correctly already
-                message(STATUS "*** BEFORE CMD_LINE_MAKE Target Linux with prefix ${CMAKE_PREFIX_PATH}")
-                list(APPEND CMAKE_PREFIX_PATH "${NLC_PREPATH}${NLC_QT_VER}${NLC_POSTPATH}")
-                
-                message(STATUS "*** AFTER CMD_LINE_MAKE Target Linux with prefix ${CMAKE_PREFIX_PATH}")
-
-            else()
-                message("CMD_LINE_MAKE TARGET UNKNOWN")
-            endif()
-
-        else()
-            message("CMD_LINE_MAKE CMAKE_HOST_SYSTEM_NAME UNKNOWN")
-        endif()
-    endif()
-
-    if(CI_PIPELINE)   
-        message(STATUS "*** CI_PIPELINE ***")
-
-        if(DEFINED TARGET_OS_ANDROID)
-            set(CMAKE_ANDROID_NDK "/opt/Sdk/ndk/${NLC_NDK_VERSION}")
-            if(DEFINED ARM32)
-                set(CMAKE_PREFIX_PATH "/opt/Qt-android-${NLC_QT_VER}/android_armv7")
-            else()
-                set(CMAKE_PREFIX_PATH "/opt/Qt-android-${NLC_QT_VER}/android_arm64_v8a")
-            endif()
-
-            list(APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_PREFIX_PATH}")
-            set(ANDROID_SDK_ROOT "/opt/android-sdk")
-
-            set(CMAKE_TOOLCHAIN_FILE "${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake")
-            message(STATUS "CI Pipeline Target Android")
-
-        elseif(DEFINED TARGET_OS_LINUX)
-            set(CMAKE_PREFIX_PATH "/opt/Qt-amd64-${NLC_QT_VER}")
-            message(STATUS "CI Pipeline Target Linux")
-           
-        else()
-            message("CI_PIPELINE TARGET UNKNOWN")
-        endif()
-    endif()
-
-    if(DEFINED CMD_LINE_MAKE)
-        #fix issue where depend lib player-nlc uses qt but from command line android cannot find the qt packages etc
-        if(DEFINED TARGET_OS_ANDROID)
-            if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
-                list(APPEND CMAKE_FIND_ROOT_PATH "${CMAKE_PREFIX_PATH}")
-                set(ANDROID_SDK_ROOT /home/nolimit/Android/Sdk)
-                set(CMAKE_TOOLCHAIN_FILE "${CMAKE_ANDROID_NDK}/build/cmake/android.toolchain.cmake")
-            endif()
-        endif()
     endif()
 
     message(STATUS "2 - CMAKE_FIND_ROOT_PATH ${CMAKE_FIND_ROOT_PATH}")
@@ -1087,12 +825,6 @@ else()
     endif()
 
     if(DEFINED TARGET_OS_ANDROID)
-        if(MANUAL_PACKAGE)
-            message(STATUS "MANUAL_PACKAGE is defined ")
-            set(ANDROID_STL c++_static)
-            add_compile_definitions(ANDROID_STL=c++_static)
-        endif()
-
         set(CMAKE_ANDROID_ASSETS_DIRECTORIES "${PROJECT_BIN_DIR}/assets")
         message(STATUS "CMAKE_ANDROID_ASSETS_DIRECTORIES " ${CMAKE_ANDROID_ASSETS_DIRECTORIES})
 
@@ -1300,14 +1032,8 @@ endif()
 if(BUILD_SYSTEM_FLATPAK)
     message(STATUS "BUILD_SYSTEM_FLATPAK true")
 endif()
-if(BUILD_SYSTEM_CMDLINE)
-    message(STATUS "BUILD_SYSTEM_CMDLINE true")
-endif()
 if(BUILD_SYSTEM_QCREATOR)
     message(STATUS "BUILD_SYSTEM_QCREATOR true")
-endif()
-if(BUILD_SYSTEM_CI_PIPELINE)
-    message(STATUS "BUILD_SYSTEM_CI_PIPELINE true")
 endif()
 if(TARGET_OS_WINDOWS)
     message(STATUS "BUILD system using MSVC to compile for Windows")

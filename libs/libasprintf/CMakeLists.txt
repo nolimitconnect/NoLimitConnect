@@ -23,13 +23,3 @@ add_library(asprintf STATIC ${asprintf_SOURCES})
 
 target_compile_definitions(asprintf PRIVATE IN_LIBASPRINTF)
 
-if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
-    if(CI_PIPELINE)
-        # remove *.o and *.d files to avoid gitlab docker size restriction
-        add_custom_command(POST_BUILD TARGET asprintf
-            WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-            COMMAND find . -type f -name '*.o' -print -delete
-            COMMAND find . -type f -name '*.d' -print -delete
-        )
-    endif()
-endif()

@@ -77,9 +77,9 @@ static void FilterFarNEON(AecCore* aec, float yf[2][PART_LEN1]) {
   }
 }
 
-// ARM64's arm_neon.h has already defined vdivq_f32 vsqrtq_f32.
+// Keep local fallback helpers with unique names to avoid intrinsic collisions.
 #if !defined (WEBRTC_ARCH_ARM64_NEON)
-static float32x4_t vdivq_f32(float32x4_t a, float32x4_t b) {
+static float32x4_t WebRtcAec_vdivq_f32(float32x4_t a, float32x4_t b) {
   int i;
   float32x4_t x = vrecpeq_f32(b);
   // from arm documentation
@@ -95,7 +95,7 @@ static float32x4_t vdivq_f32(float32x4_t a, float32x4_t b) {
   return vmulq_f32(a, x);
 }
 
-static float32x4_t vsqrtq_f32(float32x4_t s) {
+static float32x4_t WebRtcAec_vsqrtq_f32(float32x4_t s) {
   int i;
   float32x4_t x = vrsqrteq_f32(s);
 
@@ -136,14 +136,14 @@ static void ScaleErrorSignalNEON(AecCore* aec, float ef[2][PART_LEN1]) {
     const float32x4_t ef_re_base = vld1q_f32(&ef[0][i]);
     const float32x4_t ef_im_base = vld1q_f32(&ef[1][i]);
     const float32x4_t xPowPlus = vaddq_f32(xPow, k1e_10f);
-    float32x4_t ef_re = vdivq_f32(ef_re_base, xPowPlus);
-    float32x4_t ef_im = vdivq_f32(ef_im_base, xPowPlus);
+    float32x4_t ef_re = WebRtcAec_vdivq_f32(ef_re_base, xPowPlus);
+    float32x4_t ef_im = WebRtcAec_vdivq_f32(ef_im_base, xPowPlus);
     const float32x4_t ef_re2 = vmulq_f32(ef_re, ef_re);
     const float32x4_t ef_sum2 = vmlaq_f32(ef_re2, ef_im, ef_im);
-    const float32x4_t absEf = vsqrtq_f32(ef_sum2);
+    const float32x4_t absEf = WebRtcAec_vsqrtq_f32(ef_sum2);
     const uint32x4_t bigger = vcgtq_f32(absEf, kThresh);
     const float32x4_t absEfPlus = vaddq_f32(absEf, k1e_10f);
-    const float32x4_t absEfInv = vdivq_f32(kThresh, absEfPlus);
+    const float32x4_t absEfInv = WebRtcAec_vdivq_f32(kThresh, absEfPlus);
     uint32x4_t ef_re_if = vreinterpretq_u32_f32(vmulq_f32(ef_re, absEfInv));
     uint32x4_t ef_im_if = vreinterpretq_u32_f32(vmulq_f32(ef_im, absEfInv));
     uint32x4_t ef_re_u32 = vandq_u32(vmvnq_u32(bigger),
