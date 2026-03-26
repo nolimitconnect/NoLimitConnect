@@ -2013,66 +2013,71 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="211" />
+            <source>Enable Noise Reduction</source>
+            <translation>启用降噪</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="224" />
             <source>Enable AGC ( Automatic Gain Control )</source>
             <translation>启用 AGC（自动增益控制）</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="222" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="235" />
             <source>Microphone Peak Level: </source>
             <translation>麦克风峰值电平：</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="241" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="254" />
             <source>Show Sound Out Settings</source>
             <translation>显示声音输出设置</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="305" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="318" />
             <source>Generate 400Hz tone for speakers</source>
             <translation>为扬声器生成 400Hz 音调</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="409" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="422" />
             <source>Play Test File</source>
             <translation>播放测试文件</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="429" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="442" />
             <source>Show Log</source>
             <translation>显示日志</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="248" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="261" />
             <source>Sound Output</source>
             <translation>声音输出</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="269" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="282" />
             <source>Apply Sound Out Device As Default</source>
             <translation>将声音输出设备应用为默认值</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="278" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="291" />
             <source>Sound Out Device</source>
             <translation>声音输出装置</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="316" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="329" />
             <source>Test Sound Delay For Echo Cancel</source>
             <translation>测试回声消除的声音延迟</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="329" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="342" />
             <source>Test result ms:</source>
             <translation>测试结果毫秒：</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="356" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="369" />
             <source>Echo delay ms:</source>
             <translation>回声延迟毫秒：</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="373" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="386" />
             <source>Save Echo Delay To Echo Canceler</source>
             <translation>将回声延迟保存到回声消除器</translation>
         </message>
@@ -3787,25 +3792,25 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2532" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2534" />
             <source>Confirm Shred File</source>
             <translation>确认粉碎文件</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2532" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2534" />
             <source>Confirm Delete File</source>
             <translation>确认删除文件</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="470" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2536" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2538" />
             <source>Are You Sure You Want To Write Random Data Into The File Then Delete From The Device?</source>
             <translation>您确定要将随机数据写入文件然后从设备中删除吗？</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="474" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2540" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2542" />
             <source>Are You Sure To Delete The File From The Device?</source>
             <translation>您确定要从设备中删除该文件吗？</translation>
         </message>
@@ -4436,51 +4441,51 @@ File Type: </source>
             <translation>搜索已停止</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="101" />
-            <location filename="../nolimitgui/src/AppTranslate.cpp" line="344" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="102" />
+            <location filename="../nolimitgui/src/AppTranslate.cpp" line="346" />
             <source>No Limit Connect</source>
             <translation>无限制连接</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="646" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="677" />
             <source>ERROR:
 </source>
             <translation>错误：</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="650" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="681" />
             <source>Failed to connect to Network host</source>
             <translation>无法连接到网络主机</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="653" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="684" />
             <source>Failed to connect to Connection Test host</source>
             <translation>无法连接到连接测试主机</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="656" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="687" />
             <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="215" />
             <source>Video Play Failed</source>
             <translation>视频播放失败</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="659" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="690" />
             <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="217" />
             <source>Audio Play Failed</source>
             <translation>音频播放失败</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1133" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1164" />
             <source>Close Application</source>
             <translation>关闭申请</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1134" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1165" />
             <source>Are you sure you want to exit?</source>
             <translation>您确定要退出吗？</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1250" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1271" />
             <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="354" />
             <source>Application Error</source>
             <translation>应用程序错误</translation>
@@ -5194,53 +5199,53 @@ File Type: </source>
             <translation>未知</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="54" />
+            <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="61" />
             <source>Copy device info to clipboard (For Bug Report)</source>
             <translation>将设备信息复制到剪贴板（用于错误报告）</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="56" />
+            <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="63" />
             <source> Version </source>
             <translation>版本</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="91" />
+            <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="106" />
             <source>Copy connection info to clipboard (NOT RECOMMENDED)</source>
             <translation>将连接信息复制到剪贴板（不推荐）</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="64" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2447" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2449" />
             <source>Invalid Host Id</source>
             <translation>主机 ID 无效</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="65" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2448" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2450" />
             <source>Host Id has not been set</source>
             <translation>主机ID尚未设置</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="73" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2474" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2476" />
             <source>No Members Online</source>
             <translation>没有会员在线</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="74" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2475" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2477" />
             <source>There are no members online to send to</source>
             <translation>没有在线会员可发送至</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2483" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2492" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2485" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2494" />
             <source>Failed to add asset</source>
             <translation>添加资产失败</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2484" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2493" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2486" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2495" />
             <source>Failed to add asset. Please check disk space</source>
             <translation>添加资产失败。请检查磁盘空间</translation>
         </message>
@@ -5495,7 +5500,7 @@ File Type: </source>
             <location filename="../nolimitgui/src/AppletFileOfferSelect.cpp" line="323" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="373" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="406" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2366" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2368" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1358" />
             <source>File Not Found</source>
             <translation>找不到文件</translation>
@@ -5726,7 +5731,7 @@ File Type: </source>
             <translation>主机的用户列表已完成</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2456" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2458" />
             <source>Invalid URL</source>
             <translation>无效网址</translation>
         </message>
@@ -5792,12 +5797,12 @@ File Type: </source>
             <translation>忽略的主机列表为空</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2384" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2386" />
             <source>Application Not Ready</source>
             <translation>申请未准备好</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2385" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2387" />
             <source>Cannot Launch Applet Until Application Has Initialized</source>
             <translation>在应用程序初始化之前无法启动小程序</translation>
         </message>
@@ -6452,29 +6457,29 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
             <translation>温度？</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="108" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="109" />
             <source>Speaker Device Unavailable</source>
             <translation>扬声器设备不可用</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="108" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="109" />
             <source>No speaker device is available to enable</source>
             <translation>没有可用于启用的扬声器设备</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="114" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="115" />
             <source>Microphone Device Unavailable</source>
             <translation>麦克风设备不可用</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="114" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="115" />
             <source>No microphone device is available to enable</source>
             <translation>没有可启用的麦克风设备</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="256" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="261" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="267" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="257" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="262" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="268" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="63" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="69" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="101" />
@@ -6482,27 +6487,27 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
             <translation>设备中的声音</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="256" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="257" />
             <source> device is saved as preferred Sound In Device</source>
             <translation>设备保存为首选声音设备</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="217" />
             <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="265" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="261" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="286" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="262" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="287" />
             <source> failed to initialize</source>
             <translation>初始化失败</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="267" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="268" />
             <source>No Sound In Device Is Available</source>
             <translation>设备中没有声音可用</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="281" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="286" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="292" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="282" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="287" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="293" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="60" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="66" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="73" />
@@ -6511,97 +6516,97 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
             <translation>声音输出装置</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="281" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="282" />
             <source> device is saved as preferred Sound Out Device</source>
             <translation>设备保存为首选声音输出设备</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="292" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="293" />
             <source>No Sound Out Device Is Available</source>
             <translation>没有可用的声音输出设备</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="307" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="308" />
             <source>Echo delay test is running</source>
             <translation>回声延迟测试正在运行</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="307" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="308" />
             <source>Echo delay test can not be run until the previous test finishes</source>
             <translation>在前一个测试完成之前，无法运行回声延迟测试</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="318" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="319" />
             <source>Echo Delay Value Invalid</source>
             <translation>回声延迟值无效</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="318" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="319" />
             <source>Echo Delay value must be between 40 and 500 milliseconds</source>
             <translation>回声延迟值必须介于 40 到 500 毫秒之间</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="324" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="325" />
             <source>Echo Delay Value Save</source>
             <translation>回声延迟值保存</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="324" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="325" />
             <source>Echo Delay value has been saved for use by Echo Cancelation</source>
             <translation>回声延迟值已保存以供回声消除使用</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="369" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="370" />
             <source>Echo Delays </source>
             <translation>回声延迟</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="382" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="383" />
             <source>, </source>
             <translation>,</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="396" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="397" />
             <source>
 Delay Test Is Valid
 </source>
             <translation>延迟测试有效</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="396" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="397" />
             <source>
 Delay Test Is Invalid
 </source>
             <translation>延迟测试无效</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="400" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="401" />
             <source>If you are having echo issues you may want to enter value </source>
             <translation>如果您遇到回声问题，您可能需要输入值</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="402" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="403" />
             <source> into  Echo delay ms field and click Save Echo Delay To Echo Canceller button
 </source>
             <translation>进入回声延迟毫秒字段，然后单击“将回声延迟保存到回声消除器”按钮</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="404" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="405" />
             <source>Echo Delay Test Is Valid</source>
             <translation>回声延迟测试有效</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="408" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="409" />
             <source>Echo Delay Test Is Invalid. Check microphone and speaker. Try turning up the volume or placing microphone closer to speaker</source>
             <translation>回声延迟测试无效。检查麦克风和扬声器。尝试调高音量或将麦克风靠近扬声器</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="437" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="438" />
             <source>Play Test File</source>
             <translation>播放测试文件</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="437" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="438" />
             <source>No test file is selected or test file index is invalid</source>
             <translation>未选择测试文件或测试文件索引无效</translation>
         </message>
@@ -6868,72 +6873,72 @@ Delay Test Is Invalid
             <translation>年龄不能大于120岁</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2295" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2297" />
             <source>User Unavailable</source>
             <translation>用户不可用</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2296" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2298" />
             <source>User </source>
             <translation>用户</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2296" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2298" />
             <source> Is Unavailable</source>
             <translation>不可用</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2305" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2307" />
             <source>Already In A Session</source>
             <translation>已在会话中</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2306" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2308" />
             <source>Already in session. Please close existing session and try again</source>
             <translation>已经在开会了。请关闭现有会话并重试</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2315" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2317" />
             <source>Sent User An Offer</source>
             <translation>向用户发送报价</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2316" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2318" />
             <source>Offer Was Sent To  </source>
             <translation>报价已发送至</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2320" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2322" />
             <source>Send Offer Failed</source>
             <translation>发送报价失败</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2321" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2323" />
             <source>Offer Send Failed  </source>
             <translation>报价发送失败</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2325" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2327" />
             <source>Not Connected</source>
             <translation>未连接</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2326" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2328" />
             <source>You are not connected to host </source>
             <translation>您未连接到主机</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2330" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2332" />
             <source>No User Selected</source>
             <translation>未选择用户</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2331" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2333" />
             <source>You must select a user to send to </source>
             <translation>您必须选择要发送至的用户</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2300" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2302" />
             <source>User is offline</source>
             <translation>用户离线</translation>
         </message>
@@ -6973,23 +6978,23 @@ Delay Test Is Invalid
             <translation>心情消息太长（最多 31 个字符）</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2301" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2303" />
             <source>User is no longer connected</source>
             <translation>用户不再连接</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2310" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2311" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2312" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2313" />
             <source>Session not found</source>
             <translation>未找到会话</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2335" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2337" />
             <source>Purge Everthing Warning</source>
             <translation>清除一切警告</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2336" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2338" />
             <source>This action will delete everything not locked including Identity, Downloaded Files, Storyboard, Message History Etc.
 The action cannot be undone
 Are you very sure you want to proceed?</source>
@@ -6998,136 +7003,136 @@ Are you very sure you want to proceed?</source>
 您确定要继续吗？</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2340" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2342" />
             <source>Voice Message Too Short</source>
             <translation>语音消息太短</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2341" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2343" />
             <source>The Voice Message was too short and will not be sent.</source>
             <translation>语音消息太短，不会发送。</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2345" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2347" />
             <source>Video clip Too Short</source>
             <translation>视频剪辑太短</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2346" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2348" />
             <source>The Video Clip was too short and will not be sent.</source>
             <translation>视频剪辑太短，不会发送。</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2350" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2352" />
             <source>Video record failed to start</source>
             <translation>视频录制无法开始</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2351" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2353" />
             <source>Video record failed to start.</source>
             <translation>视频录制无法开始。</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2367" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2369" />
             <source>File Name Is Empty</source>
             <translation>文件名为空</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2375" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2376" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2377" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2378" />
             <source>Access File Permissions Denied By User</source>
             <translation>用户拒绝访问文件权限</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2385" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2387" />
             <source>Cannot launch applet until network is available</source>
             <translation>在网络可用之前无法启动小程序</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2393" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2395" />
             <source>Requires Open Port</source>
             <translation>需要开放端口</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2394" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2396" />
             <source>Action requires a open port</source>
             <translation>操作需要开放端口</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2402" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2411" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2404" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2413" />
             <source>Invalid Invite</source>
             <translation>邀请无效</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2403" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2405" />
             <source>The invite is invalid</source>
             <translation>邀请无效</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2412" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2414" />
             <source>Cannot accept invite from myself</source>
             <translation>无法接受我自己的邀请</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2420" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2422" />
             <source>Invalid User</source>
             <translation>无效用户</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2421" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2423" />
             <source>Could not find the user</source>
             <translation>找不到用户</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2429" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2431" />
             <source>User Not Online</source>
             <translation>用户不在线</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2430" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2432" />
             <source>The user is not currently online</source>
             <translation>用户当前不在线</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2438" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2440" />
             <source>Friendship Level To Low</source>
             <translation>友谊等级低</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2439" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2441" />
             <source>Requires friendship of friend or higher</source>
             <translation>需要朋友或更高级别的友谊</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2457" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2459" />
             <source>The host url is not valid</source>
             <translation>主机 URL 无效</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2465" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2467" />
             <source>Invalid Host Type</source>
             <translation>主机类型无效</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2466" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2468" />
             <source>The host url does not have a vailid host type</source>
             <translation>主机 URL 没有有效的主机类型</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="645" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2355" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="676" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2357" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1388" />
             <source>Unknown Error</source>
             <translation>未知错误</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2356" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2358" />
             <source>Unknown Error </source>
             <translation>未知错误</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2356" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2358" />
             <source> for user </source>
             <translation>对于用户</translation>
         </message>
@@ -9791,7 +9796,7 @@ Are you very sure you want to proceed?</source>
             <translation>未知小程序</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2236" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2238" />
             <source>Could not create thumbnail asset</source>
             <translation>无法创建缩略图资源</translation>
         </message>
@@ -9831,7 +9836,7 @@ Are you very sure you want to proceed?</source>
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="654" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="731" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="767" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2242" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2244" />
             <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="104" />
             <source>Could not get thumbnail file info</source>
             <translation>无法获取缩略图文件信息</translation>
@@ -9840,8 +9845,8 @@ Are you very sure you want to proceed?</source>
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="655" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="732" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="768" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2237" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2243" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2239" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2245" />
             <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="105" />
             <source>Error occured creating thumbnail asset </source>
             <translation>创建缩略图资源时发生错误</translation>
@@ -10191,79 +10196,84 @@ Are you very sure you want to proceed?</source>
             <translation>离开随机连接</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="130" />
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="136" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="131" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="137" />
             <source>Language</source>
             <translation>语言</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="130" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="131" />
             <source>Language updated.</source>
             <translation>语言已更新。</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="137" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="138" />
             <source>Language updated, but no translation file was found in the translations folder.</source>
             <translation>语言已更新，但在翻译文件夹中未找到翻译文件。</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="197" />
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="209" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="199" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="212" />
             <source>English</source>
             <translation>英语</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="198" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="200" />
             <source>German</source>
             <translation>德语</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="199" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="201" />
             <source>Chinese</source>
             <translation>中文</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="200" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="202" />
             <source>Spanish</source>
             <translation>西班牙语</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="201" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="203" />
             <source>French</source>
             <translation>法语</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="202" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="204" />
             <source>Arabic</source>
             <translation>阿拉伯语</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="203" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="205" />
             <source>Hindi</source>
             <translation>印地语</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="204" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="206" />
             <source>Portuguese</source>
             <translation>葡萄牙语</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="205" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="207" />
             <source>Japanese</source>
             <translation>日语</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="206" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="208" />
             <source>Korean</source>
             <translation>韩语</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="207" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="209" />
             <source>Russian</source>
             <translation>俄语</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="208" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="210" />
+            <source>Thai</source>
+            <translation>泰语</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="211" />
             <source>Indonesian</source>
             <translation>印度尼西亚语</translation>
         </message>

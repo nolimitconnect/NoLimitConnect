@@ -2013,66 +2013,71 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="211" />
+            <source>Enable Noise Reduction</source>
+            <translation>Activer la réduction du bruit</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="224" />
             <source>Enable AGC ( Automatic Gain Control )</source>
             <translation>Activer AGC (contrôle automatique du gain)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="222" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="235" />
             <source>Microphone Peak Level: </source>
             <translation>Niveau de crête du microphone :</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="241" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="254" />
             <source>Show Sound Out Settings</source>
             <translation>Afficher les paramètres de sortie audio</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="305" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="318" />
             <source>Generate 400Hz tone for speakers</source>
             <translation>Générer une tonalité de 400 Hz pour les haut-parleurs</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="409" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="422" />
             <source>Play Test File</source>
             <translation>Lire le fichier de test</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="429" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="442" />
             <source>Show Log</source>
             <translation>Afficher le journal</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="248" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="261" />
             <source>Sound Output</source>
             <translation>Sortie sonore</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="269" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="282" />
             <source>Apply Sound Out Device As Default</source>
             <translation>Appliquer le périphérique de sortie audio par défaut</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="278" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="291" />
             <source>Sound Out Device</source>
             <translation>Appareil de sortie sonore</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="316" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="329" />
             <source>Test Sound Delay For Echo Cancel</source>
             <translation>Test du délai sonore pour l'annulation de l'écho</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="329" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="342" />
             <source>Test result ms:</source>
             <translation>Résultat du test ms :</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="356" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="369" />
             <source>Echo delay ms:</source>
             <translation>Délai d'écho ms :</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="373" />
+            <location filename="../nolimitgui/src/Forms/AppletSoundSettings.ui" line="386" />
             <source>Save Echo Delay To Echo Canceler</source>
             <translation>Enregistrer le délai d'écho dans l'annuleur d'écho</translation>
         </message>
@@ -3787,25 +3792,25 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2532" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2534" />
             <source>Confirm Shred File</source>
             <translation>Confirmer la destruction du fichier</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2532" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2534" />
             <source>Confirm Delete File</source>
             <translation>Confirmer la suppression du fichier</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="470" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2536" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2538" />
             <source>Are You Sure You Want To Write Random Data Into The File Then Delete From The Device?</source>
             <translation>Êtes-vous sûr de vouloir écrire des données aléatoires dans le fichier, puis les supprimer de l'appareil ?</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="474" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2540" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2542" />
             <source>Are You Sure To Delete The File From The Device?</source>
             <translation>Êtes-vous sûr de supprimer le fichier de l'appareil ?</translation>
         </message>
@@ -4436,51 +4441,51 @@ File Type: </source>
             <translation>Recherche arrêtée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="101" />
-            <location filename="../nolimitgui/src/AppTranslate.cpp" line="344" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="102" />
+            <location filename="../nolimitgui/src/AppTranslate.cpp" line="346" />
             <source>No Limit Connect</source>
             <translation>Connexion sans limite</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="646" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="677" />
             <source>ERROR:
 </source>
             <translation>ERREUR :</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="650" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="681" />
             <source>Failed to connect to Network host</source>
             <translation>Échec de la connexion à l'hôte réseau</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="653" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="684" />
             <source>Failed to connect to Connection Test host</source>
             <translation>Échec de la connexion à l'hôte de test de connexion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="656" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="687" />
             <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="215" />
             <source>Video Play Failed</source>
             <translation>Échec de la lecture vidéo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="659" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="690" />
             <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="217" />
             <source>Audio Play Failed</source>
             <translation>Échec de la lecture audio</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1133" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1164" />
             <source>Close Application</source>
             <translation>Fermer l'application</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1134" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1165" />
             <source>Are you sure you want to exit?</source>
             <translation>Êtes-vous sûr de vouloir quitter ?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1250" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1271" />
             <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="354" />
             <source>Application Error</source>
             <translation>Erreur d'application</translation>
@@ -5194,53 +5199,53 @@ File Type: </source>
             <translation>Inconnu</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="54" />
+            <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="61" />
             <source>Copy device info to clipboard (For Bug Report)</source>
             <translation>Copier les informations sur l'appareil dans le presse-papiers (pour le rapport de bug)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="56" />
+            <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="63" />
             <source> Version </source>
             <translation>Version</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="91" />
+            <location filename="../nolimitgui/src/AppletAboutApp.cpp" line="106" />
             <source>Copy connection info to clipboard (NOT RECOMMENDED)</source>
             <translation>Copier les informations de connexion dans le presse-papiers (NON RECOMMANDÉ)</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="64" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2447" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2449" />
             <source>Invalid Host Id</source>
             <translation>ID d'hôte invalide</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="65" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2448" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2450" />
             <source>Host Id has not been set</source>
             <translation>L'ID d'hôte n'a pas été défini</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="73" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2474" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2476" />
             <source>No Members Online</source>
             <translation>Aucun membre en ligne</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="74" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2475" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2477" />
             <source>There are no members online to send to</source>
             <translation>Il n'y a aucun membre en ligne à qui envoyer</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2483" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2492" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2485" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2494" />
             <source>Failed to add asset</source>
             <translation>Échec de l'ajout de l'élément</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2484" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2493" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2486" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2495" />
             <source>Failed to add asset. Please check disk space</source>
             <translation>Échec de l'ajout de l'élément. Veuillez vérifier l'espace disque</translation>
         </message>
@@ -5495,7 +5500,7 @@ File Type: </source>
             <location filename="../nolimitgui/src/AppletFileOfferSelect.cpp" line="323" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="373" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="406" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2366" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2368" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1358" />
             <source>File Not Found</source>
             <translation>Fichier introuvable</translation>
@@ -5726,7 +5731,7 @@ File Type: </source>
             <translation>Liste des utilisateurs de l'hôte terminée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2456" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2458" />
             <source>Invalid URL</source>
             <translation>URL invalide</translation>
         </message>
@@ -5792,12 +5797,12 @@ File Type: </source>
             <translation>La liste des hôtes ignorés est vide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2384" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2386" />
             <source>Application Not Ready</source>
             <translation>L'application n'est pas prête</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2385" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2387" />
             <source>Cannot Launch Applet Until Application Has Initialized</source>
             <translation>Impossible de lancer l'applet tant que l'application n'a pas été initialisée</translation>
         </message>
@@ -6452,29 +6457,29 @@ Si la clé réseau est incorrecte, vous serez probablement banni en tant que pir
             <translation>Température ?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="108" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="109" />
             <source>Speaker Device Unavailable</source>
             <translation>Périphérique haut-parleur indisponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="108" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="109" />
             <source>No speaker device is available to enable</source>
             <translation>Aucun haut-parleur n'est disponible pour activer</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="114" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="115" />
             <source>Microphone Device Unavailable</source>
             <translation>Appareil microphone indisponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="114" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="115" />
             <source>No microphone device is available to enable</source>
             <translation>Aucun périphérique de microphone n'est disponible pour activer</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="256" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="261" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="267" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="257" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="262" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="268" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="63" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="69" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="101" />
@@ -6482,27 +6487,27 @@ Si la clé réseau est incorrecte, vous serez probablement banni en tant que pir
             <translation>Son dans l'appareil</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="256" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="257" />
             <source> device is saved as preferred Sound In Device</source>
             <translation>l'appareil est enregistré comme son préféré dans l'appareil</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="217" />
             <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="265" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="261" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="286" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="262" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="287" />
             <source> failed to initialize</source>
             <translation>échec de l'initialisation</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="267" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="268" />
             <source>No Sound In Device Is Available</source>
             <translation>Aucun son dans l'appareil n'est disponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="281" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="286" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="292" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="282" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="287" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="293" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="60" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="66" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="73" />
@@ -6511,97 +6516,97 @@ Si la clé réseau est incorrecte, vous serez probablement banni en tant que pir
             <translation>Appareil de sortie sonore</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="281" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="282" />
             <source> device is saved as preferred Sound Out Device</source>
             <translation>l'appareil est enregistré en tant que périphérique de sortie audio préféré</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="292" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="293" />
             <source>No Sound Out Device Is Available</source>
             <translation>Aucun périphérique de sortie audio n'est disponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="307" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="308" />
             <source>Echo delay test is running</source>
             <translation>Le test de retard d'écho est en cours</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="307" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="308" />
             <source>Echo delay test can not be run until the previous test finishes</source>
             <translation>Le test de retard d'écho ne peut pas être exécuté tant que le test précédent n'est pas terminé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="318" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="319" />
             <source>Echo Delay Value Invalid</source>
             <translation>Valeur du délai d'écho invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="318" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="319" />
             <source>Echo Delay value must be between 40 and 500 milliseconds</source>
             <translation>La valeur du délai d'écho doit être comprise entre 40 et 500 millisecondes</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="324" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="325" />
             <source>Echo Delay Value Save</source>
             <translation>Sauvegarde de la valeur du délai d'écho</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="324" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="325" />
             <source>Echo Delay value has been saved for use by Echo Cancelation</source>
             <translation>La valeur du délai d'écho a été enregistrée pour être utilisée par l'annulation d'écho.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="369" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="370" />
             <source>Echo Delays </source>
             <translation>Délais d'écho</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="382" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="383" />
             <source>, </source>
             <translation>,</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="396" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="397" />
             <source>
 Delay Test Is Valid
 </source>
             <translation>Le test de retard est valide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="396" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="397" />
             <source>
 Delay Test Is Invalid
 </source>
             <translation>Le test de retard est invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="400" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="401" />
             <source>If you are having echo issues you may want to enter value </source>
             <translation>Si vous rencontrez des problèmes d'écho, vous souhaiterez peut-être saisir une valeur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="402" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="403" />
             <source> into  Echo delay ms field and click Save Echo Delay To Echo Canceller button
 </source>
             <translation>dans le champ Echo delay ms et cliquez sur le bouton Enregistrer le délai d'écho dans l'annuleur d'écho</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="404" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="405" />
             <source>Echo Delay Test Is Valid</source>
             <translation>Le test de retard d'écho est valide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="408" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="409" />
             <source>Echo Delay Test Is Invalid. Check microphone and speaker. Try turning up the volume or placing microphone closer to speaker</source>
             <translation>Le test de délai d'écho n'est pas valide. Vérifiez le microphone et le haut-parleur. Essayez d'augmenter le volume ou de rapprocher le microphone du haut-parleur.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="437" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="438" />
             <source>Play Test File</source>
             <translation>Lire le fichier de test</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="437" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="438" />
             <source>No test file is selected or test file index is invalid</source>
             <translation>Aucun fichier de test n'est sélectionné ou l'index du fichier de test n'est pas valide</translation>
         </message>
@@ -6868,72 +6873,72 @@ Delay Test Is Invalid
             <translation>Âge Ne peut pas être supérieur à 120 ans</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2295" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2297" />
             <source>User Unavailable</source>
             <translation>Utilisateur indisponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2296" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2298" />
             <source>User </source>
             <translation>Utilisateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2296" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2298" />
             <source> Is Unavailable</source>
             <translation>N'est pas disponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2305" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2307" />
             <source>Already In A Session</source>
             <translation>Déjà en session</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2306" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2308" />
             <source>Already in session. Please close existing session and try again</source>
             <translation>Déjà en séance. Veuillez fermer la session existante et réessayer</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2315" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2317" />
             <source>Sent User An Offer</source>
             <translation>Envoyé une offre à l'utilisateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2316" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2318" />
             <source>Offer Was Sent To  </source>
             <translation>L'offre a été envoyée à</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2320" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2322" />
             <source>Send Offer Failed</source>
             <translation>Échec de l'envoi de l'offre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2321" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2323" />
             <source>Offer Send Failed  </source>
             <translation>Échec de l'envoi de l'offre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2325" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2327" />
             <source>Not Connected</source>
             <translation>Non connecté</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2326" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2328" />
             <source>You are not connected to host </source>
             <translation>Vous n'êtes pas connecté à l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2330" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2332" />
             <source>No User Selected</source>
             <translation>Aucun utilisateur sélectionné</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2331" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2333" />
             <source>You must select a user to send to </source>
             <translation>Vous devez sélectionner un utilisateur à qui envoyer</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2300" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2302" />
             <source>User is offline</source>
             <translation>L'utilisateur est hors ligne</translation>
         </message>
@@ -6973,23 +6978,23 @@ Delay Test Is Invalid
             <translation>Le message d'humeur est trop long (maximum 31 caractères)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2301" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2303" />
             <source>User is no longer connected</source>
             <translation>L'utilisateur n'est plus connecté</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2310" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2311" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2312" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2313" />
             <source>Session not found</source>
             <translation>Séance introuvable</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2335" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2337" />
             <source>Purge Everthing Warning</source>
             <translation>Avertissement de purge de tout</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2336" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2338" />
             <source>This action will delete everything not locked including Identity, Downloaded Files, Storyboard, Message History Etc.
 The action cannot be undone
 Are you very sure you want to proceed?</source>
@@ -6998,136 +7003,136 @@ L'action ne peut pas être annulée
 Êtes-vous vraiment sûr de vouloir continuer ?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2340" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2342" />
             <source>Voice Message Too Short</source>
             <translation>Message vocal trop court</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2341" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2343" />
             <source>The Voice Message was too short and will not be sent.</source>
             <translation>Le message vocal était trop court et ne sera pas envoyé.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2345" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2347" />
             <source>Video clip Too Short</source>
             <translation>Clip vidéo Trop court</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2346" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2348" />
             <source>The Video Clip was too short and will not be sent.</source>
             <translation>Le clip vidéo était trop court et ne sera pas envoyé.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2350" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2352" />
             <source>Video record failed to start</source>
             <translation>L'enregistrement vidéo n'a pas pu démarrer</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2351" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2353" />
             <source>Video record failed to start.</source>
             <translation>L'enregistrement vidéo n'a pas pu démarrer.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2367" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2369" />
             <source>File Name Is Empty</source>
             <translation>Le nom du fichier est vide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2375" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2376" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2377" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2378" />
             <source>Access File Permissions Denied By User</source>
             <translation>Autorisations d'accès aux fichiers refusées par l'utilisateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2385" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2387" />
             <source>Cannot launch applet until network is available</source>
             <translation>Impossible de lancer l'applet tant que le réseau n'est pas disponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2393" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2395" />
             <source>Requires Open Port</source>
             <translation>Nécessite un port ouvert</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2394" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2396" />
             <source>Action requires a open port</source>
             <translation>L'action nécessite un port ouvert</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2402" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2411" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2404" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2413" />
             <source>Invalid Invite</source>
             <translation>Invitation invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2403" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2405" />
             <source>The invite is invalid</source>
             <translation>L'invitation n'est pas valide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2412" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2414" />
             <source>Cannot accept invite from myself</source>
             <translation>Je ne peux pas accepter d'invitation de ma part</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2420" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2422" />
             <source>Invalid User</source>
             <translation>Utilisateur invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2421" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2423" />
             <source>Could not find the user</source>
             <translation>Impossible de trouver l'utilisateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2429" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2431" />
             <source>User Not Online</source>
             <translation>Utilisateur non en ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2430" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2432" />
             <source>The user is not currently online</source>
             <translation>L'utilisateur n'est pas en ligne actuellement</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2438" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2440" />
             <source>Friendship Level To Low</source>
             <translation>Niveau d'amitié trop bas</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2439" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2441" />
             <source>Requires friendship of friend or higher</source>
             <translation>Nécessite l'amitié d'un ami ou supérieur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2457" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2459" />
             <source>The host url is not valid</source>
             <translation>L'URL de l'hôte n'est pas valide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2465" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2467" />
             <source>Invalid Host Type</source>
             <translation>Type d'hôte invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2466" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2468" />
             <source>The host url does not have a vailid host type</source>
             <translation>L'URL de l'hôte n'a pas de type d'hôte valide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="645" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2355" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="676" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2357" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1388" />
             <source>Unknown Error</source>
             <translation>Erreur inconnue</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2356" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2358" />
             <source>Unknown Error </source>
             <translation>Erreur inconnue</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2356" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2358" />
             <source> for user </source>
             <translation>pour l'utilisateur</translation>
         </message>
@@ -9791,7 +9796,7 @@ L'action ne peut pas être annulée
             <translation>Applet inconnu</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2236" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2238" />
             <source>Could not create thumbnail asset</source>
             <translation>Impossible de créer une miniature</translation>
         </message>
@@ -9831,7 +9836,7 @@ L'action ne peut pas être annulée
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="654" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="731" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="767" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2242" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2244" />
             <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="104" />
             <source>Could not get thumbnail file info</source>
             <translation>Impossible d'obtenir les informations sur le fichier miniature</translation>
@@ -9840,8 +9845,8 @@ L'action ne peut pas être annulée
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="655" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="732" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="768" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2237" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2243" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2239" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2245" />
             <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="105" />
             <source>Error occured creating thumbnail asset </source>
             <translation>Une erreur s'est produite lors de la création de la miniature</translation>
@@ -10191,79 +10196,84 @@ L'action ne peut pas être annulée
             <translation>Quitter la connexion aléatoire</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="130" />
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="136" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="131" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="137" />
             <source>Language</source>
             <translation>Langue</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="130" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="131" />
             <source>Language updated.</source>
             <translation>Langue mise à jour.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="137" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="138" />
             <source>Language updated, but no translation file was found in the translations folder.</source>
             <translation>Langue mise à jour, mais aucun fichier de traduction n'a été trouvé dans le dossier des traductions.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="197" />
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="209" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="199" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="212" />
             <source>English</source>
             <translation>Anglais</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="198" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="200" />
             <source>German</source>
             <translation>Allemand</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="199" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="201" />
             <source>Chinese</source>
             <translation>Chinois</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="200" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="202" />
             <source>Spanish</source>
             <translation>Espagnol</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="201" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="203" />
             <source>French</source>
             <translation>Français</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="202" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="204" />
             <source>Arabic</source>
             <translation>arabe</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="203" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="205" />
             <source>Hindi</source>
             <translation>hindi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="204" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="206" />
             <source>Portuguese</source>
             <translation>Portugais</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="205" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="207" />
             <source>Japanese</source>
             <translation>Japonais</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="206" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="208" />
             <source>Korean</source>
             <translation>Coréen</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="207" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="209" />
             <source>Russian</source>
             <translation>russe</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="208" />
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="210" />
+            <source>Thai</source>
+            <translation>Thaï</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletLanguageSelect.cpp" line="211" />
             <source>Indonesian</source>
             <translation>Indonésien</translation>
         </message>

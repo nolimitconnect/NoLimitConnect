@@ -26,11 +26,63 @@
             "problemMatcher": []
         },
         {
-            "label": "Update TS Translations",
+            "label": "Extract TS Translations (lupdate)",
             "type": "process",
-            "command": "python",
+            "command": "powershell",
             "args": [
-                "${workspaceFolder}/tools/update_ts_translations.py"
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\.vscode\\cmake-with-msvc-env.ps1",
+                "--build",
+                "--preset",
+                "windows-debug",
+                "--target",
+                "nolimitconnect_lupdate"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Full Translate TS",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/.vscode/full-translate-ts.ps1",
+                "-WorkspaceFolder",
+                "${workspaceFolder}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Compile TS to QM (lrelease)",
+            "type": "process",
+            "command": "powershell",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\.vscode\\cmake-with-msvc-env.ps1",
+                "--build",
+                "--preset",
+                "windows-debug",
+                "--target",
+                "nolimitconnect_translations"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Translation Tasks",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Extract TS Translations (lupdate)",
+                "Full Translate TS",
+                "Compile TS to QM (lrelease)"
             ],
             "problemMatcher": []
         },
