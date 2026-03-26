@@ -33,12 +33,6 @@ public:
 
 
 protected:
-    QString                     getRepoRootPath( void );
-    bool                        getWavFileList( const QString& testDataFilePath, QStringList& outWavFileList );
-
-    bool                        loadTestFiles( QStringList& testFileList );
-
-
     QStringList                 m_TestFilesList;
     std::vector<TestFileWav>    m_TestFileWavList;
 };

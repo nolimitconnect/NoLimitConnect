@@ -34,6 +34,7 @@
 #include <QSlider>
 #include <QTimer>
 #include <QScopedPointer>
+#include <QFileInfo>
 #include <QMediaDevices>
 
 #include "ui_AppletSoundSettings.h"
@@ -57,10 +58,11 @@ AppletSoundSettings::AppletSoundSettings( AppCommon& app, QWidget*	parent )
     connectBarWidgets();
 
     // before we connect signals we load the test files into the combo box so that signal handlers don't get called when we set the current index of the combo box
+    getTestFileMgr().testFileMgrStartup();
     QStringList testFileList = getTestFileMgr().getTestFileList();
     for( const QString& testFile : testFileList )
     {
-        ui.m_TestFileComboBox->addItem( testFile );
+        ui.m_TestFileComboBox->addItem( QFileInfo( testFile ).fileName() );
     }
 
     int echoDelayMs = getAppSettings().getEchoDelayParam();
