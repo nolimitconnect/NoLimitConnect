@@ -408,6 +408,25 @@ endif()
 # Create static library
 add_library(webrtc-aec STATIC ${APM_SOURCES})
 
+if(MSVC)
+    # Strip default /Od /RTC1 from debug configuration and apply /O2 /RTC-
+    string(REPLACE "/Od" "" CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
+    string(REPLACE "/Od" "" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+    string(REPLACE "/RTC1" "" CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
+    string(REPLACE "/RTC1" "" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+    
+    target_compile_options(webrtc-aec PRIVATE
+        $<$<CONFIG:Debug>:/O2 /RTC->
+        $<$<CONFIG:Release>:/O2>
+    )
+else()
+    target_compile_options(webrtc-aec PRIVATE
+        $<$<CONFIG:Debug>:-O2>
+        $<$<CONFIG:Release>:-O2>
+    )
+endif()
+
+
 target_compile_definitions(webrtc-aec
     PRIVATE
     WEBRTC_APM_DEBUG_DUMP=0
@@ -455,6 +474,9 @@ target_include_directories(webrtc-aec PUBLIC
 set_target_properties(webrtc-aec PROPERTIES
     OUTPUT_NAME webrtc_apm
 )
+
+
+
 
 
 

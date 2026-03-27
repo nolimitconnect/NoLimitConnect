@@ -316,12 +316,21 @@ endif()
 add_library(ffmpegopus STATIC ${ffmpegopus_SOURCES} ${ffmpegopus_HEADERS})
 
 if(MSVC)
-    # should we try to optimize?
+    # Strip default /Od /RTC1 from debug configuration and apply /O2 /RTC-
+    string(REPLACE "/Od" "" CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
+    string(REPLACE "/Od" "" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+    string(REPLACE "/RTC1" "" CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
+    string(REPLACE "/RTC1" "" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+    
+    target_compile_options(ffmpegopus PRIVATE
+        $<$<CONFIG:Debug>:/O2 /RTC->
+        $<$<CONFIG:Release>:/O2>
+    )
 else()
     # Override optimization flags for this library
     target_compile_options(ffmpegopus PRIVATE
-        $<$<CONFIG:Debug>:-O2 -g>
-        $<$<CONFIG:Release>:-O3>
+        $<$<CONFIG:Debug>:-O2>
+        $<$<CONFIG:Release>:-O2>
     )
 endif()
 
@@ -367,4 +376,8 @@ target_include_directories(ffmpegopus
     include
     ../
 )
+
+
+
+
 

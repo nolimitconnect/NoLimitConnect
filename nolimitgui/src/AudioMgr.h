@@ -38,6 +38,7 @@
 #include <CoreLib/VxMutex.h>
 #include <CoreLib/VxSemaphore.h>
 
+#include <deque>
 #include <vector>
 #include <mutex>
 #include <thread>
@@ -264,7 +265,7 @@ protected:
     std::vector<std::vector<int16_t>> m_PendingInBuffers;
 	std::mutex                  m_PendingInBuffersMutex;
 
-	std::vector<int16_t>        m_ResidualInBuffer;
+	std::deque<int16_t>         m_ResidualInBuffer;  // deque for O(1) front erasure vs vector O(N)
     std::mutex                  m_ResidualInBufferMutex;
 
     std::thread                 m_AudioInWorkerThread;
@@ -298,13 +299,18 @@ protected:
     int64_t                     m_MicInJitterHighMarkMs{0};
     int                         m_LastMicStatsLogMs{0};
 
+    bool                        m_AudioInPerfStatsEnable{ false }; // set to true to enable logging of AEC and RNNoise processing time for input audio frames
+    double                      m_AecCaptureTotalMs{0.0};
+    double                      m_RNNoiseTotalMs{0.0};
+    int64_t                     m_AudioInPerfWindowStartMs{0};
+
     std::vector<int16_t>        m_SpeakerOutBuffer;
     std::mutex                  m_SpeakerOutBufferMutex;
     
     std::vector<std::vector<int16_t>> m_PendingOutBuffers;
 	std::mutex                  m_PendingOutBuffersMutex;
 
-	std::vector<int16_t>        m_ResidualOutBuffer; // only m_AudioOutWorkerThread accesses this
+	std::deque<int16_t>         m_ResidualOutBuffer; // deque for O(1) front erasure; only m_AudioOutWorkerThread accesses this
 
     std::thread                 m_AudioOutWorkerThread;
     VxSemaphore                 m_AudioOutWorkSemaphore;

@@ -150,7 +150,7 @@ include_directories("${CMAKE_CURRENT_LIST_DIR}/libs")
 # --------------------------
 # Print summary
 # --------------------------
-message(STATUS "**** webrtc-aec Summary Begin ****")
+message(STATUS "**** Target Summary Begin ****")
 if(TARGET_OS_WINDOWS)
     message(STATUS "OS: Windows")
 endif()
@@ -172,16 +172,18 @@ elseif(TARGET_CPU_ARM64)
 else()
     message(FATAL_ERROR "Unknown CPU Type for ${CMAKE_SYSTEM_NAME}")
 endif()
-message(STATUS "**** webrtc-aec Summary Summary end ****")
+message(STATUS "**** Target Summary Summary end ****")
 message(STATUS "========================================")
 
-option(USE_AEC2 "Use legacy WebRTC AEC2 implementation instead of AEC3" OFF)
+# NOTE: AEC2 uses less than half the CPU processing that AEC3 requires.
+# also AEC2 is less sensitive to timing
+set(USE_AEC2 1)
 if(USE_AEC2)
     add_compile_definitions(USE_AEC2=1)
-    message(STATUS "Echo canceller backend: AEC2 (libs/libwebrtc-aec2)")
+    message(STATUS "** Echo canceller backend: AEC2 (libs/libwebrtc-aec2)")
 else()
     add_compile_definitions(USE_AEC2=0)
-    message(STATUS "Echo canceller backend: AEC3 (libs/libwebrtc-aec)")
+    message(STATUS "** Echo canceller backend: AEC3 (libs/libwebrtc-aec)")
 endif()
 if(USE_AEC2)
     add_subdirectory(libs/libwebrtc-aec2)
@@ -515,26 +517,19 @@ else()
     # when run from within QtCreator
     if(DEFINED ANDROID_ABI)
         set(BUILD_SYSTEM_QCreator true)
-
         set(TARGET_OS_ANDROID true)
         add_compile_definitions(TARGET_OS_ANDROID=1)
 
         if(ANDROID_ABI STREQUAL "armeabi-v7a")
-            set(NLC_CPU "CPU_ARM32")
-            set(NLC_CPU_BITS "32")
-
-            set(TARGET_CPU_ARM32 true)
-            add_compile_definitions(TARGET_CPU_ARM32=1)
-
+            message(FATAL_ERROR "32-bit Android builds are not supported. armeabi-v7a ABI is 32-bit.")
         elseif(ANDROID_ABI STREQUAL "arm64-v8a")
             set(NLC_CPU "CPU_ARM64")
             set(NLC_CPU_BITS "64")
-
             set(TARGET_CPU_ARM64 true)
             add_compile_definitions(TARGET_CPU_ARM64=1)
 
         else()
-            message(STATUS "Unknown Android ABI ")
+            message(FATAL_ERROR "Unknown Android ABI: ${ANDROID_ABI}")
         endif()
 
         set(POS1 -1)

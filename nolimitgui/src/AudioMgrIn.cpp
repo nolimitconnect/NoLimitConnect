@@ -23,6 +23,18 @@
 #include <CoreLib/VxTime.h>
 #include <CoreLib/VxTimer.h>
 
+#include <NlcTargetOsConfig.h>
+#ifdef TARGET_POSIX
+# include <pthread.h>
+# include <sched.h>
+#endif // TARGET_POSIX
+#ifdef MS_WINDOWS
+# ifndef WIN32_LEAN_AND_MEAN
+#  define WIN32_LEAN_AND_MEAN
+# endif
+# include <windows.h>
+#endif // MS_WINDOWS
+
 //============================================================================
 void AudioMgr::startAudioInWorker( void )
 {
@@ -63,6 +75,21 @@ void AudioMgr::stopAudioInWorker( void )
 //============================================================================
 void AudioMgr::audioInWorkerLoop( void )
 {
+    // Elevate thread priority to reduce scheduling jitter that can cause the
+    // audio input queue to overflow when the worker is preempted for too long.
+#ifdef TARGET_POSIX
+    struct sched_param param{};
+    param.sched_priority = 2;
+    if( pthread_setschedparam( pthread_self(), SCHED_RR, &param ) != 0 )
+    {
+        // Unprivileged processes may not get real-time scheduling; not fatal.
+        LogMsg( LOG_DEBUG, "audioInWorkerLoop: could not set SCHED_RR priority (not fatal)" );
+    }
+#endif // TARGET_POSIX
+#ifdef MS_WINDOWS
+    SetThreadPriority( GetCurrentThread(), THREAD_PRIORITY_ABOVE_NORMAL );
+#endif // MS_WINDOWS
+
     while( true )
     {
         m_AudioInWorkSemaphore.wait();
@@ -141,14 +168,17 @@ void AudioMgr::processQueuedAudioInput( int16_t* pcmData, int sampleCnt )
     }
 
     // 2. Process as many 10ms frames as we can
+    // Pre-allocate frame buffer once outside the loop to avoid per-iteration heap allocation.
+    std::vector<int16_t> frame( ECHO_FRAME_SIZE_10MS );
     while( true )
     {
-        std::vector<int16_t> frame( ECHO_FRAME_SIZE_10MS );
         {
             std::lock_guard<std::mutex> lk( m_ResidualInBufferMutex );
             if( m_ResidualInBuffer.size() < ECHO_FRAME_SIZE_10MS )
                 break;
-            std::copy_n( m_ResidualInBuffer.data(), ECHO_FRAME_SIZE_10MS, frame.data() );
+            // m_ResidualInBuffer is a std::deque: use iterator form (no .data()) and erase from
+            // front is O(N-erased) instead of O(N-total) as with std::vector.
+            std::copy_n( m_ResidualInBuffer.begin(), ECHO_FRAME_SIZE_10MS, frame.data() );
             m_ResidualInBuffer.erase( m_ResidualInBuffer.begin(), m_ResidualInBuffer.begin() + ECHO_FRAME_SIZE_10MS );
         }
 
@@ -208,7 +238,16 @@ void AudioMgr::processQueuedAudioInput( int16_t* pcmData, int sampleCnt )
             m_Aec.setEchoDelay( echoDelayMs );
 
             // 1. Run through WebRTC AudioProcessing (AEC3, AGC2, VAD)
-            m_Aec.processCapture(framePtr, ECHO_FRAME_SIZE_10MS);
+            if( m_AudioInPerfStatsEnable )
+            {
+                VxTimer aecTimer;
+                m_Aec.processCapture(framePtr, ECHO_FRAME_SIZE_10MS);
+                m_AecCaptureTotalMs += aecTimer.elapsedMs();
+            }
+            else
+            {
+                m_Aec.processCapture(framePtr, ECHO_FRAME_SIZE_10MS);
+            }
 
             // 2. Get the results (e.g., processed PCM, VAD probability)
             m_CurrentVadProb = m_Aec.lastVadProbability();
@@ -250,7 +289,33 @@ void AudioMgr::callbackAecProcessedAudio( int16_t* pcmData, int sampleCnt )
 
     if( m_EnableNoiseSuppression )
     {
-        m_RNNoise.reduceNoise( pcmData, sampleCnt );
+        if( m_AudioInPerfStatsEnable )
+        {
+            VxTimer rnTimer;
+            m_RNNoise.reduceNoise( pcmData, sampleCnt );
+            m_RNNoiseTotalMs += rnTimer.elapsedMs();
+        }
+        else
+        {
+            m_RNNoise.reduceNoise( pcmData, sampleCnt );
+        }
+    }
+
+    if( m_AudioInPerfStatsEnable )
+    {
+        const int64_t nowMs = GetHighResolutionTimeMs();
+        if( m_AudioInPerfWindowStartMs == 0 )
+        {
+            m_AudioInPerfWindowStartMs = nowMs;
+        }
+        else if( ( nowMs - m_AudioInPerfWindowStartMs ) >= 1000 )
+        {
+            LogMsg( LOG_INFO, "AudioInPerf: aec=%.2f ms  rnnoise=%.2f ms (last ~1s)",
+                    m_AecCaptureTotalMs, m_RNNoiseTotalMs );
+            m_AecCaptureTotalMs = 0.0;
+            m_RNNoiseTotalMs = 0.0;
+            m_AudioInPerfWindowStartMs = nowMs;
+        }
     }
     
     if( m_MicJitterStatsEnable)

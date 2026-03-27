@@ -68,6 +68,25 @@ add_library(webrtc-aec2 STATIC
     ${AEC2_SIGNAL_PROCESSING_SOURCES}
 )
 
+if(MSVC)
+    # Strip default /Od /RTC1 from debug configuration and apply /O2 /RTC-
+    string(REPLACE "/Od" "" CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
+    string(REPLACE "/Od" "" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+    string(REPLACE "/RTC1" "" CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
+    string(REPLACE "/RTC1" "" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+    
+    target_compile_options(webrtc-aec2 PRIVATE
+        $<$<CONFIG:Debug>:/O2 /RTC->
+        $<$<CONFIG:Release>:/O2>
+    )
+else()
+    target_compile_options(webrtc-aec2 PRIVATE
+        $<$<CONFIG:Debug>:-O2>
+        $<$<CONFIG:Release>:-O2>
+    )
+endif()
+
+
 if(DEFINED TARGET_OS_LINUX OR DEFINED TARGET_OS_ANDROID)
     target_compile_definitions(webrtc-aec2
         PRIVATE
@@ -105,3 +124,6 @@ target_include_directories(webrtc-aec2 PUBLIC
 set_target_properties(webrtc-aec2 PROPERTIES
     OUTPUT_NAME webrtc_aec2
 )
+
+
+

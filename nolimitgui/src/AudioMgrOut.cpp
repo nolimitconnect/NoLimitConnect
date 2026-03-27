@@ -254,10 +254,17 @@ void AudioMgr::processQueuedAudioOutput( const int16_t* pcmData, int sampleCnt )
     m_ResidualOutBuffer.insert( m_ResidualOutBuffer.end(), pcmData, pcmData + sampleCnt );
 
     // 2. Process as many 10ms frames as we can
+    // Pre-allocate frame buffer once outside the loop to avoid per-iteration heap allocation.
+    std::vector<int16_t> frame( ECHO_FRAME_SIZE_10MS );
     while( true )
     {
         if( m_ResidualOutBuffer.size() < ECHO_FRAME_SIZE_10MS )
             break;
+
+        // m_ResidualOutBuffer is a std::deque: copy to contiguous frame buffer first,
+        // then erase from front in O(N-erased) instead of O(N-total) as with std::vector.
+        std::copy_n( m_ResidualOutBuffer.begin(), ECHO_FRAME_SIZE_10MS, frame.data() );
+        m_ResidualOutBuffer.erase( m_ResidualOutBuffer.begin(), m_ResidualOutBuffer.begin() + ECHO_FRAME_SIZE_10MS );
 
         if( m_SpeakerJitterStatsEnable )
         {
@@ -285,12 +292,12 @@ void AudioMgr::processQueuedAudioOutput( const int16_t* pcmData, int sampleCnt )
 
         if( m_MicrophoneRunning )
         {
-            m_Aec.processRender( m_ResidualOutBuffer.data(), ECHO_FRAME_SIZE_10MS );
+            m_Aec.processRender( frame.data(), ECHO_FRAME_SIZE_10MS );
         }
 
         if( m_VisualizeOutWanted )
         {
-            m_SpeakerOutWaveformBuffer.pushFrame( m_ResidualOutBuffer.data(), ECHO_FRAME_SIZE_10MS, 0.0f, 0.0f, false );
+            m_SpeakerOutWaveformBuffer.pushFrame( frame.data(), ECHO_FRAME_SIZE_10MS, 0.0f, 0.0f, false );
         }
 
         m_AudioOutAecFramesProcessed++;
@@ -299,9 +306,6 @@ void AudioMgr::processQueuedAudioOutput( const int16_t* pcmData, int sampleCnt )
             callbackAudioOut60msSpaceAvail( AUDIO_SAMPLES_PER_FRAME * AUDIO_BYTES_PER_SAMPLE );
             m_AudioOutAecFramesProcessed = 0;
         }
-
-        // Remove the processed samples from the residual buffer
-        m_ResidualOutBuffer.erase( m_ResidualOutBuffer.begin(), m_ResidualOutBuffer.begin() + ECHO_FRAME_SIZE_10MS );
     }
 
     // Any remaining samples (less than 160) stay in m_ResidualOutBuffer

@@ -117,6 +117,25 @@ target_compile_definitions(rnnoise
     HAVE_CONFIG_H
 )
 
+if(MSVC)
+    # Strip default /Od /RTC1 from debug configuration and apply /O2 /RTC-
+    string(REPLACE "/Od" "" CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
+    string(REPLACE "/Od" "" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+    string(REPLACE "/RTC1" "" CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
+    string(REPLACE "/RTC1" "" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+    
+    target_compile_options(rnnoise PRIVATE
+        $<$<CONFIG:Debug>:/O2 /RTC->
+        $<$<CONFIG:Release>:/O2>
+    )
+else()
+    target_compile_options(rnnoise PRIVATE
+        $<$<CONFIG:Debug>:-O2>
+        $<$<CONFIG:Release>:-O2>
+    )
+endif()
+
+
 if(DEFINED TARGET_CPU_X64)
     target_compile_definitions(rnnoise
         PRIVATE
@@ -152,4 +171,7 @@ if(DEFINED TARGET_OS_WINDOWS)
     set_property(TARGET rnnoise PROPERTY CXX_STANDARD 17)
     set_property(TARGET rnnoise PROPERTY CXX_STANDARD_REQUIRED OFF)
 endif()
+
+
+
 
