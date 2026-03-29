@@ -127,7 +127,7 @@ void AudioMgr::callbackAudioDeviceWrite( int16_t* pcmData, int sampleCnt )
         return;
     }
 
-    constexpr size_t MAX_PENDING_AUDIO_IN_BUFFERS = 3;
+    constexpr size_t MAX_PENDING_AUDIO_IN_BUFFERS = 2;
 
     std::vector<int16_t> capturedSamples( pcmData, pcmData + sampleCnt );
 

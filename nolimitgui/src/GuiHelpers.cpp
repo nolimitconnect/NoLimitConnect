@@ -705,7 +705,7 @@ EPluginType GuiHelpers::getAppletAssociatedPlugin( EApplet applet )
 
     case eAppletSettingsStoryboard:         return ePluginTypeStoryboardServer;
     case eAppletSettingsTruthOrDare:        return ePluginTypeTruthOrDare;
-    case eAppletSettingsVideoPhone:         return ePluginTypeVideoPhone;
+    case eAppletSettingsVideoPhone:         return ePluginTypeVideoChat;
     case eAppletSettingsVoicePhone:         return ePluginTypeVoicePhone;
 
 
@@ -766,7 +766,7 @@ EApplet GuiHelpers::pluginTypeToSettingsApplet( EPluginType pluginType )
 
     case ePluginTypeStoryboardServer:       return eAppletSettingsStoryboard;
     case ePluginTypeTruthOrDare:            return eAppletSettingsTruthOrDare;
-    case ePluginTypeVideoPhone:             return eAppletSettingsVideoPhone;
+    case ePluginTypeVideoChat:             return eAppletSettingsVideoPhone;
     case ePluginTypeVoicePhone:             return eAppletSettingsVoicePhone;
 
     case ePluginTypeFriendRequest:          return eAppletSettingsFriendRequest;
@@ -829,7 +829,7 @@ EApplet GuiHelpers::pluginTypeToUserApplet( EPluginType pluginType )
 
     //case ePluginTypeMessenger:              return eAppletMultiMessenger;
     //case ePluginTypeTruthOrDare:            return eAppletPeerTruthOrDare;
-    //case ePluginTypeVideoPhone:             return eAppletPeerVideoPhone;
+    //case ePluginTypeVideoChat:             return eAppletPeerVideoPhone;
     //case ePluginTypeVoicePhone:             return eAppletPeerVoicePhone;
 
     default:
@@ -848,7 +848,7 @@ EApplet GuiHelpers::pluginTypeToSessionApplet( EPluginType pluginType )
     {
     case ePluginTypeMessenger:              return eAppletMultiMessenger;
     case ePluginTypeTruthOrDare:            return eAppletPeerTruthOrDare;
-    case ePluginTypeVideoPhone:             return eAppletPeerVideoPhone;
+    case ePluginTypeVideoChat:             return eAppletPeerVideoPhone;
     case ePluginTypeVoicePhone:             return eAppletPeerVoicePhone;
 
     default:
@@ -916,7 +916,7 @@ EMyIcons GuiHelpers::pluginTypeToSettingsIcon( EPluginType pluginType )
     case ePluginTypeHostRandomConnect:      return eMyIconSettingsRandomConnectRelay;
     case ePluginTypeStoryboardServer:       return eMyIconSettingsShareStoryboard;
     case ePluginTypeTruthOrDare:            return eMyIconSettingsTruthOrDare;
-    case ePluginTypeVideoPhone:             return eMyIconSettingsVideoPhone;
+    case ePluginTypeVideoChat:             return eMyIconSettingsVideoPhone;
     case ePluginTypeVoicePhone:             return eMyIconSettingsVoicePhone;
     case ePluginTypePushToTalk:             return eMyIconSettingsPushToTalk;
 
@@ -942,7 +942,7 @@ bool GuiHelpers::isPluginAPrimaryService( EPluginType pluginType )
     {
     case ePluginTypeAboutMePageServer:
     case ePluginTypeVoicePhone:
-    case ePluginTypeVideoPhone:
+    case ePluginTypeVideoChat:
     case ePluginTypeTruthOrDare:
     case ePluginTypeMessenger:
     case ePluginTypeCamServer:

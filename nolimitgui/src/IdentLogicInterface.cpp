@@ -65,7 +65,7 @@ void IdentLogicInterface::setupIdentLogic( void ) // call after derived class ui
 		if( getIdentOfferAcceptButton() )
 		{
 			getIdentOfferAcceptButton()->setIconOverrideColor( m_MyApp.getAppTheme().getAcceptColor() );
-			getIdentOfferAcceptButton()->setIcon( eMyIconCheckMark );
+			getIdentOfferAcceptButton()->setIcon( eMyIconAcceptCheckMark );
 			getIdentOfferAcceptButton()->setVisible( false );
 			connect( getIdentOfferAcceptButton(), SIGNAL(clicked()), this, SLOT(slotIdentOfferAcceptButtonClicked()) );
 		}
@@ -73,7 +73,7 @@ void IdentLogicInterface::setupIdentLogic( void ) // call after derived class ui
 		if( getIdentOfferRejectButton() )
 		{
 			getIdentOfferRejectButton()->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
-			getIdentOfferRejectButton()->setIcon( eMyIconRedX );
+			getIdentOfferRejectButton()->setIcon( eMyIconRejectRedX );
 			getIdentOfferRejectButton()->setVisible( false );
 			connect( getIdentOfferRejectButton(), SIGNAL(clicked()), this, SLOT(slotIdentOfferRejectButtonClicked()) );
 		}

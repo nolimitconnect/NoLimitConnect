@@ -171,8 +171,8 @@ enum EMyIcons
 	eMyIconPlayDisabled,
 	eMyIconPlayNormal,
 
-	eMyIconRedX,
-	eMyIconCheckMark,
+	eMyIconRejectRedX,
+	eMyIconAcceptCheckMark,
 
     eMyIconCancelRecord,
 	eMyIconTrash,

@@ -200,7 +200,7 @@ void PluginMgr::pluginMgrStartup( void )
     m_aoPlugins.emplace_back( poPlugin );
 
     LogModule( eLogStartup, LOG_INFO, "pluginMgrStartup create video phone plugin" );
-	poPlugin = new PluginVideoPhone( m_Engine, *this, &this->m_PktAnn, ePluginTypeVideoPhone );
+	poPlugin = new PluginVideoPhone( m_Engine, *this, &this->m_PktAnn, ePluginTypeVideoChat );
     m_aoPlugins.emplace_back( poPlugin );
 
     LogModule( eLogStartup, LOG_INFO, "pluginMgrStartup create truth or dare plugin" );

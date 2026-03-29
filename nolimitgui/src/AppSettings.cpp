@@ -97,6 +97,31 @@ ELanguageType AppSettings::getSelectedLanguage( void )
 }
 
 //============================================================================
+void AppSettings::setRandomConnectOfferType( EOfferType offerType )
+{
+	uint32_t offerTypeValue = (uint32_t)offerType;
+	setIniValue( getAppShortName(), "RandomConnectOfferType", offerTypeValue );
+}
+
+//============================================================================
+EOfferType AppSettings::getRandomConnectOfferType( void )
+{
+	uint32_t offerTypeValue = (uint32_t)eOfferTypeVideoChat;
+	getIniValue( getAppShortName(), "RandomConnectOfferType", offerTypeValue, (uint32_t)eOfferTypeVideoChat );
+
+	switch( (EOfferType)offerTypeValue )
+	{
+	case eOfferTypeTruthOrDare:
+	case eOfferTypeVideoChat:
+	case eOfferTypeVoicePhone:
+		return (EOfferType)offerTypeValue;
+
+	default:
+		return eOfferTypeVideoChat;
+	}
+}
+
+//============================================================================
 void AppSettings::setLastBrowseDir( EFileFilterType eFileFilterType, std::string& browseDir )
 {
 	if( 0 != browseDir.length() )

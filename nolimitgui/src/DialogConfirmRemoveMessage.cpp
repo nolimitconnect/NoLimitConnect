@@ -37,7 +37,7 @@ DialogConfirmRemoveMessage::DialogConfirmRemoveMessage( AssetBaseInfo& assetInfo
     ui.m_ShredButton->setFixedSizeAbsolute( buttonSize );
 
 	ui.m_CancelButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
-	ui.m_CancelButton->setIcon( eMyIconRedX );
+	ui.m_CancelButton->setIcon( eMyIconRejectRedX );
 
 	ui.m_RemoveButton->setIcon( eMyIconTrash );
 	ui.m_ShredButton->setIcon( eMyIconShredderNormal );

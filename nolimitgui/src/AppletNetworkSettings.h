@@ -63,7 +63,6 @@ protected slots:
 
     void						slotUpdateTimer( void );
 
-    void						slotShowIpv6Information( void );
     void						slotUseIpv6CheckBoxClick( void );
     void						slotNetworkKeyEyeButtonClick( void );
 

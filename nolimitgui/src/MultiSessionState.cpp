@@ -173,7 +173,7 @@ bool MultiSessionState::canSend( void )
 			accessState = m_HisIdent->getMyAccessPermissionFromHim( ePluginTypeVoicePhone );
 			break;
 		case eMSessionTypeVidChat:
-			accessState = m_HisIdent->getMyAccessPermissionFromHim( ePluginTypeVideoPhone );
+			accessState = m_HisIdent->getMyAccessPermissionFromHim( ePluginTypeVideoChat );
 			break;
 		case eMSessionTypeTruthOrDare:
 			accessState = m_HisIdent->getMyAccessPermissionFromHim( ePluginTypeTruthOrDare );
@@ -200,8 +200,8 @@ std::string MultiSessionState::describeCantSendReason( void )
 		accessState = m_HisIdent->getMyAccessPermissionFromHim( ePluginTypeVoicePhone );
 		break;
 	case eMSessionTypeVidChat:
-		reasonStr = GuiParams::describePlugin( ePluginTypeVideoPhone, false );
-		accessState = m_HisIdent->getMyAccessPermissionFromHim( ePluginTypeVideoPhone );
+		reasonStr = GuiParams::describePlugin( ePluginTypeVideoChat, false );
+		accessState = m_HisIdent->getMyAccessPermissionFromHim( ePluginTypeVideoChat );
 		break;
 	case eMSessionTypeTruthOrDare:
 		reasonStr = GuiParams::describePlugin( ePluginTypeTruthOrDare, false );

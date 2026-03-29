@@ -94,7 +94,7 @@ void AudioMgr::callbackReadSpeakerData( int16_t* pcmData, int sampleCnt )
         std::fill_n( pcmData, sampleCnt, 0 );
     }
 
-    constexpr size_t MAX_PENDING_AUDIO_OUT_BUFFERS = 3;
+    constexpr size_t MAX_PENDING_AUDIO_OUT_BUFFERS = 2;
 
     {
         std::lock_guard<std::mutex> lk( m_PendingOutBuffersMutex );

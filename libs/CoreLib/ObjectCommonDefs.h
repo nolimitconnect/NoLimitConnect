@@ -118,9 +118,10 @@
 
 #define OBJNAME_APPLET_OFFER_INFO						"AppletOfferInfo"
 #define OBJNAME_APPLET_OFFER_LIST						"AppletOfferList"
-#define OBJNAME_APPLET_OFFER_SEND						"AppletOfferSend"
+#define OBJNAME_APPLET_OFFER_RAND_SESSION				"AppletOfferRandSession"
 #define OBJNAME_APPLET_OFFER_RESPONSE					"AppletOfferResponse"
 #define OBJNAME_APPLET_OFFER_RESPONSE_ACCEPT			"AppletOfferResponseAccept"
+#define OBJNAME_APPLET_OFFER_SEND						"AppletOfferSend"
 #define OBJNAME_APPLET_OFFER_VIEW						"AppletOfferView"
 
 #define OBJNAME_APPLET_PERMISSION_LIST				    "AppletPermissionList"

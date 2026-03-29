@@ -107,6 +107,8 @@
 #include "AppletRandomConnectJoinSearch.h"
 #include "AppletRandomConnectListLocalView.h"
 
+#include "AppletOfferRandSession.h"
+
 #include "AppletServiceAboutMe.h"
 
 #include "AppletServiceConnectionTest.h"
@@ -350,6 +352,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
         break;
 
     case eAppletOfferInfo:                  if( launchAppletAllowed( eAppletOfferInfo ) ) appletDialog = new AppletOfferInfo( m_MyApp, parent ); break;
+    case eAppletOfferRandSession:           if( launchAppletAllowed( eAppletOfferRandSession ) ) appletDialog = new AppletOfferRandSession( m_MyApp, parent ); break;
     case eAppletOfferResponse:              if( launchAppletAllowed( eAppletOfferResponse ) ) appletDialog = new AppletOfferResponse( m_MyApp, parent ); break;
     case eAppletOfferResponseAccept:        if( launchAppletAllowed( eAppletOfferResponseAccept ) ) appletDialog = new AppletOfferResponseAccept( m_MyApp, parent ); break;
     case eAppletOfferSend:                  if( launchAppletAllowed( eAppletOfferSend ) ) appletDialog = new AppletOfferSend( m_MyApp, parent ); break;

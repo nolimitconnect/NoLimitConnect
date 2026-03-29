@@ -121,5 +121,11 @@ void PluginRandomConnectClient::onPktRandConnectReply( std::shared_ptr<VxSktBase
 {
     PktRandConnectReply* pktReply = (PktRandConnectReply*)pktHdr;
     GroupieId groupieId = pktReply->getGroupieId();
-    m_Engine.getRandConnectMgr().updateRandConnectStatus( groupieId, pktReply->getToUserOnlineId(), pktReply->getRandAction() );
+    VxGUID sessionId = pktReply->getSessionId();
+    m_Engine.getRandConnectMgr().updateRandConnectStatus( groupieId,
+                                                           pktReply->getToUserOnlineId(),
+                                                           pktReply->getRandAction(),
+                                                           sessionId,
+                                                           pktReply->getTimeRequestedMs(),
+                                                           pktReply->getOfferType() );
 }

@@ -39,7 +39,7 @@ AppletPeerTodGame::AppletPeerTodGame( AppCommon& app, QWidget* parent )
 	ui.m_PermissionButton->setFixedSize( eButtonSizeMedium );
     ui.m_HangUpButton->setFixedSize( eButtonSizeMedium );
     ui.m_HangUpButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
-	ui.m_HangUpButton->setIcon( eMyIconRedX );
+	ui.m_HangUpButton->setIcon( eMyIconRejectRedX );
 	connect( ui.m_HangUpButton, SIGNAL(clicked()), this, SLOT(slotEndSession()) );
 
 	ui.m_TodGameWidget->getVidWidget()->setRecordFilePath( VxGetDownloadsDirectory().c_str() );

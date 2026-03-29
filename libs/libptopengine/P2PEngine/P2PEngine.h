@@ -48,6 +48,7 @@
 #include <NetLib/VxSktDefs.h>
 #include <PktLib/PktAnnounce.h>
 #include <PktLib/PktSysHandlerBase.h>
+#include <PktLib/PktsRandConnectDefs.h>
 #include <PktLib/PktsImAlive.h>
 
 #include <memory.h>
@@ -403,6 +404,11 @@ public:
     void				        fromGuiSetIsAutomatedHost( bool automatedHost ) override;
 
     bool                        fromGuiSendRandConnectSelected( VxGUID& onlineId, bool isSelected ) override;
+    bool                        fromGuiSendRandConnectAction( VxGUID& onlineId,
+                                                              enum ERandAction randAction,
+                                                              VxGUID sessionId = VxGUID::nullVxGUID(),
+                                                              uint64_t timeRequestedMs = 0,
+                                                              EOfferType offerType = eOfferTypeUnknown );
 
     bool                        fromGuiQueryFriendRequest( std::vector<std::shared_ptr<FriendRequestInfo>>& friendRequestList, VxGUID& onlineIdIfNullThenAll ) override;
     bool                        fromGuiSendFriendRequest( VxGUID& onlineId, std::string& requestText, EFriendState myFriendshipToHim ) override;

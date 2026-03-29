@@ -25,7 +25,7 @@ TestWidget::TestWidget( QWidget* parent )
 {
 	ui.setupUi( this );
 	ui.m_AcceptButton->setIconOverrideColor( m_MyApp.getAppTheme().getAcceptColor() );
-	ui.m_AcceptButton->setIcon( eMyIconCheckMark );
+	ui.m_AcceptButton->setIcon( eMyIconAcceptCheckMark );
 
 	connect( ui.m_AcceptButton, SIGNAL(clicked()), this, SLOT(slotAccepted() ) );
 

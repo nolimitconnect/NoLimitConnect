@@ -219,7 +219,7 @@ void PluginPermission::setPluginPermissionsToDefaultValues( void )
     setPluginPermission( ePluginTypePersonFileXfer, eFriendStateFriend );
     setPluginPermission( ePluginTypeMessenger, eFriendStateGuest );
     setPluginPermission( ePluginTypeTruthOrDare, eFriendStateFriend );
-    setPluginPermission( ePluginTypeVideoPhone, eFriendStateFriend );
+    setPluginPermission( ePluginTypeVideoChat, eFriendStateFriend );
     setPluginPermission( ePluginTypeVoicePhone, eFriendStateFriend );
 
     setPluginPermission( ePluginTypePushToTalk, eFriendStateIgnore );

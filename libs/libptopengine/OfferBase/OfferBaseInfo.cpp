@@ -134,7 +134,7 @@ bool OfferBaseInfo::isSessionMatch( OfferBaseInfo& rhs )
 bool OfferBaseInfo::isPhoneTypePlugin( void )          
 { 
 	return m_PluginType == ePluginTypeVoicePhone ||
-			m_PluginType == ePluginTypeVideoPhone ||
+			m_PluginType == ePluginTypeVideoChat ||
 			m_PluginType == ePluginTypeTruthOrDare; 
 }
 

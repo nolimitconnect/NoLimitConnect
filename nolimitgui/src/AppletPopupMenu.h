@@ -43,6 +43,10 @@ enum EUserAction
 	eUserActionVoicePhone,
 	eUserActionVideoPhone,
 	eUserActionTruthOrDare,
+	eUserActionRandomConnectOffer,
+	eUserActionRandomConnectAccept,
+	eUserActionRandomConnectReject,
+	eUserActionRandomConnectCancel,
 	eUserActionSetUnsetPreferred,
 	eUserActionChangeFriendship,
 	eUserActionRequestFriendship,
@@ -63,6 +67,7 @@ class GuiHostedListSession;
 class GuiGroupieListSession;
 class GuiUserSessionBase;
 class QListWidgetItem;
+class AppletOfferRandSession;
 
 class AppletPopupMenu : public AppletBase, public MediaCallbackInterface
 {
@@ -125,6 +130,7 @@ protected:
 	void						launchChangeFriendship( GuiUser* selectedFriend );
 	void						launchUserDetails( void );
 	void						launchSendFriendRequest( GuiUser* selectedFriend );
+	void						launchRandomConnectOfferApplet( void );
 
 	bool						isMyAccessAllowed( GuiUser* guiUser, EPluginType pluginType );
 

@@ -39,8 +39,13 @@ public slots:
 	void						onOkButClick( void );
 	void						onCancelButClick( void ); 
 	void						onPermissionClick( void );
+
+	void						onMakeAdminButClick( void );
 	void						onMakeFriendButClick( void );
+	void						onMakeGuestButClick( void );
+	void						onMakeAnonymousButClick( void );
 	void						onIgnoreButClick( void );
+
 	void						onPreferredButClick( void );
 
 protected:

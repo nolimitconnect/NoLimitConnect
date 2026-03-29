@@ -49,7 +49,6 @@ AppletNetworkSettings::AppletNetworkSettings( AppCommon& app, QWidget* parent )
     ui.m_ConnectTestUrlInfoButton->setIcon( eMyIconInformation );
     ui.m_ConnectIsOpenInfoButton->setIcon( eMyIconInformation );
     ui.m_ConnectIsOpenInfoButton->setFixedSize( eButtonSizeMedium );
-    ui.m_Ipv6InfoButton->setIcon( eMyIconInformation );
 
     ui.m_SaveSettingsButton->setIcon( eMyIconFileSave );
     ui.m_SaveSettingsButton->setFixedSize( eButtonSizeSmall );
@@ -87,7 +86,10 @@ void AppletNetworkSettings::connectSignals( void )
     connect( ui.AssumeProxyRadioButton, SIGNAL(clicked()), this, SLOT(slotYesProxyClick()) );
 
     connect( ui.RandomPortButton, SIGNAL(clicked()), this, SLOT(slotRandomPortButtonClick()) );
+
     connect( ui.m_UseUpnpCheckBox, SIGNAL(clicked()), this, SLOT(slotUseUpnpCheckBoxClick()) );
+    connect( ui.m_UseIpv6NetworkCheckBox, SIGNAL(clicked()), this, SLOT(slotUseIpv6CheckBoxClick()) );
+
     connect( ui.m_ConnectTestUrlInfoButton, SIGNAL(clicked()), this, SLOT(slotShowConnectTestUrlInformation()) );
     connect( ui.m_ConnectIsOpenInfoButton, SIGNAL(clicked()), this, SLOT(slotShowConnectTestSettingsInformation()) );
 
@@ -106,7 +108,6 @@ void AppletNetworkSettings::connectSignals( void )
 
     connect( ui.m_TestUpnpButton, SIGNAL(clicked()), this, SLOT(slotTestUpnpButtonClick()) ); 
 
-    connect( ui.m_Ipv6InfoButton, SIGNAL(clicked()), this, SLOT(slotShowIpv6Information()) );
     connect( ui.m_NetworkKeyEyeButton, SIGNAL(clicked()), this, SLOT(slotNetworkKeyEyeButtonClick()) );
 }
 
@@ -288,7 +289,7 @@ void AppletNetworkSettings::populateNetHostSettingsFromDlg( NetHostSetting& netH
     strValue = ui.m_ConnectTestUrlEdit->text().toUtf8().constData();
     netHostSetting.setConnectTestUrl( strValue.c_str() );
 
-    netHostSetting.setUseIpv6( ui.m_UseIpv6Network->isChecked() );
+    netHostSetting.setUseIpv6( ui.m_UseIpv6NetworkCheckBox->isChecked() );
 
     uint16_t u16TcpPort = ui.PortEdit->text().toUShort();
     if( 0 != u16TcpPort )
@@ -407,7 +408,7 @@ void AppletNetworkSettings::slotRandomPortButtonClick( void )
 //============================================================================
 void AppletNetworkSettings::slotTestIsMyPortOpenButtonClick( void )
 {
-    if( ui.m_UseIpv6Network->isChecked() && !verifyIpv6Capable() )
+    if( ui.m_UseIpv6NetworkCheckBox->isChecked() && !verifyIpv6Capable() )
     {
         return;
     }
@@ -486,7 +487,7 @@ void AppletNetworkSettings::populateDlgFromNetHostSetting( NetHostSetting& netSe
     uint16_t u16Port = netSetting.getTcpPort();
     ui.PortEdit->setText( QString( "%1" ).arg( u16Port ) );
 
-    ui.m_UseIpv6Network->setChecked( netSetting.getUseIpv6() );
+    ui.m_UseIpv6NetworkCheckBox->setChecked( netSetting.getUseIpv6() );
 }
 
 //============================================================================
@@ -504,7 +505,7 @@ void AppletNetworkSettings::slotSaveLabelClick( void )
 //============================================================================
 void AppletNetworkSettings::onSaveButtonClick( void )
 {
-    if( ui.m_UseIpv6Network->isChecked() )
+    if( ui.m_UseIpv6NetworkCheckBox->isChecked() )
     {
         if( !verifyIpv6Capable() )
         {
@@ -731,7 +732,7 @@ bool AppletNetworkSettings::verifyFirewallSettings( void )
             return false;
         }
 
-        bool ipv6 = ui.m_UseIpv6Network->isChecked();
+        bool ipv6 = ui.m_UseIpv6NetworkCheckBox->isChecked();
         if( ipv6 )
         {
             if( eIpAddrTypeIpv4 == addrType )
@@ -760,16 +761,20 @@ void AppletNetworkSettings::slotCopyMyUrlToClipboard( void )
 }
 
 //============================================================================
-void AppletNetworkSettings::slotShowIpv6Information( void )
-{
-    AppletInformation * activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeIpv6 );
-    activityInfo->show();
-}
-
-//============================================================================
 void AppletNetworkSettings::slotUseIpv6CheckBoxClick( void )
 {
+    if( ui.m_UseIpv6NetworkCheckBox->isChecked() )
+    {
+        if( !verifyIpv6Capable() )
+        {
+            okMessageBox( QObject::tr( "IPv6 not detected" ), QObject::tr( "The device does not seem to be IPv6 capable\n Please uncheck Use IPv6 Network" ) );
+            ui.m_UseIpv6NetworkCheckBox->setChecked( false );
+            return;
+        }
 
+        AppletInformation * activityInfo = new AppletInformation( m_MyApp, this, eInfoTypeIpv6 );
+        activityInfo->show();
+    }
 }
 
 //============================================================================

@@ -1758,6 +1758,21 @@ void P2PEngine::fromGuiSetIsAutomatedHost( bool automatedHost )
 //============================================================================
 bool P2PEngine::fromGuiSendRandConnectSelected( VxGUID& onlineId, bool isSelected )
 {
+	VxGUID sessionId;
+	return fromGuiSendRandConnectAction( onlineId,
+										 isSelected ? eRandActionSelectUser : eRandActionDeselectUser,
+										 sessionId,
+										 GetTimeStampMs(),
+										 eOfferTypeUnknown );
+}
+
+//============================================================================
+bool P2PEngine::fromGuiSendRandConnectAction( VxGUID& onlineId,
+											  enum ERandAction randAction,
+											  VxGUID sessionId,
+                                              uint64_t timeRequestedMs,
+                                              EOfferType offerType )
+{
 	bool result{ false };
 
 	std::shared_ptr<VxSktBase> sktBase = getConnectIdListMgr().findAnyHostConnection( eHostTypeRandomConnect );
@@ -1765,12 +1780,32 @@ bool P2PEngine::fromGuiSendRandConnectSelected( VxGUID& onlineId, bool isSelecte
 	{
 		PktRandConnectReq pktReq;
 		pktReq.setPluginNum( ePluginTypeHostRandomConnect );
-		GroupieId groupieId( getMyOnlineId(), sktBase->getPeerOnlineId(), eHostTypeRandomConnect);
+        size_t pktSize = pktReq.getPktLength();
+        if(pktSize & 0x0f)
+        {
+            LogMsg( LOG_ERROR, "PktRandConnectReq size %d is invalid", pktSize );
+        }
+		GroupieId groupieId( getMyOnlineId(), sktBase->getPeerOnlineId(), eHostTypeRandomConnect );
+
+		if( !sessionId.isVxGUIDValid() )
+		{
+			sessionId.initializeWithNewVxGUID();
+		}
+
+		if( !timeRequestedMs )
+		{
+			timeRequestedMs = GetTimeStampMs();
+		}
+
 		pktReq.setGroupieId( groupieId );
 		pktReq.setToUserOnlineId( onlineId );
-		pktReq.setRandAction( isSelected ? eRandActionSelectUser : eRandActionDeselectUser );
+		pktReq.setRandAction( randAction );
+		pktReq.setSessionId( sessionId );
+		pktReq.setTimeRequestedMs( timeRequestedMs );
+		pktReq.setOfferType( offerType );
+        pktReq.setSrcOnlineId( getMyOnlineId() );
 		pktReq.setDestOnlineId( sktBase->getPeerOnlineId() );
-		return 0 == sktBase->txPacketWithDestId( &pktReq );
+		result = 0 == sktBase->txPacketWithDestId( &pktReq );
 	}
 	else
 	{

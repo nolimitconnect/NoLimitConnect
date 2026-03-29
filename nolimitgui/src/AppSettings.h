@@ -41,6 +41,9 @@ public:
 	void						setSelectedLanguage( ELanguageType selectedLanguage );
 	ELanguageType				getSelectedLanguage( void );
 
+	void					setRandomConnectOfferType( EOfferType offerType );
+	EOfferType				getRandomConnectOfferType( void );
+
 	void						setMutePhoneRing( bool bMutePhoneRing );
 	bool						getMutePhoneRing( void );
 

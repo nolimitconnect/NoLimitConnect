@@ -15,5 +15,13 @@ enum ERandAction
     eRandActionSelectUser,
     eRandActionDeselectUser,
 
+    // One-on-one offer lifecycle actions for random connect members.
+    eRandActionOfferRequest,
+    eRandActionOfferAccept,
+    eRandActionOfferReject,
+    eRandActionOfferCancel,
+    eRandActionOfferNoResponse,
+    eRandActionOfferMissed,
+
     eMaxRandAction
 };

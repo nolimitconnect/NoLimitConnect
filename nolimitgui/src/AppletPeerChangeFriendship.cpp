@@ -30,10 +30,10 @@ AppletPeerChangeFriendship::AppletPeerChangeFriendship( AppCommon& app, QWidget*
     setAppletType( eAppletPeerChangeFriendship );
 	ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
-	ui.m_OkButton->setIcon( eMyIconCheckMark );
+	ui.m_OkButton->setIcon( eMyIconAcceptCheckMark );
 	ui.m_OkButton->setFixedSize( eButtonSizeLarge );
 
-	ui.m_CancelButton->setIcon( eMyIconRedX );
+	ui.m_CancelButton->setIcon( eMyIconRejectRedX );
 	ui.m_CancelButton->setFixedSize( eButtonSizeLarge );
 
 	ui.m_MakeFriendButton->setIcon( getMyIcons().getFriendshipIcon( eFriendStateFriend ) );
@@ -52,8 +52,19 @@ AppletPeerChangeFriendship::AppletPeerChangeFriendship( AppCommon& app, QWidget*
 	ui.m_PreferredButton->setAppIcon( eMyIconApp, this );
 	ui.m_PreferredButton->setUseTheme( false ); // so has color
 
+	ui.m_SelectAdminButton->setFixedSize( eButtonSizeTiny );
+	ui.m_SelectAdminButton->setIcon( eMyIconAdministrator );
+	ui.m_SelectFriendButton->setFixedSize( eButtonSizeTiny );
+	ui.m_SelectFriendButton->setIcon( eMyIconFriend );
+	ui.m_SelectGuestButton->setFixedSize( eButtonSizeTiny );
+	ui.m_SelectGuestButton->setIcon( eMyIconGuest );
+	ui.m_SelectAnonymousButton->setFixedSize( eButtonSizeTiny );
+	ui.m_SelectAnonymousButton->setIcon( eMyIconAnonymous );
+	ui.m_SelectIgnoreButton->setFixedSize( eButtonSizeTiny );
+	ui.m_SelectIgnoreButton->setIcon( eMyIconIgnored );
 
-	connect( ui.ToAdministratorButton, SIGNAL(clicked()), this, SLOT( onPermissionClick() ) );
+
+	connect( ui.ToAdministratorButton, SIGNAL(clicked()), this, SLOT(onPermissionClick()) );
 	connect( ui.ToFriendButton,		SIGNAL(clicked()), this, SLOT(onPermissionClick()) );
 	connect( ui.ToGuestButton,		SIGNAL(clicked()), this, SLOT(onPermissionClick()) );
 	connect( ui.ToAnonymousButton,	SIGNAL(clicked()), this, SLOT(onPermissionClick()) );
@@ -68,6 +79,12 @@ AppletPeerChangeFriendship::AppletPeerChangeFriendship( AppCommon& app, QWidget*
 	connect( ui.m_IgnoreLabel,      SIGNAL(clicked()), this, SLOT(onIgnoreButClick()) );
 
 	connect( ui.m_PreferredButton,	SIGNAL(clicked()), this, SLOT(onPreferredButClick()) );
+
+	connect( ui.m_SelectAdminButton, 	SIGNAL(clicked()), this, SLOT(onMakeAdminButClick()) );
+	connect( ui.m_SelectFriendButton, 	SIGNAL(clicked()), this, SLOT(onMakeFriendButClick()) );
+	connect( ui.m_SelectGuestButton, 	SIGNAL(clicked()), this, SLOT(onMakeGuestButClick()) );
+	connect( ui.m_SelectAnonymousButton, 	SIGNAL(clicked()), this, SLOT(onMakeAnonymousButClick()) );
+	connect( ui.m_SelectIgnoreButton,	SIGNAL(clicked()), this, SLOT(onIgnoreButClick()) );
 }
 
 //============================================================================
@@ -236,9 +253,27 @@ void AppletPeerChangeFriendship::setCheckedPermission( EFriendState myFriendship
 }
 
 //============================================================================   
+void AppletPeerChangeFriendship::onMakeAdminButClick( void )
+{
+	setCheckedPermission( eFriendStateAdmin );
+}
+
+//============================================================================   
 void AppletPeerChangeFriendship::onMakeFriendButClick( void )
 {
 	setCheckedPermission( eFriendStateFriend );
+}
+
+//============================================================================   
+void AppletPeerChangeFriendship::onMakeGuestButClick( void )
+{
+	setCheckedPermission( eFriendStateGuest );
+}
+
+//============================================================================   
+void AppletPeerChangeFriendship::onMakeAnonymousButClick( void )
+{
+	setCheckedPermission( eFriendStateAnonymous );
 }
 
 //============================================================================   

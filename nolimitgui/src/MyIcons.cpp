@@ -434,9 +434,9 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
 	case eMyIconCancelDisabled:
 		return ":/AppRes/Resources/x-overlay.svg";
 
-	case eMyIconCheckMark:
+	case eMyIconAcceptCheckMark:
 		return ":/AppRes/Resources/check-mark.svg";
-	case eMyIconRedX:
+	case eMyIconRejectRedX:
 		return ":/AppRes/Resources/x-overlay.svg";
 
     case eMyIconCancelRecord:
@@ -982,7 +982,7 @@ EMyIcons MyIcons::getPluginSettingsIcon( enum EPluginType pluginType )
     case ePluginTypeTruthOrDare:
         return eMyIconSettingsTruthOrDare;
 
-    case ePluginTypeVideoPhone:
+    case ePluginTypeVideoChat:
         return eMyIconSettingsVideoPhone;
 
     case ePluginTypeVoicePhone:
@@ -1314,7 +1314,7 @@ EMyIcons MyIcons::getPluginIcon( enum EPluginType pluginType, EPluginAccess ePlu
 		}
 		break;
 
-	case ePluginTypeVideoPhone:	// Video phone p2p plugin
+	case ePluginTypeVideoChat:	// Video phone p2p plugin
 		switch( ePluginAccess )
 		{
 		case ePluginAccessOk:
@@ -1487,7 +1487,7 @@ EMyIcons MyIcons::getPluginSetupIcon( enum EPluginType pluginType)
     case ePluginTypeVoicePhone:	// VOIP p2p plugin
         return eMyIconSettingsVoicePhone;
 
-    case ePluginTypeVideoPhone:	// Video phone p2p plugin
+    case ePluginTypeVideoChat:	// Video phone p2p plugin
         return eMyIconSettingsVideoPhone;
 
     case ePluginTypeTruthOrDare:	// Web Cam Truth Or Dare game p2p plugin
@@ -1536,7 +1536,7 @@ EMyIcons MyIcons::getDisabledPluginIcon( enum EPluginType pluginType )
 		return eMyIconWebCamServerDisabled;
 	case 	ePluginTypeVoicePhone:	// VOIP p2p plugin
 		return eMyIconVoicePhoneDisabled;
-	case 	ePluginTypeVideoPhone:	// Video phone p2p plugin
+	case 	ePluginTypeVideoChat:	// Video phone p2p plugin
 		return eMyIconVideoPhoneDisabled;
 	case 	ePluginTypeTruthOrDare:	// Web Cam Truth Or Dare game p2p plugin
 		return eMyIconTruthOrDareDisabled;
@@ -1571,7 +1571,7 @@ EMyIcons MyIcons::getLockedPluginIcon( enum EPluginType pluginType )
 		return eMyIconWebCamServerLocked;
 	case 	ePluginTypeVoicePhone:	// VOIP p2p plugin
 		return eMyIconVoicePhoneLocked;
-	case 	ePluginTypeVideoPhone:	// Video phone p2p plugin
+	case 	ePluginTypeVideoChat:	// Video phone p2p plugin
 		return eMyIconVideoPhoneLocked;
 	case 	ePluginTypeTruthOrDare:	// Web Cam Truth Or Dare game p2p plugin
 		return eMyIconTruthOrDareLocked;
@@ -1602,7 +1602,7 @@ EMyIcons MyIcons::getIgnoredPluginIcon( enum EPluginType pluginType )
 		return eMyIconWebCamServerIgnored;
 	case 	ePluginTypeVoicePhone:	// VOIP p2p plugin
 		return eMyIconVoicePhoneIgnored;
-	case 	ePluginTypeVideoPhone:	// Video phone p2p plugin
+	case 	ePluginTypeVideoChat:	// Video phone p2p plugin
 		return eMyIconVideoPhoneIgnored;
 	case 	ePluginTypeTruthOrDare:	// Web Cam Truth Or Dare game p2p plugin
 		return eMyIconTruthOrDareIgnored;

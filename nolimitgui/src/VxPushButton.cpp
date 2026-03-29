@@ -468,12 +468,12 @@ void VxPushButton::setNotifyNlcFavoriteEnabled( bool enabled, EMyIcons eNotifyIc
 void VxPushButton::setIcon( EMyIcons myIcon )
 {
 	m_MyIcon = myIcon;
-    if( myIcon == eMyIconCheckMark )
+    if( myIcon == eMyIconAcceptCheckMark )
     {
         setIconOverrideColor( QColor( COLOR_GREEN ) );
     }
 
-    if( myIcon == eMyIconRedX )
+    if( myIcon == eMyIconRejectRedX )
     {
         setIconOverrideColor( QColor( COLOR_RED ) );
     }

@@ -260,7 +260,7 @@ void P2PEngine::onSessionStart( EPluginType pluginType, VxGUID& onlineId )
 	{
 	case ePluginTypeMessenger:
 	case ePluginTypeVoicePhone:
-	case ePluginTypeVideoPhone:
+	case ePluginTypeVideoChat:
 	case ePluginTypeTruthOrDare:
 		shouldUpdateLastSessionTime = true;
 	default:

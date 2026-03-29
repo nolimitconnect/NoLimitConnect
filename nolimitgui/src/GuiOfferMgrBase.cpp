@@ -779,7 +779,7 @@ bool GuiOfferMgrBase::fromGuiMakePluginOffer( QWidget* parent, EPluginType plugi
 				appletType = eAppletPeerVoicePhone;
 				appletPeerBase = dynamic_cast<AppletPeerBase*>( m_MyApp.getAppletMgr().launchApplet( appletType, parent ) );
 				break;
-			case ePluginTypeVideoPhone:
+			case ePluginTypeVideoChat:
 				appletType = eAppletPeerVideoPhone;
 				appletPeerBase = dynamic_cast<AppletPeerBase*>( m_MyApp.getAppletMgr().launchApplet( appletType, parent ) );
 				break;
@@ -1146,7 +1146,7 @@ bool GuiOfferMgrBase::launchOfferResponseAccept( std::shared_ptr<GuiOfferSession
 
 	break;
 
-	case ePluginTypeVideoPhone:
+	case ePluginTypeVideoChat:
 	{
 		if( !m_MyApp.getAppletMgr().findAppletDialog( eAppletPeerVideoPhone ) || guiUser->isMyself() ) // allow multiple sessions if is myself for testing
 		{

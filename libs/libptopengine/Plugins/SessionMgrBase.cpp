@@ -40,7 +40,7 @@ bool SessionMgrBase::isPluginSingleSession( void )
 	switch( m_Plugin.getPluginType() )
 	{
 	case ePluginTypeVoicePhone:
-	case ePluginTypeVideoPhone:
+	case ePluginTypeVideoChat:
 	case ePluginTypeTruthOrDare:
 	case ePluginTypeMessenger:
 	case ePluginTypeCamServer:

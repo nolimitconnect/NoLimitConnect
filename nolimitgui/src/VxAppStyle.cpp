@@ -460,7 +460,7 @@ void VxAppStyle::drawControl(   ControlElement			element,
             {
                 painter->setClipRect( option->rect );
 
-                m_MyApp.getMyIcons().drawIcon( eMyIconCheckMark, painter, checkRect, checkColor );
+                m_MyApp.getMyIcons().drawIcon( eMyIconAcceptCheckMark, painter, checkRect, checkColor );
             }
 
             painter->restore();

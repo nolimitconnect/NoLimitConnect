@@ -31,6 +31,7 @@ public:
 
     virtual bool                setOfferSession( std::shared_ptr<GuiOfferSession>& offerSession );
     virtual bool                isOfferMatch( std::shared_ptr<GuiOfferSession>& offerSession );
+    bool                        beginAcceptedSession( void );
 
 	virtual OfferBaseInfo&		getOfferInfo( void )                                    { return m_OfferSessionLogic.getOfferInfo(); }
     virtual void                onOfferWasSet( void ) {};

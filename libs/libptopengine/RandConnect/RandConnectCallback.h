@@ -10,11 +10,20 @@
 //============================================================================
 
 #include <PktLib/PktsRandConnectDefs.h>
+#include <stdint.h>
+
 class GroupieId;
+class VxGUID;
 
 class RandConnectCallback
 {
 public:
     virtual void				callbackRandConnect( GroupieId& onlineId, enum ERandAction randAction ) {};
+    virtual void                callbackRandConnectOffer( GroupieId& groupieId,
+                                                           VxGUID& toUserOnlineId,
+                                                           VxGUID& sessionId,
+                                                           enum ERandAction randAction,
+                                                           uint64_t timeRequestedMs,
+                                                           EOfferType offerType ) {};
 };
 

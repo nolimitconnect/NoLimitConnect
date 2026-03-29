@@ -136,6 +136,7 @@ EMyIcons GetAppletIcon( EApplet applet )
 
     case eAppletOfferInfo:                  return eMyIconInfoOffer;
     case eAppletOfferSend:                  return eMyIconOfferEye;
+    case eAppletOfferRandSession:           return eMyIconRandomConnectClient;
     case eAppletOfferResponse:              return eMyIconOfferEye;
     case eAppletOfferResponseAccept:        return eMyIconOfferEye;
     case eAppletOfferView:                  return eMyIconOfferEye;
@@ -354,6 +355,7 @@ QString DescribeApplet( EApplet applet )
     case eAppletFileOfferSelect:            return QObject::tr( "Offer File" );
 
     case eAppletOfferInfo:                  return QObject::tr( "Offer Information" );
+    case eAppletOfferRandSession:           return QObject::tr( "Random Connect Session" );
     case eAppletOfferSend:                  return QObject::tr( "Send Offer" );
     case eAppletOfferResponse:              return QObject::tr( "Respond To Offer" );
     case eAppletOfferResponseAccept:        return QObject::tr( "Accept Offer Response" );

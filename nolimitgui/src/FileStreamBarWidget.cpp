@@ -48,7 +48,7 @@ FileActionBarWidget::FileActionBarWidget(QWidget* parent)
 //============================================================================
 void FileActionBarWidget::setSelectAFileMode( bool selectAFile )
 {
-	ui.m_PlayFileButton->setIcons( selectAFile ? eMyIconCheckMark : eMyIconPlayNormal );
+	ui.m_PlayFileButton->setIcons( selectAFile ? eMyIconAcceptCheckMark : eMyIconPlayNormal );
 }
 
 //============================================================================

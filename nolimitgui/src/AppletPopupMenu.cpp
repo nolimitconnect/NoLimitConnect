@@ -22,12 +22,14 @@
 #include "AppletFileShareClientView.h"
 #include "AppletFriendRequest.h"
 #include "AppletMgr.h"
+#include "AppletOfferRandSession.h"
 #include "AppletPeerChangeFriendship.h"
 #include "AppletPeerTodGame.h"
 #include "AppletPeerVideoPhone.h"
 #include "AppletPeerVoicePhone.h"
 #include "AppletStoryboardClient.h"
 
+#include "BottomBarWidget.h"
 #include "FileItemInfo.h"
 #include "FileActionMenu.h"
 #include "FileShareItemWidget.h"
@@ -38,7 +40,8 @@
 #include "GuiGroupieListSession.h"
 #include "GuiHostSession.h"
 #include "GuiHostedListSession.h"
-#include "BottomBarWidget.h"
+#include "GuiRandConnectMgr.h"
+
 #include "MyIcons.h"
 #include "TitleBarWidget.h"
 
@@ -260,13 +263,37 @@ void AppletPopupMenu::addUserAction( enum EUserAction userAction )
 	}
 	else if( userAction ==  eUserActionVideoPhone )
 	{
-		strAction = GuiParams::describePluginAction( m_SelectedFriend, ePluginTypeVideoPhone, pluginAccess );
-		addMenuItem( (int)eUserActionVideoPhone, getMenuIcon( getMyIcons().getPluginIcon( ePluginTypeVideoPhone, pluginAccess ) ), strAction );
+		strAction = GuiParams::describePluginAction( m_SelectedFriend, ePluginTypeVideoChat, pluginAccess );
+		addMenuItem( (int)eUserActionVideoPhone, getMenuIcon( getMyIcons().getPluginIcon( ePluginTypeVideoChat, pluginAccess ) ), strAction );
 	}
 	else if( userAction ==  eUserActionTruthOrDare )
 	{
 		strAction = GuiParams::describePluginAction( m_SelectedFriend, ePluginTypeTruthOrDare, pluginAccess );
 		addMenuItem( (int)eUserActionTruthOrDare, getMenuIcon( getMyIcons().getPluginIcon( ePluginTypeTruthOrDare, pluginAccess ) ), strAction );
+	}
+	else if( userAction == eUserActionRandomConnectOffer )
+	{
+		addMenuItem( (int)eUserActionRandomConnectOffer,
+					 getMenuIcon( eMyIconRandomConnectClient ),
+					 QObject::tr( "Offer Random Connect Session" ) );
+	}
+	else if( userAction == eUserActionRandomConnectAccept )
+	{
+		addMenuItem( (int)eUserActionRandomConnectAccept,
+					 getMenuIcon( eMyIconAcceptCheckMark ),
+					 QObject::tr( "Accept Random Connect Offer" ) );
+	}
+	else if( userAction == eUserActionRandomConnectReject )
+	{
+		addMenuItem( (int)eUserActionRandomConnectReject,
+					 getMenuIcon( eMyIconRejectRedX ),
+					 QObject::tr( "Reject Random Connect Offer" ) );
+	}
+	else if( userAction == eUserActionRandomConnectCancel )
+	{
+		addMenuItem( (int)eUserActionRandomConnectCancel,
+					 getMenuIcon( eMyIconRejectRedX ),
+					 QObject::tr( "Cancel Random Connect Offer" ) );
 	}
 	else if( userAction ==  eUserActionViewSharedFiles )
 	{
@@ -357,8 +384,8 @@ bool AppletPopupMenu::canPerformAction( enum EUserAction userAction, EPluginAcce
 	}
     else if( userAction == eUserActionVideoPhone )
 	{
-		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeVideoPhone );
-		if( pluginAccess == ePluginAccessOk && m_MyApp.getOfferMgr().haveActiveOffer( m_SelectedFriend->getMyOnlineId(), ePluginTypeVideoPhone ) )
+		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeVideoChat );
+		if( pluginAccess == ePluginAccessOk && m_MyApp.getOfferMgr().haveActiveOffer( m_SelectedFriend->getMyOnlineId(), ePluginTypeVideoChat ) )
 		{
 			pluginAccess = ePluginAccessBusy;
 		}
@@ -377,6 +404,43 @@ bool AppletPopupMenu::canPerformAction( enum EUserAction userAction, EPluginAcce
 		if( pluginAccess == ePluginAccessOk && m_MyApp.getOfferMgr().haveActiveOffer( m_SelectedFriend->getMyOnlineId(), ePluginTypeTruthOrDare ) )
 		{
 			pluginAccess = ePluginAccessBusy;
+		}
+	}
+	else if( userAction == eUserActionRandomConnectOffer
+		  || userAction == eUserActionRandomConnectAccept
+		  || userAction == eUserActionRandomConnectReject
+		  || userAction == eUserActionRandomConnectCancel )
+	{
+		bool iAmRandConnectMember = m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeRandomConnect, m_MyApp.getMyOnlineId() );
+		bool peerIsRandConnectMember = m_MyApp.getMemberActiveMgr().isMemberOfHostType( eHostTypeRandomConnect, m_SelectedFriend->getMyOnlineId() );
+		if( iAmRandConnectMember && peerIsRandConnectMember && !m_SelectedFriend->isMyself() )
+		{
+			bool hasAnyOfferTypePermission =
+				m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeVideoChat ) == ePluginAccessOk
+				|| m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeVoicePhone ) == ePluginAccessOk
+				|| m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeTruthOrDare ) == ePluginAccessOk;
+
+			bool hasIncomingOffer = m_MyApp.getRandConnectMgr().hasPendingIncomingOffer( m_SelectedFriend->getMyOnlineId() );
+			bool hasOutgoingOffer = m_MyApp.getRandConnectMgr().hasPendingOutgoingOffer( m_SelectedFriend->getMyOnlineId() );
+			if( userAction == eUserActionRandomConnectOffer )
+			{
+				if( !hasAnyOfferTypePermission )
+				{
+					pluginAccess = ePluginAccessIgnored;
+				}
+				else
+				{
+					pluginAccess = hasIncomingOffer || hasOutgoingOffer ? ePluginAccessBusy : ePluginAccessOk;
+				}
+			}
+			else if( userAction == eUserActionRandomConnectAccept || userAction == eUserActionRandomConnectReject )
+			{
+				pluginAccess = hasIncomingOffer ? ePluginAccessOk : ePluginAccessBusy;
+			}
+			else
+			{
+				pluginAccess = hasOutgoingOffer ? ePluginAccessOk : ePluginAccessBusy;
+			}
 		}
 	}
     else if( userAction == eUserActionSetUnsetPreferred )
@@ -485,7 +549,7 @@ void AppletPopupMenu::onFriendActionSelected( int iMenuId )
 
 	case eUserActionVideoPhone:
 		{
-			m_MyApp.offerToFriendPluginSession( m_SelectedFriend, ePluginTypeVideoPhone, getParentPageFrame() );
+			m_MyApp.offerToFriendPluginSession( m_SelectedFriend, ePluginTypeVideoChat, getParentPageFrame() );
 		}
 
 		break;
@@ -493,6 +557,43 @@ void AppletPopupMenu::onFriendActionSelected( int iMenuId )
 	case eUserActionTruthOrDare:
 		{
 			m_MyApp.offerToFriendPluginSession( m_SelectedFriend, ePluginTypeTruthOrDare, getParentPageFrame() );
+		}
+
+		break;
+
+	case eUserActionRandomConnectOffer:
+		{
+			launchRandomConnectOfferApplet();
+		}
+
+		break;
+
+	case eUserActionRandomConnectAccept:
+		{
+			if( !m_MyApp.getRandConnectMgr().sendRandConnectOfferResponse( m_SelectedFriend->getMyOnlineId(), eRandActionOfferAccept ) )
+			{
+				GuiHelpers::errorMsgBox( eErrMsgOfferSendFailed, getParentPageFrame() );
+			}
+		}
+
+		break;
+
+	case eUserActionRandomConnectReject:
+		{
+			if( !m_MyApp.getRandConnectMgr().sendRandConnectOfferResponse( m_SelectedFriend->getMyOnlineId(), eRandActionOfferReject ) )
+			{
+				GuiHelpers::errorMsgBox( eErrMsgOfferSendFailed, getParentPageFrame() );
+			}
+		}
+
+		break;
+
+	case eUserActionRandomConnectCancel:
+		{
+			if( !m_MyApp.getRandConnectMgr().sendRandConnectOfferResponse( m_SelectedFriend->getMyOnlineId(), eRandActionOfferCancel ) )
+			{
+				GuiHelpers::errorMsgBox( eErrMsgOfferSendFailed, getParentPageFrame() );
+			}
 		}
 
 		break;
@@ -523,6 +624,25 @@ void AppletPopupMenu::onFriendActionSelected( int iMenuId )
 	}
 
 	closeApplet();
+}
+
+//============================================================================
+void AppletPopupMenu::launchRandomConnectOfferApplet( void )
+{
+	if( !m_SelectedFriend )
+	{
+		LogMsg( LOG_ERROR, "AppletPopupMenu::%s null selected friend", __func__ );
+		return;
+	}
+
+	AppletOfferRandSession* applet = dynamic_cast<AppletOfferRandSession*>( m_MyApp.launchApplet( eAppletOfferRandSession, getParentPageFrame() ) );
+	if( !applet )
+	{
+		LogMsg( LOG_ERROR, "AppletPopupMenu::%s failed to launch random connect offer applet", __func__ );
+		return;
+	}
+
+	applet->setUser( m_SelectedFriend );
 }
 
 //============================================================================

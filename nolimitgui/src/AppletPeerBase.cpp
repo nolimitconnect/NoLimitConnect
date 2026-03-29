@@ -194,6 +194,32 @@ bool AppletPeerBase::setOfferSession( std::shared_ptr<GuiOfferSession>& offerSes
 }
 
 //============================================================================
+bool AppletPeerBase::beginAcceptedSession( void )
+{
+	if( m_OfferSessionLogic.getIsInSession() )
+	{
+		return true;
+	}
+
+	GuiUser* hisIdent = m_OfferSessionLogic.getHisIdent();
+	if( !hisIdent )
+	{
+		LogMsg( LOG_ERROR, "AppletPeerBase::%s no user for accepted session", __func__ );
+		return false;
+	}
+
+	if( !m_MyApp.getEngine().fromGuiStartPluginSession( m_ePluginType, hisIdent->getMyOnlineId(), m_OfferSessionLogic.getOfferId() ) )
+	{
+		LogMsg( LOG_ERROR, "AppletPeerBase::%s failed to start plugin session", __func__ );
+		return false;
+	}
+
+	m_OfferSessionLogic.setIsInSession( true );
+	m_OfferSessionLogic.onInSession( true );
+	return true;
+}
+
+//============================================================================
 bool AppletPeerBase::isOfferMatch( std::shared_ptr<GuiOfferSession>& offerSession )
 {
 	return m_HisIdent &&

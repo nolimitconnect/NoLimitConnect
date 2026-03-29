@@ -41,6 +41,21 @@
       <string/>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="spacing">
+       <number>2</number>
+      </property>
+      <property name="leftMargin">
+       <number>2</number>
+      </property>
+      <property name="topMargin">
+       <number>2</number>
+      </property>
+      <property name="rightMargin">
+       <number>2</number>
+      </property>
+      <property name="bottomMargin">
+       <number>2</number>
+      </property>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_10">
         <item>
@@ -161,67 +176,6 @@
        </layout>
       </item>
       <item>
-       <spacer name="verticalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Orientation::Vertical</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Policy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>3</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_16">
-        <property name="spacing">
-         <number>2</number>
-        </property>
-        <item>
-         <widget class="QCheckBox" name="m_UseIpv6Network">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>Use IPv6 Network</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="VxPushButton" name="m_Ipv6InfoButton">
-          <property name="minimumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>32</width>
-            <height>32</height>
-           </size>
-          </property>
-          <property name="text">
-           <string notr="true"/>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>48</width>
-            <height>48</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -229,7 +183,7 @@
            <number>2</number>
           </property>
           <property name="bottomMargin">
-           <number>5</number>
+           <number>2</number>
           </property>
           <item>
            <widget class="QLabel" name="m_NetworkHostUrlLabel">
@@ -369,7 +323,7 @@
            <number>2</number>
           </property>
           <property name="bottomMargin">
-           <number>5</number>
+           <number>2</number>
           </property>
           <item>
            <widget class="QLabel" name="m_ConnectTestUrlLabel">
@@ -418,17 +372,34 @@
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="m_UseUpnpCheckBox">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Enable UPNP port forward</string>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout_13">
+        <item>
+         <widget class="QCheckBox" name="m_UseUpnpCheckBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Enable UPNP port forward</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="m_UseIpv6NetworkCheckBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Use IPv6 Network</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <widget class="QGroupBox" name="m_ConnectGroupBox">
@@ -440,21 +411,21 @@
           <number>1</number>
          </property>
          <property name="leftMargin">
-          <number>3</number>
+          <number>2</number>
          </property>
          <property name="topMargin">
-          <number>3</number>
+          <number>2</number>
          </property>
          <property name="rightMargin">
-          <number>3</number>
+          <number>2</number>
          </property>
          <property name="bottomMargin">
-          <number>3</number>
+          <number>2</number>
          </property>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <property name="spacing">
-            <number>3</number>
+            <number>2</number>
            </property>
            <item>
             <widget class="QRadioButton" name="AutoDetectProxyRadioButton">

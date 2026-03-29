@@ -39,11 +39,11 @@ GuiFriendRequestListItem::GuiFriendRequestListItem( QWidget* parent )
     ui.m_MenuButton->setIcon( eMyIconMenu );
 
 	ui.m_AcceptButton->setFixedSize( eButtonSizeTiny );
-	ui.m_AcceptButton->setIcon( eMyIconCheckMark );
+	ui.m_AcceptButton->setIcon( eMyIconAcceptCheckMark );
 	ui.m_AcceptButton->setIconOverrideColor( m_MyApp.getAppTheme().getAcceptColor() );
 
 	ui.m_RejectButton->setFixedSize( eButtonSizeTiny );
-	ui.m_RejectButton->setIcon( eMyIconRedX );
+	ui.m_RejectButton->setIcon( eMyIconRejectRedX );
 	ui.m_RejectButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
 
 	ui.m_DetailsButton->setFixedSize( eButtonSizeTiny );

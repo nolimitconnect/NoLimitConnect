@@ -43,7 +43,7 @@ This avoids non-native asm compilation failures on x64 hosts.
 
 The root CMake option controls backend selection:
 
-- `USE_AEC2=ON`: builds and links `libs/libwebrtc-aec2`
-- `USE_AEC2=OFF`: builds and links `libs/libwebrtc-aec`
+- `set(USE_AEC2 1)`: builds and links `libs/libwebrtc-aec2`
+- `set(USE_AEC2 0)`: builds and links `libs/libwebrtc-aec`
 
 The configure log prints the active backend selection.

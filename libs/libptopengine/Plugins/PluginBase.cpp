@@ -45,7 +45,7 @@ bool PluginBase::isVoicePlugin( void )
     return m_ePluginType == ePluginTypeCamServer ||
         m_ePluginType == ePluginTypeCamClient ||
         m_ePluginType == ePluginTypeTruthOrDare ||
-        m_ePluginType == ePluginTypeVideoPhone ||
+        m_ePluginType == ePluginTypeVideoChat ||
         m_ePluginType == ePluginTypeVoicePhone ||
         m_ePluginType == ePluginTypePushToTalk;
 }

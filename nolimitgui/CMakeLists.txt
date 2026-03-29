@@ -177,6 +177,7 @@ list(APPEND nlc_HEADERS
     src/AppletPlayerNlc.h
     src/AppletPlayerNlcBase.h
 
+    src/AppletOfferRandSession.h
     src/AppletPopupMenu.h
     src/AppletRandomConnectHostAdmin.h
     src/AppletRandomConnectJoin.h
@@ -596,6 +597,7 @@ list(APPEND nlc_SOURCES
 
     src/AppletOfferInfo.cpp
     src/AppletOfferList.cpp
+    src/AppletOfferRandSession.cpp
     src/AppletOfferResponse.cpp
     src/AppletOfferResponseAccept.cpp
     src/AppletOfferSend.cpp
@@ -982,6 +984,8 @@ list(APPEND nlc_FORMS
     src/Forms/AppletNetworkSettings.ui
     src/Forms/AppletOfferInfo.ui
     src/Forms/AppletOfferList.ui
+
+    src/Forms/AppletOfferRandSession.ui
     src/Forms/AppletOfferResponse.ui
     src/Forms/AppletOfferResponseAccept.ui
     src/Forms/AppletOfferSend.ui

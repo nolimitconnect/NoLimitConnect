@@ -44,7 +44,7 @@ AppletHostLeave::AppletHostLeave( AppCommon& app, QWidget* parent )
 	ui.m_LeaveButton->setIcon( eMyIconUserLeave );
 	ui.m_BootButton->setIcon( eMyIconBoot );
 	ui.m_BlockButton->setIcon( eMyIconIgnored );
-	ui.m_CancelButton->setIcon( eMyIconRedX );
+	ui.m_CancelButton->setIcon( eMyIconRejectRedX );
 	ui.m_CancelButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
 
 	connect( ui.m_LeaveButton, SIGNAL(clicked()), this, SLOT(slotLeaveButtonClicked()) );

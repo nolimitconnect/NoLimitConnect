@@ -10,15 +10,65 @@
 
 #include "GuiRandConnectMgr.h"
 
+#include "AppCommon.h"
+#include "AppletMgr.h"
+#include "AppletPeerBase.h"
 #include "GuiRandConnectCallback.h"
 #include "GuiHelpers.h"
-#include "AppCommon.h"
+#include "GuiOfferSession.h"
+#include "GuiUser.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <RandConnect/RandConnectMgr.h>
 
+#include <OfferBase/OfferBaseInfo.h>
+
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxTime.h>
 #include <PktLib/PktsRandConnectDefs.h>
+
+#include <QFrame>
+
+namespace
+{
+    const uint64_t RAND_CONNECT_OFFER_TIMEOUT_MS = 17000;
+
+    EOfferType NormalizeRandomConnectOfferType( EOfferType offerType )
+    {
+        switch( offerType )
+        {
+        case eOfferTypeTruthOrDare:
+        case eOfferTypeVideoChat:
+        case eOfferTypeVoicePhone:
+            return offerType;
+
+        default:
+            return eOfferTypeVideoChat;
+        }
+    }
+
+    EOfferResponse RandActionToOfferResponse( ERandAction randAction )
+    {
+        switch( randAction )
+        {
+        case eRandActionOfferAccept:
+            return eOfferResponseAccept;
+
+        case eRandActionOfferReject:
+            return eOfferResponseReject;
+
+        case eRandActionOfferCancel:
+            return eOfferResponseCancelSession;
+
+        case eRandActionOfferNoResponse:
+        case eRandActionOfferMissed:
+            return eOfferResponseEndSession;
+
+        default:
+            return eOfferResponseNotSet;
+        }
+    }
+}
 
 //============================================================================
 GuiRandConnectMgr::GuiRandConnectMgr()
@@ -30,6 +80,16 @@ GuiRandConnectMgr::GuiRandConnectMgr()
 void GuiRandConnectMgr::onAppCommonCreated( void )
 {
     connect( this, SIGNAL(signalInternalRandConnect(GroupieId,ERandAction)), this, SLOT(slotInternalRandConnect(GroupieId,ERandAction)), Qt::QueuedConnection );
+    connect( this,
+             SIGNAL(signalInternalRandConnectOffer(GroupieId,VxGUID,VxGUID,ERandAction,uint64_t,EOfferType)),
+             this,
+             SLOT(slotInternalRandConnectOffer(GroupieId,VxGUID,VxGUID,ERandAction,uint64_t,EOfferType)),
+             Qt::QueuedConnection );
+
+    m_OfferTimeoutTimer = new QTimer( this );
+    m_OfferTimeoutTimer->setInterval( 1000 );
+    connect( m_OfferTimeoutTimer, SIGNAL(timeout()), this, SLOT(slotOfferTimeoutCheck()) );
+    m_OfferTimeoutTimer->start();
 
     GetPtoPEngine().getRandConnectMgr().wantRandConnectCallbacks( this, true );
 }
@@ -49,15 +109,141 @@ enum ERandAction GuiRandConnectMgr::getRandAction( VxGUID& onlineId )
 }
 
 //============================================================================
+bool GuiRandConnectMgr::sendRandConnectAction( VxGUID& toUserOnlineId,
+                                               enum ERandAction randAction,
+                                               VxGUID sessionId,
+                                               uint64_t timeRequestedMs,
+                                               EOfferType offerType )
+{
+    return GetPtoPEngine().fromGuiSendRandConnectAction( toUserOnlineId, randAction, sessionId, timeRequestedMs, offerType );
+}
+
+//============================================================================
+bool GuiRandConnectMgr::sendRandConnectOfferRequest( VxGUID& toUserOnlineId, EOfferType offerType )
+{
+    VxGUID sessionId;
+    sessionId.initializeWithNewVxGUID();
+    return sendRandConnectAction( toUserOnlineId,
+                                  eRandActionOfferRequest,
+                                  sessionId,
+                                  GetTimeStampMs(),
+                                  NormalizeRandomConnectOfferType( offerType ) );
+}
+
+//============================================================================
+bool GuiRandConnectMgr::sendRandConnectOfferResponse( VxGUID& peerOnlineId, enum ERandAction randAction )
+{
+    if( randAction != eRandActionOfferAccept && randAction != eRandActionOfferReject && randAction != eRandActionOfferCancel )
+    {
+        return false;
+    }
+
+    GuiRandConnectOffer* incomingOffer = findPendingOfferWithPeer( peerOnlineId, true );
+    if( incomingOffer )
+    {
+        return sendRandConnectAction( peerOnlineId,
+                                      randAction,
+                                      incomingOffer->m_SessionId,
+                                      incomingOffer->m_TimeRequestedMs,
+                                      incomingOffer->m_OfferType );
+    }
+
+    GuiRandConnectOffer* outgoingOffer = findPendingOfferWithPeer( peerOnlineId, false );
+    if( outgoingOffer )
+    {
+        return sendRandConnectAction( peerOnlineId,
+                                      randAction,
+                                      outgoingOffer->m_SessionId,
+                                      outgoingOffer->m_TimeRequestedMs,
+                                      outgoingOffer->m_OfferType );
+    }
+
+    return false;
+}
+
+//============================================================================
+bool GuiRandConnectMgr::hasPendingIncomingOffer( VxGUID& peerOnlineId )
+{
+    return nullptr != findPendingOfferWithPeer( peerOnlineId, true );
+}
+
+//============================================================================
+bool GuiRandConnectMgr::hasPendingOutgoingOffer( VxGUID& peerOnlineId )
+{
+    return nullptr != findPendingOfferWithPeer( peerOnlineId, false );
+}
+
+//============================================================================
 void GuiRandConnectMgr::callbackRandConnect( GroupieId& groupieId, enum ERandAction randAction )
 {
     emit signalInternalRandConnect( groupieId, randAction );
 }
 
 //============================================================================
+void GuiRandConnectMgr::callbackRandConnectOffer( GroupieId& groupieId,
+                                                  VxGUID& toUserOnlineId,
+                                                  VxGUID& sessionId,
+                                                  enum ERandAction randAction,
+                                                  uint64_t timeRequestedMs,
+                                                  EOfferType offerType )
+{
+    emit signalInternalRandConnectOffer( groupieId, toUserOnlineId, sessionId, randAction, timeRequestedMs, offerType );
+}
+
+//============================================================================
 void GuiRandConnectMgr::slotInternalRandConnect( GroupieId groupieId, enum ERandAction randAction )
 {
     updateRandConnect( groupieId, randAction );
+}
+
+//============================================================================
+void GuiRandConnectMgr::slotInternalRandConnectOffer( GroupieId groupieId,
+                                                      VxGUID toUserOnlineId,
+                                                      VxGUID sessionId,
+                                                      enum ERandAction randAction,
+                                                      uint64_t timeRequestedMs,
+                                                      EOfferType offerType )
+{
+    updateRandConnectOffer( groupieId, toUserOnlineId, sessionId, randAction, timeRequestedMs, offerType );
+}
+
+//============================================================================
+void GuiRandConnectMgr::slotOfferTimeoutCheck( void )
+{
+    const uint64_t nowMs = GetTimeStampMs();
+    const VxGUID myOnlineId = GetPtoPEngine().getMyOnlineId();
+    std::vector<GuiRandConnectOffer> timeoutOffers;
+
+    for( auto iter = m_OfferList.begin(); iter != m_OfferList.end(); )
+    {
+        if( iter->m_RandAction != eRandActionOfferRequest )
+        {
+            ++iter;
+            continue;
+        }
+
+        if( iter->m_TimeRequestedMs && ( iter->m_TimeRequestedMs + RAND_CONNECT_OFFER_TIMEOUT_MS <= nowMs ) )
+        {
+            timeoutOffers.emplace_back( *iter );
+            iter = m_OfferList.erase( iter );
+        }
+        else
+        {
+            ++iter;
+        }
+    }
+
+    for( auto& timedOutOffer : timeoutOffers )
+    {
+        bool incomingOffer = timedOutOffer.m_ToUserOnlineId == myOnlineId;
+        VxGUID peerOnlineId = incomingOffer ? timedOutOffer.m_GroupieId.getUserOnlineId() : timedOutOffer.m_ToUserOnlineId;
+        ERandAction timeoutAction = incomingOffer ? eRandActionOfferMissed : eRandActionOfferNoResponse;
+        sendRandConnectAction( peerOnlineId,
+                               timeoutAction,
+                               timedOutOffer.m_SessionId,
+                               timedOutOffer.m_TimeRequestedMs,
+                               timedOutOffer.m_OfferType );
+    }
 }
 
 //============================================================================
@@ -106,6 +292,272 @@ void GuiRandConnectMgr::updateRandConnect( GroupieId& groupieId, enum ERandActio
     {
         announceRandConnect( groupieId.getUserOnlineId(), randAction);
     }
+}
+
+//============================================================================
+void GuiRandConnectMgr::updateRandConnectOffer( GroupieId& groupieId,
+                                                VxGUID& toUserOnlineId,
+                                                VxGUID& sessionId,
+                                                enum ERandAction randAction,
+                                                uint64_t timeRequestedMs,
+                                                EOfferType offerType )
+{
+    const VxGUID myOnlineId = GetPtoPEngine().getMyOnlineId();
+
+    if( !sessionId.isVxGUIDValid() )
+    {
+        return;
+    }
+
+    if( !timeRequestedMs )
+    {
+        timeRequestedMs = GetTimeStampMs();
+    }
+
+    const EOfferType normalizedOfferType = NormalizeRandomConnectOfferType( offerType );
+    OfferBaseInfo offerInfo;
+    offerInfo.setPluginType( offerTypeToPluginType( normalizedOfferType ) );
+    offerInfo.setOfferType( normalizedOfferType );
+    offerInfo.setOfferId( sessionId );
+    offerInfo.setCreatorId( groupieId.getUserOnlineId() );
+    offerInfo.setHistoryId( toUserOnlineId );
+    offerInfo.setOfferTimestamp( (int64_t)timeRequestedMs );
+    offerInfo.setCreationTime( (int64_t)timeRequestedMs );
+
+    LogMsg( LOG_VERBOSE,
+            "GuiRandConnectMgr::%s offer action %d from %s to %s session %s time %llu",
+            __func__,
+            randAction,
+            GetAppInstance().describeUser( groupieId.getUserOnlineId() ).c_str(),
+            GetAppInstance().describeUser( toUserOnlineId ).c_str(),
+            sessionId.toHexString().c_str(),
+            (unsigned long long)timeRequestedMs );
+
+    auto iter = std::find_if( m_OfferList.begin(), m_OfferList.end(),
+                              [&]( const GuiRandConnectOffer& offer )
+                              {
+                                  return offer.m_SessionId == sessionId;
+                              } );
+
+    if( randAction == eRandActionOfferRequest )
+    {
+        offerType = normalizedOfferType;
+
+        if( iter == m_OfferList.end() )
+        {
+            GuiRandConnectOffer offer;
+            offer.m_GroupieId = groupieId;
+            offer.m_ToUserOnlineId = toUserOnlineId;
+            offer.m_SessionId = sessionId;
+            offer.m_RandAction = randAction;
+            offer.m_TimeRequestedMs = timeRequestedMs;
+            offer.m_OfferType = offerType;
+            m_OfferList.emplace_back( offer );
+        }
+        else
+        {
+            iter->m_GroupieId = groupieId;
+            iter->m_ToUserOnlineId = toUserOnlineId;
+            iter->m_RandAction = randAction;
+            iter->m_TimeRequestedMs = timeRequestedMs;
+            iter->m_OfferType = offerType;
+        }
+
+        if( toUserOnlineId == myOnlineId )
+        {
+            VxGUID fromOnlineId = groupieId.getUserOnlineId();
+            GetAppInstance().getOfferMgr().toGuiRxedPluginOffer( fromOnlineId, offerInfo );
+        }
+        else if( groupieId.getUserOnlineId() == myOnlineId )
+        {
+            // Mirror outgoing random-connect offers into GuiOfferMgr so they are visible in Offer List flow.
+            VxGUID fromOnlineId = toUserOnlineId;
+            GetAppInstance().getOfferMgr().toGuiRxedPluginOffer( fromOnlineId, offerInfo );
+        }
+    }
+    else if( iter != m_OfferList.end() )
+    {
+        GuiRandConnectOffer offer = *iter;
+        if( offerType != eOfferTypeUnknown )
+        {
+            offer.m_OfferType = NormalizeRandomConnectOfferType( offerType );
+        }
+
+        if( isOfferTerminalAction( randAction ) )
+        {
+            m_OfferList.erase( iter );
+
+            EOfferResponse offerResponse = RandActionToOfferResponse( randAction );
+            if( offerResponse != eOfferResponseNotSet )
+            {
+                offerInfo.setOfferResponse( offerResponse );
+
+                if( toUserOnlineId == myOnlineId )
+                {
+                    VxGUID fromOnlineId = groupieId.getUserOnlineId();
+                    GetAppInstance().getOfferMgr().toGuiRxedOfferReply( fromOnlineId, offerInfo );
+                }
+                else if( groupieId.getUserOnlineId() == myOnlineId )
+                {
+                    VxGUID fromOnlineId = toUserOnlineId;
+                    GetAppInstance().getOfferMgr().toGuiRxedOfferReply( fromOnlineId, offerInfo );
+                }
+            }
+
+            if( randAction == eRandActionOfferAccept )
+            {
+                launchAcceptedOfferSession( offer );
+            }
+        }
+        else
+        {
+            iter->m_RandAction = randAction;
+            if( offerType != eOfferTypeUnknown )
+            {
+                iter->m_OfferType = NormalizeRandomConnectOfferType( offerType );
+            }
+        }
+    }
+}
+
+//============================================================================
+EPluginType GuiRandConnectMgr::offerTypeToPluginType( EOfferType offerType )
+{
+    switch( NormalizeRandomConnectOfferType( offerType ) )
+    {
+    case eOfferTypeTruthOrDare:
+        return ePluginTypeTruthOrDare;
+
+    case eOfferTypeVoicePhone:
+        return ePluginTypeVoicePhone;
+
+    case eOfferTypeVideoChat:
+    default:
+        return ePluginTypeVideoChat;
+    }
+}
+
+//============================================================================
+std::shared_ptr<GuiOfferSession> GuiRandConnectMgr::createAcceptedOfferSession( const GuiRandConnectOffer& offer )
+{
+    const VxGUID myOnlineId = GetPtoPEngine().getMyOnlineId();
+    const bool iStartedOffer = ( offer.m_GroupieId.getUserOnlineId() == myOnlineId );
+    const VxGUID peerOnlineId = iStartedOffer ? offer.m_ToUserOnlineId : offer.m_GroupieId.getUserOnlineId();
+    GuiUser* guiUser = GetAppInstance().getUserMgr().getUser( peerOnlineId );
+    if( !guiUser )
+    {
+        LogMsg( LOG_ERROR, "GuiRandConnectMgr::%s user not found for accepted offer", __func__ );
+        return nullptr;
+    }
+
+    OfferBaseInfo offerInfo;
+    offerInfo.setPluginType( offerTypeToPluginType( offer.m_OfferType ) );
+    offerInfo.setOfferType( NormalizeRandomConnectOfferType( offer.m_OfferType ) );
+    VxGUID creatorId = offer.m_GroupieId.getUserOnlineId();
+    VxGUID historyId = offer.m_ToUserOnlineId;
+    offerInfo.setCreatorId( creatorId );
+    offerInfo.setHistoryId( historyId );
+    VxGUID offerId = offer.m_SessionId;
+    offerInfo.setOfferId( offerId );
+    offerInfo.setOfferMgr( iStartedOffer ? eOfferMgrHost : eOfferMgrClient );
+    offerInfo.setOfferResponse( eOfferResponseAccept );
+    offerInfo.setOfferTimestamp( (int64_t)offer.m_TimeRequestedMs );
+    offerInfo.setOfferResponseTimestamp( (int64_t)GetTimeStampMs() );
+
+    GuiOfferInfo guiOfferInfo( offerInfo );
+    guiOfferInfo.setUser( guiUser );
+    guiOfferInfo.setOfferState( eOfferStateAccepted );
+    guiOfferInfo.updateLastActivityTime();
+
+    return std::make_shared<GuiOfferSession>( GuiOfferSession( guiOfferInfo ) );
+}
+
+//============================================================================
+bool GuiRandConnectMgr::launchAcceptedOfferSession( const GuiRandConnectOffer& offer )
+{
+    std::shared_ptr<GuiOfferSession> offerSession = createAcceptedOfferSession( offer );
+    if( !offerSession )
+    {
+        return false;
+    }
+
+    EApplet appletType = GuiHelpers::pluginTypeToSessionApplet( offerSession->getPluginType() );
+    if( eAppletUnknown == appletType )
+    {
+        LogMsg( LOG_ERROR, "GuiRandConnectMgr::%s unknown applet type", __func__ );
+        return false;
+    }
+
+    GuiUser* guiUser = offerSession->getUser();
+    if( !guiUser )
+    {
+        return false;
+    }
+
+    if( GetAppInstance().getAppletMgr().findAppletDialog( appletType ) && !guiUser->isMyself() )
+    {
+        GuiHelpers::errorMsgBox( eErrMsgAlreadyInSession, GuiHelpers::pluginTypeToDefaultContentFrame( offerSession->getPluginType() ) );
+        return false;
+    }
+
+    QFrame* contentFrame = GuiHelpers::pluginTypeToDefaultContentFrame( offerSession->getPluginType() );
+    AppletPeerBase* applet = dynamic_cast<AppletPeerBase*>( GetAppInstance().getAppletMgr().launchApplet( appletType, contentFrame ) );
+    if( !applet )
+    {
+        return false;
+    }
+
+    if( !applet->setOfferSession( offerSession ) )
+    {
+        return false;
+    }
+
+    return applet->beginAcceptedSession();
+}
+
+//============================================================================
+bool GuiRandConnectMgr::isOfferTerminalAction( enum ERandAction randAction )
+{
+    switch( randAction )
+    {
+    case eRandActionOfferAccept:
+    case eRandActionOfferReject:
+    case eRandActionOfferCancel:
+    case eRandActionOfferNoResponse:
+    case eRandActionOfferMissed:
+        return true;
+
+    default:
+        return false;
+    }
+}
+
+//============================================================================
+GuiRandConnectMgr::GuiRandConnectOffer* GuiRandConnectMgr::findPendingOfferWithPeer( VxGUID& peerOnlineId, bool incomingOffer )
+{
+    const VxGUID myOnlineId = GetPtoPEngine().getMyOnlineId();
+    auto iter = std::find_if( m_OfferList.begin(), m_OfferList.end(),
+                              [&]( GuiRandConnectOffer& offer )
+                              {
+                                  if( offer.m_RandAction != eRandActionOfferRequest )
+                                  {
+                                      return false;
+                                  }
+
+                                  if( incomingOffer )
+                                  {
+                                      return offer.m_ToUserOnlineId == myOnlineId && offer.m_GroupieId.getUserOnlineId() == peerOnlineId;
+                                  }
+
+                                  return offer.m_GroupieId.getUserOnlineId() == myOnlineId && offer.m_ToUserOnlineId == peerOnlineId;
+                              } );
+
+    if( iter == m_OfferList.end() )
+    {
+        return nullptr;
+    }
+
+    return &( *iter );
 }
 
 //============================================================================

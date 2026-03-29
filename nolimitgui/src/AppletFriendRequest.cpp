@@ -36,13 +36,13 @@ AppletFriendRequest::AppletFriendRequest(	AppCommon& app, QWidget* parent )
     ui.m_SendButton->setFixedSize( eButtonSizeMedium );
     ui.m_CancelButton->setFixedSize( eButtonSizeMedium );
 
-	ui.m_AcceptButton->setIcon( eMyIconCheckMark );
+	ui.m_AcceptButton->setIcon( eMyIconAcceptCheckMark );
     ui.m_SendButton->setIcon( eMyIconSendArrowNormal );
 	ui.m_AcceptButton->setIconOverrideColor( m_MyApp.getAppTheme().getAcceptColor() );
 	ui.m_SendButton->setIconOverrideColor( m_MyApp.getAppTheme().getAcceptColor() );
 
-	ui.m_RejectButton->setIcon( eMyIconRedX );
-    ui.m_CancelButton->setIcon( eMyIconRedX );
+	ui.m_RejectButton->setIcon( eMyIconRejectRedX );
+    ui.m_CancelButton->setIcon( eMyIconRejectRedX );
 	ui.m_RejectButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
 	ui.m_CancelButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
 

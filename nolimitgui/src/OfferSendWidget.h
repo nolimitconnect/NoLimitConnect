@@ -61,10 +61,12 @@ public:
 	void						setFocusOnText( void );
 
 	void						setCancelVisible( bool visible );
+	void						setExternalSendMode( bool useExternalSend ) { m_UseExternalSend = useExternalSend; }
 
 signals:
     void						signalOfferSent( bool sendSuccess );
 	void						signalCancelButtonClicked( void );
+	void						signalExternalSendRequested( void );
 
 protected slots:
 	void						slotOfferViewButtonClicked( void );
@@ -86,4 +88,5 @@ protected:
 	bool						m_NeedFileHash{ false };
 	int							m_ExpireSeconds{ 0 };
 	bool						m_CanViewInfo{ true };
+	bool						m_UseExternalSend{ false };
 };

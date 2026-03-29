@@ -92,7 +92,7 @@ void FileMediaSelectWidget::setScanCancelEnable( bool cancelEnable )
 	if( cancelEnable )
 	{
 		ui.m_FileMediaFolderButton->setIconOverrideColor( GetAppInstance().getAppTheme().getCancelColor() );
-		ui.m_FileMediaFolderButton->setIcons( eMyIconRedX );
+		ui.m_FileMediaFolderButton->setIcons( eMyIconRejectRedX );
 		ui.m_FolderLabel->setText( QObject::tr( "Cancel scan" ) );
 	}
 	else

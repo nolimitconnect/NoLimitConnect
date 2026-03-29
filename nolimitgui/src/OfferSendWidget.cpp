@@ -38,7 +38,7 @@ OfferSendWidget::OfferSendWidget( QWidget* parent )
     ui.m_OfferViewButton->setFixedSize( eButtonSizeMedium );
     ui.m_OfferCancelButton->setFixedSize( eButtonSizeMedium );
     ui.m_OfferCancelButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
-	ui.m_OfferCancelButton->setIcon( eMyIconRedX );
+	ui.m_OfferCancelButton->setIcon( eMyIconRejectRedX );
 
     ui.m_OfferMsgEdit->setFixedHeight( GuiParams::getButtonSize( eButtonSizeLarge ).height() );
 
@@ -57,6 +57,12 @@ OfferSendWidget::OfferSendWidget( QWidget* parent )
 //============================================================================
 void OfferSendWidget::slotOfferSendButtonClicked( void )
 {
+	if( m_UseExternalSend )
+	{
+		emit signalExternalSendRequested();
+		return;
+	}
+
     if( !m_HisIdent || !m_HisIdent->isOnline() )
     {
         emit signalOfferSent( false );

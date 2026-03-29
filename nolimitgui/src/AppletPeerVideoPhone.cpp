@@ -23,7 +23,7 @@ AppletPeerVideoPhone::AppletPeerVideoPhone(	AppCommon& app, QWidget* parent )
 : AppletPeerBase( OBJNAME_ACTIVITY_TO_FRIEND_VIDEO_PHONE, app, parent )
 , ui(*(new Ui::AppletPeerVideoPhoneUi))
 {
-    setPluginType( ePluginTypeVideoPhone );
+    setPluginType( ePluginTypeVideoChat );
     setAppletType( eAppletPeerVideoPhone );
     ui.setupUi( getContentItemsFrame() );
 	ui.m_CamVidWidget->setMediaModule( eMediaModuleVideoPhone );
@@ -32,7 +32,7 @@ AppletPeerVideoPhone::AppletPeerVideoPhone(	AppCommon& app, QWidget* parent )
 	ui.m_PermissionButton->setFixedSize( eButtonSizeMedium );
     ui.m_HangUpButton->setFixedSize( eButtonSizeMedium );
     ui.m_HangUpButton->setIconOverrideColor( m_MyApp.getAppTheme().getCancelColor() );
-	ui.m_HangUpButton->setIcon( eMyIconRedX );
+	ui.m_HangUpButton->setIcon( eMyIconRejectRedX );
 	connect( ui.m_HangUpButton, SIGNAL(clicked()), this, SLOT(slotEndSession()) );
 }
 

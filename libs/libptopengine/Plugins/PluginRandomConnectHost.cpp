@@ -43,6 +43,10 @@ void PluginRandomConnectHost::onPktRandConnectReq( std::shared_ptr<VxSktBase>& s
     GroupieId groupieId = pktReq->getGroupieId();
     pktReply.setGroupieId( groupieId );
     pktReply.setToUserOnlineId( pktReq->getToUserOnlineId() );
+    pktReply.setSessionId( pktReq->getSessionId() );
+    pktReply.setTimeRequestedMs( pktReq->getTimeRequestedMs() );
+    pktReply.setOfferType( pktReq->getOfferType() );
+    pktReply.setAccessState( pktReq->getAccessState() );
     pktReply.setRandAction( pktReq->getRandAction() );
 
     VxGUID excludeId;

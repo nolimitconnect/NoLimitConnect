@@ -208,9 +208,10 @@ enum EApplet
 
     eAppletFileOfferSelect,
     eAppletOfferInfo,
-    eAppletOfferSend,
     eAppletOfferResponse,
     eAppletOfferResponseAccept,
+    eAppletOfferRandSession,
+    eAppletOfferSend,
     eAppletOfferView,
 
     eAppletIgnoredHosts,

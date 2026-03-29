@@ -69,7 +69,7 @@ void ActivityPermissions::setPluginType( EPluginType ePluginType )
 	case ePluginTypePushToTalk:
 		ui.PermissionLabel->setText( "Who can push to talk to me (Walkie Talkie)" );
 		break;
-	case ePluginTypeVideoPhone:	
+	case ePluginTypeVideoChat:	
 		ui.PermissionLabel->setText( "Who can offer video chat" );
 		break;
 	case ePluginTypeTruthOrDare:	

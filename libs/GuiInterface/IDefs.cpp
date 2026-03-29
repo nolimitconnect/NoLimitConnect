@@ -489,19 +489,13 @@ namespace
         "Offer Type: Join Group ",
         "Offer Type: Join Chat Room ",
         "Offer Type: Join Random Connect ",
-        "Offer Type: Photo File ",
-        "Offer Type: Audio File ",
-        "Offer Type: Video File ",
-        "Offer Type: Document File ",
-        "Offer Type: Archive File ",
-        "Offer Type: Executable File ",
-        "Offer Type: Unknown Type File ",
-        "Offer Type: Folder Of Files ",
         "Offer Type: Friendship ",
         "Offer Type: Instant Message Session ",
         "Offer Type: Truth Or Dare Game ",
         "Offer Type: Video Chat ",
         "Offer Type: Voice Phone Call ",
+        "Offer Type: Personal File ",
+        "Offer Type: Random Connect Session ",
         "Max Offer Type ",
     };
 
@@ -1847,7 +1841,7 @@ const char* GetPluginName( enum EPluginType pluginType )
     case ePluginTypeStoryboardClient: return "ePluginTypeStoryboardClient";
     case ePluginTypeStoryboardServer: return "ePluginTypeStoryboardServer";
     case ePluginTypeTruthOrDare: return "ePluginTypeTruthOrDare";
-    case ePluginTypeVideoPhone: return "ePluginTypeVideoPhone";
+    case ePluginTypeVideoChat: return "ePluginTypeVideoChat";
     case ePluginTypeVoicePhone: return "ePluginTypeVoicePhone";
 
     case ePluginTypeMJPEGReader: return "ePluginTypeMJPEGReader";
@@ -2181,8 +2175,8 @@ EPluginType HostPluginToClientPluginType( enum EPluginType pluginType )
     case ePluginTypeTruthOrDare:
         return ePluginTypeTruthOrDare;
 
-    case ePluginTypeVideoPhone:
-        return ePluginTypeVideoPhone;
+    case ePluginTypeVideoChat:
+        return ePluginTypeVideoChat;
 
     case ePluginTypeVoicePhone:
         return ePluginTypeVoicePhone;
@@ -2389,7 +2383,7 @@ bool IsPluginSingleSession( enum EPluginType pluginType )
     {
     case ePluginTypeVoicePhone:
     case ePluginTypePushToTalk:
-    case ePluginTypeVideoPhone:
+    case ePluginTypeVideoChat:
     case ePluginTypeTruthOrDare:
     case ePluginTypeMessenger:
     case ePluginTypeAboutMePageClient:

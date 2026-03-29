@@ -728,7 +728,7 @@ QString GuiParams::describePluginAction( GuiUser* guiUser, EPluginType pluginTyp
         break;
 
 
-    case ePluginTypeVideoPhone:	
+    case ePluginTypeVideoChat:	
         switch( ePluginAccess )
         {
         case ePluginAccessOk:			// plugin access allowed
@@ -736,7 +736,7 @@ QString GuiParams::describePluginAction( GuiUser* guiUser, EPluginType pluginTyp
             break;
         case ePluginAccessLocked:		// insufficient Friend permission level
             strAction = QObject::tr("Video Chat Requires ");
-            strAction += describeFriendState( guiUser->getPluginPermission( ePluginTypeVideoPhone ) );
+            strAction += describeFriendState( guiUser->getPluginPermission( ePluginTypeVideoChat ) );
             strAction += QObject::tr(" permission");
             break;
         case ePluginAccessDisabled:		// plugin disabled or no files shared or no web cam broadcast
@@ -984,7 +984,7 @@ QString GuiParams::describePluginType( EPluginType pluginType )
         strPluginType = QObject::tr( "Push To Talk" );
         break;
 
-    case ePluginTypeVideoPhone:
+    case ePluginTypeVideoChat:
         strPluginType = QObject::tr("Video Chat");
         break;
 
@@ -1162,7 +1162,7 @@ std::string GuiParams::describePlugin( EPluginType pluginType, bool rmtInitiated
         strPluginDesc = QObject::tr( "Truth Or Dare Video Chat Game" ).toUtf8().constData();
         break;
 
-    case ePluginTypeVideoPhone:
+    case ePluginTypeVideoChat:
         strPluginDesc = QObject::tr( "Phone Call With Video Chat" ).toUtf8().constData();
         break;
 
@@ -1240,7 +1240,7 @@ QString GuiParams::describePluginOffer( EPluginType pluginType )
         strPluginOffer = QObject::tr(" Voice Phone Call ");
         break;
 
-    case ePluginTypeVideoPhone:
+    case ePluginTypeVideoChat:
         strPluginOffer = QObject::tr(" Video Chat Offer ");
         break;
 
@@ -1741,7 +1741,7 @@ QString GuiParams::describeOfferType( EOfferType offerType )
     case eOfferTypeJoinGroup:
         return QObject::tr( "Offer: Join Group" );
     case eOfferTypeJoinChatRoom:
-        return QObject::tr( "Offer: Join Chat Roome" );
+        return QObject::tr( "Offer: Join Chat Room" );
     case eOfferTypeJoinRandomConnect:
         return QObject::tr( "Offer: Join Random Connect" );
     case eOfferTypePersonFile:
@@ -1752,10 +1752,12 @@ QString GuiParams::describeOfferType( EOfferType offerType )
         return QObject::tr( "Offer: Instant Message Session" );
     case eOfferTypeTruthOrDare:
         return QObject::tr( "Offer: Truth Or Dare Game" );
-    case eOfferTypeVideoPhone:
+    case eOfferTypeVideoChat:
         return QObject::tr( "Offer: Video Chat" );
     case eOfferTypeVoicePhone:
         return QObject::tr( "Offer: Voice Phone Call" );
+    case eOfferTypeRandomConnect:
+        return QObject::tr( "Offer: Random Connect Session" );
  //   case eOfferTypeDirectory:
  //       return QObject::tr( "Offer: Folder Of Files" );
 

@@ -829,10 +829,10 @@ enum EOfferType
     eOfferTypeFriendship		    = 4, 
     eOfferTypeMessenger		        = 5,    // instant message session 
     eOfferTypeTruthOrDare           = 6,	// Video Chat Truth Or Dare game  
-    eOfferTypeVideoPhone            = 7,	// Video Chat with motion detect and stream recording
+    eOfferTypeVideoChat            = 7,	// Video Chat with motion detect and stream recording
     eOfferTypeVoicePhone            = 8,	// VOIP audio only phone call
     eOfferTypePersonFile		    = 9,    // person to person file xfer
-    //eOfferTypeDirectory		        = 10,   // directory of files.. disabled for now due to security risk
+    eOfferTypeRandomConnect         = 10,   // offer to connect to random user
 
     eMaxOfferType
 };
@@ -843,6 +843,7 @@ enum EOfferLocation
     eOfferLocLibrary				= 0x01,
     eOfferLocShared					= 0x02,
     eOfferLocPersonFile			    = 0x04,
+    eOfferLocRandomConnect           = 0x08,
 };
 
 enum EOfferAction
@@ -1002,7 +1003,7 @@ enum EPluginType
     ePluginTypeFileShareServer      = 12,	//!< Shared files server
     ePluginTypeStoryboardServer     = 13,	//!< User editable story board web page server
     ePluginTypeTruthOrDare          = 14,	//!< Video Chat Truth Or Dare game  
-    ePluginTypeVideoPhone           = 15,	//!< Video Chat with motion detect and stream recording
+    ePluginTypeVideoChat           = 15,	//!< Video Chat with motion detect and stream recording
     ePluginTypeVoicePhone           = 16,	//!< VOIP audio only phone call
 
     ePluginTypeFriendRequest        = 17,	//!< Who can send a join host or friend request
@@ -1540,6 +1541,6 @@ bool HostShouldAnnounceToNetwork( enum EHostType hostType );
 //! return true if plugin can act as relay for user
 bool IsPluginARelayForUser( enum EPluginType pluginType );
 
-//! return true if only one user can access at a time. example ePluginTypeVideoPhone
+//! return true if only one user can access at a time. example ePluginTypeVideoChat
 bool IsPluginSingleSession( EPluginType pluginType );
 

@@ -20,6 +20,7 @@
 #include "GuiOfferSession.h"
 #include "GuiParams.h"
 #include "GuiPluginMgr.h"
+#include "GuiRandConnectMgr.h"
 #include "TodGameWidget.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -205,9 +206,6 @@ void AppletMultiMessenger::callbackOnlineStatusChange( GuiUser* guiUser, bool is
 
     if( m_UserMgr.isUserInSession( guiUser->getMyOnlineId() ) || guiUser->isFriend() )
 	{
-		//QString statMsg = guiUser->getOnlineName().c_str();
-		//statMsg +=  m_MyApp.getUserMgr().isUserOnline( guiUser->getMyOnlineId() ) ? QObject::tr( " is online" ) : QObject::tr( " went offline" );
-		//setStatusMsg( statMsg );
 	    if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_DEBUG, "AppletMultiMessenger::%s user %s %s", __func__,
                     guiUser->getOnlineName().c_str(), m_MyApp.getUserMgr().isUserOnline( guiUser->getMyOnlineId() ) ?  " is online" : " went offline");
 		checkForSendAccess( false );
@@ -499,5 +497,6 @@ bool AppletMultiMessenger::sendRandConnectSelected( VxGUID& onlineId, bool isSel
 		return false;
 	}
 
-	return getMyApp().getEngine().fromGuiSendRandConnectSelected( onlineId, isSelected );
+	return m_MyApp.getRandConnectMgr().sendRandConnectAction( onlineId,
+		isSelected ? eRandActionSelectUser : eRandActionDeselectUser );
 }

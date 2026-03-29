@@ -24,7 +24,7 @@ AppletSettingsVideoPhone::AppletSettingsVideoPhone( AppCommon& app, QWidget* par
 {
 	ui.setupUi( getContentItemsFrame() );
 	setAppletType( eAppletSettingsVideoPhone );
-	setPluginType( ePluginTypeVideoPhone );
+	setPluginType( ePluginTypeVideoChat );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
 
 	m_MyApp.activityStateChange( this, true );
