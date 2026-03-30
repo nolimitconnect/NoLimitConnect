@@ -38,11 +38,11 @@ QCamera
 
 Code links:
 
-- [nolimitgui/src/CamLogic.cpp](nolimitgui/src/CamLogic.cpp)
-- [nolimitgui/src/CamProcessor.cpp](nolimitgui/src/CamProcessor.cpp)
-- [nolimitgui/src/CamFrameProcessor.cpp](nolimitgui/src/CamFrameProcessor.cpp)
-- [nolimitgui/src/CamV4L2.cpp](nolimitgui/src/CamV4L2.cpp)
-- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
+- [nolimitgui/src/CamLogic.cpp](../nolimitgui/src/CamLogic.cpp)
+- [nolimitgui/src/CamProcessor.cpp](../nolimitgui/src/CamProcessor.cpp)
+- [nolimitgui/src/CamFrameProcessor.cpp](../nolimitgui/src/CamFrameProcessor.cpp)
+- [nolimitgui/src/CamV4L2.cpp](../nolimitgui/src/CamV4L2.cpp)
+- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](../libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
 
 ## Linux Capture Note
 
@@ -74,8 +74,8 @@ round-trip at 15 fps. The thread waits on a `std::condition_variable` and exits 
 
 Code links:
 
-- [nolimitgui/src/CamProcessor.cpp](nolimitgui/src/CamProcessor.cpp)
-- [nolimitgui/src/CamProcessor.h](nolimitgui/src/CamProcessor.h)
+- [nolimitgui/src/CamProcessor.cpp](../nolimitgui/src/CamProcessor.cpp)
+- [nolimitgui/src/CamProcessor.h](../nolimitgui/src/CamProcessor.h)
 
 ### Queue
 
@@ -85,8 +85,8 @@ depth exceeds 1, preventing unbounded memory growth on slow hardware.
 
 Code links:
 
-- [nolimitgui/src/CamLogic.cpp](nolimitgui/src/CamLogic.cpp)
-- [nolimitgui/src/CamProcessor.cpp](nolimitgui/src/CamProcessor.cpp)
+- [nolimitgui/src/CamLogic.cpp](../nolimitgui/src/CamLogic.cpp)
+- [nolimitgui/src/CamProcessor.cpp](../nolimitgui/src/CamProcessor.cpp)
 
 ### Motion Detection Subsampling
 
@@ -96,7 +96,7 @@ The sensitivity denominator is scaled proportionally: `(dataLen / MOTION_STEP) Ã
 
 Code links:
 
-- [nolimitgui/src/CamProcessor.cpp](nolimitgui/src/CamProcessor.cpp)
+- [nolimitgui/src/CamProcessor.cpp](../nolimitgui/src/CamProcessor.cpp)
 
 
 

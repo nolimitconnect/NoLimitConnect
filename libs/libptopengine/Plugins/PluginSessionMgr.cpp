@@ -227,9 +227,12 @@ void PluginSessionMgr::cancelSessionByOnlineId( VxGUID& onlineId )
 }
 
 //============================================================================
-void PluginSessionMgr::doEndAndEraseSession( PluginSessionBase* sessionBase, EOfferResponse offerResponse, bool pluginIsLocked )
+void PluginSessionMgr::doEndAndEraseSession( PluginSessionBase* sessionBase, EOfferResponse offerResponse, bool pluginIsLocked, bool sendSessionStop )
 {
-	m_Plugin.sendSessionStop( sessionBase->getSkt(), sessionBase );
+	if( sendSessionStop )
+	{
+		m_Plugin.sendSessionStop( sessionBase->getSkt(), sessionBase );
+	}
 	m_Engine.getToGui().toGuiPluginSessionEnded( sessionBase->getSendToId(), getPluginType(), sessionBase->getLclSessionId() );
 	m_Plugin.onSessionEnded( sessionBase, pluginIsLocked, offerResponse );
 
@@ -1158,7 +1161,7 @@ bool PluginSessionMgr::removeSession( bool pluginIsLocked, VxGUID& onlineId, VxG
 				m_Plugin.unlockPlugin();
 			}
 
-			doEndAndEraseSession( session, offerResponse, pluginIsLocked );
+			doEndAndEraseSession( session, offerResponse, pluginIsLocked, !fromGui );
 			return true;
 		}
 	}

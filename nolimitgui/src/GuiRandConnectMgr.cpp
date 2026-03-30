@@ -162,6 +162,44 @@ bool GuiRandConnectMgr::sendRandConnectOfferResponse( VxGUID& peerOnlineId, enum
 }
 
 //============================================================================
+bool GuiRandConnectMgr::sendRandConnectOfferResponse( VxGUID& peerOnlineId, VxGUID& sessionId, enum ERandAction randAction )
+{
+    if( randAction != eRandActionOfferAccept && randAction != eRandActionOfferReject && randAction != eRandActionOfferCancel )
+    {
+        return false;
+    }
+
+    auto iter = std::find_if( m_OfferList.begin(), m_OfferList.end(),
+                              [&]( const GuiRandConnectOffer& offer )
+                              {
+                                  if( offer.m_RandAction != eRandActionOfferRequest )
+                                  {
+                                      return false;
+                                  }
+
+                                  if( offer.m_SessionId != sessionId )
+                                  {
+                                      return false;
+                                  }
+
+                                  const VxGUID fromOnlineId = offer.m_GroupieId.getUserOnlineId();
+                                  const VxGUID toOnlineId = offer.m_ToUserOnlineId;
+                                  return fromOnlineId == peerOnlineId || toOnlineId == peerOnlineId;
+                              } );
+
+    if( iter == m_OfferList.end() )
+    {
+        return false;
+    }
+
+    return sendRandConnectAction( peerOnlineId,
+                                  randAction,
+                                  iter->m_SessionId,
+                                  iter->m_TimeRequestedMs,
+                                  iter->m_OfferType );
+}
+
+//============================================================================
 bool GuiRandConnectMgr::hasPendingIncomingOffer( VxGUID& peerOnlineId )
 {
     return nullptr != findPendingOfferWithPeer( peerOnlineId, true );
@@ -303,6 +341,10 @@ void GuiRandConnectMgr::updateRandConnectOffer( GroupieId& groupieId,
                                                 EOfferType offerType )
 {
     const VxGUID myOnlineId = GetPtoPEngine().getMyOnlineId();
+    const VxGUID creatorOnlineId = groupieId.getUserOnlineId();
+    const bool iAmOfferTarget = ( toUserOnlineId == myOnlineId );
+    const bool iAmOfferCreator = ( creatorOnlineId == myOnlineId );
+    const bool iAmOfferParticipant = iAmOfferTarget || iAmOfferCreator;
 
     if( !sessionId.isVxGUIDValid() )
     {
@@ -315,12 +357,19 @@ void GuiRandConnectMgr::updateRandConnectOffer( GroupieId& groupieId,
     }
 
     const EOfferType normalizedOfferType = NormalizeRandomConnectOfferType( offerType );
+    VxGUID peerOnlineId = iAmOfferTarget ? creatorOnlineId : toUserOnlineId;
+
     OfferBaseInfo offerInfo;
-    offerInfo.setPluginType( offerTypeToPluginType( normalizedOfferType ) );
+    EPluginType pluginType = offerTypeToPluginType( normalizedOfferType );
+    offerInfo.setPluginType( pluginType );
     offerInfo.setOfferType( normalizedOfferType );
-    offerInfo.setOfferId( sessionId );
-    offerInfo.setCreatorId( groupieId.getUserOnlineId() );
-    offerInfo.setHistoryId( toUserOnlineId );
+    offerInfo.getAssetUniqueId() = sessionId;
+    VxGUID offerId = GuiHelpers::isPluginSingleSession( pluginType ) ? peerOnlineId : sessionId;
+    offerInfo.setOfferId( offerId );
+    offerInfo.setOnlineId( peerOnlineId );
+    offerInfo.setCreatorId( creatorOnlineId );
+    offerInfo.setHistoryId( peerOnlineId );
+    offerInfo.setOfferMgr( iAmOfferCreator ? eOfferMgrHost : eOfferMgrClient );
     offerInfo.setOfferTimestamp( (int64_t)timeRequestedMs );
     offerInfo.setCreationTime( (int64_t)timeRequestedMs );
 
@@ -338,6 +387,12 @@ void GuiRandConnectMgr::updateRandConnectOffer( GroupieId& groupieId,
                               {
                                   return offer.m_SessionId == sessionId;
                               } );
+
+    if( !iAmOfferParticipant )
+    {
+        // Only sender and target should track/bridge one-on-one offers on this client.
+        return;
+    }
 
     if( randAction == eRandActionOfferRequest )
     {
@@ -363,16 +418,16 @@ void GuiRandConnectMgr::updateRandConnectOffer( GroupieId& groupieId,
             iter->m_OfferType = offerType;
         }
 
+        GetAppInstance().getUserMgr().getUser( peerOnlineId, true );
+
         if( toUserOnlineId == myOnlineId )
         {
-            VxGUID fromOnlineId = groupieId.getUserOnlineId();
-            GetAppInstance().getOfferMgr().toGuiRxedPluginOffer( fromOnlineId, offerInfo );
+            GetAppInstance().getOfferMgr().toGuiRxedPluginOffer( peerOnlineId, offerInfo );
         }
         else if( groupieId.getUserOnlineId() == myOnlineId )
         {
             // Mirror outgoing random-connect offers into GuiOfferMgr so they are visible in Offer List flow.
-            VxGUID fromOnlineId = toUserOnlineId;
-            GetAppInstance().getOfferMgr().toGuiRxedPluginOffer( fromOnlineId, offerInfo );
+            GetAppInstance().getOfferMgr().toGuiRxedPluginOffer( peerOnlineId, offerInfo );
         }
     }
     else if( iter != m_OfferList.end() )
@@ -394,13 +449,11 @@ void GuiRandConnectMgr::updateRandConnectOffer( GroupieId& groupieId,
 
                 if( toUserOnlineId == myOnlineId )
                 {
-                    VxGUID fromOnlineId = groupieId.getUserOnlineId();
-                    GetAppInstance().getOfferMgr().toGuiRxedOfferReply( fromOnlineId, offerInfo );
+                    GetAppInstance().getOfferMgr().toGuiRxedOfferReply( peerOnlineId, offerInfo );
                 }
                 else if( groupieId.getUserOnlineId() == myOnlineId )
                 {
-                    VxGUID fromOnlineId = toUserOnlineId;
-                    GetAppInstance().getOfferMgr().toGuiRxedOfferReply( fromOnlineId, offerInfo );
+                    GetAppInstance().getOfferMgr().toGuiRxedOfferReply( peerOnlineId, offerInfo );
                 }
             }
 
@@ -451,13 +504,15 @@ std::shared_ptr<GuiOfferSession> GuiRandConnectMgr::createAcceptedOfferSession( 
     }
 
     OfferBaseInfo offerInfo;
-    offerInfo.setPluginType( offerTypeToPluginType( offer.m_OfferType ) );
+    EPluginType pluginType = offerTypeToPluginType( offer.m_OfferType );
+    offerInfo.setPluginType( pluginType );
     offerInfo.setOfferType( NormalizeRandomConnectOfferType( offer.m_OfferType ) );
+    offerInfo.getAssetUniqueId() = offer.m_SessionId;
     VxGUID creatorId = offer.m_GroupieId.getUserOnlineId();
     VxGUID historyId = offer.m_ToUserOnlineId;
     offerInfo.setCreatorId( creatorId );
     offerInfo.setHistoryId( historyId );
-    VxGUID offerId = offer.m_SessionId;
+    VxGUID offerId = GuiHelpers::isPluginSingleSession( pluginType ) ? peerOnlineId : offer.m_SessionId;
     offerInfo.setOfferId( offerId );
     offerInfo.setOfferMgr( iStartedOffer ? eOfferMgrHost : eOfferMgrClient );
     offerInfo.setOfferResponse( eOfferResponseAccept );
@@ -494,14 +549,22 @@ bool GuiRandConnectMgr::launchAcceptedOfferSession( const GuiRandConnectOffer& o
         return false;
     }
 
-    if( GetAppInstance().getAppletMgr().findAppletDialog( appletType ) && !guiUser->isMyself() )
+    AppletPeerBase* applet = dynamic_cast<AppletPeerBase*>( GetAppInstance().getAppletMgr().findAppletDialog( appletType ) );
+    if( applet )
     {
-        GuiHelpers::errorMsgBox( eErrMsgAlreadyInSession, GuiHelpers::pluginTypeToDefaultContentFrame( offerSession->getPluginType() ) );
-        return false;
+        // Reuse only if this applet is already for the same peer/plugin session.
+        if( !guiUser->isMyself() && !applet->isOfferMatch( offerSession ) )
+        {
+            GuiHelpers::errorMsgBox( eErrMsgAlreadyInSession, GuiHelpers::pluginTypeToDefaultContentFrame( offerSession->getPluginType() ) );
+            return false;
+        }
+    }
+    else
+    {
+        QFrame* contentFrame = GuiHelpers::pluginTypeToDefaultContentFrame( offerSession->getPluginType() );
+        applet = dynamic_cast<AppletPeerBase*>( GetAppInstance().getAppletMgr().launchApplet( appletType, contentFrame ) );
     }
 
-    QFrame* contentFrame = GuiHelpers::pluginTypeToDefaultContentFrame( offerSession->getPluginType() );
-    AppletPeerBase* applet = dynamic_cast<AppletPeerBase*>( GetAppInstance().getAppletMgr().launchApplet( appletType, contentFrame ) );
     if( !applet )
     {
         return false;

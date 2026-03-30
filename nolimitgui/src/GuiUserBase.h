@@ -43,6 +43,7 @@ public:
     virtual bool                isOnline( void );
     bool                        isDirectConnect( void );
     bool                        isRelayed( void );
+    bool                        isReachable( void );
 
     bool                        isAutomatedHost( void )                 { return m_NetIdent.isAutomatedHost(); }
     void                        setIsAutomatedHost( bool automatedHost ) { m_NetIdent.setIsAutomatedHost( automatedHost ); }

@@ -195,71 +195,64 @@ void PluginCamClient::fromGuiStopPluginSession( VxGUID& onlineId, VxGUID lclSess
 			PktVideoFeedStatus oPkt;
 			oPkt.setFeedStatus( eFeedStatusOffline );
 
-			auto sessionList = m_PluginSessionMgr.getSessions();
-			for( auto iter = sessionList.begin(); iter != sessionList.end(); )
+			// Send offline status to all TxSessions before removal.
+			// Use a copy of the sessions list to avoid iterator invalidation.
 			{
-				PluginSessionBase* sessionBase = *iter;
-				if( sessionBase->isTxSession() )
+				auto sessionListCopy = m_PluginSessionMgr.getSessions();
+				for( auto session : sessionListCopy )
 				{
-					TxSession* poSession = (TxSession*)sessionBase;
-					if( poSession->getSkt() )
+					if( session->isTxSession() )
 					{
-						oPkt.setLclSessionId( poSession->getLclSessionId() );
-						oPkt.setRmtSessionId( poSession->getRmtSessionId() );
-						m_PluginMgr.pluginApiTxPacket( m_ePluginType, poSession->getSendToId(), poSession->getSkt(), &oPkt );
-						delete poSession;
-						iter = sessionList.erase( iter );
-						break;
-					}
-					else
-					{
-						++iter;
+						TxSession* txSession = (TxSession*)session;
+						if( txSession && txSession->getSkt() )
+						{
+							oPkt.setLclSessionId( txSession->getLclSessionId() );
+							oPkt.setRmtSessionId( txSession->getRmtSessionId() );
+							m_PluginMgr.pluginApiTxPacket( m_ePluginType, txSession->getSendToId(), txSession->getSkt(), &oPkt );
+						}
 					}
 				}
-				else if( sessionBase->isRxSession() )
-				{
-					RxSession* rxSession = (RxSession*)sessionBase;
-					if( rxSession && rxSession->getSendToId() == onlineId )
-					{
-						if( rxSession->getSkt() )
-						{
-							oPkt.setLclSessionId( rxSession->getLclSessionId() );
-							oPkt.setRmtSessionId( rxSession->getRmtSessionId() );
-							m_PluginMgr.pluginApiTxPacket( m_ePluginType, rxSession->getSendToId(), rxSession->getSkt(), &oPkt );
-							iter = sessionList.erase( iter );
-							delete rxSession;
-							break;
-						}
+			}
 
-						iter = sessionList.erase( iter );
-						delete rxSession;
-						break;
-					}
-					else
-					{
-						++iter;
-					}
+			// Now safely remove all TxSessions for this plugin using the SessionMgr.
+			// This ensures proper synchronization and prevents use-after-free.
+			auto sessionList = m_PluginSessionMgr.getSessions();
+			while( !sessionList.empty() )
+			{
+				PluginSessionBase* session = sessionList[0];
+				if( session->isTxSession() )
+				{
+					m_PluginSessionMgr.removeTxSessionByOnlineId( session->getSendToId(), true );
+					// List will be updated by the remove call; refresh our reference
+					sessionList = m_PluginSessionMgr.getSessions();
+				}
+				else if( session->isRxSession() )
+				{
+					m_PluginSessionMgr.removeRxSessionByOnlineId( session->getSendToId(), true );
+					// List will be updated by the remove call; refresh our reference
+					sessionList = m_PluginSessionMgr.getSessions();
 				}
 				else
 				{
-					++iter;
+					// Skip unknown session types
+					break;
 				}
 			}
 		}
 	}
 	else
 	{
-		PktSessionStopReq oPkt;
-
-		RxSession * poSession = (RxSession *)m_PluginSessionMgr.findRxSessionByOnlineId( onlineId, true );
-		if( poSession )
+		RxSession* rxSession = (RxSession*)m_PluginSessionMgr.findRxSessionByOnlineId( onlineId, true );
+		if( rxSession )
 		{
-			oPkt.setLclSessionId( poSession->getLclSessionId() );
-			oPkt.setRmtSessionId( poSession->getRmtSessionId() );
-			m_PluginMgr.pluginApiTxPacket( m_ePluginType, poSession->getSendToId(), poSession->getSkt(), &oPkt );
+			PktSessionStopReq oPkt;
+			oPkt.setLclSessionId( rxSession->getLclSessionId() );
+			oPkt.setRmtSessionId( rxSession->getRmtSessionId() );
+			m_PluginMgr.pluginApiTxPacket( m_ePluginType, rxSession->getSendToId(), rxSession->getSkt(), &oPkt );
+			lclSessionId = rxSession->getLclSessionId();
 		}
 
-		m_PluginSessionMgr.removeRxSessionByOnlineId( onlineId, true );
+		m_PluginSessionMgr.removeSession( true, onlineId, lclSessionId, eOfferResponseEndSession, true );
 	}
 }
 
@@ -376,11 +369,16 @@ bool PluginCamClient::stopCamSession( VxNetIdent* netIdent,	std::shared_ptr<VxSk
 {
 	LogMsg( LOG_ERROR, "PluginCamClient::stopCamSession");
 	PktSessionStopReq oPkt;
-	bool bSuccess = m_PluginMgr.pluginApiTxPacket(	m_ePluginType, 
-													netIdent->getMyOnlineId(), 
-													sktBase, 
-													&oPkt );
-	m_PluginSessionMgr.removeRxSessionByOnlineId( netIdent->getMyOnlineId(), false );
+	bool bSuccess = m_PluginMgr.pluginApiTxPacket(	m_ePluginType,
+												netIdent->getMyOnlineId(),
+												sktBase,
+												&oPkt );
+	VxGUID sessionId;
+	m_PluginSessionMgr.removeSession( false,
+												netIdent->getMyOnlineId(),
+												sessionId,
+												eOfferResponseEndSession,
+												true );
 
 	return bSuccess;
 }
@@ -559,8 +557,9 @@ void PluginCamClient::onPktVideoFeedStatus( std::shared_ptr<VxSktBase>& sktBase,
 			//	pktVideoStatus->getRmtSessionId(),
 			//	pktVideoStatus->getLclSessionId() );
 
-			m_PluginSessionMgr.endPluginSession( netIdent->getMyOnlineId(), true );
-			m_PluginSessionMgr.removeRxSessionByOnlineId( netIdent->getMyOnlineId(), true );
+			VxGUID sessionId = rxSession->getLclSessionId();
+			m_VoiceFeedMgr.enableAudioReceive( false, netIdent->getMyOnlineId() );
+			m_PluginSessionMgr.removeSession( true, netIdent->getMyOnlineId(), sessionId, eOfferResponseEndSession, true );
 		}
 	}
 

@@ -86,7 +86,7 @@ public:
 	void						removeAllSessions( bool testSessionsOnly = false );
 
 protected:
-	void						doEndAndEraseSession( PluginSessionBase* sessionBase, EOfferResponse offerResponse, bool pluginIsLocked );
+	void						doEndAndEraseSession( PluginSessionBase* sessionBase, EOfferResponse offerResponse, bool pluginIsLocked, bool sendSessionStop = true );
 
 	//=== vars ===//
 	std::vector<PluginSessionBase*>	m_aoSessions;

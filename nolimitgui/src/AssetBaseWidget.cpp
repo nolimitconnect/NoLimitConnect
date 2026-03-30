@@ -247,7 +247,7 @@ void AssetBaseWidget::slotShredAsset( void )
 void AssetBaseWidget::slotResendAsset( void )
 {
 	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_AssetInfo.getDestUserId() );
-	if( !guiUser || !guiUser->isOnline() )
+	if( !guiUser || !guiUser->isReachable() )
 	{
 		GuiHelpers::errorMsgBox( eErrMsgUserIsOffline, (QWidget*)parent() );
 		return;

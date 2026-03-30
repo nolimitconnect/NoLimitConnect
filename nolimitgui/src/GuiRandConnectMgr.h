@@ -61,6 +61,7 @@ public:
                                                        EOfferType offerType = eOfferTypeUnknown );
     bool                        sendRandConnectOfferRequest( VxGUID& toUserOnlineId, EOfferType offerType );
     bool                        sendRandConnectOfferResponse( VxGUID& peerOnlineId, enum ERandAction randAction );
+    bool                        sendRandConnectOfferResponse( VxGUID& peerOnlineId, VxGUID& sessionId, enum ERandAction randAction );
     bool                        hasPendingIncomingOffer( VxGUID& peerOnlineId );
     bool                        hasPendingOutgoingOffer( VxGUID& peerOnlineId );
 

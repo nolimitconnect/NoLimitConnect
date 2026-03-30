@@ -132,7 +132,7 @@ void MultiSessionState::onSessionOfferButtonClicked()
 	{
 		if( false == m_IFromGui.fromGuiMultiSessionAction( eMSessionActionOffer, m_HisIdent->getMyOnlineId(), (int)m_eMSessionType, m_LclSessionId ) )
 		{
-			LogMsg( LOG_INFO, "MultiSessionState::onSessionOfferButtonClicked user offline" ); 
+			LogMsg( LOG_INFO, "MultiSessionState::onSessionOfferButtonClicked user unavailable" ); 
 			return;
 		}
 
@@ -143,7 +143,7 @@ void MultiSessionState::onSessionOfferButtonClicked()
 		// is being canceled
 		if( false == m_IFromGui.fromGuiMultiSessionAction( eMSessionActionReject, m_HisIdent->getMyOnlineId(), (int)m_eMSessionType, m_LclSessionId ) )
 		{
-			LogMsg( LOG_INFO, "MultiSessionState::onSessionOfferButtonClicked user offline" ); 
+			LogMsg( LOG_INFO, "MultiSessionState::onSessionOfferButtonClicked user unavailable" ); 
 			return;
 		}
 
@@ -164,7 +164,7 @@ void MultiSessionState::onSessionOfferButtonClicked()
 bool MultiSessionState::canSend( void )
 {
 	if( m_IsInChatSession
-		&& m_HisIdent->isOnline() )
+		&& m_HisIdent->isReachable() )
 	{
 		EPluginAccess accessState = ePluginAccessLocked; 
 		switch( m_eMSessionType )
@@ -218,10 +218,10 @@ std::string MultiSessionState::describeCantSendReason( void )
 	{
 		reasonStr += "Insufficient Permission";
 	}
-	else if( false == m_HisIdent->isOnline() )
+	else if( false == m_HisIdent->isReachable() )
 	{
 		reasonStr += m_HisIdent->getOnlineName();	
-		reasonStr += "Is Offline";							
+		reasonStr += "Is Unavailable";							
 	}
 	else if( false == m_IsInChatSession )
 	{

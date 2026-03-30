@@ -128,7 +128,7 @@ bool GuiOfferSession::isAvailableAndActiveOffer( void )
 {
 	if( getUser() )
 	{
-		if( false == getUser()->isOnline() )
+		if( false == getUser()->isReachable() )
 		{
 			return false;
 		}

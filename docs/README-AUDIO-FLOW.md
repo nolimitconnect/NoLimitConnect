@@ -41,12 +41,12 @@ Audio input callback (10 ms AEC frames)
 
 Code links:
 
-- [nolimitgui/src/AudioMgrIn.cpp](nolimitgui/src/AudioMgrIn.cpp)
-- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
-- [libs/libptopengine/Plugins/VoiceFeedMgr.cpp](libs/libptopengine/Plugins/VoiceFeedMgr.cpp)
-- [libs/libptopengine/Plugins/PushToTalkFeedMgr.cpp](libs/libptopengine/Plugins/PushToTalkFeedMgr.cpp)
-- [libs/ffmpeg/opus/OpusCodec.cpp](libs/ffmpeg/opus/OpusCodec.cpp)
-- [libs/PktLib/PktVoiceReq.h](libs/PktLib/PktVoiceReq.h)
+- [nolimitgui/src/AudioMgrIn.cpp](../nolimitgui/src/AudioMgrIn.cpp)
+- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](../libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
+- [libs/libptopengine/Plugins/VoiceFeedMgr.cpp](../libs/libptopengine/Plugins/VoiceFeedMgr.cpp)
+- [libs/libptopengine/Plugins/PushToTalkFeedMgr.cpp](../libs/libptopengine/Plugins/PushToTalkFeedMgr.cpp)
+- [libs/ffmpeg/opus/OpusCodec.cpp](../libs/ffmpeg/opus/OpusCodec.cpp)
+- [libs/PktLib/PktVoiceReq.h](../libs/PktLib/PktVoiceReq.h)
 
 ## Flow B: RX Opus Packet to Decoded PCM
 
@@ -62,9 +62,9 @@ Peer sends PktVoiceReq
 
 Code links:
 
-- [libs/libptopengine/Plugins/VoiceFeedMgr.cpp](libs/libptopengine/Plugins/VoiceFeedMgr.cpp)
-- [libs/libptopengine/Plugins/PushToTalkFeedMgr.cpp](libs/libptopengine/Plugins/PushToTalkFeedMgr.cpp)
-- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
+- [libs/libptopengine/Plugins/VoiceFeedMgr.cpp](../libs/libptopengine/Plugins/VoiceFeedMgr.cpp)
+- [libs/libptopengine/Plugins/PushToTalkFeedMgr.cpp](../libs/libptopengine/Plugins/PushToTalkFeedMgr.cpp)
+- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](../libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
 
 ## Flow C: Speaker Pull and Mixer Loop
 
@@ -82,9 +82,9 @@ AudioMgr speaker callback requests samples
 
 Code links:
 
-- [nolimitgui/src/AudioMgrOut.cpp](nolimitgui/src/AudioMgrOut.cpp)
-- [nolimitgui/src/AudioMixerMgr.cpp](nolimitgui/src/AudioMixerMgr.cpp)
-- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
+- [nolimitgui/src/AudioMgrOut.cpp](../nolimitgui/src/AudioMgrOut.cpp)
+- [nolimitgui/src/AudioMixerMgr.cpp](../nolimitgui/src/AudioMixerMgr.cpp)
+- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](../libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
 
 ## Subscription and Device Enable Logic
 
@@ -95,11 +95,11 @@ Code links:
 
 Code links:
 
-- [libs/libptopengine/Plugins/PluginBase.cpp](libs/libptopengine/Plugins/PluginBase.cpp)
-- [libs/libptopengine/Plugins/PluginMgr.cpp](libs/libptopengine/Plugins/PluginMgr.cpp)
-- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
-- [nolimitgui/src/AudioMgrRequests.cpp](nolimitgui/src/AudioMgrRequests.cpp)
-- [nolimitgui/src/AppCommonAudio.cpp](nolimitgui/src/AppCommonAudio.cpp)
+- [libs/libptopengine/Plugins/PluginBase.cpp](../libs/libptopengine/Plugins/PluginBase.cpp)
+- [libs/libptopengine/Plugins/PluginMgr.cpp](../libs/libptopengine/Plugins/PluginMgr.cpp)
+- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](../libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
+- [nolimitgui/src/AudioMgrRequests.cpp](../nolimitgui/src/AudioMgrRequests.cpp)
+- [nolimitgui/src/AppCommonAudio.cpp](../nolimitgui/src/AppCommonAudio.cpp)
 
 ## Timing and Frame Contracts
 
@@ -111,8 +111,8 @@ Code links:
 
 Code links:
 
-- [libs/GuiInterface/IAudioDefs.h](libs/GuiInterface/IAudioDefs.h)
-- [libs/ffmpeg/opus/OpusCodec.cpp](libs/ffmpeg/opus/OpusCodec.cpp)
+- [libs/GuiInterface/IAudioDefs.h](../libs/GuiInterface/IAudioDefs.h)
+- [libs/ffmpeg/opus/OpusCodec.cpp](../libs/ffmpeg/opus/OpusCodec.cpp)
 
 ## ffmpegopus Migration Checkpoints
 

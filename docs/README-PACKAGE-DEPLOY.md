@@ -4,7 +4,7 @@
 
 Android website distribution is signed-only.
 
-The related tasks are defined in [.vscode/tasks.json](.vscode/tasks.json) and are also exposed in the Run and Debug dropdown through [.vscode/launch.json](.vscode/launch.json).
+The related tasks are defined in [.vscode/tasks.json](../.vscode/tasks.json) and are also exposed in the Run and Debug dropdown through [.vscode/launch.json](../.vscode/launch.json).
 
 ## Signed Android Package
 
@@ -16,7 +16,7 @@ Available task names:
 2. `Package Android Signed`
 3. `Deploy Android Signed Package`
 
-Signing is performed by [.vscode/sign-android-package.ps1](.vscode/sign-android-package.ps1).
+Signing is performed by [.vscode/sign-android-package.ps1](../.vscode/sign-android-package.ps1).
 
 The script does the following:
 

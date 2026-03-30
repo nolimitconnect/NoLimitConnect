@@ -334,7 +334,7 @@ void AppletOfferRandSession::slotSelectedPluginClick( void )
 //============================================================================
 void AppletOfferRandSession::slotSendRandomConnectOffer( void )
 {
-    if( !m_HisIdent || !m_HisIdent->isOnline() )
+    if( !m_HisIdent || !m_HisIdent->isReachable() )
     {
         GuiHelpers::errorMsgBox( eErrMsgUserUnavailable, this, m_HisIdent );
         return;

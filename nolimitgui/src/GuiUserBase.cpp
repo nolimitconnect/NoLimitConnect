@@ -83,6 +83,13 @@ bool GuiUserBase::isRelayed( void )
 }
 
 //============================================================================
+bool GuiUserBase::isReachable( void )
+{
+    // Reachable means either direct or relayed path is available.
+    return isOnline() || isRelayed();
+}
+
+//============================================================================
 bool GuiUserBase::isHosted( void )
 { 
     return isGroupHosted() || isChatRoomHosted() || isRandomConnectHosted();

@@ -187,7 +187,7 @@ bool AppletPeerBase::setOfferSession( std::shared_ptr<GuiOfferSession>& offerSes
 	OfferBaseInfo& offerInfo = getOfferInfo();
 	if( offerInfo.getOfferMgr() == eOfferMgrClient && offerInfo.getOfferResponse() == eOfferResponseAccept )
 	{
-		m_OfferSessionLogic.onInSession( true );
+		return beginAcceptedSession();
 	}
 
 	return true;

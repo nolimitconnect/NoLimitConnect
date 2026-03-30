@@ -63,7 +63,7 @@ void OfferSendWidget::slotOfferSendButtonClicked( void )
 		return;
 	}
 
-    if( !m_HisIdent || !m_HisIdent->isOnline() )
+    if( !m_HisIdent || !m_HisIdent->isReachable() )
     {
         emit signalOfferSent( false );
         GuiHelpers::errorMsgBox( eErrMsgUserUnavailable, this, m_HisIdent );
@@ -75,7 +75,7 @@ void OfferSendWidget::slotOfferSendButtonClicked( void )
         if( false == m_MyApp.getOfferMgr().fromGuiMakePluginOffer( GuiHelpers::getParentPageFrame( this ), m_OfferInfo.getPluginType(), m_HisIdent, m_OfferInfo))
         {
             emit signalOfferSent( false );
-            ActivityMessageBox errMsgBox( m_MyApp, this, LOG_INFO, "%s is offline", m_HisIdent->getOnlineName().c_str() );
+            ActivityMessageBox errMsgBox( m_MyApp, this, LOG_INFO, "%s is unavailable", m_HisIdent->getOnlineName().c_str() );
             errMsgBox.exec();
             return;
         }
@@ -137,7 +137,7 @@ bool OfferSendWidget::setOfferInfo( OfferBaseInfo& offerInfo, GuiUser* guiUser )
         setUser( guiUser );
     }
 
-    m_NeedFileHash = m_OfferInfo.isFileAsset() && !m_OfferInfo.isFileHashValid();
+    m_NeedFileHash = ( m_PluginType == ePluginTypePersonFileXfer ) && !m_OfferInfo.isFileHashValid();
     if( m_NeedFileHash )
     {
         ActivityGenerateHash genHashDlg( m_MyApp, this, m_OfferInfo.getAssetName(), m_OfferInfo.getAssetNameAndPath(), m_OfferInfo.getAssetHashId() );
@@ -211,7 +211,7 @@ bool OfferSendWidget::validateOffer( bool showErrorMsg )
         return false;
     }
 
-    if( m_OfferInfo.isFileAsset() && !m_OfferInfo.isFileHashValid() )
+    if( m_PluginType == ePluginTypePersonFileXfer && !m_OfferInfo.isFileHashValid() )
     {
         if( showErrorMsg )
         {

@@ -23,6 +23,7 @@
 #include "GuiOfferCallback.h"
 #include "GuiOfferSession.h"
 #include "GuiParams.h"
+#include "GuiRandConnectMgr.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <CoreLib/VxDebug.h>
@@ -528,7 +529,7 @@ void GuiOfferMgrBase::rejectOfferButtonClicked( EPluginType pluginType, VxGUID o
 		return;
 	}
 
-	if( offerSession->getUser()->isOnline() 
+	if( offerSession->getUser()->isReachable()
 		&& offerSession->isAvailableAndActiveOffer() )
 	{
 		offerSession->getOfferInfo().setOfferResponse( eOfferResponseReject );
@@ -929,7 +930,13 @@ bool GuiOfferMgrBase::acceptOffer( GuiOfferSession* offerSessionIn, QWidget* con
 	{
 		GuiOfferInfo& offerInfo = offerSession->getOfferInfo();
 		offerInfo.setOfferResponse( eOfferResponseAccept );
-		offerSent = m_MyApp.getEngine().fromGuiToPluginOfferReply( offerSession->getUserIdent()->getMyOnlineId(), offerSession->getOfferInfo() );
+		VxGUID peerOnlineId = offerSession->getUserIdent()->getMyOnlineId();
+		VxGUID offerId = offerInfo.getAssetUniqueId().isVxGUIDValid() ? offerInfo.getAssetUniqueId() : offerSession->getOfferId();
+		offerSent = m_MyApp.getRandConnectMgr().sendRandConnectOfferResponse( peerOnlineId, offerId, eRandActionOfferAccept );
+		if( !offerSent )
+		{
+			offerSent = m_MyApp.getEngine().fromGuiToPluginOfferReply( peerOnlineId, offerSession->getOfferInfo() );
+		}
 		if( !offerSent )
 		{
 			GuiHelpers::errorMsgBox( eErrMsgUserUnavailable, contentFrame, offerSession->getUser() );
@@ -953,12 +960,6 @@ bool GuiOfferMgrBase::acceptOffer( GuiOfferSession* offerSessionIn, QWidget* con
 
 	moveToHistory( offerSession->getOfferId() );
 
-	if( !offerSession->getUser() || !offerSession->getUser()->isOnline() )
-	{
-		GuiHelpers::errorMsgBox( eErrMsgUserUnavailable, contentFrame, offerSession->getUser() );
-		return false;
-	}
-
 	return offerSent;
 }
 
@@ -979,7 +980,13 @@ bool GuiOfferMgrBase::rejectOffer( GuiOfferSession* offerSessionIn, QWidget* con
 		GuiOfferInfo& offerInfo = offerSession->getOfferInfo();
 		offerInfo.setOfferResponse( eOfferResponseReject );
 		changeOfferState( offerSession, eOfferStateRejected );
-		offerSent = m_MyApp.getEngine().fromGuiToPluginOfferReply( offerSession->getUserIdent()->getMyOnlineId(), offerSession->getOfferInfo() );
+		VxGUID peerOnlineId = offerSession->getUserIdent()->getMyOnlineId();
+		VxGUID offerId = offerInfo.getAssetUniqueId().isVxGUIDValid() ? offerInfo.getAssetUniqueId() : offerSession->getOfferId();
+		offerSent = m_MyApp.getRandConnectMgr().sendRandConnectOfferResponse( peerOnlineId, offerId, eRandActionOfferReject );
+		if( !offerSent )
+		{
+			offerSent = m_MyApp.getEngine().fromGuiToPluginOfferReply( peerOnlineId, offerSession->getOfferInfo() );
+		}
 		if( !offerSent )
 		{
 			GuiHelpers::errorMsgBox( eErrMsgUserUnavailable, contentFrame, offerSession->getUser() );
@@ -990,12 +997,6 @@ bool GuiOfferMgrBase::rejectOffer( GuiOfferSession* offerSessionIn, QWidget* con
 	else
 	{
 		removeOffer( offerSession->getOfferId() );
-	}
-
-	if( !offerSession->getUser() || !offerSession->getUser()->isOnline() )
-	{
-		GuiHelpers::errorMsgBox( eErrMsgUserUnavailable, contentFrame, offerSession->getUser() );
-		return false;
 	}
 
 	return offerSent;
@@ -1065,7 +1066,7 @@ bool GuiOfferMgrBase::validateOffer( std::shared_ptr<GuiOfferSession>& offerSess
 		return false;
 	}
 
-	if( offerInfo.isFileAsset() && !offerInfo.isFileHashValid() )
+	if( offerSession->getPluginType() == ePluginTypePersonFileXfer && !offerInfo.isFileHashValid() )
 	{
 		if( showErrorMsg )
 		{

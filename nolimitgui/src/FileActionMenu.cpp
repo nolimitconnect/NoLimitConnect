@@ -173,7 +173,7 @@ void FileActionMenu::itemClicked(QListWidgetItem*item)
 			{
 				if( !m_MyApp.getOfferMgr().fromGuiMakePluginOffer( this, ePluginTypePersonFileXfer, m_SelectedFriend, m_FileInfo ) )
 				{
-                    ActivityMessageBox errMsgBox( m_MyApp, this, LOG_INFO, "Could Not Offer file because %s is offline", m_SelectedFriend->getOnlineName().c_str() );
+                    ActivityMessageBox errMsgBox( m_MyApp, this, LOG_INFO, "Could Not Offer file because %s is unavailable", m_SelectedFriend->getOnlineName().c_str() );
 					errMsgBox.exec();
 				}
 			}

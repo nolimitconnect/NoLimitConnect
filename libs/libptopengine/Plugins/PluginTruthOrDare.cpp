@@ -110,7 +110,19 @@ bool PluginTruthOrDare::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSe
 //============================================================================
 bool PluginTruthOrDare::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
-	return false;
+	const bool isInSession = m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, lclSessionId );
+	if( !isInSession )
+	{
+		LogMsg( LOG_WARNING,
+				"PluginTruthOrDare::%s no active session yet for %s lclSessionId %s",
+				__func__,
+				m_Engine.describeUser( onlineId ).c_str(),
+				lclSessionId.toHexString().c_str() );
+	}
+
+	// Offer/reply packet flow (PktPluginOfferReq/PktPluginOfferReply) is responsible
+	// for creating session state; this call should not hard-fail the GUI start path.
+	return true;
 }
 
 //============================================================================

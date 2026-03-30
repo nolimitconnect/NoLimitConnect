@@ -187,7 +187,7 @@ void AppletMultiMessenger::showReasonAccessNotAllowed( void )
 		return;
 	}
 
-	if( false == m_HisIdent->isOnline() )
+	if( false == m_HisIdent->isReachable() )
 	{
 		accessDesc +=   QObject::tr( " requires user be online " );
 		setStatusMsg( accessDesc );
@@ -228,7 +228,7 @@ bool AppletMultiMessenger::checkForSendAccess( bool sendOfferIfPossible )
         return false;
     }
 
-	if(  m_HisIdent->isOnline()
+	if(  m_HisIdent->isReachable()
 		&& m_HisIdent->isMyAccessAllowedFromHim( m_ePluginType ) )
 	{
 		canSend = true;
@@ -447,23 +447,17 @@ bool AppletMultiMessenger::checkIfCanSend( void )
 		GuiHelpers::errorMsgBox( eErrMsgNoUserSelectedToSendTo, this );
 		return false;
 	}
-	else if( m_SelectedUser->isOnline() )
+	if( m_SelectedUser->isReachable() )
 	{
 		return true;
 	}
-	else if( !m_SelectedUser->isOnline() )
-	{
-		ActivityMessageBox errMsgBox( m_MyApp, this, LOG_INFO, "%s is offline. Message will be queued until the next time you are both online", 
-									  m_SelectedUser->getOnlineName().c_str() );
-		errMsgBox.showCancelButton( true );
-        errMsgBox.exec();
 
-		return errMsgBox.wasOkButtonClicked() ? true : false;
-	}
-	else
-	{
-		return true;
-	}
+	ActivityMessageBox errMsgBox( m_MyApp, this, LOG_INFO, "%s is unavailable. Message will be queued until the next time you are both reachable", 
+								  m_SelectedUser->getOnlineName().c_str() );
+	errMsgBox.showCancelButton( true );
+    errMsgBox.exec();
+
+	return errMsgBox.wasOkButtonClicked() ? true : false;
 }
 
 //============================================================================
@@ -474,7 +468,7 @@ bool AppletMultiMessenger::handleAssetAction( EAssetAction assetAction, AssetBas
 		GuiHelpers::errorMsgBox( eErrMsgNoUserSelectedToSendTo, this );
 		return false;
 	}
-	else if( !m_SelectedUser->isOnline() )
+	else if( !m_SelectedUser->isReachable() )
 	{
 		assetInfo.setDestUserId( m_SelectedUser->getMyOnlineId() );
 		return getMyApp().getEngine().fromGuiQueueAssetAction( assetAction, assetInfo );

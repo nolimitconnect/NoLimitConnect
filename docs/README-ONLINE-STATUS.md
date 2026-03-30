@@ -6,6 +6,19 @@
 - Orange: online through relay.
 - Grey: offline.
 
+## Code Semantics
+
+- `isOnline` means reachable, either direct or relayed.
+- `isDirectConnect` means direct path is available.
+- `isRelayed` means reachable only through relay.
+- `isReachable` is the preferred helper for call sites that only need transport availability.
+
+Recommended usage:
+
+- Use `isReachable` for send/accept/reject gating and other transport checks.
+- Use `isDirectConnect` and `isRelayed` for UI presentation, diagnostics, or behavior that depends on route type.
+- Avoid duplicating checks like `isOnline || isRelayed` at call sites; use `isReachable` to keep intent explicit.
+
 ## Relevant Join/Identity Flow
 
 1. A user joins a host (Group/ChatRoom/RandomConnect).

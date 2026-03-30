@@ -99,8 +99,18 @@ bool PluginVoicePhone::fromGuiIsPluginInSession( VxGUID& onlineId, VxGUID lclSes
 
 //============================================================================
 //! called to start service or session with remote friend
-bool PluginVoicePhone::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID )
+bool PluginVoicePhone::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSessionId )
 {
+	const bool isInSession = m_PluginSessionMgr.fromGuiIsPluginInSession( false, onlineId, lclSessionId );
+	if( !isInSession )
+	{
+		LogMsg( LOG_WARNING,
+				"PluginVoicePhone::%s no active session yet for %s lclSessionId %s",
+				__func__,
+				m_Engine.describeUser( onlineId ).c_str(),
+				lclSessionId.toHexString().c_str() );
+	}
+
 	return true;
 }
 
