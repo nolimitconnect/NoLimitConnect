@@ -7,7 +7,6 @@
 // bjones.engineer@gmail.com
 // https://nolimitconnect.com
 //============================================================================
-
 #include "PluginBase.h"
 
 #include "P2PSession.h"
@@ -28,6 +27,24 @@
 #include <PktLib/PktsSession.h>
 
 #include <NetLib/VxSktBase.h>
+
+namespace
+{
+    bool ShouldUseSessionScopedAccessElevation( EPluginType pluginType )
+    {
+        switch( pluginType )
+        {
+        case ePluginTypeMessenger:
+        case ePluginTypePersonFileXfer:
+        case ePluginTypeVideoChat:
+        case ePluginTypeVoicePhone:
+        case ePluginTypeTruthOrDare:
+            return true;
+        default:
+            return false;
+        }
+    }
+}
 
 VxMutex	PluginBase::m_VoicePairTxMutex;
 std::vector<std::pair<EPluginType, VxGUID>>	PluginBase::m_VoiceTxList;
@@ -301,6 +318,17 @@ bool PluginBase::isAccessAllowed( VxNetIdent* netIdent, bool logAccessError, con
             eFriendStateGuest >= curPermission )
         {
             // has elevated to guest permission
+            return true;
+        }
+    }
+
+    // For offer/session plugins only, keep access open when we already have a session
+    // for this peer (temporary session-scoped elevation).
+    if( ShouldUseSessionScopedAccessElevation( getPluginType() ) )
+    {
+        VxGUID onlineId = netIdent->getMyOnlineId();
+        if( fromGuiIsPluginInSession( onlineId ) )
+        {
             return true;
         }
     }
