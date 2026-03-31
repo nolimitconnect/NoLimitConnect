@@ -94,7 +94,10 @@ void AudioMgr::callbackReadSpeakerData( int16_t* pcmData, int sampleCnt )
         std::fill_n( pcmData, sampleCnt, 0 );
     }
 
-    constexpr size_t MAX_PENDING_AUDIO_OUT_BUFFERS = 3;
+    // Must hold at least AEC_FRAME_COUNT_PER_OPUS_FRAME (6) × 10ms frames plus headroom for
+    // Android scheduler latency (~33ms observed). 10 buffers = 100ms prevents overflow drops
+    // that stall the AEC frame counter and delay callbackAudioOut60msSpaceAvail refills.
+    constexpr size_t MAX_PENDING_AUDIO_OUT_BUFFERS = 10;
 
     {
         std::lock_guard<std::mutex> lk( m_PendingOutBuffersMutex );
