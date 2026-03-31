@@ -1193,12 +1193,12 @@
     <context>
         <name>AppletNetworkSettings</name>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="610" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="611" />
             <source>Network Settings</source>
             <translation>การตั้งค่าเครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="610" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="611" />
             <source>You cannot delete the last network setting.</source>
             <translation>คุณไม่สามารถลบการตั้งค่าเครือข่ายล่าสุดได้</translation>
         </message>
@@ -1211,92 +1211,92 @@
             <translation>การตั้งค่าเครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="49" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="64" />
             <source>Select Network Setting</source>
             <translation>เลือกการตั้งค่าเครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="104" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="119" />
             <source>Save Network Setting</source>
             <translation>บันทึกการตั้งค่าเครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="136" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="151" />
             <source>Delete Network Setting</source>
             <translation>ลบการตั้งค่าเครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="147" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="162" />
             <source>Incomming Connections Listen Port:</source>
             <translation>พอร์ตการฟังการเชื่อมต่อขาเข้า:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="157" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="172" />
             <source>Ramdomize Port</source>
             <translation>แรมโดมซ์พอร์ต</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="193" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="398" />
             <source>Use IPv6 Network</source>
             <translation>ใช้เครือข่าย IPv6</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="237" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="191" />
             <source>Network Host URL</source>
             <translation>URL โฮสต์เครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="290" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="244" />
             <source>Network Key</source>
             <translation>คีย์เครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="377" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="331" />
             <source>Connection Test Service URL</source>
             <translation>URL บริการทดสอบการเชื่อมต่อ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="469" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="440" />
             <source>Assume Users Can Connect Directly (Port Is Always Open)</source>
             <translation>สมมติว่าผู้ใช้สามารถเชื่อมต่อได้โดยตรง (พอร์ตเปิดอยู่เสมอ)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="429" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="385" />
             <source>Enable UPNP port forward</source>
             <translation>เปิดใช้งานพอร์ต UPNP ไปข้างหน้า</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="436" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="407" />
             <source>How To Determine If Can Direct Connect ( Is Port Open? )</source>
             <translation>จะทราบได้อย่างไรว่าสามารถเชื่อมต่อโดยตรงได้หรือไม่ (พอร์ตเปิดอยู่หรือไม่)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="462" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="433" />
             <source>Use Connection Test Service To Test Is Port Open (Recommended)</source>
             <translation>ใช้บริการทดสอบการเชื่อมต่อเพื่อทดสอบว่าพอร์ตเปิดอยู่ (แนะนำ)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="487" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="458" />
             <source>External IP</source>
             <translation>ไอพีภายนอก</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="503" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="474" />
             <source>Assume Relay Service Is Required ( Device Is Behind Firewall ).</source>
             <translation>สมมติว่าจำเป็นต้องมีบริการรีเลย์ (อุปกรณ์อยู่หลังไฟร์วอลล์)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="542" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="513" />
             <source>My URL:</source>
             <translation>URL ของฉัน:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="613" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="584" />
             <source>Test Is My Port Open</source>
             <translation>ทดสอบว่าพอร์ตของฉันเปิดอยู่</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="620" />
+            <location filename="../nolimitgui/src/Forms/AppletNetworkSettings.ui" line="591" />
             <source>Test UPNP</source>
             <translation>ทดสอบ UPNP</translation>
         </message>
@@ -1365,6 +1365,39 @@
             <location filename="../nolimitgui/src/Forms/AppletOfferList.ui" line="143" />
             <source>Offer History</source>
             <translation>ประวัติข้อเสนอ</translation>
+        </message>
+    </context>
+    <context>
+        <name>AppletOfferRandSessionUi</name>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletOfferRandSession.ui" line="23" />
+            <source>Offer Send</source>
+            <translation>เสนอส่ง</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletOfferRandSession.ui" line="88" />
+            <source>Status:</source>
+            <translation>สถานะ:</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletOfferRandSession.ui" line="154" />
+            <source>Offer Voice Phone Session</source>
+            <translation>เสนอเซสชันโทรศัพท์ด้วยเสียง</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletOfferRandSession.ui" line="198" />
+            <source>Offer Video Chat Session</source>
+            <translation>เสนอเซสชันวิดีโอแชท</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletOfferRandSession.ui" line="242" />
+            <source>Offer Play Truth Or Dare</source>
+            <translation>เสนอการเล่น Truth Or Dare</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletOfferRandSession.ui" line="291" />
+            <source>Send</source>
+            <translation>ส่ง</translation>
         </message>
     </context>
     <context>
@@ -1527,74 +1560,74 @@
             <translation>กล่องโต้ตอบ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="86" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="101" />
             <source>Age:</source>
             <translation>อายุ:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="116" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="131" />
             <source>Gender:</source>
             <translation>เพศ:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="153" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="168" />
             <source>Preferred Content:</source>
             <translation>เนื้อหาที่ต้องการ:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="183" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="198" />
             <source>Language:</source>
             <translation>ภาษา:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="258" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="273" />
             <source>Make Friend</source>
             <translation>หาเพื่อน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="297" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="312" />
             <source>Ignore</source>
             <translation>ไม่สนใจ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="365" />
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="413" />
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="526" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="380" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="428" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="686" />
             <source>TextLabel</source>
             <translation>TextLabel</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="428" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="470" />
             <source>Set To Administrator Permission</source>
             <translation>ตั้งค่าเป็นสิทธิ์ของผู้ดูแลระบบ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="441" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="512" />
             <source>Set To Friend Permission</source>
             <translation>ตั้งค่าให้อนุญาตเป็นเพื่อน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="454" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="554" />
             <source>Set To Guest Permission</source>
             <translation>ตั้งค่าเป็นการอนุญาตของแขก</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="467" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="596" />
             <source>Set To Anybody Permission</source>
             <translation>ตั้งค่าให้ทุกคนอนุญาต</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="480" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="638" />
             <source>Ignore This Person</source>
             <translation>ละเว้นบุคคลนี้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="569" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="729" />
             <source>OK</source>
             <translation>ตกลง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="602" />
+            <location filename="../nolimitgui/src/Forms/AppletPeerChangeFriendship.ui" line="762" />
             <source>Cancel</source>
             <translation>ยกเลิก</translation>
         </message>
@@ -3839,7 +3872,7 @@
             <translation>พื้นที่เก็บข้อมูลที่มีอยู่: </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="241" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="242" />
             <source>Create Account</source>
             <translation>สร้างบัญชี</translation>
         </message>
@@ -3878,7 +3911,7 @@ Do you want to exit the application?</source>
         </message>
         <message>
             <location filename="../nolimitgui/src/ActivityGenerateHash.cpp" line="47" />
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="376" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="378" />
             <source>Generate Hash</source>
             <translation>สร้างแฮช</translation>
         </message>
@@ -4501,692 +4534,697 @@ File Type: </source>
             <translation>ไม่พบอุปกรณ์จับภาพวิดีโอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="204" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="205" />
             <source>Edit My About Me Page</source>
             <translation>แก้ไขหน้าเกี่ยวกับฉันของฉัน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="205" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="206" />
             <source>Edit My Avatar Image</source>
             <translation>แก้ไขภาพอวตารของฉัน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="206" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="207" />
             <source>Edit My Story Board (Blog)</source>
             <translation>แก้ไขกระดานเรื่องราวของฉัน (บล็อก)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="207" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="208" />
             <source>View Story Page (Blog)</source>
             <translation>ดูหน้าเรื่องราว (บล็อก)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="208" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="209" />
             <source>View My Story Page (Blog)</source>
             <translation>ดูหน้าเรื่องราวของฉัน (บล็อก)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="209" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="210" />
             <source>Sound Settings</source>
             <translation>การตั้งค่าเสียง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="210" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="211" />
             <source>About File</source>
             <translation>เกี่ยวกับไฟล์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="211" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="212" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="459" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1068" />
             <source>View About Me Page</source>
             <translation>ดูหน้าเกี่ยวกับฉัน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="212" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="213" />
             <source>View My About Me Page</source>
             <translation>ดูหน้าเกี่ยวกับฉันของฉัน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="213" />
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="991" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="214" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1111" />
             <source>User Details</source>
             <translation>รายละเอียดผู้ใช้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="215" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="216" />
             <location filename="../nolimitgui/src/AppletLaunchPage.cpp" line="32" />
             <source>Home</source>
             <translation>บ้าน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="216" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="217" />
             <source>About No Limit Connect</source>
             <translation>เกี่ยวกับการเชื่อมต่อไม่มีขีดจำกัด</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="217" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="218" />
             <source>Application Information</source>
             <translation>ข้อมูลการสมัคร</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="218" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="219" />
             <source>Browse Files</source>
             <translation>เรียกดูไฟล์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="219" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="220" />
             <source>Offer List</source>
             <translation>รายการข้อเสนอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="221" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="222" />
             <source>Cam Video Player</source>
             <translation>เครื่องเล่นวิดีโอแคม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="222" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="223" />
             <source>Photo Viewer</source>
             <translation>โปรแกรมดูภาพถ่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="223" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="224" />
             <source>Media Player</source>
             <translation>เครื่องเล่นมีเดีย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="225" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="226" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="598" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1202" />
             <source>View Shared Web Cam</source>
             <translation>ดูเว็บแคมที่ใช้ร่วมกัน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="226" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="227" />
             <source>View My Shared Web Cam</source>
             <translation>ดูเว็บแคมที่ใช้ร่วมกันของฉัน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="227" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="228" />
             <source>Cam Settings</source>
             <translation>การตั้งค่าแคม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="228" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="229" />
             <source>Join Chat Room</source>
             <translation>เข้าร่วมห้องสนทนา</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="229" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="230" />
             <location filename="../nolimitgui/src/AppletChatRoomJoinSearch.cpp" line="67" />
             <source>Search For Chat Room To Join</source>
             <translation>ค้นหาห้องสนทนาเพื่อเข้าร่วม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="230" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="231" />
             <source>Chat Room Hosts Announced To Network</source>
             <translation>โฮสต์ห้องสนทนาประกาศไปยังเครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="232" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="233" />
             <source>Choose Thumbnail</source>
             <translation>เลือกรูปขนาดย่อ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="238" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="239" />
             <source>Chat Room</source>
             <translation>ห้องสนทนา</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="239" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="240" />
             <source>Random Person Connect</source>
             <translation>การเชื่อมต่อบุคคลแบบสุ่ม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="240" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="241" />
             <source>Get Persons Avatar Image For Contact List</source>
             <translation>รับภาพประจำตัวบุคคลสำหรับรายชื่อผู้ติดต่อ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="242" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="243" />
             <source>Friend List</source>
             <translation>รายชื่อเพื่อน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="245" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="246" />
             <source>Emoticon Gallery</source>
             <translation>แกลเลอรี่อิโมติคอน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="246" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="247" />
             <source>Image Gallery</source>
             <translation>แกลเลอรี่ภาพ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="247" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="248" />
             <source>Thumbnail Gallery</source>
             <translation>แกลเลอรี่ภาพขนาดย่อ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="248" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="249" />
             <source>Get Started</source>
             <translation>เริ่มต้นเลย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="250" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="251" />
             <source>Group Client</source>
             <translation>ลูกค้ากลุ่ม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="251" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="252" />
             <source>Group Host Admin</source>
             <translation>ผู้ดูแลโฮสต์กลุ่ม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="252" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="253" />
             <source>Join Group</source>
             <translation>เข้าร่วมกลุ่ม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="253" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="254" />
             <source>Search For Group To Join</source>
             <translation>ค้นหากลุ่มที่จะเข้าร่วม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="254" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="255" />
             <source>Group List</source>
             <translation>รายชื่อกลุ่ม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="255" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="256" />
             <source>Group Hosts Announced To Network</source>
             <translation>โฮสต์กลุ่มประกาศไปยังเครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="257" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="258" />
             <source>Network Signal Bars</source>
             <translation>แถบสัญญาณเครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="259" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="260" />
             <source>Chat Room Host Admin</source>
             <translation>ผู้ดูแลระบบโฮสต์ห้องสนทนา</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="260" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="261" />
             <source>Chat Room Host Status</source>
             <translation>สถานะโฮสต์ห้องสนทนา</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="261" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="262" />
             <source>Group Host Status</source>
             <translation>สถานะโฮสต์กลุ่ม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="262" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="263" />
             <source>Network Host Status</source>
             <translation>สถานะโฮสต์เครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="263" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="264" />
             <source>Random Connect Host Status</source>
             <translation>สถานะโฮสต์การเชื่อมต่อแบบสุ่ม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="265" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="266" />
             <source>Ignored Hosts List</source>
             <translation>รายชื่อโฮสต์ที่ถูกละเว้น</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="268" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="269" />
             <source>Create Invite</source>
             <translation>สร้างคำเชิญ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="271" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="272" />
             <source>My Library Of Media</source>
             <translation>ห้องสมุดสื่อของฉัน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="272" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="273" />
             <source>Application Log</source>
             <translation>บันทึกการสมัคร</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="273" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="274" />
             <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="85" />
             <source>Log Settings</source>
             <translation>การตั้งค่าบันทึก</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="275" />
             <location filename="../nolimitgui/src/AppDefs.cpp" line="276" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="277" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="976" />
             <source>Messenger</source>
             <translation>ผู้ส่งสาร</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="277" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="278" />
             <source>Network Settings</source>
             <translation>การตั้งค่าเครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="278" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="279" />
             <source>Join Host Requests</source>
             <translation>เข้าร่วมคำขอโฮสต์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="280" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="281" />
             <source>Persons Offers</source>
             <translation>ข้อเสนอบุคคล</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="282" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="283" />
             <source>Personal Notes And Records</source>
             <translation>บันทึกส่วนตัวและบันทึก</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="284" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="285" />
             <source>Random Connect Host Admin</source>
             <translation>ผู้ดูแลระบบโฮสต์การเชื่อมต่อแบบสุ่ม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="285" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="286" />
             <source>Join Random Connect</source>
             <translation>เข้าร่วมการเชื่อมต่อแบบสุ่ม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="286" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="287" />
             <location filename="../nolimitgui/src/AppletRandomConnectJoinSearch.cpp" line="67" />
             <source>Search For Random Connect Host To Join</source>
             <translation>ค้นหาโฮสต์การเชื่อมต่อแบบสุ่มเพื่อเข้าร่วม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="287" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="288" />
             <source>Random Connect Announced Hosts</source>
             <translation>โฮสต์ที่ประกาศการเชื่อมต่อแบบสุ่ม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="289" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="290" />
             <source>Take Snapshot</source>
             <translation>ถ่ายภาพสแนปชอต</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="291" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="292" />
             <source>Test And Debug</source>
             <translation>ทดสอบและแก้ไขข้อบกพร่อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="293" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="294" />
             <source>Theme</source>
             <translation>ธีม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="295" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="296" />
             <source>User Connections</source>
             <translation>การเชื่อมต่อผู้ใช้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="296" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="297" />
             <source>User Identity</source>
             <translation>ข้อมูลระบุตัวตนของผู้ใช้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="299" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="300" />
             <location filename="../nolimitgui/src/ServiceSettingsWidget.cpp" line="69" />
             <source>Settings</source>
             <translation>การตั้งค่า</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="301" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="302" />
             <source>Search</source>
             <translation>ค้นหา</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="302" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="303" />
             <source>Search Group For Person Name</source>
             <translation>กลุ่มค้นหาชื่อบุคคล</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="303" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="304" />
             <source>Search Group For Mood Message</source>
             <translation>ค้นหากลุ่มสำหรับข้อความอารมณ์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="304" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="305" />
             <source>Search Group For About Me Pictures</source>
             <translation>กลุ่มค้นหาสำหรับรูปภาพเกี่ยวกับฉัน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="305" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="306" />
             <source>Search Group For Story Boards</source>
             <translation>กลุ่มค้นหากระดานเรื่องราว</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="306" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="307" />
             <source>Search Group For Shared Files</source>
             <translation>ค้นหากลุ่มสำหรับไฟล์ที่แชร์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="307" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="308" />
             <source>Search Group For Shared Web Cams</source>
             <translation>กลุ่มค้นหาสำหรับเว็บแคมที่ใช้ร่วมกัน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="309" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="310" />
             <source>Hosting Services</source>
             <translation>บริการโฮสติ้ง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="310" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="311" />
             <source>Share Permission List</source>
             <translation>แบ่งปันรายการสิทธิ์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="312" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="313" />
             <source>Share With Others Services</source>
             <translation>แบ่งปันกับบริการอื่น ๆ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="313" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="314" />
             <source>Share About Me Page</source>
             <translation>แบ่งปันหน้าเกี่ยวกับฉัน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="234" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="235" />
             <source>Choose Host</source>
             <translation>เลือกโฮสต์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="235" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="236" />
             <source>Join Host Connect</source>
             <translation>เข้าร่วมโฮสต์เชื่อมต่อ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="236" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="237" />
             <source>Leave Host</source>
             <translation>ออกจากโฮสต์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="243" />
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="343" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="244" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="344" />
             <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="117" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1048" />
             <source>Friend Request</source>
             <translation>คำขอเป็นเพื่อน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="244" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="245" />
             <source>Friend Request List</source>
             <translation>รายการคำขอเป็นเพื่อน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="267" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="268" />
             <source>Accept Invite</source>
             <translation>ยอมรับคำเชิญ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="270" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="271" />
             <source>Select Language</source>
             <translation>เลือกภาษา</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="281" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="282" />
             <source>Video Player</source>
             <translation>เครื่องเล่นวิดีโอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="292" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="293" />
             <source>Test UPNP Port Forward</source>
             <translation>ทดสอบการส่งต่อพอร์ต UPNP</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="297" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="298" />
             <source>User Prefernces</source>
             <translation>การตั้งค่าผู้ใช้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="315" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="316" />
             <source>Service Connection Test</source>
             <translation>การทดสอบการเชื่อมต่อบริการ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="316" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="317" />
             <source>Host A NoLimitConnect Network</source>
             <translation>โฮสต์เครือข่าย NoLimitConnect</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="317" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="318" />
             <source>Share Media Files</source>
             <translation>แชร์ไฟล์มีเดีย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="318" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="319" />
             <source>Share your web cam</source>
             <translation>แบ่งปันเว็บแคมของคุณ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="319" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="320" />
             <source>Share Story Page (Blog)</source>
             <translation>แบ่งปันหน้าเรื่องราว (บล็อก)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="321" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="322" />
             <location filename="../nolimitgui/src/AppletServiceBase.cpp" line="195" />
             <location filename="../nolimitgui/src/AppletSettingsBase.cpp" line="91" />
             <source>Service Settings</source>
             <translation>การตั้งค่าบริการ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="323" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="324" />
             <source>About Me Page Settings</source>
             <translation>เกี่ยวกับฉัน การตั้งค่าหน้า</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="324" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="325" />
             <source>Avatar Image Settings</source>
             <translation>การตั้งค่าภาพอวตาร</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="325" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="326" />
             <source>Shared Web Cam Settings</source>
             <translation>การตั้งค่าเว็บแคมที่ใช้ร่วมกัน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="326" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="327" />
             <source>Connection Test Service Settings</source>
             <translation>การตั้งค่าบริการทดสอบการเชื่อมต่อ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="327" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="328" />
             <source>Shared Files Settings</source>
             <translation>การตั้งค่าไฟล์ที่แชร์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="328" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="329" />
             <source>Person To Person File Xfer Settings</source>
             <translation>การตั้งค่า Xfer ของไฟล์บุคคลต่อบุคคล</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="330" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="331" />
             <source>Chat Room Host Settings</source>
             <translation>การตั้งค่าโฮสต์ห้องสนทนา</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="331" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="332" />
             <source>Group Host Settings</source>
             <translation>การตั้งค่าโฮสต์กลุ่ม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="332" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="333" />
             <source>Network Host Settings</source>
             <translation>การตั้งค่าโฮสต์เครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="333" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="334" />
             <source>Random Connect Host Settings</source>
             <translation>การตั้งค่าโฮสต์การเชื่อมต่อแบบสุ่ม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="335" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="336" />
             <source>Messenger Settings</source>
             <translation>การตั้งค่าเมสเซนเจอร์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="336" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="337" />
             <source>Push To Talk Settings</source>
             <translation>การตั้งค่า Push To Talk</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="337" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="338" />
             <source>Random Connect Service Settings</source>
             <translation>การตั้งค่าบริการเชื่อมต่อแบบสุ่ม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="338" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="339" />
             <source>Shared Story (Blog) Settings</source>
             <translation>การตั้งค่าเรื่องราวที่แชร์ (บล็อก)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="339" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="340" />
             <source>Truth Or Dare Video Chat Game Settings</source>
             <translation>การตั้งค่าเกมวิดีโอแชท Truth Or Dare</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="340" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="341" />
             <source>Video Chat Settings</source>
             <translation>การตั้งค่าวิดีโอแชท</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="341" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="342" />
             <source>Voice Only Phone Call Settings</source>
             <translation>การตั้งค่าการโทรด้วยเสียงเท่านั้น</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="345" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="346" />
             <source>Provide Cam Stream</source>
             <translation>ให้สตรีมผ่านกล้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="346" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="347" />
             <source>Manage Station</source>
             <translation>จัดการสถานี</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="347" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="348" />
             <source>Manage Station Network Host</source>
             <translation>จัดการโฮสต์เครือข่ายสถานี</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="349" />
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="935" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="350" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1055" />
             <source>Change Friendship</source>
             <translation>เปลี่ยนมิตรภาพ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="350" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="351" />
             <source>Reply Offer File</source>
             <translation>ตอบไฟล์ข้อเสนอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="351" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="352" />
             <source>Truth Or Dare Game</source>
             <translation>เกมความจริงหรือกล้า</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="352" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="353" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="988" />
             <source>Video Chat</source>
             <translation>วิดีโอแชท</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="353" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="354" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="564" />
             <source>View Shared Files</source>
             <translation>ดูไฟล์ที่แชร์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="354" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="355" />
             <source>Offer File</source>
             <translation>ไฟล์ข้อเสนอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="356" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="357" />
             <source>Offer Information</source>
             <translation>ข้อมูลข้อเสนอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="357" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="358" />
+            <source>Random Connect Session</source>
+            <translation>เซสชันการเชื่อมต่อแบบสุ่ม</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="359" />
             <source>Send Offer</source>
             <translation>ส่งข้อเสนอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="358" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="360" />
             <source>Respond To Offer</source>
             <translation>ตอบสนองต่อข้อเสนอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="359" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="361" />
             <source>Accept Offer Response</source>
             <translation>ยอมรับการตอบกลับข้อเสนอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="360" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="362" />
             <source>Offer Details</source>
             <translation>รายละเอียดข้อเสนอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="361" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="363" />
             <source>Voice Phone (VOIP)</source>
             <translation>โทรศัพท์เสียง (VOIP)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="363" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="365" />
             <source>File Offer</source>
             <translation>ยื่นข้อเสนอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="365" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="367" />
             <source>Downloads</source>
             <translation>ดาวน์โหลด</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="366" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="368" />
             <source>Uploads</source>
             <translation>การอัปโหลด</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="368" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="370" />
             <source>View My Shared Files</source>
             <translation>ดูไฟล์ที่แชร์ของฉัน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="370" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="372" />
             <source>Menu</source>
             <translation>เมนู</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="372" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="374" />
             <source>Blocked Hackers</source>
             <translation>แฮกเกอร์ที่ถูกบล็อก</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="373" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="375" />
             <source>Socket Connections</source>
             <translation>การเชื่อมต่อซ็อกเก็ต</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="374" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="376" />
             <source>Test Connection</source>
             <translation>ทดสอบการเชื่อมต่อ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="377" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="379" />
             <source>Information</source>
             <translation>ข้อมูล</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="382" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="384" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="151" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="231" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="254" />
@@ -5194,7 +5232,7 @@ File Type: </source>
             <location filename="../nolimitgui/src/GuiParams.cpp" line="800" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="869" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1667" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1771" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1773" />
             <source>Unknown</source>
             <translation>ไม่ทราบ</translation>
         </message>
@@ -5977,209 +6015,211 @@ File Type: </source>
             <translation>โมดูลบันทึกที่ไม่ได้ใช้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMgr.cpp" line="301" />
+            <location filename="../nolimitgui/src/AppletMgr.cpp" line="303" />
             <source>Applet Not Yet Implemented</source>
             <translation>แอปเพล็ตยังไม่ได้ใช้งาน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMgr.cpp" line="507" />
+            <location filename="../nolimitgui/src/AppletMgr.cpp" line="510" />
             <source>Unknown Or Not Implemented</source>
             <translation>ไม่ทราบหรือไม่ได้ดำเนินการ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMgr.cpp" line="510" />
+            <location filename="../nolimitgui/src/AppletMgr.cpp" line="513" />
             <source>AppCommon::launchApplet</source>
             <translation>AppCommon::launchApplet</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMgr.cpp" line="510" />
+            <location filename="../nolimitgui/src/AppletMgr.cpp" line="513" />
             <source>Invalid Applet enum %d</source>
             <translation>แอพเพล็ต enum %d ไม่ถูกต้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMgr.cpp" line="692" />
-            <location filename="../nolimitgui/src/AppletMgr.cpp" line="700" />
+            <location filename="../nolimitgui/src/AppletMgr.cpp" line="695" />
+            <location filename="../nolimitgui/src/AppletMgr.cpp" line="703" />
             <source>Cannot View Disabled Service</source>
             <translation>ไม่สามารถดูบริการที่ปิดใช้งานได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMgr.cpp" line="693" />
+            <location filename="../nolimitgui/src/AppletMgr.cpp" line="696" />
             <source>Unknown Plugin Service</source>
             <translation>บริการปลั๊กอินที่ไม่รู้จัก</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMgr.cpp" line="701" />
+            <location filename="../nolimitgui/src/AppletMgr.cpp" line="704" />
             <source> Cannot be viewed when permission is disable</source>
             <translation> ไม่สามารถดูได้เมื่อปิดใช้งานการอนุญาต</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="178" />
+            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="179" />
             <source> with </source>
             <translation> ด้วย </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="191" />
+            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="192" />
             <source> requires user be online </source>
             <translation> กำหนดให้ผู้ใช้ออนไลน์ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2227" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2229" />
             <source> is online</source>
             <translation> กำลังออนไลน์อยู่</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="247" />
+            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="245" />
             <source>Requested Text Chat Session with </source>
             <translation>เซสชันการแชทข้อความที่ร้องขอด้วย </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="427" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="428" />
             <source>TCP Listen Port Error</source>
             <translation>ข้อผิดพลาดพอร์ต TCP Listen</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="427" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="428" />
             <source>TCP Listen Port cannot be less that 10000.</source>
             <translation>TCP Listen Port ต้องไม่น้อยกว่า 10,000</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="511" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="512" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="770" />
             <source>IPv6 not detected</source>
             <translation>ตรวจไม่พบ IPv6</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="511" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="512" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="770" />
             <source>The device does not seem to be IPv6 capable
  Please uncheck Use IPv6 Network</source>
             <translation>ดูเหมือนว่าอุปกรณ์จะไม่รองรับ IPv6
  โปรดยกเลิกการเลือกใช้เครือข่าย IPv6</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="515" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="516" />
             <source>Confirm Use Of Experimental IPv6 Network?</source>
             <translation>ยืนยันการใช้เครือข่าย IPv6 รุ่นทดลองหรือไม่</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="516" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="517" />
             <source>IPv6 is experimental and the network for IPv6 is not visible on the IPv4 network</source>
             <translation>IPv6 อยู่ในช่วงทดลอง และเครือข่ายสำหรับ IPv6 ไม่สามารถมองเห็นได้บนเครือข่าย IPv4</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="539" />
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="547" />
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="553" />
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="564" />
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="573" />
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="585" />
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="593" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="540" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="548" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="554" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="565" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="574" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="586" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="594" />
             <source>Network Setting</source>
             <translation>การตั้งค่าเครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="539" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="540" />
             <source>Network setting name cannot be blank.</source>
             <translation>ชื่อการตั้งค่าเครือข่ายไม่สามารถเว้นว่างได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="547" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="548" />
             <source>Network host URL cannot be blank.</source>
             <translation>URL โฮสต์เครือข่ายต้องไม่เว้นว่าง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="553" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="554" />
             <source>Network key cannot be blank.</source>
             <translation>คีย์เครือข่ายไม่สามารถเว้นว่างได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="564" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="565" />
             <source>Connection Test URL cannot be blank.</source>
             <translation>URL ทดสอบการเชื่อมต่อต้องไม่เว้นว่าง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="574" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="575" />
             <source>Are you sure you want to overwrite existing network setting?.
  The network setting name can be changed in Select Network Setting.</source>
             <translation>คุณแน่ใจหรือไม่ว่าต้องการเขียนทับการตั้งค่าเครือข่ายที่มีอยู่
  ชื่อการตั้งค่าเครือข่ายสามารถเปลี่ยนแปลงได้ใน Select Network Setting</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="585" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="586" />
             <source>Private Network Key requires restart to avoid use of wrong network key.
  Quitting application so you can start it again.</source>
             <translation>คีย์เครือข่ายส่วนตัวจำเป็นต้องรีสตาร์ทเพื่อหลีกเลี่ยงการใช้คีย์เครือข่ายที่ไม่ถูกต้อง
  กำลังออกจากแอปพลิเคชันเพื่อให้คุณสามารถเริ่มต้นใหม่ได้อีกครั้ง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="593" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="594" />
             <source>Network setting was saved.</source>
             <translation>บันทึกการตั้งค่าเครือข่ายแล้ว</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="686" />
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="694" />
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="700" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="687" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="695" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="701" />
             <source>Network Key</source>
             <translation>คีย์เครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="686" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="687" />
             <source>Network Key must be at least 6 characters ( 8 or more characters recommended ).</source>
             <translation>คีย์เครือข่ายต้องมีอักขระอย่างน้อย 6 ตัว (แนะนำ 8 ตัวขึ้นไป)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="694" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="695" />
             <source>Current Network Key is public, you must obtain and set the private network key associated with this network invit.</source>
             <translation>คีย์เครือข่ายปัจจุบันเป็นแบบสาธารณะ คุณต้องรับและตั้งค่าคีย์เครือข่ายส่วนตัวที่เชื่อมโยงกับคำเชิญเครือข่ายนี้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="701" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="702" />
             <source>Are you sure you want to change the network key?
  All users of your network will need to have the same key or you will be banned as a hacker.</source>
             <translation>คุณแน่ใจหรือไม่ว่าต้องการเปลี่ยนคีย์เครือข่าย
  ผู้ใช้ทุกคนในเครือข่ายของคุณจะต้องมีรหัสเดียวกัน ไม่เช่นนั้นคุณจะถูกแบนในฐานะแฮ็กเกอร์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="718" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="719" />
             <source>Invalid External IP Address</source>
             <translation>ที่อยู่ IP ภายนอกไม่ถูกต้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="722" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="723" />
             <source>If assumed user can direct connect then external IP must be specified.</source>
             <translation>หากสันนิษฐานว่าผู้ใช้สามารถเชื่อมต่อโดยตรงได้ จะต้องระบุ IP ภายนอก</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="730" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="731" />
             <source>External IP is invalid.</source>
             <translation>IP ภายนอกไม่ถูกต้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="739" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="740" />
             <source>When using IPv4 network a IPv4 external IP must be specified.</source>
             <translation>เมื่อใช้เครือข่าย IPv4 จะต้องระบุ IP ภายนอก IPv4</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="747" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="748" />
             <source>When using IPv6 network a IPv6 external IP must be specified.</source>
             <translation>เมื่อใช้เครือข่าย IPv6 จะต้องระบุ IP ภายนอก IPv6</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="784" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="789" />
             <source>Your device does not seem to be capable of IPv6</source>
             <translation>อุปกรณ์ของคุณดูเหมือนจะไม่สามารถใช้งาน IPv6 ได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="785" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="790" />
             <source>Your device does not seem to be capable of IPv6. Continue Anyway?</source>
             <translation>อุปกรณ์ของคุณดูเหมือนจะไม่สามารถใช้งาน IPv6 ได้ ดำเนินการต่อหรือไม่?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="801" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="806" />
             <source>Accepting Network Invite</source>
             <translation>ตอบรับคำเชิญเครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="802" />
+            <location filename="../nolimitgui/src/AppletNetworkSettings.cpp" line="807" />
             <source>You are accepting a network invite.
 Be sure the Network Key is correct before pressing save.
 If the Network Key is incorrect, you will probably be banned as a hacker.</source>
@@ -6188,22 +6228,22 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
 หากคีย์เครือข่ายไม่ถูกต้อง คุณอาจจะถูกแบนในฐานะแฮ็กเกอร์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="98" />
+            <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="115" />
             <source>'s Friendship To Me -</source>
             <translation>มิตรภาพของฉันถึงฉัน -</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="109" />
+            <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="126" />
             <source>My Friendship To </source>
             <translation>มิตรภาพของฉันถึง </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="263" />
+            <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="298" />
             <source>Click icon to unmark preferred</source>
             <translation>คลิกที่ไอคอนเพื่อยกเลิกการทำเครื่องหมายที่ต้องการ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="267" />
+            <location filename="../nolimitgui/src/AppletPeerChangeFriendship.cpp" line="302" />
             <source>Click icon to mark preferred</source>
             <translation>คลิกที่ไอคอนเพื่อทำเครื่องหมายว่าเป็นที่ต้องการ</translation>
         </message>
@@ -6282,39 +6322,39 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
             <translation>ไม่ระบุชื่อ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="216" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="219" />
             <source>Unblock User</source>
             <translation>เลิกบล็อกผู้ใช้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="233" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="236" />
             <source>Block User</source>
             <translation>บล็อกผู้ใช้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="924" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1044" />
             <source>Unset Preferred</source>
             <translation>ยกเลิกการตั้งค่าที่ต้องการ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="997" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1117" />
             <source>Delete User From Database</source>
             <translation>ลบผู้ใช้ออกจากฐานข้อมูล</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1032" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1152" />
             <location filename="../nolimitgui/src/FriendListWidget.cpp" line="188" />
             <location filename="../nolimitgui/src/PersonOfferListWidget.cpp" line="189" />
             <source>Insufficient Permission Level</source>
             <translation>ระดับการอนุญาตไม่เพียงพอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1033" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1153" />
             <source> Requires </source>
             <translation> ต้องใช้ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1034" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1154" />
             <location filename="../nolimitgui/src/FriendListWidget.cpp" line="189" />
             <location filename="../nolimitgui/src/PersonOfferListWidget.cpp" line="190" />
             <source> To Access Plugin </source>
@@ -6327,70 +6367,90 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
             <translation>ระดับการอนุญาตไม่เพียงพอ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="663" />
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="664" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="783" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="784" />
             <source>Offer Friendship</source>
             <translation>เสนอมิตรภาพ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="665" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="785" />
             <source>Offer Join Group</source>
             <translation>เสนอเข้าร่วมกลุ่ม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="928" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1048" />
             <source>Set Preferred</source>
             <translation>ตั้งค่าที่ต้องการ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="755" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="875" />
             <source>Applet Menu</source>
             <translation>เมนูแอพเพล็ต</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="878" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="278" />
+            <source>Offer Random Connect Session</source>
+            <translation>เสนอเซสชันการเชื่อมต่อแบบสุ่ม</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="284" />
+            <source>Accept Random Connect Offer</source>
+            <translation>ยอมรับข้อเสนอการเชื่อมต่อแบบสุ่ม</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="290" />
+            <source>Reject Random Connect Offer</source>
+            <translation>ปฏิเสธข้อเสนอการเชื่อมต่อแบบสุ่ม</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="296" />
+            <source>Cancel Random Connect Offer</source>
+            <translation>ยกเลิกข้อเสนอการเชื่อมต่อแบบสุ่ม</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="998" />
             <source>Delete A Database</source>
             <translation>ลบฐานข้อมูล</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="911" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1031" />
             <source>Database Deleted</source>
             <translation>ลบฐานข้อมูลแล้ว</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="911" />
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="915" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1031" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1035" />
             <source>Database </source>
             <translation>ฐานข้อมูล </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="911" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1031" />
             <source> was deleted</source>
             <translation> ถูกลบแล้ว</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="915" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1035" />
             <source>Database Delete Failed</source>
             <translation>ลบฐานข้อมูลล้มเหลว</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="915" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1035" />
             <source> could not be deleted</source>
             <translation> ไม่สามารถลบได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="960" />
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="976" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1080" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1096" />
             <source>Friendship Request</source>
             <translation>คำขอมิตรภาพ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="976" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1096" />
             <source>To send a frienship request you must set </source>
             <translation>หากต้องการส่งคำขอเป็นเพื่อน คุณต้องตั้งค่า </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="976" />
+            <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1096" />
             <source> as friend or higher first</source>
             <translation> เป็นเพื่อนหรือสูงกว่าก่อน</translation>
         </message>
@@ -6457,29 +6517,29 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
             <translation>อุณหภูมิ?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="109" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="111" />
             <source>Speaker Device Unavailable</source>
             <translation>อุปกรณ์ลำโพงไม่พร้อมใช้งาน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="109" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="111" />
             <source>No speaker device is available to enable</source>
             <translation>ไม่มีอุปกรณ์ลำโพงให้เปิดใช้งาน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="115" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="117" />
             <source>Microphone Device Unavailable</source>
             <translation>อุปกรณ์ไมโครโฟนไม่พร้อมใช้งาน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="115" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="117" />
             <source>No microphone device is available to enable</source>
             <translation>ไม่มีอุปกรณ์ไมโครโฟนให้เปิดใช้งาน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="257" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="262" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="268" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="259" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="264" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="270" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="63" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="69" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioIn.cpp" line="101" />
@@ -6487,27 +6547,27 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
             <translation>เสียงในอุปกรณ์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="257" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="259" />
             <source> device is saved as preferred Sound In Device</source>
             <translation> อุปกรณ์จะถูกบันทึกเป็นอุปกรณ์เสียงเข้าที่ต้องการ</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="217" />
             <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="265" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="262" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="287" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="264" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="289" />
             <source> failed to initialize</source>
             <translation> ไม่สามารถเริ่มต้นได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="268" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="270" />
             <source>No Sound In Device Is Available</source>
             <translation>ไม่มีเสียงในอุปกรณ์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="282" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="287" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="293" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="284" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="289" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="295" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="60" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="66" />
             <location filename="../nolimitgui/src/miniaudio/MiniAudioOut.cpp" line="73" />
@@ -6516,97 +6576,97 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
             <translation>อุปกรณ์เสียงออก</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="282" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="284" />
             <source> device is saved as preferred Sound Out Device</source>
             <translation> อุปกรณ์จะถูกบันทึกเป็นอุปกรณ์เสียงออกที่ต้องการ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="293" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="295" />
             <source>No Sound Out Device Is Available</source>
             <translation>ไม่มีอุปกรณ์เสียงออก</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="308" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="310" />
             <source>Echo delay test is running</source>
             <translation>การทดสอบความล่าช้าของเสียงสะท้อนกำลังทำงานอยู่</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="308" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="310" />
             <source>Echo delay test can not be run until the previous test finishes</source>
             <translation>ไม่สามารถรันการทดสอบการหน่วงเวลาเสียงก้องได้จนกว่าการทดสอบครั้งก่อนจะเสร็จสิ้น</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="319" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="321" />
             <source>Echo Delay Value Invalid</source>
             <translation>ค่าความล่าช้าของเสียงก้องไม่ถูกต้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="319" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="321" />
             <source>Echo Delay value must be between 40 and 500 milliseconds</source>
             <translation>ค่า Echo Delay ต้องอยู่ระหว่าง 40 ถึง 500 มิลลิวินาที</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="325" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="327" />
             <source>Echo Delay Value Save</source>
             <translation>บันทึกค่าการหน่วงเวลาสะท้อน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="325" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="327" />
             <source>Echo Delay value has been saved for use by Echo Cancelation</source>
             <translation>ค่า Echo Delay ได้รับการบันทึกเพื่อใช้โดย Echo Cancelation</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="370" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="372" />
             <source>Echo Delays </source>
             <translation>ความล่าช้าของเสียงสะท้อน </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="383" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="385" />
             <source>, </source>
             <translation>, </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="397" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="399" />
             <source>
 Delay Test Is Valid
 </source>
             <translation>การทดสอบความล่าช้านั้นถูกต้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="397" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="399" />
             <source>
 Delay Test Is Invalid
 </source>
             <translation>การทดสอบความล่าช้าไม่ถูกต้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="401" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="403" />
             <source>If you are having echo issues you may want to enter value </source>
             <translation>หากคุณมีปัญหาเรื่องเสียงก้อง คุณอาจต้องการป้อนค่า </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="403" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="405" />
             <source> into  Echo delay ms field and click Save Echo Delay To Echo Canceller button
 </source>
             <translation> ลงในฟิลด์ Echo Delay ms แล้วคลิกปุ่มบันทึก Echo Delay To Echo Canceller</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="405" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="407" />
             <source>Echo Delay Test Is Valid</source>
             <translation>การทดสอบความล่าช้าของเสียงสะท้อนนั้นถูกต้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="409" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="411" />
             <source>Echo Delay Test Is Invalid. Check microphone and speaker. Try turning up the volume or placing microphone closer to speaker</source>
             <translation>การทดสอบความล่าช้าของเสียงก้องไม่ถูกต้อง ตรวจสอบไมโครโฟนและลำโพง ลองเพิ่มระดับเสียงหรือวางไมโครโฟนให้ใกล้กับลำโพงมากขึ้น</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="438" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="440" />
             <source>Play Test File</source>
             <translation>เล่นไฟล์ทดสอบ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="438" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="440" />
             <source>No test file is selected or test file index is invalid</source>
             <translation>ไม่ได้เลือกไฟล์ทดสอบหรือดัชนีไฟล์ทดสอบไม่ถูกต้อง</translation>
         </message>
@@ -7149,51 +7209,51 @@ Are you very sure you want to proceed?</source>
             <translation>หยุดละเว้นโฮสต์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="501" />
+            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="502" />
             <source> Is Offline </source>
             <translation> ออฟไลน์อยู่ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="941" />
+            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="948" />
             <source>Not enough storage available</source>
             <translation>พื้นที่เก็บข้อมูลไม่เพียงพอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="942" />
+            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="949" />
             <source>Requires </source>
             <translation>ต้องใช้ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="942" />
+            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="949" />
             <source> but only </source>
             <translation> แต่เท่านั้น </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="943" />
+            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="950" />
             <source> available </source>
             <translation> ใช้ได้ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1041" />
-            <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="182" />
+            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1042" />
+            <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="188" />
             <source>Plugin Type Not Set</source>
             <translation>ไม่ได้ตั้งค่าประเภทปลั๊กอิน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1051" />
-            <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="192" />
+            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1052" />
+            <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="198" />
             <source>User Not Set</source>
             <translation>ผู้ใช้ไม่ได้ตั้งค่า</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1062" />
-            <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="202" />
+            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1063" />
+            <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="208" />
             <source>Offer Not Set</source>
             <translation>ไม่ได้ตั้งค่าข้อเสนอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1072" />
-            <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="212" />
+            <location filename="../nolimitgui/src/GuiOfferMgrBase.cpp" line="1073" />
+            <location filename="../nolimitgui/src/OfferSendWidget.cpp" line="218" />
             <source>File Hash Is Not Valid</source>
             <translation>แฮชของไฟล์ไม่ถูกต้อง</translation>
         </message>
@@ -7208,7 +7268,7 @@ Are you very sure you want to proceed?</source>
             <translation>ผู้ใช้ไม่ได้เตรียมใช้งาน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1802" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1804" />
             <source> </source>
             <translation type="unfinished" />
         </message>
@@ -7356,31 +7416,31 @@ Are you very sure you want to proceed?</source>
         </message>
         <message>
             <location filename="../nolimitgui/src/GuiParams.cpp" line="265" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1862" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1864" />
             <source>Anonymous </source>
             <translation>ไม่ระบุชื่อ </translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/GuiParams.cpp" line="267" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1864" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1866" />
             <source>Guest </source>
             <translation>แขก </translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/GuiParams.cpp" line="269" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1866" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1868" />
             <source>Friend </source>
             <translation>เพื่อน </translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/GuiParams.cpp" line="271" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1868" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1870" />
             <source>Administrator </source>
             <translation>ผู้ดูแลระบบ </translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/GuiParams.cpp" line="273" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1870" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1872" />
             <source>Ignore </source>
             <translation>ไม่สนใจ </translation>
         </message>
@@ -7835,7 +7895,17 @@ Are you very sure you want to proceed?</source>
             <translation>กำลังส่งข้อเสนอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2227" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1744" />
+            <source>Offer: Join Chat Room</source>
+            <translation>ข้อเสนอ: เข้าร่วมห้องสนทนา</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1760" />
+            <source>Offer: Random Connect Session</source>
+            <translation>ข้อเสนอ: เซสชันการเชื่อมต่อแบบสุ่ม</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2229" />
             <source> is offline</source>
             <translation> ออฟไลน์อยู่</translation>
         </message>
@@ -9097,7 +9167,7 @@ Are you very sure you want to proceed?</source>
         </message>
         <message>
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1730" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1763" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1765" />
             <source>Unknown Offer Type</source>
             <translation>ประเภทข้อเสนอที่ไม่รู้จัก</translation>
         </message>
@@ -9110,11 +9180,6 @@ Are you very sure you want to proceed?</source>
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1742" />
             <source>Offer: Join Group</source>
             <translation>ข้อเสนอ: เข้าร่วมกลุ่ม</translation>
-        </message>
-        <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1744" />
-            <source>Offer: Join Chat Roome</source>
-            <translation>ข้อเสนอ: เข้าร่วมห้องแชท</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1746" />
@@ -9152,397 +9217,397 @@ Are you very sure you want to proceed?</source>
             <translation>ข้อเสนอ: โทรศัพท์เสียง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1774" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1776" />
             <source>Accepted</source>
             <translation>ได้รับการยอมรับ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1778" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1780" />
             <source>Rejected</source>
             <translation>ถูกปฏิเสธ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1782" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1784" />
             <source>User Offline</source>
             <translation>ผู้ใช้ออฟไลน์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1786" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1788" />
             <source>Expired</source>
             <translation>หมดอายุแล้ว</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1790" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1792" />
             <source>Waiting for response</source>
             <translation>รอการตอบกลับ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1796" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1798" />
             <source>Expires </source>
             <translation>หมดอายุ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1814" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1816" />
             <source>Horizontal</source>
             <translation>แนวนอน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1817" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1819" />
             <source>Vertical</source>
             <translation>แนวตั้ง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1827" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1829" />
             <source>Everybody </source>
             <translation>ทุกคน </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1829" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1831" />
             <source>Friends Online </source>
             <translation>เพื่อนออนไลน์ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1831" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1833" />
             <source>Friends Offline </source>
             <translation>เพื่อนออฟไลน์ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1834" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1836" />
             <source>Group </source>
             <translation>กลุ่ม </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1836" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1838" />
             <source>Chat Room </source>
             <translation>ห้องสนทนา </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1838" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1840" />
             <source>Random Connect </source>
             <translation>เชื่อมต่อแบบสุ่ม </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1841" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1843" />
             <source>Ignored </source>
             <translation>ละเว้น </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1844" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1846" />
             <source>Online </source>
             <translation>ออนไลน์ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1846" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1848" />
             <source>Direct Connect </source>
             <translation>เชื่อมต่อโดยตรง </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1848" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1850" />
             <source>Offline </source>
             <translation>ออฟไลน์ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1852" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1854" />
             <source>Unknown </source>
             <translation>ไม่ทราบ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1880" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1882" />
             <source>Sending Join Request </source>
             <translation>กำลังส่งคำขอเข้าร่วม </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1882" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1884" />
             <source>Send Join Failed </source>
             <translation>ส่งเข้าร่วมล้มเหลว </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1884" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1886" />
             <source>Send Join Acked </source>
             <translation>ส่ง เข้าร่วม Acked </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1886" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1888" />
             <source>Join Requested </source>
             <translation>เข้าร่วมร้องขอ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1888" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1890" />
             <source>Join Was Accepted </source>
             <translation>เข้าร่วมได้รับการยอมรับแล้ว </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1890" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1892" />
             <source>Join Is Accepted </source>
             <translation>ยอมรับการเข้าร่วมแล้ว </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1892" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1894" />
             <source>Join Denied </source>
             <translation>เข้าร่วมถูกปฏิเสธ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1894" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1896" />
             <source>Disconnected From Host </source>
             <translation>ตัดการเชื่อมต่อจากโฮสต์ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1896" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1898" />
             <source>Unknown Join State </source>
             <translation>สถานะเข้าร่วมที่ไม่รู้จัก </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1906" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1908" />
             <source>All Files </source>
             <translation>ไฟล์ทั้งหมด </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1908" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1910" />
             <source>Photo Files </source>
             <translation>ไฟล์ภาพถ่าย </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1910" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1912" />
             <source>Audio Files </source>
             <translation>ไฟล์เสียง </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1912" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1914" />
             <source>Video Files </source>
             <translation>ไฟล์วิดีโอ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1914" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1916" />
             <source>Document Files </source>
             <translation>ไฟล์เอกสาร</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1916" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1918" />
             <source>Archive Files </source>
             <translation>ไฟล์เก็บถาวร </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1918" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1920" />
             <source>Other Files </source>
             <translation>ไฟล์อื่นๆ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1921" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1923" />
             <source>Unknown File Filter </source>
             <translation>ตัวกรองไฟล์ที่ไม่รู้จัก </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2043" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2045" />
             <source>When Recieve Response</source>
             <translation>เมื่อได้รับการตอบกลับ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2045" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2047" />
             <source>20 Seconds</source>
             <translation>20 วินาที</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2047" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2049" />
             <source>1 Minute</source>
             <translation>1 นาที</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2049" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2051" />
             <source>10 Minutes</source>
             <translation>10 นาที</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2051" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2053" />
             <source>1 Hour</source>
             <translation>1 ชม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2053" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2055" />
             <source>24 Hours</source>
             <translation>24 ชม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2055" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2057" />
             <source>1 Week</source>
             <translation>1 สัปดาห์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2057" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2059" />
             <source>1 Month</source>
             <translation>1 เดือน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2059" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2061" />
             <source>1 Year</source>
             <translation>1 ปี</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2062" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2064" />
             <source>Unknown Expire Time </source>
             <translation>ไม่ทราบเวลาหมดอายุ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2101" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2103" />
             <source>Active Offers </source>
             <translation>ข้อเสนอที่ใช้งานอยู่ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2103" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2105" />
             <source>Offer History </source>
             <translation>ประวัติข้อเสนอ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2106" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2108" />
             <source>Unknown Offer View Type </source>
             <translation>ประเภทมุมมองข้อเสนอที่ไม่รู้จัก </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2116" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2118" />
             <source>Any Connection </source>
             <translation>การเชื่อมต่อใดๆ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2118" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2120" />
             <source>Host Connection </source>
             <translation>การเชื่อมต่อโฮสต์ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2120" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2122" />
             <source>Client Connection </source>
             <translation>การเชื่อมต่อไคลเอนต์ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2122" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2124" />
             <source>Direct Connection </source>
             <translation>การเชื่อมต่อโดยตรง </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2124" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2126" />
             <source>Unknown Connect Type </source>
             <translation>ประเภทการเชื่อมต่อที่ไม่รู้จัก </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2134" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2136" />
             <source>Connect Status Ready </source>
             <translation>เชื่อมต่อสถานะพร้อมแล้ว </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2136" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2138" />
             <source>Connect Status Bad Param </source>
             <translation>เชื่อมต่อสถานะพารามิเตอร์ไม่ถูกต้อง </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2138" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2140" />
             <source>Connect Status Bad Address </source>
             <translation>เชื่อมต่อสถานะที่อยู่ไม่ถูกต้อง </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2140" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2142" />
             <source>Connect Status Permission Denied </source>
             <translation>เชื่อมต่อสถานะการอนุญาตถูกปฏิเสธ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2142" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2144" />
             <source>Connect Status Connecting </source>
             <translation>สถานะการเชื่อมต่อ กำลังเชื่อมต่อ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2144" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2146" />
             <source>Connect Status Connect Failed </source>
             <translation>สถานะการเชื่อมต่อ การเชื่อมต่อล้มเหลว </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2146" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2148" />
             <source>Connect Status Send PktAnn Failed </source>
             <translation>เชื่อมต่อสถานะการส่ง PktAnn ล้มเหลว </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2148" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2150" />
             <source>Connect Status Handshaking </source>
             <translation>เชื่อมต่อสถานะการจับมือกัน </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2150" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2152" />
             <source>Connect Status Handshake Timed Out </source>
             <translation>เชื่อมต่อสถานะการจับมือกันหมดเวลา</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2152" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2154" />
             <source>Connect Status Connect Success </source>
             <translation>เชื่อมต่อสถานะ เชื่อมต่อสำเร็จ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2154" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2156" />
             <source>Connect Status Dropped </source>
             <translation>สถานะการเชื่อมต่อลดลง </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2156" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2158" />
             <source>Connect Status Rx PktAnn Timeout </source>
             <translation>เชื่อมต่อสถานะ Rx PktAnn หมดเวลา </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2158" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2160" />
             <source>Connect Status Unknown </source>
             <translation>ไม่ทราบสถานะการเชื่อมต่อ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2198" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2200" />
             <source>Database None</source>
             <translation>ฐานข้อมูล ไม่มี</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2200" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2202" />
             <source>Database Assets</source>
             <translation>สินทรัพย์ฐานข้อมูล</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2202" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2204" />
             <source>Database Blob Assets</source>
             <translation>ฐานข้อมูล Blob Assets</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2204" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2206" />
             <source>Database Connect Mgr</source>
             <translation>ตัวจัดการการเชื่อมต่อฐานข้อมูล</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2206" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2208" />
             <source>Database Engine Params</source>
             <translation>พารามิเตอร์กลไกฐานข้อมูล</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2208" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2210" />
             <source>Database Engine Settings</source>
             <translation>การตั้งค่ากลไกฐานข้อมูล</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2210" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2212" />
             <source>Database Host Server Join</source>
             <translation>ฐานข้อมูลโฮสต์เซิร์ฟเวอร์เข้าร่วม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2212" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2214" />
             <source>Database Offers</source>
             <translation>ข้อเสนอฐานข้อมูล</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2214" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2216" />
             <source>Database Thumbs</source>
             <translation>ฐานข้อมูล Thumbs</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2216" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2218" />
             <source>Database User Join</source>
             <translation>ผู้ใช้ฐานข้อมูลเข้าร่วม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2218" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2220" />
             <source>Database All Users</source>
             <translation>ฐานข้อมูลผู้ใช้ทั้งหมด</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2220" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2222" />
             <source>Unkonwn Database Type</source>
             <translation>ประเภทฐานข้อมูลที่ไม่รู้จัก</translation>
         </message>
@@ -10375,6 +10440,11 @@ No one can connect to you directly</source>
             <location filename="../nolimitgui/src/InviteUrlWidget.cpp" line="746" />
             <source> has permission level of disabled</source>
             <translation> มีระดับการอนุญาตปิดการใช้งาน</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletOfferRandSession.cpp" line="179" />
+            <source>No permitted session types are available for this Random Connect offer.</source>
+            <translation>ไม่มีประเภทเซสชันที่ได้รับอนุญาตสำหรับข้อเสนอ Random Connect นี้</translation>
         </message>
     </context>
     <context>

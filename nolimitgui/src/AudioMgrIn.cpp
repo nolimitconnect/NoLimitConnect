@@ -287,6 +287,8 @@ void AudioMgr::callbackAecProcessedAudio( int16_t* pcmData, int sampleCnt )
         return;
     }
 
+    m_MicInLowPassFilter.processBufferInPlace( pcmData, sampleCnt );
+
     if( m_EnableNoiseSuppression )
     {
         if( m_AudioInPerfStatsEnable )

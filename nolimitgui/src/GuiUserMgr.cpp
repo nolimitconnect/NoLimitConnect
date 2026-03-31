@@ -1053,3 +1053,26 @@ void GuiUserMgr::refreshUser( VxGUID onlineId ) // external to user changes requ
         sendUserUpdatedToCallbacks( guiUser );
     }
 }
+
+//============================================================================
+EPluginAccess GuiUserMgr::getOfferAccessPersonToPerson( GuiUser* guiUser, enum EPluginType pluginType )
+{
+    if( !guiUser )
+    {
+        return ePluginAccessInactive;
+    }
+
+	EPluginAccess pluginAccess = guiUser->getMyAccessPermissionFromHim( pluginType );
+
+    if( pluginAccess == ePluginAccessOk )
+    {
+        // do not offer to user if user cannot make offer to me (even if offer is accepted the pkts cannot be acted on)
+        EFriendState friendState = getMyIdent()->getPluginPermission( pluginType );
+        if(guiUser->getMyFriendshipToHim() < friendState )
+        {
+            pluginAccess = ePluginAccessLocked;
+        }
+    }
+
+    return pluginAccess;
+}

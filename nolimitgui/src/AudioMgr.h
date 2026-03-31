@@ -382,5 +382,7 @@ protected:
 
     RNNoise                     m_RNNoise;
     std::atomic<bool>           m_EnableNoiseSuppression{0};
+
+    LowPassFilter                m_MicInLowPassFilter;
 };
 

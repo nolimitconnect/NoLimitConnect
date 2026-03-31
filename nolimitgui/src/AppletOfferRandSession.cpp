@@ -152,19 +152,19 @@ void AppletOfferRandSession::setUser( GuiUser* guiUser )
     ui.m_OfferSendWidget->setUser( guiUser );       
 
     std::vector<EOfferType> allowedOfferTypes;
-    if( guiUser->getMyAccessPermissionFromHim( ePluginTypeVideoChat ) == ePluginAccessOk )
+    if( m_MyApp.getUserMgr().getOfferAccessPersonToPerson( guiUser, ePluginTypeVideoChat ) == ePluginAccessOk )
 	{
 		allowedOfferTypes.emplace_back( eOfferTypeVideoChat );
         ui.m_OfferVideoFrame->setVisible( true );
 	}
 
-	if( guiUser->getMyAccessPermissionFromHim( ePluginTypeVoicePhone ) == ePluginAccessOk )
+	if( m_MyApp.getUserMgr().getOfferAccessPersonToPerson( guiUser, ePluginTypeVoicePhone ) == ePluginAccessOk )
 	{
 		allowedOfferTypes.emplace_back( eOfferTypeVoicePhone );
         ui.m_OfferVoicePhoneFrame->setVisible( true );
 	}
 
-	if( guiUser->getMyAccessPermissionFromHim( ePluginTypeTruthOrDare ) == ePluginAccessOk )
+	if( m_MyApp.getUserMgr().getOfferAccessPersonToPerson( guiUser, ePluginTypeTruthOrDare ) == ePluginAccessOk )
 	{
 		allowedOfferTypes.emplace_back( eOfferTypeTruthOrDare );
         ui.m_OfferTruthOrDareFrame->setVisible( true );

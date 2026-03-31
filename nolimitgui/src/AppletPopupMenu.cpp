@@ -376,15 +376,15 @@ bool AppletPopupMenu::canPerformAction( enum EUserAction userAction, EPluginAcce
 	}
     else if( userAction == eUserActionOfferFile )
 	{
-		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypePersonFileXfer );
+		pluginAccess = m_MyApp.getUserMgr().getOfferAccessPersonToPerson( m_SelectedFriend, ePluginTypePersonFileXfer );
 	}
     else if( userAction == eUserActionMessenger )
 	{
-		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeMessenger);
+		pluginAccess = m_MyApp.getUserMgr().getOfferAccessPersonToPerson( m_SelectedFriend, ePluginTypeMessenger );
 	}
     else if( userAction == eUserActionVideoPhone )
 	{
-		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeVideoChat );
+		pluginAccess = m_MyApp.getUserMgr().getOfferAccessPersonToPerson( m_SelectedFriend, ePluginTypeVideoChat );
 		if( pluginAccess == ePluginAccessOk && m_MyApp.getOfferMgr().haveActiveOffer( m_SelectedFriend->getMyOnlineId(), ePluginTypeVideoChat ) )
 		{
 			pluginAccess = ePluginAccessBusy;
@@ -392,7 +392,7 @@ bool AppletPopupMenu::canPerformAction( enum EUserAction userAction, EPluginAcce
 	}
     else if( userAction == eUserActionVoicePhone )
 	{
-		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeVoicePhone );
+		pluginAccess = m_MyApp.getUserMgr().getOfferAccessPersonToPerson( m_SelectedFriend, ePluginTypeVoicePhone );
 		if( pluginAccess == ePluginAccessOk && m_MyApp.getOfferMgr().haveActiveOffer( m_SelectedFriend->getMyOnlineId(), ePluginTypeVoicePhone ) )
 		{
 			pluginAccess = ePluginAccessBusy;
@@ -400,7 +400,7 @@ bool AppletPopupMenu::canPerformAction( enum EUserAction userAction, EPluginAcce
 	}
     else if( userAction == eUserActionTruthOrDare )
 	{
-		pluginAccess = m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeTruthOrDare );
+		pluginAccess = m_MyApp.getUserMgr().getOfferAccessPersonToPerson( m_SelectedFriend, ePluginTypeTruthOrDare );
 		if( pluginAccess == ePluginAccessOk && m_MyApp.getOfferMgr().haveActiveOffer( m_SelectedFriend->getMyOnlineId(), ePluginTypeTruthOrDare ) )
 		{
 			pluginAccess = ePluginAccessBusy;
@@ -416,9 +416,9 @@ bool AppletPopupMenu::canPerformAction( enum EUserAction userAction, EPluginAcce
 		if( iAmRandConnectMember && peerIsRandConnectMember && !m_SelectedFriend->isMyself() )
 		{
 			bool hasAnyOfferTypePermission =
-				m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeVideoChat ) == ePluginAccessOk
-				|| m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeVoicePhone ) == ePluginAccessOk
-				|| m_SelectedFriend->getMyAccessPermissionFromHim( ePluginTypeTruthOrDare ) == ePluginAccessOk;
+				m_MyApp.getUserMgr().getOfferAccessPersonToPerson( m_SelectedFriend, ePluginTypeVideoChat ) == ePluginAccessOk
+				|| m_MyApp.getUserMgr().getOfferAccessPersonToPerson( m_SelectedFriend, ePluginTypeVoicePhone ) == ePluginAccessOk
+				|| m_MyApp.getUserMgr().getOfferAccessPersonToPerson( m_SelectedFriend, ePluginTypeTruthOrDare ) == ePluginAccessOk;
 
 			bool hasIncomingOffer = m_MyApp.getRandConnectMgr().hasPendingIncomingOffer( m_SelectedFriend->getMyOnlineId() );
 			bool hasOutgoingOffer = m_MyApp.getRandConnectMgr().hasPendingOutgoingOffer( m_SelectedFriend->getMyOnlineId() );
@@ -426,7 +426,7 @@ bool AppletPopupMenu::canPerformAction( enum EUserAction userAction, EPluginAcce
 			{
 				if( !hasAnyOfferTypePermission )
 				{
-					pluginAccess = ePluginAccessIgnored;
+					pluginAccess = ePluginAccessLocked;
 				}
 				else
 				{

@@ -81,6 +81,8 @@ public:
     void                        deleteUser( GuiUser* guiUser, QWidget* parentFrame );
     void                        blockUser( VxGUID onlineId );
 
+    EPluginAccess               getOfferAccessPersonToPerson( GuiUser* guiUser, enum EPluginType pluginType );
+
 protected:
     void                        removeUser( VxGUID onlineId );
     GuiUser*                    findUser( VxGUID onlineId );
