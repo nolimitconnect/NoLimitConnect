@@ -44,6 +44,13 @@ AppletHostClientBase::AppletHostClientBase( const char* objName, AppCommon& app,
 	connect( ui.m_UserListWidget, SIGNAL(signalLeftHost()), this, SLOT(closeApplet()) );
 
 	m_MyApp.activityStateChange( this, true );
+
+	// Recover host context when this applet is reopened while already joined.
+	GroupieId joinedAdminGroupieId = m_MyApp.getUserJoinMgr().getJoinedAdminGroupieId( hostType );
+	if( joinedAdminGroupieId.isValid() )
+	{
+		setAdminGroupieId( joinedAdminGroupieId );
+	}
 }
 
 //============================================================================
@@ -106,6 +113,32 @@ void AppletHostClientBase::showEvent( QShowEvent* ev )
 }
 
 //============================================================================
+GroupieId AppletHostClientBase::getActiveAdminGroupieId( void )
+{
+	GroupieId adminGroupieId = ui.m_UserListWidget->getHostAdminId();
+	if( adminGroupieId.isValid() )
+	{
+		return adminGroupieId;
+	}
+
+	if( m_AdminGroupieId.isValid() )
+	{
+		ui.m_UserListWidget->setHostAdminId( m_AdminGroupieId );
+		ui.m_SessionWidget->setHostAdminId( m_AdminGroupieId );
+		return m_AdminGroupieId;
+	}
+
+	GroupieId joinedAdminGroupieId = m_MyApp.getUserJoinMgr().getJoinedAdminGroupieId( m_HostType );
+	if( joinedAdminGroupieId.isValid() )
+	{
+		setAdminGroupieId( joinedAdminGroupieId );
+		return joinedAdminGroupieId;
+	}
+
+	return adminGroupieId;
+}
+
+//============================================================================
 void AppletHostClientBase::slotSetSessionVisible( bool visible )
 {
 	ui.m_SessionWidget->setVisible( visible );
@@ -120,11 +153,13 @@ void AppletHostClientBase::slotViewChanged( EUserViewType viewType )
 //============================================================================
 bool AppletHostClientBase::checkIfCanSend( void )
 {
-	return AppletBase::checkIfCanSend( ui.m_UserListWidget->getHostAdminId().getHostedId() );
+	GroupieId adminGroupieId = getActiveAdminGroupieId();
+	return AppletBase::checkIfCanSend( adminGroupieId.getHostedId() );
 }
 
 //============================================================================
 bool AppletHostClientBase::handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo )
 {
-	return handleGroupieAssetAction( ui.m_UserListWidget->getHostAdminId(), assetAction, assetInfo );
+	GroupieId adminGroupieId = getActiveAdminGroupieId();
+	return handleGroupieAssetAction( adminGroupieId, assetAction, assetInfo );
 }

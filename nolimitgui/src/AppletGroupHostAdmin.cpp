@@ -38,6 +38,8 @@ AppletGroupHostAdmin::AppletGroupHostAdmin( AppCommon& app, QWidget* parent )
 	ui.m_SessionWidget->setPluginType( ePluginTypeClientGroup );
 	ui.m_SessionWidget->setHostAdminId( hostAdminId );
 	ui.m_SessionWidget->setInputClientCallback( this );
+    ui.m_SessionWidget->showInviteFrame( true );
+
     ui.m_UserListWidget->setHostAdminId( hostAdminId );
 
     connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );

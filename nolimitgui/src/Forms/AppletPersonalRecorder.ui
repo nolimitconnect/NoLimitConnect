@@ -66,19 +66,19 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <property name="leftMargin">
-       <number>5</number>
+       <number>0</number>
       </property>
       <property name="topMargin">
-       <number>5</number>
+       <number>0</number>
       </property>
       <property name="rightMargin">
-       <number>5</number>
+       <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>5</number>
+       <number>0</number>
       </property>
       <property name="spacing">
-       <number>2</number>
+       <number>0</number>
       </property>
       <item row="1" column="0">
        <widget class="SessionWidget" name="m_SessionWidget" native="true">

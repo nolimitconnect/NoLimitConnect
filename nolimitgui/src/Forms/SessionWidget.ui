@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SessionWidgetClass</class>
- <widget class="QWidget" name="SessionWidgetClass">
+ <class>SessionWidgetUi</class>
+ <widget class="QWidget" name="SessionWidgetUi">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -21,19 +21,19 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
-    <number>2</number>
+    <number>0</number>
    </property>
    <property name="leftMargin">
     <number>2</number>
    </property>
    <property name="topMargin">
-    <number>2</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
     <number>2</number>
    </property>
    <property name="bottomMargin">
-    <number>2</number>
+    <number>0</number>
    </property>
    <item>
     <widget class="QFrame" name="m_CreateInviteFrame">
@@ -45,13 +45,13 @@
        <number>2</number>
       </property>
       <property name="topMargin">
-       <number>2</number>
+       <number>1</number>
       </property>
       <property name="rightMargin">
        <number>2</number>
       </property>
       <property name="bottomMargin">
-       <number>2</number>
+       <number>1</number>
       </property>
       <item>
        <widget class="VxPushButton" name="m_CreateInviteButton">
@@ -88,7 +88,7 @@
       <item>
        <spacer name="horizontalSpacer_8">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -100,32 +100,6 @@
       </item>
      </layout>
     </widget>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="IdentOfferWidget" name="m_IdentWidget" native="true"/>
-     </item>
-     <item>
-      <widget class="VxPushButton" name="m_BootButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>40</width>
-         <height>40</height>
-        </size>
-       </property>
-       <property name="text">
-        <string notr="true"/>
-       </property>
-      </widget>
-     </item>
-    </layout>
    </item>
    <item>
     <widget class="HistoryListWidget" name="m_HistoryList">
@@ -172,7 +146,7 @@
   <customwidget>
    <class>VxPushButton</class>
    <extends>QPushButton</extends>
-   <header>VxPushButton.h</header>
+   <header location="global">VxPushButton.h</header>
   </customwidget>
   <customwidget>
    <class>ChatEntryWidget</class>
@@ -184,12 +158,6 @@
    <class>HistoryListWidget</class>
    <extends>QListWidget</extends>
    <header>HistoryListWidget.h</header>
-  </customwidget>
-  <customwidget>
-   <class>IdentOfferWidget</class>
-   <extends>QWidget</extends>
-   <header>IdentOfferWidget.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

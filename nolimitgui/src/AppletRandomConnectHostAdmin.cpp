@@ -39,6 +39,7 @@ AppletRandomConnectHostAdmin::AppletRandomConnectHostAdmin( AppCommon& app, QWid
 	ui.m_SessionWidget->setPluginType( getPluginType() );
 	ui.m_SessionWidget->setHostAdminId( hostAdminId );
 	ui.m_SessionWidget->setInputClientCallback( this );
+    ui.m_SessionWidget->showInviteFrame( true );
 
 	ui.m_UserListWidget->setHostAdminId( hostAdminId );
     ui.m_UserListWidget->setUserViewType( eUserViewTypeRandomConnect );

@@ -38,6 +38,12 @@ public:
 
 	void						setHostViewType( EHostType hostType );
 
+	void						setMembersVisible( bool visible	);
+	bool						getMembersVisible( void );
+
+	void						setSessionsVisible( bool visible );
+	bool						getSessionsVisible( void );
+
 	void                        setUserViewType( EUserViewType viewType );
 	EUserViewType               getUserViewType( void );
 
@@ -98,7 +104,6 @@ protected:
 	AppCommon&					m_MyApp;
 	GuiMemberActiveMgr&			m_MemberActiveMgr;
 
-    QFrame*						m_OffersFrame{ nullptr }; 
 	GuiUser*					m_SelectedUser{ nullptr };
 	bool						m_SessionVisible{ true };
 	GroupieId					m_AdminGroupieId;

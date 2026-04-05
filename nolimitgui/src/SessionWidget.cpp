@@ -18,28 +18,31 @@
 
 #include <QDebug>
 
-QLabel *                    SessionWidget::getSessionStatusLabel( void )				{ return ui.m_StatusLabel; }
-HistoryListWidget *         SessionWidget::getSessionHistoryList( void )				{ return ui.m_HistoryList; }
-ChatEntryWidget *           SessionWidget::getSessionChatEntry( void )					{ return ui.m_ChatEntry; }
-void						SessionWidget::initializeHistory( void )					{ getSessionHistoryList()->initializeHistory(); }
+QLabel *                    SessionWidget::getSessionStatusLabel( void )		{ return ui.m_StatusLabel; }
+HistoryListWidget *         SessionWidget::getSessionHistoryList( void )		{ return ui.m_HistoryList; }
+ChatEntryWidget *           SessionWidget::getSessionChatEntry( void )			{ return ui.m_ChatEntry; }
+void						SessionWidget::initializeHistory( void )			{ getSessionHistoryList()->initializeHistory(); }
+void						SessionWidget::setStatusMsgVisible( bool visible )	{ ui.m_StatusLabel->setVisible( visible ); }
+bool						SessionWidget::getStatusMsgVisible( void )			{ return ui.m_StatusLabel->isVisible(); }
+void						SessionWidget::showInviteFrame( bool show )			{ ui.m_CreateInviteFrame->setVisible( show ); }
 
 //============================================================================
 SessionWidget::SessionWidget( QWidget* parent, EAssetType inputMode )
 : QWidget( parent )
-, ui(*(new Ui::SessionWidgetClass))
+, ui(*(new Ui::SessionWidgetUi))
 , m_MyApp(GetAppInstance())
 , m_InputMode( inputMode )
 {
 	qDebug() << "SessionWidget input mode " << inputMode;
 	ui.setupUi(this);
-	ui.m_IdentWidget->setVisible( false );
-	ui.m_CreateInviteFrame->setVisible( false );
-	ui.m_BootButton->setVisible( false );
+	showInviteFrame( false );
+
+	ui.m_CreateInviteButton->setFixedSize( eButtonSizeSmall );
+	ui.m_CreateInviteButton->setIcon( eMyIconInviteCreate );
 
 	connect( ui.m_ChatEntry, SIGNAL(signalUserInputButtonClicked()), this, SIGNAL(signalUserInputButtonClicked()) );
 	connect( ui.m_CreateInviteButton, SIGNAL(clicked()), this, SLOT(slotCreateInviteButtonClicked()) );
     connect( &m_MyApp, SIGNAL(signalStatusMsg(QString)), this, SLOT(slotStatusMsg(QString)) );
-	connect( &m_MyApp, SIGNAL( signalStatusMsg( QString ) ), this, SLOT( slotStatusMsg( QString ) ) );
 
 	setEntryMode( m_InputMode );
 }
@@ -59,16 +62,6 @@ void SessionWidget::setGroupieId( GroupieId& groupieId )
 	m_GroupieId = groupieId;
 	ui.m_ChatEntry->setGroupieId( groupieId );
 	ui.m_HistoryList->setGroupieId( groupieId );
-	ui.m_IdentWidget->updateIdentity( groupieId.getUserOnlineId() );
-	if( groupieId.getHostOnlineId() == m_MyApp.getMyOnlineId() )
-	{
-		// I am administrator
-		setupAdminInvite();
-	}
-	else
-	{
-		ui.m_BootButton->setVisible( true );
-	}
 
 	if( eHostTypeChatRoom == groupieId.getHostType() )
 	{
@@ -146,26 +139,6 @@ void SessionWidget::onActivityStop( void )
 void SessionWidget::hideVideoCaptureInput( void )
 {
 	ui.m_ChatEntry->hideVideoCaptureInput();
-}
-
-//============================================================================
-void SessionWidget::setupAdminInvite( void )
-{
-	switch( m_GroupieId.getHostType() )
-	{
-	case eHostTypeGroup:
-	case eHostTypeChatRoom:
-	case eHostTypeRandomConnect:
-	case eHostTypePeerUser:
-		break;
-	default:
-		// not a type we can create invite to
-		return;
-	}
-
-	ui.m_CreateInviteButton->setFixedSize( eButtonSizeSmall );
-	ui.m_CreateInviteButton->setIcon( eMyIconInviteCreate );
-	ui.m_CreateInviteFrame->setVisible( true );
 }
 
 //============================================================================

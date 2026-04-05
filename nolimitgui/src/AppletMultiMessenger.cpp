@@ -78,6 +78,7 @@ AppletMultiMessenger::AppletMultiMessenger(	AppCommon& app, QWidget* parent )
 	m_MyApp.getOfferMgr().wantGuiOfferCallbacks( this, true );
 	
 	manageUsers( ui.m_UserListWidget );
+	ui.m_SessionWidget->showInviteFrame( true );
 
     m_MyApp.onMessengerReady( true );
 }

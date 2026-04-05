@@ -42,6 +42,8 @@ protected slots:
 protected:
     void                        showEvent( QShowEvent* ev ) override;
 
+    GroupieId                   getActiveAdminGroupieId( void );
+
     bool						checkIfCanSend( void ) override;
     bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
 

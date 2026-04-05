@@ -38,11 +38,12 @@ AppletChatRoomHostAdmin::AppletChatRoomHostAdmin( AppCommon& app, QWidget* paren
 	ui.m_SessionWidget->setHostAdminId( hostAdminId );
 	ui.m_SessionWidget->setPluginType( ePluginTypeClientChatRoom );
     ui.m_SessionWidget->setInputClientCallback( this );
+	ui.m_SessionWidget->showInviteFrame( true );
 
     ui.m_UserListWidget->setHostAdminId( hostAdminId );
     ui.m_UserListWidget->setUserViewType( eUserViewTypeChatRoom );
 
-    connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT( closeApplet() ) );
+    connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );
 
     m_MyApp.activityStateChange( this, true );
 	m_MyApp.getFromGuiInterface().fromGuiAdminViewHost( ePluginTypeHostChatRoom, true );

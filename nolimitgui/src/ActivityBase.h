@@ -142,8 +142,6 @@ public:
 	//=== title bar functions ====//
 	void						setTitleBarText( QString titleText );
 	QString						getTitleBarText( void );
-	void						setTitleStatusBarMsg( QString statusMsg );
-	QLabel *					getTitleStatusBarLabel( void );
 
 	//=== title bar button visiblility ====//
 	void						setPowerButtonVisibility( bool visible );

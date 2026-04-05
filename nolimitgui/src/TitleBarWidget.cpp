@@ -73,8 +73,6 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
     float aspectRatio = 320.0f / 240.0f;
     ui.m_CamPreviewScreen->setFixedSize( (int)(GuiParams::getButtonSize( eButtonSizeSmall ).height() * aspectRatio + 1), GuiParams::getButtonSize( eButtonSizeSmall ).height() );
 
-	ui.m_StatusLabel->setVisible( false );
-
     ui.m_HostJoinRequestListButton->setIcon( eMyIconPersonsOfferList );
     ui.m_OfferListButton->setIcon( eMyIconOfferList );
     ui.m_MenuButton->setIcon( eMyIconMenu );
@@ -110,7 +108,7 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
     connect( ui.m_MuteSpeakerButton,        SIGNAL(clicked()), this, SLOT(slotMuteSpeakerButtonClicked()) );
     connect( ui.m_CameraStartStopButton,    SIGNAL(clicked()), this, SLOT(slotCameraSnapshotButtonClicked()) );
     connect( ui.m_CamPreviewScreen,         SIGNAL(clicked()), this, SLOT(slotCamPreviewClicked()) );
-    connect( &m_MyApp,                      SIGNAL(signalStatusMsg(QString)), this, SLOT(slotTitleStatusBarMsg(QString)) );
+
     connect( &m_MyApp,                      SIGNAL(signalNetAvailStatus(ENetAvailStatus)), this, SLOT(slotToGuiNetAvailStatus(ENetAvailStatus)) );
 
     connect( m_CamTimer,                    SIGNAL(timeout()),                          this, SLOT(slotCamTimeout()) );
@@ -255,12 +253,6 @@ MyIcons&  TitleBarWidget::getMyIcons( void )
 }
 
 //============================================================================
-QLabel * TitleBarWidget::getTitleStatusBarLabel( void )
-{
-	return ui.m_StatusLabel;
-}
-
-//============================================================================
 VxPushButton * TitleBarWidget::getAppIconPushButton( void )
 {
 	return ui.m_NoLimitAppButton;
@@ -277,18 +269,6 @@ void TitleBarWidget::setTitleBarText( QString titleText )
 QString TitleBarWidget::getTitleBarText( void )
 {
 	return ui.StyledDlgTitleLabel->text();
-}
-
-//============================================================================
-void TitleBarWidget::setTitleStatusBarMsg( QString statusMsg )
-{
-	slotTitleStatusBarMsg( statusMsg );
-}
-
-//============================================================================
-void TitleBarWidget::slotTitleStatusBarMsg( QString msg )
-{
-	ui.m_StatusLabel->setText( msg );
 }
 
 //============================================================================

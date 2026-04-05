@@ -30,7 +30,8 @@
 
 #include "ui_GuiUserMultiListWidget.h"
 
-EUserViewType               GuiUserMultiListWidget::getUserViewType( void )						{ return ui.m_UserListWidget->getUserViewType(); };
+//============================================================================
+EUserViewType GuiUserMultiListWidget::getUserViewType( void ) { return ui.m_UserListWidget->getUserViewType(); };
 
 //============================================================================
 GuiUserMultiListWidget::GuiUserMultiListWidget(	QWidget* parent )
@@ -67,8 +68,6 @@ GuiUserMultiListWidget::GuiUserMultiListWidget(	QWidget* parent )
     ui.m_UserLeaveButton->setVisible( false );
     ui.m_SearchBarWidget->setVisible( false );
 
-    m_OffersFrame			= ui.m_OffersFrame;
-
     connect( ui.m_EyeUsers,		        SIGNAL(clicked()),						this,	SLOT(slotEyeHostButtonClicked()) );
     connect( ui.m_EyeSession,           SIGNAL(clicked()),						this,	SLOT(slotEyeSessionButtonClicked()) );
     connect( ui.m_UserLeaveButton,      SIGNAL(clicked()),                      this,   SLOT(slotUserLeaveButtonClicked()) );
@@ -104,6 +103,48 @@ GuiUserMultiListWidget::GuiUserMultiListWidget(	QWidget* parent )
 GuiUserMultiListWidget::~GuiUserMultiListWidget( void )
 {
     m_MemberActiveMgr.wantMemberActiveCallback( this, false );
+}
+
+//============================================================================
+void GuiUserMultiListWidget::setMembersVisible( bool visible )
+{    
+    ui.m_UserListWidget->setVisible( visible );
+    if( visible )
+    {
+        ui.m_EyeUsers->setIcon( eMyIconEyeShow );
+    }
+    else
+    {   
+        ui.m_EyeUsers->setIcon( eMyIconEyeHide );
+    }
+}
+
+//============================================================================
+bool GuiUserMultiListWidget::getMembersVisible( void )
+{
+    return ui.m_UserListWidget->isVisible();
+}
+
+//============================================================================
+void GuiUserMultiListWidget::setSessionsVisible( bool visible )
+{
+    m_SessionVisible = visible;
+    if( visible )
+    {
+        ui.m_EyeSession->setIcon( eMyIconEyeShow );
+    }
+    else
+    {
+        ui.m_EyeSession->setIcon( eMyIconEyeHide );
+    }
+
+    emit signalSetSessionVisible( m_SessionVisible );
+}
+
+//============================================================================
+bool GuiUserMultiListWidget::getSessionsVisible( void )
+{
+    return m_SessionVisible;
 }
 
 //============================================================================
@@ -238,17 +279,11 @@ void GuiUserMultiListWidget::slotEyeHostButtonClicked( void )
 {
     if( ui.m_UserListWidget->isVisible() )
     {
-        ui.m_UserListWidget->setVisible( false );
-        ui.m_EyeUsers->setIcon( eMyIconEyeHide );
-        ui.StyledDlgItemsBox->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
-        this->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Minimum );
+        setMembersVisible( false );
     }
     else
     {
-        ui.m_UserListWidget->setVisible( true );
-        ui.m_EyeUsers->setIcon( eMyIconEyeShow );
-        ui.StyledDlgItemsBox->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
-        this->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+        setMembersVisible( true );
     }
 }
 
@@ -261,18 +296,7 @@ void GuiUserMultiListWidget::hideEyeSession( void )
 //============================================================================
 void GuiUserMultiListWidget::slotEyeSessionButtonClicked( void )
 {
-    if( m_SessionVisible )
-    {
-        m_SessionVisible = false;
-        ui.m_EyeSession->setIcon( eMyIconEyeHide );
-        emit signalSetSessionVisible( m_SessionVisible );
-    }
-    else
-    {
-        m_SessionVisible = true;
-        ui.m_EyeSession->setIcon( eMyIconEyeShow );
-        emit signalSetSessionVisible( m_SessionVisible );
-    }
+    setSessionsVisible( !m_SessionVisible );
 }
 
 //============================================================================

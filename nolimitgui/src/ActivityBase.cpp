@@ -352,18 +352,6 @@ QString ActivityBase::getTitleBarText( void )
 	return getTitleBarWidget()->getTitleBarText();
 }
 
-//============================================================================
-void ActivityBase::setTitleStatusBarMsg( QString statusMsg )
-{
-    getTitleBarWidget()->setTitleStatusBarMsg( statusMsg );
-}
-
-//============================================================================
-QLabel * ActivityBase::getTitleStatusBarLabel( void )
-{
-	return getTitleBarWidget()->getTitleStatusBarLabel();
-}
-
 //============================================================================  
 void ActivityBase::setStatusText( QString statusMsgText )
 {

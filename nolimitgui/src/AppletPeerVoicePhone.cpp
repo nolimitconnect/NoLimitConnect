@@ -37,11 +37,13 @@ AppletPeerVoicePhone::AppletPeerVoicePhone(	AppCommon& app, QWidget* parent )
     connect( ui.m_ShowInWaveFormCheckBox, SIGNAL(clicked()), this, SLOT(slotShowInWaveFormCheckBoxClicked()) );
     connect( ui.m_ShowOutWaveFormCheckBox, SIGNAL(clicked()), this, SLOT(slotShowOutWaveFormCheckBoxClicked()) );
 
-	ui.m_ShowInWaveFormCheckBox->setChecked( m_MyApp.getAppSettings().getShowVoicePhoneInWaveForm() );
-	ui.m_ShowOutWaveFormCheckBox->setChecked( m_MyApp.getAppSettings().getShowVoicePhoneOutWaveForm() );
+	bool showInWaveForm = m_MyApp.getAppSettings().getShowVoicePhoneInWaveForm();
+	ui.m_AudioInWaveFormFrame->setVisible( showInWaveForm );
+	ui.m_ShowInWaveFormCheckBox->setChecked( showInWaveForm );
+	bool showOutWaveForm = m_MyApp.getAppSettings().getShowVoicePhoneOutWaveForm();
+	ui.m_AudioOutWaveFormFrame->setVisible( showOutWaveForm );
+	ui.m_ShowOutWaveFormCheckBox->setChecked( showOutWaveForm );
 
-    //m_MyApp.getAudioMgr().toGuiWantSpeakerOutput( eMediaModuleSoundSettings, true );
-    //m_MyApp.getAudioMgr().toGuiWantMicrophoneRecording( eMediaModuleSoundSettings, true );
 	m_MyApp.activityStateChange( this, true );
 }
 

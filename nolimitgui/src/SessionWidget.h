@@ -18,7 +18,7 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-    class SessionWidgetClass;
+    class SessionWidgetUi;
 }
 QT_END_NAMESPACE
 
@@ -36,6 +36,11 @@ class SessionWidget : public QWidget
 public:
 	SessionWidget( QWidget* parent = nullptr, EAssetType inputMode = eAssetTypeUnknown );
     virtual ~SessionWidget() = default;
+
+	void						setStatusMsgVisible( bool visible );
+	bool						getStatusMsgVisible( void );
+
+	void 						showInviteFrame( bool show );
 
 	void						setHostAdminId( GroupieId& adminId )		{ setGroupieId( adminId ); }
 	void						setGroupieId( GroupieId& groupieId );
@@ -71,9 +76,8 @@ protected slots:
 
 protected:
 	void						hideVideoCaptureInput( void );
-	void						setupAdminInvite( void );
 
-	Ui::SessionWidgetClass&		ui;
+	Ui::SessionWidgetUi&		ui;
     AppCommon&                  m_MyApp;
 	EAssetType					m_InputMode;
 	bool						m_IsInitialized{ false };

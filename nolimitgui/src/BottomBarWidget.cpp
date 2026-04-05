@@ -32,6 +32,8 @@ BottomBarWidget::BottomBarWidget( QWidget* parent )
 , m_MyApp( GetAppInstance() )
 {
     ui.setupUi( this );
+	setFixedHeight( GuiParams::getButtonSize( eButtonSizeSmall ).height() + 6 );
+
 	ui.m_MenuBottomButton->setFixedSize( eButtonSizeSmall );
 	ui.m_ExpandButton->setFixedSize( eButtonSizeSmall );
 

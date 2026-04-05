@@ -61,8 +61,7 @@ public:
 
 	void						setTitleBarText( QString titleText );
 	QString						getTitleBarText( void );
-	void						setTitleStatusBarMsg( QString statusMsg );
-	QLabel *					getTitleStatusBarLabel( void );
+
 	VxPushButton*				getAppIconPushButton( void );
 	VxPushButton*				getBackButton( void );
 
@@ -123,8 +122,6 @@ public slots:
 
 	void           				slotMenuTopButtonClicked( void );
 	void           				slotBackButtonClicked( void );
-
-	void           				slotTitleStatusBarMsg( QString msg );
 
     void           				slotToGuiNetAvailStatus( ENetAvailStatus eNetAvailStatus );
     void           				slotCamTimeout( void );

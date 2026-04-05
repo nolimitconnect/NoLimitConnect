@@ -92,6 +92,16 @@ bool AppletBase::handleGroupieAssetAction( GroupieId& adminId, EAssetAction asse
 		// next send to online members
 		for( auto memberId : memberList )
 		{
+			// if( memberId == getMyApp().getMyOnlineId() )
+			// {
+			// 	continue;
+			// }
+
+			// if( memberId == hostId.getHostOnlineId() )
+			// {
+			// 	continue; // already sent to host admin above; skip to avoid duplicate transaction
+			// }
+
 			assetInfo.setDestUserId( memberId );
 			getMyApp().getEngine().fromGuiAssetAction( eAssetActionAssetSend, assetInfo );
 		}
