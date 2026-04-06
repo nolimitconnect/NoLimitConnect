@@ -70,21 +70,21 @@
          <property name="title">
           <string/>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout">
+         <layout class="QVBoxLayout" name="verticalLayout_3">
           <property name="spacing">
            <number>0</number>
           </property>
           <property name="leftMargin">
-           <number>5</number>
+           <number>0</number>
           </property>
           <property name="topMargin">
-           <number>5</number>
+           <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>5</number>
+           <number>0</number>
           </property>
           <property name="bottomMargin">
-           <number>5</number>
+           <number>0</number>
           </property>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -331,9 +331,6 @@
           </item>
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <property name="spacing">
-             <number>0</number>
-            </property>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_2">
               <property name="spacing">
@@ -536,6 +533,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="m_LogModuleCheckBox_33">
+                <property name="text">
+                 <string notr="true">CheckBox</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <spacer name="verticalSpacer_3">
                 <property name="orientation">
                  <enum>Qt::Orientation::Vertical</enum>
@@ -551,7 +555,7 @@
              </layout>
             </item>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_3">
+             <layout class="QVBoxLayout" name="verticalLayout">
               <property name="spacing">
                <number>0</number>
               </property>
@@ -698,6 +702,13 @@
               </item>
               <item>
                <widget class="QCheckBox" name="m_LogModuleCheckBox_32">
+                <property name="text">
+                 <string notr="true">CheckBox</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QCheckBox" name="m_LogModuleCheckBox_34">
                 <property name="text">
                  <string notr="true">CheckBox</string>
                 </property>

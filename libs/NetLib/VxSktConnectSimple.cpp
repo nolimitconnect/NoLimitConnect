@@ -10,6 +10,8 @@
 
 #include "VxSktConnectSimple.h"
 
+#include "VxSktBase.h"
+
 #include <CoreLib/ISktStatCallbackInterface.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
@@ -29,6 +31,7 @@
 VxSktConnectSimple::VxSktConnectSimple()
 : m_Socket( INVALID_SOCKET )
 {
+    m_SktNumber = VxSktBase::getNewSktNumber();
 }
 
 //============================================================================
@@ -75,7 +78,7 @@ SOCKET VxSktConnectSimple::connectTo(	const char*		pIpOrUrl,				// remote ip or 
 										uint16_t		u16Port,				// port to connect to
                                         EIpAddrType     addrType,
 										int				iTimeoutMilliSeconds,
-                                        int32_t*		    retErrorCode )	
+                                        int32_t*		retErrorCode )	
 {
 	if( isConnected() )
 	{
@@ -104,7 +107,7 @@ SOCKET VxSktConnectSimple::connectTo( const char*   lclAdapterIp,					// local a
                                       uint16_t		u16Port,						// port to connect to
                                       EIpAddrType   addrType,
                                       int			iTimeoutMilliSeconds,
-                                      int32_t*		    retErrorCode )	       
+                                      int32_t*		retErrorCode )	       
 {
     int32_t rc = 0;
     InetAddrAndPort	rmtIpAddr;
@@ -231,13 +234,19 @@ int32_t VxSktConnectSimple::sendData(	const char*		pData,					// data to send
 	    }
     }
 
+    if(LogEnabled( eLogSktTx ))
+    {
+        LogModule( eLogSktTx, LOG_INFO, "VxSktConnectSimple::%s: skt num %d tx %d bytes to %s", __func__, 
+            getSktNumber(), iDataLen, m_RmtIp.toString().c_str() );
+    }
+
     setLastError( rc );
 	return rc;
 }
 		
 //============================================================================
 //! receive data.. if timeout is set then will keep trying till buffer is full or error or timeout expires
-int32_t VxSktConnectSimple::recieveData(	char *			pRetBuf,				// buffer to receive data into
+int32_t VxSktConnectSimple::recieveData(char *			pRetBuf,				// buffer to receive data into
 										int				iBufLenIn,				// length of buffer
 										int *			iRetBytesReceived,		// number of bytes actually received
 										int				iTimeoutMilliSeconds )	// milliseconds before receive attempt times out ( 0 = dont wait )
@@ -246,13 +255,15 @@ int32_t VxSktConnectSimple::recieveData(	char *			pRetBuf,				// buffer to recei
     setLastError( rc );
     if( VxIsFatalSktError( rc ) )
     {
-        LogMsg( LOG_INFO, "VxSktConnectSimple::recieveData: skt %d failed length %d timeout %d error %s", 
+        LogMsg( LOG_INFO, "VxSktConnectSimple::%s: skt %d failed length %d timeout %d error %s", __func__,
             getSktHandle(), iBufLenIn, iTimeoutMilliSeconds, VxDescribeSktError( rc ) );
         closeSkt( 8690 );
     }
-    else if( isRxCryptoKeySet() && *iRetBytesReceived >= sizeof( VxPktHdr ) )
-    {
 
+    if(LogEnabled( eLogSktRx ))
+    {
+        LogModule( eLogSktRx, LOG_INFO, "VxSktConnectSimple::%s: skt num %d rx %d bytes from %s", __func__, 
+            getSktNumber(), *iRetBytesReceived, m_RmtIp.toString().c_str() );
     }
 
     return rc;

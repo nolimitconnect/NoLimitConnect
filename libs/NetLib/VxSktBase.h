@@ -39,6 +39,7 @@
 
 #include <set>
 #include <memory>
+#include <atomic>
 
 enum EConnectionType
 {
@@ -291,6 +292,8 @@ public:
 
 	VxSktStatRecord				getSktStatRecord( void );
 
+	static int					getNewSktNumber( void ) { return ++m_TotalCreatedSktCnt; }
+
     SOCKET						m_Socket{ INVALID_SOCKET };	    // handle to socket
     int							m_SktNumber{ 0 };				// socket unique id
     VxGUID                      m_ConnectionId;                 // unique connection id 
@@ -370,9 +373,9 @@ protected:
 
 	bool						m_IsIpv6Connection{ false };
 
-    static int					m_TotalCreatedSktCnt;	            // total number of sockets created since program started
-    static int					m_CurrentSktCnt;		            // current number of sockets exiting in memory
-	static int					m_RunningRxThreadCnt;
+    static std::atomic<int>		m_TotalCreatedSktCnt;	            // total number of sockets created since program started
+    static std::atomic<int>		m_CurrentSktCnt;		            // current number of sockets exiting in memory
+	static std::atomic<int>		m_RunningRxThreadCnt;
 
     static std::string          m_SktDirConnect;
     static std::string          m_SktDirAccept;

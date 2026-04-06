@@ -28,7 +28,7 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-    class TitleBarWidgetClass;
+    class TitleBarWidgetUi;
 }
 QT_END_NAMESPACE
 
@@ -179,7 +179,7 @@ protected:
 	void						setWantMicrophoneCount( int wantMicCount );
 	void						setWantSpeakerCount( int wantSpeakerCount );
 
-	Ui::TitleBarWidgetClass&	ui;
+	Ui::TitleBarWidgetUi&		ui;
 	AppCommon&					m_MyApp;
     GuiOfferMgr&				m_OfferMgr;
 	bool						m_MutedMic{ false };

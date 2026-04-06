@@ -47,9 +47,9 @@ namespace
 //============================================================================
 static void * VxSktBaseReceiveVxThreadFunc( void * pvContext );
 
-int VxSktBase::m_TotalCreatedSktCnt{ 0 };
-int VxSktBase::m_CurrentSktCnt{ 0 };
-int VxSktBase::m_RunningRxThreadCnt{ 0 };
+std::atomic<int> VxSktBase::m_TotalCreatedSktCnt{ 0 };
+std::atomic<int> VxSktBase::m_CurrentSktCnt{ 0 };
+std::atomic<int> VxSktBase::m_RunningRxThreadCnt{ 0 };
 
 std::string VxSktBase::m_SktDirConnect{ "->" };
 std::string VxSktBase::m_SktDirAccept{ "<-" };
@@ -86,7 +86,7 @@ VxSktBase::~VxSktBase()
 {
 	if( !m_HasBeenShutdown || m_ThisSkt )
 	{
-		LogModule( eLogSkt, LOG_VERBOSE, "VxSktBase::~VxSktBase cnt %d destroyed without shutdown", m_CurrentSktCnt );
+		LogModule( eLogSkt, LOG_VERBOSE, "VxSktBase::~VxSktBase skt num %d destroyed without shutdown", m_SktNumber );
 	}
 
 	m_CurrentSktCnt--;
@@ -331,9 +331,9 @@ void VxSktBase::updateLastSessionTime( void )
 
 //============================================================================
 int32_t VxSktBase::connectTo(	InetAddress&	oLclIp,
-							const char*		pIpUrlOrIp,				// remote ip 
-							uint16_t		u16Port,				// port to connect to
-							int				iTimeoutMilliSeconds)	// milli seconds before connect attempt times out
+							    const char*		pIpUrlOrIp,				// remote ip 
+							    uint16_t		u16Port,				// port to connect to
+							    int				iTimeoutMilliSeconds)	// milli seconds before connect attempt times out
 {
 	m_LclIp = oLclIp;
 	m_strLclIp = m_LclIp.toString();
@@ -568,6 +568,12 @@ int32_t VxSktBase::sendData(const char* pData, int iDataLen, bool sktMgrLocked )
         LogModule( eLogConnect, LOG_VERBOSE, "VxSktBase::sendData: Attempted send on disconnected skt %s", this->describeSktType().c_str() );
 		return -1;
 	}
+
+    if(LogEnabled( eLogSktTx ))
+    {
+        LogModule( eLogSktTx, LOG_INFO, "VxSktBase::%s: skt num %d tx %d bytes to %s", __func__, 
+            getSktNumber(), iDataLen, m_RmtIp.toString().c_str() );
+    }
 
 	if( LogEnabled( eLogSktData ) )LogModule( eLogSktData, LOG_VERBOSE, "skt %d sendData length %d to %s:%d", m_SktNumber, iDataLen, m_strRmtIp.c_str(), m_RmtIp.getPort() );
 	if( INVALID_SOCKET != m_Socket )
@@ -1286,14 +1292,11 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
                 sktBase->setLastSktError( 0 );
                 if( iDataLen > 0 )
                 {
-                    //if( sktBase->isTcpSocket() )
-                    //{
-                    //	LogMsg( LOG_SKT,  "skt %d Received length %d from %s:%d",
-                    //		sktBase->m_SktNumber,
-                    //		iDataLen,
-                    //		sktBase->m_strRmtIp.c_str(),
-                    //		sktBase->m_RmtIp.getPort() );
-                    //}
+                    if(LogEnabled( eLogSktRx ))
+                    {
+                        LogModule( eLogSktRx, LOG_INFO, "VxSktBase::%s: skt num %d rx %d bytes from %s", __func__, 
+                            sktBase->getSktNumber(), iDataLen, sktBase->m_RmtIp.toString().c_str() );
+                    }
 
                     sktBase->m_iLastRxLen = iDataLen;
 

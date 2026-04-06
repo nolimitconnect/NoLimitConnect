@@ -92,7 +92,10 @@ enum ELogModule : uint64_t
 	eLogVideoIo			= 0x40000000ULL, // 31
 	eLogMembership		= 0x80000000ULL, // 32
 
-	eLogWebRtc			= 0x100000000ULL, // 33
+	eLogSktTx			= 0x100000000ULL, // 33
+	eLogSktRx			= 0x200000000ULL, // 34
+
+    eLogWebRtc			= 0x400000000ULL, // 35
 
     eMaxLogModule
 };

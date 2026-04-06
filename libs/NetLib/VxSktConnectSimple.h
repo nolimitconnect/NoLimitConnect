@@ -19,6 +19,7 @@ public:
 	virtual ~VxSktConnectSimple();
 
 	SOCKET						getSktHandle( void )							{ return m_Socket; }
+	int                         getSktNumber( void )							{ return m_SktNumber; }
 
 	uint16_t					getRemotePort( void )							{ return m_RmtIp.getPort(); }
     std::string				    getRemoteIpAddress( void )                      { return m_RmtIp.toString(); }
@@ -94,6 +95,7 @@ public:
 	//=== vars ===//
 	int32_t						m_LastError{ 0 };
 	SOCKET						m_Socket;				// handle to socket
+	int							m_SktNumber;			// socket unique id
 	bool						m_bIsConnected;			// return true if is connected
 
 	InetAddrAndPort				m_LclIp;				// local ip address

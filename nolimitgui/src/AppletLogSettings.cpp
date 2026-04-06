@@ -69,6 +69,11 @@ static QString describeLogModule( ELogModule logModule )
     case eLogVideoIo: return QObject::tr( "Log Video IO" );
     case eLogMembership: return QObject::tr( "Log Membership" );
 
+    case eLogSktTx: return QObject::tr( "Log Skt Tx" );
+    case eLogSktRx: return QObject::tr( "Log Skt Rx" );
+  
+    case eLogWebRtc: return QObject::tr( "Log WebRTC" );
+
     default:
         return QObject::tr( "Unused Log Module" );
     }
@@ -126,8 +131,13 @@ AppletLogSettings::AppletLogSettings( AppCommon& app, QWidget* parent )
     m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_30 );
     m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_31 );
     m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_32 );
+    m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_33 );
+    m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_34 );
+    //m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_35 );
+    //m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_36 );
 
-    uint32_t logModuleMask = 0x01;
+
+    uint64_t logModuleMask = 0x01;
     for( int i = 0; i < m_LogModuleList.size(); i++ )
     {
         m_LogModuleList[ i ]->setText( describeLogModule( (ELogModule)logModuleMask ) );
@@ -162,7 +172,7 @@ void AppletLogSettings::connectSignals( void )
 void AppletLogSettings::showEvent( QShowEvent* ev )
 {
     AppletBase::showEvent( ev );
-    uint32_t logModuleMask = 0x01;
+    uint64_t logModuleMask = 0x01;
     for( int i = 0; i < m_LogModuleList.size(); i++ )
     {
         m_LogModuleList[ i ]->setText( describeLogModule( (ELogModule)logModuleMask ) );
@@ -176,16 +186,16 @@ void AppletLogSettings::updateDlgFromSettings()
 {
     ui.m_EnableLoggingCheckBox->setChecked( VxGetDebugLoggingEnable() );
 
-    uint32_t logLevelFlags = m_LogMgr.getLogLevels();
-    uint32_t logLevelMask = 0x01;
+    uint64_t logLevelFlags = m_LogMgr.getLogLevels();
+    uint64_t logLevelMask = 0x01;
     for( int i = 0; i < m_LogLevelList.size(); i++ )
     {
         m_LogLevelList[ i ]->setChecked( 0 != ( logLevelMask & logLevelFlags ) );
         logLevelMask = logLevelMask << 1;
     }
 
-    uint32_t logModuleFlags = m_LogMgr.getLogModules();
-    uint32_t logModuleMask = 0x01;
+    uint64_t logModuleFlags = m_LogMgr.getLogModules();
+    uint64_t logModuleMask = 0x01;
     for( int i = 0; i < m_LogModuleList.size(); i++ )
     {
         m_LogModuleList[ i ]->setChecked( 0 != ( logModuleMask & logModuleFlags ) );
@@ -198,8 +208,8 @@ void AppletLogSettings::updateSettingsFromDlg()
 {
     VxSetDebugLoggingEnable( ui.m_EnableLoggingCheckBox->isChecked() );
 
-    uint32_t logLevelFlags = 0;
-    uint32_t logLevelMask = 0x01;
+    uint64_t logLevelFlags = 0;
+    uint64_t logLevelMask = 0x01;
     for( int i = 0; i < m_LogLevelList.size(); i++ )
     {
         if( m_LogLevelList[ i ]->isChecked() )
@@ -212,8 +222,8 @@ void AppletLogSettings::updateSettingsFromDlg()
 
     m_LogMgr.setLogLevels( logLevelFlags );
 
-    uint32_t logModuleFlags = 0;
-    uint32_t logModuleMask = 0x01;
+    uint64_t logModuleFlags = 0;
+    uint64_t logModuleMask = 0x01;
     for( int i = 0; i < m_LogModuleList.size(); i++ )
     {
         if( m_LogModuleList[ i ]->isChecked() )

@@ -36,17 +36,17 @@ VxPushButton * TitleBarWidget::getBackButton( void ) { return ui.m_BackDlgButton
 //============================================================================
 TitleBarWidget::TitleBarWidget( QWidget* parent )
 : QWidget( parent )
-, ui(*(new Ui::TitleBarWidgetClass))
+, ui(*(new Ui::TitleBarWidgetUi))
 , m_MyApp( GetAppInstance() )
 , m_OfferMgr( m_MyApp.getOfferMgr() )
 , m_CamTimer(new QTimer(this))
 {
 	ui.setupUi( this );
+    setFixedHeight( GuiParams::getButtonSize( eButtonSizeSmall ).height() + 6 );
 
     ui.m_WantMicCountLabel->setVisible( false );
     ui.m_WantSpeakerCountLabel->setVisible( false );
 
-    setFixedHeight( GuiParams::getButtonSize( eButtonSizeSmall ).height() + 6 );
     ui.m_NoLimitAppButton->setFixedSize( eButtonSizeSmall );
     ui.m_PowerOffButton->setFixedSize( eButtonSizeSmall );
 

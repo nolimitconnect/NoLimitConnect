@@ -1010,6 +1010,11 @@ bool ConnectionMgr::sendMyPktAnnounce(  VxGUID&				destinationId,
                     DescribeFriendState( eMyFriendshipToHim ), DescribeFriendState( eHisFriendshipToMe ) );
         }
     }
+    else
+    {
+        pktAnn.setMyFriendshipToHim( eFriendStateAnonymous );
+        pktAnn.setHisFriendshipToMe( eFriendStateAnonymous );
+    }
 
     if( LogEnabled( eLogOnline ) )LogModule( eLogOnline, LOG_VERBOSE, "ConnectionMgr::%s through peer %s to %s", __func__,
         m_Engine.describeUser( sktBase->getPeerOnlineId() ).c_str(), m_Engine.describeUser( destinationId ).c_str() );
