@@ -186,8 +186,8 @@ void AppletLogSettings::updateDlgFromSettings()
 {
     ui.m_EnableLoggingCheckBox->setChecked( VxGetDebugLoggingEnable() );
 
-    uint64_t logLevelFlags = m_LogMgr.getLogLevels();
-    uint64_t logLevelMask = 0x01;
+    uint32_t logLevelFlags = m_LogMgr.getLogLevels();
+    uint32_t logLevelMask = 0x01;
     for( int i = 0; i < m_LogLevelList.size(); i++ )
     {
         m_LogLevelList[ i ]->setChecked( 0 != ( logLevelMask & logLevelFlags ) );
@@ -208,7 +208,7 @@ void AppletLogSettings::updateSettingsFromDlg()
 {
     VxSetDebugLoggingEnable( ui.m_EnableLoggingCheckBox->isChecked() );
 
-    uint64_t logLevelFlags = 0;
+    uint32_t logLevelFlags = 0;
     uint64_t logLevelMask = 0x01;
     for( int i = 0; i < m_LogLevelList.size(); i++ )
     {

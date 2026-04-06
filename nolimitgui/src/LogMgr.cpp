@@ -59,14 +59,14 @@ uint32_t LogMgr::getLogLevels( void )
 }
 
 //============================================================================
-void LogMgr::setLogModules( uint32_t logModuleFlags )
+void LogMgr::setLogModules( uint64_t logModuleFlags )
 {
     m_MyApp.getAppSettings().setLogModules( logModuleFlags );
     VxSetModuleLogFlags( logModuleFlags );
 }
 
 //============================================================================
-uint32_t LogMgr::getLogModules( void )
+uint64_t LogMgr::getLogModules( void )
 {
     return m_MyApp.getAppSettings().getLogModules();
 }

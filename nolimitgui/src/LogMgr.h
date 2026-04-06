@@ -51,8 +51,8 @@ public:
     void                        setLogLevels( uint32_t logLevelFlags );
     uint32_t                    getLogLevels( void );
 
-    void                        setLogModules( uint32_t logModuleFlags );
-    uint32_t                    getLogModules( void );
+    void                        setLogModules( uint64_t logModuleFlags );
+    uint64_t                    getLogModules( void );
 
     void                        onLogEvent( uint32_t u32LogFlags, const char* logMsg ) override;
 

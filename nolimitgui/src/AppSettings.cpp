@@ -511,21 +511,21 @@ uint32_t AppSettings::getLogLevels( void )
 }
 
 //============================================================================
-void AppSettings::setLogModules( uint32_t logLevelFlags )
+void AppSettings::setLogModules( uint64_t logModuleFlags )
 {
 #if defined(DEBUG)
-    setIniValue( getAppShortName(), "LogModulesD", logLevelFlags );
+    setIniValue( getAppShortName(), "LogModulesD", logModuleFlags );
 #else
-    setIniValue( getAppShortName(), "LogModules", logLevelFlags );
+    setIniValue( getAppShortName(), "LogModules", logModuleFlags );
 #endif // defined(DEBUG)
 }
 
 //============================================================================
-uint32_t AppSettings::getLogModules( void )
+uint64_t AppSettings::getLogModules( void )
 {
-    uint32_t logModuleFlags = 0;
+    uint64_t logModuleFlags = 0;
 #if defined(DEBUG)
-	uint32_t logModuleFlagsDefault = 0;
+	uint64_t logModuleFlagsDefault = 0;
     getIniValue( getAppShortName(), "LogModulesD", logModuleFlags, logModuleFlagsDefault );
 #else
     getIniValue( getAppShortName(), "LogModules", logModuleFlags, logModuleFlags );

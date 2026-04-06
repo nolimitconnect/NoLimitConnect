@@ -41,8 +41,8 @@ public:
 	void						setSelectedLanguage( ELanguageType selectedLanguage );
 	ELanguageType				getSelectedLanguage( void );
 
-	void					setRandomConnectOfferType( EOfferType offerType );
-	EOfferType				getRandomConnectOfferType( void );
+	void					    setRandomConnectOfferType( EOfferType offerType );
+	EOfferType				    getRandomConnectOfferType( void );
 
 	void						setMutePhoneRing( bool bMutePhoneRing );
 	bool						getMutePhoneRing( void );
@@ -128,8 +128,8 @@ public:
     void                        setLogLevels( uint32_t logLevelFlags );
     uint32_t                    getLogLevels( void );
 
-    void                        setLogModules( uint32_t logModuleFlags );
-    uint32_t                    getLogModules( void );
+    void                        setLogModules( uint64_t logModuleFlags );
+    uint64_t                    getLogModules( void );
 
 	void						setFavoriteHostGroupUrl( std::string& hostUrl );
 	void						getFavoriteHostGroupUrl( std::string& hostUrl );

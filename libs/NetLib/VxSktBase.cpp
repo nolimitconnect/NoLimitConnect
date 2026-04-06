@@ -1630,7 +1630,10 @@ void VxSktBase::onOncePer30Seconds( VxGUID& myOnlineId, bool sktMgrLocked )
 			if( !getRxPktAnnTimeMs() )
 			{
 				// failed to send us a PktAnnounce
-				VxReportHack( eHackerLevelSevere, eHackerReasonLurkerDidNotSendPktAnn, m_Socket, getRemoteIp().c_str(), "VxSktBase::onOncePer30Seconds" );
+				//VxReportHack( eHackerLevelSevere, eHackerReasonLurkerDidNotSendPktAnn, m_Socket, getRemoteIp().c_str(), "VxSktBase::onOncePer30Seconds" );
+                // if the other side is hung then not necessarily a hacker, so just close the socket
+                LogMsg( LOG_ERROR, "VxSktBase::%s no peer pkt ann received for skt handle %d num %d ip %s closing socket", __func__, 
+                    getSktHandle(), getSktNumber(), getRemoteIp().c_str() );
 				closeSkt( eSktCloseHackLevelSevere, sktMgrLocked );
 			}
 		}
