@@ -1499,7 +1499,7 @@ void AssetBaseMgr::getSharedFiles( std::vector<AssetBaseInfo>& sharedFiles )
 		}
 	}
 
-	LogMsg( LOG_VERBOSE, "%s %d of %d assets are shared", __func__, assetIdx, m_AssetBaseInfoList.size() );
+	LogMsg( LOG_VERBOSE, "%s %d of %zu assets are shared", __func__, assetIdx, m_AssetBaseInfoList.size() );
 
 	unlockResources();
 }

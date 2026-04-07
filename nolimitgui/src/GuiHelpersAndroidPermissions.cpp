@@ -355,7 +355,7 @@ std::string GuiHelpers::getRealFileName( QString selectedFileIn )
     QDir browseDir( "content://com.android.externalstorage.documents/document/primary:NoLimitConnectData/MediaTestFiles" );
 
     QFileInfoList fileInfoList = browseDir.entryInfoList();
-    LogMsg( LOG_VERBOSE, "%d files in dir %s", fileInfoList.size(), justPath.c_str() );
+    LogMsg( LOG_VERBOSE, "%zu files in dir %s", fileInfoList.size(), justPath.c_str() );
     for( auto fileListInfo : fileInfoList )
     {
         std::string fileName = fileListInfo.filePath().toUtf8().constData();

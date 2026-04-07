@@ -468,7 +468,7 @@ int VFileMgr::listProviderFilesAndFolders( const char* srcDir, std::vector<VxFil
     QDir browseDir( srcDir );
 
     QFileInfoList fileInfoList = browseDir.entryInfoList();
-    LogMsg( LOG_VERBOSE, "VFileMgr::%s %d files in dir %s", __func__, fileList.size(), folderName.c_str() );
+    LogMsg( LOG_VERBOSE, "VFileMgr::%s %zu files in dir %s", __func__, fileList.size(), folderName.c_str() );
     for( auto fileListInfo : fileInfoList )
     {
         std::string fileName = fileListInfo.filePath().toUtf8().constData();

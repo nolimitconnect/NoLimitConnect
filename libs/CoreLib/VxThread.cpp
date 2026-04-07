@@ -93,7 +93,7 @@ void VxThreadDefaultStartCallback( unsigned int threadId, const char* threadName
         VxThreadInfo threadInfo( threadId, threadName );
         g_RuningThreadInfo.push_back( threadInfo );
         g_DebugThreadsMutex.unlock();
-        LogMsg( LOG_DEBUG, "VxThreadStartCallback: thread id 0x%X %s total count%d", threadId, threadName, g_RuningThreadInfo.size() );
+		LogMsg( LOG_DEBUG, "VxThreadStartCallback: thread id 0x%X %s total count%zu", threadId, threadName, g_RuningThreadInfo.size() );
    }
     else
     {
@@ -199,7 +199,7 @@ void VxThread::dumpRunningThreads( void )
 #ifdef ENABLE_THREAD_INFO
 	//if ( false == VxIsAppShuttingDown() )
 	{
-		LogMsg( LOG_INFO, "Threads running %d time now %s", g_RuningThreadList.size(), VxTimeUtil::getLocalDateAndTimeWithNumberMonths(true).c_str() );
+		LogMsg( LOG_INFO, "Threads running %zu time now %s", g_RuningThreadList.size(), VxTimeUtil::getLocalDateAndTimeWithNumberMonths(true).c_str() );
 
 		std::vector<VxThread*>::iterator iter;
 		g_DebugThreadsMutex.lock();
@@ -223,7 +223,7 @@ void VxThread::dumpRunningThreads( void )
 void VxThread::dumpThreadInfo( void )
 {
 	std::string timeStart = VxTimeUtil::formatTimeStampIntoHoursAndMinutesAndSeconds( m_ThreadStartTimeGmtMs );
-    LogModule( eLogThread, LOG_INFO, "Thrd: tid %d id 0x%x %s started %s", m_ThreadTid, m_uiThreadId, m_strThreadName.c_str(), timeStart.c_str() );
+	LogModule( eLogThread, LOG_INFO, "Thrd: tid %u id 0x%x %s started %s", m_ThreadTid, m_uiThreadId, m_strThreadName.c_str(), timeStart.c_str() );
 }
 
 //============================================================================
@@ -335,7 +335,7 @@ int32_t VxThread::startThread(	VX_THREAD_FUNCTION_T	pfuncThreadFunc,	// function
 				else
 				{
                     #if defined(DEBUG_THREADS)
-                        LogMsg( LOG_INFO, "VxThread:Created Thread %s min stack size %d", m_strThreadName.c_str(), sizetStackSize );
+						LogMsg( LOG_INFO, "VxThread:Created Thread %s min stack size %zu", m_strThreadName.c_str(), sizetStackSize );
                     #endif // DEBUG_THREADS
 					sizetStackSize += iExtraStackSpace;
 					iErr = pthread_attr_setstacksize( &m_ThreadAttr, sizetStackSize );
@@ -445,7 +445,7 @@ void VxThread::setIsThreadRunning( bool bIsRunning, bool calledFromStartedThread
 		m_ThreadStartTimeGmtMs	= GetGmtTimeMs();
 
         if(LogEnabled(eLogThread))LogModule( eLogThread, LOG_VERBOSE,
-            "%s setIsThreadRunning started ? %d Thread %s id 0x%X tid %d total running %d created %d",
+            "%s setIsThreadRunning started ? %d Thread %s id 0x%X tid %d total running %zu created %d",
 			__func__,
 			(uint32_t)calledFromStartedThread,
 			m_strThreadName.c_str(),
@@ -538,7 +538,7 @@ void VxThread::threadAboutToExit( bool bExitThreadNow )
 		}
 
 		g_DebugThreadsMutex.unlock();
-		LogMsg( LOG_INFO, "Thread %s tid %d exit done total running %d", m_strThreadName.c_str(), thisThreadId, g_RuningThreadList.size() );
+		LogMsg( LOG_INFO, "Thread %s tid %d exit done total running %zu", m_strThreadName.c_str(), thisThreadId, g_RuningThreadList.size() );
 	}
 #endif // ENABLE_THREAD_INFO
 	

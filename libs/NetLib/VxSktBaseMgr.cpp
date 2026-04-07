@@ -532,7 +532,7 @@ void VxSktBaseMgr::moveToEraseList( std::shared_ptr<VxSktBase>& sktBase, bool sk
 void VxSktBaseMgr::dumpSocketStats( const char* reason, bool fullDump )
 {
     std::string reasonMsg = reason ? reason : "";
-    LogModule( eLogSkt, LOG_DEBUG, "%s skt active %d to delete %d total in system %d", reasonMsg.c_str(), m_aoSkts.size(), m_aoSktsToDelete.size(), VxSktBase::getCurrentSktCount() );
+	LogModule( eLogSkt, LOG_DEBUG, "%s skt active %zu to delete %zu total in system %d", reasonMsg.c_str(), m_aoSkts.size(), m_aoSktsToDelete.size(), VxSktBase::getCurrentSktCount() );
     if( fullDump )
     {
         int sktCnt = 0;

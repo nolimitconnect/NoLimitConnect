@@ -287,7 +287,7 @@ bool GuiConnectIdListMgr::isOnline( VxGUID& onlineId )
 //============================================================================
 void GuiConnectIdListMgr::dumpOnlineUsers()
 {
-    LogMsg( LOG_VERBOSE, "GuiConnectIdListMgr::%s connnected %d",  __func__, m_ConnectIdList.size() );
+    LogMsg( LOG_VERBOSE, "GuiConnectIdListMgr::%s connnected %zu",  __func__, m_ConnectIdList.size() );
     int idCnt = 0;
     for( auto& connectId : m_ConnectIdList )
     {
@@ -300,7 +300,7 @@ void GuiConnectIdListMgr::dumpOnlineUsers()
 //============================================================================
 void GuiConnectIdListMgr::dumpHostedUsers( HostedId hostId )
 {
-    LogMsg( LOG_VERBOSE, "GuiConnectIdListMgr::%s connnected %d", __func__, m_ConnectIdList.size() );
+    LogMsg( LOG_VERBOSE, "GuiConnectIdListMgr::%s connnected %zu", __func__, m_ConnectIdList.size() );
     int idCnt = 0;
     for( auto& connectId : m_ConnectIdList )
     {

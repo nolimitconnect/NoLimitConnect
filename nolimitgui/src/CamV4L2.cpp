@@ -162,7 +162,7 @@ void CamV4L2::enumerateDevices( std::vector<std::pair<std::string, std::string>>
         }
     }
 
-    LogMsg( LOG_INFO, "CamV4L2::enumerateDevices: %d camera device(s) selected", (int)devices.size() );
+    LogMsg( LOG_INFO, "CamV4L2::enumerateDevices: %zu camera device(s) selected", devices.size() );
 }
 
 //============================================================================

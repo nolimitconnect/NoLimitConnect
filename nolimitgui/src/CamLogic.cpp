@@ -209,7 +209,7 @@ bool CamLogic::canProcessCamCapture( void )
     {
         if( isCamCaptureRequested() )
         {
-            if( LogEnabled( eLogWebCam ) )LogModule( eLogWebCam, LOG_WARN, "CamLogic::%s cannot process cam que rgb %d jpg %d", __func__, (int)m_CamProcessor.getRgbQueueSize(), (int)(int)m_CamProcessor.getJpgQueueSize() );
+            if( LogEnabled( eLogWebCam ) )LogModule( eLogWebCam, LOG_WARN, "CamLogic::%s cannot process cam que rgb %zu jpg %zu", __func__, m_CamProcessor.getRgbQueueSize(), m_CamProcessor.getJpgQueueSize() );
         }
 
         return false;

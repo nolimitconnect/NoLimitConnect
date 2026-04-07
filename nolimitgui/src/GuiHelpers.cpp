@@ -94,7 +94,7 @@ std::string GuiHelpers::browseForDirectory( QString startDir, QWidget* parent )
 void GuiHelpers::listFilesInFolder( QDir& folder, std::vector<VxFileInfoBase>& retFileList, uint8_t fileFilterMask )
 {
     QFileInfoList fileInfoList = folder.entryInfoList();
-    LogMsg( LOG_VERBOSE, "%d files in dir %s", fileInfoList.size(), folder.path().toUtf8().constData() );
+    LogMsg( LOG_VERBOSE, "%zu files in dir %s", fileInfoList.size(), folder.path().toUtf8().constData() );
     for( auto fileListInfo : fileInfoList )
     {
         VxFileInfoBase fileInfo;
@@ -179,7 +179,7 @@ void listFiles( QDir browseDir, uint8_t fileFilterMask = VXFILE_TYPE_AUDIO_VIDEO
     //QDir browseDir( filePath.c_str() );
 
     QFileInfoList fileInfoList = browseDir.entryInfoList();
-    LogMsg( LOG_VERBOSE, "%d files in dir %s", fileInfoList.size(), browseDir.path().toUtf8().constData() );
+    LogMsg( LOG_VERBOSE, "%zu files in dir %s", fileInfoList.size(), browseDir.path().toUtf8().constData() );
     for( auto fileListInfo : fileInfoList )
     {
         std::string fileName = fileListInfo.fileName().toUtf8().constData();
@@ -240,7 +240,7 @@ int countDirEntries( QDir testDir )
     if(fileInfoList.size())
     {
         //listFiles(testDir);
-        LogMsg( LOG_DEBUG, "Files count %d found dir %s", fileInfoList.size(), testDir.path().toUtf8().constData() );
+        LogMsg( LOG_DEBUG, "Files count %zu found dir %s", fileInfoList.size(), testDir.path().toUtf8().constData() );
         return fileInfoList.size();
     }
     else

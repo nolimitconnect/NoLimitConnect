@@ -65,7 +65,7 @@ void VxSktStatMgr::sktConnected( SOCKET skt )
 	//}
 
 	m_SktStatMutex.unlock();
-	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktConnected skt %d connected cnt %d", skt, m_SktStatList.size() );
+	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktConnected skt %d connected cnt %zu", skt, m_SktStatList.size() );
 }
 
 //============================================================================
@@ -89,7 +89,7 @@ void VxSktStatMgr::sktConnected2( SOCKET skt, std::string ipAddr )
 	//}
 
 	m_SktStatMutex.unlock();
-	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktConnected2 skt handle %d connected cnt %d", skt, m_SktStatList.size() );
+	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktConnected2 skt handle %d connected cnt %zu", skt, m_SktStatList.size() );
 }
 
 //============================================================================
@@ -119,7 +119,7 @@ void VxSktStatMgr::sktConnected4( SOCKET skt, std::string ipAddr, ESktType sktTy
 	//}
 
 	m_SktStatMutex.unlock();
-	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktConnected3 skt handle %d connected cnt %d", skt, m_SktStatList.size() );
+	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktConnected3 skt handle %d connected cnt %zu", skt, m_SktStatList.size() );
 }
 
 //============================================================================
@@ -189,7 +189,7 @@ void VxSktStatMgr::sktClosed( SOCKET skt )
 	//}
 
 	m_SktStatMutex.unlock();
-	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktClosed skt %d connected cnt %d", skt, m_SktStatList.size() );
+	LogModule( eLogConnect, LOG_INFO, "VxSktStatMgr::sktClosed skt %d connected cnt %zu", skt, m_SktStatList.size() );
 }
 
 //============================================================================

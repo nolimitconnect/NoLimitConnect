@@ -446,7 +446,7 @@ void CamJavaClient::updateCameraList( void )
         //  env->DeleteLocalRef(stringElement); //optional
     }
 
-    LogMsg( LOG_VERBOSE, "%s %d cameras available", __func__, m_CamIdList.size() );
+    LogMsg( LOG_VERBOSE, "%s %zu cameras available", __func__, m_CamIdList.size() );
 }
 
 //============================================================================

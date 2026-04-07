@@ -545,13 +545,13 @@ void FileInfoXferMgr::onPktFileGetReq( std::shared_ptr<VxSktBase>& sktBase, VxPk
 		m_Plugin.txPacket( pktReq->getSrcOnlineId(), sktBase, &pktReply);
 	}
 
-	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::%s plugin %s rxing %d", __func__, DescribePluginType( getPluginType() ), m_RxSessions.size() );
+	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::%s plugin %s rxing %zu", __func__, DescribePluginType( getPluginType() ), m_RxSessions.size() );
 }
 
 //============================================================================
 void FileInfoXferMgr::onPktFileGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::%s %s rxing %d", __func__, DescribePluginType( getPluginType() ), m_RxSessions.size() );
+	LogMsg( LOG_VERBOSE, "FileInfoXferMgr::%s %s rxing %zu", __func__, DescribePluginType( getPluginType() ), m_RxSessions.size() );
 	announcePkt( sktBase, pktHdr );
 }
 
@@ -559,7 +559,7 @@ void FileInfoXferMgr::onPktFileGetReply( std::shared_ptr<VxSktBase>& sktBase, Vx
 void FileInfoXferMgr::onPktFileSendReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	PktFileSendReq* poPkt = (PktFileSendReq *)pktHdr;
-	if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "FileInfoXferMgr::%s %s rxing %d", __func__, DescribePluginType( getPluginType() ), m_RxSessions.size() );
+	if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "FileInfoXferMgr::%s %s rxing %zu", __func__, DescribePluginType( getPluginType() ), m_RxSessions.size() );
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 
 	PktFileSendReply pktReply;
@@ -603,7 +603,7 @@ void FileInfoXferMgr::onPktFileSendReply( std::shared_ptr<VxSktBase>& sktBase, V
 	announcePkt( sktBase, poPkt );
 
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
-	if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "FileInfoXferMgr::%s %s txing %d", __func__, DescribePluginType( getPluginType() ), m_TxSessions.size() );
+	if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "FileInfoXferMgr::%s %s txing %zu", __func__, DescribePluginType( getPluginType() ), m_TxSessions.size() );
 
 	FileTxSession* xferSession = findTxSessionSessionId( poPkt->getRmtSessionId() );
 	if( xferSession )

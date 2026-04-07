@@ -284,7 +284,7 @@ void HostServerSearchMgr::doFromGuiListAction( EListAction listAction, EPluginTy
 
         uint64_t timeNow = GetGmtTimeMs();
         int entryNum = 0;
-        LogMsg( LOG_INFO, "== Announced Hosts %s count %d ==", DescribePluginType( pluginType ), hostedList.size() );
+        LogMsg( LOG_INFO, "== Announced Hosts %s count %zu ==", DescribePluginType( pluginType ), hostedList.size() );
         m_SearchMutex.lock();
         for( auto iter = hostAnnList.begin(); iter != hostAnnList.end(); ++iter )
         {

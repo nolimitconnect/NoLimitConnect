@@ -127,7 +127,7 @@ bool CopyIfRequiredAssetDirectory( std::string assetFileDir, std::string destDir
 
         if( 0 == VxFileUtil::listFilesInDirectory( assetFileDir.c_str(), fileList ) )
         {
-            LogModule( eLogStartup, LOG_DEBUG, "%s copy %d app assets to read/write location %s -> %s", __func__, fileList.size(), assetFileDir.c_str(), destDir.c_str() );
+            LogModule( eLogStartup, LOG_DEBUG, "%s copy %zu app assets to read/write location %s -> %s", __func__, fileList.size(), assetFileDir.c_str(), destDir.c_str() );
 
             for( auto& fileNameAndPath : fileList )
             {

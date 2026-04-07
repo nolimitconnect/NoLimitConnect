@@ -728,7 +728,7 @@ bool FileInfoBaseMgr::loadStoryboardPageFileAssets( void )
 	VxFileUtil::listFilesInDirectory( m_RootFileFolder.c_str(), fileList );
 	if( fileList.size() < g_StoryboardNameList.size() )
 	{
-		LogMsg( LOG_ERROR, "%s Missing Files only %d found", __func__, fileList.size() );
+		LogMsg( LOG_ERROR, "%s Missing Files only %zu found", __func__, fileList.size() );
 		return false;
 	}
 

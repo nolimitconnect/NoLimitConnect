@@ -505,7 +505,7 @@ int InetAddress::getAllAddresses( std::vector<InetAddress>& retAddresses )
 //============================================================================
 void InetAddress::dumpAddresses( std::vector<InetAddress>& addressList )
 {
-    LogMsg( LOG_INFO, "InetAddress::dumpAddresses count %d", addressList.size() );
+	LogMsg( LOG_INFO, "InetAddress::dumpAddresses count %zu", addressList.size() );
     static int addrIdx = 0;
     for( InetAddress& addr : addressList )
     {
@@ -966,7 +966,7 @@ std::string	InetAddrAndPort::toString( bool includePort )
 		std::string ipAddrNoPort = InetAddress::toString();
 		if( ipAddrNoPort.empty() )
 		{
-			LogMsg( LOG_ERROR, "InetAddrAndPort::%s empty addr" );
+			LogMsg( LOG_ERROR, "InetAddrAndPort::%s empty addr", __func__ );
 			return ipAddr;
 		}
 

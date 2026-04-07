@@ -121,7 +121,7 @@ void VxPtopUrl::setUrl( std::string url )
 {
     if( url.length() < 7 )
     {
-        LogMsg( LOG_ERROR, "VxPtopUrl::%s invalid url length %d", __func__,  url.length() );
+        LogMsg( LOG_ERROR, "VxPtopUrl::%s invalid url length %zu", __func__,  url.length() );
         clear();
         return;
     }

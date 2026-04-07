@@ -444,7 +444,7 @@ int VirtStreamMgr::listProviderFilesAndFolders( const char* srcDir, std::vector<
     QDir browseDir( srcDir );
 
     QFileInfoList fileInfoList = browseDir.entryInfoList();
-    LogMsg( LOG_VERBOSE, "VirtStreamMgr::%s %d files in dir %s", __func__, fileList.size(), folderName.c_str() );
+    LogMsg( LOG_VERBOSE, "VirtStreamMgr::%s %zu files in dir %s", __func__, fileList.size(), folderName.c_str() );
     for( auto fileListInfo : fileInfoList )
     {
         VxFileInfoBase fileInfo;
