@@ -936,6 +936,7 @@ void P2PEngine::updateMyPktAnnIpAddress( std::string ipAddr )
 
 	if( !sameIpAddr )
 	{
+		LogMsg( LOG_INFO, "%s updating IP from %s to %s", __func__, origIpAddr.empty() ? "<empty>" : origIpAddr.c_str(), ipAddr.c_str() );
 		getMyPktAnnounce().setOnlineIpAddress( ipAddr.c_str() );
 		setPktAnnLastModTime( GetTimeStampMs() );
 	}

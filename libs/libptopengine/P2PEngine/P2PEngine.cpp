@@ -602,6 +602,13 @@ void P2PEngine::onNetworkConnectionReady( bool requiresRelay, std::string& ipAdd
 		doPktAnnHasChanged( false );
 	}
 
+	// Update the m_PktAnn with the discovered external IP address so that
+	// incoming connections can properly decrypt the first packet
+	if( !ipAddr.empty() )
+	{
+		updateMyPktAnnIpAddress( ipAddr );
+	}
+
 	getToGui().toGuiNetworkIsTested( requiresRelay, ipAddr, ipPort );
 }
 

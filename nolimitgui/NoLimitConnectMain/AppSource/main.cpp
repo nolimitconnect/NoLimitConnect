@@ -48,6 +48,29 @@
 
 namespace {
 
+#if defined(Q_OS_LINUX)
+    QString getPreferredLinuxHomePath()
+    {
+        const QByteArray snapName = qgetenv( "SNAP_NAME" );
+        if( snapName == "code" )
+        {
+            const QByteArray snapRealHome = qgetenv( "SNAP_REAL_HOME" );
+            if( !snapRealHome.isEmpty() )
+            {
+                return QString::fromUtf8( snapRealHome );
+            }
+
+            const QByteArray realHome = qgetenv( "REAL_HOME" );
+            if( !realHome.isEmpty() )
+            {
+                return QString::fromUtf8( realHome );
+            }
+        }
+
+        return QStandardPaths::writableLocation( QStandardPaths::HomeLocation );
+    }
+#endif // defined(Q_OS_LINUX)
+
     //============================================================================
     void copyBundledTranslationsIfRequired()
     {
@@ -131,7 +154,20 @@ namespace {
         std::string strRootAppDataDir;
 
         //=== determine root path to store all application data and settings etc ===//
-        QString dataPath = QStandardPaths::writableLocation( QStandardPaths::AppDataLocation );
+        QString dataPath;
+#if defined(Q_OS_LINUX)
+        QString preferredHome = getPreferredLinuxHomePath();
+        if( !preferredHome.isEmpty() )
+        {
+            dataPath = preferredHome + "/.local/share/" + VxGetApplicationNameNoSpaces();
+        }
+        else
+        {
+            dataPath = QStandardPaths::writableLocation( QStandardPaths::AppDataLocation );
+        }
+#else
+        dataPath = QStandardPaths::writableLocation( QStandardPaths::AppDataLocation );
+#endif
 
         strRootAppDataDir = dataPath.toUtf8().constData();
 
@@ -156,8 +192,8 @@ namespace {
 #if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
         QString docsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
 #else
-        // linux hides document under .local so use home directory if possible
-        QString docsPath = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+    // linux hides document under .local so use home directory if possible
+    QString docsPath = getPreferredLinuxHomePath();
         if( docsPath.isEmpty() )
         {
             docsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
