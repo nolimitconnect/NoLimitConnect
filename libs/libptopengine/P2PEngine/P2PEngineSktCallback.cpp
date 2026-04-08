@@ -60,6 +60,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 	VxPktHdr* pktHdr = (VxPktHdr*)pSktBuf;
 	if( sktBase->isFirstRxPacket() )
 	{
+        firstPktSignature.fromRawData( pSktBuf );
 		if( false == sktBase->isRxEncryptionKeySet() )
 		{
 			// first packet can be PKT_ANNOUNCE or a NetService req/reply
@@ -184,7 +185,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 			if( pktHdr->isValidPktPrefix() && pktHdr->getPktType() == PKT_TYPE_PING_REQ )
 			{
 				// ping request can happen depending on timing.. not really a hack attack so do not block the ip address
-				LogMsg( LOG_ERROR, "First packet is ping request pkt skt %d type %d length %d ip %s:%d id %s signature %s", sktBase->getSktNumber(),
+				LogMsg( LOG_ERROR, "First packet data len %d is ping request pkt skt %d type %d length %d ip %s:%d id %s signature %s", iDataLen, sktBase->getSktNumber(),
 					pktHdr->getPktType(),
 					pktHdr->getPktLength(),
 					sktBase->getRemoteIp().c_str(),
@@ -209,7 +210,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 			if( pktHdr->isValidPktPrefix() && pktHdr->getPktType() == PKT_TYPE_IM_ALIVE_REQ )
 			{
 				// ping request can happen depending on timing.. not really a hack attack so do not block the ip address
-				LogMsg( LOG_ERROR, "First packet is im alive request pkt skt %d type %d length %d ip %s:%d id %s signature %s", sktBase->getSktNumber(),
+				LogMsg( LOG_ERROR, "First packet data len %d is im alive request pkt skt %d type %d length %d ip %s:%d id %s signature %s", iDataLen, sktBase->getSktNumber(),
 					pktHdr->getPktType(),
 					pktHdr->getPktLength(),
 					sktBase->getRemoteIp().c_str(),
@@ -234,7 +235,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 			if( pktHdr->isValidPktPrefix() && pktHdr->getPktType() == PKT_TYPE_HOST_INVITE_ANN_REQ )
 			{
 				// ping request can happen depending on timing.. not really a hack attack so do not block the ip address
-				LogMsg( LOG_ERROR, "First packet is host invite request pkt skt %d type %d length %d ip %s:%d id %s signature %s", sktBase->getSktNumber(),
+				LogMsg( LOG_ERROR, "First packet data len %d is host invite request pkt skt %d type %d length %d ip %s:%d id %s signature %s", iDataLen, sktBase->getSktNumber(),
 					pktHdr->getPktType(),
 					pktHdr->getPktLength(),
 					sktBase->getRemoteIp().c_str(),
@@ -256,7 +257,7 @@ void P2PEngine::handleTcpData( std::shared_ptr<VxSktBase>& sktBase )
 			}
 
 			// somebody tried to send crap .. this may be a hack attack or it may be that our ip and port is same as someone else or network key has changed
-			LogMsg( LOG_SEVERE, "First packet is not Announce pkt skt %d type %d length %d ip %s:%d id %s signature %s", sktBase->getSktNumber(),
+			LogMsg( LOG_SEVERE, "First packet data len %d is not Announce pkt skt %d type %d length %d ip %s:%d id %s signature %s", iDataLen, sktBase->getSktNumber(),
 																							pktHdr->getPktType(),  
 																							pktHdr->getPktLength(),
                                                                                             sktBase->getRemoteIp().c_str(),
