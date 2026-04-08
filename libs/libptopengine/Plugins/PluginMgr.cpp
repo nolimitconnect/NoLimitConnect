@@ -510,18 +510,20 @@ void PluginMgr::handleNonSystemPackets( std::shared_ptr<VxSktBase>& sktBase, VxP
 			}
 			else if( !netIdent->isMyself() )
 			{
+				LogMsg( LOG_ERROR, "PluginMgr::%s access denied for plugin %d from user %s with packet %s", __func__, 
+					u8PluginNum, netIdent->getOnlineName(), pktHdr->describePktHdr().c_str() );
 				VxReportHack( eHackerLevelSuspicious, eHackerReasonAccessDenied, sktBase, netIdent->getOnlineName() );
 			}
 		}
 		else // TODO BRJ handle case of valid netIdent not needed?
 		{
-			LogMsg( LOG_ERROR, "PluginMgr::handleNonSystemPackets unknown ident %s or plugin %d",
+			LogMsg( LOG_ERROR, "PluginMgr::%s unknown ident %s or plugin %d", __func__,
 				pktHdr->getSrcOnlineId().toOnlineIdString().c_str(), u8PluginNum );
 		}
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "PluginMgr::handleNonSystemPackets invalid plugin num %d", u8PluginNum );
+		LogMsg( LOG_ERROR, "PluginMgr::%s invalid plugin num %d", __func__, u8PluginNum );
 	}
 }
 

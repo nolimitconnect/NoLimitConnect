@@ -781,7 +781,13 @@ bool PluginBase::requestMoreHostInvitesFromNetworkHost( EHostType hostType, VxGU
 //============================================================================
 EPluginType PluginBase::getAssetOverridePluginType( void )
 {
-    // assets are normally only transfered between clients
+    // Asset transfer packets must target the remote counterpart plugin.
+    // For client plugins, send to host plugin; for host plugins, send to client plugin.
+    if( IsClientPluginType( getPluginType() ) )
+    {
+        return ClientPluginToHostPluginType( getPluginType() );
+    }
+
     return HostPluginToClientPluginType( getPluginType() );
 }
 

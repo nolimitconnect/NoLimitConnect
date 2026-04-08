@@ -653,7 +653,7 @@ std::string CSettingList::toString(const SettingList &values) const
   for (const auto& value : values)
   {
     if (value != nullptr)
-      strValues.push_back(value->ToString());
+      strValues.emplace_back(value->ToString());
   }
 
   return StringUtils::Join(strValues, m_delimiter);

@@ -124,3 +124,98 @@ Result: a post is routed only through the connection context for its host type. 
 ## Summary
 
 ChatRoom host/client uses the shared host and asset infrastructure, with a ChatRoom-specific UX restriction that blocks video posting at input controls. This aligns with ChatRoom's requirement to retain history for later viewers while keeping host resource use manageable on lower-end devices.
+
+## ChatRoom Asset Receive, Distribute, and Acknowledge Flow
+
+This section describes the concrete runtime flow for ChatRoom-hosted assets (`ePluginTypeHostChatRoom` / `ePluginTypeClientChatRoom`).
+
+### 1) Send/distribute trigger (who sends to whom)
+
+Distribution is initiated by the applet layer, not by a host-side packet rebroadcast.
+
+- `AppletHostClientBase::handleAssetAction(...)` forwards to `AppletBase::handleGroupieAssetAction(...)`.
+- `AppletBase::handleGroupieAssetAction(...)`:
+  - resolves the active `HostedId`
+  - calls `assetInfo.setHostedId(hostId)` (this sets plugin type from host type)
+  - sends to host admin first when sender is not admin
+  - iterates active members and sends `eAssetActionAssetSend` per member
+
+Result: each member receives an independent asset transfer transaction. ChatRoom message/media fan-out is sender-driven per online member.
+
+### 2) Plugin routing and transport identity
+
+After `fromGuiAssetAction(eAssetActionAssetSend, ...)`, send routing is:
+
+- `P2PEngine::fromGuiSendAsset(...)` -> `PluginMgr::fromGuiSendAsset(...)`
+- selected plugin (`assetInfo.getPluginType()`) calls `PluginBaseMultimedia::fromGuiSendAsset(...)`
+- this calls `AssetXferMgr::fromGuiSendAssetBase(...)`
+
+For ChatRoom-hosted assets:
+
+- `AssetBaseInfo::setHostedId(...)` maps host type to client plugin type.
+- for ChatRoom, host type maps to `ePluginTypeClientChatRoom`.
+- packet TX uses `PluginMgr::pluginApiTxPacket(...)`, which maps client<->host plugin numbers for wire transport (`ePluginTypeClientChatRoom` <-> `ePluginTypeHostChatRoom`).
+
+### 3) Receive path at destination
+
+Incoming asset packets enter plugin packet handlers and are delegated to asset xfer manager:
+
+- `PluginBaseMultimedia::onPktAssetSendReq(...)` -> `m_AssetXferMgr.onPktAssetSendReq(...)`
+- `AssetXferMgr` forwards to `AssetBaseXferMgr::onPktAssetBaseSendReq(...)`
+
+`onPktAssetBaseSendReq(...)` performs:
+
+- packet and asset-type validation
+- permission gate (`netIdent->isHisAccessAllowedFromMe(pluginType)` for non-thumbnail assets)
+- immediate metadata-only receive path for non-file assets
+- rx session creation + chunk receive for file assets
+
+For non-file assets:
+
+- asset is added to asset manager immediately
+- receiver sends `PktBaseSendReply`
+- GUI receives `eAssetActionRxSuccess` + `eAssetActionRxNotifyNewMsg`
+
+For file assets:
+
+- receiver creates `AssetBaseRxSession`
+- receives chunks via `onPktAssetBaseChunkReq(...)`
+- sends chunk replies (`PktBaseChunkReply`) with error/progress state
+- finalizes on `onPktAssetBaseSendCompleteReq(...)`
+
+### 4) Acknowledge semantics
+
+Acknowledgement is multi-stage and per recipient.
+
+1. Send-request ACK:
+   - receiver returns `PktBaseSendReply`
+   - sender handles in `onPktAssetBaseSendReply(...)`
+
+2. Chunk-level ACK (file assets only):
+   - receiver returns `PktBaseChunkReply` per chunk
+   - sender advances via `txNextAssetBaseChunk(...)`
+
+3. Completion ACK:
+   - sender sends `PktBaseSendCompleteReq`
+   - receiver finalizes and returns `PktBaseSendCompleteReply`
+   - sender handles `onPktAssetBaseSendCompleteReply(...)` and marks transfer complete
+
+### 5) State + GUI notifications
+
+Transfer states are persisted and surfaced to UI:
+
+- TX begin/progress/success/error via `eAssetActionTx*`
+- RX progress/success/error/new-msg via `eAssetActionRx*`
+- persistent send state updates via `updateAssetMgrSendState(...)`
+
+In practical terms, ChatRoom asset delivery confirmation is not a single ack; it is a staged handshake ending with per-recipient completion state (`TxSuccess`/`RxSuccess` or corresponding error).
+
+### 6) Host broadcast vs asset fan-out
+
+`PluginChatRoomHost` and `PluginBaseHostService` do use `broadcastToClients(...)`, but for host-control packets (join/leave/admin/member state), not asset payload forwarding.
+
+So for ChatRoom assets:
+
+- host service manages membership/connectivity context
+- sender-side applet/engine performs member fan-out
+- asset xfer layer performs per-recipient reliable transfer + acknowledgements
