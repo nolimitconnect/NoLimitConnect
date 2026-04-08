@@ -117,6 +117,11 @@
             "program": "${workspaceFolder}/build/android-arm64-debug/nolimitgui/libnolimitconnect_arm64-v8a.so",
             "initCommands": [
                 "platform select remote-android",
+                "settings set target.process.stop-on-sharedlibrary-events false",
+                "process handle -p true -s false -n true SIG32",
+                "process handle -p true -s false -n true SIG33",
+                "process handle -p true -s false -n true SIGUSR1",
+                "process handle -p true -s false -n true SIGUSR2",
                 "settings set target.source-map /proc/self/cwd ${workspaceFolder}",
                 "settings set target.source-map / ${workspaceFolder}"
             ],
@@ -137,6 +142,11 @@
             "program": "${workspaceFolder}/build/android-arm64-release/nolimitgui/libnolimitconnect_arm64-v8a.so",
             "initCommands": [
                 "platform select remote-android",
+                "settings set target.process.stop-on-sharedlibrary-events false",
+                "process handle -p true -s false -n true SIG32",
+                "process handle -p true -s false -n true SIG33",
+                "process handle -p true -s false -n true SIGUSR1",
+                "process handle -p true -s false -n true SIGUSR2",
                 "settings set target.source-map /proc/self/cwd ${workspaceFolder}",
                 "settings set target.source-map / ${workspaceFolder}"
             ],

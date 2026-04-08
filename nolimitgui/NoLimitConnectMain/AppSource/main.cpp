@@ -46,6 +46,8 @@
 
 #include <NetLib/VxPeerMgr.h>
 
+#include <QLoggingCategory>
+
 namespace {
 
 #if defined(Q_OS_LINUX)
@@ -223,6 +225,13 @@ namespace {
 //============================================================================
 int runApplication( QApplication* myApp, int argc, char** argv )
 {
+    // Silence SSL-related warnings from Multimedia and Network
+    // SSL is not needed or installed
+    QLoggingCategory::setFilterRules(
+        "qt.multimedia.symbolsresolver.warning=false\n"
+        "qt.network.ssl.warning=false"
+    );
+
     const int startupStartMs = GetApplicationAliveMs();
     auto logStartupStep = []( const char* stepName, int stepStartMs ) -> int
     {

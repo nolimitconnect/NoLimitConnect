@@ -83,7 +83,6 @@ protected slots:
     void						slotRandomConnectHostButtonClicked( void );
 
 	void						slotUserSelected( GuiUser* guiUser );
-	void						slotSearchTextChanged( QString searchText );
 
 	void						slotLeftHost( void );
 

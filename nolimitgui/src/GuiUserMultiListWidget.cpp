@@ -10,10 +10,8 @@
 
 #include "GuiUserMultiListWidget.h"
 
-#include "ActivityMessageBox.h"
 #include "AppCommon.h"
 #include "AppGlobals.h"
-#include "AppSettings.h"
 #include "AppletHostLeave.h"
 #include "AppletMultiMessenger.h"
 #include "AppletMgr.h"
@@ -66,7 +64,6 @@ GuiUserMultiListWidget::GuiUserMultiListWidget(	QWidget* parent )
     ui.m_UserLeaveButton->setFixedSize( eButtonSizeSmall );
     ui.m_UserLeaveButton->setIcon( eMyIconUserLeave );
     ui.m_UserLeaveButton->setVisible( false );
-    ui.m_SearchBarWidget->setVisible( false );
 
     connect( ui.m_EyeUsers,		        SIGNAL(clicked()),						this,	SLOT(slotEyeHostButtonClicked()) );
     connect( ui.m_EyeSession,           SIGNAL(clicked()),						this,	SLOT(slotEyeSessionButtonClicked()) );
@@ -84,7 +81,6 @@ GuiUserMultiListWidget::GuiUserMultiListWidget(	QWidget* parent )
     connect( ui.m_RandomConnectLabel,	SIGNAL(clicked()),	                    this,	SLOT(slotRandomConnectHostButtonClicked()) );
 
 	connect( ui.m_UserListWidget,		SIGNAL(signalUserAvatarClicked(GuiUser*)), this, SLOT(slotUserSelected(GuiUser*)) );
-    connect( ui.m_SearchBarWidget,      SIGNAL(signalSearchTextChanged(QString)), this, SLOT(slotSearchTextChanged(QString)) );
 
     bool isMemberOfGroup = m_MemberActiveMgr.isMemberOfHostType( eHostTypeGroup, m_MyApp.getMyOnlineId() );
     ui.m_GroupHost->setVisible( isMemberOfGroup );
@@ -259,7 +255,6 @@ void GuiUserMultiListWidget::setUserViewType( EUserViewType viewType )
         break;
     }
 
-    ui.m_SearchBarWidget->setSearchText( "" );
     ui.m_UserListWidget->setUserViewType( viewType );
 
     updateSelectionByViewType( viewType );
@@ -354,12 +349,6 @@ void GuiUserMultiListWidget::slotRandomConnectHostButtonClicked( void )
 void GuiUserMultiListWidget::slotUserSelected( GuiUser* guiUser )
 {
 	setSelectedUser( guiUser );
-}
-
-//============================================================================
-void GuiUserMultiListWidget::slotSearchTextChanged( QString searchText )
-{
-    ui.m_UserListWidget->searchTextChanged( searchText );
 }
 
 //============================================================================

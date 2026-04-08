@@ -89,18 +89,23 @@ bool AppletBase::handleGroupieAssetAction( GroupieId& adminId, EAssetAction asse
 			}
 		}
 
+        if(adminId.getHostType() == eHostTypeChatRoom)
+        {
+            return true; // in chat room, only send to host admin
+        }
+        
 		// next send to online members
 		for( auto memberId : memberList )
 		{
-			// if( memberId == getMyApp().getMyOnlineId() )
-			// {
-			// 	continue;
-			// }
+			if( memberId == getMyApp().getMyOnlineId() )
+			{
+				continue;
+			}
 
-			// if( memberId == hostId.getHostOnlineId() )
-			// {
-			// 	continue; // already sent to host admin above; skip to avoid duplicate transaction
-			// }
+			if( memberId == hostId.getHostOnlineId() )
+			{
+				continue; // already sent to host admin above; skip to avoid duplicate transaction
+			}
 
 			assetInfo.setDestUserId( memberId );
 			getMyApp().getEngine().fromGuiAssetAction( eAssetActionAssetSend, assetInfo );
