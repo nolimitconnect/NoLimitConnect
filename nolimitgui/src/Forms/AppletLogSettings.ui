@@ -540,6 +540,13 @@
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="m_LogModuleCheckBox_35">
+                <property name="text">
+                 <string notr="true">CheckBox</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <spacer name="verticalSpacer_3">
                 <property name="orientation">
                  <enum>Qt::Orientation::Vertical</enum>
@@ -709,13 +716,6 @@
               </item>
               <item>
                <widget class="QCheckBox" name="m_LogModuleCheckBox_34">
-                <property name="text">
-                 <string notr="true">CheckBox</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="m_LogModuleCheckBox_35">
                 <property name="text">
                  <string notr="true">CheckBox</string>
                 </property>

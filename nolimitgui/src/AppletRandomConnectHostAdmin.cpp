@@ -34,6 +34,8 @@ AppletRandomConnectHostAdmin::AppletRandomConnectHostAdmin( AppCommon& app, QWid
 	setPluginType( ePluginTypeHostRandomConnect );
 
     connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );
+    connect( ui.m_UserListWidget, SIGNAL(signalSetMembersVisible(bool)), this, SLOT(slotSetMembersVisible(bool)) );
+    connect( ui.m_UserListWidget, SIGNAL(signalSetSessionVisible(bool)), this, SLOT(slotSetSessionVisible(bool)) );
 
     GroupieId hostAdminId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeRandomConnect );
 	ui.m_SessionWidget->setPluginType( getPluginType() );
@@ -54,6 +56,13 @@ AppletRandomConnectHostAdmin::AppletRandomConnectHostAdmin( AppCommon& app, QWid
 
     m_MyApp.activityStateChange( this, true );
     m_MyApp.getFromGuiInterface().fromGuiAdminViewHost( ePluginTypeHostRandomConnect, true );
+
+    // Restore eye button states
+    bool eyeUsersVisible = m_MyApp.getAppSettings().getAppletEyeUsersVisible( m_EAppletType );
+    ui.m_UserListWidget->setMembersVisible( eyeUsersVisible );
+    bool eyeSessionVisible = m_MyApp.getAppSettings().getAppletEyeSessionVisible( m_EAppletType );
+    ui.m_UserListWidget->setSessionsVisible( eyeSessionVisible );
+    ui.m_SessionWidget->setVisible( eyeSessionVisible );
 }
 
 //============================================================================
@@ -73,4 +82,17 @@ bool AppletRandomConnectHostAdmin::checkIfCanSend( void )
 bool AppletRandomConnectHostAdmin::handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo )
 {
 	return handleGroupieAssetAction( ui.m_UserListWidget->getHostAdminId(), assetAction, assetInfo );
+}
+
+//============================================================================
+void AppletRandomConnectHostAdmin::slotSetMembersVisible( bool visible )
+{
+    m_MyApp.getAppSettings().setAppletEyeUsersVisible( m_EAppletType, visible );
+}
+
+//============================================================================
+void AppletRandomConnectHostAdmin::slotSetSessionVisible( bool visible )
+{
+    m_MyApp.getAppSettings().setAppletEyeSessionVisible( m_EAppletType, visible );
+    ui.m_SessionWidget->setVisible( visible );
 }

@@ -39,9 +39,17 @@ AppletHostClientBase::AppletHostClientBase( const char* objName, AppCommon& app,
 	ui.m_SessionWidget->setInputClientCallback( this );
 
 	connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );
+	connect( ui.m_UserListWidget, SIGNAL(signalSetMembersVisible(bool)), this, SLOT(slotSetMembersVisible(bool)) );
 	connect( ui.m_UserListWidget, SIGNAL(signalSetSessionVisible(bool)), this, SLOT(slotSetSessionVisible(bool)) );
 	connect( ui.m_UserListWidget, SIGNAL(signalViewChanged(EUserViewType)), this, SLOT(slotViewChanged(EUserViewType)) );
 	connect( ui.m_UserListWidget, SIGNAL(signalLeftHost()), this, SLOT(closeApplet()) );
+
+	// Restore eye button states for this applet type
+	bool eyeUsersVisible = m_MyApp.getAppSettings().getAppletEyeUsersVisible( applet );
+	ui.m_UserListWidget->setMembersVisible( eyeUsersVisible );
+	bool eyeSessionVisible = m_MyApp.getAppSettings().getAppletEyeSessionVisible( applet );
+	ui.m_UserListWidget->setSessionsVisible( eyeSessionVisible );
+	ui.m_SessionWidget->setVisible( eyeSessionVisible );
 
 	m_MyApp.activityStateChange( this, true );
 
@@ -141,7 +149,14 @@ GroupieId AppletHostClientBase::getActiveAdminGroupieId( void )
 //============================================================================
 void AppletHostClientBase::slotSetSessionVisible( bool visible )
 {
+	m_MyApp.getAppSettings().setAppletEyeSessionVisible( m_EAppletType, visible );
 	ui.m_SessionWidget->setVisible( visible );
+}
+
+//============================================================================
+void AppletHostClientBase::slotSetMembersVisible( bool visible )
+{
+	m_MyApp.getAppSettings().setAppletEyeUsersVisible( m_EAppletType, visible );
 }
 
 //============================================================================

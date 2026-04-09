@@ -819,6 +819,40 @@ int AppSettings::getLastUserConnectionsUserViewType( void )
 }
 
 //============================================================================
+void AppSettings::setAppletEyeUsersVisible( EApplet applet, bool visible )
+{
+    uint32_t val = (uint32_t)visible;
+    std::string key = std::string( "AppletEyeUsers" ) + std::to_string( (uint32_t)applet );
+    setIniValue( getAppShortName(), key.c_str(), val );
+}
+
+//============================================================================
+bool AppSettings::getAppletEyeUsersVisible( EApplet applet, bool defaultVal )
+{
+    uint32_t val = (uint32_t)defaultVal;
+    std::string key = std::string( "AppletEyeUsers" ) + std::to_string( (uint32_t)applet );
+    getIniValue( getAppShortName(), key.c_str(), val, (uint32_t)defaultVal );
+    return (bool)val;
+}
+
+//============================================================================
+void AppSettings::setAppletEyeSessionVisible( EApplet applet, bool visible )
+{
+    uint32_t val = (uint32_t)visible;
+    std::string key = std::string( "AppletEyeSession" ) + std::to_string( (uint32_t)applet );
+    setIniValue( getAppShortName(), key.c_str(), val );
+}
+
+//============================================================================
+bool AppSettings::getAppletEyeSessionVisible( EApplet applet, bool defaultVal )
+{
+    uint32_t val = (uint32_t)defaultVal;
+    std::string key = std::string( "AppletEyeSession" ) + std::to_string( (uint32_t)applet );
+    getIniValue( getAppShortName(), key.c_str(), val, (uint32_t)defaultVal );
+    return (bool)val;
+}
+
+//============================================================================
 void AppSettings::setLastHostJoined( std::string lastJoinedHost )
 {
 	setIniValue( getAppShortName(), "LastHostJoined", lastJoinedHost );

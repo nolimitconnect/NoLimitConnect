@@ -36,6 +36,7 @@ public:
 
 protected slots:
     void                        slotSetSessionVisible( bool makeVisible );
+    void                        slotSetMembersVisible( bool makeVisible );
 
     void						slotViewChanged( EUserViewType viewType );
 

@@ -44,9 +44,18 @@ AppletChatRoomHostAdmin::AppletChatRoomHostAdmin( AppCommon& app, QWidget* paren
     ui.m_UserListWidget->setUserViewType( eUserViewTypeChatRoom );
 
     connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );
+	connect( ui.m_UserListWidget, SIGNAL(signalSetMembersVisible(bool)), this, SLOT(slotSetMembersVisible(bool)) );
+	connect( ui.m_UserListWidget, SIGNAL(signalSetSessionVisible(bool)), this, SLOT(slotSetSessionVisible(bool)) );
 
     m_MyApp.activityStateChange( this, true );
-	m_MyApp.getFromGuiInterface().fromGuiAdminViewHost( ePluginTypeHostChatRoom, true );
+		m_MyApp.getFromGuiInterface().fromGuiAdminViewHost( ePluginTypeHostChatRoom, true );
+
+		// Restore eye button states
+		bool eyeUsersVisible = m_MyApp.getAppSettings().getAppletEyeUsersVisible( m_EAppletType );
+		ui.m_UserListWidget->setMembersVisible( eyeUsersVisible );
+		bool eyeSessionVisible = m_MyApp.getAppSettings().getAppletEyeSessionVisible( m_EAppletType );
+		ui.m_UserListWidget->setSessionsVisible( eyeSessionVisible );
+		ui.m_SessionWidget->setVisible( eyeSessionVisible );
 }
 
 //============================================================================
@@ -83,4 +92,17 @@ bool AppletChatRoomHostAdmin::checkIfCanSend( void )
 bool AppletChatRoomHostAdmin::handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo )
 {
 	return handleGroupieAssetAction( ui.m_UserListWidget->getHostAdminId(), assetAction, assetInfo );
+}
+
+//============================================================================
+void AppletChatRoomHostAdmin::slotSetMembersVisible( bool visible )
+{
+	m_MyApp.getAppSettings().setAppletEyeUsersVisible( m_EAppletType, visible );
+}
+
+//============================================================================
+void AppletChatRoomHostAdmin::slotSetSessionVisible( bool visible )
+{
+	m_MyApp.getAppSettings().setAppletEyeSessionVisible( m_EAppletType, visible );
+	ui.m_SessionWidget->setVisible( visible );
 }

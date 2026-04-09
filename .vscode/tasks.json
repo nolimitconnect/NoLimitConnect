@@ -14,6 +14,13 @@
                 "-UiFile",
                 "${file}"
             ],
+            "linux": {
+                "command": "bash",
+                "args": [
+                    "${workspaceFolder}/.vscode/open-ui-in-qtcreator.sh",
+                    "${file}"
+                ]
+            },
             "problemMatcher": []
         },
         {

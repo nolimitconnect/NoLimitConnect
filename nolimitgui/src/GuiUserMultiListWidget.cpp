@@ -113,6 +113,8 @@ void GuiUserMultiListWidget::setMembersVisible( bool visible )
     {   
         ui.m_EyeUsers->setIcon( eMyIconEyeHide );
     }
+
+    emit signalSetMembersVisible( visible );
 }
 
 //============================================================================

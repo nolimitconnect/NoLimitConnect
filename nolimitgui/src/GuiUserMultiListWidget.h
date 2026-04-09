@@ -65,6 +65,7 @@ public:
 
 signals:
 	void						signalUserSelected( GuiUser* guiUser );
+	void						signalSetMembersVisible( bool makeVisible );
 	void						signalSetSessionVisible( bool makeVisible );
 	void						signalViewChanged( EUserViewType viewType );
 	void						signalHostedMembersView( GroupieId& hostAdminId );

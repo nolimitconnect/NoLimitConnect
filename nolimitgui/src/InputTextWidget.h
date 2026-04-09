@@ -23,8 +23,12 @@ class InputTextWidget : public InputBaseWidget
 
 public:
     InputTextWidget( QWidget* parent=0);
+    void						setFocusOnText( void );
 
 	void						setCanSend( bool canSend ) {};
+
+protected:
+    bool						eventFilter( QObject* watched, QEvent* event ) override;
 
 private slots:
     void						slotCancelButtonClicked( void );

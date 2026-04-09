@@ -29,6 +29,11 @@ public:
     EPluginType			        getInputClientPluginType( void ) override { return ePluginTypeClientChatRoom; }
 
 protected:
+protected slots:
+    void                        slotSetMembersVisible( bool visible );
+    void                        slotSetSessionVisible( bool visible );
+
+protected:
     bool						checkIfCanSend( void ) override;
     bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
 

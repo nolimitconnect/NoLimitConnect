@@ -149,6 +149,12 @@ public:
 	void						setLastUserConnectionsUserViewType( int comboIdx );
 	int							getLastUserConnectionsUserViewType( void );
 
+	void						setAppletEyeUsersVisible( EApplet applet, bool visible );
+	bool						getAppletEyeUsersVisible( EApplet applet, bool defaultVal = true );
+
+	void						setAppletEyeSessionVisible( EApplet applet, bool visible );
+	bool						getAppletEyeSessionVisible( EApplet applet, bool defaultVal = true );
+
 	void						setLastHostJoined( std::string lastJoinedHost );
 	std::string					getLastHostJoined( void );
 

@@ -16,6 +16,9 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <QEvent>
+#include <QKeyEvent>
+
 #include <time.h>
 
 #include "ui_InputTextWidget.h"
@@ -36,7 +39,41 @@ InputTextWidget::InputTextWidget( QWidget* parent )
 
 	connect( ui.m_CancelTextButton, SIGNAL(clicked()), this, SLOT(slotCancelButtonClicked()) );
 	connect( ui.m_SendTextButton, SIGNAL(clicked()), this, SLOT(slotSendButtonClicked()) );
+	setFocusProxy( ui.m_ChatTextEdit );
+	ui.m_ChatTextEdit->installEventFilter( this );
 	ui.m_ChatTextEdit->setFocus();
+}
+
+//============================================================================
+void InputTextWidget::setFocusOnText( void )
+{
+	ui.m_ChatTextEdit->setFocus();
+}
+
+//============================================================================
+bool InputTextWidget::eventFilter( QObject* watched, QEvent* event )
+{
+	if( ( watched == ui.m_ChatTextEdit ) && ( QEvent::KeyPress == event->type() ) )
+	{
+		QKeyEvent* keyEvent = static_cast<QKeyEvent*>( event );
+		if( ( Qt::Key_Return == keyEvent->key() ) || ( Qt::Key_Enter == keyEvent->key() ) )
+		{
+		#ifdef TARGET_OS_ANDROID
+			// On mobile virtual keyboards, Enter is expected to insert a newline.
+			return false;
+		#else
+			if( keyEvent->modifiers().testFlag( Qt::ShiftModifier ) )
+			{
+				return false;
+			}
+
+			slotSendButtonClicked();
+			return true;
+		#endif
+		}
+	}
+
+	return InputBaseWidget::eventFilter( watched, event );
 }
 
 //============================================================================
