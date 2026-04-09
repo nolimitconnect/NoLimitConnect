@@ -24,6 +24,27 @@
 
 #include "ui_AppletHostClient.h"
 
+namespace
+{
+ELogModule HostTypeToLogModule( EHostType hostType )
+{
+	switch( hostType )
+	{
+	case eHostTypeGroup:
+		return eLogGroup;
+
+	case eHostTypeChatRoom:
+		return eLogChatRoom;
+
+	case eHostTypeRandomConnect:
+		return eLogRandomConnect;
+
+	default:
+		return eLogNone;
+	}
+}
+}
+
 //============================================================================
 AppletHostClientBase::AppletHostClientBase( const char* objName, AppCommon& app, EApplet applet, EHostType hostType, EPluginType pluginType, QWidget* parent )
 : AppletClientBase( objName, app, parent )
@@ -96,8 +117,12 @@ void AppletHostClientBase::setAdminGroupieId( GroupieId& adminGroupieId )
 	ui.m_UserListWidget->setHostAdminId( adminGroupieId );
 	ui.m_SessionWidget->setHostAdminId( adminGroupieId );
 
-	m_MyApp.getConnectIdListMgr().dumpOnlineUsers();
-	m_MyApp.getConnectIdListMgr().dumpHostedUsers( m_AdminGroupieId.getHostedId() );
+	ELogModule hostLogModule = HostTypeToLogModule( m_AdminGroupieId.getHostType() );
+	if( hostLogModule != eLogNone && LogEnabled( hostLogModule ) )
+	{
+		m_MyApp.getConnectIdListMgr().dumpOnlineUsers();
+		m_MyApp.getConnectIdListMgr().dumpHostedUsers( m_AdminGroupieId.getHostedId() );
+	}
 
 	GuiUser* adminUser = m_MyApp.getUserMgr().getUser( adminGroupieId.getHostOnlineId() );
 	if( adminUser )
@@ -157,6 +182,22 @@ void AppletHostClientBase::slotSetSessionVisible( bool visible )
 void AppletHostClientBase::slotSetMembersVisible( bool visible )
 {
 	m_MyApp.getAppSettings().setAppletEyeUsersVisible( m_EAppletType, visible );
+
+	if( visible )
+	{
+		ui.m_UserListWidget->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+		ui.verticalLayout->setStretch( 0, 1 );
+	}
+	else
+	{
+		ui.m_UserListWidget->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
+		ui.verticalLayout->setStretch( 0, 0 );
+	}
+
+	ui.verticalLayout->setStretch( 1, 1 );
+	ui.m_UserListWidget->updateGeometry();
+	ui.m_SessionWidget->updateGeometry();
+	ui.verticalLayout->invalidate();
 }
 
 //============================================================================

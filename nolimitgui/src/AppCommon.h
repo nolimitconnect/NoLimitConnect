@@ -854,6 +854,9 @@ protected slots:
 protected:
     void                        connectSignals( void );
 
+    void                        scheduleHardwareCtrlStateReplay( void );
+    void                        replayHardwareCtrlState( void );
+
     void						showUserNameInTitle();
     void						sendAppSettingsToEngine( void );
 
@@ -941,6 +944,7 @@ protected:
     bool	                    m_ToGuiActivityInterfaceBusy{ false };
     bool	                    m_ToGuiFileXferInterfaceBusy{ false };
     bool                        m_ToGuiHardwareCtrlBusy{ false };
+    bool                        m_ToGuiHardwareCtrlReplayPending{ false };
     bool                        m_ToGuiUserUpdateClientBusy{ false };
 
     std::vector<ToGuiActivityInterface*>	    m_ToGuiActivityInterfaceList;

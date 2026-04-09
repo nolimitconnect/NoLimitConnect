@@ -26,6 +26,24 @@
 #include <PktLib/PktsHostUser.h>
 #include <PktLib/VxCommon.h>
 
+namespace
+{
+ELogModule HostTypeLogModule( EHostType hostType, ELogModule defaultModule )
+{
+    switch( hostType )
+    {
+    case eHostTypeGroup:
+        return eLogGroup;
+    case eHostTypeChatRoom:
+        return eLogChatRoom;
+    case eHostTypeRandomConnect:
+        return eLogRandomConnect;
+    default:
+        return defaultModule;
+    }
+}
+}
+
 //============================================================================
 HostServerMgr::HostServerMgr( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, PluginBase& pluginBase )
     : HostServerSearchMgr( engine, pluginMgr, myIdent, pluginBase )
@@ -74,7 +92,8 @@ void HostServerMgr::sendHostAnnounceToNetworkHost( VxGUID& sessionId, PktHostInv
         return;
     }
 
-    if(LogEnabled( eLogHostJoin))LogModule( eLogHostJoin, LOG_DEBUG, "HostServerMgr::%s %s", __func__, DescribePluginType( m_Plugin.getPluginType() ) );
+    ELogModule hostLogModule = HostTypeLogModule( hostAnnounce.getHostType(), eLogHostJoin );
+    if(LogEnabled( hostLogModule ))LogModule( hostLogModule, LOG_DEBUG, "HostServerMgr::%s %s", __func__, DescribePluginType( m_Plugin.getPluginType() ) );
     addAnnounceSession( sessionId, hostAnnounce.makeHostAnnCopy() );
     connectToHost( eHostTypeNetwork, sessionId, url, connectReason );
 }
@@ -190,7 +209,8 @@ bool HostServerMgr::removeClient( VxGUID& onlineId )
 //============================================================================
 void HostServerMgr::onJoinRequested( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID sessionId, EHostType hostType )
 {
-    LogModule( eLogHostJoin, LOG_DEBUG, "onJoinRequested %s user %s", DescribePluginType( m_Plugin.getPluginType() ), netIdent->getOnlineName() );
+    ELogModule hostLogModule = HostTypeLogModule( hostType, eLogHostJoin );
+    if( LogEnabled( hostLogModule ) )LogModule( hostLogModule, LOG_DEBUG, "onJoinRequested %s user %s", DescribePluginType( m_Plugin.getPluginType() ), netIdent->getOnlineName() );
     GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), hostType );
     HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, sessionId );
     BaseSessionInfo sessionInfo( hostUserSessionId );
@@ -207,7 +227,8 @@ bool HostServerMgr::onUserJoined( std::shared_ptr<VxSktBase>& sktBase, VxNetIden
         return false;
     }
 
-    LogModule( eLogHostJoin, LOG_DEBUG, "onUserJoined %s user %s", DescribePluginType( m_Plugin.getPluginType() ), netIdent->getOnlineName() );
+    ELogModule hostLogModule = HostTypeLogModule( groupieId.getHostType(), eLogHostJoin );
+    if( LogEnabled( hostLogModule ) )LogModule( hostLogModule, LOG_DEBUG, "onUserJoined %s user %s", DescribePluginType( m_Plugin.getPluginType() ), netIdent->getOnlineName() );
     HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, sessionId );
     BaseSessionInfo sessionInfo( hostUserSessionId );
     sessionInfo.setJoinState( eJoinStateJoinWasGranted );
@@ -218,7 +239,8 @@ bool HostServerMgr::onUserJoined( std::shared_ptr<VxSktBase>& sktBase, VxNetIden
 //============================================================================
 void HostServerMgr::onUserLeftHost( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID sessionId, EHostType hostType )
 {
-    LogModule( eLogHostJoin, LOG_DEBUG, "onUserJoined %s user %s", DescribePluginType( m_Plugin.getPluginType() ), netIdent->getOnlineName() );
+    ELogModule hostLogModule = HostTypeLogModule( hostType, eLogHostJoin );
+    if( LogEnabled( hostLogModule ) )LogModule( hostLogModule, LOG_DEBUG, "onUserJoined %s user %s", DescribePluginType( m_Plugin.getPluginType() ), netIdent->getOnlineName() );
     GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), hostType );
     HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, sessionId );
     BaseSessionInfo sessionInfo( hostUserSessionId );
@@ -229,7 +251,8 @@ void HostServerMgr::onUserLeftHost( std::shared_ptr<VxSktBase>& sktBase, VxNetId
 //============================================================================
 void HostServerMgr::onUserUnJoined( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID sessionId, GroupieId& groupieId )
 {
-    LogModule( eLogHostJoin, LOG_DEBUG, "onUserJoined %s user %s", DescribePluginType( m_Plugin.getPluginType() ), netIdent->getOnlineName() );
+    ELogModule hostLogModule = HostTypeLogModule( groupieId.getHostType(), eLogHostJoin );
+    if( LogEnabled( hostLogModule ) )LogModule( hostLogModule, LOG_DEBUG, "onUserJoined %s user %s", DescribePluginType( m_Plugin.getPluginType() ), netIdent->getOnlineName() );
     HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, sessionId );
     BaseSessionInfo sessionInfo( hostUserSessionId );
     sessionInfo.setJoinState( eJoinStateJoinLeaveHost );
@@ -274,7 +297,8 @@ void HostServerMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSk
     m_Engine.getGroupieListMgr().onHostJoinedByUser( sktBase, netIdent, sessionInfo );
     m_Engine.getMemberActiveMgr().updateMemberActive( groupieId, true );
 
-    LogModule( eLogMembership, LOG_VERBOSE, "HostServerMgr::onUserJoinedHost %s", m_Engine.describeGroupieId(groupieId).c_str() );
+    ELogModule hostLogModule = HostTypeLogModule( groupieId.getHostType(), eLogMembership );
+    if( LogEnabled( hostLogModule ) )LogModule( hostLogModule, LOG_VERBOSE, "HostServerMgr::onUserJoinedHost %s", m_Engine.describeGroupieId(groupieId).c_str() );
 
     // broadcast users PktAnn to all users
     BigListInfo* bigListInfo = m_Engine.getBigListMgr().findBigListInfo( groupieId.getUserOnlineId() );
@@ -326,7 +350,8 @@ void HostServerMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktB
 //============================================================================
 void HostServerMgr::onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
-    LogModule( eLogMembership, LOG_VERBOSE, "HostServerMgr::onUserLeftHost %s", m_Engine.describeGroupieId(groupieId).c_str() );
+    ELogModule hostLogModule = HostTypeLogModule( groupieId.getHostType(), eLogMembership );
+    if( LogEnabled( hostLogModule ) )LogModule( hostLogModule, LOG_VERBOSE, "HostServerMgr::onUserLeftHost %s", m_Engine.describeGroupieId(groupieId).c_str() );
 
     m_ClientListMutex.lock();
     m_ClientList.removeGuid( groupieId.getUserOnlineId() );
@@ -356,7 +381,8 @@ void HostServerMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<Vx
 //============================================================================
 void HostServerMgr::onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, BaseSessionInfo& sessionInfo )
 {
-    LogModule( eLogMembership, LOG_VERBOSE, "HostServerMgr::onUserUnJoinedHost %s", m_Engine.describeGroupieId(groupieId).c_str() );
+    ELogModule hostLogModule = HostTypeLogModule( groupieId.getHostType(), eLogMembership );
+    if( LogEnabled( hostLogModule ) )LogModule( hostLogModule, LOG_VERBOSE, "HostServerMgr::onUserUnJoinedHost %s", m_Engine.describeGroupieId(groupieId).c_str() );
 
     sessionInfo.setJoinState( eJoinStateJoinLeaveHost );
     m_Engine.getHostJoinMgr().onHostLeftByUser( sktBase, netIdent, sessionInfo );

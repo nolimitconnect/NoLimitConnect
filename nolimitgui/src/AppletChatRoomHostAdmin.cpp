@@ -98,6 +98,22 @@ bool AppletChatRoomHostAdmin::handleAssetAction( EAssetAction assetAction, Asset
 void AppletChatRoomHostAdmin::slotSetMembersVisible( bool visible )
 {
 	m_MyApp.getAppSettings().setAppletEyeUsersVisible( m_EAppletType, visible );
+
+	if( visible )
+	{
+		ui.m_UserListWidget->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+		ui.verticalLayout->setStretch( 0, 1 );
+	}
+	else
+	{
+		ui.m_UserListWidget->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
+		ui.verticalLayout->setStretch( 0, 0 );
+	}
+
+	ui.verticalLayout->setStretch( 1, 1 );
+	ui.m_UserListWidget->updateGeometry();
+	ui.m_SessionWidget->updateGeometry();
+	ui.verticalLayout->invalidate();
 }
 
 //============================================================================

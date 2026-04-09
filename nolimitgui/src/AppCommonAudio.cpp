@@ -17,6 +17,66 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
+#include <QTimer>
+
+//============================================================================
+void AppCommon::scheduleHardwareCtrlStateReplay( void )
+{
+	if( m_ToGuiHardwareCtrlReplayPending || VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
+	m_ToGuiHardwareCtrlReplayPending = true;
+	QTimer::singleShot( 0, this, [this]()
+	{
+		m_ToGuiHardwareCtrlReplayPending = false;
+
+		if( VxIsAppShuttingDown() )
+		{
+			return;
+		}
+
+		if( m_ToGuiHardwareCtrlBusy )
+		{
+			scheduleHardwareCtrlStateReplay();
+			return;
+		}
+
+		replayHardwareCtrlState();
+	} );
+}
+
+//============================================================================
+void AppCommon::replayHardwareCtrlState( void )
+{
+	if( m_ToGuiHardwareCtrlBusy || VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
+	const bool wantMicInput = m_AudioMgr.getIsMicrophoneRunning();
+	const bool micMuted = m_AudioMgr.getIsMicrophoneMuted();
+	const bool wantSpeakerOutput = m_AudioMgr.getIsSpeakerRunning();
+	const bool speakerMuted = m_AudioMgr.getIsSpeakerMuted();
+	const bool wantVideoCapture = m_CamLogic.isCamCaptureRequested();
+	const bool camEnabled = m_CamLogic.getCameraEnable();
+	const bool camCaptureRunning = m_CamLogic.isCamCaptureRunning();
+
+	m_ToGuiHardwareCtrlBusy = true;
+	for( auto toGuiClient : m_ToGuiHardwareCtrlList )
+	{
+		toGuiClient->callbackToGuiWantMicrophoneRecording( wantMicInput );
+		toGuiClient->callbackToGuiMicrophoneMuted( micMuted );
+		toGuiClient->callbackToGuiWantSpeakerOutput( wantSpeakerOutput );
+		toGuiClient->callbackToGuiSpeakerMuted( speakerMuted );
+		toGuiClient->callbackToGuiWantVideoCapture( wantVideoCapture );
+		toGuiClient->callbackToGuiCameraEnable( camEnabled );
+		toGuiClient->callbackToGuiCaptureRunning( camCaptureRunning );
+	}
+	m_ToGuiHardwareCtrlBusy = false;
+}
+
 //============================================================================
 bool AppCommon::toGuiIsMicrophoneDeviceAvailable( void )
 {
@@ -92,8 +152,9 @@ void AppCommon::slotInternalWantSpeakerOutput( EMediaModule mediaModule, bool wa
     {
         if( m_ToGuiHardwareCtrlBusy )
         {
-            LogMsg( LOG_ERROR, "AppCommon::%s ToGuiHardware busy", __func__ );
-            vx_assert( false );
+			LogMsg( LOG_WARN, "AppCommon::%s ToGuiHardware busy; skipping nested callback", __func__ );
+			scheduleHardwareCtrlStateReplay();
+			return;
         }
 
         m_ToGuiHardwareCtrlBusy = true;
@@ -172,8 +233,9 @@ void AppCommon::fromGuiMuteMicrophone( bool muteMic )
 
 	if( m_ToGuiHardwareCtrlBusy )
 	{
-		LogMsg( LOG_ERROR, "AppCommon::%s ToGuiHardware busy", __func__ );
-		vx_assert( false );
+		LogMsg( LOG_WARN, "AppCommon::%s ToGuiHardware busy; skipping nested callback", __func__ );
+		scheduleHardwareCtrlStateReplay();
+		return;
 	}
 
 	m_ToGuiHardwareCtrlBusy = true;
@@ -201,8 +263,9 @@ void AppCommon::fromGuiMuteSpeaker( bool muteSpeaker )
 
 	if( m_ToGuiHardwareCtrlBusy )
 	{
-		LogMsg( LOG_ERROR, "AppCommon::%s ToGuiHardware busy", __func__ );
-		vx_assert( false );
+		LogMsg( LOG_WARN, "AppCommon::%s ToGuiHardware busy; skipping nested callback", __func__ );
+		scheduleHardwareCtrlStateReplay();
+		return;
 	}
 
 	m_ToGuiHardwareCtrlBusy = true;
@@ -221,8 +284,9 @@ void AppCommon::fromGuiCameraEnable( bool enableCamera )
 
 	if( m_ToGuiHardwareCtrlBusy )
 	{
-		LogMsg( LOG_ERROR, "AppCommon::%s ToGuiHardware busy", __func__ );
-		vx_assert( false );
+		LogMsg( LOG_WARN, "AppCommon::%s ToGuiHardware busy; skipping nested callback", __func__ );
+		scheduleHardwareCtrlStateReplay();
+		return;
 	}
 
 	m_ToGuiHardwareCtrlBusy = true;
@@ -239,8 +303,9 @@ void AppCommon::fromGuiCaptureRunning( bool camCaptureRunning )
 {
 	if( m_ToGuiHardwareCtrlBusy )
 	{
-		LogMsg( LOG_ERROR, "AppCommon::%s ToGuiHardware busy", __func__ );
-		vx_assert( false );
+		LogMsg( LOG_WARN, "AppCommon::%s ToGuiHardware busy; skipping nested callback", __func__ );
+		scheduleHardwareCtrlStateReplay();
+		return;
 	}
 
 	m_ToGuiHardwareCtrlBusy = true;

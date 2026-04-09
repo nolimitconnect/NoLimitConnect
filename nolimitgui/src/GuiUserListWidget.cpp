@@ -32,6 +32,24 @@ namespace
 {
     //! minimum interval in milliseconds between user click events
     const double MIN_CLICK_INTERVAL = 300; 
+
+    ELogModule ViewTypeToLogModule( EUserViewType viewType )
+    {
+        switch( viewType )
+        {
+        case eUserViewTypeGroup:
+            return eLogGroup;
+
+        case eUserViewTypeChatRoom:
+            return eLogChatRoom;
+
+        case eUserViewTypeRandomConnect:
+            return eLogRandomConnect;
+
+        default:
+            return eLogNone;
+        }
+    }
 }
  
 //============================================================================
@@ -231,7 +249,11 @@ void GuiUserListWidget::updateUser( GuiUser* guiUser )
                         else
                         {
                             LogMsg( LOG_ERROR, "GuiUserListWidget::updateUser user %s is no longer online", guiUser->getOnlineName().c_str() );
-                            m_MyApp.getConnectIdListMgr().dumpOnlineUsers();
+                            ELogModule hostLogModule = ViewTypeToLogModule( m_ViewType );
+                            if( hostLogModule != eLogNone && LogEnabled( hostLogModule ) )
+                            {
+                                m_MyApp.getConnectIdListMgr().dumpOnlineUsers();
+                            }
                         }
                     }
                     else

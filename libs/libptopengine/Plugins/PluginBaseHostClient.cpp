@@ -23,6 +23,39 @@
 #include <PktLib/PktsHostJoin.h>
 #include <PktLib/PktsGroupie.h>
 
+namespace
+{
+ELogModule HostTypeJoinLogModule( EHostType hostType )
+{
+    switch( hostType )
+    {
+    case eHostTypeGroup:
+        return eLogGroup;
+    case eHostTypeChatRoom:
+        return eLogChatRoom;
+    case eHostTypeRandomConnect:
+        return eLogRandomConnect;
+    default:
+        return eLogHostJoin;
+    }
+}
+
+ELogModule HostTypeMembershipLogModule( EHostType hostType )
+{
+    switch( hostType )
+    {
+    case eHostTypeGroup:
+        return eLogGroup;
+    case eHostTypeChatRoom:
+        return eLogChatRoom;
+    case eHostTypeRandomConnect:
+        return eLogRandomConnect;
+    default:
+        return eLogMembership;
+    }
+}
+}
+
 //============================================================================
 PluginBaseHostClient::PluginBaseHostClient( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
     : PluginBaseMultimedia( engine, pluginMgr, myIdent, pluginType )
@@ -130,7 +163,8 @@ void PluginBaseHostClient::sendLeaveHost( HostedId& adminId )
 //============================================================================
 bool PluginBaseHostClient::sendLeaveHost( GroupieId& groupieId )
 {
-    LogModule( eLogHostJoin, LOG_VERBOSE, "PluginBaseHostClient::sendLeaveHost groupie %s my online id %s",
+    ELogModule logModule = HostTypeJoinLogModule( groupieId.getHostType() );
+    if( LogEnabled( logModule ) )LogModule( logModule, LOG_VERBOSE, "PluginBaseHostClient::sendLeaveHost groupie %s my online id %s",
                groupieId.describeGroupieId().c_str(), m_Engine.getMyOnlineId().describeVxGUID().c_str());
     bool pktSent{ false };
     std::shared_ptr<VxSktBase> sktBase =  m_Engine.getConnectIdListMgr().findHostConnection( groupieId );
@@ -254,7 +288,8 @@ void PluginBaseHostClient::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBa
     if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostJoinReply %s", pktHdr->describePktHdr().c_str() );
     PktHostJoinReply* pktReply = (PktHostJoinReply*)pktHdr;
     GroupieId userGroupieId = pktReply->getGroupieId();
-    LogModule( eLogMembership, LOG_VERBOSE, "PluginBaseHostClient::onPktHostJoinReply %s", m_Engine.describeGroupieId(userGroupieId).c_str() );
+    ELogModule logModule = HostTypeMembershipLogModule( userGroupieId.getHostType() );
+    if( LogEnabled( logModule ) )LogModule( logModule, LOG_VERBOSE, "PluginBaseHostClient::onPktHostJoinReply %s", m_Engine.describeGroupieId(userGroupieId).c_str() );
     m_Engine.getConnectIdListMgr().addConnection( sktBase, userGroupieId, netIdent->getMyOnlineId() != userGroupieId.getUserOnlineId() );
 }
 
@@ -264,7 +299,8 @@ void PluginBaseHostClient::onPktHostLeaveReply( std::shared_ptr<VxSktBase>& sktB
     if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "PluginBaseHostClient::onPktHostLeaveReply %s", pktHdr->describePktHdr().c_str() );
     PktHostLeaveReply* pktReply = (PktHostLeaveReply*)pktHdr;
     GroupieId userGroupieId = pktReply->getGroupieId();
-    LogModule( eLogMembership, LOG_VERBOSE, "PluginBaseHostClient::onPktHostLeaveReply %s", m_Engine.describeGroupieId(userGroupieId).c_str() );
+    ELogModule logModule = HostTypeMembershipLogModule( userGroupieId.getHostType() );
+    if( LogEnabled( logModule ) )LogModule( logModule, LOG_VERBOSE, "PluginBaseHostClient::onPktHostLeaveReply %s", m_Engine.describeGroupieId(userGroupieId).c_str() );
     m_Engine.getConnectIdListMgr().removeConnection( sktBase->getSocketId(), userGroupieId );
 }
 

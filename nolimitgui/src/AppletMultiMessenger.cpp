@@ -71,8 +71,16 @@ AppletMultiMessenger::AppletMultiMessenger(	AppCommon& app, QWidget* parent )
     connect( ui.m_SessionWidget,	    SIGNAL(signalUserInputButtonClicked()),		this,	SLOT(slotUserInputButtonClicked()) );
 
 	connect( ui.m_UserListWidget,		SIGNAL(signalUserSelected(GuiUser*)),		this,	SLOT(slotUserSelected(GuiUser*)) );
+	connect( ui.m_UserListWidget,		SIGNAL(signalSetMembersVisible(bool)),		this,	SLOT(slotSetMembersVisible(bool)) );
 	connect( ui.m_UserListWidget,		SIGNAL(signalSetSessionVisible(bool)),		this,	SLOT(slotSetSessionVisible(bool)));
 	connect( ui.m_UserListWidget,		SIGNAL(signalViewChanged(EUserViewType)),  this,	SLOT(slotViewChanged(EUserViewType)));
+
+	// Restore eye button states for messenger applet
+	bool eyeUsersVisible = m_MyApp.getAppSettings().getAppletEyeUsersVisible( m_EAppletType );
+	ui.m_UserListWidget->setMembersVisible( eyeUsersVisible );
+	bool eyeSessionVisible = m_MyApp.getAppSettings().getAppletEyeSessionVisible( m_EAppletType );
+	ui.m_UserListWidget->setSessionsVisible( eyeSessionVisible );
+	ui.m_SessionFrame->setVisible( eyeSessionVisible );
 	
     m_MyApp.activityStateChange( this, true ); 
 	m_MyApp.getOfferMgr().wantGuiOfferCallbacks( this, true );
@@ -374,16 +382,30 @@ void AppletMultiMessenger::setStatusMsg( QString strStatus )
 //============================================================================
 void AppletMultiMessenger::slotSetSessionVisible( bool visible )
 {
-    if( ui.m_SessionFrame->isVisible() )
-    {
-        ui.m_SessionFrame->setVisible( false );
-        //ui.m_EyeHosts->setIcon( eMyIconEyeHide );
-    }
-    else
-    {
-        ui.m_SessionFrame->setVisible( true );
-        //ui.m_EyeHosts->setIcon( eMyIconEyeShow );
-    }
+	m_MyApp.getAppSettings().setAppletEyeSessionVisible( m_EAppletType, visible );
+	ui.m_SessionFrame->setVisible( visible );
+}
+
+//============================================================================
+void AppletMultiMessenger::slotSetMembersVisible( bool visible )
+{
+	m_MyApp.getAppSettings().setAppletEyeUsersVisible( m_EAppletType, visible );
+
+	if( visible )
+	{
+		ui.m_UserListWidget->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+		ui.verticalLayout->setStretch( 0, 1 );
+	}
+	else
+	{
+		ui.m_UserListWidget->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
+		ui.verticalLayout->setStretch( 0, 0 );
+	}
+
+	ui.verticalLayout->setStretch( 2, 1 );
+	ui.m_UserListWidget->updateGeometry();
+	ui.m_SessionFrame->updateGeometry();
+	ui.verticalLayout->invalidate();
 }
 
 //============================================================================

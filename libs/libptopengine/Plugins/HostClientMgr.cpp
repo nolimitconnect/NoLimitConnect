@@ -27,6 +27,24 @@
 #include <CoreLib/VxTime.h>
 #include <NetLib/VxSktBase.h>
 
+namespace
+{
+ELogModule HostTypeLogModule( EHostType hostType, ELogModule defaultModule )
+{
+    switch( hostType )
+    {
+    case eHostTypeGroup:
+        return eLogGroup;
+    case eHostTypeChatRoom:
+        return eLogChatRoom;
+    case eHostTypeRandomConnect:
+        return eLogRandomConnect;
+    default:
+        return defaultModule;
+    }
+}
+}
+
 //============================================================================
 HostClientMgr::HostClientMgr( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, PluginBase& pluginBase )
     : HostClientSearchMgr( engine, pluginMgr, myIdent, pluginBase )
@@ -230,7 +248,8 @@ void HostClientMgr::onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSk
         m_Engine.toGuiContactAnythingChange( netIdent );
     }
 
-    if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_INFO, "HostClientMgr::%s joined %s", __func__,
+    ELogModule hostLogModule = HostTypeLogModule( groupieId.getHostType(), eLogHostJoin );
+    if(LogEnabled(hostLogModule))LogModule( hostLogModule, LOG_INFO, "HostClientMgr::%s joined %s", __func__,
               groupieId.describeGroupieId().c_str() );
 
     if(groupieId.getUserOnlineId() == m_Engine.getMyOnlineId())
@@ -644,7 +663,8 @@ void HostClientMgr::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase,
     blobEntry.resetRead();
 
     int userCnt = pktReply->getHostUserCountThisPkt();
-    if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_VERBOSE, "HostClientMgr::%s member cnt %d host type %s", __func__, userCnt, DescribeHostType( pktReply->getHostType() ) );
+    ELogModule hostLogModule = HostTypeLogModule( pktReply->getHostType(), eLogHostJoin );
+    if(LogEnabled(hostLogModule))LogModule( hostLogModule, LOG_VERBOSE, "HostClientMgr::%s member cnt %d host type %s", __func__, userCnt, DescribeHostType( pktReply->getHostType() ) );
 
     for( int i = 0; i < userCnt; i++ )
     {
@@ -655,7 +675,7 @@ void HostClientMgr::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase,
             return;
         }
 
-        if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_VERBOSE, "HostClientMgr::%s list item %d - user %s", __func__,
+        if(LogEnabled(hostLogModule))LogModule( hostLogModule, LOG_VERBOSE, "HostClientMgr::%s list item %d - user %s", __func__,
                         i + 1, m_Engine.describeUser( onlineId ).c_str() );
 
         if( !onlineId.isVxGUIDValid() )
@@ -737,7 +757,8 @@ void HostClientMgr::sendNextUserInfoRequest( std::shared_ptr<VxSktBase>& sktBase
     }
     else
     {
-        if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_VERBOSE, "HostClientMgr::%s sent user %s groupie %s", __func__,
+        ELogModule hostLogModule = HostTypeLogModule( groupieId.getHostType(), eLogHostJoin );
+        if(LogEnabled(hostLogModule))LogModule( hostLogModule, LOG_VERBOSE, "HostClientMgr::%s sent user %s groupie %s", __func__,
                       m_Engine.describeUser( onlineId ).c_str(), groupieId.describeGroupieId().c_str() );
     }
 }

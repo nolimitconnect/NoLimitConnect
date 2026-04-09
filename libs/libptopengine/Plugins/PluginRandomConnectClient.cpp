@@ -45,33 +45,33 @@ void PluginRandomConnectClient::fromGuiSearchHost( EHostType hostType, SearchPar
 //============================================================================
 void PluginRandomConnectClient::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_DEBUG, "PluginRandomConnectClient got join request" );
+    if( LogEnabled( eLogRandomConnect ) )LogModule( eLogRandomConnect, LOG_DEBUG, "PluginRandomConnectClient got join request" );
 }
 
 //============================================================================
 void PluginRandomConnectClient::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_DEBUG, "PluginRandomConnectClient got join reply" );
+    if( LogEnabled( eLogRandomConnect ) )LogModule( eLogRandomConnect, LOG_DEBUG, "PluginRandomConnectClient got join reply" );
     m_HostClientMgr.onPktHostJoinReply( sktBase, pktHdr,  netIdent );
 }
 
 //============================================================================
 void PluginRandomConnectClient::onPktHostSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_DEBUG, "PluginRandomConnectClient got search reply" );
+    if( LogEnabled( eLogRandomConnect ) )LogModule( eLogRandomConnect, LOG_DEBUG, "PluginRandomConnectClient got search reply" );
     m_HostClientMgr.onPktHostSearchReply( sktBase, pktHdr,  netIdent );
 }
 
 //============================================================================
 void PluginRandomConnectClient::onPktHostOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_DEBUG, "PluginRandomConnectClient got join offer request" );
+    if( LogEnabled( eLogRandomConnect ) )LogModule( eLogRandomConnect, LOG_DEBUG, "PluginRandomConnectClient got join offer request" );
 }
 
 //============================================================================
 void PluginRandomConnectClient::onPktHostOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_DEBUG, "PluginRandomConnectClient got join offer reply" );
+    if( LogEnabled( eLogRandomConnect ) )LogModule( eLogRandomConnect, LOG_DEBUG, "PluginRandomConnectClient got join offer reply" );
 }
 
 //============================================================================

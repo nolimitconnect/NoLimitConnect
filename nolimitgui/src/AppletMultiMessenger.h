@@ -51,6 +51,7 @@ public:
     void						userJoinedHost( GuiHosted* guiHosted ) override;
 
 protected slots:
+	void						slotSetMembersVisible( bool visible );
     void						slotSetSessionVisible( bool visible );
 
 	void						slotUserInputButtonClicked( void );

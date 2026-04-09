@@ -51,33 +51,33 @@ void PluginChatRoomClient::fromGuiSearchHost( EHostType hostType, SearchParams& 
 //============================================================================
 void PluginChatRoomClient::onPktHostJoinReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if(LogEnabled(eLogHostJoin))LogModule( eLogHostJoin, LOG_DEBUG, "PluginChatRoomClient got join request" );
+    if(LogEnabled(eLogChatRoom))LogModule( eLogChatRoom, LOG_DEBUG, "PluginChatRoomClient got join request" );
 }
 
 //============================================================================
 void PluginChatRoomClient::onPktHostJoinReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_DEBUG, "PluginChatRoomClient got join reply" );
+    if( LogEnabled( eLogChatRoom ) )LogModule( eLogChatRoom, LOG_DEBUG, "PluginChatRoomClient got join reply" );
     m_HostClientMgr.onPktHostJoinReply( sktBase, pktHdr,  netIdent );
 }
 
 //============================================================================
 void PluginChatRoomClient::onPktHostSearchReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_DEBUG, "PluginChatRoomClient got search reply" );
+    if( LogEnabled( eLogChatRoom ) )LogModule( eLogChatRoom, LOG_DEBUG, "PluginChatRoomClient got search reply" );
     m_HostClientMgr.onPktHostSearchReply( sktBase, pktHdr,  netIdent );
 }
 
 //============================================================================
 void PluginChatRoomClient::onPktHostOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_DEBUG, "PluginChatRoomClient got join offer request" );
+    if( LogEnabled( eLogChatRoom ) )LogModule( eLogChatRoom, LOG_DEBUG, "PluginChatRoomClient got join offer request" );
 }
 
 //============================================================================
 void PluginChatRoomClient::onPktHostOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
-    if( LogEnabled( eLogHostJoin ) )LogModule( eLogHostJoin, LOG_DEBUG, "PluginChatRoomClient got join offer reply" );
+    if( LogEnabled( eLogChatRoom ) )LogModule( eLogChatRoom, LOG_DEBUG, "PluginChatRoomClient got join offer reply" );
 }
 
 //============================================================================

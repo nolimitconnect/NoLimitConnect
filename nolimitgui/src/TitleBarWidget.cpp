@@ -42,7 +42,9 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
 , m_CamTimer(new QTimer(this))
 {
 	ui.setupUi( this );
-    setFixedHeight( GuiParams::getButtonSize( eButtonSizeSmall ).height() + 6 );
+    setFixedHeight( GuiParams::getButtonSize( eButtonSizeSmall ).height() + 4 );
+
+    ui.m_TestButton->setVisible( false );
 
     ui.m_WantMicCountLabel->setVisible( false );
     ui.m_WantSpeakerCountLabel->setVisible( false );
@@ -129,12 +131,6 @@ TitleBarWidget::TitleBarWidget( QWidget* parent )
 
     callbackActiveOfferCount( m_MyApp.getOfferMgr().getActiveOfferCount(),  m_MyApp.getOfferMgr().getHistoryOfferCount() );
     callbackJoinRequestCount( m_MyApp.getHostJoinMgr().getJoinRequestCount() );
-
-    #ifdef QT_DEBUG
-        ui.m_TestButton->setVisible( true );
-    #else
-        ui.m_TestButton->setVisible( false );
-    #endif
 }
 
 //============================================================================
