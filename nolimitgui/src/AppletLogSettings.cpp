@@ -73,6 +73,7 @@ static QString describeLogModule( ELogModule logModule )
     case eLogSktRx: return QObject::tr( "Log Skt Rx" );
   
     case eLogWebRtc: return QObject::tr( "Log WebRTC" );
+    case eLogChatRoom: return QObject::tr( "Log Chat Room" );
 
     default:
         return QObject::tr( "Unused Log Module" );
@@ -133,8 +134,8 @@ AppletLogSettings::AppletLogSettings( AppCommon& app, QWidget* parent )
     m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_32 );
     m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_33 );
     m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_34 );
-    //m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_35 );
-    //m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_36 );
+    m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_35 );
+    m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_36 );
 
 
     uint64_t logModuleMask = 0x01;

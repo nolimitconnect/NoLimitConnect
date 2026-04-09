@@ -76,8 +76,23 @@ bool AppletBase::handleGroupieAssetAction( GroupieId& adminId, EAssetAction asse
 	if( result )
 	{
 		assetInfo.setHostedId( hostId );
+		bool isHostAdminSender = ( hostId.getHostOnlineId() == getMyApp().getMyOnlineId() );
+		if( adminId.getHostType() == eHostTypeChatRoom )
+		{
+			LogModule( eLogChatRoom, LOG_INFO, "AppletBase::handleGroupieAssetAction chatroom send mode %s members %u", isHostAdminSender ? "admin-via-host" : "client-to-host", (unsigned)memberList.size() );
+			assetInfo.setDestUserId( hostId.getHostOnlineId() );
+			result = getMyApp().getEngine().fromGuiAssetAction( eAssetActionAssetSend, assetInfo );
+			if( !result )
+			{
+				okMessageBox( QObject::tr( "Failed to send" ),
+							  QObject::tr( "Failed to send to " ) + QString( m_MyApp.describeUser( hostId.getHostOnlineId() ).c_str() ) );
+				return false;
+			}
+
+			return true;
+		}
 		// first send to admin if we are not the admin
-		if( hostId.getHostOnlineId() != getMyApp().getMyOnlineId() )
+		if( !isHostAdminSender )
 		{
 			assetInfo.setDestUserId( hostId.getHostOnlineId() );
 			result = getMyApp().getEngine().fromGuiAssetAction( eAssetActionAssetSend, assetInfo );
@@ -89,11 +104,6 @@ bool AppletBase::handleGroupieAssetAction( GroupieId& adminId, EAssetAction asse
 			}
 		}
 
-        if(adminId.getHostType() == eHostTypeChatRoom)
-        {
-            return true; // in chat room, only send to host admin
-        }
-        
 		// next send to online members
 		for( auto memberId : memberList )
 		{

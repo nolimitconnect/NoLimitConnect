@@ -25,6 +25,7 @@
 #include <P2PEngine/P2PEngine.h>
 #include <BigListLib/BigListInfo.h>
 #include <AssetMgr/AssetMgr.h>
+#include <ConnectIdListMgr/ConnectIdListMgr.h>
 #include <Plugins/FileInfo.h>
 
 #include <PktLib/PktsAssetXfer.h>
@@ -696,6 +697,8 @@ void AssetBaseXferMgr::onPktAssetBaseSendReq( std::shared_ptr<VxSktBase>& sktBas
             LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetSendReq: failed add asset" );
         }
 
+        rebroadcastReceivedChatRoomAsset( assetInfo, poPkt->getSrcOnlineId(), true );
+
         m_XferInterface.txPacket( poPkt->getSrcOnlineId(), sktBase, pktReply );
         sendToGuiAssetAction( eAssetActionRxSuccess, assetInfo.getAssetUniqueId(), 100 );
         sendToGuiAssetAction( eAssetActionRxNotifyNewMsg, assetInfo.getCreatorId(), 100 );
@@ -756,6 +759,23 @@ void AssetBaseXferMgr::onPktAssetBaseSendReply( std::shared_ptr<VxSktBase>& sktB
     PktBaseSendReply * poPkt = (PktBaseSendReply *)pktHdr;
     if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "AssetBaseXferMgr::%s %s lcl id %s rmt id %s", __func__, DescribePluginType(getPluginType()),
             poPkt->getRmtSessionId().toHexString().c_str(), poPkt->getLclSessionId().toHexString().c_str());
+
+    if( getPluginType() == ePluginTypeHostChatRoom || getPluginType() == ePluginTypeClientChatRoom )
+    {
+        LogModule( eLogChatRoom, LOG_INFO,
+                   "AssetBaseXferMgr::%s recv send-reply pktPlugin %s localPlugin %s overridePlugin %s src %s sendTo %s lclSess %s rmtSess %s err %u fileXfer %u",
+                   __func__,
+                   DescribePluginType( (EPluginType)pktHdr->getPluginNum() ),
+                   DescribePluginType( getPluginType() ),
+                   DescribePluginType( m_XferInterface.getAssetOverridePluginType() ),
+                   pktHdr->getSrcOnlineId().toOnlineIdString().c_str(),
+                   poPkt->getSendToId().toOnlineIdString().c_str(),
+                   poPkt->getLclSessionId().toHexString().c_str(),
+                   poPkt->getRmtSessionId().toHexString().c_str(),
+                   poPkt->getError(),
+                   poPkt->getRequiresFileXfer() );
+    }
+
     VxGUID&	assetUniqueId =	poPkt->getUniqueId();
     VxGUID&	sendToId =	poPkt->getSendToId();
     if( sendToId != srcOnlineId )
@@ -1589,6 +1609,52 @@ void AssetBaseXferMgr::onTxSuccess( VxGUID& sendToId, VxGUID& assetUniqueId, boo
 }
 
 //============================================================================
+void AssetBaseXferMgr::rebroadcastReceivedChatRoomAsset( AssetBaseInfo& assetInfo, const VxGUID& srcOnlineId, bool pluginIsLocked )
+{
+    if( getPluginType() != ePluginTypeHostChatRoom )
+    {
+        return;
+    }
+
+    HostedId hostedId( m_Engine.getMyOnlineId(), eHostTypeChatRoom );
+    std::vector<VxGUID> onlineIdList;
+    m_Engine.getConnectIdListMgr().getOnlineMembers( hostedId, onlineIdList );
+
+    LogModule( eLogChatRoom, LOG_INFO, "AssetBaseXferMgr::%s chatroom rebroadcast asset %s src %s memberCount %u",
+            __func__,
+            assetInfo.getAssetUniqueId().toHexString().c_str(),
+            srcOnlineId.toOnlineIdString().c_str(),
+            (unsigned)onlineIdList.size() );
+
+    for( auto& memberOnlineId : onlineIdList )
+    {
+        if( memberOnlineId == srcOnlineId || memberOnlineId == m_Engine.getMyOnlineId() )
+        {
+            LogModule( eLogChatRoom, LOG_INFO, "AssetBaseXferMgr::%s skip member %s (src/self)",
+                    __func__, memberOnlineId.toOnlineIdString().c_str() );
+            continue;
+        }
+
+        std::shared_ptr<VxSktBase> memberSkt = m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( memberOnlineId, getPluginType() );
+        if( !memberSkt || !memberSkt->isConnected() )
+        {
+            LogModule( eLogChatRoom, LOG_INFO, "AssetBaseXferMgr::%s skip member %s (no connected socket)",
+                    __func__, memberOnlineId.toOnlineIdString().c_str() );
+            continue;
+        }
+
+        AssetBaseInfo relayAsset( assetInfo );
+        relayAsset.setDestUserId( memberOnlineId );
+        relayAsset.setHistoryId( srcOnlineId );
+        LogModule( eLogChatRoom, LOG_INFO, "AssetBaseXferMgr::%s rebroadcast asset %s to member %s",
+                __func__,
+                relayAsset.getAssetUniqueId().toHexString().c_str(),
+                memberOnlineId.toOnlineIdString().c_str() );
+        createAssetTxSessionAndSend( pluginIsLocked, relayAsset, memberOnlineId, memberSkt );
+    }
+}
+
+//============================================================================
 void AssetBaseXferMgr::addAssetXferInfoIfDoesNotExist( AssetBaseInfo& assetInfo )
 {
     m_AssetBaseMgr.updateAsset( assetInfo );
@@ -2362,6 +2428,9 @@ void AssetBaseXferMgr::onAssetBaseReceived( AssetBaseRxSession* xferSession, Ass
             {
                 if( eXferErrorNone == error )
                 {
+                    VxGUID srcOnlineId = xferSession->getSendToId();
+                    rebroadcastReceivedChatRoomAsset( *createdAsset, srcOnlineId, pluginIsLocked );
+
                     if( eAssetTypeThumbnail != assetInfo.getAssetType() )
                     {
                         FileInfo fileInfo( *createdAsset, xferInfo.getFileHashId() );

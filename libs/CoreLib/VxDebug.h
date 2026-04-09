@@ -96,6 +96,7 @@ enum ELogModule : uint64_t
 	eLogSktRx			= 0x200000000ULL, // 34
 
     eLogWebRtc			= 0x400000000ULL, // 35
+	eLogChatRoom		= 0x800000000ULL, // 36
 
     eMaxLogModule
 };

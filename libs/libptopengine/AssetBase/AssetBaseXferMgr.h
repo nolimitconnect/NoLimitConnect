@@ -95,9 +95,7 @@ protected:
     virtual void				onRequestAssetFailed( VxGUID sendToId, AssetBaseInfo& assetInfo, VxGUID& sktConnectId, bool pluginIsLocked );
 	virtual void				onTxFailed( VxGUID& sendToId, VxGUID& assetUniqueId, bool pluginIsLocked );
 	virtual void				onTxSuccess( VxGUID& sendToId, VxGUID& assetUniqueId, bool pluginIsLocked );
-
-	virtual void				addAssetXferInfoIfDoesNotExist( AssetBaseInfo& assetInfo );
-	virtual void				updateAssetMgrSendState( VxGUID& sendToId, VxGUID& assetUniqueId, EAssetSendState sendState, int param );
+    virtual void                rebroadcastReceivedChatRoomAsset( AssetBaseInfo& assetInfo, const VxGUID& srcOnlineId, bool pluginIsLocked );
 
 	virtual AssetBaseRxSession*		findRxSessionSendToId( bool pluginIsLocked, VxGUID& sendToId );
     virtual AssetBaseRxSession*		findRxSessionSessionId( bool pluginIsLocked, VxGUID& lclSessionId, bool logIfNotFound = true );
@@ -160,6 +158,9 @@ protected:
 
 	void								announceXferReadyToSend( VxGUID& sendToId, std::shared_ptr<VxSktBase>& sktBase );
 	void								announceXferState( VxGUID& sendToId, VxGUID& assetId, enum EAssetSendState sendState, int param );
+
+	virtual void						addAssetXferInfoIfDoesNotExist( AssetBaseInfo& assetInfo );
+	virtual void						updateAssetMgrSendState( VxGUID& sendToId, VxGUID& assetUniqueId, EAssetSendState sendState, int param );
 
 	void								addTxSession( AssetBaseTxSession* xferSession );
 
