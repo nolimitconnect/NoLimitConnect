@@ -40,8 +40,8 @@ AppletUserPreferences::AppletUserPreferences( AppCommon& app, QWidget* parent )
 
     ui.m_MaxMessageHistorySpinBox->setValue( VxGetMaxMessageHistory() );
 
-    connect( ui.m_MaxMessageHistoryInfoButton, SIGNAL(clicked()), this, SIGNAL(slotMaxMsgHistoryInfoButtonClicked()) );
-    connect( ui.m_MaxMessageHistorySpinBox, SIGNAL(valueChanged(int)), this, SIGNAL(slotMaxMsgHistoryValueChanged(int)) );
+    connect( ui.m_MaxMessageHistoryInfoButton, SIGNAL(clicked()), this, SLOT(slotMaxMsgHistoryInfoButtonClicked()) );
+    connect( ui.m_MaxMessageHistorySpinBox, SIGNAL(valueChanged(int)), this, SLOT(slotMaxMsgHistoryValueChanged(int)) );
 
     m_MyApp.activityStateChange( this, true );
 }
@@ -71,6 +71,7 @@ void AppletUserPreferences::updateDlgFromSettings()
 {
     ui.m_UseSystemPlayerCheckBox->setChecked( m_MyApp.getAppSettings().getUseSystemMediaPlayer() );
     ui.m_UnattendedHostCheckBox->setChecked( m_MyApp.getAppSettings().getIsAutomatedHost() );
+    ui.m_AllowJoinMultipleHostsCheckBox->setChecked( m_MyApp.getAppSettings().getAllowJoinMultipleHosts() );
     ui.m_MilitaryTimeCheckBox->setChecked( m_MyApp.getAppSettings().getUseMilitaryTime() );
     ui.m_DisableSoundEffectsCheckBox->setChecked( m_MyApp.getAppSettings().getDisableAllSoundEffects() );
     ui.m_SndDisableTrashCheckBox->setChecked( m_MyApp.getAppSettings().getDisableSndTrash() );
@@ -83,9 +84,10 @@ void AppletUserPreferences::updateDlgFromSettings()
 //============================================================================
 void AppletUserPreferences::updateSettingsFromDlg()
 {
-    bool unattendedHost = ui.m_MilitaryTimeCheckBox->isChecked();
+    bool unattendedHost = ui.m_UnattendedHostCheckBox->isChecked();
 
     m_MyApp.getAppSettings().setIsAutomatedHost( unattendedHost );
+    m_MyApp.getAppSettings().setAllowJoinMultipleHosts( ui.m_AllowJoinMultipleHostsCheckBox->isChecked() );
 
     m_MyApp.getAppSettings().setUseSystemMediaPlayer( ui.m_UseSystemPlayerCheckBox->isChecked() );
     m_MyApp.getAppSettings().setUseMilitaryTime( ui.m_MilitaryTimeCheckBox->isChecked() );

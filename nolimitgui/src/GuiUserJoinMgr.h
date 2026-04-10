@@ -133,6 +133,7 @@ protected:
     virtual void				announceUserJoinAHostStatus( EHostType hostType, VxGUID& sessionId, EConnectStatus connectStatus );
 
     void                        saveLastHostJoined( EHostType hostType, VxPtopUrl& ptopUrl );
+    void                        leaveOtherHosts( const HostedId& joinedHostedId );
 
 
     AppCommon&                  m_MyApp;

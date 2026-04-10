@@ -89,6 +89,16 @@
         </property>
        </widget>
       </item>
+    <item>
+     <widget class="QCheckBox" name="m_AllowJoinMultipleHostsCheckBox">
+      <property name="toolTip">
+       <string>When unchecked, joining a new host automatically leaves other active Group, Chat Room, or Random Connect hosts.</string>
+      </property>
+      <property name="text">
+       <string>Allow Join Multiple Hosts</string>
+      </property>
+     </widget>
+    </item>
       <item>
        <widget class="QCheckBox" name="m_MilitaryTimeCheckBox">
         <property name="sizePolicy">

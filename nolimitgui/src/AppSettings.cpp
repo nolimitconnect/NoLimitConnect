@@ -951,6 +951,20 @@ bool AppSettings::getIsAutomatedHost( void )
 }
 
 //============================================================================
+void AppSettings::setAllowJoinMultipleHosts( bool enable )
+{
+	setIniValue( getAppShortName(), "AllowJoinMultipleHosts", enable );
+}
+
+//============================================================================
+bool AppSettings::getAllowJoinMultipleHosts( void )
+{
+	bool allowJoinMultipleHosts = false;
+	getIniValue( getAppShortName(), "AllowJoinMultipleHosts", allowJoinMultipleHosts, false );
+	return allowJoinMultipleHosts;
+}
+
+//============================================================================
 void AppSettings::setDisableAllSoundEffects( bool disable )
 {
 	m_DisableSoundEffectsValue = disable;

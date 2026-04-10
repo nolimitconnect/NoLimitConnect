@@ -263,6 +263,11 @@ GuiUserJoin* GuiUserJoinMgr::updateUserJoin( UserJoinInfo* userJoinInfo, bool un
         {
             if( groupieId.getUserOnlineId() == m_MyApp.getMyOnlineId() && groupieId.getHostOnlineId() != m_MyApp.getMyOnlineId() )
             {
+                if( !m_MyApp.getAppSettings().getAllowJoinMultipleHosts() )
+                {
+                    leaveOtherHosts( groupieId.getHostedId() );
+                }
+
                 // we joined a host.. update last joined
                 m_LastJoinAttemptedHostInviteUrl.clear();
 
@@ -670,6 +675,40 @@ void GuiUserJoinMgr::leaveHost( HostedId hostedId )
 void GuiUserJoinMgr::unjoinHost( HostedId hostedId )
 {
     m_MyApp.getFromGuiInterface().fromGuiUnJoinHost( hostedId );
+}
+
+//============================================================================
+void GuiUserJoinMgr::leaveOtherHosts( const HostedId& joinedHostedId )
+{
+    const EHostType hostTypeList[] =
+    {
+        eHostTypeGroup,
+        eHostTypeChatRoom,
+        eHostTypeRandomConnect,
+    };
+
+    for( EHostType hostType : hostTypeList )
+    {
+        GroupieId activeGroupieId = getJoinedAdminGroupieId( hostType );
+        if( !activeGroupieId.isValid() )
+        {
+            continue;
+        }
+
+        HostedId activeHostedId = activeGroupieId.getHostedId();
+        if( activeHostedId == joinedHostedId )
+        {
+            continue;
+        }
+
+        if( LogEnabled( eLogHostJoin ) )
+        {
+            LogModule( eLogHostJoin, LOG_VERBOSE, "GuiUserJoinMgr::%s dropping previous host connection %s", __func__,
+                m_MyApp.describeGroupieId( activeGroupieId ).c_str() );
+        }
+
+        leaveHost( activeHostedId );
+    }
 }
 
 //============================================================================

@@ -164,6 +164,9 @@ public:
 	void						setIsAutomatedHost( bool enable );
 	bool						getIsAutomatedHost( void );
 
+	void						setAllowJoinMultipleHosts( bool enable );
+	bool						getAllowJoinMultipleHosts( void );
+
 	void						setUseSystemMediaPlayer( bool useSystemPlayer );
 	bool						getUseSystemMediaPlayer( void );
 

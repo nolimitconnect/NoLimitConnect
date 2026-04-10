@@ -356,11 +356,11 @@ QString AppletInformation::m_NetworkHostRequrements( QObject::tr(
 
 QString AppletInformation::m_MaxMessageHistory( QObject::tr(
     "=== Maximum Message History ===\n"
-    "Limits the message history stored to the specified maximum message history.\n"
-    "The limit is applied per user for messenger.\n"
-    "The limit is applied for the total messages recieved in chat room.\n"
-    "The limit removes the message from history but does NOT delete any files such as photos and videos etc.\n"
-    "To delete files recieved from a user you can delete them using the Library Applet.\n"
+    "Controls how many recent messages are kept in local history.\n"
+    "Limiting history reduces disk space and memory used by the application.\n"
+    "Messenger history is limited per user, and chat room history is limited for the room list.\n"
+    "Older messages are removed from history when the limit is reached.\n"
+    "Attached files are not deleted by this setting.\n"
 ) );
 
 QString AppletInformation::m_Ipv6( QObject::tr(
