@@ -29,6 +29,7 @@ public:
     virtual void				showSendFail( bool show, bool permissionErr = false ) override;
     virtual void				showResendButton( bool show ) override;
     virtual void				showShredder( bool show ) override;
+    virtual void				showLibraryButton( bool show ) override{}; // faces cannot be added to library so do nothing
     virtual void				showXferProgress( bool show ) override;
     virtual void				setXferProgress( int sendProgress ) override;
 

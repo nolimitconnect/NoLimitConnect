@@ -136,10 +136,12 @@ void AppletPlayerCamClip::updateAssetInfo( void )
 	if( getAssetInfo().isMine() )
 	{
 		ui.m_LeftAvatarBar->setTime( m_AssetInfo.getCreationTime(), m_AssetInfo.getIsQueued() );
+        ui.m_LeftAvatarBar->showLibraryButton( true );
 	}
 	else
 	{
 		ui.m_RightAvatarBar->setTime( m_AssetInfo.getCreationTime(), m_AssetInfo.getIsQueued() );
+        ui.m_RightAvatarBar->showLibraryButton( true );
 	}
 
 	if( getAssetInfo().isFileAsset() )

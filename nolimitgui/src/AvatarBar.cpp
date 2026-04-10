@@ -30,7 +30,8 @@ AvatarBar::AvatarBar( QWidget* parent )
 {
 	ui.setupUi( this );
 
-    ui.m_ShredButton->setSquareButtonSize( eButtonSizeSmall );
+    ui.m_ShredButton->setSquareButtonSize( eButtonSizeTiny );
+    ui.m_LibraryButton->setSquareButtonSize( eButtonSizeTiny );
 	ui.m_ProgressSpinner->setSquareButtonSize( eButtonSizeSmall );
 
 	QSize buttonSize( GuiParams::getButtonSize( eButtonSizeSmall ) );
@@ -40,14 +41,18 @@ AvatarBar::AvatarBar( QWidget* parent )
 
 	this->setFixedWidth( buttonSize.width() + 20 );
 
-	setShredButtonIcon( eMyIconShredderNormal  );
+	setShredButtonIcon( eMyIconShredderNormal );
+    setLibraryButtonIcon( eMyIconLibraryNormal );
+    
 	ui.m_ProgressSpinner->setVisible( false );
 	ui.m_ShredButton->setVisible( false );
+	ui.m_LibraryButton->setVisible( false );
 	ui.m_TimeLabel->setVisible( false );
 	ui.m_ResendButton->setVisible( false );
 
 	connect( ui.m_ShredButton, SIGNAL(clicked()),	this, SIGNAL(signalShredAsset()) );
 	connect( ui.m_ResendButton, SIGNAL(clicked()),	this, SIGNAL(signalResendAsset()) );
+	connect( ui.m_LibraryButton, SIGNAL(clicked()),	this, SIGNAL(signalAddLibraryAsset()) );
 }
 
 //============================================================================
@@ -111,6 +116,12 @@ void AvatarBar::setShredButtonIcon( EMyIcons iconTrash )
 }
 
 //============================================================================
+void AvatarBar::setLibraryButtonIcon( EMyIcons iconLibrary )
+{
+	ui.m_LibraryButton->setIcon( iconLibrary );
+}
+
+//============================================================================
 void AvatarBar::setShredFile( QString fileName )
 {
 	//ui.m_ShredButton->setShredFile( fileName );
@@ -156,6 +167,12 @@ void AvatarBar::showResendButton( bool show )
 void AvatarBar::showShredder( bool show )
 {
 	ui.m_ShredButton->setVisible( show );
+}
+
+//============================================================================
+void AvatarBar::showLibraryButton( bool show )
+{
+	ui.m_LibraryButton->setVisible( show );
 }
 
 //============================================================================

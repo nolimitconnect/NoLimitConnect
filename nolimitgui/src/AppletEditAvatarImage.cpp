@@ -50,7 +50,7 @@ AppletEditAvatarImage::AppletEditAvatarImage( AppCommon& app, QWidget* parent )
     ui.m_StatusLabel->setVisible( false );
     //ui.m_DeleteFrame->setVisible( false );
 
-    ui.m_ShredButton->setFixedSize( eButtonSizeMedium );
+    ui.m_ShredButton->setFixedSize( eButtonSizeSmall );
     ui.m_ShredButton->setIcon( eMyIconShredderNormal );
 
     m_MyIdent = m_MyApp.getAppGlobals().getMyNetIdent();
@@ -65,9 +65,9 @@ AppletEditAvatarImage::AppletEditAvatarImage( AppCommon& app, QWidget* parent )
         }
     }
 
-    connect( ui.m_ApplyAvatarButton, SIGNAL(clicked()), this, SLOT( onApplyButClick() ) );
-    connect( ui.m_RemoveAvatarButton, SIGNAL(clicked()), this, SLOT( onRemoveButClick() ) );
-    connect( ui.m_ShredButton,		 SIGNAL(clicked()),	this, SLOT(slotShredAsset()) );
+    connect( ui.m_ApplyAvatarButton,    SIGNAL(clicked()), this, SLOT(onApplyButClick()) );
+    connect( ui.m_RemoveAvatarButton,   SIGNAL(clicked()), this, SLOT(onRemoveButClick()) );
+    connect( ui.m_ShredButton,		    SIGNAL(clicked()), this, SLOT(slotShredAsset()) );
 
 	m_MyApp.activityStateChange( this, true );
 }

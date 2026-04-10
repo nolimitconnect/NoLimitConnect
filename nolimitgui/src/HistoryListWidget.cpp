@@ -20,6 +20,7 @@
 #include "AssetVideoWidget.h"
 
 #include <AssetMgr/AssetInfo.h>
+#include <Plugins/FileInfo.h>
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxDebug.h>
@@ -133,7 +134,8 @@ void HistoryListWidget::toGuiAssetSessionHistory( AssetBaseInfo& assetInfo )
 			AssetBaseWidget* assetWidget = createAssetWidget( &assetInfo );
 			if( assetWidget )
 			{
-				connect( assetWidget, SIGNAL(signalShreddingAsset( AssetBaseWidget* ) ), this, SLOT(slotShreddingAsset( AssetBaseWidget* ) ) );
+                connect( assetWidget, SIGNAL(signalShreddingAsset(AssetBaseWidget*)), this, SLOT(slotShreddingAsset(AssetBaseWidget*)) );
+                connect( assetWidget, SIGNAL(signalAddLibraryAsset(AssetBaseWidget*)), this, SLOT(slotAddAssetToLibrary(AssetBaseWidget*)) );
 				int insertAtIndex = determinInsertIndex( &assetInfo );
 				if( 0 <= insertAtIndex )
 				{
@@ -145,6 +147,7 @@ void HistoryListWidget::toGuiAssetSessionHistory( AssetBaseInfo& assetInfo )
 				}
 
 				this->setItemWidget( (QListWidgetItem*)assetWidget, (QWidget*)assetWidget );
+				pruneHistoryToMax();
 			}
 		}
 	}
@@ -191,6 +194,72 @@ void HistoryListWidget::slotShreddingAsset( AssetBaseWidget * assetWidget )
 	}
 	
 	update();
+}
+
+//============================================================================
+void HistoryListWidget::slotAddAssetToLibrary( AssetBaseWidget * assetWidget )
+{
+	if( !assetWidget )
+	{
+		return;
+	}
+
+	AssetBaseInfo& assetInfo = assetWidget->getAssetInfo();
+	if( !assetInfo.isFileAsset() )
+	{
+		return;
+	}
+
+	FileInfo fileInfo = assetInfo.getFileInfo();
+	if( m_Engine.fromGuiSetFileIsInLibrary( fileInfo, true ) )
+	{
+		assetInfo.setIsInLibrary( true );
+		assetWidget->showLibraryButton( false );
+		m_MyApp.playSound( eSndDefButtonClick );
+	}
+}
+
+//============================================================================
+void HistoryListWidget::pruneHistoryToMax( void )
+{
+	int32_t maxHistory = VxGetMaxMessageHistory();
+	if( maxHistory <= 0 )
+	{
+		return;
+	}
+
+	while( this->count() > maxHistory )
+	{
+		QListWidgetItem* oldestItem = this->item( 0 );
+		AssetBaseWidget* oldestWidget = dynamic_cast<AssetBaseWidget*>( oldestItem );
+		if( oldestWidget )
+		{
+			AssetBaseInfo& oldestAssetInfo = oldestWidget->getAssetInfo();
+			if( oldestAssetInfo.isFileAsset() )
+			{
+				FileInfo fileInfo = oldestAssetInfo.getFileInfo();
+				bool isInLibrary = m_Engine.fromGuiGetFileIsInLibrary( fileInfo );
+				if( isInLibrary )
+				{
+					m_Engine.fromGuiAssetAction( eAssetActionRemoveFromAssetMgr, oldestAssetInfo, 0 );
+				}
+				else
+				{
+					m_Engine.fromGuiAssetAction( eAssetActionShreadFile, oldestAssetInfo, 0 );
+				}
+			}
+			else
+			{
+				m_Engine.fromGuiAssetAction( eAssetActionRemoveFromAssetMgr, oldestAssetInfo, 0 );
+			}
+		}
+
+		QListWidgetItem* removedItem = this->takeItem( 0 );
+		if( removedItem )
+		{
+			delete removedItem;
+		}
+	}
 }
 
 //============================================================================

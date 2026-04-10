@@ -37,10 +37,12 @@ public:
 	void						setTime( time_t creationTime, bool isQueued );
 	void						setShredFile( QString fileName );
 	void						setShredButtonIcon( EMyIcons iconTrash );
+    void						setLibraryButtonIcon( EMyIcons iconLibrary );
 
 	virtual void				showAvatar( bool show );
 	virtual void				showSendFail( bool show, bool permissionErr );
 	virtual void				showShredder( bool show );
+    virtual void				showLibraryButton( bool show );
 	virtual void				showResendButton( bool show );
 	virtual void				showXferProgress( bool show );
 	virtual void				setXferProgress( int sendProgress );
@@ -49,6 +51,7 @@ public:
 
 signals:
 	void						signalShredAsset( void );
+    void						signalAddLibraryAsset( void );
 	void						signalResendAsset( void );
 
 protected:

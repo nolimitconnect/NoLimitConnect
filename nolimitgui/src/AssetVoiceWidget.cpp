@@ -53,9 +53,11 @@ void AssetVoiceWidget::initAssetVoiceWidget( void )
 	ui.m_PlayPosSlider->setMinimum( 0 );
 	ui.m_PlayPosSlider->setMaximum( 100000 );
 
-	connect( ui.m_PlayPauseButton, SIGNAL(clicked()), this, SLOT(slotPlayButtonClicked()) );
-	connect( ui.m_LeftAvatarBar, SIGNAL(signalShredAsset()), this, SLOT(slotShredAsset()) );
-	connect( ui.m_RightAvatarBar, SIGNAL(signalShredAsset()), this, SLOT(slotShredAsset()) );
+	connect( ui.m_PlayPauseButton,  SIGNAL(clicked()), this, SLOT(slotPlayButtonClicked()) );
+	connect( ui.m_LeftAvatarBar,    SIGNAL(signalShredAsset()), this, SLOT(slotShredAsset()) );
+	connect( ui.m_RightAvatarBar,   SIGNAL(signalShredAsset()), this, SLOT(slotShredAsset()) );
+    connect( ui.m_LeftAvatarBar,	SIGNAL(signalAddLibraryAsset()),        this, SLOT(slotAddLibraryAsset()) );
+    connect( ui.m_RightAvatarBar,	SIGNAL(signalAddLibraryAsset()),        this, SLOT(slotAddLibraryAsset()) );
 
 	connect( ui.m_PlayPosSlider, SIGNAL(sliderPressed()), this, SLOT(slotSliderPressed()) );
 	connect( ui.m_PlayPosSlider, SIGNAL(sliderReleased()), this, SLOT(slotSliderReleased()) );
@@ -103,6 +105,7 @@ void AssetVoiceWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 	{
 		ui.m_LeftAvatarBar->setShredButtonIcon( eMyIconShredderNormal );
 		ui.m_RightAvatarBar->setShredButtonIcon( eMyIconShredderNormal );
+        showLibraryButton( true );
 	}
 	else
 	{
@@ -308,6 +311,19 @@ void AssetVoiceWidget::showShredder( bool show )
 	else
 	{
 		ui.m_RightAvatarBar->showShredder( show );
+	}
+}
+
+//============================================================================
+void AssetVoiceWidget::showLibraryButton( bool show )
+{
+	if( m_AssetInfo.isMine() )
+	{
+		ui.m_LeftAvatarBar->showLibraryButton( show );
+	}
+	else
+	{
+		ui.m_RightAvatarBar->showLibraryButton( show );
 	}
 }
 

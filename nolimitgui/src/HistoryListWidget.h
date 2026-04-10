@@ -41,6 +41,7 @@ public:
 
 public slots:
 	void						slotShreddingAsset( AssetBaseWidget * assetWidget );
+    void						slotAddAssetToLibrary( AssetBaseWidget * assetWidget );
 	void						slotStartupTimeout( void );
 
 protected:
@@ -53,6 +54,7 @@ protected:
 
     AssetBaseWidget *			createAssetWidget( AssetBaseInfo* assetInfo );
 	AssetBaseWidget*			findAssetWidget( VxGUID& assetId );
+	void                        pruneHistoryToMax( void );
 
     int							determinInsertIndex( AssetBaseInfo* assetInfo );
 	void						clearHistoryList( void );

@@ -244,6 +244,12 @@ void AssetBaseWidget::slotShredAsset( void )
 }
 
 //============================================================================
+void AssetBaseWidget::slotAddLibraryAsset( void )
+{
+	emit signalAddLibraryAsset( this );
+}
+
+//============================================================================
 void AssetBaseWidget::slotResendAsset( void )
 {
 	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_AssetInfo.getDestUserId() );

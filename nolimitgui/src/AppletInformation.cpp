@@ -360,7 +360,7 @@ QString AppletInformation::m_MaxMessageHistory( QObject::tr(
     "Limiting history reduces disk space and memory used by the application.\n"
     "Messenger history is limited per user, and chat room history is limited for the room list.\n"
     "Older messages are removed from history when the limit is reached.\n"
-    "Attached files are not deleted by this setting.\n"
+    "When history is trimmed, media files saved to Library are kept, while media files not in Library are deleted.\n"
 ) );
 
 QString AppletInformation::m_Ipv6( QObject::tr(
