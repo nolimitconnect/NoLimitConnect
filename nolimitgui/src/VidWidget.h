@@ -27,6 +27,15 @@ class VxLabel;
 class MyIcons;
 class P2PEngine;
 
+enum EVideoUiMode
+{
+	eVideoUiModeChat = 0,
+	eVideoUiModePhoto,
+	eVideoUiModeInputPhoto,
+	eVideoUiModeInputWidget,
+	eVideoUiModeAssetVideo
+};
+
 class VidWidget : public QWidget, public GuiPlayerCallback
 {
 	Q_OBJECT
@@ -40,6 +49,8 @@ public:
 
 	virtual void				setMediaModule( EMediaModule mediaModule )		{ m_MediaModule = mediaModule; }
 	virtual EMediaModule		getMediaModule( void )							{ return  m_MediaModule; }
+	void						setVideoUiMode( EVideoUiMode videoUiMode );
+	EVideoUiMode				getVideoUiMode( void )							{ return m_VideoUiMode; }
 
 	void						setVideoFeedId( VxGUID& feedOnlineId, EMediaModule mediaModule );
 	VxGUID&						getFeedId( void )								{ return m_VideoFeedId; }
@@ -112,6 +123,7 @@ protected:
 	void						updatePreviewVisibility( void );
 	void						updateVidFeedImageRotation( void );
 	void						updateCamEnable( void );
+	void						applyVideoUiMode( void );
 
 	void						playMotionAlarm( void );
 	void						updateMotionBarColor( void );
@@ -131,6 +143,8 @@ protected:
 	QString						m_RecFriendName;
 	QString						m_RecFilePath;
 	QString						m_RecFileName;
+	QString						m_StillImageFileName;
+	QImage						m_StillImage;
 	bool						m_IconToggle;
 	QTimer *					m_IconToggleTimer;
 	bool						m_MotionAlarmOn;
@@ -141,4 +155,5 @@ protected:
 	QTimer *					m_MotionRecordExpireTimer;
 	bool						m_InNormalRecord;
 	EMediaModule				m_MediaModule{ eMediaModuleInvalid };
+	EVideoUiMode				m_VideoUiMode{ eVideoUiModeChat };
 };

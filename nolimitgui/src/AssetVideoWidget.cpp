@@ -45,6 +45,7 @@ void AssetVideoWidget::initAssetVideoWidget( void )
 	setXferBar( ui.m_XferProgressBar );
 	setMediaModule( eMediaModuleVideoPlayWidget );
 
+	ui.m_VidWidget->setVideoUiMode( eVideoUiModeAssetVideo );
 	ui.m_VidWidget->showAllControls( false );
 	ui.m_VidWidget->disablePreview( true );
 	ui.m_VidWidget->disableRecordControls( true );

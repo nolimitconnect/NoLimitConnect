@@ -50,6 +50,7 @@ InputPhotoWidget::InputPhotoWidget( QWidget* parent )
 	ui.m_SelectCamButton->setEnabled( false );
 
     ui.m_BackButton->setIcons( eMyIconBack );
+	ui.m_VidWidget->setVideoUiMode( eVideoUiModeInputPhoto );
 
 	connect( ui.m_SnapShotButton,				SIGNAL(clicked()),							this, SLOT(slotSnapShotButtonClicked()) );
 	connect( ui.m_RotateCamButton,				SIGNAL(clicked()),							this, SLOT(slotRotateCamButtonClicked()) );

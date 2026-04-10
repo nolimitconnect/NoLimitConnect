@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>42</width>
+    <width>38</width>
     <height>199</height>
    </rect>
   </property>
@@ -37,6 +37,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>0</number>
+   </property>
+   <property name="sizeConstraint">
+    <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
    </property>
    <property name="leftMargin">
     <number>5</number>

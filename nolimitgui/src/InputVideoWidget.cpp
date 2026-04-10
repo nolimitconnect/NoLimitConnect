@@ -51,6 +51,7 @@ InputVideoWidget::InputVideoWidget( QWidget* parent )
 	ui.m_SelectVidSrcButton->setIcons( eMyIconCamSelectNormal );
 	ui.m_SelectVidSrcButton->setEnabled( false );
     ui.m_SelectVidSrcButton->setVisible( false );
+	ui.m_VidWidget->setVideoUiMode( eVideoUiModeInputWidget );
     
 	connect( ui.m_StartStopRecButton,		SIGNAL(clicked()),	this, SLOT(slotBeginRecord()) );
 	connect( ui.m_RotateCamButton,			SIGNAL(clicked()),	this, SLOT(slotRotateCamButtonClicked()) );

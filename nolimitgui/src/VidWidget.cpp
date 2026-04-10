@@ -119,6 +119,7 @@ VidWidget::VidWidget(QWidget* parent)
 	// BRJ temp for testing
 	//ui.m_VidFilesButton->setEnabled( true );
 	ui.m_VidFilesButton->setVisible( false );
+	applyVideoUiMode();
 }
 
 //============================================================================
@@ -173,12 +174,104 @@ void VidWidget::setVideoFeedId( VxGUID& feedOnlineId, EMediaModule mediaModule )
 		{
 			m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_VideoFeedId, this, true );
             // trigger MediaProcessor to send jpgs
-            m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpg, m_MediaModule, m_VideoFeedId, true );
+            if( eMediaModuleInvalid != m_MediaModule )
+            {
+                m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpg, m_MediaModule, m_VideoFeedId, true );
+            }
 		}
 		else
 		{
 			showOfflineImage();
 		}
+	}
+}
+
+//============================================================================
+void VidWidget::setVideoUiMode( EVideoUiMode videoUiMode )
+{
+	if( m_VideoUiMode != videoUiMode )
+	{
+		m_VideoUiMode = videoUiMode;
+		applyVideoUiMode();
+	}
+}
+
+//============================================================================
+void VidWidget::applyVideoUiMode( void )
+{
+	switch( m_VideoUiMode )
+	{
+	case eVideoUiModePhoto:
+		showFeedControls( true );
+		showRecordControls( false );
+		disablePreview( true );
+		ui.m_CamRotateButton->setVisible( false );
+		ui.m_CamSourceButton->setVisible( false );
+		ui.m_CamEnableButton->setVisible( false );
+		ui.m_CamPreviewButton->setVisible( false );
+		ui.m_ImageRotateButton->setVisible( true );
+		break;
+
+	case eVideoUiModeInputWidget:
+		showFeedControls( true );
+		showRecordControls( true );
+		disablePreview( true );
+		ui.m_CamRotateButton->setVisible( true );
+		ui.m_CamSourceButton->setVisible( true );
+		ui.m_CamEnableButton->setVisible( false );
+		ui.m_CamPreviewButton->setVisible( false );
+		ui.m_ImageRotateButton->setVisible( true );
+		ui.m_PictureSnapshotButton->setVisible( false );
+		ui.m_MotionAlarmButton->setVisible( false );
+		ui.m_MotionRecordButton->setVisible( false );
+		ui.m_NormalRecordButton->setVisible( true );
+		break;
+
+	case eVideoUiModeInputPhoto:
+		showFeedControls( true );
+		showRecordControls( false );
+		disablePreview( true );
+		ui.m_CamRotateButton->setVisible( true );
+		ui.m_CamSourceButton->setVisible( true );
+		ui.m_CamEnableButton->setVisible( false );
+		ui.m_CamPreviewButton->setVisible( false );
+		ui.m_ImageRotateButton->setVisible( false );
+		ui.m_PictureSnapshotButton->setVisible( false );
+		ui.m_MotionAlarmButton->setVisible( false );
+		ui.m_MotionRecordButton->setVisible( false );
+		ui.m_NormalRecordButton->setVisible( false );
+		ui.m_RecordSensitivityFrame->setVisible( false );
+		ui.m_MotionBar->setVisible( false );
+		ui.m_MotionSensitivitySlider->setVisible( false );
+		break;
+
+	case eVideoUiModeAssetVideo:
+		showFeedControls( true );
+		showRecordControls( false );
+		disablePreview( true );
+		ui.m_CamRotateButton->setVisible( false );
+		ui.m_CamSourceButton->setVisible( false );
+		ui.m_CamEnableButton->setVisible( false );
+		ui.m_CamPreviewButton->setVisible( false );
+		ui.m_ImageRotateButton->setVisible( true );
+		break;
+
+	case eVideoUiModeChat:
+	default:
+		// Preserve current full behavior for chat pages; click-to-toggle handles visibility.
+		disablePreview( false );
+		showFeedControls( false );
+		showRecordControls( false );
+		ui.m_CamRotateButton->setVisible( true );
+		ui.m_CamSourceButton->setVisible( true );
+		ui.m_CamEnableButton->setVisible( true );
+		ui.m_CamPreviewButton->setVisible( true );
+		ui.m_ImageRotateButton->setVisible( true );
+		ui.m_PictureSnapshotButton->setVisible( true );
+		ui.m_MotionAlarmButton->setVisible( true );
+		ui.m_MotionRecordButton->setVisible( true );
+		ui.m_NormalRecordButton->setVisible( true );
+		break;
 	}
 }
 
@@ -321,18 +414,52 @@ void VidWidget::updatePreviewVisibility( void )
 	if( showPreview )
 	{
 		ui.m_CamPreviewButton->setIcon( eMyIconCamPreviewCancelNormal );
-		m_Engine.fromGuiWantMediaInput( m_MyOnlineId, eMediaInputVideoJpg, getMediaModule(), m_MyOnlineId, true);
+		if( eMediaModuleInvalid != getMediaModule() )
+		{
+			m_Engine.fromGuiWantMediaInput( m_MyOnlineId, eMediaInputVideoJpg, getMediaModule(), m_MyOnlineId, true);
+		}
 	}
 	else
 	{
 		ui.m_CamPreviewButton->setIcons( eMyIconCamPreviewNormal );
-		m_Engine.fromGuiWantMediaInput( m_MyOnlineId, eMediaInputVideoJpg, getMediaModule(), m_MyOnlineId, false );
+		if( eMediaModuleInvalid != getMediaModule() )
+		{
+			m_Engine.fromGuiWantMediaInput( m_MyOnlineId, eMediaInputVideoJpg, getMediaModule(), m_MyOnlineId, false );
+		}
 	}
 }
 
 //============================================================================
 void VidWidget::slotFeedRotateButtonClicked( void )
 {
+	if( eVideoUiModePhoto == m_VideoUiMode )
+	{
+		int imageRotation = ui.m_VideoScreen->getVidImageRotation();
+		imageRotation += 90;
+		if( imageRotation >= 360 )
+		{
+			imageRotation = 0;
+		}
+
+		setVidImageRotation( imageRotation );
+		QImage curImage = ui.m_VideoScreen->getLastVideoImage();
+		if( curImage.isNull() )
+		{
+			curImage = m_StillImage;
+		}
+		if( curImage.isNull() && !m_StillImageFileName.isEmpty() )
+		{
+			curImage.load( m_StillImageFileName );
+		}
+		if( !curImage.isNull() )
+		{
+			ui.m_VideoScreen->playVideoFrame( curImage );
+		}
+
+		m_MyApp.toGuiUserMessage( "Photo Rotation %d", imageRotation );
+		return;
+	}
+
 	int feedRotation = m_AppSettings.getVidFeedRotation();
 	feedRotation += 90;
 	if( feedRotation >= 360 )
@@ -389,7 +516,14 @@ void VidWidget::disablePreview( bool disable )
 //============================================================================
 bool VidWidget::setImageFromFile( QString fileName )
 {
-	return ui.m_VideoScreen->setImageFromFile( fileName );
+	bool result = ui.m_VideoScreen->setImageFromFile( fileName );
+	if( result )
+	{
+		m_StillImageFileName = fileName;
+		m_StillImage.load( fileName );
+	}
+
+	return result;
 }
 
 //============================================================================
@@ -424,7 +558,10 @@ void VidWidget::showEvent( QShowEvent* ev )
 	updatePreviewVisibility();
 	if( m_VideoFeedId.isVxGUIDValid() )
 	{
-		m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpg, getMediaModule(), m_VideoFeedId, true );
+		if( eMediaModuleInvalid != getMediaModule() )
+		{
+			m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpg, getMediaModule(), m_VideoFeedId, true );
+		}
 		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_VideoFeedId, this, true );
 	}
 }
@@ -436,7 +573,10 @@ void VidWidget::hideEvent( QHideEvent* ev )
 	if( m_VideoFeedId.isVxGUIDValid() )
 	{
 		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_VideoFeedId, this, false );
-		m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpg, getMediaModule(), m_VideoFeedId, false );
+		if( eMediaModuleInvalid != getMediaModule() )
+		{
+			m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpg, getMediaModule(), m_VideoFeedId, false );
+		}
 	}
 }
 

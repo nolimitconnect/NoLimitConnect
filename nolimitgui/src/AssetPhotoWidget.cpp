@@ -39,6 +39,7 @@ void AssetPhotoWidget::initAssetPhotoWidget( void )
 
 	ui.m_SendButton->setVisible( false );
 	ui.m_ButtonFrame->setVisible( false );
+	ui.m_VidWidget->setVideoUiMode( eVideoUiModePhoto );
 	ui.m_VidWidget->disablePreview( true );
 	ui.m_VidWidget->disableRecordControls( true );
 	
