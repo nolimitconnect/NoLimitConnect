@@ -1150,8 +1150,8 @@
             <translation>Paramètres des modules de journalisation</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="681" />
-            <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="688" />
+            <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="699" />
+            <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="706" />
             <source>CheckBox</source>
             <translation>Case à cocher</translation>
         </message>
@@ -2363,37 +2363,47 @@
             <translation>Hôte sans surveillance (désactiver les offres, les messages, etc.)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="101" />
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="95" />
+            <source>When unchecked, joining a new host automatically leaves other active Group, Chat Room, or Random Connect hosts.</source>
+            <translation>Lorsque cette case n'est pas cochée, rejoindre un nouvel hôte quitte automatiquement les autres hôtes actifs de groupe, de salle de discussion ou de connexion aléatoire.</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="98" />
+            <source>Allow Join Multiple Hosts</source>
+            <translation>Autoriser la participation de plusieurs hôtes</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="111" />
             <source>Use 24 hour (military) time format</source>
             <translation>Utiliser le format horaire (militaire) de 24 heures</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="123" />
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="133" />
             <source>Max Message History Retained</source>
             <translation>Historique maximum des messages conservés</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="152" />
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="162" />
             <source>Diable All Sound Effects (Key Click, Notify, Etc.)</source>
             <translation>Désactivez tous les effets sonores (clic sur une touche, notification, etc.)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="183" />
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="193" />
             <source>Disable Trash Sound Effect</source>
             <translation>Désactiver l'effet sonore de la corbeille</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="190" />
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="200" />
             <source>Disable Button Press Sound</source>
             <translation>Désactiver le son de la pression sur les boutons</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="197" />
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="207" />
             <source>Dsiable Notify Sound</source>
             <translation>Son de notification réglable</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="204" />
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="214" />
             <source>Disable Message Received Sound</source>
             <translation>Désactiver le son des messages reçus</translation>
         </message>
@@ -2435,7 +2445,7 @@
             <translation>Formulaire</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AssetVideoWidget.ui" line="391" />
+            <location filename="../nolimitgui/src/Forms/AssetVideoWidget.ui" line="416" />
             <source>File Name:</source>
             <translation>Nom du fichier :</translation>
         </message>
@@ -3100,42 +3110,42 @@
             <translation>Boîte de dialogue</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="129" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="96" />
             <source>Everyone</source>
             <translation>Tout le monde</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="167" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="134" />
             <source>Friends</source>
             <translation>Amis</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="205" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="172" />
             <source>Group Members</source>
             <translation>Membres du groupe</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="243" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="210" />
             <source>Chat Room Members</source>
             <translation>Membres du salon de discussion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="281" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="248" />
             <source>Random Connect Members</source>
             <translation>Membres connectés au hasard</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="384" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="351" />
             <source>Admin</source>
             <translation>Administrateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="448" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="408" />
             <source>Send To:</source>
             <translation>Envoyer à :</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="474" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="434" />
             <source>All Members</source>
             <translation>Tous les membres</translation>
         </message>
@@ -3819,7 +3829,7 @@
  L'application va se fermer</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/ActivityBase.cpp" line="416" />
+            <location filename="../nolimitgui/src/ActivityBase.cpp" line="404" />
             <source>Session End Message</source>
             <translation>Message de fin de session</translation>
         </message>
@@ -4322,18 +4332,18 @@ Les articles sur la redirection de port peuvent être trouvés via le moteur de 
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="357" />
             <source>=== Maximum Message History ===
-Limits the message history stored to the specified maximum message history.
-The limit is applied per user for messenger.
-The limit is applied for the total messages recieved in chat room.
-The limit removes the message from history but does NOT delete any files such as photos and videos etc.
-To delete files recieved from a user you can delete them using the Library Applet.
+Controls how many recent messages are kept in local history.
+Limiting history reduces disk space and memory used by the application.
+Messenger history is limited per user, and chat room history is limited for the room list.
+Older messages are removed from history when the limit is reached.
+When history is trimmed, media files saved to Library are kept, while media files not in Library are deleted.
 </source>
             <translation>=== Historique maximal des messages ===
-Limite l'historique des messages stocké à l'historique des messages maximum spécifié.
-La limite est appliquée par utilisateur pour Messenger.
-La limite est appliquée au nombre total de messages reçus dans le salon de discussion.
-La limite supprime le message de l'historique mais ne supprime AUCUN fichier tel que des photos, des vidéos, etc.
-Pour supprimer les fichiers reçus d'un utilisateur, vous pouvez les supprimer à l'aide de l'applet Bibliothèque.</translation>
+Contrôle le nombre de messages récents conservés dans l'historique local.
+La limitation de l'historique réduit l'espace disque et la mémoire utilisés par l'application.
+L'historique de Messenger est limité par utilisateur et l'historique des salles de discussion est limité pour la liste des salles.
+Les messages plus anciens sont supprimés de l'historique lorsque la limite est atteinte.
+Lorsque l'historique est coupé, les fichiers multimédias enregistrés dans la bibliothèque sont conservés, tandis que les fichiers multimédias ne se trouvant pas dans la bibliothèque sont supprimés.</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="366" />
@@ -4497,13 +4507,13 @@ File Type: </source>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppCommon.cpp" line="687" />
-            <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="215" />
+            <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="246" />
             <source>Video Play Failed</source>
             <translation>Échec de la lecture vidéo</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppCommon.cpp" line="690" />
-            <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="217" />
+            <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="220" />
             <source>Audio Play Failed</source>
             <translation>Échec de la lecture audio</translation>
         </message>
@@ -4787,7 +4797,7 @@ File Type: </source>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppDefs.cpp" line="274" />
-            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="85" />
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="93" />
             <source>Log Settings</source>
             <translation>Paramètres du journal</translation>
         </message>
@@ -5252,25 +5262,25 @@ File Type: </source>
             <translation>Copier les informations de connexion dans le presse-papiers (NON RECOMMANDÉ)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="64" />
+            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="74" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2449" />
             <source>Invalid Host Id</source>
             <translation>ID d'hôte invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="65" />
+            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="75" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2450" />
             <source>Host Id has not been set</source>
             <translation>L'ID d'hôte n'a pas été défini</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="73" />
+            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="83" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2476" />
             <source>No Members Online</source>
             <translation>Aucun membre en ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="74" />
+            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="84" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2477" />
             <source>There are no members online to send to</source>
             <translation>Il n'y a aucun membre en ligne à qui envoyer</translation>
@@ -5288,12 +5298,14 @@ File Type: </source>
             <translation>Échec de l'ajout de l'élément. Veuillez vérifier l'espace disque</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletBase.cpp" line="86" />
+            <location filename="../nolimitgui/src/AppletBase.cpp" line="87" />
+            <location filename="../nolimitgui/src/AppletBase.cpp" line="101" />
             <source>Failed to send</source>
             <translation>Échec de l'envoi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletBase.cpp" line="87" />
+            <location filename="../nolimitgui/src/AppletBase.cpp" line="88" />
+            <location filename="../nolimitgui/src/AppletBase.cpp" line="102" />
             <source>Failed to send to </source>
             <translation>Échec de l'envoi à</translation>
         </message>
@@ -6010,7 +6022,37 @@ File Type: </source>
             <translation>Adhésion au journal</translation>
         </message>
         <message>
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="72" />
+            <source>Log Skt Tx</source>
+            <translation>Log Skt Tx</translation>
+        </message>
+        <message>
             <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="73" />
+            <source>Log Skt Rx</source>
+            <translation>Journal Skt Rx</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="75" />
+            <source>Log WebRTC</source>
+            <translation>Journal WebRTC</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="76" />
+            <source>Log Chat Room</source>
+            <translation>Journal de discussion</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="77" />
+            <source>Log Group</source>
+            <translation>Groupe de journaux</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="78" />
+            <source>Log Random Connect</source>
+            <translation>Connexion aléatoire</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="81" />
             <source>Unused Log Module</source>
             <translation>Module de journal inutilisé</translation>
         </message>
@@ -6051,12 +6093,12 @@ File Type: </source>
             <translation>Ne peut pas être consulté lorsque l'autorisation est désactivée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="179" />
+            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="188" />
             <source> with </source>
             <translation>avec</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="192" />
+            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="201" />
             <source> requires user be online </source>
             <translation>nécessite que l'utilisateur soit en ligne</translation>
         </message>
@@ -6066,7 +6108,7 @@ File Type: </source>
             <translation>est en ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="245" />
+            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="254" />
             <source>Requested Text Chat Session with </source>
             <translation>Session de discussion textuelle demandée avec</translation>
         </message>
@@ -6253,17 +6295,17 @@ Si la clé réseau est incorrecte, vous serez probablement banni en tant que pir
             <translation>Recevoir le fichier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="63" />
+            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="65" />
             <source>In Voice Phone Session</source>
             <translation>En session téléphonique vocale</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="67" />
+            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="69" />
             <source>Voice Phone Session Ended</source>
             <translation>Session téléphonique vocale terminée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPlayerCamClip.cpp" line="251" />
+            <location filename="../nolimitgui/src/AppletPlayerCamClip.cpp" line="253" />
             <source>Video file could not be played</source>
             <translation>Le fichier vidéo n'a pas pu être lu</translation>
         </message>
@@ -6285,7 +6327,7 @@ Si la clé réseau est incorrecte, vous serez probablement banni en tant que pir
         <message>
             <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="313" />
             <location filename="../nolimitgui/src/AppletPlayerNlcBase.cpp" line="185" />
-            <location filename="../nolimitgui/src/AppletPlayerNlcBase.cpp" line="334" />
+            <location filename="../nolimitgui/src/AppletPlayerNlcBase.cpp" line="335" />
             <source>File does not exist</source>
             <translation>Le fichier n'existe pas</translation>
         </message>
@@ -6811,7 +6853,7 @@ Delay Test Is Invalid
             <translation>Impossible de supprimer le dernier compte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AvatarBar.cpp" line="58" />
+            <location filename="../nolimitgui/src/AvatarBar.cpp" line="63" />
             <source>queued</source>
             <translation>en file d'attente</translation>
         </message>
@@ -8599,13 +8641,13 @@ L'action ne peut pas être annulée
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerVideoPhone.cpp" line="121" />
-            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="130" />
+            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="132" />
             <source>Session Started</source>
             <translation>Séance démarrée</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerVideoPhone.cpp" line="135" />
-            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="144" />
+            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="146" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1342" />
             <source>Session Ended</source>
             <translation>Session terminée</translation>
@@ -9700,38 +9742,38 @@ L'action ne peut pas être annulée
             <translation>L'utilisateur n'a pas pu être supprimé de la base de données</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/IdentLogicInterface.cpp" line="236" />
+            <location filename="../nolimitgui/src/IdentLogicInterface.cpp" line="268" />
             <source>Truths: </source>
             <translation>Vérités :</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/IdentLogicInterface.cpp" line="237" />
+            <location filename="../nolimitgui/src/IdentLogicInterface.cpp" line="269" />
             <source> Dares: </source>
             <translation>Ose :</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="68" />
-            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="90" />
+            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="69" />
+            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="91" />
             <source>Photo Snapshot Error</source>
             <translation>Erreur d'instantané photo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="68" />
+            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="69" />
             <source>Photo Unavailable</source>
             <translation>Photo indisponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="80" />
+            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="81" />
             <source>Failed to write photo to file </source>
             <translation>Échec de l'écriture de la photo dans le fichier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="81" />
+            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="82" />
             <source>Error Writing Photo To File</source>
             <translation>Erreur lors de l'écriture d'une photo dans un fichier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="90" />
+            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="91" />
             <source>Photo File Not Found</source>
             <translation>Fichier photo introuvable</translation>
         </message>
@@ -10598,7 +10640,7 @@ Voulez-vous enregistrer vos modifications ?</translation>
         </message>
     </context>
     <context>
-        <name>SessionWidgetClass</name>
+        <name>SessionWidgetUi</name>
         <message>
             <location filename="../nolimitgui/src/Forms/SessionWidget.ui" line="20" />
             <source>Form</source>
@@ -11003,9 +11045,9 @@ Voulez-vous enregistrer vos modifications ?</translation>
         </message>
     </context>
     <context>
-        <name>TitleBarWidgetClass</name>
+        <name>TitleBarWidgetUi</name>
         <message>
-            <location filename="../nolimitgui/src/Forms/TitleBarWidget.ui" line="333" />
+            <location filename="../nolimitgui/src/Forms/TitleBarWidget.ui" line="297" />
             <source>Test</source>
             <translation>Tester</translation>
         </message>

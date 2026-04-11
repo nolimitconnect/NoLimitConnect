@@ -231,7 +231,7 @@ GroupieId GuiMemberActiveMgr::getJoinedAdminGroupieId( EHostType hostType, VxGUI
 
     if( !wasFound )
     {
-        LogMsg( LOG_VERBOSE, "GuiMemberActiveMgr::%s not found", __func__ );
+        LogModule( eLogMembership, LOG_VERBOSE, "GuiMemberActiveMgr::%s not found", __func__ );
     }
 
     return groupieId;

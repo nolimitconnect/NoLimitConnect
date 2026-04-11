@@ -1150,8 +1150,8 @@
             <translation>로그 모듈 설정</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="681" />
-            <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="688" />
+            <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="699" />
+            <location filename="../nolimitgui/src/Forms/AppletLogSettings.ui" line="706" />
             <source>CheckBox</source>
             <translation>체크박스</translation>
         </message>
@@ -2363,37 +2363,47 @@
             <translation>무인 호스트(제안, 메시지 등 비활성화)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="101" />
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="95" />
+            <source>When unchecked, joining a new host automatically leaves other active Group, Chat Room, or Random Connect hosts.</source>
+            <translation>선택을 취소하면 새 호스트에 참여하면 다른 활성 그룹, 채팅방 또는 무작위 연결 호스트가 자동으로 탈퇴됩니다.</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="98" />
+            <source>Allow Join Multiple Hosts</source>
+            <translation>여러 호스트 가입 허용</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="111" />
             <source>Use 24 hour (military) time format</source>
             <translation>24시간(군사) 시간 형식을 사용합니다.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="123" />
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="133" />
             <source>Max Message History Retained</source>
             <translation>최대 메시지 기록 보존</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="152" />
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="162" />
             <source>Diable All Sound Effects (Key Click, Notify, Etc.)</source>
             <translation>모든 사운드 효과 비활성화(키 클릭, 알림 등)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="183" />
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="193" />
             <source>Disable Trash Sound Effect</source>
             <translation>쓰레기 음향 효과 비활성화</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="190" />
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="200" />
             <source>Disable Button Press Sound</source>
             <translation>버튼 누름 소리 비활성화</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="197" />
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="207" />
             <source>Dsiable Notify Sound</source>
             <translation>Dsiable 알림 소리</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="204" />
+            <location filename="../nolimitgui/src/Forms/AppletUserPreferences.ui" line="214" />
             <source>Disable Message Received Sound</source>
             <translation>메시지 수신음 비활성화</translation>
         </message>
@@ -2435,7 +2445,7 @@
             <translation>양식</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AssetVideoWidget.ui" line="391" />
+            <location filename="../nolimitgui/src/Forms/AssetVideoWidget.ui" line="416" />
             <source>File Name:</source>
             <translation>파일 이름:</translation>
         </message>
@@ -3100,42 +3110,42 @@
             <translation>대화상자</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="129" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="96" />
             <source>Everyone</source>
             <translation>모두</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="167" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="134" />
             <source>Friends</source>
             <translation>친구</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="205" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="172" />
             <source>Group Members</source>
             <translation>그룹 구성원</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="243" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="210" />
             <source>Chat Room Members</source>
             <translation>채팅방 회원</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="281" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="248" />
             <source>Random Connect Members</source>
             <translation>랜덤 커넥트 회원</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="384" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="351" />
             <source>Admin</source>
             <translation>관리자</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="448" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="408" />
             <source>Send To:</source>
             <translation>보내기:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="474" />
+            <location filename="../nolimitgui/src/Forms/GuiUserMultiListWidget.ui" line="434" />
             <source>All Members</source>
             <translation>모든 회원</translation>
         </message>
@@ -3819,7 +3829,7 @@
  응용프로그램이 종료됩니다</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/ActivityBase.cpp" line="416" />
+            <location filename="../nolimitgui/src/ActivityBase.cpp" line="404" />
             <source>Session End Message</source>
             <translation>세션 종료 메시지</translation>
         </message>
@@ -4322,18 +4332,18 @@ No Limit Connect의 저자는 다음과 같은 이유로 https://hide.me VPN을 
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="357" />
             <source>=== Maximum Message History ===
-Limits the message history stored to the specified maximum message history.
-The limit is applied per user for messenger.
-The limit is applied for the total messages recieved in chat room.
-The limit removes the message from history but does NOT delete any files such as photos and videos etc.
-To delete files recieved from a user you can delete them using the Library Applet.
+Controls how many recent messages are kept in local history.
+Limiting history reduces disk space and memory used by the application.
+Messenger history is limited per user, and chat room history is limited for the room list.
+Older messages are removed from history when the limit is reached.
+When history is trimmed, media files saved to Library are kept, while media files not in Library are deleted.
 </source>
             <translation>=== 최대 메시지 기록 ===
-저장된 메시지 기록을 지정된 최대 메시지 기록으로 제한합니다.
-메신저의 경우 사용자당 한도가 적용됩니다.
-채팅방에서 수신한 총 메시지 수에 한도가 적용됩니다.
-제한은 기록에서 메시지를 제거하지만 사진, 비디오 등과 같은 파일은 삭제하지 않습니다.
-사용자로부터 받은 파일을 삭제하려면 라이브러리 애플릿을 사용하여 삭제할 수 있습니다.</translation>
+로컬 기록에 보관되는 최근 메시지 수를 제어합니다.
+기록을 제한하면 애플리케이션에서 사용하는 디스크 공간과 메모리가 줄어듭니다.
+메신저 기록은 사용자별로 제한되며, 채팅방 기록은 방 목록에 대해 제한됩니다.
+한도에 도달하면 이전 메시지가 기록에서 제거됩니다.
+히스토리 트리밍 시 라이브러리에 저장된 미디어 파일은 보관되며, 라이브러리에 없는 미디어 파일은 삭제됩니다.</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="366" />
@@ -4497,13 +4507,13 @@ File Type: </source>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppCommon.cpp" line="687" />
-            <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="215" />
+            <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="246" />
             <source>Video Play Failed</source>
             <translation>비디오 재생 실패</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppCommon.cpp" line="690" />
-            <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="217" />
+            <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="220" />
             <source>Audio Play Failed</source>
             <translation>오디오 재생 실패</translation>
         </message>
@@ -4787,7 +4797,7 @@ File Type: </source>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppDefs.cpp" line="274" />
-            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="85" />
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="93" />
             <source>Log Settings</source>
             <translation>로그 설정</translation>
         </message>
@@ -5252,25 +5262,25 @@ File Type: </source>
             <translation>연결 정보를 클립보드에 복사(권장되지 않음)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="64" />
+            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="74" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2449" />
             <source>Invalid Host Id</source>
             <translation>잘못된 호스트 ID</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="65" />
+            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="75" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2450" />
             <source>Host Id has not been set</source>
             <translation>호스트 ID가 설정되지 않았습니다.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="73" />
+            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="83" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2476" />
             <source>No Members Online</source>
             <translation>온라인 회원 없음</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="74" />
+            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="84" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2477" />
             <source>There are no members online to send to</source>
             <translation>온라인에 보낼 회원이 없습니다.</translation>
@@ -5288,12 +5298,14 @@ File Type: </source>
             <translation>자산을 추가하지 못했습니다. 디스크 공간을 확인하세요</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletBase.cpp" line="86" />
+            <location filename="../nolimitgui/src/AppletBase.cpp" line="87" />
+            <location filename="../nolimitgui/src/AppletBase.cpp" line="101" />
             <source>Failed to send</source>
             <translation>보내지 못했습니다.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletBase.cpp" line="87" />
+            <location filename="../nolimitgui/src/AppletBase.cpp" line="88" />
+            <location filename="../nolimitgui/src/AppletBase.cpp" line="102" />
             <source>Failed to send to </source>
             <translation>다음으로 보내지 못했습니다.</translation>
         </message>
@@ -6010,7 +6022,37 @@ File Type: </source>
             <translation>로그 멤버십</translation>
         </message>
         <message>
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="72" />
+            <source>Log Skt Tx</source>
+            <translation>로그 전송 송신</translation>
+        </message>
+        <message>
             <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="73" />
+            <source>Log Skt Rx</source>
+            <translation>로그 수신(Skt Rx)</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="75" />
+            <source>Log WebRTC</source>
+            <translation>WebRTC 로그</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="76" />
+            <source>Log Chat Room</source>
+            <translation>로그채팅방</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="77" />
+            <source>Log Group</source>
+            <translation>로그 그룹</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="78" />
+            <source>Log Random Connect</source>
+            <translation>무작위 연결 기록</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="81" />
             <source>Unused Log Module</source>
             <translation>사용되지 않은 로그 모듈</translation>
         </message>
@@ -6051,12 +6093,12 @@ File Type: </source>
             <translation>권한이 비활성화된 경우 볼 수 없습니다.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="179" />
+            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="188" />
             <source> with </source>
             <translation>와</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="192" />
+            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="201" />
             <source> requires user be online </source>
             <translation>사용자가 온라인 상태여야 합니다.</translation>
         </message>
@@ -6066,7 +6108,7 @@ File Type: </source>
             <translation>온라인 상태입니다</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="245" />
+            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="254" />
             <source>Requested Text Chat Session with </source>
             <translation>요청한 문자 채팅 세션</translation>
         </message>
@@ -6253,17 +6295,17 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
             <translation>파일 받기</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="63" />
+            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="65" />
             <source>In Voice Phone Session</source>
             <translation>음성 전화 세션 중</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="67" />
+            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="69" />
             <source>Voice Phone Session Ended</source>
             <translation>음성전화 세션이 종료되었습니다.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPlayerCamClip.cpp" line="251" />
+            <location filename="../nolimitgui/src/AppletPlayerCamClip.cpp" line="253" />
             <source>Video file could not be played</source>
             <translation>비디오 파일을 재생할 수 없습니다</translation>
         </message>
@@ -6285,7 +6327,7 @@ If the Network Key is incorrect, you will probably be banned as a hacker.</sourc
         <message>
             <location filename="../nolimitgui/src/AppletPlayerNlc.cpp" line="313" />
             <location filename="../nolimitgui/src/AppletPlayerNlcBase.cpp" line="185" />
-            <location filename="../nolimitgui/src/AppletPlayerNlcBase.cpp" line="334" />
+            <location filename="../nolimitgui/src/AppletPlayerNlcBase.cpp" line="335" />
             <source>File does not exist</source>
             <translation>파일이 존재하지 않습니다</translation>
         </message>
@@ -6811,7 +6853,7 @@ Delay Test Is Invalid
             <translation>마지막 계정을 삭제하지 마세요</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AvatarBar.cpp" line="58" />
+            <location filename="../nolimitgui/src/AvatarBar.cpp" line="63" />
             <source>queued</source>
             <translation>대기 중</translation>
         </message>
@@ -8599,13 +8641,13 @@ Are you very sure you want to proceed?</source>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerVideoPhone.cpp" line="121" />
-            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="130" />
+            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="132" />
             <source>Session Started</source>
             <translation>세션이 시작되었습니다</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerVideoPhone.cpp" line="135" />
-            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="144" />
+            <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="146" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1342" />
             <source>Session Ended</source>
             <translation>세션이 종료되었습니다</translation>
@@ -9700,38 +9742,38 @@ Are you very sure you want to proceed?</source>
             <translation>사용자를 데이터베이스에서 삭제하지 못했습니다.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/IdentLogicInterface.cpp" line="236" />
+            <location filename="../nolimitgui/src/IdentLogicInterface.cpp" line="268" />
             <source>Truths: </source>
             <translation>진실:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/IdentLogicInterface.cpp" line="237" />
+            <location filename="../nolimitgui/src/IdentLogicInterface.cpp" line="269" />
             <source> Dares: </source>
             <translation>감히:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="68" />
-            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="90" />
+            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="69" />
+            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="91" />
             <source>Photo Snapshot Error</source>
             <translation>사진 스냅샷 오류</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="68" />
+            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="69" />
             <source>Photo Unavailable</source>
             <translation>사진을 사용할 수 없음</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="80" />
+            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="81" />
             <source>Failed to write photo to file </source>
             <translation>사진을 파일에 쓰지 못했습니다.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="81" />
+            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="82" />
             <source>Error Writing Photo To File</source>
             <translation>사진을 파일에 쓰는 중 오류가 발생했습니다.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="90" />
+            <location filename="../nolimitgui/src/InputPhotoWidget.cpp" line="91" />
             <source>Photo File Not Found</source>
             <translation>사진 파일을 찾을 수 없습니다</translation>
         </message>
@@ -10598,7 +10640,7 @@ Do you want to save your changes?</source>
         </message>
     </context>
     <context>
-        <name>SessionWidgetClass</name>
+        <name>SessionWidgetUi</name>
         <message>
             <location filename="../nolimitgui/src/Forms/SessionWidget.ui" line="20" />
             <source>Form</source>
@@ -11003,9 +11045,9 @@ Do you want to save your changes?</source>
         </message>
     </context>
     <context>
-        <name>TitleBarWidgetClass</name>
+        <name>TitleBarWidgetUi</name>
         <message>
-            <location filename="../nolimitgui/src/Forms/TitleBarWidget.ui" line="333" />
+            <location filename="../nolimitgui/src/Forms/TitleBarWidget.ui" line="297" />
             <source>Test</source>
             <translation>테스트</translation>
         </message>

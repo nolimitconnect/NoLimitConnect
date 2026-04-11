@@ -534,7 +534,7 @@ void CRenderManager::CreateRenderer()
         m_pRenderer = VIDEOPLAYER::CRendererFactory::CreateRenderer( "default", buffer );
         if( !m_pRenderer )
         {
-            LogMsg( LOG_FATAL, "%s failed to create renderer", __func__ );
+            LogModule( eLogVideoRender, LOG_FATAL, "%s failed to create renderer", __func__ );
         }
 
         // INlcRender::getINlcRender().verifyGlState();
@@ -545,7 +545,7 @@ void CRenderManager::DeleteRenderer()
 {
     if( m_pRenderer )
     {
-        CLog::Log( LOGDEBUG, "%s - deleting renderer", __FUNCTION__ );
+        LogModule( eLogVideoRender, LOG_DEBUG, "%s - deleting renderer", __FUNCTION__ );
 
         delete m_pRenderer;
         m_pRenderer = NULL;

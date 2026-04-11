@@ -203,14 +203,14 @@ float AppCommon::toGuiGetAudioDelaySeconds( EMediaModule mediaModule )
 }
 
 //============================================================================
-float AppCommon::toGuiGetAudioCacheFreeSpace( EMediaModule mediaModule )
+float AppCommon::toGuiGetAudioCacheFreeSpaceBytes( EMediaModule mediaModule )
 {
 	if( VxIsAppShuttingDown() )
 	{
 		return 0.0f;
 	}
 
-	return m_AudioMgr.toGuiGetAudioCacheFreeSpace( mediaModule );
+	return m_AudioMgr.toGuiGetAudioCacheFreeSpaceBytes( mediaModule );
 }
 
 //============================================================================

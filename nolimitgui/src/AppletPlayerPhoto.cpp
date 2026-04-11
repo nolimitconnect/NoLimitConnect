@@ -48,17 +48,15 @@ void AppletPlayerPhoto::initAppletPlayerPhoto( void )
     setMenuBottomVisibility( true );
 	ui.m_VidWidget->setMediaModule( eMediaModulePhotoPlayer );
 
+	ui.m_VidWidget->setVideoUiMode( eVideoUiModePhoto );
+	ui.m_VidWidget->disablePreview( true );
+	ui.m_VidWidget->disableRecordControls( true );
 
     BottomBarWidget * bottomBar = getBottomBarWidget();
     if( bottomBar )
     {
         setupBottomMenu( bottomBar->getMenuButton() );
     }
-
-
-	//ui.m_VidWidget->showAllControls( false );
-	//ui.m_VidWidget->disablePreview( true );
-	//ui.m_VidWidget->disableRecordControls( true );
 
 	//ui.m_PlayPosSlider->setRange( 0, 100000 );
 
@@ -101,6 +99,10 @@ bool AppletPlayerPhoto::playMedia( AssetPlaySession& assetPlaySession, bool useE
 		close();
 		return false;
 	}
+
+	// Reset image rotation to 0 for photos (ignore any camera/feed rotation settings)
+	// Users can still rotate photos manually using the rotate button
+	ui.m_VidWidget->setVidImageRotation( 0 );
 
 	if( ui.m_VidWidget->setImageFromFile( fullFileName.c_str() ) )
 	{

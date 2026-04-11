@@ -76,7 +76,7 @@ CRendererQt::YUVBUFFER::YUVBUFFER()
 CRendererQt::CRendererQt()
 : m_INlc( INlcRender::getINlcRender() )
 {
-    CLog::Log( LOGINFO, "Constructing CRendererQt" );
+    LogModule( eLogVideoRender, LOG_INFO, "Constructing CRendererQt" );
 
     m_textureTarget = GL_TEXTURE_2D;
 
@@ -146,7 +146,7 @@ bool CRendererQt::ValidateRenderTarget()
 {
     if( !m_bValidated )
     {
-        CLog::Log( LOGNOTICE, "Using GL_TEXTURE_2D" );
+        LogModule( eLogVideoRender, LOG_INFO, "Using GL_TEXTURE_2D" );
 
         // function pointer for texture might change in
         // call to LoadShaders
@@ -654,7 +654,7 @@ void CRendererQt::UnInit()
 {
     if( !VxIsAppShuttingDown() )
     {
-        CLog::Log( LOGDEBUG, "CRendererQt::UnInit: Cleaning up GL resources" );
+        LogModule( eLogVideoRender, LOG_DEBUG, "CRendererQt::UnInit: Cleaning up GL resources" );
         CSingleLock lock( CServiceBroker::GetWinSystem()->GetGfxContext() );
 
         glFinish();

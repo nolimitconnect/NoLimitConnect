@@ -200,7 +200,7 @@ bool CLinuxRendererGL::ValidateRenderTarget()
     if (m_textureTarget == GL_TEXTURE_RECTANGLE_ARB)
       CLog::Log(LOGNOTICE, "Using GL_TEXTURE_RECTANGLE_ARB");
     else
-      CLog::Log(LOGNOTICE, "Using GL_TEXTURE_2D");
+      LogModule( eLogVideoRender, LOG_INFO, "Using GL_TEXTURE_2D" );
 
     for (int i = 0 ; i < m_NumYV12Buffers ; i++)
       CreateTexture(i);

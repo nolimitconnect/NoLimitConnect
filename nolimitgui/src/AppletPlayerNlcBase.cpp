@@ -242,8 +242,6 @@ void AppletPlayerNlcBase::slotSliderPressed( void )
 void AppletPlayerNlcBase::slotSliderReleased( void )
 {
 	m_SliderIsPressed = false;
-	int posVal = getPlayPosSlider()->value();
-	startMediaPlay( posVal );
 }
 
 //============================================================================
@@ -262,6 +260,8 @@ void AppletPlayerNlcBase::slotPlayButtonClicked( void )
 //========================================================================
 void AppletPlayerNlcBase::startMediaPlay( int startPos )
 {
+	// Start every play from a clean player-audio cache state.
+	m_MyApp.getAudioMgr().clearPlayerNlcBuffers();
 	bool playStarted = m_Engine.fromGuiAssetAction( eAssetActionPlayBegin, m_AssetInfo, startPos );
 	updateGuiPlayControls( playStarted );
 	if( false == playStarted )
@@ -302,6 +302,7 @@ void AppletPlayerNlcBase::stopMediaIfPlaying( void )
 	}
 
 	IMediaPlayerRequests::getNlcPlayer().fromGuiStopButtonClicked();
+	m_MyApp.getAudioMgr().clearPlayerNlcBuffers();
 }
 
 //============================================================================
@@ -355,7 +356,7 @@ void AppletPlayerNlcBase::fromMediaPlayerInitLevel( int level, bool success )
 //============================================================================
 void AppletPlayerNlcBase::slotInternalInitLevel( int level, bool success )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::slotInternalInitLevel level %d sucess ? %d", level, success );
+	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::slotInternalInitLevel level %d sucess ? %d", level, success );
 }
 
 //============================================================================
@@ -367,7 +368,7 @@ void AppletPlayerNlcBase::fromMediaPlayerIsRunning( bool isRunning )
 //============================================================================
 void AppletPlayerNlcBase::slotInternalPlayerNlcIsRunning( bool isRunning )
 {
-    LogMsg( LOG_DEBUG, "%s %d", __func__, isRunning );
+	LogModule( eLogPlayerNlc, LOG_DEBUG, "%s %d", __func__, isRunning );
     if( isRunning )
     {
         getRenderConsumer()->showAppIcon();
@@ -385,7 +386,7 @@ void AppletPlayerNlcBase::fromMediaPlayerPlayFile( VxGUID& feedId, bool fileOpen
 //============================================================================
 void AppletPlayerNlcBase::slotInternalPlayFile( VxGUID feedId, bool fileOpened )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s file opened ? %d", __func__, fileOpened );
+	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s file opened ? %d", __func__, fileOpened );
 }
 
 //============================================================================
@@ -397,7 +398,7 @@ void AppletPlayerNlcBase::fromMediaPlayerPlaybackStarted( VxGUID& feedId )
 //============================================================================
 void AppletPlayerNlcBase::slotInternalPlayStarted( VxGUID feedId )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
+	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
 	onPlayStarted( feedId );
 }
 
@@ -410,7 +411,7 @@ void AppletPlayerNlcBase::fromMediaPlayerPlaybackStopped( VxGUID& feedId )
 //============================================================================
 void AppletPlayerNlcBase::slotInternalPlaybackStopped( VxGUID feedId )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
+	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
 	onPlaybackStopped( feedId );
 }
 
@@ -423,7 +424,7 @@ void AppletPlayerNlcBase::fromMediaPlayerPlaybackEnded( VxGUID& feedId )
 //============================================================================
 void AppletPlayerNlcBase::slotInternalPlaybackEnded( VxGUID feedId )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
+	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
 	onPlaybackEnded( feedId );
 }
 
@@ -436,7 +437,7 @@ void AppletPlayerNlcBase::fromMediaPlayerPlayPause( VxGUID& feedId, bool isPause
 //============================================================================
 void AppletPlayerNlcBase::slotInternalPlayPause( VxGUID feedId, bool isPaused )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
+	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s", __func__ );
 	onPlayPause( feedId, isPaused );
 }
 
@@ -482,7 +483,7 @@ void AppletPlayerNlcBase::onActivityFinish( void )
 //============================================================================
 void AppletPlayerNlcBase::onPlayStarted( VxGUID& feedId )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s id %s", __func__, feedId.toHexString().c_str() );
+	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s id %s", __func__, feedId.toHexString().c_str() );
 	stopBusySpinner();
 	updateGuiPlayControls( true );
 	resetPlayerControls();
@@ -493,7 +494,7 @@ void AppletPlayerNlcBase::onPlayStarted( VxGUID& feedId )
 //============================================================================
 void AppletPlayerNlcBase::onPlaybackStopped( VxGUID& feedId )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s id %s", __func__, feedId.toHexString().c_str() );
+	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s id %s", __func__, feedId.toHexString().c_str() );
 	if( getIsStreaming() )
 	{
 		setIsStreaming( false );
@@ -504,12 +505,13 @@ void AppletPlayerNlcBase::onPlaybackStopped( VxGUID& feedId )
 	updateGuiPlayControls( false );
 	resetPlayerControls();
 	setIsPlaying( false );
+	m_MyApp.getAudioMgr().clearPlayerNlcBuffers();
 }
 
 //============================================================================
 void AppletPlayerNlcBase::onPlaybackEnded( VxGUID& feedId )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s id %s", __func__, feedId.toHexString().c_str() );
+	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s id %s", __func__, feedId.toHexString().c_str() );
 	if( getIsStreaming() )
 	{
 		setIsStreaming( false );
@@ -520,13 +522,14 @@ void AppletPlayerNlcBase::onPlaybackEnded( VxGUID& feedId )
 	updateGuiPlayControls( false );
 	resetPlayerControls();
 	setIsPlaying( false );
+	m_MyApp.getAudioMgr().clearPlayerNlcBuffers();
 	getRenderConsumer()->showAppIcon();
 }
 
 //============================================================================
 void AppletPlayerNlcBase::onCanSeek( VxGUID& feedId, bool canSeek, bool canPause )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s is canSeek ? %d canPause ? %d", __func__, canSeek, canPause );
+	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s is canSeek ? %d canPause ? %d", __func__, canSeek, canPause );
 	stopBusySpinner();
 	getPlayPauseButton()->setEnabled( canPause );
 	getPlayPosSlider()->setEnabled( canSeek );
@@ -535,7 +538,7 @@ void AppletPlayerNlcBase::onCanSeek( VxGUID& feedId, bool canSeek, bool canPause
 //============================================================================
 void AppletPlayerNlcBase::onPlayPause( VxGUID& feedId, bool isPaused )
 {
-	LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s is paused ? %d", __func__, isPaused );
+	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s is paused ? %d", __func__, isPaused );
 	stopBusySpinner();
 	if( isPaused )
 	{ 
@@ -569,6 +572,7 @@ void AppletPlayerNlcBase::slotStopButtonClick( void )
 //============================================================================
 void AppletPlayerNlcBase::slotSliderChanged( int sliderPos )
 {
+	m_MyApp.getAudioMgr().clearPlayerNlcBuffers();
 	IMediaPlayerRequests::getNlcPlayer().fromGuiMediaPlayerSeek( sliderPos );
 }
 
@@ -635,7 +639,7 @@ void AppletPlayerNlcBase::onMediaPlayerNlcReady( bool isReady )
 			m_PlayAssetQue.clear();
 			if( !playResult )
 			{
-				LogMsg( LOG_VERBOSE, "AppletPlayerNlcBase::%s play failed", __func__ );
+				LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s play failed", __func__ );
 			}
 		}
 	}

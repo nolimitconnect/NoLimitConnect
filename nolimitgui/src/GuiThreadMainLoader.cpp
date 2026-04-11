@@ -64,20 +64,20 @@ void GuiThreadMainLoader::run()
         }
     }
 
-    LogMsg( LOG_VERBOSE, "user storage path %s disk space %s", userWriteablePath.c_str(), VxFileUtil::describeDiskSpace( userWriteablePath ).c_str() );
+    LogModule( eLogStartup, LOG_VERBOSE, "user storage path %s disk space %s", userWriteablePath.c_str(), VxFileUtil::describeDiskSpace( userWriteablePath ).c_str() );
 
     bool result = IMediaPlayerRequests::getOsInterface().doPreStartup();
 
     result &= IMediaPlayerRequests::getOsInterface().initUserPaths( userWriteablePath );
 
     int timePreStartupEnd = GetApplicationAliveMs();
-    LogMsg( LOG_VERBOSE, "GuiThreadMainLoader::run os interface startup took %d ms at %d ms",
+    LogModule( eLogStartup, LOG_VERBOSE, "GuiThreadMainLoader::run os interface startup took %d ms at %d ms",
            timePreStartupEnd - timeStart, timePreStartupEnd );
 
 
     GetPtoPEngine(); // engine first.. there is some interdependencies
     int mainLoadThreadEnd = GetApplicationAliveMs();
-    LogMsg( LOG_VERBOSE, "GuiThreadMainLoader::run GetPtoPEngine complete in %d ms at %d",
+    LogModule( eLogStartup, LOG_VERBOSE, "GuiThreadMainLoader::run GetPtoPEngine complete in %d ms at %d",
            mainLoadThreadEnd - timePreStartupEnd, mainLoadThreadEnd );
 
     setIsLoadComplete( true );

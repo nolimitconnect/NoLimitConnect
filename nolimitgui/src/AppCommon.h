@@ -509,7 +509,7 @@ public:
 
     virtual float               toGuiGetAudioDelaySeconds( EMediaModule mediaModule ) override;
 
-    virtual float               toGuiGetAudioCacheFreeSpace( EMediaModule mediaModule ) override;
+    virtual float               toGuiGetAudioCacheFreeSpaceBytes( EMediaModule mediaModule ) override;
 
     virtual float               toGuiGetAudioCacheMaxSeconds( EMediaModule mediaModule ) override;
 

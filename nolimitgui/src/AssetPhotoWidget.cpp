@@ -60,6 +60,9 @@ void AssetPhotoWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 {
 	AssetBaseWidget::setAssetInfo( assetInfo );
 	this->setSizeHint( QSize( 100, 224 - 16 ) );
+	// Reset image rotation to 0 for photos (ignore any camera/feed rotation settings)
+	// Users can still rotate photos manually using the rotate button
+	ui.m_VidWidget->setVidImageRotation( 0 );
 	ui.m_VidWidget->setImageFromFile( assetInfo.getAssetNameAndPath().c_str() );
 	ui.m_LeftAvatarBar->setOnlineId( m_AssetInfo.getOnlineId() );
 	ui.m_RightAvatarBar->setOnlineId( m_AssetInfo.getOnlineId() );

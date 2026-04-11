@@ -100,6 +100,8 @@ enum ELogModule : uint64_t
 	eLogGroup			= 0x1000000000ULL, // 37
 	eLogRandomConnect	= 0x2000000000ULL, // 38
 
+    eLogVideoRender	    = 0x4000000000ULL, // 39
+
     eMaxLogModule
 };
 

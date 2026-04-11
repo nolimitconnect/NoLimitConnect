@@ -51,7 +51,7 @@ void MediaPlayerNlc::wantMediaPlayerCallback( IMediaPlayerCallback* client, bool
 {
     if( !client )
     {
-        LogMsg( LOG_ERROR, "MediaPlayerNlc::wantConnectIdListCallback null client" );
+		LogMsg( LOG_ERROR, "MediaPlayerNlc::wantConnectIdListCallback null client" );
 		vx_assert( false );
         return;
     }

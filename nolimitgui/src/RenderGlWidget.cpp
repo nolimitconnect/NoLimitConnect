@@ -122,7 +122,7 @@ void RenderGlWidget::paintEvent( QPaintEvent * ev )
 //============================================================================
 void RenderGlWidget::handleGlResize( int width, int height )
 {
-    LogMsg( LOG_DEBUG, "handleGlResize x(%d) y(%d)", width, height );
+    LogModule( eLogVideoRender, LOG_DEBUG, "handleGlResize x(%d) y(%d)", width, height );
     if( width > 1 && height > 1 )
     {
         QSize screenSize = QSize( width, height );

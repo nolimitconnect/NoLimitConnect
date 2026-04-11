@@ -23,7 +23,8 @@
 class AudioMixerMgr : public IAudioRequests
 {
 public:
-    const int PLAYER_MAX_QUEUE_SIZE = 34; // approx 2 seconds of audio at 48000 Hz, kodi/player-nlc recommended cache size is between 2 and 5 seconds of audio
+    const int PLAYER_MAX_QUEUE_SIZE = 4; // 4 x 60ms frames with one-frame headroom => effective max cache is 180ms
+    const int PLAYER_STARTUP_PRIME_FRAMES = 4; // prebuffer ~240ms (4 x 60ms) to reduce startup gaps/underruns
     
     // return true if any microphone device is available to be enabled
     bool				        toGuiIsMicrophoneDeviceAvailable( void ) override{ return false; }; // this is handled by AudioMgr
@@ -39,7 +40,7 @@ public:
 
     float                       toGuiGetAudioDelaySeconds( EMediaModule mediaModule ) override;
 
-    float                       toGuiGetAudioCacheFreeSpace( EMediaModule mediaModule ) override;
+    float                       toGuiGetAudioCacheFreeSpaceBytes( EMediaModule mediaModule ) override;
 
     float                       toGuiGetAudioCacheMaxSeconds( EMediaModule mediaModule ) override;
     //=== IAudioRequests end ===//
@@ -57,6 +58,7 @@ public:
 	// player-nlc
   	virtual void				setPlayerNlcActive( bool isActive );
     bool						getPlayerNlcActive( void ) { return m_PlayerNlcActive; }
+    void                        clearPlayerNlcBuffers( void );
 
 protected:
     void                        lockPlayerCache( void )                             { m_PlayerCacheMutex.lock(); }
@@ -73,6 +75,8 @@ protected:
 
     // player-nlc
     bool                        m_PlayerNlcActive{ false };
+    bool                        m_PlayerNlcPrimed{ false };
+    int                         m_PlayerNlcStreamStartMs{ 0 };
     AudioSampleBuf              m_PlayerCacheBuf;
     std::deque<std::vector<int16_t>> m_PlayerCacheQueue;
     std::mutex                  m_PlayerCacheMutex;

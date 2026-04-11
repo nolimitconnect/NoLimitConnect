@@ -43,7 +43,7 @@ void RenderPlayerNlcThread::run()
     static bool isKodiRunning = false;
     if( !isKodiRunning )
     {
-        LogMsg( LOG_ERROR, "RenderPlayerNlcThread %d", VxGetCurrentThreadId() );
+        LogModule( eLogVideoRender, LOG_ERROR, "RenderPlayerNlcThread %d", VxGetCurrentThreadId() );
         isKodiRunning = true;
 #ifdef RENDER_LOGO_INSTEAD_OF_KODI
         qDebug() << "hello from worker thread " << VxGetCurrentThreadId();
@@ -77,7 +77,7 @@ void RenderPlayerNlcThread::run()
     }
     else
     {
-        LogMsg( LOG_ERROR, "Tried to run kodi twice" );
+        LogModule( eLogVideoRender, LOG_ERROR, "Tried to run kodi twice" );
     }
 }
 

@@ -1081,7 +1081,7 @@ void ActivityBase::stopBusySpinner( void )
 {
 	if( !m_BusySpinner )
 	{
-        //LogMsg( LOG_ERROR, "AppletPlayerNlcBase::%s Busy Spinner does NOT exists", __func__ );
+		//LogMsg( LOG_ERROR, "AppletPlayerNlcBase::%s Busy Spinner does NOT exists", __func__ );
 		return;
 	}
 

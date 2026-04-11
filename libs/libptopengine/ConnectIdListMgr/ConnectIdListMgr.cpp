@@ -225,7 +225,7 @@ bool ConnectIdListMgr::addConnection( std::shared_ptr<VxSktBase>& sktBase, Group
 
     if( isRelayed )
     {
-        LogMsg( LOG_VERBOSE, "ConnectIdListMgr::%s socket is relayed", __func__ );
+        LogModule( eLogConnect, LOG_VERBOSE, "ConnectIdListMgr::%s socket is relayed", __func__ );
     }
 
     VxGUID& sktConnectId = sktBase->getSocketId();
@@ -246,7 +246,7 @@ bool ConnectIdListMgr::addConnection( ConnectId & connectId )
 {
     if( connectionExists( connectId ) )
     {
-        LogMsg( LOG_WARN, "ConnectIdListMgr::%s already exists %s", __func__, m_Engine.describeConnectId( connectId ).c_str() );
+        LogModule( eLogConnect, LOG_WARN, "ConnectIdListMgr::%s already exists %s", __func__, m_Engine.describeConnectId( connectId ).c_str() );
         return true;
     }
 

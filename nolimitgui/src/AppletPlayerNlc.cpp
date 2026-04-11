@@ -458,7 +458,7 @@ void AppletPlayerNlc::slotOpenAudioFileButtonClick( void )
 //============================================================================
 void AppletPlayerNlc::slotExpandWindowChanged( bool isMessengerFrame, bool isMaxScreenSize )
 {
-	LogMsg( LOG_VERBOSE, "%s messenger frame ? %d is max screen size ? %d", __func__, isMessengerFrame, isMaxScreenSize );
+	LogModule( eLogPlayerNlc, LOG_VERBOSE, "%s messenger frame ? %d is max screen size ? %d", __func__, isMessengerFrame, isMaxScreenSize );
 	if( isMessengerFrame && isMaxScreenSize )
 	{
 		ActivityBase::hide();

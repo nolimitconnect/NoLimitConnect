@@ -69,10 +69,10 @@ void GuiParams::initGuiParams(int defaultFontHeight)
 
         float mediumIconSizePixels = m_MediumPushButtonSize;
         float mediumIconSizeInches = m_MediumPushButtonSize / dpi;
-        LogMsg( LOG_VERBOSE, "Screen dpi %1.0f width pixels %d inches %1.0f height pixels %d inches %1.0f can fit %1.0f small icons",
+        LogModule( eLogStartup, LOG_VERBOSE, "Screen dpi %1.0f width pixels %d inches %1.0f height pixels %d inches %1.0f can fit %1.0f small icons",
             dpi, screenGeometry.width(), screenGeometry.width() / dpi, screenGeometry.height(), screenGeometry.height() / dpi, maxPixels / mediumIconSizePixels );
 
-        LogMsg( LOG_VERBOSE, "Screen medium icon pixels %1.0f inches %1.0f scale %3.1f icon pixels tiny %d small %d medium %d large %d",
+        LogModule( eLogStartup, LOG_VERBOSE, "Screen medium icon pixels %1.0f inches %1.0f scale %3.1f icon pixels tiny %d small %d medium %d large %d",
             mediumIconSizePixels, mediumIconSizeInches, m_DisplayScale, m_TinyPushButtonSize, m_SmallPushButtonSize, m_MediumPushButtonSize, m_LargePushButtonSize );
     }
 }

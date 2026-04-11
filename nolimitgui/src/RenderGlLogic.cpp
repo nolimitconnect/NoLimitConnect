@@ -68,7 +68,7 @@ void RenderGlLogic::waitForPlayerExit( void )
 {
     if( m_RenderPlayerNlcThread  )
     {
-        LogModule( eLogVideoIo, LOG_VERBOSE, "RenderGlLogic::aboutToDestroy waiting for thread" );
+        LogModule( eLogVideoRender, LOG_VERBOSE, "RenderGlLogic::aboutToDestroy waiting for thread" );
         //IMediaPlayerRequests::getNlcPlayer().fromGuiStopModule( eMediaModulePlayerNlc );
         VxTimer waitTimer;
         m_RenderPlayerNlcThread->quit(); // some platforms may not have windows to close so ensure quit()
@@ -78,12 +78,12 @@ void RenderGlLogic::waitForPlayerExit( void )
 
             if( m_RenderPlayerNlcThread->isRunning() )
             {
-                LogMsg( LOG_VERBOSE, "RenderGlLogic::aboutToDestroy still waiting for thread to exit %3.3f ms", waitTimer.elapsedMs() );
+                LogModule( eLogVideoRender, LOG_VERBOSE, "RenderGlLogic::aboutToDestroy still waiting for thread to exit %3.3f ms", waitTimer.elapsedMs() );
             }
         }
 
         //m_RenderPlayerNlcThread->wait();
-        LogModule( eLogVideoIo, LOG_VERBOSE, "RenderGlLogic::aboutToDestroy waited for thread %3.3f ms", waitTimer.elapsedMs() );
+        LogModule( eLogVideoRender, LOG_VERBOSE, "RenderGlLogic::aboutToDestroy waited for thread %3.3f ms", waitTimer.elapsedMs() );
         //delete m_RenderPlayerNlcThread;
         m_RenderPlayerNlcThread->deleteLater();
         m_RenderPlayerNlcThread = nullptr;
@@ -202,12 +202,12 @@ void RenderGlLogic::setSurfaceSize( QSize surfaceSize )
     {
         if( m_RenderThreadSurface )
         {
-            LogMsg( LOG_ERROR, "%s no surface available", __func__ );
+            LogModule( eLogVideoRender, LOG_ERROR, "%s no surface available", __func__ );
             vx_assert( false );
         }
         else
         {
-            LogMsg( LOG_ERROR, "%s bad size param w%d h%d", __func__, surfaceSize.width(), surfaceSize.height() );
+            LogModule( eLogVideoRender, LOG_ERROR, "%s bad size param w%d h%d", __func__, surfaceSize.width(), surfaceSize.height() );
             vx_assert( false );
         }
     }
@@ -216,19 +216,19 @@ void RenderGlLogic::setSurfaceSize( QSize surfaceSize )
 //============================================================================
 bool RenderGlLogic::initRenderGlSystem()
 {
-    LogMsg( LOG_DEBUG, "%s thread %d", __func__, VxGetCurrentThreadId() );
+    LogModule( eLogVideoRender, LOG_DEBUG, "%s thread %d", __func__, VxGetCurrentThreadId() );
 
     if( m_RenderThreadSurface )
     {
         m_RenderThreadSurface->initRenderGlSystem();
         VerifyGLStateQt();
         m_RenderRunning = true;
-        LogMsg( LOG_DEBUG, "%s initialized", __func__ );
+        LogModule( eLogVideoRender, LOG_DEBUG, "%s initialized", __func__ );
         return true;
     }
     else
     {
-        LogMsg( LOG_ERROR, "%s no surface available", __func__ );
+        LogModule( eLogVideoRender, LOG_ERROR, "%s no surface available", __func__ );
         vx_assert( false );
         return false;
     }
@@ -297,9 +297,9 @@ void  RenderGlLogic::VerifyGLStateQtDbg( const char* szfile, const char* szfunct
         return;
 #ifdef TARGET_OS_ANDROID
     // no equivelent of gluErrorString on android platform
-    LogMsg( LOG_ERROR, "GL ERROR: %d", err );
+    LogModule( eLogVideoRender, LOG_ERROR, "GL ERROR: %d", err );
 #else
-    LogMsg( LOG_ERROR, "GL ERROR: %d %s", err, gluErrorString( err ) );
+    LogModule( eLogVideoRender, LOG_ERROR, "GL ERROR: %d %s", err, gluErrorString( err ) );
 #endif // TARGET_OS_ANDROID
     //if( szfile && szfunction )
     //{
@@ -314,9 +314,9 @@ void RenderGlLogic::VerifyGLStateQt()
         return;
 #ifdef TARGET_OS_ANDROID
     // no equivelent of gluErrorString on android platform
-    LogMsg( LOG_ERROR, "GL ERROR: %d", err );
+    LogModule( eLogVideoRender, LOG_ERROR, "GL ERROR: %d", err );
 #else
-    LogMsg( LOG_ERROR, "GL ERROR: %d %s", err, gluErrorString( err ) );
+    LogModule( eLogVideoRender, LOG_ERROR, "GL ERROR: %d %s", err, gluErrorString( err ) );
 #endif // TARGET_OS_ANDROID
 }
 #endif
@@ -327,18 +327,18 @@ void RenderGlLogic::verifyGlState( const char* msg ) // show gl error if any
 #ifdef DEBUG_RENDER_THREADS
     if( msg && getRenderThreadId() && ( getRenderThreadId() != VxGetCurrentThreadId() ) )
     {
-        LogMsg( LOG_ERROR, "ERROR %s render thread 0x%X != current thread %d ", msg, getRenderThreadId(), VxGetCurrentThreadId() );
+        LogModule( eLogVideoRender, LOG_ERROR, "ERROR %s render thread 0x%X != current thread %d ", msg, getRenderThreadId(), VxGetCurrentThreadId() );
     }
 #endif // DEBUG_RENDER_THREADS
 
 #ifdef DEBUG_LOG_RENDER_CALLS
     if( msg && getRenderThreadId() && ( getRenderThreadId() != VxGetCurrentThreadId() ) )
     {
-        LogMsg( LOG_ERROR, "ERROR %s render thread 0x%X != thread %d ", msg, getRenderThreadId(), VxGetCurrentThreadId() );
+        LogModule( eLogVideoRender, LOG_ERROR, "ERROR %s render thread 0x%X != thread %d ", msg, getRenderThreadId(), VxGetCurrentThreadId() );
     }
     else if( msg )
     {
-        LogMsg( LOG_ERROR, "gl func %s render thread %d ", msg, getRenderThreadId() );
+        LogModule( eLogVideoRender, LOG_ERROR, "gl func %s render thread %d ", msg, getRenderThreadId() );
     }
 
 #endif // DEBUG_RENDER_THREADS
