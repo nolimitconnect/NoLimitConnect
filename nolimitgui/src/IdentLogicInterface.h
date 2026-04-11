@@ -134,6 +134,7 @@ protected slots:
 	void						slotIdentPushToTalkButtonClicked( void );
 
 protected:
+	bool						eventFilter( QObject* watched, QEvent* event ) override;
 	void						callbackUserUpdated( GuiUser* guiUser ) override;
 	void						callbackOnlineStatusChange( GuiUser* guiUser, bool isOnline ) override;
     void						callbackPushToTalkStatus( VxGUID& onlineId, enum EPushToTalkStatus pushToTalkStatus ) override;

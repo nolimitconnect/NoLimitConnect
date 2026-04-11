@@ -11,6 +11,7 @@
 #include "AssetVideoWidget.h"
 #include "AppCommon.h"
 #include "GuiParams.h"
+#include "VxLabel.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -54,7 +55,12 @@ void AssetVideoWidget::initAssetVideoWidget( void )
 	ui.m_PlayPauseButton->setPressedSound( eSndDefNone );
 	ui.m_PlayPosSlider->setRange( 0, 100000 );
 
+	ui.m_PlaybackRotateButton->setIcon( eMyIconImageRotateNormal );
+	ui.m_PlaybackRotateButton->setPressedSound( eSndDefNone );
+
 	connect( ui.m_PlayPauseButton,	SIGNAL(clicked()),						this, SLOT(slotPlayButtonClicked()) );
+	connect( ui.m_PlaybackRotateButton,	SIGNAL(clicked()),					this, SLOT(slotPlaybackRotateButtonClicked()) );
+
 	connect( ui.m_LeftAvatarBar,	SIGNAL(signalShredAsset()),				this, SLOT(slotShredAsset()) );
 	connect( ui.m_RightAvatarBar,	SIGNAL(signalShredAsset()),				this, SLOT(slotShredAsset()) );
     connect( ui.m_LeftAvatarBar,	SIGNAL(signalAddLibraryAsset()),        this, SLOT(slotAddLibraryAsset()) );
@@ -194,6 +200,27 @@ void AssetVideoWidget::slotSliderReleased( void )
 	m_SliderIsPressed = false;
 	int posVal = ui.m_PlayPosSlider->value();
 	startMediaPlay( posVal );
+}
+
+//============================================================================
+void AssetVideoWidget::slotPlaybackRotateButtonClicked( void )
+{
+	int imageRotation = ui.m_VidWidget->getVidImageRotation();
+	imageRotation += 90;
+	if( imageRotation >= 360 )
+	{
+		imageRotation = 0;
+	}
+
+	ui.m_VidWidget->setVidImageRotation( imageRotation );
+
+	QImage curImage = ui.m_VidWidget->getVideoScreen()->getLastVideoImage();
+	if( !curImage.isNull() )
+	{
+		ui.m_VidWidget->getVideoScreen()->playVideoFrame( curImage );
+	}
+
+	m_MyApp.toGuiUserMessage( "Playback Rotation %d", imageRotation );
 }
 
 //============================================================================

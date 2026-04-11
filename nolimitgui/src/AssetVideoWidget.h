@@ -41,6 +41,7 @@ signals:
 	void						signalPlayEnd( void );
 
 protected slots:
+    void						slotPlaybackRotateButtonClicked( void );
 	void						slotPlayButtonClicked( void );
     void						slotShredAsset( void ) override;
 	void						slotSliderPressed( void );

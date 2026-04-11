@@ -131,7 +131,12 @@ VidWidget::~VidWidget()
 		m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpg, m_MediaModule, m_VideoFeedId, false );
 	}
 
+	// Remove ALL registrations for this client so no stale pointer remains in GuiPlayerMgr
 	m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, false );
+	if( m_VideoFeedId.isVxGUIDValid() && m_VideoFeedId != m_MyOnlineId )
+	{
+		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_VideoFeedId, this, false );
+	}
 }
 
 //============================================================================
@@ -199,60 +204,46 @@ void VidWidget::setVideoUiMode( EVideoUiMode videoUiMode )
 //============================================================================
 void VidWidget::applyVideoUiMode( void )
 {
+	// Reset all optional controls so repeated mode switches never leave stale UI behind.
+	showFeedControls( false );
+	showRecordControls( false );
+	showMotionSensitivityControls( false );
+
+	ui.m_CamRotateButton->setVisible( false );
+	ui.m_CamSourceButton->setVisible( false );
+	ui.m_CamEnableButton->setVisible( false );
+	ui.m_CamPreviewButton->setVisible( false );
+	ui.m_ImageRotateButton->setVisible( false );
+	ui.m_PictureSnapshotButton->setVisible( false );
+	ui.m_MotionAlarmButton->setVisible( false );
+	ui.m_MotionRecordButton->setVisible( false );
+	ui.m_NormalRecordButton->setVisible( false );
+	ui.m_RecordSensitivityFrame->setVisible( false );
+	ui.m_MotionBar->setVisible( false );
+	ui.m_MotionSensitivitySlider->setVisible( false );
+
 	switch( m_VideoUiMode )
 	{
 	case eVideoUiModePhoto:
 		showFeedControls( true );
-		showRecordControls( false );
 		disablePreview( true );
-		ui.m_CamRotateButton->setVisible( false );
-		ui.m_CamSourceButton->setVisible( false );
-		ui.m_CamEnableButton->setVisible( false );
-		ui.m_CamPreviewButton->setVisible( false );
 		ui.m_ImageRotateButton->setVisible( true );
 		break;
 
 	case eVideoUiModeInputWidget:
-		showFeedControls( true );
-		showRecordControls( true );
 		disablePreview( true );
-		ui.m_CamRotateButton->setVisible( true );
-		ui.m_CamSourceButton->setVisible( true );
-		ui.m_CamEnableButton->setVisible( false );
-		ui.m_CamPreviewButton->setVisible( false );
-		ui.m_ImageRotateButton->setVisible( true );
-		ui.m_PictureSnapshotButton->setVisible( false );
-		ui.m_MotionAlarmButton->setVisible( false );
-		ui.m_MotionRecordButton->setVisible( false );
-		ui.m_NormalRecordButton->setVisible( true );
 		break;
 
 	case eVideoUiModeInputPhoto:
 		showFeedControls( true );
-		showRecordControls( false );
 		disablePreview( true );
 		ui.m_CamRotateButton->setVisible( true );
 		ui.m_CamSourceButton->setVisible( true );
-		ui.m_CamEnableButton->setVisible( false );
-		ui.m_CamPreviewButton->setVisible( false );
-		ui.m_ImageRotateButton->setVisible( false );
-		ui.m_PictureSnapshotButton->setVisible( false );
-		ui.m_MotionAlarmButton->setVisible( false );
-		ui.m_MotionRecordButton->setVisible( false );
-		ui.m_NormalRecordButton->setVisible( false );
-		ui.m_RecordSensitivityFrame->setVisible( false );
-		ui.m_MotionBar->setVisible( false );
-		ui.m_MotionSensitivitySlider->setVisible( false );
 		break;
 
 	case eVideoUiModeAssetVideo:
 		showFeedControls( true );
-		showRecordControls( false );
 		disablePreview( true );
-		ui.m_CamRotateButton->setVisible( false );
-		ui.m_CamSourceButton->setVisible( false );
-		ui.m_CamEnableButton->setVisible( false );
-		ui.m_CamPreviewButton->setVisible( false );
 		ui.m_ImageRotateButton->setVisible( true );
 		break;
 

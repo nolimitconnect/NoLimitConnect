@@ -10,9 +10,10 @@ This document defines the `VidWidget` UI mode split to reduce confusion and save
 
 ## VidWidget Modes
 
-`VidWidget` now supports 4 explicit UI modes:
+`VidWidget` now supports 5 explicit UI modes:
 
 - `eVideoUiModePhoto`
+- `eVideoUiModeInputPhoto`
 - `eVideoUiModeInputWidget`
 - `eVideoUiModeAssetVideo`
 - `eVideoUiModeChat`
@@ -24,9 +25,13 @@ This document defines the `VidWidget` UI mode split to reduce confusion and save
   - Keep only image rotation control.
 
 - Input widget mode:
-  - Rotate and select camera.
-  - Record start/stop only.
-  - Hide motion/snapshot/alarm controls that are not needed for this flow.
+  - Display-only mode for embedded video surface in input flows.
+  - Hide all embedded VidWidget controls to avoid duplicate controls with parent input widgets.
+
+- Input photo mode:
+  - Photo capture flow mode.
+  - Hide embedded record controls, motion sensitivity, and motion progress UI.
+  - Keep feed area minimal while parent photo widget owns capture actions.
 
 - Asset video mode:
   - Keep only image rotation in `VidWidget`.
@@ -38,7 +43,7 @@ This document defines the `VidWidget` UI mode split to reduce confusion and save
 ## Current Wiring
 
 - `AssetPhotoWidget` sets `eVideoUiModePhoto`.
-- `InputPhotoWidget` sets `eVideoUiModeInputWidget`.
+- `InputPhotoWidget` sets `eVideoUiModeInputPhoto`.
 - `InputVideoWidget` sets `eVideoUiModeInputWidget`.
 - `AssetVideoWidget` sets `eVideoUiModeAssetVideo`.
 - Default remains `eVideoUiModeChat` for existing chat/camera surfaces.

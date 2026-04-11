@@ -27,7 +27,9 @@
 
 #include <CoreLib/VxDebug.h>
 
+#include <QEvent>
 #include <QLabel>
+#include <QMouseEvent>
 
 //============================================================================
 IdentLogicInterface::IdentLogicInterface( QWidget* parent )
@@ -87,12 +89,42 @@ void IdentLogicInterface::setupIdentLogic( void ) // call after derived class ui
 		getIdentAvatarButton()->setIcon( eMyIconAvatarImage );
 		getIdentFriendshipButton()->setIcon( eMyIconUnknown );
 
+		if( getIdentLine1() )
+		{
+			getIdentLine1()->setCursor( Qt::PointingHandCursor );
+			getIdentLine1()->installEventFilter( this );
+		}
+
+		if( getIdentLine2() )
+		{
+			getIdentLine2()->setCursor( Qt::PointingHandCursor );
+			getIdentLine2()->installEventFilter( this );
+		}
+
 		connect( getIdentAvatarButton(), SIGNAL(clicked()), this, SLOT(slotIdentAvatarButtonClicked()) );
 		connect( getIdentFriendshipButton(), SIGNAL(clicked()), this, SLOT(slotIdentFrienshipButtonClicked()) );
 		connect( getIdentMenuButton(), SIGNAL(clicked()), this, SLOT(slotIdentMenuButtonClicked()) );
 	}
 	
 	onIdentLogicIsSetup();
+}
+
+//============================================================================
+bool IdentLogicInterface::eventFilter( QObject* watched, QEvent* event )
+{
+	if( ( watched == getIdentLine1() || watched == getIdentLine2() )
+		&& event
+		&& event->type() == QEvent::MouseButtonRelease )
+	{
+		QMouseEvent* mouseEvent = static_cast<QMouseEvent*>( event );
+		if( mouseEvent && mouseEvent->button() == Qt::LeftButton )
+		{
+			slotIdentAvatarButtonClicked();
+			return true;
+		}
+	}
+
+	return QWidget::eventFilter( watched, event );
 }
 
 //============================================================================
@@ -509,6 +541,10 @@ void IdentLogicInterface::setIdentMenuIcon( EMyIcons myIcon )
 void IdentLogicInterface::slotIdentAvatarButtonClicked( void )
 {
     if(LogEnabled(eLogUsers))LogModule( eLogUsers, LOG_VERBOSE, "IdentLogicInterface::%s %s", __func__, m_MyApp.describeUser( m_GuiUser ).c_str() );
+	if( getIdentAvatarButton() )
+	{
+		getIdentAvatarButton()->setFocus( Qt::MouseFocusReason );
+	}
 	emit signalIdentAvatarButtonClicked();
 	onIdentAvatarButtonClicked();
 }
