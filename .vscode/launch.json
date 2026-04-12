@@ -111,57 +111,67 @@
         {
             "name": "Android Debug nolimitconnect (LLDB)",
             "type": "lldb",
-            "request": "attach",
-            "preLaunchTask": "Deploy Android Debug",
+            "request": "custom",
+            "preLaunchTask": "Android: Start app + forward LLDB (5039, early breakpoints)",
             "postDebugTask": "Android: Force-stop app",
             "initCommands": [
                 "platform select remote-android",
                 "settings set target.process.stop-on-sharedlibrary-events false",
                 "process handle -p true -s false -n false SIGSTOP",
-                "process handle -p true -s true -n true SIGSEGV",
-                "process handle -p true -s true -n true SIGBUS",
+                "process handle -p true -s false -n false SIGSEGV SIGBUS SIGUSR1 SIGUSR2",
                 "process handle -p true -s true -n true SIGABRT",
-                "process handle -p true -s false -n true SIG32",
-                "process handle -p true -s false -n true SIG33",
-                "process handle -p true -s false -n true SIGUSR1",
-                "process handle -p true -s false -n true SIGUSR2",
+                "process handle SIGSTOP SIGSEGV SIGBUS SIGABRT SIGUSR1 SIGUSR2",
                 "settings set target.source-map /proc/self/cwd ${workspaceFolder}",
                 "settings set target.source-map / ${workspaceFolder}"
             ],
-            "targetCreateCommands": [
-                "target create \"${workspaceFolder}/build/android-arm64-debug/nolimitgui/libnolimitconnect_arm64-v8a.so\"",
-                "target symbols add \"${workspaceFolder}/build/android-arm64-debug/nolimitgui/libnolimitconnect_arm64-v8a.so\""
-            ],
+            "targetCreateCommands": [],
             "processCreateCommands": [
-                "gdb-remote localhost:5039"
+                "gdb-remote 127.0.0.1:5039",
+                "nofail continue"
+            ]
+        },
+        {
+            "name": "Android Attach Running nolimitconnect (LLDB)",
+            "type": "lldb",
+            "request": "custom",
+            "preLaunchTask": "Android: Forward LLDB to running app (5039)",
+            "initCommands": [
+                "target create \"${workspaceFolder}/build/android-arm64-debug/nolimitgui/libnolimitconnect_arm64-v8a.so\"",
+                "platform select remote-android",
+                "settings set target.process.stop-on-sharedlibrary-events false",
+                "process handle -p true -s false -n false SIGSTOP",
+                "process handle -p true -s false -n false SIGSEGV SIGBUS SIGUSR1 SIGUSR2",
+                "process handle -p true -s true -n true SIGABRT",
+                "process handle SIGSTOP SIGSEGV SIGBUS SIGABRT SIGUSR1 SIGUSR2",
+                "settings set target.source-map /proc/self/cwd ${workspaceFolder}",
+                "settings set target.source-map / ${workspaceFolder}",
+                "settings append target.exec-search-paths ${workspaceFolder}/build/android-arm64-debug/nolimitgui"
+            ],
+            "targetCreateCommands": [],
+            "processCreateCommands": [
+                "gdb-remote 127.0.0.1:5039"
             ]
         },
         {
             "name": "Android Release nolimitconnect (LLDB)",
             "type": "lldb",
-            "request": "attach",
-            "preLaunchTask": "Deploy Android Release",
+            "request": "custom",
+            "preLaunchTask": "Android: Start app + forward LLDB (5039)",
             "postDebugTask": "Android: Force-stop app",
             "initCommands": [
                 "platform select remote-android",
                 "settings set target.process.stop-on-sharedlibrary-events false",
                 "process handle -p true -s false -n false SIGSTOP",
-                "process handle -p true -s true -n true SIGSEGV",
-                "process handle -p true -s true -n true SIGBUS",
+                "process handle -p true -s false -n false SIGSEGV SIGBUS SIGUSR1 SIGUSR2",
                 "process handle -p true -s true -n true SIGABRT",
-                "process handle -p true -s false -n true SIG32",
-                "process handle -p true -s false -n true SIG33",
-                "process handle -p true -s false -n true SIGUSR1",
-                "process handle -p true -s false -n true SIGUSR2",
+                "process handle SIGSTOP SIGSEGV SIGBUS SIGABRT SIGUSR1 SIGUSR2",
                 "settings set target.source-map /proc/self/cwd ${workspaceFolder}",
                 "settings set target.source-map / ${workspaceFolder}"
             ],
-            "targetCreateCommands": [
-                "target create \"${workspaceFolder}/build/android-arm64-release/nolimitgui/libnolimitconnect_arm64-v8a.so\"",
-                "target symbols add \"${workspaceFolder}/build/android-arm64-release/nolimitgui/libnolimitconnect_arm64-v8a.so\""
-            ],
+            "targetCreateCommands": [],
             "processCreateCommands": [
-                "gdb-remote localhost:5039"
+                "gdb-remote 127.0.0.1:5039",
+                "nofail continue"
             ]
         },
         {
@@ -184,6 +194,20 @@
             "request": "launch",
             "preLaunchTask": "Package Android Signed",
             "command": "echo Package Android Signed completed"
+        },
+        {
+            "name": "Task: Package Android Debug",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "Package Android Debug",
+            "command": "echo Package Android Debug completed"
+        },
+        {
+            "name": "Task: Install Android Debug Package On Device",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "Install Android Debug Package On Device",
+            "command": "echo Install Android Debug Package On Device completed"
         },
         {
             "name": "Task: Package Linux",

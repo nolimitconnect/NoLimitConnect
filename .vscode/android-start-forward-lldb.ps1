@@ -4,8 +4,27 @@ param(
     [int]$LldbPort = 5039,
     [int]$DebugSocketWaitSeconds = 15,
     [int]$DeviceWaitSeconds = 45,
-    [string]$WorkspaceFolder = ''
+    [string]$WorkspaceFolder = '',
+    [switch]$WaitForDebugger,
+    [switch]$StopAfterLaunch,
+    [switch]$AttachOnly
 )
+
+function Resolve-LldbServerHostPath {
+    $candidates = @(
+        "F:/Android/Sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/windows-x86_64/lib/clang/18/lib/linux/aarch64/lldb-server",
+        "F:/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/windows-x86_64/lib/clang/17/lib/linux/aarch64/lldb-server",
+        "F:/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/windows-x86_64/lib/clang/17.0.2/lib/linux/aarch64/lldb-server"
+    )
+
+    foreach ($path in $candidates) {
+        if (Test-Path $path) {
+            return $path
+        }
+    }
+
+    return $null
+}
 
 $ErrorActionPreference = 'Stop'
 
@@ -139,16 +158,26 @@ if ($removeForwardExitCode -ne 0) {
 
 $packageName = $PackageActivity.Split('/')[0]
 
-Write-Host ("Force-stopping existing app instance for package: {0}" -f $packageName)
-& $AdbPath -s $serial shell am force-stop $packageName
-if ($LASTEXITCODE -ne 0) {
-    Write-Host ("adb force-stop for {0} returned non-zero; continuing." -f $packageName)
-}
-Start-Sleep -Milliseconds 500
+if (-not $AttachOnly) {
+    Write-Host ("Force-stopping existing app instance for package: {0}" -f $packageName)
+    & $AdbPath -s $serial shell am force-stop $packageName
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host ("adb force-stop for {0} returned non-zero; continuing." -f $packageName)
+    }
+    Start-Sleep -Milliseconds 500
 
-& $AdbPath -s $serial shell am start -n $PackageActivity
-if ($LASTEXITCODE -ne 0) {
-    Write-Host 'adb am start returned non-zero; continuing to debugger attach.'
+    $startArgs = "start -n $PackageActivity"
+    if ($WaitForDebugger) {
+        $startArgs = "start -D -n $PackageActivity"
+        Write-Host "Starting app in wait-for-debugger mode (-D)."
+    }
+
+    & $AdbPath -s $serial shell am $startArgs
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host 'adb am start returned non-zero; continuing to debugger attach.'
+    }
+} else {
+    Write-Host ("Attach-only mode: leaving running app untouched for package: {0}" -f $packageName)
 }
 
 function Get-AppPid {
@@ -172,6 +201,48 @@ function Get-AppPid {
     return ($trimmed -split '\s+')[0]
 }
 
+if ($StopAfterLaunch -and -not $AttachOnly) {
+    $stoppedEarly = $false
+    $maxAttempts = [Math]::Max(1, $DebugSocketWaitSeconds * 20)
+    for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+        $earlyPid = Get-AppPid -Adb $AdbPath -DeviceSerial $serial -Pkg $packageName
+        if (-not $earlyPid) {
+            Start-Sleep -Milliseconds 50
+            continue
+        }
+
+        $previousErrorActionPreference = $ErrorActionPreference
+        $ErrorActionPreference = 'Continue'
+
+        # Prefer run-as so signal is sent as app UID (shell user may not be allowed).
+        & $AdbPath -s $serial shell "run-as $packageName sh -c 'kill -STOP $earlyPid'" 2>$null | Out-Null
+        $killExitCode = $LASTEXITCODE
+
+        if ($killExitCode -ne 0) {
+            & $AdbPath -s $serial shell "kill -STOP $earlyPid" 2>$null | Out-Null
+            $killExitCode = $LASTEXITCODE
+        }
+
+        $ErrorActionPreference = $previousErrorActionPreference
+
+        if ($killExitCode -eq 0) {
+            Write-Host ("Sent SIGSTOP to app pid: {0} before LLDB attach" -f $earlyPid)
+            $stoppedEarly = $true
+            break
+        } else {
+            # Keep trying briefly because PID can change during startup.
+            if (($attempt % 20) -eq 0) {
+                Write-Host ("Still trying to SIGSTOP app pid {0} before attach..." -f $earlyPid)
+            }
+            Start-Sleep -Milliseconds 50
+        }
+    }
+
+    if (-not $stoppedEarly) {
+        Write-Host "Could not confirm early app stop before attach; continuing."
+    }
+}
+
 function Test-LldbServerRunning {
     param(
         [string]$Adb,
@@ -193,8 +264,48 @@ function Test-LldbServerRunning {
         return $true
     }
 
+    # Some devices block run-as process listing, but lldb-server may still be running.
+    $globalPsOutput = & $Adb -s $DeviceSerial shell "ps -A | grep lldb-server" 2>$null
+    if ($LASTEXITCODE -eq 0 -and $globalPsOutput -and ($globalPsOutput -match 'lldb-server')) {
+        return $true
+    }
+
     return $false
 }
+
+function Ensure-LldbServerInAppSandbox {
+    param(
+        [string]$Adb,
+        [string]$DeviceSerial,
+        [string]$Pkg
+    )
+
+    $hostLldbServer = Resolve-LldbServerHostPath
+    if (-not $hostLldbServer) {
+        throw "Could not locate host lldb-server binary in expected Android NDK paths."
+    }
+
+    $tmpPath = "/data/local/tmp/nlc-lldb-server"
+    & $Adb -s $DeviceSerial push $hostLldbServer $tmpPath | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to push lldb-server to device temp path."
+    }
+
+    & $Adb -s $DeviceSerial shell "chmod 755 $tmpPath" | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw "Failed to chmod pushed lldb-server in /data/local/tmp."
+    }
+
+    & $Adb -s $DeviceSerial shell "run-as $Pkg sh -c 'cp $tmpPath files/lldb-server && chmod 700 files/lldb-server'" | Out-Null
+    if ($LASTEXITCODE -eq 0) {
+        return "./files/lldb-server"
+    }
+
+    Write-Host "run-as copy to app sandbox failed; falling back to /data/local/tmp/nlc-lldb-server"
+    return $tmpPath
+}
+
+$lldbServerRunPath = Ensure-LldbServerInAppSandbox -Adb $AdbPath -DeviceSerial $serial -Pkg $packageName
 
 $forwarded = $false
 $lastPidTried = $null
@@ -209,16 +320,27 @@ for ($attempt = 1; $attempt -le $DebugSocketWaitSeconds; $attempt++) {
     $lastPidTried = $appPid
 
     # Start lldb-server inside app context and attach to the running process.
-    & $AdbPath -s $serial shell "run-as $packageName sh -c './lldb-server gdbserver --attach $appPid localhost:$LldbPort >/dev/null 2>&1 &'" | Out-Null
+    & $AdbPath -s $serial shell "run-as $packageName sh -c '$lldbServerRunPath gdbserver --attach $appPid localhost:$LldbPort >/dev/null 2>&1 &'" | Out-Null
     if ($LASTEXITCODE -ne 0) {
         Start-Sleep -Seconds 1
         continue
     }
 
-    & $AdbPath -s $serial forward tcp:$LldbPort tcp:$LldbPort
-    if ($LASTEXITCODE -eq 0 -and (Test-LldbServerRunning -Adb $AdbPath -DeviceSerial $serial -Pkg $packageName)) {
-        $forwarded = $true
-        break
+    & $AdbPath -s $serial forward tcp:$LldbPort tcp:$LldbPort | Out-Null
+    $forwardExitCode = $LASTEXITCODE
+    if ($forwardExitCode -eq 0) {
+        if (Test-LldbServerRunning -Adb $AdbPath -DeviceSerial $serial -Pkg $packageName) {
+            $forwarded = $true
+            break
+        }
+
+        # Health checks can be inconclusive on some Android builds.
+        # Continue with forwarded socket if attach-only mode is requested.
+        if ($AttachOnly) {
+            Write-Host "Attach-only mode: lldb-server health check inconclusive, proceeding with forwarded socket."
+            $forwarded = $true
+            break
+        }
     }
 
     & $AdbPath -s $serial forward --remove tcp:$LldbPort 2>$null | Out-Null

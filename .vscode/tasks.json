@@ -116,6 +116,52 @@
             "problemMatcher": []
         },
         {
+            "label": "Android: Start app + forward LLDB (5039, early breakpoints)",
+            "type": "process",
+            "command": "powershell",
+            "options": {
+                "env": {
+                    "ANDROID_SERIAL": "R5GL31TBG6N"
+                }
+            },
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\.vscode\\android-start-forward-lldb.ps1",
+                "-WorkspaceFolder",
+                "${workspaceFolder}",
+                "-StopAfterLaunch",
+                "-DebugSocketWaitSeconds",
+                "90"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Android: Forward LLDB to running app (5039)",
+            "type": "process",
+            "command": "powershell",
+            "options": {
+                "env": {
+                    "ANDROID_SERIAL": "R5GL31TBG6N"
+                }
+            },
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\.vscode\\android-start-forward-lldb.ps1",
+                "-WorkspaceFolder",
+                "${workspaceFolder}",
+                "-AttachOnly",
+                "-DebugSocketWaitSeconds",
+                "90"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "Android: Force-stop app",
             "type": "process",
             "command": "powershell",
@@ -347,6 +393,40 @@
             "problemMatcher": []
         },
         {
+            "label": "Build Android Debug APK",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Configure Android Debug"
+            ],
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "android-arm64-debug",
+                "--target",
+                "nolimitappsApk"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Package Android Debug",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Configure Android Debug"
+            ],
+            "type": "process",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "--preset",
+                "android-arm64-debug",
+                "--target",
+                "package_nolimitconnect"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "Build Android Release",
             "dependsOrder": "sequence",
             "dependsOn": [
@@ -404,6 +484,36 @@
             "dependsOn": [
                 "Build Android Debug",
                 "Android: Start app + forward LLDB (5039)"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Install Android Debug APK (manual launch)",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Package Android Debug"
+            ],
+            "type": "process",
+            "command": "powershell",
+            "options": {
+                "env": {
+                    "ANDROID_SERIAL": "R5GL31TBG6N"
+                }
+            },
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "$ErrorActionPreference='Stop'; $adb='F:/Android/Sdk/platform-tools/adb.exe'; if (-not (Test-Path $adb)) { throw 'adb not found' }; $serial=$env:ANDROID_SERIAL; if (-not $serial) { $serial=((& $adb devices) | Select-Object -Skip 1 | Where-Object { $_ -match '^(\\S+)\\s+device$' } | ForEach-Object { if ($_ -match '^(\\S+)\\s+device$') { $Matches[1] } } | Select-Object -First 1) }; if (-not $serial) { throw 'No Android device in state device.' }; $roots=@('${workspaceFolder}/package/android','${workspaceFolder}/package/android/debug/arm64','${workspaceFolder}/deploy/android','${workspaceFolder}/build/android-arm64-debug/nolimitgui/android-build-nolimitconnect/build/outputs/apk/debug','${workspaceFolder}/build/android-arm64-debug'); $apk=$null; foreach($root in $roots){ if(Test-Path $root){ $apk=Get-ChildItem -Path $root -Recurse -Filter '*.apk' | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($apk){ break } } }; if (-not $apk) { throw ('No APK found under: ' + ($roots -join ', ')) }; Write-Host ('Installing APK: ' + $apk.FullName); & $adb -s $serial install -r $apk.FullName; if ($LASTEXITCODE -ne 0) { throw ('adb install failed with exit code ' + $LASTEXITCODE) }; Write-Host ('Installed on device: ' + $serial)"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Install Android Debug Package On Device",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Install Android Debug APK (manual launch)"
             ],
             "problemMatcher": []
         },
