@@ -123,6 +123,31 @@ namespace
         poThread->threadAboutToExit();
         return nullptr;
     }
+
+	//============================================================================
+	static void* EngineStartupThreadFunc( void* pvContext )
+	{
+		VxThread* poThread = (VxThread*)pvContext;
+		poThread->setIsThreadRunning( true );
+		AppCommon* appCommon = (AppCommon*)poThread->getThreadUserParam();
+		if( appCommon )
+		{
+			std::string strAssetDir = VxGetRootUserDataDirectory() + "assets/";
+			appCommon->getEngine().fromGuiAppStartup( strAssetDir.c_str(), VxGetRootUserDataDirectory().c_str() );
+		}
+
+		poThread->threadAboutToExit();
+		return nullptr;
+	}
+
+	//============================================================================
+	static void StartPlayerMgrOnGuiThread( AppCommon* appCommon )
+	{
+		if( appCommon )
+		{
+			appCommon->getPlayerMgr().playerMgrStartup();
+		}
+	}
 }
 
 //============================================================================
@@ -291,15 +316,19 @@ bool AppCommon::loadWithThread( void )
 	m_ThumbMgr.onAppCommonCreated();
 	m_UserMgr.onAppCommonCreated();
 	m_OfferMgr.onAppCommonCreated();
+	GuiHelpers::processQtEvents( 1 );
 	m_HostedListMgr.onAppCommonCreated();
 	m_HostJoinMgr.onAppCommonCreated();
 	m_UserJoinMgr.onAppCommonCreated();
+	GuiHelpers::processQtEvents( 1 );
 	m_WebPageMgr.onAppCommonCreated();
 	m_ConnectIdListMgr.onAppCommonCreated();
 	m_MemberActiveMgr.onAppCommonCreated();
+	GuiHelpers::processQtEvents( 1 );
 	m_RandConnectMgr.onAppCommonCreated();
 	m_SendQueueMgr.onAppCommonCreated();
 	m_GroupieListMgr.onAppCommonCreated();
+	GuiHelpers::processQtEvents( 1 );
 	m_FriendRequestMgr.onAppCommonCreated();
 	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread manager onAppCommonCreated callbacks done at %d ms", GetApplicationAliveMs() );
 
@@ -370,6 +399,9 @@ void AppCommon::startupAppCommon( QFrame* appletFrame, QFrame* messangerFrame )
 	m_GuiStartupTimer->setSingleShot( true );
 	m_GuiStartupTimer->setInterval( 0 );
 	m_GuiStartupTimer->start();
+	m_EngineStartupStarted = false;
+	m_GuiStartupAudioWaitStartMs = 0;
+	m_GuiStartupAudioWaitBypassed = false;
 	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::startupAppCommon queued startup timer at %d ms", GetApplicationAliveMs() );
 }
 
@@ -378,37 +410,72 @@ void AppCommon::slotGuiStartupTimer( void )
 {
 	static int guiStartupStep = 0;
 	const int stepStartMs = GetApplicationAliveMs();
+	static constexpr int kMaxAudioInitWaitMs = 35000;
 
     if( !m_AudioMgr.isAudioInitialized() )
     {
+		if( 0 == m_GuiStartupAudioWaitStartMs )
+		{
+			m_GuiStartupAudioWaitStartMs = stepStartMs;
+		}
+
+        const int waitedMs = stepStartMs - m_GuiStartupAudioWaitStartMs;
+        if( waitedMs < kMaxAudioInitWaitMs )
+        {
         // on android audio devices can take up to 30 seconds
-		LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer waiting for audio init at %d ms", stepStartMs );
-		m_GuiStartupTimer->setInterval( 100 );
+			LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer waiting for audio init at %d ms", stepStartMs );
+			m_GuiStartupTimer->setInterval( 100 );
         m_GuiStartupTimer->start();
         return;
-    }
+        }
 
-	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer step %d begin at %d ms", guiStartupStep + 1, stepStartMs );
+        if( !m_GuiStartupAudioWaitBypassed )
+        {
+			m_GuiStartupAudioWaitBypassed = true;
+			LogMsg( LOG_WARN, "AppCommon::slotGuiStartupTimer audio init timeout after %d ms; continuing startup", waitedMs );
+        }
+    }
 
 	if( 0 == guiStartupStep )
 	{
 		// load sounds to play and sound hardware
+		LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer step 1 (sndFxMgr) begin at %d ms", stepStartMs );
 		m_SoundFxMgr.sndFxMgrStartup();
+		GuiHelpers::processQtEvents( 1 );
+		LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer step 1 (sndFxMgr) complete at %d ms", GetApplicationAliveMs() );
 		guiStartupStep = 1;
 		m_GuiStartupTimer->setInterval( 0 );
 		m_GuiStartupTimer->start();
 	}
 	else if( 1 == guiStartupStep )
 	{
-		std::string strAssetDir = VxGetRootUserDataDirectory() + "assets/";
-		getEngine().fromGuiAppStartup( strAssetDir.c_str(), VxGetRootUserDataDirectory().c_str() );
+		if( !m_EngineStartupStarted )
+		{
+			m_EngineStartupThread.startThread( (VX_THREAD_FUNCTION_T)EngineStartupThreadFunc, this, "EngineStartupThreadFunc" );
+			m_EngineStartupStarted = true;
+			LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer step 2 (engine) started worker at %d ms", GetApplicationAliveMs() );
+		}
+
+		if( m_EngineStartupThread.isThreadRunning() )
+		{
+			GuiHelpers::processQtEvents( 1 );
+			m_GuiStartupTimer->setInterval( 25 );
+			m_GuiStartupTimer->start();
+			return;
+		}
+
+		LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer step 2 (engine) complete at %d ms", GetApplicationAliveMs() );
 		guiStartupStep = 2;
 		m_GuiStartupTimer->setInterval( 0 );
 		m_GuiStartupTimer->start();
+		return;
 	}
 	else if( 2 == guiStartupStep )
 	{
-		m_PlayerMgr.playerMgrStartup();
+		LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer step 3 (playerMgr) begin at %d ms", stepStartMs );
+		StartPlayerMgrOnGuiThread( this );
+		GuiHelpers::processQtEvents( 1 );
+		LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer step 3 (playerMgr) complete at %d ms", GetApplicationAliveMs() );
 		m_OncePerSecondTimer->setInterval( 1000 ); 
 		connect( m_OncePerSecondTimer, SIGNAL(timeout()), this, SLOT(onOncePerSecond()), Qt::UniqueConnection );
 		m_OncePerSecondTimer->start();
@@ -416,7 +483,7 @@ void AppCommon::slotGuiStartupTimer( void )
 		guiStartupStep = 3;
 	}
 
-	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer step %d end at %d ms", guiStartupStep, GetApplicationAliveMs() );
+	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer startup complete at %d ms", GetApplicationAliveMs() );
 }
 
 //============================================================================

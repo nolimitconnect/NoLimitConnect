@@ -18,6 +18,7 @@
 #include <CoreLib/VxDebug.h>
 
 #include <QDebug>
+#include <QCoreApplication>
 #include <QMessageBox>
 
 const char* DescribeSnd( ESndDef sndDef )
@@ -141,6 +142,12 @@ bool SoundFxMgr::sndFxMgrStartup( void )
     {
         VxSndInstance* sndInstance = new VxSndInstance( (ESndDef)i, this );
         m_SndList.emplace_back( sndInstance );
+
+		// Keep startup responsive while building all sound instances.
+		if( 0 == ( i % 4 ) )
+		{
+			QCoreApplication::processEvents( QEventLoop::AllEvents, 1 );
+		}
     }
 
 	return true;

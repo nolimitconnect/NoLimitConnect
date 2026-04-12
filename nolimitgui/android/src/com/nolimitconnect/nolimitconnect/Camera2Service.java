@@ -24,6 +24,7 @@ import java.util.Arrays;
 
 public class Camera2Service extends Service {
     private static final String TAG = "NLC Camera2Service";
+    private static boolean sNativeLoaded = false;
 
     private Handler m_MainThreadHandler = null;
 
@@ -50,6 +51,31 @@ public class Camera2Service extends Service {
     public Camera2Service(Context context)
     {
         Log.d(TAG, "Camera2Service() WITH context Called");
+    }
+
+    private static synchronized boolean ensureNativeLoaded() {
+        if (sNativeLoaded) {
+            return true;
+        }
+
+        final String[] candidateLibNames = {
+            "nolimitconnect_arm64-v8a",
+            "nolimitconnect"
+        };
+
+        for (String libName : candidateLibNames) {
+            try {
+                System.loadLibrary(libName);
+                sNativeLoaded = true;
+                Log.i(TAG, "Loaded native library: " + libName);
+                return true;
+            } catch (UnsatisfiedLinkError e) {
+                Log.w(TAG, "Unable to load native library: " + libName, e);
+            }
+        }
+
+        Log.e(TAG, "Failed to load native library for Camera2Service JNI.");
+        return false;
     }
 
     public static void startCamServiceStatic(Context context) {
@@ -89,13 +115,23 @@ public class Camera2Service extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
+        if (!ensureNativeLoaded()) {
+            stopSelf(startId);
+            return START_NOT_STICKY;
+        }
+
         m_CameraManager = (CameraManager) getSystemService(CAMERA_SERVICE);
         // must start quickly or will shutdown. use runnable
         m_MainThreadHandler.post(new Runnable() {
             @Override
             public void run() {
                 Log.d(TAG, "onStartCommand Called");
-                camServiceStarted();
+                try {
+                    camServiceStarted();
+                } catch (UnsatisfiedLinkError e) {
+                    Log.e(TAG, "camServiceStarted JNI call failed", e);
+                    stopSelf();
+                }
             }
         });
 
@@ -107,7 +143,13 @@ public class Camera2Service extends Service {
     public void onDestroy() {
         Log.d(TAG, "Camera Service Destroyed");
         internalStopCameraCapture();
-        camServiceStopped();
+        if (sNativeLoaded) {
+            try {
+                camServiceStopped();
+            } catch (UnsatisfiedLinkError e) {
+                Log.e(TAG, "camServiceStopped JNI call failed", e);
+            }
+        }
 
         if (m_MainThreadHandler != null) {
             m_MainThreadHandler.removeCallbacksAndMessages(null);

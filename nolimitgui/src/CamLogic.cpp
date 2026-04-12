@@ -72,6 +72,13 @@ bool CamLogic::isCamCaptureRequested( void )
 //============================================================================
 void CamLogic::startupCamLogic( void )
 {
+#if defined(ENABLE_JAVA_CAM)
+    if( m_StartupRequested )
+    {
+        return;
+    }
+#endif // defined(ENABLE_JAVA_CAM)
+
 #if defined(TARGET_OS_ANDROID)    
     if( !GuiParams::requestPermission("android.permission.CAMERA") )
     {
@@ -81,6 +88,7 @@ void CamLogic::startupCamLogic( void )
 #endif // defined(TARGET_OS_ANDROID)
 
 #if defined(ENABLE_JAVA_CAM)
+    m_StartupRequested = true;
     m_CamJavaClient.startupCamLogic();
     // onCamCaptureReady will get called after camera service starts
 #elif defined(ENABLE_V4L2_CAM)
@@ -229,6 +237,12 @@ void CamLogic::processCamCapture( std::shared_ptr<CamJpgVideo>& jpgVideo )
 void CamLogic::updateCameraDevices( void )
 {
 #if defined(ENABLE_JAVA_CAM)
+    if( !m_StartupRequested )
+    {
+        startupCamLogic();
+        return;
+    }
+
     m_CamJavaClient.getCameraDevices( m_CamIdList );
 #elif defined(ENABLE_V4L2_CAM)
     m_V4L2DeviceMap.clear();
@@ -861,7 +875,18 @@ bool CamLogic::enableCamCapture( bool enable )
     }
 
 #if defined(ENABLE_JAVA_CAM)
+    if( !m_StartupRequested )
+    {
+        startupCamLogic();
+        LogMsg( LOG_INFO, "%s requested camera capture before Android camera service was ready", __func__ );
+        return false;
+    }
 
+    if( m_CamId.empty() )
+    {
+        LogMsg( LOG_WARN, "%s waiting for Android camera service to provide camera list", __func__ );
+        return false;
+    }
 
     bool capRunning = m_CamJavaClient.startCamCapture( m_CamId );
     if( m_CaptureRunning != capRunning )

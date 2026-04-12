@@ -113,6 +113,7 @@ protected:
     bool                        m_WantCamInput[ eMaxMediaModule ];
     bool                        m_CameraEnabled{ false };
     bool                        m_CaptureRunning{ false };
+    bool                        m_StartupRequested{ false };
 
     std::string                 m_CamId;
     std::string                 m_LastCamUsed;

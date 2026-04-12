@@ -21,6 +21,7 @@
 #include <CoreLib/VxTime.h>
 
 #include <QTimer>
+#include <QMetaObject>
 #include <QtCore/qcoreapplication.h>
 #include <QtCore/private/qandroidextras_p.h>
 
@@ -248,7 +249,10 @@ JNIEXPORT void JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_cam
     LogMsg( LOG_VERBOSE, "%s Received value: %d", __func__, value );
 
     g_CamServiceReady = true;
-    GetCamJavaClient().onCamServiceStarted();
+    // Do not run Qt-side startup logic on Android's Java main thread.
+    QMetaObject::invokeMethod( &GetCamJavaClient(),
+                               []() { GetCamJavaClient().onCamServiceStarted(); },
+                               Qt::QueuedConnection );
 }
 
 JNIEXPORT void JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_camServiceStopped(JNIEnv *env, jobject obj) {
@@ -260,25 +264,29 @@ JNIEXPORT bool JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_can
     return GetCamJavaClient().canProcessCamCapture();
 }
 
-bool GetJBufInfo( jobject byteBuffer, uint8_t*& byteBuf )
+bool GetJBufInfo( JNIEnv* env, jobject byteBuffer, uint8_t*& byteBuf )
 {
-    // Get the ByteBuffer's class and its method for retrieving the address (the "address" field)
-    jclass byteBufferClass = g_CamEnv->GetObjectClass(byteBuffer);
-    // Get the "address" field of the ByteBuffer (this field points to the direct memory address)
-    jfieldID addressFieldID = g_CamEnv->GetFieldID(byteBufferClass, "address", "J");
-    if (addressFieldID == nullptr) {
-        LogMsg( LOG_ERROR, "%s Failed to find 'address' field in ByteBuffer.", __func__ );
-        return false;
-    }
-    // Get the direct buffer's native address (this should be a long type)
-    jlong bufferAddress = g_CamEnv->GetLongField(byteBuffer, addressFieldID);
-    if (bufferAddress == 0) {
-        LogMsg( LOG_ERROR, "%s Invalid buffer address.", __func__ );
+    if( nullptr == env || nullptr == byteBuffer )
+    {
+        LogMsg( LOG_ERROR, "%s invalid JNIEnv or ByteBuffer", __func__ );
         return false;
     }
 
-    // Now that we have the buffer's address and size, let's cast the address to a pointer and process it
-    byteBuf = reinterpret_cast<uint8_t*>(bufferAddress);
+    void* bufferAddress = env->GetDirectBufferAddress( byteBuffer );
+    if( nullptr == bufferAddress )
+    {
+        LogMsg( LOG_ERROR, "%s GetDirectBufferAddress failed", __func__ );
+        return false;
+    }
+
+    const jlong bufferCapacity = env->GetDirectBufferCapacity( byteBuffer );
+    if( bufferCapacity <= 0 )
+    {
+        LogMsg( LOG_ERROR, "%s invalid direct buffer capacity %lld", __func__, (long long)bufferCapacity );
+        return false;
+    }
+
+    byteBuf = reinterpret_cast<uint8_t*>( bufferAddress );
     return true;
 }
 
@@ -296,7 +304,7 @@ JNIEXPORT void JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_pro
     uint8_t* y = 0;
     uint8_t* u = 0;
     uint8_t* v = 0;
-    if(GetJBufInfo(yBuf, y) && GetJBufInfo(uBuf, u) && GetJBufInfo(vBuf, v))
+    if(GetJBufInfo(env, yBuf, y) && GetJBufInfo(env, uBuf, u) && GetJBufInfo(env, vBuf, v))
     {
         int dataLen = width * height * 3;
         std::shared_ptr<uint8_t> rgbData( new uint8_t[dataLen] );

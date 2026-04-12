@@ -99,7 +99,7 @@
             "command": "powershell",
             "options": {
                 "env": {
-                    "ANDROID_SERIAL": "R8YW510D8KW"
+                    "ANDROID_SERIAL": "R5GL31TBG6N"
                 }
             },
             "args": [
@@ -108,8 +108,28 @@
                 "Bypass",
                 "-File",
                 "${workspaceFolder}\\.vscode\\android-start-forward-lldb.ps1",
+                "-WorkspaceFolder",
+                "${workspaceFolder}",
                 "-DebugSocketWaitSeconds",
-                "15"
+                "90"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Android: Force-stop app",
+            "type": "process",
+            "command": "powershell",
+            "options": {
+                "env": {
+                    "ANDROID_SERIAL": "R5GL31TBG6N"
+                }
+            },
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-Command",
+                "$ErrorActionPreference='Continue'; $adb='F:/Android/Sdk/platform-tools/adb.exe'; if (-not (Test-Path $adb)) { Write-Host 'adb not found, skip force-stop.'; exit 0 }; $serial=$env:ANDROID_SERIAL; if (-not $serial) { $serial=((& $adb devices) | Select-Object -Skip 1 | Where-Object { $_ -match '^(\\S+)\\s+device$' } | ForEach-Object { if ($_ -match '^(\\S+)\\s+device$') { $Matches[1] } } | Select-Object -First 1) }; if (-not $serial) { Write-Host 'No Android device in state device; skip force-stop.'; exit 0 }; & $adb -s $serial shell am force-stop com.nolimitconnect.nolimitconnect 2>$null; Write-Host ('Force-stopped app on device: ' + $serial); exit 0"
             ],
             "problemMatcher": []
         },

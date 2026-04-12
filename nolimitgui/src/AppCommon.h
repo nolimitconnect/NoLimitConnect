@@ -974,6 +974,10 @@ protected:
     bool                        m_ConnectToLastConnectedHost{ false };
 
     VxThread                    m_AudioDevicesThread;
+    VxThread                    m_EngineStartupThread;
+    bool                        m_EngineStartupStarted{ false };
+    int                         m_GuiStartupAudioWaitStartMs{ 0 };
+    bool                        m_GuiStartupAudioWaitBypassed{ false };
 
     unsigned int                m_GuiThreadId{ 0 };
 };
