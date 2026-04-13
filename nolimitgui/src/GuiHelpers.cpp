@@ -297,25 +297,36 @@ bool GuiHelpers::browseForFile( QWidget* parent, enum EMediaFileType mediaFileTy
 
     QString title = QObject::tr( "Select Media File" );
     QString supportedFileTypes = fileMaskToFileFilter( VXFILE_TYPE_AUDIO_VIDEO_PHOTO );
+    bool strictDesktopTypeOnlyFilter = false;
     QString defaultDir = QDir::homePath();
 
     switch( mediaFileType )
     {
     case eMediaFileVideo:
         title = QObject::tr( "Select Video File" );
-        supportedFileTypes = fileMaskToFileFilter( VXFILE_TYPE_VIDEO );
+        // Desktop video picker should expose only video extensions (no All files option).
+        supportedFileTypes = "Video (";
+        supportedFileTypes += fileExtensionToFilter( VxGetFileExtensionsFromFileType( VXFILE_TYPE_VIDEO ).c_str() );
+        supportedFileTypes += ")";
+        strictDesktopTypeOnlyFilter = true;
         defaultDir = QStandardPaths::standardLocations(QStandardPaths::MoviesLocation).value(0, QDir::homePath());
         break;
 
     case eMediaFileAudio:
         title = QObject::tr( "Select Audio File" );
-        supportedFileTypes = fileMaskToFileFilter( VXFILE_TYPE_AUDIO );
+        supportedFileTypes = "Audio (";
+        supportedFileTypes += fileExtensionToFilter( VxGetFileExtensionsFromFileType( VXFILE_TYPE_AUDIO ).c_str() );
+        supportedFileTypes += ")";
+        strictDesktopTypeOnlyFilter = true;
         defaultDir = QStandardPaths::standardLocations(QStandardPaths::MusicLocation).value(0, QDir::homePath());
         break;
 
     case eMediaFileImage:
         title = QObject::tr( "Select Image File" );
-        supportedFileTypes = fileMaskToFileFilter( VXFILE_TYPE_PHOTO );
+        supportedFileTypes = "Image (";
+        supportedFileTypes += fileExtensionToFilter( VxGetFileExtensionsFromFileType( VXFILE_TYPE_PHOTO ).c_str() );
+        supportedFileTypes += ")";
+        strictDesktopTypeOnlyFilter = true;
         defaultDir = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).value(0, QDir::homePath());
         break;
 
@@ -330,7 +341,17 @@ bool GuiHelpers::browseForFile( QWidget* parent, enum EMediaFileType mediaFileTy
 
 #if !defined(TARGET_OS_ANDROID)
     // does not work in android.. some are greyed out even though have correct extension
-    fileDialog.setNameFilter(supportedFileTypes);
+    if( strictDesktopTypeOnlyFilter )
+    {
+        QStringList onlyMediaTypeFilter;
+        onlyMediaTypeFilter << supportedFileTypes;
+        fileDialog.setNameFilters( onlyMediaTypeFilter );
+        fileDialog.selectNameFilter( supportedFileTypes );
+    }
+    else
+    {
+        fileDialog.setNameFilter( supportedFileTypes );
+    }
 #endif // !defined(TARGET_OS_ANDROID)
 
     QString selectedFile;

@@ -95,6 +95,8 @@ protected:
 
     void                        generateThumb( FileItemInfo* poInfo );
 
+    void                        handleMissingFilePlayAttempt( QListWidgetItem* item, FileItemInfo* poInfo );
+
     void                        updateFromFileInfo( FileInfo& fileInfo, bool showUserPopup );
 
     void                        insertItemInFileNameOrder( FileShareItemWidget* item, std::string fileName );

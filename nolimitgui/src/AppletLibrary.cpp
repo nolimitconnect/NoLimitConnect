@@ -345,6 +345,48 @@ void AppletLibrary::slotListAboutFileClicked( QListWidgetItem* item )
 }
 
 //============================================================================
+void AppletLibrary::handleMissingFilePlayAttempt( QListWidgetItem* item, FileItemInfo* poInfo )
+{
+    if( !poInfo )
+    {
+        return;
+    }
+
+    QString missingPath = poInfo->getFileNameAndPath();
+    QString confirmText = QObject::tr( "File was not found:\n%1\n\nRemove this item from My Library and asset database?" ).arg( missingPath );
+    QMessageBox::StandardButton button = QMessageBox::question(
+        this,
+        QObject::tr( "File Not Found" ),
+        confirmText,
+        QMessageBox::Yes | QMessageBox::No,
+        QMessageBox::Yes );
+
+    if( QMessageBox::Yes != button )
+    {
+        return;
+    }
+
+    // Always clear library membership for this file path.
+    FileInfo missingFileInfo = poInfo->getFileInfo();
+    missingFileInfo.setIsInLibrary( false );
+    m_Engine.fromGuiSetFileIsInLibrary( missingFileInfo, false );
+
+    // Remove asset record if it exists so the stale entry is removed from asset manager/database.
+    AssetBaseInfo* assetInfo = m_Engine.getAssetMgr().findAsset( missingFileInfo.getFileNameAndPath() );
+    if( assetInfo )
+    {
+        m_Engine.fromGuiAssetAction( eAssetActionRemoveFromAssetMgr, *assetInfo, 0 );
+    }
+
+    int row = ui.m_FileItemList->row( item );
+    if( row >= 0 )
+    {
+        QListWidgetItem* removedItem = ui.m_FileItemList->takeItem( row );
+        delete removedItem;
+    }
+}
+
+//============================================================================
 void AppletLibrary::slotListPlayIconClicked( QListWidgetItem* item )
 {
     FileItemInfo* poInfo = ( ( FileShareItemWidget* )item )->getFileItemInfo();
@@ -370,8 +412,7 @@ void AppletLibrary::slotListPlayIconClicked( QListWidgetItem* item )
             }
             else
             {
-                QMessageBox::information( this, QObject::tr( "File Not Found" ), poInfo->getFileNameAndPath().toUtf8().constData(), QMessageBox::Ok );
-                ui.m_FileItemList->removeItemWidget( item );
+                handleMissingFilePlayAttempt( item, poInfo );
             }
         }
     }
@@ -403,8 +444,7 @@ void AppletLibrary::slotListPlayExternIconClicked( QListWidgetItem* item )
             }
             else
             {
-                QMessageBox::information( this, QObject::tr( "File Not Found" ), poInfo->getFileNameAndPath().toUtf8().constData(), QMessageBox::Ok );
-                ui.m_FileItemList->removeItemWidget( item );
+                handleMissingFilePlayAttempt( item, poInfo );
             }
         }
     }
