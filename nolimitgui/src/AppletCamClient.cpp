@@ -33,6 +33,7 @@ AppletCamClient::AppletCamClient( AppCommon& app, QWidget* parent )
 	setPluginType( ePluginTypeCamClient );
     ui.setupUi( getContentItemsFrame() );
     ui.m_CamVidWidget->setMediaModule( eMediaModuleCamClient );
+    ui.m_CamVidWidget->setVideoUiMode( eVideoUiModeCamServerClient );
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
 	connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );
 

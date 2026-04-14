@@ -383,6 +383,19 @@ void AppCommon::checkReadyToLaunchAfterLogonApplets( void )
     {
         m_LauchedAfterLogonApplets = true;
 
+#if defined(TARGET_OS_ANDROID)
+        // Defer Android camera service startup until login/network readiness to avoid heavy JNI/surface work during first window show.
+        if( m_CamLogic.isCamCaptureRequested() )
+        {
+            m_CamLogic.startupCamLogic();
+        }
+#endif // defined(TARGET_OS_ANDROID)
+
+        if( m_CamLogic.isCamCaptureRequested() && !m_CamLogic.isCamCaptureRunning() )
+        {
+            m_CamLogic.enableCamCapture( true );
+        }
+
         //EApplet lastLaunchedHomeFrameApplet = getAppSettings().getLastAppletLaunched( eLaunchFrameHome );
         //if( lastLaunchedHomeFrameApplet != eAppletUnknown )
         //{

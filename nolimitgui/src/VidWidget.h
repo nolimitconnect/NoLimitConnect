@@ -33,7 +33,8 @@ enum EVideoUiMode
 	eVideoUiModePhoto,
 	eVideoUiModeInputPhoto,
 	eVideoUiModeInputWidget,
-	eVideoUiModeAssetVideo
+	eVideoUiModeAssetVideo,
+	eVideoUiModeCamServerClient
 };
 
 class VidWidget : public QWidget, public GuiPlayerCallback

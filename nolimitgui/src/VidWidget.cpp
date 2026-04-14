@@ -247,6 +247,22 @@ void VidWidget::applyVideoUiMode( void )
 		ui.m_ImageRotateButton->setVisible( true );
 		break;
 
+	case eVideoUiModeCamServerClient:
+		showFeedControls( true );
+		showRecordControls( true );
+		disablePreview( true );
+		ui.m_ImageRotateButton->setVisible( true );
+		ui.m_PictureSnapshotButton->setVisible( true );
+		ui.m_MotionAlarmButton->setVisible( true );
+		ui.m_MotionRecordButton->setVisible( true );
+		ui.m_NormalRecordButton->setVisible( true );
+		// Local camera source/preview controls are not applicable when viewing a remote cam server feed.
+		ui.m_CamRotateButton->setVisible( false );
+		ui.m_CamSourceButton->setVisible( false );
+		ui.m_CamEnableButton->setVisible( false );
+		ui.m_CamPreviewButton->setVisible( false );
+		break;
+
 	case eVideoUiModeChat:
 	default:
 		// Preserve current full behavior for chat pages; click-to-toggle handles visibility.

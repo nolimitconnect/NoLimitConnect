@@ -140,6 +140,7 @@ public:
     // some applets cannot be launched until application is fully ready for network use
     void                        setIsAppInitialized( bool initialized ) { m_AppInitialized = initialized; }
     bool                        getIsAppInitialized( void ) { return m_AppInitialized; }
+    bool                        getPtopNetworkReady( void ) { return m_PtopNetworkReady; }
 
     // diagnose to much cpu usage in gui thread
     void                        setGuiCpuTimeEnable( bool enable ) { m_GuiCpuTimeEnable = enable; }

@@ -119,7 +119,9 @@ void HomeWindow::showEvent( QShowEvent* ev )
             LogMsg( LOG_ERROR, "Not all permissions were granted" );
         }
 
+#if !defined(TARGET_OS_ANDROID)
         m_MyApp.getCamLogic().startupCamLogic();
+#endif // !defined(TARGET_OS_ANDROID)
     }
 }
 

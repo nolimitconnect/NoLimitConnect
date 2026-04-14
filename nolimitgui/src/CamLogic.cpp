@@ -80,11 +80,14 @@ void CamLogic::startupCamLogic( void )
 #endif // defined(ENABLE_JAVA_CAM)
 
 #if defined(TARGET_OS_ANDROID)    
+    LogModule( eLogWebCam, LOG_VERBOSE, "CamLogic::%s requesting Android camera permission", __func__ );
     if( !GuiParams::requestPermission("android.permission.CAMERA") )
     {
         LogMsg( LOG_ERROR, "%s Do Not have camera permission", __func__ );
         return;
     }
+
+    LogModule( eLogWebCam, LOG_VERBOSE, "CamLogic::%s Android camera permission granted", __func__ );
 #endif // defined(TARGET_OS_ANDROID)
 
 #if defined(ENABLE_JAVA_CAM)
@@ -213,6 +216,11 @@ std::string CamLogic::selectLastUsedCamera( void )
 //============================================================================
 bool CamLogic::canProcessCamCapture( void )
 {
+    if( !m_MyApp.getLoginCompleted() || !m_MyApp.getPtopNetworkReady() )
+    {
+        return false;
+    }
+
     if( VxIsAppShuttingDown() || !isCamCaptureRequested() || m_CamProcessor.isStalled() )
     {
         if( isCamCaptureRequested() )
@@ -857,6 +865,17 @@ bool CamLogic::enableCamCapture( bool enable )
         return false;
     }
 
+    if( !m_MyApp.getLoginCompleted() || !m_MyApp.getPtopNetworkReady() )
+    {
+        if( LogEnabled( eLogWebCam ) )LogModule( eLogWebCam, LOG_VERBOSE,
+            "CamLogic::%s delaying capture start: loginComplete=%d ptopReady=%d",
+            __func__,
+            m_MyApp.getLoginCompleted(),
+            m_MyApp.getPtopNetworkReady() );
+
+        return false;
+    }
+
     if( !m_CameraEnabled )
     {
         LogMsg( LOG_ERROR, "%s !m_CameraEnabled", __func__ );
@@ -888,7 +907,9 @@ bool CamLogic::enableCamCapture( bool enable )
         return false;
     }
 
+    LogModule( eLogWebCam, LOG_VERBOSE, "CamLogic::%s starting Android camera capture camId=%s", __func__, m_CamId.c_str() );
     bool capRunning = m_CamJavaClient.startCamCapture( m_CamId );
+    LogModule( eLogWebCam, LOG_VERBOSE, "CamLogic::%s Android camera capture start result=%d", __func__, capRunning );
     if( m_CaptureRunning != capRunning )
     {
         updateCaptureRunning( capRunning );
