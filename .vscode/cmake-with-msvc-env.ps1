@@ -53,6 +53,7 @@ foreach ($arg in $CMakeArgs) {
 }
 $cmakeArgLine = ($escapedArgs -join ' ')
 
+$env:NLC_ENABLE_VSCODE_PRESETS = "1"
 $cmdLine = '"' + $vsDevCmd + '" -arch=x64 -host_arch=x64 >nul && cmake ' + $cmakeArgLine
 & cmd.exe /c $cmdLine
 exit $LASTEXITCODE

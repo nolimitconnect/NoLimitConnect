@@ -357,6 +357,11 @@
             "label": "Configure Android Debug",
             "type": "process",
             "command": "cmake",
+            "options": {
+                "env": {
+                    "NLC_ENABLE_VSCODE_PRESETS": "1"
+                }
+            },
             "args": [
                 "--preset",
                 "android-arm64-debug",
@@ -368,6 +373,11 @@
             "label": "Configure Android Release",
             "type": "process",
             "command": "cmake",
+            "options": {
+                "env": {
+                    "NLC_ENABLE_VSCODE_PRESETS": "1"
+                }
+            },
             "args": [
                 "--preset",
                 "android-arm64-release",
@@ -383,6 +393,11 @@
             ],
             "type": "process",
             "command": "cmake",
+            "options": {
+                "env": {
+                    "NLC_ENABLE_VSCODE_PRESETS": "1"
+                }
+            },
             "args": [
                 "--build",
                 "--preset",
@@ -400,6 +415,11 @@
             ],
             "type": "process",
             "command": "cmake",
+            "options": {
+                "env": {
+                    "NLC_ENABLE_VSCODE_PRESETS": "1"
+                }
+            },
             "args": [
                 "--build",
                 "--preset",
@@ -417,6 +437,11 @@
             ],
             "type": "process",
             "command": "cmake",
+            "options": {
+                "env": {
+                    "NLC_ENABLE_VSCODE_PRESETS": "1"
+                }
+            },
             "args": [
                 "--build",
                 "--preset",
@@ -434,6 +459,11 @@
             ],
             "type": "process",
             "command": "cmake",
+            "options": {
+                "env": {
+                    "NLC_ENABLE_VSCODE_PRESETS": "1"
+                }
+            },
             "args": [
                 "--build",
                 "--preset",
@@ -452,6 +482,11 @@
             "hide": true,
             "type": "process",
             "command": "cmake",
+            "options": {
+                "env": {
+                    "NLC_ENABLE_VSCODE_PRESETS": "1"
+                }
+            },
             "args": [
                 "--build",
                 "--preset",
