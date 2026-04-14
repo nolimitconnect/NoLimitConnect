@@ -3835,25 +3835,25 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2534" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2555" />
             <source>Confirm Shred File</source>
             <translation>Konfirmasikan File Rusak</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2534" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2555" />
             <source>Confirm Delete File</source>
             <translation>Konfirmasi Hapus File</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="470" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2538" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2559" />
             <source>Are You Sure You Want To Write Random Data Into The File Then Delete From The Device?</source>
             <translation>Apakah Anda Yakin Ingin Menulis Data Acak Ke Dalam File Lalu Menghapusnya Dari Perangkat?</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="474" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2542" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2563" />
             <source>Are You Sure To Delete The File From The Device?</source>
             <translation>Apakah Anda Yakin Akan Menghapus File Dari Perangkat?</translation>
         </message>
@@ -3877,7 +3877,7 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/ActivityBrowseFiles.cpp" line="658" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="562" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="602" />
             <source>Storage Space Available: </source>
             <translation>Ruang Penyimpanan Tersedia:</translation>
         </message>
@@ -3888,7 +3888,7 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="84" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1422" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1443" />
             <source>Application</source>
             <translation>Aplikasi</translation>
         </message>
@@ -4484,51 +4484,51 @@ File Type: </source>
             <translation>Pencarian Dihentikan</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="102" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="103" />
             <location filename="../nolimitgui/src/AppTranslate.cpp" line="346" />
             <source>No Limit Connect</source>
             <translation>Koneksi Tanpa Batas</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="677" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="749" />
             <source>ERROR:
 </source>
             <translation>KESALAHAN:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="681" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="753" />
             <source>Failed to connect to Network host</source>
             <translation>Gagal menyambung ke host Jaringan</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="684" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="756" />
             <source>Failed to connect to Connection Test host</source>
             <translation>Gagal menyambung ke host Uji Koneksi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="687" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="759" />
             <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="246" />
             <source>Video Play Failed</source>
             <translation>Pemutaran Video Gagal</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="690" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="762" />
             <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="220" />
             <source>Audio Play Failed</source>
             <translation>Pemutaran Audio Gagal</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1164" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1236" />
             <source>Close Application</source>
             <translation>Tutup Aplikasi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1165" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1237" />
             <source>Are you sure you want to exit?</source>
             <translation>Apakah Anda yakin ingin keluar?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1271" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1343" />
             <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="354" />
             <source>Application Error</source>
             <translation>Kesalahan Aplikasi</translation>
@@ -5263,37 +5263,37 @@ File Type: </source>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="74" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2449" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2470" />
             <source>Invalid Host Id</source>
             <translation>Id Host Tidak Valid</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="75" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2450" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2471" />
             <source>Host Id has not been set</source>
             <translation>Id Host belum ditetapkan</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="83" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2476" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2497" />
             <source>No Members Online</source>
             <translation>Tidak Ada Anggota Online</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="84" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2477" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2498" />
             <source>There are no members online to send to</source>
             <translation>Tidak ada anggota online yang dapat dikirimi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2485" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2494" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2506" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2515" />
             <source>Failed to add asset</source>
             <translation>Gagal menambahkan aset</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2486" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2495" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2507" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2516" />
             <source>Failed to add asset. Please check disk space</source>
             <translation>Gagal menambahkan aset. Silakan periksa ruang disk</translation>
         </message>
@@ -5548,9 +5548,8 @@ File Type: </source>
         <message>
             <location filename="../nolimitgui/src/AppletFileOfferSelect.cpp" line="289" />
             <location filename="../nolimitgui/src/AppletFileOfferSelect.cpp" line="323" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="373" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="406" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2368" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="359" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2389" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1358" />
             <source>File Not Found</source>
             <translation>Berkas Tidak Ditemukan</translation>
@@ -5781,7 +5780,7 @@ File Type: </source>
             <translation>Daftar pengguna dari host selesai</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2458" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2479" />
             <source>Invalid URL</source>
             <translation>URL tidak valid</translation>
         </message>
@@ -5847,12 +5846,12 @@ File Type: </source>
             <translation>Daftar Host yang Diabaikan Kosong</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2386" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2407" />
             <source>Application Not Ready</source>
             <translation>Aplikasi Belum Siap</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2387" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2408" />
             <source>Cannot Launch Applet Until Application Has Initialized</source>
             <translation>Tidak Dapat Meluncurkan Applet Sampai Aplikasi Telah Diinisialisasi</translation>
         </message>
@@ -6918,129 +6917,129 @@ Delay Test Is Invalid
             <translation>Buka Folder</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1367" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1373" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1379" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1385" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1391" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1397" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1403" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1388" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1394" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1400" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1406" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1412" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1418" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1424" />
             <source>Invalid User Name</source>
             <translation>Nama Pengguna Tidak Valid</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1367" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1388" />
             <source>User Name cannot have NoLimitConnect in name.</source>
             <translation>Nama Pengguna tidak boleh memiliki nama NoLimitConnect.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1373" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1394" />
             <source>User Name cannot have special character quote.</source>
             <translation>Nama Pengguna tidak boleh memiliki kutipan karakter khusus.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1379" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1400" />
             <source>User Name cannot have comma.</source>
             <translation>Nama Pengguna tidak boleh diberi koma.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1385" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1406" />
             <source>User Name cannot have special character parentheses.</source>
             <translation>Nama Pengguna tidak boleh memiliki tanda kurung karakter khusus.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1391" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1412" />
             <source>User Name cannot have special character slashes.</source>
             <translation>Nama Pengguna tidak boleh memiliki garis miring karakter khusus.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1403" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1424" />
             <source>User Name is too short (minimum 4 chars).</source>
             <translation>Nama Pengguna terlalu pendek (minimal 4 karakter).</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1434" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1440" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1455" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1461" />
             <source>Age Verify</source>
             <translation>Verifikasi Usia</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1434" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1455" />
             <source>Invalid Age</source>
             <translation>Usia Tidak Valid</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1440" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1461" />
             <source>Age Connot be greater than 120 years old</source>
             <translation>Usia Tidak boleh lebih dari 120 tahun</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2297" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2318" />
             <source>User Unavailable</source>
             <translation>Pengguna Tidak Tersedia</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2298" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2319" />
             <source>User </source>
             <translation>Pengguna</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2298" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2319" />
             <source> Is Unavailable</source>
             <translation>Tidak Tersedia</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2307" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2328" />
             <source>Already In A Session</source>
             <translation>Sudah Dalam Sesi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2308" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2329" />
             <source>Already in session. Please close existing session and try again</source>
             <translation>Sudah dalam sesi. Silakan tutup sesi yang ada dan coba lagi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2317" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2338" />
             <source>Sent User An Offer</source>
             <translation>Mengirimkan Penawaran kepada Pengguna</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2318" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2339" />
             <source>Offer Was Sent To  </source>
             <translation>Penawaran Dikirim Ke</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2322" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2343" />
             <source>Send Offer Failed</source>
             <translation>Kirim Penawaran Gagal</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2323" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2344" />
             <source>Offer Send Failed  </source>
             <translation>Pengiriman Penawaran Gagal</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2327" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2348" />
             <source>Not Connected</source>
             <translation>Tidak Terhubung</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2328" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2349" />
             <source>You are not connected to host </source>
             <translation>Anda tidak terhubung ke host</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2332" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2353" />
             <source>No User Selected</source>
             <translation>Tidak Ada Pengguna yang Dipilih</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2333" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2354" />
             <source>You must select a user to send to </source>
             <translation>Anda harus memilih pengguna yang akan dikirimi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2302" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2323" />
             <source>User is offline</source>
             <translation>Pengguna sedang offline</translation>
         </message>
@@ -7050,53 +7049,53 @@ Delay Test Is Invalid
             <translation>Pilih File Media</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="305" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="306" />
             <source>Select Video File</source>
             <translation>Pilih File Video</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="311" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="316" />
             <source>Select Audio File</source>
             <translation>Pilih File Audio</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="317" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="325" />
             <source>Select Image File</source>
             <translation>Pilih File Gambar</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="388" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="409" />
             <source>Cannot Read File</source>
             <translation>Tidak Dapat Membaca File</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1397" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1418" />
             <source>User Name is too long (maximum 31 chars).</source>
             <translation>Nama Pengguna terlalu panjang (maksimum 31 karakter).</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1422" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1443" />
             <source>Mood Message is too long (maximum 31 chars)</source>
             <translation>Pesan Suasana Hati terlalu panjang (maksimum 31 karakter)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2303" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2324" />
             <source>User is no longer connected</source>
             <translation>Pengguna tidak lagi terhubung</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2312" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2313" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2333" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2334" />
             <source>Session not found</source>
             <translation>Sesi tidak ditemukan</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2337" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2358" />
             <source>Purge Everthing Warning</source>
             <translation>Bersihkan Segalanya Peringatan</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2338" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2359" />
             <source>This action will delete everything not locked including Identity, Downloaded Files, Storyboard, Message History Etc.
 The action cannot be undone
 Are you very sure you want to proceed?</source>
@@ -7105,136 +7104,136 @@ Tindakan tersebut tidak dapat dibatalkan
 Apakah Anda yakin ingin melanjutkan?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2342" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2363" />
             <source>Voice Message Too Short</source>
             <translation>Pesan Suara Terlalu Pendek</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2343" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2364" />
             <source>The Voice Message was too short and will not be sent.</source>
             <translation>Pesan Suara terlalu pendek dan tidak dapat dikirim.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2347" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2368" />
             <source>Video clip Too Short</source>
             <translation>Klip video Terlalu Pendek</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2348" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2369" />
             <source>The Video Clip was too short and will not be sent.</source>
             <translation>Klip Video terlalu pendek dan tidak dapat dikirim.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2352" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2373" />
             <source>Video record failed to start</source>
             <translation>Perekaman video gagal dimulai</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2353" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2374" />
             <source>Video record failed to start.</source>
             <translation>Perekaman video gagal dimulai.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2369" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2390" />
             <source>File Name Is Empty</source>
             <translation>Nama File Kosong</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2377" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2378" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2398" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2399" />
             <source>Access File Permissions Denied By User</source>
             <translation>Izin Akses File Ditolak Oleh Pengguna</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2387" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2408" />
             <source>Cannot launch applet until network is available</source>
             <translation>Tidak dapat meluncurkan applet sampai jaringan tersedia</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2395" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2416" />
             <source>Requires Open Port</source>
             <translation>Membutuhkan Port Terbuka</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2396" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2417" />
             <source>Action requires a open port</source>
             <translation>Tindakan memerlukan port terbuka</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2404" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2413" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2425" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2434" />
             <source>Invalid Invite</source>
             <translation>Undangan Tidak Valid</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2405" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2426" />
             <source>The invite is invalid</source>
             <translation>Undangan tidak valid</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2414" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2435" />
             <source>Cannot accept invite from myself</source>
             <translation>Tidak dapat menerima undangan dari saya sendiri</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2422" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2443" />
             <source>Invalid User</source>
             <translation>Pengguna Tidak Valid</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2423" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2444" />
             <source>Could not find the user</source>
             <translation>Tidak dapat menemukan pengguna</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2431" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2452" />
             <source>User Not Online</source>
             <translation>Pengguna Tidak Online</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2432" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2453" />
             <source>The user is not currently online</source>
             <translation>Pengguna saat ini tidak online</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2440" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2461" />
             <source>Friendship Level To Low</source>
             <translation>Tingkat Persahabatan Ke Rendah</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2441" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2462" />
             <source>Requires friendship of friend or higher</source>
             <translation>Membutuhkan persahabatan teman atau lebih tinggi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2459" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2480" />
             <source>The host url is not valid</source>
             <translation>Url host tidak valid</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2467" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2488" />
             <source>Invalid Host Type</source>
             <translation>Jenis Host Tidak Valid</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2468" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2489" />
             <source>The host url does not have a vailid host type</source>
             <translation>Url host tidak memiliki tipe host yang valid</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="676" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2357" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="748" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2378" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1388" />
             <source>Unknown Error</source>
             <translation>Kesalahan Tidak Diketahui</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2358" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2379" />
             <source>Unknown Error </source>
             <translation>Kesalahan Tidak Diketahui</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2358" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2379" />
             <source> for user </source>
             <translation>untuk pengguna</translation>
         </message>
@@ -9903,7 +9902,7 @@ Apakah Anda yakin ingin melanjutkan?</translation>
             <translation>Applet Tidak Dikenal</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2238" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2259" />
             <source>Could not create thumbnail asset</source>
             <translation>Tidak dapat membuat aset thumbnail</translation>
         </message>
@@ -9928,58 +9927,69 @@ Apakah Anda yakin ingin melanjutkan?</translation>
             <translation>Pemindaian Folder Selesai</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="593" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="623" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="356" />
+            <source>File was not found:
+%1
+
+Remove this item from My Library and asset database?</source>
+            <translation>Berkas tidak ditemukan:
+%1
+
+Hapus item ini dari Perpustakaan Saya dan database aset?</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="633" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="663" />
             <source>Error</source>
             <translation>Kesalahan</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="593" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="623" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="633" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="663" />
             <source>Unknown Media Type</source>
             <translation>Jenis Media Tidak Dikenal</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="654" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="731" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="767" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2244" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="694" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="771" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="807" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2265" />
             <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="104" />
             <source>Could not get thumbnail file info</source>
             <translation>Tidak dapat memperoleh info file thumbnail</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="655" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="732" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="768" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2239" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2245" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="695" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="772" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="808" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2260" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2266" />
             <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="105" />
             <source>Error occured creating thumbnail asset </source>
             <translation>Terjadi kesalahan saat membuat aset thumbnail</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="692" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="732" />
             <source>Scaning folder</source>
             <translation>Memindai folder</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="713" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="753" />
             <source>Already in library</source>
             <translation>Sudah ada di perpustakaan</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="713" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="753" />
             <source>File is already in library </source>
             <translation>File sudah ada di perpustakaan</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="788" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="828" />
             <source>File Error</source>
             <translation>Kesalahan Berkas</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="788" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="828" />
             <source>Could not add file to library </source>
             <translation>Tidak dapat menambahkan file ke perpustakaan</translation>
         </message>

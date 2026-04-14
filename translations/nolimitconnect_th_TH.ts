@@ -3835,25 +3835,25 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2534" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2555" />
             <source>Confirm Shred File</source>
             <translation>ยืนยันการทำลายไฟล์</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2534" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2555" />
             <source>Confirm Delete File</source>
             <translation>ยืนยันการลบไฟล์</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="470" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2538" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2559" />
             <source>Are You Sure You Want To Write Random Data Into The File Then Delete From The Device?</source>
             <translation>คุณแน่ใจหรือไม่ว่าต้องการเขียนข้อมูลแบบสุ่มลงในไฟล์แล้วลบออกจากอุปกรณ์</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="474" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2542" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2563" />
             <source>Are You Sure To Delete The File From The Device?</source>
             <translation>คุณแน่ใจหรือว่าจะลบไฟล์ออกจากอุปกรณ์?</translation>
         </message>
@@ -3877,7 +3877,7 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/ActivityBrowseFiles.cpp" line="658" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="562" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="602" />
             <source>Storage Space Available: </source>
             <translation>พื้นที่เก็บข้อมูลที่มีอยู่: </translation>
         </message>
@@ -3888,7 +3888,7 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="84" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1422" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1443" />
             <source>Application</source>
             <translation>ใบสมัคร</translation>
         </message>
@@ -4484,51 +4484,51 @@ File Type: </source>
             <translation>การค้นหาหยุดแล้ว</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="102" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="103" />
             <location filename="../nolimitgui/src/AppTranslate.cpp" line="346" />
             <source>No Limit Connect</source>
             <translation>ไม่มีขีดจำกัดการเชื่อมต่อ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="677" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="749" />
             <source>ERROR:
 </source>
             <translation>ข้อผิดพลาด:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="681" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="753" />
             <source>Failed to connect to Network host</source>
             <translation>ไม่สามารถเชื่อมต่อกับโฮสต์เครือข่าย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="684" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="756" />
             <source>Failed to connect to Connection Test host</source>
             <translation>ไม่สามารถเชื่อมต่อกับโฮสต์ทดสอบการเชื่อมต่อ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="687" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="759" />
             <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="246" />
             <source>Video Play Failed</source>
             <translation>การเล่นวิดีโอล้มเหลว</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="690" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="762" />
             <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="220" />
             <source>Audio Play Failed</source>
             <translation>การเล่นเสียงล้มเหลว</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1164" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1236" />
             <source>Close Application</source>
             <translation>ปิดแอปพลิเคชัน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1165" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1237" />
             <source>Are you sure you want to exit?</source>
             <translation>คุณแน่ใจหรือไม่ว่าต้องการออก</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1271" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1343" />
             <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="354" />
             <source>Application Error</source>
             <translation>ข้อผิดพลาดของแอปพลิเคชัน</translation>
@@ -5263,37 +5263,37 @@ File Type: </source>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="74" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2449" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2470" />
             <source>Invalid Host Id</source>
             <translation>รหัสโฮสต์ไม่ถูกต้อง</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="75" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2450" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2471" />
             <source>Host Id has not been set</source>
             <translation>รหัสโฮสต์ยังไม่ได้ตั้งค่า</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="83" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2476" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2497" />
             <source>No Members Online</source>
             <translation>ไม่มีสมาชิกออนไลน์</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="84" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2477" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2498" />
             <source>There are no members online to send to</source>
             <translation>ไม่มีสมาชิกออนไลน์ที่จะส่งไปให้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2485" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2494" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2506" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2515" />
             <source>Failed to add asset</source>
             <translation>ไม่สามารถเพิ่มเนื้อหา</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2486" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2495" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2507" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2516" />
             <source>Failed to add asset. Please check disk space</source>
             <translation>ไม่สามารถเพิ่มเนื้อหา โปรดตรวจสอบพื้นที่ดิสก์</translation>
         </message>
@@ -5548,9 +5548,8 @@ File Type: </source>
         <message>
             <location filename="../nolimitgui/src/AppletFileOfferSelect.cpp" line="289" />
             <location filename="../nolimitgui/src/AppletFileOfferSelect.cpp" line="323" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="373" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="406" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2368" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="359" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2389" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1358" />
             <source>File Not Found</source>
             <translation>ไม่พบไฟล์</translation>
@@ -5781,7 +5780,7 @@ File Type: </source>
             <translation>รายชื่อผู้ใช้จากโฮสต์เสร็จสมบูรณ์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2458" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2479" />
             <source>Invalid URL</source>
             <translation>URL ไม่ถูกต้อง</translation>
         </message>
@@ -5847,12 +5846,12 @@ File Type: </source>
             <translation>รายชื่อโฮสต์ที่ถูกละเว้นว่างเปล่า</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2386" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2407" />
             <source>Application Not Ready</source>
             <translation>ใบสมัครไม่พร้อม</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2387" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2408" />
             <source>Cannot Launch Applet Until Application Has Initialized</source>
             <translation>ไม่สามารถเปิดแอปเพล็ตได้จนกว่าแอปพลิเคชันจะเตรียมใช้งาน</translation>
         </message>
@@ -6918,129 +6917,129 @@ Delay Test Is Invalid
             <translation>เปิดโฟลเดอร์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1367" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1373" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1379" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1385" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1391" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1397" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1403" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1388" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1394" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1400" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1406" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1412" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1418" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1424" />
             <source>Invalid User Name</source>
             <translation>ชื่อผู้ใช้ไม่ถูกต้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1367" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1388" />
             <source>User Name cannot have NoLimitConnect in name.</source>
             <translation>ชื่อผู้ใช้ไม่สามารถมี NoLimitConnect ในชื่อได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1373" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1394" />
             <source>User Name cannot have special character quote.</source>
             <translation>ชื่อผู้ใช้ไม่สามารถมีเครื่องหมายคำพูดพิเศษได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1379" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1400" />
             <source>User Name cannot have comma.</source>
             <translation>ชื่อผู้ใช้ไม่สามารถมีเครื่องหมายจุลภาค</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1385" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1406" />
             <source>User Name cannot have special character parentheses.</source>
             <translation>ชื่อผู้ใช้ไม่สามารถมีวงเล็บอักขระพิเศษได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1391" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1412" />
             <source>User Name cannot have special character slashes.</source>
             <translation>ชื่อผู้ใช้ไม่สามารถมีเครื่องหมายทับอักขระพิเศษได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1403" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1424" />
             <source>User Name is too short (minimum 4 chars).</source>
             <translation>ชื่อผู้ใช้สั้นเกินไป (ขั้นต่ำ 4 ตัวอักษร)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1434" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1440" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1455" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1461" />
             <source>Age Verify</source>
             <translation>ตรวจสอบอายุ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1434" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1455" />
             <source>Invalid Age</source>
             <translation>อายุไม่ถูกต้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1440" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1461" />
             <source>Age Connot be greater than 120 years old</source>
             <translation>อายุ จะต้องไม่เกิน 120 ปี</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2297" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2318" />
             <source>User Unavailable</source>
             <translation>ผู้ใช้ไม่พร้อมใช้งาน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2298" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2319" />
             <source>User </source>
             <translation>ผู้ใช้ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2298" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2319" />
             <source> Is Unavailable</source>
             <translation> ไม่สามารถใช้ได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2307" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2328" />
             <source>Already In A Session</source>
             <translation>อยู่ในเซสชันแล้ว</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2308" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2329" />
             <source>Already in session. Please close existing session and try again</source>
             <translation>อยู่ในเซสชันแล้ว โปรดปิดเซสชันที่มีอยู่แล้วลองอีกครั้ง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2317" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2338" />
             <source>Sent User An Offer</source>
             <translation>ส่งข้อเสนอให้กับผู้ใช้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2318" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2339" />
             <source>Offer Was Sent To  </source>
             <translation>ข้อเสนอถูกส่งไปที่  </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2322" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2343" />
             <source>Send Offer Failed</source>
             <translation>ส่งข้อเสนอล้มเหลว</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2323" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2344" />
             <source>Offer Send Failed  </source>
             <translation>การส่งข้อเสนอล้มเหลว  </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2327" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2348" />
             <source>Not Connected</source>
             <translation>ไม่ได้เชื่อมต่อ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2328" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2349" />
             <source>You are not connected to host </source>
             <translation>คุณไม่ได้เชื่อมต่อกับโฮสต์ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2332" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2353" />
             <source>No User Selected</source>
             <translation>ไม่ได้เลือกผู้ใช้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2333" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2354" />
             <source>You must select a user to send to </source>
             <translation>คุณต้องเลือกผู้ใช้ที่จะส่งไป </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2302" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2323" />
             <source>User is offline</source>
             <translation>ผู้ใช้ออฟไลน์อยู่</translation>
         </message>
@@ -7050,53 +7049,53 @@ Delay Test Is Invalid
             <translation>เลือกไฟล์มีเดีย</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="305" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="306" />
             <source>Select Video File</source>
             <translation>เลือกไฟล์วิดีโอ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="311" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="316" />
             <source>Select Audio File</source>
             <translation>เลือกไฟล์เสียง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="317" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="325" />
             <source>Select Image File</source>
             <translation>เลือกไฟล์รูปภาพ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="388" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="409" />
             <source>Cannot Read File</source>
             <translation>ไม่สามารถอ่านไฟล์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1397" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1418" />
             <source>User Name is too long (maximum 31 chars).</source>
             <translation>ชื่อผู้ใช้ยาวเกินไป (สูงสุด 31 ตัวอักษร)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1422" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1443" />
             <source>Mood Message is too long (maximum 31 chars)</source>
             <translation>ข้อความแสดงอารมณ์ยาวเกินไป (สูงสุด 31 ตัวอักษร)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2303" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2324" />
             <source>User is no longer connected</source>
             <translation>ผู้ใช้ไม่ได้เชื่อมต่ออีกต่อไป</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2312" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2313" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2333" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2334" />
             <source>Session not found</source>
             <translation>ไม่พบเซสชัน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2337" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2358" />
             <source>Purge Everthing Warning</source>
             <translation>ล้างทุกสิ่งคำเตือน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2338" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2359" />
             <source>This action will delete everything not locked including Identity, Downloaded Files, Storyboard, Message History Etc.
 The action cannot be undone
 Are you very sure you want to proceed?</source>
@@ -7105,136 +7104,136 @@ Are you very sure you want to proceed?</source>
 คุณแน่ใจมากหรือไม่ว่าต้องการดำเนินการต่อ?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2342" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2363" />
             <source>Voice Message Too Short</source>
             <translation>ข้อความเสียงสั้นเกินไป</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2343" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2364" />
             <source>The Voice Message was too short and will not be sent.</source>
             <translation>ข้อความเสียงสั้นเกินไปและไม่สามารถส่งได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2347" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2368" />
             <source>Video clip Too Short</source>
             <translation>คลิปวีดีโอ สั้นเกินไป</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2348" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2369" />
             <source>The Video Clip was too short and will not be sent.</source>
             <translation>คลิปวิดีโอสั้นเกินไปและไม่สามารถส่งได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2352" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2373" />
             <source>Video record failed to start</source>
             <translation>ไม่สามารถเริ่มบันทึกวิดีโอได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2353" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2374" />
             <source>Video record failed to start.</source>
             <translation>ไม่สามารถเริ่มบันทึกวิดีโอได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2369" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2390" />
             <source>File Name Is Empty</source>
             <translation>ชื่อไฟล์ว่างเปล่า</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2377" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2378" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2398" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2399" />
             <source>Access File Permissions Denied By User</source>
             <translation>สิทธิ์การเข้าถึงไฟล์ถูกปฏิเสธโดยผู้ใช้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2387" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2408" />
             <source>Cannot launch applet until network is available</source>
             <translation>ไม่สามารถเปิดแอปเพล็ตได้จนกว่าเครือข่ายจะพร้อมใช้งาน</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2395" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2416" />
             <source>Requires Open Port</source>
             <translation>ต้องใช้พอร์ตเปิด</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2396" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2417" />
             <source>Action requires a open port</source>
             <translation>การดำเนินการต้องใช้พอร์ตที่เปิดอยู่</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2404" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2413" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2425" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2434" />
             <source>Invalid Invite</source>
             <translation>คำเชิญไม่ถูกต้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2405" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2426" />
             <source>The invite is invalid</source>
             <translation>คำเชิญไม่ถูกต้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2414" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2435" />
             <source>Cannot accept invite from myself</source>
             <translation>ไม่สามารถยอมรับคำเชิญจากตัวเองได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2422" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2443" />
             <source>Invalid User</source>
             <translation>ผู้ใช้ไม่ถูกต้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2423" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2444" />
             <source>Could not find the user</source>
             <translation>ไม่พบผู้ใช้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2431" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2452" />
             <source>User Not Online</source>
             <translation>ผู้ใช้ไม่ออนไลน์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2432" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2453" />
             <source>The user is not currently online</source>
             <translation>ผู้ใช้ไม่ได้ออนไลน์อยู่ในขณะนี้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2440" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2461" />
             <source>Friendship Level To Low</source>
             <translation>ระดับมิตรภาพถึงต่ำ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2441" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2462" />
             <source>Requires friendship of friend or higher</source>
             <translation>ต้องมีมิตรภาพของเพื่อนหรือสูงกว่า</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2459" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2480" />
             <source>The host url is not valid</source>
             <translation>URL ของโฮสต์ไม่ถูกต้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2467" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2488" />
             <source>Invalid Host Type</source>
             <translation>ประเภทโฮสต์ไม่ถูกต้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2468" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2489" />
             <source>The host url does not have a vailid host type</source>
             <translation>URL ของโฮสต์ไม่มีประเภทโฮสต์ที่ถูกต้อง</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="676" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2357" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="748" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2378" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1388" />
             <source>Unknown Error</source>
             <translation>ข้อผิดพลาดที่ไม่รู้จัก</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2358" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2379" />
             <source>Unknown Error </source>
             <translation>ข้อผิดพลาดที่ไม่รู้จัก </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2358" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2379" />
             <source> for user </source>
             <translation> สำหรับผู้ใช้ </translation>
         </message>
@@ -9903,7 +9902,7 @@ Are you very sure you want to proceed?</source>
             <translation>แอปเพล็ตที่ไม่รู้จัก </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2238" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2259" />
             <source>Could not create thumbnail asset</source>
             <translation>ไม่สามารถสร้างเนื้อหาภาพขนาดย่อได้</translation>
         </message>
@@ -9928,58 +9927,69 @@ Are you very sure you want to proceed?</source>
             <translation>การสแกนโฟลเดอร์เสร็จสมบูรณ์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="593" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="623" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="356" />
+            <source>File was not found:
+%1
+
+Remove this item from My Library and asset database?</source>
+            <translation>ไม่พบไฟล์:
+%1
+
+ลบรายการนี้ออกจากห้องสมุดของฉันและฐานข้อมูลเนื้อหาหรือไม่</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="633" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="663" />
             <source>Error</source>
             <translation>เกิดข้อผิดพลาด</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="593" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="623" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="633" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="663" />
             <source>Unknown Media Type</source>
             <translation>ประเภทสื่อที่ไม่รู้จัก</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="654" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="731" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="767" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2244" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="694" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="771" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="807" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2265" />
             <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="104" />
             <source>Could not get thumbnail file info</source>
             <translation>ไม่สามารถรับข้อมูลไฟล์ภาพขนาดย่อได้</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="655" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="732" />
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="768" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2239" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2245" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="695" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="772" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="808" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2260" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2266" />
             <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="105" />
             <source>Error occured creating thumbnail asset </source>
             <translation>เกิดข้อผิดพลาดในการสร้างเนื้อหาภาพขนาดย่อ </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="692" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="732" />
             <source>Scaning folder</source>
             <translation>กำลังสแกนโฟลเดอร์</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="713" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="753" />
             <source>Already in library</source>
             <translation>อยู่ในห้องสมุดแล้ว</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="713" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="753" />
             <source>File is already in library </source>
             <translation>ไฟล์อยู่ในไลบรารีแล้ว </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="788" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="828" />
             <source>File Error</source>
             <translation>ไฟล์ผิดพลาด</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="788" />
+            <location filename="../nolimitgui/src/AppletLibrary.cpp" line="828" />
             <source>Could not add file to library </source>
             <translation>ไม่สามารถเพิ่มไฟล์ลงในไลบรารีได้ </translation>
         </message>
