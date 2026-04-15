@@ -78,26 +78,13 @@ InputFaceWidget::InputFaceWidget( QWidget* parent )
     ui.verticalLayout->insertWidget( 0, m_FaceContentWidget, 1 );
 
     // Create all 50 face labels in one unified loop — same code path for every face.
+    // Pixmaps are loaded on-demand from GuiThumbMgr cache in refreshScaledPixmaps().
     for( int i = 1; i <= kFaceCount; i++ )
     {
-        QString resPath = ( i > 9 )
-            ? QString( ":/AppRes/Resources/emoj%1.svg" ).arg( i )
-            : QString( ":/AppRes/Resources/emoj0%1.svg" ).arg( i );
-
         VxLabel* faceLabel = new VxLabel( m_FaceContentWidget );
         faceLabel->setAlignment( Qt::AlignCenter );
         connect( faceLabel, &VxLabel::clicked, this, [this, i]() { faceLabelClicked( i ); } );
         m_FaceList.append( faceLabel );
-        m_FaceResourcePaths.append( resPath );
-
-        QPixmap facePixmap( resPath );
-        if( facePixmap.isNull() )
-        {
-            LogMsg( LOG_ERROR, "InputFaceWidget::InputFaceWidget invalid pixmap for %s",
-                    resPath.toUtf8().constData() );
-        }
-
-        m_FacePixmaps.append( facePixmap );
         m_ScaledFacePixmaps.append( QPixmap() );
     }
 }
@@ -123,16 +110,18 @@ void InputFaceWidget::refreshScaledPixmaps( int tileSize )
         return;
 
     const QSize pixSize( std::max( 1, tileSize - 2 ), std::max( 1, tileSize - 2 ) );
-    for( int i = 0; i < m_FacePixmaps.size(); i++ )
+    for( int i = 0; i < m_ScaledFacePixmaps.size(); i++ )
     {
-        const QPixmap& pix = m_FacePixmaps[i];
-        if( pix.isNull() )
+        QPixmap pix;
+        // Get scaled pixmap directly from cache — fetches at requested size
+        if( m_MyApp.getThumbMgr().getEmoticonPixmap( i + 1, pixSize, pix ) )
+        {
+            m_ScaledFacePixmaps[i] = pix;
+        }
+        else
         {
             m_ScaledFacePixmaps[i] = QPixmap();
-            continue;
         }
-
-        m_ScaledFacePixmaps[i] = pix.scaled( pixSize, Qt::KeepAspectRatio, Qt::FastTransformation );
     }
 
     m_LastTileSize = tileSize;
@@ -176,8 +165,7 @@ void InputFaceWidget::repositionFaceTiles( bool force )
         if( !pix.isNull() )
             label->setPixmap( pix );
         else
-            LogMsg( LOG_ERROR, "InputFaceWidget::repositionFaceTiles invalid pixmap for %s",
-                    m_FaceResourcePaths[i].toUtf8().constData() );
+            LogMsg( LOG_ERROR, "InputFaceWidget::repositionFaceTiles invalid pixmap for emoticon %d", i + 1 );
     }
 }
 

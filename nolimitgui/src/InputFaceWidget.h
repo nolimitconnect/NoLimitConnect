@@ -41,8 +41,6 @@ protected:
     Ui::InputFaceWidgetClass&   ui;
     QWidget*                    m_FaceContentWidget{ nullptr };
     QVector<VxLabel*>           m_FaceList;
-    QVector<QString>            m_FaceResourcePaths;
-    QVector<QPixmap>            m_FacePixmaps;
     QVector<QPixmap>            m_ScaledFacePixmaps;
     int                         m_LastTileSize{ 0 };
     QSize                       m_LastFaceAreaSize;

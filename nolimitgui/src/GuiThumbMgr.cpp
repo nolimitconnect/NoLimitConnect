@@ -25,6 +25,7 @@
 
 #include <algorithm>
 
+#include <QFile>
 #include <QPainter>
 
 //============================================================================
@@ -32,6 +33,9 @@ GuiThumbMgr::GuiThumbMgr( AppCommon& app )
     : QObject( &app )
     , m_MyApp( app )
 {
+    // Initialize emoticon cache vectors
+    m_EmoticonPixmapCache.resize( kEmoticonCount );
+    m_EmoticonLoaded.resize( kEmoticonCount, false );
 }
 
 //============================================================================
@@ -67,6 +71,190 @@ void GuiThumbMgr::onAppCommonCreated( void )
 bool GuiThumbMgr::isMessengerReady( void )
 {
     return m_MyApp.isMessengerReady();
+}
+
+//============================================================================
+void GuiThumbMgr::onSystemReady( bool ready )
+{
+    if( ready )
+    {
+        startEmoticonCacheLoad();
+    }
+}
+
+//============================================================================
+void GuiThumbMgr::startEmoticonCacheLoad( void )
+{
+    if( m_EmoticonCacheReady || m_EmoticonCacheLoadTimer )
+    {
+        return; // Already loaded or loading
+    }
+
+    m_EmoticonCacheLoadIndex = 1;
+    m_EmoticonCacheLoadTimer = new QTimer( this );
+    connect( m_EmoticonCacheLoadTimer, SIGNAL(timeout()), this, SLOT(slotEmoticonCacheLoadTick()) );
+    m_EmoticonCacheLoadTimer->start( 50 ); // 50ms between chunks
+}
+
+//============================================================================
+void GuiThumbMgr::slotEmoticonCacheLoadTick( void )
+{
+    // Load a chunk of emoticons each tick
+    for( int i = 0; i < kEmoticonLoadChunkSize && m_EmoticonCacheLoadIndex <= kEmoticonCount; i++, m_EmoticonCacheLoadIndex++ )
+    {
+        loadEmoticonToCache( m_EmoticonCacheLoadIndex );
+    }
+
+    if( m_EmoticonCacheLoadIndex > kEmoticonCount )
+    {
+        // All emoticons loaded
+        m_EmoticonCacheLoadTimer->stop();
+        m_EmoticonCacheLoadTimer->deleteLater();
+        m_EmoticonCacheLoadTimer = nullptr;
+        m_EmoticonCacheReady = true;
+        LogMsg( LOG_VERBOSE, "GuiThumbMgr::slotEmoticonCacheLoadTick emoticon cache ready (%d emoticons)", kEmoticonCount );
+        emit signalEmoticonCacheReady();
+    }
+}
+
+//============================================================================
+QString GuiThumbMgr::getEmoticonNltPath( int emoticonNum )
+{
+    if( emoticonNum < 1 || emoticonNum > kEmoticonCount )
+    {
+        return QString();
+    }
+
+    std::vector<VxGUID>& emoticonIdList = m_MyApp.getEngine().getThumbMgr().getEmoticonIdList();
+    if( emoticonNum > (int)emoticonIdList.size() )
+    {
+        return QString();
+    }
+
+    VxGUID& assetGuid = emoticonIdList[emoticonNum - 1];
+    QString fileName;
+    GuiHelpers::createThumbFileName( assetGuid, fileName );
+    return fileName;
+}
+
+//============================================================================
+QString GuiThumbMgr::getEmoticonSvgPath( int emoticonNum )
+{
+    if( emoticonNum > 9 )
+    {
+        return QString( ":/AppRes/Resources/emoj%1.svg" ).arg( emoticonNum );
+    }
+    else
+    {
+        return QString( ":/AppRes/Resources/emoj0%1.svg" ).arg( emoticonNum );
+    }
+}
+
+//============================================================================
+bool GuiThumbMgr::loadEmoticonToCache( int emoticonNum )
+{
+    if( emoticonNum < 1 || emoticonNum > kEmoticonCount )
+    {
+        return false;
+    }
+
+    int idx = emoticonNum - 1;
+    
+    {
+        QMutexLocker lock( &m_EmoticonCacheMutex );
+        if( m_EmoticonLoaded[idx] )
+        {
+            return true; // Already loaded
+        }
+    }
+
+    QPixmap pixmap;
+    const QSize cacheSize( kEmoticonCacheSize, kEmoticonCacheSize );
+
+    // Try loading from .nlt file first (fast path)
+    QString nltPath = getEmoticonNltPath( emoticonNum );
+    if( !nltPath.isEmpty() && QFile::exists( nltPath ) )
+    {
+        if( pixmap.load( nltPath ) && !pixmap.isNull() )
+        {
+            // Scale to cache size if needed
+            if( pixmap.size() != cacheSize )
+            {
+                pixmap = pixmap.scaled( cacheSize, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+            }
+
+            QMutexLocker lock( &m_EmoticonCacheMutex );
+            m_EmoticonPixmapCache[idx] = pixmap;
+            m_EmoticonLoaded[idx] = true;
+            return true;
+        }
+    }
+
+    // Fallback: Load from SVG (slow path)
+    // Note: Don't save to .nlt here - let generateEmoticon() create full-size gallery thumbnails
+    QString svgPath = getEmoticonSvgPath( emoticonNum );
+    QPixmap svgPixmap( svgPath );
+    if( svgPixmap.isNull() )
+    {
+        LogMsg( LOG_ERROR, "GuiThumbMgr::loadEmoticonToCache failed to load SVG %s", svgPath.toUtf8().constData() );
+        return false;
+    }
+
+    // Scale to cache size
+    pixmap = svgPixmap.scaled( cacheSize, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+
+    QMutexLocker lock( &m_EmoticonCacheMutex );
+    m_EmoticonPixmapCache[idx] = pixmap;
+    m_EmoticonLoaded[idx] = true;
+    return true;
+}
+
+//============================================================================
+bool GuiThumbMgr::getEmoticonPixmap( int emoticonNum, QSize imageSize, QPixmap& retPixmap )
+{
+    if( emoticonNum < 1 || emoticonNum > kEmoticonCount )
+    {
+        LogMsg( LOG_ERROR, "GuiThumbMgr::%s invalid icon number %d", __func__, emoticonNum );
+        return false;
+    }
+
+    int idx = emoticonNum - 1;
+
+    // If not yet loaded, load synchronously (fallback for early access)
+    {
+        QMutexLocker lock( &m_EmoticonCacheMutex );
+        if( !m_EmoticonLoaded[idx] )
+        {
+            lock.unlock();
+            loadEmoticonToCache( emoticonNum );
+        }
+    }
+
+    QMutexLocker lock( &m_EmoticonCacheMutex );
+    if( m_EmoticonPixmapCache[idx].isNull() )
+    {
+        return false;
+    }
+
+    // Scale from cache
+    retPixmap = m_EmoticonPixmapCache[idx].scaled( imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+    return !retPixmap.isNull();
+}
+
+//============================================================================
+bool GuiThumbMgr::getAllEmoticonPixmaps( QSize imageSize, QVector<QPixmap>& retPixmaps )
+{
+    retPixmaps.clear();
+    retPixmaps.reserve( kEmoticonCount );
+
+    for( int i = 1; i <= kEmoticonCount; i++ )
+    {
+        QPixmap pix;
+        getEmoticonPixmap( i, imageSize, pix );
+        retPixmaps.append( pix );
+    }
+
+    return retPixmaps.size() == kEmoticonCount;
 }
 
 //============================================================================
@@ -445,7 +633,15 @@ GuiThumb* GuiThumbMgr::generateEmoticon( VxGUID& thumbId, bool checkIfExists )
 
     QPixmap image;
     QSize imageSize( GuiParams::getThumbnailSize().width() - emoteMargin * 2, GuiParams::getThumbnailSize().height() - emoteMargin * 2 );
-    if( m_MyApp.getThumbMgr().getEmoticonImage( emoticonNum, imageSize, image ) )
+    // Load directly from SVG for high-quality gallery thumbnails (don't use 48x48 cache)
+    QString svgPath = getEmoticonSvgPath( emoticonNum );
+    QPixmap svgPixmap( svgPath );
+    if( !svgPixmap.isNull() )
+    {
+        image = svgPixmap.scaled( imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+    }
+
+    if( !image.isNull() )
     {
         QPixmap finalThumbnail( GuiParams::getThumbnailSize() );
         finalThumbnail.fill( QColor( COLOR_TRANSPARENT ) );
@@ -521,28 +717,8 @@ void GuiThumbMgr::generateEmoticonsIfNeeded( AppletBase * applet )
 //============================================================================
 bool GuiThumbMgr::getEmoticonImage( int emoticonNum, QSize imageSize, QPixmap& retImage )
 {
-    char resBuf[128];
-    size_t emojCnt = m_MyApp.getEngine().getThumbMgr().getEmoticonIdList().size();
-    if( emoticonNum > 0 && emoticonNum <= emojCnt )
-    {
-        if( emoticonNum > 9 )
-        {
-            sprintf( resBuf, ":/AppRes/Resources/emoj%d.svg", emoticonNum );
-        }
-        else
-        {
-            sprintf( resBuf, ":/AppRes/Resources/emoj0%d.svg", emoticonNum );
-        }
-
-        QPixmap faceImage( resBuf );
-        retImage = faceImage.scaled( imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-        return !retImage.isNull();
-    }
-    else
-    {
-        LogMsg( LOG_ERROR, "GuiThumbMgr::%s invalid icon number %d", __func__, emoticonNum );
-        return false;
-    }   
+    // Legacy API - redirect to cache-based implementation
+    return getEmoticonPixmap( emoticonNum, imageSize, retImage );
 }
 
 //============================================================================
