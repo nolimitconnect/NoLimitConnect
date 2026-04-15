@@ -12,6 +12,7 @@
 #include "AppCommon.h"
 #include "GuiParams.h"
 #include "InputClientBaseCallback.h"
+#include "VxLabel.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -20,189 +21,193 @@
 
 #include "ui_InputFaceWidget.h"
 
-//============================================================================
-InputFaceWidget::InputFaceWidget( QWidget* parent )
-: InputBaseWidget( GetAppInstance(), parent )
-, ui(*(new Ui::InputFaceWidgetClass))
+#include <QResizeEvent>
+#include <QShowEvent>
+#include <cmath>
+
+namespace
 {
-	m_AssetInfo.setAssetType( eAssetTypeChatFace );
-	qDebug() << "InputFaceWidget::InputFaceWidget ";
+    constexpr int kFaceCount        = 50;
+    constexpr int kFaceTileMinSize  = 24;
+    constexpr int kFaceTileMaxSize  = 80;
 
-	ui.setupUi( this );
-    ui.m_CancelFaceButton->setSquareButtonSize( eButtonSizeTiny );
-
-	connect( ui.m_FaceLabel1_1,		SIGNAL(clicked()),	this, SLOT(slotFace1LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_1 );
-	connect( ui.m_FaceLabel1_2,		SIGNAL(clicked()),	this, SLOT(slotFace2LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_2 );
-	connect( ui.m_FaceLabel1_3,		SIGNAL(clicked()),	this, SLOT(slotFace3LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_3 );
-	connect( ui.m_FaceLabel1_4,		SIGNAL(clicked()),	this, SLOT(slotFace4LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_4 );
-	connect( ui.m_FaceLabel1_5,		SIGNAL(clicked()),	this, SLOT(slotFace5LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_5 );
-	connect( ui.m_FaceLabel1_6,		SIGNAL(clicked()),	this, SLOT(slotFace6LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_6 );
-	connect( ui.m_FaceLabel1_7,		SIGNAL(clicked()),	this, SLOT(slotFace7LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_7 );
-	connect( ui.m_FaceLabel1_8,		SIGNAL(clicked()),	this, SLOT(slotFace8LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_8 );
-	connect( ui.m_FaceLabel1_9,		SIGNAL(clicked()),	this, SLOT(slotFace9LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_9 );
-	connect( ui.m_FaceLabel1_10,		SIGNAL(clicked()),	this, SLOT(slotFace10LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_10 );
-	connect( ui.m_FaceLabel1_11,		SIGNAL(clicked()),	this, SLOT(slotFace11LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_11 );
-	connect( ui.m_FaceLabel1_12,		SIGNAL(clicked()),	this, SLOT(slotFace12LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_12 );
-	connect( ui.m_FaceLabel1_13,		SIGNAL(clicked()),	this, SLOT(slotFace13LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_13 );
-	connect( ui.m_FaceLabel1_14,		SIGNAL(clicked()),	this, SLOT(slotFace14LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_14 );
-	connect( ui.m_FaceLabel1_15,		SIGNAL(clicked()),	this, SLOT(slotFace15LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_15 );
-	connect( ui.m_FaceLabel1_16,		SIGNAL(clicked()),	this, SLOT(slotFace16LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_16 );
-	connect( ui.m_FaceLabel1_17,		SIGNAL(clicked()),	this, SLOT(slotFace17LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_17 );
-	connect( ui.m_FaceLabel1_18,		SIGNAL(clicked()),	this, SLOT(slotFace18LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_18 );
-	connect( ui.m_FaceLabel1_19,		SIGNAL(clicked()),	this, SLOT(slotFace19LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_19 );
-	connect( ui.m_FaceLabel1_20,		SIGNAL(clicked()),	this, SLOT(slotFace20LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_20 );
-	connect( ui.m_FaceLabel1_21,		SIGNAL(clicked()),	this, SLOT(slotFace21LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_21 );
-	connect( ui.m_FaceLabel1_22,		SIGNAL(clicked()),	this, SLOT(slotFace22LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_22 );
-	connect( ui.m_FaceLabel1_23,		SIGNAL(clicked()),	this, SLOT(slotFace23LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_23 );
-	connect( ui.m_FaceLabel1_24,		SIGNAL(clicked()),	this, SLOT(slotFace24LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_24 );
-	connect( ui.m_FaceLabel1_25,		SIGNAL(clicked()),	this, SLOT(slotFace25LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_25 );
-	connect( ui.m_FaceLabel1_26,		SIGNAL(clicked()),	this, SLOT(slotFace26LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_26 );
-	connect( ui.m_FaceLabel1_27,		SIGNAL(clicked()),	this, SLOT(slotFace27LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_27 );
-	connect( ui.m_FaceLabel1_28,		SIGNAL(clicked()),	this, SLOT(slotFace28LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_28 );
-	connect( ui.m_FaceLabel1_29,		SIGNAL(clicked()),	this, SLOT(slotFace29LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_29 );
-	connect( ui.m_FaceLabel1_30,		SIGNAL(clicked()),	this, SLOT(slotFace30LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_30 );
-	connect( ui.m_FaceLabel1_31,		SIGNAL(clicked()),	this, SLOT(slotFace31LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_31 );
-	connect( ui.m_FaceLabel1_32,		SIGNAL(clicked()),	this, SLOT(slotFace32LabelClicked()) );
-    m_FaceList.emplace_back( ui.m_FaceLabel1_32 );
-
-	char resBuf[128];
-	QSize imageSize( GuiParams::getButtonSize( eButtonSizeSmall ) );
-	for( int i = 0; i < m_FaceList.size(); i++ )
-	{
-		VxLabel * faceLabel = m_FaceList[i];
-        if( i + 1 > 9 )
+    // Returns the largest tile size for which at least N tiles fit in WxH.
+    double optimal_size( double W, double H, int N )
+    {
+        int i_min = 1, j_min = 1;
+        for( int i = std::max( 1, (int)std::round( std::sqrt( (double)N * W / H ) ) ); ; i++ )
         {
-            sprintf( resBuf, ":/AppRes/Resources/emoj%d.svg", i + 1 );
+            if( i * (int)std::floor( H * (double)i / W ) >= N ) { i_min = i; break; }
         }
-        else
+        for( int j = std::max( 1, (int)std::round( std::sqrt( (double)N * H / W ) ) ); ; j++ )
         {
-            sprintf( resBuf, ":/AppRes/Resources/emoj0%d.svg", i + 1 );
+            if( (int)std::floor( W * (double)j / H ) * j >= N ) { j_min = j; break; }
         }
-
-        bool wasSet{false};
-		QPixmap faceImage( resBuf );
-        if( !faceImage.isNull() )
-        {
-            QPixmap picPixmap = faceImage.scaled(imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-            if( !picPixmap.isNull() )
-            {
-                faceLabel->setPixmap( picPixmap );
-                wasSet = true;
-            }
-        }
-
-        if( !wasSet )
-        {
-            LogMsg( LOG_ERROR, "InputFaceWidget::InputFaceWidget invalid pixmap for %s", resBuf );
-        }
-	}
-
-	ui.m_CancelFaceButton->setIcons( eMyIconCancelNormal );
-	connect( ui.m_CancelFaceButton,		SIGNAL(clicked()),							this, SLOT(slotCancelFaceButtonClicked()) );
+        return std::max( W / i_min, H / j_min );
+    }
 }
 
 //============================================================================
-QSize InputFaceWidget::sizeHint() const
+InputFaceWidget::InputFaceWidget( QWidget* parent )
+: InputBaseWidget( GetAppInstance(), parent )
+, ui( *(new Ui::InputFaceWidgetClass) )
 {
-	QSize thisSizeHint( ( int )( GuiParams::getGuiScale() * 228 ), 
-                        ( int )( 347 * GuiParams::getGuiScale() ) );
-	return thisSizeHint;
+    m_AssetInfo.setAssetType( eAssetTypeChatFace );
+    ui.setupUi( this );
+    ui.m_CancelFaceButton->setSquareButtonSize( eButtonSizeTiny );
+    ui.m_CancelFaceButton->setIcons( eMyIconCancelNormal );
+    connect( ui.m_CancelFaceButton, SIGNAL(clicked()), this, SLOT(slotCancelFaceButtonClicked()) );
+
+    // Unlock the fixed-height m_MainFrame so it can expand to fill available space.
+    ui.m_MainFrame->setMinimumHeight( 0 );
+    ui.m_MainFrame->setMaximumHeight( QWIDGETSIZE_MAX );
+    ui.m_MainFrame->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+
+    // Hide the legacy static face selector (contains the 32 hardcoded VxLabel entries).
+    ui.m_SelectFaceFrame->setVisible( false );
+
+    // Create the tile canvas.  Children are positioned absolutely by repositionFaceTiles().
+    m_FaceContentWidget = new QWidget( ui.m_MainFrame );
+    m_FaceContentWidget->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+
+    // Zero out the margin/spacing so the tile canvas fills the whole frame.
+    ui.verticalLayout->setContentsMargins( 0, 0, 0, 0 );
+    ui.verticalLayout->setSpacing( 0 );
+
+    // Insert canvas before the cancel button row.  Stretch = 1 gives it all the remaining height.
+    ui.verticalLayout->insertWidget( 0, m_FaceContentWidget, 1 );
+
+    // Create all 50 face labels in one unified loop — same code path for every face.
+    for( int i = 1; i <= kFaceCount; i++ )
+    {
+        QString resPath = ( i > 9 )
+            ? QString( ":/AppRes/Resources/emoj%1.svg" ).arg( i )
+            : QString( ":/AppRes/Resources/emoj0%1.svg" ).arg( i );
+
+        VxLabel* faceLabel = new VxLabel( m_FaceContentWidget );
+        faceLabel->setAlignment( Qt::AlignCenter );
+        connect( faceLabel, &VxLabel::clicked, this, [this, i]() { faceLabelClicked( i ); } );
+        m_FaceList.append( faceLabel );
+        m_FaceResourcePaths.append( resPath );
+
+        QPixmap facePixmap( resPath );
+        if( facePixmap.isNull() )
+        {
+            LogMsg( LOG_ERROR, "InputFaceWidget::InputFaceWidget invalid pixmap for %s",
+                    resPath.toUtf8().constData() );
+        }
+
+        m_FacePixmaps.append( facePixmap );
+        m_ScaledFacePixmaps.append( QPixmap() );
+    }
+}
+
+//============================================================================
+void InputFaceWidget::resizeEvent( QResizeEvent* ev )
+{
+    QWidget::resizeEvent( ev );
+    repositionFaceTiles();
+}
+
+//============================================================================
+void InputFaceWidget::showEvent( QShowEvent* ev )
+{
+    QWidget::showEvent( ev );
+    repositionFaceTiles( true );
+}
+
+//============================================================================
+void InputFaceWidget::refreshScaledPixmaps( int tileSize )
+{
+    if( tileSize == m_LastTileSize )
+        return;
+
+    const QSize pixSize( std::max( 1, tileSize - 2 ), std::max( 1, tileSize - 2 ) );
+    for( int i = 0; i < m_FacePixmaps.size(); i++ )
+    {
+        const QPixmap& pix = m_FacePixmaps[i];
+        if( pix.isNull() )
+        {
+            m_ScaledFacePixmaps[i] = QPixmap();
+            continue;
+        }
+
+        m_ScaledFacePixmaps[i] = pix.scaled( pixSize, Qt::KeepAspectRatio, Qt::FastTransformation );
+    }
+
+    m_LastTileSize = tileSize;
+}
+
+//============================================================================
+void InputFaceWidget::repositionFaceTiles( bool force )
+{
+    const int n = m_FaceList.size();
+    if( n == 0 || !m_FaceContentWidget )
+        return;
+
+    const QSize areaSize = m_FaceContentWidget->size();
+    if( !force && areaSize == m_LastFaceAreaSize )
+        return;
+
+    const int W = areaSize.width();
+    const int H = areaSize.height();
+    if( W <= 0 || H <= 0 )
+        return;
+
+    m_LastFaceAreaSize = areaSize;
+
+    int tileSize = (int)optimal_size( (double)W, (double)H, n );
+    tileSize = std::max( kFaceTileMinSize, std::min( kFaceTileMaxSize, tileSize ) );
+
+    int cols = W / tileSize;
+    if( cols <= 0 )
+        cols = 1;
+
+    refreshScaledPixmaps( tileSize );
+
+    for( int i = 0; i < n; i++ )
+    {
+        VxLabel* label = m_FaceList[i];
+        label->setFixedSize( tileSize, tileSize );
+        label->move( ( i % cols ) * tileSize, ( i / cols ) * tileSize );
+        label->show();
+
+        const QPixmap& pix = m_ScaledFacePixmaps[i];
+        if( !pix.isNull() )
+            label->setPixmap( pix );
+        else
+            LogMsg( LOG_ERROR, "InputFaceWidget::repositionFaceTiles invalid pixmap for %s",
+                    m_FaceResourcePaths[i].toUtf8().constData() );
+    }
 }
 
 //============================================================================
 void InputFaceWidget::slotCancelFaceButtonClicked( void )
 {
-	emit signalInputCompleted();
+    emit signalInputCompleted();
 }
 
 //============================================================================
 void InputFaceWidget::faceLabelClicked( int faceNum )
 {
-	char assetBuf[128];
+    char assetBuf[128];
     if( faceNum > 9 )
-    {
         sprintf( assetBuf, "emoj%d", faceNum );
-    }
     else
-    {
         sprintf( assetBuf, "emoj0%d", faceNum );
+
+    if( fillAssetBaseInfo( true ) )
+    {
+        m_AssetInfo.setAssetName( assetBuf );
+        m_AssetInfo.setAssetLength( 0 );
+
+        if( addOptionalComment() )
+        {
+            m_ClientCallback->handleAssetAction(
+                m_IsPersonalRecorder ? eAssetActionAddToAssetMgr : eAssetActionAddAssetAndSend,
+                m_AssetInfo );
+        }
     }
 
-	if( fillAssetBaseInfo( true ) )
-	{
-		m_AssetInfo.setAssetName( assetBuf );
-		m_AssetInfo.setAssetLength( 0 );
-
-		if( addOptionalComment() )
-		{
-			m_ClientCallback->handleAssetAction( m_IsPersonalRecorder ? eAssetActionAddToAssetMgr : eAssetActionAddAssetAndSend, m_AssetInfo );
-		}
-	}
-
-	emit signalInputCompleted();
+    emit signalInputCompleted();
 }
-
-//============================================================================
-void InputFaceWidget::slotFace1LabelClicked( void ) { faceLabelClicked( 1 ); }
-void InputFaceWidget::slotFace2LabelClicked( void ) { faceLabelClicked( 2 ); }
-void InputFaceWidget::slotFace3LabelClicked( void ) { faceLabelClicked( 3 ); }
-void InputFaceWidget::slotFace4LabelClicked( void ) { faceLabelClicked( 4 ); }
-void InputFaceWidget::slotFace5LabelClicked( void ) { faceLabelClicked( 5 ); }
-void InputFaceWidget::slotFace6LabelClicked( void ) { faceLabelClicked( 6 ); }
-void InputFaceWidget::slotFace7LabelClicked( void ) { faceLabelClicked( 7 ); }
-void InputFaceWidget::slotFace8LabelClicked( void ) { faceLabelClicked( 8 ); }
-void InputFaceWidget::slotFace9LabelClicked( void ) { faceLabelClicked( 9 ); }
-void InputFaceWidget::slotFace10LabelClicked( void ) { faceLabelClicked( 10 ); }
-void InputFaceWidget::slotFace11LabelClicked( void ) { faceLabelClicked( 11 ); }
-void InputFaceWidget::slotFace12LabelClicked( void ) { faceLabelClicked( 12 ); }
-void InputFaceWidget::slotFace13LabelClicked( void ) { faceLabelClicked( 13 ); }
-void InputFaceWidget::slotFace14LabelClicked( void ) { faceLabelClicked( 14 ); }
-void InputFaceWidget::slotFace15LabelClicked( void ) { faceLabelClicked( 15 ); }
-void InputFaceWidget::slotFace16LabelClicked( void ) { faceLabelClicked( 16 ); }
-void InputFaceWidget::slotFace17LabelClicked( void ) { faceLabelClicked( 17 ); }
-void InputFaceWidget::slotFace18LabelClicked( void ) { faceLabelClicked( 18 ); }
-void InputFaceWidget::slotFace19LabelClicked( void ) { faceLabelClicked( 19 ); }
-void InputFaceWidget::slotFace20LabelClicked( void ) { faceLabelClicked( 20 ); }
-void InputFaceWidget::slotFace21LabelClicked( void ) { faceLabelClicked( 21 ); }
-void InputFaceWidget::slotFace22LabelClicked( void ) { faceLabelClicked( 22 ); }
-void InputFaceWidget::slotFace23LabelClicked( void ) { faceLabelClicked( 23 ); }
-void InputFaceWidget::slotFace24LabelClicked( void ) { faceLabelClicked( 24 ); }
-void InputFaceWidget::slotFace25LabelClicked( void ) { faceLabelClicked( 25 ); }
-void InputFaceWidget::slotFace26LabelClicked( void ) { faceLabelClicked( 26 ); }
-void InputFaceWidget::slotFace27LabelClicked( void ) { faceLabelClicked( 27 ); }
-void InputFaceWidget::slotFace28LabelClicked( void ) { faceLabelClicked( 28 ); }
-void InputFaceWidget::slotFace29LabelClicked( void ) { faceLabelClicked( 29 ); }
-void InputFaceWidget::slotFace30LabelClicked( void ) { faceLabelClicked( 30 ); }
-void InputFaceWidget::slotFace31LabelClicked( void ) { faceLabelClicked( 31 ); }
-void InputFaceWidget::slotFace32LabelClicked( void ) { faceLabelClicked( 32 ); }
