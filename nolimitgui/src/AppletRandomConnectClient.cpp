@@ -21,7 +21,5 @@ AppletRandomConnectClient::AppletRandomConnectClient( AppCommon& app, QWidget* p
 {
     ui.m_SessionWidget->setMediaModule( eMediaModuleRandomConnectClient );
 
-	ui.m_SessionWidget->setLimitToTextAndPhotos( true );
-
     ui.m_UserListWidget->setUserViewType( eUserViewTypeRandomConnect );
 }

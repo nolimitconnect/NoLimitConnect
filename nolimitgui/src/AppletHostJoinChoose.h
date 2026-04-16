@@ -31,6 +31,7 @@ protected slots:
     void                        slotViewCurrentButtonClicked( void );
     void                        slotRejoinButtonClicked( void );
     void                        slotSearchButtonClicked( void );
+    void                        slotLeaveButtonClicked( void );
 
 protected:
     //=== vars ===//

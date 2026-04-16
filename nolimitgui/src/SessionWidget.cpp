@@ -41,7 +41,7 @@ SessionWidget::SessionWidget( QWidget* parent, EAssetType inputMode )
 	ui.m_CreateInviteButton->setIcon( eMyIconInviteCreate );
 
 	connect( ui.m_ChatEntry, SIGNAL(signalUserInputButtonClicked()), this, SIGNAL(signalUserInputButtonClicked()) );
-	connect( ui.m_ChatEntry, SIGNAL(signalFaceInputVisibilityChanged(bool)), ui.m_HistoryList, SLOT(setHidden(bool)) );
+	connect( ui.m_ChatEntry, SIGNAL(signalMaxInputVisibilityChanged(bool)), ui.m_HistoryList, SLOT(setHidden(bool)) );
 	connect( ui.m_CreateInviteButton, SIGNAL(clicked()), this, SLOT(slotCreateInviteButtonClicked()) );
     connect( &m_MyApp, SIGNAL(signalStatusMsg(QString)), this, SLOT(slotStatusMsg(QString)) );
 

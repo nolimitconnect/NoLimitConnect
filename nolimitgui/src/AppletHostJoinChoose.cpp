@@ -13,12 +13,10 @@
 #include "AppCommon.h"
 #include "AppletClientBase.h"
 #include "AppletMgr.h"
-#include "AppSettings.h"
 
 #include "GuiHelpers.h"
 #include "GuiParams.h"
 #include "GuiUserJoinMgr.h"
-#include "GuiUserListWidget.h"
 
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
@@ -35,14 +33,20 @@ AppletHostJoinChoose::AppletHostJoinChoose( AppCommon& app, QWidget* parent )
 	setTitleBarText( DescribeApplet( m_EAppletType ) );
 	setPluginType( ePluginTypeClientChatRoom );
 
+    ui.m_LeaveFrame->setVisible( false );
+
 	ui.m_ViewCurrentButton->setFixedSize( eButtonSizeMedium );
+    ui.m_LeaveButton->setFixedSize( eButtonSizeMedium );
 	ui.m_RejoinButton->setFixedSize( eButtonSizeMedium );
 	ui.m_SearchButton->setFixedSize( eButtonSizeMedium );
 
+    ui.m_LeaveButton->setIcon( eMyIconUserLeave );
 	ui.m_RejoinButton->setIcon( eMyIconConnect );
 
 	connect( ui.m_ViewCurrentButton, SIGNAL(clicked()), this, SLOT(slotViewCurrentButtonClicked()) );
 	connect( ui.m_ViewCurrentLabel, SIGNAL(clicked()), this, SLOT(slotViewCurrentButtonClicked()) );
+	connect( ui.m_LeaveButton, SIGNAL(clicked()), this, SLOT(slotLeaveButtonClicked()) );
+	connect( ui.m_LeaveLabel, SIGNAL(clicked()), this, SLOT(slotLeaveButtonClicked()) );
 	connect( ui.m_RejoinButton, SIGNAL(clicked()), this, SLOT(slotRejoinButtonClicked()) );
 	connect( ui.m_RejoinLabel, SIGNAL(clicked()), this, SLOT(slotRejoinButtonClicked()) );
 	connect( ui.m_SearchButton, SIGNAL(clicked()), this, SLOT(slotSearchButtonClicked()) );
@@ -92,6 +96,7 @@ void AppletHostJoinChoose::setHostType( EHostType hostType )
 	}
 
 	ui.m_ViewCurrentFrame->setVisible( isJoined );
+    ui.m_LeaveFrame->setVisible( isJoined );
 	VxPtopUrl lastJoined = m_MyApp.getUserJoinMgr().getLastJoinedPtopUrl( hostType );
 	bool rejoinValid = lastJoined.isValid();
 	if( !isJoined )
@@ -177,4 +182,11 @@ void AppletHostJoinChoose::slotSearchButtonClicked( void )
 
 	m_MyApp.getAppletMgr().launchApplet( applet, getParentPageFrame() );
 	closeApplet();
+}
+
+//============================================================================
+void AppletHostJoinChoose::slotLeaveButtonClicked( void )
+{
+    m_MyApp.getUserJoinMgr().leaveHost( m_HostType );   
+    closeApplet();
 }

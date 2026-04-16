@@ -57,7 +57,7 @@ public:
 
 signals:
 	void						signalUserInputButtonClicked( void );
-	void                        signalFaceInputVisibilityChanged( bool visible );
+	void                        signalMaxInputVisibilityChanged( bool visible );
 
 private slots:
 	void						slotAllTextButtonClicked( void );

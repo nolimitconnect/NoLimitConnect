@@ -237,8 +237,10 @@ void VidWidget::applyVideoUiMode( void )
 	case eVideoUiModeInputPhoto:
 		showFeedControls( true );
 		disablePreview( true );
-		ui.m_CamRotateButton->setVisible( true );
+		//ui.m_CamRotateButton->setVisible( true );
 		ui.m_CamSourceButton->setVisible( true );
+        ui.m_ImageRotateButton->setVisible( true );
+		ui.m_PictureSnapshotButton->setVisible( true );
 		break;
 
 	case eVideoUiModeAssetVideo:

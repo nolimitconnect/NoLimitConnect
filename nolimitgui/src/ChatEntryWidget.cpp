@@ -268,8 +268,8 @@ void ChatEntryWidget::slotAllMicButtonReleased( void )
 //============================================================================
 void ChatEntryWidget::setEntryMode( EAssetType inputMode )
 {
-	const bool faceInputVisible = ( eAssetTypeChatFace == inputMode );
-	emit signalFaceInputVisibilityChanged( faceInputVisible );
+	const bool maxInputVisible = ( eAssetTypeChatFace == inputMode || eAssetTypeVideo == inputMode || eAssetTypePhoto == inputMode);
+	emit signalMaxInputVisibilityChanged( maxInputVisible );
 
 	ui.m_InputAllWidget->setVisible( false );
 	ui.m_InputFaceWidget->setVisible( false );
