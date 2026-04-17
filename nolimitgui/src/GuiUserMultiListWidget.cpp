@@ -82,6 +82,8 @@ GuiUserMultiListWidget::GuiUserMultiListWidget(	QWidget* parent )
 
 	connect( ui.m_UserListWidget,		SIGNAL(signalUserAvatarClicked(GuiUser*)), this, SLOT(slotUserSelected(GuiUser*)) );
 
+    connect( ui.m_HostIconButton,	    SIGNAL(clicked()),	                    this,	SLOT(slotSendToHostIconButtonClicked()) );
+
     bool isMemberOfGroup = m_MemberActiveMgr.isMemberOfHostType( eHostTypeGroup, m_MyApp.getMyOnlineId() );
     ui.m_GroupHost->setVisible( isMemberOfGroup );
     ui.m_GroupLabel->setVisible( isMemberOfGroup );
@@ -354,6 +356,25 @@ void GuiUserMultiListWidget::slotUserSelected( GuiUser* guiUser )
 }
 
 //============================================================================
+void GuiUserMultiListWidget::slotSendToHostIconButtonClicked( void )
+{
+    if( m_UserViewType == eUserViewTypeChatRoom )
+    {
+        // chat room user input is always just sent to the host so do not allow selection of a individual user
+        return;
+    }
+
+    // we are sending to all users
+    ui.m_SentToWhoLabel->setVisible( true );
+    ui.m_HostIconButton->setNotifyType( eNotifyNone );
+
+    ui.m_IdentWidget->setVisible( false );	
+    m_SelectedUser = nullptr;
+
+    emit signalUserSelected( nullptr );
+}
+
+//============================================================================
 void GuiUserMultiListWidget::setSelectedUser( GuiUser* guiUser )
 {
     if( guiUser->isOnline() || 
@@ -387,23 +408,16 @@ void GuiUserMultiListWidget::onSelectedUserChanged( GuiUser* guiUser )
         }
     }
 
-    if( getHostAdminId().isValid() )
+    if( m_UserViewType == eUserViewTypeChatRoom )
     {
-        // launch messenger in opposite page and set the selected user
-        AppletMultiMessenger* messenger = dynamic_cast<AppletMultiMessenger*>( m_MyApp.getAppletMgr().launchApplet( eAppletMultiMessenger, GuiHelpers::getOppositePageFrame( this ) ) );
-        if( messenger )
-        {
-            messenger->setSelectedUser( guiUser );
-        }
+        // chat room user input is always just sent to the host so do not allow selection of a individual user
+        return;
     }
-    else
-    {
-        ui.m_SentToWhoLabel->setVisible( false );
-        ui.m_HostIconButton->setVisible( false );
 
-        ui.m_IdentWidget->setVisible( true );	
-        ui.m_IdentWidget->updateIdentity( guiUser );
-    }
+    ui.m_SentToWhoLabel->setVisible( false );
+
+    ui.m_IdentWidget->setVisible( true );	
+    ui.m_IdentWidget->updateIdentity( guiUser );
 
     emit signalUserSelected( guiUser );
 }

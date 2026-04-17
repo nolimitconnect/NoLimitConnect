@@ -9,36 +9,18 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "AppletBase.h"
+#include "AppletHostAdminBase.h"
 #include "InputClientBaseCallback.h"
 
-QT_BEGIN_NAMESPACE
-namespace Ui {
-    class AppletHostClientUi;
-}
-QT_END_NAMESPACE
-
-class AppletRandomConnectHostAdmin : public AppletBase, public InputClientBaseCallback
+class AppletRandomConnectHostAdmin : public AppletHostAdminBase
 {
 	Q_OBJECT
 public:
     AppletRandomConnectHostAdmin( AppCommon& app, QWidget* parent );
 	virtual ~AppletRandomConnectHostAdmin() override;
 
-    AppCommon&                  getMyApp( void ) override { return m_MyApp; }
     EPluginType			        getInputClientPluginType( void ) override { return ePluginTypeClientRandomConnect; }
 
-protected:
-protected slots:
-    void                        slotSetMembersVisible( bool visible );
-    void                        slotSetSessionVisible( bool visible );
-
-protected:
-    bool						checkIfCanSend( void ) override;
-    bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
-
-    //=== vars ===//
-    Ui::AppletHostClientUi&     ui;
 };
 
 

@@ -43,7 +43,7 @@ ELogModule HostTypeToLogModule( EHostType hostType )
 		return eLogNone;
 	}
 }
-}
+} // namespace
 
 //============================================================================
 AppletHostClientBase::AppletHostClientBase( const char* objName, AppCommon& app, EApplet applet, EHostType hostType, EPluginType pluginType, QWidget* parent )
@@ -64,6 +64,8 @@ AppletHostClientBase::AppletHostClientBase( const char* objName, AppCommon& app,
 	connect( ui.m_UserListWidget, SIGNAL(signalSetSessionVisible(bool)), this, SLOT(slotSetSessionVisible(bool)) );
 	connect( ui.m_UserListWidget, SIGNAL(signalViewChanged(EUserViewType)), this, SLOT(slotViewChanged(EUserViewType)) );
 	connect( ui.m_UserListWidget, SIGNAL(signalLeftHost()), this, SLOT(closeApplet()) );
+
+    connect( ui.m_UserListWidget, SIGNAL(signalUserSelected(GuiUser*)), this, SLOT(slotUserSelected(GuiUser*)) );
 
 	// Restore eye button states for this applet type
 	bool eyeUsersVisible = m_MyApp.getAppSettings().getAppletEyeUsersVisible( applet );
@@ -216,6 +218,19 @@ bool AppletHostClientBase::checkIfCanSend( void )
 //============================================================================
 bool AppletHostClientBase::handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo )
 {
-	GroupieId adminGroupieId = getActiveAdminGroupieId();
-	return handleGroupieAssetAction( adminGroupieId, assetAction, assetInfo );
+	GroupieId groupieId = getActiveAdminGroupieId();
+    if( m_SelectedUser )
+    {
+        LogMsg(LOG_VERBOSE, "AppletHostClientBase::%s assetAction: %d for selected user: %s", __func__, 
+            assetAction, m_SelectedUser->getOnlineName().c_str());
+        groupieId.setUserOnlineId( m_SelectedUser->getMyOnlineId() );
+    }
+
+	return handleGroupieAssetAction( groupieId, assetAction, assetInfo );
+}
+
+//============================================================================
+void AppletHostClientBase::slotUserSelected( GuiUser* guiUser )
+{
+    m_SelectedUser = guiUser;
 }

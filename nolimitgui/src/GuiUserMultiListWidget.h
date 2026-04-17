@@ -84,6 +84,7 @@ protected slots:
     void						slotRandomConnectHostButtonClicked( void );
 
 	void						slotUserSelected( GuiUser* guiUser );
+    void                        slotSendToHostIconButtonClicked( void );
 
 	void						slotLeftHost( void );
 

@@ -40,6 +40,8 @@ protected slots:
 
     void						slotViewChanged( EUserViewType viewType );
 
+    void                        slotUserSelected( GuiUser* guiUser );
+
 protected:
     void                        showEvent( QShowEvent* ev ) override;
 
@@ -51,6 +53,7 @@ protected:
     //=== vars ===//
     Ui::AppletHostClientUi&	    ui;
     GroupieId                   m_AdminGroupieId;
+    GuiUser*                    m_SelectedUser{nullptr};
 };
 
 

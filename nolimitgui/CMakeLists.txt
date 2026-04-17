@@ -127,6 +127,7 @@ list(APPEND nlc_HEADERS
     src/AppletHackerList.h
     src/AppletHelpNetSignalBars.h
 
+    src/AppletHostAdminBase.h
     src/AppletHostBase.h
     src/AppletHostChatRoomStatus.h
     src/AppletHostClientBase.h
@@ -269,7 +270,6 @@ list(APPEND nlc_HEADERS
     src/FileListReplySession.h
     src/FileMediaSelectWidget.h
     src/FileShareItemWidget.h
-    #src/FileViewSharedActionBar.h
     src/FileXferWidget.h
 
     src/FriendListEntryWidget.h
@@ -565,6 +565,7 @@ list(APPEND nlc_SOURCES
     src/AppletHackerList.cpp
     src/AppletHelpNetSignalBars.cpp
 
+    src/AppletHostAdminBase.cpp
     src/AppletHostBase.cpp
     src/AppletHostChatRoomStatus.cpp
     src/AppletHostClientBase.cpp

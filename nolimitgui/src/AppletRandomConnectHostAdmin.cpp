@@ -25,8 +25,7 @@
 
 //============================================================================
 AppletRandomConnectHostAdmin::AppletRandomConnectHostAdmin( AppCommon& app, QWidget* parent )
-: AppletBase( OBJNAME_APPLET_RANDOM_CONNECT_HOST_ADMIN, app, parent )
-, ui(*(new Ui::AppletHostClientUi ))
+: AppletHostAdminBase( OBJNAME_APPLET_RANDOM_CONNECT_HOST_ADMIN, app, parent )
 {
     setAppletType( eAppletRandomConnectHostAdmin );
     ui.setupUi( getContentItemsFrame() );
@@ -36,6 +35,9 @@ AppletRandomConnectHostAdmin::AppletRandomConnectHostAdmin( AppCommon& app, QWid
     connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );
     connect( ui.m_UserListWidget, SIGNAL(signalSetMembersVisible(bool)), this, SLOT(slotSetMembersVisible(bool)) );
     connect( ui.m_UserListWidget, SIGNAL(signalSetSessionVisible(bool)), this, SLOT(slotSetSessionVisible(bool)) );
+
+    // allow send to individual members by clicking on them in the user list
+    connect( ui.m_UserListWidget, SIGNAL(signalUserSelected(GuiUser*)), this, SLOT(slotUserSelected(GuiUser*)) );
 
     GroupieId hostAdminId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeRandomConnect );
 	ui.m_SessionWidget->setPluginType( getPluginType() );
@@ -70,45 +72,4 @@ AppletRandomConnectHostAdmin::~AppletRandomConnectHostAdmin()
 {
     m_MyApp.getFromGuiInterface().fromGuiAdminViewHost( ePluginTypeHostRandomConnect, false );
     m_MyApp.activityStateChange( this, false );
-}
-
-//============================================================================
-bool AppletRandomConnectHostAdmin::checkIfCanSend( void )
-{
-    return AppletBase::checkIfCanSend( ui.m_UserListWidget->getHostAdminId().getHostedId() );
-}
-
-//============================================================================
-bool AppletRandomConnectHostAdmin::handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo )
-{
-	return handleGroupieAssetAction( ui.m_UserListWidget->getHostAdminId(), assetAction, assetInfo );
-}
-
-//============================================================================
-void AppletRandomConnectHostAdmin::slotSetMembersVisible( bool visible )
-{
-    m_MyApp.getAppSettings().setAppletEyeUsersVisible( m_EAppletType, visible );
-
-    if( visible )
-    {
-        ui.m_UserListWidget->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
-        ui.verticalLayout->setStretch( 0, 1 );
-    }
-    else
-    {
-        ui.m_UserListWidget->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
-        ui.verticalLayout->setStretch( 0, 0 );
-    }
-
-    ui.verticalLayout->setStretch( 1, 1 );
-    ui.m_UserListWidget->updateGeometry();
-    ui.m_SessionWidget->updateGeometry();
-    ui.verticalLayout->invalidate();
-}
-
-//============================================================================
-void AppletRandomConnectHostAdmin::slotSetSessionVisible( bool visible )
-{
-    m_MyApp.getAppSettings().setAppletEyeSessionVisible( m_EAppletType, visible );
-    ui.m_SessionWidget->setVisible( visible );
 }

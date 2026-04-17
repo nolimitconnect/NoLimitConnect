@@ -25,8 +25,7 @@
 
 //============================================================================
 AppletChatRoomHostAdmin::AppletChatRoomHostAdmin( AppCommon& app, QWidget* parent )
-: AppletBase( OBJNAME_APPLET_HOST_CHAT_ROOM_ADMIN, app, parent )
-, ui(*(new Ui::AppletHostClientUi ))
+: AppletHostAdminBase( OBJNAME_APPLET_HOST_CHAT_ROOM_ADMIN, app, parent )
 {
     setAppletType( eAppletChatRoomHostAdmin );
     ui.setupUi( getContentItemsFrame() );
@@ -62,63 +61,5 @@ AppletChatRoomHostAdmin::AppletChatRoomHostAdmin( AppCommon& app, QWidget* paren
 AppletChatRoomHostAdmin::~AppletChatRoomHostAdmin()
 {
     m_MyApp.activityStateChange( this, false );
-}
-
-//============================================================================
-bool AppletChatRoomHostAdmin::checkIfCanSend( void )
-{
-	HostedId hostId =  ui.m_UserListWidget->getHostAdminId().getHostedId();
-
-	if( !hostId.isValid() )
-	{
-		okMessageBox( QObject::tr( "Invalid Host Id" ),
-						QObject::tr( "Host Id has not been set" ) );
-		return false;
-	}
-
-	std::set<VxGUID> memberList;
-	getMyApp().getMemberActiveMgr().getActiveMembers( hostId, memberList );
-	if( memberList.empty() )
-	{
-		okMessageBox( QObject::tr( "No Members Online" ),
-						QObject::tr( "There are no members online to send to" ) );
-		return false;
-	}
-
-	return true;
-}
-
-//============================================================================
-bool AppletChatRoomHostAdmin::handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo )
-{
-	return handleGroupieAssetAction( ui.m_UserListWidget->getHostAdminId(), assetAction, assetInfo );
-}
-
-//============================================================================
-void AppletChatRoomHostAdmin::slotSetMembersVisible( bool visible )
-{
-	m_MyApp.getAppSettings().setAppletEyeUsersVisible( m_EAppletType, visible );
-
-	if( visible )
-	{
-		ui.m_UserListWidget->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
-		ui.verticalLayout->setStretch( 0, 1 );
-	}
-	else
-	{
-		ui.m_UserListWidget->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Preferred );
-		ui.verticalLayout->setStretch( 0, 0 );
-	}
-
-	ui.verticalLayout->setStretch( 1, 1 );
-	ui.m_UserListWidget->updateGeometry();
-	ui.m_SessionWidget->updateGeometry();
-	ui.verticalLayout->invalidate();
-}
-
-//============================================================================
-void AppletChatRoomHostAdmin::slotSetSessionVisible( bool visible )
-{
-	m_MyApp.getAppSettings().setAppletEyeSessionVisible( m_EAppletType, visible );
-	ui.m_SessionWidget->setVisible( visible );
+    m_MyApp.getFromGuiInterface().fromGuiAdminViewHost( ePluginTypeHostChatRoom, false );
 }
