@@ -29,7 +29,6 @@ signals:
 	void						signalPlayEnd( void );
 
 protected:
-	bool						handleGroupieAssetAction( GroupieId& adminId, EAssetAction assetAction, AssetBaseInfo& assetInfo );
 	bool						checkIfCanSend( HostedId hostId );
 
 	//=== vars ===//

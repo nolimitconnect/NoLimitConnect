@@ -17,7 +17,7 @@
 //============================================================================
 HistoryEntryWidget::HistoryEntryWidget(QWidget* parent)
 : QWidget( parent )
-, ui(*(new Ui::HistoryEntryWidgetClass))
+, ui(*(new Ui::HistoryEntryWidgetUi))
 , m_MyApp( GetAppInstance() )
 , m_Engine( GetAppInstance().getEngine() )
 {

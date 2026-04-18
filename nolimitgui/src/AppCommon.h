@@ -69,6 +69,7 @@ class AppletMgr;
 class AppletUploads;
 
 class AppSettings;
+class AssetSendMgr;
 
 class BlobInfo;
 class FriendListEntryWidget;
@@ -115,6 +116,7 @@ public:
         GuiPushToTalkMgr& pushToTalkMgr,
         GuiRandConnectMgr& randConnectMgr,
         GuiSendQueueMgr& sendQueueMgr,
+        AssetSendMgr& assetSendMgr,
         MyIcons& myIcons,
         TodGameMgr& todGameMgr,
         SoundFxMgr& soundFxMgr
@@ -152,6 +154,7 @@ public:
     AppGlobals&                 getAppGlobals( void ) { return m_AppGlobals; }
     QFrame*                     getAppletFrame( EApplet applet );
     AppletMgr&                  getAppletMgr( void ) { return m_AppletMgr; }
+    AssetSendMgr&               getAssetSendMgr( void ) { return m_AssetSendMgr; }
     AppSettings&                getAppSettings( void ) { return m_AppSettings; }
     QString&                    getAppShortName( void ) { return m_AppShortName; }
     VxAppStyle&                 getAppStyle( void ) { return m_AppStyle; }
@@ -883,6 +886,7 @@ protected:
 
     AppGlobals					m_AppGlobals;
     AppSettings&                m_AppSettings;
+    
     QString						m_AppShortName;
     QString						m_AppTitle;
     AccountMgr&                 m_AccountMgr;
@@ -907,6 +911,8 @@ protected:
 
     GuiRandConnectMgr&          m_RandConnectMgr;
     GuiSendQueueMgr&            m_SendQueueMgr;
+    AssetSendMgr&               m_AssetSendMgr;
+    
     GuiUserJoinMgr				m_UserJoinMgr;
     GuiWebPageMgr               m_WebPageMgr;
 

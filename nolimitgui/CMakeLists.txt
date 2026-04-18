@@ -233,6 +233,7 @@ list(APPEND nlc_HEADERS
     src/AppTranslate.h
     src/AssetFaceWidget.h
     src/AssetPhotoWidget.h
+    src/AssetSendMgr.h
     src/AssetTextWidget.h
     src/AssetVideoWidget.h
     src/AssetVoiceWidget.h
@@ -675,6 +676,7 @@ list(APPEND nlc_SOURCES
     src/AssetBaseWidget.cpp
     src/AssetFaceWidget.cpp
     src/AssetPhotoWidget.cpp
+    src/AssetSendMgr.cpp
     src/AssetTextWidget.cpp
     src/AssetVideoWidget.cpp
     src/AssetVoiceWidget.cpp

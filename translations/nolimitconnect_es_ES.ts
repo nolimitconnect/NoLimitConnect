@@ -760,6 +760,42 @@
         </message>
     </context>
     <context>
+        <name>AppletHostAdminBase</name>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="105" />
+            <source>Sending to: %1</source>
+            <translation>Enviando a: %1</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="118" />
+            <source>Sent to %1 member(s)</source>
+            <translation>Enviado a %1 miembro(s)</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="122" />
+            <source>Sent: %1 success, %2 failed</source>
+            <translation>Enviado: %1 exitoso, %2 fallido</translation>
+        </message>
+    </context>
+    <context>
+        <name>AppletHostClientBase</name>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="251" />
+            <source>Sending to: %1</source>
+            <translation>Enviando a: %1</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="264" />
+            <source>Sent to %1 member(s)</source>
+            <translation>Enviado a %1 miembro(s)</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="268" />
+            <source>Sent: %1 success, %2 failed</source>
+            <translation>Enviado: %1 exitoso, %2 fallido</translation>
+        </message>
+    </context>
+    <context>
         <name>AppletHostClientUi</name>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletHostClient.ui" line="20" />
@@ -781,11 +817,16 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="110" />
+            <source>Leave Current Host</source>
+            <translation>Dejar el anfitrión actual</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="157" />
             <source>Rejoin last joined Host</source>
             <translation>Volver a unirse al último anfitrión unido</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="157" />
+            <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="204" />
             <source>Search for a different host to join</source>
             <translation>Busque un anfitrión diferente para unirse</translation>
         </message>
@@ -3151,7 +3192,7 @@
         </message>
     </context>
     <context>
-        <name>HistoryEntryWidgetClass</name>
+        <name>HistoryEntryWidgetUi</name>
         <message>
             <location filename="../nolimitgui/src/Forms/HistoryEntryWidget.ui" line="32" />
             <source>Form</source>
@@ -3242,7 +3283,7 @@
     <context>
         <name>InputFaceWidgetClass</name>
         <message>
-            <location filename="../nolimitgui/src/Forms/InputFaceWidget.ui" line="32" />
+            <location filename="../nolimitgui/src/Forms/InputFaceWidget.ui" line="20" />
             <source>Form</source>
             <translation>Formulario</translation>
         </message>
@@ -3835,25 +3876,25 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2555" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2564" />
             <source>Confirm Shred File</source>
             <translation>Confirmar triturar archivo</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2555" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2564" />
             <source>Confirm Delete File</source>
             <translation>Confirmar eliminar archivo</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="470" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2559" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2568" />
             <source>Are You Sure You Want To Write Random Data Into The File Then Delete From The Device?</source>
             <translation>¿Está seguro de que desea escribir datos aleatorios en el archivo y luego eliminarlos del dispositivo?</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="474" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2563" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2572" />
             <source>Are You Sure To Delete The File From The Device?</source>
             <translation>¿Está seguro de eliminar el archivo del dispositivo?</translation>
         </message>
@@ -4484,52 +4525,52 @@ File Type: </source>
             <translation>Búsqueda detenida</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="103" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="104" />
             <location filename="../nolimitgui/src/AppTranslate.cpp" line="346" />
             <source>No Limit Connect</source>
             <translation>Conexión sin límite</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="749" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="755" />
             <source>ERROR:
 </source>
             <translation>ERROR:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="753" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="759" />
             <source>Failed to connect to Network host</source>
             <translation>No se pudo conectar al host de red</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="756" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="762" />
             <source>Failed to connect to Connection Test host</source>
             <translation>No se pudo conectar al host de prueba de conexión</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="759" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="765" />
             <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="246" />
             <source>Video Play Failed</source>
             <translation>Error en la reproducción del vídeo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="762" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="768" />
             <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="220" />
             <source>Audio Play Failed</source>
             <translation>Error en la reproducción de audio</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1236" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1242" />
             <source>Close Application</source>
             <translation>Cerrar aplicación</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1237" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1243" />
             <source>Are you sure you want to exit?</source>
             <translation>¿Estás seguro de que quieres salir?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1343" />
-            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="354" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1349" />
+            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="357" />
             <source>Application Error</source>
             <translation>Error de aplicación</translation>
         </message>
@@ -5262,50 +5303,39 @@ File Type: </source>
             <translation>Copiar información de conexión al portapapeles (NO RECOMENDADO)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="74" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2470" />
             <source>Invalid Host Id</source>
             <translation>ID de host no válido</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="75" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2471" />
             <source>Host Id has not been set</source>
             <translation>La identificación del host no se ha configurado</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="83" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2497" />
             <source>No Members Online</source>
             <translation>No hay miembros en línea</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="84" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2498" />
             <source>There are no members online to send to</source>
             <translation>No hay miembros en línea para enviar a</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2506" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2515" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2524" />
             <source>Failed to add asset</source>
             <translation>No se pudo agregar el activo</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2507" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2516" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2525" />
             <source>Failed to add asset. Please check disk space</source>
             <translation>No se pudo agregar el activo. Por favor verifique el espacio en disco</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletBase.cpp" line="87" />
-            <location filename="../nolimitgui/src/AppletBase.cpp" line="101" />
-            <source>Failed to send</source>
-            <translation>No se pudo enviar</translation>
-        </message>
-        <message>
-            <location filename="../nolimitgui/src/AppletBase.cpp" line="88" />
-            <location filename="../nolimitgui/src/AppletBase.cpp" line="102" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2516" />
             <source>Failed to send to </source>
             <translation>No se pudo enviar a</translation>
         </message>
@@ -5410,22 +5440,22 @@ File Type: </source>
             <translation>píxeles.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="69" />
+            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="73" />
             <source>Choose Chat Room Host</source>
             <translation>Elija el anfitrión de la sala de chat</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="77" />
+            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="81" />
             <source>Choose Group Host</source>
             <translation>Elija el anfitrión del grupo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="84" />
+            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="88" />
             <source>Choose Random Connect Host</source>
             <translation>Elija un host de conexión aleatoria</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="91" />
+            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="95" />
             <location filename="../nolimitgui/src/AppletHostLeave.cpp" line="97" />
             <source>Unknown Host Type</source>
             <translation>Tipo de host desconocido</translation>
@@ -6857,12 +6887,12 @@ Delay Test Is Invalid
             <translation>en cola</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="307" />
+            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="310" />
             <source>Use camcorder button on right to start and stop recording video.</source>
             <translation>Utilice el botón de la videocámara a la derecha para iniciar y detener la grabación de video.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="354" />
+            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="357" />
             <source>ChatEntryWidget client callback is not set</source>
             <translation>La devolución de llamada del cliente ChatEntryWidget no está configurada</translation>
         </message>
@@ -7221,7 +7251,12 @@ La acción no se puede deshacer.
             <translation>La URL del host no tiene un tipo de host válido</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="748" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2515" />
+            <source>Failed to send </source>
+            <translation>No se pudo enviar</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="754" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2378" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1388" />
             <source>Unknown Error</source>
@@ -9663,60 +9698,60 @@ La acción no se puede deshacer.
             <translation>Se intentó abrir un archivo comprimido que no está permitido</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="347" />
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="439" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="535" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="627" />
             <source>Invalid emoticon id</source>
             <translation>ID de emoticono no válido</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="481" />
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="487" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="677" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="683" />
             <source>Error occured creating emoticon file </source>
             <translation>Se produjo un error al crear el archivo de emoticones</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="440" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="628" />
             <source>Invalid emoticon id </source>
             <translation>ID de emoticono no válido</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="383" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="571" />
             <source>Error occured creating emoticon file</source>
             <translation>Se produjo un error al crear el archivo de emoticones</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="474" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="670" />
             <source>Could not create emoticon asset</source>
             <translation>No se pudo crear el activo de emoticones</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="475" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="671" />
             <source>Error occured creating emoticon asset </source>
             <translation>Se produjo un error al crear el activo de emoticones</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="480" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="676" />
             <source>Could not get file info of emoticon png file</source>
             <translation>No se pudo obtener la información del archivo png de emoticones</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="486" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="682" />
             <source>Could not create emoticon png file</source>
             <translation>No se pudo crear el archivo png de emoticones</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="492" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="688" />
             <source>Could not create emoticon image</source>
             <translation>No se pudo crear la imagen del emoticono</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="493" />
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="513" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="689" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="709" />
             <source>Error occured creating emoticon image %1</source>
             <translation>Se produjo un error al crear la imagen de emoticón %1</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="512" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="708" />
             <source>Could create emoticon image</source>
             <translation>Podría crear una imagen de emoticono</translation>
         </message>

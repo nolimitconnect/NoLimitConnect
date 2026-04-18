@@ -2510,6 +2510,15 @@ void GuiHelpers::showAddAssetFailedError()
 }
 
 //============================================================================
+void GuiHelpers::showFailedToSendError( QString userName )
+{
+    QString title = QObject::tr( "Failed to send " );
+    QString msg = QObject::tr( "Failed to send to " ) + userName;
+    QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok );
+    warnMsg.exec();
+}
+
+//============================================================================
 void GuiHelpers::showHostIsDisabledError( EHostType hostType )
 {
     QString title = QObject::tr( "Failed to add asset" );

@@ -760,6 +760,42 @@
         </message>
     </context>
     <context>
+        <name>AppletHostAdminBase</name>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="105" />
+            <source>Sending to: %1</source>
+            <translation>यहां भेजा जा रहा है: %1</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="118" />
+            <source>Sent to %1 member(s)</source>
+            <translation>%1 सदस्य(सदस्यों) को भेजा गया</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="122" />
+            <source>Sent: %1 success, %2 failed</source>
+            <translation>भेजा गया: %1 सफल, %2 विफल</translation>
+        </message>
+    </context>
+    <context>
+        <name>AppletHostClientBase</name>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="251" />
+            <source>Sending to: %1</source>
+            <translation>यहां भेजा जा रहा है: %1</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="264" />
+            <source>Sent to %1 member(s)</source>
+            <translation>%1 सदस्य(सदस्यों) को भेजा गया</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="268" />
+            <source>Sent: %1 success, %2 failed</source>
+            <translation>भेजा गया: %1 सफल, %2 विफल</translation>
+        </message>
+    </context>
+    <context>
         <name>AppletHostClientUi</name>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletHostClient.ui" line="20" />
@@ -781,11 +817,16 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="110" />
+            <source>Leave Current Host</source>
+            <translation>वर्तमान होस्ट छोड़ें</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="157" />
             <source>Rejoin last joined Host</source>
             <translation>पिछली बार होस्ट में शामिल हुए पुनः शामिल हों</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="157" />
+            <location filename="../nolimitgui/src/Forms/AppletHostJoinChoose.ui" line="204" />
             <source>Search for a different host to join</source>
             <translation>शामिल होने के लिए एक अलग होस्ट खोजें</translation>
         </message>
@@ -3151,7 +3192,7 @@
         </message>
     </context>
     <context>
-        <name>HistoryEntryWidgetClass</name>
+        <name>HistoryEntryWidgetUi</name>
         <message>
             <location filename="../nolimitgui/src/Forms/HistoryEntryWidget.ui" line="32" />
             <source>Form</source>
@@ -3242,7 +3283,7 @@
     <context>
         <name>InputFaceWidgetClass</name>
         <message>
-            <location filename="../nolimitgui/src/Forms/InputFaceWidget.ui" line="32" />
+            <location filename="../nolimitgui/src/Forms/InputFaceWidget.ui" line="20" />
             <source>Form</source>
             <translation>प्रपत्र</translation>
         </message>
@@ -3835,25 +3876,25 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2555" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2564" />
             <source>Confirm Shred File</source>
             <translation>श्रेड फ़ाइल की पुष्टि करें</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2555" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2564" />
             <source>Confirm Delete File</source>
             <translation>फ़ाइल हटाएँ की पुष्टि करें</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="470" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2559" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2568" />
             <source>Are You Sure You Want To Write Random Data Into The File Then Delete From The Device?</source>
             <translation>क्या आप वाकई फ़ाइल में यादृच्छिक डेटा लिखना चाहते हैं और फिर डिवाइस से हटाना चाहते हैं?</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="474" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2563" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2572" />
             <source>Are You Sure To Delete The File From The Device?</source>
             <translation>क्या आप निश्चित रूप से डिवाइस से फ़ाइल को हटाना चाहते हैं?</translation>
         </message>
@@ -4484,52 +4525,52 @@ File Type: </source>
             <translation>खोज बंद हो गई</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="103" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="104" />
             <location filename="../nolimitgui/src/AppTranslate.cpp" line="346" />
             <source>No Limit Connect</source>
             <translation>कोई सीमा नहीं कनेक्ट</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="749" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="755" />
             <source>ERROR:
 </source>
             <translation>त्रुटि:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="753" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="759" />
             <source>Failed to connect to Network host</source>
             <translation>नेटवर्क होस्ट से कनेक्ट करने में विफल</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="756" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="762" />
             <source>Failed to connect to Connection Test host</source>
             <translation>कनेक्शन परीक्षण होस्ट से कनेक्ट करने में विफल</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="759" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="765" />
             <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="246" />
             <source>Video Play Failed</source>
             <translation>वीडियो प्ले विफल</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="762" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="768" />
             <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="220" />
             <source>Audio Play Failed</source>
             <translation>ऑडियो प्ले विफल</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1236" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1242" />
             <source>Close Application</source>
             <translation>एप्लिकेशन बंद करें</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1237" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1243" />
             <source>Are you sure you want to exit?</source>
             <translation>क्या आप वाकई बाहर निकलना चाहते हैं?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1343" />
-            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="354" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1349" />
+            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="357" />
             <source>Application Error</source>
             <translation>अनुप्रयोग त्रुटि</translation>
         </message>
@@ -5262,50 +5303,39 @@ File Type: </source>
             <translation>कनेक्शन जानकारी को क्लिपबोर्ड पर कॉपी करें (अनुशंसित नहीं)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="74" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2470" />
             <source>Invalid Host Id</source>
             <translation>अमान्य होस्ट आईडी</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="75" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2471" />
             <source>Host Id has not been set</source>
             <translation>होस्ट आईडी सेट नहीं किया गया है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="83" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2497" />
             <source>No Members Online</source>
             <translation>कोई सदस्य ऑनलाइन नहीं</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletChatRoomHostAdmin.cpp" line="84" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2498" />
             <source>There are no members online to send to</source>
             <translation>भेजने के लिए ऑनलाइन कोई सदस्य नहीं हैं</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2506" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2515" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2524" />
             <source>Failed to add asset</source>
             <translation>संपत्ति जोड़ने में विफल</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2507" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2516" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2525" />
             <source>Failed to add asset. Please check disk space</source>
             <translation>संपत्ति जोड़ने में विफल. कृपया डिस्क स्थान की जाँच करें</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletBase.cpp" line="87" />
-            <location filename="../nolimitgui/src/AppletBase.cpp" line="101" />
-            <source>Failed to send</source>
-            <translation>भेजने में विफल</translation>
-        </message>
-        <message>
-            <location filename="../nolimitgui/src/AppletBase.cpp" line="88" />
-            <location filename="../nolimitgui/src/AppletBase.cpp" line="102" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2516" />
             <source>Failed to send to </source>
             <translation>को भेजने में विफल</translation>
         </message>
@@ -5410,22 +5440,22 @@ File Type: </source>
             <translation>पिक्सेल.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="69" />
+            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="73" />
             <source>Choose Chat Room Host</source>
             <translation>चैट रूम होस्ट चुनें</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="77" />
+            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="81" />
             <source>Choose Group Host</source>
             <translation>ग्रुप होस्ट चुनें</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="84" />
+            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="88" />
             <source>Choose Random Connect Host</source>
             <translation>रैंडम कनेक्ट होस्ट चुनें</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="91" />
+            <location filename="../nolimitgui/src/AppletHostJoinChoose.cpp" line="95" />
             <location filename="../nolimitgui/src/AppletHostLeave.cpp" line="97" />
             <source>Unknown Host Type</source>
             <translation>अज्ञात होस्ट प्रकार</translation>
@@ -6857,12 +6887,12 @@ Delay Test Is Invalid
             <translation>पंक्तिबद्ध</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="307" />
+            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="310" />
             <source>Use camcorder button on right to start and stop recording video.</source>
             <translation>वीडियो रिकॉर्ड करना शुरू करने और बंद करने के लिए दाईं ओर कैमकॉर्डर बटन का उपयोग करें।</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="354" />
+            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="357" />
             <source>ChatEntryWidget client callback is not set</source>
             <translation>ChatEntryWidget क्लाइंट कॉलबैक सेट नहीं है</translation>
         </message>
@@ -7221,7 +7251,12 @@ Are you very sure you want to proceed?</source>
             <translation>होस्ट यूआरएल में वैध होस्ट प्रकार नहीं है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="748" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2515" />
+            <source>Failed to send </source>
+            <translation>भेजने में विफल</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="754" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2378" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1388" />
             <source>Unknown Error</source>
@@ -9663,60 +9698,60 @@ Are you very sure you want to proceed?</source>
             <translation>एक संग्रह फ़ाइल को खोलने का प्रयास किया गया जिसकी अनुमति नहीं है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="347" />
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="439" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="535" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="627" />
             <source>Invalid emoticon id</source>
             <translation>अमान्य इमोटिकॉन आईडी</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="481" />
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="487" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="677" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="683" />
             <source>Error occured creating emoticon file </source>
             <translation>इमोटिकॉन फ़ाइल बनाने में त्रुटि उत्पन्न हुई</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="440" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="628" />
             <source>Invalid emoticon id </source>
             <translation>अमान्य इमोटिकॉन आईडी</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="383" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="571" />
             <source>Error occured creating emoticon file</source>
             <translation>इमोटिकॉन फ़ाइल बनाने में त्रुटि उत्पन्न हुई</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="474" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="670" />
             <source>Could not create emoticon asset</source>
             <translation>इमोटिकॉन एसेट नहीं बनाया जा सका</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="475" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="671" />
             <source>Error occured creating emoticon asset </source>
             <translation>इमोटिकॉन एसेट बनाने में त्रुटि हुई</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="480" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="676" />
             <source>Could not get file info of emoticon png file</source>
             <translation>इमोटिकॉन पीएनजी फ़ाइल की फ़ाइल जानकारी नहीं मिल सकी</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="486" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="682" />
             <source>Could not create emoticon png file</source>
             <translation>इमोटिकॉन पीएनजी फ़ाइल नहीं बनाई जा सकी</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="492" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="688" />
             <source>Could not create emoticon image</source>
             <translation>इमोटिकॉन छवि नहीं बनाई जा सकी</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="493" />
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="513" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="689" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="709" />
             <source>Error occured creating emoticon image %1</source>
             <translation>इमोटिकॉन छवि बनाने में त्रुटि हुई %1</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="512" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="708" />
             <source>Could create emoticon image</source>
             <translation>इमोटिकॉन छवि बना सकता है</translation>
         </message>

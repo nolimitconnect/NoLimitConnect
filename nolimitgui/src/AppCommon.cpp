@@ -32,6 +32,7 @@
 #include "AppModuleState.h"
 #include "AppSettings.h"
 #include "AppletMgr.h"
+#include "AssetSendMgr.h"
 
 #include "FileListReplySession.h"
 
@@ -164,6 +165,8 @@ static GuiPluginMgr pluginMgr;
 static GuiPushToTalkMgr pushToTalkMgr;
 static GuiRandConnectMgr randConnectMgr;
 static GuiSendQueueMgr sendQueueMgr;
+static AssetSendMgr assetSendMgr;
+
 static MyIcons myIcons;
 static TodGameMgr todGameMgr;
 static SoundFxMgr soundFxMgr;
@@ -176,7 +179,7 @@ static SoundFxMgr soundFxMgr;
         // constructor of AppCommon will set g_AppCommon
         new AppCommon( *myApp, adminAvailMgr, appModuleState, appSettings, accountMgr, favoritMgr,
 					   memberActiveMgr, playerMgr, pluginMgr, pushToTalkMgr, randConnectMgr, 
-					   sendQueueMgr, myIcons, todGameMgr, soundFxMgr );
+					   sendQueueMgr, assetSendMgr, myIcons, todGameMgr, soundFxMgr );
     }
 
     return *g_AppCommon;
@@ -208,6 +211,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 						GuiPushToTalkMgr& pushToTalkMgr,
 						GuiRandConnectMgr& randConnectMgr,
 						GuiSendQueueMgr& sendQueueMgr,
+                        AssetSendMgr&   assetSendMgr,
 						MyIcons&		myIcons,
 						TodGameMgr&		todGameMgr,
         				SoundFxMgr& soundFxMgr )
@@ -237,6 +241,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_PushToTalkMgr( pushToTalkMgr )
 , m_RandConnectMgr( randConnectMgr )
 , m_SendQueueMgr( sendQueueMgr )
+, m_AssetSendMgr( assetSendMgr )
 , m_UserMgr( *this )
 , m_GroupieListMgr( *this )
 , m_HostedListMgr( *this )
@@ -332,6 +337,7 @@ bool AppCommon::loadWithThread( void )
 	GuiHelpers::processQtEvents( 1 );
 	m_RandConnectMgr.onAppCommonCreated();
 	m_SendQueueMgr.onAppCommonCreated();
+	m_AssetSendMgr.onAppCommonCreated();
 	m_GroupieListMgr.onAppCommonCreated();
 	GuiHelpers::processQtEvents( 1 );
 	m_FriendRequestMgr.onAppCommonCreated();

@@ -13,7 +13,7 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-    class HistoryEntryWidgetClass;
+    class HistoryEntryWidgetUi;
 }
 QT_END_NAMESPACE
 
@@ -28,7 +28,7 @@ public:
 	HistoryEntryWidget(QWidget* parent=nullptr);
 
 protected:
-	Ui::HistoryEntryWidgetClass&	ui;
+    Ui::HistoryEntryWidgetUi&	ui;
 
 	AppCommon&					m_MyApp;
 	P2PEngine&					m_Engine;

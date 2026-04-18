@@ -11,6 +11,7 @@
 #include "AppletHostAdminBase.h"
 #include "AppCommon.h"
 #include "AppSettings.h"
+#include "AssetSendMgr.h"
 #include "GuiMemberActiveMgr.h"
 #include "GuiUserMultiListWidget.h"
 
@@ -20,6 +21,8 @@
 #include <GuiInterface/IFromGui.h>
 
 #include <QFrame>
+#include <QLabel>
+#include <QTimer>
 
 #include "ui_AppletHostClient.h"
 
@@ -28,6 +31,9 @@ AppletHostAdminBase::AppletHostAdminBase( const char* ObjName, AppCommon& app, Q
 : AppletBase( ObjName, app, parent )
 , ui(*(new Ui::AppletHostClientUi ))
 {
+    // Connect to AssetSendMgr for multi-send progress updates
+    connect( &m_MyApp.getAssetSendMgr(), &AssetSendMgr::signalSendingToMember, this, &AppletHostAdminBase::slotSendingToMember );
+    connect( &m_MyApp.getAssetSendMgr(), &AssetSendMgr::signalMultiSendComplete, this, &AppletHostAdminBase::slotMultiSendComplete );
 }
 
 //============================================================================
@@ -81,11 +87,43 @@ bool AppletHostAdminBase::handleAssetAction( EAssetAction assetAction, AssetBase
         groupieId.setUserOnlineId( m_SelectedUser->getMyOnlineId() );
     }
 
-	return handleGroupieAssetAction( groupieId, assetAction, assetInfo );
+	return m_MyApp.getAssetSendMgr().handleGroupieAssetAction( this, groupieId, assetAction, assetInfo, true );
 }
 
 //============================================================================
 void AppletHostAdminBase::slotUserSelected( GuiUser* guiUser )
 {
     m_SelectedUser = guiUser;
+}
+
+//============================================================================
+void AppletHostAdminBase::slotSendingToMember( VxGUID memberId, QString memberName )
+{
+    QLabel* statusLabel = ui.m_SessionWidget->getSessionStatusLabel();
+    if( statusLabel )
+    {
+        statusLabel->setText( tr( "Sending to: %1" ).arg( memberName ) );
+        statusLabel->setVisible( true );
+    }
+}
+
+//============================================================================
+void AppletHostAdminBase::slotMultiSendComplete( bool allSucceeded, int successCount, int failCount )
+{
+    QLabel* statusLabel = ui.m_SessionWidget->getSessionStatusLabel();
+    if( statusLabel )
+    {
+        if( allSucceeded )
+        {
+            statusLabel->setText( tr( "Sent to %1 member(s)" ).arg( successCount ) );
+        }
+        else
+        {
+            statusLabel->setText( tr( "Sent: %1 success, %2 failed" ).arg( successCount ).arg( failCount ) );
+        }
+        // Clear status after a delay
+        QTimer::singleShot( 3000, statusLabel, [statusLabel]() {
+            statusLabel->setVisible( false );
+        } );
+    }
 }

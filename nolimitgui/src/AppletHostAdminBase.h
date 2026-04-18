@@ -35,6 +35,9 @@ protected slots:
 
     void                        slotUserSelected( GuiUser* guiUser );
 
+    void                        slotSendingToMember( VxGUID memberId, QString memberName );
+    void                        slotMultiSendComplete( bool allSucceeded, int successCount, int failCount );
+
 protected:
     bool						checkIfCanSend( void ) override;
     bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
