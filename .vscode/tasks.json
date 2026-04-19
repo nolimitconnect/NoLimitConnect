@@ -713,7 +713,7 @@
                 "Build Linux Release"
             ],
             "type": "process",
-            "command": "${workspaceFolder}/out/build/linux-x64-release/nolimitgui/nolimitconnect",
+            "command": "${workspaceFolder}/nolimitgui/bin-Linux/nolimitconnect",
             "problemMatcher": []
         },
         {

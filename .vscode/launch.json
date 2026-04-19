@@ -48,10 +48,10 @@
             "type": "cppdbg",
             "request": "launch",
             "preLaunchTask": "Build Linux Release",
-            "program": "${workspaceFolder}/out/build/linux-x64-release/nolimitgui/nolimitconnect",
+            "program": "${workspaceFolder}/nolimitgui/bin-Linux/nolimitconnect",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/out/build/linux-x64-release/nolimitgui",
+            "cwd": "${workspaceFolder}/nolimitgui/bin-Linux",
             "environment": [
                 {
                     "name": "DEBUGINFOD_URLS",
