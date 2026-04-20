@@ -31,5 +31,67 @@
         "*.ui": "xml"
     },
     // Uncomment the following line to force a single-core build to see errors clearly 
-    "cmake.parallelJobs": 1
+    "cmake.parallelJobs": 1,
+
+    // Limit cpptools indexing on low-memory machines: exclude build outputs and
+    // third-party library sources. CMake provides include paths via compile_commands.json
+    // so headers in these dirs are still resolved, they just won't be background-indexed.
+    "C_Cpp.files.exclude": {
+        "**/build/**": true,
+        "**/build-dir/**": true,
+        "**/build-staticlibs/**": true,
+        "**/out/**": true,
+        "**/libs/androidNdk/**": true,
+        "**/libs/ffmpeg/**": true,
+        "**/libs/flatbuffers/**": true,
+        "**/libs/libasprintf/**": true,
+        "**/libs/libass/**": true,
+        "**/libs/libcrossguid/**": true,
+        "**/libs/libdav1d/**": true,
+        "**/libs/libfaac/**": true,
+        "**/libs/libfmt/**": true,
+        "**/libs/libfreetype/**": true,
+        "**/libs/libfribidi/**": true,
+        "**/libs/libglew/**": true,
+        "**/libs/libGLU/**": true,
+        "**/libs/libgnu/**": true,
+        "**/libs/libiconv/**": true,
+        "**/libs/libjpeg-turbo/**": true,
+        "**/libs/libjpg/**": true,
+        "**/libs/liblame/**": true,
+        "**/libs/liblcms2/**": true,
+        "**/libs/liblzma/**": true,
+        "**/libs/liblzo/**": true,
+        "**/libs/libmfx/**": true,
+        "**/libs/libminiupnpc/**": true,
+        "**/libs/libogg/**": true,
+        "**/libs/libopencore-amr/**": true,
+        "**/libs/libpcre/**": true,
+        "**/libs/libplist/**": true,
+        "**/libs/libpthread/**": true,
+        "**/libs/librapidjson/**": true,
+        "**/libs/librnnoise/**": true,
+        "**/libs/libspeex/**": true,
+        "**/libs/libtag/**": true,
+        "**/libs/libtheora/**": true,
+        "**/libs/libtinyxml/**": true,
+        "**/libs/libtwolame/**": true,
+        "**/libs/libUPnP/**": true,
+        "**/libs/libvorbis/**": true,
+        "**/libs/libvpx/**": true,
+        "**/libs/libwav-decoder/**": true,
+        "**/libs/libwebrtc-aec/**": true,
+        "**/libs/libwebrtc-aec2/**": true,
+        "**/libs/libx264/**": true,
+        "**/libs/libx265/**": true,
+        "**/libs/libxavs/**": true,
+        "**/libs/libxml2/**": true,
+        "**/libs/libxvid/**": true,
+        "**/libs/libzip/**": true,
+        "**/libs/libzlib/**": true,
+        "**/libs/linux/**": true,
+        "**/libs/sysheaders/**": true
+    },
+    // Limit parallel IntelliSense threads to reduce memory spikes during indexing
+    "C_Cpp.maxConcurrentThreads": 2
 }
