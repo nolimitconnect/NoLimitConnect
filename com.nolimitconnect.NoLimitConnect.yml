@@ -46,11 +46,7 @@ modules:
       # Local build (acceptable until first Flathub merge)
       - type: dir
         path: ./
-      # Then for specific version like
-      # - type: git
-      #  url: https://gitlab.com/nolimitcode/nolimitconnect.git
-      #   commit: de146ed09e9da127c224c50d2ed07672ff2edf46
-      #   tag: v1.0.8
+
     post-install:
       # Install the icon to the standard 256x256 location
       - install -Dm644 com.nolimitconnect.NoLimitConnect.png /app/share/icons/hicolor/256x256/apps/com.nolimitconnect.NoLimitConnect.png
