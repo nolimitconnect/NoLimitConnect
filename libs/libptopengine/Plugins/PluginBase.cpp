@@ -314,10 +314,11 @@ bool PluginBase::isAccessAllowed( VxNetIdent* netIdent, bool logAccessError, con
             return true;
         }
 
-        if( netIdent->getMyFriendshipToHim() == eFriendStateAnonymous && m_Engine.isMemberGuest( getPluginType(), netIdent->getMyOnlineId() ) &&
+        // For host service plugins, members of the same hosted service get guest-level access
+        if( IsHostPluginType( getPluginType() ) && m_Engine.isMemberGuest( getPluginType(), netIdent->getMyOnlineId() ) &&
             eFriendStateGuest >= curPermission )
         {
-            // has elevated to guest permission
+            // fellow member has guest-level access to host service
             return true;
         }
     }
@@ -782,13 +783,25 @@ bool PluginBase::requestMoreHostInvitesFromNetworkHost( EHostType hostType, VxGU
 EPluginType PluginBase::getAssetOverridePluginType( void )
 {
     // Asset transfer packets must target the remote counterpart plugin.
-    // For client plugins, send to host plugin; for host plugins, send to client plugin.
-    if( IsClientPluginType( getPluginType() ) )
+    // For ChatRoom: client sends to host (host relays to members), host sends to client.
+    // For Group/RandomConnect: members send directly to each other's CLIENT plugins,
+    //   host admin sends to client plugins.
+    EPluginType pluginType = getPluginType();
+    
+    if( IsClientPluginType( pluginType ) )
     {
-        return ClientPluginToHostPluginType( getPluginType() );
+        // Group and RandomConnect clients send to other members' CLIENT plugins (peer-to-peer)
+        // ChatRoom clients send to HOST plugin (host admin relays)
+        if( pluginType == ePluginTypeClientGroup || pluginType == ePluginTypeClientRandomConnect )
+        {
+            // Return same client type so members communicate via their client plugins
+            return pluginType;
+        }
+        return ClientPluginToHostPluginType( pluginType );
     }
 
-    return HostPluginToClientPluginType( getPluginType() );
+    // Host plugins always send to client plugins
+    return HostPluginToClientPluginType( pluginType );
 }
 
 //============================================================================

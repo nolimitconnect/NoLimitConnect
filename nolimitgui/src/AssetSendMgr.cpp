@@ -134,11 +134,15 @@ bool AssetSendMgr::handleGroupieAssetAction( QWidget* parent, GroupieId& adminId
     VxGUID specificUserId = adminId.getUserOnlineId();
     if( specificUserId.isVxGUIDValid() && specificUserId != myOnlineId )
     {
+        // Emit signal so progress bar shows recipient name
+        QString memberName = QString::fromStdString( getMyApp().describeUser( specificUserId ) );
+        emit signalSendingToMember( specificUserId, memberName );
+
         assetInfo.setDestUserId( specificUserId );
         result = getMyApp().getEngine().fromGuiAssetAction( eAssetActionAssetSend, assetInfo );
         if( !result )
         {
-            GuiHelpers::showFailedToSendError( QString( getMyApp().describeUser( specificUserId ).c_str() ) );
+            GuiHelpers::showFailedToSendError( memberName );
         }
         return result;
     }
