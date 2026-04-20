@@ -42,7 +42,7 @@ function Get-PackageConfig {
             Include     = @('*.deb')
             Exclude     = @()
             DisplayName = 'Linux'
-            Notes       = 'Debian package for Linux x64.'
+            Notes       = 'Debian package for Linux.'
         }
         'android-signed' = @{
             SourceDir   = 'package\android'
