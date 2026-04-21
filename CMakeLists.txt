@@ -1168,8 +1168,29 @@ else()
     elseif(TARGET_OS_LINUX)
         set(CPACK_GENERATOR "DEB")
         set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${PROJECT_MAINTAINER}")
+        # Ensure runtime Qt6 libraries are declared as package dependencies
+        # for Debian/Ubuntu systems.
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS
+            "libqt6core6, libqt6gui6, libqt6widgets6, libqt6svg6, libqt6opengl6, libqt6multimedia6"
+        )
         # Auto-populate Depends from linked ELF shared libraries.
         set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+        # Help dpkg-shlibdeps resolve Qt libs from local Qt installs when
+        # computing package dependencies.
+        if(NOT DEFINED CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS OR CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS STREQUAL "")
+            set(_nlc_qt_shlibdeps_dir "")
+            if(CMAKE_PREFIX_PATH)
+                list(GET CMAKE_PREFIX_PATH 0 _nlc_qt_prefix_for_deb)
+                if(EXISTS "${_nlc_qt_prefix_for_deb}/lib")
+                    set(_nlc_qt_shlibdeps_dir "${_nlc_qt_prefix_for_deb}/lib")
+                endif()
+            endif()
+
+            if(_nlc_qt_shlibdeps_dir)
+                set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS "${_nlc_qt_shlibdeps_dir}")
+                message(STATUS "CPack DEB shlibdeps private dirs: ${CPACK_DEBIAN_PACKAGE_SHLIBDEPS_PRIVATE_DIRS}")
+            endif()
+        endif()
         set(CPACK_DEBIAN_FILE_NAME "DEB-DEFAULT")
     else()
         message(FATAL_ERROR "Unsupported CPack platform")
@@ -1182,6 +1203,18 @@ else()
         COMMENT "Running CPack to generate ${CPACK_GENERATOR} package"
     )
     add_dependencies(package_cpack nolimitconnect)
+
+    if(TARGET_OS_LINUX)
+        add_custom_target(package_runtime_check_deb
+            COMMAND bash "${PROJECT_SRC_ROOT_DIR}/tools/check-deb-runtime-deps.sh" "${PACKAGE_OUTPUT_DIR}"
+            COMMENT "Checking generated DEB for unresolved runtime libraries"
+        )
+        add_dependencies(package_runtime_check_deb package_cpack)
+
+        # CI-friendly target: build package, then fail if runtime libs are unresolved.
+        add_custom_target(package_nolimitconnect_ci DEPENDS package_runtime_check_deb)
+    endif()
+
     add_custom_target(package_nolimitconnect DEPENDS package_cpack)
 endif()
 
