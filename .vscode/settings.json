@@ -1,4 +1,5 @@
 {
+    "extensions.ignoreRecommendations": true,
     "cmake.configureSettings": {
         // This variable can be used in your CMakeLists.txt to conditionally include Visual Studio Code specific code or settings
         "USING_VISUAL_CODE": true
