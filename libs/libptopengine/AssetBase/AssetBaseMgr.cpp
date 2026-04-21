@@ -615,8 +615,13 @@ void AssetBaseMgr::announceAssetUpdated( AssetBaseInfo* assetInfo )
 //============================================================================
 void AssetBaseMgr::announceAssetRemoved( AssetBaseInfo* assetInfo, bool resourceLocked )
 {
-	updateFileListPackets(resourceLocked);
-	updateAssetFileTypes(resourceLocked);
+    // Mark as dirty for lazy update instead of expensive immediate rebuild
+    // Only shared files affect search file types and file list packets
+    if( assetInfo->isSharedFileAsset() )
+    {
+        markFileListPacketsDirty();
+        markAssetFileTypesDirty();
+    }
 
 	lockClientList();
     for( auto& client : m_AssetClients )
@@ -787,8 +792,29 @@ void AssetBaseMgr::updateAssetListFromDb( VxThread* startupThread )
 }
 
 //============================================================================
+uint16_t AssetBaseMgr::getAssetBaseFileTypes( void )
+{
+    if( m_AssetFileTypesDirty )
+    {
+        updateAssetFileTypes();
+    }
+    return m_u16AssetBaseFileTypes;
+}
+
+//============================================================================
+std::vector<PktFileListReply*>& AssetBaseMgr::getFileListPackets( void )
+{
+    if( m_FileListPacketsDirty )
+    {
+        updateFileListPackets();
+    }
+    return m_FileListPackets;
+}
+
+//============================================================================
 void AssetBaseMgr::updateAssetFileTypes( bool resourceLocked )
 {
+    m_AssetFileTypesDirty = false;
 	uint16_t u16FileTypes = 0;
 	if( !resourceLocked )
 	{
@@ -827,6 +853,7 @@ void AssetBaseMgr::updateAssetFileTypes( bool resourceLocked )
 //============================================================================
 void AssetBaseMgr::updateFileListPackets( bool resourceLocked )
 {
+    m_FileListPacketsDirty = false;
 	bool hadAssetBaseFiles = m_FileListPackets.size() ? true : false;
 	PktFileListReply * pktFileList = 0;
 	clearAssetFileListPackets();

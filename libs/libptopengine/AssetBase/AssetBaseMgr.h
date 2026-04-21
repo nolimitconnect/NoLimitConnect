@@ -111,13 +111,15 @@ public:
 	AssetBaseInfo*				findAsset( VxSha1Hash& fileHashId );
 	AssetBaseInfo*				findAsset( VxGUID& assetId );
 
-	uint16_t					getAssetBaseFileTypes( void )				{ return m_u16AssetBaseFileTypes; }
+	uint16_t					getAssetBaseFileTypes( void );
 	void						updateAssetFileTypes( bool resourceLocked = false );
+    void                        markAssetFileTypesDirty( void )             { m_AssetFileTypesDirty = true; }
 
 	void						lockFileListPackets( void )					{ m_FileListPacketsMutex.lock(); }
 	void						unlockFileListPackets( void )				{ m_FileListPacketsMutex.unlock(); }
-	std::vector<PktFileListReply*>&	getFileListPackets( void )				{ return m_FileListPackets; }
+	std::vector<PktFileListReply*>&	getFileListPackets( void );
 	void						updateFileListPackets( bool resourceLocked = false );
+    void                        markFileListPacketsDirty( void )            { m_FileListPacketsDirty = true; }
 
     AssetBaseInfo* 			    addAssetFile( enum EAssetType assetType, const char* fileName, const char* fileNameAndPath, uint64_t fileLen );
     AssetBaseInfo*				addAssetFile( enum EAssetType assetType, const char* fileName, const char* fileNameAndPath, uint64_t fileLen, VxGUID& assetId );
@@ -208,8 +210,10 @@ protected:
 	VxThread					m_AssetMgrStartupThread;
 
     uint16_t					m_u16AssetBaseFileTypes{ 0 };
+    bool                        m_AssetFileTypesDirty{ true };
 	VxMutex						m_FileListPacketsMutex;
 	std::vector<PktFileListReply*> m_FileListPackets;
+    bool                        m_FileListPacketsDirty{ true };
 
 protected:
     bool						m_AssetBaseListInitialized{ false };

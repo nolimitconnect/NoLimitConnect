@@ -18,6 +18,7 @@
 
 #include <CoreLib/VxDebug.h>
 
+#include <QTimer>
 #include <set>
 
 //============================================================================
@@ -192,14 +193,16 @@ void AssetSendMgr::sendToNextMember( void )
     if( m_Session.canceled )
     {
         LogMsg( LOG_INFO, "AssetSendMgr::sendToNextMember session was canceled" );
-        finishMultiSend();
+        // Defer to next event loop iteration to avoid modifying callback list during iteration
+        QTimer::singleShot( 0, this, &AssetSendMgr::finishMultiSend );
         return;
     }
 
     if( m_Session.memberQueue.empty() )
     {
         LogMsg( LOG_INFO, "AssetSendMgr::sendToNextMember queue empty, finishing" );
-        finishMultiSend();
+        // Defer to next event loop iteration to avoid modifying callback list during iteration
+        QTimer::singleShot( 0, this, &AssetSendMgr::finishMultiSend );
         return;
     }
 

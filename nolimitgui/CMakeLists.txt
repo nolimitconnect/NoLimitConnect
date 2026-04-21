@@ -1704,7 +1704,7 @@ else()
             set(CPACK_GENERATOR "DEB")
             include(GNUInstallDirs)
             set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${PROJECT_MAINTAINER}")
-            set(CPACK_DEBIAN_PACKAGE_DEPENDS "libpthread, libGL, libGLU libuuid")
+            set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6, libstdc++6, libgl1, libglu1-mesa, libuuid1")
             INSTALL( DIRECTORY "${PROJECT_ASSETS_DIR}" DESTINATION usr )
 
 

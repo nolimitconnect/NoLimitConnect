@@ -998,6 +998,33 @@ else()
         ARCHIVE DESTINATION "lib"
     )
 
+    if(TARGET_OS_WINDOWS)
+        set(NLC_QT_BIN_HINT "")
+        if(DEFINED QT_QMAKE_EXECUTABLE AND NOT "${QT_QMAKE_EXECUTABLE}" STREQUAL "")
+            get_filename_component(NLC_QT_BIN_HINT "${QT_QMAKE_EXECUTABLE}" DIRECTORY)
+        endif()
+
+        find_program(NLC_WINDEPLOYQT_EXECUTABLE
+            NAMES windeployqt
+            HINTS ${NLC_QT_BIN_HINT}
+        )
+
+        if(NLC_WINDEPLOYQT_EXECUTABLE)
+            # Ensure Qt runtime DLLs/plugins are installed into the package image.
+            install(CODE "
+                execute_process(
+                    COMMAND \"${NLC_WINDEPLOYQT_EXECUTABLE}\" --release --no-translations --no-compiler-runtime \"\${CMAKE_INSTALL_PREFIX}/${NLC_INSTALL_RUNTIME_DIR}/nolimitconnect.exe\"
+                    RESULT_VARIABLE _nlc_windeployqt_result
+                )
+                if(NOT _nlc_windeployqt_result EQUAL 0)
+                    message(FATAL_ERROR \"windeployqt failed with exit code \${_nlc_windeployqt_result}\")
+                endif()
+            ")
+        else()
+            message(WARNING "windeployqt not found; Windows package may miss Qt runtime DLLs")
+        endif()
+    endif()
+
     message(STATUS "project nlc end with prefix")
 endif() # flatpak build
 
@@ -1117,6 +1144,7 @@ elseif(TARGET_OS_ANDROID)
 
 else()
     set(CPACK_PACKAGE_NAME "${NLC_NAME}")
+    set(CPACK_PACKAGE_VENDOR "No Limit Connect")
     set(CPACK_PACKAGE_VERSION "${NLC_VERSION}")
     set(CPACK_PACKAGE_VERSION_MAJOR "${NLC_VERSION_MAJOR}")
     set(CPACK_PACKAGE_VERSION_MINOR "${NLC_VERSION_MINOR}")
@@ -1131,9 +1159,18 @@ else()
     if(TARGET_OS_WINDOWS)
         set(CPACK_GENERATOR "NSIS")
         set(CPACK_NSIS_INSTALL_ROOT "$PROGRAMFILES64")
+        set(CPACK_NSIS_DISPLAY_NAME "No Limit Connect")
+        set(CPACK_PACKAGE_EXECUTABLES "nolimitconnect" "No Limit Connect")
+        set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
+        set(CPACK_CREATE_DESKTOP_LINKS "nolimitconnect")
+        set(CPACK_NSIS_URL_INFO_ABOUT "https://nolimitconnect.com")
+        set(CPACK_NSIS_HELP_LINK "https://nolimitconnect.com")
     elseif(TARGET_OS_LINUX)
         set(CPACK_GENERATOR "DEB")
         set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${PROJECT_MAINTAINER}")
+        # Auto-populate Depends from linked ELF shared libraries.
+        set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+        set(CPACK_DEBIAN_FILE_NAME "DEB-DEFAULT")
     else()
         message(FATAL_ERROR "Unsupported CPack platform")
     endif()
