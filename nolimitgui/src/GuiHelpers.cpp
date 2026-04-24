@@ -2512,6 +2512,7 @@ void GuiHelpers::showAddAssetFailedError()
 //============================================================================
 void GuiHelpers::showFailedToSendError( QString userName )
 {
+    LogMsg( LOG_ERROR, "GuiHelpers::showFailedToSendError user=%s", userName.toUtf8().constData() );
     QString title = QObject::tr( "Failed to send " );
     QString msg = QObject::tr( "Failed to send to " ) + userName;
     QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok );

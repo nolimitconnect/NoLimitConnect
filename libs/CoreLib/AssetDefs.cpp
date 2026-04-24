@@ -120,6 +120,65 @@ EAssetType VxFileTypeToAssetType( uint8_t fileType )
 }
 
 //============================================================================
+const char* DescribeAssetAction( enum EAssetAction assetAction )
+{
+    if( assetAction < 0 || eAssetActionRxViewingMsg < assetAction )
+    {
+        return "DescribeAssetAction BAD PARAM";
+    }
+    switch( assetAction )
+    {
+    case eAssetActionUnknown:               return "Asset Action Unknown";
+    case eAssetActionDeleteFile:            return "Asset Action Delete File";
+    case eAssetActionShreadFile:            return "Asset Action Shread File";
+    case eAssetActionAddToAssetMgr:         return "Asset Action Add To Asset Manager";
+    case eAssetActionRemoveFromAssetMgr:    return "Asset Action Remove From Asset Manager";
+    case eAssetActionUpdateAsset:           return "Asset Action Update Asset";
+    case eAssetActionAddAssetAndSend:       return "Asset Action Add Asset And Send";
+    case eAssetActionAssetSend:             return "Asset Action Asset Send";
+    case eAssetActionAssetResend:           return "Asset Action Asset Resend";
+    case eAssetActionAddToShare:            return "Asset Action Add To Share";
+    case eAssetActionRemoveFromShare:       return "Asset Action Remove From Share";
+    case eAssetActionAddToLibrary:          return "Asset Action Add To Library";
+    case eAssetActionRemoveFromLibrary:     return "Asset Action Remove From Library";
+    case eAssetActionAddToHistory:          return "Asset Action Add To History";
+    case eAssetActionRemoveFromHistory:     return "Asset Action Remove From History";
+    case eAssetActionRecordBegin:           return "Asset Action Record Begin";
+    case eAssetActionRecordPause:           return "Asset Action Record Pause";
+    case eAssetActionRecordResume:          return "Asset Action Record Resume";
+    case eAssetActionRecordProgress:        return "Asset Action Record Progress";
+    case eAssetActionRecordEnd:             return "Asset Action Record End";
+    case eAssetActionRecordCancel:          return "Asset Action Record Cancel";
+    case eAssetActionPlayBegin:             return "Asset Action Play Begin";
+    case eAssetActionPlayOneFrame:          return "Asset Action Play One Frame";
+    case eAssetActionPlayPause:             return "Asset Action Play Pause";
+    case eAssetActionPlayResume:            return "Asset Action Play Resume";
+    case eAssetActionPlayProgress:          return "Asset Action Play Progress";
+    case eAssetActionPlayEnd:               return "Asset Action Play End";
+    case eAssetActionPlayCancel:            return "Asset Action Play Cancel";
+    case eAssetActionTxBegin:               return "Asset Action Tx Begin";
+    case eAssetActionTxProgress:            return "Asset Action Tx Progress";
+    case eAssetActionTxSuccess:             return "Asset Action Tx Success";
+    case eAssetActionTxError:               return "Asset Action Tx Error";
+    case eAssetActionTxCancel:              return "Asset Action Tx Cancel";
+    case eAssetActionTxPermission:          return "Asset Action Tx Permission";
+    case eAssetActionRxBegin:               return "Asset Action Rx Begin";
+    case eAssetActionRxProgress:            return "Asset Action Rx Progress";
+    case eAssetActionRxSuccess:             return "Asset Action Rx Success";
+    case eAssetActionRxError:               return "Asset Action Rx Error";
+    case eAssetActionRxCancel:              return "Asset Action Rx Cancel";
+    case eAssetActionRxPermission:          return "Asset Action Rx Permission";
+    case eAssetActionRxNotifyNewMsg:        return "Asset Action Rx Notify New Msg";
+    case eAssetActionRxViewingMsg:          return "Asset Action Rx Viewing Msg";
+
+    default:
+        LogMsg( LOG_ERROR, "Asset Action More than one flag 0x%X", assetAction );
+        vx_assert( false );
+        return "Asset Action Invalid";
+    }
+}
+
+//============================================================================
 const char* DescribeAssetType( EAssetType assetType )
 {
     if( assetType < 0 || eAssetTypeCamRecord < assetType )
@@ -179,7 +238,7 @@ const char* DescribeAssetSendState( enum EAssetSendState sendState )
     default:
         LogMsg( LOG_ERROR, "DescribeAssetSendState INVALID %d", sendState );
         vx_assert( false );
-        return "Asset Type Invalid";
+        return "Asset Send State Invalid";
     }
 }
 

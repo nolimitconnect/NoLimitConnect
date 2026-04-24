@@ -56,17 +56,17 @@
       </sizepolicy>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Box</enum>
+      <enum>QFrame::Shape::Box</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
+      <enum>QFrame::Shadow::Plain</enum>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <property name="spacing">
        <number>0</number>
       </property>
       <property name="sizeConstraint">
-       <enum>QLayout::SetMinimumSize</enum>
+       <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
       </property>
       <property name="leftMargin">
        <number>0</number>
@@ -102,7 +102,7 @@
          <number>1</number>
         </property>
         <item>
-         <widget class="QProgressBar" name="m_XferProgressBar">
+         <widget class="VxProgressBar" name="m_XferProgressBar">
           <property name="value">
            <number>24</number>
           </property>
@@ -117,14 +117,14 @@
            </sizepolicy>
           </property>
           <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
+           <enum>QFrame::Shape::NoFrame</enum>
           </property>
           <property name="frameShadow">
-           <enum>QFrame::Plain</enum>
+           <enum>QFrame::Shadow::Plain</enum>
           </property>
           <layout class="QGridLayout" name="gridLayout">
            <property name="sizeConstraint">
-            <enum>QLayout::SetMinimumSize</enum>
+            <enum>QLayout::SizeConstraint::SetMinimumSize</enum>
            </property>
            <property name="leftMargin">
             <number>2</number>
@@ -150,7 +150,7 @@
               </sizepolicy>
              </property>
              <property name="frameShape">
-              <enum>QFrame::NoFrame</enum>
+              <enum>QFrame::Shape::NoFrame</enum>
              </property>
              <property name="text">
               <string/>
@@ -252,7 +252,7 @@
               <string notr="true"/>
              </property>
              <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
              </property>
             </widget>
            </item>
@@ -280,10 +280,10 @@
            </size>
           </property>
           <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
+           <enum>QFrame::Shape::NoFrame</enum>
           </property>
           <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
+           <enum>QFrame::Shadow::Raised</enum>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout">
            <property name="spacing">
@@ -418,6 +418,11 @@
    <class>VxLabel</class>
    <extends>QLabel</extends>
    <header>VxLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VxProgressBar</class>
+   <extends>QProgressBar</extends>
+   <header location="global">VxProgressBar.h</header>
   </customwidget>
   <customwidget>
    <class>VxTagLabel</class>

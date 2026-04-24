@@ -97,8 +97,9 @@ void AppletHostAdminBase::slotUserSelected( GuiUser* guiUser )
 }
 
 //============================================================================
-void AppletHostAdminBase::slotSendingToMember( VxGUID memberId, QString memberName )
+void AppletHostAdminBase::slotSendingToMember( VxGUID assetId, VxGUID memberId, QString memberName )
 {
+    ui.m_SessionWidget->sendingToMember( assetId, memberId, memberName );
     QLabel* statusLabel = ui.m_SessionWidget->getSessionStatusLabel();
     if( statusLabel )
     {
@@ -108,8 +109,9 @@ void AppletHostAdminBase::slotSendingToMember( VxGUID memberId, QString memberNa
 }
 
 //============================================================================
-void AppletHostAdminBase::slotMultiSendComplete( bool allSucceeded, int successCount, int failCount )
+void AppletHostAdminBase::slotMultiSendComplete( VxGUID assetId, bool allSucceeded, int successCount, int failCount )
 {
+    ui.m_SessionWidget->multiSendComplete( assetId, allSucceeded, successCount, failCount );
     QLabel* statusLabel = ui.m_SessionWidget->getSessionStatusLabel();
     if( statusLabel )
     {

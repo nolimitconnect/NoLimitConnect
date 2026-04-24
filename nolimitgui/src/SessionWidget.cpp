@@ -148,3 +148,14 @@ void SessionWidget::slotCreateInviteButtonClicked( void )
 	GuiHelpers::showCreateInvite( m_GroupieId.getHostType(), dynamic_cast<QWidget*>( GuiHelpers::findParentActivity( parentWidget() ) ) );
 }
 
+//============================================================================
+void SessionWidget::sendingToMember( VxGUID assetId, VxGUID memberId, QString memberName )
+{
+    ui.m_HistoryList->sendingToMember( assetId, memberId, memberName );
+}
+
+//============================================================================
+void SessionWidget::multiSendComplete( VxGUID assetId, bool allSucceeded, int successCount, int failCount )
+{
+    ui.m_HistoryList->multiSendComplete( assetId, allSucceeded, successCount, failCount );
+}

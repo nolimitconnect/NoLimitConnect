@@ -93,7 +93,7 @@ void HistoryListWidget::onActivityStop( void )
 void HistoryListWidget::setGroupieId( GroupieId& groupieId )
 { 
 	clear();
-	LogMsg( LOG_VERBOSE, "HistoryListWidget::%s %s", __func__, m_MyApp.describeGroupieId( groupieId ).c_str() );
+	LogModule( eLogAssets, LOG_VERBOSE, "HistoryListWidget::%s %s", __func__, m_MyApp.describeGroupieId( groupieId ).c_str() );
 	m_GroupieId = groupieId; 
 
 	wantActivityCallbacks( true );
@@ -117,6 +117,7 @@ void HistoryListWidget::toGuiClientAssetAction( EAssetAction assetAction, VxGUID
 	AssetBaseWidget* assetWidget = findAssetWidget( assetId );
 	if( assetWidget )
 	{
+        LogModule( eLogAssets, LOG_VERBOSE, "HistoryListWidget::%s pos %d", __func__, pos0to100000 );
 		assetWidget->toGuiClientAssetAction( assetAction, assetId, pos0to100000 );
 	}
 }
@@ -126,7 +127,7 @@ void HistoryListWidget::toGuiAssetSessionHistory( AssetBaseInfo& assetInfo )
 {
     if( isHistoryMatch( assetInfo ) )
 	{
-		LogMsg( LOG_VERBOSE, "HistoryListWidget::%s asset match", __func__ );
+		LogModule( eLogAssets, LOG_VERBOSE, "HistoryListWidget::%s asset match", __func__ );
 		if( !findAssetWidget( assetInfo.getAssetUniqueId() ) )
 		{
 			// this asset belongs in our history
@@ -153,7 +154,7 @@ void HistoryListWidget::toGuiAssetSessionHistory( AssetBaseInfo& assetInfo )
 	}
 	else
 	{
-		LogMsg( LOG_VERBOSE, "HistoryListWidget::%s asset NOT a match", __func__ );
+		LogModule( eLogAssets, LOG_VERBOSE, "HistoryListWidget::%s asset NOT a match", __func__ );
 	}
 }
 
@@ -374,4 +375,24 @@ bool HistoryListWidget::isHistoryMatch( AssetBaseInfo& assetInfo )
 	isAssetMatch &= assetInfo.isPluginMatch( m_PluginType );
 
 	return isAssetMatch;
+}
+
+//============================================================================
+void HistoryListWidget::sendingToMember( VxGUID assetId, VxGUID memberId, QString memberName )
+{
+    AssetBaseWidget* assetWidget = findAssetWidget( assetId );
+    if( assetWidget )
+    {
+        assetWidget->sendingToMember( memberId, memberName );
+    }
+}
+
+//============================================================================
+void HistoryListWidget::multiSendComplete( VxGUID assetId, bool allSucceeded, int successCount, int failCount )
+{
+    AssetBaseWidget* assetWidget = findAssetWidget( assetId );
+    if( assetWidget )
+    {
+        assetWidget->multiSendComplete( allSucceeded, successCount, failCount );
+    }
 }

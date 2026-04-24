@@ -67,6 +67,9 @@ public:
     ChatEntryWidget *           getSessionChatEntry( void );
 	void						initializeHistory( void );
 
+    void                        sendingToMember( VxGUID assetId, VxGUID memberId, QString memberName );
+    void						multiSendComplete( VxGUID assetId, bool allSucceeded, int successCount, int failCount );
+
 signals:
 	void						signalUserInputButtonClicked( void );
 

@@ -14,6 +14,7 @@
 #include "AppSettings.h"
 #include "AssetSendMgr.h"
 #include "GuiMemberActiveMgr.h"
+#include "VxProgressBar.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -46,6 +47,7 @@ ELogModule HostTypeToLogModule( EHostType hostType )
 		return eLogNone;
 	}
 }
+
 } // namespace
 
 //============================================================================
@@ -228,7 +230,7 @@ bool AppletHostClientBase::handleAssetAction( EAssetAction assetAction, AssetBas
 	GroupieId groupieId = getActiveAdminGroupieId();
     if( m_SelectedUser )
     {
-        LogMsg(LOG_VERBOSE, "AppletHostClientBase::%s assetAction: %d for selected user: %s", __func__, 
+        LogModule( eLogAssets, LOG_VERBOSE, "AppletHostClientBase::%s assetAction: %d for selected user: %s", __func__, 
             assetAction, m_SelectedUser->getOnlineName().c_str());
         groupieId.setUserOnlineId( m_SelectedUser->getMyOnlineId() );
     }
@@ -243,19 +245,23 @@ void AppletHostClientBase::slotUserSelected( GuiUser* guiUser )
 }
 
 //============================================================================
-void AppletHostClientBase::slotSendingToMember( VxGUID memberId, QString memberName )
+void AppletHostClientBase::slotSendingToMember( VxGUID assetId, VxGUID memberId, QString memberName )
 {
+    ui.m_SessionWidget->sendingToMember( assetId, memberId, memberName );
+	const QString progressText = tr( "Sending to: %1" ).arg( memberName );
+
     QLabel* statusLabel = ui.m_SessionWidget->getSessionStatusLabel();
     if( statusLabel )
     {
-        statusLabel->setText( tr( "Sending to: %1" ).arg( memberName ) );
+		statusLabel->setText( progressText );
         statusLabel->setVisible( true );
     }
 }
 
 //============================================================================
-void AppletHostClientBase::slotMultiSendComplete( bool allSucceeded, int successCount, int failCount )
+void AppletHostClientBase::slotMultiSendComplete( VxGUID assetId, bool allSucceeded, int successCount, int failCount )
 {
+    ui.m_SessionWidget->multiSendComplete( assetId, allSucceeded, successCount, failCount );
     QLabel* statusLabel = ui.m_SessionWidget->getSessionStatusLabel();
     if( statusLabel )
     {

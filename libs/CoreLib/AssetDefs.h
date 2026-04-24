@@ -117,4 +117,5 @@ uint8_t		VxFileNameToFileType( std::string fileName );
 EAssetType	VxFileTypeToAssetType( uint8_t fileType );
 
 const char* DescribeAssetType( enum EAssetType assetType );
+const char* DescribeAssetAction( enum EAssetAction assetAction );
 const char* DescribeAssetSendState( enum EAssetSendState sendState );

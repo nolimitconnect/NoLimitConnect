@@ -12,13 +12,13 @@
 
 #include "AppCommon.h"
 #include "GuiHelpers.h"
+#include "VxProgressBar.h"
 
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
-#include <QProgressBar>
 #include <QTimer>
 
 //============================================================================
@@ -50,11 +50,12 @@ MyIcons& AssetBaseWidget::getMyIcons( void )
 }
 
 //============================================================================
-void AssetBaseWidget::setXferBar( QProgressBar* xferProgressBar )	
+void AssetBaseWidget::setXferBar( VxProgressBar* xferProgressBar )	
 { 
 	m_XferProgressBar = xferProgressBar; 
-	if( 0 != m_XferProgressBar )
+	if( m_XferProgressBar )
 	{
+		m_XferProgressBar->setTextVisible( false );
 		m_XferProgressBar->setVisible( m_ProgressBarShouldBeVisible );
 		m_ProgressBarIsVisible = m_ProgressBarShouldBeVisible;
 	}
@@ -89,7 +90,7 @@ void AssetBaseWidget::toGuiClientAssetAction( EAssetAction assetAction, VxGUID& 
 	{
 		if( eAssetActionTxError == assetAction )
 		{
-			LogMsg( LOG_ERROR, "%s txError %s ", __func__, m_AssetInfo.getAssetUniqueId().toHexString().c_str() );
+			LogModule( eLogAssets, LOG_ERROR, "%s txError %s ", __func__, m_AssetInfo.getAssetUniqueId().toHexString().c_str() );
 		}
 
 		bool hideResendAndFail = false;
@@ -224,7 +225,7 @@ void AssetBaseWidget::toGuiClientAssetAction( EAssetAction assetAction, VxGUID& 
 //============================================================================
 void AssetBaseWidget::updateProgressBarVisibility( void )
 {
-	if( 0 != m_XferProgressBar )
+	if( m_XferProgressBar )
 	{
 		if( ( m_ProgressBarShouldBeVisible != m_ProgressBarIsVisible )
 			&& ( 0 != m_XferProgressBar ) )
@@ -274,7 +275,7 @@ void AssetBaseWidget::doShowProgress( bool showProgress )
 //============================================================================
 void AssetBaseWidget::doSetProgress(  int xferProgress )
 {
-	if( 0 != m_XferProgressBar )
+	if( m_XferProgressBar )
 	{
 		m_XferProgressBar->setValue( xferProgress );
 	}
@@ -396,3 +397,16 @@ void AssetBaseWidget::wantActivityCallbacks( bool enable )
 	}	
 }
 
+//============================================================================
+void AssetBaseWidget::sendingToMember( VxGUID memberId, QString memberName )
+{
+    if( getXferBar() )
+    {
+        getXferBar()->setText( memberName );
+    }
+}
+
+void AssetBaseWidget::multiSendComplete( bool allSucceeded, int successCount, int failCount )
+{
+    // Implementation for multi-send complete
+}

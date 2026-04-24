@@ -18,7 +18,7 @@
 
 class AppCommon;
 class P2PEngine;
-class QProgressBar;
+class VxProgressBar;
 class MyIcons;
 
 class AssetBaseWidget : public QWidget, public QListWidgetItem, public ToGuiActivityInterface
@@ -38,8 +38,8 @@ public:
 
     virtual void				setAssetInfo( AssetBaseInfo& assetInfo )		{ m_AssetInfo = assetInfo; }
     virtual AssetBaseInfo&		getAssetInfo( void )                            { return m_AssetInfo; }
-	virtual void				setXferBar( QProgressBar* xferProgressBar );
-	virtual QProgressBar*		getXferBar( void )								{ return m_XferProgressBar; }
+	virtual void				setXferBar( VxProgressBar* xferProgressBar );
+	virtual VxProgressBar*		getXferBar( void )								{ return m_XferProgressBar; }
 	virtual void				updateFromAssetInfo( void );
 
 	virtual void				toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 );
@@ -54,6 +54,9 @@ public:
 	virtual void				onActivityStop( void ) {};
 
 	virtual void				onAssetWidgetVisibleAndReady( bool isVisible, bool isReady );
+
+    virtual void				sendingToMember( VxGUID memberId, QString memberName );
+    virtual void				multiSendComplete( bool allSucceeded, int successCount, int failCount );
 
 signals:
 	void						signalShreddingAsset( AssetBaseWidget * assetWidget );
@@ -82,7 +85,7 @@ protected:
     AssetBaseInfo				m_AssetInfo;
 	int							m_AssetSendProgress{ 0 };
 	bool						m_CallbacksRequested{ false };
-	QProgressBar*				m_XferProgressBar{ nullptr };
+	VxProgressBar*				m_XferProgressBar{ nullptr };
 	bool						m_ProgressBarShouldBeVisible{ false };
 	bool						m_ProgressBarIsVisible{ false };
 	EMediaModule				m_MediaModule{ eMediaModuleInvalid };

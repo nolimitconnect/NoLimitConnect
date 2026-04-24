@@ -71,10 +71,10 @@
       </size>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Box</enum>
+      <enum>QFrame::Shape::Box</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
+      <enum>QFrame::Shadow::Plain</enum>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <property name="spacing">
@@ -120,7 +120,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QProgressBar" name="m_XferProgressBar">
+          <widget class="VxProgressBar" name="m_XferProgressBar">
            <property name="value">
             <number>24</number>
            </property>
@@ -151,7 +151,7 @@
              <number>5</number>
             </property>
             <property name="sizeConstraint">
-             <enum>QLayout::SetDefaultConstraint</enum>
+             <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
             </property>
             <property name="leftMargin">
              <number>5</number>
@@ -211,7 +211,7 @@
                </size>
               </property>
               <property name="orientation">
-               <enum>Qt::Horizontal</enum>
+               <enum>Qt::Orientation::Horizontal</enum>
               </property>
              </widget>
             </item>
@@ -286,7 +286,7 @@
                <string notr="true"/>
               </property>
               <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -341,7 +341,7 @@
                <string>File Name:</string>
               </property>
               <property name="alignment">
-               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
               </property>
              </widget>
             </item>
@@ -395,6 +395,11 @@
    <extends>QWidget</extends>
    <header>AvatarBar.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VxProgressBar</class>
+   <extends>QProgressBar</extends>
+   <header location="global">VxProgressBar.h</header>
   </customwidget>
   <customwidget>
    <class>VxTagLabel</class>

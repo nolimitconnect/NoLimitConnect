@@ -144,7 +144,7 @@
             </widget>
            </item>
            <item row="0" column="0">
-            <widget class="QProgressBar" name="m_XferProgressBar">
+            <widget class="VxProgressBar" name="m_XferProgressBar">
              <property name="value">
               <number>24</number>
              </property>
@@ -459,13 +459,18 @@
   <customwidget>
    <class>VxPushButton</class>
    <extends>QPushButton</extends>
-   <header>VxPushButton.h</header>
+   <header location="global">VxPushButton.h</header>
   </customwidget>
   <customwidget>
    <class>AvatarBar</class>
    <extends>QWidget</extends>
    <header>AvatarBar.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>VxProgressBar</class>
+   <extends>QProgressBar</extends>
+   <header location="global">VxProgressBar.h</header>
   </customwidget>
   <customwidget>
    <class>VidWidget</class>

@@ -458,6 +458,7 @@ list(APPEND nlc_HEADERS
     src/VxMenuButton.h
     src/VxMenuButtonBottom.h
     src/VxMenuButtonTop.h
+    src/VxProgressBar.h
     src/VxResourceToRealFile.h
     src/VxScrollArea.h
     src/VxSpinProgress.h
@@ -486,7 +487,7 @@ list(APPEND nlc_SOURCES
     src/AcceptCancelWidget.cpp
     src/AccountDb.cpp
     src/AccountMgr.cpp
-
+    
     src/ActionWidget.cpp
     src/ActivityBase.cpp
     src/ActivityBrowseFiles.cpp
@@ -885,6 +886,7 @@ list(APPEND nlc_SOURCES
     src/VxMenuButton.cpp
     src/VxMenuButtonBottom.cpp
     src/VxMenuButtonTop.cpp
+    src/VxProgressBar.cpp
     src/VxPushButton.cpp
     src/VxLabel.cpp
     src/VxSndInstance.cpp

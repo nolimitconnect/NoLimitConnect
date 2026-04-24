@@ -1498,7 +1498,7 @@ void AppCommon::slotInternalToGuiAssetXferState( VxGUID assetUniqueId, EAssetSen
     if( m_ToGuiActivityInterfaceBusy )
     {
         LogMsg( LOG_DEBUG, "AppCommon::%s m_ToGuiActivityInterfaceBusy true", __func__ );
-        vx_assert( false );
+		return;
     }
 
 	m_ToGuiActivityInterfaceBusy = true;
@@ -2075,6 +2075,12 @@ bool AppCommon::checkSystemReady( void )
 	}
 
 	return m_IsGuiSystemReady;
+}
+
+//============================================================================
+std::string AppCommon::getUserName( const VxGUID& onlineId )
+{
+    return m_UserMgr.getUserOnlineName( const_cast<VxGUID&>(onlineId) );
 }
 
 //============================================================================

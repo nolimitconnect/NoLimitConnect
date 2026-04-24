@@ -140,7 +140,7 @@ bool BigListMgr::isUserIgnored( VxGUID& hisOnlineId )
 }
 
 //============================================================================
-bool BigListMgr::getOnlineName( VxGUID& hisOnlineId, std::string& onlineName )
+bool BigListMgr::getOnlineName( const VxGUID& hisOnlineId, std::string& onlineName )
 {
 	BigListAutoLock bigListAutoLock( *this );
 	BigListInfo * poInfo = findBigListInfo( hisOnlineId, true );	// id of friend to look for
@@ -494,7 +494,7 @@ void BigListMgr::LimitListSize( void )
 }
 
 //============================================================================
-bool BigListMgr::queryIdent( VxGUID& onlineId, VxNetIdent& netIdent )
+bool BigListMgr::queryIdent( const VxGUID& onlineId, VxNetIdent& netIdent )
 {
 	bool foundIdent = false;
 	if( onlineId.isVxGUIDValid() )

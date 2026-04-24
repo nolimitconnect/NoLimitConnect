@@ -620,6 +620,8 @@ public:
     bool                        checkSystemReady( void );
     bool                        isSystemReady( void ) { return m_IsGuiSystemReady; };
 
+    std::string                 getUserName( const VxGUID& onlineId );
+
     std::string                 describeConnectId( ConnectId& connectionId );
     std::string                 describeGroupieId( GroupieId& groupieId );
     std::string                 describeHostedId( HostedId& hostedId );

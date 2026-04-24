@@ -58,7 +58,7 @@ public:
 												EFriendState&	retHisFriendshipToMe );
 	bool						isUserIgnored( VxGUID& hisOnlineId );
 
-	bool						getOnlineName( VxGUID& hisOnlineId, std::string& onlineName );
+	bool						getOnlineName( const VxGUID& hisOnlineId, std::string& onlineName );
 	//! return true if can add friend to list
 	bool						canAddFriend( void );
 	//! remove from big list.. also from db if bRemoveStorage = true 
@@ -72,7 +72,7 @@ public:
 
 	void						LimitListSize( void );
 
-	bool						queryIdent( VxGUID& onlineId, VxNetIdent& netIdent );
+	bool						queryIdent( const VxGUID& onlineId, VxNetIdent& netIdent );
 
 	void						onMyFriendshipChanged( EFriendState prevMyFriendship, VxNetIdent* netIdent );
 

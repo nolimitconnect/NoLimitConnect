@@ -79,16 +79,16 @@ public:
 
 signals:
     /// Emitted when starting to send to a member
-    void                        signalSendingToMember( VxGUID memberId, QString memberName );
+    void                        signalSendingToMember( VxGUID assetId, VxGUID memberId, QString memberName );
 
     /// Emitted on progress update (0-100000)
-    void                        signalSendProgress( VxGUID memberId, int progress );
+    void                        signalSendProgress( VxGUID assetId, int progress );
 
     /// Emitted when send to one member completes
-    void                        signalMemberSendComplete( VxGUID memberId, ESendResult result );
+    void                        signalMemberSendComplete( VxGUID assetId, VxGUID memberId, ESendResult result );
 
     /// Emitted when entire multi-send session completes
-    void                        signalMultiSendComplete( bool allSucceeded, int successCount, int failCount );
+    void                        signalMultiSendComplete( VxGUID assetId, bool allSucceeded, int successCount, int failCount );
 
 private:
     /// Start multi-member send session

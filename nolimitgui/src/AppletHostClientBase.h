@@ -42,8 +42,8 @@ protected slots:
 
     void                        slotUserSelected( GuiUser* guiUser );
 
-    void                        slotSendingToMember( VxGUID memberId, QString memberName );
-    void                        slotMultiSendComplete( bool allSucceeded, int successCount, int failCount );
+    void                        slotSendingToMember( VxGUID assetId, VxGUID memberId, QString memberName );
+    void                        slotMultiSendComplete( VxGUID assetId, bool allSucceeded, int successCount, int failCount );
 
 protected:
     void                        showEvent( QShowEvent* ev ) override;
