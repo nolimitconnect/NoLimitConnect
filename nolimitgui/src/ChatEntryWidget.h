@@ -11,6 +11,8 @@
 
 #include <QWidget>
 
+#include "CanSendInterface.h"
+
 #include <GuiInterface/IDefs.h>
 #include <CoreLib/AssetDefs.h>
 #include <CoreLib/GroupieId.h>
@@ -53,6 +55,8 @@ public:
 
 	void						setInputClientCallback( InputClientBaseCallback* clientCallback );
 
+    void						setCanSendInterface( CanSendInterface* canSendInterface );
+
 	bool						checkIfCanSend( void );
 
 signals:
@@ -74,10 +78,11 @@ private:
 	EAssetType					m_InputMode{ eAssetTypeUnknown };
 	GroupieId					m_GroupieId;
 
-	EMediaModule					m_MediaModule{ eMediaModuleInvalid };
+	EMediaModule				m_MediaModule{ eMediaModuleInvalid };
 	EPluginType					m_PluginType{ ePluginTypeInvalid };
 
 	bool						m_IsPersonalRecorder{ false };
 
 	InputClientBaseCallback*	m_ClientCallback{ nullptr };
+    CanSendInterface*           m_CanSendInterface{ nullptr };
 };

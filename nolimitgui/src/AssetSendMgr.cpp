@@ -130,7 +130,7 @@ bool AssetSendMgr::handleGroupieAssetAction( QWidget* parent, GroupieId& adminId
         result = getMyApp().getEngine().fromGuiAssetAction( eAssetActionAssetSend, assetInfo );
         if( !result )
         {
-            GuiHelpers::showFailedToSendError( QString( getMyApp().getUserName( hostId.getHostOnlineId() ).c_str() ) );
+            GuiHelpers::showFailedToSendMemberError( QString( getMyApp().getUserName( hostId.getHostOnlineId() ).c_str() ) );
             return false;
         }
         return true;
@@ -170,7 +170,7 @@ bool AssetSendMgr::handleGroupieAssetAction( QWidget* parent, GroupieId& adminId
         if( !result )
         {
             LogModule( eLogAssets, LOG_ERROR, "AssetSendMgr::handleGroupieAssetAction failed direct send popup for %s", memberName.toUtf8().constData() );
-            GuiHelpers::showFailedToSendError( memberName );
+            GuiHelpers::showFailedToSendMemberError( memberName );
         }
 
         return result;
@@ -258,7 +258,7 @@ void AssetSendMgr::sendToNextMember( void )
         LogModule( eLogAssets, LOG_ERROR, "AssetSendMgr::sendToNextMember fromGuiAssetAction returned false for %s", 
                 memberName.toStdString().c_str() );
         // Immediate failure - record error and continue to next
-        onCurrentSendComplete( ESendResult::Error );
+        onCurrentSendComplete( ESendResult::eError );
     }
     // If sendResult is true, wait for callback (toGuiClientAssetAction) to complete
 }
@@ -290,22 +290,22 @@ void AssetSendMgr::toGuiClientAssetAction( EAssetAction assetAction, VxGUID& ass
 
     case eAssetActionTxSuccess:
         LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::toGuiClientAssetAction TxSuccess" );
-        onCurrentSendComplete( ESendResult::Success );
+        onCurrentSendComplete( ESendResult::eSuccess );
         break;
 
     case eAssetActionTxError:
         LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::toGuiClientAssetAction TxError" );
-        onCurrentSendComplete( ESendResult::Error );
+        onCurrentSendComplete( ESendResult::eError );
         break;
 
     case eAssetActionTxCancel:
         LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::toGuiClientAssetAction TxCancel" );
-        onCurrentSendComplete( ESendResult::Canceled );
+        onCurrentSendComplete( ESendResult::eCanceled );
         break;
 
     case eAssetActionTxPermission:
         LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::toGuiClientAssetAction TxPermission" );
-        onCurrentSendComplete( ESendResult::PermissionError );
+        onCurrentSendComplete( ESendResult::ePermissionError );
         break;
 
     default:
@@ -352,7 +352,7 @@ void AssetSendMgr::cancelMultiSend( void )
     // Mark all remaining members as canceled
     for( const auto& memberId : m_Session.memberQueue )
     {
-        m_Session.results[memberId] = ESendResult::Canceled;
+        m_Session.results[memberId] = ESendResult::eCanceled;
     }
     m_Session.memberQueue.clear();
 
@@ -375,7 +375,7 @@ void AssetSendMgr::finishMultiSend( void )
 
     for( const auto& [memberId, result] : m_Session.results )
     {
-        if( result == ESendResult::Success )
+        if( result == ESendResult::eSuccess )
         {
             successCount++;
         }
@@ -399,11 +399,11 @@ void AssetSendMgr::finishMultiSend( void )
     // Show failures after the callback stack unwinds to avoid re-entrant GUI event handling.
     for( auto& [memberId, result] : m_Session.results )
     {
-        if( result == ESendResult::Error || result == ESendResult::PermissionError )
+        if( result == ESendResult::eError || result == ESendResult::ePermissionError )
         {
             QString memberName = getMyApp().getUserName( memberId ).c_str();
             LogModule( eLogAssets, LOG_ERROR, "AssetSendMgr::finishMultiSend failed send popup for %s result=%d", memberName.toUtf8().constData(), (int)result );
-            GuiHelpers::showFailedToSendError( memberName );
+            GuiHelpers::showFailedToSendMemberError( memberName );
         }
     }
 
@@ -424,9 +424,9 @@ bool AssetSendMgr::retryFailedSends( void )
     std::vector<VxGUID> failedMembers;
     for( const auto& [memberId, result] : m_Session.results )
     {
-        if( result != ESendResult::Success )
+        if( result != ESendResult::eSuccess )
         {
-            failedMembers.push_back( memberId );
+            failedMembers.emplace_back( memberId );
         }
     }
 
@@ -449,4 +449,58 @@ bool AssetSendMgr::retryFailedSends( void )
 
     // Start new session with failed members
     return startMultiSend( m_Session.parentWidget, m_Session.hostId, m_Session.assetInfo, failedMembers, wasFromAdmin );
+}
+
+//============================================================================
+ECanSendState AssetSendMgr::getSendToSet( GroupieId& adminId, std::set<VxGUID>& sendToSet )
+{
+    HostedId hostId = adminId.getHostedId();
+
+    if( !hostId.isValid() )
+    {
+        LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::getSendToSet invalid hostId" );
+        return ECanSendState::eInvalidHostId;
+    }
+
+    if( hostId.getHostOnlineId() == getMyApp().getMyOnlineId() )
+    {
+        LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::getSendToSet host online id is self, no send" );
+        return ECanSendState::eHostIsSelf;
+    } 
+
+    if( hostId.getHostType() == eHostTypeChatRoom )
+    {
+        // chat room special case - only send to host admin
+        sendToSet.insert( adminId.getHostOnlineId() );
+    }
+    else
+    {
+        if( hostId.getHostOnlineId() != adminId.getUserOnlineId() )
+        {
+            // user has selected a specific user to send to (not broadcast), so just send to that user
+            sendToSet.insert( adminId.getUserOnlineId() );
+        }
+        else
+        {
+            // Get active members for this host
+            getMyApp().getMemberActiveMgr().getActiveMembers( hostId, sendToSet );
+        }
+    }
+
+    if( !getMyApp().getUserMgr().isUserOnline( adminId.getUserOnlineId() ) )
+    {
+        LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::getSendToSet admin is offline" );
+        return ECanSendState::eAdminIsOffline;
+    }
+
+    // Remove self from sendToSet if present
+    sendToSet.erase( getMyApp().getMyOnlineId() );
+
+    if( sendToSet.empty() )
+    {
+        LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::getSendToSet no members to send to" );
+        return ECanSendState::eNoMembersToSendTo;
+    }
+
+    return ECanSendState::eCanSend;
 }

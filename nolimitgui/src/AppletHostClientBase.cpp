@@ -13,6 +13,7 @@
 #include "AppCommon.h"
 #include "AppSettings.h"
 #include "AssetSendMgr.h"
+#include "GuiHelpers.h"
 #include "GuiMemberActiveMgr.h"
 #include "VxProgressBar.h"
 
@@ -82,6 +83,7 @@ AppletHostClientBase::AppletHostClientBase( const char* objName, AppCommon& app,
 	bool eyeSessionVisible = m_MyApp.getAppSettings().getAppletEyeSessionVisible( applet );
 	ui.m_UserListWidget->setSessionsVisible( eyeSessionVisible );
 	ui.m_SessionWidget->setVisible( eyeSessionVisible );
+    ui.m_SessionWidget->setCanSendInterface( this );
 
 	m_MyApp.activityStateChange( this, true );
 
@@ -102,17 +104,17 @@ AppletHostClientBase::~AppletHostClientBase()
 //============================================================================
 void AppletHostClientBase::userJoinedHost( GuiHosted* guiHosted )
 {
-	if( guiHosted )
+	if( guiHosted && guiHosted->getHostType() == m_HostType )
 	{
 		GuiUser* adminUser = guiHosted->getUser();
-		if( adminUser )
+        // if we are the host then should view from admin applet instead of client applet
+		if( adminUser && adminUser->getMyOnlineId() != m_MyApp.getMyOnlineId() )
 		{
 			HostedId adminId( adminUser->getMyOnlineId(), guiHosted->getHostType() );
-			GroupieId adminGroupieId( m_MyApp.getMyOnlineId(), adminId );
+			GroupieId adminGroupieId( adminUser->getMyOnlineId(), adminId );
 			if( adminId.isValid() )
 			{
-				ui.m_UserListWidget->setHostAdminId( adminGroupieId );
-				ui.m_SessionWidget->setHostAdminId( adminGroupieId );
+                setAdminGroupieId( adminGroupieId );
 				AppletClientBase::userJoinedHost( guiHosted );
 			}
 		}
@@ -122,11 +124,31 @@ void AppletHostClientBase::userJoinedHost( GuiHosted* guiHosted )
 //============================================================================
 void AppletHostClientBase::setAdminGroupieId( GroupieId& adminGroupieId )
 {
+    if( !adminGroupieId.isValid() )
+    {
+        LogMsg( LOG_ERROR, "AppletHostClientBase::%s invalid adminGroupieId", __func__ );
+        return;
+    }
+
+    if(adminGroupieId.getHostType() != m_HostType )
+    {
+        LogMsg( LOG_ERROR, "AppletHostClientBase::%s invalid adminGroupieId host type: %d does not match applet host type: %d", __func__, adminGroupieId.getHostType(), m_HostType );
+        return;
+    }
+
+    if(adminGroupieId.getHostOnlineId() == m_MyApp.getMyOnlineId() )
+    {
+        LogMsg( LOG_ERROR, "AppletHostClientBase::%s adminGroupieId host online id cannot be myself", __func__ );
+        return;
+    }
+
+    // originally we set ourself as the user id of the admin. now we set it to the actual admin id and then the user id is used as selected user to send to.
 	m_AdminGroupieId = adminGroupieId;
-	m_HostType = adminGroupieId.getHostType();
-	LogMsg( LOG_VERBOSE, "AppletChatRoomClient::%s %s", __func__, m_MyApp.describeGroupieId( adminGroupieId ).c_str() );
-	ui.m_UserListWidget->setHostAdminId( adminGroupieId );
-	ui.m_SessionWidget->setHostAdminId( adminGroupieId );
+    m_AdminGroupieId.setUserOnlineId( adminGroupieId.getHostOnlineId() );
+
+	LogMsg( LOG_VERBOSE, "AppletChatRoomClient::%s %s", __func__, m_MyApp.describeGroupieId( m_AdminGroupieId ).c_str() );
+	ui.m_UserListWidget->setHostAdminId( m_AdminGroupieId );
+	ui.m_SessionWidget->setHostAdminId( m_AdminGroupieId );
 
 	ELogModule hostLogModule = HostTypeToLogModule( m_AdminGroupieId.getHostType() );
 	if( hostLogModule != eLogNone && LogEnabled( hostLogModule ) )
@@ -135,13 +157,12 @@ void AppletHostClientBase::setAdminGroupieId( GroupieId& adminGroupieId )
 		m_MyApp.getConnectIdListMgr().dumpHostedUsers( m_AdminGroupieId.getHostedId() );
 	}
 
-	GuiUser* adminUser = m_MyApp.getUserMgr().getUser( adminGroupieId.getHostOnlineId() );
+	GuiUser* adminUser = m_MyApp.getUserMgr().getUser( m_AdminGroupieId.getHostOnlineId() );
 	if( adminUser )
 	{
-		if( adminUser->isOnline() )
+		if( !adminUser->isOnline() )
 		{
-			ui.m_UserListWidget->setHostAdminId( adminGroupieId );
-			ui.m_SessionWidget->setHostAdminId( adminGroupieId );
+			LogMsg( LOG_ERROR, "AppletChatRoomClient::%s admin user is offline", __func__ );
 		}
 	}
 	else
@@ -235,7 +256,9 @@ bool AppletHostClientBase::handleAssetAction( EAssetAction assetAction, AssetBas
         groupieId.setUserOnlineId( m_SelectedUser->getMyOnlineId() );
     }
 
-	return m_MyApp.getAssetSendMgr().handleGroupieAssetAction( this, groupieId, assetAction, assetInfo );
+    m_SendToGroupieAdminId = groupieId;
+
+	return m_MyApp.getAssetSendMgr().handleGroupieAssetAction( this, m_SendToGroupieAdminId, assetAction, assetInfo );
 }
 
 //============================================================================
@@ -248,7 +271,7 @@ void AppletHostClientBase::slotUserSelected( GuiUser* guiUser )
 void AppletHostClientBase::slotSendingToMember( VxGUID assetId, VxGUID memberId, QString memberName )
 {
     ui.m_SessionWidget->sendingToMember( assetId, memberId, memberName );
-	const QString progressText = tr( "Sending to: %1" ).arg( memberName );
+	const QString progressText = QObject::tr( "Sending to: %1" ).arg( memberName );
 
     QLabel* statusLabel = ui.m_SessionWidget->getSessionStatusLabel();
     if( statusLabel )
@@ -267,15 +290,57 @@ void AppletHostClientBase::slotMultiSendComplete( VxGUID assetId, bool allSuccee
     {
         if( allSucceeded )
         {
-            statusLabel->setText( tr( "Sent to %1 member(s)" ).arg( successCount ) );
+            statusLabel->setText( QObject::tr( "Sent to %1 member(s)" ).arg( successCount ) );
         }
         else
         {
-            statusLabel->setText( tr( "Sent: %1 success, %2 failed" ).arg( successCount ).arg( failCount ) );
+            statusLabel->setText( QObject::tr( "Sent: %1 success, %2 failed" ).arg( successCount ).arg( failCount ) );
         }
         // Clear status after a delay
         QTimer::singleShot( 3000, statusLabel, [statusLabel]() {
             statusLabel->setVisible( false );
         } );
     }
+}
+
+//============================================================================
+ECanSendState AppletHostClientBase::getCanSendState( void )
+{
+	GroupieId adminGroupieId = getSendToAdminGroupieId();
+
+    std::set<VxGUID> sendToSet;
+    ECanSendState canSendState = m_MyApp.getAssetSendMgr().getSendToSet( adminGroupieId, sendToSet );
+    // show user popup if we cannot send to anyone
+    if( canSendState != ECanSendState::eCanSend )
+    {
+        if( canSendState == ECanSendState::eNoMembersToSendTo )
+        {
+            GuiHelpers::showCannotSendReason( QObject::tr( "No members to send to" ) );
+        }
+        else if( canSendState == ECanSendState::eAdminIsOffline )
+        {
+            GuiHelpers::showCannotSendReason( QObject::tr( "Admin is offline" ) );
+        }
+        else if( canSendState == ECanSendState::eHostIsSelf )
+        {
+            GuiHelpers::showCannotSendReason( QObject::tr( "Cannot send to self" ) );
+        }
+        else
+        {
+            GuiHelpers::showCannotSendReason( QObject::tr( "Invalid host or state" ) );
+        }
+    }
+
+    return canSendState;        
+}
+
+//============================================================================
+GroupieId AppletHostClientBase::getSendToAdminGroupieId()
+{
+    if( !m_SendToGroupieAdminId.isValid() )
+    {
+        m_SendToGroupieAdminId = getActiveAdminGroupieId();
+    }
+    
+    return m_SendToGroupieAdminId;
 }

@@ -10,6 +10,8 @@
 //============================================================================
 
 #include "AppletClientBase.h"
+
+#include "CanSendInterface.h"
 #include "InputClientBaseCallback.h"
 
 #include <GuiInterface/IDefs.h>
@@ -21,9 +23,9 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
-class AppletHostClientBase : public AppletClientBase, public InputClientBaseCallback
+class AppletHostClientBase : public AppletClientBase, public InputClientBaseCallback, public CanSendInterface
 {
-	Q_OBJECT
+    Q_OBJECT
 public:
 	AppletHostClientBase( const char* objName, AppCommon& app, EApplet applet, EHostType hostType, EPluginType pluginType, QWidget* parent );
 	virtual ~AppletHostClientBase() override;
@@ -48,14 +50,17 @@ protected slots:
 protected:
     void                        showEvent( QShowEvent* ev ) override;
 
-    GroupieId                   getActiveAdminGroupieId( void );
+    GroupieId                   getActiveAdminGroupieId( void ); // original admin groupie id for this applet session
+    GroupieId                   getSendToAdminGroupieId( void ); // same as original but may have selected user to send to
 
     bool						checkIfCanSend( void ) override;
     bool						handleAssetAction( EAssetAction assetAction, AssetBaseInfo& assetInfo ) override;
+    ECanSendState               getCanSendState( void ) override;
 
     //=== vars ===//
     Ui::AppletHostClientUi&	    ui;
     GroupieId                   m_AdminGroupieId;
+    GroupieId                   m_SendToGroupieAdminId;
     GuiUser*                    m_SelectedUser{nullptr};
 };
 

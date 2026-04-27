@@ -47,14 +47,14 @@ AppletChatRoomHostAdmin::AppletChatRoomHostAdmin( AppCommon& app, QWidget* paren
 	connect( ui.m_UserListWidget, SIGNAL(signalSetSessionVisible(bool)), this, SLOT(slotSetSessionVisible(bool)) );
 
     m_MyApp.activityStateChange( this, true );
-		m_MyApp.getFromGuiInterface().fromGuiAdminViewHost( ePluginTypeHostChatRoom, true );
+    m_MyApp.getFromGuiInterface().fromGuiAdminViewHost( ePluginTypeHostChatRoom, true );
 
-		// Restore eye button states
-		bool eyeUsersVisible = m_MyApp.getAppSettings().getAppletEyeUsersVisible( m_EAppletType );
-		ui.m_UserListWidget->setMembersVisible( eyeUsersVisible );
-		bool eyeSessionVisible = m_MyApp.getAppSettings().getAppletEyeSessionVisible( m_EAppletType );
-		ui.m_UserListWidget->setSessionsVisible( eyeSessionVisible );
-		ui.m_SessionWidget->setVisible( eyeSessionVisible );
+    // Restore eye button states
+    bool eyeUsersVisible = m_MyApp.getAppSettings().getAppletEyeUsersVisible( m_EAppletType );
+    ui.m_UserListWidget->setMembersVisible( eyeUsersVisible );
+    bool eyeSessionVisible = m_MyApp.getAppSettings().getAppletEyeSessionVisible( m_EAppletType );
+    ui.m_UserListWidget->setSessionsVisible( eyeSessionVisible );
+    ui.m_SessionWidget->setVisible( eyeSessionVisible );
 }
 
 //============================================================================

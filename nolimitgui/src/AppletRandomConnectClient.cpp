@@ -20,6 +20,6 @@ AppletRandomConnectClient::AppletRandomConnectClient( AppCommon& app, QWidget* p
 : AppletHostClientBase( OBJNAME_APPLET_RANDOM_CONNECT_CLIENT, app, eAppletRandomConnectClient, eHostTypeRandomConnect, ePluginTypeClientRandomConnect, parent )
 {
     ui.m_SessionWidget->setMediaModule( eMediaModuleRandomConnectClient );
-
     ui.m_UserListWidget->setUserViewType( eUserViewTypeRandomConnect );
+    
 }

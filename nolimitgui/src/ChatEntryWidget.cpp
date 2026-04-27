@@ -350,6 +350,12 @@ void ChatEntryWidget::setInputClientCallback( InputClientBaseCallback* clientCal
 }
 
 //============================================================================
+void ChatEntryWidget::setCanSendInterface( CanSendInterface* canSendInterface )
+{
+    m_CanSendInterface = canSendInterface;
+}
+
+//============================================================================
 bool ChatEntryWidget::checkIfCanSend( void )
 {
 	if( !m_ClientCallback )
@@ -361,6 +367,11 @@ bool ChatEntryWidget::checkIfCanSend( void )
 	if( m_IsPersonalRecorder )
 	{
 		return true;
+	}
+
+	if( m_CanSendInterface )
+	{
+		return m_CanSendInterface->getCanSendState() == ECanSendState::eCanSend;
 	}
 
 	return m_ClientCallback->checkIfCanSend();

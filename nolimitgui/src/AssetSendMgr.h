@@ -11,6 +11,8 @@
 
 #include "ToGuiActivityInterface.h"
 
+#include "CanSendInterface.h"
+
 #include <GuiInterface/IFromGui.h>
 #include <CoreLib/GroupieId.h>
 #include <CoreLib/VxGUID.h>
@@ -27,11 +29,11 @@ class AppCommon;
 /// Result of sending asset to one member
 enum class ESendResult
 {
-    Pending,
-    Success,
-    Error,
-    Canceled,
-    PermissionError
+    ePending,
+    eSuccess,
+    eError,
+    eCanceled,
+    ePermissionError
 };
 
 /// Tracks state of a multi-member send session
@@ -76,6 +78,8 @@ public:
 
     // ToGuiActivityInterface overrides
     void                        toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) override;
+
+    ECanSendState               getSendToSet( GroupieId& adminId, std::set<VxGUID>& sendToSet );
 
 signals:
     /// Emitted when starting to send to a member

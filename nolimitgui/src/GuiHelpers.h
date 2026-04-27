@@ -231,7 +231,8 @@ public:
     static void                 showNoMembersOnlineError( QWidget* parent = nullptr );
 
     static void                 showAddAssetFailedError( void );
-    static void                 showFailedToSendError( QString userName );
+    static void                 showFailedToSendMemberError( QString userName );
+    static void                 showCannotSendReason( QString reasonStr );
     static void                 showHostIsDisabledError( EHostType hostType );
 
     static void                 showCreateInvite( EHostType hostType, QWidget* parent = nullptr );

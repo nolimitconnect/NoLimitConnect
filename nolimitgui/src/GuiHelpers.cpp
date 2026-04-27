@@ -2510,11 +2510,21 @@ void GuiHelpers::showAddAssetFailedError()
 }
 
 //============================================================================
-void GuiHelpers::showFailedToSendError( QString userName )
+void GuiHelpers::showFailedToSendMemberError( QString userName )
 {
-    LogMsg( LOG_ERROR, "GuiHelpers::showFailedToSendError user=%s", userName.toUtf8().constData() );
+    LogMsg( LOG_ERROR, "GuiHelpers::%s user=%s", __func__, userName.toUtf8().constData() );
     QString title = QObject::tr( "Failed to send " );
     QString msg = QObject::tr( "Failed to send to " ) + userName;
+    QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok );
+    warnMsg.exec();
+}
+
+//============================================================================
+void GuiHelpers::showCannotSendReason( QString reason )
+{
+    LogMsg( LOG_ERROR, "GuiHelpers::%s reason=%s", __func__, reason.toUtf8().constData() );
+    QString title = QObject::tr( "Cannot send " );
+    QString msg = QObject::tr( "Cannot send reason: " ) + reason;
     QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok );
     warnMsg.exec();
 }

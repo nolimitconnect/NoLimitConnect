@@ -23,6 +23,7 @@ namespace Ui {
 QT_END_NAMESPACE
 
 class AppCommon;
+class CanSendInterface;
 class ChatEntryWidget;
 class GuiUser;
 class HistoryListWidget;
@@ -69,6 +70,8 @@ public:
 
     void                        sendingToMember( VxGUID assetId, VxGUID memberId, QString memberName );
     void						multiSendComplete( VxGUID assetId, bool allSucceeded, int successCount, int failCount );
+
+    void                        setCanSendInterface( CanSendInterface* canSendInterface );
 
 signals:
 	void						signalUserInputButtonClicked( void );

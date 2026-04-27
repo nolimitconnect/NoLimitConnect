@@ -159,3 +159,9 @@ void SessionWidget::multiSendComplete( VxGUID assetId, bool allSucceeded, int su
 {
     ui.m_HistoryList->multiSendComplete( assetId, allSucceeded, successCount, failCount );
 }
+
+//============================================================================
+void SessionWidget::setCanSendInterface( CanSendInterface* canSendInterface )
+{
+    ui.m_ChatEntry->setCanSendInterface( canSendInterface );
+}
