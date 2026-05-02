@@ -22,6 +22,7 @@
 #include "AppDefs.h"
 #include "AppSettings.h"
 #include "AppTranslate.h"
+#include "AssetSendMgr.h"
 #include "HomeWindow.h"
 #include "MyIconsDefs.h"
 #include "PluginSettingsWidget.h"
@@ -2517,6 +2518,31 @@ void GuiHelpers::showFailedToSendMemberError( QString userName )
     QString msg = QObject::tr( "Failed to send to " ) + userName;
     QMessageBox warnMsg( QMessageBox::Icon::Information, title, msg, QMessageBox::Ok );
     warnMsg.exec();
+}
+
+//============================================================================
+void GuiHelpers::showCannotSendReason( ECanSendState canSendState )
+{
+    if( canSendState == ECanSendState::eNoMembersToSendTo )
+    {
+        GuiHelpers::showCannotSendReason( QObject::tr( "No members to send to" ) );
+    }
+    else if( canSendState == ECanSendState::eAdminIsOffline )
+    {
+        GuiHelpers::showCannotSendReason( QObject::tr( "Admin is offline" ) );
+    }
+    else if( canSendState == ECanSendState::eCannotSendToSelf )
+    {
+        GuiHelpers::showCannotSendReason( QObject::tr( "Cannot send to self" ) );
+    }
+    else if( canSendState == ECanSendState::eInvalidHostOrState )
+    {
+        GuiHelpers::showCannotSendReason( QObject::tr( "Invalid host or state" ) );
+    }
+    else
+    {
+        GuiHelpers::showCannotSendReason( QObject::tr( "Unknown reason" ) );
+    }
 }
 
 //============================================================================

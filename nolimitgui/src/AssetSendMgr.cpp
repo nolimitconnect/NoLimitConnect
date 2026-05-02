@@ -76,38 +76,20 @@ void AssetSendMgr::wantActivityCallbacks( bool enable )
 //============================================================================
 bool AssetSendMgr::handleGroupieAssetAction( QWidget* parent, GroupieId& adminId, EAssetAction assetAction, AssetBaseInfo& assetInfo, bool fromAdmin )
 {
-    HostedId hostId = adminId.getHostedId();
-
-    if( !hostId.isValid() )
+    std::set<VxGUID> sendToSet;
+    ECanSendState canSendState = getSendToSet( adminId, sendToSet );
+    if( canSendState != ECanSendState::eCanSend )
     {
-        GuiHelpers::showInvalidHostIdError( parent );
+        GuiHelpers::showCannotSendReason( canSendState );
         return false;
     }
 
     LogModule( eLogAssets, LOG_DEBUG, "AssetSendMgr::%s action %s for host %s admin %s", __func__,
-        DescribeAssetAction( assetAction ), DescribeHostType( hostId.getHostType() ), getMyApp().getUserName( adminId.getUserOnlineId() ).c_str() );
+        DescribeAssetAction( assetAction ), DescribeHostType( adminId.getHostType() ), getMyApp().getUserName( adminId.getUserOnlineId() ).c_str() );
     if( eAssetActionAddAssetAndSend != assetAction && eAssetActionAssetSend != assetAction )
     {
         // just pass on to engine for non-send actions
         return getMyApp().getEngine().fromGuiAssetAction( assetAction, assetInfo );
-    }
-
-    std::set<VxGUID> sendToSet;
-    if( hostId.getHostOnlineId() != adminId.getUserOnlineId() )
-    {
-        // user has selected a specific user to send to (not broadcast), so just send to that user
-        sendToSet.insert( adminId.getUserOnlineId() );
-    }
-    else
-    {
-        // Get active members for this host
-        getMyApp().getMemberActiveMgr().getActiveMembers( hostId, sendToSet );
-    }
-
-    if( sendToSet.empty() )
-    {
-        GuiHelpers::showNoMembersOnlineError( parent );
-        return false;
     }
 
     // Add asset to asset manager first
@@ -118,161 +100,139 @@ bool AssetSendMgr::handleGroupieAssetAction( QWidget* parent, GroupieId& adminId
         return false;
     }
 
-    assetInfo.setHostedId( hostId );
-    bool isHostAdminSender = ( hostId.getHostOnlineId() == getMyApp().getMyOnlineId() );
-
-    // CHAT ROOM: Special case - send only to host admin
-    if( adminId.getHostType() == eHostTypeChatRoom )
-    {
-        LogModule( eLogChatRoom, LOG_INFO, "AssetSendMgr::handleGroupieAssetAction chatroom send mode %s members %u", 
-                   isHostAdminSender ? "admin-via-host" : "client-to-host", (unsigned)sendToSet.size() );
-        assetInfo.setDestUserId( hostId.getHostOnlineId() );
-        result = getMyApp().getEngine().fromGuiAssetAction( eAssetActionAssetSend, assetInfo );
-        if( !result )
-        {
-            GuiHelpers::showFailedToSendMemberError( QString( getMyApp().getUserName( hostId.getHostOnlineId() ).c_str() ) );
-            return false;
-        }
-        return true;
-    }
-
-    // GROUP / RANDOM CONNECT: Sequential multi-member send
-    // Build member list excluding self
-    std::vector<VxGUID> memberList;
-    VxGUID myOnlineId = getMyApp().getMyOnlineId();
-    
-    for( const auto& memberId : sendToSet )
-    {
-        if( memberId == myOnlineId )
-        {
-            continue; // don't send to self
-        }
-        memberList.emplace_back( memberId );
-    }
-
-    if( memberList.empty() )
-    {
-        LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::handleGroupieAssetAction no members to send to after filtering" );
-        return true; // success - nothing to send
-    }
-
-    VxGUID assetUniqueId = assetInfo.getAssetUniqueId();
-    // If sending to a specific user (not broadcast), just send directly
-    if( memberList.size() == 1 )
-    {
-        VxGUID specificUserId = memberList[0];
-        // Emit signal so progress bar shows recipient name
-        QString memberName = getMyApp().getUserName( specificUserId ).c_str();
-        emit signalSendingToMember( assetUniqueId, specificUserId, memberName );
-
-        assetInfo.setDestUserId( specificUserId );
-        result = getMyApp().getEngine().fromGuiAssetAction( eAssetActionAssetSend, assetInfo );
-        if( !result )
-        {
-            LogModule( eLogAssets, LOG_ERROR, "AssetSendMgr::handleGroupieAssetAction failed direct send popup for %s", memberName.toUtf8().constData() );
-            GuiHelpers::showFailedToSendMemberError( memberName );
-        }
-
-        return result;
-    }
 
     // Start sequential multi-member send
-    return startMultiSend( parent, hostId, assetInfo, memberList, fromAdmin );
+    return startMultiSend( parent, adminId.getHostedId(), assetInfo, sendToSet, fromAdmin );
 }
 
 //============================================================================
-bool AssetSendMgr::startMultiSend( QWidget* parent, HostedId& hostId, AssetBaseInfo& assetInfo, std::vector<VxGUID>& memberList, bool fromAdmin )
+bool AssetSendMgr::startMultiSend( QWidget* parent, HostedId& hostId, AssetBaseInfo& assetInfo, std::set<VxGUID>& sendToSet, bool fromAdmin )
 {
-    if( m_Session.isActive )
+    VxGUID assetId = assetInfo.getAssetUniqueId();
+    if( isMultiSendActive( assetId ) )
     {
         LogModule( eLogAssets, LOG_WARNING, "AssetSendMgr::startMultiSend already have active session, canceling" );
-        cancelMultiSend();
+        cancelMultiSend( assetId );
     }
 
     LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::startMultiSend starting send to %u members (fromAdmin=%s)", 
-            (unsigned)memberList.size(), fromAdmin ? "true" : "false" );
+            (unsigned)sendToSet.size(), fromAdmin ? "true" : "false" );
 
     // Initialize session
-    m_Session = MultiSendSession();
-    m_Session.assetInfo = assetInfo;
-    m_Session.hostId = hostId;
-    m_Session.memberQueue = memberList;
-    m_Session.parentWidget = parent;
-    m_Session.isActive = true;
-    m_Session.canceled = false;
-    m_Session.fromAdmin = fromAdmin;
+
+    MultiSendSession multiSendSession( parent );
+    multiSendSession.assetInfo = assetInfo;
+    multiSendSession.assetId = assetId;
+    multiSendSession.hostId = hostId;
+    multiSendSession.sendToQueue = std::vector<VxGUID>(sendToSet.begin(), sendToSet.end());
+    multiSendSession.parentWidget = parent;
+    multiSendSession.isActive = true;
+    multiSendSession.canceled = false;
+    multiSendSession.fromAdmin = fromAdmin;
+    m_SessionList.emplace_back( assetId, multiSendSession );
 
     // Register for callbacks to track send progress
     wantActivityCallbacks( true );
 
     // Start sending to first member
-    sendToNextMember();
+    sendToNextMember( assetId );
     return true;
 }
 
 //============================================================================
-void AssetSendMgr::sendToNextMember( void )
+bool AssetSendMgr::sendToNextMember( VxGUID assetId )
 {
-    if( !m_Session.isActive )
+    auto it = std::find_if( m_SessionList.begin(), m_SessionList.end(), [assetId]( const std::pair<VxGUID, MultiSendSession>& sessionPair ) {
+        return sessionPair.first == assetId;
+    } );
+    if( it == m_SessionList.end() )
     {
-        return;
+        return false;
     }
 
-    if( m_Session.canceled )
+    MultiSendSession& multiSendSession = it->second;
+    if( multiSendSession.canceled )
     {
         LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::sendToNextMember session was canceled" );
         // Defer to next event loop iteration to avoid modifying callback list during iteration
-        QTimer::singleShot( 0, this, &AssetSendMgr::finishMultiSend );
-        return;
+        QTimer::singleShot( 0, this, [this, assetId]() { finishMultiSend( assetId ); } );
+        return false;
     }
 
-    if( m_Session.memberQueue.empty() )
+    // find next member to send to, or finish if no more members
+    VxGUID sendToId;
+    while( !sendToId.isVxGUIDValid() )
     {
-        LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::sendToNextMember queue empty, finishing" );
-        // Defer to next event loop iteration to avoid modifying callback list during iteration
-        QTimer::singleShot( 0, this, &AssetSendMgr::finishMultiSend );
-        return;
+        if( multiSendSession.sendToQueue.empty() )
+        {
+            LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::sendToNextMember queue empty, finishing" );
+            // Defer to next event loop iteration to avoid modifying callback list during iteration
+            QTimer::singleShot( 0, this, [this, assetId]() { finishMultiSend( assetId ); } );
+            return false;
+        }
+
+        VxGUID nextSendToId = multiSendSession.sendToQueue.front();
+        multiSendSession.sendToQueue.erase( multiSendSession.sendToQueue.begin() );
+        if( !getMyApp().getUserMgr().isUserOnline( nextSendToId ) )
+        {
+            LogModule( eLogAssets, LOG_WARNING, "AssetSendMgr::sendToNextMember skipping offline member %s", 
+                    getMemberDisplayName( getMyApp(), nextSendToId ).toStdString().c_str() );
+            multiSendSession.results[nextSendToId] = ESendResult::eOffline;
+            emit signalMemberSendComplete( multiSendSession.assetId, nextSendToId, ESendResult::eOffline );
+            continue; // skip offline members
+        }
+
+        sendToId = nextSendToId;
     }
 
-    // Pop next member from queue
-    m_Session.currentMemberId = m_Session.memberQueue.front();
-    m_Session.memberQueue.erase( m_Session.memberQueue.begin() );
+    multiSendSession.currentSendToId = sendToId;
+    // make a new session id for this send to track in callbacks
+    multiSendSession.currentSessionId.initializeWithNewVxGUID();
+    // set asset with destination
+    multiSendSession.assetInfo.setDestUserId( multiSendSession.currentSendToId );
 
-    // Get member name for progress display
-    QString memberName = getMemberDisplayName( getMyApp(), m_Session.currentMemberId );
+
+    QString memberName = getMemberDisplayName( getMyApp(), multiSendSession.currentSendToId );
     
     LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::sendToNextMember sending to %s (%u remaining)", 
-            memberName.toStdString().c_str(), (unsigned)m_Session.memberQueue.size() );
+            memberName.toStdString().c_str(), (unsigned)multiSendSession.sendToQueue.size() );
 
-    VxGUID assetUniqueId = m_Session.assetInfo.getAssetUniqueId();
-     m_Session.currentAssetId = assetUniqueId; // store for callback matching
+
     // Emit signal for UI update
-    emit signalSendingToMember( assetUniqueId, m_Session.currentMemberId, memberName );
+    emit signalSendingToMember( multiSendSession.assetId, multiSendSession.currentSendToId, memberName );
 
-    // Set destination and send
-    m_Session.assetInfo.setDestUserId( m_Session.currentMemberId );
 
-    bool sendResult = getMyApp().getEngine().fromGuiAssetAction( eAssetActionAssetSend, m_Session.assetInfo );
+    bool sendResult = getMyApp().getEngine().fromGuiAssetAction( eAssetActionAssetSend, multiSendSession.assetInfo );
     if( !sendResult )
     {
         LogModule( eLogAssets, LOG_ERROR, "AssetSendMgr::sendToNextMember fromGuiAssetAction returned false for %s", 
                 memberName.toStdString().c_str() );
         // Immediate failure - record error and continue to next
-        onCurrentSendComplete( ESendResult::eError );
+        onCurrentSendComplete( multiSendSession.assetId, ESendResult::eError );
     }
     // If sendResult is true, wait for callback (toGuiClientAssetAction) to complete
+    return sendResult;
 }
 
 //============================================================================
 void AssetSendMgr::toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 )
 {
-    if( !m_Session.isActive )
+    auto it = std::find_if( m_SessionList.begin(), m_SessionList.end(), [assetId]( const std::pair<VxGUID, MultiSendSession>& sessionPair ) {
+        return sessionPair.first == assetId;
+    } );
+    if( it == m_SessionList.end() )
+    {
+        return;
+    }
+
+    MultiSendSession& multiSendSession = it->second;
+    if( !multiSendSession.isActive )
     {
         return;
     }
 
     // Check if this callback is for our current send
-    if( assetId != m_Session.currentAssetId )
+    if( assetId != multiSendSession.assetId )
     {
         return; // not our asset
     }
@@ -281,31 +241,31 @@ void AssetSendMgr::toGuiClientAssetAction( EAssetAction assetAction, VxGUID& ass
     {
     case eAssetActionTxBegin:
         LogModule( eLogAssets, LOG_VERBOSE, "AssetSendMgr::toGuiClientAssetAction TxBegin" );
-        emit signalSendProgress( m_Session.currentAssetId, 0 );
+        emit signalSendProgress( assetId, 0 );
         break;
 
     case eAssetActionTxProgress:
-        emit signalSendProgress( m_Session.currentAssetId, pos0to100000 );
+        emit signalSendProgress( assetId, pos0to100000 );
         break;
 
     case eAssetActionTxSuccess:
         LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::toGuiClientAssetAction TxSuccess" );
-        onCurrentSendComplete( ESendResult::eSuccess );
+        onCurrentSendComplete( assetId, ESendResult::eSuccess );
         break;
 
     case eAssetActionTxError:
         LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::toGuiClientAssetAction TxError" );
-        onCurrentSendComplete( ESendResult::eError );
+        onCurrentSendComplete( assetId, ESendResult::eError );
         break;
 
     case eAssetActionTxCancel:
         LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::toGuiClientAssetAction TxCancel" );
-        onCurrentSendComplete( ESendResult::eCanceled );
+        onCurrentSendComplete( assetId, ESendResult::eCanceled );
         break;
 
     case eAssetActionTxPermission:
         LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::toGuiClientAssetAction TxPermission" );
-        onCurrentSendComplete( ESendResult::ePermissionError );
+        onCurrentSendComplete( assetId, ESendResult::ePermissionError );
         break;
 
     default:
@@ -314,55 +274,83 @@ void AssetSendMgr::toGuiClientAssetAction( EAssetAction assetAction, VxGUID& ass
 }
 
 //============================================================================
-void AssetSendMgr::onCurrentSendComplete( ESendResult result )
+void AssetSendMgr::onCurrentSendComplete( VxGUID assetId, ESendResult result )
 {
-    if( !m_Session.isActive )
+    auto it = std::find_if( m_SessionList.begin(), m_SessionList.end(), [assetId]( const std::pair<VxGUID, MultiSendSession>& sessionPair ) {
+        return sessionPair.first == assetId;
+    } );
+    if( it == m_SessionList.end() )
+    {
+        return;
+    }
+
+    MultiSendSession& multiSendSession = it->second;
+    if( !multiSendSession.isActive )
     {
         return;
     }
 
     // Record result for this member
-    m_Session.results[m_Session.currentMemberId] = result;
+    multiSendSession.results[multiSendSession.currentSendToId] = result;
 
     // Emit signal for UI update
-    emit signalMemberSendComplete( m_Session.currentAssetId, m_Session.currentMemberId, result );
+    emit signalMemberSendComplete( multiSendSession.assetId, multiSendSession.currentSendToId, result );
 
     // Continue to next member
-    sendToNextMember();
+    sendToNextMember( assetId );
 }
 
 //============================================================================
-void AssetSendMgr::cancelMultiSend( void )
+void AssetSendMgr::cancelMultiSend( VxGUID assetId )
 {
-    if( !m_Session.isActive )
+    auto it = std::find_if( m_SessionList.begin(), m_SessionList.end(), [assetId]( const std::pair<VxGUID, MultiSendSession>& sessionPair ) {
+        return sessionPair.first == assetId;
+    } );
+    if( it == m_SessionList.end() )
+    {
+        return;
+    }
+
+    MultiSendSession& multiSendSession = it->second;
+    if( !multiSendSession.isActive )
     {
         return;
     }
 
     LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::cancelMultiSend canceling session" );
 
-    m_Session.canceled = true;
+    multiSendSession.canceled = true;
 
     // Cancel current transfer in engine
-    if( m_Session.currentMemberId.isVxGUIDValid() )
+    if( multiSendSession.currentSendToId.isVxGUIDValid() )
     {
-        getMyApp().getEngine().fromGuiAssetAction( eAssetActionTxCancel, m_Session.assetInfo );
+        getMyApp().getEngine().fromGuiAssetAction( eAssetActionTxCancel, multiSendSession.assetInfo );
     }
 
     // Mark all remaining members as canceled
-    for( const auto& memberId : m_Session.memberQueue )
+    for( const auto& memberId : multiSendSession.sendToQueue )
     {
-        m_Session.results[memberId] = ESendResult::eCanceled;
+        multiSendSession.results[memberId] = ESendResult::eCanceled;
     }
-    m_Session.memberQueue.clear();
+
+    multiSendSession.sendToQueue.clear();
 
     // finishMultiSend will be called from sendToNextMember when current send completes/cancels
 }
 
 //============================================================================
-void AssetSendMgr::finishMultiSend( void )
+void AssetSendMgr::finishMultiSend( VxGUID assetId )
 {
-    if( !m_Session.isActive )
+    auto it = std::find_if( m_SessionList.begin(), m_SessionList.end(), [assetId]( const std::pair<VxGUID, MultiSendSession>& sessionPair ) {
+        return sessionPair.first == assetId;
+    } );
+    if( it == m_SessionList.end() )
+    {
+        return;
+    }
+
+    MultiSendSession& multiSendSession = it->second;
+    if( !multiSendSession.isActive )
     {
         return;
     }
@@ -373,7 +361,7 @@ void AssetSendMgr::finishMultiSend( void )
     int successCount = 0;
     int failCount = 0;
 
-    for( const auto& [memberId, result] : m_Session.results )
+    for( const auto& [memberId, result] : multiSendSession.results )
     {
         if( result == ESendResult::eSuccess )
         {
@@ -394,10 +382,10 @@ void AssetSendMgr::finishMultiSend( void )
     wantActivityCallbacks( false );
 
     // Mark session as inactive (but keep results for retry/inspection)
-    m_Session.isActive = false;
+    multiSendSession.isActive = false;
 
     // Show failures after the callback stack unwinds to avoid re-entrant GUI event handling.
-    for( auto& [memberId, result] : m_Session.results )
+    for( auto& [memberId, result] : multiSendSession.results )
     {
         if( result == ESendResult::eError || result == ESendResult::ePermissionError )
         {
@@ -408,23 +396,32 @@ void AssetSendMgr::finishMultiSend( void )
     }
 
     // Emit completion signal
-    emit signalMultiSendComplete( m_Session.currentAssetId, allSucceeded, successCount, failCount );
+    emit signalMultiSendComplete( multiSendSession.assetId, allSucceeded, successCount, failCount );
 }
 
 //============================================================================
-bool AssetSendMgr::retryFailedSends( void )
+bool AssetSendMgr::retryFailedSends( VxGUID assetId )
 {
-    if( m_Session.isActive )
+    if( isMultiSendActive( assetId ) )
     {
-        LogModule( eLogAssets, LOG_WARNING, "AssetSendMgr::retryFailedSends cannot retry while send is active" );
+        LogModule( eLogAssets, LOG_WARNING, "AssetSendMgr::%s cannot retry while send is active", __func__ );
         return false;
     }
 
+        auto it = std::find_if( m_SessionList.begin(), m_SessionList.end(), [assetId]( const std::pair<VxGUID, MultiSendSession>& sessionPair ) {
+        return sessionPair.first == assetId;
+    } );
+    if( it == m_SessionList.end() )
+    {
+        return false;
+    }
+
+    MultiSendSession& multiSendSession = it->second;
     // Build list of failed members
     std::vector<VxGUID> failedMembers;
-    for( const auto& [memberId, result] : m_Session.results )
+    for( const auto& [memberId, result] : multiSendSession.results )
     {
-        if( result != ESendResult::eSuccess )
+        if( result != ESendResult::eSuccess && result != ESendResult::eOffline ) // do not retry if user is offline
         {
             failedMembers.emplace_back( memberId );
         }
@@ -432,23 +429,20 @@ bool AssetSendMgr::retryFailedSends( void )
 
     if( failedMembers.empty() )
     {
-        LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::retryFailedSends no failed sends to retry" );
+        LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::%s no failed sends to retry", __func__ );
         return true;
     }
 
-    LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::retryFailedSends retrying %u failed sends", (unsigned)failedMembers.size() );
-
-    // Save fromAdmin before clearing results
-    bool wasFromAdmin = m_Session.fromAdmin;
+    LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::%s retrying %u failed sends", __func__, (unsigned)failedMembers.size() );
 
     // Clear old results for retry members
     for( const auto& memberId : failedMembers )
     {
-        m_Session.results.erase( memberId );
+        multiSendSession.results.erase( memberId );
     }
 
     // Start new session with failed members
-    return startMultiSend( m_Session.parentWidget, m_Session.hostId, m_Session.assetInfo, failedMembers, wasFromAdmin );
+    return sendToNextMember( assetId );
 }
 
 //============================================================================
@@ -459,13 +453,13 @@ ECanSendState AssetSendMgr::getSendToSet( GroupieId& adminId, std::set<VxGUID>& 
     if( !hostId.isValid() )
     {
         LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::getSendToSet invalid hostId" );
-        return ECanSendState::eInvalidHostId;
+        return ECanSendState::eInvalidHostOrState;
     }
 
     if( hostId.getHostOnlineId() == getMyApp().getMyOnlineId() )
     {
         LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::getSendToSet host online id is self, no send" );
-        return ECanSendState::eHostIsSelf;
+        return ECanSendState::eCannotSendToSelf;
     } 
 
     if( hostId.getHostType() == eHostTypeChatRoom )
@@ -503,4 +497,19 @@ ECanSendState AssetSendMgr::getSendToSet( GroupieId& adminId, std::set<VxGUID>& 
     }
 
     return ECanSendState::eCanSend;
+}
+
+//============================================================================
+bool AssetSendMgr::isMultiSendActive( VxGUID assetId )
+{
+    auto it = std::find_if( m_SessionList.begin(), m_SessionList.end(), [assetId]( const std::pair<VxGUID, MultiSendSession>& sessionPair ) {
+        return sessionPair.first == assetId;
+    } );
+    if( it == m_SessionList.end() )
+    {
+        return false;
+    }
+
+    MultiSendSession& multiSendSession = it->second;
+    return multiSendSession.isActive;
 }

@@ -1,4 +1,4 @@
-//============================================================================
+﻿//============================================================================
 // Copyright (C) 2013 Brett R. Jones
 //
 // Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
@@ -193,7 +193,7 @@ EFriendViewType EngineSettings::getWhichContactsToView( void )
     vx_assert( m_Initialized );
     
 	int32_t whichContactView = eFriendViewEverybody;
-	getIniValue( MY_SETTINGS_KEY, "WhichContactsToView", whichContactView, eFriendViewEverybody );
+	getIniValue( "WhichContactsToView", whichContactView, eFriendViewEverybody );
     
 	return (EFriendViewType)whichContactView;
 }
@@ -204,7 +204,7 @@ void EngineSettings::setWhichContactsToView( EFriendViewType eViewType )
     vx_assert( m_Initialized );
     
 	int32_t whichContactView = (int32_t)eViewType;
-	setIniValue( MY_SETTINGS_KEY, "WhichContactsToView", whichContactView );
+	setIniValue( "WhichContactsToView", whichContactView );
     
 }
 
@@ -214,7 +214,7 @@ uint16_t EngineSettings::getTcpIpPort( bool bGetRandomIfDoesntExist )
     vx_assert( m_Initialized );
     uint16_t u16IpPort;
     
-	getIniValue( MY_SETTINGS_KEY, "TcpIpPort", u16IpPort, 0 );
+	getIniValue( "TcpIpPort", u16IpPort, 0 );
     
 	if( 0 == u16IpPort )
 	{
@@ -239,7 +239,7 @@ void EngineSettings::setTcpIpPort( uint16_t u16IpPort )
 {
     vx_assert( m_Initialized );
     
-    setIniValue( MY_SETTINGS_KEY, "TcpIpPort", u16IpPort );
+    setIniValue( "TcpIpPort", u16IpPort );
     
 }
 
@@ -248,7 +248,7 @@ void EngineSettings::getMulticastPort( uint16_t& u16IpPort )
 {
     vx_assert( m_Initialized );
     
-	getIniValue( MY_SETTINGS_KEY, "UdpIpPort", u16IpPort, DEFAULT_UDP_PORT );
+	getIniValue( "UdpIpPort", u16IpPort, DEFAULT_UDP_PORT );
     
 }
 
@@ -257,7 +257,7 @@ void EngineSettings::setMulticastPort( uint16_t u16IpPort )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "UdpIpPort", u16IpPort );
+	setIniValue( "UdpIpPort", u16IpPort );
     
 }
 
@@ -266,7 +266,7 @@ void EngineSettings::setMulticastEnable( bool enableMulticast )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "MulticastEnable", enableMulticast );
+	setIniValue( "MulticastEnable", enableMulticast );
     
 }
 
@@ -275,7 +275,7 @@ void EngineSettings::getMulticastEnable( bool& enableMulticast )
 {
     vx_assert( m_Initialized );
     
-	getIniValue( MY_SETTINGS_KEY, "MulticastEnable", enableMulticast, false );
+	getIniValue( "MulticastEnable", enableMulticast, false );
     
 }
 
@@ -284,7 +284,7 @@ void EngineSettings::getConnectTestUrl( std::string& strWebsiteUrl )
 {
     vx_assert( m_Initialized );
     
-	getIniValue( MY_SETTINGS_KEY, "ConnectTestUrl", strWebsiteUrl, NET_DEFAULT_CONNECT_TEST_URL_IPV4 );
+	getIniValue( "ConnectTestUrl", strWebsiteUrl, NET_DEFAULT_CONNECT_TEST_URL_IPV4 );
     
 }
 
@@ -293,7 +293,7 @@ void EngineSettings::setConnectTestUrl( std::string& strWebsiteUrl )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "ConnectTestUrl", strWebsiteUrl );
+	setIniValue( "ConnectTestUrl", strWebsiteUrl );
     
 }
 
@@ -302,7 +302,7 @@ void EngineSettings::getNetworkHostUrl( std::string& strWebsiteUrl )
 {
     vx_assert( m_Initialized );
     
-	getIniValue( MY_SETTINGS_KEY, "NetHostUrl", strWebsiteUrl, NET_DEFAULT_NET_HOST_URL_IPV4 );
+	getIniValue( "NetHostUrl", strWebsiteUrl, NET_DEFAULT_NET_HOST_URL_IPV4 );
     
 }
 
@@ -311,7 +311,7 @@ void EngineSettings::setNetworkHostUrl( std::string& strWebsiteUrl )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "NetHostUrl", strWebsiteUrl );
+	setIniValue( "NetHostUrl", strWebsiteUrl );
     
 }
 
@@ -320,7 +320,7 @@ void EngineSettings::setRandomConnectUrl( std::string& strWebsiteUrl )
 {
     vx_assert( m_Initialized );
     
-    setIniValue( MY_SETTINGS_KEY, "RandConnectUrl", strWebsiteUrl );
+    setIniValue( "RandConnectUrl", strWebsiteUrl );
     
 }
 
@@ -329,7 +329,7 @@ void EngineSettings::getRandomConnectUrl( std::string& strWebsiteUrl )
 {
     vx_assert( m_Initialized );
     
-    getIniValue( MY_SETTINGS_KEY, "RandConnectUrl", strWebsiteUrl, NET_DEFAULT_RANDOM_CONNECT_URL_IPV4 );
+    getIniValue( "RandConnectUrl", strWebsiteUrl, NET_DEFAULT_RANDOM_CONNECT_URL_IPV4 );
     
 }
 
@@ -338,7 +338,7 @@ void EngineSettings::setGroupHostUrl( std::string& strWebsiteUrl )
 {
     vx_assert( m_Initialized );
     
-    setIniValue( MY_SETTINGS_KEY, "GroupHostUrl", strWebsiteUrl );
+    setIniValue( "GroupHostUrl", strWebsiteUrl );
     
 }
 
@@ -347,7 +347,7 @@ void EngineSettings::getGroupHostUrl( std::string& strWebsiteUrl )
 {
     vx_assert( m_Initialized );
     
-    getIniValue( MY_SETTINGS_KEY, "GroupHostUrl", strWebsiteUrl, NET_DEFAULT_GROUP_HOST_URL_IPV4 );
+    getIniValue( "GroupHostUrl", strWebsiteUrl, NET_DEFAULT_GROUP_HOST_URL_IPV4 );
     
 }
 
@@ -356,7 +356,7 @@ void EngineSettings::setChatRoomHostUrl( std::string& strWebsiteUrl )
 {
     vx_assert( m_Initialized );
     
-    setIniValue( MY_SETTINGS_KEY, "ChatRoomHostUrl", strWebsiteUrl );
+    setIniValue( "ChatRoomHostUrl", strWebsiteUrl );
     
 }
 
@@ -365,7 +365,7 @@ void EngineSettings::getChatRoomHostUrl( std::string& strWebsiteUrl )
 {
     vx_assert( m_Initialized );
     
-    getIniValue( MY_SETTINGS_KEY, "ChatRoomHostUrl", strWebsiteUrl, NET_DEFAULT_CHAT_ROOM_HOST_URL_IPV4 );
+    getIniValue( "ChatRoomHostUrl", strWebsiteUrl, NET_DEFAULT_CHAT_ROOM_HOST_URL_IPV4 );
     
 }
 
@@ -383,7 +383,7 @@ void EngineSettings::setUserSpecifiedExternIpAddr( std::string& externIp, bool i
     }
 
     
-    setIniValue( MY_SETTINGS_KEY, ipv6 ? "ExternIpAddrIpv6" : "ExternIpAddrIpv4", externIp );
+    setIniValue( ipv6 ? "ExternIpAddrIpv6" : "ExternIpAddrIpv4", externIp );
     
 }
 
@@ -404,7 +404,7 @@ void EngineSettings::getUserSpecifiedExternIpAddr( std::string& externIp, bool i
     }
 
     
-    getIniValue( MY_SETTINGS_KEY, ipv6 ? "ExternIpAddrIpv6" : "ExternIpAddrIpv4", externIp, "" );
+    getIniValue( ipv6 ? "ExternIpAddrIpv6" : "ExternIpAddrIpv4", externIp, "" );
     
     if( ipv6 )
     {
@@ -430,7 +430,7 @@ void EngineSettings::setUseIpv6( bool useIpv6 )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "UseIpv6", useIpv6 );
+	setIniValue( "UseIpv6", useIpv6 );
     m_HasUseIpv6BeenCached = true;
     m_CachedUseIpv6 = useIpv6;
     
@@ -447,7 +447,7 @@ bool EngineSettings::getUseIpv6( void )
 
 	bool useIpv6 = false;
     
-	getIniValue( MY_SETTINGS_KEY, "UseIpv6", useIpv6, false );
+	getIniValue( "UseIpv6", useIpv6, false );
     m_HasUseIpv6BeenCached = true;
     m_CachedUseIpv6 = useIpv6;
     
@@ -459,7 +459,7 @@ void EngineSettings::setUseUpnp( bool useUpnp )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "UseUpnp", useUpnp );
+	setIniValue( "UseUpnp", useUpnp );
     
 }
 
@@ -469,7 +469,7 @@ bool EngineSettings::getUseUpnp( void )
     vx_assert( m_Initialized );
 	bool useUpnp = false;
     
-	getIniValue( MY_SETTINGS_KEY, "UseUpnp", useUpnp, false );
+	getIniValue( "UseUpnp", useUpnp, false );
     
 	return useUpnp;
 }
@@ -479,7 +479,7 @@ void EngineSettings::setExcludeMeFromNetHostList( bool excludeFromHostList )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "ExcludeFromHostList", excludeFromHostList );
+	setIniValue( "ExcludeFromHostList", excludeFromHostList );
     
 }
 
@@ -489,7 +489,7 @@ bool EngineSettings::getExcludeMeFromNetHostList( void )
     vx_assert( m_Initialized );
 	bool excludeMe = false;
     
-	getIniValue( MY_SETTINGS_KEY, "ExcludeFromHostList", excludeMe, false );
+	getIniValue( "ExcludeFromHostList", excludeMe, false );
     
 	return excludeMe;
 }
@@ -505,7 +505,7 @@ void EngineSettings::getNetworkKey( std::string& strNetworkName )
 	else
 	{
         
-		getIniValue( MY_SETTINGS_KEY, "NetworkName", strNetworkName, NET_DEFAULT_NETWORK_KEY );
+		getIniValue( "NetworkName", strNetworkName, NET_DEFAULT_NETWORK_KEY );
 		m_CachedNetworkName = strNetworkName;
         
     }
@@ -517,7 +517,7 @@ void EngineSettings::setNetworkKey( std::string& strNetworkName )
     vx_assert( m_Initialized );
     
 	m_CachedNetworkName = strNetworkName;
-	setIniValue( MY_SETTINGS_KEY, "NetworkName", strNetworkName );
+	setIniValue( "NetworkName", strNetworkName );
     
 }
 
@@ -527,7 +527,7 @@ bool EngineSettings::getUseUpnpPortForward( void )
     vx_assert( m_Initialized );
 	bool bUseUpnp = true;
     
-	getIniValue( MY_SETTINGS_KEY, "UseUpnp", bUseUpnp, true );
+	getIniValue( "UseUpnp", bUseUpnp, true );
     
 
 	return bUseUpnp;
@@ -538,7 +538,7 @@ void EngineSettings::setUseUpnpPortForward( bool bUseUpnpPortForward )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "UseUpnp", bUseUpnpPortForward );
+	setIniValue( "UseUpnp", bUseUpnpPortForward );
     
 }
 
@@ -548,7 +548,7 @@ bool EngineSettings::getUseNatPortForward( void )
     vx_assert( m_Initialized );
 	bool bUseNat = true;
     
-	getIniValue( MY_SETTINGS_KEY, "UseNat", bUseNat, false );
+	getIniValue( "UseNat", bUseNat, false );
     
 	return bUseNat;
 }
@@ -558,7 +558,7 @@ void EngineSettings::setUseNatPortForward( bool bUseNatPortForward )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "UseNat", bUseNatPortForward );
+	setIniValue( "UseNat", bUseNatPortForward );
     
 }
 
@@ -573,7 +573,7 @@ EFirewallTestType EngineSettings::getFirewallTestSetting( void )
 
 	uint16_t u16Setting;
     
-	getIniValue( MY_SETTINGS_KEY, "FirewallTest", u16Setting, 0 );
+	getIniValue( "FirewallTest", u16Setting, 0 );
     m_CachedFirewallTestType = ( EFirewallTestType )u16Setting;
     m_HaveCachedFirewallTestType = true;
     
@@ -587,7 +587,7 @@ void EngineSettings::setFirewallTestSetting( EFirewallTestType eFirewallTestType
     vx_assert( m_Initialized );
 	uint16_t u16Setting = (uint16_t)eFirewallTestType;
     
-	setIniValue( MY_SETTINGS_KEY, "FirewallTest", u16Setting );
+	setIniValue( "FirewallTest", u16Setting );
     m_CachedFirewallTestType = eFirewallTestType;
     m_HaveCachedFirewallTestType = true;
     
@@ -600,7 +600,7 @@ void EngineSettings::getCompletedDnldsDir( std::string& strCompletedDir )
 {
     vx_assert( m_Initialized );
     
-	getIniValue( MY_SETTINGS_KEY, "CompletedDnldsDir", strCompletedDir, "" );
+	getIniValue( "CompletedDnldsDir", strCompletedDir, "" );
     
 }
 
@@ -609,7 +609,7 @@ void EngineSettings::setCompletedDnldsDir( std::string& strCompletedDir )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "CompletedDnldsDir", strCompletedDir );
+	setIniValue( "CompletedDnldsDir", strCompletedDir );
     
 }
 
@@ -618,7 +618,7 @@ void EngineSettings::getIncompleteDnldsDir( std::string& strIncompleteDir )
 {
     vx_assert( m_Initialized );
     
-	getIniValue( MY_SETTINGS_KEY, "IncompleteDnldsDir", strIncompleteDir, "" );
+	getIniValue( "IncompleteDnldsDir", strIncompleteDir, "" );
     
 }
 
@@ -627,7 +627,7 @@ void EngineSettings::setIncompleteDnldsDir( std::string& strIncompleteDir )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "IncompleteDnldsDir", strIncompleteDir );
+	setIniValue( "IncompleteDnldsDir", strIncompleteDir );
     
 }
 
@@ -636,7 +636,7 @@ void EngineSettings::getDnldsBandwidth( uint32_t& u32Bandwidth )
 {
     vx_assert( m_Initialized );
     
-	getIniValue( MY_SETTINGS_KEY, "DnldsBandwidth", u32Bandwidth, 0 );
+	getIniValue( "DnldsBandwidth", u32Bandwidth, 0 );
     
 }
 
@@ -645,7 +645,7 @@ void EngineSettings::setDnldsBandwidth( uint32_t& u32Bandwidth )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "DnldsBandwidth", u32Bandwidth );
+	setIniValue( "DnldsBandwidth", u32Bandwidth );
     
 }
 
@@ -654,7 +654,7 @@ void EngineSettings::getMaxDownloadingFiles( uint32_t& u32MaxDownloadingFiles )
 {
     vx_assert( m_Initialized );
     
-	getIniValue( MY_SETTINGS_KEY, "MaxDownloadingFiles", u32MaxDownloadingFiles, DEFAULT_MAX_DOWNLOADING_FILES );
+	getIniValue( "MaxDownloadingFiles", u32MaxDownloadingFiles, DEFAULT_MAX_DOWNLOADING_FILES );
     
 }
 
@@ -663,7 +663,7 @@ void EngineSettings::setMaxDownloadingFiles( uint32_t& u32MaxDownloadingFiles )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "MaxDownloadingFiles", u32MaxDownloadingFiles );
+	setIniValue( "MaxDownloadingFiles", u32MaxDownloadingFiles );
     
 }
 
@@ -672,7 +672,7 @@ void EngineSettings::getSharedFilesDirs( std::vector<std::string>& strSharedDirs
 {
     vx_assert( m_Initialized );
     
-	getIniValue( MY_SETTINGS_KEY, "SharedDirs", strSharedDirs );
+	getIniValue( "SharedDirs", strSharedDirs );
     
 }
 
@@ -681,7 +681,7 @@ void EngineSettings::setSharedFilesDirs( std::vector<std::string>& strSharedDirs
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "SharedDirs", strSharedDirs );
+	setIniValue( "SharedDirs", strSharedDirs );
     
 }
 
@@ -690,7 +690,7 @@ void EngineSettings::getUpldsBandwidth( uint32_t& u32Bandwidth )
 {
     vx_assert( m_Initialized );
     
-	getIniValue( MY_SETTINGS_KEY, "UpldsBandwidth", u32Bandwidth, 0 );
+	getIniValue( "UpldsBandwidth", u32Bandwidth, 0 );
     
 }
 
@@ -699,7 +699,7 @@ void EngineSettings::setUpldsBandwidth( uint32_t& u32Bandwidth )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "UpldsBandwidth", u32Bandwidth );
+	setIniValue( "UpldsBandwidth", u32Bandwidth );
     
 }
 
@@ -708,7 +708,7 @@ void EngineSettings::getMaxUploadingFiles( uint32_t& u32MaxUploadingFiles )
 {
     vx_assert( m_Initialized );
     
-	getIniValue( MY_SETTINGS_KEY, "MaxUploadingFiles", u32MaxUploadingFiles, DEFAULT_MAX_UPLOADING_FILES );
+	getIniValue( "MaxUploadingFiles", u32MaxUploadingFiles, DEFAULT_MAX_UPLOADING_FILES );
     
 }
 
@@ -717,7 +717,7 @@ void EngineSettings::setMaxUploadingFiles( uint32_t& u32MaxUploadingFiles )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "MaxUploadingFiles", u32MaxUploadingFiles );
+	setIniValue( "MaxUploadingFiles", u32MaxUploadingFiles );
     
 }
 
@@ -726,8 +726,8 @@ void EngineSettings::setMaxRelaysInUse( uint32_t userRelays, uint32_t anonRelays
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "MaxUserRelays", userRelays );
-	setIniValue( MY_SETTINGS_KEY, "MaxSystemRelays", anonRelays );
+	setIniValue( "MaxUserRelays", userRelays );
+	setIniValue( "MaxSystemRelays", anonRelays );
     
 }
 
@@ -736,8 +736,8 @@ void EngineSettings::getMaxRelaysInUse( uint32_t& userRelays, uint32_t& anonRela
 {
     vx_assert( m_Initialized );
     
-	getIniValue( MY_SETTINGS_KEY, "MaxUserRelays", userRelays, DEFAULT_USER_RELAYS );
-	getIniValue( MY_SETTINGS_KEY, "MaxSystemRelays", anonRelays, DEFAULT_ANON_RELAYS );
+	getIniValue( "MaxUserRelays", userRelays, DEFAULT_USER_RELAYS );
+	getIniValue( "MaxSystemRelays", anonRelays, DEFAULT_ANON_RELAYS );
     
 }
 
@@ -746,7 +746,7 @@ void EngineSettings::setAllowUserLocation( bool allowUserLocation )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "AllowUserLocation", allowUserLocation );
+	setIniValue( "AllowUserLocation", allowUserLocation );
     
 }
 
@@ -756,7 +756,7 @@ bool EngineSettings::getAllowUserLocation( void )
     vx_assert( m_Initialized );
 	bool allowUserLocation = true;
     
-	getIniValue( MY_SETTINGS_KEY, "AllowUserLocation", allowUserLocation, true );
+	getIniValue( "AllowUserLocation", allowUserLocation, true );
     
 	return allowUserLocation;
 }
@@ -766,7 +766,7 @@ void EngineSettings::setAllowMulticastBroadcast( bool allowBroadcast )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "AllowBroadcast", allowBroadcast );
+	setIniValue( "AllowBroadcast", allowBroadcast );
     
 }
 
@@ -776,7 +776,7 @@ bool EngineSettings::getAllowMulticastBroadcast( void )
     vx_assert( m_Initialized );
 	bool allowBroadcast = true;
     
-	getIniValue( MY_SETTINGS_KEY, "AllowBroadcast", allowBroadcast, false );
+	getIniValue( "AllowBroadcast", allowBroadcast, false );
     
 	return allowBroadcast;
 }
@@ -786,7 +786,7 @@ void EngineSettings::setLastFirewallPort( uint16_t u16IpPort )
 {
     vx_assert( m_Initialized );
     
-	setIniValue( MY_SETTINGS_KEY, "firewallPort", u16IpPort );
+	setIniValue( "firewallPort", u16IpPort );
     
 }
 
@@ -796,7 +796,7 @@ uint16_t EngineSettings::getLastFirewallPort( void )
     vx_assert( m_Initialized );
 	uint16_t u16IpPort;
     
-	getIniValue( MY_SETTINGS_KEY, "firewallPort", u16IpPort, 0 );
+	getIniValue( "firewallPort", u16IpPort, 0 );
     
 	return u16IpPort;
 }

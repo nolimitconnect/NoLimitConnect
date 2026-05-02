@@ -1,4 +1,4 @@
-//============================================================================
+﻿//============================================================================
 // Copyright (C) 2022 Brett R. Jones
 //
 // Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
@@ -45,11 +45,11 @@ void GuiFavoriteMgr::setIsFavorite( VxGUID& onlineId, bool favorite )
 		std::string keyVal = onlineId.toHexString();
 		if( favorite )
 		{
-			setIniValue( FAVORITE_DB_KEY, keyVal.c_str(), favorite );
+			setIniValue( keyVal.c_str(), favorite );
 		}
 		else
 		{
-			removeBoolIniValueFromDb( FAVORITE_DB_KEY, keyVal.c_str() );
+			removeBoolIniValueFromDb( keyVal.c_str() );
 		}
 
 		GetAppInstance().getUserMgr().refreshUser( onlineId );
@@ -70,7 +70,7 @@ bool GuiFavoriteMgr::getIsFavorite( VxGUID& onlineId )
 		else
 		{
 			std::string keyVal = onlineId.toHexString();
-			getIniValue( FAVORITE_DB_KEY, onlineId.toHexString().c_str(), isFavorite, false );
+			getIniValue( onlineId.toHexString().c_str(), isFavorite, false );
 			m_FavoriteList[ onlineId ] = isFavorite;
 		}
 	}

@@ -33,28 +33,32 @@ enum class ESendResult
     eSuccess,
     eError,
     eCanceled,
+    eOffline,
     ePermissionError
 };
 
 /// Tracks state of a multi-member send session
-struct MultiSendSession
+class MultiSendSession
 {
-    AssetBaseInfo               assetInfo;
+public:
+    MultiSendSession( QWidget* parent = nullptr ) { parentWidget = parent; }
+
+    QWidget*                    parentWidget{ nullptr };
     HostedId                    hostId;
-    std::vector<VxGUID>         memberQueue;        // remaining members to send to
-    VxGUID                      currentMemberId;    // member currently being sent to
-    VxGUID                      currentAssetId;     // assetId for tracking callbacks
+    AssetBaseInfo               assetInfo;
+    VxGUID                      assetId;           // for tracking callbacks  
+    std::vector<VxGUID>         sendToQueue;        // remaining members to send to
+    VxGUID                      currentSendToId;    // member currently being sent to
+    VxGUID                      currentSessionId;    
     std::map<VxGUID, ESendResult> results;          // memberId -> result
     bool                        canceled{ false };
     bool                        isActive{ false };
     bool                        fromAdmin{ false }; // true if host admin is sending
-    QWidget*                    parentWidget{ nullptr };
 };
 
 class AssetSendMgr : public QObject, public ToGuiActivityInterface
 {
     Q_OBJECT
-
 public:
     AssetSendMgr();
     virtual ~AssetSendMgr();
@@ -65,16 +69,13 @@ public:
     bool                        handleGroupieAssetAction( QWidget* parent, GroupieId& adminId, EAssetAction assetAction, AssetBaseInfo& assetInfo, bool fromAdmin = false );
 
     /// Cancel the current multi-send session
-    void                        cancelMultiSend( void );
+    void                        cancelMultiSend( VxGUID assetId );
 
     /// Check if a multi-send is currently active
-    bool                        isMultiSendActive( void ) const { return m_Session.isActive; }
-
-    /// Get results from last multi-send session
-    const std::map<VxGUID, ESendResult>& getLastSendResults( void ) const { return m_Session.results; }
+    bool                        isMultiSendActive( VxGUID assetId );
 
     /// Retry failed sends from last session
-    bool                        retryFailedSends( void );
+    bool                        retryFailedSends( VxGUID assetId );
 
     // ToGuiActivityInterface overrides
     void                        toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos0to100000 ) override;
@@ -96,16 +97,16 @@ signals:
 
 private:
     /// Start multi-member send session
-    bool                        startMultiSend( QWidget* parent, HostedId& hostId, AssetBaseInfo& assetInfo, std::vector<VxGUID>& memberList, bool fromAdmin = false );
+    bool                        startMultiSend( QWidget* parent, HostedId& hostId, AssetBaseInfo& assetInfo, std::set<VxGUID>& sendToSet, bool fromAdmin = false );
 
     /// Send to next member in queue, or finish if queue empty
-    void                        sendToNextMember( void );
+    bool                        sendToNextMember( VxGUID assetId );
 
     /// Called when current send completes (success/error/cancel)
-    void                        onCurrentSendComplete( ESendResult result );
+    void                        onCurrentSendComplete( VxGUID assetId, ESendResult result );
 
     /// Finish the multi-send session and report results
-    void                        finishMultiSend( void );
+    void                        finishMultiSend( VxGUID assetId );
 
     /// Get AppCommon instance
     AppCommon&                  getMyApp( void );
@@ -114,7 +115,7 @@ private:
     void                        wantActivityCallbacks( bool enable );
 
     //=== vars ===//
-    MultiSendSession            m_Session;
+    std::vector<std::pair<VxGUID, MultiSendSession>> m_SessionList;
     bool                        m_CallbacksRegistered{ false };
 };
 

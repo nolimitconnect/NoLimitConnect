@@ -313,22 +313,7 @@ ECanSendState AppletHostClientBase::getCanSendState( void )
     // show user popup if we cannot send to anyone
     if( canSendState != ECanSendState::eCanSend )
     {
-        if( canSendState == ECanSendState::eNoMembersToSendTo )
-        {
-            GuiHelpers::showCannotSendReason( QObject::tr( "No members to send to" ) );
-        }
-        else if( canSendState == ECanSendState::eAdminIsOffline )
-        {
-            GuiHelpers::showCannotSendReason( QObject::tr( "Admin is offline" ) );
-        }
-        else if( canSendState == ECanSendState::eHostIsSelf )
-        {
-            GuiHelpers::showCannotSendReason( QObject::tr( "Cannot send to self" ) );
-        }
-        else
-        {
-            GuiHelpers::showCannotSendReason( QObject::tr( "Invalid host or state" ) );
-        }
+        GuiHelpers::showCannotSendReason( canSendState );
     }
 
     return canSendState;        

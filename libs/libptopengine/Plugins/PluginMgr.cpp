@@ -748,22 +748,19 @@ void PluginMgr::fromGuiRelayPermissionCount( int userPermittedCount, int anonymo
 //============================================================================
 bool PluginMgr::fromGuiSendAsset( AssetBaseInfo& assetInfo )
 {
+    if( ePluginTypeInvalid == assetInfo.getPluginType() )
+	{
+        LogMsg( LOG_ERROR, "PluginMgr::%s invalid plugin type %d", __func__, assetInfo.getPluginType() );
+        vx_assert( false );
+        return false;
+	}
+
 	bool sendResult{ false };
-	if( ePluginTypeInvalid == assetInfo.getPluginType() )
-	{
-		for( auto iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
-		{
-			sendResult |= (*iter)->fromGuiSendAsset( assetInfo );
-		}
-	}
-	else
-	{
-		PluginBase* pluginBase = findPlugin( assetInfo.getPluginType() );
-		if( pluginBase )
-		{
-			sendResult = pluginBase->fromGuiSendAsset( assetInfo );
-		}
-	}
+    PluginBase* pluginBase = findPlugin( assetInfo.getPluginType() );
+    if( pluginBase )
+    {
+        sendResult = pluginBase->fromGuiSendAsset( assetInfo );
+    }
 
 	return sendResult;
 }

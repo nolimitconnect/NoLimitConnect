@@ -1,4 +1,4 @@
-//============================================================================
+﻿//============================================================================
 // Copyright (C) 2013 Brett R. Jones
 //
 // Code copyrighted by Brett R. Jones is under dual license similar to Ruby's license
@@ -59,61 +59,61 @@ void EngineParams::engineParamsShutdown( void )
 //============================================================================
 void EngineParams::setLastHostWebsiteUrl( std::string& strWebsiteUrl )
 {
-	setIniValue( MY_SETTINGS_KEY, "HostUrl", strWebsiteUrl );
+	setIniValue( "HostUrl", strWebsiteUrl );
 }
 
 //============================================================================
 void EngineParams::getLastHostWebsiteUrl( std::string& strWebsiteUrl )
 {
-	getIniValue( MY_SETTINGS_KEY, "HostUrl", strWebsiteUrl, "" );
+	getIniValue( "HostUrl", strWebsiteUrl, "" );
 }
 
 //============================================================================
 void EngineParams::setLastHostWebsiteResolvedIp( std::string& strWebsiteIp )
 {
-	setIniValue( MY_SETTINGS_KEY, "HostIp", strWebsiteIp );
+	setIniValue( "HostIp", strWebsiteIp );
 }
 
 //============================================================================
 void EngineParams::getLastHostWebsiteResolvedIp( std::string& strWebsiteIp )
 {
-	getIniValue( MY_SETTINGS_KEY, "HostIp", strWebsiteIp, "" );
+	getIniValue( "HostIp", strWebsiteIp, "" );
 }
 
 //============================================================================
 void EngineParams::setLastConnectTestUrl( std::string& strWebsiteUrl )
 {
-	setIniValue( MY_SETTINGS_KEY, "NetServiceUrl", strWebsiteUrl );
+	setIniValue( "NetServiceUrl", strWebsiteUrl );
 }
 
 //============================================================================
 void EngineParams::getLastConnectTestUrl( std::string& strWebsiteUrl )
 {
-	getIniValue( MY_SETTINGS_KEY, "NetServiceUrl", strWebsiteUrl, "" );
+	getIniValue( "NetServiceUrl", strWebsiteUrl, "" );
 }
 
 //============================================================================
 void EngineParams::setLastConnectTestResolvedIp( std::string& strWebsiteIp )
 {
-	setIniValue( MY_SETTINGS_KEY, "NetServiceIp", strWebsiteIp );
+	setIniValue( "NetServiceIp", strWebsiteIp );
 }
 
 //============================================================================
 void EngineParams::getLastConnectTestResolvedIp( std::string& strWebsiteIp )
 {
-	getIniValue( MY_SETTINGS_KEY, "NetServiceIp", strWebsiteIp, "" );
+	getIniValue( "NetServiceIp", strWebsiteIp, "" );
 }
 
 //============================================================================
 void EngineParams::setLastListenSocket( int64_t listenSocket )
 {
-	setIniValue( MY_SETTINGS_KEY, "LastListenSkt", listenSocket );
+	setIniValue( "LastListenSkt", listenSocket );
 }
 
 //============================================================================
 int64_t EngineParams::getLastListenSocket( void )
 {
 	int64_t listenSkt{ 0 };
-	getIniValue( MY_SETTINGS_KEY, "LastListenSkt", listenSkt, 0 );
+	getIniValue( "LastListenSkt", listenSkt, 0 );
 	return listenSkt;
 }

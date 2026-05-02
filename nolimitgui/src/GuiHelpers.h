@@ -14,6 +14,7 @@
 #endif // defined(TARGET_OS_LINUX)
 
 #include "AppDefs.h"
+#include "CanSendInterface.h"
 
 #include <CoreLib/VxFileTypeMasks.h>
 #include <CoreLib/VxGUID.h>
@@ -232,6 +233,7 @@ public:
 
     static void                 showAddAssetFailedError( void );
     static void                 showFailedToSendMemberError( QString userName );
+    static void                 showCannotSendReason( ECanSendState canSendState );
     static void                 showCannotSendReason( QString reasonStr );
     static void                 showHostIsDisabledError( EHostType hostType );
 

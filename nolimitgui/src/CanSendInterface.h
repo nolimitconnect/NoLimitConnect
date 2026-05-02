@@ -12,8 +12,8 @@
 enum class ECanSendState
 {
     eCanSend,
-    eInvalidHostId,
-    eHostIsSelf,
+    eInvalidHostOrState,
+    eCannotSendToSelf,
     eNoMembersToSendTo,
     eAdminIsOffline
 };

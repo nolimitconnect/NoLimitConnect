@@ -34,6 +34,8 @@ public:
 	virtual int32_t		onCreateTables( int iDbVersion );
 	//! override onDeleteTables to delete our tables
 	virtual int32_t		onDeleteTables( int oldDbVersion );
+	//! override onUpgradeDatabase to migrate schema without data loss
+	virtual int32_t		onUpgradeDatabase( int iOldDbVersion, int iNewDbVersion );
 
 	//=== methods ===//
 	//! startup Settings.. if database doesnt exist then create it and call DbCreateTables
@@ -41,53 +43,51 @@ public:
 	//! shutdown Settings
 	void				vxSettingsShutdown( void );
 
-	void				setIniValue( const char* pKey, const char* pSettingName, bool& bValue );
-	void				setIniValue( const char* pKey, const char* pSettingName, int8_t& s8Value );
-	void				setIniValue( const char* pKey, const char* pSettingName, uint8_t& u8Value );
-	void				setIniValue( const char* pKey, const char* pSettingName, int16_t& s16Value );
-	void				setIniValue( const char* pKey, const char* pSettingName, uint16_t& u16Value );
-	void				setIniValue( const char* pKey, const char* pSettingName, int32_t& s32Value );
-	void				setIniValue( const char* pKey, const char* pSettingName, uint32_t& u32Value );
-	void				setIniValue( const char* pKey, const char* pSettingName, int64_t& s64Value );
-	void				setIniValue( const char* pKey, const char* pSettingName, uint64_t& u64Value );
-	void				setIniValue( const char* pKey, const char* pSettingName, float& f32Value );
-	void				setIniValue( const char* pKey, const char* pSettingName, double& f64Value );
-	void				setIniValue( const char* pKey, const char* pSettingName, std::string& strValue );
-	void				setIniValue( const char* pKey, const char* pSettingName, const char* pValue );
-	void				setIniValue( const char* pKey, const char* pSettingName, std::vector<std::string>& aoStrValues );
-	void				setIniValue( const char* pKey, const char* pSettingName, void * pvObject, int iObjectLen );
+	void				setIniValue( const char* pSettingName, bool& bValue );
+	void				setIniValue( const char* pSettingName, int8_t& s8Value );
+	void				setIniValue( const char* pSettingName, uint8_t& u8Value );
+	void				setIniValue( const char* pSettingName, int16_t& s16Value );
+	void				setIniValue( const char* pSettingName, uint16_t& u16Value );
+	void				setIniValue( const char* pSettingName, int32_t& s32Value );
+	void				setIniValue( const char* pSettingName, uint32_t& u32Value );
+	void				setIniValue( const char* pSettingName, int64_t& s64Value );
+	void				setIniValue( const char* pSettingName, uint64_t& u64Value );
+	void				setIniValue( const char* pSettingName, float& f32Value );
+	void				setIniValue( const char* pSettingName, double& f64Value );
+	void				setIniValue( const char* pSettingName, std::string& strValue );
+	void				setIniValue( const char* pSettingName, const char* pValue );
+	void				setIniValue( const char* pSettingName, std::vector<std::string>& aoStrValues );
+	void				setIniValue( const char* pSettingName, void * pvObject, int iObjectLen );
 
 	//! get value from database.. return default if doesnt exist
-	void				getIniValue( const char* pKey, const char* pSettingName, bool& bValue, bool bDefault = false );
-	void				getIniValue( const char* pKey, const char* pSettingName, int8_t& s8Value, int8_t s8Default = 0 );
-	void				getIniValue( const char* pKey, const char* pSettingName, uint8_t& u8Value, uint8_t u8Default = 0 );
-	void				getIniValue( const char* pKey, const char* pSettingName, int16_t& s16Value, int16_t s16Default = 0 );
-	void				getIniValue( const char* pKey, const char* pSettingName, uint16_t& u16Value, uint16_t u16Default = 0 );
-	void				getIniValue( const char* pKey, const char* pSettingName, int32_t& s32Value, int32_t s32Default = 0 );
-	void				getIniValue( const char* pKey, const char* pSettingName, uint32_t& u32Value, uint32_t u32Default = 0 );
-	void				getIniValue( const char* pKey, const char* pSettingName, int64_t& s64Value, int64_t s64Default = 0 );
-	void				getIniValue( const char* pKey, const char* pSettingName, uint64_t& u64Value, uint64_t u64Default = 0 );
-	void				getIniValue( const char* pKey, const char* pSettingName, float& f32Value, float f32Default = 0.0f );
-	void				getIniValue( const char* pKey, const char* pSettingName, double& f64Value, double f64Default = 0.0 );
-	void				getIniValue( const char* pKey, const char* pSettingName, std::string& strValue, const char* pDefault = "" );
-	void				getIniValue( const char* pKey, const char* pSettingName, char * pRetBuf, int iBufLen, const char* pDefault = "" );
-	void				getIniValue( const char* pKey, const char* pSettingName, std::vector<std::string>& aoStrValues );
-	bool				getIniValue( const char* pKey, const char* pSettingName, void * pvRetBuf, int iBufLen );
+	void				getIniValue( const char* pSettingName, bool& bValue, bool bDefault = false );
+	void				getIniValue( const char* pSettingName, int8_t& s8Value, int8_t s8Default = 0 );
+	void				getIniValue( const char* pSettingName, uint8_t& u8Value, uint8_t u8Default = 0 );
+	void				getIniValue( const char* pSettingName, int16_t& s16Value, int16_t s16Default = 0 );
+	void				getIniValue( const char* pSettingName, uint16_t& u16Value, uint16_t u16Default = 0 );
+	void				getIniValue( const char* pSettingName, int32_t& s32Value, int32_t s32Default = 0 );
+	void				getIniValue( const char* pSettingName, uint32_t& u32Value, uint32_t u32Default = 0 );
+	void				getIniValue( const char* pSettingName, int64_t& s64Value, int64_t s64Default = 0 );
+	void				getIniValue( const char* pSettingName, uint64_t& u64Value, uint64_t u64Default = 0 );
+	void				getIniValue( const char* pSettingName, float& f32Value, float f32Default = 0.0f );
+	void				getIniValue( const char* pSettingName, double& f64Value, double f64Default = 0.0 );
+	void				getIniValue( const char* pSettingName, std::string& strValue, const char* pDefault = "" );
+	void				getIniValue( const char* pSettingName, char * pRetBuf, int iBufLen, const char* pDefault = "" );
+	void				getIniValue( const char* pSettingName, std::vector<std::string>& aoStrValues );
+	bool				getIniValue( const char* pSettingName, void * pvRetBuf, int iBufLen );
 
 	//! remove a key value from database
-	void				removeBoolIniValueFromDb( const char* pKey, const char* pSettingName );
+	void				removeBoolIniValueFromDb( const char* pSettingName );
 
 private:
 	//! prepare sql statement set value
 	int32_t				prepareIniSet(	sqlite3_stmt ** ppoRetSqlStatement, 
 										const char*	pTableName,
-										const char*	pKey, 
 										const char*	pSettingName ); 
 
 	//! prepare sql statement to query value
 	int32_t				prepareIniQuery(	sqlite3_stmt ** ppoRetSqlStatement, 
 											const char*	pTableName,
-											const char*	pKey, 
 											const char*	pSettingName ); 
 
 	//! finalize and close db after setting 
