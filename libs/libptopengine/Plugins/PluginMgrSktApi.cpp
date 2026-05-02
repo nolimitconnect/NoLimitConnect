@@ -15,6 +15,21 @@
 #include <CoreLib/VxDebug.h>
 #include <NetLib/VxSktBase.h>
 #include <NetLib/VxPeerMgr.h>
+#include <PktLib/PktTypes.h>
+
+namespace
+{
+    bool IsAssetTransferPacketType( uint8_t pktType )
+    {
+        return pktType == PKT_TYPE_ASSET_SEND_REQ ||
+            pktType == PKT_TYPE_ASSET_SEND_REPLY ||
+            pktType == PKT_TYPE_ASSET_CHUNK_REQ ||
+            pktType == PKT_TYPE_ASSET_CHUNK_REPLY ||
+            pktType == PKT_TYPE_ASSET_SEND_COMPLETE_REQ ||
+            pktType == PKT_TYPE_ASSET_SEND_COMPLETE_REPLY ||
+            pktType == PKT_TYPE_ASSET_XFER_ERR;
+    }
+}
 
 //============================================================================
 bool PluginMgr::pluginApiSktConnectTo(		EPluginType			pluginType,	// plugin id
@@ -120,9 +135,17 @@ bool PluginMgr::pluginApiTxPacket(  EPluginType			pluginType,
         break;
     }
 
+    bool keepClientPluginForAssetXfer = overridePlugin == ePluginTypeInvalid &&
+        IsAssetTransferPacketType( pktHdr->getPktType() ) &&
+        ( pluginType == ePluginTypeClientGroup || pluginType == ePluginTypeClientRandomConnect );
+
     if( overridePlugin != ePluginTypeInvalid )
     {
         pktHdr->setPluginNum( ( uint8_t )overridePlugin );
+    }
+    else if( keepClientPluginForAssetXfer )
+    {
+        pktHdr->setPluginNum( ( uint8_t )pluginType );
     }
     else if( hostClientType != ePluginTypeInvalid )
     {
@@ -143,8 +166,8 @@ bool PluginMgr::pluginApiTxPacket(  EPluginType			pluginType,
         return sktBase->txPacketWithDestId( pktHdr ) == 0;
     }
 
-    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "pluginApiTxPacket type %d len %d plugin %s to %s", pktHdr->getPktType(), pktHdr->getPktLength(), 
-        DescribePluginType( pluginType ), sktBase->getRemoteIpAddress() );
+    if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "pluginApiTxPacket type %d len %d plugin %s override %s final %s to %s", pktHdr->getPktType(), pktHdr->getPktLength(), 
+        DescribePluginType( pluginType ), DescribePluginType( overridePlugin ), DescribePluginType( (EPluginType)pktHdr->getPluginNum() ), sktBase->getRemoteIpAddress() );
     return m_Engine.getPeerMgr().txPacket( sktBase, onlineId, pktHdr );
 }
 

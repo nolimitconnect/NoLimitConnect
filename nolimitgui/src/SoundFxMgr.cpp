@@ -142,20 +142,16 @@ bool SoundFxMgr::sndFxMgrStartup( void )
     {
         VxSndInstance* sndInstance = new VxSndInstance( (ESndDef)i, this );
         m_SndList.emplace_back( sndInstance );
-
-		// Keep startup responsive while building all sound instances.
-		if( 0 == ( i % 4 ) )
-		{
-			QCoreApplication::processEvents( QEventLoop::AllEvents, 1 );
-		}
     }
 
+    m_Initialized = true;
 	return true;
 }
 
 //============================================================================
 bool SoundFxMgr::sndFxMgrShutdown( void )
 {
+    m_Initialized = false;
 	return true;
 }
 
@@ -163,8 +159,12 @@ bool SoundFxMgr::sndFxMgrShutdown( void )
 VxSndInstance * SoundFxMgr::playSnd( ESndDef sndDef, bool loopContinuous  )
 {
 #ifdef DISABLE_AUDIO
-    return 0;
+    return nullptr;
 #endif // DISABLE_AUDIO
+    if(!m_Initialized)
+    {
+        return nullptr;
+    }
 
 	if( GetAppInstance().getAppSettings().getDisableAllSoundEffects() )
 	{
@@ -217,6 +217,11 @@ VxSndInstance * SoundFxMgr::playSnd( ESndDef sndDef, bool loopContinuous  )
 //============================================================================
 void SoundFxMgr::stopSnd( ESndDef sndDef )
 {
+    if(!m_Initialized)
+    {
+        return;
+    }
+    
 	if( m_CurSndPlaying 
 		&& ( sndDef == m_CurSndPlaying->getSndDef() ) )
 	{

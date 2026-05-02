@@ -653,3 +653,40 @@ void AssetBaseInfo::setAssetNameFromFileNameAndPath( std::string fullFileName )
 		setFileName( justFileName );
 	}
 }
+
+//============================================================================
+std::string AssetBaseInfo::describe( void )
+{
+    if( !isValid( false ) )
+    {
+        return "Invalid AssetBaseInfo";
+    } 
+    else if( isPhotoAsset() )
+    {
+        return "Photo Asset: ";
+    }
+    else if( isVideoAsset() )
+    {
+        return "Video Asset: ";
+    }
+    else if( isAudioAsset() )
+    {
+        return "Audio Asset: ";
+    }
+    else if( isThumbAsset() )
+    {
+        return "Thumbnail Asset ";
+    }
+    else  if( isChatTextAsset() )
+    {
+        return "Chat Text Asset ";
+    }
+    else  if( isChatFaceAsset() )
+    {
+        return "Chat Face Asset ";
+    }
+    else
+    {
+        return "AssetBaseInfo: " + getOnlineId().toOnlineIdString();
+    }
+}

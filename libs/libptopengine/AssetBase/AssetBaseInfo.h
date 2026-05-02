@@ -200,6 +200,8 @@ public:
 
     virtual VxGUID&	            getSendToId( void )                             { if( m_DestOnlineId.isVxGUIDValid() ) return m_DestOnlineId; return m_HistoryId; }
 
+    virtual std::string         describe( void );
+
 protected:
     void                        assureValidTimes( void ) override;
 

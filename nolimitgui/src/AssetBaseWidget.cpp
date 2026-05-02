@@ -406,6 +406,7 @@ void AssetBaseWidget::sendingToMember( VxGUID memberId, QString memberName )
     }
 }
 
+//============================================================================
 void AssetBaseWidget::multiSendComplete( bool allSucceeded, int successCount, int failCount )
 {
     // Implementation for multi-send complete

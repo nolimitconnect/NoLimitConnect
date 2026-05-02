@@ -448,12 +448,7 @@ void AppCommon::slotGuiStartupTimer( void )
     }
 
 	if( 0 == guiStartupStep )
-	{
-		// load sounds to play and sound hardware
-		LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer step 1 (sndFxMgr) begin at %d ms", stepStartMs );
-		m_SoundFxMgr.sndFxMgrStartup();
-		GuiHelpers::processQtEvents( 1 );
-		LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer step 1 (sndFxMgr) complete at %d ms", GetApplicationAliveMs() );
+	{	
 		guiStartupStep = 1;
 		m_GuiStartupTimer->setInterval( 0 );
 		m_GuiStartupTimer->start();
@@ -477,7 +472,7 @@ void AppCommon::slotGuiStartupTimer( void )
 
 		LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer step 2 (engine) complete at %d ms", GetApplicationAliveMs() );
 		guiStartupStep = 2;
-		m_GuiStartupTimer->setInterval( 0 );
+		m_GuiStartupTimer->setInterval( 25 );
 		m_GuiStartupTimer->start();
 		return;
 	}
@@ -492,7 +487,18 @@ void AppCommon::slotGuiStartupTimer( void )
 		m_OncePerSecondTimer->start();
 
 		guiStartupStep = 3;
+        m_GuiStartupTimer->setInterval( 4000 );
+		m_GuiStartupTimer->start();
 	}
+	else if( 3 == guiStartupStep )
+	{
+        m_GuiStartupTimer->stop();
+        // load sounds to play and sound hardware
+		LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer step 1 (sndFxMgr) begin at %d ms", stepStartMs );
+		m_SoundFxMgr.sndFxMgrStartup();
+		LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer step 1 (sndFxMgr) complete at %d ms", GetApplicationAliveMs() );
+        guiStartupStep = 4;
+    }
 
 	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::slotGuiStartupTimer startup complete at %d ms", GetApplicationAliveMs() );
 }

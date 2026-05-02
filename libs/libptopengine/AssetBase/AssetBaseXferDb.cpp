@@ -104,7 +104,7 @@ void AssetBaseXferDb::getAllAssets( std::vector<VxGUID>& assetList )
 		{
 			strId = cursor->getString( 0 );
 			uniqueId.fromVxGUIDHexString( strId.c_str() );
-			assetList.push_back( uniqueId );
+			assetList.emplace_back( uniqueId );
 		}
 
 		cursor->close();

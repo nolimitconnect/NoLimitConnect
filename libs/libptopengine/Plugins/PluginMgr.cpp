@@ -66,8 +66,23 @@
 #include <CoreLib/VxDebug.h>
 #include <NetLib/VxPeerMgr.h>
 #include <NetLib/VxSktBase.h>
+#include <PktLib/PktTypes.h>
 
 #include <string.h>
+
+namespace
+{
+	bool IsAssetTransferPacketType( uint8_t pktType )
+	{
+		return pktType == PKT_TYPE_ASSET_SEND_REQ ||
+			pktType == PKT_TYPE_ASSET_SEND_REPLY ||
+			pktType == PKT_TYPE_ASSET_CHUNK_REQ ||
+			pktType == PKT_TYPE_ASSET_CHUNK_REPLY ||
+			pktType == PKT_TYPE_ASSET_SEND_COMPLETE_REQ ||
+			pktType == PKT_TYPE_ASSET_SEND_COMPLETE_REPLY ||
+			pktType == PKT_TYPE_ASSET_XFER_ERR;
+	}
+}
 #include <stdarg.h>
 #include <stdio.h>
 
@@ -508,10 +523,18 @@ void PluginMgr::handleNonSystemPackets( std::shared_ptr<VxSktBase>& sktBase, VxP
 			{
 				plugin->handlePkt( sktBase, pktHdr, netIdent );
 			}
+			else if( IsAssetTransferPacketType( pktHdr->getPktType() ) )
+			{
+				// Asset transfer packets are additionally validated in AssetBaseXferMgr using
+				// session IDs and transfer state. Do not drop continuation packets here.
+				LogMsg( LOG_WARN, "PluginMgr::%s access override for asset packet type %d plugin %d from user %s", __func__,
+					pktHdr->getPktType(), u8PluginNum, netIdent->getOnlineName() );
+				plugin->handlePkt( sktBase, pktHdr, netIdent );
+			}
 			else if( !netIdent->isMyself() )
 			{
-				LogMsg( LOG_ERROR, "PluginMgr::%s access denied for plugin %d from user %s with packet %s", __func__, 
-					u8PluginNum, netIdent->getOnlineName(), pktHdr->describePktHdr().c_str() );
+				LogMsg( LOG_ERROR, "PluginMgr::%s access denied for plugin %s (%d) from user %s with packet %s", __func__, 
+					DescribePluginType( (EPluginType)u8PluginNum ), u8PluginNum, netIdent->getOnlineName(), pktHdr->describePktHdr().c_str() );
 				VxReportHack( eHackerLevelSuspicious, eHackerReasonAccessDenied, sktBase, netIdent->getOnlineName() );
 			}
 		}
@@ -759,6 +782,17 @@ bool PluginMgr::fromGuiSendAsset( AssetBaseInfo& assetInfo )
     PluginBase* pluginBase = findPlugin( assetInfo.getPluginType() );
     if( pluginBase )
     {
+		if(LogEnabled(eLogAssets))LogModule( eLogAssets, LOG_VERBOSE,
+			"PluginMgr::%s assetId %s assetType %s plugin %s host %s creator %s admin %s sendTo %s detail %s",
+			__func__,
+			assetInfo.getAssetUniqueId().toHexString().c_str(),
+			DescribeAssetType( assetInfo.getAssetType() ),
+			DescribePluginType( assetInfo.getPluginType() ),
+			DescribeHostType( PluginTypeToHostType( assetInfo.getPluginType() ) ),
+			m_Engine.getBigListMgr().getOnlineName( assetInfo.getCreatorId() ).c_str(),
+			m_Engine.getBigListMgr().getOnlineName( assetInfo.getAdminId() ).c_str(),
+			m_Engine.getBigListMgr().getOnlineName( assetInfo.getSendToId() ).c_str(),
+			assetInfo.describe().c_str() );
         sendResult = pluginBase->fromGuiSendAsset( assetInfo );
     }
 

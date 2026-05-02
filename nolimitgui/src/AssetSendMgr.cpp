@@ -84,8 +84,36 @@ bool AssetSendMgr::handleGroupieAssetAction( QWidget* parent, GroupieId& adminId
         return false;
     }
 
+    switch( adminId.getHostType() )
+    {
+    case eHostTypeChatRoom:
+        assetInfo.setPluginType( fromAdmin ? ePluginTypeHostChatRoom : ePluginTypeClientChatRoom );
+        break;
+    case eHostTypeGroup:
+        assetInfo.setPluginType( fromAdmin ? ePluginTypeHostGroup : ePluginTypeClientGroup );
+        break;
+    case eHostTypeRandomConnect:
+        assetInfo.setPluginType( fromAdmin ? ePluginTypeHostRandomConnect : ePluginTypeClientRandomConnect );
+        break;
+    default:
+        GuiHelpers::showCannotSendReason( ECanSendState::eInvalidHostOrState );
+        return false;    
+    }
+
     LogModule( eLogAssets, LOG_DEBUG, "AssetSendMgr::%s action %s for host %s admin %s", __func__,
         DescribeAssetAction( assetAction ), DescribeHostType( adminId.getHostType() ), getMyApp().getUserName( adminId.getUserOnlineId() ).c_str() );
+    if(LogEnabled(eLogAssets))LogModule( eLogAssets, LOG_VERBOSE,
+        "AssetSendMgr::%s action %s host %s hostAdmin %s selectedUser %s sendCount %u assetId %s assetType %s plugin %s fromAdmin %s",
+        __func__,
+        DescribeAssetAction( assetAction ),
+        DescribeHostType( adminId.getHostType() ),
+        getMyApp().getUserName( adminId.getHostOnlineId() ).c_str(),
+        getMyApp().getUserName( adminId.getUserOnlineId() ).c_str(),
+        (unsigned)sendToSet.size(),
+        assetInfo.getAssetUniqueId().toHexString().c_str(),
+        DescribeAssetType( assetInfo.getAssetType() ),
+        DescribePluginType( assetInfo.getPluginType() ),
+        fromAdmin ? "true" : "false" );
     if( eAssetActionAddAssetAndSend != assetAction && eAssetActionAssetSend != assetAction )
     {
         // just pass on to engine for non-send actions
@@ -193,6 +221,15 @@ bool AssetSendMgr::sendToNextMember( VxGUID assetId )
 
 
     QString memberName = getMemberDisplayName( getMyApp(), multiSendSession.currentSendToId );
+    if(LogEnabled(eLogAssets))LogModule( eLogAssets, LOG_VERBOSE,
+        "AssetSendMgr::%s assetId %s host %s currentSendTo %s remaining %u plugin %s currentSession %s",
+        __func__,
+        multiSendSession.assetId.toHexString().c_str(),
+        DescribeHostType( multiSendSession.hostId.getHostType() ),
+        memberName.toStdString().c_str(),
+        (unsigned)multiSendSession.sendToQueue.size(),
+        DescribePluginType( multiSendSession.assetInfo.getPluginType() ),
+        multiSendSession.currentSessionId.toHexString().c_str() );
     
     LogModule( eLogAssets, LOG_INFO, "AssetSendMgr::sendToNextMember sending to %s (%u remaining)", 
             memberName.toStdString().c_str(), (unsigned)multiSendSession.sendToQueue.size() );

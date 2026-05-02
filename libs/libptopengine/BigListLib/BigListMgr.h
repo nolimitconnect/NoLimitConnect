@@ -59,6 +59,7 @@ public:
 	bool						isUserIgnored( VxGUID& hisOnlineId );
 
 	bool						getOnlineName( const VxGUID& hisOnlineId, std::string& onlineName );
+    std::string					getOnlineName( const VxGUID& hisOnlineId );
 	//! return true if can add friend to list
 	bool						canAddFriend( void );
 	//! remove from big list.. also from db if bRemoveStorage = true 

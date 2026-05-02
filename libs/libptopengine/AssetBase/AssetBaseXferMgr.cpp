@@ -660,6 +660,15 @@ void AssetBaseXferMgr::onPktAssetBaseSendReq( std::shared_ptr<VxSktBase>& sktBas
     bool needFileXfer = requireFileXfer( assetType );
     VxGUID& assetUniqueId = poPkt->getUniqueId();
     VxGUID& sendToId = poPkt->getSendToId();
+    if(LogEnabled(eLogAssets)) LogModule( eLogAssets, LOG_VERBOSE,
+        "AssetBaseXferMgr::%s rx send-req asset %s src %s sendTo %s req lcl %s req rmt %s needFile %s",
+        __func__,
+        assetUniqueId.toHexString().c_str(),
+        poPkt->getSrcOnlineId().toOnlineIdString().c_str(),
+        sendToId.toOnlineIdString().c_str(),
+        poPkt->getLclSessionId().toHexString().c_str(),
+        poPkt->getRmtSessionId().toHexString().c_str(),
+        needFileXfer ? "true" : "false" );
 
     PktBaseSendReply* pktReply = createPktBaseSendReply();
     pktReply->setIsStream( poPkt->getIsStream() );
@@ -716,6 +725,14 @@ void AssetBaseXferMgr::onPktAssetBaseSendReq( std::shared_ptr<VxSktBase>& sktBas
 
             xferSession->setRmtSessionId( poPkt->getLclSessionId() );
             pktReply->setLclSessionId( xferSession->getLclSessionId() );
+            if(LogEnabled(eLogAssets)) LogModule( eLogAssets, LOG_VERBOSE,
+                "AssetBaseXferMgr::%s rx session created asset %s rx lcl %s rx rmt %s reply lcl %s reply rmt %s",
+                __func__,
+                assetInfo.getAssetUniqueId().toHexString().c_str(),
+                xferSession->getLclSessionId().toHexString().c_str(),
+                xferSession->getRmtSessionId().toHexString().c_str(),
+                pktReply->getLclSessionId().toHexString().c_str(),
+                pktReply->getRmtSessionId().toHexString().c_str() );
             EXferError xferErr = beginAssetBaseReceive( xferSession, assetInfo, poPkt, *pktReply );
             if( eXferErrorNone != xferErr )
             {
@@ -798,6 +815,44 @@ void AssetBaseXferMgr::onPktAssetBaseSendReply( std::shared_ptr<VxSktBase>& sktB
     bool isFileXfer = (bool)poPkt->getRequiresFileXfer();
     uint32_t rxedErrCode = poPkt->getError();
     AssetBaseTxSession* xferSession = findTxSessionSessionId( true, poPkt->getRmtSessionId() );
+    if( !xferSession && poPkt->getLclSessionId().isVxGUIDValid() )
+    {
+        xferSession = findTxSessionSessionId( true, poPkt->getLclSessionId() );
+    }
+    if( !xferSession )
+    {
+        // Some peers can echo a different session-id pairing; recover by matching
+        // the in-flight asset and peer instead of failing the transfer immediately.
+        for( auto txSession : m_TxSessions )
+        {
+            if( !txSession )
+            {
+                continue;
+            }
+
+            if( txSession->getAssetBaseInfo().getAssetUniqueId() != assetUniqueId )
+            {
+                continue;
+            }
+
+            VxGUID txSendToId = txSession->getSendToId();
+            if( txSendToId == sendToId || txSendToId == srcOnlineId )
+            {
+                xferSession = txSession;
+                LogMsg( LOG_WARN,
+                    "AssetBaseXferMgr::%s recovered tx session by asset/sendTo (pkt rmt %s lcl %s src %s sendTo %s tx lcl %s tx rmt %s tx sendTo %s)",
+                    __func__,
+                    poPkt->getRmtSessionId().toHexString().c_str(),
+                    poPkt->getLclSessionId().toHexString().c_str(),
+                    srcOnlineId.toOnlineIdString().c_str(),
+                    sendToId.toOnlineIdString().c_str(),
+                    txSession->getLclSessionId().toHexString().c_str(),
+                    txSession->getRmtSessionId().toHexString().c_str(),
+                    txSendToId.toOnlineIdString().c_str() );
+                break;
+            }
+        }
+    }
 
     if( xferSession )
     {
@@ -833,8 +888,12 @@ void AssetBaseXferMgr::onPktAssetBaseSendReply( std::shared_ptr<VxSktBase>& sktB
     {
         if( isFileXfer )
         {
-            LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetSendReply failed to find session");
-            updateAssetMgrSendState( sendToId, assetUniqueId, eAssetSendStateTxFail, rxedErrCode );
+            LogMsg( LOG_WARN, "AssetBaseXferMgr::onPktAssetSendReply unmatched file send-reply ignored asset %s rmt %s lcl %s src %s sendTo %s",
+                assetUniqueId.toHexString().c_str(),
+                poPkt->getRmtSessionId().toHexString().c_str(),
+                poPkt->getLclSessionId().toHexString().c_str(),
+                srcOnlineId.toOnlineIdString().c_str(),
+                sendToId.toOnlineIdString().c_str() );
         }
         else
         {
@@ -854,6 +913,13 @@ void AssetBaseXferMgr::onPktAssetBaseChunkReq( std::shared_ptr<VxSktBase>& sktBa
     if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "AssetBaseXferMgr::%s %s", __func__,
                   DescribePluginType( getPluginType() ) );
     PktBaseChunkReq* poPkt = (PktBaseChunkReq *)pktHdr;
+    if(LogEnabled(eLogAssets)) LogModule( eLogAssets, LOG_VERBOSE,
+        "AssetBaseXferMgr::%s rx chunk-req src %s lcl %s rmt %s chunkLen %u",
+        __func__,
+        poPkt->getSrcOnlineId().toOnlineIdString().c_str(),
+        poPkt->getLclSessionId().toHexString().c_str(),
+        poPkt->getRmtSessionId().toHexString().c_str(),
+        (unsigned)poPkt->getChunkLen() );
 
     VxMutex& xferMutex = m_XferInterface.getAssetXferMutex();
     xferMutex.lock();
@@ -898,7 +964,10 @@ void AssetBaseXferMgr::onPktAssetBaseChunkReq( std::shared_ptr<VxSktBase>& sktBa
     }
     else
     {
-        LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetChunkReq failed to find session");
+        LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetChunkReq failed to find session src %s lcl %s rmt %s",
+            poPkt->getSrcOnlineId().toOnlineIdString().c_str(),
+            poPkt->getLclSessionId().toHexString().c_str(),
+            poPkt->getRmtSessionId().toHexString().c_str() );
         PktBaseChunkReply* pktReply = createPktBaseChunkReply();
         pktReply->setIsStream( poPkt->getIsStream() );
         pktReply->setLclSessionId( poPkt->getRmtSessionId() );
@@ -1490,6 +1559,18 @@ bool AssetBaseXferMgr::fromGuiSendAssetBase( AssetBaseInfo& assetInfo )
     bool xferFailed = true;
     VxGUID sendToId = assetInfo.getSendToId();
     std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( sendToId, assetInfo.getPluginType() );
+    if(LogEnabled(eLogAssets))LogModule( eLogAssets, LOG_VERBOSE,
+        "AssetBaseXferMgr::%s assetId %s assetType %s plugin %s sendTo %s creator %s admin %s skt %d ip %s connected %s",
+        __func__,
+        assetInfo.getAssetUniqueId().toHexString().c_str(),
+        DescribeAssetType( assetInfo.getAssetType() ),
+        DescribePluginType( assetInfo.getPluginType() ),
+        m_Engine.describeUser( sendToId ).c_str(),
+        m_Engine.describeUser( assetInfo.getCreatorId() ).c_str(),
+        m_Engine.describeUser( assetInfo.getAdminId() ).c_str(),
+        sktBase ? sktBase->getSktNumber() : -1,
+        sktBase ? sktBase->getRemoteIpAddress() : "",
+        ( sktBase && sktBase->isConnected() ) ? "true" : "false" );
     if( sktBase && sktBase->isConnected() )
     {
         EXferError xferError = createAssetTxSessionAndSend( false, assetInfo, sendToId, sktBase );
@@ -1693,6 +1774,16 @@ void AssetBaseXferMgr::queAsset( AssetBaseInfo& assetInfo )
 //============================================================================
 EXferError AssetBaseXferMgr::createAssetTxSessionAndSend( bool pluginIsLocked, AssetBaseInfo& assetInfo, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase )
 {
+    if(LogEnabled(eLogAssets))LogModule( eLogAssets, LOG_VERBOSE,
+        "AssetBaseXferMgr::%s assetId %s plugin %s sendTo %s skt %d ip %s pluginLocked %s",
+        __func__,
+        assetInfo.getAssetUniqueId().toHexString().c_str(),
+        DescribePluginType( assetInfo.getPluginType() ),
+        m_Engine.describeUser( sendToId ).c_str(),
+        sktBase ? sktBase->getSktNumber() : -1,
+        sktBase ? sktBase->getRemoteIpAddress() : "",
+        pluginIsLocked ? "true" : "false" );
+
     VxMutex& pluginMutex = m_XferInterface.getAssetXferMutex();
     if( false == pluginIsLocked )
     {
@@ -2373,7 +2464,7 @@ void AssetBaseXferMgr::finishAssetBaseReceive( AssetBaseRxSession* xferSession, 
     }
     else
     {
-        LogMsg( LOG_ERROR, "AssetBaseXferMgr::finishAssetBaseReceive: NULL file handle" );
+        LogMsg( LOG_ERROR, "AssetBaseXferMgr::%s NULL file handle", __func__ );
     }
 
     //// let other act on the received file

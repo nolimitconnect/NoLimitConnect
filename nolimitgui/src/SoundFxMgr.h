@@ -53,6 +53,7 @@ protected:
 	//=== vars ===//
 	bool						m_MutePhoneRing{ false };
 	bool						m_MuteNotifySnd{ false };
+    bool                        m_Initialized{ false };
 
 	QVector<VxSndInstance *>	m_SndList;
 	VxSndInstance *			    m_CurSndPlaying{ nullptr };

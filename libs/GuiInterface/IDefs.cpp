@@ -2363,8 +2363,11 @@ bool HostShouldAnnounceToNetwork( enum EHostType hostType )
 bool IsPluginARelayForUser( enum EPluginType pluginType )
 {
     return ePluginTypeHostGroup == pluginType ||
+        ePluginTypeClientGroup == pluginType ||
         ePluginTypeHostChatRoom == pluginType ||
-        ePluginTypeHostRandomConnect == pluginType;
+        ePluginTypeClientChatRoom == pluginType ||
+        ePluginTypeHostRandomConnect == pluginType ||
+        ePluginTypeClientRandomConnect == pluginType;
 }
 
 //============================================================================

@@ -914,6 +914,23 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestUserOnlineConnection( VxGUI
     {
         hostType = PluginTypeToHostType( pluginType );
     }
+
+    // Relay-hosted sends must stay on the matching host/session connection instead of
+    // falling back to an unrelated direct peer socket for the same online user.
+    if( eHostTypeUnknown != hostType )
+    {
+        std::shared_ptr<VxSktBase> hostSktBase = findAnyUserOnlineConnection( onlineId, hostType );
+        if(LogEnabled(eLogAssets))LogModule( eLogAssets, LOG_VERBOSE,
+            "ConnectIdListMgr::%s plugin %s host %s online %s selected host-scoped skt %d ip %s connected %s",
+            __func__,
+            DescribePluginType( pluginType ),
+            DescribeHostType( hostType ),
+            m_Engine.describeUser( onlineId ).c_str(),
+            hostSktBase ? hostSktBase->getSktNumber() : -1,
+            hostSktBase ? hostSktBase->getRemoteIpAddress() : "",
+            ( hostSktBase && hostSktBase->isConnected() ) ? "true" : "false" );
+        return hostSktBase;
+    }
  
     std::vector<ConnectId> connectIdList;
     #if defined(DEBUG_CONNECT_ID_LIST_MGR_LOCK)
@@ -950,10 +967,29 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestUserOnlineConnection( VxGUI
 
     if( sktConnectId.isVxGUIDValid() )
     {
-        return findSktBase( sktConnectId );
+        std::shared_ptr<VxSktBase> sktBase = findSktBase( sktConnectId );
+        if(LogEnabled(eLogAssets))LogModule( eLogAssets, LOG_VERBOSE,
+            "ConnectIdListMgr::%s plugin %s online %s selected direct skt %d ip %s connected %s",
+            __func__,
+            DescribePluginType( pluginType ),
+            m_Engine.describeUser( onlineId ).c_str(),
+            sktBase ? sktBase->getSktNumber() : -1,
+            sktBase ? sktBase->getRemoteIpAddress() : "",
+            ( sktBase && sktBase->isConnected() ) ? "true" : "false" );
+        return sktBase;
     }
 
-    return findAnyUserOnlineConnection( onlineId, hostType );
+    std::shared_ptr<VxSktBase> sktBase = findAnyUserOnlineConnection( onlineId, hostType );
+    if(LogEnabled(eLogAssets))LogModule( eLogAssets, LOG_VERBOSE,
+        "ConnectIdListMgr::%s plugin %s host %s online %s fallback skt %d ip %s connected %s",
+        __func__,
+        DescribePluginType( pluginType ),
+        DescribeHostType( hostType ),
+        m_Engine.describeUser( onlineId ).c_str(),
+        sktBase ? sktBase->getSktNumber() : -1,
+        sktBase ? sktBase->getRemoteIpAddress() : "",
+        ( sktBase && sktBase->isConnected() ) ? "true" : "false" );
+    return sktBase;
 }
 
 //============================================================================

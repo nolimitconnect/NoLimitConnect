@@ -155,6 +155,19 @@ bool BigListMgr::getOnlineName( const VxGUID& hisOnlineId, std::string& onlineNa
 }
 
 //============================================================================
+std::string BigListMgr::getOnlineName( const VxGUID& hisOnlineId )
+{
+	BigListAutoLock bigListAutoLock( *this );
+	BigListInfo * poInfo = findBigListInfo( hisOnlineId, true );	// id of friend to look for
+	if( poInfo )
+	{
+		return poInfo->getOnlineName();
+	}
+
+	return std::string();
+}
+
+//============================================================================
 //! add a or update remote friend.. return true 
 EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,	
 											BigListInfo **		ppoRetInfo,
@@ -165,7 +178,7 @@ EPktAnnUpdateType BigListMgr::updatePktAnn(	PktAnnounce *		poPktAnnIn,
 	EFriendState myFriendship = poPktAnnIn->getMyFriendshipToHim();
 	EFriendState hisFriendship = poPktAnnIn->getHisFriendshipToMe();
 
-    // commented out because causes deadlock in toGuiContactAnythingChange whick calls P2PEngine::describeUser/getBigListMgr().getOnlineName
+    // commented out because causes deadlock in toGuiContactAnythingChange which calls P2PEngine::describeUser/getBigListMgr().getOnlineName
     //BigListAutoLock bigListAutoLock( *this );
     bigListLock();
 	EPktAnnUpdateType eUpdateType = ePktAnnUpdateTypeContactIsSame;
