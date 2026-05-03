@@ -64,7 +64,7 @@ public:
     // get a description of the plugin id
     std::string                 describeConnectId( void ) const;
 
-    bool                        isValid( void )                                     { return m_SocketId.isVxGUIDValid() && m_GroupieId.isValid();  }
+    bool                        isValid( void )                                     { return m_SocketId.isValid() && m_GroupieId.isValid();  }
     void                        clear( void )                                       { m_SocketId.clearVxGUID(); m_GroupieId.clear(); m_IsRelayed = true; }
 
     void                        setIsRelayed( bool isRelayed )                      { m_IsRelayed = isRelayed; }

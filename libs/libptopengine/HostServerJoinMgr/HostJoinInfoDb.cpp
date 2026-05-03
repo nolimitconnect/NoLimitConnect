@@ -188,7 +188,7 @@ void HostJoinInfoDb::getAllHostJoins( std::map<GroupieId, HostJoinInfo*>& HostJo
             hostInfo->setHostType( hostType );
 
             VxPtopUrl ptopUrl( hostInfo->getUserUrl() );
-            if( ptopUrl.isValid() && hostInfo->getOnlineId().isVxGUIDValid() )
+            if( ptopUrl.isValid() && hostInfo->getOnlineId().isValid() )
             {
                 GroupieId groupieId( ptopUrl.getOnlineId(), m_Engine.getMyOnlineId(), hostInfo->getHostType() );
                 hostInfo->setGroupieId( groupieId );

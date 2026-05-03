@@ -431,7 +431,7 @@ void MediaProcessor::sendJpgVideo( VxGUID& onlineId, std::shared_ptr<CamJpgVideo
 
 	for( auto& client : m_VideoJpgList )
 	{
-		if( !client.m_OnlineId.isVxGUIDValid() || client.m_OnlineId == onlineId )
+		if( !client.m_OnlineId.isValid() || client.m_OnlineId == onlineId )
 		{
             client.m_Callback->callbackVideoJpg( onlineId, jpgVideo );
 		}

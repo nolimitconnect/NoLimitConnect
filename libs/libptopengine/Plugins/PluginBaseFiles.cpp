@@ -567,7 +567,7 @@ void PluginBaseFiles::onPktFileInfoMoreReq( std::shared_ptr<VxSktBase>& sktBase,
 				}
 				else
 				{
-					if( nextSearchOnlineId.isVxGUIDValid() )
+					if( nextSearchOnlineId.isValid() )
 					{
 						ECommErr searchErr = m_FileInfoMgr.searchMoreRequest( pktReply, nextSearchOnlineId, searchText, searchFileTypes, sktBase, pktReq->getSrcOnlineId() );
 						pktReply.setCommError( searchErr );
@@ -647,7 +647,7 @@ bool PluginBaseFiles::updateFromFileInfoSearchBlob( VxGUID& searchSessionId, VxG
 		FileInfo fileInfo;
 		if( fileInfo.extractFromBlob( blobEntry ) )
 		{
-			if( !fileInfo.m_OnlineId.isVxGUIDValid() )
+			if( !fileInfo.m_OnlineId.isValid() )
 			{
 				fileInfo.m_OnlineId = srcOnlineId;
 			}

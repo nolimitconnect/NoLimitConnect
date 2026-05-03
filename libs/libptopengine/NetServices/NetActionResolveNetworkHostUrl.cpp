@@ -26,7 +26,7 @@ void NetActionResolveNetworkHostUrl::doAction( void )
 {
 	// it may already be resolved
 	VxGUID hostOnlineId;
-	if( m_Engine.getConnectionMgr().getDefaultHostOnlineId( eHostTypeNetwork, hostOnlineId ) && hostOnlineId.isVxGUIDValid() )
+	if( m_Engine.getConnectionMgr().getDefaultHostOnlineId( eHostTypeNetwork, hostOnlineId ) && hostOnlineId.isValid() )
 	{
 		m_Engine.getNetStatusAccum().setNetHostAvail( true );
 		return;
@@ -66,7 +66,7 @@ void NetActionResolveNetworkHostUrl::doAction( void )
 	{
         if( m_Engine.getConnectionMgr().getDefaultHostOnlineId( eHostTypeNetwork, hostOnlineId ) )
 		{
-			if( hostOnlineId.isVxGUIDValid() )
+			if( hostOnlineId.isValid() )
 			{
                 LogMsg( LOG_INFO, "NetActionResolveNetworkHostUrl::%s resolved with id %s", __func__, hostOnlineId.toOnlineIdString().c_str() );
 				m_Engine.getNetStatusAccum().setNetHostAvail( true );

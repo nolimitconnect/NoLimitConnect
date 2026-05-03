@@ -105,7 +105,7 @@ std::shared_ptr<VxSktBase> VxPeerMgr::makeNewSkt( void )
 // find a socket.. assumes list has been locked
 std::shared_ptr<VxSktBase> VxPeerMgr::findSktBase( const VxGUID& connectId, bool acceptSktsOnly )
 {
-	if( !connectId.isVxGUIDValid() )
+	if( !connectId.isValid() )
 	{
         LogMsg( LOG_ERROR, "VxPeerMgr::findSktBase invalid connectId" );
         std::shared_ptr<VxSktBase> nullSktBase;

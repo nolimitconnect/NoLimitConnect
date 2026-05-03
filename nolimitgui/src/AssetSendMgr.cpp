@@ -177,7 +177,7 @@ bool AssetSendMgr::sendToNextMember( VxGUID assetId )
 
     // find next member to send to, or finish if no more members
     VxGUID sendToId;
-    while( !sendToId.isVxGUIDValid() )
+    while( !sendToId.isValid() )
     {
         if( multiSendSession.sendToQueue.empty() )
         {
@@ -337,7 +337,7 @@ void AssetSendMgr::cancelMultiSend( VxGUID assetId )
     multiSendSession.canceled = true;
 
     // Cancel current transfer in engine
-    if( multiSendSession.currentSendToId.isVxGUIDValid() )
+    if( multiSendSession.currentSendToId.isValid() )
     {
         getMyApp().getEngine().fromGuiAssetAction( eAssetActionTxCancel, multiSendSession.assetInfo );
     }
@@ -527,4 +527,27 @@ bool AssetSendMgr::isMultiSendActive( VxGUID assetId )
 
     MultiSendSession& multiSendSession = it->second;
     return multiSendSession.isActive;
+}
+
+//============================================================================
+std::string AssetSendMgr::getCurrentSendToUser( VxGUID assetId )
+{
+    auto it = std::find_if( m_SessionList.begin(), m_SessionList.end(), [assetId]( const std::pair<VxGUID, MultiSendSession>& sessionPair ) {
+        return sessionPair.first == assetId;
+    } );
+    if( it == m_SessionList.end() )
+    {
+        return "";
+    }
+
+    MultiSendSession& multiSendSession = it->second;
+    if( multiSendSession.currentSendToId.isValid() )
+    {
+        GuiUser* guiUser = getMyApp().getUserMgr().getUser( multiSendSession.currentSendToId );
+        if( guiUser )
+        {
+            return guiUser->getOnlineName();
+        }
+    }
+    return "";
 }

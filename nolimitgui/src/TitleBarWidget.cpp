@@ -744,12 +744,12 @@ void TitleBarWidget::updateCamCallbackRequests( void )
         if( m_CallbacksRequested )
         {
             // check if my online id is valid before requesting cam callbacks
-            if( !m_MyOnlineId.isVxGUIDValid() )
+            if( !m_MyOnlineId.isValid() )
             {
                 m_MyOnlineId = m_MyApp.getMyOnlineId();
             }
 
-            if( isVisible() && !m_VidCallbacksRequested && m_MyApp.getMyOnlineId().isVxGUIDValid() )
+            if( isVisible() && !m_VidCallbacksRequested && m_MyApp.getMyOnlineId().isValid() )
             {
                 m_VidCallbacksRequested = true;
                 m_MyApp.getPlayerMgr().setTitleBarVideoImageSize( ui.m_CamPreviewScreen->frameSize() );
@@ -772,7 +772,7 @@ void TitleBarWidget::updateAudioLevelCallbackRequests( void )
         if( m_CallbacksRequested )
         {
             // check if my online id is valid before requesting cam callbacks
-            if( !m_MyOnlineId.isVxGUIDValid() )
+            if( !m_MyOnlineId.isValid() )
             {
                 m_MyOnlineId = m_MyApp.getMyOnlineId();
             }

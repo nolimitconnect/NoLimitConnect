@@ -396,7 +396,7 @@ GuiUserListItem* GuiUserListWidget::findListEntryWidgetBySessionId( VxGUID& sess
 //============================================================================
 GuiUserListItem* GuiUserListWidget::findListEntryWidgetByOnlineId( VxGUID& onlineId )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "ERROR GuiUserListWidget::findListEntryWidgetByOnlineId: invalid online id" );
         return nullptr;

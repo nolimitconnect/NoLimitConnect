@@ -62,7 +62,7 @@ bool PluginStoryboardClient::onFileDownloadComplete( VxGUID& onlineId, std::shar
 	VxFileUtil::seperatePathAndFile(fileNameAndPath,	// path and file name
                                         filePath,		// return path to file
                                         fileName );	// return file name
-	bool result = onlineId.isVxGUIDValid() && sktBase && lclSessionId.isVxGUIDValid() && !fileNameAndPath.empty() && assetId.isVxGUIDValid() && sha11Hash.isHashValid();
+	bool result = onlineId.isValid() && sktBase && lclSessionId.isValid() && !fileNameAndPath.empty() && assetId.isValid() && sha11Hash.isHashValid();
 	if( result )
 	{
 		result = false;
@@ -161,7 +161,7 @@ void PluginStoryboardClient::onWebPageClientReady( bool isReady )
 std::string	PluginStoryboardClient::getIncompleteFileXferDirectory( VxGUID& onlineId )
 {
 	std::string incompleteDir{ "" };
-	if( onlineId.isVxGUIDValid() )
+	if( onlineId.isValid() )
 	{
 		incompleteDir = m_RootFileFolder + onlineId.toHexString().c_str() + "/";
 		VxFileUtil::makeDirectory( incompleteDir.c_str() );
@@ -187,7 +187,7 @@ std::string	PluginStoryboardClient::getIncompleteFileXferDirectory( VxGUID& onli
 bool PluginStoryboardClient::fromGuiDownloadWebPage( EWebPageType webPageType, VxGUID& onlineId )
 {
 	bool result{ false };
-	if( (eWebPageTypeAboutMe == webPageType || eWebPageTypeStoryboard == webPageType ) && onlineId.isVxGUIDValid() )
+	if( (eWebPageTypeAboutMe == webPageType || eWebPageTypeStoryboard == webPageType ) && onlineId.isValid() )
 	{
 		m_HisOnlineId = onlineId;
 		m_DownloadFileFolder = getIncompleteFileXferDirectory( onlineId );

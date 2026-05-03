@@ -190,7 +190,7 @@ void GuiConnectIdListMgr::wantGuiConnectIdCallbacks( GuiConnectIdListCallback* c
 bool GuiConnectIdListMgr::isDirectConnect( VxGUID& onlineId )
 {
     bool isDirectConnect{ false };
-    if( onlineId.isVxGUIDValid() )
+    if( onlineId.isValid() )
     {
         if( onlineId == m_MyApp.getMyOnlineId() )
         {
@@ -218,7 +218,7 @@ bool GuiConnectIdListMgr::isDirectConnect( VxGUID& onlineId )
 //============================================================================
 bool GuiConnectIdListMgr::isRelayed( VxGUID& onlineId )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "GuiConnectIdListMgr::isRelayed invalid id" );
         return false;

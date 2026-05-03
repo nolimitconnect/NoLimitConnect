@@ -177,7 +177,7 @@ ERunTestStatus QueryHostIdTest::doRunTest( std::string& nodeUrl )
 
     VxGUID hostId;
     hostId.fromVxGUIDHexString( strPayload.c_str() );
-    if( !hostId.isVxGUIDValid() )
+    if( !hostId.isValid() )
     {
         LogMsg( LOG_ERROR, "Query Host Online Id %s Invalid Content (%3.3f sec)", content.c_str(), testTimer.elapsedSec() );
         sendRunTestStatus( eRunTestStatusInvalidResponse, "%s invalid host id %s\n", testName.c_str(), content.c_str() );

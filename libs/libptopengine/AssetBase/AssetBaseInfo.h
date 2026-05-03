@@ -198,7 +198,7 @@ public:
     virtual void				setDestUserId( const char* destOnlineId )       { m_DestOnlineId.fromVxGUIDHexString( destOnlineId ); }
     virtual VxGUID&				getDestUserId( void )                           { return m_DestOnlineId; }
 
-    virtual VxGUID&	            getSendToId( void )                             { if( m_DestOnlineId.isVxGUIDValid() ) return m_DestOnlineId; return m_HistoryId; }
+    virtual VxGUID&	            getSendToId( void )                             { if( m_DestOnlineId.isValid() ) return m_DestOnlineId; return m_HistoryId; }
 
     virtual std::string         describe( void );
 

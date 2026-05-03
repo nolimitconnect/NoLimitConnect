@@ -84,7 +84,7 @@ void AvatarBar::setOnlineId( VxGUID& onlineId )
 		{
 			QImage image;
 			VxGUID thumbId = guiUser->getAvatarThumbId();
-			if( thumbId.isVxGUIDValid() && m_MyApp.getThumbMgr().getAvatarImage( thumbId, image ) )
+			if( thumbId.isValid() && m_MyApp.getThumbMgr().getAvatarImage( thumbId, image ) )
 			{
 				ui.m_Avatar->setImage( image );
 				update();

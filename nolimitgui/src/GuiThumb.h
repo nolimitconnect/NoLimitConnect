@@ -35,7 +35,7 @@ public:
 
     void                        setThumbInfo( ThumbInfo& thumbInfo );
     ThumbInfo&                  getThumbInfo( void )                    { return m_ThumbInfo; }
-    bool                        isThumbValid( void )                    { return m_ThumbId.isVxGUIDValid(); }
+    bool                        isThumbValid( void )                    { return m_ThumbId.isValid(); }
     void                        setSessionId( VxGUID& sessionId )       { m_SessionId = sessionId; }
     VxGUID&                     getSessionId( void )                    { return m_SessionId; }
 

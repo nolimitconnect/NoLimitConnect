@@ -230,7 +230,7 @@ bool ConnectIdListMgr::addConnection( std::shared_ptr<VxSktBase>& sktBase, Group
 
     VxGUID& sktConnectId = sktBase->getSocketId();
 
-    if( !groupieId.isValid() || !sktConnectId.isVxGUIDValid() )
+    if( !groupieId.isValid() || !sktConnectId.isValid() )
     {
         LogMsg( LOG_ERROR, "ConnectIdListMgr::addConnection invalid id" );
         return false;
@@ -332,7 +332,7 @@ void ConnectIdListMgr::removeConnection( ConnectId& connectId )
 //============================================================================
 void ConnectIdListMgr::removeConnection( VxGUID sktConnectId, GroupieId& groupieId )
 {
-    if( !groupieId.isValid() || !sktConnectId.isVxGUIDValid() )
+    if( !groupieId.isValid() || !sktConnectId.isValid() )
     {
         LogMsg( LOG_ERROR, "ConnectIdListMgr::removeConnection invalid id" );
         return;
@@ -362,7 +362,7 @@ bool ConnectIdListMgr::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 //============================================================================
 bool ConnectIdListMgr::onConnectionLost( VxGUID& sktConnectId, bool tmpConnection )
 {
-    if( !sktConnectId.isVxGUIDValid() )
+    if( !sktConnectId.isValid() )
     {
         LogMsg( LOG_ERROR, "ConnectIdListMgr::onConnectionLost invalid id" );
         return false;
@@ -429,7 +429,7 @@ void ConnectIdListMgr::userJoinedHost( std::shared_ptr<VxSktBase>& sktBase, Grou
 //============================================================================
 void ConnectIdListMgr::userLeftHost( VxGUID& sktConnectId, GroupieId& groupieId )
 {
-    if( !groupieId.isValid() || !sktConnectId.isVxGUIDValid() )
+    if( !groupieId.isValid() || !sktConnectId.isValid() )
     {
         LogMsg( LOG_ERROR, "ConnectIdListMgr::userJoinedHost invalid id" );
         return;
@@ -444,7 +444,7 @@ void ConnectIdListMgr::userLeftHost( VxGUID& sktConnectId, GroupieId& groupieId 
 //============================================================================
 std::shared_ptr<VxSktBase> ConnectIdListMgr::findDirectConnection( VxGUID& onlineId )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "ConnectIdListMgr::findPeerConnection invalid id" );
         return nullptr;
@@ -469,7 +469,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findDirectConnection( VxGUID& onlin
 
     unlockConnectIdList();
 
-    if( socketId.isVxGUIDValid() )
+    if( socketId.isValid() )
     {
         sktBase = findSktBase( socketId );
     }
@@ -559,7 +559,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findAnyHostConnection( EHostType ho
 //============================================================================
 std::shared_ptr<VxSktBase> ConnectIdListMgr::findRelayMemberConnection( VxGUID& onlineId )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "ConnectIdListMgr::findUserConnection invalid id" );
         return std::shared_ptr<VxSktBase>();
@@ -614,7 +614,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findRelayMemberConnection( VxGUID& 
 //============================================================================
 std::shared_ptr<VxSktBase> ConnectIdListMgr::findPeerConnection( VxGUID& onlineId )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "ConnectIdListMgr::findPeerConnection invalid id" );
         return nullptr;
@@ -658,7 +658,7 @@ bool ConnectIdListMgr::findConnectionId( GroupieId& groupieId, VxGUID& retSktCon
         if( const_cast< ConnectId& >( connectId ).getGroupieId() == groupieId )
         {
             retSktConnectId = const_cast< ConnectId& >( connectId ).getSocketId();
-            foundConnection = retSktConnectId.isVxGUIDValid();
+            foundConnection = retSktConnectId.isValid();
             break;
         }
     }
@@ -673,7 +673,7 @@ bool ConnectIdListMgr::findConnectionId( GroupieId& groupieId, VxGUID& retSktCon
 //============================================================================
 bool ConnectIdListMgr::findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktConnectId )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "ConnectIdListMgr::findRelayConnectionId invalid id" );
         return false;
@@ -692,7 +692,7 @@ bool ConnectIdListMgr::findRelayConnectionId( VxGUID& onlineId, VxGUID& retSktCo
         if( const_cast<ConnectId&>(connectId).getUserOnlineId() == onlineId )
         {
             retSktConnectId = const_cast<ConnectId&>(connectId).getSocketId();
-            foundConnection = retSktConnectId.isVxGUIDValid();
+            foundConnection = retSktConnectId.isValid();
             break;
         }
     }
@@ -892,7 +892,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestHostOnlineConnection( VxGUI
         }
     }
 
-    if( sktConnectId.isVxGUIDValid() )
+    if( sktConnectId.isValid() )
     {
         return findSktBase( sktConnectId );
     }
@@ -965,7 +965,7 @@ std::shared_ptr<VxSktBase> ConnectIdListMgr::findBestUserOnlineConnection( VxGUI
         }
     }
 
-    if( sktConnectId.isVxGUIDValid() )
+    if( sktConnectId.isValid() )
     {
         std::shared_ptr<VxSktBase> sktBase = findSktBase( sktConnectId );
         if(LogEnabled(eLogAssets))LogModule( eLogAssets, LOG_VERBOSE,
@@ -1082,7 +1082,7 @@ void ConnectIdListMgr::onGroupUserAnnounce( PktAnnounce* pktAnn, std::shared_ptr
     VxGUID connectionId = sktBase->getSocketId();
     // if relayed then the peer id should be the host that relayed the packet
     VxGUID hostOnlineId = sktBase->getPeerOnlineId();
-    if( onlineId.isVxGUIDValid() && hostOnlineId.isVxGUIDValid() && connectionId.isVxGUIDValid() )
+    if( onlineId.isValid() && hostOnlineId.isValid() && connectionId.isValid() )
     {
         if( onlineId == hostOnlineId )
         {
@@ -1145,7 +1145,7 @@ void ConnectIdListMgr::onGroupRelayedUserAnnounce( PktAnnounce* pktAnn, std::sha
 
     LogMsg( LOG_VERBOSE, "ConnectIdListMgr::onGroupRelayedUserAnnounce %s id %s hosted by %s id %s",
         pktAnn->getOnlineName(), onlineId.describeVxGUID().c_str(), sktBase->getPeerOnlineName().c_str(), hostOnlineId.toOnlineIdString().c_str());
-    if( onlineId.isVxGUIDValid() && hostOnlineId.isVxGUIDValid() && socketId.isVxGUIDValid() )
+    if( onlineId.isValid() && hostOnlineId.isValid() && socketId.isValid() )
     {
         if( onlineId != hostOnlineId )
         {
@@ -1277,7 +1277,7 @@ void ConnectIdListMgr::pktAnnRecieved( std::shared_ptr<VxSktBase>& sktBase, PktA
 
     bool shouldAnnounce{ false };
 
-    if( !sktConnectId.isVxGUIDValid() || !onlineId.isVxGUIDValid() )
+    if( !sktConnectId.isValid() || !onlineId.isValid() )
     {
         LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s BAD PARAM", __func__ );
         vx_assert( false );
@@ -1343,7 +1343,7 @@ void ConnectIdListMgr::pktAnnRecieved( std::shared_ptr<VxSktBase>& sktBase, PktA
         if( eHostTypeUnknown != hostType )
         {
             VxGUID hostOnlineId = sktBase->getPeerOnlineId();
-            if( hostOnlineId.isVxGUIDValid() )
+            if( hostOnlineId.isValid() )
             {
                 GroupieId groupieId( onlineId, hostOnlineId, hostType );
                 bool isRelayed = hostOnlineId != onlineId;
@@ -1368,7 +1368,7 @@ void ConnectIdListMgr::pktAnnRecieved( std::shared_ptr<VxSktBase>& sktBase, PktA
         else
         {
             VxGUID hostOnlineId = sktBase->getPeerOnlineId();
-            if( hostOnlineId.isVxGUIDValid() )
+            if( hostOnlineId.isValid() )
             {
                 if( hostOnlineId == onlineId )
                 {
@@ -1383,7 +1383,7 @@ void ConnectIdListMgr::pktAnnRecieved( std::shared_ptr<VxSktBase>& sktBase, PktA
 //============================================================================
 void ConnectIdListMgr::removeOnlineConnectionPairs( VxGUID& sktConnectId, std::set<VxGUID>& lostConnUserList )
 {
-    if( !sktConnectId.isVxGUIDValid() )
+    if( !sktConnectId.isValid() )
     {
         LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::doOnlineIdConnectionLost BAD PARAM" );
         vx_assert( false );
@@ -1480,7 +1480,7 @@ void ConnectIdListMgr::removeOnlineConnectionPair( VxGUID& sktConnectId, VxGUID&
 //============================================================================
 bool ConnectIdListMgr::isUserOnline( VxGUID& onlineId )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::isUserOnline BAD PARAM" );
         vx_assert( false );
@@ -1498,7 +1498,7 @@ bool ConnectIdListMgr::isUserOnline( VxGUID& onlineId )
 //============================================================================
 void ConnectIdListMgr::updateOnlineExclusion( VxGUID onlineId, bool excludeFromOnlineStatus, bool isNetworkHost )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s BAD PARAM", __func__ );
         vx_assert( false );
@@ -1542,7 +1542,7 @@ void ConnectIdListMgr::updateOnlineExclusion( VxGUID onlineId, bool excludeFromO
 //============================================================================
 bool ConnectIdListMgr::isUserExcluded( VxGUID onlineId )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s BAD PARAM", __func__ );
         vx_assert( false );
@@ -1565,7 +1565,7 @@ bool ConnectIdListMgr::isUserExcluded( VxGUID onlineId )
 //============================================================================
 bool ConnectIdListMgr::isConnectionInUse( VxGUID& sktConnectId )
 {
-    if( !sktConnectId.isVxGUIDValid() )
+    if( !sktConnectId.isValid() )
     {
         LogModule( eLogOnline, LOG_VERBOSE, "ConnectIdListMgr::%s BAD PARAM", __func__ );
         vx_assert( false );

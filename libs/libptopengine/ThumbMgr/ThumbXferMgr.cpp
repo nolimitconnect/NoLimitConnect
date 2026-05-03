@@ -117,7 +117,7 @@ void ThumbXferMgr::onPktThumbXferErr( std::shared_ptr<VxSktBase>& sktBase, VxPkt
 //============================================================================
 bool ThumbXferMgr::requestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& thumbId, bool tmpThumb )
 {
-    if( !netIdent || !thumbId.isVxGUIDValid() )
+    if( !netIdent || !thumbId.isValid() )
     {
         LogMsg( LOG_ERROR, "ThumbXferMgr::%s invalid param", __func__ );
         vx_assert( false );

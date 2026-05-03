@@ -186,7 +186,7 @@ GuiOfferListItem* GuiOfferListWidget::findListEntryWidgetBySessionId( VxGUID& se
 //============================================================================
 GuiOfferListItem* GuiOfferListWidget::findListEntryWidgetByOnlineId( VxGUID& onlineId )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "GuiOfferListWidget::%s ERROR invalid online id", __func__ );
         return nullptr;
@@ -212,7 +212,7 @@ GuiOfferListItem* GuiOfferListWidget::findListEntryWidgetByOnlineId( VxGUID& onl
 //============================================================================
 GuiOfferListItem* GuiOfferListWidget::findListEntryWidgetByUniqueId( VxGUID& uniqueId )
 {
-    if( !uniqueId.isVxGUIDValid() )
+    if( !uniqueId.isValid() )
     {
         LogMsg( LOG_ERROR, "GuiOfferListWidget::%s ERROR invalid uniqueId", __func__ );
         return nullptr;

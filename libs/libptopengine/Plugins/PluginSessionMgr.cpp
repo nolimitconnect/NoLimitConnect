@@ -267,7 +267,7 @@ bool PluginSessionMgr::fromGuiIsPluginInSession( bool pluginIsLocked, VxGUID& on
 		m_Plugin.lockPlugin();
 	}
 
-	if( lclSessionId.isVxGUIDValid() )
+	if( lclSessionId.isValid() )
 	{
 		for( auto session : m_aoSessions )
 		{
@@ -314,7 +314,7 @@ bool PluginSessionMgr::fromGuiMakePluginOffer( bool pluginIsLocked, VxGUID& onli
 	}
 
 	PluginSessionBase* pluginSession{ nullptr };
-	if( lclSessionId.isVxGUIDValid() && ( false == isPluginSingleSession() ) )
+	if( lclSessionId.isValid() && ( false == isPluginSingleSession() ) )
 	{
 		pluginSession = findOrCreateP2PSessionWithSessionId( lclSessionId, sktBase, onlineId, pluginIsLocked );
 	}
@@ -325,7 +325,7 @@ bool PluginSessionMgr::fromGuiMakePluginOffer( bool pluginIsLocked, VxGUID& onli
 
 	if( pluginSession )
 	{
-		if( !pluginSession->getRmtSessionId().isVxGUIDValid() )
+		if( !pluginSession->getRmtSessionId().isValid() )
 		{
 			// might need to send a cancel before is answered and if we sent then remote user setup session with same session id
 			// if we get a resonse the remote session id will get set to the response remote session id
@@ -355,7 +355,7 @@ bool PluginSessionMgr::fromGuiOfferReply( bool pluginIsLocked, VxGUID& onlineId,
 	PluginSessionBase* baseSession = nullptr;
 	VxGUID& lclSessionId = offerInfo.getOfferId();
 	EOfferResponse offerResponse = offerInfo.getOfferResponse();
-	if( lclSessionId.isVxGUIDValid() && ( false == isPluginSingleSession() ) )
+	if( lclSessionId.isValid() && ( false == isPluginSingleSession() ) )
 	{
 		baseSession = findPluginSessionBySessionId( lclSessionId, pluginIsLocked );
 	}
@@ -466,7 +466,7 @@ void PluginSessionMgr::onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase,
 	PluginSessionBase* pluginSession = nullptr;
 	PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 
-	if( lclSessionId.isVxGUIDValid() && (false == isPluginSingleSession()) )
+	if( lclSessionId.isValid() && (false == isPluginSingleSession()) )
 	{
 		pluginSession = findOrCreateP2PSessionWithSessionId( lclSessionId, sktBase, srcOnlineId, true);
 	}
@@ -649,7 +649,7 @@ P2PSession* PluginSessionMgr::findOrCreateP2PSessionWithOnlineId( VxGUID onlineI
 	if( !session )
 	{
         session = m_Plugin.createP2PSession( sktBase, onlineId );
-		if( false == lclSessionId.isVxGUIDValid() )
+		if( false == lclSessionId.isValid() )
 		{
 			lclSessionId.initializeWithNewVxGUID();
 			if( LogEnabled( eLogSession ) ) LogModule( eLogSession, LOG_ERROR, "PluginSessionMgr::%s invalid lclSession .. setting to lclSession %s user %s", __func__, 
@@ -872,7 +872,7 @@ RxSession * PluginSessionMgr::findOrCreateRxSessionWithOnlineId( VxGUID onlineId
 	if( nullptr == session )
 	{
         session = m_Plugin.createRxSession( sktBase, onlineId );
-		if( false == lclSessionId.isVxGUIDValid() )
+		if( false == lclSessionId.isValid() )
 		{
 			addSession( session->getLclSessionId(), session, pluginIsLocked );
 		}
@@ -890,9 +890,9 @@ RxSession * PluginSessionMgr::findOrCreateRxSessionWithOnlineId( VxGUID onlineId
 //============================================================================ 
 void PluginSessionMgr::addSession( VxGUID& sessionId, PluginSessionBase* session, bool pluginIsLocked )
 {
-	if( false == session->getLclSessionId().isVxGUIDValid() )
+	if( false == session->getLclSessionId().isValid() )
 	{
-		if( sessionId.isVxGUIDValid() )
+		if( sessionId.isValid() )
 		{
 			session->setLclSessionId( sessionId );
 		}
@@ -908,7 +908,7 @@ void PluginSessionMgr::addSession( VxGUID& sessionId, PluginSessionBase* session
 				m_Engine.describeUser( session->getSendToId() ).c_str(), sessionId.toHexString().c_str(), session->getSkt()->describeSktType().c_str());
 	}
 
-	if( false == sessionId.isVxGUIDValid() )
+	if( false == sessionId.isValid() )
 	{
 		sessionId = session->getLclSessionId();
 	}
@@ -1090,7 +1090,7 @@ void PluginSessionMgr::removeRxSessionByOnlineId( VxGUID& onlineId, bool pluginI
 bool PluginSessionMgr::removeSessionBySessionId( bool pluginIsLocked, VxGUID& lclSessionId, EOfferResponse offerResponse )
 {
 	bool wasRemoved = false;
-	if( lclSessionId.isVxGUIDValid() )
+	if( lclSessionId.isValid() )
 	{
 		// doEndAndEraseSession erases from m_aoSessions so keep ending until all are gone
 		bool endedSession = true;

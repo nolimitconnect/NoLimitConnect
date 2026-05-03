@@ -42,7 +42,7 @@ bool PluginPushToTalk::fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& 
 	P2PSession* poSession = nullptr;
 	VxGUID& lclSessionId = offerInfo.getOfferId();
 	PluginBase::AutoPluginLock pluginMutexLock( this );
-	if( lclSessionId.isVxGUIDValid() )
+	if( lclSessionId.isValid() )
 	{
 		poSession = (P2PSession*)m_PluginSessionMgr.findP2PSessionBySessionId( lclSessionId, true  );
 	}

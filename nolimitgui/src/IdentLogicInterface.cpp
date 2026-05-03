@@ -190,7 +190,7 @@ void IdentLogicInterface::setIdentWidgetSize( enum EButtonSize buttonSize )
 void IdentLogicInterface::updateIdentity( VxGUID& onlineId )
 {
 	bool wasUpdated{ false };
-	if( onlineId.isVxGUIDValid() )
+	if( onlineId.isValid() )
 	{
 		GuiUser* guiUser = m_MyApp.getUserMgr().getUser( onlineId );
 		if( guiUser )
@@ -368,7 +368,7 @@ void IdentLogicInterface::updateHosted( GuiHosted* guiHosted )
 			}
 
 			VxGUID thumbId = m_GuiUser->getHostThumbId( guiHosted->getHostType(), true );
-			if( thumbId.isVxGUIDValid() )
+			if( thumbId.isValid() )
 			{
 				setIdentAvatarThumbnail( thumbId );
 			}
@@ -480,7 +480,7 @@ void IdentLogicInterface::setIdentDirectConnectState( bool canDirectConnect )
 //============================================================================
 void IdentLogicInterface::setIdentAvatarThumbnail( VxGUID thumbId )
 {
-	if( thumbId.isVxGUIDValid() )
+	if( thumbId.isValid() )
 	{
 		LogModule( eLogAssets,  LOG_VERBOSE, "Thumb %s for user %s", thumbId.toOnlineIdString().c_str(), m_GuiUser->getOnlineName().c_str() );
 

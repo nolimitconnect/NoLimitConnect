@@ -509,7 +509,7 @@ void OfferBaseXferMgr::onPktOfferChunkReq( std::shared_ptr<VxSktBase>& sktBase, 
 
 		PluginBase::AutoPluginLock pluginMutexLock( &m_Plugin );
 
-		if( poPkt->getRmtSessionId().isVxGUIDValid() )
+		if( poPkt->getRmtSessionId().isValid() )
 		{
 			xferSession = findRxSessionSessionId( true, poPkt->getRmtSessionId() );
 		}
@@ -565,7 +565,7 @@ static int cnt = 0;
 #ifdef DEBUG_AUTOPLUGIN_LOCK
 		LogMsg( LOG_INFO, "OfferBaseXferMgr::onPktOfferChunkReply AutoPluginLock done");
 #endif // DEBUG_AUTOPLUGIN_LOCK
-		if( poPkt->getRmtSessionId().isVxGUIDValid() )
+		if( poPkt->getRmtSessionId().isValid() )
 		{
 			xferSession = findTxSessionSessionId( true, poPkt->getRmtSessionId() );
 		}
@@ -903,7 +903,7 @@ OfferBaseRxSession*	OfferBaseXferMgr::findOrCreateRxSession( bool pluginIsLocked
 #endif // DEBUG_AUTOPLUGIN_LOCK
 	}
 
-	if( false == lclSessionId.isVxGUIDValid() )
+	if( false == lclSessionId.isValid() )
 	{
 		lclSessionId.initializeWithNewVxGUID();
 	}
@@ -1048,7 +1048,7 @@ OfferBaseTxSession * OfferBaseXferMgr::findOrCreateTxSession( bool pluginIsLocke
 	if( NULL == xferSession )
 	{
 		xferSession = createTxSession( sendToId, sktBase );
-		if( false == xferSession->getLclSessionId().isVxGUIDValid() )
+		if( false == xferSession->getLclSessionId().isValid() )
 		{
 			xferSession->getLclSessionId().initializeWithNewVxGUID();
 		}
@@ -1088,7 +1088,7 @@ OfferBaseTxSession*	OfferBaseXferMgr::findOrCreateTxSession( bool pluginIsLocked
 	}
 
 	OfferBaseTxSession * xferSession = 0;
-	if( lclSessionId.isVxGUIDValid() )
+	if( lclSessionId.isValid() )
 	{
 		xferSession = findTxSessionSessionId( true, lclSessionId );
 	}
@@ -1100,7 +1100,7 @@ OfferBaseTxSession*	OfferBaseXferMgr::findOrCreateTxSession( bool pluginIsLocked
 	if( NULL == xferSession )
 	{
 		xferSession = new OfferBaseTxSession( m_Engine, m_OfferMgr, lclSessionId, sktBase, sendToId );
-		if( false == xferSession->getLclSessionId().isVxGUIDValid() )
+		if( false == xferSession->getLclSessionId().isValid() )
 		{
 			xferSession->getLclSessionId().initializeWithNewVxGUID();
 		}
@@ -1214,12 +1214,12 @@ EXferError OfferBaseXferMgr::createOfferTxSessionAndSend( bool pluginIsLocked, O
 
 	EXferError xferErr = eXferErrorNone;
 	OfferBaseTxSession * txSession = createTxSession( sendToId, sktBase );
-	if( false == txSession->getLclSessionId().isVxGUIDValid() )
+	if( false == txSession->getLclSessionId().isValid() )
 	{
 		txSession->getLclSessionId().initializeWithNewVxGUID();
 	}
 
-	if( false == txSession->getRmtSessionId().isVxGUIDValid() )
+	if( false == txSession->getRmtSessionId().isValid() )
 	{
 		txSession->setRmtSessionId( txSession->getLclSessionId() );
 	}
@@ -1418,7 +1418,7 @@ EXferError OfferBaseXferMgr::beginOfferBaseReceive( OfferBaseRxSession* xferSess
 		// get file information
 		xferInfo.setFileHashId( poPkt->getOfferHashId() );
 		xferInfo.setRmtSessionId( poPkt->getLclSessionId() );
-		if( false == xferInfo.getLclSessionId().isVxGUIDValid() )
+		if( false == xferInfo.getLclSessionId().isValid() )
 		{
 			xferInfo.getLclSessionId().initializeWithNewVxGUID();
 		}

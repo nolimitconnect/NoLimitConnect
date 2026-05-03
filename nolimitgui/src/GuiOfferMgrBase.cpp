@@ -931,7 +931,7 @@ bool GuiOfferMgrBase::acceptOffer( GuiOfferSession* offerSessionIn, QWidget* con
 		GuiOfferInfo& offerInfo = offerSession->getOfferInfo();
 		offerInfo.setOfferResponse( eOfferResponseAccept );
 		VxGUID peerOnlineId = offerSession->getUserIdent()->getMyOnlineId();
-		VxGUID offerId = offerInfo.getAssetUniqueId().isVxGUIDValid() ? offerInfo.getAssetUniqueId() : offerSession->getOfferId();
+		VxGUID offerId = offerInfo.getAssetUniqueId().isValid() ? offerInfo.getAssetUniqueId() : offerSession->getOfferId();
 		offerSent = m_MyApp.getRandConnectMgr().sendRandConnectOfferResponse( peerOnlineId, offerId, eRandActionOfferAccept );
 		if( !offerSent )
 		{
@@ -981,7 +981,7 @@ bool GuiOfferMgrBase::rejectOffer( GuiOfferSession* offerSessionIn, QWidget* con
 		offerInfo.setOfferResponse( eOfferResponseReject );
 		changeOfferState( offerSession, eOfferStateRejected );
 		VxGUID peerOnlineId = offerSession->getUserIdent()->getMyOnlineId();
-		VxGUID offerId = offerInfo.getAssetUniqueId().isVxGUIDValid() ? offerInfo.getAssetUniqueId() : offerSession->getOfferId();
+		VxGUID offerId = offerInfo.getAssetUniqueId().isValid() ? offerInfo.getAssetUniqueId() : offerSession->getOfferId();
 		offerSent = m_MyApp.getRandConnectMgr().sendRandConnectOfferResponse( peerOnlineId, offerId, eRandActionOfferReject );
 		if( !offerSent )
 		{

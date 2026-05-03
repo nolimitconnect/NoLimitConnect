@@ -393,7 +393,7 @@ void AssetBaseXferMgr::onPktAssetBaseGetReq( std::shared_ptr<VxSktBase>& sktBase
         return;
     }
 
-    if( !assetUniqueId.isVxGUIDValid() || !rmtSessionId.isVxGUIDValid()  || !lclSessionId.isVxGUIDValid() )
+    if( !assetUniqueId.isValid() || !rmtSessionId.isValid()  || !lclSessionId.isValid() )
     {
         pktReply->setError( eXferErrorBadParam );
         m_XferInterface.txPacket( pktHdr->getSrcOnlineId(), sktBase, pktReply, m_XferInterface.getAssetOverridePluginType() );
@@ -563,7 +563,7 @@ void AssetBaseXferMgr::onPktAssetBaseGetReply( std::shared_ptr<VxSktBase>& sktBa
     int64_t	startOffs = pktGetReply->getAssetOffset();
     int64_t	endOffs = pktGetReply->getAssetLen();
 
-    if( !assetUniqueId.isVxGUIDValid() || !rmtSessionId.isVxGUIDValid() || !lclSessionId.isVxGUIDValid() )
+    if( !assetUniqueId.isValid() || !rmtSessionId.isValid() || !lclSessionId.isValid() )
     {
         LogMsg( LOG_ERROR, "AssetBaseXferMgr::%s Invalid asset or session id", __func__ );
         vx_assert( false );
@@ -815,7 +815,7 @@ void AssetBaseXferMgr::onPktAssetBaseSendReply( std::shared_ptr<VxSktBase>& sktB
     bool isFileXfer = (bool)poPkt->getRequiresFileXfer();
     uint32_t rxedErrCode = poPkt->getError();
     AssetBaseTxSession* xferSession = findTxSessionSessionId( true, poPkt->getRmtSessionId() );
-    if( !xferSession && poPkt->getLclSessionId().isVxGUIDValid() )
+    if( !xferSession && poPkt->getLclSessionId().isValid() )
     {
         xferSession = findTxSessionSessionId( true, poPkt->getLclSessionId() );
     }
@@ -915,7 +915,7 @@ void AssetBaseXferMgr::onPktAssetBaseChunkReq( std::shared_ptr<VxSktBase>& sktBa
     PktBaseChunkReq* poPkt = (PktBaseChunkReq *)pktHdr;
     VxMutex& xferMutex = m_XferInterface.getAssetXferMutex();
     xferMutex.lock();
-    if( poPkt->getRmtSessionId().isVxGUIDValid() )
+    if( poPkt->getRmtSessionId().isValid() )
     {
         xferSession = findRxSessionSessionId( true, poPkt->getRmtSessionId() );
         if( !xferSession )
@@ -989,7 +989,7 @@ static int cnt = 0;
     VxMutex& xferMutex = m_XferInterface.getAssetXferMutex();
     xferMutex.lock();
 
-    if( poPkt->getRmtSessionId().isVxGUIDValid() )
+    if( poPkt->getRmtSessionId().isValid() )
     {
         xferSession = findTxSessionSessionId( true, poPkt->getRmtSessionId() );
     }
@@ -1329,7 +1329,7 @@ AssetBaseRxSession* AssetBaseXferMgr::findOrCreateRxSession( bool pluginIsLocked
 #endif // DEBUG_AUTOPLUGIN_LOCK
     }
 
-    if( false == lclSessionId.isVxGUIDValid() )
+    if( false == lclSessionId.isValid() )
     {
         lclSessionId.initializeWithNewVxGUID();
     }
@@ -1471,7 +1471,7 @@ AssetBaseTxSession* AssetBaseXferMgr::findOrCreateTxSession( bool pluginIsLocked
     if( NULL == xferSession )
     {
         xferSession = createTxSession( sendToId, sktBase );
-        if( false == xferSession->getLclSessionId().isVxGUIDValid() )
+        if( false == xferSession->getLclSessionId().isValid() )
         {
             xferSession->getLclSessionId().initializeWithNewVxGUID();
         }
@@ -1510,7 +1510,7 @@ AssetBaseTxSession* AssetBaseXferMgr::findOrCreateTxSession( bool pluginIsLocked
     }
 
     AssetBaseTxSession* xferSession = 0;
-    if( lclSessionId.isVxGUIDValid() )
+    if( lclSessionId.isValid() )
     {
         xferSession = findTxSessionSessionId( true, lclSessionId );
     }
@@ -1522,7 +1522,7 @@ AssetBaseTxSession* AssetBaseXferMgr::findOrCreateTxSession( bool pluginIsLocked
     if( nullptr == xferSession )
     {
         xferSession = new AssetBaseTxSession( m_Engine, lclSessionId, sktBase, sendToId );
-        if( false == xferSession->getLclSessionId().isVxGUIDValid() )
+        if( false == xferSession->getLclSessionId().isValid() )
         {
             xferSession->getLclSessionId().initializeWithNewVxGUID();
         }
@@ -1600,7 +1600,7 @@ bool AssetBaseXferMgr::fromGuiRequestAssetBase( AssetBaseInfo& assetInfo, std::s
 //============================================================================
 bool AssetBaseXferMgr::fromGuiRequestAssetBase( VxNetIdent* netIdent, AssetBaseInfo& assetInfo, std::shared_ptr<VxSktBase>& sktBaseIn, bool tmpAsset )
 {
-    if( !netIdent || !assetInfo.getAssetUniqueId().isVxGUIDValid() )
+    if( !netIdent || !assetInfo.getAssetUniqueId().isValid() )
     {
         LogMsg( LOG_ERROR, "AssetBaseXferMgr::%s invalid param", __func__ );
         vx_assert( false );
@@ -1790,12 +1790,12 @@ EXferError AssetBaseXferMgr::createAssetTxSessionAndSend( bool pluginIsLocked, A
 
     EXferError xferErr = eXferErrorNone;
     AssetBaseTxSession* txSession = createTxSession( sendToId, sktBase );
-    if( false == txSession->getLclSessionId().isVxGUIDValid() )
+    if( false == txSession->getLclSessionId().isValid() )
     {
         txSession->getLclSessionId().initializeWithNewVxGUID();
     }
 
-    if( false == txSession->getRmtSessionId().isVxGUIDValid() )
+    if( false == txSession->getRmtSessionId().isValid() )
     {
         txSession->setRmtSessionId( txSession->getLclSessionId() );
     }
@@ -2059,7 +2059,7 @@ EXferError AssetBaseXferMgr::beginAssetBaseReceive( AssetBaseRxSession* xferSess
         // get file information
         xferInfo.setFileHashId( assetInfo.getAssetHashId() );
         xferInfo.setRmtSessionId( rmtSessionId );
-        if( false == xferInfo.getLclSessionId().isVxGUIDValid() )
+        if( false == xferInfo.getLclSessionId().isValid() )
         {
             xferInfo.getLclSessionId().initializeWithNewVxGUID();
         }

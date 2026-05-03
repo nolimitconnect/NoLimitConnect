@@ -350,7 +350,7 @@ void AppletPeerViewSharedFiles::beginDownload( GuiFileXferSession * xferSession,
 	}
 	else
 	{
-		if( false == xferSession->getLclSessionId().isVxGUIDValid() )
+		if( false == xferSession->getLclSessionId().isValid() )
 		{
 			xferSession->getLclSessionId().initializeWithNewVxGUID();
 		}
@@ -518,7 +518,7 @@ void AppletPeerViewSharedFiles::slotDownloadFileSelected( int iMenuId, QWidget *
 		}
 		else
 		{
-			if( false == m_SelectedFileInfo->getLclSessionId().isVxGUIDValid() )
+			if( false == m_SelectedFileInfo->getLclSessionId().isValid() )
 			{
 				m_SelectedFileInfo->getLclSessionId().initializeWithNewVxGUID();
 			}

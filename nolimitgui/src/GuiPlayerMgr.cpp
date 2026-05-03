@@ -123,7 +123,7 @@ void GuiPlayerMgr::slotInternalPlayCamJpg( VxGUID feedOnlineId, std::shared_ptr<
 	m_VideoPlayClientsBusy = true;
 	for( auto clientPair : m_VideoPlayClients )
 	{
-		if( !clientPair.first.isVxGUIDValid() || clientPair.first == feedOnlineId )
+		if( !clientPair.first.isValid() || clientPair.first == feedOnlineId )
 		{
 			clientPair.second->callbackGuiPlayMotionVideoFrame( feedOnlineId, vidFrame, motion0To100000 );
 		}

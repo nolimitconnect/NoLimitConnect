@@ -112,7 +112,7 @@ void AppletSocketList::addSocketStat( VxSktStatRecord& sktStat )
     if( model )
     {
         QString peerName{ "Unknown" };
-        if( sktStat.getPeerOnlineId().isVxGUIDValid() )
+        if( sktStat.getPeerOnlineId().isValid() )
         {
             GuiUser* guiUser = m_MyApp.getUserMgr().getUser( sktStat.getPeerOnlineId() );
             if( guiUser )

@@ -460,13 +460,13 @@ bool VxPktHdr::isValidPktHdr( void )
 		return false;
     }
 
-    if( !getSrcOnlineId().isVxGUIDValid() )
+    if( !getSrcOnlineId().isValid() )
     {
         LogMsg( LOG_ERROR, "%s invalid src online id", __func__ );
 		return false;
     }
 
-    if( !getDestOnlineId().isVxGUIDValid() )
+    if( !getDestOnlineId().isValid() )
     {
         LogMsg( LOG_ERROR, "%s invalid dest online id", __func__ );
 		return false;

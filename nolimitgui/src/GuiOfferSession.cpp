@@ -61,7 +61,7 @@ VxGUID& GuiOfferSession::assuredValidOfferId()
 {
 	if( GuiHelpers::isPluginSingleSession( getPluginType() ) )
 	{
-		if( !m_OfferInfo.getOfferId().isVxGUIDValid() )
+		if( !m_OfferInfo.getOfferId().isValid() )
 		{
 			m_OfferInfo.setOfferId( getUser()->getMyOnlineId() );
 		}		

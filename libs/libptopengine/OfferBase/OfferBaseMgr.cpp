@@ -172,7 +172,7 @@ OfferBaseInfo* OfferBaseMgr::findOffer( VxSha1Hash& fileHashId )
 OfferBaseInfo* OfferBaseMgr::findOffer( VxGUID& offerId )
 {
 	if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "OfferBaseMgr::%s", __func__ );
-	if( false == offerId.isVxGUIDValid() )
+	if( false == offerId.isValid() )
 	{
 		LogMsg( LOG_ERROR, "OfferBaseMgr::findOffer: invalid VxGUID offer id" );
         return nullptr;
@@ -295,7 +295,7 @@ OfferBaseInfo* OfferBaseMgr::createOfferInfo(	std::string		fileName,
 	}
 
 	OfferBaseInfo* offerInfo = createOfferInfo( fileName, fileNameAndPath, fileLen, fileType );
-	if( false == offerInfo->getOfferId().isVxGUIDValid() )
+	if( false == offerInfo->getOfferId().isValid() )
 	{
 		offerInfo->getOfferId().initializeWithNewVxGUID();
 	}

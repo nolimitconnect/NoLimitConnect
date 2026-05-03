@@ -96,7 +96,7 @@ bool FileItemInfo::toAsssetInfo( AppCommon& myApp, AssetBaseInfo& assetInfoOut, 
         if( fileLen )
         {
             AssetBaseInfo* assetInfo = myApp.getEngine().getAssetMgr().findAsset( assetFileName );
-            if( assetInfo && assetInfo->getAssetUniqueId().isVxGUIDValid() )
+            if( assetInfo && assetInfo->getAssetUniqueId().isValid() )
             {
                 assetId = assetInfo->getAssetUniqueId();
                 setAssetId( assetId );
@@ -111,7 +111,7 @@ bool FileItemInfo::toAsssetInfo( AppCommon& myApp, AssetBaseInfo& assetInfoOut, 
             }
             else
             {
-                if( !assetId.isVxGUIDValid() )
+                if( !assetId.isValid() )
                 {
                     assetId.initializeWithNewVxGUID();
                 }

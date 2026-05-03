@@ -110,7 +110,7 @@ bool PluginBaseFilesClient::onConnectForFileListDownload( std::shared_ptr<VxSktB
 {
     m_HisOnlineId = onlineId;
     m_SktConnectionId = sktBase->getSocketId();
-    if( !m_SearchSessionId.isVxGUIDValid() )
+    if( !m_SearchSessionId.isValid() )
     {
         m_SearchSessionId.initializeWithNewVxGUID();
     }

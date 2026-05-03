@@ -121,7 +121,7 @@ void OfferBaseInfo::fillOfferSend( EPluginType pluginType, VxNetIdent& netIdent 
 //============================================================================
 bool OfferBaseInfo::isValid( bool logErrIfInvalid )
 {
-	return ePluginTypeInvalid != m_PluginType && eOfferMgrNotSet != m_OfferMgr && m_UniqueId.isVxGUIDValid() && m_OfferId.isVxGUIDValid() && getOnlineId().isVxGUIDValid();
+	return ePluginTypeInvalid != m_PluginType && eOfferMgrNotSet != m_OfferMgr && m_UniqueId.isValid() && m_OfferId.isValid() && getOnlineId().isValid();
 }
 
 //============================================================================

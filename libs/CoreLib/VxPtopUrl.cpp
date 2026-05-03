@@ -94,7 +94,7 @@ bool VxPtopUrl::isValid( bool doesNotRequireOnlineId )
     bool isValid = m_Port && !m_Protocol.empty() && isHostIpValid();
     if( !doesNotRequireOnlineId )
     {
-        isValid &= m_OnlineId.isVxGUIDValid();
+        isValid &= m_OnlineId.isValid();
     }
     
     return isValid;
@@ -223,7 +223,7 @@ void VxPtopUrl::setUrl( std::string url )
         {
             // may have a invite type character
             m_OnlineId.fromOnlineIdString( strOnlineId.c_str() );
-            if( m_OnlineId.isVxGUIDValid() )
+            if( m_OnlineId.isValid() )
             {
                 char suffixChar = strOnlineId[strOnlineId.length() - 1];
                 if( Invite::isValidHostTypeSuffix( suffixChar ) )
@@ -311,7 +311,7 @@ std::string VxPtopUrl::getHostUrl( void )
 //============================================================================
 GroupieId VxPtopUrl::getHostGroupieId( void )
 {
-    if( m_OnlineId.isVxGUIDValid() && isHostTypeValid() )
+    if( m_OnlineId.isValid() && isHostTypeValid() )
     {
         return GroupieId( m_OnlineId, m_OnlineId, m_HostType );
     }

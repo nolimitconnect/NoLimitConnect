@@ -115,7 +115,7 @@ bool IgnoredHostsDb::restoreFromDatabase( std::map<VxGUID, IgnoredHostInfo>& ign
                 cursor->getString( COLUMN_HOST_DESC ),
                 cursor->getS64( COLUMN_TIMESTAMP_MS ) );
 
-            if( onlineId.isVxGUIDValid() )
+            if( onlineId.isValid() )
             {
                 ignoredHostList[ onlineId ] = ignoredHostInfo;
             }

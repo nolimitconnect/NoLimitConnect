@@ -883,7 +883,7 @@ ECommErr FileInfoBaseMgr::searchRequest( PktFileInfoSearchReply& pktReply, VxGUI
 		pktReply.setCommError( eCommErrNotFound );
 		lockFileList();
 
-		if( specificAssetId.isVxGUIDValid() )
+		if( specificAssetId.isValid() )
 		{
 			FileInfo fileInfo;
 			if( findFileAsset( specificAssetId, fileInfo ) && fileInfo.isValid() )
@@ -975,7 +975,7 @@ ECommErr FileInfoBaseMgr::searchRequest( PktFileInfoSearchReply& pktReply, VxGUI
 ECommErr FileInfoBaseMgr::searchMoreRequest( PktFileInfoMoreReply& pktReply, VxGUID& nextFileAssetId, std::string& searchStr, uint8_t searchFileTypes, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
 	ECommErr searchErr = m_FilesInitialized ? eCommErrNone : eCommErrPluginNotEnabled;
-	if( eCommErrNone == searchErr && !nextFileAssetId.isVxGUIDValid() )
+	if( eCommErrNone == searchErr && !nextFileAssetId.isValid() )
 	{
 		searchErr = eCommErrInvalidParam;
 	}

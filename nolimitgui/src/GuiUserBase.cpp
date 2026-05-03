@@ -201,7 +201,7 @@ void GuiUserBase::setNetIdent( VxNetIdent* netIdent )
 //============================================================================
 bool GuiUserBase::isInSession( void )
 {
-    return isOnline() && m_SessionId.isVxGUIDValid();
+    return isOnline() && m_SessionId.isValid();
 }
 
 //============================================================================

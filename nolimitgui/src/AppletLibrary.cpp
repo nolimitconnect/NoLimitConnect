@@ -276,7 +276,7 @@ void AppletLibrary::slotListShareFileIconClicked( QListWidgetItem* item )
             // is file
             bool wasInUse = poInfo->getIsInUse();
             bool isShared = poInfo->toggleIsShared();
-            if( !wasInUse && isShared && !poInfo->getThumbId().isVxGUIDValid() )
+            if( !wasInUse && isShared && !poInfo->getThumbId().isValid() )
             {
                 // new instertion. generate thumbnail if available
                 generateThumb( poInfo );
@@ -307,7 +307,7 @@ void AppletLibrary::slotListLibraryIconClicked( QListWidgetItem* item )
             // is file
             bool wasInUse = poInfo->getIsInUse();
             bool inLibrary = poInfo->toggleIsInLibrary();
-            if( !wasInUse && inLibrary && !poInfo->getThumbId().isVxGUIDValid() )
+            if( !wasInUse && inLibrary && !poInfo->getThumbId().isValid() )
             {
                 // new instertion. generate thumbnail if available
                 generateThumb( poInfo );
@@ -683,7 +683,7 @@ void AppletLibrary::wantFileXferCallbacks( bool enable )
 void AppletLibrary::generateThumb( FileItemInfo* poInfo )
 {
     FileInfo fileInfo = poInfo->getFileInfo();
-    if( !fileInfo.getThumbId().isVxGUIDValid() )
+    if( !fileInfo.getThumbId().isValid() )
     {
         QString thumbFileName;
         if( GuiHelpers::generateMediaThumbnail( fileInfo, thumbFileName ) )
@@ -757,7 +757,7 @@ void AppletLibrary::updateFromFileInfo( FileInfo& fileInfo, bool showUserPopup )
         {
             assetInfo->setIsInLibrary( true );
             FileInfo fileInfoInLibrary = assetInfo->getFileInfo();
-            if( !fileInfoInLibrary.getThumbId().isVxGUIDValid() )
+            if( !fileInfoInLibrary.getThumbId().isValid() )
             {
                 QString thumbFileName;
                 if( GuiHelpers::generateMediaThumbnail( fileInfoInLibrary, thumbFileName ) )
@@ -793,7 +793,7 @@ void AppletLibrary::updateFromFileInfo( FileInfo& fileInfo, bool showUserPopup )
         AssetInfo newAsset( fileInfo );
         newAsset.setIsInLibrary( true );
 
-        if( !newAsset.getThumbId().isVxGUIDValid() )
+        if( !newAsset.getThumbId().isValid() )
         {
             QString thumbFileName;
             if( GuiHelpers::generateMediaThumbnail( fileInfo, thumbFileName ) )

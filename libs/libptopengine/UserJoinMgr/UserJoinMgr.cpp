@@ -552,7 +552,7 @@ bool UserJoinMgr::saveToDatabase( UserJoinInfo* joinInfo, bool isLocked )
         onlineId = ptopUrl.getOnlineId();
     }
 
-    if( onlineId.isVxGUIDValid() )
+    if( onlineId.isValid() )
     {
         result = m_UserJoinInfoDb.addUserJoin( joinInfo );
 

@@ -170,7 +170,7 @@ void FileInfoDb::getAllFiles( std::map<VxGUID, FileInfo>& sharedFileList )
 			fileLen =  cursor->getS64( COLUMN_FILE_INFO_FILE_LEN );
 			fileType = (uint8_t)cursor->getS32( COLUMN_FILE_INFO_FILE_TYPE );
 
-			if( fileLen && onlineId.isVxGUIDValid() && assetId.isVxGUIDValid() )
+			if( fileLen && onlineId.isValid() && assetId.isValid() )
 			{
 				FileInfo libFileInfo( onlineId, fileName, fileNameAndPath, fileLen, fileType, assetId );
 				libFileInfo.setFileHashId( ( uint8_t* )cursor->getBlob( COLUMN_FILE_INFO_FILE_HASH ) );

@@ -39,7 +39,7 @@ void GuiFavoriteMgr::shutdownFavoriteMgr( void )
 //============================================================================
 void GuiFavoriteMgr::setIsFavorite( VxGUID& onlineId, bool favorite )
 {
-	if( onlineId.isVxGUIDValid() )
+	if( onlineId.isValid() )
 	{
 		m_FavoriteList[ onlineId ] = favorite;
 		std::string keyVal = onlineId.toHexString();
@@ -60,7 +60,7 @@ void GuiFavoriteMgr::setIsFavorite( VxGUID& onlineId, bool favorite )
 bool GuiFavoriteMgr::getIsFavorite( VxGUID& onlineId )
 {
 	bool isFavorite{ false };
-	if( onlineId.isVxGUIDValid() )
+	if( onlineId.isValid() )
 	{
 		auto favItem = m_FavoriteList.find( onlineId );
 		if( favItem != m_FavoriteList.end() )

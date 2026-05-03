@@ -259,7 +259,7 @@ public:
     bool                        getPeerPktAnnCopy( PktAnnounce &peerAnn );
 	std::string					getPeerOnlineName();
 
-    // returns peer online id. caller should check VxGUID::isVxGUIDValid() for validity
+    // returns peer online id. caller should check VxGUID::isValid() for validity
     VxGUID&                     getPeerOnlineId( void )							{ return m_PeerOnlineId; }
 
     virtual void                dumpSocketStats( const char* reason = nullptr, bool fullDump = false );

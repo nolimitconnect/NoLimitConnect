@@ -42,7 +42,7 @@ public:
     EJoinState                  getJoinState( void )                    { return m_JoinState; }
 
     bool                        isOnline( void );
-    bool                        isInSession( void )                     { return isOnline() && m_SessionId.isVxGUIDValid(); }
+    bool                        isInSession( void )                     { return isOnline() && m_SessionId.isValid(); }
 
     std::string                 getOnlineName( void );
     VxGUID                      getMyOnlineId( void );

@@ -41,7 +41,7 @@ int32_t HostUrlListMgr::hostUrlListMgrShutdown( void )
 //============================================================================
 void HostUrlListMgr::updateHostUrl( enum EHostType hostType, VxGUID& onlineId, std::string& hostUrl, int64_t timestampMs )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "HostUrlListMgr::updateDirectConnectIdent invalid id" );
         return;

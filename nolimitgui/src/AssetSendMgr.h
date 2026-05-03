@@ -82,6 +82,8 @@ public:
 
     ECanSendState               getSendToSet( GroupieId& adminId, std::set<VxGUID>& sendToSet );
 
+    std::string                 getCurrentSendToUser( VxGUID assetId );
+
 signals:
     /// Emitted when starting to send to a member
     void                        signalSendingToMember( VxGUID assetId, VxGUID memberId, QString memberName );

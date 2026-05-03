@@ -331,7 +331,7 @@ void AppletAssetPlayerBase::updateFromAssetInfo( void )
 //============================================================================
 void AppletAssetPlayerBase::setPlayerAssetId( VxGUID& feedId )
 {
-	if( feedId.isVxGUIDValid() )
+	if( feedId.isValid() )
 	{
 		AssetBaseInfo* baseInfo = m_Engine.getAssetMgr().findAsset( feedId );
 		if( baseInfo )

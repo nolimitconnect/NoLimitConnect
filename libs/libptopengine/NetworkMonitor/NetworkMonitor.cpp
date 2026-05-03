@@ -272,7 +272,7 @@ void NetworkMonitor::triggerDetermineIp( void )
 
     // do not use more than one connection to network host. seems to be not allowed for VPN's and probably most hosts
     VxGUID networkHostOnlineId;
-    if( !isNetworkHost && m_Engine.getConnectionMgr().getDefaultHostOnlineId( eHostTypeNetwork, networkHostOnlineId ) && networkHostOnlineId.isVxGUIDValid() )
+    if( !isNetworkHost && m_Engine.getConnectionMgr().getDefaultHostOnlineId( eHostTypeNetwork, networkHostOnlineId ) && networkHostOnlineId.isValid() )
     {
         // we have at least connected once and queried id. 
         // if we have a current connection to the network host then no need to test

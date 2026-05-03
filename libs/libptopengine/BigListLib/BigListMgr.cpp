@@ -510,7 +510,7 @@ void BigListMgr::LimitListSize( void )
 bool BigListMgr::queryIdent( const VxGUID& onlineId, VxNetIdent& netIdent )
 {
 	bool foundIdent = false;
-	if( onlineId.isVxGUIDValid() )
+	if( onlineId.isValid() )
 	{
 		BigListAutoLock bigListAutoLock( *this );
 		auto iter = m_BigList.find( onlineId );
@@ -562,7 +562,7 @@ bool BigListMgr::fromGuiDeleteUser( VxGUID& onlineId )
         return false;
     }
 
-	if( !onlineId.isVxGUIDValid() )
+	if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "BigListMgr::fromGuiDeleteUser invalid guid" );
         vx_assert( false );

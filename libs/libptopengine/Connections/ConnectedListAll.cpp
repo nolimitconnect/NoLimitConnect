@@ -31,7 +31,7 @@ ConnectedInfo* ConnectedListAll::getOrAddConnectedInfo( const VxGUID& socketId, 
         return nullptr;
     }
 
-    if( !bigListInfo->getMyOnlineId().isVxGUIDValid() )
+    if( !bigListInfo->getMyOnlineId().isValid() )
     {
         LogMsg( LOG_ERROR, "ConnectedListAll::getOrAddConnectedInfo id is INVALID" );
         return nullptr;

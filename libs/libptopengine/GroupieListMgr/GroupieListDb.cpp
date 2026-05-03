@@ -127,13 +127,13 @@ void GroupieListDb::removeGroupieInfo( VxGUID& groupieOnlineId, VxGUID& hostOnli
 //============================================================================
 bool GroupieListDb::doesGroupieInfoExist( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, EHostType hostType, std::string& retGroupieOnlineHexStr, std::string& retHostOnlineHexStr )
 {
-	if( !groupieOnlineId.isVxGUIDValid() || !groupieOnlineId.toHexString( retGroupieOnlineHexStr ) )
+	if( !groupieOnlineId.isValid() || !groupieOnlineId.toHexString( retGroupieOnlineHexStr ) )
 	{
 		LogMsg( LOG_ERROR, "ERROR: GroupieListDb::doesGroupieInfoExist INVALID GROUPIE ID" );
 		return false;
 	}
 
-	if( !hostOnlineId.isVxGUIDValid() || !hostOnlineId.toHexString( retHostOnlineHexStr ) )
+	if( !hostOnlineId.isValid() || !hostOnlineId.toHexString( retHostOnlineHexStr ) )
 	{
 		LogMsg( LOG_ERROR, "ERROR: GroupieListDb::doesGroupieInfoExist INVALID GROUPIE ID" );
 		return false;

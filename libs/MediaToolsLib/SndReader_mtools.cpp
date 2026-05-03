@@ -91,7 +91,7 @@ bool SndReader::fromGuiAssetAction( AssetBaseInfo& assetInfo, EAssetAction asset
 	switch( assetAction )
 	{
 	case eAssetActionPlayBegin:
-		if( m_AssetId.isVxGUIDValid() )
+		if( m_AssetId.isValid() )
 		{
 			fromGuiSndPlay( eSndPlayStateStopPlaying, m_AssetId, 0 );
 		}

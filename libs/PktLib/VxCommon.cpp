@@ -591,7 +591,7 @@ bool VxNetIdent::isJoinedAny( void )
 //============================================================================
 bool VxNetIdent::isValidNetIdent()
 {
-	bool result = getMyOnlineId().isVxGUIDValid();
+	bool result = getMyOnlineId().isValid();
 
 	result &= isOnlineNameValid();
 

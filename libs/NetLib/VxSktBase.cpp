@@ -848,12 +848,12 @@ int32_t VxSktBase::txPacketWithDestId( VxPktHdr* pktHdr, bool sktMgrLocked ) 		/
 
 	m_u8TxSeqNum = (uint8_t)rand();
 	pktHdr->setPktSeqNum( m_u8TxSeqNum );
-	vx_assert( pktHdr->getDestOnlineId().isVxGUIDValid() );
+	vx_assert( pktHdr->getDestOnlineId().isValid() );
 	uint64_t timestamp = GetGmtTimeMs();
 	uint16_t pktType = pktHdr->getPktType();
 
 
-	if( !pktHdr->getSrcOnlineId().isVxGUIDValid() || !pktHdr->getDestOnlineId().isVxGUIDValid() )
+	if( !pktHdr->getSrcOnlineId().isValid() || !pktHdr->getDestOnlineId().isValid() )
 	{
 		LogMsg( LOG_ERROR, "ERROR VxPeerMgr::txPacketWithDestId: invalid src or dest id pkt %s src id %s dest id %s",
 				pktHdr->describePktHdr().c_str(), pktHdr->getSrcOnlineId().toOnlineIdString().c_str(),
@@ -904,10 +904,10 @@ int32_t VxSktBase::txPacketWithDestId( VxPktHdr* pktHdr, bool sktMgrLocked ) 		/
         if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "skt num %d id %s send pkt %s to %s:%d src id %s dest id %s peer id %s", getSktNumber(),
                 getSocketIdText().c_str(), pktHdr->describePktHdr().c_str(), m_strRmtIp.c_str(), m_RmtIp.getPort(),
                 pktHdr->getSrcOnlineId().toOnlineIdString().c_str(), pktHdr->getDestOnlineId().toOnlineIdString().c_str(),
-				getPeerOnlineId().isVxGUIDValid() ? getPeerOnlineId().toOnlineIdString().c_str() : "0" );
+				getPeerOnlineId().isValid() ? getPeerOnlineId().toOnlineIdString().c_str() : "0" );
     }
 
-	if( getPeerOnlineId().isVxGUIDValid() && getPeerOnlineId() != pktHdr->getDestOnlineId() )
+	if( getPeerOnlineId().isValid() && getPeerOnlineId() != pktHdr->getDestOnlineId() )
 	{
 		if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_WARN, "pkt %s will be relayed if possible", pktHdr->describePktHdr().c_str() );
 	}

@@ -51,7 +51,7 @@ bool IgnoreListMgr::isIgnored( VxGUID& onlineId )
 //============================================================================
 void IgnoreListMgr::updateIdent( VxGUID& onlineId, int64_t timestamp )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "IgnoreListMgr::updateIgnoreIdent invalid id" );
         return;
@@ -139,7 +139,7 @@ bool IgnoreListMgr::isHostIgnored( VxGUID& onlineId )
 {
     m_IgnoredHostsMutex.lock();
     initializeIgnoredHostsIfNeeded();
-    bool isIgnrored = !onlineId.isVxGUIDValid() || m_IgnoredHostList.find( onlineId ) != m_IgnoredHostList.end();
+    bool isIgnrored = !onlineId.isValid() || m_IgnoredHostList.find( onlineId ) != m_IgnoredHostList.end();
     m_IgnoredHostsMutex.unlock();
     return isIgnrored;
 }
@@ -148,7 +148,7 @@ bool IgnoreListMgr::isHostIgnored( VxGUID& onlineId )
 bool IgnoreListMgr::addHostIgnore( VxGUID& onlineId, std::string hostUrl, std::string hostTitle, VxGUID& thumbId, std::string hostDescription )
 {
     bool wasAdded{ false };
-    if( onlineId.isVxGUIDValid() )
+    if( onlineId.isValid() )
     {
         IgnoredHostInfo hostInfo( onlineId, thumbId, hostUrl, hostTitle, hostDescription, GetGmtTimeMs() );
 
@@ -167,7 +167,7 @@ bool IgnoreListMgr::addHostIgnore( VxGUID& onlineId, std::string hostUrl, std::s
 bool IgnoreListMgr::removeHostIgnore( VxGUID& onlineId )
 {
     bool removedIgnore{ false };
-    if( onlineId.isVxGUIDValid() )
+    if( onlineId.isValid() )
     {
         m_IgnoredHostsMutex.lock();
         m_IgnoredHostList.erase( onlineId );

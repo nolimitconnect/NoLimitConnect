@@ -41,7 +41,7 @@ AppletJoinBase::AppletJoinBase( const char*name, AppCommon& app, QWidget* parent
     VxPtopUrl netHostUrl( m_NetworkHostUrl );
     m_NetHostPtopUrl = netHostUrl;
     m_NetworkHostOnlineId = m_NetHostPtopUrl.getOnlineId();
-    if( !m_NetworkHostOnlineId.isVxGUIDValid() )
+    if( !m_NetworkHostOnlineId.isValid() )
     {
         QString title = QObject::tr( "Network Host URL was not resolved" );
         QString msg = m_NetworkHostUrl.c_str();

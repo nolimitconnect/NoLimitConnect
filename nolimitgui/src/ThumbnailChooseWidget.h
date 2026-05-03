@@ -48,7 +48,7 @@ public:
     void                        setAssetId( VxGUID& assetGuid, bool isCircle )  { m_AsssetId = assetGuid; m_ThumbnailIsCircular = isCircle; }
     VxGUID&                     getAssetId( void )                              { return m_AsssetId; }
     void                        clearAssetId( void )                            { m_AsssetId.clearVxGUID(); }
-    bool                        isAssetIdValid( void )                          { return m_AsssetId.isVxGUIDValid(); }
+    bool                        isAssetIdValid( void )                          { return m_AsssetId.isValid(); }
 
     VxGUID&                     getThumbnailId( void )                          { return m_ThumbnailId; }
     VxGUID                      updateAndGetThumbnailId( void );

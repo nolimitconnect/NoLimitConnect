@@ -117,7 +117,7 @@ bool ThumbnailChooseWidget::loadThumbnail( VxGUID& assetId, bool isCircle )
 {
     bool result = false;
     setThumnailIsCircular( isCircle );
-    if( assetId.isVxGUIDValid() )
+    if( assetId.isValid() )
     {
         AssetBaseInfo* thumbAsset = m_ThumbMgr.findAsset( assetId );
         if( thumbAsset )

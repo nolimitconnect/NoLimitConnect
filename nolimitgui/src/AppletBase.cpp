@@ -39,7 +39,7 @@ void AppletBase::setAssetInfo( AssetBaseInfo& assetBaseInfo )
 //============================================================================
 bool AppletBase::isAssetInfoSet( void )
 {
-    return m_AssetInfo.getAssetUniqueId().isVxGUIDValid();
+    return m_AssetInfo.getAssetUniqueId().isValid();
 }
 
 //============================================================================

@@ -239,7 +239,7 @@ bool FileShareXferMgr::fromGuiMakePluginOffer(	VxNetIdent *	netIdent,		// identi
 		{
 			if( pFileName && strlen( pFileName ) )
 			{
-				if( false == lclSessionId.isVxGUIDValid() )
+				if( false == lclSessionId.isValid() )
 				{
 					lclSessionId.initializeWithNewVxGUID();
 				}
@@ -278,7 +278,7 @@ int FileShareXferMgr::fromGuiPluginControl(	VxNetIdent *		netIdent,
 	if( 0 == strcmp( pControl, "ViewDirectory" ) )
 	{
 		FileRxSession *	xferSession = 0;
-		if( sessionId.isVxGUIDValid() )
+		if( sessionId.isValid() )
 		{
 			xferSession = findRxSession( sessionId );
 		}
@@ -884,7 +884,7 @@ FileRxSession *	FileShareXferMgr::findOrCreateRxSession( VxNetIdent* netIdent, V
 FileRxSession *	FileShareXferMgr::findOrCreateRxSession( VxGUID& lclSessionId, VxNetIdent* netIdent, VxSktBase* sktBase )
 {
 	FileRxSession * xferSession = findRxSession( lclSessionId );
-	if( ( NULL == xferSession ) && ( lclSessionId.isVxGUIDValid() ) )
+	if( ( NULL == xferSession ) && ( lclSessionId.isValid() ) )
 	{
 		xferSession = new FileRxSession( lclSessionId, sktBase, netIdent );
 		m_RxSessions.insert( std::make_pair( xferSession->getLclSessionId(), xferSession ) );
@@ -967,7 +967,7 @@ FileTxSession *	FileShareXferMgr::findOrCreateTxSession( VxNetIdent* netIdent, V
 FileTxSession *	 FileShareXferMgr::findOrCreateTxSession(  VxGUID& lclSessionId, VxNetIdent* netIdent, VxSktBase* sktBase )
 {
 	FileTxSession * xferSession = 0;
-	if( lclSessionId.isVxGUIDValid() )
+	if( lclSessionId.isValid() )
 	{
 		xferSession = findTxSession( lclSessionId );
 	}

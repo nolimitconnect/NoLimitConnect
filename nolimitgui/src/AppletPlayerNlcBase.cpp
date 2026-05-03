@@ -148,7 +148,7 @@ bool AppletPlayerNlcBase::playAsset( VxGUID& sessionId, AssetBaseInfo& assetInfo
 //============================================================================
 bool AppletPlayerNlcBase::playStream( VxGUID& sessionId, AssetBaseInfo& assetInfo, int pos0to100000 )
 {
-	if( sessionId.isVxGUIDValid() )
+	if( sessionId.isValid() )
 	{
 		m_SessionId = sessionId;
 	}

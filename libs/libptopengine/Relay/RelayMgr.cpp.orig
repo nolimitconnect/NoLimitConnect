@@ -96,7 +96,7 @@ bool RelayMgr::requestRelayConnection( VxSktBase* sktBase, GroupieInfo& groupieI
 {
     bool sentAnn{false};
     VxGUID destOnlineId = groupieInfo.getGroupieOnlineId();
-    if(destOnlineId.isVxGUIDValid())
+    if(destOnlineId.isValid())
     {
         PktAnnounce myPktAnn;
         m_Engine.copyMyPktAnnounce( myPktAnn );

@@ -370,27 +370,27 @@ void VxConnectIdent::setOnlineDescription( const char* pUserDesc )
 bool VxConnectIdent::getThumbnailIdList( std::vector<VxGUID>& thumbIdList )
 {
     thumbIdList.clear();
-    if( getAvatarThumbGuid().isVxGUIDValid() )
+    if( getAvatarThumbGuid().isValid() )
     {
         thumbIdList.push_back( getAvatarThumbGuid() );
     }
 
-    if( getNetHostThumbGuid().isVxGUIDValid() )
+    if( getNetHostThumbGuid().isValid() )
     {
         thumbIdList.push_back( getNetHostThumbGuid() );
     }
 
-    if( getChatRoomThumbGuid().isVxGUIDValid() )
+    if( getChatRoomThumbGuid().isValid() )
     {
         thumbIdList.push_back( getChatRoomThumbGuid() );
     }
 
-    if( getGroupThumbGuid().isVxGUIDValid() )
+    if( getGroupThumbGuid().isValid() )
     {
         thumbIdList.push_back( getGroupThumbGuid() );
     }
 
-    if( getGroupThumbGuid().isVxGUIDValid() )
+    if( getGroupThumbGuid().isValid() )
     {
         thumbIdList.push_back( getGroupThumbGuid() );
     }
@@ -436,15 +436,15 @@ bool VxConnectIdent::hasThumbId( EHostType hostType )
     switch( hostType )
     {
     case eHostTypeChatRoom:
-        return m_ChatRoomThumbGuid.isVxGUIDValid();
+        return m_ChatRoomThumbGuid.isValid();
     case eHostTypeGroup:
-        return m_GroupThumbGuid.isVxGUIDValid();
+        return m_GroupThumbGuid.isValid();
     case eHostTypeNetwork:
-        return m_NetHostThumbGuid.isVxGUIDValid();
+        return m_NetHostThumbGuid.isValid();
     case eHostTypeRandomConnect:
-        return m_RandomConnectThumbGuid.isVxGUIDValid();
+        return m_RandomConnectThumbGuid.isValid();
     case eHostTypePeerUser:
-        return m_AvatarGuid.isVxGUIDValid();
+        return m_AvatarGuid.isValid();
     default:
         return false;
     }
@@ -498,7 +498,7 @@ VxGUID VxConnectIdent::getHostThumbId( EHostType hostType, bool defaultToAvatarT
         break;
     }
 
-    if( defaultToAvatarThumbId && !thumbId.isVxGUIDValid() )
+    if( defaultToAvatarThumbId && !thumbId.isValid() )
     {
         thumbId = getAvatarThumbGuid();
     }
@@ -560,20 +560,20 @@ bool VxConnectIdent::hasThumbId( EPluginType pluginType )
     {
     case ePluginTypeClientChatRoom:
     case ePluginTypeHostChatRoom:
-        return m_ChatRoomThumbGuid.isVxGUIDValid();
+        return m_ChatRoomThumbGuid.isValid();
     case ePluginTypeClientGroup:
     case ePluginTypeHostGroup:
-        return m_GroupThumbGuid.isVxGUIDValid();
+        return m_GroupThumbGuid.isValid();
     case ePluginTypeClientNetwork:
     case ePluginTypeHostNetwork:
-        return m_NetHostThumbGuid.isVxGUIDValid();
+        return m_NetHostThumbGuid.isValid();
     case ePluginTypeClientRandomConnect:
     case ePluginTypeHostRandomConnect:
-        return m_RandomConnectThumbGuid.isVxGUIDValid();
+        return m_RandomConnectThumbGuid.isValid();
     case ePluginTypeClientPeerUser:
     case ePluginTypeHostPeerUser:
     case ePluginTypeInvalid:
-        return m_AvatarGuid.isVxGUIDValid();
+        return m_AvatarGuid.isValid();
     default:
         return false;
     }

@@ -137,12 +137,12 @@ void HostJoinRequestListItem::updateWidgetFromInfo( void )
     if( !ui.m_AvatarButton->hasImage() )
     {
         VxGUID thumbId = hostSession->getHostThumbId();
-        if( !thumbId.isVxGUIDValid() )
+        if( !thumbId.isValid() )
         {
             thumbId = hostIdent->getUser()->getHostThumbId( hostSession->getHostType(), true );
         }
        
-        if( thumbId.isVxGUIDValid() )
+        if( thumbId.isValid() )
         {
             QImage thumbImage;
             if( m_MyApp.getThumbMgr().getThumbImage( thumbId, thumbImage ) )

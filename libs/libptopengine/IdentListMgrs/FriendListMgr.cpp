@@ -40,7 +40,7 @@ bool FriendListMgr::isFriend( VxGUID& onlineId )
 //============================================================================
 void FriendListMgr::updateIdent( VxGUID& onlineId, int64_t timestamp )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "IgnoreListMgr::updateIgnoreIdent invalid id" );
         return;

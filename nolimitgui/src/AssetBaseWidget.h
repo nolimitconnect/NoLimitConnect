@@ -93,4 +93,5 @@ protected:
 	QTimer*						m_AssetWidgetReadyTimer{ nullptr };
 	bool						m_AssetReadyForCallbacks{ false };
 	bool						m_ActivityCallbacksRequested{ false };
+    bool						m_SendToMemberSetAttempted{ false };
 };

@@ -63,7 +63,7 @@ bool PluginFileShareClient::onFileDownloadComplete( VxGUID& onlineId, std::share
 	VxFileUtil::seperatePathAndFile(fileNameAndPath,	// path and file name
                                         filePath,		// return path to file
                                         fileName );	// return file name
-	bool result = onlineId.isVxGUIDValid() && sktBase && lclSessionId.isVxGUIDValid() && !fileNameAndPath.empty() && assetId.isVxGUIDValid() && sha11Hash.isHashValid();
+	bool result = onlineId.isValid() && sktBase && lclSessionId.isValid() && !fileNameAndPath.empty() && assetId.isValid() && sha11Hash.isHashValid();
 	if( result )
 	{
 		result = false;
@@ -200,7 +200,7 @@ void PluginFileShareClient::onWebPageClientReady( bool isReady )
 std::string	PluginFileShareClient::getIncompleteFileXferDirectory( VxGUID& onlineId )
 {
 	std::string incompleteDir{ "" };
-	if( onlineId.isVxGUIDValid() )
+	if( onlineId.isValid() )
 	{
 		incompleteDir = m_RootFileFolder + onlineId.toHexString().c_str() + "/";
 		VxFileUtil::makeDirectory( incompleteDir.c_str() );
@@ -226,7 +226,7 @@ std::string	PluginFileShareClient::getIncompleteFileXferDirectory( VxGUID& onlin
 bool PluginFileShareClient::fromGuiDownloadWebPage( EWebPageType webPageType, VxGUID& onlineId )
 {
 	bool result{ false };
-	if( (eWebPageTypeAboutMe == webPageType || eWebPageTypeStoryboard == webPageType ) && onlineId.isVxGUIDValid() )
+	if( (eWebPageTypeAboutMe == webPageType || eWebPageTypeStoryboard == webPageType ) && onlineId.isValid() )
 	{
 		m_HisOnlineId = onlineId;
 		m_DownloadFileFolder = getIncompleteFileXferDirectory( onlineId );
@@ -297,7 +297,7 @@ bool PluginFileShareClient::fileInfoSearchResult( VxGUID& searchSessionId, std::
 		lockSearchFileList();
 		m_SearchFileInfoList.emplace_back( fileInfo );
 		unlockSearchFileList();
-		if( fileInfo.m_ThumbId.isVxGUIDValid() )
+		if( fileInfo.m_ThumbId.isValid() )
 		{
 			// query media thumnail if we do not have it
 			m_Engine.getThumbMgr().queryMediaThumbIfNeeded( sktBase, srcOnlineId, getPluginType(), fileInfo.m_ThumbId );

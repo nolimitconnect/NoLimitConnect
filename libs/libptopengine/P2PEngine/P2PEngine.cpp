@@ -577,7 +577,7 @@ bool P2PEngine::validateIdent( VxNetIdent* netIdent )
 		return false;
 	}
 
-	if( !netIdent->getMyOnlineId().isVxGUIDValid() )
+	if( !netIdent->getMyOnlineId().isValid() )
 	{
 		LogMsg( LOG_ERROR, "%s invalid online id", __func__ );
 		return false;
@@ -693,13 +693,13 @@ void P2PEngine::onStreamStop( VxGUID& streamId )
 //============================================================================
 VxGUID& P2PEngine::getMyOnlineId( void ) 
 { 
-	if( m_MyOnlineId.isVxGUIDValid() )
+	if( m_MyOnlineId.isValid() )
 	{
 		return m_MyOnlineId;
 	}
 
 	m_MyOnlineId = m_PktAnn.getMyOnlineId();
-	if( ! m_MyOnlineId.isVxGUIDValid() )
+	if( ! m_MyOnlineId.isValid() )
 	{
 		LogMsg( LOG_SEVERE, "P2PEngine::getMyOnlineId id is INVALID" );
 	}

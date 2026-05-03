@@ -58,7 +58,7 @@ bool ThumbnailViewWidget::loadFromAsset( ThumbInfo* asset )
 //============================================================================
 bool ThumbnailViewWidget::loadFromThumbId( VxGUID& thumbId )
 {
-    if( !thumbId.isVxGUIDValid() )
+    if( !thumbId.isValid() )
     {
         return false;
     }
@@ -233,7 +233,7 @@ bool ThumbnailViewWidget::saveToPngFile( QString pngFileName )
 //============================================================================
 void ThumbnailViewWidget::setImage( VxGUID& thumbId, QImage& thumbImage )
 {
-    if( thumbImage.isNull() || !thumbId.isVxGUIDValid() )
+    if( thumbImage.isNull() || !thumbId.isValid() )
     {
         LogMsg( LOG_ERROR, "ThumbnailViewWidget::%s invalid param", __func__ );
         return;

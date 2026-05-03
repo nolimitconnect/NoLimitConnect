@@ -2062,7 +2062,7 @@ bool GuiHelpers::pluginSettingsToWidget( EPluginType pluginType, PluginSetting& 
 bool GuiHelpers::createThumbFileName( VxGUID& assetGuid, QString& retFileName )
 {
     bool validFileName = false;
-    if( assetGuid.isVxGUIDValid() )
+    if( assetGuid.isValid() )
     {
         retFileName = VxGetAppDirectory( eAppDirThumbs ).c_str();
         if( !retFileName.isEmpty() )
@@ -2213,7 +2213,7 @@ bool GuiHelpers::generateThumbFromImageFile( std::string fileName, VxGUID& thumb
     }
 
     VxGUID tmpThumbId = thumbId;
-    if( !tmpThumbId.isVxGUIDValid() )
+    if( !tmpThumbId.isValid() )
     {
         tmpThumbId.initializeWithNewVxGUID();
     }

@@ -127,7 +127,7 @@ bool HostJoinedLastDb::getJoinedLast( EPluginType pluginType, VxGUID& onlineId, 
             {
                 lastJoinMs = cursor->getS64( COLUMN_LAST_JOIN_MS );
                 hostUrl = cursor->getString( COLUMN_HOST_URL );
-                result = onlineId.isVxGUIDValid() && lastJoinMs && !hostUrl.empty();
+                result = onlineId.isValid() && lastJoinMs && !hostUrl.empty();
                 if( !result )
                 {
                     LogMsg( LOG_ERROR, "HostJoinedLastDb::getJoinedLast invalid data" );

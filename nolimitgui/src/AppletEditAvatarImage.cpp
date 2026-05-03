@@ -56,7 +56,7 @@ AppletEditAvatarImage::AppletEditAvatarImage( AppCommon& app, QWidget* parent )
     m_MyIdent = m_MyApp.getAppGlobals().getMyNetIdent();
     m_strOrigOnlineName = m_MyIdent->getOnlineName();
     m_strOrigMoodMessage = m_MyIdent->getOnlineDescription();
-    if( m_MyIdent->getAvatarThumbGuid().isVxGUIDValid() )
+    if( m_MyIdent->getAvatarThumbGuid().isValid() )
     {
         ThumbInfo* thumbAsset = dynamic_cast<ThumbInfo*>(m_ThumbMgr.findAsset( m_MyIdent->getAvatarThumbGuid() ));
         if( thumbAsset )

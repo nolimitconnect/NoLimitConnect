@@ -93,7 +93,7 @@ void AppletPlayerCamClip::initAppletCamClipPlayer( void )
 void AppletPlayerCamClip::setAssetInfo( AssetBaseInfo& assetInfo )
 {
 	// files may not have a valid creator.. use ours
-	if( !assetInfo.getCreatorId().isVxGUIDValid() )
+	if( !assetInfo.getCreatorId().isValid() )
 	{
 		assetInfo.setCreatorId( m_Engine.getMyOnlineId() );
 	}
@@ -106,7 +106,7 @@ void AppletPlayerCamClip::setAssetInfo( AssetBaseInfo& assetInfo )
 void AppletPlayerCamClip::setAssetInfo( AssetInfo& assetInfo )
 {
 	// files may not have a valid creator.. use ours
-	if( !assetInfo.getCreatorId().isVxGUIDValid() )
+	if( !assetInfo.getCreatorId().isValid() )
 	{
 		assetInfo.setCreatorId( m_Engine.getMyOnlineId() );
 	}

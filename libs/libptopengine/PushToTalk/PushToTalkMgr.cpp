@@ -56,7 +56,7 @@ void PushToTalkMgr::pushToTalkStatusChange( VxGUID& onlineId, enum EPushToTalkSt
         return;
     }
 
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "PushToTalkMgr::%s invalid online id", __func__ );
         vx_assert( false );
@@ -83,7 +83,7 @@ void PushToTalkMgr::pushToTalkStatusChange( VxGUID& onlineId, enum EPushToTalkSt
 //============================================================================
 void PushToTalkMgr::setPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus )
 {
-    if( onlineId.isVxGUIDValid() )
+    if( onlineId.isValid() )
     {
         lockStatusMap();
         m_PushToTalkStatusMap[onlineId] = pushToTalkStatus;

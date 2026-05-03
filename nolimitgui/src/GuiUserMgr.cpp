@@ -63,7 +63,7 @@ bool GuiUserMgr::isMessengerReady( void )
 //============================================================================
 void GuiUserMgr::toGuiIndentListUpdate( EUserViewType listType, VxGUID& onlineId, uint64_t timestamp )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "AppCommon::toGuiSaveMyIdent invalid onlineId" );
         return;
@@ -93,7 +93,7 @@ void GuiUserMgr::toGuiIndentListUpdate( EUserViewType listType, VxGUID& onlineId
         }
 
         guiUser->setLastUpdateTime( timestamp );
-        if( isMessengerReady() && onlineId.isVxGUIDValid() )
+        if( isMessengerReady() && onlineId.isValid() )
         {
             if( m_ClientListBusy )
             {
@@ -120,7 +120,7 @@ void GuiUserMgr::toGuiIndentListUpdate( EUserViewType listType, VxGUID& onlineId
 //============================================================================
 void GuiUserMgr::toGuiIndentListRemove( EUserViewType listType, VxGUID& onlineId )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "AppCommon::toGuiIndentListRemove invalid onlineId" );
         return;
@@ -149,7 +149,7 @@ void GuiUserMgr::toGuiIndentListRemove( EUserViewType listType, VxGUID& onlineId
             break;
         }
 
-        if( isMessengerReady() && onlineId.isVxGUIDValid() )
+        if( isMessengerReady() && onlineId.isValid() )
         {
             if( m_ClientListBusy )
             {

@@ -89,6 +89,8 @@ public:
 
     void                        setAspectRatio( float aspectRatio );
 
+    void                        enableFreezeFrame( bool enable );
+
 signals:			
 	void						clicked();
 	void						recordBegin();
@@ -157,4 +159,5 @@ protected:
 	bool						m_InNormalRecord;
 	EMediaModule				m_MediaModule{ eMediaModuleInvalid };
 	EVideoUiMode				m_VideoUiMode{ eVideoUiModeChat };
+    bool                        m_FreezeFrameEnabled{ false };
 };

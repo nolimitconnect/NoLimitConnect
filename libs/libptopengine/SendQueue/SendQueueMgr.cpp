@@ -153,13 +153,13 @@ bool SendQueueMgr::haveQueuedAssetToSend( VxGUID& onlineId )
 //============================================================================
 bool SendQueueMgr::updateSendQueue( VxGUID& onlineId, VxGUID& assetId, enum ESendQueState sendState )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "SendQueueMgr::%s invalid online id", __func__ );
         return false;
     }
 
-    if( !assetId.isVxGUIDValid() )
+    if( !assetId.isValid() )
     {
         LogMsg( LOG_ERROR, "SendQueueMgr::%s invalid asset id", __func__ );
         return false;

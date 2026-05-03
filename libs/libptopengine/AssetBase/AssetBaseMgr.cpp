@@ -145,7 +145,7 @@ AssetBaseMgr::~AssetBaseMgr()
 //============================================================================
 bool AssetBaseMgr::isEmoticonThumbnail( VxGUID& thumbId )
 {
-	return thumbId.isVxGUIDValid() && std::find( m_EmoticonIdList.begin(), m_EmoticonIdList.end(), thumbId ) != m_EmoticonIdList.end();
+	return thumbId.isValid() && std::find( m_EmoticonIdList.begin(), m_EmoticonIdList.end(), thumbId ) != m_EmoticonIdList.end();
 }
 
 //============================================================================
@@ -286,7 +286,7 @@ AssetBaseInfo* AssetBaseMgr::findAsset( VxSha1Hash& fileHashId )
 //============================================================================
 AssetBaseInfo* AssetBaseMgr::findAsset( VxGUID& assetId )
 {
-	if( false == assetId.isVxGUIDValid() )
+	if( false == assetId.isValid() )
 	{
 		//LogMsg( LOG_ERROR, "AssetBaseMgr::findAsset: invalid VxGUID asset id\n" );
         return nullptr;
@@ -455,7 +455,7 @@ AssetBaseInfo* AssetBaseMgr::createAssetInfo( 	EAssetType      assetType,
 
     AssetBaseInfo* assetInfo = createAssetInfo( assetType, fileName, fileNameAndPath, fileLen );
 	assetInfo->setAssetUniqueId( assetId );
-	if( false == assetInfo->getAssetUniqueId().isVxGUIDValid() )
+	if( false == assetInfo->getAssetUniqueId().isValid() )
 	{
 		assetInfo->getAssetUniqueId().initializeWithNewVxGUID();
 	}
@@ -958,7 +958,7 @@ bool AssetBaseMgr::fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile )
 			{
 				VxGUID thumbId;
 				VxGUID assetId = assetInfo->getAssetUniqueId();
-				if( assetInfo->getThumbId().isVxGUIDValid() )
+				if( assetInfo->getThumbId().isValid() )
 				{
 					thumbId = assetInfo->getThumbId();
 					assetInfo->getThumbId().clear();
@@ -968,7 +968,7 @@ bool AssetBaseMgr::fromGuiSetFileIsShared( FileInfo& fileInfo, bool shareFile )
 
 				removeAsset( assetId, false );
 
-				if( thumbId.isVxGUIDValid() )
+				if( thumbId.isValid() )
 				{
 					deleteThumbAsset( thumbId );
 				}
@@ -1094,7 +1094,7 @@ bool AssetBaseMgr::fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibra
 			{
 				VxGUID thumbId;
 				VxGUID assetId = assetInfo->getAssetUniqueId();
-				if( assetInfo->getThumbId().isVxGUIDValid() )
+				if( assetInfo->getThumbId().isValid() )
 				{
 					thumbId = assetInfo->getThumbId();
 					assetInfo->getThumbId().clear();
@@ -1104,7 +1104,7 @@ bool AssetBaseMgr::fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibra
 
 				removeAsset( assetId, false );
 
-				if( thumbId.isVxGUIDValid() )
+				if( thumbId.isValid() )
 				{
 					deleteThumbAsset( thumbId );
 				}
@@ -1626,7 +1626,7 @@ void AssetBaseMgr::callbackSha1GenerateResult( ESha1GenResult sha1GenResult, VxG
 //============================================================================
 void AssetBaseMgr::deleteThumbAsset( VxGUID& thumbId )
 {
-	if( !thumbId.isVxGUIDValid() )
+	if( !thumbId.isValid() )
 	{
 		return;
 	}

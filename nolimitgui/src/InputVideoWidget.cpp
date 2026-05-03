@@ -20,8 +20,6 @@
 
 #include <CoreLib/VxGlobals.h>
 
-//#include <QDebug>
-
 #include "ui_InputVideoWidget.h"
 
 //============================================================================
@@ -57,6 +55,7 @@ InputVideoWidget::InputVideoWidget( QWidget* parent )
 	connect( ui.m_RotateCamButton,			SIGNAL(clicked()),	this, SLOT(slotRotateCamButtonClicked()) );
 	connect( ui.m_CancelRecordButton,		SIGNAL(clicked()),	this, SLOT(slotRecordCancelButtonClicked()) );
     connect( ui.m_BackButton, SIGNAL(clicked()), this, SLOT(slotExitVideoWidget() ) );
+    ui.m_VidWidget->enableFreezeFrame( false );
 }
 
 //============================================================================
@@ -68,6 +67,7 @@ void InputVideoWidget::showEvent(QShowEvent* showEvent)
 		ui.m_VidWidget->setVideoFeedId( m_AssetInfo.getCreatorId(), getMediaModule() );
 		m_MyApp.getEngine().fromGuiWantMediaInput( m_AssetInfo.getCreatorId(), eMediaInputVideoJpg, getMediaModule(), m_AssetInfo.getCreatorId(), true );
         ui.m_VidWidget->setVidImageRotation( 0 );
+        ui.m_VidWidget->enableFreezeFrame( false );
 	}
 }
 
@@ -80,7 +80,6 @@ void InputVideoWidget::hideEvent(QHideEvent* hideEvent)
 		{
 			m_IsRecording = false;
 			videoRecord( eAssetActionRecordCancel );
-			//ui.m_StartStopRecButton->setToggleState( false );
             ui.m_StartStopRecButton->setIcon( eMyIconCamcorderNormal );
             ui.m_CancelRecordButton->setVisible( false );      
 		}
@@ -114,7 +113,9 @@ void InputVideoWidget::slotBeginRecord( void )
 	if( m_IsRecording )
 	{
 		m_IsRecording = false;
+        ui.m_VidWidget->enableFreezeFrame( true );
 		videoRecord( eAssetActionRecordEnd );
+        
         ui.m_StartStopRecButton->setIcon( eMyIconCamcorderNormal );
         ui.m_CancelRecordButton->setVisible( false );
 		emit signalInputCompleted();
@@ -124,6 +125,8 @@ void InputVideoWidget::slotBeginRecord( void )
 		m_IsRecording = true;
 		if( videoRecord( eAssetActionRecordBegin ) )
 		{
+			m_MyApp.getEngine().fromGuiWantMediaInput( m_AssetInfo.getCreatorId(), eMediaInputVideoJpg, getMediaModule(), m_AssetInfo.getCreatorId(), true );
+            ui.m_VidWidget->enableFreezeFrame( false );
 			ui.m_StartStopRecButton->setIcon( eMyIconCamcorderCancel );
 			ui.m_CancelRecordButton->setVisible( true );
 		}

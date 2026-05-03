@@ -165,7 +165,7 @@ void HostBaseMgr::fromGuiSearchHost( enum EHostType hostType, SearchParams& sear
         return;
     }
 
-    if( !searchParams.getSearchSessionId().isVxGUIDValid() )
+    if( !searchParams.getSearchSessionId().isValid() )
     {
         LogModule( eLogHostSearch, LOG_VERBOSE, "HostBaseMgr Search GUID invalid" );
         m_Engine.getToGui().toGuiHostSearchStatus( hostType, searchParams.getSearchSessionId(), eHostSearchInvalidParam );
@@ -879,7 +879,7 @@ bool HostBaseMgr::connectToHostByPtopUrlAndReason( enum EHostType hostType, VxGU
         ptopUrlAttemptConnect = ptopUrl;
     }
 
-    if( !onlineId.isVxGUIDValid() || hostType == eHostTypeUnknown )
+    if( !onlineId.isValid() || hostType == eHostTypeUnknown )
     {
         LogMsg( LOG_ERROR, "HostBaseMgr::connectToHostByPtopUrlAndReason invalid param" );
         m_Engine.getToGui().toGuiHostJoinStatus( hostType, sessionId, eHostJoinInvalidUrl );

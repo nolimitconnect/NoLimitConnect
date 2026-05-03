@@ -45,7 +45,7 @@ public:
     void                        setAssetId( VxGUID& assetGuid )                 { m_AsssetId = assetGuid; }
     VxGUID&                     getAssetId( void )                              { return m_AsssetId; }
     void                        clearAssetId( void );
-    bool                        isAssetIdValid( void )                          { return m_AsssetId.isVxGUIDValid(); }
+    bool                        isAssetIdValid( void )                          { return m_AsssetId.isValid(); }
 
     bool                        generateThumbAsset( ThumbInfo& assetInfo );
     bool                        updateThumbAsset( ThumbInfo& assetInfo );

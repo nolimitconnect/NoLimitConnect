@@ -750,7 +750,7 @@ void AppletPopupMenu::showGroupieListSessionMenu( GuiGroupieListSession* groupie
 	if( guiGroupie )
 	{
 		VxGUID userOnlineId = guiGroupie->getUserOnlineId();
-		if( userOnlineId.isVxGUIDValid() )
+		if( userOnlineId.isValid() )
 		{
 			GuiUser* guiUser = m_MyApp.getUserMgr().getUser( userOnlineId );
 			if( guiUser )

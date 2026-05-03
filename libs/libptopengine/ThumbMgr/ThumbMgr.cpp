@@ -469,7 +469,7 @@ void ThumbMgr::onPktThumbXferErr( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr*
 //============================================================================
 bool ThumbMgr::fromGuiRequestPluginThumb( VxNetIdent* netIdent, EPluginType pluginType, VxGUID& thumbId )
 {
-    if( !netIdent || ePluginTypeInvalid == pluginType || !thumbId.isVxGUIDValid() )
+    if( !netIdent || ePluginTypeInvalid == pluginType || !thumbId.isValid() )
     {
         LogMsg( LOG_ERROR, "ThumbMgr::requestPluginThumb invalid param " );
         vx_assert( false );
@@ -505,7 +505,7 @@ bool ThumbMgr::fromGuiRequestPluginThumb( VxNetIdent* netIdent, EPluginType plug
 //============================================================================
 bool ThumbMgr::ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, EPluginType pluginType, VxGUID& thumbId, bool tmpThumb )
 {
-    if( !netIdent || ePluginTypeInvalid == pluginType || !thumbId.isVxGUIDValid() )
+    if( !netIdent || ePluginTypeInvalid == pluginType || !thumbId.isValid() )
     {
         LogMsg( LOG_ERROR, "ThumbMgr::%s invalid param ", __func__ );
         vx_assert( false );
@@ -553,7 +553,7 @@ bool ThumbMgr::requestThumbs( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* n
             if( !isEmoticonThumbnail( thumbId ) )
             {
                 int64_t thumbTimestamp = netIdent->getHostOrThumbModifiedTime( hostType );
-                if( thumbId.isVxGUIDValid() && thumbTimestamp && !isThumbUpToDate( thumbId, thumbTimestamp ) )
+                if( thumbId.isValid() && thumbTimestamp && !isThumbUpToDate( thumbId, thumbTimestamp ) )
                 {
                     EPluginType pluginType = HostTypeToClientPlugin( hostType );
                     if(LogEnabled(eLogPkt)) LogModule( eLogPkt,  LOG_VERBOSE, "ThumbMgr::requestThumb %s from %s %s ",
@@ -598,7 +598,7 @@ uint64_t ThumbMgr::fromGuiClearCache( ECacheType cacheType )
         for( int i = eHostTypeNetwork; i < eMaxHostType; i++ )
         {
             VxGUID thumbId = m_Engine.getMyPktAnnounce().getHostThumbId( ( EHostType )i, false );
-            if( thumbId.isVxGUIDValid() )
+            if( thumbId.isValid() )
             {
                 inUseList.emplace_back( thumbId );
             }

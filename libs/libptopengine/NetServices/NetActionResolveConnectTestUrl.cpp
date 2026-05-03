@@ -72,7 +72,7 @@ void NetActionResolveConnectTestUrl::doAction( void )
 		HostUrlInfo urlInfo = hostUrls.at( 0 );
 		if( urlInfo.getHostUrl() == connectTestUrl )
 		{
-			if( urlInfo.getOnlineId().isVxGUIDValid() )
+			if( urlInfo.getOnlineId().isValid() )
 			{
 				// already resolved
 				m_Engine.getNetStatusAccum().setConnectionTestAvail( true );
@@ -98,7 +98,7 @@ void NetActionResolveConnectTestUrl::doAction( void )
 	{
 		if( m_Engine.getConnectionMgr().getDefaultHostOnlineId( eHostTypeConnectTest, hostOnlineId ) )
 		{
-			if( hostOnlineId.isVxGUIDValid() )
+			if( hostOnlineId.isValid() )
 			{
 				LogMsg( LOG_INFO, "NetActionResolveConnectTestUrl:%s resolved with id %s", __func__, hostOnlineId.toOnlineIdString().c_str() );
 				m_Engine.getNetStatusAccum().setConnectionTestAvail( true );

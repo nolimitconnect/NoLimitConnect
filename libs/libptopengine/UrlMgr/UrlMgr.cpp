@@ -72,7 +72,7 @@ bool UrlMgr::lookupOnlineId( std::string& hostUrl, VxGUID& onlineId )
     auto iter = m_UrlMap.find( hostUrl );
     if( iter != m_UrlMap.end() )
     {
-        if( iter->second.m_OnlineId.isVxGUIDValid() )
+        if( iter->second.m_OnlineId.isValid() )
         {
             onlineId = iter->second.m_OnlineId;
             m_UrlMutex.unlock();
@@ -92,7 +92,7 @@ void UrlMgr::setMyOnlineNodeUrl( std::string& myNodeUrl, EIpAddrType addrType )
         m_UrlMutex.lock();
         for( auto iter = m_UrlMap.begin(); iter != m_UrlMap.end(); ++iter )
         {
-            if( !iter->second.m_OnlineId.isVxGUIDValid() )
+            if( !iter->second.m_OnlineId.isValid() )
             {
                 if( iter->second.m_Port == m_MyUrlInfo.m_Port && iter->second.m_IpAddr == m_MyUrlInfo.m_IpAddr )
                 {
@@ -142,7 +142,7 @@ std::string UrlMgr::resolveUrl( std::string& hostUrl, EIpAddrType addrType )
 //============================================================================
 void UrlMgr::updateUrlCache( std::string& hostUrlIn, VxGUID& onlineId, EIpAddrType addrType )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_SEVERE, "UrlMgr::updateUrlCache onlineId is INVALID" );
         return;
@@ -174,7 +174,7 @@ void UrlMgr::updateUrlCache( std::string& hostUrlIn, VxGUID& onlineId, EIpAddrTy
 
     for( auto iter = m_UrlMap.begin(); iter != m_UrlMap.end(); ++iter )
     {
-        if( !iter->second.m_OnlineId.isVxGUIDValid() && iter->second.m_Port == tcpPort &&iter->second.m_IpAddr == ipAddr )
+        if( !iter->second.m_OnlineId.isValid() && iter->second.m_Port == tcpPort &&iter->second.m_IpAddr == ipAddr )
         {
             iter->second.updateOnlineId( onlineId );
         }
@@ -257,7 +257,7 @@ bool UrlMgr::fillUrlInfo( std::string& hostUrl, UrlInfo& urlInfo, EIpAddrType ad
             // possibly has online id
             VxGUID onlineId;
             onlineId.fromOnlineIdString( strFile.c_str() );
-            if( onlineId.isVxGUIDValid() )
+            if( onlineId.isValid() )
             {
                 urlInfo.m_OnlineId = onlineId;
                 hadOnlineId = true;

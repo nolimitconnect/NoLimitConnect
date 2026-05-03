@@ -177,7 +177,7 @@ void UserJoinInfoDb::getAllUserJoins( std::map<GroupieId, UserJoinInfo*>& UserJo
                 onlineId = ptopUrl.getOnlineId();
             }
 
-            if( onlineId.isVxGUIDValid() && ptopUrl.isValid() && hostInfo->getOnlineId().isVxGUIDValid() )
+            if( onlineId.isValid() && ptopUrl.isValid() && hostInfo->getOnlineId().isValid() )
             {
                 GroupieId groupieId( hostInfo->getOnlineId(), onlineId, hostInfo->getHostType() );
                 hostInfo->setGroupieId( groupieId );

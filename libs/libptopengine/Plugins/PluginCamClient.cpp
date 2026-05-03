@@ -147,7 +147,7 @@ bool PluginCamClient::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSes
 
 	if( rxSession )
 	{
-		if( lclSessionId.isVxGUIDValid() )
+		if( lclSessionId.isValid() )
 		{
 			rxSession->setLclSessionId( lclSessionId );
 		}
@@ -574,7 +574,7 @@ void PluginCamClient::onPktVideoFeedPic( std::shared_ptr<VxSktBase>& sktBase, Vx
 	//LogMsg( LOG_VERBOSE, "PluginCamClient::onPktCastPic\n" );
     // might be relayed. use source id instead of connection netIdent;
     VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
-    if( !srcOnlineId.isVxGUIDValid() )
+    if( !srcOnlineId.isValid() )
     {
         LogMsg( LOG_VERBOSE, "PluginCamClient::%s invalid source id", __func__ );
         return;
@@ -645,7 +645,7 @@ void PluginCamClient::onPktVideoFeedPicChunk( std::shared_ptr<VxSktBase>& sktBas
 {
     // might be relayed. use source id instead of connection netIdent;
     VxGUID srcOnlineId = pktHdr->getSrcOnlineId();
-    if( !srcOnlineId.isVxGUIDValid() )
+    if( !srcOnlineId.isValid() )
     {
         LogMsg( LOG_VERBOSE, "PluginCamClient::%s invalid source id", __func__ );
         return;

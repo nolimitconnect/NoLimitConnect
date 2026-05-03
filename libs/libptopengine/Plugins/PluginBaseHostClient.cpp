@@ -125,7 +125,7 @@ void PluginBaseHostClient::fromGuiSearchHost( EHostType hostType, SearchParams& 
 //============================================================================
 bool PluginBaseHostClient::fromGuiRequestPluginThumb( VxNetIdent* netIdent, VxGUID& thumbId )
 {
-    if( netIdent && thumbId.isVxGUIDValid() )
+    if( netIdent && thumbId.isValid() )
     {
         std::shared_ptr<VxSktBase> sktBase( nullptr );
         m_PluginMgr.pluginApiSktConnectTo( getPluginType(), netIdent, 0, sktBase );
@@ -153,7 +153,7 @@ bool PluginBaseHostClient::ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBa
 void PluginBaseHostClient::sendLeaveHost( HostedId& adminId )
 {
     VxGUID hostOnlineId = adminId.getHostOnlineId();
-    if( hostOnlineId.isVxGUIDValid() )
+    if( hostOnlineId.isValid() )
     {
         GroupieId groupieId( m_Engine.getMyOnlineId(), adminId );
         sendLeaveHost( groupieId );
@@ -195,7 +195,7 @@ bool PluginBaseHostClient::sendLeaveHost( GroupieId& groupieId )
 void PluginBaseHostClient::sendUnJoinHost( HostedId& adminId )
 {
     VxGUID hostOnlineId = adminId.getHostOnlineId();
-    if( hostOnlineId.isVxGUIDValid() )
+    if( hostOnlineId.isValid() )
     {
         GroupieId groupieId( m_Engine.getMyOnlineId(), adminId );
         sendUnJoinHost( groupieId );

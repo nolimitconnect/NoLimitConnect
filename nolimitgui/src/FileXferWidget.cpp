@@ -281,7 +281,7 @@ void FileXferWidget::updateWidgetFromInfo( void )
 	ui.m_FileActionBar->setIsSharedFile( xferSession->getIsSharedFile() );
 	ui.m_FileActionBar->setIsInLibrary( xferSession->getIsInLibrary() );
 
-	if( xferSession->getThumbId().isVxGUIDValid() && !ui.m_ThumbnailButton->hasImage() )
+	if( xferSession->getThumbId().isValid() && !ui.m_ThumbnailButton->hasImage() )
 	{
 		QImage thumbImage;
 		GetAppInstance().getThumbImage( xferSession->getThumbId(), thumbImage );

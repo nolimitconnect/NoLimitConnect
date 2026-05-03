@@ -46,7 +46,7 @@ public:
 	const char*					getFragment( void );
     VxGUID&                     getOnlineId( void )                         { return m_OnlineId; }
     std::string				    getOnlineIdStr( void )                      { return m_strOnlineId.empty() ? "" : m_strOnlineId.c_str(); }
-    bool                        hasValidOnlineId( void )                    { return m_OnlineId.isVxGUIDValid(); }
+    bool                        hasValidOnlineId( void )                    { return m_OnlineId.isValid(); }
     bool                        validateUrl( bool onlineIdMustBeValid );
 
 	bool						isAbsoluteUrl();

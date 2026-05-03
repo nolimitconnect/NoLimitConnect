@@ -51,7 +51,7 @@ public:
     // get a description of the plugin id
     std::string                 describeHostUserSessionId( void ) const;
 
-    bool                        isValid( void )                                 { return m_SessionId.isVxGUIDValid() && ConnectId::isValid(); }
+    bool                        isValid( void )                                 { return m_SessionId.isValid() && ConnectId::isValid(); }
     void                        clear( void )                                   { m_SessionId.clearVxGUID(); ConnectId::clear(); }
 
 protected:

@@ -601,7 +601,7 @@ void PluginBaseHostService::onPktHostInfoReply( std::shared_ptr<VxSktBase>& sktB
 //============================================================================
 bool PluginBaseHostService::fromGuiRequestPluginThumb( VxNetIdent* netIdent, VxGUID& thumbId )
 {
-    if( netIdent && thumbId.isVxGUIDValid() )
+    if( netIdent && thumbId.isValid() )
     {
         std::shared_ptr<VxSktBase> sktBase( nullptr );
         m_PluginMgr.pluginApiSktConnectTo( getPluginType(), netIdent, 0, sktBase );

@@ -85,7 +85,7 @@ std::string GuiHostedListSession::getHostDescription( void )
 //============================================================================
 VxGUID& GuiHostedListSession::getSessionId( void )
 {
-    if( !m_SessionId.isVxGUIDValid() )
+    if( !m_SessionId.isValid() )
     {
         m_SessionId.initializeWithNewVxGUID();
     }

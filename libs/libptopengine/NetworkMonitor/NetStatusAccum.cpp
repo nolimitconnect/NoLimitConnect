@@ -466,7 +466,7 @@ bool NetStatusAccum::isConnectedToHost( EHostType hostType )
     auto item = m_HostConnectionMap.find( hostType );
     if( item != m_HostConnectionMap.end() )
     {
-        if( item->second.getConnectionId().isVxGUIDValid() )
+        if( item->second.getConnectionId().isValid() )
         {
             isConnected = true;
         }
@@ -499,7 +499,7 @@ std::string NetStatusAccum::getConnectedHostUrl( EHostType hostType )
     auto item = m_HostConnectionMap.find( hostType );
     if( item != m_HostConnectionMap.end() )
     {
-        if( item->second.getConnectionId().isVxGUIDValid() )
+        if( item->second.getConnectionId().isValid() )
         {
             hostUrl = item->second.getHostUrl();
         }
@@ -840,7 +840,7 @@ bool NetStatusAccum::isHostResolved( EHostType hostType )
     VxGUID retHostOnlineId;
     if( m_Engine.getConnectionMgr().getDefaultHostOnlineId( hostType, retHostOnlineId ) )
     {
-        return retHostOnlineId.isVxGUIDValid();
+        return retHostOnlineId.isValid();
     }
 
     return false;
@@ -850,7 +850,7 @@ bool NetStatusAccum::isHostResolved( EHostType hostType )
 bool NetStatusAccum::getResolvedHost( EHostType hostType, std::string& retHostUrl )
 {
     VxGUID hostOnlineId;
-    if( m_Engine.getConnectionMgr().getDefaultHostOnlineId( hostType, hostOnlineId ) && hostOnlineId.isVxGUIDValid() )
+    if( m_Engine.getConnectionMgr().getDefaultHostOnlineId( hostType, hostOnlineId ) && hostOnlineId.isValid() )
 	{
         return m_Engine.getHostUrlListMgr().getResolvedHostUrl( hostType, hostOnlineId, retHostUrl );
 	} 

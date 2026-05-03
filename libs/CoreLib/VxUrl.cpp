@@ -252,7 +252,7 @@ void VxUrl::setUrl( const char* pUrl )
             // should be online id + host type
             // may have a invite type character
             m_OnlineId.fromOnlineIdString( m_strOnlineId.c_str() );
-            if( m_OnlineId.isVxGUIDValid() )
+            if( m_OnlineId.isValid() )
             {
                 char suffixChar = m_strOnlineId[m_strOnlineId.length() - 1];
                 if( Invite::isValidHostTypeSuffix( suffixChar ) )

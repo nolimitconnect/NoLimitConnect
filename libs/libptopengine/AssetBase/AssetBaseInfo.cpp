@@ -184,7 +184,7 @@ AssetBaseInfo::AssetBaseInfo( EAssetType assetType, VxGUID& creatorId, VxGUID& a
 FileInfo AssetBaseInfo::getFileInfo( void )
 {
 	FileInfo fileInfo( *this, m_AssetHash );
-	if( getDestUserId().isVxGUIDValid() )
+	if( getDestUserId().isValid() )
 	{
 		fileInfo.setOnlineId( getDestUserId() );
 	}
@@ -309,8 +309,8 @@ AssetBaseInfo& AssetBaseInfo::operator=( const AssetBaseInfo& rhs )
 //============================================================================
 bool AssetBaseInfo::isValid( bool logErrIfInvalid )
 {
-	bool isValidAsset = VXFILE_TYPE_UNKNOWN != m_u16AssetType && m_UniqueId.isVxGUIDValid();
-	if( m_AdminId.isVxGUIDValid() )
+	bool isValidAsset = VXFILE_TYPE_UNKNOWN != m_u16AssetType && m_UniqueId.isValid();
+	if( m_AdminId.isValid() )
 	{
 		isValidAsset &= getPluginType() != ePluginTypeInvalid;
 	}
@@ -325,7 +325,7 @@ bool AssetBaseInfo::isValid( bool logErrIfInvalid )
 	}
 	else if( getAssetType() != eAssetTypeThumbnail && getAssetType() != eAssetTypeChatFace )
 	{
-		isValidAsset &= getCreatorId().isVxGUIDValid() && 0 != m_CreationTime && 0 != m_InfoModifiedTime;
+		isValidAsset &= getCreatorId().isValid() && 0 != m_CreationTime && 0 != m_InfoModifiedTime;
 	}
 
 	if( !isValidAsset )
@@ -369,7 +369,7 @@ bool AssetBaseInfo::isFileHashValid( void )
 bool AssetBaseInfo::isValidThumbnail( void )
 {
     // dont use isValid.. thumbs may not have a creator id if is an emoticon
-    bool valid = getAssetType() == eAssetTypeThumbnail && isValidFile() && m_InfoModifiedTime && m_UniqueId.isVxGUIDValid();
+    bool valid = getAssetType() == eAssetTypeThumbnail && isValidFile() && m_InfoModifiedTime && m_UniqueId.isValid();
 	if( !valid )
 	{
 		LogMsg( LOG_ERROR, "AssetBaseInfo::isValidThumbnail invalid " );
@@ -394,7 +394,7 @@ bool AssetBaseInfo::isMyHistory( void )
 //============================================================================
 VxGUID& AssetBaseInfo::assureAssetUniqueId( void )
 {
-	if( !m_UniqueId.isVxGUIDValid() )
+	if( !m_UniqueId.isValid() )
 	{
 		VxGUID::generateNewVxGUID( m_UniqueId );
 	}
@@ -406,7 +406,7 @@ VxGUID& AssetBaseInfo::assureAssetUniqueId( void )
 // generates unique id, assigns it to asset and returns reference to it
 VxGUID& AssetBaseInfo::generateNewUniqueId( bool ifNotValid )
 {
-	if( !ifNotValid || ( ifNotValid && !m_UniqueId.isVxGUIDValid() ) )
+	if( !ifNotValid || ( ifNotValid && !m_UniqueId.isValid() ) )
 	{
 		VxGUID::generateNewVxGUID( m_UniqueId );
 	}
@@ -593,7 +593,7 @@ bool AssetBaseInfo::isHistoryMatch( GroupieId& groupieId )
 			return true;
 		}
 	}
-	else if( m_AdminId.isVxGUIDValid() && m_AdminId == groupieId.getHostOnlineId() )
+	else if( m_AdminId.isValid() && m_AdminId == groupieId.getHostOnlineId() )
 	{
 		// hosted needs to match host and admin
 		if( PluginTypeToHostType( getPluginType() ) == groupieId.getHostType() )

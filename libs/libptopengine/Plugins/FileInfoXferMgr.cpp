@@ -1077,13 +1077,13 @@ FileRxSession*	FileInfoXferMgr::findOrCreateRxSession( VxGUID sendToId, std::sha
 FileRxSession* FileInfoXferMgr::findOrCreateRxSession( VxGUID& lclSessionId, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase )
 {
 	FileRxSession* xferSession = findRxSessionSessionId( lclSessionId );
-	if( ( xferSession ) && ( lclSessionId.isVxGUIDValid() ) )
+	if( ( xferSession ) && ( lclSessionId.isValid() ) )
 	{
 		xferSession = new FileRxSession( lclSessionId, sktBase, sendToId );
 		m_RxSessions.insert( std::make_pair( xferSession->getLclSessionId(), xferSession ) );
 	}
 
-	if( !xferSession && !lclSessionId.isVxGUIDValid() )
+	if( !xferSession && !lclSessionId.isValid() )
 	{
 		xferSession = findRxSessionSendToId( sendToId );
 	}
@@ -1162,7 +1162,7 @@ FileTxSession*	FileInfoXferMgr::findOrCreateTxSession( VxGUID sendToId, std::sha
 FileTxSession* FileInfoXferMgr::findOrCreateTxSession( VxGUID& lclSessionId, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase )
 {
 	FileTxSession* xferSession = 0;
-	if( lclSessionId.isVxGUIDValid() )
+	if( lclSessionId.isValid() )
 	{
 		xferSession = findTxSessionSessionId( lclSessionId );
 	}
@@ -1894,7 +1894,7 @@ bool FileInfoXferMgr::isViewFileListMatch( FileTxSession* xferSession, FileInfo&
 bool FileInfoXferMgr::startDownload( FileInfo& fileInfo, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID onlineId )
 {
 	bool result{ false };
-	if( false == lclSessionId.isVxGUIDValid() )
+	if( false == lclSessionId.isValid() )
 	{
 		lclSessionId.initializeWithNewVxGUID();
 	}
@@ -1920,7 +1920,7 @@ EXferError FileInfoXferMgr::setupFileDownload( VxFileXferInfo& xferInfo, VxGUID&
 {
 	EXferError xferErr = eXferErrorNone;
 	uint64_t u64FileLen = 0;
-	if( false == xferInfo.getLclSessionId().isVxGUIDValid() )
+	if( false == xferInfo.getLclSessionId().isValid() )
 	{
 		xferInfo.getLclSessionId().initializeWithNewVxGUID();
 	}
@@ -2176,7 +2176,7 @@ void FileInfoXferMgr::announcePkt( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr
 //============================================================================
 void FileInfoXferMgr::sendFileXferCancel( FileShareXferSession* xferSession )
 {
-	if( xferSession->getSkt().get() && xferSession->getSkt()->isConnected() && xferSession->getSendToId().isVxGUIDValid() )
+	if( xferSession->getSkt().get() && xferSession->getSkt()->isConnected() && xferSession->getSendToId().isValid() )
 	{
 		sendFileXferCancel( xferSession->getSkt(), xferSession );
 	}
@@ -2189,7 +2189,7 @@ void FileInfoXferMgr::sendFileXferCancel( FileShareXferSession* xferSession )
 //============================================================================
 void FileInfoXferMgr::sendFileXferCancel( std::shared_ptr<VxSktBase>& sktBase, FileShareXferSession* xferSession )
 {
-	if( sktBase.get() && sktBase->isConnected() && xferSession->getSendToId().isVxGUIDValid() )
+	if( sktBase.get() && sktBase->isConnected() && xferSession->getSendToId().isValid() )
 	{
 		PktFileXferCancel pktXferCancel;
 		VxFileXferInfo& xferInfo = xferSession->getXferInfo();

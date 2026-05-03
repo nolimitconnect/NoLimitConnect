@@ -42,7 +42,7 @@ void HostServerSearchMgr::updateHostSearchList( EHostType hostType, PktHostInvit
         return;
     }
 
-    if( haveHostAnnList( hostType ) && netIdent->getMyOnlineId().isVxGUIDValid() )
+    if( haveHostAnnList( hostType ) && netIdent->getMyOnlineId().isValid() )
     {
         EPluginType pluginType = getSearchPluginType( hostType );
         m_SearchMutex.lock();
@@ -340,7 +340,7 @@ bool HostServerSearchMgr::onPktHostInviteSearchReq( std::shared_ptr<VxSktBase>& 
         uint64_t timeNow = GetGmtTimeMs();
 
         m_SearchMutex.lock();
-        if( searchHostId.isVxGUIDValid() )
+        if( searchHostId.isValid() )
         {
             // user wants just a specific host
             PluginId pluginId( searchHostId, pluginType );
@@ -448,7 +448,7 @@ bool HostServerSearchMgr::onPktHostInviteMoreReq( std::shared_ptr<VxSktBase>& sk
 
     pktReply.setHostType( hostType );
     pktReply.setSearchSessionId( pktReq->getSearchSessionId() );
-    if( !haveHostAnnList( hostType ) || !nextHostId.isVxGUIDValid() )
+    if( !haveHostAnnList( hostType ) || !nextHostId.isValid() )
     {
         pktReply.setCommError( eCommErrInvalidHostType );
     }

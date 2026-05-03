@@ -231,7 +231,7 @@ bool AppletOfferRandSession::setOffer( EPluginType pluginType, GuiUser* guiUser,
 {
     m_ExistingOffer = existingOffer;
     m_OfferInfo.fillOfferSend( pluginType, guiUser->getNetIdent() );
-    if( existingOffer && existingOffer->getOfferId().isVxGUIDValid() )
+    if( existingOffer && existingOffer->getOfferId().isValid() )
     {
         m_OfferInfo.setOfferId( existingOffer->getOfferId() );
     }

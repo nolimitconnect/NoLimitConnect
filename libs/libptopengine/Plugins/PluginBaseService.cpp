@@ -106,7 +106,7 @@ void PluginBaseService::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterO
             }
         }
 
-        if( !sentToRequestor && includeRequester && sktBaseRequester && requesterOnlineId.isVxGUIDValid() )
+        if( !sentToRequestor && includeRequester && sktBaseRequester && requesterOnlineId.isValid() )
         {
             // allways send to requester even if not still joined
             txPacket( requesterOnlineId, sktBaseRequester, pktHdr, getClientPluginType() );

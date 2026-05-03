@@ -119,7 +119,7 @@ void GuiPushToTalkMgr::wantGuiPushToTalkCallbacks( GuiPushToTalkCallback* client
 //============================================================================
 void GuiPushToTalkMgr::setPushToTalkStatus( VxGUID& onlineId, EPushToTalkStatus pushToTalkStatus )
 {
-    if( onlineId.isVxGUIDValid() )
+    if( onlineId.isValid() )
     {
         m_PushToTalkStatusMap[onlineId] = pushToTalkStatus;
     }
@@ -141,7 +141,7 @@ EPushToTalkStatus GuiPushToTalkMgr::getPushToTalkStatus( VxGUID& onlineId )
 //============================================================================
 void GuiPushToTalkMgr::togglePushToTalk( VxGUID& onlineId )
 {
-	if( onlineId.isVxGUIDValid() )
+	if( onlineId.isValid() )
 	{
 		if( GetAppInstance().getUserMgr().isUserOnline( onlineId ) )
 		{

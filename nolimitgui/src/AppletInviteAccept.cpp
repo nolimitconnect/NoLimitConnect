@@ -122,7 +122,7 @@ VxGUID AppletInviteAccept::getFromOnlineId( void )
     onlineId.initializeWithNewVxGUID();
     for( auto& ptopUrl : m_HostUrls )
     {
-        if( ptopUrl.getOnlineId().isVxGUIDValid() )
+        if( ptopUrl.getOnlineId().isValid() )
         {
             onlineId = ptopUrl.getOnlineId();
             break;

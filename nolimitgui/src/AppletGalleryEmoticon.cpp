@@ -88,7 +88,7 @@ void AppletGalleryEmoticon::loadAssets( void )
     std::vector<VxGUID>& emoticonIdList = ThumbMgr::getEmoticonIdList();
     for( auto& assetId : emoticonIdList )
     {
-        if( assetId.isVxGUIDValid() )
+        if( assetId.isValid() )
         {
             AssetBaseInfo* assetInfo = m_MyApp.getEngine().getThumbMgr().findAsset(assetId);
             if( assetInfo && eAssetTypeThumbnail == assetInfo->getAssetType() )

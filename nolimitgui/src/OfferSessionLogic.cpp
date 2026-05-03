@@ -117,7 +117,7 @@ void OfferSessionLogic::callbackToGuiRxedPluginOffer( std::shared_ptr<GuiOfferSe
 			// special case for multisession and other single session use online id instead of session id and auto accept
 			if( offerSession->getUserIdent()->getMyOnlineId() == m_HisIdent->getMyOnlineId() )
 			{
-				if( offerSession->getOfferId().isVxGUIDValid() )
+				if( offerSession->getOfferId().isValid() )
 				{
 					getOfferInfo().getOfferId() = offerSession->getOfferId();
 				}

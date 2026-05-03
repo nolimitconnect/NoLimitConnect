@@ -237,7 +237,7 @@ void VirtStreamMgr::onPktFileGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPk
 
 	if(LogEnabled(eLogStreams)) LogModule( eLogStreams, LOG_ERROR, "VirtStreamMgr::%s stream session %s server session %s", __func__, 
 										   rmtSessionId.toHexString().c_str(),  lclSessionId.toHexString().c_str() );
-	if( lclSessionId.isVxGUIDValid() )
+	if( lclSessionId.isValid() )
 	{
 		lockStreamMgr();
 		m_LiveStream.m_ServerSessionId = lclSessionId;
@@ -248,7 +248,7 @@ void VirtStreamMgr::onPktFileGetReply( std::shared_ptr<VxSktBase>& sktBase, VxPk
 //============================================================================
 void VirtStreamMgr::onPktFileChunkReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
-	if( !m_LiveStream.m_StreamSessionId.isVxGUIDValid() )
+	if( !m_LiveStream.m_StreamSessionId.isValid() )
 	{
 		if( LogEnabled( eLogStreams ) ) LogModule( eLogStreams, LOG_ERROR, "VirtStreamMgr::%s null m_LiveStream.m_StreamSessionId", __func__ );
 		return;

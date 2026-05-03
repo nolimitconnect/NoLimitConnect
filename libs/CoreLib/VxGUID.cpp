@@ -283,7 +283,7 @@ void VxGUID::initializeWithNewVxGUID( void )
 }
 
 //============================================================================
-bool VxGUID::isVxGUIDValid() const 
+bool VxGUID::isValid() const 
 { 
 	return 0 != m_u64LoPart && 0 != m_u64HiPart;
 }
@@ -327,7 +327,7 @@ bool VxGUID::toHexString( std::string& strRetId ) const
 	char lclBuf[ 33 ];
     toHexString( lclBuf );
 	strRetId = lclBuf; 
-    return isVxGUIDValid() && !strRetId.empty();
+    return isValid() && !strRetId.empty();
 } 
 
 //============================================================================
@@ -396,7 +396,7 @@ bool VxGUID::fromRawData( uint8_t* rawData )
         rawData++;
     }
 
-    return isVxGUIDValid();
+    return isValid();
 }
 
 //============================================================================

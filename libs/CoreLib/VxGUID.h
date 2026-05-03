@@ -44,8 +44,8 @@ public:
 	void						initializeWithNewVxGUID( void );
 	void						clearVxGUID( void );
 
-	bool						isVxGUIDValid()	const;
-	void						assureIsValidGUID( void ) { if( !isVxGUIDValid() ) initializeWithNewVxGUID(); }
+	bool						isValid()	const;
+	void						assureIsValidGUID( void ) { if( !isValid() ) initializeWithNewVxGUID(); }
 	std::string					toGUIDStandardFormatedString( void );
 
 	bool						toHexString( std::string& strRetId ) const;

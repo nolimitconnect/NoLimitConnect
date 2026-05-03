@@ -174,7 +174,7 @@ bool MediaPlayerNlc::fromGuiPlayMedia( AssetBaseInfo& assetInfo, int pos0to10000
 	if( assetInfo.isStream() || assetInfo.isValidFile() )
 	{
 		m_AssetInfo = assetInfo;
-		if( !assetInfo.isStream() || !m_FeedId.isVxGUIDValid() )
+		if( !assetInfo.isStream() || !m_FeedId.isValid() )
 		{
 			m_FeedId = m_AssetInfo.getAssetUniqueId();
 		}

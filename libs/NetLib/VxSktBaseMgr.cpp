@@ -82,7 +82,7 @@ int VxSktBaseMgr::getToDeleteSktCnt( void )
 // find a socket.. assumes list has been locked
 std::shared_ptr<VxSktBase> VxSktBaseMgr::findSktBase( const VxGUID& connectId, bool acceptSktsOnly )
 {
-    if( connectId.isVxGUIDValid() && ( !acceptSktsOnly || eSktMgrTypeTcpAccept == m_eSktMgrType ) )
+    if( connectId.isValid() && ( !acceptSktsOnly || eSktMgrTypeTcpAccept == m_eSktMgrType ) )
     {
         for( auto sktBase : m_aoSkts )
         {
@@ -568,7 +568,7 @@ void VxSktBaseMgr::dumpSocketStats( const char* reason, bool fullDump )
 bool VxSktBaseMgr::closeConnection( VxGUID& connectId, ESktCloseReason closeReason )
 {
 	bool wasClosed{ false };
-	if( connectId.isVxGUIDValid() )
+	if( connectId.isValid() )
 	{
 		std::shared_ptr<VxSktBase> sktBase( nullptr );
 		#if defined(DEBUG_SKT_MGR_LOCK)

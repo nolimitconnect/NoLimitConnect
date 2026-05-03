@@ -337,7 +337,7 @@ GuiHostedListItem* GuiHostedListWidget::addOrUpdateHostSession( GuiHostedListSes
                 if( !hostItem->getIsThumbUpdated() )
                 {
                     VxGUID thumbId = hostSession->getHostThumbId(); 
-                    if( thumbId.isVxGUIDValid() )
+                    if( thumbId.isValid() )
                     {
                         GuiThumb* guiThumb = m_MyApp.getThumbMgr().getThumb( thumbId );
                         if( guiThumb )

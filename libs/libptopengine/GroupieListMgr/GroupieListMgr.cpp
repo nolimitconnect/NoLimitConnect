@@ -47,13 +47,13 @@ int32_t GroupieListMgr::groupieListMgrShutdown( void )
 //============================================================================
 void GroupieListMgr::updateGroupie( VxGUID& groupieOnlineId, VxGUID& hostOnlineId, EHostType hostType, std::string& hosted, int64_t timestampMs )
 {
-    if( !groupieOnlineId.isVxGUIDValid() )
+    if( !groupieOnlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "GroupieListMgr::updateDirectConnectIdent invalid groupie id" );
         return;
     }
 
-    if( !hostOnlineId.isVxGUIDValid() )
+    if( !hostOnlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "GroupieListMgr::updateDirectConnectIdent invalid host id" );
         return;
@@ -109,7 +109,7 @@ void GroupieListMgr::updateGroupieList( VxNetIdent* netIdent, std::shared_ptr<Vx
     else
     {     
         VxGUID onlineId = netIdent->getMyOnlineId();
-        if( !onlineId.isVxGUIDValid() )
+        if( !onlineId.isValid() )
         {
             LogMsg( LOG_ERROR, "GroupieListMgr::updateGroupieList invalid id" );
             return;
@@ -857,7 +857,7 @@ void GroupieListMgr::onPktGroupieInfoReply( std::shared_ptr<VxSktBase>& sktBase,
                 groupieOnlineId = ptopUrl.getOnlineId();
             }
 
-            if( groupieOnlineId.isVxGUIDValid() )
+            if( groupieOnlineId.isValid() )
             {
                 if( !groupieTitle.empty() && !groupieDesc.empty() && lastModifiedTime )
                 {
@@ -919,7 +919,7 @@ void GroupieListMgr::onPktGroupieAnnReq( std::shared_ptr<VxSktBase>& sktBase, Vx
                 onlineId = ptopUrl.getOnlineId();
             }
 
-            if( ptopUrl.isValid() && onlineId.isVxGUIDValid() && !groupieUrl.empty() && !groupieTitle.empty() && !groupieDesc.empty() && timeModified )
+            if( ptopUrl.isValid() && onlineId.isValid() && !groupieUrl.empty() && !groupieTitle.empty() && !groupieDesc.empty() && timeModified )
             {
                 GroupieId groupieId( onlineId, m_Engine.getMyOnlineId(), pktReq->getHostType() );
                 if( groupieId.isValid() )
@@ -1004,7 +1004,7 @@ void GroupieListMgr::onPktGroupieSearchReq( std::shared_ptr<VxSktBase>& sktBase,
 
             unlockList();
         }
-        else if( pktReq->getSpecificOnlineId().isVxGUIDValid() )
+        else if( pktReq->getSpecificOnlineId().isValid() )
         {
             // search specific user
             GroupieId groupieId( pktReq->getSpecificOnlineId(), m_Engine.getMyOnlineId(), pktReq->getHostType() );

@@ -1103,7 +1103,7 @@ ENetCmdError NetServicesMgr::sendAndRecieveQueryHostId( VxTimer&				testTimer,
 
     VxGUID hostId;
     hostId.fromVxGUIDHexString( content.c_str() );
-    if( !hostId.isVxGUIDValid() )
+    if( !hostId.isValid() )
     {
         LogMsg( LOG_ERROR, "Query Host Online Id Invalid Content (%3.3f sec) thread 0x%x", testTimer.elapsedSec(), VxGetCurrentThreadId() );
         if( sendMsgToUser )

@@ -122,7 +122,7 @@ void HostedListDb::removeHostedInfo( enum EHostType hostType, VxGUID& onlineId )
 //============================================================================
 bool HostedListDb::doesHostInfoExist( enum EHostType hostType, VxGUID& onlineId, std::string& retOnlineHexStr )
 {
-	if( !onlineId.isVxGUIDValid() || !onlineId.toHexString( retOnlineHexStr ) )
+	if( !onlineId.isValid() || !onlineId.toHexString( retOnlineHexStr ) )
 	{
 		LogMsg( LOG_ERROR, "ERROR: HostedListDb::doesHostInfoExist INVALID ONLINE ID" );
 		return false;
@@ -254,7 +254,7 @@ bool HostedListDb::updateHostTitleAndDescription( enum EHostType hostType, VxGUI
 bool HostedListDb::saveHosted( HostedInfo& hostedInfo )
 {
 	std::string onlineId;
-	if( !hostedInfo.getAdminOnlineId().isVxGUIDValid() || !hostedInfo.getAdminOnlineId().toHexString( onlineId ) )
+	if( !hostedInfo.getAdminOnlineId().isValid() || !hostedInfo.getAdminOnlineId().toHexString( onlineId ) )
 	{
 		LogMsg( LOG_ERROR, "ERROR: HostedListDb::saveHosted INVALID ONLINE ID" );
 		return false;

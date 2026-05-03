@@ -54,7 +54,7 @@ void BigList::bigListUnlock( int iInst )
 //! find contact
 BigListInfo* BigList::findBigListInfo( const VxGUID oOnlineId, bool isAlreadyLocked )			// id of contact to look for
 {
-	if( oOnlineId.isVxGUIDValid() )
+	if( oOnlineId.isValid() )
 	{
 		if( false == isAlreadyLocked )
 		{
@@ -86,7 +86,7 @@ BigListInfo* BigList::findBigListInfo( const VxGUID oOnlineId, bool isAlreadyLoc
 //! find contact
 VxNetIdent* BigList::findNetIdent( VxGUID onlineId, bool isAlreadyLocked )			// id of contact to look for
 {
-	if( onlineId.isVxGUIDValid() )
+	if( onlineId.isValid() )
 	{
 		if( onlineId == GetPtoPEngine().getMyOnlineId() )
 		{

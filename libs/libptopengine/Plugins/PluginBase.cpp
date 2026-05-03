@@ -816,7 +816,7 @@ bool PluginBase::assureIdentityExist( HostedInfo& hostedInfo )
     // for the case of host listing but user has not connected to host and does not have any identity info
     // create a temporary identity with minimal permissions for gui to use until pkt announce recieved
     bool hasIdent{ false };
-    if( hostedInfo.getAdminOnlineId().isVxGUIDValid() )
+    if( hostedInfo.getAdminOnlineId().isValid() )
     {
         // create a temporary identity until a connection is made
         VxNetIdent tempIdent;

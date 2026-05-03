@@ -466,7 +466,7 @@ ERunTestStatus RunUrlAction::doUrlAction( UrlActionInfo& urlAction )
     {
         VxGUID hostId;
         hostId.fromVxGUIDHexString( strPayload.c_str() );
-        if( !hostId.isVxGUIDValid() )
+        if( !hostId.isValid() )
         {
             LogMsg( LOG_ERROR, "Query Host Online Id %s Invalid Content (%3.3f sec) thread 0x%x", content.c_str(), testTimer.elapsedSec(), VxGetCurrentThreadId() );
             sendRunTestStatus( urlAction, actionName, eRunTestStatusInvalidResponse, netServiceHdr.getError(), "Invalid host id %s", content.c_str() );

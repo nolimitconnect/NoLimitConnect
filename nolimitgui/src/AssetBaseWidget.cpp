@@ -11,6 +11,7 @@
 #include "AssetBaseWidget.h"
 
 #include "AppCommon.h"
+#include "AssetSendMgr.h"
 #include "GuiHelpers.h"
 #include "VxProgressBar.h"
 
@@ -114,6 +115,15 @@ void AssetBaseWidget::toGuiClientAssetAction( EAssetAction assetAction, VxGUID& 
 					m_ProgressBarShouldBeVisible = false;
 					hideResendAndFail = true;
 				}
+                else if( !m_SendToMemberSetAttempted )
+                {
+                    m_SendToMemberSetAttempted = true;
+                    std::string sendToUser = GetAppInstance().getAssetSendMgr().getCurrentSendToUser( m_AssetInfo.getAssetUniqueId() );
+                    if( !sendToUser.empty() )
+                    {
+                        getXferBar()->setText( QString::fromStdString( sendToUser ) );
+                    }
+                }
 			}
 
 			break;
@@ -141,12 +151,9 @@ void AssetBaseWidget::toGuiClientAssetAction( EAssetAction assetAction, VxGUID& 
 
 		case eAssetActionTxBegin:
 			m_ProgressBarShouldBeVisible = true;
-			//if( eAssetSendStateTxProgress != m_AssetInfo.getAssetSendState() )
-			{
-				m_AssetSendProgress = 0;
-				m_AssetInfo.setAssetSendState( eAssetSendStateTxProgress );
-				needUpdate = true;
-			}
+            m_AssetSendProgress = 0;
+            m_AssetInfo.setAssetSendState( eAssetSendStateTxProgress );
+            needUpdate = true;
 
 			break;
 
@@ -273,7 +280,7 @@ void AssetBaseWidget::doShowProgress( bool showProgress )
 }
 
 //============================================================================
-void AssetBaseWidget::doSetProgress(  int xferProgress )
+void AssetBaseWidget::doSetProgress( int xferProgress )
 {
 	if( m_XferProgressBar )
 	{

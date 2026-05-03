@@ -41,7 +41,7 @@ bool SktListMgr::isSkt( VxGUID& onlineId )
 //============================================================================
 void SktListMgr::updateSktIdent( VxGUID& onlineId, VxGUID& sktConnectId, int64_t timestamp )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "SktListMgr::updateSktIdent invalid onlineId" );
         return;

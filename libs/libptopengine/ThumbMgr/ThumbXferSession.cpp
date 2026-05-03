@@ -33,7 +33,7 @@ ThumbXferSession::ThumbXferSession( P2PEngine& engine, std::shared_ptr<VxSktBase
 ThumbXferSession::ThumbXferSession( P2PEngine& engine, VxGUID& lclSessionId, std::shared_ptr<VxSktBase>& sktBase, VxGUID sendToId )
 : AssetBaseXferSession( engine, sktBase, sendToId )
 {
-	if( false == m_FileXferInfo.getLclSessionId().isVxGUIDValid() )
+	if( false == m_FileXferInfo.getLclSessionId().isValid() )
 	{
 		m_FileXferInfo.setLclSessionId( lclSessionId );
 	}
@@ -53,7 +53,7 @@ void ThumbXferSession::reset( void )
 //============================================================================
 void ThumbXferSession::initLclSessionId( void )
 {
-	if( false == m_FileXferInfo.getLclSessionId().isVxGUIDValid() )
+	if( false == m_FileXferInfo.getLclSessionId().isValid() )
 	{
 		m_FileXferInfo.getLclSessionId().initializeWithNewVxGUID();
 	}

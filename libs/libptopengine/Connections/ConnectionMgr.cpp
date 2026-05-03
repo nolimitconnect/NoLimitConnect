@@ -289,7 +289,7 @@ void ConnectionMgr::applyDefaultHostUrl( EHostType hostType, std::string& hostUr
     unlockConnectionList();
 
     VxPtopUrl ptopUrl( hostUrlIn );
-    if( ptopUrl.isValid() && ptopUrl.getOnlineId().isVxGUIDValid() )
+    if( ptopUrl.isValid() && ptopUrl.getOnlineId().isValid() )
     {
         // the onlie id was given as part of the url.. no need to query the online id
         VxUrl parsedUrl( hostUrl.c_str() );
@@ -315,7 +315,7 @@ void ConnectionMgr::applyDefaultHostUrl( EHostType hostType, std::string& hostUr
     {
         bool needOnlineId = true;
         VxGUID onlineId = parsedUrl.getOnlineId();
-        if( onlineId.isVxGUIDValid() )
+        if( onlineId.isValid() )
         {
             needOnlineId = false;
 
@@ -369,7 +369,7 @@ void ConnectionMgr::callbackQueryIdSuccess( UrlActionInfo& actionInfo, VxGUID on
         m_DefaultHostRequiresOnlineId[hostType] = "";
         unlockConnectionList();
 
-        //if( eHostTypeNetwork == actionInfo.getHostType() && onlineId.isVxGUIDValid() )
+        //if( eHostTypeNetwork == actionInfo.getHostType() && onlineId.isValid() )
         //{
         //    // exclude network host from updating online status to gui because is just temporary
         //    // also set the network host id so that we do not block packet announce from network host
@@ -449,7 +449,7 @@ int ConnectionMgr::getQueryIdFailedCount( EHostType hostType )
 EConnectStatus ConnectionMgr::requestConnection( VxGUID& sessionId, std::string url, VxGUID onlineId, IConnectRequestCallback* callback, 
                                                  std::shared_ptr<VxSktBase>& retSktBase, EConnectReason connectReason, enum EHostType hostType )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "ConnectionMgr::%s must have valid online id", __func__ );
         onConnectStatusChange( sessionId, eConnectStatusBadParam, connectReason, hostType );
@@ -564,7 +564,7 @@ EConnectStatus ConnectionMgr::attemptConnection( VxGUID& sessionId, std::string 
     EConnectStatus connectStatus = eConnectStatusConnecting;
     onConnectStatusChange( sessionId, connectStatus, connectReason, hostType );
     VxUrl connectUrl( url.c_str() );
-    if( onlineId.isVxGUIDValid() && connectUrl.validateUrl( false ) )
+    if( onlineId.isValid() && connectUrl.validateUrl( false ) )
     {
         connectStatus = directConnectTo( url, onlineId, callback, retSktBase, sessionId, connectReason, hostType );
         if( connectStatus == eConnectStatusConnectSuccess )
@@ -648,7 +648,7 @@ void ConnectionMgr::doneWithConnection( VxGUID sessionId, VxGUID onlineId, IConn
 //============================================================================
 void ConnectionMgr::updateUrlCache( std::string& hostUrl, VxGUID& onlineId )
 {
-    if( !hostUrl.empty() && onlineId.isVxGUIDValid() )
+    if( !hostUrl.empty() && onlineId.isValid() )
     {
         // there should be only one online id per ip and port however the ip may change
         // only keep the latest url
@@ -931,7 +931,7 @@ bool ConnectionMgr::connectUsingTcp( VxConnectInfo&	connectInfo, std::shared_ptr
 {
     ppoRetSkt = nullptr;
     std::shared_ptr<VxSktBase> sktBase( nullptr );
-    if( false == connectInfo.m_DirectConnectId.isVxGUIDValid() )
+    if( false == connectInfo.m_DirectConnectId.isValid() )
     {
         LogMsg( LOG_ERROR, "ConnectionMgr::connectUsingTcp: User invalid online id" );
         return false;

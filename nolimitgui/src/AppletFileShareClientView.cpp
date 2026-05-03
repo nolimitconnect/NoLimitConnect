@@ -68,7 +68,7 @@ AppletFileShareClientView::AppletFileShareClientView( AppCommon& app, QWidget*	p
 //============================================================================
 AppletFileShareClientView::~AppletFileShareClientView()
 {
-	if( m_HisOnlineId.isVxGUIDValid() )
+	if( m_HisOnlineId.isValid() )
 	{
 		m_MyApp.getEngine().fromGuiDownloadFileListCancel( getPluginType(), m_HisOnlineId, m_LclSessionId );
 	}
@@ -504,7 +504,7 @@ void AppletFileShareClientView::beginDownload( GuiFileXferSession* xferSession, 
 	else
 	{
 		GuiUser* guiUser = xferSession->getIdent();
-		if( false == xferSession->getLclSessionId().isVxGUIDValid() )
+		if( false == xferSession->getLclSessionId().isValid() )
 		{
 			xferSession->getLclSessionId().initializeWithNewVxGUID();
 		}
@@ -661,7 +661,7 @@ void AppletFileShareClientView::slotDownloadFileSelected( int iMenuId, QWidget* 
 		}
 		else
 		{
-			if( false == m_SelectedFileInfo->getLclSessionId().isVxGUIDValid() )
+			if( false == m_SelectedFileInfo->getLclSessionId().isValid() )
 			{
 				m_SelectedFileInfo->getLclSessionId().initializeWithNewVxGUID();
 			}

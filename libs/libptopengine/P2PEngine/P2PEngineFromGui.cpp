@@ -398,7 +398,7 @@ bool P2PEngine::fromGuiPlayLocalMedia( const char*  fileName, const char* fileNa
         AssetInfo * assetInfo =  dynamic_cast<AssetInfo*>(getAssetMgr().findAsset( fileNameStr ));
         if( 0 == assetInfo )
         {
-			if( assetId.isVxGUIDValid() )
+			if( assetId.isValid() )
 			{
 				assetInfo = dynamic_cast<AssetInfo*>(getAssetMgr().addAssetFile( assetType, fileName, fileNameAndPath, fileLen, assetId ));
 			}
@@ -818,7 +818,7 @@ bool P2PEngine::fromGuiChangeMyFriendshipToHim(	VxGUID&				onlineId,
 {
 	if( false == VxIsAppShuttingDown() )
 	{
-		if( !onlineId.isVxGUIDValid() )
+		if( !onlineId.isValid() )
 		{
             LogMsg( LOG_ERROR, "%s invalid id", __func__ );
 			return false;
@@ -1435,7 +1435,7 @@ std::string P2PEngine::fromGuiQueryDefaultUrl( enum EHostType hostType, bool ign
 	// if the resolved ip is our external ip then we are the host. if does not have online id then set to ours
 	// this is so can query ourself for hosts to join
 	VxPtopUrl ptopUrl( resolvedUrl );
-	if( !ptopUrl.getOnlineId().isVxGUIDValid() )
+	if( !ptopUrl.getOnlineId().isValid() )
 	{
 		if( ptopUrl.getHost() == getNetStatusAccum().getExternalIpAddress() )
 		{
@@ -1449,7 +1449,7 @@ std::string P2PEngine::fromGuiQueryDefaultUrl( enum EHostType hostType, bool ign
 			VxGUID hostOnlineId;
 			if( getUrlMgr().lookupOnlineId( resolvedUrl, hostOnlineId ) )
 			{
-				if( hostOnlineId.isVxGUIDValid() )
+				if( hostOnlineId.isValid() )
 				{
 					resolvedUrl += "/";
 					resolvedUrl += hostOnlineId.toOnlineIdString();
@@ -1496,7 +1496,7 @@ bool P2PEngine::fromGuiQueryIdentity( std::string& url, VxNetIdent& retNetIdent,
 //============================================================================
 bool P2PEngine::fromGuiQueryIdentity( VxGUID onlineId, VxNetIdent& retNetIdent )
 {
-	if( !onlineId.isVxGUIDValid() )
+	if( !onlineId.isValid() )
 	{
 		LogMsg( LOG_ERROR, "P2PEngine::fromGuiQueryIdentity invalid id" );
 		return false;
@@ -1788,7 +1788,7 @@ bool P2PEngine::fromGuiSendRandConnectAction( VxGUID& onlineId,
         }
 		GroupieId groupieId( getMyOnlineId(), sktBase->getPeerOnlineId(), eHostTypeRandomConnect );
 
-		if( !sessionId.isVxGUIDValid() )
+		if( !sessionId.isValid() )
 		{
 			sessionId.initializeWithNewVxGUID();
 		}

@@ -43,7 +43,7 @@ void PluginFriendRequest::onPktFriendRequestReq( std::shared_ptr<VxSktBase>& skt
     }
 
     VxGUID requestId = pkt->getRequestId();
-    if( !requestId.isVxGUIDValid() )
+    if( !requestId.isValid() )
     {
         LogMsg( LOG_ERROR, "PluginFriendRequest::%s invalid request id", __func__ );
         return;

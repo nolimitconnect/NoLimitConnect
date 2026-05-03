@@ -178,7 +178,7 @@ public:
     void                        setAvatarGuid( VxGUID& guid, int64_t timeModified )     { m_AvatarGuid = guid; setModifiedTime( m_AvatarModifiedTime, timeModified ); }
     VxGUID&                     getAvatarThumbGuid( void )                              { return m_AvatarGuid; }
     int64_t                     getAvatarThumbModifiedTime( void )                      { return m_AvatarModifiedTime; }
-    bool                        isAvatarValid( void )                                   { return m_AvatarModifiedTime && m_AvatarGuid.isVxGUIDValid(); }
+    bool                        isAvatarValid( void )                                   { return m_AvatarModifiedTime && m_AvatarGuid.isValid(); }
     void                        setPeerHostModifiedTime( int64_t timeModified )         { setModifiedTime( m_AvatarModifiedTime, timeModified ); }
 
     // if hosts a network
@@ -187,7 +187,7 @@ public:
     void                        setNetHostThumb( VxGUID& guid, int64_t timeModified )   { m_NetHostThumbGuid = guid; setModifiedTime( m_NetHostThumbModifiedTime, timeModified ); }
     VxGUID&                     getNetHostThumbGuid( void )                             { return m_NetHostThumbGuid; }
     int64_t                     getNetHostThumbModifiedTime( void )                     { return m_NetHostThumbModifiedTime; }
-    bool                        isNetHostThumbValid( void )                             { return m_NetHostThumbModifiedTime && m_NetHostThumbGuid.isVxGUIDValid(); }
+    bool                        isNetHostThumbValid( void )                             { return m_NetHostThumbModifiedTime && m_NetHostThumbGuid.isValid(); }
     void                        setNetHostModifiedTime( int64_t timeModified )          { setModifiedTime( m_NetHostThumbModifiedTime, timeModified ); }
 
     // if hosts a chat room
@@ -196,7 +196,7 @@ public:
     void                        setChatRoomThumb( VxGUID& guid, int64_t timeModified )  { m_ChatRoomThumbGuid = guid; setModifiedTime( m_ChatRoomThumbModifiedTime, timeModified ); }
     VxGUID&                     getChatRoomThumbGuid( void )                            { return m_ChatRoomThumbGuid; }
     int64_t                     getChatRoomThumbModifiedTime( void )                    { return m_ChatRoomThumbModifiedTime; }
-    bool                        isChatRoomThumbValid( void )                            { return m_ChatRoomThumbModifiedTime && m_ChatRoomThumbGuid.isVxGUIDValid(); }
+    bool                        isChatRoomThumbValid( void )                            { return m_ChatRoomThumbModifiedTime && m_ChatRoomThumbGuid.isValid(); }
     void                        setChatRoomHostModifiedTime( int64_t timeModified )     { setModifiedTime( m_ChatRoomThumbModifiedTime, timeModified ); }
 
     // if hosts a group
@@ -205,7 +205,7 @@ public:
     void                        setGroupThumb( VxGUID& guid, int64_t timeModified )     { m_GroupThumbGuid = guid; setModifiedTime( m_GroupThumbModifiedTime, timeModified ); }
     VxGUID&                     getGroupThumbGuid( void )                               { return m_GroupThumbGuid; }
     int64_t                     getGroupThumbModifiedTime( void )                       { return m_GroupThumbModifiedTime; }
-    bool                        isGroupThumbValid( void )                               { return m_GroupThumbModifiedTime && m_GroupThumbGuid.isVxGUIDValid(); }
+    bool                        isGroupThumbValid( void )                               { return m_GroupThumbModifiedTime && m_GroupThumbGuid.isValid(); }
     void                        setGroupHostModifiedTime( int64_t timeModified )        { setModifiedTime( m_GroupThumbModifiedTime, timeModified ); }
 
     // if hosts random connect
@@ -214,7 +214,7 @@ public:
     void                        setRandomConnectThumb( VxGUID& guid, int64_t timeModified )     { m_RandomConnectThumbGuid = guid; setModifiedTime( m_RandomConnectThumbModifiedTime, timeModified ); }
     VxGUID&                     getRandomConnectThumbGuid( void )                               { return m_RandomConnectThumbGuid; }
     int64_t                     getRandomdConnectThumbModifiedTime( void )                      { return m_RandomConnectThumbModifiedTime; }
-    bool                        isRandomConnectThumbValid( void )                               { return m_RandomConnectThumbModifiedTime && m_RandomConnectThumbGuid.isVxGUIDValid(); }
+    bool                        isRandomConnectThumbValid( void )                               { return m_RandomConnectThumbModifiedTime && m_RandomConnectThumbGuid.isValid(); }
     void                        setRandomConnectModifiedTime( int64_t timeModified )            { setModifiedTime( m_RandomConnectThumbModifiedTime, timeModified ); }
 
 protected:

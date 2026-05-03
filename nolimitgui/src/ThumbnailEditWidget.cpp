@@ -81,13 +81,13 @@ bool ThumbnailEditWidget::loadFromAsset( ThumbInfo* thumbAsset )
 bool ThumbnailEditWidget::generateThumbAsset( ThumbInfo& assetInfoOut )
 {
     bool assetGenerated = false;
-    if( !m_AsssetId.isVxGUIDValid() )
+    if( !m_AsssetId.isValid() )
     {
         m_AsssetId.initializeWithNewVxGUID();
     }
 
     VxGUID assetGuid = m_AsssetId;
-    if( !assetGuid.isVxGUIDValid() )
+    if( !assetGuid.isValid() )
     {
         VxGUID::generateNewVxGUID( assetGuid );
     }
@@ -120,7 +120,7 @@ bool ThumbnailEditWidget::updateThumbAsset( ThumbInfo& thumbInfo )
     vx_assert( thumbInfo.isValid() );
     bool assetUpdated = false;
     VxGUID assetGuid = thumbInfo.getAssetUniqueId();
-    if( assetGuid.isVxGUIDValid() )
+    if( assetGuid.isValid() )
     {
         QString fileName = thumbInfo.getAssetNameAndPath().c_str();
         if( !VxFileUtil::fileExists( fileName.toUtf8().constData() ) )
@@ -275,7 +275,7 @@ void ThumbnailEditWidget::slotThumbSelected( AppletBase * thumbGallery, Thumbnai
 bool ThumbnailEditWidget::loadThumbnail( VxGUID& assetId )
 {
     bool result = false;
-    if( assetId.isVxGUIDValid() )
+    if( assetId.isValid() )
     {
         ThumbInfo* thumbAsset = dynamic_cast<ThumbInfo*>(m_ThumbMgr.findAsset( assetId ));
         if( thumbAsset )

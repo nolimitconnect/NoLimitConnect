@@ -176,7 +176,7 @@ VxGUID& FileInfo::initializeNewXferSessionId( void )
 //============================================================================
 bool FileInfo::isValid( bool includeHashValid )
 {
-    bool valid = !getFileName().empty() && m_s64FileLen && m_u8FileType && m_AssetId.isVxGUIDValid();
+    bool valid = !getFileName().empty() && m_s64FileLen && m_u8FileType && m_AssetId.isValid();
 	if( includeHashValid )
 	{
 		// if using hash then is probably remote and does not require a local path (example web page files)
@@ -250,7 +250,7 @@ bool FileInfo::isStremable( void )
 //============================================================================
 void FileInfo::generateAssetId( void )
 {
-	if( !m_AssetId.isVxGUIDValid() )
+	if( !m_AssetId.isValid() )
 	{
 		m_AssetId.initializeWithNewVxGUID();
 	}

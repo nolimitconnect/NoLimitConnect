@@ -112,10 +112,10 @@ void AppletHostBase::userJoinedHost( GuiHosted* guiHosted )
 
             if( guiHosted != m_LastGuiHosted )
             {
-                if( !m_HostSessionId.isVxGUIDValid() )
+                if( !m_HostSessionId.isValid() )
                 {
                     m_HostSessionId = guiHosted->getSessionId();
-                    if( !m_HostSessionId.isVxGUIDValid() )
+                    if( !m_HostSessionId.isValid() )
                     {
                         VxGUID::generateNewVxGUID( m_HostSessionId );
                         guiHosted->setSessionId( m_HostSessionId );

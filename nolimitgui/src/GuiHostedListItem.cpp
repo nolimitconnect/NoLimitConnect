@@ -156,12 +156,12 @@ void GuiHostedListItem::updateWidgetFromInfo( void )
     if( !ui.m_IconButton->hasImage() && guiUser )
     {
         VxGUID thumbId = hostSession->getHostThumbId();
-        if( !thumbId.isVxGUIDValid() )
+        if( !thumbId.isValid() )
         {
             thumbId = guiUser->getHostThumbId( hostSession->getHostType(), true );
         }
        
-        if( thumbId.isVxGUIDValid() )
+        if( thumbId.isValid() )
         {
             QImage thumbImage;
             if( m_MyApp.getThumbMgr().getThumbImage( thumbId, thumbImage ) )

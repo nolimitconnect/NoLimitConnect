@@ -104,7 +104,7 @@ void BaseInfo::fillBaseInfo( VxNetIdent* netIdent, EHostType hostType )
 //============================================================================
 void BaseInfo::assureHasCreatorId( void )
 {
-    if( !m_OnlineId.isVxGUIDValid() )
+    if( !m_OnlineId.isValid() )
     {
         m_OnlineId = GetPtoPEngine().getMyOnlineId();
     }

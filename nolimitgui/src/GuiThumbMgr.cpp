@@ -46,7 +46,7 @@ void GuiThumbMgr::onAppCommonCreated( void )
     int emoticonNum = 0;
     for( auto& guid : emoticonList )
     {     
-        if( guid.isVxGUIDValid() )
+        if( guid.isValid() )
         {
             m_EmoticonList.emplace_back( guid );
         }
@@ -426,8 +426,8 @@ bool GuiThumbMgr::requestAvatarImage( GuiUser* guiUser, EPluginType pluginType, 
         pluginType = HostPluginToClientPluginType( pluginType );
         VxNetIdent& netIdent = guiUser->getNetIdent();
         VxGUID pluginThumbId = netIdent.getThumbId( pluginType );
-        VxGUID thumbId = pluginThumbId.isVxGUIDValid() ? pluginThumbId : netIdent.getAvatarThumbGuid();
-        if( thumbId.isVxGUIDValid() )
+        VxGUID thumbId = pluginThumbId.isValid() ? pluginThumbId : netIdent.getAvatarThumbGuid();
+        if( thumbId.isValid() )
         {
             GuiThumb* guiThumb = m_ThumbList.findThumb( thumbId );
             if( guiThumb )
@@ -468,7 +468,7 @@ bool GuiThumbMgr::requestAvatarImage( GuiUser* guiUser, EPluginType pluginType, 
                     }
                     else
                     {
-                        thumbMgr.fromGuiRequestPluginThumb( &guiUser->getNetIdent(), pluginThumbId.isVxGUIDValid() ? pluginType : ePluginTypeHostPeerUser, thumbId );
+                        thumbMgr.fromGuiRequestPluginThumb( &guiUser->getNetIdent(), pluginThumbId.isValid() ? pluginType : ePluginTypeHostPeerUser, thumbId );
                     }
                 }
             }
@@ -498,7 +498,7 @@ bool GuiThumbMgr::getAvatarImage( VxGUID& thumbId, QImage& image )
 bool GuiThumbMgr::getThumbImage( VxGUID& thumbId, QImage& image )
 {
     bool result = false;
-    if( thumbId.isVxGUIDValid() )
+    if( thumbId.isValid() )
     {
         GuiThumb* guiThumb = m_ThumbList.findThumb( thumbId );
         if( !guiThumb )
@@ -530,7 +530,7 @@ bool GuiThumbMgr::getThumbImage( VxGUID& thumbId, QImage& image )
 //============================================================================
 GuiThumb* GuiThumbMgr::generateEmoticon( VxGUID& thumbId, bool checkIfExists )
 {
-    if( !thumbId.isVxGUIDValid() )
+    if( !thumbId.isValid() )
     {
         QString msgText = QObject::tr( "Invalid emoticon id" );
         QMessageBox::warning( &m_MyApp.getHomeWindow(), msgText, msgText, QMessageBox::Ok );
@@ -700,7 +700,7 @@ void GuiThumbMgr::generateEmoticonsIfNeeded( AppletBase * applet )
     int emoticonNum = 1;
     for( auto& assetGuid : emoticonIdList )
     {
-        if( assetGuid.isVxGUIDValid() )
+        if( assetGuid.isValid() )
         {
             GuiThumb *guiThumb = findOrCreateEmoticonThumb( assetGuid );
             if( !guiThumb )

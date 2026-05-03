@@ -58,7 +58,7 @@ AppletHostJoinConnect::AppletHostJoinConnect( AppCommon& app, QWidget* parent, s
 	m_HostOnlineId = m_HostPtopUrl.getOnlineId();
 	m_HostType = m_HostPtopUrl.getHostType();
 
-	if( !m_HostPtopUrl.isValid() || !m_HostPtopUrl.isHostTypeValid() || !m_HostOnlineId.isVxGUIDValid() )
+	if( !m_HostPtopUrl.isValid() || !m_HostPtopUrl.isHostTypeValid() || !m_HostOnlineId.isValid() )
 	{
 		QString title = QObject::tr( "Host URL is not valid" );
 		QString msg = m_HostUrl.c_str();

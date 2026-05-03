@@ -125,7 +125,7 @@ bool FriendRequestMgr::fromGuiQueryFriendRequest( std::vector<std::shared_ptr<Fr
     lockList();
     for( auto& friendRequest : m_FriendRequestList )
     {
-        if( !onlineIdIfNullThenAll.isVxGUIDValid() || onlineIdIfNullThenAll == friendRequest->getUserOnlineId() )
+        if( !onlineIdIfNullThenAll.isValid() || onlineIdIfNullThenAll == friendRequest->getUserOnlineId() )
         {
             friendRequestList.emplace_back( friendRequest );
         }

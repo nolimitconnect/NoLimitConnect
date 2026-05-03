@@ -53,7 +53,7 @@ int32_t HostedListMgr::hostedListMgrShutdown( void )
 //============================================================================
 void HostedListMgr::updateHosted( enum EHostType hostType, VxGUID& onlineId, std::string& hosted, int64_t timestampMs )
 {
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "HostedListMgr::updateDirectConnectIdent invalid id" );
         return;
@@ -108,7 +108,7 @@ void HostedListMgr::updateHostedList( VxNetIdent* netIdent, std::shared_ptr<VxSk
     else
     {     
         VxGUID onlineId = netIdent->getMyOnlineId();
-        if( !onlineId.isVxGUIDValid() )
+        if( !onlineId.isValid() )
         {
             LogMsg( LOG_ERROR, "HostedListMgr::updateHostedList invalid id" );
             return;
@@ -895,7 +895,7 @@ bool HostedListMgr::updateHostInfo( enum EHostType hostType, HostedInfo& hostedI
         onlineId = ptopUrl.getOnlineId();
     }
     
-    if( !onlineId.isVxGUIDValid() )
+    if( !onlineId.isValid() )
     {
         LogMsg( LOG_ERROR, "HostedListMgr::hostSearchResult INVALID url" );
         return false;

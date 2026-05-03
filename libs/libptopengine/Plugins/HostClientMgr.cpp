@@ -522,12 +522,12 @@ void HostClientMgr::startHostDetailSession( PktHostSearchReply* hostReply, std::
         return;
     }
 
-    if( !sessionId.isVxGUIDValid() )
+    if( !sessionId.isValid() )
     {
         LogModule( eLogHostSearch, LOG_DEBUG, "HostClientMgr::startHostDetailSession session id invalid");
     }
 
-    bool result = sessionId.isVxGUIDValid() && pluginIdCnt > 0 && eCommErrNone == commErr;
+    bool result = sessionId.isValid() && pluginIdCnt > 0 && eCommErrNone == commErr;
     if( result )
     {
         // insert ids and send first request for plugin settings
@@ -678,7 +678,7 @@ void HostClientMgr::onPktHostUserListReply( std::shared_ptr<VxSktBase>& sktBase,
         if(LogEnabled(hostLogModule))LogModule( hostLogModule, LOG_VERBOSE, "HostClientMgr::%s list item %d - user %s", __func__,
                         i + 1, m_Engine.describeUser( onlineId ).c_str() );
 
-        if( !onlineId.isVxGUIDValid() )
+        if( !onlineId.isValid() )
         {
             LogMsg( LOG_ERROR, "HostClientMgr::%s invalid online id", __func__ );
             continue;

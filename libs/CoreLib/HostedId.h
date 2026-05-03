@@ -56,7 +56,7 @@ public:
     // get a description of the plugin id
     std::string                 describeHostedId( void ) const;
 
-    bool                        isValid( void )                             { return eHostTypeUnknown != m_HostType && m_HostOnlineId.isVxGUIDValid(); }
+    bool                        isValid( void )                             { return eHostTypeUnknown != m_HostType && m_HostOnlineId.isValid(); }
     void                        clear( void )                               { m_HostOnlineId.clearVxGUID(); m_HostType = 0; }
 
 protected:

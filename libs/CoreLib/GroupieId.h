@@ -63,7 +63,7 @@ public:
     // get a description of the plugin id
     std::string                 describeGroupieId( void ) const;
 
-    bool                        isValid( void )                                 { return m_UserOnlineId.isVxGUIDValid() && m_HostedId.isValid();  }
+    bool                        isValid( void )                                 { return m_UserOnlineId.isValid() && m_HostedId.isValid();  }
     void                        clear( void )                                   { m_UserOnlineId.clearVxGUID(); m_HostedId.clear(); }
 
 protected:

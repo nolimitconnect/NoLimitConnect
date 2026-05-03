@@ -2197,7 +2197,7 @@ bool VxFileUtil::deleteFilesInFolder( std::string fileFolder, bool folderNameEnd
 
 		VxGUID onlineId;
 		onlineId.fromVxGUIDHexString( &( noTrailingSlash.c_str()[foundPos + 1]) );
-		if( !onlineId.isVxGUIDValid() )
+		if( !onlineId.isValid() )
 		{
 			LogMsg( LOG_ERROR, "deleteFilesInFolder directory %s does not end with online id", fileFolder.c_str() );
 			return false;

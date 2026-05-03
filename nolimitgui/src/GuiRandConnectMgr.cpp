@@ -346,7 +346,7 @@ void GuiRandConnectMgr::updateRandConnectOffer( GroupieId& groupieId,
     const bool iAmOfferCreator = ( creatorOnlineId == myOnlineId );
     const bool iAmOfferParticipant = iAmOfferTarget || iAmOfferCreator;
 
-    if( !sessionId.isVxGUIDValid() )
+    if( !sessionId.isValid() )
     {
         return;
     }

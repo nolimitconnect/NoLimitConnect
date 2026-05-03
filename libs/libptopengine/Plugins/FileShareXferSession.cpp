@@ -65,7 +65,7 @@ void FileShareXferSession::reset( void )
 //============================================================================
 void FileShareXferSession::initLclSessionId( void )
 {
-	if( false == m_FileXferInfo.getLclSessionId().isVxGUIDValid() )
+	if( false == m_FileXferInfo.getLclSessionId().isValid() )
 	{
 		m_FileXferInfo.getLclSessionId().initializeWithNewVxGUID();
 	}

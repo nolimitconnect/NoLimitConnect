@@ -125,7 +125,7 @@ VidWidget::VidWidget(QWidget* parent)
 //============================================================================
 VidWidget::~VidWidget()
 {
-	if( m_VideoFeedId.isVxGUIDValid() && eMediaModuleInvalid != m_MediaModule)
+	if( m_VideoFeedId.isValid() && eMediaModuleInvalid != m_MediaModule)
 	{
 		// stop previous feed
 		m_Engine.fromGuiWantMediaInput( m_VideoFeedId, eMediaInputVideoJpg, m_MediaModule, m_VideoFeedId, false );
@@ -133,7 +133,7 @@ VidWidget::~VidWidget()
 
 	// Remove ALL registrations for this client so no stale pointer remains in GuiPlayerMgr
 	m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_MyApp.getMyOnlineId(), this, false );
-	if( m_VideoFeedId.isVxGUIDValid() && m_VideoFeedId != m_MyOnlineId )
+	if( m_VideoFeedId.isValid() && m_VideoFeedId != m_MyOnlineId )
 	{
 		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_VideoFeedId, this, false );
 	}
@@ -163,7 +163,7 @@ void VidWidget::setVideoFeedId( VxGUID& feedOnlineId, EMediaModule mediaModule )
 	m_MediaModule = mediaModule;
 	if( feedOnlineId != m_VideoFeedId )
 	{
-		if( m_VideoFeedId.isVxGUIDValid() )
+		if( m_VideoFeedId.isValid() )
 		{
 			// stop previous feed
 			m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_VideoFeedId, this, false );
@@ -175,7 +175,7 @@ void VidWidget::setVideoFeedId( VxGUID& feedOnlineId, EMediaModule mediaModule )
 			disablePreview( true );
 		}
 
-		if( m_VideoFeedId.isVxGUIDValid() )
+		if( m_VideoFeedId.isValid() )
 		{
 			m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_VideoFeedId, this, true );
             // trigger MediaProcessor to send jpgs
@@ -538,6 +538,12 @@ bool VidWidget::setImageFromFile( QString fileName )
 //============================================================================
 void VidWidget::callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& vidFrame, int motion0To100000 )
 {
+    if( m_FreezeFrameEnabled )
+    {
+        // Don't update the video screen if freeze frame is enabled to allow the last captured frame to remain visible.
+        return;
+    }
+
 	if( feedOnlineId == m_VideoFeedId )
 	{
 		ui.m_VideoScreen->playMotionVideoFrame( vidFrame, motion0To100000 );
@@ -557,6 +563,12 @@ void VidWidget::callbackGuiPlayMotionVideoFrame( VxGUID& feedOnlineId, QImage& v
 //============================================================================
 void VidWidget::callbackGuiPlayVideoFrame( VxGUID& onlineId, QImage& vidFrame )
 {
+    if( m_FreezeFrameEnabled )
+    {
+        // Don't update the video screen if freeze frame is enabled to allow the last captured frame to remain visible.
+        return;
+    }
+
 	 ui.m_VideoScreen->playVideoFrame( vidFrame );
 }
 
@@ -565,7 +577,7 @@ void VidWidget::showEvent( QShowEvent* ev )
 {
 	QWidget::showEvent( ev );
 	updatePreviewVisibility();
-	if( m_VideoFeedId.isVxGUIDValid() )
+	if( m_VideoFeedId.isValid() )
 	{
 		if( eMediaModuleInvalid != getMediaModule() )
 		{
@@ -579,7 +591,7 @@ void VidWidget::showEvent( QShowEvent* ev )
 void VidWidget::hideEvent( QHideEvent* ev )
 {
 	QWidget::hideEvent( ev );
-	if( m_VideoFeedId.isVxGUIDValid() )
+	if( m_VideoFeedId.isValid() )
 	{
 		m_MyApp.getPlayerMgr().wantPlayVideoCallbacks( m_VideoFeedId, this, false );
 		if( eMediaModuleInvalid != getMediaModule() )
@@ -890,4 +902,19 @@ void VidWidget::addVideoFileToLibrary( std::string vidFileName )
 		LogMsg( LOG_ERROR, "VidWidget::videoMotionRecord file %s is too short", m_RecFileName.toUtf8().constData() );
 		m_MyApp.toGuiUserMessage( "ERROR: Motion video record file was too short" );
 	}
+}
+
+//============================================================================
+void VidWidget::enableFreezeFrame( bool enable )
+{
+    if(	enable )
+	{
+		QImage curImage = ui.m_VideoScreen->getLastVideoImage();
+		if( !curImage.isNull() )
+        {
+			ui.m_VideoScreen->playVideoFrame( curImage );
+		}
+    }
+
+    m_FreezeFrameEnabled = enable;
 }

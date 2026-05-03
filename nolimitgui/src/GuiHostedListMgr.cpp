@@ -95,7 +95,7 @@ void GuiHostedListMgr::slotInternalHostedRemoved( VxGUID hostOnlineId, EHostType
 //============================================================================
 void GuiHostedListMgr::callbackHostedInfoListSearchResult( HostedInfo* hostedInfo, VxGUID& sessionId )
 {
-    if( hostedInfo && hostedInfo->getAdminOnlineId().isVxGUIDValid() && hostedInfo->isHostInviteValid() )
+    if( hostedInfo && hostedInfo->getAdminOnlineId().isValid() && hostedInfo->isHostInviteValid() )
     {
         emit signalInternalHostSearchResult( new HostedInfo( *hostedInfo ), sessionId );
     }

@@ -160,7 +160,7 @@ bool PluginCamServer::fromGuiStartPluginSession( VxGUID& onlineId, VxGUID lclSes
 
 		if( rxSession )
 		{
-			if( lclSessionId.isVxGUIDValid() )
+			if( lclSessionId.isValid() )
 			{
 				rxSession->setLclSessionId( lclSessionId );
 			}
