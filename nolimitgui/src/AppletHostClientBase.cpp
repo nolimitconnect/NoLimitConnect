@@ -256,18 +256,6 @@ bool AppletHostClientBase::handleAssetAction( EAssetAction assetAction, AssetBas
         groupieId.setUserOnlineId( m_SelectedUser->getMyOnlineId() );
     }
 
-	if(LogEnabled(eLogAssets))LogModule( eLogAssets, LOG_VERBOSE,
-		"AppletHostClientBase::%s action %s host %s admin %s selected %s creator %s assetId %s assetType %s assetName %s",
-		__func__,
-		DescribeAssetAction( assetAction ),
-		DescribeHostType( groupieId.getHostType() ),
-		m_MyApp.getUserName( groupieId.getHostOnlineId() ).c_str(),
-		m_MyApp.getUserName( groupieId.getUserOnlineId() ).c_str(),
-		m_MyApp.getUserName( assetInfo.getCreatorId() ).c_str(),
-		assetInfo.getAssetUniqueId().toHexString().c_str(),
-		DescribeAssetType( assetInfo.getAssetType() ),
-		assetInfo.getAssetName().c_str() );
-
     m_SendToGroupieAdminId = groupieId;
 
 	return m_MyApp.getAssetSendMgr().handleGroupieAssetAction( this, m_SendToGroupieAdminId, assetAction, assetInfo );

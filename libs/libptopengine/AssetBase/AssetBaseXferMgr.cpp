@@ -913,14 +913,6 @@ void AssetBaseXferMgr::onPktAssetBaseChunkReq( std::shared_ptr<VxSktBase>& sktBa
     if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "AssetBaseXferMgr::%s %s", __func__,
                   DescribePluginType( getPluginType() ) );
     PktBaseChunkReq* poPkt = (PktBaseChunkReq *)pktHdr;
-    if(LogEnabled(eLogAssets)) LogModule( eLogAssets, LOG_VERBOSE,
-        "AssetBaseXferMgr::%s rx chunk-req src %s lcl %s rmt %s chunkLen %u",
-        __func__,
-        poPkt->getSrcOnlineId().toOnlineIdString().c_str(),
-        poPkt->getLclSessionId().toHexString().c_str(),
-        poPkt->getRmtSessionId().toHexString().c_str(),
-        (unsigned)poPkt->getChunkLen() );
-
     VxMutex& xferMutex = m_XferInterface.getAssetXferMutex();
     xferMutex.lock();
     if( poPkt->getRmtSessionId().isVxGUIDValid() )
