@@ -44,6 +44,7 @@ protected slots:
 	void						slotSliderPressed( void );
 	void						slotSliderReleased( void );
 	void						slotUpdatePlayerControls( void );
+    void						slotFileNameClicked( void );
 
 protected:
 	virtual void				toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos ) override;

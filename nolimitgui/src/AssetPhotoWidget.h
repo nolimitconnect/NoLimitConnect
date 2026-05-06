@@ -35,6 +35,7 @@ public:
 
 protected slots:
 	void						slotAssetWasClicked( void );
+    void						slotFileNameClicked( void );
 
 protected:
 	void						initAssetPhotoWidget( void );

@@ -13,6 +13,9 @@
 
 #include <P2PEngine/P2PEngine.h>
 
+#include <QDesktopServices>
+#include <QUrl>
+
 #include "ui_AssetPhotoWidget.h"
 
 //============================================================================
@@ -53,6 +56,7 @@ void AssetPhotoWidget::initAssetPhotoWidget( void )
     connect( ui.m_RightAvatarBar,	SIGNAL(signalAddLibraryAsset()),        this, SLOT(slotAddLibraryAsset()) );
 	connect( ui.m_LeftAvatarBar,	SIGNAL(signalResendAsset()),	this, SLOT(slotResendAsset()) );
 	connect( ui.m_RightAvatarBar,	SIGNAL(signalResendAsset()),	this, SLOT(slotResendAsset()) );
+    connect( ui.m_FileNameLabel,	SIGNAL(clicked()),	            this, SLOT(slotFileNameClicked()) );
 }
 
 //============================================================================
@@ -191,4 +195,15 @@ void AssetPhotoWidget::setXferProgress( int xferProgress )
 	{
 		ui.m_RightAvatarBar->setXferProgress( xferProgress );
 	}
+}
+
+//============================================================================
+void AssetPhotoWidget::slotFileNameClicked( void )
+{
+	std::string filePath = m_AssetInfo.getFilePath();
+    if( !filePath.empty() )   
+    {
+        // Open the directory containing the file
+        QDesktopServices::openUrl( QUrl::fromLocalFile( QString::fromStdString( filePath ) ) );
+    }
 }

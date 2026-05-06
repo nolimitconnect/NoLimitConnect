@@ -346,7 +346,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="m_FileNameLabel">
+             <widget class="VxLabel" name="m_FileNameLabel">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -400,6 +400,11 @@
    <class>VxProgressBar</class>
    <extends>QProgressBar</extends>
    <header location="global">VxProgressBar.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VxLabel</class>
+   <extends>QLabel</extends>
+   <header>VxLabel.h</header>
   </customwidget>
   <customwidget>
    <class>VxTagLabel</class>

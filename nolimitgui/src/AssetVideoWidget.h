@@ -54,6 +54,7 @@ protected slots:
 	void						slotCamRotationChanged( int camRotation );
 
 	void						slotReadyForVideo( void );
+    void						slotFileNameClicked( void );
 
 protected:
 	virtual void				toGuiClientAssetAction( EAssetAction assetAction, VxGUID& assetId, int pos ) override;

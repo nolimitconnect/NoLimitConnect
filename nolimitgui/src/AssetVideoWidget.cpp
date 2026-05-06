@@ -18,6 +18,8 @@
 #include <CoreLib/VxGlobals.h>
 
 #include <QTimer>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include "ui_AssetVideoWidget.h"
 
@@ -77,6 +79,8 @@ void AssetVideoWidget::initAssetVideoWidget( void )
 	connect( ui.m_VidWidget,		SIGNAL(signalCamRotationChanged(int)),  this, SLOT(slotCamRotationChanged(int)) );
 
 	connect( m_ReadyForVideoTimer,	SIGNAL(timeout()),						this, SLOT(slotReadyForVideo()) );
+    connect( ui.m_FileNameLabel,	SIGNAL(clicked()),	                    this, SLOT(slotFileNameClicked()) );
+
 	m_ReadyForVideoTimer->setInterval( 50 );
 }
 
@@ -425,4 +429,15 @@ void AssetVideoWidget::onAssetWidgetVisibleAndReady( bool isVisible, bool isRead
 			m_Engine.fromGuiAssetAction( eAssetActionPlayOneFrame, m_AssetInfo, 0 );
 		}
 	}
+}
+
+//============================================================================
+void AssetVideoWidget::slotFileNameClicked( void )
+{
+	std::string filePath = m_AssetInfo.getFilePath();
+    if( !filePath.empty() )   
+    {
+        // Open the directory containing the file
+        QDesktopServices::openUrl( QUrl::fromLocalFile( QString::fromStdString( filePath ) ) );
+    }
 }

@@ -15,6 +15,8 @@
 #include <P2PEngine/P2PEngine.h>
 
 #include <QTimer>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include "ui_AssetVoiceWidget.h"
 
@@ -63,6 +65,7 @@ void AssetVoiceWidget::initAssetVoiceWidget( void )
 	connect( ui.m_PlayPosSlider, SIGNAL(sliderReleased()), this, SLOT(slotSliderReleased()) );
 	connect( ui.m_LeftAvatarBar, SIGNAL(signalResendAsset()), this, SLOT(slotResendAsset()) );
 	connect( ui.m_RightAvatarBar, SIGNAL(signalResendAsset()), this, SLOT(slotResendAsset()) );
+    connect( ui.m_FileNameLabel,	SIGNAL(clicked()),	            this, SLOT(slotFileNameClicked()) );
 
 	m_QueueUpdateTimer->setInterval( 100 );
 	connect( m_QueueUpdateTimer,		SIGNAL(timeout()),				this, SLOT(slotUpdatePlayerControls()) );
@@ -351,4 +354,15 @@ void AssetVoiceWidget::setXferProgress( int xferProgress )
 	{
 		ui.m_RightAvatarBar->setXferProgress( xferProgress );
 	}
+}
+
+//============================================================================
+void AssetVoiceWidget::slotFileNameClicked( void )
+{
+	std::string filePath = m_AssetInfo.getFilePath();
+    if( !filePath.empty() )   
+    {
+        // Open the directory containing the file
+        QDesktopServices::openUrl( QUrl::fromLocalFile( QString::fromStdString( filePath ) ) );
+    }
 }
