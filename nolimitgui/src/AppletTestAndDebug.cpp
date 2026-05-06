@@ -418,12 +418,6 @@ void AppletTestAndDebug::fillBasicInfo( void )
     infoMsg( "user account specific: %s", VxGetAppDirectory( eAppDirUserSpecific ).c_str() );
 
     infoMsg( "thumbs: %s", VxGetAppDirectory( eAppDirThumbs ).c_str() );
-
-    //infoMsg( "download: %s", VxGetAppDirectory( eAppDownload ).c_str() );
-    //infoMsg( "music: %s", VxGetAppDirectory( eAppMusic ).c_str() );
-    //infoMsg( "video: %s", VxGetAppDirectory( eAppVideo ).c_str() );
-    //infoMsg( "picture: %s", VxGetAppDirectory( eAppPictures ).c_str() );
-    //infoMsg( "document: %s", VxGetAppDirectory( eAppDocuments ).c_str() );
 }
 
 //============================================================================

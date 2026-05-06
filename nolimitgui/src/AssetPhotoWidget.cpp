@@ -102,6 +102,8 @@ void AssetPhotoWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 		ui.m_RightAvatarBar->setShredButtonIcon( eMyIconTrash );
 	}
 
+	ui.m_FileNameLabel->setText( assetInfo.getAssetName().c_str() );
+
 	if( !assetInfo.getAssetTag().empty() )
 	{
 		ui.m_TagUserTextLabel->setText( assetInfo.getAssetTag().c_str() );
