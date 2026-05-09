@@ -762,35 +762,17 @@
     <context>
         <name>AppletHostAdminBase</name>
         <message>
-            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="105" />
+            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="106" />
             <source>Sending to: %1</source>
             <translation>यहां भेजा जा रहा है: %1</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="118" />
+            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="120" />
             <source>Sent to %1 member(s)</source>
             <translation>%1 सदस्य(सदस्यों) को भेजा गया</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="122" />
-            <source>Sent: %1 success, %2 failed</source>
-            <translation>भेजा गया: %1 सफल, %2 विफल</translation>
-        </message>
-    </context>
-    <context>
-        <name>AppletHostClientBase</name>
-        <message>
-            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="251" />
-            <source>Sending to: %1</source>
-            <translation>यहां भेजा जा रहा है: %1</translation>
-        </message>
-        <message>
-            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="264" />
-            <source>Sent to %1 member(s)</source>
-            <translation>%1 सदस्य(सदस्यों) को भेजा गया</translation>
-        </message>
-        <message>
-            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="268" />
+            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="124" />
             <source>Sent: %1 success, %2 failed</source>
             <translation>भेजा गया: %1 सफल, %2 विफल</translation>
         </message>
@@ -2464,6 +2446,11 @@
             <source>Form</source>
             <translation>प्रपत्र</translation>
         </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AssetPhotoWidget.ui" line="397" />
+            <source>File Name:</source>
+            <translation>फ़ाइल का नाम:</translation>
+        </message>
     </context>
     <context>
         <name>AssetTextWidget</name>
@@ -2680,6 +2667,16 @@
             <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="243" />
             <source>Login!</source>
             <translation>लॉग इन करें!</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="271" />
+            <source>Space Available:</source>
+            <translation>स्थान उपलब्ध:</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/Forms/AppletCreateAccount.ui" line="298" />
+            <source>Path:</source>
+            <translation>पथ:</translation>
         </message>
     </context>
     <context>
@@ -3876,25 +3873,25 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2564" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2601" />
             <source>Confirm Shred File</source>
             <translation>श्रेड फ़ाइल की पुष्टि करें</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2564" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2601" />
             <source>Confirm Delete File</source>
             <translation>फ़ाइल हटाएँ की पुष्टि करें</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="470" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2568" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2605" />
             <source>Are You Sure You Want To Write Random Data Into The File Then Delete From The Device?</source>
             <translation>क्या आप वाकई फ़ाइल में यादृच्छिक डेटा लिखना चाहते हैं और फिर डिवाइस से हटाना चाहते हैं?</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="474" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2572" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2609" />
             <source>Are You Sure To Delete The File From The Device?</source>
             <translation>क्या आप निश्चित रूप से डिवाइस से फ़ाइल को हटाना चाहते हैं?</translation>
         </message>
@@ -3928,23 +3925,23 @@
             <translation>खाता बनाएँ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="84" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1443" />
+            <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="96" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1444" />
             <source>Application</source>
             <translation>आवेदन</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="84" />
+            <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="96" />
             <source>Insert New User into Database failed.</source>
             <translation>डेटाबेस में नया उपयोगकर्ता सम्मिलित करना विफल रहा।</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="114" />
+            <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="126" />
             <source>Create an account or exit</source>
             <translation>एक खाता बनाएं या बाहर निकलें</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="115" />
+            <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="127" />
             <source>User must create an account or exit
 Do you want to exit the application?</source>
             <translation>उपयोगकर्ता को एक खाता बनाना होगा या बाहर निकलना होगा
@@ -4531,46 +4528,46 @@ File Type: </source>
             <translation>कोई सीमा नहीं कनेक्ट</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="755" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="761" />
             <source>ERROR:
 </source>
             <translation>त्रुटि:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="759" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="765" />
             <source>Failed to connect to Network host</source>
             <translation>नेटवर्क होस्ट से कनेक्ट करने में विफल</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="762" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="768" />
             <source>Failed to connect to Connection Test host</source>
             <translation>कनेक्शन परीक्षण होस्ट से कनेक्ट करने में विफल</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="765" />
-            <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="246" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="771" />
+            <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="250" />
             <source>Video Play Failed</source>
             <translation>वीडियो प्ले विफल</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="768" />
-            <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="220" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="774" />
+            <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="223" />
             <source>Audio Play Failed</source>
             <translation>ऑडियो प्ले विफल</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1242" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1248" />
             <source>Close Application</source>
             <translation>एप्लिकेशन बंद करें</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1243" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1249" />
             <source>Are you sure you want to exit?</source>
             <translation>क्या आप वाकई बाहर निकलना चाहते हैं?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1349" />
-            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="357" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1355" />
+            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="363" />
             <source>Application Error</source>
             <translation>अनुप्रयोग त्रुटि</translation>
         </message>
@@ -5303,39 +5300,39 @@ File Type: </source>
             <translation>कनेक्शन जानकारी को क्लिपबोर्ड पर कॉपी करें (अनुशंसित नहीं)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2470" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2471" />
             <source>Invalid Host Id</source>
             <translation>अमान्य होस्ट आईडी</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2471" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2472" />
             <source>Host Id has not been set</source>
             <translation>होस्ट आईडी सेट नहीं किया गया है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2497" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2498" />
             <source>No Members Online</source>
             <translation>कोई सदस्य ऑनलाइन नहीं</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2498" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2499" />
             <source>There are no members online to send to</source>
             <translation>भेजने के लिए ऑनलाइन कोई सदस्य नहीं हैं</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2506" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2524" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2507" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2561" />
             <source>Failed to add asset</source>
             <translation>संपत्ति जोड़ने में विफल</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2507" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2525" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2508" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2562" />
             <source>Failed to add asset. Please check disk space</source>
             <translation>संपत्ति जोड़ने में विफल. कृपया डिस्क स्थान की जाँच करें</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2516" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2518" />
             <source>Failed to send to </source>
             <translation>को भेजने में विफल</translation>
         </message>
@@ -5579,7 +5576,7 @@ File Type: </source>
             <location filename="../nolimitgui/src/AppletFileOfferSelect.cpp" line="289" />
             <location filename="../nolimitgui/src/AppletFileOfferSelect.cpp" line="323" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="359" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2389" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2390" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1358" />
             <source>File Not Found</source>
             <translation>फ़ाइल नहीं मिली</translation>
@@ -5810,7 +5807,7 @@ File Type: </source>
             <translation>होस्ट से उपयोगकर्ता सूची पूरी हो गई</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2479" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2480" />
             <source>Invalid URL</source>
             <translation>अमान्य यूआरएल</translation>
         </message>
@@ -5876,12 +5873,12 @@ File Type: </source>
             <translation>उपेक्षित होस्ट सूची खाली है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2407" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2408" />
             <source>Application Not Ready</source>
             <translation>आवेदन तैयार नहीं है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2408" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2409" />
             <source>Cannot Launch Applet Until Application Has Initialized</source>
             <translation>जब तक एप्लिकेशन आरंभ नहीं हो जाता तब तक एप्लेट लॉन्च नहीं किया जा सकता</translation>
         </message>
@@ -6747,17 +6744,17 @@ Delay Test Is Invalid
             <translation>बात करने के लिए धक्का</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="472" />
+            <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="461" />
             <source>Are you sure?</source>
             <translation>क्या आप निश्चित हैं?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="472" />
+            <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="461" />
             <source>This will delete all thumbnail images not currently in use by your identity or hosts</source>
             <translation>यह उन सभी थंबनेल छवियों को हटा देगा जो वर्तमान में आपकी पहचान या होस्ट द्वारा उपयोग में नहीं हैं</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="475" />
+            <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="464" />
             <source> of disk space freed by deleting cached thumbnails</source>
             <translation>कैश्ड थंबनेल को हटाकर डिस्क स्थान खाली कर दिया गया</translation>
         </message>
@@ -6892,7 +6889,7 @@ Delay Test Is Invalid
             <translation>वीडियो रिकॉर्ड करना शुरू करने और बंद करने के लिए दाईं ओर कैमकॉर्डर बटन का उपयोग करें।</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="357" />
+            <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="363" />
             <source>ChatEntryWidget client callback is not set</source>
             <translation>ChatEntryWidget क्लाइंट कॉलबैक सेट नहीं है</translation>
         </message>
@@ -6942,190 +6939,190 @@ Delay Test Is Invalid
             <translation>फ़ाइल को टुकड़े-टुकड़े करना</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="61" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="62" />
             <source>Open Folder</source>
             <translation>फ़ोल्डर खोलें</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1388" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1394" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1400" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1406" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1412" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1418" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1424" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1389" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1395" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1401" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1407" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1413" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1419" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1425" />
             <source>Invalid User Name</source>
             <translation>अमान्य उपयोगकर्ता नाम</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1388" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1389" />
             <source>User Name cannot have NoLimitConnect in name.</source>
             <translation>उपयोगकर्ता नाम में NoLimitConnect नहीं हो सकता.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1394" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1395" />
             <source>User Name cannot have special character quote.</source>
             <translation>उपयोगकर्ता नाम में विशेष वर्ण उद्धरण नहीं हो सकता.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1400" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1401" />
             <source>User Name cannot have comma.</source>
             <translation>उपयोगकर्ता नाम में अल्पविराम नहीं हो सकता.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1406" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1407" />
             <source>User Name cannot have special character parentheses.</source>
             <translation>उपयोगकर्ता नाम में विशेष वर्ण कोष्ठक नहीं हो सकते.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1412" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1413" />
             <source>User Name cannot have special character slashes.</source>
             <translation>उपयोगकर्ता नाम में विशेष वर्ण स्लैश नहीं हो सकते.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1424" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1425" />
             <source>User Name is too short (minimum 4 chars).</source>
             <translation>उपयोगकर्ता नाम बहुत छोटा है (न्यूनतम 4 अक्षर)।</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1455" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1461" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1456" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1462" />
             <source>Age Verify</source>
             <translation>आयु सत्यापित करें</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1455" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1456" />
             <source>Invalid Age</source>
             <translation>अमान्य आयु</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1461" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1462" />
             <source>Age Connot be greater than 120 years old</source>
             <translation>आयु 120 वर्ष से अधिक नहीं होनी चाहिए</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2318" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2319" />
             <source>User Unavailable</source>
             <translation>उपयोगकर्ता अनुपलब्ध</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2319" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2320" />
             <source>User </source>
             <translation>उपयोगकर्ता</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2319" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2320" />
             <source> Is Unavailable</source>
             <translation>अनुपलब्ध है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2328" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2329" />
             <source>Already In A Session</source>
             <translation>पहले से ही एक सत्र में</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2329" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2330" />
             <source>Already in session. Please close existing session and try again</source>
             <translation>पहले से ही सत्र में है. कृपया मौजूदा सत्र बंद करें और पुनः प्रयास करें</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2338" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2339" />
             <source>Sent User An Offer</source>
             <translation>उपयोगकर्ता को एक प्रस्ताव भेजा</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2339" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2340" />
             <source>Offer Was Sent To  </source>
             <translation>को प्रस्ताव भेजा गया था</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2343" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2344" />
             <source>Send Offer Failed</source>
             <translation>प्रस्ताव भेजना विफल</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2344" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2345" />
             <source>Offer Send Failed  </source>
             <translation>प्रस्ताव भेजना विफल</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2348" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2349" />
             <source>Not Connected</source>
             <translation>कनेक्टेड नहीं</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2349" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2350" />
             <source>You are not connected to host </source>
             <translation>आप होस्ट से कनेक्ट नहीं हैं</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2353" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2354" />
             <source>No User Selected</source>
             <translation>कोई उपयोगकर्ता चयनित नहीं</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2354" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2355" />
             <source>You must select a user to send to </source>
             <translation>आपको भेजने के लिए एक उपयोगकर्ता का चयन करना होगा</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2323" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2324" />
             <source>User is offline</source>
             <translation>उपयोगकर्ता ऑफ़लाइन है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="298" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="299" />
             <source>Select Media File</source>
             <translation>मीडिया फ़ाइल का चयन करें</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="306" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="307" />
             <source>Select Video File</source>
             <translation>वीडियो फ़ाइल चुनें</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="316" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="317" />
             <source>Select Audio File</source>
             <translation>ऑडियो फ़ाइल चुनें</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="325" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="326" />
             <source>Select Image File</source>
             <translation>छवि फ़ाइल का चयन करें</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="409" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="410" />
             <source>Cannot Read File</source>
             <translation>फ़ाइल नहीं पढ़ सकता</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1418" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1419" />
             <source>User Name is too long (maximum 31 chars).</source>
             <translation>उपयोगकर्ता नाम बहुत लंबा है (अधिकतम 31 अक्षर)।</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1443" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1444" />
             <source>Mood Message is too long (maximum 31 chars)</source>
             <translation>मूड संदेश बहुत लंबा है (अधिकतम 31 अक्षर)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2324" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2325" />
             <source>User is no longer connected</source>
             <translation>उपयोगकर्ता अब कनेक्ट नहीं है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2333" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2334" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2335" />
             <source>Session not found</source>
             <translation>सत्र नहीं मिला</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2358" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2359" />
             <source>Purge Everthing Warning</source>
             <translation>सब कुछ शुद्ध करने की चेतावनी</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2359" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2360" />
             <source>This action will delete everything not locked including Identity, Downloaded Files, Storyboard, Message History Etc.
 The action cannot be undone
 Are you very sure you want to proceed?</source>
@@ -7134,141 +7131,176 @@ Are you very sure you want to proceed?</source>
 क्या आप वाकई आगे बढ़ना चाहते हैं?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2363" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2364" />
             <source>Voice Message Too Short</source>
             <translation>ध्वनि संदेश बहुत छोटा</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2364" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2365" />
             <source>The Voice Message was too short and will not be sent.</source>
             <translation>ध्वनि संदेश बहुत छोटा था और भेजा नहीं जाएगा.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2368" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2369" />
             <source>Video clip Too Short</source>
             <translation>वीडियो क्लिप बहुत छोटी है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2369" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2370" />
             <source>The Video Clip was too short and will not be sent.</source>
             <translation>वीडियो क्लिप बहुत छोटी थी और नहीं भेजी जाएगी.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2373" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2374" />
             <source>Video record failed to start</source>
             <translation>वीडियो रिकॉर्ड प्रारंभ करने में विफल रहा</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2374" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2375" />
             <source>Video record failed to start.</source>
             <translation>वीडियो रिकॉर्ड प्रारंभ करने में विफल रहा.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2390" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2391" />
             <source>File Name Is Empty</source>
             <translation>फ़ाइल का नाम खाली है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2398" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2399" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2400" />
             <source>Access File Permissions Denied By User</source>
             <translation>उपयोगकर्ता द्वारा अस्वीकृत फ़ाइल एक्सेस अनुमतियाँ</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2408" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2409" />
             <source>Cannot launch applet until network is available</source>
             <translation>नेटवर्क उपलब्ध होने तक एप्लेट लॉन्च नहीं किया जा सकता</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2416" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2417" />
             <source>Requires Open Port</source>
             <translation>ओपन पोर्ट की आवश्यकता है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2417" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2418" />
             <source>Action requires a open port</source>
             <translation>कार्रवाई के लिए एक खुले पोर्ट की आवश्यकता होती है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2425" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2434" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2426" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2435" />
             <source>Invalid Invite</source>
             <translation>अमान्य आमंत्रण</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2426" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2427" />
             <source>The invite is invalid</source>
             <translation>आमंत्रण अमान्य है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2435" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2436" />
             <source>Cannot accept invite from myself</source>
             <translation>मैं स्वयं से आमंत्रण स्वीकार नहीं कर सकता</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2443" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2444" />
             <source>Invalid User</source>
             <translation>अमान्य उपयोगकर्ता</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2444" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2445" />
             <source>Could not find the user</source>
             <translation>उपयोगकर्ता नहीं मिल सका</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2452" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2453" />
             <source>User Not Online</source>
             <translation>उपयोगकर्ता ऑनलाइन नहीं है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2453" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2454" />
             <source>The user is not currently online</source>
             <translation>उपयोगकर्ता वर्तमान में ऑनलाइन नहीं है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2461" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2462" />
             <source>Friendship Level To Low</source>
             <translation>मित्रता का स्तर निम्न स्तर पर</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2462" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2463" />
             <source>Requires friendship of friend or higher</source>
             <translation>मित्र या उच्चतर की मित्रता की आवश्यकता है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2480" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2481" />
             <source>The host url is not valid</source>
             <translation>होस्ट यूआरएल मान्य नहीं है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2488" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2489" />
             <source>Invalid Host Type</source>
             <translation>अमान्य होस्ट प्रकार</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2489" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2490" />
             <source>The host url does not have a vailid host type</source>
             <translation>होस्ट यूआरएल में वैध होस्ट प्रकार नहीं है</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2515" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2517" />
             <source>Failed to send </source>
             <translation>भेजने में विफल</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="754" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2378" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2528" />
+            <source>No members to send to</source>
+            <translation>भेजने के लिए कोई सदस्य नहीं</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2532" />
+            <source>Admin is offline</source>
+            <translation>एडमिन ऑफ़लाइन है</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2536" />
+            <source>Cannot send to self</source>
+            <translation>स्वयं को नहीं भेज सकते</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2540" />
+            <source>Invalid host or state</source>
+            <translation>अमान्य होस्ट या स्थिति</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2544" />
+            <source>Unknown reason</source>
+            <translation>अज्ञात कारण</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2552" />
+            <source>Cannot send </source>
+            <translation>नहीं भेज सकते </translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2553" />
+            <source>Cannot send reason: </source>
+            <translation>कारण नहीं भेज सकते:</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="760" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2379" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1388" />
             <source>Unknown Error</source>
             <translation>अज्ञात त्रुटि</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2379" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2380" />
             <source>Unknown Error </source>
             <translation>अज्ञात त्रुटि</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2379" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2380" />
             <source> for user </source>
             <translation>उपयोगकर्ता के लिए</translation>
         </message>
@@ -9937,7 +9969,7 @@ Are you very sure you want to proceed?</source>
             <translation>अज्ञात एप्लेट</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2259" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2260" />
             <source>Could not create thumbnail asset</source>
             <translation>थंबनेल संपत्ति नहीं बनाई जा सकी</translation>
         </message>
@@ -9988,7 +10020,7 @@ Remove this item from My Library and asset database?</source>
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="694" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="771" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="807" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2265" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2266" />
             <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="104" />
             <source>Could not get thumbnail file info</source>
             <translation>थंबनेल फ़ाइल जानकारी नहीं मिल सकी</translation>
@@ -9997,8 +10029,8 @@ Remove this item from My Library and asset database?</source>
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="695" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="772" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="808" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2260" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2266" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2261" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2267" />
             <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="105" />
             <source>Error occured creating thumbnail asset </source>
             <translation>थंबनेल एसेट बनाने में त्रुटि हुई</translation>
@@ -10532,6 +10564,21 @@ No one can connect to you directly</source>
             <location filename="../nolimitgui/src/AppletOfferRandSession.cpp" line="179" />
             <source>No permitted session types are available for this Random Connect offer.</source>
             <translation>इस रैंडम कनेक्ट ऑफर के लिए कोई अनुमत सत्र प्रकार उपलब्ध नहीं है।</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="274" />
+            <source>Sending to: %1</source>
+            <translation>यहां भेजा जा रहा है: %1</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="293" />
+            <source>Sent to %1 member(s)</source>
+            <translation>%1 सदस्य(सदस्यों) को भेजा गया</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="297" />
+            <source>Sent: %1 success, %2 failed</source>
+            <translation>भेजा गया: %1 सफल, %2 विफल</translation>
         </message>
     </context>
     <context>
