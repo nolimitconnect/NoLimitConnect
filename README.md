@@ -42,7 +42,7 @@ git clone https://gitlab.com/nolimitcode/nolimitconnect
 Available at:
 https://nolimitconnect.com/download/
 windows x64 nsis installer, android apk, linux x64 .deb package
-x64 and ARM64 .flapak packages for linux, raspberry pi, pi orange
+x64 and ARM64 .flatpak packages for linux, raspberry pi, pi orange
 
 ## Description
 A independent social network designed to be hosted on any device with an internet connection. 
