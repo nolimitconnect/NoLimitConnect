@@ -491,7 +491,7 @@ void VxSetUserXferDirectory( std::string userXferDir  )
 	g_strIncompleteDir		= g_strUserXferDir + "incomplete/";
 	VxFileUtil::makeDirectory( g_strIncompleteDir.c_str() );
 
-	g_strPersonalRecordDir	= g_strUserXferDir + "me/";
+	g_strPersonalRecordDir	= g_strUserXferDir + "contacts/me/";
 	VxFileUtil::makeDirectory( g_strPersonalRecordDir.c_str() );
 
     g_strAppCamRecord       = g_strUserXferDir + "camrecord/";
