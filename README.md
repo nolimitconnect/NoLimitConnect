@@ -26,7 +26,7 @@ Modular design for developers to extend or embed.
 Portable across systems.
 
 ## Under the hood
-- Qt - GUI interface
+- Qt - GUI interface, 12 language translations
 - Media Player based on Kodi/FFmpeg
 - OpenGL + shader-based movie rendering
 - Opus for low bandwidth VOIP
@@ -41,6 +41,8 @@ git clone https://gitlab.com/nolimitcode/nolimitconnect
 ## Precompiled Binaries and Installers
 Available at:
 https://nolimitconnect.com/download/
+windows x64 nsis installer, android apk, linux x64 .deb package
+x64 and ARM64 .flapak packages for linux, raspberry pi, pi orange
 
 ## Description
 A independent social network designed to be hosted on any device with an internet connection. 
