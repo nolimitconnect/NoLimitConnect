@@ -9,6 +9,7 @@ Tagline: Independent, user-hosted social networks — no registration, no ads, n
 Stack: C, C++, Assembly
 Audience: Developers and DIY enthusiasts building private or decentralized communities.
 Core Values: Privacy, control, and freedom from centralized platforms.
+Tags: #decentralized, #p2p, #sovereignty, #privacy-tools, #social-networks
 
 💡 What it does:
 Lets anyone host their own social network or community.
@@ -24,9 +25,22 @@ Pure C/C++ core with hand-tuned assembly for performance-critical components.
 Modular design for developers to extend or embed.
 Portable across systems.
 
+## Under the hood
+- Qt - GUI interface
+- Media Player based on Kodi/FFmpeg
+- OpenGL + shader-based movie rendering
+- Opus for low bandwidth VOIP
+- WebRTC-based echo cancellation
+- RNNoise noise cancellation
+- Assembly and Native C++/C
+
 ## Source Code
 Open Sourced code that can be cloned with 
 git clone https://gitlab.com/nolimitcode/nolimitconnect
+
+## Precompiled Binaries and Installers
+Available at:
+https://nolimitconnect.com/download/
 
 ## Description
 A independent social network designed to be hosted on any device with an internet connection. 
@@ -58,11 +72,9 @@ https://gitlab.com/nolimitcode/nolimitconnect/issues
 
 ## Roadmap
 * o Update/Improve documentation
-* o Write howto tutorials
 * o Publish update to flathub
 * o Publish to Android Play Store
 * o Polish and improve app
-* o Implement issue tracking
 * o Build support community
 
 ## Contributing
