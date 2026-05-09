@@ -96,69 +96,101 @@
         {
             "label": "Android: Start app + forward LLDB (5039)",
             "type": "process",
-            "command": "powershell",
+            "command": "bash",
             "options": {
                 "env": {
                     "ANDROID_SERIAL": "R5GL31TBG6N"
                 }
             },
             "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}\\.vscode\\android-start-forward-lldb.ps1",
+                "${workspaceFolder}/.vscode/android-start-forward-lldb.sh",
                 "-WorkspaceFolder",
                 "${workspaceFolder}",
                 "-DebugSocketWaitSeconds",
                 "90"
             ],
+            "windows": {
+                "command": "powershell",
+                "args": [
+                    "-NoProfile",
+                    "-ExecutionPolicy",
+                    "Bypass",
+                    "-File",
+                    "${workspaceFolder}\\.vscode\\android-start-forward-lldb.ps1",
+                    "-WorkspaceFolder",
+                    "${workspaceFolder}",
+                    "-DebugSocketWaitSeconds",
+                    "90"
+                ]
+            },
             "problemMatcher": []
         },
         {
             "label": "Android: Start app + forward LLDB (5039, early breakpoints)",
             "type": "process",
-            "command": "powershell",
+            "command": "bash",
             "options": {
                 "env": {
                     "ANDROID_SERIAL": "R5GL31TBG6N"
                 }
             },
             "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}\\.vscode\\android-start-forward-lldb.ps1",
+                "${workspaceFolder}/.vscode/android-start-forward-lldb.sh",
                 "-WorkspaceFolder",
                 "${workspaceFolder}",
                 "-StopAfterLaunch",
                 "-DebugSocketWaitSeconds",
                 "90"
             ],
+            "windows": {
+                "command": "powershell",
+                "args": [
+                    "-NoProfile",
+                    "-ExecutionPolicy",
+                    "Bypass",
+                    "-File",
+                    "${workspaceFolder}\\.vscode\\android-start-forward-lldb.ps1",
+                    "-WorkspaceFolder",
+                    "${workspaceFolder}",
+                    "-StopAfterLaunch",
+                    "-DebugSocketWaitSeconds",
+                    "90"
+                ]
+            },
             "problemMatcher": []
         },
         {
             "label": "Android: Forward LLDB to running app (5039)",
             "type": "process",
-            "command": "powershell",
+            "command": "bash",
             "options": {
                 "env": {
                     "ANDROID_SERIAL": "R5GL31TBG6N"
                 }
             },
             "args": [
-                "-NoProfile",
-                "-ExecutionPolicy",
-                "Bypass",
-                "-File",
-                "${workspaceFolder}\\.vscode\\android-start-forward-lldb.ps1",
+                "${workspaceFolder}/.vscode/android-start-forward-lldb.sh",
                 "-WorkspaceFolder",
                 "${workspaceFolder}",
                 "-AttachOnly",
                 "-DebugSocketWaitSeconds",
                 "90"
             ],
+            "windows": {
+                "command": "powershell",
+                "args": [
+                    "-NoProfile",
+                    "-ExecutionPolicy",
+                    "Bypass",
+                    "-File",
+                    "${workspaceFolder}\\.vscode\\android-start-forward-lldb.ps1",
+                    "-WorkspaceFolder",
+                    "${workspaceFolder}",
+                    "-AttachOnly",
+                    "-DebugSocketWaitSeconds",
+                    "90"
+                ]
+            },
             "problemMatcher": []
         },
         {
@@ -177,6 +209,13 @@
                 "-Command",
                 "$ErrorActionPreference='Continue'; $adb='F:/Android/Sdk/platform-tools/adb.exe'; if (-not (Test-Path $adb)) { Write-Host 'adb not found, skip force-stop.'; exit 0 }; $serial=$env:ANDROID_SERIAL; if (-not $serial) { $serial=((& $adb devices) | Select-Object -Skip 1 | Where-Object { $_ -match '^(\\S+)\\s+device$' } | ForEach-Object { if ($_ -match '^(\\S+)\\s+device$') { $Matches[1] } } | Select-Object -First 1) }; if (-not $serial) { Write-Host 'No Android device in state device; skip force-stop.'; exit 0 }; & $adb -s $serial shell am force-stop com.nolimitconnect.nolimitconnect 2>$null; Write-Host ('Force-stopped app on device: ' + $serial); exit 0"
             ],
+            "linux": {
+                "command": "bash",
+                "args": [
+                    "-c",
+                    "ADB=/home/nolimit/Android/Sdk/platform-tools/adb; SERIAL=${ANDROID_SERIAL:-R5GL31TBG6N}; if [ ! -x \"$ADB\" ]; then echo 'adb not found, skip force-stop.'; exit 0; fi; $ADB -s \"$SERIAL\" shell am force-stop com.nolimitconnect.nolimitconnect 2>/dev/null; echo \"Force-stopped app on device: $SERIAL\"; exit 0"
+                ]
+            },
             "problemMatcher": []
         },
         {
@@ -357,6 +396,13 @@
             "label": "Configure Android Debug",
             "type": "process",
             "command": "cmake",
+            "windows": {
+                "args": [
+                    "--preset",
+                    "android-arm64-debug-windows",
+                    "--fresh"
+                ]
+            },
             "options": {
                 "env": {
                     "NLC_ENABLE_VSCODE_PRESETS": "1"
@@ -373,6 +419,13 @@
             "label": "Configure Android Release",
             "type": "process",
             "command": "cmake",
+            "windows": {
+                "args": [
+                    "--preset",
+                    "android-arm64-release-windows",
+                    "--fresh"
+                ]
+            },
             "options": {
                 "env": {
                     "NLC_ENABLE_VSCODE_PRESETS": "1"
@@ -393,6 +446,15 @@
             ],
             "type": "process",
             "command": "cmake",
+            "windows": {
+                "args": [
+                    "--build",
+                    "--preset",
+                    "android-arm64-debug-windows",
+                    "--target",
+                    "nolimitconnect"
+                ]
+            },
             "options": {
                 "env": {
                     "NLC_ENABLE_VSCODE_PRESETS": "1"
@@ -415,6 +477,15 @@
             ],
             "type": "process",
             "command": "cmake",
+            "windows": {
+                "args": [
+                    "--build",
+                    "--preset",
+                    "android-arm64-debug-windows",
+                    "--target",
+                    "nolimitappsApk"
+                ]
+            },
             "options": {
                 "env": {
                     "NLC_ENABLE_VSCODE_PRESETS": "1"
@@ -437,6 +508,15 @@
             ],
             "type": "process",
             "command": "cmake",
+            "windows": {
+                "args": [
+                    "--build",
+                    "--preset",
+                    "android-arm64-debug-windows",
+                    "--target",
+                    "package_nolimitconnect"
+                ]
+            },
             "options": {
                 "env": {
                     "NLC_ENABLE_VSCODE_PRESETS": "1"
@@ -459,6 +539,15 @@
             ],
             "type": "process",
             "command": "cmake",
+            "windows": {
+                "args": [
+                    "--build",
+                    "--preset",
+                    "android-arm64-release-windows",
+                    "--target",
+                    "nolimitconnect"
+                ]
+            },
             "options": {
                 "env": {
                     "NLC_ENABLE_VSCODE_PRESETS": "1"
@@ -482,6 +571,15 @@
             "hide": true,
             "type": "process",
             "command": "cmake",
+            "windows": {
+                "args": [
+                    "--build",
+                    "--preset",
+                    "android-arm64-release-windows",
+                    "--target",
+                    "package_nolimitconnect"
+                ]
+            },
             "options": {
                 "env": {
                     "NLC_ENABLE_VSCODE_PRESETS": "1"
@@ -517,7 +615,7 @@
             "label": "Deploy Android Debug",
             "dependsOrder": "sequence",
             "dependsOn": [
-                "Build Android Debug",
+                "Install Android Debug APK (manual launch)",
                 "Android: Start app + forward LLDB (5039)"
             ],
             "problemMatcher": []
@@ -530,6 +628,13 @@
             ],
             "type": "process",
             "command": "powershell",
+            "linux": {
+                "command": "bash",
+                "args": [
+                    "-lc",
+                    "set -e; ADB=${ADB_PATH:-/home/nolimit/Android/Sdk/platform-tools/adb}; if [ ! -x \"$ADB\" ]; then echo \"adb not found: $ADB\"; exit 1; fi; SERIAL=${ANDROID_SERIAL:-R5GL31TBG6N}; PKG=com.nolimitconnect.nolimitconnect; roots=(\"${workspaceFolder}/package/android\" \"${workspaceFolder}/package/android/debug/arm64\" \"${workspaceFolder}/deploy/android\" \"${workspaceFolder}/build/android-arm64-debug/nolimitgui/android-build-nolimitconnect/build/outputs/apk/debug\" \"${workspaceFolder}/build/android-arm64-debug\"); apk=\"\"; for root in \"${roots[@]}\"; do if [ -d \"$root\" ]; then found=$(find \"$root\" -type f -name '*.apk' -printf '%T@ %p\\n' 2>/dev/null | sort -nr | head -n1 | cut -d' ' -f2- || true); if [ -n \"$found\" ]; then apk=\"$found\"; break; fi; fi; done; if [ -z \"$apk\" ]; then echo \"No APK found under: ${roots[*]}\"; exit 1; fi; echo \"Force-stopping app before install: $PKG\"; \"$ADB\" -s \"$SERIAL\" shell am force-stop \"$PKG\" 2>/dev/null || true; echo \"Installing APK: $apk\"; \"$ADB\" -s \"$SERIAL\" install -r \"$apk\"; echo \"Installed on device: $SERIAL\""
+                ]
+            },
             "options": {
                 "env": {
                     "ANDROID_SERIAL": "R5GL31TBG6N"
@@ -540,7 +645,7 @@
                 "-ExecutionPolicy",
                 "Bypass",
                 "-Command",
-                "$ErrorActionPreference='Stop'; $adb='F:/Android/Sdk/platform-tools/adb.exe'; if (-not (Test-Path $adb)) { throw 'adb not found' }; $serial=$env:ANDROID_SERIAL; if (-not $serial) { $serial=((& $adb devices) | Select-Object -Skip 1 | Where-Object { $_ -match '^(\\S+)\\s+device$' } | ForEach-Object { if ($_ -match '^(\\S+)\\s+device$') { $Matches[1] } } | Select-Object -First 1) }; if (-not $serial) { throw 'No Android device in state device.' }; $roots=@('${workspaceFolder}/package/android','${workspaceFolder}/package/android/debug/arm64','${workspaceFolder}/deploy/android','${workspaceFolder}/build/android-arm64-debug/nolimitgui/android-build-nolimitconnect/build/outputs/apk/debug','${workspaceFolder}/build/android-arm64-debug'); $apk=$null; foreach($root in $roots){ if(Test-Path $root){ $apk=Get-ChildItem -Path $root -Recurse -Filter '*.apk' | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($apk){ break } } }; if (-not $apk) { throw ('No APK found under: ' + ($roots -join ', ')) }; Write-Host ('Installing APK: ' + $apk.FullName); & $adb -s $serial install -r $apk.FullName; if ($LASTEXITCODE -ne 0) { throw ('adb install failed with exit code ' + $LASTEXITCODE) }; Write-Host ('Installed on device: ' + $serial)"
+                "$ErrorActionPreference='Stop'; $adb='F:/Android/Sdk/platform-tools/adb.exe'; if (-not (Test-Path $adb)) { throw 'adb not found' }; $serial=$env:ANDROID_SERIAL; if (-not $serial) { $serial=((& $adb devices) | Select-Object -Skip 1 | Where-Object { $_ -match '^(\\S+)\\s+device$' } | ForEach-Object { if ($_ -match '^(\\S+)\\s+device$') { $Matches[1] } } | Select-Object -First 1) }; if (-not $serial) { throw 'No Android device in state device.' }; $pkg='com.nolimitconnect.nolimitconnect'; $roots=@('${workspaceFolder}/package/android','${workspaceFolder}/package/android/debug/arm64','${workspaceFolder}/deploy/android','${workspaceFolder}/build/android-arm64-debug/nolimitgui/android-build-nolimitconnect/build/outputs/apk/debug','${workspaceFolder}/build/android-arm64-debug'); $apk=$null; foreach($root in $roots){ if(Test-Path $root){ $apk=Get-ChildItem -Path $root -Recurse -Filter '*.apk' | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if($apk){ break } } }; if (-not $apk) { throw ('No APK found under: ' + ($roots -join ', ')) }; Write-Host ('Force-stopping app before install: ' + $pkg); & $adb -s $serial shell am force-stop $pkg 2>$null; Write-Host ('Installing APK: ' + $apk.FullName); & $adb -s $serial install -r $apk.FullName; if ($LASTEXITCODE -ne 0) { throw ('adb install failed with exit code ' + $LASTEXITCODE) }; Write-Host ('Installed on device: ' + $serial)"
             ],
             "problemMatcher": []
         },

@@ -63,48 +63,110 @@
         {
             "name": "android-arm64-common",
             "hidden": true,
+            "warnings": {
+                "deprecated": false
+            },
+            "cacheVariables": {
+                "CMAKE_SYSTEM_NAME": "Android",
+                "ANDROID_ABI": "arm64-v8a",
+                "ANDROID_PLATFORM": "android-28",
+                "ANDROID_STL": "c++_shared",
+                "ANDROID_USE_LEGACY_TOOLCHAIN_FILE": "OFF",
+                "CMAKE_COLOR_DIAGNOSTICS": "ON",
+                "CMAKE_CXX_FLAGS_INIT": "-DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++",
+                "QT_USE_TARGET_ANDROID_BUILD_DIR": "ON"
+            }
+        },
+        {
+            "name": "android-arm64-windows-host",
+            "hidden": true,
             "condition": {
                 "type": "equals",
                 "lhs": "${hostSystemName}",
                 "rhs": "Windows"
             },
-            "warnings": {
-                "deprecated": false
-            },
             "cacheVariables": {
                 "CMAKE_MAKE_PROGRAM": "F:/Qt/Tools/Ninja/ninja.exe",
-                "CMAKE_SYSTEM_NAME": "Android",
                 "CMAKE_ANDROID_NDK": "F:/Android/Sdk/ndk/27.2.12479018",
                 "ANDROID_NDK": "F:/Android/Sdk/ndk/27.2.12479018",
                 "ANDROID_SDK_ROOT": "F:/Android/Sdk",
-                "ANDROID_ABI": "arm64-v8a",
-                "ANDROID_PLATFORM": "android-28",
-                "ANDROID_STL": "c++_shared",
-                "ANDROID_USE_LEGACY_TOOLCHAIN_FILE": "OFF",
                 "CMAKE_TOOLCHAIN_FILE": "F:/Android/Sdk/ndk/27.2.12479018/build/cmake/android.toolchain.cmake",
                 "CMAKE_C_COMPILER": "F:/Android/Sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
                 "CMAKE_CXX_COMPILER": "F:/Android/Sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe",
-                "CMAKE_COLOR_DIAGNOSTICS": "ON",
-                "CMAKE_CXX_FLAGS_INIT": "-DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++",
                 "CMAKE_FIND_ROOT_PATH": "F:/Qt/6.9.3/android_arm64_v8a;F:/Android/Sdk/ndk/27.2.12479018/toolchains/llvm/prebuilt/windows-x86_64/sysroot",
                 "CMAKE_PREFIX_PATH": "F:/Qt/6.9.3/android_arm64_v8a",
                 "QT_HOST_PATH": "F:/Qt/6.9.3/msvc2022_64",
                 "QT_MAINTENANCE_TOOL": "F:/Qt/MaintenanceTool.exe",
-                "QT_QMAKE_EXECUTABLE": "F:/Qt/6.9.3/android_arm64_v8a/bin/qmake.bat",
-                "QT_USE_TARGET_ANDROID_BUILD_DIR": "ON"
+                "QT_QMAKE_EXECUTABLE": "F:/Qt/6.9.3/android_arm64_v8a/bin/qmake.bat"
+            }
+        },
+        {
+            "name": "android-arm64-linux-host",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
+            "cacheVariables": {
+                "CMAKE_MAKE_PROGRAM": "/usr/bin/ninja",
+                "CMAKE_ANDROID_NDK": "/home/nolimit/Android/Sdk/ndk/26.1.10909125",
+                "ANDROID_NDK": "/home/nolimit/Android/Sdk/ndk/26.1.10909125",
+                "ANDROID_SDK_ROOT": "/home/nolimit/Android/Sdk",
+                "CMAKE_TOOLCHAIN_FILE": "/home/nolimit/Android/Sdk/ndk/26.1.10909125/build/cmake/android.toolchain.cmake",
+                "CMAKE_C_COMPILER": "/home/nolimit/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/linux-x86_64/bin/clang",
+                "CMAKE_CXX_COMPILER": "/home/nolimit/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++",
+                "CMAKE_FIND_ROOT_PATH": "/home/nolimit/Qt/6.9.3/android_arm64_v8a;/home/nolimit/Android/Sdk/ndk/26.1.10909125/toolchains/llvm/prebuilt/linux-x86_64/sysroot",
+                "CMAKE_PREFIX_PATH": "/home/nolimit/Qt/6.9.3/android_arm64_v8a",
+                "QT_HOST_PATH": "/home/nolimit/Qt/6.9.3/gcc_64",
+                "QT_MAINTENANCE_TOOL": "/home/nolimit/Qt/MaintenanceTool",
+                "QT_QMAKE_EXECUTABLE": "/home/nolimit/Qt/6.9.3/android_arm64_v8a/bin/qmake"
             }
         },
         {
             "name": "android-arm64-debug",
+            "displayName": "VSCode Android ARM64 Debug (Linux host)",
+            "description": "Cross-compile for Android arm64-v8a on Linux",
+            "inherits": [
+                "base-debug",
+                "android-arm64-common",
+                "android-arm64-linux-host"
+            ],
+            "binaryDir": "${sourceDir}/build/android-arm64-debug",
+            "condition": {
+                "type": "allOf",
+                "conditions": [
+                    {
+                        "type": "equals",
+                        "lhs": "${hostSystemName}",
+                        "rhs": "Linux"
+                    },
+                    {
+                        "type": "equals",
+                        "lhs": "$env{NLC_ENABLE_VSCODE_PRESETS}",
+                        "rhs": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "android-arm64-debug-windows",
             "displayName": "VSCode Android ARM64 Debug (Windows host)",
             "description": "Cross-compile for Android arm64-v8a on Windows",
             "inherits": [
                 "base-debug",
-                "android-arm64-common"
+                "android-arm64-common",
+                "android-arm64-windows-host"
             ],
+            "binaryDir": "${sourceDir}/build/android-arm64-debug",
             "condition": {
                 "type": "allOf",
                 "conditions": [
+                    {
+                        "type": "equals",
+                        "lhs": "${hostSystemName}",
+                        "rhs": "Windows"
+                    },
                     {
                         "type": "equals",
                         "lhs": "$env{NLC_ENABLE_VSCODE_PRESETS}",
@@ -151,15 +213,48 @@
         },
         {
             "name": "android-arm64-release",
+            "displayName": "VSCode Android ARM64 Release (Linux host)",
+            "description": "Cross-compile for Android arm64-v8a on Linux",
+            "inherits": [
+                "base-release",
+                "android-arm64-common",
+                "android-arm64-linux-host"
+            ],
+            "binaryDir": "${sourceDir}/build/android-arm64-release",
+            "condition": {
+                "type": "allOf",
+                "conditions": [
+                    {
+                        "type": "equals",
+                        "lhs": "${hostSystemName}",
+                        "rhs": "Linux"
+                    },
+                    {
+                        "type": "equals",
+                        "lhs": "$env{NLC_ENABLE_VSCODE_PRESETS}",
+                        "rhs": "1"
+                    }
+                ]
+            }
+        },
+        {
+            "name": "android-arm64-release-windows",
             "displayName": "VSCode Android ARM64 Release (Windows host)",
             "description": "Cross-compile for Android arm64-v8a on Windows",
             "inherits": [
                 "base-release",
-                "android-arm64-common"
+                "android-arm64-common",
+                "android-arm64-windows-host"
             ],
+            "binaryDir": "${sourceDir}/build/android-arm64-release",
             "condition": {
                 "type": "allOf",
                 "conditions": [
+                    {
+                        "type": "equals",
+                        "lhs": "${hostSystemName}",
+                        "rhs": "Windows"
+                    },
                     {
                         "type": "equals",
                         "lhs": "$env{NLC_ENABLE_VSCODE_PRESETS}",
@@ -231,6 +326,14 @@
         {
             "name": "android-arm64-release",
             "configurePreset": "android-arm64-release"
+        },
+        {
+            "name": "android-arm64-debug-windows",
+            "configurePreset": "android-arm64-debug-windows"
+        },
+        {
+            "name": "android-arm64-release-windows",
+            "configurePreset": "android-arm64-release-windows"
         },
         {
             "name": "linux-x64-debug",

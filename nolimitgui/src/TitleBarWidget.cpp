@@ -698,7 +698,14 @@ void TitleBarWidget::callbackGuiVideoTitleBarPixmap( QPixmap& vidPixmap )
         return;
     }
 
-    m_LastCamFrameTimeMs = GetApplicationAliveMs();
+    int appAliveMs = GetApplicationAliveMs();
+    // only allow 5 fps for title bar video to avoid bogging down the app with too many video frames
+    if( appAliveMs - m_LastCamFrameTimeMs < 200 )
+    {        
+        return;
+    }
+
+    m_LastCamFrameTimeMs = appAliveMs;
     if( !m_CamPlaying )
     {
         m_CamPlaying = true;

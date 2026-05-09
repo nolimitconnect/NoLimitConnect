@@ -16,6 +16,7 @@
 #include "AccountMgr.h"
 #include "AppSettings.h"
 #include "GuiHelpers.h"
+#include "GuiParams.h"
 
 #include <P2PEngine/EngineSettings.h>
 
@@ -41,6 +42,17 @@ AppletCreateAccount::AppletCreateAccount( AppCommon& app, QWidget* parent )
     GuiHelpers::fillLanguage( ui.m_LanguageComboBox );
     GuiHelpers::fillContentRating( ui.m_ContentComboBox );
     GuiHelpers::fillAge( ui.m_AgeComboBox );
+
+    std::string dataDir = VxGetRootUserDataDirectory();
+    ui.m_StoragePath->setText( QString::fromStdString( dataDir ) );
+
+    uint64_t bytesFree = VxFileUtil::getDiskFreeSpace( dataDir.c_str() );
+    ui.m_SpaceAvail->setText( GuiParams::describeFileLength( bytesFree ) );
+    #if defined(FLATPAKBUILD)
+        ui.m_ExtraInfo->setText( "FLATPAK: YES" );
+    #else
+        ui.m_ExtraInfo->setText( "FLATPAK: NO" );
+    #endif
 
     connect( ui.m_LoginButton, SIGNAL(clicked()), this, SLOT(slotButtonLoginClicked() ) );
 }

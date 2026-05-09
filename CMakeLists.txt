@@ -395,6 +395,7 @@ if(DEFINED FLATPAKBUILD)
     set(BUILD_SYSTEM_FLATPAK true)
 
     set(FLATPAKBUILD true)
+    add_compile_definitions(FLATPAKBUILD=1)
 
     set(TARGET_OS_LINUX true)
     add_compile_definitions(TARGET_OS_LINUX=1)
@@ -1057,6 +1058,7 @@ endif()
 
 if(BUILD_SYSTEM_FLATPAK)
     message(STATUS "BUILD_SYSTEM_FLATPAK true")
+    add_compile_definitions(FLATPAKBUILD=1)
 endif()
 if(BUILD_SYSTEM_QCREATOR)
     message(STATUS "BUILD_SYSTEM_QCREATOR true")

@@ -1846,21 +1846,25 @@ if(ANDROID) # AND CMAKE_BUILD_TYPE STREQUAL "Release")
 
     else()
         message(STATUS "LINUX APK Copy")
+        set(_NLC_COPY_APK_SCRIPT "${CMAKE_BINARY_DIR}/copy_release_apk_if_present.cmake")
+        file(WRITE "${_NLC_COPY_APK_SCRIPT}"
+"file(GLOB _apk_files \"${CMAKE_BINARY_DIR}/android-build/build/outputs/apk/release/*.apk\")
+if(_apk_files)
+    file(MAKE_DIRECTORY \"${CMAKE_SOURCE_DIR}/deploy/android\")
+    foreach(_apk \${_apk_files})
+        message(STATUS \"Copying APK: \${_apk}\")
+        file(COPY \"\${_apk}\" DESTINATION \"${CMAKE_SOURCE_DIR}/deploy/android\")
+    endforeach()
+else()
+    message(STATUS \"Release APK not found yet (Gradle not run)\")
+endif()
+")
         add_custom_command(
             TARGET nolimitconnect
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E make_directory
                     ${CMAKE_SOURCE_DIR}/deploy/android
-            COMMAND ${CMAKE_COMMAND} -E echo "Checking for Release APK..."
-            COMMAND ${CMAKE_COMMAND} -E
-                sh -c
-                "if ls \"${CMAKE_BINARY_DIR}/android-build/build/outputs/apk/release\"/*.apk 1>nul 2>nul; then \
-                    ${CMAKE_COMMAND} -E copy_if_different \
-                        \"${CMAKE_BINARY_DIR}/android-build/build/outputs/apk/release\"/*.apk \
-                        \"${CMAKE_SOURCE_DIR}/deploy/android\"; \
-                 else \
-                    echo \"Release APK not found yet (Gradle not run)\"; \
-                 fi"
+            COMMAND ${CMAKE_COMMAND} -P "${_NLC_COPY_APK_SCRIPT}"
             COMMENT "Copy Release APK to deploy/android (if present)"
         )
 

@@ -19,11 +19,6 @@ enum EAppDir
 
 	// standard paths set from qt paths
 	eAppData,
-	eAppDownload,
-	eAppMusic,
-	eAppVideo,
-	eAppPictures,
-	eAppDocuments,
 
 	eAppDirRootDataStorage,
 	eAppDirAppTempData,

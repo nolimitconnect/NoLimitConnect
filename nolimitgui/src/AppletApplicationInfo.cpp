@@ -194,12 +194,6 @@ void AppletApplicationInfo::fillBasicInfo( void )
 
     infoMsg( "storage: %s", VxGetAppDirectory( eAppDirRootDataStorage ).c_str() );
     infoMsg( "user: %s", VxGetAppDirectory( eAppDirUserSpecific ).c_str() );
-
-    infoMsg( "download: %s", VxGetAppDirectory( eAppDownload ).c_str() );
-    infoMsg( "music: %s", VxGetAppDirectory( eAppMusic ).c_str() );
-    infoMsg( "video: %s", VxGetAppDirectory( eAppVideo ).c_str() );
-    infoMsg( "picture: %s", VxGetAppDirectory( eAppPictures ).c_str() );
-    infoMsg( "document: %s", VxGetAppDirectory( eAppDocuments ).c_str() );
 }
 
 //============================================================================
@@ -209,21 +203,14 @@ void AppletApplicationInfo::fillExtraInfo( void )
     QRect rec = QApplication::primaryScreen()->availableGeometry();
     int screenHeight = rec.height();
     int screenWidth = rec.width();
-    int xDpi = QApplication::primaryScreen()->physicalDotsPerInchX();
-    int yDpi = QApplication::primaryScreen()->physicalDotsPerInchY();
-    int ratioDpi = QApplication::primaryScreen()->devicePixelRatio();
 #else
     QRect rec = QApplication::desktop()->screenGeometry();
     int screenHeight = rec.height();
     int screenWidth = rec.width();
-    int xDpi = QApplication::desktop()->physicalDpiX();
-    int yDpi = QApplication::desktop()->physicalDpiY();
-    int ratioDpi = QApplication::desktop()->devicePixelRatio();
 #endif // QT_VERSION >= QT_VERSION_CHECK(6,0,0)
 
     infoMsg( "screen size: width %d heigth %d", screenWidth, screenHeight );
-    infoMsg( "screen dpi: x %d y %d ratio %d", xDpi, yDpi, ratioDpi );
-    infoMsg( "dpi scale: %d", GuiParams().getGuiScale() );
+    infoMsg( "gui scale: %d", GuiParams().getGuiScale() );
     infoMsg( "thumbnail size: %d", GuiParams().getThumbnailSize().width() );
 }
 

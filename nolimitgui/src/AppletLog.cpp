@@ -142,9 +142,4 @@ void AppletLog::fillBasicInfo( void )
     logMsg( "storage: %s", VxGetAppDirectory( eAppDirRootDataStorage ).c_str() );
     logMsg( "user: %s", VxGetAppDirectory( eAppDirUserSpecific ).c_str() );
 
-    logMsg( "download: %s", VxGetAppDirectory( eAppDownload ).c_str() );
-    logMsg( "music: %s", VxGetAppDirectory( eAppMusic ).c_str() );
-    logMsg( "video: %s", VxGetAppDirectory( eAppVideo ).c_str() );
-    logMsg( "picture: %s", VxGetAppDirectory( eAppPictures ).c_str() );
-    logMsg( "document: %s", VxGetAppDirectory( eAppDocuments ).c_str() );
 }

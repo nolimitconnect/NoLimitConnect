@@ -42,11 +42,7 @@ namespace
 	// exe and app resouces paths
 	// qt paths
 	std::string			g_strAppData					= "";
-    std::string			g_strAppDownload				= "";
-    std::string			g_strAppMusic					= "";
-	std::string			g_strAppVideo					= "";
-    std::string			g_strAppPictures				= "";
-    std::string			g_strAppDocuments				= "";
+
 
 	// storage paths
 	std::string			g_strRootDataStorageDir         = "";
@@ -127,21 +123,6 @@ void VxSetAppDirectory( enum EAppDir appDir, std::string setDir )
 		// qt paths
 		case eAppData:
             g_strAppData = setDir;
-            break;
-        case eAppDownload:
-            g_strAppDownload = setDir;
-            break;
-        case eAppMusic:
-            g_strAppMusic = setDir;
-            break;
-		case eAppVideo:
-            g_strAppVideo = setDir;
-            break;
-        case eAppPictures:
-            g_strAppPictures = setDir;
-            break;
-        case eAppDocuments:
-            g_strAppDocuments = setDir;
             break;
 
 		// storage
@@ -233,16 +214,6 @@ std::string& VxGetAppDirectory( EAppDir appDir )
 	// qt paths
 	case eAppData:
         return g_strAppData;
-    case eAppDownload:
-        return g_strAppDownload;
-    case eAppMusic:
-        return g_strAppMusic;
-	case eAppVideo:
-        return g_strAppVideo;
-    case eAppPictures:
-        return g_strAppPictures;
-    case eAppDocuments:
-        return g_strAppDocuments;
 
 	// storage
 	case eAppDirRootDataStorage:

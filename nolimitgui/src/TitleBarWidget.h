@@ -190,7 +190,7 @@ protected:
 	bool						m_CamEnabled{ false };
 	QTimer*                     m_CamTimer;
     bool                        m_CamPlaying{ false };
-    uint64_t                    m_LastCamFrameTimeMs{ 0 };
+    int                    		m_LastCamFrameTimeMs{ 0 };
 
     VxGUID                      m_MyOnlineId;
 	bool                        m_CallbacksRequested{ false };

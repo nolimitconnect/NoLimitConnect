@@ -439,22 +439,17 @@ void AppletTestAndDebug::fillExtraInfo( void )
     QRect rec = QApplication::primaryScreen()->availableGeometry();
     int screenHeight = rec.height();
     int screenWidth = rec.width();
-    int xDpi = QApplication::primaryScreen()->physicalDotsPerInchX();
-    int yDpi = QApplication::primaryScreen()->physicalDotsPerInchY();
-    int ratioDpi = QApplication::primaryScreen()->devicePixelRatio();
 #else
     QRect rec = QApplication::desktop()->screenGeometry();
     int screenHeight = rec.height();
     int screenWidth = rec.width();
-    int xDpi = QApplication::desktop()->physicalDpiX();
-    int yDpi = QApplication::desktop()->physicalDpiY();
-    int ratioDpi = QApplication::desktop()->devicePixelRatio();
 #endif // QT_VERSION >= QT_VERSION_CHECK(6,0,0)
 
     infoMsg( "screen size: width %d heigth %d", screenWidth, screenHeight );
-    infoMsg( "screen dpi: x %d y %d ratio %d", xDpi, yDpi, ratioDpi );
-    infoMsg( "dpi scale: %3.1f", GuiParams().getGuiScale() );
     infoMsg( "thumbnail size: %d", GuiParams().getThumbnailSize().width() );
+#if defined(FLATPAKBUILD)
+    infoMsg( "flatpack build: yes" );
+#endif
 }
 
 //============================================================================

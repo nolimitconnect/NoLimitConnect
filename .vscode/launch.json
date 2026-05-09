@@ -112,21 +112,21 @@
             "name": "Android Debug nolimitconnect (LLDB)",
             "type": "lldb",
             "request": "custom",
-            "preLaunchTask": "Android: Start app + forward LLDB (5039, early breakpoints)",
+            "preLaunchTask": "Deploy Android Debug",
             "postDebugTask": "Android: Force-stop app",
             "initCommands": [
+                "settings set target.process.stop-on-sharedlibrary-events false"
+            ],
+            "targetCreateCommands": [
+                "target create \"${workspaceFolder}/build/android-arm64-debug/nolimitgui/libnolimitconnect_arm64-v8a.so\"",
+                "settings append target.exec-search-paths ${workspaceFolder}/build/android-arm64-debug/nolimitgui"
+            ],
+            "processCreateCommands": [
                 "platform select remote-android",
-                "settings set target.process.stop-on-sharedlibrary-events false",
+                "gdb-remote 127.0.0.1:5039",
                 "process handle -p true -s false -n false SIGSTOP",
                 "process handle -p true -s false -n false SIGSEGV SIGBUS SIGUSR1 SIGUSR2",
                 "process handle -p true -s true -n true SIGABRT",
-                "process handle SIGSTOP SIGSEGV SIGBUS SIGABRT SIGUSR1 SIGUSR2",
-                "settings set target.source-map /proc/self/cwd ${workspaceFolder}",
-                "settings set target.source-map / ${workspaceFolder}"
-            ],
-            "targetCreateCommands": [],
-            "processCreateCommands": [
-                "gdb-remote 127.0.0.1:5039",
                 "nofail continue"
             ]
         },

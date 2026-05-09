@@ -47,6 +47,8 @@
 #include <NetLib/VxPeerMgr.h>
 
 #include <QLoggingCategory>
+#include <ostream>
+#include <string>
 
 namespace {
 
@@ -153,11 +155,17 @@ namespace {
     //============================================================================
     void setupRootStorageDirectory()
     {
-        std::string strRootAppDataDir;
+        std::string strRootStorageDataDir;
 
         //=== determine root path to store all application data and settings etc ===//
         QString dataPath;
-#if defined(Q_OS_LINUX)
+
+    
+#if defined(FLATPAKBUILD)
+    // flatpak provides persistent XDG storage under ~/.var/app/<app-id>/
+    dataPath = QStandardPaths::writableLocation( QStandardPaths::AppDataLocation );
+#else
+# if defined(Q_OS_LINUX)
         QString preferredHome = getPreferredLinuxHomePath();
         if( !preferredHome.isEmpty() )
         {
@@ -167,22 +175,28 @@ namespace {
         {
             dataPath = QStandardPaths::writableLocation( QStandardPaths::AppDataLocation );
         }
-#else
+# else
         dataPath = QStandardPaths::writableLocation( QStandardPaths::AppDataLocation );
-#endif
+# endif
+#endif // defined(FLATPAKBUILD)
 
-        strRootAppDataDir = dataPath.toUtf8().constData();
+        strRootStorageDataDir = dataPath.toUtf8().constData();
 
 #ifdef DEBUG
         // remove the D from the end so release and debug builds use the same storage directory
-        if( !strRootAppDataDir.empty() && ( strRootAppDataDir.c_str()[ strRootAppDataDir.length() - 1 ] == 'D' ) )
+        if( !strRootStorageDataDir.empty() && ( strRootStorageDataDir.c_str()[ strRootStorageDataDir.length() - 1 ] == 'D' ) )
         {
-            strRootAppDataDir = strRootAppDataDir.substr( 0, strRootAppDataDir.length() - 1 );
+            strRootStorageDataDir = strRootStorageDataDir.substr( 0, strRootStorageDataDir.length() - 1 );
         }
 #endif // DEBUG
 
-        VxFileUtil::makeForwardSlashPath( strRootAppDataDir );
-        strRootAppDataDir += "/";
+        VxFileUtil::makeForwardSlashPath( strRootStorageDataDir );
+        strRootStorageDataDir += "/";
+
+        // it used to be we could put data in different default locations
+        // but sandboxing and other issues have made it so all data must be in one root directory 
+        std::string strRootAppDataDir = strRootStorageDataDir +  "app/";
+
         VxSetAppDirectory( eAppData, strRootAppDataDir );
 
         // No need to put application in path because when call QCoreApplication::setApplicationName("AppName")
@@ -190,19 +204,7 @@ namespace {
         VxSetRootDataStorageDirectory( strRootAppDataDir.c_str() );
         VxSetRootUserDataDirectory( strRootAppDataDir.c_str() );
 
-    //=== determine root path for data xfer like incomplete/downloads/uploads etc ===//
-#if defined(TARGET_OS_WINDOWS) || defined(TARGET_OS_ANDROID)
-        QString docsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
-#else
-    // linux hides document under .local so use home directory if possible
-    QString docsPath = getPreferredLinuxHomePath();
-        if( docsPath.isEmpty() )
-        {
-            docsPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
-        }
-#endif // TARGET_OS_WINDOWS
-
-        std::string rootXferDir = docsPath.toUtf8().constData();
+        std::string rootXferDir = strRootStorageDataDir + "xfer/";
 
         VxFileUtil::makeForwardSlashPath( rootXferDir );
         VxFileUtil::assurePathEndWithSlash( rootXferDir );
@@ -303,30 +305,6 @@ int runApplication( QApplication* myApp, int argc, char** argv )
     threadSettingsLoader.start();
     stepStartMs = logStartupStep( "threadSettingsLoader.start", stepStartMs );
 
-    QStringList downloadPath =  QStandardPaths::standardLocations(QStandardPaths::DownloadLocation );
-    std::string download = downloadPath[0].toUtf8().constData();
-    VxFileUtil::makeForwardSlashPath( download );
-    VxSetAppDirectory( eAppDownload, download + "/" );
-
-    QStringList musicPath =  QStandardPaths::standardLocations(QStandardPaths::MusicLocation );
-    std::string music = musicPath[0].toUtf8().constData();
-    VxFileUtil::makeForwardSlashPath( music );
-    VxSetAppDirectory( eAppMusic, music + "/" );
-
-    QStringList videoPath =  QStandardPaths::standardLocations(QStandardPaths::MoviesLocation );
-    std::string video = videoPath[0].toUtf8().constData();
-    VxFileUtil::makeForwardSlashPath( video );
-    VxSetAppDirectory( eAppVideo, video + "/" );
-
-    QStringList picturePath =  QStandardPaths::standardLocations(QStandardPaths::PicturesLocation );
-    std::string picture = picturePath[0].toUtf8().constData();
-    VxFileUtil::makeForwardSlashPath( picture );
-    VxSetAppDirectory( eAppPictures, picture + "/" );
-
-    QStringList documentPath =  QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation );
-    std::string document = documentPath[0].toUtf8().constData();
-    VxFileUtil::makeForwardSlashPath( document );
-    VxSetAppDirectory( eAppDocuments, document + "/" );
 
     // initialize display scaling etc
     // the best method I have found to scale the gui is to use the default font height as the scaling factor
