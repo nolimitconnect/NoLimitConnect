@@ -3,7 +3,7 @@
 ### 1. Clone the Repository
 
 ```bash
-git clone https://gitlab.com/nolimitconnect/NoLimitConnect.git
+git clone https://github.com/nolimitconnect/NoLimitConnect.git
 ```
 
 ### 2. Open the Project in Qt Creator

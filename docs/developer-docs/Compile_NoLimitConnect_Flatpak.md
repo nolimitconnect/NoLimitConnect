@@ -2,7 +2,7 @@
 
 1. Checkout NoLimitConnect:
 ```bash
-git clone https://gitlab.com/nolimitconnect/NoLimitConnect.git
+git clone https://github.com/nolimitconnect/NoLimitConnect.git
 cd nolimitconnect
 ```
 
