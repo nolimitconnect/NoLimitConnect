@@ -1,132 +1,79 @@
-# nolimitconnect
+# No Limit Connect (NLC)
 
-## Developer and roadmap docs have been moved to Website
-Website: http://nolimitconnect.com
+> **Seeking Lead Maintainer & Community Founders**  
+> NLC is transitioning from a solo-developed engine to a community-led organization. We are looking for technical and community leaders to help scale to 1,000,000 users. [See Recruitment below](#-recruitment-lead-the-future-of-nlc).
 
 ## Summary
-Name: No Limit Connect
-Tagline: Independent, user-hosted social networks — no registration, no ads, no data mining, no limits.
-Stack: C, C++, Assembly
-Audience: Developers and DIY enthusiasts building private or decentralized communities.
-Core Values: Privacy, control, and freedom from centralized platforms.
-Tags: #decentralized, #p2p, #sovereignty, #privacy-tools, #social-networks
-
-💡 What it does:
-Lets anyone host their own social network or community.
-Peer-to-Peer and user-controlled.
-Designed for privacy, security, and zero spam.
-Written natively for efficiency and minimal dependencies.
-
-🧠 Why I built it:
-Social networks today are heavily centralized and commercialized. No Limit Connect aims to give control back to users — you own your data, your connections, and your community.
-
-🔧 Tech highlights:
-Pure C/C++ core with hand-tuned assembly for performance-critical components.
-Modular design for developers to extend or embed.
-Portable across systems.
-
-## Under the hood
-- Qt - GUI interface, 12 language translations
-- Media Player based on Kodi/FFmpeg
-- OpenGL + shader-based movie rendering
-- Opus for low bandwidth VOIP
-- WebRTC-based echo cancellation
-- RNNoise noise cancellation
-- Assembly and Native C++/C
-
-## Source Code
-Open Sourced code that can be cloned with 
-git clone https://gitlab.com/nolimitcode/nolimitconnect
-
-## Precompiled Binaries and Installers
-Available at:
-https://nolimitconnect.com/download/
-windows x64 nsis installer, android apk, linux x64 .deb package
-x64 and ARM64 .flatpak packages for linux, raspberry pi, pi orange
-
-## Description
-A independent social network designed to be hosted on any device with an internet connection. 
-
-Major features:
-* o User Controled Person to Person and plugin permissions: Ignore/Disable, Guest, Friend, Admin
-* o Streaming service for media files
-* o Share and transfer files (No file size limit)
-* o Video Chat
-* o Truth or Dare Video Chat game
-* o Push To Talk VOIP (Voice Over IP)
-* o VOIP Voice Phone
-* o Messenger
-* o About Me user page
-* o Storyboard blog page
-* o Web Cam Server
-* o Media Player (Based on Kodi(TM) and Ffmpeg)
-* o Chat Room host and client
-* o Random Connect host and client
-* o Group host and client
-
-## Usage
-Warning: There is no monitoring of communication except what the host admin is willing to do.
-No log files
-
-## Support
-Planned issue tracking:
-https://gitlab.com/nolimitcode/nolimitconnect/issues
-
-## Roadmap
-* o Update/Improve documentation
-* o Publish update to flathub
-* o Publish to Android Play Store
-* o Polish and improve app
-* o Build support community
-
-## Contributing
-
-NoLimitConnect is an independent, privacy-focused communication platform developed primarily by a single maintainer over many years. While the project continues to evolve, there is an important limitation that affects its public development:
-
-Although I (Brett R. Jones) maintain and develop NoLimitConnect, my professional environment strongly discourages participation in social networking activities — including those unrelated to work. This creates an unusual situation for an open-source social platform: I can build the technology, but I cannot be the public-facing representative for the community.
-
-Because of this, I am looking for a volunteer who would be interested in helping with the **community and outreach side** of the project.
-
-You can learn more about building NoLimitConnect in the official developer documentation:
-
-👉 **https://nolimitconnect.com/developer-docs/README/**
-
-If you are interested in supporting the project in a community-facing capacity, please contact me at:
-
-**bjones.engineer(AT)gmail.com**
-
-### How You Can Help
-
-- Setting up or moderating community chat channels  
-- Helping manage bug reports, feature requests, and user feedback  
-- Assisting with documentation or onboarding guides  
-- Acting as a public project representative while respecting NLC’s privacy-first philosophy  
-
-### Project Principles
-
-- No ads  
-- No data collection  
-- No analytics tracking  
-- No spam  
-- The sole exception is Hide.me VPN, recommended for users who need automatic port forwarding  
+**Tagline:** Independent, user-hosted social networks — no registration, no ads, no data mining, no limits.  
+**Stack:** C, C++, Assembly, Qt, OpenGL  
+**Audience:** Developers and DIY enthusiasts building private or decentralized communities.  
+**Core Values:** Privacy, sovereignty, and freedom from centralized platforms.  
 
 ---
 
-Any contribution — technical, organizational, or community-focused — is greatly appreciated and helps ensure the long-term growth of NoLimitConnect.
+### 💡 What it does
+*   **User-Controlled Infrastructure:** Lets anyone host their own social network, group, or chat room.
+*   **Hybrid P2P/Relay Architecture:** Uses user-hosted nodes to list communities and act as relays for users behind restrictive firewalls (no port-forwarding required).
+*   **Privacy First:** Designed for security, zero spam, and no data collection.
+*   **Native Performance:** Written for maximum efficiency with minimal dependencies.
 
+### 🚀 Tech Highlights
+Unlike modern web-based social apps, NLC is built for speed and low overhead:
+*   **Pure C/C++ Core:** With hand-tuned **Assembly** for performance-critical components.
+*   **Smart Networking:** Intelligent relaying for seamless connectivity across all network types.
+*   **Media Engine:** Built on **Kodi/FFmpeg** with **OpenGL** shader-based rendering.
+*   **Low-Latency Audio:** **Opus** for VOIP with **WebRTC** echo cancellation and **RNNoise** suppression.
+*   **Cross-Platform:** Native builds for Windows, Linux (x64/ARM), and Android.
 
-## Authors and acknowledgment
-Thanks to the thousands of open source developers that made No Limit Connect possible.
+---
 
-## License
-Many open source licenses listed in LICENSE and LEGAL file. 
-Code written by Brett R. Jones is under dual license similar to Ruby's and clearly marked in each source code file
+### 🛠 Under the Hood
+- **GUI:** Qt-based interface with support for 12 languages.
+- **Communications:** Video Chat, VOIP Phone, Push-to-Talk, and Messenger.
+- **Media:** Streaming service for files, built-in media player, and Web Cam server.
+- **Social Features:** Storyboard blogs, "About Me" pages, Chat Rooms, and a "Truth or Dare" video game.
+- **Permissions:** Granular control (Ignore, Guest, Friend, Admin).
 
-## Project status
-Active Development
+---
 
+### 📥 Getting Started
 
+**Precompiled Binaries & Installers:**  
+Available at: [://nolimitconnect.com](https://://nolimitconnect.com)  
+*(Windows NSIS, Android APK, Linux .deb, and Flatpak for x64/ARM64/Pi)*
 
+**Source Code:**
+```bash
+git clone https://github.com
+```
 
+---
 
+### 🗺️ Roadmap to 1 Million Users
+- [ ] **Establish Organization:** Migrate to GitHub and recruit core leadership.
+- [ ] **Global Visibility:** Promote NLC as the premier privacy-first community tool.
+- [ ] **App Stores:** Publish to the Google Play Store and Flathub.
+- [ ] **Apple Ecosystem:** Port and validate for macOS and iOS (Help Wanted).
+- [ ] **Documentation:** Migrate all developer docs to the repository and `.org` site.
 
+---
+
+### 🤝 Recruitment: Lead the Future of NLC
+NLC has been developed primarily by a single maintainer (Brett R. Jones) over many years. While I will continue to develop the core C++/Assembly engine, my professional environment requires me to remain behind the scenes regarding public-facing social media.
+
+**We are seeking a Lead Maintainer and Community Manager to take the reins of:**
+1.  **Public Representation:** Acting as the "voice" of the project in the decentralized space.
+2.  **Organization Management:** Directing the GitHub Org and the `nolimitconnect.org` community hub.
+3.  **Community Outreach:** Moderating channels, managing bug reports, and onboarding users.
+
+If you are passionate about privacy and want to help lead a project with a 1-million-user goal, please reach out:
+**📧 Contact:** `bjones.engineer(AT)gmail.com`
+
+---
+
+### ⚖️ License & Legal
+*   **Code by Brett R. Jones:** Dual-licensed (similar to Ruby’s license); see individual source files.
+*   **Third-Party:** Various open-source licenses apply (see `LICENSE` and `LEGAL` files).
+*   **Principles:** No ads. No data mining. No analytics. No tracking.
+
+**Project Status:** Active Development (v1.1.0)
