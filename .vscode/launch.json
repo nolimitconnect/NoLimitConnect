@@ -92,7 +92,7 @@
                     "name": "PATH",
                     "value": "F:/Qt/6.9.3/msvc2022_64/bin;F:/Qt/6.7.3/msvc2022_64/bin;${env:PATH}"
                 }
-            ],
+            ]
         },
         {
             "name": "Windows Release nolimitconnect",
@@ -106,7 +106,7 @@
                     "name": "PATH",
                     "value": "F:/Qt/6.9.3/msvc2022_64/bin;F:/Qt/6.7.3/msvc2022_64/bin;${env:PATH}"
                 }
-            ],
+            ]
         },
         {
             "name": "Android Debug nolimitconnect (LLDB)",
@@ -203,6 +203,14 @@
             "command": "echo Package Android Debug completed"
         },
         {
+            "name": "Task: Android Capture Flame Graph",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "Android: Capture flame graph",
+            "postDebugTask": "Android: Force-stop app",
+            "command": "echo Android flame graph capture completed"
+        },
+        {
             "name": "Task: Install Android Debug Package On Device",
             "type": "node-terminal",
             "request": "launch",
@@ -215,6 +223,13 @@
             "request": "launch",
             "preLaunchTask": "Package Linux",
             "command": "echo Package Linux completed"
+        },
+        {
+            "name": "Task: Linux Capture Flame Graph",
+            "type": "node-terminal",
+            "request": "launch",
+            "preLaunchTask": "Linux: Capture flame graph",
+            "command": "echo Linux flame graph capture completed"
         },
         {
             "name": "Task: Package Flatpak",

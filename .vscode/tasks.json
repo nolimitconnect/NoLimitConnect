@@ -219,6 +219,46 @@
             "problemMatcher": []
         },
         {
+            "label": "Android: Capture flame graph",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Install Android Debug APK (manual launch)"
+            ],
+            "type": "process",
+            "command": "bash",
+            "options": {
+                "env": {
+                    "ANDROID_SERIAL": "R5GL31TBG6N"
+                }
+            },
+            "args": [
+                "${workspaceFolder}/.vscode/android-capture-flamegraph.sh",
+                "-WorkspaceFolder",
+                "${workspaceFolder}",
+                "-DurationSeconds",
+                "10",
+                "-SampleFrequency",
+                "1000"
+            ],
+            "windows": {
+                "command": "powershell",
+                "args": [
+                    "-NoProfile",
+                    "-ExecutionPolicy",
+                    "Bypass",
+                    "-File",
+                    "${workspaceFolder}\\.vscode\\android-capture-flamegraph.ps1",
+                    "-WorkspaceFolder",
+                    "${workspaceFolder}",
+                    "-DurationSeconds",
+                    "10",
+                    "-SampleFrequency",
+                    "1000"
+                ]
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "Configure Windows Debug",
             "type": "process",
             "command": "powershell",
@@ -632,7 +672,7 @@
                 "command": "bash",
                 "args": [
                     "-lc",
-                    "set -e; ADB=${ADB_PATH:-/home/nolimit/Android/Sdk/platform-tools/adb}; if [ ! -x \"$ADB\" ]; then echo \"adb not found: $ADB\"; exit 1; fi; SERIAL=${ANDROID_SERIAL:-R5GL31TBG6N}; PKG=com.nolimitconnect.nolimitconnect; roots=(\"${workspaceFolder}/package/android\" \"${workspaceFolder}/package/android/debug/arm64\" \"${workspaceFolder}/deploy/android\" \"${workspaceFolder}/build/android-arm64-debug/nolimitgui/android-build-nolimitconnect/build/outputs/apk/debug\" \"${workspaceFolder}/build/android-arm64-debug\"); apk=\"\"; for root in \"${roots[@]}\"; do if [ -d \"$root\" ]; then found=$(find \"$root\" -type f -name '*.apk' -printf '%T@ %p\\n' 2>/dev/null | sort -nr | head -n1 | cut -d' ' -f2- || true); if [ -n \"$found\" ]; then apk=\"$found\"; break; fi; fi; done; if [ -z \"$apk\" ]; then echo \"No APK found under: ${roots[*]}\"; exit 1; fi; echo \"Force-stopping app before install: $PKG\"; \"$ADB\" -s \"$SERIAL\" shell am force-stop \"$PKG\" 2>/dev/null || true; echo \"Installing APK: $apk\"; \"$ADB\" -s \"$SERIAL\" install -r \"$apk\"; echo \"Installed on device: $SERIAL\""
+                    "set -e; ADB=${ADB_PATH:-/home/nolimit/Android/Sdk/platform-tools/adb}; if [ ! -x \"$ADB\" ]; then echo \"adb not found: $ADB\"; exit 1; fi; PKG=com.nolimitconnect.nolimitconnect; mapfile -t DEVICES < <(\"$ADB\" devices | awk '$2==\"device\" {print $1}'); if [ ${#DEVICES[@]} -eq 0 ]; then echo \"No Android device in state device.\"; \"$ADB\" devices -l; exit 1; fi; SERIAL=${ANDROID_SERIAL:-}; if [ -n \"$SERIAL\" ]; then found=0; for d in \"${DEVICES[@]}\"; do if [ \"$d\" = \"$SERIAL\" ]; then found=1; break; fi; done; if [ \"$found\" -ne 1 ]; then echo \"Requested ANDROID_SERIAL '$SERIAL' is not connected. Using '${DEVICES[0]}' instead.\"; SERIAL=\"${DEVICES[0]}\"; fi; else SERIAL=\"${DEVICES[0]}\"; fi; roots=(\"${workspaceFolder}/package/android\" \"${workspaceFolder}/package/android/debug/arm64\" \"${workspaceFolder}/deploy/android\" \"${workspaceFolder}/build/android-arm64-debug/nolimitgui/android-build-nolimitconnect/build/outputs/apk/debug\" \"${workspaceFolder}/build/android-arm64-debug\"); apk=\"\"; for root in \"${roots[@]}\"; do if [ -d \"$root\" ]; then found=$(find \"$root\" -type f -name '*.apk' -printf '%T@ %p\\n' 2>/dev/null | sort -nr | head -n1 | cut -d' ' -f2- || true); if [ -n \"$found\" ]; then apk=\"$found\"; break; fi; fi; done; if [ -z \"$apk\" ]; then echo \"No APK found under: ${roots[*]}\"; exit 1; fi; echo \"Force-stopping app before install: $PKG\"; \"$ADB\" -s \"$SERIAL\" shell am force-stop \"$PKG\" 2>/dev/null || true; echo \"Installing APK: $apk\"; \"$ADB\" -s \"$SERIAL\" install -r \"$apk\"; echo \"Installed on device: $SERIAL\""
                 ]
             },
             "options": {
@@ -819,6 +859,41 @@
             ],
             "type": "process",
             "command": "${workspaceFolder}/nolimitgui/bin-Linux/nolimitconnect",
+            "problemMatcher": []
+        },
+        {
+            "label": "Linux: Capture flame graph",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Build Linux Debug"
+            ],
+            "type": "process",
+            "command": "bash",
+            "args": [
+                "${workspaceFolder}/.vscode/linux-capture-flamegraph.sh",
+                "-WorkspaceFolder",
+                "${workspaceFolder}",
+                "-BuildPreset",
+                "linux-x64-debug",
+                "-DurationSeconds",
+                "10"
+            ],
+            "windows": {
+                "command": "powershell",
+                "args": [
+                    "-NoProfile",
+                    "-ExecutionPolicy",
+                    "Bypass",
+                    "-File",
+                    "${workspaceFolder}\\.vscode\\linux-capture-flamegraph.ps1",
+                    "-WorkspaceFolder",
+                    "${workspaceFolder}",
+                    "-BuildPreset",
+                    "linux-x64-debug",
+                    "-DurationSeconds",
+                    "10"
+                ]
+            },
             "problemMatcher": []
         },
         {
