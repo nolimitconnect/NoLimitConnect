@@ -373,7 +373,11 @@ bool CamJavaClient::canProcessCamCapture( void )
 {
     static int64_t lastTimeMs = 0;
     int64_t timeNow = GetGmtTimeMs();
-    if( timeNow < lastTimeMs + CamLogic::CAM_SNAPSHOT_INTERVAL_MS )
+    constexpr int64_t ANDROID_CAM_MIN_INTERVAL_MS = 83; // Cap at ~12 FPS for Android capture path.
+    const int64_t minFrameIntervalMs = ( CamLogic::CAM_SNAPSHOT_INTERVAL_MS > ANDROID_CAM_MIN_INTERVAL_MS )
+                                      ? CamLogic::CAM_SNAPSHOT_INTERVAL_MS
+                                      : ANDROID_CAM_MIN_INTERVAL_MS;
+    if( timeNow < lastTimeMs + minFrameIntervalMs )
     {
         //LogMsg( LOG_VERBOSE, "%s time too short %d ms", __func__, (int)(timeNow - lastTimeMs) );
         return false;

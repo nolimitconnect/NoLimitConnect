@@ -326,8 +326,8 @@ public class Camera2Service extends Service {
 
                 if (selectedRange == null) {
                     for (Range<Integer> range : fpsRanges) {
-                        if (range.getLower() <= 15 && range.getUpper() >= 15) {
-                            selectedRange = Range.create(15, 15); // Fix to 15 FPS
+                        if (range.getLower() <= 12 && range.getUpper() >= 12) {
+                            selectedRange = Range.create(12, 12); // Fix to 12 FPS
                             break;
                         }
                     }
@@ -336,7 +336,7 @@ public class Camera2Service extends Service {
                 if (selectedRange == null) {
                     // Fallback: pick the closest range below 30
                     for (Range<Integer> range : fpsRanges) {
-                        if (range.getLower() >= 15 && range.getUpper() <= 30) {
+                        if (range.getLower() >= 12 && range.getUpper() <= 30) {
                             selectedRange = range;
                             break;
                         }

@@ -1,9 +1,0 @@
-
-=== build flatpak locally without git checkout each build ===
-1.) Install flatpak using instructions in docs_to_setup_build_enviroment/FlatpakSetup.txt
-2.) cd nolimitapp/local_build_flathub
-3.) cp flathub.json ./..
-4.) cp com.nolimitconnect.NoLimitConnect.yml ./..
-5.) cd ..
-6.) flatpak-builder --user --install --force-clean build-dir com.nolimitconnect.NoLimitConnect.yml
-7.) flatpak run com.nolimitconnect.NoLimitConnect

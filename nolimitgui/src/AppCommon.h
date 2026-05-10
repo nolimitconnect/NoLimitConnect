@@ -853,6 +853,8 @@ protected slots:
 
     void						slotAccountCreated( bool wasCreated );
 
+    void						slotAfterLoginComplete( void );
+
     void						slotInternalAppPopupErr( EAppErr eAppErr, QString errMsg );
 
     void                        slotShutdownApp( void );

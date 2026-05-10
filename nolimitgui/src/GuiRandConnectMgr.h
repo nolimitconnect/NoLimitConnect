@@ -49,7 +49,7 @@ public:
     GuiRandConnectMgr( const GuiRandConnectMgr& rhs ) = delete;
 	virtual ~GuiRandConnectMgr() = default;
 
-    virtual void                onAppCommonCreated( void );
+    virtual void                onLoginComplete( void );
 
     void                        wantRandConnectCallback( GuiRandConnectCallback* client, bool enable );
 

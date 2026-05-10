@@ -12,11 +12,12 @@
 
 #include "AccountMgr.h"
 #include "AppletCreateAccount.h"
+#include "AppletLaunchPage.h"
 #include "AppSettings.h"
 #include "AppletMgr.h"
 #include "GuiHelpers.h"
+#include "GuiRandConnectMgr.h"
 #include "HomeWindow.h"
-#include "AppletLaunchPage.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <P2PEngine/EngineSettings.h>
@@ -107,6 +108,8 @@ void AppCommon::doAccountStartup( void )
     // Apply network host settings on the next event-loop cycle so startup/login UI is not blocked.
     QTimer::singleShot( 0, this, SLOT(slotApplyStartupSettingsToEngine()) );
     LogModule( eLogStartup, LOG_VERBOSE, "doAccountStartup deferred sendAppSettingsToEngine at %llu ms", afterCompleteLoginMs );
+
+    QTimer::singleShot( 1000, this, SLOT(slotAfterLoginComplete()) );
 
     uint64_t endMs = GetApplicationAliveMs();
     LogModule( eLogStartup, LOG_VERBOSE, "doAccountStartup total %llu ms (post-load %llu ms) alive %llu ms",
@@ -244,8 +247,6 @@ std::string AppCommon::getUserSpecificDataDirectoryFromAccountUserName( const ch
 //============================================================================
 void AppCommon::loadAccountSpecificSettings( const char* userName )
 {
-    int loadStartMs = GetApplicationAliveMs();
-
     getEngine().fromGuiSetUserXferDir( getUserXferDirectoryFromAccountUserName( userName ).c_str() );
     std::string strUserSpecificDir = getUserSpecificDataDirectoryFromAccountUserName( userName );
     // media player also needs the directory
@@ -255,9 +256,6 @@ void AppCommon::loadAccountSpecificSettings( const char* userName )
 
     m_CamSourceId = m_AppSettings.getCamSourceId();
     m_CamCaptureRotation = m_AppSettings.getCamRotation( m_CamSourceId );
-
-    //int aliveMs = GetApplicationAliveMs();
-    //LogMsg( LOG_DEBUG, "Account Loaded ms %" PRId64 " alive ms %d", aliveMs - loadStartMs, aliveMs );
 
     setIsAppInitialized( true );
 
@@ -452,4 +450,10 @@ void AppCommon::slotAccountCreated( bool wasCreated )
     }
 
     doAccountStartup();
+}
+
+//============================================================================
+void AppCommon::slotAfterLoginComplete( void )
+{
+	m_RandConnectMgr.onLoginComplete();
 }

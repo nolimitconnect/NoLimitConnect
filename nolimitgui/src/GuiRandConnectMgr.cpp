@@ -77,7 +77,7 @@ GuiRandConnectMgr::GuiRandConnectMgr()
 }
 
 //============================================================================
-void GuiRandConnectMgr::onAppCommonCreated( void )
+void GuiRandConnectMgr::onLoginComplete( void )
 {
     connect( this, SIGNAL(signalInternalRandConnect(GroupieId,ERandAction)), this, SLOT(slotInternalRandConnect(GroupieId,ERandAction)), Qt::QueuedConnection );
     connect( this,

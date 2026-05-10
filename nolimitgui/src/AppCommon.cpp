@@ -297,10 +297,7 @@ bool AppCommon::loadWithThread( void )
 	const int loadStartMs = GetApplicationAliveMs();
 	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread begin at %d ms", loadStartMs );
 	const std::string& rootUserDataDir = VxGetRootUserDataDirectory();
-	const QString qtAppDataDir = QStandardPaths::writableLocation( QStandardPaths::AppDataLocation );
 	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread root user data dir: %s", rootUserDataDir.c_str() );
-	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread Qt AppDataLocation: %s", qtAppDataDir.toUtf8().constData() );
-
 	GuiThreadAppLoader appLoaderThread( *this );
 	appLoaderThread.start();
 	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread app loader thread started at %d ms", GetApplicationAliveMs() );
@@ -335,7 +332,6 @@ bool AppCommon::loadWithThread( void )
 	m_ConnectIdListMgr.onAppCommonCreated();
 	m_MemberActiveMgr.onAppCommonCreated();
 	GuiHelpers::processQtEvents( 1 );
-	m_RandConnectMgr.onAppCommonCreated();
 	m_SendQueueMgr.onAppCommonCreated();
 	m_AssetSendMgr.onAppCommonCreated();
 	m_GroupieListMgr.onAppCommonCreated();
