@@ -44,7 +44,7 @@ Available at: [://nolimitconnect.com](https://://nolimitconnect.com)
 
 **Source Code:**
 ```bash
-git clone https://github.com
+git clone https://github.com/nolimitconnect/NoLimitConnect.git
 ```
 
 ---
