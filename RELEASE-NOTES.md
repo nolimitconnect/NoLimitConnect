@@ -2,7 +2,7 @@
 
 Website: https://nolimitconnect.com
 
-Source repository: https://gitlab.com/nolimitcode/nolimitconnect.git
+Source repository: https://gitlab.com/nolimitconnect/NoLimitConnect.git
 
 ## Version 1.1.0
 

@@ -60,7 +60,7 @@ modules:
         path: ./
       # Then for specific version like
       # - type: git
-      #  url: https://gitlab.com/nolimitcode/nolimitconnect.git
+      #  url: https://gitlab.com/nolimitconnect/NoLimitConnect.git
       #   commit: de146ed09e9da127c224c50d2ed07672ff2edf46
       #   tag: v1.0.8
 

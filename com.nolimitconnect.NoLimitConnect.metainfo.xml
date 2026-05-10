@@ -68,9 +68,9 @@
     </developer>
 
     <url type="homepage">https://nolimitconnect.com</url>
-    <url type="bugtracker">https://gitlab.com/nolimitcode/nolimitconnect/issues</url>
+    <url type="bugtracker">https://gitlab.com/nolimitconnect/NoLimitConnect/issues</url>
     <url type="donation">https://nolimitconnect.com/donate</url>
-    <url type="help">https://gitlab.com/nolimitcode/nolimitconnect/issues</url>
+    <url type="help">https://gitlab.com/nolimitconnect/NoLimitConnect/issues</url>
 
     <update_contact>bjones.engineer_AT_gmail.com</update_contact>
 

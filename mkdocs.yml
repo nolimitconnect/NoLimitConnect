@@ -1,0 +1,141 @@
+extra:
+  announce:
+    type: warning
+    text: >
+      🚧 NoLimitConnect is under active development. The application is not yet published — early testers and developers only.
+
+site_name: No Limit Connect
+site_url: https://nolimitconnect.com
+site_description: Official website for NoLimitConnect — a decentralized, user-hosted social platform.
+site_author: NoLimitConnect Project
+
+# ------------------------------------------------------
+# Theme Configuration (Material – Dark Only)
+# ------------------------------------------------------
+theme:
+  name: material
+  logo: assets/nlc-icon.svg
+  favicon: assets/nlc-icon.svg
+
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: purple
+
+  features:
+    - navigation.instant
+    - navigation.instant.reload
+    - navigation.tabs
+    - navigation.top
+    - navigation.footer
+    - navigation.expand
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.action.edit
+    - content.action.view
+    - announce
+
+# ------------------------------------------------------
+# Markdown Extensions
+# ------------------------------------------------------
+markdown_extensions:
+  - admonition
+  - footnotes
+  - toc:
+      permalink: true
+  - tables
+  - def_list
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - pymdownx.details
+  - pymdownx.inlinehilite
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+# ------------------------------------------------------
+# Directories
+# ------------------------------------------------------
+docs_dir: docs
+
+# ------------------------------------------------------
+# Navigation Structure 
+# ------------------------------------------------------
+nav:
+  - Home: index.md
+  - Project:
+      - Roadmap: roadmap.md
+      - About: about.md
+
+  - Download: download.md
+
+  - FAQ: faq.md
+
+  - Feedback: feedback.md
+
+  - User Guides:
+      - Overview: user-docs/README.md
+      - Install on Windows: user-docs/install-windows.md
+      - Install on Linux: user-docs/install-linux.md
+      - Install on Android: user-docs/install-android.md
+      - Application Screenshots: screenshots.md
+
+  - Connectivity:
+      - Connection Status Guide: connection-status.md
+      - VPN (Hide.me): vpn.md
+      - Port Forwarding: port-forwarding.md
+      - NAT Types Explained: nat-types.md
+      - Relay Overview: relay-overview.md
+      - Network Overview: network-overview.md
+
+  - Developer Docs:
+      - Overview: developer-docs/README.md
+      - Setup Windows Build Env: developer-docs/Setup_Windows_Build_Environment.md
+      - Setup Ubuntu Build Env: developer-docs/Setup_Linux_Build_Environment.md
+      - Setup Flatpak Build Env: developer-docs/Setup_Flatpak_Build_Enviroment.md
+      - Compile (Visual Studio Code): developer-docs/Compile_NoLimitConnect_VisualCode.md
+      - Compile (Qt Creator): developer-docs/Compile_NoLimitConnect_QCreator.md
+      - Compile (Flatpak): developer-docs/Compile_NoLimitConnect_Flatpak.md
+
+  - How-To Guides:
+      - Overview: howto-docs/README.md
+      - Permission Levels Overview: howto-docs/howto-permission-levels.md
+      - Set User Permissions: howto-docs/howto-user-permission-levels.md
+      - Set Plugin Permissions: howto-docs/howto-plugin-permission-levels.md
+      - Stream Media to other users: howto-docs/howto-stream.md 
+      - Add Files To Library: howto-docs/howto-add-files-to-library.md 
+      - Share Files: howto-docs/howto-share-media-files.md 
+      - Play Or Download Files: howto-docs/howto-play-or-download-files.md 
+      - Host Group, ChatRoom or Random Connect: howto-docs/howto-user-host.md 
+      - Open A Port: port-forwarding.md
+      - Setup A NLC Network - Overview: howto-docs/howto-nlc-network-overview.md 
+      - Setup A NLC Network - Low/No Cost: howto-docs/howto-nlc-network-low-cost.md 
+      - Setup A NLC Network - High Cost: howto-docs/howto-nlc-network-high-cost.md 
+      - Setup A NLC Network - High Cost: howto-docs/howto-nlc-network-high-cost.md 
+      - Create Network Invite: howto-docs/howto-network-invite-create.md 
+      - Accept Network Invite: howto-docs/howto-network-invite-accept.md 
+
+  - Contribute:
+      - Donate: donate.md
+      - Contributing: contribute.md
+
+  - Legal:
+      - Privacy Policy: nlc/privacy-policy.md 
+
+
+# ------------------------------------------------------
+# Plugins
+# ------------------------------------------------------
+plugins:
+  - search
+#  - glightbox   # Only enable if installed via pip
+
+extra_javascript:
+  - javascripts/download-index.js
+
+extra_css:
+  - stylesheets/site-overrides.css
+
