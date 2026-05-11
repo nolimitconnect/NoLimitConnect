@@ -243,7 +243,6 @@
           );
         });
       });
-    });
   }
 
   if (typeof window.document$ !== 'undefined' && typeof window.document$.subscribe === 'function') {
