@@ -15,12 +15,6 @@
       artifactMatchers: [/\.deb$/i, /x64|amd64|x86_64/i]
     },
     {
-      title: 'Linux (ARM64)',
-      notes: 'Debian package for Linux ARM64, including Raspberry Pi and Orange Pi devices.',
-      icon: '/assets/icons/icon-orange-pi.svg',
-      artifactMatchers: [/\.deb$/i, /arm64|aarch64/i]
-    },
-    {
       title: 'Android',
       notes: 'Signed APK intended for release distribution.',
       icon: '/assets/icons/icon-android.svg',

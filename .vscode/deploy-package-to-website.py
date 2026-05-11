@@ -11,6 +11,7 @@ import datetime as dt
 import fnmatch
 import hashlib
 import json
+import platform
 import os
 from pathlib import Path
 import re
@@ -74,6 +75,14 @@ def parse_args() -> argparse.Namespace:
         type=int,
         default=0,
     )
+    parser.add_argument(
+        "-FlatpakArch",
+        "--flatpak-arch",
+        dest="flatpak_arch",
+        choices=["auto", "x64", "arm64"],
+        default="auto",
+        help="Architecture label for flatpak artifacts. Defaults to auto-detect.",
+    )
     return parser.parse_args()
 
 
@@ -119,6 +128,45 @@ def get_package_config(package_type: str) -> dict[str, object]:
         },
     }
     return configs[package_type]
+
+
+def resolve_flatpak_arch(artifact_name: str, override: str) -> str:
+    if override in {"x64", "arm64"}:
+        return override
+
+    lower_name = artifact_name.lower()
+    if any(token in lower_name for token in ("arm64", "aarch64")):
+        return "arm64"
+    if any(token in lower_name for token in ("x64", "amd64", "x86_64")):
+        return "x64"
+
+    machine = platform.machine().lower()
+    if machine in {"aarch64", "arm64"}:
+        return "arm64"
+    return "x64"
+
+
+def ensure_arch_named_flatpak(artifact: Path, flatpak_arch: str, temp_dir: Path) -> Path:
+    lower_name = artifact.name.lower()
+    if any(token in lower_name for token in ("arm64", "aarch64", "x64", "amd64", "x86_64")):
+        return artifact
+
+    renamed = temp_dir / f"{artifact.stem}-{flatpak_arch}{artifact.suffix}"
+    shutil.copy2(artifact, renamed)
+    return renamed
+
+
+def with_flatpak_arch_config(config: dict[str, object], flatpak_arch: str) -> dict[str, object]:
+    updated = dict(config)
+    if flatpak_arch == "arm64":
+        updated["display_name"] = "Flatpak (ARM64)"
+        updated["notes"] = "Flatpak bundle for Linux ARM64 desktops with Flatpak support."
+        updated["section_key"] = "flatpak-arm64"
+    else:
+        updated["display_name"] = "Flatpak (x64)"
+        updated["notes"] = "Flatpak bundle for Linux x64 desktops with Flatpak support."
+        updated["section_key"] = "flatpak"
+    return updated
 
 
 def get_project_version(root: Path) -> str:
@@ -360,6 +408,11 @@ def main() -> int:
         exclude=list(config["exclude"]),
     )
 
+    flatpak_arch = ""
+    if args.package_type == "flatpak":
+        flatpak_arch = resolve_flatpak_arch(artifact.name, args.flatpak_arch)
+        config = with_flatpak_arch_config(config, flatpak_arch)
+
     release_tag = args.github_release_tag.strip() or f"v{version}"
     release = get_or_create_release(
         base_url=args.github_api_base_url,
@@ -370,14 +423,18 @@ def main() -> int:
 
     temp_dir = Path(tempfile.mkdtemp(prefix="nlc-deploy-"))
     try:
-        sha256_file_path = write_sha256_sidecar(artifact, temp_dir)
+        upload_artifact = artifact
+        if args.package_type == "flatpak":
+            upload_artifact = ensure_arch_named_flatpak(artifact, flatpak_arch, temp_dir)
+
+        sha256_file_path = write_sha256_sidecar(upload_artifact, temp_dir)
         sha256_file_name = sha256_file_path.name
 
         artifact_url = upload_release_asset(
             base_url=args.github_api_base_url,
             repository=args.github_repository,
             release=release,
-            file_path=artifact,
+            file_path=upload_artifact,
             token=github_token,
         )
 
@@ -410,7 +467,7 @@ def main() -> int:
                 website_repo_root=website_root,
                 section_key=str(config["section_key"]),
                 display_name=str(config["display_name"]),
-                artifact_name=artifact.name,
+                artifact_name=upload_artifact.name,
                 artifact_url=artifact_url,
                 hash_name=sha256_file_name,
                 hash_url=hash_url,
@@ -420,9 +477,13 @@ def main() -> int:
 
         print("")
         print(f"Deployed package type : {args.package_type}")
+        if args.package_type == "flatpak":
+            print(f"  Flatpak arch         : {flatpak_arch}")
         print(f"  Version             : {version}")
         print(f"  Release tag         : {release_tag}")
         print(f"  Source artifact     : {artifact}")
+        if upload_artifact != artifact:
+            print(f"  Uploaded as         : {upload_artifact.name}")
         print(f"  GitHub repository   : {args.github_repository}")
         print(f"  Artifact URL        : {artifact_url}")
         print(f"  SHA-256 URL         : {hash_url}")

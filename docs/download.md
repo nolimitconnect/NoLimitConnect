@@ -32,12 +32,6 @@ If the live metadata endpoint is unavailable, use the snapshot below.
 - Notes: Debian package for Linux x64.
 <!-- END SECTION: linux -->
 
-<!-- BEGIN SECTION: linux-arm64 -->
-## Linux (ARM64)
-- No deployed package yet.
-- Notes: Debian package for Linux ARM64, including Raspberry Pi and Orange Pi devices.
-<!-- END SECTION: linux-arm64 -->
-
 <!-- BEGIN SECTION: android-signed -->
 ## Android
 - No deployed package yet.
@@ -52,7 +46,9 @@ If the live metadata endpoint is unavailable, use the snapshot below.
 
 <!-- BEGIN SECTION: flatpak-arm64 -->
 ## Flatpak (ARM64)
-- No deployed package yet.
+- Latest package: [nolimitconnect-arm64.flatpak](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.0/nolimitconnect-arm64.flatpak)
+- SHA-256: [nolimitconnect-arm64.flatpak.sha256](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.0/nolimitconnect-arm64.flatpak.sha256)
+- Last updated: 2026-05-11 22:02:54 UTC
 - Notes: Flatpak bundle for Linux ARM64 desktops with Flatpak support.
 <!-- END SECTION: flatpak-arm64 -->
 
