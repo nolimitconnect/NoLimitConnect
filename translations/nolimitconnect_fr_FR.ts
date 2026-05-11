@@ -4528,45 +4528,45 @@ File Type: </source>
             <translation>Connexion sans limite</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="761" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="757" />
             <source>ERROR:
 </source>
             <translation>ERREUR :</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="765" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="761" />
             <source>Failed to connect to Network host</source>
             <translation>Échec de la connexion à l'hôte réseau</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="768" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="764" />
             <source>Failed to connect to Connection Test host</source>
             <translation>Échec de la connexion à l'hôte de test de connexion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="771" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="767" />
             <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="250" />
             <source>Video Play Failed</source>
             <translation>Échec de la lecture vidéo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="774" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="770" />
             <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="223" />
             <source>Audio Play Failed</source>
             <translation>Échec de la lecture audio</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1248" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1244" />
             <source>Close Application</source>
             <translation>Fermer l'application</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1249" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1245" />
             <source>Are you sure you want to exit?</source>
             <translation>Êtes-vous sûr de vouloir quitter ?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1355" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1351" />
             <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="363" />
             <source>Application Error</source>
             <translation>Erreur d'application</translation>
@@ -7280,7 +7280,7 @@ L'action ne peut pas être annulée
         <message>
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2552" />
             <source>Cannot send </source>
-            <translation>Impossible d'envoyer </translation>
+            <translation>Impossible d'envoyer</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2553" />
@@ -7288,7 +7288,7 @@ L'action ne peut pas être annulée
             <translation>Impossible d'envoyer le motif :</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="760" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="756" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2379" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1388" />
             <source>Unknown Error</source>

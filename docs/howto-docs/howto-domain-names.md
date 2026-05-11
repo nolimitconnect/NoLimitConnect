@@ -1,7 +1,7 @@
 # Domain Name Usage
 
 ## Disclaimer
-The services mentioned on this page are **NOT** recommendations. They are simply services that the author of NLC found to be adequate.
+The services mentioned on this page are **NOT** recommendations. They are examples used by the project during testing and deployment.
 
 ## What Is a Domain Name Service (DNS)?
 DNS is a paid service that allows you to register a domain name (for example, `google.com`).

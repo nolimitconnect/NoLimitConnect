@@ -4528,45 +4528,45 @@ File Type: </source>
             <translation>무제한 연결</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="761" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="757" />
             <source>ERROR:
 </source>
             <translation>오류:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="765" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="761" />
             <source>Failed to connect to Network host</source>
             <translation>네트워크 호스트에 연결하지 못했습니다.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="768" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="764" />
             <source>Failed to connect to Connection Test host</source>
             <translation>연결 테스트 호스트에 연결하지 못했습니다.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="771" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="767" />
             <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="250" />
             <source>Video Play Failed</source>
             <translation>비디오 재생 실패</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="774" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="770" />
             <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="223" />
             <source>Audio Play Failed</source>
             <translation>오디오 재생 실패</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1248" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1244" />
             <source>Close Application</source>
             <translation>지원서 마감</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1249" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1245" />
             <source>Are you sure you want to exit?</source>
             <translation>종료하시겠습니까?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1355" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1351" />
             <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="363" />
             <source>Application Error</source>
             <translation>애플리케이션 오류</translation>
@@ -7280,7 +7280,7 @@ Are you very sure you want to proceed?</source>
         <message>
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2552" />
             <source>Cannot send </source>
-            <translation>보낼 수 없습니다 </translation>
+            <translation>보낼 수 없습니다</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2553" />
@@ -7288,7 +7288,7 @@ Are you very sure you want to proceed?</source>
             <translation>보낼 수 없는 이유:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="760" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="756" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2379" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1388" />
             <source>Unknown Error</source>

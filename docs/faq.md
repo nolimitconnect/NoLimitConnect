@@ -18,7 +18,7 @@ NLC is designed to run on a wide range of hardware, with the following requireme
 
 ## Developer Test Bed
 
-The following devices make up the author’s primary development and testing environment:
+The following devices make up the project maintainer test environment used for regular development and validation:
 
 ![Test Bed](assets/faq/test-bed.png)
 

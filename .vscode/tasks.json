@@ -426,6 +426,8 @@
                 "${workspaceFolder}\\.vscode\\deploy-package-to-website.ps1",
                 "-PackageType",
                 "windows",
+                "-GitHubRepository",
+                "nolimitconnect/NoLimitConnect",
                 "-SkipWebsiteUpdate",
                 "-KeepLatestVersions",
                 "2"
@@ -762,6 +764,8 @@
                 "${workspaceFolder}\\.vscode\\deploy-package-to-website.ps1",
                 "-PackageType",
                 "android-signed",
+                "-GitHubRepository",
+                "nolimitconnect/NoLimitConnect",
                 "-SkipWebsiteUpdate",
                 "-KeepLatestVersions",
                 "2"
@@ -932,6 +936,8 @@
                 "${workspaceFolder}/.vscode/deploy-package-to-website.py",
                 "-PackageType",
                 "linux",
+                "-GitHubRepository",
+                "nolimitconnect/NoLimitConnect",
                 "-SkipWebsiteUpdate",
                 "-KeepLatestVersions",
                 "2"
@@ -960,6 +966,8 @@
                 "${workspaceFolder}/.vscode/deploy-package-to-website.py",
                 "-PackageType",
                 "flatpak",
+                "-GitHubRepository",
+                "nolimitconnect/NoLimitConnect",
                 "-SkipWebsiteUpdate",
                 "-KeepLatestVersions",
                 "2"

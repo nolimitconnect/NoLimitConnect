@@ -1,151 +1,99 @@
 # Publish Beta Releases
 
-This document is the checklist for publishing a new beta build.
+This checklist describes how to publish a new beta build with GitHub Releases.
 
 Important:
 
-1. The current deploy scripts do not publish to a separate beta-only channel.
-2. Each deploy task publishes the newest artifact for that platform to GitLab Generic Package Registry.
-3. Each deploy task also updates the stable platform JSON index in `download-index/v1`.
-4. That means a "beta publish" here is the normal public publish flow for the next version you want users to download.
+1. Each deploy task publishes the newest artifact for that platform to a GitHub release.
+2. Deploy scripts default to release tag v<version> and create it if missing.
+3. A beta publish here is the normal public publish flow for the next version users should download.
 
 Related documents:
 
-1. [README-PACKAGE-DEPLOY.md](../docs/README-PACKAGE-DEPLOY.md)
-2. [README-DEPLOY.md](../docs/README-DEPLOY.md)
+1. README-PACKAGE-DEPLOY.md
+2. README-DEPLOY.md
 
 ## Common Preparation
 
-Do these once before publishing any platform build.
-
-1. Update the version in `cmake/version.cmake`.
-2. Update `RELEASE-NOTES.md` with the beta summary for the new version.
-3. Update `CHANGELOG.txt` if you still want the legacy changelog kept in sync.
-4. Update `com.nolimitconnect.NoLimitConnect.metainfo.xml` for the new release entry if the beta will be distributed through Linux desktop metadata paths.
-5. Make sure the code you are publishing is committed and tagged the way you want before uploading artifacts.
-6. Set `GITLAB_TOKEN` to a GitLab Personal Access Token with `api` scope.
-7. Decide whether you are publishing all platforms or only the platforms validated for that beta.
+1. Update version in cmake/version.cmake.
+2. Update RELEASE-NOTES.md with beta summary.
+3. Update com.nolimitconnect.NoLimitConnect.metainfo.xml if needed for Linux metadata paths.
+4. Ensure code is committed and tagged appropriately.
+5. Set GITHUB_RELEASES_TOKEN or GITHUB_TOKEN.
+6. Decide whether you are publishing all platforms or only validated ones.
 
 Example PowerShell setup:
 
 ```powershell
-$env:GITLAB_TOKEN = 'replace-me'
+$env:GITHUB_RELEASES_TOKEN = 'replace-me'
 ```
 
 ## Windows Beta Publish
 
-Run this on the Windows release machine.
-
 Recommended order:
 
-1. Run `Configure Windows Release`.
-2. Run `Build Windows Release`.
-3. Run `Run Windows Release` if you want a quick final smoke test on the packaged binaries and runtime environment.
-4. Run `Package Windows`.
-5. Check the newest installer in `package/windows`.
-6. Run `Deploy Windows Package`.
-7. Confirm the upload completed and the Windows index was updated.
-
-What the deploy step publishes:
-
-1. The newest Windows installer from `package/windows`.
-2. A `.sha256` sidecar file for that installer.
-3. `download-index/v1/windows.json` in GitLab.
+1. Configure Windows Release
+2. Build Windows Release
+3. Optional smoke test with Run Windows Release
+4. Package Windows
+5. Verify newest installer in package/windows
+6. Deploy Windows Package
+7. Verify the asset and .sha256 are present in the GitHub release
 
 ## Android Beta Publish
 
-Android website distribution is signed-only.
-
-Run this on the Windows machine that has the Android SDK, build tools, and release keystore available.
-
 Required environment variables:
 
-1. `NLC_ANDROID_KEYSTORE_PATH`
-2. `NLC_ANDROID_KEYSTORE_PASSWORD`
-3. `NLC_ANDROID_KEY_ALIAS`
-4. `NLC_ANDROID_KEY_PASSWORD`
-
-Example PowerShell setup:
-
-```powershell
-$env:NLC_ANDROID_KEYSTORE_PATH = 'F:\keys\nolimitconnect-release.jks'
-$env:NLC_ANDROID_KEYSTORE_PASSWORD = 'replace-me'
-$env:NLC_ANDROID_KEY_ALIAS = 'nolimitconnect'
-$env:NLC_ANDROID_KEY_PASSWORD = 'replace-me'
-```
+1. NLC_ANDROID_KEYSTORE_PATH
+2. NLC_ANDROID_KEYSTORE_PASSWORD
+3. NLC_ANDROID_KEY_ALIAS
+4. NLC_ANDROID_KEY_PASSWORD
 
 Recommended order:
 
-1. Run `Configure Android Release`.
-2. Run `Build Android Release`.
-3. Run `Package Android Signed`.
-4. Check the newest signed APK in `package/android` and make sure it has the `-signed.apk` suffix.
-5. Optionally install the APK on a test device and do a final smoke test before upload.
-6. Run `Deploy Android Signed Package`.
-7. Confirm the upload completed and the Android index was updated.
+1. Configure Android Release
+2. Build Android Release
+3. Package Android Signed
+4. Verify newest signed APK in package/android
+5. Optional install and smoke test
+6. Deploy Android Signed Package
+7. Verify APK and .sha256 in GitHub release
 
-What the deploy step publishes:
+## Linux .deb Beta Publish
 
-1. The newest signed APK from `package/android`.
-2. A `.sha256` sidecar file for that APK.
-3. `download-index/v1/android-signed.json` in GitLab.
+Recommended order on Linux host:
 
-## Linux `.deb` Beta Publish
-
-Run this on a Linux host.
-
-Recommended order:
-
-1. Run `Configure Linux Release`.
-2. Run `Build Linux Release`.
-3. Optionally run the release binary directly if you want a quick host smoke test.
-4. Run `Package Linux`.
-5. Check the newest `.deb` package in `package/linux`.
-6. Run `Deploy Linux Package`.
-7. Confirm the upload completed and the Linux index was updated.
-
-What the deploy step publishes:
-
-1. The newest `.deb` package from `package/linux`.
-2. A `.sha256` sidecar file for that package.
-3. `download-index/v1/linux.json` in GitLab.
+1. Configure Linux Release
+2. Build Linux Release
+3. Optional binary smoke test
+4. Package Linux
+5. Verify newest .deb in package/linux
+6. Deploy Linux Package
+7. Verify .deb and .sha256 in GitHub release
 
 ## Flatpak Beta Publish
 
-Run this on a Linux host with `flatpak-builder` installed.
+Recommended order on Linux host:
 
-Recommended order:
-
-1. Make sure `com.nolimitconnect.NoLimitConnect.yml` still builds the intended release configuration.
-2. Run `Package Flatpak`.
-3. Check the generated bundle in `package/flatpack`.
-4. Optionally install the bundle locally and do a final smoke test.
-5. Run `Deploy Flatpak Package`.
-6. Confirm the upload completed and the Flatpak index was updated.
-
-What the deploy step publishes:
-
-1. The newest `.flatpak` bundle from `package/flatpack`.
-2. A `.sha256` sidecar file for that bundle.
-3. `download-index/v1/flatpak.json` in GitLab.
+1. Verify com.nolimitconnect.NoLimitConnect.yml targets intended release config
+2. Package Flatpak
+3. Verify generated bundle in package/flatpack
+4. Optional local install smoke test
+5. Deploy Flatpak Package
+6. Verify .flatpak and .sha256 in GitHub release
 
 ## After Publishing
 
-After each platform publish:
-
-1. Verify the artifact filename matches the intended version.
-2. Verify the SHA-256 sidecar exists in GitLab for that artifact.
-3. Verify the platform JSON index points to the new file.
-4. If website update was intentionally skipped, update the website repository separately if any beta announcement text or download-page wording needs to change.
-5. Create or update the beta announcement text using the same version and highlights as `RELEASE-NOTES.md`.
+1. Verify artifact filenames match intended version.
+2. Verify each artifact has a matching .sha256 sidecar.
+3. Verify docs/download.md resolves to the new release assets.
+4. Publish announcement text using the same version/highlights as RELEASE-NOTES.md.
 
 ## Practical Publish Order
 
-If you are publishing multiple platforms for one beta, this order keeps failures easier to isolate:
+If publishing multiple platforms for one beta:
 
 1. Windows
-2. Android signed
-3. Linux `.deb`
+2. Android Signed
+3. Linux .deb
 4. Flatpak
-
-That order gets the Windows and Android artifacts out from the primary workstation first, then finishes Linux-host packaging afterward.

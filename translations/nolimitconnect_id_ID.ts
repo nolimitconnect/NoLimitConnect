@@ -4528,45 +4528,45 @@ File Type: </source>
             <translation>Koneksi Tanpa Batas</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="761" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="757" />
             <source>ERROR:
 </source>
             <translation>KESALAHAN:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="765" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="761" />
             <source>Failed to connect to Network host</source>
             <translation>Gagal menyambung ke host Jaringan</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="768" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="764" />
             <source>Failed to connect to Connection Test host</source>
             <translation>Gagal menyambung ke host Uji Koneksi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="771" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="767" />
             <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="250" />
             <source>Video Play Failed</source>
             <translation>Pemutaran Video Gagal</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="774" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="770" />
             <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="223" />
             <source>Audio Play Failed</source>
             <translation>Pemutaran Audio Gagal</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1248" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1244" />
             <source>Close Application</source>
             <translation>Tutup Aplikasi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1249" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1245" />
             <source>Are you sure you want to exit?</source>
             <translation>Apakah Anda yakin ingin keluar?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1355" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1351" />
             <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="363" />
             <source>Application Error</source>
             <translation>Kesalahan Aplikasi</translation>
@@ -7280,7 +7280,7 @@ Apakah Anda yakin ingin melanjutkan?</translation>
         <message>
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2552" />
             <source>Cannot send </source>
-            <translation>Tidak dapat mengirim </translation>
+            <translation>Tidak dapat mengirim</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2553" />
@@ -7288,7 +7288,7 @@ Apakah Anda yakin ingin melanjutkan?</translation>
             <translation>Tidak dapat mengirimkan alasan:</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="760" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="756" />
             <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2379" />
             <location filename="../nolimitgui/src/GuiParams.cpp" line="1388" />
             <source>Unknown Error</source>

@@ -1,7 +1,7 @@
 # VPS Usage
 
 ## Disclaimer
-The services mentioned on this page are **NOT recommendations**. They are simply services that the author of NLC has found to be adequate.
+The services mentioned on this page are **NOT recommendations**. They are examples used by the project during testing and deployment.
 
 ## What Is a **Virtual Private Server (VPS)**?
 ➡️ [What Is a VPS](howto-vps-whatis.md)

@@ -13,7 +13,7 @@ NoLimitConnect takes a strong stance on:
 
 NoLimitConnect cannot currently accept monetary donations due to professional environment restrictions.
 
-If you have found NoLimitConnect usefull then please contribute to the author's favorite charity:
+If you have found NoLimitConnect useful, please consider donating to a trusted humanitarian charity supported by the maintainer:
 
 ➡️ **<https://www.doctorswithoutborders.org>**
 

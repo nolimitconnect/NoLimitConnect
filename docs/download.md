@@ -8,9 +8,9 @@ If you are new to NoLimitConnect, start with public bootstrap hosts first, then 
 
 ## Latest Packages (Live)
 
-This section is loaded from GitLab package metadata at page load.
+This section is loaded from GitHub Releases metadata at page load.
 
-<div id="dynamic-downloads">Loading latest package metadata from GitLab...</div>
+<div id="dynamic-downloads">Loading latest package metadata from GitHub...</div>
 
 ## Fallback Snapshot
 
@@ -20,8 +20,8 @@ If the live metadata endpoint is unavailable, use the snapshot below.
 
 <!-- BEGIN SECTION: windows -->
 ## Windows
-- Latest package: [NoLimitConnect-1.1.0-x64.exe](https://gitlab.com/api/v4/projects/nolimitcode%2Fnolimitconnect/packages/generic/windows/1.1.0/NoLimitConnect-1.1.0-x64.exe)
-- SHA-256: [NoLimitConnect-1.1.0-x64.exe.sha256](https://gitlab.com/api/v4/projects/nolimitcode%2Fnolimitconnect/packages/generic/windows/1.1.0/NoLimitConnect-1.1.0-x64.exe.sha256)
+- Latest package: See the latest GitHub release assets above.
+- SHA-256: Download the matching `.sha256` sidecar from the same GitHub release.
 - Last updated: 2026-03-22 09:39:05 UTC
 - Notes: NSIS installer for Windows x64.
 <!-- END SECTION: windows -->

@@ -1,13 +1,44 @@
 (function () {
 
-  var gitlabBase = 'https://gitlab.com/api/v4/projects/nolimitcode%2Fnolimitconnect/packages/generic/download-index/v1/';
+  var githubLatestReleaseApi = 'https://api.github.com/repos/nolimitconnect/NoLimitConnect/releases/latest';
   var platforms = [
-    { keys: ['windows'], title: 'Windows', notes: 'NSIS installer for Windows x64.', icon: '/assets/icons/icon-windows.svg' },
-    { keys: ['linux'], title: 'Linux', notes: 'Debian package for Linux x64.', icon: '/assets/icons/icon-tux.svg' },
-    { keys: ['linux-arm64', 'linux-arm', 'linux-aarch64'], title: 'Linux (ARM64)', notes: 'Debian package for Linux ARM64, including Raspberry Pi and Orange Pi devices.', icon: '/assets/icons/icon-orange-pi.svg' },
-    { keys: ['android-signed'], title: 'Android', notes: 'Signed APK intended for release distribution.', icon: '/assets/icons/icon-android.svg' },
-    { keys: ['flatpak-x64', 'flatpak-amd64', 'flatpak'], title: 'Flatpak (x64)', notes: 'Flatpak bundle for Linux x64 desktops with Flatpak support.', icon: '/assets/icons/icon-ubuntu.svg' },
-    { keys: ['flatpak-arm64', 'flatpak-arm', 'flatpak-aarch64'], title: 'Flatpak (ARM64)', notes: 'Flatpak bundle for Linux ARM64 desktops with Flatpak support.', icon: '/assets/icons/icon-raspberry-pi.svg' }
+    {
+      title: 'Windows',
+      notes: 'NSIS installer for Windows x64.',
+      icon: '/assets/icons/icon-windows.svg',
+      artifactMatchers: [/\.exe$/i, /windows|x64|amd64|x86_64/i]
+    },
+    {
+      title: 'Linux',
+      notes: 'Debian package for Linux x64.',
+      icon: '/assets/icons/icon-tux.svg',
+      artifactMatchers: [/\.deb$/i, /x64|amd64|x86_64/i]
+    },
+    {
+      title: 'Linux (ARM64)',
+      notes: 'Debian package for Linux ARM64, including Raspberry Pi and Orange Pi devices.',
+      icon: '/assets/icons/icon-orange-pi.svg',
+      artifactMatchers: [/\.deb$/i, /arm64|aarch64/i]
+    },
+    {
+      title: 'Android',
+      notes: 'Signed APK intended for release distribution.',
+      icon: '/assets/icons/icon-android.svg',
+      artifactMatchers: [/\.apk$/i, /signed|release|android/i]
+    },
+    {
+      title: 'Flatpak (x64)',
+      notes: 'Flatpak bundle for Linux x64 desktops with Flatpak support.',
+      icon: '/assets/icons/icon-ubuntu.svg',
+      artifactMatchers: [/\.flatpak$/i, /x64|amd64|x86_64/i],
+      allowGenericFlatpakName: true
+    },
+    {
+      title: 'Flatpak (ARM64)',
+      notes: 'Flatpak bundle for Linux ARM64 desktops with Flatpak support.',
+      icon: '/assets/icons/icon-raspberry-pi.svg',
+      artifactMatchers: [/\.flatpak$/i, /arm64|aarch64/i]
+    }
   ];
 
   function formatUtc(isoUtc) {
@@ -92,47 +123,93 @@
     return section;
   }
 
-  function tryLoadPlatformByKeys(keys, index) {
-    if (index >= keys.length) {
-      throw new Error('HTTP 404');
+  function findAssetByMatchers(assets, matchers, allowGenericFlatpakName) {
+    for (var i = 0; i < assets.length; i += 1) {
+      var asset = assets[i];
+      var name = asset && asset.name ? asset.name : '';
+      var matchesAll = true;
+
+      for (var j = 0; j < matchers.length; j += 1) {
+        if (!matchers[j].test(name)) {
+          matchesAll = false;
+          break;
+        }
+      }
+
+      if (matchesAll) {
+        return asset;
+      }
     }
 
-    var key = keys[index];
-    var url = gitlabBase + encodeURIComponent(key) + '.json';
+    if (allowGenericFlatpakName) {
+      for (var k = 0; k < assets.length; k += 1) {
+        if (/\.flatpak$/i.test(assets[k].name || '')) {
+          return assets[k];
+        }
+      }
+    }
 
-    return fetch(url, { cache: 'no-store' })
+    return null;
+  }
+
+  function buildPayloadFromRelease(platform, release) {
+    var assets = Array.isArray(release.assets) ? release.assets : [];
+    var artifactAsset = findAssetByMatchers(
+      assets,
+      platform.artifactMatchers || [],
+      !!platform.allowGenericFlatpakName
+    );
+
+    if (!artifactAsset) {
+      return null;
+    }
+
+    var expectedHashName = artifactAsset.name + '.sha256';
+    var hashAsset = null;
+
+    for (var i = 0; i < assets.length; i += 1) {
+      if ((assets[i].name || '').toLowerCase() === expectedHashName.toLowerCase()) {
+        hashAsset = assets[i];
+        break;
+      }
+    }
+
+    if (!hashAsset) {
+      return null;
+    }
+
+    return {
+      publishedAtUtc: release.published_at || release.created_at || null,
+      artifact: {
+        name: artifactAsset.name,
+        url: artifactAsset.browser_download_url
+      },
+      sha256: {
+        name: hashAsset.name,
+        url: hashAsset.browser_download_url
+      },
+      notes: platform.notes
+    };
+  }
+
+  function loadReleaseMetadata() {
+    return fetch(githubLatestReleaseApi, { cache: 'no-store' })
       .then(function (response) {
         if (!response.ok) {
-          if (response.status === 404) {
-            return tryLoadPlatformByKeys(keys, index + 1);
-          }
           throw new Error('HTTP ' + response.status);
         }
-        return response.json().then(function (json) {
-          return {
-            payload: json,
-            resolvedKey: key
-          };
-        });
-      })
-      .catch(function (error) {
-        if (index < keys.length - 1) {
-          return tryLoadPlatformByKeys(keys, index + 1);
-        }
-        throw error;
+        return response.json();
       });
   }
 
-  function loadPlatform(platform) {
-    var keys = platform.keys || (platform.key ? [platform.key] : []);
+  function loadPlatform(platform, release) {
+    var payload = buildPayloadFromRelease(platform, release);
 
-    return tryLoadPlatformByKeys(keys, 0)
-      .then(function (result) {
-        return { platform: platform, payload: result.payload, error: null, resolvedKey: result.resolvedKey };
-      })
-      .catch(function (error) {
-        return { platform: platform, payload: null, error: error.message, resolvedKey: null };
-      });
+    if (payload) {
+      return { platform: platform, payload: payload, error: null };
+    }
+
+    return { platform: platform, payload: null, error: 'No matching release asset found for this platform.' };
   }
 
   function renderDownloads() {
@@ -141,14 +218,30 @@
       return;
     }
 
-    mount.textContent = 'Loading latest package metadata from GitLab...';
+    mount.textContent = 'Loading latest package metadata from GitHub...';
 
-    Promise.all(platforms.map(loadPlatform)).then(function (results) {
-      mount.innerHTML = '';
-      mount.className = 'download-grid';
+    loadReleaseMetadata()
+      .then(function (release) {
+        var results = platforms.map(function (platform) {
+          return loadPlatform(platform, release);
+        });
 
-      results.forEach(function (result) {
-        mount.appendChild(createPlatformSection(result.platform, result.payload, result.error));
+        mount.innerHTML = '';
+        mount.className = 'download-grid';
+
+        results.forEach(function (result) {
+          mount.appendChild(createPlatformSection(result.platform, result.payload, result.error));
+        });
+      })
+      .catch(function (error) {
+        mount.innerHTML = '';
+        mount.className = 'download-grid';
+
+        platforms.forEach(function (platform) {
+          mount.appendChild(
+            createPlatformSection(platform, null, 'GitHub release metadata unavailable: ' + error.message)
+          );
+        });
       });
     });
   }

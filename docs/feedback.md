@@ -2,7 +2,7 @@
 
 Feedback and bug reports are managed through the NoLimitConnect issue tracker:
 
-**[https://gitlab.com/nolimitconnect/NoLimitConnect/-/boards](https://gitlab.com/nolimitconnect/NoLimitConnect/-/boards)**
+**[https://github.com/nolimitconnect/NoLimitConnect/issues](https://github.com/nolimitconnect/NoLimitConnect/issues)**
 
 ---
 
@@ -33,10 +33,10 @@ Reports without reproduction steps may be difficult to investigate and may be cl
 
 ## Submitting Your Report
 
-1. Go to the issue tracker: [https://gitlab.com/nolimitconnect/NoLimitConnect/-/boards](https://gitlab.com/nolimitconnect/NoLimitConnect/-/boards)
+1. Go to the issue tracker: [https://github.com/nolimitconnect/NoLimitConnect/issues](https://github.com/nolimitconnect/NoLimitConnect/issues)
 2. Click **New Issue**
 3. Include your device info, issue description, and reproduction steps
 4. Submit the issue
 
 !!! note
-    A GitLab account is required to submit an issue. GitLab accounts are free.
+    A GitHub account is required to submit an issue. GitHub accounts are free.

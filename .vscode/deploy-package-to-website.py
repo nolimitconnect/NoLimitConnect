@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Deploy package artifacts to GitLab Generic Package Registry.
+"""Deploy package artifacts to GitHub Releases.
 
-This script is a Linux-friendly equivalent of deploy-package-to-website.ps1.
+This script is the Linux-friendly equivalent of deploy-package-to-website.ps1.
 """
 
 from __future__ import annotations
@@ -12,7 +12,6 @@ import fnmatch
 import hashlib
 import json
 import os
-import platform
 from pathlib import Path
 import re
 import shutil
@@ -24,7 +23,7 @@ import urllib.request
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Deploy package to GitLab registry")
+    parser = argparse.ArgumentParser(description="Deploy package to GitHub Releases")
     parser.add_argument(
         "-PackageType",
         "--package-type",
@@ -42,19 +41,25 @@ def parse_args() -> argparse.Namespace:
         "-WebsiteRoot",
         "--website-root",
         dest="website_root",
-        default=os.environ.get("NLC_WEBSITE_ROOT", r"F:\nlc-nolimitconnect.com"),
+        default=os.environ.get("NLC_WEBSITE_ROOT", ""),
     )
     parser.add_argument(
-        "-GitLabProjectPath",
-        "--gitlab-project-path",
-        dest="gitlab_project_path",
-        default="nolimitcode/nolimitconnect",
+        "-GitHubRepository",
+        "--github-repository",
+        dest="github_repository",
+        default="nolimitconnect/NoLimitConnect",
     )
     parser.add_argument(
-        "-GitLabBaseUrl",
-        "--gitlab-base-url",
-        dest="gitlab_base_url",
-        default="https://gitlab.com",
+        "-GitHubApiBaseUrl",
+        "--github-api-base-url",
+        dest="github_api_base_url",
+        default="https://api.github.com",
+    )
+    parser.add_argument(
+        "-GitHubReleaseTag",
+        "--github-release-tag",
+        dest="github_release_tag",
+        default="",
     )
     parser.add_argument(
         "-SkipWebsiteUpdate",
@@ -86,6 +91,7 @@ def get_package_config(package_type: str) -> dict[str, object]:
             "exclude": [],
             "display_name": "Windows",
             "notes": "NSIS installer for Windows x64.",
+            "section_key": "windows",
         },
         "linux": {
             "source_dir": "package/linux",
@@ -93,6 +99,7 @@ def get_package_config(package_type: str) -> dict[str, object]:
             "exclude": [],
             "display_name": "Linux",
             "notes": "Debian package for Linux x64.",
+            "section_key": "linux",
         },
         "android-signed": {
             "source_dir": "package/android",
@@ -100,6 +107,7 @@ def get_package_config(package_type: str) -> dict[str, object]:
             "exclude": [],
             "display_name": "Android",
             "notes": "Signed APK intended for release distribution.",
+            "section_key": "android-signed",
         },
         "flatpak": {
             "source_dir": "package/flatpack",
@@ -107,6 +115,7 @@ def get_package_config(package_type: str) -> dict[str, object]:
             "exclude": [],
             "display_name": "Flatpak",
             "notes": "Flatpak bundle for Linux desktops with Flatpak support.",
+            "section_key": "flatpak",
         },
     }
     return configs[package_type]
@@ -145,47 +154,6 @@ def get_latest_artifact(directory: Path, include: list[str], exclude: list[str])
     return files[0]
 
 
-def normalize_arch_label(raw_arch: str) -> str:
-    arch = raw_arch.strip().lower()
-    if arch in {"x86_64", "amd64", "x64"}:
-        return "x64"
-    if arch in {"aarch64", "arm64"}:
-        return "arm64"
-    if arch in {"armv7l", "armv7", "armhf"}:
-        return "armv7"
-    return re.sub(r"[^a-z0-9]+", "-", arch).strip("-") or "unknown"
-
-
-def detect_deploy_architecture(package_type: str, artifact_name: str) -> str:
-    name = artifact_name.lower()
-    for candidate in ("arm64", "aarch64", "x86_64", "amd64", "x64", "armv7", "armhf"):
-        if candidate in name:
-            return normalize_arch_label(candidate)
-
-    if package_type == "flatpak":
-        output = ""
-        try:
-            output = os.popen("flatpak --default-arch").read().strip()
-        except Exception:
-            output = ""
-        if output:
-            return normalize_arch_label(output)
-
-    return normalize_arch_label(platform.machine())
-
-
-def get_registry_package_name(package_type: str, arch_label: str) -> str:
-    if package_type in {"linux", "flatpak"}:
-        return f"{package_type}-{arch_label}"
-    return package_type
-
-
-def get_index_key(package_type: str, arch_label: str) -> str:
-    if package_type in {"linux", "flatpak"}:
-        return f"{package_type}-{arch_label}"
-    return package_type
-
-
 def write_sha256_sidecar(artifact_path: Path, output_dir: Path) -> Path:
     digest = hashlib.sha256(artifact_path.read_bytes()).hexdigest()
     out = output_dir / f"{artifact_path.name}.sha256"
@@ -193,14 +161,19 @@ def write_sha256_sidecar(artifact_path: Path, output_dir: Path) -> Path:
     return out
 
 
-def gitlab_request(
+def github_request(
     method: str,
     url: str,
     token: str,
     data: bytes | None = None,
     content_type: str | None = None,
 ) -> bytes:
-    headers = {"PRIVATE-TOKEN": token}
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "NoLimitConnect-Deploy-Script",
+    }
     if content_type:
         headers["Content-Type"] = content_type
     request = urllib.request.Request(url=url, data=data, method=method, headers=headers)
@@ -210,133 +183,103 @@ def gitlab_request(
     except urllib.error.HTTPError as exc:
         detail = ""
         try:
-            body = exc.read().decode("utf-8", errors="replace")
-            detail = f" Response: {body}"
+            detail = exc.read().decode("utf-8", errors="replace")
         except Exception:
             detail = ""
-        raise RuntimeError(f"GitLab API error {exc.code} on {method} {url}.{detail}") from exc
-
-
-def assert_gitlab_package_registry_enabled(base_url: str, project_path: str, token: str) -> None:
-    encoded_project = urllib.parse.quote(project_path, safe="")
-    project_url = f"{base_url}/api/v4/projects/{encoded_project}"
-    payload = gitlab_request("GET", project_url, token)
-    project = json.loads(payload.decode("utf-8"))
-    access_level = project.get("package_registry_access_level")
-    packages_enabled = bool(project.get("packages_enabled", True))
-    if access_level == "disabled" or not packages_enabled:
-        web_project_url = f"{base_url}/{project_path}"
         raise RuntimeError(
-            "GitLab Generic Package Registry is disabled for project "
-            f"'{project_path}'. Enable it at: {web_project_url}/-/settings/general"
-        )
+            f"GitHub API error {exc.code} on {method} {url}."
+            f" {detail}".strip()
+        ) from exc
 
 
-def invoke_gitlab_upload(
-    file_path: Path,
+def get_release_by_tag(base_url: str, repository: str, tag: str, token: str) -> dict[str, object] | None:
+    encoded_tag = urllib.parse.quote(tag, safe="")
+    url = f"{base_url}/repos/{repository}/releases/tags/{encoded_tag}"
+    try:
+        payload = github_request("GET", url, token)
+        return json.loads(payload.decode("utf-8"))
+    except RuntimeError as exc:
+        if "error 404" in str(exc).lower():
+            return None
+        raise
+
+
+def create_release(base_url: str, repository: str, tag: str, token: str) -> dict[str, object]:
+    url = f"{base_url}/repos/{repository}/releases"
+    body = {
+        "tag_name": tag,
+        "name": tag,
+        "draft": False,
+        "prerelease": False,
+        "generate_release_notes": True,
+    }
+    payload = github_request(
+        "POST",
+        url,
+        token,
+        data=json.dumps(body).encode("utf-8"),
+        content_type="application/json",
+    )
+    return json.loads(payload.decode("utf-8"))
+
+
+def get_or_create_release(base_url: str, repository: str, tag: str, token: str) -> dict[str, object]:
+    release = get_release_by_tag(base_url, repository, tag, token)
+    if release:
+        return release
+    print(f"  Release '{tag}' was not found. Creating it now.")
+    return create_release(base_url, repository, tag, token)
+
+
+def remove_existing_asset(
     base_url: str,
-    project_path: str,
-    package_name: str,
-    version: str,
+    repository: str,
+    release: dict[str, object],
+    asset_name: str,
+    token: str,
+) -> None:
+    assets = release.get("assets") or []
+    for asset in assets:
+        if str(asset.get("name", "")) != asset_name:
+            continue
+        asset_id = asset.get("id")
+        if not asset_id:
+            continue
+        print(f"  Removing existing asset: {asset_name}")
+        delete_url = f"{base_url}/repos/{repository}/releases/assets/{asset_id}"
+        github_request("DELETE", delete_url, token)
+        return
+
+
+def refresh_release(base_url: str, repository: str, release_id: int, token: str) -> dict[str, object]:
+    url = f"{base_url}/repos/{repository}/releases/{release_id}"
+    payload = github_request("GET", url, token)
+    return json.loads(payload.decode("utf-8"))
+
+
+def upload_release_asset(
+    base_url: str,
+    repository: str,
+    release: dict[str, object],
+    file_path: Path,
     token: str,
 ) -> str:
-    encoded_project = urllib.parse.quote(project_path, safe="")
-    file_name = file_path.name
-    upload_url = (
-        f"{base_url}/api/v4/projects/{encoded_project}/packages/generic/"
-        f"{package_name}/{version}/{file_name}"
-    )
-    print(f"  Uploading: {file_name}")
-    print(f"         to: {upload_url}")
-    gitlab_request(
-        "PUT",
+    remove_existing_asset(base_url, repository, release, file_path.name, token)
+
+    upload_url_template = str(release.get("upload_url", ""))
+    upload_base = upload_url_template.replace("{?name,label}", "")
+    upload_url = f"{upload_base}?name={urllib.parse.quote(file_path.name, safe='')}"
+
+    print(f"  Uploading: {file_path.name}")
+    payload = github_request(
+        "POST",
         upload_url,
         token,
         data=file_path.read_bytes(),
         content_type="application/octet-stream",
     )
-    return upload_url
-
-
-def remove_old_gitlab_generic_package_versions(
-    base_url: str,
-    project_path: str,
-    package_name: str,
-    token: str,
-    keep_latest: int,
-) -> int:
-    if keep_latest <= 0:
-        return 0
-
-    encoded_project = urllib.parse.quote(project_path, safe="")
-    encoded_package_name = urllib.parse.quote(package_name, safe="")
-    list_url = (
-        f"{base_url}/api/v4/projects/{encoded_project}/packages?"
-        f"package_type=generic&package_name={encoded_package_name}"
-        "&order_by=created_at&sort=desc&per_page=100"
-    )
-    payload = gitlab_request("GET", list_url, token)
-    packages = json.loads(payload.decode("utf-8"))
-
-    ordered = [
-        pkg
-        for pkg in packages
-        if pkg.get("name") == package_name and str(pkg.get("version", "")).strip()
-    ]
-    ordered.sort(key=lambda p: p.get("created_at", ""), reverse=True)
-
-    unique_by_version = []
-    seen_versions: set[str] = set()
-    for pkg in ordered:
-        version = str(pkg.get("version", "")).strip()
-        if version in seen_versions:
-            continue
-        seen_versions.add(version)
-        unique_by_version.append(pkg)
-
-    to_delete = unique_by_version[keep_latest:]
-    for pkg in to_delete:
-        package_id = pkg.get("id")
-        version = pkg.get("version")
-        delete_url = f"{base_url}/api/v4/projects/{encoded_project}/packages/{package_id}"
-        print(f"  Removing old package version: {version} (id={package_id})")
-        gitlab_request("DELETE", delete_url, token)
-    return len(to_delete)
-
-
-def new_latest_release_index_json(
-    index_key: str,
-    package_type: str,
-    architecture: str,
-    display_name: str,
-    version: str,
-    artifact_name: str,
-    artifact_url: str,
-    hash_name: str,
-    hash_url: str,
-    notes: str,
-    output_directory: Path,
-) -> Path:
-    payload = {
-        "schemaVersion": 1,
-        "packageType": package_type,
-        "architecture": architecture,
-        "displayName": display_name,
-        "version": version,
-        "publishedAtUtc": dt.datetime.now(dt.timezone.utc).isoformat(),
-        "artifact": {
-            "name": artifact_name,
-            "url": artifact_url,
-        },
-        "sha256": {
-            "name": hash_name,
-            "url": hash_url,
-        },
-        "notes": notes,
-    }
-    out_file = output_directory / f"{index_key}.json"
-    out_file.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    return out_file
+    asset = json.loads(payload.decode("utf-8"))
+    return str(asset.get("browser_download_url", ""))
 
 
 def update_download_page_section(
@@ -386,19 +329,20 @@ def main() -> int:
     if args.keep_latest_versions < 0 or args.keep_latest_versions > 100:
         raise RuntimeError("KeepLatestVersions must be between 0 and 100")
 
-    gitlab_token = os.environ.get("GITLAB_TOKEN", "").strip()
-    if not gitlab_token:
+    github_token = os.environ.get("GITHUB_RELEASES_TOKEN", "").strip()
+    if not github_token:
+        github_token = os.environ.get("GITHUB_TOKEN", "").strip()
+    if not github_token:
         raise RuntimeError(
-            "GITLAB_TOKEN environment variable is not set. "
-            "Set it to a GitLab Personal Access Token with 'api' scope before running deploy."
+            "GITHUB_RELEASES_TOKEN (or GITHUB_TOKEN) environment variable is not set."
         )
 
     workspace_root = get_workspace_root(args.workspace_root)
+    website_root = Path(args.website_root).resolve() if args.website_root.strip() else workspace_root
     config = get_package_config(args.package_type)
 
     can_update_website = False
     if not args.skip_website_update:
-        website_root = Path(args.website_root)
         if website_root.exists():
             can_update_website = True
         else:
@@ -408,12 +352,6 @@ def main() -> int:
                 file=sys.stderr,
             )
 
-    assert_gitlab_package_registry_enabled(
-        base_url=args.gitlab_base_url,
-        project_path=args.gitlab_project_path,
-        token=gitlab_token,
-    )
-
     version = get_project_version(workspace_root)
     artifact_dir = workspace_root / str(config["source_dir"])
     artifact = get_latest_artifact(
@@ -421,68 +359,56 @@ def main() -> int:
         include=list(config["include"]),
         exclude=list(config["exclude"]),
     )
-    arch_label = detect_deploy_architecture(args.package_type, artifact.name)
-    registry_package_name = get_registry_package_name(args.package_type, arch_label)
-    index_key = get_index_key(args.package_type, arch_label)
+
+    release_tag = args.github_release_tag.strip() or f"v{version}"
+    release = get_or_create_release(
+        base_url=args.github_api_base_url,
+        repository=args.github_repository,
+        tag=release_tag,
+        token=github_token,
+    )
 
     temp_dir = Path(tempfile.mkdtemp(prefix="nlc-deploy-"))
     try:
         sha256_file_path = write_sha256_sidecar(artifact, temp_dir)
         sha256_file_name = sha256_file_path.name
 
-        artifact_url = invoke_gitlab_upload(
+        artifact_url = upload_release_asset(
+            base_url=args.github_api_base_url,
+            repository=args.github_repository,
+            release=release,
             file_path=artifact,
-            base_url=args.gitlab_base_url,
-            project_path=args.gitlab_project_path,
-            package_name=registry_package_name,
-            version=version,
-            token=gitlab_token,
+            token=github_token,
         )
-        hash_url = invoke_gitlab_upload(
+
+        release_id = int(release.get("id", 0))
+        release = refresh_release(
+            base_url=args.github_api_base_url,
+            repository=args.github_repository,
+            release_id=release_id,
+            token=github_token,
+        )
+
+        hash_url = upload_release_asset(
+            base_url=args.github_api_base_url,
+            repository=args.github_repository,
+            release=release,
             file_path=sha256_file_path,
-            base_url=args.gitlab_base_url,
-            project_path=args.gitlab_project_path,
-            package_name=registry_package_name,
-            version=version,
-            token=gitlab_token,
+            token=github_token,
         )
 
-        latest_index_json_path = new_latest_release_index_json(
-            index_key=index_key,
-            package_type=args.package_type,
-            architecture=arch_label,
-            display_name=str(config["display_name"]),
-            version=version,
-            artifact_name=artifact.name,
-            artifact_url=artifact_url,
-            hash_name=sha256_file_name,
-            hash_url=hash_url,
-            notes=str(config["notes"]),
-            output_directory=temp_dir,
-        )
-
-        latest_index_url = invoke_gitlab_upload(
-            file_path=latest_index_json_path,
-            base_url=args.gitlab_base_url,
-            project_path=args.gitlab_project_path,
-            package_name="download-index",
-            version="v1",
-            token=gitlab_token,
-        )
-
-        deleted_version_count = remove_old_gitlab_generic_package_versions(
-            base_url=args.gitlab_base_url,
-            project_path=args.gitlab_project_path,
-            package_name=registry_package_name,
-            token=gitlab_token,
-            keep_latest=args.keep_latest_versions,
-        )
+        if args.keep_latest_versions > 0:
+            print(
+                "Warning: KeepLatestVersions currently does not prune GitHub releases. "
+                "No release cleanup was performed.",
+                file=sys.stderr,
+            )
 
         timestamp = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
         if can_update_website:
             update_download_page_section(
-                website_repo_root=Path(args.website_root),
-                section_key=args.package_type,
+                website_repo_root=website_root,
+                section_key=str(config["section_key"]),
                 display_name=str(config["display_name"]),
                 artifact_name=artifact.name,
                 artifact_url=artifact_url,
@@ -495,28 +421,18 @@ def main() -> int:
         print("")
         print(f"Deployed package type : {args.package_type}")
         print(f"  Version             : {version}")
-        print(f"  Architecture        : {arch_label}")
+        print(f"  Release tag         : {release_tag}")
         print(f"  Source artifact     : {artifact}")
-        print(f"  GitLab project      : {args.gitlab_project_path}")
-        print(f"  GitLab package      : {registry_package_name} / {version}")
+        print(f"  GitHub repository   : {args.github_repository}")
         print(f"  Artifact URL        : {artifact_url}")
         print(f"  SHA-256 URL         : {hash_url}")
-        print(f"  Index URL           : {latest_index_url}")
-        print(f"  Retention keep      : {args.keep_latest_versions} latest version(s)")
-        print(f"  Versions removed    : {deleted_version_count}")
         if can_update_website:
-            print(f"  Download page       : {Path(args.website_root) / 'docs' / 'download.md'}")
+            print(f"  Download page       : {website_root / 'docs' / 'download.md'}")
         print("")
         if can_update_website:
-            print(
-                "Next: review and commit the website repository changes to publish "
-                "the updated download page."
-            )
+            print("Next: review and commit docs/download.md updates.")
         else:
-            print(
-                "Next: have the website fetch the Index URL for this package type "
-                "(GitLab as source of truth)."
-            )
+            print("Next: verify assets on the GitHub release page.")
     finally:
         shutil.rmtree(temp_dir, ignore_errors=True)
 

@@ -4,9 +4,10 @@ param(
     [string]$PackageType,
 
     [string]$WorkspaceRoot = '',
-    [string]$WebsiteRoot = $(if ($env:NLC_WEBSITE_ROOT) { $env:NLC_WEBSITE_ROOT } else { 'F:\nlc-nolimitconnect.com' }),
-    [string]$GitLabProjectPath = 'nolimitcode/nolimitconnect',
-    [string]$GitLabBaseUrl = 'https://gitlab.com',
+    [string]$WebsiteRoot = $(if ($env:NLC_WEBSITE_ROOT) { $env:NLC_WEBSITE_ROOT } else { '' }),
+    [string]$GitHubRepository = 'nolimitconnect/NoLimitConnect',
+    [string]$GitHubApiBaseUrl = 'https://api.github.com',
+    [string]$GitHubReleaseTag = '',
     [switch]$SkipWebsiteUpdate,
     [ValidateRange(0, 100)]
     [int]$KeepLatestVersions = 0
@@ -26,6 +27,10 @@ if ([string]::IsNullOrWhiteSpace($WorkspaceRoot)) {
     }
 }
 
+if ([string]::IsNullOrWhiteSpace($WebsiteRoot)) {
+    $WebsiteRoot = $WorkspaceRoot
+}
+
 function Get-PackageConfig {
     param([string]$Name)
 
@@ -36,6 +41,7 @@ function Get-PackageConfig {
             Exclude     = @()
             DisplayName = 'Windows'
             Notes       = 'NSIS installer for Windows x64.'
+            SectionKey  = 'windows'
         }
         'linux' = @{
             SourceDir   = 'package\linux'
@@ -43,6 +49,7 @@ function Get-PackageConfig {
             Exclude     = @()
             DisplayName = 'Linux'
             Notes       = 'Debian package for Linux.'
+            SectionKey  = 'linux'
         }
         'android-signed' = @{
             SourceDir   = 'package\android'
@@ -50,6 +57,7 @@ function Get-PackageConfig {
             Exclude     = @()
             DisplayName = 'Android'
             Notes       = 'Signed APK intended for release distribution.'
+            SectionKey  = 'android-signed'
         }
         'flatpak' = @{
             SourceDir   = 'package\flatpack'
@@ -57,6 +65,7 @@ function Get-PackageConfig {
             Exclude     = @()
             DisplayName = 'Flatpak'
             Notes       = 'Flatpak bundle for Linux desktops with Flatpak support.'
+            SectionKey  = 'flatpak'
         }
     }
 
@@ -131,142 +140,130 @@ function New-Sha256Sidecar {
     return $hashFilePath
 }
 
-function Invoke-GitLabUpload {
+function Invoke-GitHubApi {
     param(
-        [string]$FilePath,
-        [string]$BaseUrl,
-        [string]$ProjectPath,
-        [string]$PackageName,
-        [string]$Version,
-        [string]$Token
+        [Parameter(Mandatory = $true)][string]$Method,
+        [Parameter(Mandatory = $true)][string]$Url,
+        [Parameter(Mandatory = $true)][string]$Token,
+        [object]$Body = $null,
+        [string]$ContentType = 'application/json',
+        [string]$InFile = ''
     )
 
-    $encodedProject = [Uri]::EscapeDataString($ProjectPath)
-    $fileName = Split-Path -Leaf $FilePath
-    $uploadUrl = "$BaseUrl/api/v4/projects/$encodedProject/packages/generic/$PackageName/$Version/$fileName"
-
-    Write-Host "  Uploading: $fileName"
-    Write-Host "         to: $uploadUrl"
-
-    $headers = @{ 'PRIVATE-TOKEN' = $Token }
-    Invoke-RestMethod -Method Put -Uri $uploadUrl -Headers $headers -InFile $FilePath -ContentType 'application/octet-stream' | Out-Null
-
-    return $uploadUrl
-}
-
-function Assert-GitLabPackageRegistryEnabled {
-    param(
-        [string]$BaseUrl,
-        [string]$ProjectPath,
-        [string]$Token
-    )
-
-    $encodedProject = [Uri]::EscapeDataString($ProjectPath)
-    $projectUrl = "$BaseUrl/api/v4/projects/$encodedProject"
-    $headers = @{ 'PRIVATE-TOKEN' = $Token }
+    $headers = @{
+        'Authorization' = "Bearer $Token"
+        'Accept'        = 'application/vnd.github+json'
+        'X-GitHub-Api-Version' = '2022-11-28'
+        'User-Agent' = 'NoLimitConnect-Deploy-Script'
+    }
 
     try {
-        $project = Invoke-RestMethod -Method Get -Uri $projectUrl -Headers $headers
+        if (-not [string]::IsNullOrWhiteSpace($InFile)) {
+            return Invoke-RestMethod -Method $Method -Uri $Url -Headers $headers -InFile $InFile -ContentType $ContentType
+        }
+
+        if ($null -eq $Body) {
+            return Invoke-RestMethod -Method $Method -Uri $Url -Headers $headers
+        }
+
+        $json = $Body | ConvertTo-Json -Depth 8
+        return Invoke-RestMethod -Method $Method -Uri $Url -Headers $headers -Body $json -ContentType $ContentType
     }
     catch {
-        throw "Could not read GitLab project '$ProjectPath'. Verify GITLAB_TOKEN and project path."
-    }
+        $statusCode = ''
+        $detail = ''
+        if ($_.Exception.Response -and $_.Exception.Response.StatusCode) {
+            $statusCode = [int]$_.Exception.Response.StatusCode
+        }
 
-    if ($project.package_registry_access_level -eq 'disabled' -or -not $project.packages_enabled) {
-        $webProjectUrl = "$BaseUrl/$ProjectPath"
-        throw @"
-GitLab Generic Package Registry is disabled for project '$ProjectPath'.
+        if ($_.ErrorDetails -and $_.ErrorDetails.Message) {
+            $detail = $_.ErrorDetails.Message
+        }
 
-Enable it in:
-  $webProjectUrl/-/settings/general
+        $message = "GitHub API request failed: $Method $Url"
+        if (-not [string]::IsNullOrWhiteSpace($statusCode)) {
+            $message += " (HTTP $statusCode)"
+        }
+        if (-not [string]::IsNullOrWhiteSpace($detail)) {
+            $message += "`n$detail"
+        }
 
-Project feature to enable:
-  Visibility, project features, permissions -> Package registry -> Enabled (or Everyone With Access)
-"@
+        throw $message
     }
 }
 
-function Remove-OldGitLabGenericPackageVersions {
+function Get-OrCreateGitHubRelease {
     param(
-        [string]$BaseUrl,
-        [string]$ProjectPath,
-        [string]$PackageName,
-        [string]$Token,
-        [int]$KeepLatest
+        [string]$ApiBaseUrl,
+        [string]$Repository,
+        [string]$Tag,
+        [string]$Token
     )
 
-    if ($KeepLatest -le 0) {
-        return 0
+    $encodedTag = [Uri]::EscapeDataString($Tag)
+    $getByTagUrl = "$ApiBaseUrl/repos/$Repository/releases/tags/$encodedTag"
+
+    try {
+        return Invoke-GitHubApi -Method Get -Url $getByTagUrl -Token $Token
     }
-
-    $encodedProject = [Uri]::EscapeDataString($ProjectPath)
-    $encodedPackageName = [Uri]::EscapeDataString($PackageName)
-    $listUrl = "$BaseUrl/api/v4/projects/$encodedProject/packages?package_type=generic&package_name=$encodedPackageName&order_by=created_at&sort=desc&per_page=100"
-    $headers = @{ 'PRIVATE-TOKEN' = $Token }
-
-    $packages = @(Invoke-RestMethod -Method Get -Uri $listUrl -Headers $headers)
-    if ($packages.Count -eq 0) {
-        return 0
-    }
-
-    $ordered = $packages |
-        Where-Object { $_.name -eq $PackageName -and -not [string]::IsNullOrWhiteSpace($_.version) } |
-        Sort-Object created_at -Descending
-
-    $seenVersions = @{}
-    $uniqueByVersion = @()
-    foreach ($pkg in $ordered) {
-        if (-not $seenVersions.ContainsKey($pkg.version)) {
-            $seenVersions[$pkg.version] = $true
-            $uniqueByVersion += $pkg
+    catch {
+        if ($_ -notmatch 'HTTP 404') {
+            throw
         }
     }
 
-    $toDelete = @($uniqueByVersion | Select-Object -Skip $KeepLatest)
-    foreach ($pkg in $toDelete) {
-        $deleteUrl = "$BaseUrl/api/v4/projects/$encodedProject/packages/$($pkg.id)"
-        Write-Host "  Removing old package version: $($pkg.version) (id=$($pkg.id))"
-        Invoke-RestMethod -Method Delete -Uri $deleteUrl -Headers $headers | Out-Null
+    Write-Host "  Release '$Tag' was not found. Creating it now."
+
+    $createUrl = "$ApiBaseUrl/repos/$Repository/releases"
+    $body = @{
+        tag_name = $Tag
+        name = $Tag
+        draft = $false
+        prerelease = $false
+        generate_release_notes = $true
     }
 
-    return $toDelete.Count
+    return Invoke-GitHubApi -Method Post -Url $createUrl -Token $Token -Body $body
 }
 
-function New-LatestReleaseIndexJson {
+function Remove-ExistingReleaseAsset {
     param(
-        [string]$PackageType,
-        [string]$DisplayName,
-        [string]$Version,
-        [string]$ArtifactName,
-        [string]$ArtifactUrl,
-        [string]$HashName,
-        [string]$HashUrl,
-        [string]$Notes,
-        [string]$OutputDirectory
+        [string]$ApiBaseUrl,
+        [string]$Repository,
+        [object]$Release,
+        [string]$AssetName,
+        [string]$Token
     )
 
-    $timestamp = [System.DateTime]::UtcNow.ToString('o')
-    $jsonObject = [ordered]@{
-        schemaVersion = 1
-        packageType = $PackageType
-        displayName = $DisplayName
-        version = $Version
-        publishedAtUtc = $timestamp
-        artifact = [ordered]@{
-            name = $ArtifactName
-            url = $ArtifactUrl
-        }
-        sha256 = [ordered]@{
-            name = $HashName
-            url = $HashUrl
-        }
-        notes = $Notes
+    $asset = @($Release.assets | Where-Object { $_.name -eq $AssetName } | Select-Object -First 1)
+    if (-not $asset) {
+        return
     }
 
-    $json = $jsonObject | ConvertTo-Json -Depth 6
-    $filePath = Join-Path $OutputDirectory ($PackageType + '.json')
-    Set-Content -Path $filePath -Value $json -Encoding utf8
-    return $filePath
+    Write-Host "  Removing existing asset: $AssetName"
+    $deleteUrl = "$ApiBaseUrl/repos/$Repository/releases/assets/$($asset.id)"
+    Invoke-GitHubApi -Method Delete -Url $deleteUrl -Token $Token | Out-Null
+}
+
+function Upload-GitHubReleaseAsset {
+    param(
+        [string]$ApiBaseUrl,
+        [string]$Repository,
+        [object]$Release,
+        [string]$FilePath,
+        [string]$Token
+    )
+
+    $fileName = Split-Path -Leaf $FilePath
+    Remove-ExistingReleaseAsset -ApiBaseUrl $ApiBaseUrl -Repository $Repository -Release $Release -AssetName $fileName -Token $Token
+
+    $uploadBase = ($Release.upload_url -replace '\{\?name,label\}', '')
+    $uploadUrl = "${uploadBase}?name=$([Uri]::EscapeDataString($fileName))"
+
+    Write-Host "  Uploading: $fileName"
+    $asset = Invoke-GitHubApi -Method Post -Url $uploadUrl -Token $Token -InFile $FilePath -ContentType 'application/octet-stream'
+
+    return $asset.browser_download_url
 }
 
 function Update-DownloadPageSection {
@@ -309,13 +306,12 @@ function Update-DownloadPageSection {
     [System.IO.File]::WriteAllText($downloadPagePath, $updated, [System.Text.UTF8Encoding]::new($false))
 }
 
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
-
-$gitLabToken = $env:GITLAB_TOKEN
-if ([string]::IsNullOrWhiteSpace($gitLabToken)) {
-    throw "GITLAB_TOKEN environment variable is not set. Set it to a GitLab Personal Access Token with 'api' scope before running a deploy task."
+$githubToken = $env:GITHUB_RELEASES_TOKEN
+if ([string]::IsNullOrWhiteSpace($githubToken)) {
+    $githubToken = $env:GITHUB_TOKEN
+}
+if ([string]::IsNullOrWhiteSpace($githubToken)) {
+    throw "GITHUB_RELEASES_TOKEN (or GITHUB_TOKEN) is not set. Set one before running a deploy task."
 }
 
 $config = Get-PackageConfig -Name $PackageType
@@ -330,62 +326,40 @@ if (-not $SkipWebsiteUpdate) {
     }
     else {
         Write-Warning "Website repository not found at '$WebsiteRoot'. Continuing without website download page updates."
-        Write-Warning "Use -SkipWebsiteUpdate to suppress this warning when running GitLab-only deploys."
     }
 }
 
-Assert-GitLabPackageRegistryEnabled -BaseUrl $GitLabBaseUrl -ProjectPath $GitLabProjectPath -Token $gitLabToken
-
-$version     = Get-ProjectVersion -Root $WorkspaceRoot
+$version = Get-ProjectVersion -Root $WorkspaceRoot
 $artifactDir = Join-Path $WorkspaceRoot $config.SourceDir
-$artifact    = Get-LatestArtifact -Directory $artifactDir -Include $config.Include -Exclude $config.Exclude
+$artifact = Get-LatestArtifact -Directory $artifactDir -Include $config.Include -Exclude $config.Exclude
 
-# Generate SHA-256 sidecar in a temp directory
+$releaseTag = $GitHubReleaseTag
+if ([string]::IsNullOrWhiteSpace($releaseTag)) {
+    $releaseTag = "v$version"
+}
+
+$release = Get-OrCreateGitHubRelease -ApiBaseUrl $GitHubApiBaseUrl -Repository $GitHubRepository -Tag $releaseTag -Token $githubToken
+
 $tempDir = Join-Path ([System.IO.Path]::GetTempPath()) 'nlc-deploy'
 New-Item -ItemType Directory -Path $tempDir -Force | Out-Null
 $sha256FilePath = New-Sha256Sidecar -ArtifactPath $artifact.FullName -OutputDirectory $tempDir
 $sha256FileName = Split-Path -Leaf $sha256FilePath
 
-# Upload artifact and SHA-256 file to GitLab Generic Package Registry
-$artifactUrl = Invoke-GitLabUpload -FilePath $artifact.FullName -BaseUrl $GitLabBaseUrl `
-    -ProjectPath $GitLabProjectPath -PackageName $PackageType -Version $version -Token $gitLabToken
-
-$hashUrl = Invoke-GitLabUpload -FilePath $sha256FilePath -BaseUrl $GitLabBaseUrl `
-    -ProjectPath $GitLabProjectPath -PackageName $PackageType -Version $version -Token $gitLabToken
-
-$indexPackageName = 'download-index'
-$indexVersion = 'v1'
-$latestIndexJsonPath = New-LatestReleaseIndexJson `
-    -PackageType $PackageType `
-    -DisplayName $config.DisplayName `
-    -Version $version `
-    -ArtifactName $artifact.Name `
-    -ArtifactUrl $artifactUrl `
-    -HashName $sha256FileName `
-    -HashUrl $hashUrl `
-    -Notes $config.Notes `
-    -OutputDirectory $tempDir
-
-$latestIndexUrl = Invoke-GitLabUpload -FilePath $latestIndexJsonPath -BaseUrl $GitLabBaseUrl `
-    -ProjectPath $GitLabProjectPath -PackageName $indexPackageName -Version $indexVersion -Token $gitLabToken
+$artifactUrl = Upload-GitHubReleaseAsset -ApiBaseUrl $GitHubApiBaseUrl -Repository $GitHubRepository -Release $release -FilePath $artifact.FullName -Token $githubToken
+$release = Invoke-GitHubApi -Method Get -Url "$GitHubApiBaseUrl/repos/$GitHubRepository/releases/$($release.id)" -Token $githubToken
+$hashUrl = Upload-GitHubReleaseAsset -ApiBaseUrl $GitHubApiBaseUrl -Repository $GitHubRepository -Release $release -FilePath $sha256FilePath -Token $githubToken
 
 Remove-Item $sha256FilePath -Force -ErrorAction SilentlyContinue
-Remove-Item $latestIndexJsonPath -Force -ErrorAction SilentlyContinue
 
-$deletedVersionCount = Remove-OldGitLabGenericPackageVersions `
-    -BaseUrl $GitLabBaseUrl `
-    -ProjectPath $GitLabProjectPath `
-    -PackageName $PackageType `
-    -Token $gitLabToken `
-    -KeepLatest $KeepLatestVersions
+if ($KeepLatestVersions -gt 0) {
+    Write-Warning "KeepLatestVersions currently does not prune GitHub releases. No release cleanup was performed."
+}
 
-# Update the platform section of the website download page (optional)
 $timestamp = [System.DateTime]::UtcNow.ToString('yyyy-MM-dd HH:mm:ss UTC')
-
 if ($canUpdateWebsite) {
     Update-DownloadPageSection `
         -WebsiteRepoRoot $WebsiteRoot `
-        -SectionKey      $PackageType `
+        -SectionKey      $config.SectionKey `
         -DisplayName     $config.DisplayName `
         -ArtifactName    $artifact.Name `
         -ArtifactUrl     $artifactUrl `
@@ -398,21 +372,18 @@ if ($canUpdateWebsite) {
 Write-Host ""
 Write-Host "Deployed package type : $PackageType"
 Write-Host "  Version             : $version"
+Write-Host "  Release tag         : $releaseTag"
 Write-Host "  Source artifact     : $($artifact.FullName)"
-Write-Host "  GitLab project      : $GitLabProjectPath"
-Write-Host "  GitLab package      : $PackageType / $version"
+Write-Host "  GitHub repository   : $GitHubRepository"
 Write-Host "  Artifact URL        : $artifactUrl"
 Write-Host "  SHA-256 URL         : $hashUrl"
-Write-Host "  Index URL           : $latestIndexUrl"
-Write-Host "  Retention keep      : $KeepLatestVersions latest version(s)"
-Write-Host "  Versions removed    : $deletedVersionCount"
 if ($canUpdateWebsite) {
     Write-Host "  Download page       : $(Join-Path $WebsiteRoot 'docs\download.md')"
 }
 Write-Host ""
 if ($canUpdateWebsite) {
-    Write-Host "Next: review and commit the website repository changes to publish the updated download page."
+    Write-Host "Next: review and commit docs/download.md updates."
 }
 else {
-    Write-Host "Next: have the website fetch the Index URL for this package type (GitLab as source of truth)."
+    Write-Host "Next: verify assets on the GitHub release page."
 }
