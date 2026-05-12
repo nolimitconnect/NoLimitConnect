@@ -7,6 +7,7 @@
 Click the banner above to learn more or sign up.
 
 > **Note:** Hide.me is the *only* recommended external service on this site.  
+> It is the best cross-platform option I have found for low-cost automatic port forwarding and fixed IP support.  
 > NoLimitConnect does not receive user data from Hide.me.
 
 A free version of Hide.me VPN is available but **DOES NOT** offer UPnP (Open A Port) services.
@@ -16,10 +17,11 @@ A free version of Hide.me VPN is available but **DOES NOT** offer UPnP (Open A P
 ---
 
 Using any VPN greatly improves your privacy.
-Your IP Address gives any site you connect to your location and a way to track you.
-A VPN presents it's IP Address to the internet and hides your actual IP Address.
+Your IP address gives any site you connect to your location and a way to track you.
+A VPN presents its IP address to the internet and hides your actual IP address.
 
 Using Hide.me VPN (Premium Subscription) can greatly improve connectivity in NoLimitConnect, especially when your network or ISP restricts incoming ports.  
+For this project, it is the most practical option I have found because it combines cross-platform support, automatic port forwarding, and fixed IP availability at a relatively low cost.  
 Hide.me VPN is one of the few VPN providers that fully supports:
 
 - **Automatic Port Forwarding via UPnP**
@@ -72,7 +74,7 @@ With a forwardable VPN port, you can host:
 - Group servers  
 - Chat Rooms  
 - Random Connect  
-- Private NLC Networks 
+- Private NoLimitConnect networks
 - Direct P2P sessions  
 
 even on networks that normally block it.

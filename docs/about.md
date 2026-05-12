@@ -1,6 +1,6 @@
 # About NoLimitConnect
 
-NoLimitConnect is a decentralized, user-hosted social platform designed to give people full control over their communication, media, and personal data.
+NoLimitConnect is a decentralized, user-hosted communication platform designed to give people full control over their communication, media, and personal data.
 
 - **Privacy-focused** — Your data stays with you.
 - **Censorship-resistant** — No single authority controls the network.
@@ -9,39 +9,44 @@ NoLimitConnect is a decentralized, user-hosted social platform designed to give 
 
 ## Vision
 
-To provide a secure, user-controlled alternative to centralized social networks.
+To provide a secure, user-controlled alternative to centralized platforms.
 
 ## Summary
-Name: No Limit Connect
-Tagline: Independent, user-hosted social networks — no registration, no ads, no data mining, no limits.
-Stack: C, C++, Assembly
-Audience: Developers and DIY enthusiasts building private or decentralized communities.
-Core Values: Privacy, control, and freedom from centralized platforms.
 
-💡 What it does:
-Lets anyone host their own social network or community.
-Peer-to-Peer and user-controlled.
-Designed for privacy, security, and zero spam.
-Written natively for efficiency and minimal dependencies.
+- **Name:** NoLimitConnect
+- **Tagline:** Independent, user-hosted communication networks — no registration, no ads, no data mining, no limits.
+- **Stack:** C, C++, Assembly
+- **Audience:** Developers and DIY enthusiasts building private or decentralized communities.
+- **Core Values:** Privacy, control, and freedom from centralized platforms.
 
-🧠 Why I built it:
-Social networks today are heavily centralized and commercialized. No Limit Connect aims to give control back to users — you own your data, your connections, and your community.
+## What It Does
 
-🔧 Tech highlights:
-Pure C/C++ core with hand-tuned assembly for performance-critical components.
-Modular design for developers to extend or embed.
-Portable across systems.
+NoLimitConnect lets anyone host their own communication network or community.
+
+- Peer-to-peer and user-controlled.
+- Designed for privacy, security, and low spam.
+- Written natively for efficiency and minimal dependencies.
+
+## Why It Exists
+
+Modern social platforms are heavily centralized and commercialized. NoLimitConnect aims to give control back to users so they own their data, their connections, and their community.
+
+## Tech Highlights
+
+- Pure C/C++ core with hand-tuned assembly for performance-critical components.
+- Modular design for developers to extend or embed.
+- Portable across systems.
 
 ## Website
-Website: https://nolimitconnect.org
+
+Website: [nolimitconnect.org](https://nolimitconnect.org)
 
 ## Source Code
-Open Sourced code that can be cloned with 
-git clone https://github.com/nolimitconnect/NoLimitConnect
 
-## Description
-A independent social network designed to be hosted on any device with an internet connection. 
+Open-source code that can be cloned with:
+
+`git clone https://github.com/nolimitconnect/NoLimitConnect`
 
 ## Usage
-Warning: There is no monitoring of communication except what the host admin is willing to do.
-No log files
+
+NoLimitConnect does not add its own monitoring or telemetry. Any logging depends on the host admin and the deployment configuration.

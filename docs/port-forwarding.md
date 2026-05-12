@@ -1,7 +1,7 @@
 # Port Forwarding (Open A Network Port) Guide
 
 Port forwarding allows your device to accept incoming connections directly from other NoLimitConnect users.  
-Direct connections provide the best experience and allows you to host services.
+Direct connections provide the best experience and allow you to host services.
 
 ---
 
@@ -15,7 +15,7 @@ If your port is not open:
 - You can still use NoLimitConnect  
 - A host you connect to will forward your traffic automatically  
 - Performance may be slower compared to direct mode
-- You cannot become a host but can still share, stream etc. with others.
+- You cannot become a host, but can still share, stream, and more with others.
 
 Opening your port allows:
 

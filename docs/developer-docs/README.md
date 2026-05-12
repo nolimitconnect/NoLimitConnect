@@ -35,7 +35,7 @@ You can download and install the Qt SDK from:
 *Note:*  
 The **Community Edition** may be less visible on the site and could require navigating through several pages to locate it.
 
-Preferred Qt version: 6.9.3 (6.7.3 for Raspberry Pi only if QCreator has errors when ran)
+Preferred Qt version: 6.9.3 (6.7.3 for Raspberry Pi only if Qt Creator has errors when run)
 
 ---
 
@@ -80,7 +80,7 @@ Preferred Qt version: 6.9.3 (6.7.3 for Raspberry Pi only if QCreator has errors 
  [**Setup Linux**](Setup_Linux_Build_Environment.md)
 
 - **Flatpak Build Environment**  
-  Setup uild system flatpak environments.
+  Setup build-system Flatpak environments.
   [**Setup Flatpak**](Setup_Flatpak_Build_Enviroment.md)
 
 ---
@@ -88,7 +88,7 @@ Preferred Qt version: 6.9.3 (6.7.3 for Raspberry Pi only if QCreator has errors 
 ## 🧱 Compilation Guides
 
 - [**Compile with Visual Studio Code**](Compile_NoLimitConnect_VisualCode.md)
-- [**Compile with QCreator**](Compile_NoLimitConnect_QCreator.md)
+- [**Compile with Qt Creator**](Compile_NoLimitConnect_QCreator.md)
 - [**Compile with Flatpak**](Compile_NoLimitConnect_Flatpak.md)
 
 Each guide includes step-by-step instructions for configuring your development environment and successfully building the project.

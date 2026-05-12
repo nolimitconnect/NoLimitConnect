@@ -42,18 +42,18 @@ NoLimitConnect is actively being tested. Only developers and early adopters usin
 
 # 📈 Progress Tracker
 
-| Feature Area                 | Status         | Notes                                  |                            |
-| ---------------------------- | -------------- | -------------------------------------- | -------------------------- |
-| Core TCP Networking          | 🟢 Complete    | Direct & relay modes verified          |                            |
-| Hosting System               | 🟢 Complete    | Requires open port                     |                            |
-| Connection Status Indicators | 🟢 Complete    | Icons, colors, guides done             |                            |
-| Relay Logic Rework           | 🟢 Complete    | Updated docs, behavior validated       |                            |
-| Screenshots & Docs           | 🟢 Complete    | Finalizing site content                |                            |
-| Website Overhaul             | 🟢 Complete    | Navigation, docs, diagrams             |                            |
-| Test Built-In Plugins        | 🟡 In Progress | Functional testing of built-in modules |                            |
-| FAQ and Tutorials            | 🔴 Not Started | Documentation pending                  | Navigation, docs, diagrams |
-| Installer Builds             | 🔴 Not Started | Pending release preparation            |                            |
-| Android Build Update         | 🔴 Not Started | Will follow desktop builds             |                            |
+| Feature Area                | Status         | Notes                                  |
+| --------------------------- | -------------- | -------------------------------------- |
+| Core TCP Networking         | 🟢 Complete    | Direct & relay modes verified          |
+| Hosting System              | 🟢 Complete    | Requires open port                     |
+| Connection Status Indicators | 🟢 Complete    | Icons, colors, guides done             |
+| Relay Logic Rework          | 🟢 Complete    | Updated docs, behavior validated       |
+| Screenshots & Docs          | 🟢 Complete    | Finalizing site content                |
+| Website Overhaul            | 🟢 Complete    | Navigation, docs, diagrams             |
+| Test Built-In Plugins       | 🟡 In Progress | Functional testing of built-in modules |
+| FAQ and Tutorials           | 🔴 Not Started | Documentation pending                  |
+| Installer Builds            | 🔴 Not Started | Pending release preparation            |
+| Android Build Update        | 🔴 Not Started | Will follow desktop builds             |
 
 ---
 
@@ -71,7 +71,7 @@ Below is a list of major built-in plugins that are code complete and undergoing 
 * **About Me user page**
 * **Storyboard blog page**
 * **Web Cam Server**
-* **Media Player — Privacy Enhanced** (Based on Kodi™ and fFmpeg)
+* **Media Player — Privacy Enhanced** (Based on Kodi™ and FFmpeg)
 * **Chat Room host and client**
 * **Random Connect host and client**
 * **Group host and client**

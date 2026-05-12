@@ -11,10 +11,10 @@ hide:
   <img src="assets/nlc-logo.svg" width="180" style="margin-bottom: 20px;">
 </div>
 
-# No Limit Connect  
+# NoLimitConnect  
 ### A private, decentralized communication platform
 
-No Limit Connect gives you full control over your data with direct, peer-to-peer communication.
+NoLimitConnect gives you full control over your data with direct, peer-to-peer communication.
 
 Use the public bootstrap hosts to get started quickly, then move to your own private network hosts when you are ready.
 
@@ -78,7 +78,7 @@ User guides, developer docs, and build instructions included.
 !!! tip "Need Direct Connections Without Router Configuration?"
     If your ISP blocks ports or uses strict NAT, you can still get **green direct-connect status** by using a VPN that supports automatic port forwarding.
 
-    **Hide.me VPN** offers:  
+  **Hide.me VPN** is the best low-cost, cross-platform option I have found for this use case. It offers:  
     - Automatic port forwarding  
     - UPnP support  
     - Direct connection even behind CGNAT  
@@ -88,6 +88,6 @@ User guides, developer docs, and build instructions included.
 
 ## ❤️ Open-Source & Community-Driven
 
-No Limit Connect is built by a privacy-focused community dedicated to open communication and secure, decentralized technology.
+NoLimitConnect is built by a privacy-focused community dedicated to open communication and secure, decentralized technology.
 
 [Visit our GitHub Source Code Repo →](https://github.com/nolimitconnect/NoLimitConnect)

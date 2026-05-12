@@ -1,6 +1,6 @@
-# Installing No Limit Connect on Linux
+# Installing NoLimitConnect on Linux
 
-No Limit Connect is available via Flatpak:
+NoLimitConnect is available via Flatpak:
 
 1. Install Flatpak: [https://flathub.org/](https://flathub.org/)
 2. Install or update the source repository if building locally.
