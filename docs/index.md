@@ -3,7 +3,7 @@ hide:
   - toc
 ---
 
-!!! warning "🚧 NoLimitConnect is in Active Development"
+!!! note "NoLimitConnect is in Active Development"
   The application is in public beta and still under active development.  
   Pre-release builds are available from the **[Download](download.md)** page.
 
