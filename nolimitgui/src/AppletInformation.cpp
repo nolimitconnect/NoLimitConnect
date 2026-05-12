@@ -110,7 +110,7 @@ void AppletInformation::updateInformation( void )
     ui.m_InfoText->appendPlainText( getInfoText() );
 }
 
-QString AppletInformation::m_NoInfoAvailable( QObject::tr( "No Information is localy available. please visit https://nolimitconnect.com for latest infomation and help" ) );
+QString AppletInformation::m_NoInfoAvailable( QObject::tr( "No Information is localy available. please visit https://nolimitconnect.org for latest infomation and help" ) );
 
 QString AppletInformation::m_NetworkDesign( QObject::tr(
     "=== NETWORK DESIGN ===\n"

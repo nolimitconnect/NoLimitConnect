@@ -78,7 +78,7 @@
       <item>
        <widget class="QLabel" name="m_PleaseVisitLabel">
         <property name="text">
-         <string>Please vist https://nolimitconnect.com for more information.</string>
+         <string>Please vist https://nolimitconnect.org for more information.</string>
         </property>
        </widget>
       </item>

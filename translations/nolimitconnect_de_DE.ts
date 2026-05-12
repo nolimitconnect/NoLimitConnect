@@ -340,8 +340,8 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="228" />
-            <source>https://nolimitconnect.com</source>
-            <translation>https://nolimitconnect.com</translation>
+            <source>https://nolimitconnect.org</source>
+            <translation>https://nolimitconnect.org</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="235" />
@@ -1985,8 +1985,8 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletSettingsNoUserSettings.ui" line="81" />
-            <source>Please vist https://nolimitconnect.com for more information.</source>
-            <translation>Weitere Informationen finden Sie unter https://nolimitconnect.com.</translation>
+            <source>Please vist https://nolimitconnect.org for more information.</source>
+            <translation>Weitere Informationen finden Sie unter https://nolimitconnect.org.</translation>
         </message>
     </context>
     <context>
@@ -3986,8 +3986,8 @@ Diese Meldung verschwindet, wenn die Hash-Generierung abgeschlossen ist.</transl
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="113" />
-            <source>No Information is localy available. please visit https://nolimitconnect.com for latest infomation and help</source>
-            <translation>Es sind keine Informationen vor Ort verfügbar. Bitte besuchen Sie https://nolimitconnect.com für aktuelle Informationen und Hilfe</translation>
+            <source>No Information is localy available. please visit https://nolimitconnect.org for latest infomation and help</source>
+            <translation>Es sind keine Informationen vor Ort verfügbar. Bitte besuchen Sie https://nolimitconnect.org für aktuelle Informationen und Hilfe</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="115" />

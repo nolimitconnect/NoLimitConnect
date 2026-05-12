@@ -225,7 +225,7 @@
       <item>
        <widget class="QLineEdit" name="m_FavoriteWebsite3Edit">
         <property name="text">
-         <string>https://nolimitconnect.com</string>
+         <string>https://nolimitconnect.org</string>
         </property>
        </widget>
       </item>

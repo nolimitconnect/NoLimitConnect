@@ -16,7 +16,7 @@ Project links:
 
 - Repo: https://github.com/nolimitconnect/NoLimitConnect
 - Issues: https://github.com/nolimitconnect/NoLimitConnect/issues
-- Docs/website: https://nolimitconnect.com
+- Docs/website: https://nolimitconnect.org
 
 What NLC already has:
 

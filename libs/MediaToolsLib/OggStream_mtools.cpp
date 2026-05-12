@@ -136,7 +136,7 @@ int OggStream::writeHeader( MyOpusHeader& opusHeader, uint8_t* packetBuf, int bu
 	m_OggBuffer.writeChars( "OpusTags", 8 );
 	m_OggBuffer.writeStringLengthThenString( opus_get_version_string() );
 	m_OggBuffer.writeStringLengthThenString( " " );
-	m_OggBuffer.writeStringLengthThenString( "ENCODER=SndToolsLib from nolimitconnect.com v0000000000000000-01v " );
+	m_OggBuffer.writeStringLengthThenString( "ENCODER=SndToolsLib from nolimitconnect.org v0000000000000000-01v " );
 	m_OggBuffer.writeStringLengthThenString( m_Title );
 	m_OggBuffer.writeStringLengthThenString( m_Artist );
 	m_OggBuffer.writeStringLengthThenString( m_Album );

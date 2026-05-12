@@ -2,7 +2,7 @@
 
 #define APP_NAME				"NoLimitConnect"
 #define APP_TITLE				"No Limit Connect"
-#define APP_URL					"https://nolimitconnect.com"
+#define APP_URL					"https://nolimitconnect.org"
 #define APP_DOMAIN_NAME			"nolimitconnect"
 #define APP_PACKAGE				"com.nolimitconnect.NoLimitConnect"
 

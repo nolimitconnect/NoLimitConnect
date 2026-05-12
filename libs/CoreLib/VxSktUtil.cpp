@@ -1388,7 +1388,7 @@ bool VxTestConnectionOnSpecificLclAddress( InetAddress& oLclAddr )
 	std::string strLclAddr = oLclAddr.toString();
 
 	InetAddress oRmtAddr;
-	if( VxResolveUrl( "nolimitconnect.com", 80, oRmtAddr, VxGetIpAddrType( strLclAddr.c_str() ) ) )
+	if( VxResolveUrl( "nolimitconnect.org", 80, oRmtAddr, VxGetIpAddrType( strLclAddr.c_str() ) ) )
 	{
 		// attempt connect
 		// Open a socket with the correct address family for this address.

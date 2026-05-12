@@ -340,7 +340,7 @@
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="228"/>
-        <source>https://nolimitconnect.com</source>
+        <source>https://nolimitconnect.org</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1984,7 +1984,7 @@
     </message>
     <message>
         <location filename="../nolimitgui/src/Forms/AppletSettingsNoUserSettings.ui" line="81"/>
-        <source>Please vist https://nolimitconnect.com for more information.</source>
+        <source>Please vist https://nolimitconnect.org for more information.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3979,7 +3979,7 @@ This message will disappear when generate hash is completed.</source>
     </message>
     <message>
         <location filename="../nolimitgui/src/AppletInformation.cpp" line="113"/>
-        <source>No Information is localy available. please visit https://nolimitconnect.com for latest infomation and help</source>
+        <source>No Information is localy available. please visit https://nolimitconnect.org for latest infomation and help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -340,8 +340,8 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="228" />
-            <source>https://nolimitconnect.com</source>
-            <translation>https://nolimitconnect.com</translation>
+            <source>https://nolimitconnect.org</source>
+            <translation>https://nolimitconnect.org</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="235" />
@@ -1985,8 +1985,8 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletSettingsNoUserSettings.ui" line="81" />
-            <source>Please vist https://nolimitconnect.com for more information.</source>
-            <translation>詳細については、https://nolimitconnect.com をご覧ください。</translation>
+            <source>Please vist https://nolimitconnect.org for more information.</source>
+            <translation>詳細については、https://nolimitconnect.org をご覧ください。</translation>
         </message>
     </context>
     <context>
@@ -3986,8 +3986,8 @@ This message will disappear when generate hash is completed.</source>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="113" />
-            <source>No Information is localy available. please visit https://nolimitconnect.com for latest infomation and help</source>
-            <translation>現地で入手可能な情報はありません。最新情報とヘルプについては、https://nolimitconnect.com にアクセスしてください。</translation>
+            <source>No Information is localy available. please visit https://nolimitconnect.org for latest infomation and help</source>
+            <translation>現地で入手可能な情報はありません。最新情報とヘルプについては、https://nolimitconnect.org にアクセスしてください。</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="115" />

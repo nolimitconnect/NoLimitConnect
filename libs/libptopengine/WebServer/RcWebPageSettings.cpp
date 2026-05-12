@@ -86,7 +86,7 @@ RCODE RcWebPageSettings::SetWbSettingsDefaults( void )
 
 	SetMyUrlsEnable( true );
 	SetMyUrlTitle( "My Favorite Web Sites." );
-	SetMyUrl( 0, "https://www.nolimitconnect.com" );
+	SetMyUrl( 0, "https://www.nolimitconnect.org" );
 
 	SetMyPictureEnable( true );
 	SetMyPictureTitle( "A Picture Of Me" );

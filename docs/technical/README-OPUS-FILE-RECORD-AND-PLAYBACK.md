@@ -43,7 +43,7 @@ It also captures bugs found during a focused review of MediaToolsLib.
 - Opus ID header starts with `OpusHead`.
 - Tags packet starts with `OpusTags`.
 - NoLimit custom signature expected at offset `0x9c` (`NO_LIMIT_OPUS_SIGNITURE_OFFS`) and includes:
-	- Prefix `nolimitconnect.com v`
+	- Prefix `nolimitconnect.org v`
 	- 16 hex chars for total sound frames
 	- Version suffix
 - Playback reads this custom total-frame value for progress reporting.

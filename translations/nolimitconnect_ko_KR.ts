@@ -340,7 +340,7 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="228" />
-            <source>https://nolimitconnect.com</source>
+            <source>https://nolimitconnect.org</source>
             <translation>__NLC_토큰_0__</translation>
         </message>
         <message>
@@ -1985,8 +1985,8 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletSettingsNoUserSettings.ui" line="81" />
-            <source>Please vist https://nolimitconnect.com for more information.</source>
-            <translation>자세한 내용은 https://nolimitconnect.com을 방문하세요.</translation>
+            <source>Please vist https://nolimitconnect.org for more information.</source>
+            <translation>자세한 내용은 https://nolimitconnect.org을 방문하세요.</translation>
         </message>
     </context>
     <context>
@@ -3986,8 +3986,8 @@ This message will disappear when generate hash is completed.</source>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="113" />
-            <source>No Information is localy available. please visit https://nolimitconnect.com for latest infomation and help</source>
-            <translation>현지에서 이용 가능한 정보가 없습니다. 최신 정보와 도움을 받으려면 https://nolimitconnect.com을 방문하세요.</translation>
+            <source>No Information is localy available. please visit https://nolimitconnect.org for latest infomation and help</source>
+            <translation>현지에서 이용 가능한 정보가 없습니다. 최신 정보와 도움을 받으려면 https://nolimitconnect.org을 방문하세요.</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="115" />

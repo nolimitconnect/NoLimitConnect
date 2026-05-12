@@ -45,11 +45,11 @@ void WebsiteWidget::setUrlType( WebsiteUrlType urlType )
 	switch( urlType )
 	{
 	case eWebsiteUrlVpn:
-		m_WebsiteUrl = "https://nolimitconnect.com/nlc/vpns/";
+		m_WebsiteUrl = "https://nolimitconnect.org/nlc/vpns/";
 		break;
 
 	default:
-		m_WebsiteUrl = "https://nolimitconnect.com/";
+		m_WebsiteUrl = "https://nolimitconnect.org/";
 	}
 
 	QColor linkColor = m_MyApp.getAppTheme().getLinkColor( false );

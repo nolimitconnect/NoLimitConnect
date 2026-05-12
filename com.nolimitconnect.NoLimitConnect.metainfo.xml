@@ -19,7 +19,7 @@
             services.
         </p>
         <p>
-            Visit https://nolimitconnect.com for full details and documentation.
+            Visit https://nolimitconnect.org for full details and documentation.
         </p>
     </description>
 
@@ -46,15 +46,15 @@
 
     <screenshots>
         <screenshot type="default">
-            <image>https://nolimitconnect.com/assets/screenshots/nlc-image1.png</image>
+            <image>https://nolimitconnect.org/assets/screenshots/nlc-image1.png</image>
             <caption>Main interface showing applets and messenger</caption>
         </screenshot>
         <screenshot>
-            <image>https://nolimitconnect.com/assets/screenshots/nlc-image2.png</image>
+            <image>https://nolimitconnect.org/assets/screenshots/nlc-image2.png</image>
             <caption>Vertical display mode layout</caption>
         </screenshot>
         <screenshot>
-            <image>https://nolimitconnect.com/assets/screenshots/nlc-image3.png</image>
+            <image>https://nolimitconnect.org/assets/screenshots/nlc-image3.png</image>
             <caption>Media player playing a video</caption>
         </screenshot>
     </screenshots>
@@ -67,9 +67,9 @@
         <name>Brett R. Jones</name>
     </developer>
 
-    <url type="homepage">https://nolimitconnect.com</url>
+    <url type="homepage">https://nolimitconnect.org</url>
     <url type="bugtracker">https://gitlab.com/nolimitconnect/NoLimitConnect/issues</url>
-    <url type="donation">https://nolimitconnect.com/donate</url>
+    <url type="donation">https://nolimitconnect.org/donate</url>
     <url type="help">https://gitlab.com/nolimitconnect/NoLimitConnect/issues</url>
 
     <update_contact>bjones.engineer_AT_gmail.com</update_contact>

@@ -340,8 +340,8 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="228" />
-            <source>https://nolimitconnect.com</source>
-            <translation>https://nolimitconnect.com</translation>
+            <source>https://nolimitconnect.org</source>
+            <translation>https://nolimitconnect.org</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="235" />
@@ -1985,8 +1985,8 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletSettingsNoUserSettings.ui" line="81" />
-            <source>Please vist https://nolimitconnect.com for more information.</source>
-            <translation>Silakan kunjungi https://nolimitconnect.com untuk informasi lebih lanjut.</translation>
+            <source>Please vist https://nolimitconnect.org for more information.</source>
+            <translation>Silakan kunjungi https://nolimitconnect.org untuk informasi lebih lanjut.</translation>
         </message>
     </context>
     <context>
@@ -3986,8 +3986,8 @@ Pesan ini akan hilang ketika pembuatan hash selesai.</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="113" />
-            <source>No Information is localy available. please visit https://nolimitconnect.com for latest infomation and help</source>
-            <translation>Tidak ada Informasi yang tersedia secara lokal. silakan kunjungi https://nolimitconnect.com untuk informasi dan bantuan terbaru</translation>
+            <source>No Information is localy available. please visit https://nolimitconnect.org for latest infomation and help</source>
+            <translation>Tidak ada Informasi yang tersedia secara lokal. silakan kunjungi https://nolimitconnect.org untuk informasi dan bantuan terbaru</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="115" />

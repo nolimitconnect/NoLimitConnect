@@ -39,7 +39,7 @@ Unlike modern web-based social apps, NLC is built for speed and low overhead:
 ### 📥 Getting Started
 
 **Precompiled Binaries & Installers:**  
-Available at: [https://nolimitconnect.com](https://nolimitconnect.com)  
+Available at: [https://nolimitconnect.org](https://nolimitconnect.org)  
 *(Windows NSIS, Android APK, Linux .deb, and Flatpak for x64/ARM64/Pi)*
 
 **Source Code:**

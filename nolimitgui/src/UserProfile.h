@@ -18,7 +18,7 @@ public:
 	{
 		m_strGreeting = "Lets Communicate!";
 		m_strAboutMe = "I'm Wonderful!";
-		m_strUrl3 = "https://nolimitconnect.com";
+		m_strUrl3 = "https://nolimitconnect.org";
 		m_strPicturePath = "";
 	}
 

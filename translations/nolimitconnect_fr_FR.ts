@@ -340,8 +340,8 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="228" />
-            <source>https://nolimitconnect.com</source>
-            <translation>https://nolimitconnect.com</translation>
+            <source>https://nolimitconnect.org</source>
+            <translation>https://nolimitconnect.org</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="235" />
@@ -1985,8 +1985,8 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletSettingsNoUserSettings.ui" line="81" />
-            <source>Please vist https://nolimitconnect.com for more information.</source>
-            <translation>Veuillez visiter https://nolimitconnect.com pour plus d'informations.</translation>
+            <source>Please vist https://nolimitconnect.org for more information.</source>
+            <translation>Veuillez visiter https://nolimitconnect.org pour plus d'informations.</translation>
         </message>
     </context>
     <context>
@@ -3986,8 +3986,8 @@ Ce message disparaîtra une fois la génération du hachage terminée.</translat
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="113" />
-            <source>No Information is localy available. please visit https://nolimitconnect.com for latest infomation and help</source>
-            <translation>Aucune information n’est disponible localement. veuillez visiter https://nolimitconnect.com pour les dernières informations et aide</translation>
+            <source>No Information is localy available. please visit https://nolimitconnect.org for latest infomation and help</source>
+            <translation>Aucune information n’est disponible localement. veuillez visiter https://nolimitconnect.org pour les dernières informations et aide</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="115" />

@@ -340,8 +340,8 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="228" />
-            <source>https://nolimitconnect.com</source>
-            <translation>https://nolimitconnect.com</translation>
+            <source>https://nolimitconnect.org</source>
+            <translation>https://nolimitconnect.org</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="235" />
@@ -1985,8 +1985,8 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletSettingsNoUserSettings.ui" line="81" />
-            <source>Please vist https://nolimitconnect.com for more information.</source>
-            <translation>अधिक जानकारी के लिए कृपया https://nolimitconnect.com पर जाएँ।</translation>
+            <source>Please vist https://nolimitconnect.org for more information.</source>
+            <translation>अधिक जानकारी के लिए कृपया https://nolimitconnect.org पर जाएँ।</translation>
         </message>
     </context>
     <context>
@@ -3986,8 +3986,8 @@ This message will disappear when generate hash is completed.</source>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="113" />
-            <source>No Information is localy available. please visit https://nolimitconnect.com for latest infomation and help</source>
-            <translation>कोई भी जानकारी स्थानीय रूप से उपलब्ध नहीं है. नवीनतम जानकारी और सहायता के लिए कृपया https://nolimitconnect.com पर जाएँ</translation>
+            <source>No Information is localy available. please visit https://nolimitconnect.org for latest infomation and help</source>
+            <translation>कोई भी जानकारी स्थानीय रूप से उपलब्ध नहीं है. नवीनतम जानकारी और सहायता के लिए कृपया https://nolimitconnect.org पर जाएँ</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="115" />

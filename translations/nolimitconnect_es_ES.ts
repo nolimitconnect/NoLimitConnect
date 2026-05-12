@@ -340,8 +340,8 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="228" />
-            <source>https://nolimitconnect.com</source>
-            <translation>https://nolimitconnect.com</translation>
+            <source>https://nolimitconnect.org</source>
+            <translation>https://nolimitconnect.org</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletEditAboutMe.ui" line="235" />
@@ -1985,8 +1985,8 @@
         </message>
         <message>
             <location filename="../nolimitgui/src/Forms/AppletSettingsNoUserSettings.ui" line="81" />
-            <source>Please vist https://nolimitconnect.com for more information.</source>
-            <translation>Visite https://nolimitconnect.com para obtener más información.</translation>
+            <source>Please vist https://nolimitconnect.org for more information.</source>
+            <translation>Visite https://nolimitconnect.org para obtener más información.</translation>
         </message>
     </context>
     <context>
@@ -3986,8 +3986,8 @@ Este mensaje desaparecerá cuando se complete la generación de hash.</translati
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="113" />
-            <source>No Information is localy available. please visit https://nolimitconnect.com for latest infomation and help</source>
-            <translation>No hay información disponible localmente. visite https://nolimitconnect.com para obtener información y ayuda más recientes</translation>
+            <source>No Information is localy available. please visit https://nolimitconnect.org for latest infomation and help</source>
+            <translation>No hay información disponible localmente. visite https://nolimitconnect.org para obtener información y ayuda más recientes</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="115" />

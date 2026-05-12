@@ -4,9 +4,9 @@
 
 Assumes flatpack has been setup
 
-https://nolimitconnect.com/developer-docs/Setup_Flatpak_Build_Enviroment
+https://nolimitconnect.org/developer-docs/Setup_Flatpak_Build_Enviroment
 
-https://nolimitconnect.com/developer-docs/Compile_NoLimitConnect_Flatpak
+https://nolimitconnect.org/developer-docs/Compile_NoLimitConnect_Flatpak
 
 Assumes flatpack bundle has been created with the following commands
 

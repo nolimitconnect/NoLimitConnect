@@ -14,11 +14,11 @@ nolimitapp/com.nolimitconnect.NoLimitConnect.yml
 // before check in
 
 === Flatpack build instructions ===
-https://nolimitconnect.com/developer-docs/Setup_Flatpak_Build_Enviroment/
+https://nolimitconnect.org/developer-docs/Setup_Flatpak_Build_Enviroment/
 
 AND
 
-https://nolimitconnect.com/developer-docs/Compile_NoLimitConnect_Flatpak/
+https://nolimitconnect.org/developer-docs/Compile_NoLimitConnect_Flatpak/
 
 
 

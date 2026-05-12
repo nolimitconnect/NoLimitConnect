@@ -1,6 +1,6 @@
 # No Limit Connect Release Notes
 
-Website: https://nolimitconnect.com
+Website: https://nolimitconnect.org
 
 Source repository: https://gitlab.com/nolimitconnect/NoLimitConnect.git
 
