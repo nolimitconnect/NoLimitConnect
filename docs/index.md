@@ -84,7 +84,7 @@ User guides, developer docs, and build instructions included.
     - Direct connection even behind CGNAT  
     - Strong privacy with a strict no-logs policy  
 
-    → [Learn how to use Hide.me with NoLimitConnect](vpn.md)
+→ [Learn how to use Hide.me with NoLimitConnect](vpn.md)
 
 ## ❤️ Open-Source & Community-Driven
 
