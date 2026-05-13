@@ -950,7 +950,7 @@
             "command": "bash",
             "args": [
                 "-lc",
-                "grep -q -- \"-DCMAKE_BUILD_TYPE=Release\" \"${workspaceFolder}/org.nolimitconnect.NoLimitConnect.yml\" || { echo \"Flatpak manifest must set -DCMAKE_BUILD_TYPE=Release\"; exit 1; }; mkdir -p \"${workspaceFolder}/build/flatpak-repo\" \"${workspaceFolder}/build/flatpak-build-release-dir\" \"${workspaceFolder}/package/flatpack\"; flatpak-builder --force-clean --repo=\"${workspaceFolder}/build/flatpak-repo\" \"${workspaceFolder}/build/flatpak-build-release-dir\" \"${workspaceFolder}/org.nolimitconnect.NoLimitConnect.yml\"; flatpak build-bundle \"${workspaceFolder}/build/flatpak-repo\" \"${workspaceFolder}/package/flatpack/nolimitconnect.flatpak\" org.nolimitconnect.NoLimitConnect"
+                "grep -q -- \"-DCMAKE_BUILD_TYPE=Release\" \"${workspaceFolder}/org.nolimitconnect.NoLimitConnect.yml\" || { echo \"Flatpak manifest must set -DCMAKE_BUILD_TYPE=Release\"; exit 1; }; mkdir -p \"${workspaceFolder}/build/flatpak-repo\" \"${workspaceFolder}/build/flatpak-build-release-dir\" \"${workspaceFolder}/package/flatpack\"; flatpak-builder --force-clean --repo=\"${workspaceFolder}/build/flatpak-repo\" \"${workspaceFolder}/build/flatpak-build-release-dir\" \"${workspaceFolder}/org.nolimitconnect.NoLimitConnect.yml\"; NLC_VERSION=$(grep -oP 'set\\(NLC_VERSION\\s+\\K[^)]+' \"${workspaceFolder}/cmake/version.cmake\"); ARCH=$(uname -m | sed -E 's/(aarch64|arm64)/arm64/;s/(x86_64|amd64|x64)/x64/'); flatpak build-bundle \"${workspaceFolder}/build/flatpak-repo\" \"${workspaceFolder}/package/flatpack/nolimitconnect-${NLC_VERSION}-${ARCH}.flatpak\" org.nolimitconnect.NoLimitConnect"
             ],
             "problemMatcher": []
         },
