@@ -13,7 +13,7 @@ fi
 if [[ -z "$ADB_PATH" ]] || [[ ! -f "$ADB_PATH" ]]; then
     ADB_PATH="${HOME}/Android/Sdk/platform-tools/adb"
 fi
-PACKAGE_ACTIVITY="com.nolimitconnect.nolimitconnect/org.qtproject.qt.android.bindings.QtActivity"
+PACKAGE_ACTIVITY="org.nolimitconnect.nolimitconnect/org.qtproject.qt.android.bindings.QtActivity"
 LLDB_PORT="${LLDB_PORT:-5039}"
 DEBUG_SOCKET_WAIT_SECONDS="${DEBUG_SOCKET_WAIT_SECONDS:-15}"
 DEVICE_WAIT_SECONDS="${DEVICE_WAIT_SECONDS:-45}"

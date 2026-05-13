@@ -1611,43 +1611,43 @@ if(DEFINED FLATPAKBUILD)
 
     # Install desktop file
     install(
-        FILES ${PROJECT_SRC_ROOT_DIR}/com.nolimitconnect.NoLimitConnect.desktop
+        FILES ${PROJECT_SRC_ROOT_DIR}/org.nolimitconnect.NoLimitConnect.desktop
         DESTINATION share/applications
     )
 
     # And install all the icons
     install(
-        FILES ${PROJECT_SRC_ROOT_DIR}/icons/16x16/com.nolimitconnect.NoLimitConnect.png
+        FILES ${PROJECT_SRC_ROOT_DIR}/icons/16x16/org.nolimitconnect.NoLimitConnect.png
         DESTINATION share/icons/hicolor/16x16/apps/
     )
     install(
-        FILES ${PROJECT_SRC_ROOT_DIR}/icons/32x32/com.nolimitconnect.NoLimitConnect.png
+        FILES ${PROJECT_SRC_ROOT_DIR}/icons/32x32/org.nolimitconnect.NoLimitConnect.png
         DESTINATION share/icons/hicolor/32x32/apps/
     )
     install(
-        FILES ${PROJECT_SRC_ROOT_DIR}/icons/48x48/com.nolimitconnect.NoLimitConnect.png
+        FILES ${PROJECT_SRC_ROOT_DIR}/icons/48x48/org.nolimitconnect.NoLimitConnect.png
         DESTINATION share/icons/hicolor/48x48/apps/
     )
     install(
-        FILES ${PROJECT_SRC_ROOT_DIR}/icons/64x64/com.nolimitconnect.NoLimitConnect.png
+        FILES ${PROJECT_SRC_ROOT_DIR}/icons/64x64/org.nolimitconnect.NoLimitConnect.png
         DESTINATION share/icons/hicolor/64x64/apps/
     )
     install(
-        FILES ${PROJECT_SRC_ROOT_DIR}/icons/128x128/com.nolimitconnect.NoLimitConnect.png
+        FILES ${PROJECT_SRC_ROOT_DIR}/icons/128x128/org.nolimitconnect.NoLimitConnect.png
         DESTINATION share/icons/hicolor/128x128/apps/
     )
     install(
-        FILES ${PROJECT_SRC_ROOT_DIR}/icons/256x256/com.nolimitconnect.NoLimitConnect.png
+        FILES ${PROJECT_SRC_ROOT_DIR}/icons/256x256/org.nolimitconnect.NoLimitConnect.png
         DESTINATION share/icons/hicolor/256x256/apps/
     )
     install(
-        FILES ${PROJECT_SRC_ROOT_DIR}/icons/512x512/com.nolimitconnect.NoLimitConnect.png
+        FILES ${PROJECT_SRC_ROOT_DIR}/icons/512x512/org.nolimitconnect.NoLimitConnect.png
         DESTINATION share/icons/hicolor/512x512/apps/
     )
     # the max allowed icon size for flathub is 512x512
 
     install(
-        FILES ${PROJECT_SRC_ROOT_DIR}/com.nolimitconnect.NoLimitConnect.metainfo.xml
+        FILES ${PROJECT_SRC_ROOT_DIR}/org.nolimitconnect.NoLimitConnect.metainfo.xml
         DESTINATION share/metainfo/
     )
 

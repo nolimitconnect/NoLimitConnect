@@ -1,19 +1,7 @@
-app-id: com.nolimitconnect.NoLimitConnect
-
-# FlatPak 6.7 works but 6.9 fails
-
-# with Raspberry Pi 5:
-# bwrap: execvp appstream-compose: No such file or directory
-
-# with Ubuntu 24.04:
-# /usr/lib/gcc/x86_64-unknown-linux-gnu/14.3.0/../../../../x86_64-unknown-linux-gnu/bin/ld: cannot find -lGLU: No such file or directory
-# even though modules has
-# - shared-modules/glu/glu-9.json
-
-# So build with 6.7 for now
+id: org.nolimitconnect.NoLimitConnect
 
 runtime: org.kde.Platform
-runtime-version: '6.7'
+runtime-version: '6.9'
 sdk: org.kde.Sdk
 
 command: nolimitconnect
@@ -44,7 +32,7 @@ modules:
     ########################
     # GLU 
     ########################
-  - shared-modules/glu/glu-9.json
+    # built in project instead of as submodule - shared-modules/glu/glu-9.json
     ########################
     # No Limit Connect
     ########################  
@@ -58,10 +46,16 @@ modules:
       # Local build (acceptable until first Flathub merge)
       - type: dir
         path: ./
-      # Then for specific version like
-      # - type: git
-      #  url: https://github.com/nolimitconnect/NoLimitConnect.git
-      #   commit: de146ed09e9da127c224c50d2ed07672ff2edf46
-      #   tag: v1.0.8
+
+    post-install:
+      # Install the icon to the standard 256x256 location
+      - install -Dm644 org.nolimitconnect.NoLimitConnect.png /app/share/icons/hicolor/256x256/apps/org.nolimitconnect.NoLimitConnect.png
+      # Install the desktop file as well
+      - install -Dm644 org.nolimitconnect.NoLimitConnect.desktop /app/share/applications/org.nolimitconnect.NoLimitConnect.desktop
+      # Install metainfo file for appstream
+      - install -Dm644 org.nolimitconnect.NoLimitConnect.metainfo.xml /app/share/metainfo/org.nolimitconnect.NoLimitConnect.metainfo.xml
+
+
+
 
 

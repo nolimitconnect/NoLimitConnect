@@ -1,6 +1,6 @@
 param(
     [string]$WorkspaceFolder = '.',
-    [string]$PackageName = 'com.nolimitconnect.nolimitconnect',
+    [string]$PackageName = 'org.nolimitconnect.nolimitconnect',
     [string]$ActivityName = 'org.qtproject.qt.android.bindings.QtActivity',
     [int]$DurationSeconds = 10,
     [int]$SampleFrequency = 1000,

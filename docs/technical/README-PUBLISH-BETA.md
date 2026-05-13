@@ -17,7 +17,7 @@ Related documents:
 
 1. Update version in cmake/version.cmake.
 2. Update RELEASE-NOTES.md with beta summary.
-3. Update com.nolimitconnect.NoLimitConnect.metainfo.xml if needed for Linux metadata paths.
+3. Update org.nolimitconnect.NoLimitConnect.metainfo.xml if needed for Linux metadata paths.
 4. Ensure code is committed and tagged appropriately.
 5. Set GITHUB_RELEASES_TOKEN or GITHUB_TOKEN.
 6. Decide whether you are publishing all platforms or only validated ones.
@@ -75,7 +75,7 @@ Recommended order on Linux host:
 
 Recommended order on Linux host:
 
-1. Verify com.nolimitconnect.NoLimitConnect.yml targets intended release config
+1. Verify org.nolimitconnect.NoLimitConnect.yml targets intended release config
 2. Package Flatpak
 3. Verify generated bundle in package/flatpack
 4. Optional local install smoke test

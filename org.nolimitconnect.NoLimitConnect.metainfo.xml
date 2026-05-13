@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-    <id>com.nolimitconnect.NoLimitConnect</id>
+    <id>org.nolimitconnect.NoLimitConnect</id>
 
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-2.0+</project_license>
@@ -60,7 +60,7 @@
     </screenshots>
 
     <launchable type="desktop-id">
-        com.nolimitconnect.NoLimitConnect.desktop
+        org.nolimitconnect.NoLimitConnect.desktop
     </launchable>
 
     <developer id="brettrjones.nolimitconnect">
@@ -103,7 +103,7 @@
     </content_rating>
 
     <releases>
-        <release version="1.1.0" date="2026-01-13">
+        <release version="1.1.1" date="2026-01-13">
             <description>
                 <p>Beta 3 release with stability improvements and feature updates.</p>
             </description>

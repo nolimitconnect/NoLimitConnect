@@ -1,6 +1,6 @@
-set(NLC_VERSION 1.1.0)
+set(NLC_VERSION 1.1.1)
 set(NLC_NAME NoLimitConnect)
-set(NLC_ID com.nolimitconnect.nolimitconnect)
+set(NLC_ID org.nolimitconnect.nolimitconnect)
 set(PROJECT_MAINTAINER bjones.engineer@gmail.com)
 set(PROJECT_WEBSITE_URL nolimitconnect.org)
 set(PROJECT_VENDOR nolimitconnect.org)

@@ -4,9 +4,9 @@ Website: https://nolimitconnect.org
 
 Source repository: https://gitlab.com/nolimitconnect/NoLimitConnect.git
 
-## Version 1.1.0
+## Version 1.1.1
 
-Version 1.1.0 is a major release focused on everyday reliability, smoother user experience, and stronger cross-platform delivery.
+Version 1.1.1 is a major release focused on everyday reliability, smoother user experience, and stronger cross-platform delivery.
 
 It brings meaningful improvements across networking, media, audio, startup performance, localization, and packaging.
 

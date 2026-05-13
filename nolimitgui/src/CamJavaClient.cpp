@@ -27,7 +27,7 @@
 
 #include <iostream>
 
-#define CAM_CAPTURE_CLASS_NAME "com/nolimitconnect/nolimitconnect/Camera2Service"
+#define CAM_CAPTURE_CLASS_NAME "org/nolimitconnect/nolimitconnect/Camera2Service"
 
 namespace {
 CamJavaClient* g_CamClient = nullptr;
@@ -212,7 +212,7 @@ void AndroidYUV420SPtoRGB(uint8_t* rgbImage, int width, int height,
 // native methods called from Java
 extern "C" {
 
-JNIEXPORT void JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_camServiceStarted(JNIEnv *env, jobject obj) {
+JNIEXPORT void JNICALL Java_org_nolimitconnect_nolimitconnect_Camera2Service_camServiceStarted(JNIEnv *env, jobject obj) {
     g_CamEnv = env;
     g_CamServiceThreadId = VxGetCurrentThreadId();
 
@@ -255,12 +255,12 @@ JNIEXPORT void JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_cam
                                Qt::QueuedConnection );
 }
 
-JNIEXPORT void JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_camServiceStopped(JNIEnv *env, jobject obj) {
+JNIEXPORT void JNICALL Java_org_nolimitconnect_nolimitconnect_Camera2Service_camServiceStopped(JNIEnv *env, jobject obj) {
     g_CamServiceReady = false;
     LogMsg( LOG_VERBOSE, "%s ", __func__ );
 }
 
-JNIEXPORT bool JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_canProcessCamCapture(JNIEnv *env, jobject obj) {
+JNIEXPORT bool JNICALL Java_org_nolimitconnect_nolimitconnect_Camera2Service_canProcessCamCapture(JNIEnv *env, jobject obj) {
     return GetCamJavaClient().canProcessCamCapture();
 }
 
@@ -290,7 +290,7 @@ bool GetJBufInfo( JNIEnv* env, jobject byteBuffer, uint8_t*& byteBuf )
     return true;
 }
 
-JNIEXPORT void JNICALL Java_com_nolimitconnect_nolimitconnect_Camera2Service_processCamCapture(JNIEnv *env, jobject obj,
+JNIEXPORT void JNICALL Java_org_nolimitconnect_nolimitconnect_Camera2Service_processCamCapture(JNIEnv *env, jobject obj,
                                                                                             int width, int height, jobject yBuf, jobject uBuf, jobject vBuf,
                                                                                             int yPixelStride, int yRowStride,
                                                                                             int uPixelStride, int uRowStride,

@@ -8,7 +8,7 @@ Comment=Decentralized social networking, messaging, and media sharing
 
 Categories=Network;Chat;InstantMessaging;VideoConference;
 
-Icon=com.nolimitconnect.NoLimitConnect
+Icon=org.nolimitconnect.NoLimitConnect
 Exec=nolimitconnect
 Terminal=false
 StartupWMClass=NoLimitConnect

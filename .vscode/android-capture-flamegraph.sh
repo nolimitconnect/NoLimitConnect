@@ -3,7 +3,7 @@
 set -euo pipefail
 
 WORKSPACE_FOLDER="${WORKSPACE_FOLDER:-.}"
-PACKAGE_NAME="${PACKAGE_NAME:-com.nolimitconnect.nolimitconnect}"
+PACKAGE_NAME="${PACKAGE_NAME:-org.nolimitconnect.nolimitconnect}"
 ACTIVITY_NAME="${ACTIVITY_NAME:-org.qtproject.qt.android.bindings.QtActivity}"
 DURATION_SECONDS="${DURATION_SECONDS:-10}"
 SAMPLE_FREQUENCY="${SAMPLE_FREQUENCY:-1000}"

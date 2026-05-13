@@ -1,16 +1,16 @@
 
 === build flatpak locally without git checkout each build ===
 
-// copy com.nolimitconnect.NoLimitConnect to repo root directory
-cp com.nolimitconnect.NoLimitConnect.yml ./..
+// copy org.nolimitconnect.NoLimitConnect to repo root directory
+cp org.nolimitconnect.NoLimitConnect.yml ./..
 // OR
-// change sources in nolimitapp/com.nolimitconnect.NoLimitConnect.yml
+// change sources in nolimitapp/org.nolimitconnect.NoLimitConnect.yml
 // to
     sources:
       - type: dir
         path: ./
 // do not forget to revert 
-nolimitapp/com.nolimitconnect.NoLimitConnect.yml
+nolimitapp/org.nolimitconnect.NoLimitConnect.yml
 // before check in
 
 === Flatpack build instructions ===

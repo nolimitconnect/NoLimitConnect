@@ -1,4 +1,4 @@
-package com.nolimitconnect.nolimitconnect;
+package org.nolimitconnect.nolimitconnect;
 
 import android.app.Service;
 import android.content.Context;

@@ -16,15 +16,15 @@ git submodule add -f https://github.com/flathub/shared-modules.git
 
 5. Build and install:
 ```bash
-flatpak-builder --user --install --force-clean build-dir com.nolimitconnect.NoLimitConnect.yml
+flatpak-builder --user --install --force-clean build-dir org.nolimitconnect.NoLimitConnect.yml
 ```
 
 6. Run
 ```bash
-flatpak run com.nolimitconnect.NoLimitConnect
+flatpak run org.nolimitconnect.NoLimitConnect
 ```
 
 7. Uninstall:
 ```bash
-flatpak uninstall --delete-data com.nolimitconnect.NoLimitConnect
+flatpak uninstall --delete-data org.nolimitconnect.NoLimitConnect
 ```

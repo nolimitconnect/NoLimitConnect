@@ -92,7 +92,7 @@ Available task names:
 What happens:
 
 1. Flatpak task creates local build and repo directories under build.
-2. flatpak-builder builds the app using com.nolimitconnect.NoLimitConnect.yml.
+2. flatpak-builder builds the app using org.nolimitconnect.NoLimitConnect.yml.
 3. flatpak build-bundle creates the bundle.
 4. Bundle is written into package/flatpack.
 5. Deploy uploads bundle and .sha256 to GitHub Releases.

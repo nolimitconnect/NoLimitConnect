@@ -11,8 +11,8 @@ https://nolimitconnect.org/developer-docs/Compile_NoLimitConnect_Flatpak
 Assumes flatpack bundle has been created with the following commands
 
 ```bash
-flatpak-builder --force-clean --repo=repo build-dir com.nolimitconnect.NoLimitConnect.yml
-flatpak build-bundle repo NoLimitConnect.flatpak com.nolimitconnect.NoLimitConnect
+flatpak-builder --force-clean --repo=repo build-dir org.nolimitconnect.NoLimitConnect.yml
+flatpak build-bundle repo NoLimitConnect.flatpak org.nolimitconnect.NoLimitConnect
 ```
 
 ## Ubuntu And Raspbery Pi installer from GUI

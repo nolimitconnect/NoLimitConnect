@@ -1,6 +1,6 @@
 param(
     [string]$AdbPath = 'F:/Android/Sdk/platform-tools/adb.exe',
-    [string]$PackageActivity = 'com.nolimitconnect.nolimitconnect/org.qtproject.qt.android.bindings.QtActivity',
+    [string]$PackageActivity = 'org.nolimitconnect.nolimitconnect/org.qtproject.qt.android.bindings.QtActivity',
     [int]$LldbPort = 5039,
     [int]$DebugSocketWaitSeconds = 15,
     [int]$DeviceWaitSeconds = 45,
