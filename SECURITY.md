@@ -10,11 +10,12 @@ Do not open a public issue for security vulnerabilities.
 ## What to Include
 
 When reporting, please provide:
-- **NoLimitConnect version** (check About page in app)
-- **Operating system and version** (Windows 10/11, Ubuntu 22.04, Android 14, etc.)
-- **Steps to reproduce** (or as much detail as you can)
-- **Expected behavior vs actual behavior**
-- **Any error logs or screenshots**
+1. **Steps to reproduce** (what you did to find the vulnerability)
+2. **Expected behavior vs actual behavior**
+3. **System information** (copy from the About page in the app using the copy button)
+4. **Any error logs or screenshots**
+
+The system information from the About page includes your version, OS, CPU architecture, and other useful context.
 
 ## Response Timeline
 
