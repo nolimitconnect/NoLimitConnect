@@ -2,11 +2,14 @@
 
 This short demo shows NoLimitConnect running on Linux from the Flatpak build.
 
-<video controls preload="metadata" width="960" style="max-width:100%; border-radius: 10px;">
-  <source src="assets/videos/nlc-demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+## Watch the Demo
 
-If the embedded player does not load, use the direct file link:
+[![Watch the demo video](assets/screenshots/nlc-image1.png)](assets/videos/nlc-demo.mp4)
 
-- [Download or open demo video](assets/videos/nlc-demo.mp4)
+[Click here to play the demo video](assets/videos/nlc-demo.mp4)
+
+Or use the direct link:
+- [Download demo video (MP4, 8.8 MB)](assets/videos/nlc-demo.mp4)
+
+!!! note
+    If the video doesn't play in your browser, download it and play locally with your media player.
