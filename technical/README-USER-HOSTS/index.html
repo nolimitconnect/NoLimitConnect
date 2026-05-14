@@ -1,0 +1,3901 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Official website for NoLimitConnect — a decentralized, user-hosted social platform.">
+      
+      
+        <meta name="author" content="NoLimitConnect Project">
+      
+      
+        <link rel="canonical" href="https://nolimitconnect.org/technical/README-USER-HOSTS/">
+      
+      
+        <link rel="prev" href="../README-STARTUP-SEQUENCE/">
+      
+      
+        <link rel="next" href="../README-VIDEO-STREAM/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/nlc-icon.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>User Hosts - No Limit Connect</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/site-overrides.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#user-hosts-group-chat-room-and-random-connect" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="No Limit Connect" class="md-header__button md-logo" aria-label="No Limit Connect" data-md-component="logo">
+      
+  <img src="../../assets/nlc-icon.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            No Limit Connect
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              User Hosts
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="purple"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../roadmap/" class="md-tabs__link">
+          
+  
+  
+  Project
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../download/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Download
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../demo-video/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Demo Video
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../faq/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  FAQ
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../feedback/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Feedback
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../user-docs/" class="md-tabs__link">
+          
+  
+  
+  User Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../connection-status/" class="md-tabs__link">
+          
+  
+  
+  Connectivity
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../developer-docs/" class="md-tabs__link">
+          
+  
+  
+  Developer Docs
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../CAMERA_ROTATION_PHOTO_DISPLAY_ANALYSIS/" class="md-tabs__link">
+          
+  
+  
+  Technical
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../howto-docs/" class="md-tabs__link">
+          
+  
+  
+  How-To Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../donate/" class="md-tabs__link">
+          
+  
+  
+  Contribute
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../nlc/privacy-policy/" class="md-tabs__link">
+          
+  
+  
+  Legal
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="No Limit Connect" class="md-nav__button md-logo" aria-label="No Limit Connect" data-md-component="logo">
+      
+  <img src="../../assets/nlc-icon.svg" alt="logo">
+
+    </a>
+    No Limit Connect
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../download/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Download
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../demo-video/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Demo Video
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../feedback/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Feedback
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-docs/install-windows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install on Windows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-docs/install-linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install on Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-docs/install-android/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install on Android
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../screenshots/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Application Screenshots
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connectivity
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Connectivity
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../connection-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connection Status Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../vpn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VPN (Hide.me)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../port-forwarding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Port Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nat-types/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NAT Types Explained
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../relay-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Relay Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../network-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Docs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer Docs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer-docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer-docs/Setup_Windows_Build_Environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup Windows Build Env
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer-docs/Setup_Linux_Build_Environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup Ubuntu Build Env
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer-docs/Setup_Flatpak_Build_Enviroment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup Flatpak Build Env
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer-docs/Compile_NoLimitConnect_VisualCode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile (Visual Studio Code)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer-docs/Compile_NoLimitConnect_QCreator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile (Qt Creator)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer-docs/Compile_NoLimitConnect_Flatpak/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Compile (Flatpak)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CAMERA_ROTATION_PHOTO_DISPLAY_ANALYSIS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Camera Rotation Photo Display Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-AEC2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AEC2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-ASSET-SEND/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Asset Send
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-AUDIO-FLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Audio Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-CAM-VIDEO-AVI-FILES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cam Video AVI Files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-CAMERA-CAPTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Camera Capture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-CHATROOM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ChatRoom
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-DEPLOY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-EMOTICON-LOAD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Emoticon Load
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-LANGUAGES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Languages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-MEDIA-FLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Media Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-MJPEG-VIDEO/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MJPEG Video
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-NETWORK-HOSTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Hosts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-NETWORK-PROTOCOL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Network Protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-OFFER-SYSTEM-FLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Offer System Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-ONLINE-STATUS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Online Status
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-OPUS-FILE-RECORD-AND-PLAYBACK/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Opus File Record And Playback
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-PACKAGE-DEPLOY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Package Deploy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-PUBLISH-BETA/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Publish Beta
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-QA-TESTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    QA Tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-RANDOM-CONNECT-OFFER/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Random Connect Offer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-RNNOISE-REDUCTION/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RNNoise Reduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-SESSION-FLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Session Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-SESSION-HISTORY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Session History
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-STARTUP-SEQUENCE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Startup Sequence
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Hosts
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Hosts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#shared-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shared Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-1-building-and-sending-the-announce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1 — Building and Sending the Announce
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 1 — Building and Sending the Announce">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-the-announce-packet-buildhostannounce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building the announce packet (buildHostAnnounce)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sending-the-announce-sendhostannounce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sending the announce (sendHostAnnounce)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#re-announce-timer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Re-announce timer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-2-client-discovery-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2 — Client Discovery (Search)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-3-joining-a-user-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3 — Joining a User Host
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 3 — Joining a User Host">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leaving-un-joining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Leaving / Un-joining
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-4-active-session-traffic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4 — Active Session Traffic
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 4 — Active Session Traffic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grouphost-and-chatroomhost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GroupHost and ChatRoomHost
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#randomconnecthost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RandomConnectHost
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-lifecycle-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Lifecycle Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#membership-and-permission-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Membership and Permission Checks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#packet-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Packet Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-VIDEO-STREAM/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Video Stream
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../README-VISUAL-CODE-ANDROID/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visual Code Android
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How-To Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    How-To Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-docs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-docs/howto-permission-levels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Permission Levels Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-docs/howto-user-permission-levels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Set User Permissions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-docs/howto-plugin-permission-levels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Set Plugin Permissions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-docs/howto-stream/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stream Media to other users
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-docs/howto-add-files-to-library/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Add Files To Library
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-docs/howto-share-media-files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Share Files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-docs/howto-play-or-download-files/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Play Or Download Files
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-docs/howto-user-host/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Host Group, ChatRoom or Random Connect
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../port-forwarding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Port Forwarding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-docs/howto-nlc-network-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup A NLC Network - Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-docs/howto-nlc-network-low-cost/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup A NLC Network - Low/No Cost
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-docs/howto-nlc-network-high-cost/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup A NLC Network - High Cost
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-docs/howto-nlc-network-high-cost/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup A NLC Network - High Cost
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-docs/howto-network-invite-create/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Create Network Invite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../howto-docs/howto-network-invite-accept/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accept Network Invite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribute
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contribute
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../donate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Donate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contribute/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legal
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Legal
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../nlc/privacy-policy/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Privacy Policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#shared-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shared Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-1-building-and-sending-the-announce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1 — Building and Sending the Announce
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 1 — Building and Sending the Announce">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#building-the-announce-packet-buildhostannounce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building the announce packet (buildHostAnnounce)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sending-the-announce-sendhostannounce" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sending the announce (sendHostAnnounce)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#re-announce-timer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Re-announce timer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-2-client-discovery-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2 — Client Discovery (Search)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-3-joining-a-user-host" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3 — Joining a User Host
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 3 — Joining a User Host">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#leaving-un-joining" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Leaving / Un-joining
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-4-active-session-traffic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4 — Active Session Traffic
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 4 — Active Session Traffic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grouphost-and-chatroomhost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GroupHost and ChatRoomHost
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#randomconnecthost" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RandomConnectHost
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-lifecycle-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Lifecycle Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#membership-and-permission-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Membership and Permission Checks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#packet-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Packet Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="user-hosts-group-chat-room-and-random-connect">User Hosts — Group, Chat Room, and Random Connect<a class="headerlink" href="#user-hosts-group-chat-room-and-random-connect" title="Permanent link">&para;</a></h1>
+<p>User hosts are <strong>services run by ordinary users</strong> on their own machines.<br />
+Any user with an open TCP port can start a user host.<br />
+All three host types share the same announce/join/leave architecture through the common base
+classes <code>PluginBaseHostService</code> and <code>HostServerMgr</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Host</th>
+<th>Plugin type</th>
+<th>Client plugin type</th>
+<th>Host type enum</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GroupHost</strong></td>
+<td><code>ePluginTypeHostGroup</code></td>
+<td><code>ePluginTypeGroupClient</code></td>
+<td><code>eHostTypeGroup</code></td>
+</tr>
+<tr>
+<td><strong>ChatRoomHost</strong></td>
+<td><code>ePluginTypeHostChatRoom</code></td>
+<td><code>ePluginTypeChatRoomClient</code></td>
+<td><code>eHostTypeChatRoom</code></td>
+</tr>
+<tr>
+<td><strong>RandomConnectHost</strong></td>
+<td><code>ePluginTypeHostRandomConnect</code></td>
+<td><code>ePluginTypeRandomConnectClient</code></td>
+<td><code>eHostTypeRandomConnect</code></td>
+</tr>
+</tbody>
+</table>
+<p>Source: <code>libs/libptopengine/Plugins/PluginGroupHost.cpp</code>,
+<code>PluginChatRoomHost.cpp</code>, <code>PluginRandomConnectHost.cpp</code>.</p>
+<hr />
+<h2 id="shared-architecture">Shared Architecture<a class="headerlink" href="#shared-architecture" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>PluginBase
+ └── PluginBaseMultimedia
+      └── PluginBaseHostService          (common host logic)
+           ├── HostServerMgr             (client list + announce sessions)
+           │    └── HostServerSearchMgr  (announce lists per host type)
+           │         └── HostBaseMgr     (connect-to-host helpers)
+           └── PluginGroupHost / PluginChatRoomHost / PluginRandomConnectHost
+</code></pre></div>
+<p><code>PluginBaseHostService</code> holds:</p>
+<ul>
+<li><code>m_PktHostInviteAnnounceReq</code> — the current announce packet (built once, re-sent periodically)</li>
+<li><code>m_HostServerMgr</code> — tracks connected clients and pending announce sessions</li>
+<li><code>m_HostInviteUrl</code>, <code>m_HostTitle</code>, <code>m_HostDescription</code> — content from settings</li>
+</ul>
+<hr />
+<h2 id="phase-1-building-and-sending-the-announce">Phase 1 — Building and Sending the Announce<a class="headerlink" href="#phase-1-building-and-sending-the-announce" title="Permanent link">&para;</a></h2>
+<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
+<p>Before a host can announce it needs:
+1. <code>isPluginEnabled()</code> — the plugin must be enabled in settings.
+2. An open RX port — <code>m_Engine.getNetStatusAccum().isRxPortOpen()</code>.
+3. A valid online URL — <code>m_PktHostInviteIsValid</code> must be <code>true</code>.</p>
+<p>If the port-open test has not yet completed, <code>sendHostAnnounce()</code> returns silently.</p>
+<h3 id="building-the-announce-packet-buildhostannounce">Building the announce packet (<code>buildHostAnnounce</code>)<a class="headerlink" href="#building-the-announce-packet-buildhostannounce" title="Permanent link">&para;</a></h3>
+<p>Called from <code>setPluginSetting()</code> or <code>onPluginSettingChange()</code> when settings are saved.
+Reads invite URL, title, description and thumbnail ID from the <code>PluginSetting</code> record and
+serialises them into <code>m_PktHostInviteAnnounceReq</code> using <code>PktBlobEntry</code>.<br />
+Sets <code>m_PktHostInviteIsValid = true</code> on success.</p>
+<h3 id="sending-the-announce-sendhostannounce">Sending the announce (<code>sendHostAnnounce</code>)<a class="headerlink" href="#sending-the-announce-sendhostannounce" title="Permanent link">&para;</a></h3>
+<p>Two paths:</p>
+<p><strong>Path A — We are also the NetworkHost</strong>
+<div class="highlight"><pre><span></span><code>if( our online ID == NetworkHost online ID )
+    call PluginNetworkHost::updateHostSearchList() directly (loopback connection, no TCP)
+</code></pre></div></p>
+<p><strong>Path B — Remote NetworkHost</strong>
+<div class="highlight"><pre><span></span><code>HostServerMgr::sendHostAnnounceToNetworkHost()
+  → check isNetHostAvailable() and isRxPortOpen()
+  → save copy of PktHostInviteAnnounceReq in m_AnnList[sessionId]
+  → ConnectionMgr::connectToHost(eHostTypeNetwork, sessionId, url, eConnectReasonXxxAnnounce)
+    → TCP connect + crypto handshake to NetworkHost
+  → HostServerMgr::onConnectToHostSuccess()
+    → txPacket(PktHostInviteAnnounceReq) to NetworkHost
+    → ConnectionMgr::doneWithConnection()   (connection released immediately after sending)
+</code></pre></div></p>
+<p><code>EConnectReason</code> values used for announce:
+| Host type | Connect reason |
+|---|---|
+| GroupHost | <code>eConnectReasonGroupAnnounce</code> |
+| ChatRoomHost | <code>eConnectReasonChatRoomAnnounce</code> |
+| RandomConnectHost | <code>eConnectReasonRandomConnectAnnounce</code> |</p>
+<h3 id="re-announce-timer">Re-announce timer<a class="headerlink" href="#re-announce-timer" title="Permanent link">&para;</a></h3>
+<p><code>onThreadOncePer15Minutes()</code> calls <code>sendHostAnnounce()</code> unconditionally (subject to preconditions
+above). The NetworkHost drops entries that have not re-announced within 30 minutes
+(<code>MIN_HOST_RX_UPDATE_TIME_MS</code>).</p>
+<hr />
+<h2 id="phase-2-client-discovery-search">Phase 2 — Client Discovery (Search)<a class="headerlink" href="#phase-2-client-discovery-search" title="Permanent link">&para;</a></h2>
+<p>A client plugin (e.g. <code>PluginGroupClient</code>) that wants to find available hosts calls
+<code>HostClientMgr::sendHostSearchToNetworkHost()</code>.</p>
+<div class="highlight"><pre><span></span><code>Client node                          NetworkHost node
+    |                                        |
+    |--- TCP connect to NetworkHost --------&gt;|
+    |--- PktHostInviteSearchReq (hostType) -&gt;|
+    |&lt;-- PktHostInviteSearchReply (blob) ----|  (up to N HostedInfo entries)
+    |                                        |
+    | if more results:                       |
+    |--- PktHostInviteMoreReq --------------&gt;|
+    |&lt;-- PktHostInviteMoreReply (blob) ------|
+    | ...repeat until no more...             |
+</code></pre></div>
+<p>Each <code>PktHostInviteSearchReply</code> / <code>PktHostInviteMoreReply</code> carries a <code>PktBlobEntry</code> blob
+containing serialised <code>HostedInfo</code> records. The client de-serialises them and adds entries to
+its local list (<code>m_ChatRoomHostAnnList</code>, etc. on the client side).</p>
+<p><code>PktHostInviteSearchReq</code> supports targeting a <strong>specific host</strong> by setting
+<code>m_SpecificOnlineId</code>, which the NetworkHost uses to look up a single entry rather than
+returning the full list.</p>
+<hr />
+<h2 id="phase-3-joining-a-user-host">Phase 3 — Joining a User Host<a class="headerlink" href="#phase-3-joining-a-user-host" title="Permanent link">&para;</a></h2>
+<p>Once a client has the host's invite URL from the search result it connects directly to the
+user host (not through NetworkHost).</p>
+<div class="highlight"><pre><span></span><code>Client node                          User Host node
+    |                                        |
+    |--- TCP connect to Host URL -----------&gt;|
+    |--- PktHostJoinReq (hostType, ...) ----&gt;|
+    |                                        | HostServerMgr::onJoinRequested()
+    |                                        | → HostJoinMgr::onHostJoinRequestedByUser()
+    |                                        |   permission check
+    |&lt;--- PktHostJoinReply (state) ----------|
+</code></pre></div>
+<p><code>EMembershipState</code> values that can come back:
+* <code>eMembershipStateJoinGranted</code> — client is now active in the host session.
+* <code>eMembershipStateJoinRequested</code> — pending admin approval (host requires manual accept).
+* <code>eMembershipStateJoinDenied</code> — permission refused.</p>
+<p>On grant the host calls <code>HostServerMgr::onUserJoined()</code>, which adds the client's online ID to
+<code>m_ClientList</code> and <code>m_ContactList</code>.</p>
+<h3 id="leaving-un-joining">Leaving / Un-joining<a class="headerlink" href="#leaving-un-joining" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Packet</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PktHostLeaveReq</code></td>
+<td>Temporary departure (session ends but membership record kept)</td>
+</tr>
+<tr>
+<td><code>PktHostUnJoinReq</code></td>
+<td>Permanent removal of the join record from the host database</td>
+</tr>
+</tbody>
+</table>
+<p>Replies mirror the request type (<code>PktHostLeaveReply</code>, <code>PktHostUnJoinReply</code>).</p>
+<hr />
+<h2 id="phase-4-active-session-traffic">Phase 4 — Active Session Traffic<a class="headerlink" href="#phase-4-active-session-traffic" title="Permanent link">&para;</a></h2>
+<p>Once a client is joined, the host delivers session traffic to <strong>all connected clients</strong> via
+<code>broadcastToClients(pkt, excludeId)</code>. The <code>excludeId</code> is typically the sender's own ID to
+avoid echo.</p>
+<h3 id="grouphost-and-chatroomhost">GroupHost and ChatRoomHost<a class="headerlink" href="#grouphost-and-chatroomhost" title="Permanent link">&para;</a></h3>
+<p>Text chat, media streams, and user-info traffic is relayed through the host to all joined
+members. The host maintains a <code>UserList</code> (also in <code>HostServerMgr</code>) that tracks all members
+with their join state.</p>
+<p><strong>User-info sync on join</strong><br />
+When a new client connects, the host calls <code>sendMemberListToClient()</code> which sends <code>PktHostUserListReply</code> packets listing all currently connected members. The client then requests <code>PktHostUserInfoReq</code> for each member it does not yet know.</p>
+<p><strong>Admin availability broadcast</strong><br />
+When the host admin opens the host admin view:
+<div class="highlight"><pre><span></span><code><span class="n">GroupieId</span><span class="w"> </span><span class="nf">groupieId</span><span class="p">(</span><span class="w"> </span><span class="n">myOnlineId</span><span class="p">,</span><span class="w"> </span><span class="n">myOnlineId</span><span class="p">,</span><span class="w"> </span><span class="n">eHostTypeGroup</span><span class="w"> </span><span class="p">);</span>
+<span class="n">PktAdminAvail</span><span class="w"> </span><span class="n">pktAdminAvail</span><span class="p">;</span>
+<span class="n">pktAdminAvail</span><span class="p">.</span><span class="n">setAdminAvailable</span><span class="p">(</span><span class="w"> </span><span class="n">adminIsViewing</span><span class="w"> </span><span class="p">);</span>
+<span class="n">broadcastToClients</span><span class="p">(</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pktAdminAvail</span><span class="p">,</span><span class="w"> </span><span class="n">excludeId</span><span class="w"> </span><span class="p">);</span>
+</code></pre></div></p>
+<h3 id="randomconnecthost">RandomConnectHost<a class="headerlink" href="#randomconnecthost" title="Permanent link">&para;</a></h3>
+<p>RandomConnectHost is a <strong>relay</strong> — it does not maintain persistent chat sessions.</p>
+<p><strong>Random connect flow:</strong>
+<div class="highlight"><pre><span></span><code>UserA                      RandomConnectHost                     UserB
+  |                                |                               |
+  |--- PktRandConnectReq ---------&gt;|                               |
+  |    (groupieId, toUserId,       |--- PktRandConnectReply ------&gt;|
+  |     randAction)                |    broadcast to ALL clients   |
+  |                                |    (including UserA)          |
+</code></pre></div></p>
+<p><code>PktRandConnectReq</code> fields:
+* <code>m_RandAction</code> — <code>ERandAction</code> enum (e.g. offer to call, accept call, etc.)
+* <code>m_UserOnlineId</code> / <code>m_HostOnlineId</code> — form the <code>GroupieId</code>
+* <code>m_ToUserOnlineId</code> — the intended recipient (broadcast still goes to all; recipient filters by ID)</p>
+<p>The host simply rebroadcasts <code>PktRandConnectReply</code> to every connected client with the same
+fields. Clients filter by <code>toUserOnlineId</code> to determine if the action is for them.</p>
+<hr />
+<h2 id="connection-lifecycle-summary">Connection Lifecycle Summary<a class="headerlink" href="#connection-lifecycle-summary" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Plugin startup
+  └── pluginStartup() → PluginBaseHostService::pluginStartup()
+
+Setting saved / plugin enabled
+  └── buildHostAnnounce() → sendHostAnnounce()
+                              └── connectToHost(NetworkHost)
+                                    └── txPacket(PktHostInviteAnnounceReq)
+
+Every 15 minutes
+  └── onThreadOncePer15Minutes() → sendHostAnnounce()
+
+Client connects (inbound TCP)
+  └── onPktHostJoinReq()
+       └── HostServerMgr::onJoinRequested()
+            └── HostJoinMgr::onHostJoinRequestedByUser()  [permission check]
+                 └── reply PktHostJoinReply
+                      └── if granted → onUserJoined() → add to m_ClientList
+
+Client sends message / media
+  └── host&#39;s plugin packet handler
+       └── broadcastToClients(pkt, excludeSender)
+
+Client disconnects / goes offline
+  └── onContactWentOffline() → onConnectionLost()
+       └── HostServerMgr::removeClient()
+       └── broadcast departure notice to remaining clients
+</code></pre></div>
+<hr />
+<h2 id="membership-and-permission-checks">Membership and Permission Checks<a class="headerlink" href="#membership-and-permission-checks" title="Permanent link">&para;</a></h2>
+<p><code>getMembershipState(VxNetIdent*)</code> on each host plugin checks:</p>
+<ol>
+<li><code>getPluginPermission()</code> — if <code>eFriendStateIgnore</code> the host is disabled; returns <code>eMembershipStateJoinDenied</code>.</li>
+<li>Delegates to <code>HostServerMgr::getMembershipState()</code> which looks up the user's <code>EJoinState</code>
+   in <code>HostJoinInfoDb</code>.</li>
+</ol>
+<p>The join database persists between sessions so returning members are recognised immediately.</p>
+<hr />
+<h2 id="packet-reference">Packet Reference<a class="headerlink" href="#packet-reference" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Packet class</th>
+<th>Direction</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PktHostInviteAnnounceReq</code></td>
+<td>UserHost → NetworkHost</td>
+<td>Register / refresh host listing</td>
+</tr>
+<tr>
+<td><code>PktHostInviteAnnounceReply</code></td>
+<td>NetworkHost → UserHost</td>
+<td>Acknowledgement</td>
+</tr>
+<tr>
+<td><code>PktHostInviteSearchReq</code></td>
+<td>Client → NetworkHost</td>
+<td>Request list of hosts</td>
+</tr>
+<tr>
+<td><code>PktHostInviteSearchReply</code></td>
+<td>NetworkHost → Client</td>
+<td>First page of host entries</td>
+</tr>
+<tr>
+<td><code>PktHostInviteMoreReq</code></td>
+<td>Client → NetworkHost</td>
+<td>Request next page</td>
+</tr>
+<tr>
+<td><code>PktHostInviteMoreReply</code></td>
+<td>NetworkHost → Client</td>
+<td>Next page of host entries</td>
+</tr>
+<tr>
+<td><code>PktHostJoinReq</code></td>
+<td>Client → UserHost</td>
+<td>Request to join</td>
+</tr>
+<tr>
+<td><code>PktHostJoinReply</code></td>
+<td>UserHost → Client</td>
+<td>Join state result</td>
+</tr>
+<tr>
+<td><code>PktHostLeaveReq</code></td>
+<td>Client → UserHost</td>
+<td>Temporary leave</td>
+</tr>
+<tr>
+<td><code>PktHostLeaveReply</code></td>
+<td>UserHost → Client</td>
+<td>Leave acknowledgement</td>
+</tr>
+<tr>
+<td><code>PktHostUnJoinReq</code></td>
+<td>Client → UserHost</td>
+<td>Permanent unjoin</td>
+</tr>
+<tr>
+<td><code>PktHostUnJoinReply</code></td>
+<td>UserHost → Client</td>
+<td>Unjoin acknowledgement</td>
+</tr>
+<tr>
+<td><code>PktHostOfferReq</code></td>
+<td>Client → UserHost</td>
+<td>Offer (e.g. to join) with optional message</td>
+</tr>
+<tr>
+<td><code>PktHostOfferReply</code></td>
+<td>UserHost → Client</td>
+<td>Offer response</td>
+</tr>
+<tr>
+<td><code>PktHostInfoReq</code></td>
+<td>Client ↔ UserHost</td>
+<td>Request host metadata</td>
+</tr>
+<tr>
+<td><code>PktHostInfoReply</code></td>
+<td>UserHost → Client</td>
+<td>Host title, description, thumbnail</td>
+</tr>
+<tr>
+<td><code>PktHostSearchReq</code></td>
+<td>Client → UserHost</td>
+<td>Search for content within the host</td>
+</tr>
+<tr>
+<td><code>PktHostUserInfoReq</code></td>
+<td>Client ↔ Host</td>
+<td>Request identity/info for a specific member</td>
+</tr>
+<tr>
+<td><code>PktHostUserInfoReply</code></td>
+<td>Host → Client</td>
+<td>Member identity data</td>
+</tr>
+<tr>
+<td><code>PktHostUserListReq</code></td>
+<td>Client → Host</td>
+<td>Request current member list</td>
+</tr>
+<tr>
+<td><code>PktHostUserListReply</code></td>
+<td>Host → Client</td>
+<td>Member list (first page)</td>
+</tr>
+<tr>
+<td><code>PktHostUserListMoreReq</code></td>
+<td>Client → Host</td>
+<td>Next page of member list</td>
+</tr>
+<tr>
+<td><code>PktHostUserListMoreReply</code></td>
+<td>Host → Client</td>
+<td>Member list continuation</td>
+</tr>
+<tr>
+<td><code>PktAdminAvail</code></td>
+<td>Host → All clients</td>
+<td>Admin opened/closed the host view</td>
+</tr>
+<tr>
+<td><code>PktRandConnectReq</code></td>
+<td>Client → RandomConnectHost</td>
+<td>Initiate or respond to random connect action</td>
+</tr>
+<tr>
+<td><code>PktRandConnectReply</code></td>
+<td>RandomConnectHost → All clients</td>
+<td>Broadcasted relay of the request</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../README-STARTUP-SEQUENCE/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Startup Sequence">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Startup Sequence
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../README-VIDEO-STREAM/" class="md-footer__link md-footer__link--next" aria-label="Next: Video Stream">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Video Stream
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.reload", "navigation.tabs", "navigation.top", "navigation.footer", "navigation.expand", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit", "content.action.view", "announce"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/download-index.js"></script>
+      
+    
+  </body>
+</html>
