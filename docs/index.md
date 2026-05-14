@@ -20,6 +20,8 @@ Use the public bootstrap hosts to get started quickly, then move to your own pri
 
 ➡️ [Screenshots](screenshots.md)
 
+➡️ [Demo Video](demo-video.md)
+
 ---
 
 ## 🚀 Get Started
