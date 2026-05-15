@@ -1,18 +1,45 @@
-name: ci 
+name: ci
+
 on:
   push:
     branches:
-      - main 
+      - main
+
 permissions:
   contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Configure Python
+
+      - name: Configure Python Environment
         uses: actions/setup-python@v5
         with:
           python-version: 3.x
-      - run: pip install mkdocs-material 
-      - run: mkdocs gh-deploy --force
+
+      - name: Install MkDocs Environment
+        run: pip install mkdocs-material
+
+      - name: Set up Flatpak Environment Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak flatpak-builder ostree
+
+      # --default-branch ensures the runner picks 6.9 immediately without a prompt
+      - name: Configure KDE 6.9 SDK Environment
+        run: |
+          flatpak remote-add --user --if-not-exists flathub https://flathub.org
+          flatpak install --user -y flathub org.kde.Sdk//6.9 org.kde.Platform//6.9 --default-branch=6.9
+
+      # Initializes and compiles directly inside docs/ so MkDocs deploys it natively
+      - name: Initialize and Compile Flatpak Ostree Repo
+        run: |
+          mkdir -p docs/nlc-repo
+          ostree --repo=docs/nlc-repo init --mode=archive
+          flatpak-builder --repo=docs/nlc-repo --force-clean build-dir org.nolimitconnect.NoLimitConnect.yml
+          flatpak build-update-repo docs/nlc-repo
+
+      - name: Build Website and Deploy to GitHub Pages
+        run: mkdocs gh-deploy --force
