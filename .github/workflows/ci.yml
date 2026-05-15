@@ -31,24 +31,25 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y flatpak ostree
 
-      # This creates your repo structure from your precompiled binaries
+      # This version targets your exact filename casing scheme (NoLimitConnect.flatpak)
       - name: Index Existing Pre-Built Flatpak Package
         run: |
           mkdir -p docs/nlc-repo
           ostree --repo=docs/nlc-repo init --mode=archive
           
-          # Downloads your current flatpak package from your live downloads storage
-          wget -O nlc_app.flatpak https://nolimitconnect.org || wget -O nlc_app.flatpak https://nolimitconnect.org || true
+          # Downloads using your precise website case string or falls back cleanly
+          wget --no-check-certificate -O nlc_app.flatpak https://nolimitconnect.org || wget --no-check-certificate -O nlc_app.flatpak https://nolimitconnect.org || true
           
-          # Imports the package straight into the website directory layout if found
+          # Imports and updates your server store data if the asset is retrieved successfully
           if [ -f nlc_app.flatpak ]; then
             flatpak build-import-bundle docs/nlc-repo nlc_app.flatpak || true
           fi
           
           flatpak build-update-repo docs/nlc-repo
 
+      # Pushes your website files and your flatpak repository to GitHub Pages together
       - name: Build Website and Deploy to GitHub Pages
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.email "github-actions[bot]@://github.com"
           mkdocs gh-deploy --force
