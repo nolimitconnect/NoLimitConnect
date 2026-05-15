@@ -31,38 +31,35 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y flatpak ostree jq
 
-      # Dynamically detects the latest tag and downloads your specific multi-arch binaries
+      # Nukes old cache folders completely to resolve the invalid checksum errors
       - name: Index Latest Multi-Arch Flatpak Packages
         run: |
+          rm -rf docs/nlc-repo
           mkdir -p docs/nlc-repo
           ostree --repo=docs/nlc-repo init --mode=archive
           
-          echo "=== Detecting Latest Release Assets ==="
-          # Scrapes your repository's latest release payload data via GitHub APIs
+          echo "=== Fetching Dynamic Release Metadata ==="
           RELEASE_JSON=$(curl -s https://github.com)
           
-          # Extracts the absolute browser download URL strings matching your build types
           ARM64_URL=$(echo "$RELEASE_JSON" | jq -r '.assets[] | select(.name | contains("arm64.flatpak")) | .browser_download_url' | head -n 1)
           X86_URL=$(echo "$RELEASE_JSON" | jq -r '.assets[] | select(.name == "NoLimitConnect.flatpak") | .browser_download_url' | head -n 1)
           
-          echo "Downloading ARM64 from: $ARM64_URL"
           if [ ! -z "$ARM64_URL" ] && [ "$ARM64_URL" != "null" ]; then
+            echo "Downloading ARM64 from: $ARM64_URL"
             wget -q -O nlc_arm64.flatpak "$ARM64_URL"
           fi
           
-          echo "Downloading x86_64 from: $X86_URL"
           if [ ! -z "$X86_URL" ] && [ "$X86_URL" != "null" ]; then
+            echo "Downloading x86_64 from: $X86_URL"
             wget -q -O nlc_x86.flatpak "$X86_URL"
           fi
           
-          echo "=== Merging Assets to Store Index ==="
+          echo "=== Importing Clean Bundles ==="
           if [ -f nlc_arm64.flatpak ] && [ -s nlc_arm64.flatpak ]; then
-            echo "Indexing ARM64 architecture variant..."
             flatpak build-import-bundle docs/nlc-repo nlc_arm64.flatpak || true
           fi
           
           if [ -f nlc_x86.flatpak ] && [ -s nlc_x86.flatpak ]; then
-            echo "Indexing x86_64 desktop architecture variant..."
             flatpak build-import-bundle docs/nlc-repo nlc_x86.flatpak || true
           fi
           
