@@ -39,18 +39,41 @@ If the live metadata endpoint is unavailable, use the snapshot below.
 <!-- END SECTION: android-signed -->
 
 <!-- BEGIN SECTION: flatpak -->
-## Flatpak (x64)
-- No deployed package yet.
-- Notes: Flatpak bundle for Linux x64 desktops with Flatpak support.
-<!-- END SECTION: flatpak -->
+## Flatpak (Universal – All Architectures)
 
-<!-- BEGIN SECTION: flatpak-arm64 -->
-## Flatpak (ARM64)
-- Latest package: [nolimitconnect-arm64.flatpak](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.1/nolimitconnect-arm64.flatpak)
-- SHA-256: [nolimitconnect-arm64.flatpak.sha256](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.1/nolimitconnect-arm64.flatpak.sha256)
+**Recommended for Linux users.** One-click installation via custom remote.
+
+### Install via Remote (Recommended)
+
+Copy and run this command in your terminal:
+
+```bash
+flatpak remote-add --if-not-exists --no-gpg-verify nlc https://nolimitconnect.org/nlc-repo && \
+flatpak install -y nlc org.nolimitconnect.NoLimitConnect
+```
+
+Or use the one-click remote setup script:
+
+```bash
+curl -fsSL https://nolimitconnect.org/install-flatpak.sh | bash
+```
+
+### Direct Download (All Architectures)
+
+- **x86_64**: [nolimitconnect-x64.flatpak](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.1/nolimitconnect-x64.flatpak) | [SHA-256](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.1/nolimitconnect-x64.flatpak.sha256)
+- **ARM64**: [nolimitconnect-arm64.flatpak](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.1/nolimitconnect-arm64.flatpak) | [SHA-256](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.1/nolimitconnect-arm64.flatpak.sha256)
 - Last updated: 2026-05-11 22:02:54 UTC
-- Notes: Flatpak bundle for Linux ARM64 desktops with Flatpak support.
-<!-- END SECTION: flatpak-arm64 -->
+
+**Install from downloaded bundle:**
+
+```bash
+flatpak install ./nolimitconnect-x64.flatpak
+# or for ARM64:
+flatpak install ./nolimitconnect-arm64.flatpak
+```
+
+- Notes: Flatpak package for Linux desktops with Flatpak support (x86_64 and ARM64).
+<!-- END SECTION: flatpak -->
 
 <!-- END GENERATED DOWNLOADS -->
 
