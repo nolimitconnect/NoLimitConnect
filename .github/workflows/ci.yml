@@ -68,6 +68,15 @@ jobs:
 
           flatpak build-update-repo docs/nlc-repo
 
+          echo "=== Repository refs ==="
+          ostree --repo=docs/nlc-repo refs | tee /tmp/nlc-flatpaks/refs.txt
+
+          APP_REFS=$(grep -c '^app/' /tmp/nlc-flatpaks/refs.txt || true)
+          if [ "$APP_REFS" -eq 0 ]; then
+            echo "No app refs were imported into docs/nlc-repo."
+            exit 1
+          fi
+
           if [ ! -f docs/nlc-repo/summary ]; then
             echo "Flatpak summary file was not generated."
             exit 1
