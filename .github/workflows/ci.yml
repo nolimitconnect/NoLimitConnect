@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: # Allows you to manually trigger this build via the GitHub CLI
+  workflow_dispatch:
 
 permissions: write-all
 
@@ -31,10 +31,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y flatpak flatpak-builder ostree
 
+      # We swap --user out for global execution using sudo so the runner permissions don't collision block
       - name: Configure KDE 6.9 SDK Environment
         run: |
-          flatpak remote-add --user --if-not-exists flathub https://flathub.org
-          flatpak install --user -y flathub org.kde.Sdk//6.9 org.kde.Platform//6.9 --default-branch=6.9
+          sudo flatpak remote-add --if-not-exists flathub https://flathub.org
+          sudo flatpak install -y flathub org.kde.Sdk//6.9 org.kde.Platform//6.9
 
       - name: Initialize and Compile Flatpak Ostree Repo
         run: |
