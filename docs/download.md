@@ -37,7 +37,7 @@ If the live metadata endpoint is unavailable, use the snapshot below.
 - No deployed package yet.
 - Notes: Signed APK intended for release distribution.
 <!-- END SECTION: android-signed -->
-
+ 
 <!-- BEGIN SECTION: flatpak -->
 ## Flatpak (Universal – All Architectures)
 
