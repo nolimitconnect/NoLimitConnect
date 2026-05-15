@@ -53,3 +53,63 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           mkdocs gh-deploy --force
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions: write-all
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+
+      - name: Install MkDocs Environment
+        run: |
+          pip install --upgrade pip
+          pip install mkdocs-material
+
+      - name: Set up Flatpak Environment Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak flatpak-builder ostree
+
+      # This explicitly initializes the system repository mapping metadata paths first
+      - name: Initialize Flatpak System Configuration
+        run: |
+          sudo flatpak install --system -y --no-deploy --noop flathub || true
+
+      - name: Add Flathub Remote Repository
+        run: |
+          sudo flatpak remote-add --system --if-not-exists flathub https://flathub.org
+
+      # Added -v (verbose) and --no-related to install the core SDK packages strictly and cleanly
+      - name: Install KDE 6.9 Runtimes
+        run: |
+          sudo flatpak install --system --noninteractive -y -v flathub org.kde.Platform//6.9
+          sudo flatpak install --system --noninteractive -y -v flathub org.kde.Sdk//6.9
+
+      - name: Initialize and Compile Flatpak Ostree Repo
+        run: |
+          mkdir -p docs/nlc-repo
+          ostree --repo=docs/nlc-repo init --mode=archive
+          flatpak-builder --repo=docs/nlc-repo --force-clean build-dir org.nolimitconnect.NoLimitConnect.yml
+          flatpak build-update-repo docs/nlc-repo
+
+      - name: Build Website and Deploy to GitHub Pages
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          mkdocs gh-deploy --force
