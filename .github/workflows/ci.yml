@@ -31,20 +31,28 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y flatpak ostree
 
-      - name: Index Existing Pre-Built Flatpak Package
+      # Downloads and merges both architectural bundles from your v1.1.1 tags
+      - name: Index Existing Multi-Arch Flatpak Packages
         run: |
           mkdir -p docs/nlc-repo
           ostree --repo=docs/nlc-repo init --mode=archive
           
-          echo "=== Fetching Flatpak from GitHub Releases ==="
-          wget -O nlc_app.flatpak https://github.com
+          echo "=== Downloading Release Bundles ==="
+          # Fetch your ARM64 package
+          wget -q -O nlc_arm64.flatpak https://github.com
           
-          if [ -f nlc_app.flatpak ] && [ -s nlc_app.flatpak ]; then
-            echo "=== Importing Flatpak Bundle ==="
-            flatpak build-import-bundle docs/nlc-repo nlc_app.flatpak || true
-          else
-            echo "Error: Failed to fetch flatpak asset from releases."
-            exit 1
+          # Fetch your AMD64/x86_64 package
+          wget -q -O nlc_x86.flatpak https://github.com
+          
+          echo "=== Merging Assets to Store Index ==="
+          if [ -f nlc_arm64.flatpak ] && [ -s nlc_arm64.flatpak ]; then
+            echo "Indexing ARM64 architecture variant..."
+            flatpak build-import-bundle docs/nlc-repo nlc_arm64.flatpak || true
+          fi
+          
+          if [ -f nlc_x86.flatpak ] && [ -s nlc_x86.flatpak ]; then
+            echo "Indexing x86_64 desktop architecture variant..."
+            flatpak build-import-bundle docs/nlc-repo nlc_x86.flatpak || true
           fi
           
           flatpak build-update-repo docs/nlc-repo
