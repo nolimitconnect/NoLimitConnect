@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch: # Allows you to manually trigger this build via the GitHub CLI
 
 permissions: write-all
 
@@ -35,7 +36,6 @@ jobs:
           flatpak remote-add --user --if-not-exists flathub https://flathub.org
           flatpak install --user -y flathub org.kde.Sdk//6.9 org.kde.Platform//6.9 --default-branch=6.9
 
-      # Builds the repo straight into docs/ so MkDocs treats it as standard website assets
       - name: Initialize and Compile Flatpak Ostree Repo
         run: |
           mkdir -p docs/nlc-repo
@@ -43,7 +43,6 @@ jobs:
           flatpak-builder --repo=docs/nlc-repo --force-clean build-dir org.nolimitconnect.NoLimitConnect.yml
           flatpak build-update-repo docs/nlc-repo
 
-      # Configures the background git credentials so mkdocs doesn't run into a write block
       - name: Build Website and Deploy to GitHub Pages
         run: |
           git config --global user.name "github-actions[bot]"
