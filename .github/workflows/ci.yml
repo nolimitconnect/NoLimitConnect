@@ -31,7 +31,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y flatpak ostree jq
 
-      # Nukes old cache folders completely to resolve the invalid checksum errors
       - name: Index Latest Multi-Arch Flatpak Packages
         run: |
           rm -rf docs/nlc-repo
@@ -65,7 +64,10 @@ jobs:
           
           flatpak build-update-repo docs/nlc-repo
 
+      # Injecting GITHUB_TOKEN gives mkdocs the permissions it needs to complete the push
       - name: Build Website and Deploy to GitHub Pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
