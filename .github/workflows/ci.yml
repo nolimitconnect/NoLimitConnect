@@ -31,11 +31,18 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y flatpak flatpak-builder ostree
 
-      # We swap --user out for global execution using sudo so the runner permissions don't collision block
-      - name: Configure KDE 6.9 SDK Environment
+      # Downloads the exact Flathub GPG signing keys straight to the runner's trust store
+      - name: Add Flathub Remote Repository
         run: |
           sudo flatpak remote-add --if-not-exists flathub https://flathub.org
-          sudo flatpak install -y flathub org.kde.Sdk//6.9 org.kde.Platform//6.9
+
+      - name: Install KDE 6.9 Platform
+        run: |
+          sudo flatpak install -y flathub org.kde.Platform//6.9
+
+      - name: Install KDE 6.9 SDK
+        run: |
+          sudo flatpak install -y flathub org.kde.Sdk//6.9
 
       - name: Initialize and Compile Flatpak Ostree Repo
         run: |
@@ -47,5 +54,5 @@ jobs:
       - name: Build Website and Deploy to GitHub Pages
         run: |
           git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.email "github-actions[bot]@://github.com"
           mkdocs gh-deploy --force
