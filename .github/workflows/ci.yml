@@ -29,20 +29,31 @@ jobs:
       - name: Set up Minimal Flatpak Infrastructure
         run: |
           sudo apt-get update
-          sudo apt-get install -y flatpak ostree
+          sudo apt-get install -y flatpak ostree jq
 
-      # Downloads and merges both architectural bundles from your v1.1.1 tags
-      - name: Index Existing Multi-Arch Flatpak Packages
+      # Dynamically detects the latest tag and downloads your specific multi-arch binaries
+      - name: Index Latest Multi-Arch Flatpak Packages
         run: |
           mkdir -p docs/nlc-repo
           ostree --repo=docs/nlc-repo init --mode=archive
           
-          echo "=== Downloading Release Bundles ==="
-          # Fetch your ARM64 package
-          wget -q -O nlc_arm64.flatpak https://github.com
+          echo "=== Detecting Latest Release Assets ==="
+          # Scrapes your repository's latest release payload data via GitHub APIs
+          RELEASE_JSON=$(curl -s https://github.com)
           
-          # Fetch your AMD64/x86_64 package
-          wget -q -O nlc_x86.flatpak https://github.com
+          # Extracts the absolute browser download URL strings matching your build types
+          ARM64_URL=$(echo "$RELEASE_JSON" | jq -r '.assets[] | select(.name | contains("arm64.flatpak")) | .browser_download_url' | head -n 1)
+          X86_URL=$(echo "$RELEASE_JSON" | jq -r '.assets[] | select(.name == "NoLimitConnect.flatpak") | .browser_download_url' | head -n 1)
+          
+          echo "Downloading ARM64 from: $ARM64_URL"
+          if [ ! -z "$ARM64_URL" ] && [ "$ARM64_URL" != "null" ]; then
+            wget -q -O nlc_arm64.flatpak "$ARM64_URL"
+          fi
+          
+          echo "Downloading x86_64 from: $X86_URL"
+          if [ ! -z "$X86_URL" ] && [ "$X86_URL" != "null" ]; then
+            wget -q -O nlc_x86.flatpak "$X86_URL"
+          fi
           
           echo "=== Merging Assets to Store Index ==="
           if [ -f nlc_arm64.flatpak ] && [ -s nlc_arm64.flatpak ]; then
