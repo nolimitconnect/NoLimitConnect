@@ -3,7 +3,64 @@ name: ci
 on:
   push:
     branches:
+      - mainname: ci
+
+on:
+  push:
+    branches:
       - main
+  workflow_dispatch:
+
+permissions: write-all
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+
+      - name: Install MkDocs Environment
+        run: |
+          pip install --upgrade pip
+          pip install mkdocs-material
+
+      - name: Set up Minimal Flatpak Infrastructure
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y flatpak ostree
+
+      # Pulls the active application bundle file directly from your repository's release assets
+      - name: Index Existing Pre-Built Flatpak Package
+        run: |
+          mkdir -p docs/nlc-repo
+          ostree --repo=docs/nlc-repo init --mode=archive
+          
+          echo "=== Fetching Flatpak from GitHub Releases ==="
+          wget -O nlc_app.flatpak https://github.com
+          
+          if [ -f nlc_app.flatpak ] && [ -s nlc_app.flatpak ]; then
+            echo "=== Importing Flatpak Bundle ==="
+            flatpak build-import-bundle docs/nlc-repo nlc_app.flatpak || true
+          else
+            echo "Error: Failed to fetch flatpak asset from releases."
+            exit 1
+          fi
+          
+          flatpak build-update-repo docs/nlc-repo
+
+      - name: Build Website and Deploy to GitHub Pages
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@://github.com"
+          mkdocs gh-deploy --force
+
   workflow_dispatch:
 
 permissions: write-all
