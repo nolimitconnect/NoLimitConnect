@@ -5,14 +5,15 @@ on:
     branches:
       - main
 
-permissions:
-  contents: write
+permissions: write-all
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configure Python Environment
         uses: actions/setup-python@v5
@@ -20,20 +21,21 @@ jobs:
           python-version: 3.x
 
       - name: Install MkDocs Environment
-        run: pip install mkdocs-material
+        run: |
+          pip install --upgrade pip
+          pip install mkdocs-material
 
       - name: Set up Flatpak Environment Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y flatpak flatpak-builder ostree
 
-      # --default-branch ensures the runner picks 6.9 immediately without a prompt
       - name: Configure KDE 6.9 SDK Environment
         run: |
           flatpak remote-add --user --if-not-exists flathub https://flathub.org
           flatpak install --user -y flathub org.kde.Sdk//6.9 org.kde.Platform//6.9 --default-branch=6.9
 
-      # Initializes and compiles directly inside docs/ so MkDocs deploys it natively
+      # Builds the repo straight into docs/ so MkDocs treats it as standard website assets
       - name: Initialize and Compile Flatpak Ostree Repo
         run: |
           mkdir -p docs/nlc-repo
@@ -41,5 +43,9 @@ jobs:
           flatpak-builder --repo=docs/nlc-repo --force-clean build-dir org.nolimitconnect.NoLimitConnect.yml
           flatpak build-update-repo docs/nlc-repo
 
+      # Configures the background git credentials so mkdocs doesn't run into a write block
       - name: Build Website and Deploy to GitHub Pages
-        run: mkdocs gh-deploy --force
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          mkdocs gh-deploy --force
