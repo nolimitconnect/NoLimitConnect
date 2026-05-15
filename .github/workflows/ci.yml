@@ -59,6 +59,7 @@ jobs:
               asset_name=$(basename "$asset_url")
               echo "Downloading $asset_name"
               curl -fL "$asset_url" -o "/tmp/nlc-flatpaks/$asset_name"
+              ls -lh "/tmp/nlc-flatpaks/$asset_name"
               flatpak build-import-bundle docs/nlc-repo "/tmp/nlc-flatpaks/$asset_name"
             done < /tmp/nlc-flatpaks/urls.txt
           else
@@ -74,6 +75,12 @@ jobs:
           APP_REFS=$(grep -c '^app/' /tmp/nlc-flatpaks/refs.txt || true)
           if [ "$APP_REFS" -eq 0 ]; then
             echo "No app refs were imported into docs/nlc-repo."
+            exit 1
+          fi
+
+          EXPECTED_REFS=$(grep -c '^app/org\.nolimitconnect\.NoLimitConnect/' /tmp/nlc-flatpaks/refs.txt || true)
+          if [ "$EXPECTED_REFS" -eq 0 ]; then
+            echo "Expected org.nolimitconnect.NoLimitConnect refs were not found in docs/nlc-repo."
             exit 1
           fi
 
