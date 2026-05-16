@@ -245,6 +245,8 @@
 
   function checkFlatpakSignatureHealth() {
     var warning = document.getElementById('flatpak-signature-warning');
+    var verifiedInstallBlock = document.getElementById('flatpak-verified-install-block');
+    var fallbackInstallBlock = document.getElementById('flatpak-fallback-install-block');
     if (!warning) {
       return;
     }
@@ -260,6 +262,11 @@
     ).then(function (results) {
       var allPresent = results.every(function (ok) { return ok; });
       warning.hidden = allPresent;
+
+      if (verifiedInstallBlock && fallbackInstallBlock) {
+        verifiedInstallBlock.hidden = !allPresent;
+        fallbackInstallBlock.hidden = allPresent;
+      }
     });
   }
 
