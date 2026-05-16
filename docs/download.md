@@ -12,32 +12,6 @@ This section is loaded from GitHub Releases metadata at page load.
 
 <div id="dynamic-downloads">Loading latest package metadata from GitHub...</div>
 
-## Fallback Snapshot
-
-If the live metadata endpoint is unavailable, use the snapshot below.
-
-<!-- BEGIN GENERATED DOWNLOADS -->
-
-<!-- BEGIN SECTION: windows -->
-## Windows
-- Latest package: See the latest GitHub release assets above.
-- SHA-256: Download the matching `.sha256` sidecar from the same GitHub release.
-- Last updated: 2026-03-22 09:39:05 UTC
-- Notes: NSIS installer for Windows x64.
-<!-- END SECTION: windows -->
-
-<!-- BEGIN SECTION: linux -->
-## Linux
-- No deployed package yet.
-- Notes: Debian package for Linux x64.
-<!-- END SECTION: linux -->
-
-<!-- BEGIN SECTION: android-signed -->
-## Android
-- No deployed package yet.
-- Notes: Signed APK intended for release distribution.
-<!-- END SECTION: android-signed -->
- 
 <!-- BEGIN SECTION: flatpak -->
 ## Flatpak (Universal – All Architectures)
 
