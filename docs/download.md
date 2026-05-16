@@ -30,26 +30,12 @@ This section is loaded from GitHub Releases metadata at page load.
 
 Copy and run this command in your terminal:
 
-<div id="flatpak-verified-install-block">
-
-```bash
-curl -fsSL https://nolimitconnect.org/nlc-flatpak-public.gpg -o /tmp/nlc-flatpak-public.gpg && \
-flatpak remote-add --if-not-exists --gpg-import=/tmp/nlc-flatpak-public.gpg nlc https://nolimitconnect.org/nlc-repo && \
-flatpak install -y nlc org.nolimitconnect.NoLimitConnect
-```
-
-</div>
-
-<div id="flatpak-fallback-install-block" hidden>
-
 ```bash
 curl -fsSL https://nolimitconnect.org/nlc-flatpak-public.gpg -o /tmp/nlc-flatpak-public.gpg && \
 flatpak remote-add --if-not-exists --gpg-import=/tmp/nlc-flatpak-public.gpg --gpg-verify-summary=false nlc https://nolimitconnect.org/nlc-repo && \
 flatpak remote-modify --gpg-verify-summary=false nlc && \
 flatpak install -y nlc org.nolimitconnect.NoLimitConnect
 ```
-
-</div>
 
 Public key URL: <https://nolimitconnect.org/nlc-flatpak-public.gpg>
 

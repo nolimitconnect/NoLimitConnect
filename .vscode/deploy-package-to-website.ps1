@@ -311,26 +311,12 @@ function Update-DownloadPageSection {
             '' + $nl +
             '### Install via Remote (Recommended)' + $nl +
             '' + $nl +
-            '<div id="flatpak-verified-install-block">' + $nl +
-            '' + $nl +
-            '```bash' + $nl +
-            "curl -fsSL $FlatpakPublicKeyUrl -o /tmp/nlc-flatpak-public.gpg && \" + $nl +
-            "flatpak remote-add --if-not-exists --gpg-import=/tmp/nlc-flatpak-public.gpg $FlatpakRemoteName $FlatpakRemoteUrl && \" + $nl +
-            'flatpak install -y nlc org.nolimitconnect.NoLimitConnect' + $nl +
-            '```' + $nl +
-            '' + $nl +
-            '</div>' + $nl +
-            '' + $nl +
-            '<div id="flatpak-fallback-install-block" hidden>' + $nl +
-            '' + $nl +
             '```bash' + $nl +
             "curl -fsSL $FlatpakPublicKeyUrl -o /tmp/nlc-flatpak-public.gpg && \" + $nl +
             "flatpak remote-add --if-not-exists --gpg-import=/tmp/nlc-flatpak-public.gpg --gpg-verify-summary=false $FlatpakRemoteName $FlatpakRemoteUrl && \" + $nl +
             "flatpak remote-modify --gpg-verify-summary=false $FlatpakRemoteName && \" + $nl +
             'flatpak install -y nlc org.nolimitconnect.NoLimitConnect' + $nl +
             '```' + $nl +
-            '' + $nl +
-            '</div>' + $nl +
             '' + $nl +
             "Public key URL: <$FlatpakPublicKeyUrl>" + $nl +
             '' + $nl +
