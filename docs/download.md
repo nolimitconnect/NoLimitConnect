@@ -25,22 +25,14 @@ If you are new to NoLimitConnect, start with public bootstrap hosts first, then 
 Copy and run this command in your terminal:
 
 ```bash
-curl -fsSL https://nolimitconnect.org/nlc-flatpak-public.gpg -o /tmp/nlc-flatpak-public.gpg && \
-flatpak remote-add --if-not-exists --gpg-import=/tmp/nlc-flatpak-public.gpg --gpg-verify-summary=false nlc https://nolimitconnect.org/nlc-repo && \
-flatpak remote-modify --gpg-verify-summary=false nlc && \
-flatpak install -y nlc org.nolimitconnect.NoLimitConnect
+curl -fsSL https://nolimitconnect.org/install-flatpak.sh | bash
 ```
 
 Public key URL: <https://nolimitconnect.org/nlc-flatpak-public.gpg>
 
-
-Or use the one-click remote setup script:
+The installer script uses the signed remote when available and falls back to a direct bundle install when remote signatures are temporarily unavailable.
 
 <button onclick="navigator.clipboard.writeText('curl -fsSL https://nolimitconnect.org/install-flatpak.sh | bash')">Copy Install Command</button>
-
-```bash
-curl -fsSL https://nolimitconnect.org/install-flatpak.sh | bash
-```
 
 <small>Click the button to copy the install command, then paste it into your terminal.</small>
 

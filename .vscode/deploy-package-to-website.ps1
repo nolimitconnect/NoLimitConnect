@@ -312,13 +312,12 @@ function Update-DownloadPageSection {
             '### Install via Remote (Recommended)' + $nl +
             '' + $nl +
             '```bash' + $nl +
-            "curl -fsSL $FlatpakPublicKeyUrl -o /tmp/nlc-flatpak-public.gpg && \" + $nl +
-            "flatpak remote-add --if-not-exists --gpg-import=/tmp/nlc-flatpak-public.gpg --gpg-verify-summary=false $FlatpakRemoteName $FlatpakRemoteUrl && \" + $nl +
-            "flatpak remote-modify --gpg-verify-summary=false $FlatpakRemoteName && \" + $nl +
-            'flatpak install -y nlc org.nolimitconnect.NoLimitConnect' + $nl +
+            'curl -fsSL https://nolimitconnect.org/install-flatpak.sh | bash' + $nl +
             '```' + $nl +
             '' + $nl +
             "Public key URL: <$FlatpakPublicKeyUrl>" + $nl +
+            '' + $nl +
+            'The installer script uses the signed remote when available and falls back to a direct bundle install when remote signatures are temporarily unavailable.' + $nl +
             '' + $nl +
             '### Direct Download' + $nl +
             "- Latest package: [$ArtifactName]($ArtifactUrl)" + $nl +
