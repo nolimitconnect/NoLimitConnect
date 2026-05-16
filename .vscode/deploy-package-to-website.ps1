@@ -15,6 +15,10 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
+$FlatpakRemoteName = 'nlc'
+$FlatpakRemoteUrl = 'https://nolimitconnect.org/nlc-repo'
+$FlatpakPublicKeyUrl = 'https://nolimitconnect.org/nlc-flatpak-public.gpg'
+
 if ([string]::IsNullOrWhiteSpace($WorkspaceRoot)) {
     if (-not [string]::IsNullOrWhiteSpace($PSScriptRoot)) {
         $WorkspaceRoot = Split-Path -Parent $PSScriptRoot
@@ -64,7 +68,7 @@ function Get-PackageConfig {
             Include     = @('*.flatpak')
             Exclude     = @()
             DisplayName = 'Flatpak'
-            Notes       = 'Flatpak bundle for Linux desktops with Flatpak support.'
+            Notes       = 'GPG-signed Flatpak repository and bundle for Linux desktops.'
             SectionKey  = 'flatpak'
         }
     }
@@ -293,13 +297,38 @@ function Update-DownloadPageSection {
     }
 
     $nl = [Environment]::NewLine
-    $newSection = $beginMarker + $nl +
-        "## $DisplayName" + $nl +
-        "- Latest package: [$ArtifactName]($ArtifactUrl)" + $nl +
-        "- SHA-256: [$HashName]($HashUrl)" + $nl +
-        "- Last updated: $Timestamp" + $nl +
-        "- Notes: $Notes" + $nl +
-        $endMarker
+    if ($SectionKey -eq 'flatpak') {
+        $newSection = $beginMarker + $nl +
+            '## Flatpak (Universal - All Architectures)' + $nl +
+            '' + $nl +
+            '**Recommended for Linux users.** GPG-verified remote setup.' + $nl +
+            '' + $nl +
+            '### Install via Remote (Recommended)' + $nl +
+            '' + $nl +
+            '```bash' + $nl +
+            "curl -fsSL $FlatpakPublicKeyUrl -o /tmp/nlc-flatpak-public.gpg && \" + $nl +
+            "flatpak remote-add --if-not-exists --gpg-import=/tmp/nlc-flatpak-public.gpg $FlatpakRemoteName $FlatpakRemoteUrl && \" + $nl +
+            'flatpak install -y nlc org.nolimitconnect.NoLimitConnect' + $nl +
+            '```' + $nl +
+            '' + $nl +
+            "Public key URL: <$FlatpakPublicKeyUrl>" + $nl +
+            '' + $nl +
+            '### Direct Download' + $nl +
+            "- Latest package: [$ArtifactName]($ArtifactUrl)" + $nl +
+            "- SHA-256: [$HashName]($HashUrl)" + $nl +
+            "- Last updated: $Timestamp" + $nl +
+            "- Notes: $Notes" + $nl +
+            $endMarker
+    }
+    else {
+        $newSection = $beginMarker + $nl +
+            "## $DisplayName" + $nl +
+            "- Latest package: [$ArtifactName]($ArtifactUrl)" + $nl +
+            "- SHA-256: [$HashName]($HashUrl)" + $nl +
+            "- Last updated: $Timestamp" + $nl +
+            "- Notes: $Notes" + $nl +
+            $endMarker
+    }
 
     $pattern = '(?s)' + [regex]::Escape($beginMarker) + '.*?' + [regex]::Escape($endMarker)
     $updated = [regex]::Replace($content, $pattern, [System.Text.RegularExpressions.MatchEvaluator]{ param($m) $newSection }, 1)

@@ -93,9 +93,11 @@ What happens:
 
 1. Flatpak task creates local build and repo directories under build.
 2. flatpak-builder builds the app using org.nolimitconnect.NoLimitConnect.yml.
-3. flatpak build-bundle creates the bundle.
-4. Bundle is written into package/flatpack.
-5. Deploy uploads bundle and .sha256 to GitHub Releases.
+3. flatpak build-update-repo signs repository metadata with the configured GPG key.
+4. Public key is exported to docs/nlc-flatpak-public.gpg.
+5. flatpak build-bundle creates the bundle.
+6. Bundle is written into package/flatpack.
+7. Deploy uploads bundle and .sha256 to GitHub Releases.
 
 ## Linux And Flatpak Deploy Behavior
 
@@ -106,6 +108,14 @@ It does not:
 1. Publish to an APT repository.
 2. Publish to Flathub.
 3. Install packages automatically.
+
+## Flatpak Key Setup
+
+Use task Flatpak: Init GPG Key once per release environment to create or reuse a signing key and export docs/nlc-flatpak-public.gpg.
+
+Users can then add the remote without --no-gpg-verify by importing:
+
+1. https://nolimitconnect.org/nlc-flatpak-public.gpg
 
 ## Recommended Linux Host Validation Order
 

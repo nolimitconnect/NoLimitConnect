@@ -19,10 +19,28 @@ fi
 
 REMOTE_NAME="nlc"
 REMOTE_URL="https://nolimitconnect.org/nlc-repo"
+REMOTE_KEY_URL="https://nolimitconnect.org/nlc-flatpak-public.gpg"
 APP_ID="org.nolimitconnect.NoLimitConnect"
 
-echo "Adding Flatpak remote: $REMOTE_NAME ($REMOTE_URL)"
-flatpak remote-add --if-not-exists --no-gpg-verify "$REMOTE_NAME" "$REMOTE_URL"
+if ! command -v curl &> /dev/null; then
+  echo "Error: curl is not installed."
+  echo "Please install curl and re-run this script."
+  exit 1
+fi
+
+key_file="$(mktemp)"
+trap 'rm -f "$key_file"' EXIT
+
+echo "Downloading Flatpak public key from: $REMOTE_KEY_URL"
+curl -fsSL "$REMOTE_KEY_URL" -o "$key_file"
+
+if flatpak remotes --columns=name | grep -Fxq "$REMOTE_NAME"; then
+  echo "Updating existing Flatpak remote key: $REMOTE_NAME"
+  flatpak remote-modify --gpg-import="$key_file" "$REMOTE_NAME"
+else
+  echo "Adding Flatpak remote: $REMOTE_NAME ($REMOTE_URL)"
+  flatpak remote-add --if-not-exists --gpg-import="$key_file" "$REMOTE_NAME" "$REMOTE_URL"
+fi
 
 echo "Installing $APP_ID from $REMOTE_NAME remote..."
 flatpak install -y "$REMOTE_NAME" "$APP_ID"

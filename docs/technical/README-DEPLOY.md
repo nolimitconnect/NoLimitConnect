@@ -106,7 +106,22 @@ Task behavior:
 ### Flatpak
 
 1. Ensure flatpak-builder is installed on the Linux host.
-2. Run Deploy Flatpak Package.
+2. Run Flatpak: Init GPG Key once on the release host.
+3. Run Deploy Flatpak Package.
+
+## Flatpak GPG Signing
+
+Flatpak repository metadata is signed with a dedicated GPG key.
+
+Environment variables used by the Flatpak scripts:
+
+1. NLC_FLATPAK_GPG_KEY_ID (optional if auto-detect finds the key in the Flatpak GPG homedir)
+2. NLC_FLATPAK_GPG_HOMEDIR (optional, default is build/flatpak-gnupg)
+3. NLC_FLATPAK_PUBLIC_KEY_OUT (optional, default is docs/nlc-flatpak-public.gpg)
+
+Public key hosting target:
+
+1. https://nolimitconnect.org/nlc-flatpak-public.gpg
 
 ## Notes
 

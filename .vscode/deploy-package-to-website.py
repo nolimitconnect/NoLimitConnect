@@ -23,6 +23,11 @@ import urllib.parse
 import urllib.request
 
 
+FLATPAK_REMOTE_NAME = "nlc"
+FLATPAK_REMOTE_URL = "https://nolimitconnect.org/nlc-repo"
+FLATPAK_PUBLIC_KEY_URL = "https://nolimitconnect.org/nlc-flatpak-public.gpg"
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Deploy package to GitHub Releases")
     parser.add_argument(
@@ -123,7 +128,7 @@ def get_package_config(package_type: str) -> dict[str, object]:
             "include": ["*.flatpak"],
             "exclude": [],
             "display_name": "Flatpak",
-            "notes": "Flatpak bundle for Linux desktops with Flatpak support.",
+            "notes": "GPG-signed Flatpak repository and bundle for Linux desktops.",
             "section_key": "flatpak",
         },
     }
@@ -353,17 +358,44 @@ def update_download_page_section(
             f"Per-section markers for '{section_key}' are missing in {download_page}."
         )
 
-    new_section = "\n".join(
-        [
-            begin_marker,
-            f"## {display_name}",
-            f"- Latest package: [{artifact_name}]({artifact_url})",
-            f"- SHA-256: [{hash_name}]({hash_url})",
-            f"- Last updated: {timestamp}",
-            f"- Notes: {notes}",
-            end_marker,
-        ]
-    )
+    if section_key == "flatpak":
+        new_section = "\n".join(
+            [
+                begin_marker,
+                "## Flatpak (Universal - All Architectures)",
+                "",
+                "**Recommended for Linux users.** GPG-verified remote setup.",
+                "",
+                "### Install via Remote (Recommended)",
+                "",
+                "```bash",
+                f"curl -fsSL {FLATPAK_PUBLIC_KEY_URL} -o /tmp/nlc-flatpak-public.gpg && \\",
+                f"flatpak remote-add --if-not-exists --gpg-import=/tmp/nlc-flatpak-public.gpg {FLATPAK_REMOTE_NAME} {FLATPAK_REMOTE_URL} && \\",
+                "flatpak install -y nlc org.nolimitconnect.NoLimitConnect",
+                "```",
+                "",
+                f"Public key URL: <{FLATPAK_PUBLIC_KEY_URL}>",
+                "",
+                "### Direct Download",
+                f"- Latest package: [{artifact_name}]({artifact_url})",
+                f"- SHA-256: [{hash_name}]({hash_url})",
+                f"- Last updated: {timestamp}",
+                f"- Notes: {notes}",
+                end_marker,
+            ]
+        )
+    else:
+        new_section = "\n".join(
+            [
+                begin_marker,
+                f"## {display_name}",
+                f"- Latest package: [{artifact_name}]({artifact_url})",
+                f"- SHA-256: [{hash_name}]({hash_url})",
+                f"- Last updated: {timestamp}",
+                f"- Notes: {notes}",
+                end_marker,
+            ]
+        )
     pattern = re.compile(
         re.escape(begin_marker) + r".*?" + re.escape(end_marker),
         flags=re.DOTALL,

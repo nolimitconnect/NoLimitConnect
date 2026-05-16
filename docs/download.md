@@ -25,9 +25,12 @@ This section is loaded from GitHub Releases metadata at page load.
 Copy and run this command in your terminal:
 
 ```bash
-flatpak remote-add --if-not-exists --no-gpg-verify nlc https://nolimitconnect.org/nlc-repo && \
+curl -fsSL https://nolimitconnect.org/nlc-flatpak-public.gpg -o /tmp/nlc-flatpak-public.gpg && \
+flatpak remote-add --if-not-exists --gpg-import=/tmp/nlc-flatpak-public.gpg nlc https://nolimitconnect.org/nlc-repo && \
 flatpak install -y nlc org.nolimitconnect.NoLimitConnect
 ```
+
+Public key URL: <https://nolimitconnect.org/nlc-flatpak-public.gpg>
 
 
 Or use the one-click remote setup script:
@@ -45,6 +48,7 @@ curl -fsSL https://nolimitconnect.org/install-flatpak.sh | bash
 - **x86_64**: [nolimitconnect-x64.flatpak](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.1/nolimitconnect-x64.flatpak) | [SHA-256](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.1/nolimitconnect-x64.flatpak.sha256)
 - **ARM64**: [nolimitconnect-arm64.flatpak](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.1/nolimitconnect-arm64.flatpak) | [SHA-256](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.1/nolimitconnect-arm64.flatpak.sha256)
 - Last updated: 2026-05-11 22:02:54 UTC
+- Flatpak remote metadata is GPG-signed. Import the key above before adding the remote.
 
 **Install from downloaded bundle:**
 
