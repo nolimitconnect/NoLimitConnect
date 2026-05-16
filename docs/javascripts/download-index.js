@@ -1,6 +1,10 @@
 (function () {
 
   var githubLatestReleaseApi = 'https://api.github.com/repos/nolimitconnect/NoLimitConnect/releases/latest';
+  var flatpakSignatureUrls = [
+    '/nlc-repo/summary.sig',
+    '/nlc-repo/summary.idx.sig'
+  ];
   var platforms = [
     {
       title: 'Windows',
@@ -239,9 +243,35 @@
       });
   }
 
+  function checkFlatpakSignatureHealth() {
+    var warning = document.getElementById('flatpak-signature-warning');
+    if (!warning) {
+      return;
+    }
+
+    Promise.all(
+      flatpakSignatureUrls.map(function (url) {
+        return fetch(url, { method: 'GET', cache: 'no-store' }).then(function (response) {
+          return response.ok;
+        }).catch(function () {
+          return false;
+        });
+      })
+    ).then(function (results) {
+      var allPresent = results.every(function (ok) { return ok; });
+      warning.hidden = allPresent;
+    });
+  }
+
   if (typeof window.document$ !== 'undefined' && typeof window.document$.subscribe === 'function') {
-    window.document$.subscribe(renderDownloads);
+    window.document$.subscribe(function () {
+      renderDownloads();
+      checkFlatpakSignatureHealth();
+    });
   } else {
-    document.addEventListener('DOMContentLoaded', renderDownloads);
+    document.addEventListener('DOMContentLoaded', function () {
+      renderDownloads();
+      checkFlatpakSignatureHealth();
+    });
   }
 })();

@@ -35,3 +35,13 @@
   height: 24px;
   flex: 0 0 auto;
 }
+
+.flatpak-signature-warning {
+  margin: 0.8rem 0 1rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid rgba(252, 211, 77, 0.6);
+  border-left: 4px solid #f59e0b;
+  border-radius: 8px;
+  background: rgba(120, 53, 15, 0.2);
+  color: #fde68a;
+}

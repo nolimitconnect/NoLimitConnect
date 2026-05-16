@@ -20,6 +20,12 @@ This section is loaded from GitHub Releases metadata at page load.
 
 **Recommended for Linux users.** One-click installation via custom remote.
 
+<div id="flatpak-signature-warning" class="flatpak-signature-warning" hidden>
+    <strong>Flatpak remote signature status warning:</strong>
+    Signed repository metadata is temporarily unavailable on this mirror.
+    Remote install with mandatory summary verification may fail until signatures are republished.
+</div>
+
 ### Install via Remote (Recommended)
 
 Copy and run this command in your terminal:
