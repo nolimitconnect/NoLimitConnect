@@ -9,12 +9,6 @@ These are pre-Flathub and pre-store builds published for early users and testers
 
 If you are new to NoLimitConnect, start with public bootstrap hosts first, then set up your own private Network Host and Connection Test Host when ready.
 
-## Latest Packages (Live)
-
-This section is loaded from GitHub Releases metadata at page load.
-
-<div id="dynamic-downloads">Loading latest package metadata from GitHub...</div>
-
 <!-- BEGIN SECTION: flatpak -->
 ## Flatpak (Universal – All Architectures)
 
@@ -67,6 +61,12 @@ flatpak install ./nolimitconnect-arm64.flatpak
 
 - Notes: Flatpak package for Linux desktops with Flatpak support (x86_64 and ARM64).
 <!-- END SECTION: flatpak -->
+
+## Latest Packages (Live)
+
+This section is loaded from GitHub Releases metadata at page load.
+
+<div id="dynamic-downloads">Loading latest package metadata from GitHub...</div>
 
 <!-- END GENERATED DOWNLOADS -->
 
