@@ -29,11 +29,16 @@ flatpak remote-add --if-not-exists --no-gpg-verify nlc https://nolimitconnect.or
 flatpak install -y nlc org.nolimitconnect.NoLimitConnect
 ```
 
+
 Or use the one-click remote setup script:
+
+<button onclick="navigator.clipboard.writeText('curl -fsSL https://nolimitconnect.org/install-flatpak.sh | bash')">Copy Install Command</button>
 
 ```bash
 curl -fsSL https://nolimitconnect.org/install-flatpak.sh | bash
 ```
+
+<small>Click the button to copy the install command, then paste it into your terminal.</small>
 
 ### Direct Download (All Architectures)
 
