@@ -123,6 +123,12 @@ Public key hosting target:
 
 1. https://nolimitconnect.org/nlc-flatpak-public.gpg
 
+GitHub Pages workflow secrets required for signed Flatpak repo publishing:
+
+1. NLC_FLATPAK_GPG_PRIVATE_KEY_B64 (base64-encoded ASCII-armored private key)
+2. NLC_FLATPAK_GPG_KEY_ID (fingerprint or key id used to sign summary files)
+3. NLC_FLATPAK_PUBLIC_KEY_B64 (optional base64-encoded exported public key; if omitted, CI exports from private key)
+
 ## Notes
 
 1. KeepLatestVersions is currently accepted for compatibility but does not prune GitHub releases.

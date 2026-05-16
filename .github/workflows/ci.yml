@@ -39,10 +39,27 @@ jobs:
       - name: Set up Minimal Flatpak Infrastructure
         run: |
           sudo apt-get update
-          sudo apt-get install -y flatpak ostree jq
+          sudo apt-get install -y flatpak ostree jq gnupg
 
       - name: Index Latest Multi-Arch Flatpak Packages
+        env:
+          NLC_FLATPAK_GPG_PRIVATE_KEY_B64: ${{ secrets.NLC_FLATPAK_GPG_PRIVATE_KEY_B64 }}
+          NLC_FLATPAK_GPG_KEY_ID: ${{ secrets.NLC_FLATPAK_GPG_KEY_ID }}
+          NLC_FLATPAK_PUBLIC_KEY_B64: ${{ secrets.NLC_FLATPAK_PUBLIC_KEY_B64 }}
         run: |
+          if [ -z "${NLC_FLATPAK_GPG_PRIVATE_KEY_B64}" ] || [ -z "${NLC_FLATPAK_GPG_KEY_ID}" ]; then
+            echo "Missing required Flatpak signing secrets: NLC_FLATPAK_GPG_PRIVATE_KEY_B64 and/or NLC_FLATPAK_GPG_KEY_ID."
+            exit 1
+          fi
+
+          export GNUPGHOME=/tmp/nlc-flatpak-gnupg
+          rm -rf "${GNUPGHOME}"
+          mkdir -p "${GNUPGHOME}"
+          chmod 700 "${GNUPGHOME}"
+
+          echo "${NLC_FLATPAK_GPG_PRIVATE_KEY_B64}" | base64 --decode > /tmp/nlc-flatpak-private-key.asc
+          gpg --batch --import /tmp/nlc-flatpak-private-key.asc
+
           rm -rf docs/nlc-repo
           mkdir -p docs/nlc-repo
           ostree --repo=docs/nlc-repo init --mode=archive
@@ -67,7 +84,16 @@ jobs:
             exit 1
           fi
 
-          flatpak build-update-repo docs/nlc-repo
+          flatpak build-update-repo \
+            --gpg-sign="${NLC_FLATPAK_GPG_KEY_ID}" \
+            --gpg-homedir="${GNUPGHOME}" \
+            docs/nlc-repo
+
+          if [ -n "${NLC_FLATPAK_PUBLIC_KEY_B64}" ]; then
+            echo "${NLC_FLATPAK_PUBLIC_KEY_B64}" | base64 --decode > docs/nlc-flatpak-public.gpg
+          else
+            gpg --batch --yes --output docs/nlc-flatpak-public.gpg --export "${NLC_FLATPAK_GPG_KEY_ID}"
+          fi
 
           echo "=== Repository refs ==="
           ostree --repo=docs/nlc-repo refs | tee /tmp/nlc-flatpaks/refs.txt
@@ -89,6 +115,16 @@ jobs:
             exit 1
           fi
 
+          if [ ! -f docs/nlc-repo/summary.sig ]; then
+            echo "Flatpak summary signature file was not generated."
+            exit 1
+          fi
+
+          if [ ! -f docs/nlc-flatpak-public.gpg ]; then
+            echo "Flatpak public key file was not generated."
+            exit 1
+          fi
+
       - name: Build MkDocs Site
         run: |
           mkdocs build --clean --site-dir site
@@ -97,6 +133,7 @@ jobs:
         run: |
           mkdir -p site/nlc-repo
           rsync -a docs/nlc-repo/ site/nlc-repo/
+          cp -f docs/nlc-flatpak-public.gpg site/nlc-flatpak-public.gpg
           touch site/.nojekyll
 
       - name: Upload Pages Artifact
