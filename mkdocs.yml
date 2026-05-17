@@ -103,6 +103,7 @@ nav:
       - Compile (Flatpak): developer-docs/Compile_NoLimitConnect_Flatpak.md
 
   - Technical:
+      - Plugins System Overview: technical/README-PLUGINS.md
       - Camera Rotation Photo Display Analysis: technical/CAMERA_ROTATION_PHOTO_DISPLAY_ANALYSIS.md
       - AEC2: technical/README-AEC2.md
       - Asset Send: technical/README-ASSET-SEND.md
