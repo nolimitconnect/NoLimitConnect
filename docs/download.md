@@ -34,7 +34,7 @@ The installer script uses the signed remote when available and falls back to a d
 
 ### Command to Uninstall the NLC flatpak
 
-To unintall copy and run this command in your terminal:
+To uninstall the flatpak, copy and run this command in your terminal:
 
 ```bash
 flatpak uninstall --delete-data org.nolimitconnect.NoLimitConnect
