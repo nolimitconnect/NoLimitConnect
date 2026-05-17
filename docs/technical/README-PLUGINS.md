@@ -123,7 +123,28 @@ When adding a new plugin:
 
 ## How to Add a New Plugin
 
-*This section will be expanded with a step-by-step guide for plugin development, registration, and integration.*
+### Core Engine Implementation
+
+- **Define Plugin Type:** Add your new plugin type(s) to the `EPluginType` enum in `libs/GuiInterface/IDefs.h`
+- **Implement Plugin Logic:** Add your plugin logic in `libs/libptopengine/Plugins`
+
+### Network Communication
+
+- **Packet Definitions:** Add any additional packet definitions you need in `libs/PktLib`
+- **Packet Handlers:** Add packet handlers to:
+  - `libs/PktLib/PktPluginHandlerBase.h`
+  - `libs/PktLib/PktSysHandlerBase.h`
+  - P2PEngine and your plugin logic
+
+### GUI Communication
+
+- **To GUI:** Add communication definitions to `libs/GuiInterface/IToGui.h`
+- **From GUI:** Add communication definitions to `libs/GuiInterface/IFromGui.h`
+
+### User Interface & Permissions
+
+- **Permission Settings:** Add user permission level setting entry to `nolimitgui/src/AppletPermissionList.h`
+- **GUI Forms & Applets:** Add Qt GUI Forms and Applets as needed
 
 ---
 
