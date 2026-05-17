@@ -129,6 +129,18 @@ jobs:
             exit 1
           fi
 
+          if [ "${SIGN_FLATPAK_REPO}" -eq 1 ]; then
+            echo "=== Verifying GPG signatures on app commits ==="
+            while IFS= read -r app_ref; do
+              [ -n "${app_ref}" ] || continue
+              commit_id=$(ostree --repo=docs/nlc-repo rev-parse "${app_ref}")
+              if ! ostree --repo=docs/nlc-repo --gpg-homedir="${GNUPGHOME}" show --gpg-verify "${commit_id}" >/dev/null; then
+                echo "Missing or invalid GPG signature for ${app_ref} @ ${commit_id}"
+                exit 1
+              fi
+            done < <(grep '^app/' /tmp/nlc-flatpaks/refs.txt || true)
+          fi
+
           if [ ! -f docs/nlc-repo/summary ]; then
             echo "Flatpak summary file was not generated."
             exit 1

@@ -13,7 +13,7 @@
       artifactMatchers: [/\.exe$/i, /windows|x64|amd64|x86_64/i]
     },
     {
-      title: 'Linux',
+      title: 'Linux .deb (x64)',
       notes: 'Debian package for Linux x64.',
       icon: '/assets/icons/icon-tux.svg',
       artifactMatchers: [/\.deb$/i, /x64|amd64|x86_64/i]

@@ -76,7 +76,7 @@ Get-FileHash -Algorithm SHA256 .\NoLimitConnect-<version>-x64.exe
 Get-Content .\NoLimitConnect-<version>-x64.exe.sha256
 ```
 
-Linux:
+Linux .deb (x64):
 
 ```bash
 sha256sum NoLimitConnect-<version>-x64.deb
