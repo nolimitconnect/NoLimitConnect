@@ -42,7 +42,7 @@ if ! curl -fsSI "$REMOTE_SUMMARY_SIG_URL" >/dev/null || ! curl -fsSI "$REMOTE_SU
   curl -fL "$bundle_url" -o "$bundle_file"
 
   echo "Installing $APP_ID from downloaded bundle in user scope..."
-  flatpak install -y --user "$bundle_file"
+  flatpak install -y --noninteractive --user "$bundle_file"
 
   echo
   echo "=== Installation Complete ==="
@@ -69,7 +69,7 @@ else
 fi
 
 echo "Installing $APP_ID from $REMOTE_NAME remote..."
-flatpak install -y "$REMOTE_NAME" "$APP_ID"
+flatpak install -y --noninteractive "$REMOTE_NAME" "$APP_ID"
 
 echo
 echo "=== Installation Complete ==="

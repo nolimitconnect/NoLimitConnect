@@ -32,9 +32,14 @@ Public key URL: <https://nolimitconnect.org/nlc-flatpak-public.gpg>
 
 The installer script uses the signed remote when available and falls back to a direct bundle install when remote signatures are temporarily unavailable.
 
-<button onclick="navigator.clipboard.writeText('curl -fsSL https://nolimitconnect.org/install-flatpak.sh | bash')">Copy Install Command</button>
+### Command to Uninstall the NLC flatpak
 
-<small>Click the button to copy the install command, then paste it into your terminal.</small>
+To unintall copy and run this command in your terminal:
+
+```bash
+flatpak uninstall --delete-data org.nolimitconnect.NoLimitConnect
+```
+
 
 ### Direct Download (All Architectures)
 
