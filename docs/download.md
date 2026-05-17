@@ -32,9 +32,9 @@ Public key URL: <https://nolimitconnect.org/nlc-flatpak-public.gpg>
 
 The installer script uses the signed remote when available and falls back to a direct bundle install when remote signatures are temporarily unavailable.
 
-### Command to Uninstall the NLC flatpak
+### Uninstall NoLimitConnect Flatpak
 
-To uninstall the flatpak, copy and run this command in your terminal:
+To uninstall the Flatpak, copy and run this command in your terminal:
 
 ```bash
 flatpak uninstall --delete-data org.nolimitconnect.NoLimitConnect
@@ -67,7 +67,7 @@ This section is loaded from GitHub Releases metadata at page load.
 
 <!-- END GENERATED DOWNLOADS -->
 
-## Verify A Download
+## Verify a Download
 
 PowerShell:
 
