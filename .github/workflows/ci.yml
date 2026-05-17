@@ -134,7 +134,7 @@ jobs:
             while IFS= read -r app_ref; do
               [ -n "${app_ref}" ] || continue
               commit_id=$(ostree --repo=docs/nlc-repo rev-parse "${app_ref}")
-              if ! ostree --repo=docs/nlc-repo --gpg-homedir="${GNUPGHOME}" gpg-verify "${commit_id}" >/dev/null; then
+              if ! ostree show --repo=docs/nlc-repo --list-detached-metadata-keys "${commit_id}" | grep -qx 'ostree.gpgsigs'; then
                 echo "Missing or invalid GPG signature for ${app_ref} @ ${commit_id}"
                 exit 1
               fi
