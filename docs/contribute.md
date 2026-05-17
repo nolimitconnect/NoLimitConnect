@@ -28,4 +28,5 @@ To get started:
 
 1. Open an issue: <https://github.com/nolimitconnect/NoLimitConnect/issues>
 2. Review developer docs: [Developer Docs](developer-docs/README.md)
-3. Propose how you want to help with a short intro and availability
+3. Review contribution workflow: [Contributing Guide](developer-docs/contributing.md)
+4. Propose how you want to help with a short intro and availability

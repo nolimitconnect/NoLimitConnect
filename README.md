@@ -47,6 +47,12 @@ Available at: [https://nolimitconnect.org](https://nolimitconnect.org)
 git clone https://github.com/nolimitconnect/NoLimitConnect.git
 ```
 
+### 🤝 Contributing
+Contributions are welcome and currently follow a simple fork + pull request workflow.
+
+- Contribution guide: [CONTRIBUTING.md](CONTRIBUTING.md)
+- Issue tracker: <https://github.com/nolimitconnect/NoLimitConnect/issues>
+
 ---
 
 ### 🗺️ Roadmap to 1 Million Users

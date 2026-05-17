@@ -18,6 +18,7 @@ nolimitgui/bin-Windows/
 package/
 deploy/
 flatpak-repo/
+site/
 
 aboutme_thumb.png
 favicon.ico

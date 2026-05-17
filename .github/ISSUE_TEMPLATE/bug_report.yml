@@ -1,0 +1,62 @@
+name: Bug report
+description: Report a reproducible problem
+labels:
+  - bug
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Provide exact steps
+      placeholder: |
+        1. Go to ...
+        2. Click ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Device Info
+      description: |
+        Please paste the device info here. In the app, open the About page and use the button labeled:
+        **Copy device info to clipboard (For Bug Report)**
+        
+        You do not need to include OS, CPU, or other system details separately—everything needed is in the copied text.
+        
+        Example output:
+        Kernel Type: winnt
+        Kernel Version: 10.0.26200
+        CPU Architecture: x86_64
+        CPU: X86 64 Bit
+        Qt Version 6.9.3
+        Available Storage Space: 520.0 GB
+        System Locale: en_US
+        UI Selected Language: English (en_US)
+        Preferred Language: English
+        Screen size: width 1920 heigth 1032
+        Screen device pixel ratio: 2
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      render: shell
