@@ -92,6 +92,14 @@ jobs:
           fi
 
           if [ "${SIGN_FLATPAK_REPO}" -eq 1 ]; then
+            echo "=== Signing imported OSTree commits ==="
+            while IFS= read -r app_ref; do
+              [ -n "${app_ref}" ] || continue
+              commit_id=$(ostree --repo=docs/nlc-repo rev-parse "${app_ref}")
+              echo "Signing ${app_ref} @ ${commit_id}"
+              ostree --repo=docs/nlc-repo --gpg-homedir="${GNUPGHOME}" gpg-sign "${commit_id}" "${NLC_FLATPAK_GPG_KEY_ID}"
+            done < <(ostree --repo=docs/nlc-repo refs --list | grep '^app/' || true)
+
             flatpak build-update-repo \
               --gpg-sign="${NLC_FLATPAK_GPG_KEY_ID}" \
               --gpg-homedir="${GNUPGHOME}" \
