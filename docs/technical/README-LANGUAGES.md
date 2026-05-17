@@ -17,7 +17,8 @@ languageMap = {
 	{"日本語 (Japanese)", "ja"},
 	{"한국어 (Korean)", "ko"},
 	{"Русский (Russian)", "ru"},
-	{"Bahasa Indonesia (Indonesian)", "id"}
+	{"Bahasa Indonesia (Indonesian)", "id"},
+	{"ภาษาไทย (Thai)", "th"}
 };
 ```
 
