@@ -1,7 +1,14 @@
 # No Limit Connect (NLC)
 
-> **Seeking Lead Maintainer & Community Founders**  
-> NLC is transitioning from a solo-developed engine to a community-led organization. We are looking for technical and community leaders to help scale to 1,000,000 users. [See Recruitment below](#-recruitment-lead-the-future-of-nlc).
+# 📢 Notice: Seeking Organizational Maintainer / Adoption
+
+Due to professional environment constraints, the original author is looking to completely step back from management and administrative duties. 
+
+This project is actively seeking an established, digital rights or civic tech organization to fully adopt the NoLimitConnect codebase, manage the GitHub organization, and oversee future development or grant funding.
+
+* **Domain Transfer:** The domain name **nolimitconnect.org** is owned by the author and is available to be transferred to the adopting organization once verifiable development momentum is demonstrated.
+* **Licensing:** The codebase remains fully protected under its open-source licenses (GPL-2.0).
+
 
 ## Summary
 **Tagline:** Independent, user-hosted social networks — no registration, no ads, no data mining, no limits.  
