@@ -3,9 +3,7 @@ hide:
   - toc
 ---
 
-!!! note "NoLimitConnect is in Active Development"
-  The application is in public beta and still under active development.  
-  Pre-release builds are available from the **[Download](download.md)** page.
+  **[Read about High-Risk / Low-Bandwidth Enviroments](high-risk-low-bandwidth.md)**
 
 <div align="center">
   <img src="assets/nlc-logo.svg" width="180" style="margin-bottom: 20px;">
