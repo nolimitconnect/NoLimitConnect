@@ -176,8 +176,20 @@
       return null;
     }
 
+    var artifactUpdated = artifactAsset.updated_at || artifactAsset.created_at || null;
+    var hashUpdated = hashAsset.updated_at || hashAsset.created_at || null;
+    var latestAssetTimestamp = artifactUpdated;
+
+    if (artifactUpdated && hashUpdated) {
+      latestAssetTimestamp = new Date(artifactUpdated) >= new Date(hashUpdated)
+        ? artifactUpdated
+        : hashUpdated;
+    } else if (!latestAssetTimestamp) {
+      latestAssetTimestamp = hashUpdated;
+    }
+
     return {
-      publishedAtUtc: release.published_at || release.created_at || null,
+      publishedAtUtc: latestAssetTimestamp || release.published_at || release.created_at || null,
       artifact: {
         name: artifactAsset.name,
         url: artifactAsset.browser_download_url
