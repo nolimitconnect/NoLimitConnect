@@ -62,6 +62,7 @@ flatpak install ./nolimitconnect-arm64.flatpak
 ## Latest Packages (Live)
 
 This section is loaded from GitHub Releases metadata at page load.
+If package timestamps look stale, do a hard refresh: `Ctrl+F5` (Windows/Linux) or `Cmd+Shift+R` (macOS).
 
 <div id="dynamic-downloads">Loading latest package metadata from GitHub...</div>
 
