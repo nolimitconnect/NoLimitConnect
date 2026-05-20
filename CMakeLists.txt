@@ -1161,10 +1161,19 @@ else()
     if(TARGET_OS_WINDOWS)
         set(CPACK_GENERATOR "NSIS")
         set(CPACK_NSIS_INSTALL_ROOT "$PROGRAMFILES64")
-        set(CPACK_NSIS_DISPLAY_NAME "No Limit Connect")
+        set(CPACK_NSIS_DISPLAY_NAME "NoLimitConnect")
         set(CPACK_PACKAGE_EXECUTABLES "nolimitconnect" "No Limit Connect")
         set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
         set(CPACK_CREATE_DESKTOP_LINKS "nolimitconnect")
+        set(CPACK_NSIS_INSTALLED_ICON_NAME "nolimitconnect.exe")
+        set(CPACK_NSIS_MUI_ICON "${PROJECT_SRC_ROOT_DIR}/nolimitgui/src/Resources/favicon.ico")
+        set(CPACK_NSIS_MUI_UNIICON "${PROJECT_SRC_ROOT_DIR}/nolimitgui/src/Resources/favicon.ico")
+        set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY "NoLimitConnect")
+        set(CPACK_PACKAGE_VENDOR "NoLimitConnect")
+        set(_NLC_NSIS_EXTRA_INSTALL_COMMANDS [=[WriteRegStr SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\NoLimitConnect DisplayName NoLimitConnect
+    WriteRegStr SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\NoLimitConnect Publisher NoLimitConnect
+    WriteRegStr SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\NoLimitConnect DisplayIcon $INSTDIR\nolimitconnect.exe,0]=])
+        set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "${_NLC_NSIS_EXTRA_INSTALL_COMMANDS}")
         set(CPACK_NSIS_URL_INFO_ABOUT "https://nolimitconnect.org")
         set(CPACK_NSIS_HELP_LINK "https://nolimitconnect.org")
     elseif(TARGET_OS_LINUX)
@@ -1198,6 +1207,7 @@ else()
         message(FATAL_ERROR "Unsupported CPack platform")
     endif()
 
+    set(CPACK_VERBATIM_VARIABLES TRUE)
     include(CPack)
 
     add_custom_target(package_cpack

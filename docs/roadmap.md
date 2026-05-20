@@ -1,42 +1,24 @@
-# Development Roadmap
+# Project
 
-This page outlines the current development status of NoLimitConnect, planned milestones, and features under active testing.
+<img src="/assets/brett-r-jones.png" alt="Brett R. Jones" width="25%" style="display:block; margin:0 auto;" />
 
-## 🚀 Current Phase: Early Testing & Core Networking Validation
+## Hello
 
-NoLimitConnect is actively being tested. Only developers and early adopters using source builds should participate at this stage.
+My name is Brett R. Jones.
 
----
+I am the author of NoLimitConnect.
 
-# 📌 Roadmap Overview
+After many years of work, I have completed the application NoLimitConnect to my satisfaction.
 
-<div class="grid cards" markdown>
+You will not find me on any social network because I am a computer geek and a hermit.
 
-* ## :material-check-circle-outline: **Core Networking**
+Now that I want to sign up on social networks to promote NLC, I cannot because of job restrictions.
 
-  Direct TCP connections, relay mode, and hosting behaviors.
+Ironic, yes?
 
-* ## :material-progress-wrench: **Port Forwarding Tools**
+I have sent emails to a couple of organizations proposing that they take over the code and the domain name [nolimitconnect.org](https://nolimitconnect.org) in order to get NLC into the hands of those who need it.
 
-  UPnP improvements and port diagnostics (in progress).
-
-* ## :material-account-group-outline: **Groups & Social Features**
-
-  Group hosting, social lists, friend system enhancements.
-
-* ## :material-monitor-cellphone: **UI / UX Updates**
-
-  New status indicators, updated navigation, app polish.
-
-* ## :material-lock-outline: **Security Review**
-
-  Encryption verification and privacy audits (ongoing).
-
-* ## :material-rocket-launch-outline: **Public Release Preparation**
-
-  Packaging, binary builds, documentation, website launch.
-
-</div>
+If you care about privacy, or just want free anonymous communication and limitless file transfer, please use NLC.
 
 ---
 
@@ -50,16 +32,15 @@ NoLimitConnect is actively being tested. Only developers and early adopters usin
 | Relay Logic Rework          | 🟢 Complete    | Updated docs, behavior validated       |
 | Screenshots & Docs          | 🟢 Complete    | Finalizing site content                |
 | Website Overhaul            | 🟢 Complete    | Navigation, docs, diagrams             |
-| Test Built-In Plugins       | 🟡 In Progress | Functional testing of built-in modules |
-| FAQ and Tutorials           | 🔴 Not Started | Documentation pending                  |
-| Installer Builds            | 🔴 Not Started | Pending release preparation            |
-| Android Build Update        | 🔴 Not Started | Will follow desktop builds             |
+| Test Built-In Plugins       | 🟢 Complete    | Functional testing of built-in modules |
+| FAQ and Tutorials           | 🟢 Complete    | Documentation                          |
+| Installer Builds            | 🟢 Complete    | Downloads page                         |
 
 ---
 
 # 🔌 Built-In Plugins
 
-Below is a list of major built-in plugins that are code complete and undergoing testing. These features will later include screenshots and individual documentation pages.
+Below is a list of major built-in plugins that are code complete.
 
 * **Streaming service for media files**
 * **Share and transfer files (No file size limit)**
@@ -71,40 +52,7 @@ Below is a list of major built-in plugins that are code complete and undergoing 
 * **About Me user page**
 * **Storyboard blog page**
 * **Web Cam Server**
-* **Media Player — Privacy Enhanced** (Based on Kodi™ and FFmpeg)
+* **Media Player** (Based on Kodi™ and FFmpeg)
 * **Chat Room host and client**
 * **Random Connect host and client**
 * **Group host and client**
-
-# 🗺️ Upcoming Milestones
-
-### **Milestone 1 — Internal Alpha**
-
-* Core networking stable
-* Hosting works reliably
-* Relay logic finalized
-* Developer builds available
-
-### **Milestone 2 — Public Alpha**
-
-* Windows installer
-* Updated Android build
-* Full documentation
-* Website finalized
-
-### **Milestone 3 — Public Release**
-
-* Multi-platform binaries
-* Android Play Store and FlatHub submissions
-* Final UI/UX pass
-
----
-
-# 💬 How You Can Help
-
-* Test hosting and connection scenarios
-* Report NAT or relay behavior differences
-* Contribute documentation or translations
-* Submit issues to the repository
-
-Development is ongoing — thank you for helping build NoLimitConnect!
