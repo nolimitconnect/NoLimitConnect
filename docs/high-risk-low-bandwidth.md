@@ -8,7 +8,7 @@ NLC solves this with two core architectural features designed for physical and d
 * **The Problem:** In high-risk protests, authorities routinely confiscate phones and cameras to destroy evidence or identify networks. 
 * **Our Solution:** The integrated NLC Web Cam Server streams live video frames off your device instantly to a secure, decentralized network or a private remote host. If your phone or camera is physically taken from you five seconds later, the footage has already escaped.
 
-### 2. Throttling-Resistant Native Video Engine
+### 2. Video Broadcast That Works In Low-Bandwidth Enviroments
 * **The Problem:** Modern video compression algorithms (like H.264/H.265) rely heavily on continuous, high-bandwidth streams. On congested or intentionally throttled networks, they freeze, crash, or drop the call entirely.
 * **Our Solution:** NLC utilizes a lightweight, native video architecture optimized explicitly for low bandwidth. Instead of crashing during severe network degradation, it handles extreme frame drops gracefully. It prioritizes data survival and continuity over high-definition gloss.
 
