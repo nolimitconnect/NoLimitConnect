@@ -49,4 +49,4 @@ Open-source code that can be cloned with:
 
 ## Usage
 
-NoLimitConnect does not add its own monitoring or telemetry. Any logging depends on the host admin and the deployment configuration.
+NoLimitConnect does not add any monitoring, telemetry, logging or data collection. 
