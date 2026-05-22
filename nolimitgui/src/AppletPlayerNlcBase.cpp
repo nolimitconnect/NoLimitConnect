@@ -262,6 +262,7 @@ void AppletPlayerNlcBase::startMediaPlay( int startPos )
 {
 	// Start every play from a clean player-audio cache state.
 	m_MyApp.getAudioMgr().clearPlayerNlcBuffers();
+	m_MyApp.getAudioMgr().setPlayerNlcAcceptInput( true );
 	bool playStarted = m_Engine.fromGuiAssetAction( eAssetActionPlayBegin, m_AssetInfo, startPos );
 	updateGuiPlayControls( playStarted );
 	if( false == playStarted )
@@ -334,6 +335,13 @@ void AppletPlayerNlcBase::slotReplayButtonClick( void )
 		{
 			QMessageBox::information( this, QObject::tr( "File does not exist" ), QString(m_LastPlayedMediaFile.c_str()), QMessageBox::Ok );
 		}
+	}
+	else if( m_LastPlayedIsStream && m_AssetInfo.isStream() )
+	{
+		VxGUID replaySessionId;
+		replaySessionId.initializeWithNewVxGUID();
+		startBusySpinner( getPlayControlWidget() );
+		playAsset( replaySessionId, m_AssetInfo, 0 );
 	}
 }
 
@@ -505,7 +513,7 @@ void AppletPlayerNlcBase::onPlaybackStopped( VxGUID& feedId )
 	updateGuiPlayControls( false );
 	resetPlayerControls();
 	setIsPlaying( false );
-	m_MyApp.getAudioMgr().clearPlayerNlcBuffers();
+	m_MyApp.getAudioMgr().setPlayerNlcAcceptInput( false );
 }
 
 //============================================================================
@@ -522,7 +530,7 @@ void AppletPlayerNlcBase::onPlaybackEnded( VxGUID& feedId )
 	updateGuiPlayControls( false );
 	resetPlayerControls();
 	setIsPlaying( false );
-	m_MyApp.getAudioMgr().clearPlayerNlcBuffers();
+	m_MyApp.getAudioMgr().setPlayerNlcAcceptInput( false );
 	getRenderConsumer()->showAppIcon();
 }
 
@@ -604,13 +612,22 @@ void AppletPlayerNlcBase::updateLastPlayedFile( void )
 {
 	if( m_AssetInfo.isStream() )
 	{
+		m_LastPlayedIsStream = true;
 		m_LastPlayedIsFile = false;
+		m_LastPlayedMediaName = m_AssetInfo.getAssetName();
+		m_LastPlayedMediaFile.clear();
 	}
 	else if( m_AssetInfo.isValidFile() )
 	{
+		m_LastPlayedIsStream = false;
 		m_LastPlayedIsFile = true;
 		m_LastPlayedMediaName = m_AssetInfo.getAssetName();
 		m_LastPlayedMediaFile = m_AssetInfo.getAssetNameAndPath();
+	}
+	else
+	{
+		m_LastPlayedIsStream = false;
+		m_LastPlayedIsFile = false;
 	}
 }
 

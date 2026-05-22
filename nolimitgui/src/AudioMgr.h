@@ -379,6 +379,7 @@ protected:
     // Delay stopping audio-out until queued data has drained to hardware.
     QTimer*                     m_AudioOutDisableTimer{ nullptr };
     std::atomic<bool>           m_AudioOutDisablePending{false};
+    std::atomic<bool>           m_PlayerNlcSpeakerDisablePending{false};
 
     RNNoise                     m_RNNoise;
     std::atomic<bool>           m_EnableNoiseSuppression{0};

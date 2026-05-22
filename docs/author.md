@@ -17,7 +17,7 @@ I have sent emails in May of 2026 to a couple of organizations proposing that th
 I realize that being organizations they are slow to respond or might not respond at all.
 
 My goal is to know that my many years of hard work is in use by millions of users.
-If you think you are tech savy enough to take NLC to that goal then apply using the issue guidelines (Yes it's AI generated).
+If you think you are tech savy enough to take NLC to that goal then apply using the issue guidelines.
 [https://github.com/nolimitconnect/NoLimitConnect/issues/4](https://github.com/nolimitconnect/NoLimitConnect/issues/4)
 
 If you think you can aid in other ways there is discussions.

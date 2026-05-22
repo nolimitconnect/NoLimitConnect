@@ -226,6 +226,16 @@ void AudioMgr::completeAudioOutDisable( void )
 //============================================================================
 void AudioMgr::slotAudioOutDisablePoll( void )
 {
+    if( m_PlayerNlcSpeakerDisablePending )
+    {
+        const int queuedSamples = getAudioOutPipelineQueuedSampleCnt();
+        if( queuedSamples <= 0 )
+        {
+            m_PlayerNlcSpeakerDisablePending = false;
+            toGuiWantSpeakerOutput( eMediaModulePlayerNlc, false );
+        }
+    }
+
     if( !m_AudioOutDisablePending )
     {
         if( m_AudioOutDisableTimer->isActive() )

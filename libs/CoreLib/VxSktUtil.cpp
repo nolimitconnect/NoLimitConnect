@@ -70,6 +70,16 @@ namespace
 	InetAddress					g_oGlobalIPv6;
 
 	ISktStatCallbackInterface*  g_SktStatCallback{ nullptr };
+
+    const char* VxDescribeAddrInfoError( int err )
+    {
+#ifdef TARGET_OS_WINDOWS
+        const char* msg = gai_strerrorA( err );
+#else
+        const char* msg = gai_strerror( err );
+#endif
+        return msg ? msg : "Unknown getaddrinfo error";
+    }
 }
 
 //============================================================================
@@ -1117,7 +1127,8 @@ SOCKET VxConnectToIPv6( const char* ipv6Str, uint16_t u16Port, int iConnectTimeo
 	{
 		if( 0 != retSktErr )
 		{
-			LogModule( eLogSkt, LOG_INFO, "VxConnectToIPv6 port %d ms %d getaddrinfo FAILED with error %d", u16Port, iConnectTimeoutMs, error );
+			LogModule( eLogSkt, LOG_INFO, "VxConnectToIPv6 port %d ms %d getaddrinfo FAILED with error %d (%s)",
+                       u16Port, iConnectTimeoutMs, error, VxDescribeAddrInfoError( error ) );
 			*retSktErr = error;
 		}
 
@@ -1505,7 +1516,7 @@ bool VxResolveUrl( const char* pUrl, uint16_t u16Port, std::string& resolvedIp, 
 	if( RetVal != 0 )
 	{
        LogMsg( LOG_ERROR, "VxResolveUrl: Failed to resolve host %s port %d error %d reason %s ",
-               pUrl, u16Port, RetVal, VxDescribeSktError( RetVal ) );
+               pUrl, u16Port, RetVal, VxDescribeAddrInfoError( RetVal ) );
 	}
 	else
 	{

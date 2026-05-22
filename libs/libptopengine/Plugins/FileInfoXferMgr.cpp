@@ -1345,9 +1345,17 @@ EXferError FileInfoXferMgr::beginFileSend( FileTxSession* xferSession )
 			// file is open and setup so send first chunk of data
 			if( xferSession->isStream() )
 			{
+				VxGUID streamSessionId = xferSession->getLclSessionId();
 				for( int i = 0; i < MAX_OUTSTANDING_STREAM_PKTS; i++ )
 				{
-					EXferError xferError = txNextFileChunk( xferSession );
+					FileTxSession* streamSession = findTxSessionSessionId( streamSessionId );
+					if( !streamSession )
+					{
+						// The stream can complete and delete its tx session in txNextFileChunk for short files.
+						break;
+					}
+
+					EXferError xferError = txNextFileChunk( streamSession );
 					if( xferError != eXferErrorNone )
 					{
 						LogMsg( LOG_ERROR, "FileInfoXferMgr::%s error %s txNextFileChunk multiple", __func__, DescribeXferError( xferError ) );

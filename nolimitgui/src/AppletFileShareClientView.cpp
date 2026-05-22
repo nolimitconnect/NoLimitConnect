@@ -475,7 +475,12 @@ void AppletFileShareClientView::slotStreamButtonClicked( QListWidgetItem* item )
 	if(LogEnabled(eLogFileXfer)) LogModule( eLogFileXfer, LOG_VERBOSE, "AppletFileShareClientView::%s session id %s file %s playStream",
 				   __func__, xferSession->getLclSessionId().toHexString().c_str(), xferSession->getFileName().toUtf8().constData() );
 
-	if( m_MyApp.getPlayerMgr().playStream( assetInfo, xferSession->getLclSessionId(), 0) )
+	// Each explicit play click gets a new stream session id so stream lifecycle is strictly session-based.
+	VxGUID streamSessionId;
+	streamSessionId.initializeWithNewVxGUID();
+	xferSession->setLclSessionId( streamSessionId );
+
+	if( m_MyApp.getPlayerMgr().playStream( assetInfo, streamSessionId, 0) )
 	{
 		((FileXferWidget*)item)->setXferState( eXferStateStreaming, eXferErrorNone, 0 );
 	}

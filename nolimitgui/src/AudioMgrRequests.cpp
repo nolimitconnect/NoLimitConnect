@@ -78,6 +78,32 @@ void AudioMgr::toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeake
 {
     bool found{ false };
 
+    if( eMediaModulePlayerNlc == mediaModule && wantSpeakerOutput )
+    {
+        m_PlayerNlcSpeakerDisablePending = false;
+    }
+
+    if( eMediaModulePlayerNlc == mediaModule && !wantSpeakerOutput )
+    {
+        if( getAudioOutPipelineQueuedSampleCnt() > 0 )
+        {
+            m_PlayerNlcSpeakerDisablePending = true;
+            if( !m_AudioOutDisablePending )
+            {
+                requestDeferredAudioOutDisable();
+            }
+
+            if( !m_AudioOutDisableTimer->isActive() )
+            {
+                m_AudioOutDisableTimer->start();
+            }
+
+            if( LogEnabled( eLogVoice ) ) LogModule( eLogVoice, LOG_DEBUG,
+                "AudioMgr::%s defer NlcPlayer speaker disable until queued audio drains", __func__ );
+            return;
+        }
+    }
+
     m_WantSpeakerMutex.lock();
     size_t prevWantSpeakerCnt = m_WantSpeakerList.size();
     for( auto iter = m_WantSpeakerList.begin(); iter != m_WantSpeakerList.end(); iter++ )
@@ -96,6 +122,11 @@ void AudioMgr::toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeake
     if( wantSpeakerOutput && !found )
     {
         m_WantSpeakerList.emplace_back( mediaModule );
+    }
+
+    if( !wantSpeakerOutput && eMediaModulePlayerNlc == mediaModule )
+    {
+        m_PlayerNlcSpeakerDisablePending = false;
     }
 
     size_t wantSpeakerCnt = m_WantSpeakerList.size();

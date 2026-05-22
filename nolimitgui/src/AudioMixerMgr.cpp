@@ -133,6 +133,15 @@ int AudioMixerMgr::toGuiPlayerNlcAudio( EMediaModule mediaModule, float* audioDa
 
     if( eMediaModulePlayerNlc == mediaModule )
     {
+        if( !m_PlayerNlcAcceptInput )
+        {
+            const int nowMs = GetApplicationAliveMs();
+            if( nowMs >= m_PlayerNlcAcceptInputDisableAfterMs )
+            {
+                return audioDataLenInBytes;
+            }
+        }
+
         // vx_assert( AUDIO_FRAME_SIZE_KODI == audioDataLenInBytes );
 
         int kodiSampleCnt = audioDataLenInBytes / sizeof( float );
@@ -145,19 +154,21 @@ int AudioMixerMgr::toGuiPlayerNlcAudio( EMediaModule mediaModule, float* audioDa
         lockPlayerCache();
         if( pcmSampleCnt > m_PlayerCacheBuf.freeSpaceSampleCount() )
         {
-            m_PlayerCacheBuf.clear();
-            m_PlayerCacheQueue.clear();
-            m_PlayerNlcPrimed = false;
-            m_PlayerNlcStreamStartMs = GetApplicationAliveMs();
-            unlockPlayerCache();
+            // Do not flush the whole player pipeline on bursty input.
+            // Drop only the oldest scratch samples to make room and preserve queued/tail audio.
+            int samplesToDrop = pcmSampleCnt - m_PlayerCacheBuf.freeSpaceSampleCount();
+            if( samplesToDrop >= m_PlayerCacheBuf.getSampleCnt() )
+            {
+                m_PlayerCacheBuf.clear();
+            }
+            else if( samplesToDrop > 0 )
+            {
+                m_PlayerCacheBuf.samplesWereRead( samplesToDrop );
+            }
 
-            lockModuleMixerBuffer();
-            getAudioMixerBuf( eMediaModulePlayerNlc ).clear();
-            unlockModuleMixerBuffer();
+            queueOverrunCount++;
+            printStats = true;
 
-            LogMsg( LOG_ERROR, "AudioMixerMgr::%s overrun m_PlayerCacheBuf - flushed player audio buffers", __func__  );
-
-            lockPlayerCache();
             if( pcmSampleCnt > m_PlayerCacheBuf.freeSpaceSampleCount() )
             {
                 unlockPlayerCache();
@@ -178,27 +189,18 @@ int AudioMixerMgr::toGuiPlayerNlcAudio( EMediaModule mediaModule, float* audioDa
         m_PlayerCacheBuf.samplesWereWritten( totalSamples );
         while( m_PlayerCacheBuf.getSampleCnt() >= AUDIO_SAMPLES_PER_FRAME )
         {
+            if( m_PlayerCacheQueue.size() >= PLAYER_MAX_QUEUE_SIZE )
+            {
+                // Keep queued audio in order; do not evict frames here.
+                // Additional samples remain in m_PlayerCacheBuf until queue space opens.
+                printStats = true;
+                queueOverrunCount++;
+                break;
+            }
+
             // Emplace directly to avoid extra copies
             m_PlayerCacheQueue.emplace_back( m_PlayerCacheBuf.getSampleBuffer(), m_PlayerCacheBuf.getSampleBuffer() + AUDIO_SAMPLES_PER_FRAME );
             m_PlayerCacheBuf.samplesWereRead( AUDIO_SAMPLES_PER_FRAME );
-
-            if( m_PlayerCacheQueue.size() > PLAYER_MAX_QUEUE_SIZE ) 
-            {
-                printStats = true;                            
-                queueOverrunCount++;
-                int nowMs = GetApplicationAliveMs();
-                bool startupWindow = ( m_PlayerNlcStreamStartMs > 0 ) && ( ( nowMs - m_PlayerNlcStreamStartMs ) < 5000 );
-                if( startupWindow )
-                {
-                    // Keep earliest audio during startup so playback does not miss the beginning.
-                    m_PlayerCacheQueue.pop_back();
-                }
-                else
-                {
-                    // After startup, keep latency bounded by dropping oldest queued frame.
-                    m_PlayerCacheQueue.pop_front();
-                }
-            }
         }
 
         unlockPlayerCache();
@@ -220,23 +222,6 @@ int AudioMixerMgr::toGuiPlayerNlcAudio( EMediaModule mediaModule, float* audioDa
             LogMsg( LOG_ERROR, "AudioMixerMgr::%s overrun m_PlayerCacheQueue count %d", __func__, queueOverrunCount );
             LogModule( eLogPlayerNlc, LOG_VERBOSE, "AudioMixerMgr::%s free space %d cached sec %3.3f total cache sec %3.3f percent %d", __func__,
                         cacheFreeBytes, cachedTime, totalCache, (int)((cachedTime / totalCache )*100) );
-        }
-
-
-        if( LogEnabled( eLogPlayerNlc ) )
-        {
-            static int lastTimeMs = 0;
-            int timeNowMs = GetApplicationAliveMs();
-            if( timeNowMs - lastTimeMs > 5000 )
-            {
-                lastTimeMs = timeNowMs;
-                float cachedTime = toGuiGetAudioDelaySeconds( mediaModule );
-                float totalCache = toGuiGetAudioCacheMaxSeconds( mediaModule );
-                float cacheFreeBytes = toGuiGetAudioCacheFreeSpaceBytes( mediaModule );
-
-                LogModule( eLogPlayerNlc, LOG_VERBOSE, "AudioMixerMgr::%s free space %d cached sec %3.3f total cache sec %3.3f percent %d", __func__,
-                            cacheFreeBytes, cachedTime, totalCache, (int)((cachedTime / totalCache )*100) );
-            }
         }
     }
     else
@@ -404,6 +389,26 @@ void AudioMixerMgr::setPlayerNlcActive( bool isActive )
 }
 
 //============================================================================
+void AudioMixerMgr::setPlayerNlcAcceptInput( bool acceptInput )
+{
+    if( m_PlayerNlcAcceptInput != acceptInput )
+    {
+        m_PlayerNlcAcceptInput = acceptInput;
+        if( m_PlayerNlcAcceptInput )
+        {
+            m_PlayerNlcAcceptInputDisableAfterMs = 0;
+        }
+        else
+        {
+            // Keep accepting briefly so trailing decoder callbacks can enqueue the final audio tail.
+            m_PlayerNlcAcceptInputDisableAfterMs = GetApplicationAliveMs() + 600;
+        }
+        if( LogEnabled( eLogPlayerNlc ) ) LogModule( eLogPlayerNlc, LOG_VERBOSE,
+            "AudioMixerMgr::%s acceptInput %d", __func__, m_PlayerNlcAcceptInput ? 1 : 0 );
+    }
+}
+
+//============================================================================
 void AudioMixerMgr::clearPlayerNlcBuffers( void )
 {
     lockPlayerCache();
@@ -411,6 +416,8 @@ void AudioMixerMgr::clearPlayerNlcBuffers( void )
     m_PlayerCacheQueue.clear();
     m_PlayerNlcPrimed = false;
     m_PlayerNlcStreamStartMs = GetApplicationAliveMs();
+    m_PlayerNlcAcceptInput = true;
+    m_PlayerNlcAcceptInputDisableAfterMs = 0;
     unlockPlayerCache();
 
     lockModuleMixerBuffer();

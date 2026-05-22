@@ -43,6 +43,28 @@ VirtStreamMgr::VirtStreamMgr( P2PEngine& engine )
 bool VirtStreamMgr::fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessionId, int pos0to100000 )
 {
 	// called just before the media player starts playing stream
+	if( !lclSessionId.isValid() )
+	{
+		lclSessionId.initializeWithNewVxGUID();
+	}
+
+	lockStreamMgr();
+	const bool sameActiveSession = getIsPlaying() &&
+		(m_LiveStream.m_StreamSessionId == lclSessionId) &&
+		(m_LiveStream.m_StreamAssetInfo.getAssetUniqueId() == assetInfo.getAssetUniqueId());
+	if( sameActiveSession )
+	{
+		unlockStreamMgr();
+		if( LogEnabled( eLogStreams ) ) LogModule( eLogStreams, LOG_VERBOSE, "%s ignoring duplicate start for session %s",
+			__func__, lclSessionId.toHexString().c_str() );
+		return true;
+	}
+
+	unlockStreamMgr();
+	if( getIsPlaying() )
+	{
+		onStreamStop();
+	}
 
 	lockStreamMgr();
 	m_LiveStream.m_StreamAssetInfo = assetInfo;
@@ -285,7 +307,6 @@ void VirtStreamMgr::onPktFileGetCompleteReply( std::shared_ptr<VxSktBase>& sktBa
 void VirtStreamMgr::onPktFileSendCompleteReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
 {
 	if( LogEnabled( eLogStreams ) ) LogModule( eLogStreams, LOG_VERBOSE, "VirtStreamMgr::%s", __func__ );
-    //PktFileSendCompleteReq* pktReply = (PktFileSendCompleteReq*)pktHdr;
 }
 
 //============================================================================

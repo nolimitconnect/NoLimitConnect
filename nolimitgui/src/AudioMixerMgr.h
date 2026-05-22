@@ -23,8 +23,8 @@
 class AudioMixerMgr : public IAudioRequests
 {
 public:
-    const int PLAYER_MAX_QUEUE_SIZE = 4; // 4 x 60ms frames with one-frame headroom => effective max cache is 180ms
-    const int PLAYER_STARTUP_PRIME_FRAMES = 4; // prebuffer ~240ms (4 x 60ms) to reduce startup gaps/underruns
+    const int PLAYER_MAX_QUEUE_SIZE = 80; // 80 x 60ms frames with one-frame headroom => effective max cache is 4.74s
+    const int PLAYER_STARTUP_PRIME_FRAMES = 2; // prebuffer ~120ms so playback starts sooner while larger queue absorbs burst decode
     
     // return true if any microphone device is available to be enabled
     bool				        toGuiIsMicrophoneDeviceAvailable( void ) override{ return false; }; // this is handled by AudioMgr
@@ -58,6 +58,8 @@ public:
 	// player-nlc
   	virtual void				setPlayerNlcActive( bool isActive );
     bool						getPlayerNlcActive( void ) { return m_PlayerNlcActive; }
+    void                        setPlayerNlcAcceptInput( bool acceptInput );
+    bool                        getPlayerNlcAcceptInput( void ) { return m_PlayerNlcAcceptInput; }
     void                        clearPlayerNlcBuffers( void );
 
 protected:
@@ -75,6 +77,8 @@ protected:
 
     // player-nlc
     bool                        m_PlayerNlcActive{ false };
+    bool                        m_PlayerNlcAcceptInput{ true };
+    int                         m_PlayerNlcAcceptInputDisableAfterMs{ 0 };
     bool                        m_PlayerNlcPrimed{ false };
     int                         m_PlayerNlcStreamStartMs{ 0 };
     AudioSampleBuf              m_PlayerCacheBuf;
