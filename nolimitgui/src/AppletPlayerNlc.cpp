@@ -258,6 +258,12 @@ void AppletPlayerNlc::onMediaPlayerNlcReady( bool isReady )
 //============================================================================
 void AppletPlayerNlc::slotReplayButtonClick( void )
 {
+	if( m_AssetInfo.isStream() )
+	{
+		AppletPlayerNlcBase::slotReplayButtonClick();
+		return;
+	}
+
 	std::string movieFile = ui.m_LastPlayedFileText->text().toUtf8().constData();
 	if( VxFileUtil::fileExists( movieFile.c_str() ) )
 	{

@@ -729,22 +729,37 @@ size_t VirtStreamMgr::virtFileRead( void* buf, size_t size, size_t count, VFile*
 	{
 		LogModule( eLogStreams, LOG_ERROR, "VirtStreamMgr::%s timeout waiting for stream file %s at offs %" PRId64 " len %" PRId64,
 				   __func__, m_LiveStream.m_StreamAssetInfo.getAssetName().c_str(), fileOffs, readAttemptLen );
-		return retVal;
+		if( readAttemptLen <= 0 )
+		{
+			return 0;
+		}
 	}
 
 	lockStreamMgr();
 	int64_t readLen = 0;
-	if( m_LiveStream.m_FileTail.hasData( fileOffs, readAttemptLen ) )
+	if( readAttemptLen > 0 )
 	{
-		readLen = m_LiveStream.m_FileTail.readData( fileOffs, (char*)buf, readAttemptLen );
-	}
-	else
-	{
-		readLen = m_LiveStream.m_StreamCache.readData( fileOffs, (char*)buf, readAttemptLen );
+		const bool tailStartsAtOffset = m_LiveStream.m_FileTail.hasData( fileOffs, 1 ) == 1;
+		if( tailStartsAtOffset )
+		{
+			readLen = m_LiveStream.m_FileTail.readData( fileOffs, (char*)buf, readAttemptLen );
+			if( readLen < readAttemptLen )
+			{
+				readLen += m_LiveStream.m_StreamCache.readData( fileOffs + readLen, &((char*)buf)[readLen], readAttemptLen - readLen );
+			}
+		}
+		else
+		{
+			readLen = m_LiveStream.m_StreamCache.readData( fileOffs, (char*)buf, readAttemptLen );
+			if( readLen < readAttemptLen )
+			{
+				readLen += m_LiveStream.m_FileTail.readData( fileOffs + readLen, &((char*)buf)[readLen], readAttemptLen - readLen );
+			}
+		}
 	}
 
 
-	if( readLen == readAttemptLen )
+	if( readLen > 0 )
 	{
 #if VERIFY_CACHE_DATA
 		verifyCacheData( m_LiveStream.m_VFile->m_FileOffs, (uint8_t *)buf, readAttemptLen );
@@ -752,10 +767,6 @@ size_t VirtStreamMgr::virtFileRead( void* buf, size_t size, size_t count, VFile*
 
 		m_LiveStream.m_VFile->m_FileOffs += readLen;
 		retVal = 0;
-	}
-	else
-	{
-
 	}
 
 	unlockStreamMgr();

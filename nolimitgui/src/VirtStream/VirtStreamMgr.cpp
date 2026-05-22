@@ -95,6 +95,10 @@ bool VirtStreamMgr::fromGuiPlayStream( AssetBaseInfo& assetInfo, VxGUID lclSessi
 bool VirtStreamMgr::waitForStream( int64_t fileOffset, int64_t readLen )
 {
 	bool result{ false };
+	if( readLen <= 0 )
+	{
+		return true;
+	}
 	//const double maxTimeoutMs = 20000;
 	const double maxTimeoutMs = 60000;
 	//const double maxTimeoutMs = 800000; // temp for debug
@@ -122,14 +126,32 @@ bool VirtStreamMgr::waitForStream( int64_t fileOffset, int64_t readLen )
 			return false;
 		}
 
-		if( readLen == m_LiveStream.m_StreamCache.hasData( fileOffset, readLen ) )
+		const int64_t streamLen = m_LiveStream.m_StreamCache.hasData( fileOffset, readLen );
+		const int64_t tailLen = m_LiveStream.m_FileTail.hasData( fileOffset, readLen );
+		if( readLen == streamLen || readLen == tailLen )
 		{
 			result = true;
 			unlockStreamMgr();
 			break;
 		}
 
-		if( readLen == m_LiveStream.m_FileTail.hasData( fileOffset, readLen ) )
+		// End-of-stream bytes can arrive split between stream cache and file tail.
+		int64_t combinedLen = streamLen;
+		if( combinedLen < readLen )
+		{
+			combinedLen += m_LiveStream.m_FileTail.hasData( fileOffset + combinedLen, readLen - combinedLen );
+		}
+
+		if( combinedLen < readLen )
+		{
+			combinedLen = tailLen;
+			if( combinedLen < readLen )
+			{
+				combinedLen += m_LiveStream.m_StreamCache.hasData( fileOffset + combinedLen, readLen - combinedLen );
+			}
+		}
+
+		if( combinedLen == readLen )
 		{
 			result = true;
 			unlockStreamMgr();

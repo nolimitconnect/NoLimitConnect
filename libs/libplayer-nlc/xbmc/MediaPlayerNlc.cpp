@@ -25,6 +25,8 @@
 
 #include <CoreLib/VxDebug.h>
 
+#include <algorithm>
+
 
 //============================================================================
 MediaPlayerNlc& GetNlcPlayerInstance()
@@ -450,7 +452,19 @@ void MediaPlayerNlc::fromGuiUpdatePlayPosition( void )
 	const auto appPlayer = GetComponent<CApplicationPlayer>();
 	if( appPlayer && appPlayer->IsPlaying() )
 	{
-		playPos = (int)(appPlayer->GetPercentage() * 1000);
+		float playPercent = appPlayer->GetPercentage();
+		if( playPercent <= 0.0f )
+		{
+			const int64_t totalTime = appPlayer->GetTotalTime();
+			const int64_t playTime = appPlayer->GetTime();
+			if( totalTime > 0 && playTime > 0 )
+			{
+				playPercent = (float)playTime * 100.0f / (float)totalTime;
+			}
+		}
+
+		playPercent = std::clamp( playPercent, 0.0f, 100.0f );
+		playPos = (int)( playPercent * 1000.0f );
 	}
 
 	lockClientList();

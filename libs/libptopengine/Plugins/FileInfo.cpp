@@ -122,7 +122,7 @@ FileInfo::FileInfo( AssetBaseInfo& assetInfo, VxSha1Hash& sha1Hash )
 
 //============================================================================
 FileInfo::FileInfo( OfferBaseInfo& offerInfo )
-	: VxFileInfoBase( offerInfo.getAssetName().c_str(), offerInfo.getAssetNameAndPath().c_str(), (uint8_t)offerInfo.getAssetType(), offerInfo.getAssetLength() )
+	: VxFileInfoBase( offerInfo.getAssetName().c_str(), offerInfo.getAssetNameAndPath().c_str(), offerInfo.getAssetLength(), (uint8_t)offerInfo.getAssetType() )
 	, m_OnlineId( offerInfo.getHistoryId() )
 	, m_FileHash( offerInfo.getOfferHashId() )
     , m_AssetId( offerInfo.getOfferId() )
@@ -134,7 +134,7 @@ FileInfo::FileInfo( OfferBaseInfo& offerInfo )
 
 //============================================================================
 FileInfo::FileInfo( VxFileXferInfo& xferInfo, VxGUID onlineId )
-	: VxFileInfoBase( xferInfo.getRmtFileName().c_str(), xferInfo.getLclFileNameAndPath().c_str(), (uint8_t)xferInfo.getAssetType(), xferInfo.getFileLength() )
+	: VxFileInfoBase( xferInfo.getRmtFileName().c_str(), xferInfo.getLclFileNameAndPath().c_str(), xferInfo.getFileLength(), (uint8_t)xferInfo.getAssetType() )
 	, m_OnlineId( onlineId )
 	, m_FileHash( xferInfo.getFileHashId() )
     , m_AssetId( xferInfo.getAssetId() )
