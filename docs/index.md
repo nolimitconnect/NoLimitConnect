@@ -3,6 +3,19 @@ hide:
   - toc
 ---
 
+The website and repository have officially moved to new locations.
+## 🌐 Website Migration
+
+* Old: nolimitconnect.com
+* New: nolimitconnect.org
+
+## 💻 Repository Migration
+
+* Old: gitlab.com/nolimitcode/nolimitconnect.git
+* New: github.com/nolimitconnect/NoLimitConnect.git
+
+Please update your bookmarks and local git remotes to point to the new addresses.
+
   **[Read about High-Risk / Low-Bandwidth Enviroments](high-risk-low-bandwidth.md)**
 
 <div align="center">
