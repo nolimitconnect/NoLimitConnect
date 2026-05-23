@@ -62,7 +62,7 @@ Windows, Linux, Linux ARM (Raspberry Pi and Orange Pi), and Android supported.
 
 Public NoLimitConnect infrastructure hosts are available to help new users get started.
 
-Note: The public NLC Network host also runs a Random Connect Host. It is just there for testing.
+**Note**: The public NLC Network host also runs a Random Connect Host. It is just there for testing.
 
 Do not expect any responses to messages sent to any devices joined in that host. 
 
