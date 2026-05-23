@@ -29,6 +29,25 @@
 #include <QMessageBox>
 #include <QSlider>
 
+namespace
+{
+	bool isCallbackForCurrentAsset( AssetBaseInfo& assetInfo, VxGUID& sessionId, VxGUID& feedId )
+	{
+		if( !feedId.isValid() )
+		{
+			return true;
+		}
+
+		if( assetInfo.isStream() )
+		{
+			return !sessionId.isValid() || ( feedId == sessionId );
+		}
+
+		VxGUID assetId = assetInfo.getAssetUniqueId();
+		return !assetId.isValid() || ( feedId == assetId );
+	}
+}
+
 //============================================================================
 AppletPlayerNlcBase::AppletPlayerNlcBase( const char* ObjName, AppCommon& app, QWidget* parent )
 : AppletPlayerBase( ObjName, app, parent )
@@ -491,6 +510,11 @@ void AppletPlayerNlcBase::onActivityFinish( void )
 //============================================================================
 void AppletPlayerNlcBase::onPlayStarted( VxGUID& feedId )
 {
+	if( !isCallbackForCurrentAsset( m_AssetInfo, m_SessionId, feedId ) )
+	{
+		return;
+	}
+
 	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s id %s", __func__, feedId.toHexString().c_str() );
 	stopBusySpinner();
 	updateGuiPlayControls( true );
@@ -502,6 +526,11 @@ void AppletPlayerNlcBase::onPlayStarted( VxGUID& feedId )
 //============================================================================
 void AppletPlayerNlcBase::onPlaybackStopped( VxGUID& feedId )
 {
+	if( !isCallbackForCurrentAsset( m_AssetInfo, m_SessionId, feedId ) )
+	{
+		return;
+	}
+
 	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s id %s", __func__, feedId.toHexString().c_str() );
 	if( getIsStreaming() )
 	{
@@ -519,6 +548,11 @@ void AppletPlayerNlcBase::onPlaybackStopped( VxGUID& feedId )
 //============================================================================
 void AppletPlayerNlcBase::onPlaybackEnded( VxGUID& feedId )
 {
+	if( !isCallbackForCurrentAsset( m_AssetInfo, m_SessionId, feedId ) )
+	{
+		return;
+	}
+
 	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s id %s", __func__, feedId.toHexString().c_str() );
 	if( getIsStreaming() )
 	{
@@ -537,6 +571,11 @@ void AppletPlayerNlcBase::onPlaybackEnded( VxGUID& feedId )
 //============================================================================
 void AppletPlayerNlcBase::onCanSeek( VxGUID& feedId, bool canSeek, bool canPause )
 {
+	if( !isCallbackForCurrentAsset( m_AssetInfo, m_SessionId, feedId ) )
+	{
+		return;
+	}
+
 	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s is canSeek ? %d canPause ? %d", __func__, canSeek, canPause );
 	stopBusySpinner();
 	getPlayPauseButton()->setEnabled( canPause );
@@ -546,6 +585,11 @@ void AppletPlayerNlcBase::onCanSeek( VxGUID& feedId, bool canSeek, bool canPause
 //============================================================================
 void AppletPlayerNlcBase::onPlayPause( VxGUID& feedId, bool isPaused )
 {
+	if( !isCallbackForCurrentAsset( m_AssetInfo, m_SessionId, feedId ) )
+	{
+		return;
+	}
+
 	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s is paused ? %d", __func__, isPaused );
 	stopBusySpinner();
 	if( isPaused )
@@ -596,6 +640,11 @@ void AppletPlayerNlcBase::slotUpdateControlsTimeout( void )
 //============================================================================
 void AppletPlayerNlcBase::onUpdatePlayPosition( VxGUID& feedId, int pos0to100000 )
 {
+	if( !isCallbackForCurrentAsset( m_AssetInfo, m_SessionId, feedId ) )
+	{
+		return;
+	}
+
 	slotPlayProgress( pos0to100000 );
 }
 
