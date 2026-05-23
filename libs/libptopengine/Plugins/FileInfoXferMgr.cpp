@@ -682,7 +682,7 @@ void FileInfoXferMgr::onPktFileChunkReply( std::shared_ptr<VxSktBase>& sktBase, 
 	}
 	else
 	{
-		LogMsg( LOG_ERROR, "%s failed to find tx session %s", __func__, poPkt->getRmtSessionId().toHexString().c_str() );
+		if( LogEnabled( eLogFileXfer ) ) LogModule( eLogFileXfer, LOG_VERBOSE, "%s failed to find tx session %s", __func__, poPkt->getRmtSessionId().toHexString().c_str() );
 	}
 }
 

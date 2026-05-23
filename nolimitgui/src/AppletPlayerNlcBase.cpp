@@ -542,6 +542,7 @@ void AppletPlayerNlcBase::onPlaybackStopped( VxGUID& feedId )
 	updateGuiPlayControls( false );
 	resetPlayerControls();
 	setIsPlaying( false );
+	m_MyApp.getAudioMgr().clearPlayerNlcBuffers();
 	m_MyApp.getAudioMgr().setPlayerNlcAcceptInput( false );
 }
 
@@ -564,6 +565,7 @@ void AppletPlayerNlcBase::onPlaybackEnded( VxGUID& feedId )
 	updateGuiPlayControls( false );
 	resetPlayerControls();
 	setIsPlaying( false );
+	m_MyApp.getAudioMgr().clearPlayerNlcBuffers();
 	m_MyApp.getAudioMgr().setPlayerNlcAcceptInput( false );
 	getRenderConsumer()->showAppIcon();
 }

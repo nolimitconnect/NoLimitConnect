@@ -14,6 +14,7 @@
 #include <CoreLib/VxDebug.h>
 
 #include <algorithm>
+#include <cstring>
 
 //============================================================================
 AudioSampleBuf::AudioSampleBuf()
@@ -45,9 +46,9 @@ AudioSampleBuf& AudioSampleBuf::operator = ( const AudioSampleBuf& rhs )
 //============================================================================
 void AudioSampleBuf::setMaxSamples( int maxSamples )
 {
-	m_MaxSamples = maxSamples;
+	m_MaxSamples = std::max( 0, maxSamples );
 	m_SampleCnt = 0;
-	m_PcmData.resize( maxSamples );
+	m_PcmData.resize( m_MaxSamples );
 }
 
 //============================================================================
@@ -70,22 +71,36 @@ int AudioSampleBuf::readSamples( int16_t* retSamplesBuf, int sampleCnt )
 //============================================================================
 void AudioSampleBuf::samplesWereRead( int samplesRead )
 {
-	if( samplesRead == m_SampleCnt )
+	if( samplesRead <= 0 )
 	{
-		m_SampleCnt = 0;
+		return;
 	}
-	else if( samplesRead < m_SampleCnt )
-	{
-		int samplesToMove = m_SampleCnt - samplesRead;
-		int16_t* dest = m_PcmData.data();
-		int16_t* src = &m_PcmData[samplesRead];
 
-		memcpy( dest, src, samplesToMove * AUDIO_BYTES_PER_SAMPLE);
-		m_SampleCnt = samplesToMove;
+	const int vectorMaxSamples = static_cast<int>( m_PcmData.size() );
+	if( m_SampleCnt < 0 || m_SampleCnt > m_MaxSamples || m_SampleCnt > vectorMaxSamples )
+	{
+		if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_ERROR, "AudioSampleBuf::samplesWereRead clamping invalid m_SampleCnt %d max %d vector %d", m_SampleCnt, m_MaxSamples, vectorMaxSamples );
+		m_SampleCnt = std::min( std::max( m_SampleCnt, 0 ), std::min( m_MaxSamples, vectorMaxSamples ) );
+	}
+
+	if( samplesRead >= m_SampleCnt )
+	{
+		if( samplesRead > m_SampleCnt && LogEnabled(eLogAudioIo) )
+		{
+			LogModule( eLogAudioIo, LOG_WARNING, "AudioSampleBuf::samplesWereRead over-read samplesRead %d m_SampleCnt %d", samplesRead, m_SampleCnt );
+		}
+
+		m_SampleCnt = 0;
 	}
 	else
 	{
-		if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_ERROR, "AudioSampleBuf::sampleWereRead ERROR samplesRead %d m_SampleCnt %d", samplesRead, m_SampleCnt );
+		int samplesToMove = m_SampleCnt - samplesRead;
+		int16_t* dest = m_PcmData.data();
+		int16_t* src = m_PcmData.data() + samplesRead;
+
+		// src/dest regions overlap when compacting the buffer toward index 0.
+		memmove( dest, src, samplesToMove * AUDIO_BYTES_PER_SAMPLE);
+		m_SampleCnt = samplesToMove;
 	}
 }
 
@@ -123,7 +138,19 @@ int AudioSampleBuf::writeSamples( int16_t* srcSamplesBuf, int sampleCnt )
 //============================================================================
 void AudioSampleBuf::samplesWereWritten( int sampleCnt )		
 { 
+	if( sampleCnt <= 0 )
+	{
+		return;
+	}
+
 	m_SampleCnt += sampleCnt;
+	const int vectorMaxSamples = static_cast<int>( m_PcmData.size() );
+	const int safeMaxSamples = std::min( m_MaxSamples, vectorMaxSamples );
+	if( m_SampleCnt > safeMaxSamples )
+	{
+		if(LogEnabled(eLogAudioIo)) LogModule( eLogAudioIo, LOG_WARNING, "AudioSampleBuf::samplesWereWritten clamping m_SampleCnt %d to %d", m_SampleCnt, safeMaxSamples );
+		m_SampleCnt = safeMaxSamples;
+	}
 }
 
 //============================================================================

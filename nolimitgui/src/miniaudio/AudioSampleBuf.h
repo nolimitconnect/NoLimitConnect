@@ -31,10 +31,46 @@ public:
 	void						setMaxSamples( int maxSamples ); // also resizes m_PcmData
 	int							getMaxSamples( void )					{ return m_MaxSamples; }
 
-	void						setSampleCnt( int sampleCnt )			{ m_SampleCnt = sampleCnt; }
+	void						setSampleCnt( int sampleCnt )
+	{
+		if( sampleCnt < 0 )
+		{
+			m_SampleCnt = 0;
+		}
+		else
+		{
+			const int vectorMaxSamples = static_cast<int>( m_PcmData.size() );
+			if( sampleCnt > m_MaxSamples )
+			{
+				sampleCnt = m_MaxSamples;
+			}
+
+			if( sampleCnt > vectorMaxSamples )
+			{
+				sampleCnt = vectorMaxSamples;
+			}
+
+			m_SampleCnt = sampleCnt;
+		}
+	}
 	int							getSampleCnt( void )					{ return m_SampleCnt; }
 
-	int16_t*					getSampleBuffer( bool atCurIdx = false ) { return atCurIdx ? &m_PcmData[ m_SampleCnt ] :  m_PcmData.data(); }
+	int16_t*					getSampleBuffer( bool atCurIdx = false )
+	{
+		int sampleIdx = atCurIdx ? m_SampleCnt : 0;
+		if( sampleIdx < 0 )
+		{
+			sampleIdx = 0;
+		}
+
+		const int vectorMaxSamples = static_cast<int>( m_PcmData.size() );
+		if( sampleIdx > vectorMaxSamples )
+		{
+			sampleIdx = vectorMaxSamples;
+		}
+
+		return m_PcmData.data() + sampleIdx;
+	}
 
 	virtual int					writeSamples( int16_t* samplesBuf, int sampleCnt );
 	void						samplesWereWritten( int sampleCnt );

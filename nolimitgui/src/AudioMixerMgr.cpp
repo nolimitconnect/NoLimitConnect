@@ -89,19 +89,33 @@ void AudioMixerMgr::callbackAudioOut60msSpaceAvail(int freeSpaceLenBytes)
 
     if( LogEnabled( eLogPlayerNlc ) )
     {
-        static int lastPlayerDiagLogMs = 0;
+        static int  lastPlayerDiagLogMs      = 0;
+        static int  lastDiagQueueFrames      = -1;
+        static int  lastDiagScratchSamples   = -1;
+        static int  lastDiagFreeBytes        = -1;
+
         int nowMs = GetApplicationAliveMs();
-        if( nowMs - lastPlayerDiagLogMs >= 1000 )
+        if( nowMs - lastPlayerDiagLogMs >= 5000 )
         {
-            lastPlayerDiagLogMs = nowMs;
-            float delaySec = toGuiGetAudioDelaySeconds( eMediaModulePlayerNlc );
-            float maxSec = toGuiGetAudioCacheMaxSeconds( eMediaModulePlayerNlc );
+            float delaySec  = toGuiGetAudioDelaySeconds( eMediaModulePlayerNlc );
+            float maxSec    = toGuiGetAudioCacheMaxSeconds( eMediaModulePlayerNlc );
             float freeBytes = toGuiGetAudioCacheFreeSpaceBytes( eMediaModulePlayerNlc );
-            float freeSec = maxSec - delaySec;
+            float freeSec   = maxSec - delaySec;
             if( freeSec < 0.0f )
             {
                 freeSec = 0.0f;
             }
+
+            int freeBytesInt = static_cast<int>( freeBytes );
+            bool changed = ( playerQueueFrames    != lastDiagQueueFrames    ||
+                             playerScratchSamples != lastDiagScratchSamples ||
+                             freeBytesInt         != lastDiagFreeBytes );
+            if( changed )
+            {
+                lastPlayerDiagLogMs    = nowMs;
+                lastDiagQueueFrames    = playerQueueFrames;
+                lastDiagScratchSamples = playerScratchSamples;
+                lastDiagFreeBytes      = freeBytesInt;
 
                 LogModule( eLogPlayerNlc, LOG_VERBOSE,
                     "AudioMixerMgr::%s PlayerNlc diag queueFrames=%d scratchSamples=%d delaySec=%3.3f freeSec=%3.3f maxSec=%3.3f freeBytes=%d",
@@ -111,7 +125,8 @@ void AudioMixerMgr::callbackAudioOut60msSpaceAvail(int freeSpaceLenBytes)
                     delaySec,
                     freeSec,
                     maxSec,
-                    static_cast<int>( freeBytes ) );
+                    freeBytesInt );
+            }
         }
     }
 }
