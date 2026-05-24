@@ -3,7 +3,7 @@ hide:
   - toc
 ---
 
-The website and repository have officially moved to new locations.
+The website and repository have officially moved to this location.
 ## 🌐 Website Migration
 
 * Old: nolimitconnect.com
