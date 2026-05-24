@@ -308,6 +308,10 @@ void AppletPlayerNlcBase::stopMediaIfPlaying( void )
 {
 	if( m_IsPlaying )
 	{
+		// Stop accepting decoder callbacks immediately so queue state cannot repopulate during stop.
+		m_MyApp.getAudioMgr().setPlayerNlcAcceptInput( false );
+		m_MyApp.getAudioMgr().clearPlayerNlcBuffers();
+
 		m_MyApp.toGuiStatusMessage( "" );
 		m_Engine.fromGuiAssetAction( eAssetActionPlayEnd, m_AssetInfo, 0 );
 
@@ -322,6 +326,7 @@ void AppletPlayerNlcBase::stopMediaIfPlaying( void )
 	}
 
 	IMediaPlayerRequests::getNlcPlayer().fromGuiStopButtonClicked();
+	m_MyApp.getAudioMgr().setPlayerNlcAcceptInput( false );
 	m_MyApp.getAudioMgr().clearPlayerNlcBuffers();
 }
 
@@ -595,6 +600,19 @@ void AppletPlayerNlcBase::onPlayPause( VxGUID& feedId, bool isPaused )
 	LogModule( eLogPlayerNlc, LOG_VERBOSE, "AppletPlayerNlcBase::%s is paused ? %d", __func__, isPaused );
 	stopBusySpinner();
 	if( isPaused )
+	{
+		// Flush immediately when paused so resume starts from a clean state.
+		m_MyApp.getAudioMgr().setPlayerNlcAcceptInput( false );
+		m_MyApp.getAudioMgr().clearPlayerNlcBuffers();
+	}
+	else
+	{
+		// Resume with a fresh queue; stale buffered frames can otherwise block startup.
+		m_MyApp.getAudioMgr().clearPlayerNlcBuffers();
+		m_MyApp.getAudioMgr().setPlayerNlcAcceptInput( true );
+	}
+
+	if( isPaused )
 	{ 
 		getPlayPauseButton()->setIcons( eMyIconPauseNormal );
 	}
@@ -685,6 +703,9 @@ void AppletPlayerNlcBase::updateLastPlayedFile( void )
 //============================================================================
 void AppletPlayerNlcBase::onAboutToDestroyApplet( void )
 {
+	// Ensure stream and playback teardown runs before stopping the player module.
+	// This prevents shutdown from waiting on active virtual-stream reads.
+	stopMediaIfPlaying();
     getRenderConsumer()->aboutToDestroy();
 	IMediaPlayerRequests::getNlcPlayer().fromGuiStopModule( eMediaModulePlayerNlc );
 }

@@ -192,6 +192,7 @@ void VirtStreamMgr::onPlaybackEnded( VxGUID& feedId )
 //============================================================================
 void VirtStreamMgr::onStreamStop( void )
 {
+	m_Plugin.wantFileXferCallback( this, false );
 	VxGUID streamSessionId = m_LiveStream.m_StreamSessionId;
 	m_Engine.onStreamStop( streamSessionId );
 

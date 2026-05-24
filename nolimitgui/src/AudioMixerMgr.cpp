@@ -23,6 +23,7 @@ void AudioMixerMgr::callbackAudioOut60msSpaceAvail(int freeSpaceLenBytes)
 {
     std::vector<int32_t> accumulator(AUDIO_SAMPLES_PER_FRAME, 0);
     int16_t tempFrame[AUDIO_SAMPLES_PER_FRAME];
+    std::vector<int16_t> playerFrame;
     int activeSources = 0;
     int playerQueueFrames = 0;
     int playerScratchSamples = 0;
@@ -37,11 +38,9 @@ void AudioMixerMgr::callbackAudioOut60msSpaceAvail(int freeSpaceLenBytes)
     // accumulated before playback starts, preventing the beginning from being consumed too early.
     if( m_PlayerNlcPrimed && !m_PlayerCacheQueue.empty() )
     {
-        // move a frame of player-nlc audio from the player cache queue to the mixer buffer so it can be mixed with other sources and played out
-        auto& frame = m_PlayerCacheQueue.front();  
-        lockModuleMixerBuffer();
-        getAudioMixerBuf( eMediaModulePlayerNlc ).writeSamples( frame.data() ); 
-        unlockModuleMixerBuffer();
+        // Copy the queued frame while holding player cache lock, then release it before touching mixer lock.
+        // This avoids lock-order inversion with UI code that may lock mixer then player cache.
+        playerFrame = m_PlayerCacheQueue.front();
         m_PlayerCacheQueue.pop_front();
     }
 
@@ -49,6 +48,13 @@ void AudioMixerMgr::callbackAudioOut60msSpaceAvail(int freeSpaceLenBytes)
     playerScratchSamples = m_PlayerCacheBuf.getSampleCnt();
 
     unlockPlayerCache();
+
+    if( !playerFrame.empty() )
+    {
+        lockModuleMixerBuffer();
+        getAudioMixerBuf( eMediaModulePlayerNlc ).writeSamples( playerFrame.data() );
+        unlockModuleMixerBuffer();
+    }
 
     {
         std::lock_guard<std::mutex> lock(m_ModuleMixerMutex);
@@ -396,6 +402,7 @@ void AudioMixerMgr::setPlayerNlcActive( bool isActive )
         }
         else
         {
+            clearPlayerNlcBuffers();
             removeAudioMixerBuf( eMediaModulePlayerNlc );
         }
         

@@ -169,11 +169,17 @@ void AudioMgr::cancelDeferredAudioOutDisable( void )
 int AudioMgr::getAudioOutPipelineQueuedSampleCnt( void )
 {
     int queuedSamples = 0;
+    int playerCacheSamples = 0;
 
     {
         std::lock_guard<std::mutex> lk( m_SpeakerOutBufferMutex );
         queuedSamples += static_cast<int>( m_SpeakerOutBuffer.size() );
     }
+
+    lockPlayerCache();
+    playerCacheSamples += m_PlayerCacheBuf.getSampleCnt();
+    playerCacheSamples += m_PlayerCacheQueue.size() * AUDIO_SAMPLES_PER_FRAME;
+    unlockPlayerCache();
 
     int maxModuleSamplesInMixer = 0;
     lockModuleMixerBuffer();
@@ -187,10 +193,7 @@ int AudioMgr::getAudioOutPipelineQueuedSampleCnt( void )
         int mixerBufSamples = mixerBuf.getSampleCnt();
         if( module == eMediaModulePlayerNlc )
         {
-            lockPlayerCache();
-            mixerBufSamples += m_PlayerCacheBuf.getSampleCnt();
-            mixerBufSamples += m_PlayerCacheQueue.size() * AUDIO_SAMPLES_PER_FRAME;
-            unlockPlayerCache();
+            mixerBufSamples += playerCacheSamples;
         }
 
         if( mixerBufSamples > maxModuleSamplesInMixer )
