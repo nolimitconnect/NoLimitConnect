@@ -26,6 +26,11 @@ key_comment="${NLC_FLATPAK_GPG_COMMENT:-Flatpak repo signing key}"
 key_expire="${NLC_FLATPAK_GPG_EXPIRE:-2y}"
 required_fpr="${NLC_FLATPAK_REQUIRED_FPR:-}"
 
+normalized_required_fpr=""
+if [[ -n "${required_fpr}" ]]; then
+    normalized_required_fpr="$(printf '%s' "${required_fpr}" | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]')"
+fi
+
 mkdir -p "${gpg_homedir}" "$(dirname "${public_key_out}")" "${workspace_root}/build"
 chmod 700 "${gpg_homedir}"
 
@@ -37,13 +42,23 @@ if [[ -n "${key_hint}" ]]; then
 fi
 
 if [[ -z "${key_id}" ]]; then
-    existing_fpr="$(gpg --homedir "${gpg_homedir}" --batch --list-secret-keys --with-colons 2>/dev/null | awk -F: '$1 == "fpr" { print $10; exit }')"
+    if [[ -n "${normalized_required_fpr}" ]]; then
+        existing_fpr="$(gpg --homedir "${gpg_homedir}" --batch --list-secret-keys --with-colons "${normalized_required_fpr}" 2>/dev/null | awk -F: '$1 == "fpr" { print $10; exit }')"
+    else
+        existing_fpr="$(gpg --homedir "${gpg_homedir}" --batch --list-secret-keys --with-colons 2>/dev/null | awk -F: '$1 == "fpr" { print $10; exit }')"
+    fi
     if [[ -n "${existing_fpr}" ]]; then
         key_id="${existing_fpr}"
     fi
 fi
 
 if [[ -z "${key_id}" ]]; then
+    if [[ -n "${normalized_required_fpr}" ]]; then
+        echo "Required fingerprint ${normalized_required_fpr} was not found in ${gpg_homedir}." >&2
+        echo "Import the canonical keypair first, then re-run this script." >&2
+        exit 1
+    fi
+
     echo "Generating new Flatpak signing key in ${gpg_homedir}"
 
     batch_file="$(mktemp)"
@@ -71,8 +86,7 @@ if [[ -z "${key_id}" ]]; then
     exit 1
 fi
 
-if [[ -n "${required_fpr}" ]]; then
-    normalized_required_fpr="$(printf '%s' "${required_fpr}" | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]')"
+if [[ -n "${normalized_required_fpr}" ]]; then
     resolved_fpr="$(gpg --homedir "${gpg_homedir}" --batch --list-secret-keys --with-colons "${key_id}" 2>/dev/null | awk -F: '$1 == "fpr" { print $10; exit }')"
     resolved_fpr="$(printf '%s' "${resolved_fpr}" | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]')"
 
