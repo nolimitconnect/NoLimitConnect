@@ -2,8 +2,18 @@
 set -euo pipefail
 
 workspace_root="${1:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
-gpg_homedir="${NLC_FLATPAK_GPG_HOMEDIR:-${workspace_root}/build/flatpak-gnupg}"
-keyid_file="${workspace_root}/build/flatpak-gpg-key-id.txt"
+default_gpg_homedir="${HOME}/gpg/flatpak-gnupg"
+legacy_gpg_homedir="${workspace_root}/build/flatpak-gnupg"
+gpg_homedir="${NLC_FLATPAK_GPG_HOMEDIR:-${default_gpg_homedir}}"
+if [[ -z "${NLC_FLATPAK_GPG_HOMEDIR:-}" && ! -d "${gpg_homedir}" && -d "${legacy_gpg_homedir}" ]]; then
+  gpg_homedir="${legacy_gpg_homedir}"
+fi
+default_keyid_file="${HOME}/gpg/flatpak-gpg-key-id.txt"
+legacy_keyid_file="${workspace_root}/build/flatpak-gpg-key-id.txt"
+keyid_file="${NLC_FLATPAK_GPG_KEY_ID_FILE:-${default_keyid_file}}"
+if [[ -z "${NLC_FLATPAK_GPG_KEY_ID_FILE:-}" && ! -f "${keyid_file}" && -f "${legacy_keyid_file}" ]]; then
+  keyid_file="${legacy_keyid_file}"
+fi
 public_out="${2:-/tmp/nlc-flatpak-public.asc}"
 private_out="${3:-/tmp/nlc-flatpak-private.asc}"
 

@@ -2,10 +2,20 @@
 set -euo pipefail
 
 workspace_root="${1:-$(pwd)}"
-gpg_homedir="${NLC_FLATPAK_GPG_HOMEDIR:-${workspace_root}/build/flatpak-gnupg}"
+default_gpg_homedir="${HOME}/gpg/flatpak-gnupg"
+legacy_gpg_homedir="${workspace_root}/build/flatpak-gnupg"
+gpg_homedir="${NLC_FLATPAK_GPG_HOMEDIR:-${default_gpg_homedir}}"
+if [[ -z "${NLC_FLATPAK_GPG_HOMEDIR:-}" && ! -d "${gpg_homedir}" && -d "${legacy_gpg_homedir}" ]]; then
+  gpg_homedir="${legacy_gpg_homedir}"
+fi
 public_in="${2:-/tmp/nlc-flatpak-public.asc}"
 private_in="${3:-/tmp/nlc-flatpak-private.asc}"
-keyid_file="${workspace_root}/build/flatpak-gpg-key-id.txt"
+default_keyid_file="${HOME}/gpg/flatpak-gpg-key-id.txt"
+legacy_keyid_file="${workspace_root}/build/flatpak-gpg-key-id.txt"
+keyid_file="${NLC_FLATPAK_GPG_KEY_ID_FILE:-${default_keyid_file}}"
+if [[ -z "${NLC_FLATPAK_GPG_KEY_ID_FILE:-}" && ! -f "${keyid_file}" && -f "${legacy_keyid_file}" ]]; then
+  keyid_file="${legacy_keyid_file}"
+fi
 
 if [[ ! -f "${public_in}" ]]; then
   echo "Missing public key file: ${public_in}" >&2

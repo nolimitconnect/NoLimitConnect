@@ -12,7 +12,18 @@ set -euo pipefail
 
 workspace_root="${1:-$(pwd)}"
 shell_rc="${2:-${HOME}/.bashrc}"
-keyid_file="${workspace_root}/build/flatpak-gpg-key-id.txt"
+default_keyid_file="${HOME}/gpg/flatpak-gpg-key-id.txt"
+legacy_keyid_file="${workspace_root}/build/flatpak-gpg-key-id.txt"
+keyid_file="${NLC_FLATPAK_GPG_KEY_ID_FILE:-${default_keyid_file}}"
+if [[ -z "${NLC_FLATPAK_GPG_KEY_ID_FILE:-}" && ! -f "${keyid_file}" && -f "${legacy_keyid_file}" ]]; then
+  keyid_file="${legacy_keyid_file}"
+fi
+default_gpg_homedir="${HOME}/gpg/flatpak-gnupg"
+legacy_gpg_homedir="${workspace_root}/build/flatpak-gnupg"
+gpg_homedir="${NLC_FLATPAK_GPG_HOMEDIR:-${default_gpg_homedir}}"
+if [[ -z "${NLC_FLATPAK_GPG_HOMEDIR:-}" && ! -d "${gpg_homedir}" && -d "${legacy_gpg_homedir}" ]]; then
+  gpg_homedir="${legacy_gpg_homedir}"
+fi
 managed_begin="# >>> NLC Flatpak signing guard >>>"
 managed_end="# <<< NLC Flatpak signing guard <<<"
 
@@ -23,7 +34,7 @@ fi
 
 if [[ ! -f "${keyid_file}" ]]; then
   echo "Missing key id file: ${keyid_file}" >&2
-  echo "Run ./.vscode/flatpak-gpg-init.sh first (or import keypair) so build/flatpak-gpg-key-id.txt exists." >&2
+  echo "Run ./.vscode/flatpak-gpg-init.sh first (or import keypair) so a key-id file exists." >&2
   exit 1
 fi
 
@@ -46,7 +57,8 @@ cat >> "${shell_rc}" <<EOF
 ${managed_begin}
 if [[ -d "${workspace_root}" && -f "${keyid_file}" ]]; then
   export NLC_FLATPAK_REQUIRED_FPR="\$(tr -d '[:space:]' < "${keyid_file}")"
-  export NLC_FLATPAK_GPG_HOMEDIR="${workspace_root}/build/flatpak-gnupg"
+  export NLC_FLATPAK_GPG_HOMEDIR="${gpg_homedir}"
+  export NLC_FLATPAK_GPG_KEY_ID_FILE="${keyid_file}"
 fi
 ${managed_end}
 EOF

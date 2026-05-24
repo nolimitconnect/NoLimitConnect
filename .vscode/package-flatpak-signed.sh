@@ -6,7 +6,8 @@
 #
 # Optional environment variables:
 #   NLC_FLATPAK_GPG_KEY_ID      (key id/fingerprint to sign with)
-#   NLC_FLATPAK_GPG_HOMEDIR     (default: <workspace>/build/flatpak-gnupg)
+#   NLC_FLATPAK_GPG_HOMEDIR     (default: ~/gpg/flatpak-gnupg)
+#   NLC_FLATPAK_GPG_KEY_ID_FILE (default: ~/gpg/flatpak-gpg-key-id.txt)
 #   NLC_FLATPAK_PUBLIC_KEY_OUT  (default: <workspace>/docs/nlc-flatpak-public.gpg)
 #   NLC_FLATPAK_REQUIRED_FPR    (fail if resolved key fingerprint does not match)
 
@@ -17,8 +18,19 @@ manifest="${workspace_root}/org.nolimitconnect.NoLimitConnect.yml"
 repo_dir="${workspace_root}/build/flatpak-repo"
 build_dir="${workspace_root}/build/flatpak-build-release-dir"
 package_dir="${workspace_root}/package/flatpack"
-gpg_homedir="${NLC_FLATPAK_GPG_HOMEDIR:-${workspace_root}/build/flatpak-gnupg}"
+default_gpg_homedir="${HOME}/gpg/flatpak-gnupg"
+legacy_gpg_homedir="${workspace_root}/build/flatpak-gnupg"
+gpg_homedir="${NLC_FLATPAK_GPG_HOMEDIR:-${default_gpg_homedir}}"
+if [[ -z "${NLC_FLATPAK_GPG_HOMEDIR:-}" && ! -d "${gpg_homedir}" && -d "${legacy_gpg_homedir}" ]]; then
+    gpg_homedir="${legacy_gpg_homedir}"
+fi
 public_key_out="${NLC_FLATPAK_PUBLIC_KEY_OUT:-${workspace_root}/docs/nlc-flatpak-public.gpg}"
+default_key_id_file="${HOME}/gpg/flatpak-gpg-key-id.txt"
+legacy_key_id_file="${workspace_root}/build/flatpak-gpg-key-id.txt"
+key_id_file="${NLC_FLATPAK_GPG_KEY_ID_FILE:-${default_key_id_file}}"
+if [[ -z "${NLC_FLATPAK_GPG_KEY_ID_FILE:-}" && ! -f "${key_id_file}" && -f "${legacy_key_id_file}" ]]; then
+    key_id_file="${legacy_key_id_file}"
+fi
 key_id="${NLC_FLATPAK_GPG_KEY_ID:-}"
 required_fpr="${NLC_FLATPAK_REQUIRED_FPR:-}"
 
@@ -35,8 +47,8 @@ if [[ ! -d "${gpg_homedir}" ]]; then
     exit 1
 fi
 
-if [[ -z "${key_id}" && -f "${workspace_root}/build/flatpak-gpg-key-id.txt" ]]; then
-    key_id="$(head -n 1 "${workspace_root}/build/flatpak-gpg-key-id.txt" | tr -d '[:space:]')"
+if [[ -z "${key_id}" && -f "${key_id_file}" ]]; then
+    key_id="$(head -n 1 "${key_id_file}" | tr -d '[:space:]')"
 fi
 
 if [[ -z "${key_id}" ]]; then
@@ -45,7 +57,7 @@ fi
 
 if [[ -z "${key_id}" ]]; then
     echo "No Flatpak signing key found." >&2
-    echo "Run ./.vscode/flatpak-gpg-init.sh first or set NLC_FLATPAK_GPG_KEY_ID." >&2
+    echo "Run ./.vscode/flatpak-gpg-init.sh first or set NLC_FLATPAK_GPG_KEY_ID/NLC_FLATPAK_GPG_KEY_ID_FILE." >&2
     exit 1
 fi
 
