@@ -8,6 +8,7 @@
 #   NLC_FLATPAK_GPG_KEY_ID      (key id/fingerprint to sign with)
 #   NLC_FLATPAK_GPG_HOMEDIR     (default: <workspace>/build/flatpak-gnupg)
 #   NLC_FLATPAK_PUBLIC_KEY_OUT  (default: <workspace>/docs/nlc-flatpak-public.gpg)
+#   NLC_FLATPAK_REQUIRED_FPR    (fail if resolved key fingerprint does not match)
 
 set -euo pipefail
 
@@ -19,6 +20,7 @@ package_dir="${workspace_root}/package/flatpack"
 gpg_homedir="${NLC_FLATPAK_GPG_HOMEDIR:-${workspace_root}/build/flatpak-gnupg}"
 public_key_out="${NLC_FLATPAK_PUBLIC_KEY_OUT:-${workspace_root}/docs/nlc-flatpak-public.gpg}"
 key_id="${NLC_FLATPAK_GPG_KEY_ID:-}"
+required_fpr="${NLC_FLATPAK_REQUIRED_FPR:-}"
 
 if ! grep -q -- "-DCMAKE_BUILD_TYPE=Release" "${manifest}"; then
     echo "Flatpak manifest must set -DCMAKE_BUILD_TYPE=Release" >&2
@@ -45,6 +47,25 @@ if [[ -z "${key_id}" ]]; then
     echo "No Flatpak signing key found." >&2
     echo "Run ./.vscode/flatpak-gpg-init.sh first or set NLC_FLATPAK_GPG_KEY_ID." >&2
     exit 1
+fi
+
+if [[ -n "${required_fpr}" ]]; then
+    normalized_required_fpr="$(printf '%s' "${required_fpr}" | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]')"
+    resolved_fpr="$(gpg --homedir "${gpg_homedir}" --batch --list-secret-keys --with-colons "${key_id}" 2>/dev/null | awk -F: '$1 == "fpr" { print $10; exit }')"
+    resolved_fpr="$(printf '%s' "${resolved_fpr}" | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]')"
+
+    if [[ -z "${resolved_fpr}" ]]; then
+        echo "Unable to resolve fingerprint for signing key: ${key_id}" >&2
+        exit 1
+    fi
+
+    if [[ "${resolved_fpr}" != "${normalized_required_fpr}" ]]; then
+        echo "Refusing to sign Flatpak repo with unexpected key." >&2
+        echo "  Required fingerprint: ${normalized_required_fpr}" >&2
+        echo "  Resolved fingerprint: ${resolved_fpr}" >&2
+        echo "Set NLC_FLATPAK_GPG_KEY_ID/NLC_FLATPAK_GPG_HOMEDIR to the canonical key or update NLC_FLATPAK_REQUIRED_FPR intentionally." >&2
+        exit 1
+    fi
 fi
 
 flatpak-builder --force-clean --repo="${repo_dir}" "${build_dir}" "${manifest}"

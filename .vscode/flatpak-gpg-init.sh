@@ -10,6 +10,7 @@
 #   NLC_FLATPAK_GPG_COMMENT     (default: Flatpak repo signing key)
 #   NLC_FLATPAK_GPG_EXPIRE      (default: 2y)
 #   NLC_FLATPAK_GPG_KEY_ID      (reuse existing key id/fingerprint)
+#   NLC_FLATPAK_REQUIRED_FPR    (fail if resolved key fingerprint does not match)
 #   NLC_FLATPAK_GPG_HOMEDIR     (default: <workspace>/build/flatpak-gnupg)
 #   NLC_FLATPAK_PUBLIC_KEY_OUT  (default: <workspace>/docs/nlc-flatpak-public.gpg)
 
@@ -23,6 +24,7 @@ key_name="${NLC_FLATPAK_GPG_NAME:-NoLimitConnect Flatpak Repo}"
 key_email="${NLC_FLATPAK_GPG_EMAIL:-release@nolimitconnect.org}"
 key_comment="${NLC_FLATPAK_GPG_COMMENT:-Flatpak repo signing key}"
 key_expire="${NLC_FLATPAK_GPG_EXPIRE:-2y}"
+required_fpr="${NLC_FLATPAK_REQUIRED_FPR:-}"
 
 mkdir -p "${gpg_homedir}" "$(dirname "${public_key_out}")" "${workspace_root}/build"
 chmod 700 "${gpg_homedir}"
@@ -67,6 +69,25 @@ fi
 if [[ -z "${key_id}" ]]; then
     echo "Failed to resolve a Flatpak signing key id." >&2
     exit 1
+fi
+
+if [[ -n "${required_fpr}" ]]; then
+    normalized_required_fpr="$(printf '%s' "${required_fpr}" | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]')"
+    resolved_fpr="$(gpg --homedir "${gpg_homedir}" --batch --list-secret-keys --with-colons "${key_id}" 2>/dev/null | awk -F: '$1 == "fpr" { print $10; exit }')"
+    resolved_fpr="$(printf '%s' "${resolved_fpr}" | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]')"
+
+    if [[ -z "${resolved_fpr}" ]]; then
+        echo "Unable to resolve fingerprint for key: ${key_id}" >&2
+        exit 1
+    fi
+
+    if [[ "${resolved_fpr}" != "${normalized_required_fpr}" ]]; then
+        echo "Refusing to continue with unexpected Flatpak key." >&2
+        echo "  Required fingerprint: ${normalized_required_fpr}" >&2
+        echo "  Resolved fingerprint: ${resolved_fpr}" >&2
+        echo "Set NLC_FLATPAK_GPG_KEY_ID/NLC_FLATPAK_GPG_HOMEDIR to the canonical key or update NLC_FLATPAK_REQUIRED_FPR intentionally." >&2
+        exit 1
+    fi
 fi
 
 gpg --homedir "${gpg_homedir}" --batch --yes --output "${public_key_out}" --export "${key_id}"
