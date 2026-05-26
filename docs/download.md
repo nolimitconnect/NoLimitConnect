@@ -1,5 +1,3 @@
-!!! warning "Important Notice"
-    The version of NoLimitConnect previously hosted on Flathub (com.nolimitconnect.NoLimitConnect) is deprecated and no longer maintained. We have requested the End-of-Life (EOL) status for the Flathub package. Please do not download our software from Flathub. Only trust the downloads provided directly on this official website.
 
 # Download - Public Beta Builds
 
