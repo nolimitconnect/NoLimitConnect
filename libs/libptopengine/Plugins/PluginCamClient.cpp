@@ -762,6 +762,16 @@ void PluginCamClient::onContactWentOffline( VxNetIdent* netIdent, std::shared_pt
 }
 
 //============================================================================
+void PluginCamClient::onContactOnlineStatusChange( ConnectId& connectId, bool isOnline )
+{
+	m_PluginSessionMgr.onContactOnlineStatusChange( connectId, isOnline );
+	if( !isOnline && getIsServerInSession() )
+	{
+		IToGui::getIToGui().toGuiPluginStatus( m_ePluginType, 1, m_PluginSessionMgr.getTxSessionCount() );
+	}
+}
+
+//============================================================================
 void PluginCamClient::onNetworkConnectionReady( bool requiresRelay )
 {
 	if( eFriendStateIgnore != m_MyIdent->getPluginPermission( getPluginType() ) )

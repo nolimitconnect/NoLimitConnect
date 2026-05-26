@@ -533,6 +533,12 @@ void PluginBaseMultimedia::onContactWentOffline( VxNetIdent* netIdent, std::shar
 }
 
 //============================================================================
+void PluginBaseMultimedia::onContactOnlineStatusChange( ConnectId& connectId, bool isOnline )
+{
+	m_PluginSessionMgr.onContactOnlineStatusChange( connectId, isOnline );
+}
+
+//============================================================================
 void PluginBaseMultimedia::broadcastToClients( VxPktHdr* pktHdr, VxGUID& requesterOnlineId, std::shared_ptr<VxSktBase>& sktBaseRequester, bool includeRequester )
 {
     if( pktHdr && pktHdr->isValidPktPrefix() )

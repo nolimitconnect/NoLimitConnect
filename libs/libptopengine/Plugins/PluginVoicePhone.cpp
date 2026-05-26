@@ -238,5 +238,11 @@ void PluginVoicePhone::onContactWentOffline( VxNetIdent* netIdent, std::shared_p
 	m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
 }
 
+//============================================================================
+void PluginVoicePhone::onContactOnlineStatusChange( ConnectId& connectId, bool isOnline )
+{
+	m_PluginSessionMgr.onContactOnlineStatusChange( connectId, isOnline );
+}
+
 
 

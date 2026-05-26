@@ -23,39 +23,39 @@ public:
 
 	EMediaModule			    getMediaModule( void ) override { return eMediaModuleVoicePhone; }
 
-	virtual bool				fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
-	virtual bool				fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
+	bool                        fromGuiMakePluginOffer( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
+	bool                        fromGuiOfferReply( VxGUID& onlineId, OfferBaseInfo& offerInfo ) override;
 
-	virtual bool				fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-	virtual bool                fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
-	virtual void				fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+	bool                        fromGuiIsPluginInSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+	bool                        fromGuiStartPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
+	void                        fromGuiStopPluginSession( VxGUID& onlineId = VxGUID::nullVxGUID(), VxGUID lclSessionId = VxGUID::nullVxGUID() ) override;
 
-    virtual bool				fromGuiInstMsg( VxGUID& onlineId, const char* pMsg ) override;
+    bool                        fromGuiInstMsg( VxGUID& onlineId, const char* pMsg ) override;
 
-    virtual void				replaceConnection			( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ) override;
+    void                        replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt ) override;
 
 protected:
-	virtual void				onPktPluginOfferReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
-	virtual void				onPktPluginOfferReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+	void                        onPktPluginOfferReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+	void                        onPktPluginOfferReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 
-	virtual void				onPktChatReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+	void                        onPktChatReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 
-	virtual void				onPktVoiceReq				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
-	virtual void				onPktVoiceReply				( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+	void                        onPktVoiceReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+	void                        onPktVoiceReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 	
-	virtual void				onPktSessionStopReq			( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+	void                        onPktSessionStopReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 
-    virtual	void				onContactWentOffline		( VxNetIdent*	netIdent, std::shared_ptr<VxSktBase>& sktBase ) override;
-    virtual	void				onConnectionLost			( std::shared_ptr<VxSktBase>& sktBase ) override;
+    void                        onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase ) override;
+    void                        onConnectionLost( std::shared_ptr<VxSktBase>& sktBase ) override;
 
-	void						onContactOnlineStatusChange( ConnectId& connectId, bool isOnline ) override {};
+	void					    onContactOnlineStatusChange( ConnectId& connectId, bool isOnline ) override;
 
-    virtual void				onSessionStart				( PluginSessionBase* poSession, bool pluginIsLocked ) override;
-    virtual void				onSessionEnded				( PluginSessionBase* poSession, bool pluginIsLocked, EOfferResponse offerResponse ) override;
+	void                        onSessionStart( PluginSessionBase* poSession, bool pluginIsLocked ) override;
+	void                        onSessionEnded( PluginSessionBase* poSession, bool pluginIsLocked, EOfferResponse offerResponse ) override;
 
 protected:
-    virtual void				callbackOpusPkt				( PktVoiceReq * pktOpusAudio ) override;
-    virtual void				callbackAudioOutSpaceAvail( int freeSpaceLenBytes ) override;
+	void                        callbackOpusPkt( PktVoiceReq * pktOpusAudio ) override;
+	void                        callbackAudioOutSpaceAvail( int freeSpaceLenBytes ) override;
 
 	PluginSessionMgr			m_PluginSessionMgr;
 	VoiceFeedMgr				m_VoiceFeedMgr;

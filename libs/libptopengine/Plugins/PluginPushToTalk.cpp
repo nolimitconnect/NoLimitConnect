@@ -238,26 +238,33 @@ void PluginPushToTalk::onSessionEnded( PluginSessionBase* session, bool pluginIs
 {
 	if( LogEnabled( eLogSession ) ) LogModule( eLogSession, LOG_VERBOSE, "PluginPushToTalk::%s for %s", __func__,
 		m_Engine.describeUser( session->getSendToId() ).c_str() );
-	//m_PushToTalkFeedMgr.fromGuiStopPluginSession( pluginIsLocked, session->getSendToId() );
+	VxGUID onlineId = session->getSendToId();
+	m_PushToTalkFeedMgr.onSessionEnded( onlineId );
 }
 
 //============================================================================
 void PluginPushToTalk::replaceConnection( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& poOldSkt, std::shared_ptr<VxSktBase>& poNewSkt )
 {
-	//m_PluginSessionMgr.replaceConnection( netIdent, poOldSkt, poNewSkt );
+	m_PluginSessionMgr.replaceConnection( netIdent, poOldSkt, poNewSkt );
 }
 
 //============================================================================
 void PluginPushToTalk::onConnectionLost( std::shared_ptr<VxSktBase>& sktBase )
 {
-	//m_PushToTalkFeedMgr.onConnectionLost( sktBase );
+	m_PluginSessionMgr.onConnectionLost( sktBase );
 }
 
 //============================================================================
 void PluginPushToTalk::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
 	m_PushToTalkFeedMgr.onContactWentOffline( netIdent, sktBase );
-	//m_PushToTalkFeedMgr.fromGuiStopPluginSession( false, netIdent );
-	//m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
+	m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
+}
+
+//============================================================================
+void PluginPushToTalk::onContactOnlineStatusChange( ConnectId& connectId, bool isOnline )
+{
+	m_PushToTalkFeedMgr.onContactOnlineStatusChange( connectId, isOnline );
+	m_PluginSessionMgr.onContactOnlineStatusChange( connectId, isOnline );
 }
 

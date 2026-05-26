@@ -282,5 +282,11 @@ void PluginVideoPhone::onContactWentOffline( VxNetIdent* netIdent, std::shared_p
 	m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
 }
 
+//============================================================================
+void PluginVideoPhone::onContactOnlineStatusChange( ConnectId& connectId, bool isOnline )
+{
+	m_PluginSessionMgr.onContactOnlineStatusChange( connectId, isOnline );
+}
+
 
 

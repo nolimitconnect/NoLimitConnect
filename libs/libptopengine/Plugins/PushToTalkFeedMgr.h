@@ -51,7 +51,8 @@ public:
 	virtual bool				removePushToTalkUserRx( VxGUID& onlineId);
 	virtual void				onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );
 
-	void						onContactOnlineStatusChange( ConnectId& connectId, bool isOnline ) {};
+	void					onContactOnlineStatusChange( ConnectId& connectId, bool isOnline );
+	void					onSessionEnded( VxGUID& onlineId );
 
 	virtual bool				sendPushToTalkStart( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase );
 	virtual bool				sendPushToTalkStop( VxGUID& onlineId, std::shared_ptr<VxSktBase>& sktBase );
@@ -59,6 +60,7 @@ public:
 
 protected:
 	bool						enableAudioCapture( bool enable, VxGUID& onlineId, EMediaModule mediaModule, std::shared_ptr<VxSktBase>& sktBase );
+	void					cleanupPushToTalkUser( VxGUID& onlineId );
 	void						updatePushToTalkStatus( VxGUID& onlineId );
 	void						startRxSession( std::shared_ptr<VxSktBase>& sktBase, VxGUID& onlineId );
 

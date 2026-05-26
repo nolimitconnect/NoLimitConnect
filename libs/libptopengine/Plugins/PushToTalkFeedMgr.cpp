@@ -301,12 +301,24 @@ void PushToTalkFeedMgr::callbackOpusPkt( PktVoiceReq * pktOpusAudio )
 //============================================================================
 void PushToTalkFeedMgr::onContactWentOffline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )
 {
-	removePushToTalkUserTx( netIdent->getMyOnlineId() );
-	removePushToTalkUserRx( netIdent->getMyOnlineId() );
-	//m_PushToTalkFeedMgr.onContactWentOffline( netIdent, sktBase );
-	//m_PushToTalkFeedMgr.fromGuiStopPluginSession( false, netIdent );
-	//m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
+	cleanupPushToTalkUser( netIdent->getMyOnlineId() );
 	if( LogEnabled( eLogVoice ) )LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s %s", __func__, m_Engine.describeUser( netIdent->getMyOnlineId() ).c_str() );
+}
+
+//============================================================================
+void PushToTalkFeedMgr::onContactOnlineStatusChange( ConnectId& connectId, bool isOnline )
+{
+	if( !isOnline )
+	{
+		VxGUID onlineId = connectId.getUserOnlineId();
+		cleanupPushToTalkUser( onlineId );
+	}
+}
+
+//============================================================================
+void PushToTalkFeedMgr::onSessionEnded( VxGUID& onlineId )
+{
+	cleanupPushToTalkUser( onlineId );
 }
 
 //============================================================================
@@ -405,6 +417,26 @@ bool PushToTalkFeedMgr::sendPushToTalkReq( VxGUID& onlineId, std::shared_ptr<VxS
 	LogModule( eLogVoice, LOG_INFO, "PushToTalkFeedMgr::%s %s", __func__, m_Engine.describeUser( onlineId ).c_str() );
 	PktPushToTalkReq pktReq;
 	return m_Plugin.txPacket( onlineId, sktBase, &pktReq );
+}
+
+//============================================================================
+void PushToTalkFeedMgr::cleanupPushToTalkUser( VxGUID& onlineId )
+{
+	int prevTxCount = m_Plugin.needVoiceTxCount( m_Plugin.getPluginType() );
+	if( m_Plugin.removeVoicePairTx( m_Plugin.getPluginType(), onlineId ) )
+	{
+		int txCount = m_Plugin.needVoiceTxCount( m_Plugin.getPluginType() );
+		m_Plugin.updateRequestMicrophone( m_Plugin.getPluginType(), prevTxCount, txCount );
+	}
+
+	int prevRxCount = m_Plugin.needVoiceRxCount( m_Plugin.getPluginType() );
+	if( m_Plugin.removeVoicePairRx( m_Plugin.getPluginType(), onlineId ) )
+	{
+		int rxCount = m_Plugin.needVoiceRxCount( m_Plugin.getPluginType() );
+		m_Plugin.updateRequestMixer( m_Plugin.getPluginType(), prevRxCount, rxCount );
+	}
+
+	updatePushToTalkStatus( onlineId );
 }
 
 //============================================================================

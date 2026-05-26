@@ -330,5 +330,11 @@ void PluginTruthOrDare::onContactWentOffline( VxNetIdent* netIdent, std::shared_
 	m_PluginSessionMgr.onContactWentOffline( netIdent, sktBase );
 }
 
+//============================================================================
+void PluginTruthOrDare::onContactOnlineStatusChange( ConnectId& connectId, bool isOnline )
+{
+	m_PluginSessionMgr.onContactOnlineStatusChange( connectId, isOnline );
+}
+
 
 
