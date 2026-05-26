@@ -149,7 +149,10 @@ void PluginSessionMgr::onContactWentOffline( VxNetIdent* netIdent, std::shared_p
 //============================================================================
 void PluginSessionMgr::onContactOnlineStatusChange( ConnectId& connectId, bool isOnline )
 {
-	// TODO implement
+	if( !isOnline )
+	{
+		cancelSessionByOnlineId( connectId.getUserOnlineId() );
+	}
 }
 
 //============================================================================

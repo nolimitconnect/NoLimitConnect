@@ -742,6 +742,16 @@ void PluginCamServer::onContactWentOffline( VxNetIdent* netIdent, std::shared_pt
 }
 
 //============================================================================
+void PluginCamServer::onContactOnlineStatusChange( ConnectId& connectId, bool isOnline )
+{
+	m_PluginSessionMgr.onContactOnlineStatusChange( connectId, isOnline );
+	if( !isOnline )
+	{
+		updateTxSessionCount();
+	}
+}
+
+//============================================================================
 void PluginCamServer::onNetworkConnectionReady( bool requiresRelay )
 {
 	if( isPluginEnabled() )
