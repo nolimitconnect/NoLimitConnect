@@ -116,18 +116,6 @@ void VirtStorageProvider::loadUrl( const QUrl &url )
 }
 
 //============================================================================
-bool VirtStorageProvider::requestAndroidStoragePermissions( void )
-{
-#if defined (Q_OS_ANDROID)
-    bool result = requestPermission({ "android.permission.MANAGE_EXTERNAL_STORAGE" });
-    result &= requestPermission({ "android.permission.READ_EXTERNAL_STORAGE" });
-    return result;
-#else
-    return true;
-#endif // defined (Q_OS_ANDROID)
-}
-
-//============================================================================
 bool VirtStorageProvider::requestPermission( QString permissionName ) // returns false if user denies permission to use android hardware
 {
 

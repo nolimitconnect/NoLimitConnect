@@ -11,6 +11,7 @@
 #include "AudioMgr.h"
 
 #include "AppCommon.h"
+#include "GuiParams.h"
 #include "miniaudio/AudioUtils.h"
 
 #include <P2PEngine/P2PEngine.h>
@@ -31,6 +32,14 @@ bool AudioMgr::toGuiIsMicrophoneDeviceAvailable( void )
 void AudioMgr::toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput )
 {
     if( LogEnabled( eLogVoice ) ) LogModule( eLogVoice, LOG_DEBUG, "AudioMgr::%s want mic? %d module %s", __func__, wantMicInput, DescribeMediaModule( mediaModule ) );
+#if defined(Q_OS_ANDROID)
+    if( wantMicInput && !GuiParams::requestPermission("android.permission.RECORD_AUDIO") )
+    {
+        LogMsg( LOG_ERROR, "AudioMgr::%s microphone permission denied; module %s", __func__, DescribeMediaModule( mediaModule ) );
+        return;
+    }
+#endif // defined(Q_OS_ANDROID)
+
     bool found{ false };
     m_WantMicMutex.lock();
     size_t prevWantMicCnt = m_WantMicList.size();

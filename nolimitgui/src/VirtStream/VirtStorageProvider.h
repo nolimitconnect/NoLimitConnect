@@ -37,8 +37,6 @@ public:
     void				fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY );
 
 protected:
-    bool                requestAndroidStoragePermissions( void );
-
     void                loadUrl( const QUrl &url );
 
     bool                requestPermission( QString permissionName ); // returns false if user denies permission to use android hardware

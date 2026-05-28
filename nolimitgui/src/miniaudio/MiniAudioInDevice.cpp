@@ -126,14 +126,16 @@ bool MiniAudioInDevice::initalizeDevice( int deviceIndex, int sampleRate )
     m_MaDeviceConfig.capture.pDeviceID = m_AudioIoMgr.getAudioInDeviceId( deviceIndex );
     m_MaDeviceConfig.capture.format = ma_format_s16;
     m_MaDeviceConfig.capture.channels = 1;
-    //m_MaDeviceConfig.capture.shareMode = ma_share_mode_shared;
     m_MaDeviceConfig.sampleRate = sampleRate;
     m_MaDeviceConfig.dataCallback = MiniAudioInCallback;
     m_MaDeviceConfig.pUserData = this;
 
     m_MaDeviceConfig.noPreSilencedOutputBuffer = true;
 
+#ifndef __ANDROID__
+    // On android the 10ms contraint causes it to disconnect immediately
     m_MaDeviceConfig.periodSizeInFrames = ECHO_FRAME_SIZE_10MS;
+#endif
 
     ma_result result = ma_device_init( NULL, &m_MaDeviceConfig, &m_MaDevice );
     if( result != MA_SUCCESS ) 

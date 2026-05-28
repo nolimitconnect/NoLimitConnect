@@ -2255,7 +2255,6 @@ bool GuiParams::requestAllDangerousPermissions( void ) // returns false if user 
     static QStringList permissions = {
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO",
-        "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.READ_MEDIA_AUDIO",
         "android.permission.READ_MEDIA_IMAGES",
         "android.permission.READ_MEDIA_VIDEO",
@@ -2278,15 +2277,11 @@ bool GuiParams::requestAllDangerousPermissions( void ) // returns false if user 
 
     if (!missing.isEmpty())
     {
-        for( auto permissionName : missing )
+        for( auto& permissionName : missing )
         {
-            if( requestPermission( permissionName ) )
+            if( !requestPermission( permissionName ) )
             {
-                qDebug() << permissionName << " granted.";
-            }
-            else
-            {
-                qDebug() << permissionName << " denied.";
+                LogMsg( LOG_WARN, "permission denied: %s", permissionName.toUtf8().constData() );
                 allGranted = false;
             }
         }

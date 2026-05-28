@@ -6,7 +6,8 @@ Source repository: https://gitlab.com/nolimitconnect/NoLimitConnect.git
 
 ## Version 1.1.2
 
-Fixed truncated audio streaming
+Fixed audio streaming being truncated at end and session teardown issues
+Fixed android audio record and push to talk
 
 ## Version 1.1.1
 
