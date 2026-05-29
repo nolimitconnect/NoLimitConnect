@@ -69,6 +69,7 @@ nav:
   - Project:
       - Author: author.md
       - About NoLimitConnect: about.md
+      - What Is NoLimitConnect? (Simple): what-is-nolimitconnect.md
       - Roadmap: roadmap.md
 
   - Download: download.md
@@ -96,6 +97,7 @@ nav:
 
   - Developer Docs:
       - Overview: developer-docs/README.md
+      - First Contribution (30 Minutes): developer-docs/first-contribution.md
       - Setup Windows Build Env: developer-docs/Setup_Windows_Build_Environment.md
       - Setup Ubuntu Build Env: developer-docs/Setup_Linux_Build_Environment.md
       - Contributing Workflow: developer-docs/contributing.md

@@ -2,7 +2,50 @@
 
 Welcome to the NoLimitConnect Developer Documentation.
 
-This section provides everything you need to build, compile, and contribute to the NoLimitConnect project across all supported platforms.
+This section provides everything you need to build, run, and contribute across all supported platforms.
+
+## Start Here
+
+Pick the path that matches what you want to do right now:
+
+- Make a quick first PR: [First Contribution (30 Minutes)](first-contribution.md)
+- Set up and build locally on your own machine: [Set Up and Build Locally](#set-up-and-build-locally)
+- Work on issues and PRs: [Contributing Workflow](contributing.md)
+
+---
+
+## Set Up and Build Locally
+
+If you want full local development on your own machine, use this order:
+
+1. Install your OS build environment.
+2. Open the target build guide.
+3. Compile with your preferred tool (VS Code or Qt Creator).
+
+### 1) Install Build Environment
+
+- Windows: [Setup Windows Build Environment](Setup_Windows_Build_Environment.md)
+- Linux: [Setup Linux Build Environment](Setup_Linux_Build_Environment.md)
+- Flatpak build environment: [Setup Flatpak Build Environment](Setup_Flatpak_Build_Enviroment.md)
+
+### 2) Choose Target Build Guide
+
+- Android: [Build for Android](build-target-android.md)
+- Raspberry Pi: [Build for Raspberry Pi](build-target-raspberry-pi.md)
+- Linux: [Build for Linux](build-target-linux.md)
+- Windows: [Build for Windows](build-target-windows.md)
+
+### 3) Compile
+
+- [Compile with Visual Studio Code](Compile_NoLimitConnect_VisualCode.md)
+- [Compile with Qt Creator](Compile_NoLimitConnect_QCreator.md)
+- [Compile with Flatpak](Compile_NoLimitConnect_Flatpak.md)
+
+---
+
+New contributor and short on time?
+
+- [First Contribution (30 Minutes)](first-contribution.md)
 
 ---
 
@@ -39,65 +82,9 @@ Preferred Qt version: 6.9.3 (6.7.3 for Raspberry Pi only if Qt Creator has error
 
 ---
 
-## Build Instructions by Target OS
-
-### Android
-<img src="../assets/icons/icon-android.svg" width="48"/>
-
-[**Build for Android**](build-target-android.md)
-
----
-
-### Raspberry Pi
-<img src="../assets/icons/icon-raspberry-pi.svg" width="48"/>
-
-[**Build for Raspberry Pi**](build-target-raspberry-pi.md)
-
----
-
-### Linux
-<img src="../assets/icons/icon-tux.svg" width="48"/>
-
-[**Build for Linux**](build-target-linux.md)
-
----
-
-### Windows
-<img src="../assets/icons/icon-windows.svg" width="48"/>
-
-[**Build for Windows**](build-target-windows.md)
-
----
-
-## 🛠 Build Environments
-
-- **Windows Build Environment**  
-  Setup instructions for Visual Studio Code, SDKs, and the Windows-specific toolchain.
- [**Setup Windows**](Setup_Windows_Build_Environment.md)
-
-- **Linux Build Environment**  
-  Required libraries, dependencies, and system configuration.
- [**Setup Linux**](Setup_Linux_Build_Environment.md)
-
-- **Flatpak Build Environment**  
-  Setup build-system Flatpak environments.
-  [**Setup Flatpak**](Setup_Flatpak_Build_Enviroment.md)
-
----
-
-## 🧱 Compilation Guides
-
-- [**Compile with Visual Studio Code**](Compile_NoLimitConnect_VisualCode.md)
-- [**Compile with Qt Creator**](Compile_NoLimitConnect_QCreator.md)
-- [**Compile with Flatpak**](Compile_NoLimitConnect_Flatpak.md)
-
-Each guide includes step-by-step instructions for configuring your development environment and successfully building the project.
-
----
-
 ## Contributing
 
-➡️ [**Contribute**](../contribute.md)
+➡️ [Contribute](../contribute.md)
 
 ---
 

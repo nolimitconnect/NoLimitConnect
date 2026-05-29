@@ -103,9 +103,9 @@
     </content_rating>
 
     <releases>
-        <release version="1.1.1" date="2026-01-13">
+        <release version="1.1.2" date="2026-05-28">
             <description>
-                <p>Beta 3 release with stability improvements and feature updates.</p>
+                <p>Bug fixes.</p>
             </description>
         </release>
     </releases>

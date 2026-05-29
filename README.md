@@ -89,4 +89,4 @@ If you are passionate about privacy and want to help lead a project with a 1-mil
 *   **Third-Party:** Various open-source licenses apply (see `LICENSE` and `LEGAL` files).
 *   **Principles:** No ads. No data mining. No analytics. No tracking.
 
-**Project Status:** Active Development (v1.1.1)
+**Project Status:** Active Development (v1.1.2)

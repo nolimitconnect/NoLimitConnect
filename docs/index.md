@@ -3,21 +3,6 @@ hide:
   - toc
 ---
 
-The website and repository have officially moved to this location.
-## 🌐 Website Migration
-
-* Old: nolimitconnect.com
-* New: nolimitconnect.org
-
-## 💻 Repository Migration
-
-* Old: gitlab.com/nolimitcode/nolimitconnect.git
-* New: github.com/nolimitconnect/NoLimitConnect.git
-
-Please update your bookmarks and local git remotes to point to the new addresses.
-
-  **[Read about High-Risk / Low-Bandwidth Enviroments](high-risk-low-bandwidth.md)**
-
 <div align="center">
   <img src="assets/nlc-logo.svg" width="180" style="margin-bottom: 20px;">
 </div>
@@ -28,6 +13,18 @@ Please update your bookmarks and local git remotes to point to the new addresses
 NoLimitConnect gives you full control over your data with direct, peer-to-peer communication.
 
 Use the public bootstrap hosts to get started quickly, then move to your own private network hosts when you are ready.
+
+New here? Start with one of these:
+
+- Casual user setup: [Download Now](download.md)
+- Simple overview: [What Is NoLimitConnect?](what-is-nolimitconnect.md)
+- First-time contributor: [First Contribution (30 minutes)](developer-docs/first-contribution.md)
+
+## Which User Are You?
+
+- I just want to understand it: [Simple Overview](what-is-nolimitconnect.md)
+- I want to install and try it: [Download Chooser](download.md#not-sure-what-to-download)
+- I want to help improve it: [First Contribution (30 minutes)](developer-docs/first-contribution.md)
 
 ➡️ [Screenshots](screenshots.md)
 
@@ -45,9 +42,17 @@ Try the current beta builds on Windows, Linux, Linux ARM, Flatpak, or Android.
 Learn the basics, install clients, and start connecting.  
 ➡️ [View User Docs](user-docs/README.md)
 
+### :material-lightbulb-outline: **Not Technical? Read This First**
+Plain-English explanation of what NoLimitConnect is and why hosting your own network can help.  
+➡️ [What Is NoLimitConnect?](what-is-nolimitconnect.md)
+
 ### :material-code-tags: **Developer Documentation**
 Build from source, compile clients, or contribute to the core platform.  
 ➡️ [Developer Docs](developer-docs/README.md)
+
+### :material-source-pull: **First Contribution Path**
+Small, practical tasks for casual contributors with minimal setup.  
+➡️ [First Contribution (30 minutes)](developer-docs/first-contribution.md)
 
 ### :material-server-network: **Host Your Own Private Network**
 Set up your own NoLimitConnect Network Host and Connection Test Host on your own hardware or VPS.  
@@ -110,3 +115,12 @@ User guides, developer docs, and build instructions included.
 NoLimitConnect is built by a privacy-focused community dedicated to open communication and secure, decentralized technology.
 
 [Visit our GitHub Source Code Repo →](https://github.com/nolimitconnect/NoLimitConnect)
+
+## 🌐 Migration Notes
+
+The website and repository have moved.
+
+- Website: nolimitconnect.com -> nolimitconnect.org
+- Repository: gitlab.com/nolimitcode/nolimitconnect.git -> github.com/nolimitconnect/NoLimitConnect.git
+
+[Read about High-Risk / Low-Bandwidth Environments](high-risk-low-bandwidth.md)

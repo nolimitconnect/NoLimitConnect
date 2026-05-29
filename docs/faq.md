@@ -2,6 +2,14 @@
 
 ---
 
+## New to NoLimitConnect?
+
+If you want a plain-English explanation first:
+
+➡️ [What Is NoLimitConnect? (Simple)](what-is-nolimitconnect.md)
+
+---
+
 ## Hardware Compatibility
 
 ### Supported Hardware

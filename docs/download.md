@@ -3,9 +3,30 @@
 
 Choose the package that matches your platform. Each published download includes a SHA-256 sidecar file so the package can be verified after download.
 
-These are pre-Flathub and pre-store builds published for early users and testers.
+These are independent beta builds published for early users and testers.
 
 If you are new to NoLimitConnect, start with public bootstrap hosts first, then set up your own private Network Host and Connection Test Host when ready.
+
+## Not Sure What To Download?
+
+Start here if you want the shortest path:
+
+- Linux desktop users: use [Flatpak (recommended)](#flatpak-universal--all-architectures)
+- Windows users: use the latest x64 `.exe` in [Latest Packages (Live)](#latest-packages-live)
+- Android users: use the latest `.apk` in [Latest Packages (Live)](#latest-packages-live)
+
+If this is your first time:
+
+1. Install the app for your platform.
+2. Join a public host first.
+3. Leave network settings on defaults.
+4. Set up your own private network later when ready.
+
+Need install help after download?
+
+- [Install on Linux](user-docs/install-linux.md)
+- [Install on Windows](user-docs/install-windows.md)
+- [Install on Android](user-docs/install-android.md)
 
 <!-- BEGIN SECTION: flatpak -->
 ## Flatpak (Universal – All Architectures)
@@ -41,8 +62,8 @@ flatpak uninstall --delete-data org.nolimitconnect.NoLimitConnect
 
 ### Direct Download (All Architectures)
 
-- **x86_64**: [nolimitconnect-x64.flatpak](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.1/nolimitconnect-x64.flatpak) | [SHA-256](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.1/nolimitconnect-x64.flatpak.sha256)
-- **ARM64**: [nolimitconnect-arm64.flatpak](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.1/nolimitconnect-arm64.flatpak) | [SHA-256](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.1/nolimitconnect-arm64.flatpak.sha256)
+- **x86_64**: [nolimitconnect-x64.flatpak](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.2/nolimitconnect-x64.flatpak) | [SHA-256](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.2/nolimitconnect-x64.flatpak.sha256)
+- **ARM64**: [nolimitconnect-arm64.flatpak](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.2/nolimitconnect-arm64.flatpak) | [SHA-256](https://github.com/nolimitconnect/NoLimitConnect/releases/download/v1.1.2/nolimitconnect-arm64.flatpak.sha256)
 - Last updated: 2026-05-11 22:02:54 UTC
 - Flatpak remote metadata is GPG-signed. Import the key above before adding the remote.
 
