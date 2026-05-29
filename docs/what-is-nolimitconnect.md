@@ -6,6 +6,7 @@ If normal social apps feel like renting space in someone else's building, NoLimi
 
 ## Why People Use It
 
+- Low requirements: runs on everyday devices, including older hardware
 - No account signup, no registration walls
 - No ads, no tracking, no data-mining profile
 - Encrypted user traffic
@@ -29,6 +30,7 @@ Important: there is no separate "server app" and "client app". It is all in NoLi
 
 Hosting your own network means:
 
+- You can run a full network server on practically any hardware (Windows, Linux, or Android, including phones)
 - You control uptime and access rules
 - Your community is not tied to one company's policy changes
 - You can run private communities for family, clubs, teams, or local groups
