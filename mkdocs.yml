@@ -69,6 +69,7 @@ nav:
   - Project:
       - Author: author.md
       - About NoLimitConnect: about.md
+      - Screenshots: screenshots.md
       - What Is NoLimitConnect? (Simple): what-is-nolimitconnect.md
       - Roadmap: roadmap.md
 
@@ -79,13 +80,6 @@ nav:
   - FAQ: faq.md
 
   - Feedback: feedback.md
-
-  - User Guides:
-      - Overview: user-docs/README.md
-      - Install on Windows: user-docs/install-windows.md
-      - Install on Linux: user-docs/install-linux.md
-      - Install on Android: user-docs/install-android.md
-      - Application Screenshots: screenshots.md
 
   - Connectivity:
       - Connection Status Guide: connection-status.md

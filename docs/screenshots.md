@@ -3,10 +3,6 @@
 This page showcases the current NoLimitConnect user interface and some core features.
 All screenshots are taken from the actively developed application.
 Click any image to view the full-size version.
-
-!!! warning
-    NoLimitConnect is under active development.  
-    Screenshots may change as features evolve.
 ---
 
 ## Main Interface
@@ -67,4 +63,4 @@ All hosts need a open port for users to connect to.
   - Responsive layout modes
   - User controlled permissions
 
-More screenshots will be added as development progresses.
+These are just some of the many features of NoLimitConnect.

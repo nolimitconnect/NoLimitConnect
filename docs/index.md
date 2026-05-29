@@ -38,10 +38,6 @@ New here? Start with one of these:
 Try the current beta builds on Windows, Linux, Linux ARM, Flatpak, or Android.  
 ➡️ [Download Now](download.md)
 
-### :material-book-open-page-variant: **User Guide**
-Learn the basics, install clients, and start connecting.  
-➡️ [View User Docs](user-docs/README.md)
-
 ### :material-lightbulb-outline: **Not Technical? Read This First**
 Plain-English explanation of what NoLimitConnect is and why hosting your own network can help.  
 ➡️ [What Is NoLimitConnect?](what-is-nolimitconnect.md)
