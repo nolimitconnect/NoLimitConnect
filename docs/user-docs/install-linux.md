@@ -9,22 +9,17 @@ NoLimitConnect is available via Flatpak:
 git clone https://github.com/nolimitconnect/NoLimitConnect.git
 ```
 
-4. Allow Flatpak submodules:
-```bash
-git submodule add -f https://github.com/flathub/shared-modules.git
-```
-
-5. Build and install:
+4. Build and install:
 ```bash
 flatpak-builder --user --install --force-clean build-dir org.nolimitconnect.NoLimitConnect.yml
 ```
 
-6. Run
+5. Run
 ```bash
 flatpak run org.nolimitconnect.NoLimitConnect
 ```
 
-7. Uninstall:
+6. Uninstall:
 ```bash
 flatpak uninstall --delete-data org.nolimitconnect.NoLimitConnect
 ```

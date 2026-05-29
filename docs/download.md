@@ -22,12 +22,6 @@ If this is your first time:
 3. Leave network settings on defaults.
 4. Set up your own private network later when ready.
 
-Need install help after download?
-
-- [Install on Linux](user-docs/install-linux.md)
-- [Install on Windows](user-docs/install-windows.md)
-- [Install on Android](user-docs/install-android.md)
-
 <!-- BEGIN SECTION: flatpak -->
 ## Flatpak (Universal – All Architectures)
 
