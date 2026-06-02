@@ -62,28 +62,6 @@ Contributions are welcome and currently follow a simple fork + pull request work
 
 ---
 
-### 🗺️ Roadmap to 1 Million Users
-- [ ] **Establish Organization:** Migrate to GitHub and recruit core leadership.
-- [ ] **Global Visibility:** Promote NLC as the premier privacy-first community tool.
-- [ ] **App Stores:** Publish to the Google Play Store and Flathub.
-- [ ] **Apple Ecosystem:** Port and validate for macOS and iOS (Help Wanted).
-- [ ] **Documentation:** Migrate all developer docs to the repository and `.org` site.
-
----
-
-### 🤝 Recruitment: Lead the Future of NLC
-NLC has been developed primarily by a single maintainer (Brett R. Jones) over many years. While I will continue to develop the core C++/Assembly engine, my professional environment requires me to remain behind the scenes regarding public-facing social media.
-
-**We are seeking a Lead Maintainer and Community Manager to take the reins of:**
-1.  **Public Representation:** Acting as the "voice" of the project in the decentralized space.
-2.  **Organization Management:** Directing the GitHub Org and the `nolimitconnect.org` community hub.
-3.  **Community Outreach:** Moderating channels, managing bug reports, and onboarding users.
-
-If you are passionate about privacy and want to help lead a project with a 1-million-user goal, please reach out:
-**📧 Contact:** `bjones.engineer(AT)gmail.com`
-
----
-
 ### ⚖️ License & Legal
 *   **Code by Brett R. Jones:** Dual-licensed (similar to Ruby’s license); see individual source files.
 *   **Third-Party:** Various open-source licenses apply (see `LICENSE` and `LEGAL` files).
