@@ -83,7 +83,7 @@ void AppletNetworkSettings::connectSignals( void )
 
     connect( ui.AutoDetectProxyRadioButton, SIGNAL(clicked()), this, SLOT(slotAutoDetectProxyClick()) );
     connect( ui.AssumeNoProxyRadioButton, SIGNAL(clicked()), this, SLOT(slotNoProxyClick()) );
-    connect( ui.AssumeProxyRadioButton, SIGNAL(clicked()), this, SLOT(slotYesProxyClick()) );
+
 
     connect( ui.RandomPortButton, SIGNAL(clicked()), this, SLOT(slotRandomPortButtonClick()) );
 
@@ -120,7 +120,6 @@ void AppletNetworkSettings::updateDlgFromSettings( bool origSettings )
     ui.m_NetworkSettingsNameComboBox->clear();
     ui.AutoDetectProxyRadioButton->setChecked( false );
     ui.AssumeNoProxyRadioButton->setChecked( false );
-    ui.AssumeProxyRadioButton->setChecked( false );
 
     bool validDbSettings = false;
     AccountMgr& dataHelper = m_MyApp.getAccountMgr();
@@ -205,10 +204,6 @@ void AppletNetworkSettings::fillNetHostSettingFromEngine( NetHostSetting& netSet
     {
     case  eFirewallTestAssumeNoFirewall:
         fireWallType = 1;
-        break;
-
-    case eFirewallTestAssumeFirewalled:
-        fireWallType = 2;
         break;
 
     case eFirewallTestUrlConnectionTest:
@@ -319,10 +314,6 @@ void AppletNetworkSettings::populateNetHostSettingsFromDlg( NetHostSetting& netH
     case eFirewallTestAssumeNoFirewall:
         netHostSetting.setFirewallTestType( 1 );
         break;
- 
-    case eFirewallTestAssumeFirewalled:
-        netHostSetting.setFirewallTestType( 2 );
-        break;
 
     case eFirewallTestUrlConnectionTest:
     default:
@@ -351,24 +342,13 @@ void AppletNetworkSettings::slotNoProxyClick( void )
 }
 
 //============================================================================
-void AppletNetworkSettings::slotYesProxyClick( void )
-{
-    setFirewallTestType( eFirewallTestAssumeFirewalled );
-}
-
-//============================================================================
 void AppletNetworkSettings::setFirewallTestType( EFirewallTestType eFirewallType )
 {
     ui.AutoDetectProxyRadioButton->setChecked( false );
     ui.AssumeNoProxyRadioButton->setChecked( false );
-    ui.AssumeProxyRadioButton->setChecked( false );
 
     switch( eFirewallType )
     {
-    case eFirewallTestAssumeFirewalled:
-        ui.AssumeProxyRadioButton->setChecked( true );
-        break;
-
     case eFirewallTestAssumeNoFirewall:
         ui.AssumeNoProxyRadioButton->setChecked( true );
         break;
@@ -388,10 +368,6 @@ EFirewallTestType AppletNetworkSettings::getFirewallTestType( void )
     if( ui.AssumeNoProxyRadioButton->isChecked() )
     {
         eFirewallTestType = eFirewallTestAssumeNoFirewall;
-    }
-    else if( ui.AssumeProxyRadioButton->isChecked() )
-    {
-        eFirewallTestType = eFirewallTestAssumeFirewalled;
     }
 
     return eFirewallTestType;
@@ -458,7 +434,6 @@ void AppletNetworkSettings::populateDlgFromNetHostSetting( NetHostSetting& netSe
 {
     ui.AutoDetectProxyRadioButton->setChecked( false );
     ui.AssumeNoProxyRadioButton->setChecked( false );
-    ui.AssumeProxyRadioButton->setChecked( false );
 
     ui.m_NetworkHostUrlEdit->setText( netSetting.getNetworkHostUrl().c_str() );
     ui.m_NetworkKeyEdit->setText( netSetting.getNetworkKey().c_str() );
@@ -469,9 +444,6 @@ void AppletNetworkSettings::populateDlgFromNetHostSetting( NetHostSetting& netSe
     int32_t firewallType = netSetting.getFirewallTestType();
     switch( firewallType )
     {
-    case 2:
-        ui.AssumeProxyRadioButton->setChecked( true );
-        break;
 
     case 1:
         ui.AssumeNoProxyRadioButton->setChecked( true );

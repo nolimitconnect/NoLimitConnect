@@ -468,13 +468,6 @@
              </item>
             </layout>
            </item>
-           <item>
-            <widget class="QRadioButton" name="AssumeProxyRadioButton">
-             <property name="text">
-              <string>Assume Relay Service Is Required ( Device Is Behind Firewall ).</string>
-             </property>
-            </widget>
-           </item>
           </layout>
          </item>
          <item>

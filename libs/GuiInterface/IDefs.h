@@ -282,7 +282,6 @@ enum EFirewallTestType
 {
     eFirewallTestUrlConnectionTest = 0,
     eFirewallTestAssumeNoFirewall = 1,
-    eFirewallTestAssumeFirewalled = 2,
 
     eMaxFirewallTestType
 };

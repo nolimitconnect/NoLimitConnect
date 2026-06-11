@@ -130,13 +130,6 @@ void NetStatusAccum::onNetStatusChange( void )
             }
         }
     }
-    else if( eFirewallTestAssumeFirewalled == m_FirewallTestType )
-    {
-        if( m_InternetAvail )
-        {
-            internetStatus = eInternetRequiresRelay;
-        }
-    }
     else if( eFirewallTestUrlConnectionTest == m_FirewallTestType )
     {
         if( m_InternetAvail )

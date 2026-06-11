@@ -40,7 +40,7 @@ protected slots:
 
     void						slotAutoDetectProxyClick( void );
     void						slotNoProxyClick( void );
-    void						slotYesProxyClick( void );
+
     void						slotUseUpnpCheckBoxClick( void );
 
     void						onSaveButtonClick( void );

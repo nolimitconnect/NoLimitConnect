@@ -107,10 +107,6 @@ void EngineSettings::getNetHostSettings( NetHostSetting& netSettings )
         firewallType = 1;
         break;
 
-    case eFirewallTestAssumeFirewalled:
-        firewallType = 2;
-        break;
-
     case eFirewallTestUrlConnectionTest:
     default:
         firewallType = 0;
@@ -142,10 +138,6 @@ void EngineSettings::setNetHostSettings( NetHostSetting& netSettings )
     {
     case 1:
         firewallEnum = eFirewallTestAssumeNoFirewall;
-        break;
-
-    case 2:
-        firewallType = eFirewallTestAssumeFirewalled;
         break;
 
     default:

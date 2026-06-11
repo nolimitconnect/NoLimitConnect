@@ -253,7 +253,7 @@ void NetworkMonitor::triggerDetermineIp( void )
     static int determineIpAttemptCnt = 0;
     determineIpAttemptCnt++;
     bool isNetworkHost = m_Engine.getIsMyHostServiceEnabled( eHostTypeNetwork );
-    if( !lastLocalIp.empty() && (isNetworkHost || firewallTestType == eFirewallTestAssumeFirewalled) )
+    if( !lastLocalIp.empty() && isNetworkHost )
     {
         // if we are network host but have not specified a external ip 
         // we assume network ip will almost never change

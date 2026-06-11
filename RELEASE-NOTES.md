@@ -4,6 +4,11 @@ Website: https://nolimitconnect.org
 
 Source repository: https://gitlab.com/nolimitconnect/NoLimitConnect.git
 
+## Version 1.1.3
+
+Simplify Network settings
+New version before fork to pyNLC a python based version of NoLimitConnect
+
 ## Version 1.1.2
 
 Fixed audio streaming being truncated at end and session teardown issues
