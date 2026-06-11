@@ -52,7 +52,6 @@ uint64_t g_ModuleEnableLoggingFlags = (uint64_t)(
     // | eLogThread
     | eLogWebCam
     // | eLogAssets
-    // | eLogUserConnect
     // | eLogWindowPositions
      | eLogStartup
     // | eLogHostJoin
@@ -85,7 +84,6 @@ uint64_t g_ModuleEnableLoggingFlags = (uint64_t)(
         // | eLogThread
         // | eLogWebCam
         // | eLogAssets
-        // | eLogUserConnect
         // | eLogWindowPositions
          | eLogStartup
         // | eLogHostJoin
@@ -119,7 +117,6 @@ uint64_t g_ModuleEnableLoggingFlags = (uint64_t)(
         // | eLogThread
         // | eLogWebCam
         // | eLogAssets
-        // | eLogUserConnect
         // | eLogWindowPositions
          | eLogStartup
         // | eLogHostJoin
