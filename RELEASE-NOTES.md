@@ -2,7 +2,12 @@
 
 Website: https://nolimitconnect.org
 
-Source repository: https://gitlab.com/nolimitconnect/NoLimitConnect.git
+Source repository: https://github.com/nolimitconnect/NoLimitConnect.git
+
+## Version 1.1.4 (Not yet released)
+
+Moved resourses to root of project so can be shared with python
+Moved audio code into libaudio-nlc for easy integration into python module
 
 ## Version 1.1.3
 
