@@ -8,7 +8,7 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include <QWidget>
+
 
 #include "IDefs.h"
 #include <CoreLib/VxDebug.h>
@@ -17,7 +17,7 @@
 #include "IMediaPlayerCallback.h"
 #include "IMediaPlayerRequests.h"
 
-#include "AppCommon.h"
+#include "IAppImplementation.h"
 #include "MediaPlayerNlc.h"
 
 #include "OsInterface/OsInterface.h"
@@ -42,19 +42,19 @@ echo traget os is not defined
 //============================================================================
 INlcRender& INlcRender::getINlcRender( void )
 {
-    return GetAppInstance().getINlcRender();
+    return GetAppImplementation().getINlcRender();
 }
 
 //============================================================================
 IToGui& IToGui::getIToGui( void )
 {
-    return GetAppInstance().getIToGui();
+    return GetAppImplementation().getIToGui();
 }
 
 //============================================================================
 IAudioRequests& IAudioRequests::getIAudioRequests( void )
 {
-    return GetAppInstance().getIAudioRequests();
+    return GetAppImplementation().getIAudioRequests();
 }
 
 //============================================================================
@@ -1648,7 +1648,7 @@ const char* DescribeOfferType( enum EOfferType offerType )
 //============================================================================
 const char* DescribePluginAccess( enum EPluginAccess pluginAccess )
 {
-    if(  pluginAccess < 0 || eMaxPluginAccessState <= pluginAccess )
+    if(  pluginAccess < 0 || eMaxPluginAccess <= pluginAccess )
     {
         return ENUM_BAD_PARM;
     }

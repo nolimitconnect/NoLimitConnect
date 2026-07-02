@@ -496,10 +496,11 @@ list(APPEND nlc_SOURCES
     src/AppCommonNotify.cpp
     src/AppCommonOfferToFriend.cpp
     src/AppCommonRender.cpp
-
     src/AppCommonSignalsAndSlots.cpp
     src/AppDefs.cpp
     src/AppGlobals.cpp
+    src/AppImplementation.cpp
+    src/AppImplementation.h
     src/AppModuleState.cpp
     src/AppSettings.cpp
     src/AppletAboutApp.cpp
@@ -873,8 +874,6 @@ list(APPEND nlc_SOURCES
     src/VirtStream/VirtStreamMgr.cpp
     src/VirtStream/VirtStreamMgrFileIo.cpp
     src/VirtStream/VirtStreamMgrProvider.cpp
-    ../libs/GuiInterface/ILog.cpp
-    ../libs/GuiInterface/IDefs.cpp
    )
 
 set(nlc_FORMS)
@@ -1265,6 +1264,7 @@ target_link_libraries(nolimitconnect
 
     wav-decoder
     rnnoise
+    GuiInterface
 )
 
 if(USE_AEC2)

@@ -161,7 +161,7 @@ public:
     QString&                    getAppTitle( void ) { return m_AppTitle; }
     VxAppTheme&                 getAppTheme( void ) { return m_AppTheme; }
 
-    GuiAudioMgr&                   getAudioMgr( void ) { return m_AudioMgr; }
+    GuiAudioMgr&                getAudioMgr( void ) { return m_AudioMgr; }
 
     CamLogic&                   getCamLogic( void ) { return m_CamLogic; }
     P2PEngine&                  getEngine( void );
