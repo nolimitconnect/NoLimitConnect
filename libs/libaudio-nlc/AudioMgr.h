@@ -126,6 +126,7 @@ public:
     bool				        toGuiIsMicrophoneDeviceAvailable( void ) override;
     // enable disable microphone data callback
     void				        toGuiWantMicrophoneRecording( EMediaModule mediaModule, bool wantMicInput ) override;
+    void                        onMicrophonePermissionResult( bool granted );
     // enable disable sound out
     void				        toGuiWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput ) override;
     //=== IAudioRequests end ===//

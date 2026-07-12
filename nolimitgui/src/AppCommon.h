@@ -16,8 +16,6 @@
 
 #include "GuiAudioMgr.h"
 
-#include "CamLogic.h"
-
 #include "FriendList.h"
 #include "GuiConnectIdListMgr.h"
 
@@ -163,7 +161,6 @@ public:
 
     GuiAudioMgr&                getAudioMgr( void ) { return m_AudioMgr; }
 
-    CamLogic&                   getCamLogic( void ) { return m_CamLogic; }
     P2PEngine&                  getEngine( void );
     IFromGui&                   getFromGuiInterface( void );
     TodGameMgr&                 getTodGameMgr( void ) { return m_TodGameMgr; }
@@ -207,8 +204,8 @@ public:
     void                        setGuiThreadId( unsigned int threadId ) { m_GuiThreadId = threadId; }
     unsigned int                getGuiThreadId( void ) { return m_GuiThreadId; }
 
-    void						setCamCaptureRotation( uint32_t rot )  { m_CamCaptureRotation = rot; }
-    int							getCamCaptureRotation( void ) { return m_CamCaptureRotation; }
+    void						setCamCaptureReady( bool ready )  { m_CamCaptureReady = ready; }
+    bool						getCamCaptureReady( void ) { return m_CamCaptureReady; }
 
     void 						setAccountUserName( const char* name ) { m_strAccountUserName = name; }
     std::string					getAccountUserName( void ) { return m_strAccountUserName; }
@@ -285,16 +282,13 @@ public:
     //============================================================================
 
     /// Mute/Unmute microphone
-    virtual void				fromGuiMuteMicrophone( bool muteMic ) override;
+    void				        fromGuiMuteMicrophone( bool muteMic ) override;
     /// Returns true if microphone is muted
-    virtual bool				fromGuiIsMicrophoneMuted( void ) override;
+    bool				        fromGuiIsMicrophoneMuted( void ) override;
     /// Mute/Unmute speaker
-    virtual void				fromGuiMuteSpeaker( bool muteSpeaker ) override;
+    void				        fromGuiMuteSpeaker( bool muteSpeaker ) override;
     /// Returns true if speaker is muted
-    virtual bool				fromGuiIsSpeakerMuted( void ) override;
-
-    virtual void				fromGuiCameraEnable( bool enableCamera );
-    virtual void				fromGuiCaptureRunning( bool camCaptureRunning );
+    bool				        fromGuiIsSpeakerMuted( void ) override;
 
     //============================================================================
     //=== to gui media/render ===//
@@ -520,7 +514,10 @@ public:
     void				        toGuiUpdateWantMicrophoneCount( int wantMicCnt ) override;
     void				        toGuiUpdateWantSpeakerCount( int wantSpeakerCnt ) override;
 
-    void				        toGuiWantVideoCapture( EMediaModule mediaModule, bool wantVidCapture ) override;
+    void				        toGuiWantCamCapture( EMediaModule mediaModule, bool wantVidCapture ) override;
+    void				        toGuiCamCaptureEnable( bool camCaptureEnabled ) override;
+    void				        toGuiCamCaptureRunning( bool camCaptureRunning ) override;
+
     void				        toGuiPlayJpgVideo( VxGUID& onlineId, std::shared_ptr<CamJpgVideo>& jpgVideo ) override;
 
     // user update interface
@@ -640,6 +637,8 @@ public:
 
     bool                        getThumbImage( VxGUID& thumbId, QImage& image );
 
+    QString                     getCameraBackgroundFile( void );
+
 signals:
     void						signalMessengerReady( bool isReady );    // emitted when messenger ready state changes
     void						signalMainWindowResized( void );    // emitted if main window is resized
@@ -676,7 +675,9 @@ signals:
 
     void						signalInternalWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput );
 
-    void						signalInternalWantVideoCapture( EMediaModule mediaModule, bool enableCapture );
+    void						signalInternalWantCamCapture( EMediaModule mediaModule, bool enableCapture );
+    void						signalInternalCamCaptureEnable( bool camCaptureEnabled );
+    void						signalInternalCamCaptureRunning( bool isRunning );
 
     void						signalSetRelayHelpButtonVisibility( bool isVisible );
 
@@ -809,7 +810,9 @@ private slots:
 
     void						slotInternalWantSpeakerOutput( EMediaModule mediaModule, bool wantSpeakerOutput );
 
-    void						slotInternalWantVideoCapture( EMediaModule mediaModule, bool enableCapture );
+    void						slotInternalWantCamCapture( EMediaModule mediaModule, bool enableCapture );
+    void						slotInternalCamCaptureRunning( bool isRunning );
+    void						slotInternalCamCaptureEnable( bool camCaptureEnabled );
 
     void                        slotInternalNetworkIsTested( bool requiresRelay, QString ipAddr, uint16_t ipPort );
 
@@ -928,9 +931,7 @@ protected:
     VxAppStyle					m_AppStyle;
     VxAppDisplay				m_AppDisplay;
 
-    CamLogic                    m_CamLogic;
-
-    GuiAudioMgr                    m_AudioMgr;
+    GuiAudioMgr                 m_AudioMgr;
     SoundFxMgr&                 m_SoundFxMgr;
 
     HomeWindow*					m_HomeWindow{ nullptr };
@@ -951,9 +952,6 @@ protected:
     std::vector<QString>		m_DebugLogQue;
     std::vector<QString>		m_AppErrLogQue;
     ENetworkStateType			m_LastNetworkState;
-
-    std::string					m_CamSourceId;
-    uint32_t					m_CamCaptureRotation;
 
     bool	                    m_ToGuiActivityInterfaceBusy{ false };
     bool	                    m_ToGuiFileXferInterfaceBusy{ false };
@@ -994,6 +992,8 @@ protected:
     bool                        m_GuiStartupAudioWaitBypassed{ false };
 
     unsigned int                m_GuiThreadId{ 0 };
+
+    bool                        m_CamCaptureReady{ false };
 };
 
 AppCommon& CreateAppInstance( QApplication* myApp, AppSettings& appSettings );

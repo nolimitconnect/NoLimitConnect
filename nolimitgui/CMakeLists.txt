@@ -246,12 +246,6 @@ list(APPEND nlc_HEADERS
     src/BottomBarWidget.h
     src/CamTitleBarPreview.h
 
-    src/CamFrameProcessor.h
-    src/CamJavaClient.h
-    src/CamLogic.h
-    src/CamProcessor.h
-    src/CamV4L2.h
-
     src/ChatEntryWidget.h
     src/ClipboardCopyWidget.h
     src/ClipboardPasteWidget.h
@@ -487,6 +481,7 @@ list(APPEND nlc_SOURCES
     src/AdminAvailMgr.cpp
     src/AppCommon.cpp
     src/AppCommonAudio.cpp
+    src/AppCommonCamCapture.cpp
     src/AppCommonEvents.cpp
     src/AppCommonFileMenu.cpp
     src/AppCommonFileShare.cpp
@@ -670,12 +665,6 @@ list(APPEND nlc_SOURCES
 
     src/AudioInWaveformWidget.cpp
     src/AudioOutWaveformWidget.cpp
-
-    src/CamFrameProcessor.cpp
-    src/CamJavaClient.cpp
-    src/CamLogic.cpp
-    src/CamProcessor.cpp
-    src/CamV4L2.cpp
 
     src/CamTitleBarPreview.cpp
     src/ChatEntryWidget.cpp
@@ -1164,7 +1153,7 @@ endif()
 if(DEFINED TARGET_OS_LINUX)
     target_compile_definitions(nolimitconnect PRIVATE
         # use v4l2 camera capture on linux instead of qt camera which scrables images when linux is running in a vm
-        ENABLE_V4L2_CAM
+        TARGET_OS_LINUX
     )
 
 endif()
@@ -1243,6 +1232,7 @@ target_link_libraries(nolimitconnect
     Qt::Widgets
 
     # static libraries
+    GuiInterface
     audio-nlc
     player-nlc
     avdevice
@@ -1263,8 +1253,8 @@ target_link_libraries(nolimitconnect
     pktlib
 
     wav-decoder
-    rnnoise
-    GuiInterface
+    rnnoise   
+    CamCapture
 )
 
 if(USE_AEC2)

@@ -9,28 +9,28 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#if defined(ENABLE_JAVA_CAM)
+#if defined(TARGET_OS_ANDROID)
 
-#include <QObject>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
-#include <QtCore/qjniobject.h>
-#include <QtCore/private/qandroidextras_p.h>
+class CamCapture;
 
-class AppCommon;
-class CamLogic;
-
-class CamJavaClient : public QObject
+class CamJavaClient
 {
-    Q_OBJECT
 public:
-    explicit CamJavaClient( AppCommon& myApp, CamLogic& camLogic, QObject *parent = 0 );
+    explicit CamJavaClient( CamCapture& camLogic );
+    ~CamJavaClient();
 
-    void                        startupCamLogic( void );
-    void                        shutdownCamLogic( void );
+    void                        startupCamCapture( void );
+    void                        shutdownCamCapture( void );
 
     void                        getCameraDevices( std::vector<std::pair<bool,std::string>>& camIdList );
 
     void                        onCamServiceStarted( void );
+    void                        onCameraPermissionResult( bool granted );
     bool                        canProcessCamCapture( void );
     void                        processCamCapture( int width, int height, std::shared_ptr<uint8_t>& rgbData, int dataLen );
 
@@ -41,11 +41,10 @@ protected:
     void                        updateCameraList( void );
     bool                        isBackFacing( std::string& camId );
 
-    AppCommon&                  m_MyApp;
-    CamLogic&                   m_CamLogic;
+    CamCapture&                 m_CamCapture;
 
     std::vector<std::string>    m_CamIdList;
 
 };
 
-#endif // defined(ENABLE_JAVA_CAM)
+#endif // defined(TARGET_OS_ANDROID)

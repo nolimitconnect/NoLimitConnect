@@ -44,6 +44,7 @@ add_subdirectory(libvpx)
 add_subdirectory(ffmpeg)
 
 add_subdirectory(CoreLib)
+add_subdirectory(CamCapture)
 add_subdirectory(GuiInterface)
 add_subdirectory(MediaToolsLib)
 add_subdirectory(NetLib)

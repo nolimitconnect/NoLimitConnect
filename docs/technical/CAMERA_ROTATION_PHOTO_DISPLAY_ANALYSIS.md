@@ -133,7 +133,7 @@ void VidWidget::slotFeedRotateButtonClicked( void )
 void VidWidget::slotCamRotateButtonClicked( void )
 {
     std::string camId = m_AppSettings.getCamSourceId();
-	int camRotation = m_AppSettings.getCamRotation( camId );
+	int camRotation = IGlobalDb::getIGlobalDb().getCamRotation( camId );
 	camRotation += 90;
 	if( camRotation >= 360 )
 	{
@@ -287,15 +287,15 @@ void InputPhotoWidget::slotSnapShotButtonClicked( void )
 ```cpp
 void InputPhotoWidget::slotRotateCamButtonClicked( void )
 {
-    std::string camId = m_MyApp.getAppSettings().getCamSourceId();
-	int camRotation = m_MyApp.getAppSettings().getCamRotation( camId );
+    std::string camId = IGlobalDb::getIGlobalDb().getCamSourceId();
+	int camRotation = IGlobalDb::getIGlobalDb().getCamRotation( camId );
 	camRotation += 90;
 	if( camRotation >= 360 )
 	{
 		camRotation = 0;
 	}
 
-	m_MyApp.getAppSettings().setCamRotation( camId, camRotation );
+	IGlobalDb::getIGlobalDb().setCamRotation( camId, camRotation );
 	m_MyApp.setCamCaptureRotation( camRotation );
 }
 ```
@@ -328,12 +328,12 @@ uint32_t					m_CamCaptureRotation;
 
 ---
 
-### 7. **CamLogic.cpp** - Camera Source Selection
+### 7. **CamCapture.cpp** - Camera Source Selection
 
-**File:** [nolimitgui/src/CamLogic.cpp](nolimitgui/src/CamLogic.cpp#L278)
+**File:** [nolimitgui/src/CamCapture.cpp](nolimitgui/src/CamCapture.cpp#L278)
 
 ```cpp
-m_MyApp.setCamCaptureRotation( m_MyApp.getAppSettings().getCamRotation( camId ) );
+m_MyApp.setCamCaptureRotation( IGlobalDb::getIGlobalDb().getCamRotation( camId ) );
 ```
 - Sets `m_CamCaptureRotation` when camera source is selected
 - Used for live camera feed rotation

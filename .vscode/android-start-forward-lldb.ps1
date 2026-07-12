@@ -84,6 +84,24 @@ function Get-ConnectedDeviceSerials {
     return $serials
 }
 
+function Get-FirstConnectedDeviceSerial {
+    param(
+        [string]$Adb
+    )
+
+    $lines = (& $Adb devices) |
+        Select-Object -Skip 1 |
+        Where-Object { $_ -match '\S' }
+
+    foreach ($line in $lines) {
+        if ($line -match '^(\S+)\s+device$') {
+            return $Matches[1]
+        }
+    }
+
+    return $null
+}
+
 function Wait-ForDeviceState {
     param(
         [string]$Adb,
@@ -110,34 +128,24 @@ function Wait-ForDeviceState {
     return $false
 }
 
-$devices = Get-ConnectedDeviceSerials -Adb $AdbPath
-
-if ($devices.Count -eq 0) {
-    if ($env:ANDROID_SERIAL) {
-        $serial = $env:ANDROID_SERIAL
-        Write-Host ("No device currently in 'device' state; waiting up to {0}s for configured serial: {1}" -f $DeviceWaitSeconds, $serial)
-        if (-not (Wait-ForDeviceState -Adb $AdbPath -Serial $serial -TimeoutSeconds $DeviceWaitSeconds)) {
-            $devices = Get-ConnectedDeviceSerials -Adb $AdbPath
-            if ($devices.Count -gt 0) {
-                $serial = $devices[0]
-                Write-Host ("Configured serial {0} unavailable; falling back to connected device: {1}" -f $env:ANDROID_SERIAL, $serial)
-            } else {
-                throw ("Android device '{0}' did not reach state 'device' within {1} seconds." -f $serial, $DeviceWaitSeconds)
-            }
-        }
+$serial = $null
+if ($env:ANDROID_SERIAL) {
+    $configuredSerial = $env:ANDROID_SERIAL.Trim()
+    if ((Get-DeviceState -Adb $AdbPath -Serial $configuredSerial) -eq 'device') {
+        $serial = $configuredSerial
+        Write-Host ("Using configured ANDROID_SERIAL: {0}" -f $serial)
     } else {
-        throw 'No Android device in state device.'
+        $serial = Get-FirstConnectedDeviceSerial -Adb $AdbPath
+        if ($serial) {
+        Write-Host ("Configured serial {0} unavailable; falling back to connected device: {1}" -f $env:ANDROID_SERIAL, $serial)
+        }
     }
 }
 
-if ($env:ANDROID_SERIAL) {
+if (-not $serial) {
+    $serial = Get-FirstConnectedDeviceSerial -Adb $AdbPath
     if (-not $serial) {
-        $serial = $env:ANDROID_SERIAL
-    }
-} else {
-    $serial = $devices[0]
-    if ($devices.Count -gt 1) {
-        Write-Host ("Multiple devices detected: {0}. Using first device: {1}" -f ($devices -join ', '), $serial)
+        throw 'No Android device in state device.'
     }
 }
 
@@ -158,7 +166,35 @@ if ($removeForwardExitCode -ne 0) {
 
 $packageName = $PackageActivity.Split('/')[0]
 
+function Cleanup-StaleDebugProcesses {
+    param(
+        [string]$Adb,
+        [string]$DeviceSerial,
+        [string]$Pkg
+    )
+
+    # Best-effort cleanup: stale lldb-server can keep app process traced/stopped.
+    $previousErrorActionPreference = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+
+    & $Adb -s $DeviceSerial shell "run-as $Pkg sh -c 'pidof lldb-server | xargs -r kill -9'" 2>$null | Out-Null
+    & $Adb -s $DeviceSerial shell "pidof lldb-server | xargs -r kill -9" 2>$null | Out-Null
+
+    $appPidOutput = & $Adb -s $DeviceSerial shell "pidof $Pkg" 2>$null
+    if ($appPidOutput) {
+        $appPid = ($appPidOutput.Trim() -split '\s+')[0]
+        if ($appPid) {
+            & $Adb -s $DeviceSerial shell "run-as $Pkg sh -c 'kill -9 $appPid'" 2>$null | Out-Null
+            & $Adb -s $DeviceSerial shell "kill -9 $appPid" 2>$null | Out-Null
+        }
+    }
+
+    $ErrorActionPreference = $previousErrorActionPreference
+}
+
 if (-not $AttachOnly) {
+    Cleanup-StaleDebugProcesses -Adb $AdbPath -DeviceSerial $serial -Pkg $packageName
+
     Write-Host ("Force-stopping existing app instance for package: {0}" -f $packageName)
     & $AdbPath -s $serial shell am force-stop $packageName
     if ($LASTEXITCODE -ne 0) {

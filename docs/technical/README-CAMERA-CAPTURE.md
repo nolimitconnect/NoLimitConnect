@@ -32,13 +32,13 @@ QCamera
                   │  calculateImageMotion()    [1/4-pixel subsample, O(n/4)]
                   │  VxResizeRgbImage()        [if frame != 320×240 or rotation != 0]
                   │  VxBmp2Jpg()               [libjpeg-turbo TJSAMP_420, TJFLAG_NOREALLOC]
-                  └─► CamLogic::processCamCapture()
+                  └─► CamCapture::processCamCapture()
                       └─► MediaProcessor::processCamCaptureJpgVideo()
 ```
 
 Code links:
 
-- [nolimitgui/src/CamLogic.cpp](../nolimitgui/src/CamLogic.cpp)
+- [nolimitgui/src/CamCapture.cpp](../nolimitgui/src/CamCapture.cpp)
 - [nolimitgui/src/CamProcessor.cpp](../nolimitgui/src/CamProcessor.cpp)
 - [nolimitgui/src/CamFrameProcessor.cpp](../nolimitgui/src/CamFrameProcessor.cpp)
 - [nolimitgui/src/CamV4L2.cpp](../nolimitgui/src/CamV4L2.cpp)
@@ -59,7 +59,7 @@ Qt Multimedia remains part of the non-Linux capture path, but Linux prefers `Cam
 | JPEG quality   | 75                            | Diminishing returns above 75             |
 | Chroma subsampling | TJSAMP_420               | 4:2:0, standard for MJPEG / video        |
 | DCT mode       | TJFLAG_FASTDCT                | Integer DCT, adequate quality vs speed   |
-| Frame rate     | ≈15 fps (60 ms gate)          | `CamLogic::CAM_SNAPSHOT_INTERVAL_MS`     |
+| Frame rate     | ≈15 fps (60 ms gate)          | `CamCapture::CAM_SNAPSHOT_INTERVAL_MS`     |
 | Motion range   | 0 – 100,000                   | Normalised to `dataLen × 64` sensitivity |
 
 ## Development Notes
@@ -80,12 +80,12 @@ Code links:
 ### Queue
 
 Frames are queued as `CamRgbVideo*` in a `std::queue<CamRgbVideo*>` (O(1) push/pop). The
-`isStalled()` guard in `CamLogic::canProcessCamCapture()` drops incoming frames when the queue
+`isStalled()` guard in `CamCapture::canProcessCamCapture()` drops incoming frames when the queue
 depth exceeds 1, preventing unbounded memory growth on slow hardware.
 
 Code links:
 
-- [nolimitgui/src/CamLogic.cpp](../nolimitgui/src/CamLogic.cpp)
+- [nolimitgui/src/CamCapture.cpp](../nolimitgui/src/CamCapture.cpp)
 - [nolimitgui/src/CamProcessor.cpp](../nolimitgui/src/CamProcessor.cpp)
 
 ### Motion Detection Subsampling

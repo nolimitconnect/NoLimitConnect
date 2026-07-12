@@ -19,7 +19,7 @@
 #include <utility>
 #include <vector>
 
-class CamLogic;
+class CamCapture;
 
 // CamV4L2 replaces the Qt Multimedia camera capture code when compiling on Linux
 // This is to avoid the Qt Multimedia bug where on Ubuntu running in a virtualbox the camera image is scrambled 
@@ -28,7 +28,7 @@ class CamLogic;
 class CamV4L2
 {
 public:
-    explicit CamV4L2( CamLogic& camLogic );
+    explicit CamV4L2( CamCapture& camLogic );
     ~CamV4L2();
 
     // Fill 'devices' with (cardName, devPath) for every V4L2 capture node found.
@@ -59,7 +59,7 @@ private:
     static void                 yuyvToRgb( const uint8_t* yuyv, uint8_t* rgb, int width, int height );
     static int                  clamp( int v ) { return v < 0 ? 0 : (v > 255 ? 255 : v); }
 
-    CamLogic&                   m_CamLogic;
+
 
     int                         m_Fd{ -1 };
     int                         m_Width{ 0 };

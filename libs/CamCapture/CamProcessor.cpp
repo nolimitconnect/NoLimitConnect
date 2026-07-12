@@ -10,7 +10,7 @@
 
 #include "CamProcessor.h"
 
-#include "CamLogic.h"
+#include "CamCapture.h"
 #include "CamRgbVideo.h"
 
 #if defined(USE_LIBJPEG_TURBO)
@@ -36,8 +36,8 @@ namespace
 };
 
 //============================================================================
-CamProcessor::CamProcessor( CamLogic& camLogic )
-: m_CamLogic( camLogic )
+CamProcessor::CamProcessor( CamCapture& camLogic )
+: m_CamCapture( camLogic )
 {
     m_ProcessCamRgbThread = std::thread( [this]() { processCamRgbThreaded(); } );
 }
@@ -154,7 +154,7 @@ void CamProcessor::processCamVideoRgb( CamRgbVideo* rgbVideo )
     uint8_t* pu8VidData	= rgbVideo->m_VidData.get();
     int width			= rgbVideo->m_Width;
     int height			= rgbVideo->m_Height;
-    int rotation		= m_CamLogic.getCamCaptureRotation();
+    int rotation		= (int)m_CamCapture.getCurrentCamCaptureRotation();
 
 	bool needToDeleteVidData{ false };
     bool bResize = (( 320 != width ) || ( 240 != height ));
@@ -211,7 +211,7 @@ void CamProcessor::processCamVideoRgb( CamRgbVideo* rgbVideo )
 	if( 0 == rc )
 	{
     std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, s32JpgDataLen, motion, 0, eMediaModuleCamClient ) );
-        m_CamLogic.processCamCapture( jpgVideo );
+        m_CamCapture.processCamCapture( jpgVideo );
 	}
 	else
 	{

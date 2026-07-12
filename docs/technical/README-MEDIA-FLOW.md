@@ -6,7 +6,7 @@ Quick reference for how JPG video frames move through capture, GUI playback, and
 
 ## Core Components
 
-- `CamLogic`: forwards completed camera JPG frames from `CamProcessor` into `MediaProcessor`.
+- `CamCapture`: forwards completed camera JPG frames from `CamProcessor` into `MediaProcessor`.
 - `MediaProcessor`: fan-out hub for JPG frames (`m_GuiPlayerCallback` + subscribed JPG clients).
 - `GuiPlayerMgr`: local GUI playback endpoint (`callbackVideoJpg`, `toGuiPlayJpgVideo`).
 - `PluginCamServer`: remote cam distribution path for shared webcam sessions.
@@ -15,7 +15,7 @@ Quick reference for how JPG video frames move through capture, GUI playback, and
 
 ```text
 CamProcessor::processCamVideoIn
-	-> CamLogic::processCamCapture
+	-> CamCapture::processCamCapture
 	-> MediaProcessor::processCamCaptureJpgVideo
 	-> MediaProcessor::sendJpgVideo
 	-> m_GuiPlayerCallback->callbackVideoJpg
@@ -29,7 +29,7 @@ Use this path to reason about local preview/live local display behavior.
 Code links:
 
 - [nolimitgui/src/CamProcessor.cpp](../nolimitgui/src/CamProcessor.cpp)
-- [nolimitgui/src/CamLogic.cpp](../nolimitgui/src/CamLogic.cpp)
+- [nolimitgui/src/CamCapture.cpp](../nolimitgui/src/CamCapture.cpp)
 - [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](../libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
 - [nolimitgui/src/GuiPlayerMgr.cpp](../nolimitgui/src/GuiPlayerMgr.cpp)
 

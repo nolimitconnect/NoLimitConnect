@@ -16,7 +16,9 @@ list(APPEND CoreLib_HEADERS
     DbBase.h
     DbDataset.h
     DbQueryData.h
+    GlobalDb.h
     GroupieId.h
+    IGlobalDb.h
     HostedId.h
     InetAddress.h
     InetAddressParse.h
@@ -87,6 +89,7 @@ list(APPEND CoreLib_HEADERS
     VxXml.h
     VxUrl.h
     VxJava.h
+    VxJni.h
     VxMd5.h
 )
 
@@ -102,6 +105,8 @@ list(APPEND CoreLib_SOURCES
     DbDataset_corelib.cpp
     DbQueryData_corelib.cpp
     GroupieId.cpp
+    GlobalDb.cpp
+    IGlobalDb.cpp
     HostedId.cpp
     InetAddress.cpp
     InetAddressParse.cpp
@@ -177,6 +182,7 @@ list(APPEND CoreLib_SOURCES
     VxXml.cpp
     VxUrl.cpp
     VxJava.cpp
+    VxJni.cpp
     VxFunctionsMissingInAndroid.cpp
     VxMd5.cpp
 )

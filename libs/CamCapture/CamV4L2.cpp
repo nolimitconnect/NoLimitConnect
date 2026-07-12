@@ -11,7 +11,7 @@
 #if defined(TARGET_OS_LINUX)
 
 #include "CamV4L2.h"
-#include "CamLogic.h"
+#include "CamCapture.h"
 #include "CamProcessor.h"
 
 #include <CoreLib/VxDebug.h>
@@ -65,8 +65,8 @@ namespace
 }
 
 //============================================================================
-CamV4L2::CamV4L2( CamLogic& camLogic )
-    : m_CamLogic( camLogic )
+CamV4L2::CamV4L2( CamCapture& camLogic )
+    : m_CamCapture( camLogic )
 {
 }
 
@@ -481,7 +481,7 @@ void CamV4L2::captureThreadFunc()
 
         // throttle to ~15 fps — same as CamFrameProcessor
         int64_t timeNow = GetHighResolutionTimeMs();
-        if( timeNow >= lastFrameMs + FRAME_THROTTLE_MS && m_CamLogic.canProcessCamCapture() )
+        if( timeNow >= lastFrameMs + FRAME_THROTTLE_MS && m_CamCapture.canProcessCamCapture() )
         {
             lastFrameMs = timeNow;
 
@@ -538,7 +538,7 @@ void CamV4L2::captureThreadFunc()
 
             if( converted )
             {
-                m_CamLogic.getCamProcessor().processCamCapture( m_Width, m_Height, rgbData, (int)rgbLen );
+                m_CamCapture.getCamProcessor().processCamCapture( m_Width, m_Height, rgbData, (int)rgbLen );
             }
         }
 

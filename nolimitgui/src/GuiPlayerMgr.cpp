@@ -104,11 +104,6 @@ void GuiPlayerMgr::slotInternalPlayCamJpg( VxGUID feedOnlineId, std::shared_ptr<
 		if( LogEnabled( eLogWebCam ))LogModule( eLogWebCam, LOG_ERROR, "GuiPlayerMgr::%s now %d in signal/slots", __func__, inSignal );
     }
 
-    if( feedOnlineId == GetAppInstance().getMyOnlineId() )
-    {
-        GetAppInstance().getCamLogic().camImageConsumed();
-    }
-
     QImage vidFrame;
     if( !vidFrame.loadFromData( camJpg->m_VidData.get(), camJpg->m_VidDataLen, "JPG") )
     {

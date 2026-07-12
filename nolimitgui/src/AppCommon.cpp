@@ -56,10 +56,9 @@
 #include <NetworkMonitor/NetworkMonitor.h>
 #include <ThumbMgr/ThumbInfo.h>
 
-#include <PktLib/VxCommon.h>
-
 #include <CoreLib/AppVersion.h>
 #include <CoreLib/ConnectId.h>
+#include <CoreLib/InetAddressParse.h>
 #include <CoreLib/IsBigEndianCpu.h>
 #include <CoreLib/VxFileUtil.h>
 #include <CoreLib/VxMemoryUsage.h>
@@ -69,9 +68,10 @@
 #include <CoreLib/VxSktUtil.h>
 #include <CoreLib/VxTime.h>
 
-#include <CoreLib/InetAddressParse.h>
-
 #include <NetLib/VxPeerMgr.h>
+#include <PktLib/VxCommon.h>
+
+#include <GuiInterface/ICamCapture.h>
 
 #include <QApplication>
 #include <QMainWindow>
@@ -254,15 +254,12 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_AppStyle( *this, m_AppTheme )
 , m_AppDisplay( *this )
 
-, m_CamLogic( *this )
-
 , m_SoundFxMgr( soundFxMgr )
 
 , m_OncePerSecondTimer( new QTimer( this ) )
 , m_eLastSelectedWhichContactsToView( eFriendViewEverybody )
 , m_bUserCanceledCreateProfile( false )
 , m_LastNetworkState( eNetworkStateTypeUnknown )
-, m_CamCaptureRotation( 0 )
 , m_AppletMgr( *( new AppletMgr( *this, this) ) )
 , m_GuiStartupTimer( new QTimer( this ) )
 {
@@ -520,7 +517,7 @@ void AppCommon::shutdownAppCommon( void )
 void AppCommon::slotShutdownApp( void )
 {
 	VxSetAppIsShuttingDown( true );
-	m_CamLogic.shutdownCamLogic();
+	ICamCapture::getICamCapture().shutdownCamCapture();
 	m_SoundFxMgr.sndFxMgrShutdown();
 	m_AudioMgr.audioIoSystemShutdown();
 
@@ -2114,7 +2111,7 @@ bool AppCommon::checkSystemReady( void )
 		checkReadyToLaunchAfterLogonApplets();
 
 		// qt camera for android is very processor sensitive so start as late as possible
-		//m_CamLogic.camLogicStartup();
+		//m_CamCapture.camLogicStartup();
 	}
 
 	return m_IsGuiSystemReady;

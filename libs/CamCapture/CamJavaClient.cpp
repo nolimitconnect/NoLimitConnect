@@ -8,22 +8,18 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#if defined(ENABLE_JAVA_CAM)
+#if defined(TARGET_OS_ANDROID)
 
 #include "CamJavaClient.h"
 
-#include "CamLogic.h"
+#include "CamCapture.h"
 #include "CamProcessor.h"
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxJava.h>
+#include <CoreLib/VxJni.h>
 #include <CoreLib/VxThread.h>
 #include <CoreLib/VxTime.h>
-
-#include <QTimer>
-#include <QMetaObject>
-#include <QtCore/qcoreapplication.h>
-#include <QtCore/private/qandroidextras_p.h>
 
 #include <iostream>
 
@@ -31,9 +27,8 @@
 
 namespace {
 CamJavaClient* g_CamClient = nullptr;
-CamJavaClient& GetCamJavaClient() {
-    vx_assert( g_CamClient != nullptr );
-    return *g_CamClient;
+CamJavaClient* GetCamJavaClient() {
+    return g_CamClient;
 }
 
 typedef struct CamServiceMethod {
@@ -61,6 +56,23 @@ unsigned int g_CamServiceThreadId = 0;
 bool g_CamServiceReady = false;
 
 static std::vector<std::pair<unsigned int, JNIEnv*>> g_JavaEnvList;
+
+bool HasCamMethod( int methodIdx, const char* funcName )
+{
+    if( methodIdx < 0 || methodIdx >= (int)(sizeof(g_CamMethods)/sizeof(CamServiceMethod)) )
+    {
+        LogMsg( LOG_ERROR, "%s invalid method idx %d", funcName, methodIdx );
+        return false;
+    }
+
+    if( nullptr == g_CamMethods[methodIdx].methodID )
+    {
+        LogMsg( LOG_ERROR, "%s null methodID for %s", funcName, g_CamMethods[methodIdx].methodName );
+        return false;
+    }
+
+    return true;
+}
 
 JNIEnv* GetJniEnv( void )
 {
@@ -91,86 +103,6 @@ JNIEnv* GetJniEnv( void )
     }
 }
 
-#if defined(TARGET_CPU_ARM64) && defined(TARGET_OS_ANDROID)
-#include <arm_neon.h>
-#include <stdint.h>
-
-static inline uint8x8_t clamp_u8(int16x8_t val) {
-    return vqmovun_s16(vcombine_s16(vqmovn_s32(vmovl_s16(vget_low_s16(val))),
-                                    vqmovn_s32(vmovl_s16(vget_high_s16(val)))));
-}
-// optimized for neon
-void AndroidYUV420SPtoRGB(uint8_t* rgbImage, int width, int height,
-                               const uint8_t* yPlane, const uint8_t* uPlane, const uint8_t* vPlane,
-                               int yPixelStride, int yRowStride,
-                               int uPixelStride, int uRowStride,
-                               int vPixelStride, int vRowStride) {
-    for (int row = 0; row < height; row++) {
-        const uint8_t* pY = yPlane + row * yRowStride;
-        const uint8_t* pU = uPlane + (row / 2) * uRowStride;
-        const uint8_t* pV = vPlane + (row / 2) * vRowStride;
-        uint8_t* pRGB = rgbImage + row * width * 3;
-
-        int col = 0;
-        for (; col <= width - 8; col += 8) {
-            // Load Y values
-            uint8x8_t y = vld1_u8(pY + col * yPixelStride);
-
-            // Load U and V (subsampled every 2 pixels)
-            uint8x8_t u = vld1_u8(pU + (col / 2) * uPixelStride);
-            uint8x8_t v = vld1_u8(pV + (col / 2) * vPixelStride);
-
-            int16x8_t u_s16 = vreinterpretq_s16_u16(vmovl_u8(u));
-            int16x8_t v_s16 = vreinterpretq_s16_u16(vmovl_u8(v));
-            int16x8_t y_s16 = vreinterpretq_s16_u16(vmovl_u8(y));
-
-            u_s16 = vsubq_s16(u_s16, vdupq_n_s16(128));
-            v_s16 = vsubq_s16(v_s16, vdupq_n_s16(128));
-
-            // Integer approximation of:
-            // R = Y + 1.402 * V
-            // G = Y - 0.344136 * U - 0.714136 * V
-            // B = Y + 1.772 * U
-
-            int16x8_t r = vaddq_s16(y_s16, vshrq_n_s16(vqdmulhq_s16(v_s16, vdupq_n_s16(22970)), 1)); // 1.402 * 2^14 ≈ 22970
-            int16x8_t g = vsubq_s16(y_s16, vshrq_n_s16(vqdmulhq_s16(u_s16, vdupq_n_s16(11277)), 1)); // 0.344136 * 2^14 ≈ 11277
-            g = vsubq_s16(g, vshrq_n_s16(vqdmulhq_s16(v_s16, vdupq_n_s16(23401)), 1)); // 0.714136 * 2^14 ≈ 23401
-            int16x8_t b = vaddq_s16(y_s16, vshrq_n_s16(vqdmulhq_s16(u_s16, vdupq_n_s16(29032)), 1)); // 1.772 * 2^14 ≈ 29032
-
-            // Clamp to [0, 255]
-            uint8x8_t r_u8 = vqmovun_s16(r);
-            uint8x8_t g_u8 = vqmovun_s16(g);
-            uint8x8_t b_u8 = vqmovun_s16(b);
-
-            // Interleave and store RGB
-            uint8x8x3_t rgb;
-            rgb.val[0] = r_u8;
-            rgb.val[1] = g_u8;
-            rgb.val[2] = b_u8;
-            vst3_u8(pRGB + col * 3, rgb);
-        }
-
-        // Fallback for remaining pixels (non-NEON)
-        for (; col < width; col++) {
-            int Y = pY[col * yPixelStride];
-            int U = pU[(col / 2) * uPixelStride] - 128;
-            int V = pV[(col / 2) * vPixelStride] - 128;
-
-            int R = Y + (1.402 * V);
-            int G = Y - (0.344136 * U) - (0.714136 * V);
-            int B = Y + (1.772 * U);
-
-            R = R < 0 ? 0 : (R > 255 ? 255 : R);
-            G = G < 0 ? 0 : (G > 255 ? 255 : G);
-            B = B < 0 ? 0 : (B > 255 ? 255 : B);
-
-            pRGB[col * 3 + 0] = (uint8_t)R;
-            pRGB[col * 3 + 1] = (uint8_t)G;
-            pRGB[col * 3 + 2] = (uint8_t)B;
-        }
-    }
-}
-#else
 static inline uint8_t clamp(int value) {
     return (value < 0) ? 0 : ((value > 255) ? 255 : value);
 }
@@ -187,11 +119,13 @@ void AndroidYUV420SPtoRGB(uint8_t* rgbImage, int width, int height,
 
         for (int col = 0; col < width; col++) {
             int yIndex = col * yPixelStride;
-            int uvIndex = (col / 2) * uPixelStride;
+            int uvCol = (col / 2);
+            int uIndex = uvCol * uPixelStride;
+            int vIndex = uvCol * vPixelStride;
 
             int Y = pYRow[yIndex];
-            int U = pURow[uvIndex] - 128;
-            int V = pVRow[uvIndex] - 128;
+            int U = pURow[uIndex] - 128;
+            int V = pVRow[vIndex] - 128;
 
             int y1024 = Y << 10;
 
@@ -205,7 +139,6 @@ void AndroidYUV420SPtoRGB(uint8_t* rgbImage, int width, int height,
         }
     }
 }
-#endif
 
 } // namespace
 
@@ -227,6 +160,11 @@ JNIEXPORT void JNICALL Java_org_nolimitconnect_nolimitconnect_Camera2Service_cam
     // Hold a reference to the Java object
     // to prevent it from being garbage collected if needed
     g_CamObj = env->NewGlobalRef(obj);
+    if( nullptr == g_CamObj )
+    {
+        LogMsg( LOG_ERROR, "%s NewGlobalRef failed", __func__ );
+        return;
+    }
 
     // Use the global reference (you could store it for later use)
 
@@ -249,19 +187,56 @@ JNIEXPORT void JNICALL Java_org_nolimitconnect_nolimitconnect_Camera2Service_cam
     LogMsg( LOG_VERBOSE, "%s Received value: %d", __func__, value );
 
     g_CamServiceReady = true;
-    // Do not run Qt-side startup logic on Android's Java main thread.
-    QMetaObject::invokeMethod( &GetCamJavaClient(),
-                               []() { GetCamJavaClient().onCamServiceStarted(); },
-                               Qt::QueuedConnection );
+    CamJavaClient* camClient = GetCamJavaClient();
+    if( camClient )
+    {
+        camClient->onCamServiceStarted();
+    }
+    else
+    {
+        LogMsg( LOG_WARN, "%s camera service started after native CamJavaClient was destroyed", __func__ );
+    }
 }
 
 JNIEXPORT void JNICALL Java_org_nolimitconnect_nolimitconnect_Camera2Service_camServiceStopped(JNIEnv *env, jobject obj) {
     g_CamServiceReady = false;
+    if( nullptr != g_CamObj )
+    {
+        env->DeleteGlobalRef( g_CamObj );
+        g_CamObj = nullptr;
+    }
+
+    for( int i = 0; i < (int)(sizeof(g_CamMethods)/sizeof(CamServiceMethod)); ++i )
+    {
+        g_CamMethods[i].methodID = nullptr;
+    }
+
+    g_CamEnv = nullptr;
+    g_CamServiceThreadId = 0;
+    g_JavaEnvList.clear();
+
     LogMsg( LOG_VERBOSE, "%s ", __func__ );
 }
 
 JNIEXPORT bool JNICALL Java_org_nolimitconnect_nolimitconnect_Camera2Service_canProcessCamCapture(JNIEnv *env, jobject obj) {
-    return GetCamJavaClient().canProcessCamCapture();
+    CamJavaClient* camClient = GetCamJavaClient();
+    if( !camClient )
+    {
+        return false;
+    }
+
+    return camClient->canProcessCamCapture();
+}
+
+JNIEXPORT void JNICALL Java_org_nolimitconnect_nolimitconnect_Camera2Service_camPermissionResult(JNIEnv* env, jclass clazz, jboolean granted) {
+    CamJavaClient* camClient = GetCamJavaClient();
+    if( !camClient )
+    {
+        LogMsg( LOG_WARN, "%s camera permission result arrived after native CamJavaClient was destroyed", __func__ );
+        return;
+    }
+
+    camClient->onCameraPermissionResult( granted == JNI_TRUE );
 }
 
 bool GetJBufInfo( JNIEnv* env, jobject byteBuffer, uint8_t*& byteBuf )
@@ -296,6 +271,12 @@ JNIEXPORT void JNICALL Java_org_nolimitconnect_nolimitconnect_Camera2Service_pro
                                                                                             int uPixelStride, int uRowStride,
                                                                                             int vPixelStride, int vRowStride )
 {
+    CamJavaClient* camClient = GetCamJavaClient();
+    if( !camClient )
+    {
+        return;
+    }
+
     if( width < 10 || height < 10 || width > 10000 || height > 10000)
     {
         LogMsg( LOG_ERROR, "%s invalid param width %d height %d", __func__, width, height );
@@ -315,7 +296,7 @@ JNIEXPORT void JNICALL Java_org_nolimitconnect_nolimitconnect_Camera2Service_pro
                               uPixelStride, uRowStride,
                               vPixelStride, vRowStride );
 
-        GetCamJavaClient().processCamCapture(width, height, rgbData, dataLen);
+        camClient->processCamCapture(width, height, rgbData, dataLen);
     }
     else
     {
@@ -326,38 +307,47 @@ JNIEXPORT void JNICALL Java_org_nolimitconnect_nolimitconnect_Camera2Service_pro
 } // extern "C"
 
 //============================================================================
-CamJavaClient::CamJavaClient( AppCommon& myApp, CamLogic& camLogic, QObject *parent )
-    : QObject(parent)
-    , m_MyApp(myApp)
-    , m_CamLogic( camLogic )
+CamJavaClient::CamJavaClient( CamCapture& camLogic )
+    : m_CamCapture( camLogic )
 {
     g_CamClient = this;
 }
 
 //============================================================================
-void CamJavaClient::startupCamLogic( void )
+CamJavaClient::~CamJavaClient()
+{
+    shutdownCamCapture();
+    g_CamClient = nullptr;
+}
+
+//============================================================================
+void CamJavaClient::startupCamCapture( void )
 {
     LogMsg( LOG_VERBOSE, "%s GUI thread id %d", __func__, VxGetCurrentThreadId() );
-    QJniObject appContext(QNativeInterface::QAndroidApplication::context());
-    if(!appContext.isValid())
+    if( !VxJni::callStaticVoidWithAppContext(
+            CAM_CAPTURE_CLASS_NAME,
+            "startCamServiceStatic",
+            "(Landroid/content/Context;)V" ) )
     {
-        LogMsg( LOG_ERROR, "%s invalid app context", __func__ );
+        LogMsg( LOG_ERROR, "%s startCamServiceStatic failed", __func__ );
         return;
     }
-
-    // start the service as foreground service
-    QJniObject::callStaticMethod<void>(
-        CAM_CAPTURE_CLASS_NAME, // class name
-        "startCamServiceStatic", // method name
-        "(Landroid/content/Context;)V", // signature
-        appContext.object() );
 
     // wait for service to be started
 }
 
 //============================================================================
-void CamJavaClient::shutdownCamLogic( void )
+void CamJavaClient::shutdownCamCapture( void )
 {
+    stopCamCapture();
+
+    if( !VxJni::callStaticVoidWithAppContext(
+            CAM_CAPTURE_CLASS_NAME,
+            "stopCamServiceStatic",
+            "(Landroid/content/Context;)V" ) )
+    {
+        LogMsg( LOG_WARN, "%s stopCamServiceStatic failed", __func__ );
+    }
 }
 
 //============================================================================
@@ -365,7 +355,21 @@ void CamJavaClient::onCamServiceStarted( void )
 {
     LogMsg( LOG_VERBOSE, "%s thread id %d", __func__, VxGetCurrentThreadId() );
     updateCameraList();
-    m_CamLogic.onCamCaptureReady( true );
+    m_CamCapture.onCamCaptureReady( true );
+}
+
+//============================================================================
+void CamJavaClient::onCameraPermissionResult( bool granted )
+{
+    LogMsg( LOG_VERBOSE, "%s granted=%d", __func__, granted ? 1 : 0 );
+    if( !granted )
+    {
+        LogMsg( LOG_WARN, "%s camera permission denied", __func__ );
+        return;
+    }
+
+    // Re-enter startup after runtime permission grant.
+    m_CamCapture.startupCamCapture();
 }
 
 //============================================================================
@@ -374,8 +378,8 @@ bool CamJavaClient::canProcessCamCapture( void )
     static int64_t lastTimeMs = 0;
     int64_t timeNow = GetGmtTimeMs();
     constexpr int64_t ANDROID_CAM_MIN_INTERVAL_MS = 83; // Cap at ~12 FPS for Android capture path.
-    const int64_t minFrameIntervalMs = ( CamLogic::CAM_SNAPSHOT_INTERVAL_MS > ANDROID_CAM_MIN_INTERVAL_MS )
-                                      ? CamLogic::CAM_SNAPSHOT_INTERVAL_MS
+    const int64_t minFrameIntervalMs = ( CamCapture::CAM_SNAPSHOT_INTERVAL_MS > ANDROID_CAM_MIN_INTERVAL_MS )
+                                      ? CamCapture::CAM_SNAPSHOT_INTERVAL_MS
                                       : ANDROID_CAM_MIN_INTERVAL_MS;
     if( timeNow < lastTimeMs + minFrameIntervalMs )
     {
@@ -383,14 +387,14 @@ bool CamJavaClient::canProcessCamCapture( void )
         return false;
     }
     
-    bool result =  m_CamLogic.canProcessCamCapture();
+    bool result =  m_CamCapture.canProcessCamCapture();
     if( result )
     {
         lastTimeMs = timeNow;
     }
 //    else
 //    {
-//        LogMsg( LOG_VERBOSE, "%s CamLogic returned false", __func__ );
+//        LogMsg( LOG_VERBOSE, "%s CamCapture returned false", __func__ );
 //    }
 
     return result;
@@ -399,7 +403,7 @@ bool CamJavaClient::canProcessCamCapture( void )
 //============================================================================
 void CamJavaClient::processCamCapture( int width, int height, std::shared_ptr<uint8_t>& rgbData, int dataLen )
 {
-    m_CamLogic.getCamProcessor().processCamCapture( width, height, rgbData, dataLen );
+    m_CamCapture.getCamProcessor().processCamCapture( width, height, rgbData, dataLen );
 }
 
 //============================================================================
@@ -422,9 +426,35 @@ bool CamJavaClient::isBackFacing( std::string& camId )
         return false;
     }
 
+    if( nullptr == g_CamObj || !HasCamMethod( CAM_IS_BACKFACING_IDX, __func__ ) )
+    {
+        return false;
+    }
+
     JNIEnv* jniEnv = GetJniEnv();
+    if( nullptr == jniEnv )
+    {
+        LogMsg( LOG_ERROR, "%s failed to get JNI env", __func__ );
+        return false;
+    }
+
     jstring jCamId = jniEnv->NewStringUTF(camId.c_str());
+    if( nullptr == jCamId )
+    {
+        LogMsg( LOG_ERROR, "%s NewStringUTF failed", __func__ );
+        return false;
+    }
+
     jboolean value = jniEnv->CallBooleanMethod( g_CamObj, g_CamMethods[CAM_IS_BACKFACING_IDX].methodID, jCamId );
+    if( jniEnv->ExceptionCheck() )
+    {
+        jniEnv->ExceptionDescribe();
+        jniEnv->ExceptionClear();
+        LogMsg( LOG_ERROR, "%s isCameraBackFacing threw Java exception", __func__ );
+        jniEnv->DeleteLocalRef(jCamId);
+        return false;
+    }
+
     jniEnv->DeleteLocalRef(jCamId);
 
     return value ? true : false;
@@ -440,8 +470,28 @@ void CamJavaClient::updateCameraList( void )
         return;
     }
 
+    if( nullptr == g_CamObj || !HasCamMethod( CAM_GET_IDS_IDX, __func__ ) )
+    {
+        LogMsg( LOG_ERROR, "%s invalid camera service binding", __func__ );
+        return;
+    }
+
     JNIEnv* jniEnv = GetJniEnv();
+    if( nullptr == jniEnv )
+    {
+        LogMsg( LOG_ERROR, "%s failed to get JNI env", __func__ );
+        return;
+    }
+
     jobjectArray stringArray  = (jobjectArray)jniEnv->CallObjectMethod( g_CamObj, g_CamMethods[CAM_GET_IDS_IDX].methodID );
+    if( jniEnv->ExceptionCheck() )
+    {
+        jniEnv->ExceptionDescribe();
+        jniEnv->ExceptionClear();
+        LogMsg( LOG_ERROR, "%s getCameraIdList threw Java exception", __func__ );
+        return;
+    }
+
     if (stringArray == nullptr) {
         LogMsg( LOG_ERROR, "%s string array in null", __func__ );
         return;
@@ -450,13 +500,20 @@ void CamJavaClient::updateCameraList( void )
     jsize length = jniEnv->GetArrayLength(stringArray);
     for (int i = 0; i < length; ++i) {
         jstring stringElement = (jstring)jniEnv->GetObjectArrayElement(stringArray, i);
+        if( nullptr == stringElement )
+        {
+            continue;
+        }
+
         const char *charPtr = jniEnv->GetStringUTFChars(stringElement, nullptr);
         if (charPtr != nullptr) {
             m_CamIdList.emplace_back(charPtr);
             jniEnv->ReleaseStringUTFChars(stringElement, charPtr);
         }
-        //  env->DeleteLocalRef(stringElement); //optional
+        jniEnv->DeleteLocalRef(stringElement);
     }
+
+    jniEnv->DeleteLocalRef(stringArray);
 
     LogMsg( LOG_VERBOSE, "%s %zu cameras available", __func__, m_CamIdList.size() );
 }
@@ -476,9 +533,35 @@ bool CamJavaClient::startCamCapture( std::string camId )
         return false;
     }
 
+    if( nullptr == g_CamObj || !HasCamMethod( CAM_START_CAPTURE_IDX, __func__ ) )
+    {
+        return false;
+    }
+
     JNIEnv* jniEnv = GetJniEnv();
+    if( nullptr == jniEnv )
+    {
+        LogMsg( LOG_ERROR, "%s failed to get JNI env", __func__ );
+        return false;
+    }
+
     jstring jCamId = jniEnv->NewStringUTF(camId.c_str());
+    if( nullptr == jCamId )
+    {
+        LogMsg( LOG_ERROR, "%s NewStringUTF failed", __func__ );
+        return false;
+    }
+
     jboolean value = jniEnv->CallBooleanMethod( g_CamObj, g_CamMethods[CAM_START_CAPTURE_IDX].methodID, jCamId );
+    if( jniEnv->ExceptionCheck() )
+    {
+        jniEnv->ExceptionDescribe();
+        jniEnv->ExceptionClear();
+        LogMsg( LOG_ERROR, "%s startCameraCapture threw Java exception", __func__ );
+        jniEnv->DeleteLocalRef(jCamId);
+        return false;
+    }
+
     jniEnv->DeleteLocalRef(jCamId);
 
     return value ? true : false;
@@ -493,8 +576,25 @@ void CamJavaClient::stopCamCapture( void )
         return;
     }
 
+    if( nullptr == g_CamObj || !HasCamMethod( CAM_STOP_CAPTURE_IDX, __func__ ) )
+    {
+        return;
+    }
+
     JNIEnv* jniEnv = GetJniEnv();
+    if( nullptr == jniEnv )
+    {
+        LogMsg( LOG_ERROR, "%s failed to get JNI env", __func__ );
+        return;
+    }
+
     jniEnv->CallVoidMethod( g_CamObj, g_CamMethods[CAM_STOP_CAPTURE_IDX].methodID  );
+    if( jniEnv->ExceptionCheck() )
+    {
+        jniEnv->ExceptionDescribe();
+        jniEnv->ExceptionClear();
+        LogMsg( LOG_ERROR, "%s stopCameraCapture threw Java exception", __func__ );
+    }
 }
 
-#endif // defined(ENABLE_JAVA_CAM)
+#endif // defined(TARGET_OS_ANDROID)

@@ -900,8 +900,8 @@ else()
     if(DEFINED TARGET_OS_ANDROID)
         message(STATUS "TARGET_OS_ANDROID is defined")
         # use native java camera capture to replace buggy qt android camera
-        set(ENABLE_JAVA_CAM true)
-        add_compile_definitions(ENABLE_JAVA_CAM=1)
+        set(TARGET_OS_ANDROID true)
+        add_compile_definitions(TARGET_OS_ANDROID=1)
     endif()
 
 

@@ -9,10 +9,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#if defined(TARGET_OS_LINUX)
-#include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
-#endif // defined(TARGET_OS_LINUX)
-
 #include <atomic>
 #include <condition_variable>
 #include <memory>
@@ -20,7 +16,7 @@
 #include <queue>
 #include <thread>
 
-class CamLogic;
+class CamCapture;
 class CamRgbVideo;
 class CamJpgVideo;
 
@@ -29,7 +25,7 @@ class CamProcessor
 public:
 	const int JPG_CONVERT_QUALITY = 75; // there is very little picture quality improvement above 75 
 
-    CamProcessor( CamLogic& camLogic );
+    CamProcessor( CamCapture& camLogic );
     virtual ~CamProcessor();
 	
     void						shutdownCamProcessor( void );
@@ -47,7 +43,7 @@ protected:
     int                         calculateImageMotion( std::shared_ptr<uint8_t> newRgbData, int dataLen );
 
 	//=== vars ===//
-    CamLogic&					m_CamLogic;
+    CamCapture&					m_CamCapture;
 	
     std::atomic<bool>			m_Abort{ false };
     std::mutex					m_CamRgbMutex;

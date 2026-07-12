@@ -33,11 +33,19 @@
 # include "OsAndroid/IAndroid.h"
 # include "OsAndroid/IAndroid.cpp"
 # include <CoreLib/VxJava.h>
-
-
 #else 
 echo traget os is not defined
 #endif 
+
+#include "IFromGui.h"
+#include <P2PEngine/P2PEngine.h>
+#include <CamCapture/CamCapture.h>
+
+//============================================================================
+ICamCapture& ICamCapture::getICamCapture( void )
+{
+    return CamCapture::getInstance();
+}
 
 //============================================================================
 INlcRender& INlcRender::getINlcRender( void )
@@ -49,6 +57,12 @@ INlcRender& INlcRender::getINlcRender( void )
 IToGui& IToGui::getIToGui( void )
 {
     return GetAppImplementation().getIToGui();
+}
+
+//============================================================================
+IFromGui& IFromGui::getIFromGui( void )
+{
+    return GetPtoPEngine().getFromGuiInterface();
 }
 
 //============================================================================
