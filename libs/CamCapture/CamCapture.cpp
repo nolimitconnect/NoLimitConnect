@@ -292,9 +292,8 @@ bool CamCapture::setV4L2Camera( const std::string& devPath )
         return false;
     }
 
-    QSize targetSize = GuiParams::getSnapshotDesiredSize();
     m_CamV4L2.closeDevice();
-    bool opened = m_CamV4L2.openDevice( devPath, targetSize.width(), targetSize.height() );
+    bool opened = m_CamV4L2.openDevice( devPath, CAM_WIDTH, CAM_HEIGHT );
     if( !opened )
     {
         LogMsg( LOG_ERROR, "%s failed opening %s", __func__, devPath.c_str() );

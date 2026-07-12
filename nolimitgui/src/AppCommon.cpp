@@ -251,7 +251,6 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 
 , m_MyIcons( myIcons )
 , m_AppTheme( *this )
-, m_AppStyle( *this, m_AppTheme )
 , m_AppDisplay( *this )
 
 , m_SoundFxMgr( soundFxMgr )
@@ -265,6 +264,9 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 {
     g_AppCommon = this; // need a global instance that can accessed immediately with GetAppInstance() for objects created in ui files
 	setGuiThreadId( VxGetCurrentThreadId() );
+
+	// QApplication::setStyle takes ownership and deletes the style.
+	m_AppStyle = new VxAppStyle( *this, m_AppTheme );
 
 #if !defined(TARGET_OS_WINDOWS)
 	// make your application ignore SIGPIPE. that sometimes happens when socket connection is broken
@@ -307,7 +309,7 @@ bool AppCommon::loadWithThread( void )
     m_AudioDevicesThread.startThread( (VX_THREAD_FUNCTION_T)AudioDevicesStartupThreadFunc, this, "AudioDevicesStartupThreadFunc" );
 	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread audio startup thread started at %d ms", GetApplicationAliveMs() );
 
-	getQApplication().setStyle( &m_AppStyle );
+	getQApplication().setStyle( m_AppStyle );
 	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread style applied at %d ms", GetApplicationAliveMs() );
 
 	int waitAccountMgrStartMs = GetApplicationAliveMs();

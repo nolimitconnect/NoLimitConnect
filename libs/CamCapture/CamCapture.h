@@ -31,6 +31,8 @@ class CamCapture : public ICamCapture
 {
 public:
     static const int64_t CAM_SNAPSHOT_INTERVAL_MS = 60; // 60 ms = approx 15 frames per second 30 ms = approx 30 fps
+    static const int CAM_WIDTH = 320;
+    static const int CAM_HEIGHT = 240;
 
     CamCapture();
     ~CamCapture();

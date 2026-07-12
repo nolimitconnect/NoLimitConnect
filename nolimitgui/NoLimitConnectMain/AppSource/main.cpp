@@ -352,6 +352,16 @@ int runApplication( QApplication* myApp, int argc, char** argv )
         }
     }
 
+    // Ensure loader threads are fully finished before continuing startup/shutdown lifecycle.
+    if( mainLoaderThread.isRunning() )
+    {
+        mainLoaderThread.wait();
+    }
+    if( threadSettingsLoader.isRunning() )
+    {
+        threadSettingsLoader.wait();
+    }
+
     int timePreStartApp = GetApplicationAliveMs();
     if( LogEnabled( eLogStartup ) )
     {     
@@ -449,8 +459,14 @@ int main( int argc, char** argv )
         // and close all config files.
         LogMsg( LOG_ERROR, "ERROR Application threw and exception" );
 
+        delete myApp;
+        myApp = nullptr;
+
         return EXIT_FAILURE; // exit the application
     }
+
+    delete myApp;
+    myApp = nullptr;
 
     return retVal;
 }

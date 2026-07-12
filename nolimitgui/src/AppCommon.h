@@ -155,7 +155,7 @@ public:
     AssetSendMgr&               getAssetSendMgr( void ) { return m_AssetSendMgr; }
     AppSettings&                getAppSettings( void ) { return m_AppSettings; }
     QString&                    getAppShortName( void ) { return m_AppShortName; }
-    VxAppStyle&                 getAppStyle( void ) { return m_AppStyle; }
+    VxAppStyle&                 getAppStyle( void ) { return *m_AppStyle; }
     QString&                    getAppTitle( void ) { return m_AppTitle; }
     VxAppTheme&                 getAppTheme( void ) { return m_AppTheme; }
 
@@ -928,7 +928,7 @@ protected:
 
     MyIcons&					m_MyIcons;
     VxAppTheme					m_AppTheme;
-    VxAppStyle					m_AppStyle;
+    VxAppStyle*                 m_AppStyle{ nullptr };
     VxAppDisplay				m_AppDisplay;
 
     GuiAudioMgr                 m_AudioMgr;

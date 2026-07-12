@@ -34,7 +34,7 @@ public:
     // Fill 'devices' with (cardName, devPath) for every V4L2 capture node found.
     static void enumerateDevices( std::vector<std::pair<std::string, std::string>>& devices );
 
-    // Open devPath, negotiate YUYV at the requested resolution (driver may adjust),
+    // Open devPath, negotiate capture format at the requested resolution (driver may adjust),
     // allocate mmap buffers, start streaming and the capture thread.
     bool                        openDevice( const std::string& devPath, int desiredWidth, int desiredHeight );
 
@@ -54,17 +54,18 @@ private:
     void                        stopStreaming();
     bool                        supportsFormat( uint32_t pixelFormat );
 
-    // Convert a packed YUYV frame (width × height × 2 bytes) to RGB888
-    // (width × height × 3 bytes).  Caller owns both buffers.
-    static void                 yuyvToRgb( const uint8_t* yuyv, uint8_t* rgb, int width, int height );
+    // Convert a YUYV frame with source stride to RGB888.
+    static void                 yuyvToRgb( const uint8_t* yuyv, int yuyvStride, uint8_t* rgb, int width, int height );
     static int                  clamp( int v ) { return v < 0 ? 0 : (v > 255 ? 255 : v); }
 
 
-
+    CamCapture&                 m_CamCapture;
     int                         m_Fd{ -1 };
     int                         m_Width{ 0 };
     int                         m_Height{ 0 };
     uint32_t                    m_PixelFormat{ 0 };
+    uint32_t                    m_BytesPerLine{ 0 };
+    uint32_t                    m_MinFrameBytes{ 0 };
 
     struct MmapBuffer {
         void*  start{ nullptr };
