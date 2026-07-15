@@ -49,6 +49,7 @@ add_subdirectory(GuiInterface)
 add_subdirectory(MediaToolsLib)
 add_subdirectory(NetLib)
 add_subdirectory(PktLib)
+add_subdirectory(VirtStream)
 add_subdirectory(VxVideoLib)
 #add_subdirectory(androidNdk) # not used as library but used in android builds
 

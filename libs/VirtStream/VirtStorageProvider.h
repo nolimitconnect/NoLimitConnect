@@ -9,21 +9,13 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#if defined(TARGET_OS_LINUX)
-#include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
-#endif // defined(TARGET_OS_LINUX)
-
 #include <string>
 #include <CoreLib/VxFileTypeMasks.h>
-
-#include <QString>
 
 // Android 11 (API level 30) implemented scoped storage which is why this class exists
 
 class VxFileInfoBase;
 class VxGUID;
-class QFileInfo;
-class QUrl;
 
 class VirtStorageProvider
 {
@@ -37,9 +29,7 @@ public:
     void				fromGuiBrowseFiles( VxGUID& appInstId, std::string& folderName, uint8_t fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY );
 
 protected:
-    void                loadUrl( const QUrl &url );
-
-    bool                requestPermission( QString permissionName ); // returns false if user denies permission to use android hardware
+    bool                requestPermission( const std::string& permissionName ); // returns false if user denies permission to use android hardware
 
 };
 

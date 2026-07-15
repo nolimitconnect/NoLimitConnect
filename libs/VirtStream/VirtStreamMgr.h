@@ -10,7 +10,6 @@
 #pragma once
 
 #include "VirtStreamFile.h"
-#include "VirtProviderFile.h"
 
 #include <Plugins/FileXferCallback.h>
 #include <Plugins/PluginFileShareClient.h>
@@ -35,8 +34,6 @@ public:
     bool                        fileIsProviderFile( const char* fileName ) override;
 
 	bool						getFileInfo( const char* fileNameAndPath, VxFileInfoBase& retFileInfo ) override;
-    bool                        qtFileInfoToVxFileInfo( const QFileInfo& fileInfo, VxFileInfoBase& retFileInfo,
-                                                        uint8_t fileFilterMask = VXFILE_TYPE_AUDIO_VIDEO_PHOTO ) override;
 
 	bool						seperatePathAndFile( const char* pFullPath,					// path and file name			
 													 std::string& strRetPath,				// return path of file

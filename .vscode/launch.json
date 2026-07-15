@@ -115,7 +115,12 @@
             "preLaunchTask": "Deploy Android Debug",
             "postDebugTask": "Android: Force-stop app",
             "initCommands": [
+                "platform select remote-android",
                 "settings set target.process.stop-on-sharedlibrary-events false",
+                "process handle -p true -s false -n false SIGSTOP",
+                "process handle -p true -s false -n false SIGSEGV SIGBUS SIGUSR1 SIGUSR2",
+                "process handle -p true -s false -n true SIGABRT",
+                "process handle SIGSTOP SIGSEGV SIGBUS SIGABRT SIGUSR1 SIGUSR2",
                 "settings set target.source-map /proc/self/cwd ${workspaceFolder}",
                 "settings set target.source-map / ${workspaceFolder}"
             ],
@@ -124,11 +129,8 @@
                 "settings append target.exec-search-paths ${workspaceFolder}/build/android-arm64-debug/nolimitgui"
             ],
             "processCreateCommands": [
-                "platform select remote-android",
                 "gdb-remote 127.0.0.1:5039",
-                "process handle -p true -s false -n false SIGSTOP",
-                "process handle -p true -s false -n false SIGSEGV SIGBUS SIGUSR1 SIGUSR2",
-                "process handle -p true -s false -n true SIGABRT",
+                "command source ${workspaceFolder}/build/android-arm64-debug/nolimitgui/android-lldb-module-load.lldb",
                 "nofail continue"
             ]
         },
@@ -151,7 +153,8 @@
             ],
             "targetCreateCommands": [],
             "processCreateCommands": [
-                "gdb-remote 127.0.0.1:5039"
+                "gdb-remote 127.0.0.1:5039",
+                "nofail continue"
             ]
         },
         {
@@ -175,8 +178,7 @@
                 "settings append target.exec-search-paths ${workspaceFolder}/build/android-arm64-release/nolimitgui"
             ],
             "processCreateCommands": [
-                "gdb-remote 127.0.0.1:5039",
-                "nofail continue"
+                "gdb-remote 127.0.0.1:5039"
             ]
         },
         {

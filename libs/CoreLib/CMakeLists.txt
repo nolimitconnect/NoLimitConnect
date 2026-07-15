@@ -90,6 +90,7 @@ list(APPEND CoreLib_HEADERS
     VxUrl.h
     VxJava.h
     VxJni.h
+    VxAndroid.h
     VxMd5.h
 )
 
@@ -183,6 +184,7 @@ list(APPEND CoreLib_SOURCES
     VxUrl.cpp
     VxJava.cpp
     VxJni.cpp
+    VxAndroid.cpp
     VxFunctionsMissingInAndroid.cpp
     VxMd5.cpp
 )

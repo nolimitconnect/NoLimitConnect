@@ -443,7 +443,9 @@ int main( int argc, char** argv )
     LogModule( eLogStartup, LOG_VERBOSE, "main Creating QApplication at %d ms", GetApplicationAliveMs() );
 
     QCoreApplication::addLibraryPath( "." );
+
     QApplication::setAttribute( Qt::AA_ShareOpenGLContexts );
+
     QApplication::setAttribute( Qt::AA_DontCheckOpenGLContextThreadAffinity );
 
     // for some reason QApplication must be newed or does not initialize

@@ -17,19 +17,7 @@
 #include <CoreLib/VFile.h>
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxFileUtil.h>
-
-#include <QDir>
-#include <QFileInfo>
-#include <QUrl>
-#include <QFile>
-
-#if defined (TARGET_OS_ANDROID)
-# if QT_VERSION < QT_VERSION_CHECK(6,0,0)
-#  include <QtAndroid>
-# else
-#  include <QtCore/private/qandroidextras_p.h>
-# endif
-#endif //defined (TARGET_OS_ANDROID)
+#include <CoreLib/VxAndroid.h>
 
 //============================================================================
 VirtProviderFile* VirtStreamMgr::findProviderFile( VFile* fp )
@@ -49,43 +37,26 @@ VirtProviderFile* VirtStreamMgr::findProviderFile( VFile* fp )
 //============================================================================
 bool VirtStreamMgr::providerDirectoryExists( std::string dirPath )
 {
-    bool dirExists{ false };
-
-    QDir qDir( dirPath.c_str() );
-    dirExists = qDir.exists();
-
-    return dirExists;
+    return VxAndroid::directoryExists( dirPath.c_str() );
 }
 
 //============================================================================
 bool VirtStreamMgr::providerGetFileInfo( std::string fileNameAndPath, VxFileInfoBase& retFileInfo )
 {
-#if defined( TARGET_OS_ANDROID )
-    QDir fileDir(fileNameAndPath.c_str());
-    if( fileDir.exists() )
+    VxAndroidPathInfo pathInfo;
+    if( !VxAndroid::getPathInfo( fileNameAndPath.c_str(), pathInfo ) )
     {
-        retFileInfo.setFileName( fileNameAndPath );
-        retFileInfo.setFileNameAndPath( fileNameAndPath );
-        retFileInfo.setFileLength( 0 );
-        retFileInfo.setFileType( VXFILE_TYPE_DIRECTORY );
-        return true;
-    }
-
-    QFileInfo fileInfo(fileNameAndPath.c_str());
-    if(!fileInfo.exists())
-    {
-        LogMsg(LOG_ERROR, "%s %s does not exist", __func__, fileNameAndPath.c_str() );
+        LogMsg( LOG_ERROR, "%s %s does not exist or provider metadata is unavailable", __func__, fileNameAndPath.c_str() );
         return false;
     }
 
-    retFileInfo.setFileName( fileInfo.fileName().toUtf8().constData() );
-    retFileInfo.setFileNameAndPath( fileNameAndPath );
-    retFileInfo.setFileLength( fileInfo.size() );
-    retFileInfo.setFileType( VxFileUtil::fileExtensionToFileTypeFlag( retFileInfo.getFileName().c_str() ) );
+    retFileInfo.setFileName( pathInfo.m_FileName );
+    retFileInfo.setFileNameAndPath( pathInfo.m_FileNameAndPath );
+    retFileInfo.setFileLength( pathInfo.m_FileLength );
+    retFileInfo.setFileType( pathInfo.m_IsDirectory
+                                ? VXFILE_TYPE_DIRECTORY
+                                : VxFileUtil::fileExtensionToFileTypeFlag( pathInfo.m_FileName.c_str() ) );
     return true;
-#else
-    return false;
-#endif // defined( TARGET_OS_ANDROID )
 }
 
 //============================================================================
@@ -93,8 +64,8 @@ uint64_t VirtStreamMgr::providerFileExists( std::string fileName )
 {
     uint64_t fileLen{0};
 #if defined (TARGET_OS_ANDROID)
-    VirtProviderFile* providerFile = new VirtProviderFile(fileName.c_str());
-    if( providerFile->open( QIODevice::ReadOnly ) )
+    VirtProviderFile* providerFile = new VirtProviderFile( fileName );
+    if( providerFile->openReadOnly() )
     {
         fileLen = providerFile->size();
         providerFile->closeFile();
@@ -110,8 +81,8 @@ uint64_t VirtStreamMgr::providerFileExists( std::string fileName )
 VFile* VirtStreamMgr::providerFileOpen( std::string fileNameIn, std::string fileMode )
 {
 #if defined( TARGET_OS_ANDROID )
-    VirtProviderFile* providerFile = new VirtProviderFile( fileNameIn.c_str() );
-    if( providerFile->open( QIODevice::ReadOnly ) )
+    VirtProviderFile* providerFile = new VirtProviderFile( fileNameIn );
+    if( providerFile->openReadOnly() )
     {
 		VFile* vFile = new VFile();
 		memset( vFile, 0, sizeof( VFile ) );
@@ -148,7 +119,8 @@ int VirtStreamMgr::providerFileClose( VFile* fp )
     {
         VirtProviderFile* providerFile = *iter;
         providerFile->closeFile();
-        providerFile->deleteLater();
+
+        delete providerFile;
 		m_ProviderFiles.erase( iter );
         retVal = 0;
     }
@@ -440,21 +412,46 @@ int VirtStreamMgr::listProviderFilesAndFolders( const char* srcDir, std::vector<
         fileFilterMask = VXFILE_TYPE_ALLNOTEXE | VXFILE_TYPE_DIRECTORY;
     }
 
-    VxGUID onlineId = m_Engine.getMyOnlineId();
-    QDir browseDir( srcDir );
-
-    QFileInfoList fileInfoList = browseDir.entryInfoList();
-    LogMsg( LOG_VERBOSE, "VirtStreamMgr::%s %zu files in dir %s", __func__, fileList.size(), folderName.c_str() );
-    for( auto fileListInfo : fileInfoList )
+    std::vector<VxAndroidPathInfo> pathInfoList;
+    if( 0 != VxAndroid::listDirectory( srcDir, pathInfoList ) )
     {
-        VxFileInfoBase fileInfo;
-        if( !GetVirtFileMgr().qtFileInfoToVxFileInfo( fileListInfo, fileInfo, fileFilterMask ) )
+        return -1;
+    }
+
+    LogMsg( LOG_VERBOSE, "VirtStreamMgr::%s %zu files in dir %s", __func__, pathInfoList.size(), folderName.c_str() );
+    for( const auto& pathInfo : pathInfoList )
+    {
+        if( pathInfo.m_FileName.empty() )
         {
             continue;
         }
 
-        fileList.emplace_back( fileInfo );
-     }
+        if( pathInfo.m_IsDirectory )
+        {
+            if( fileFilterMask & VXFILE_TYPE_DIRECTORY )
+            {
+                std::string directoryPath = pathInfo.m_FileNameAndPath;
+                VxFileUtil::assureTrailingDirectorySlash( directoryPath );
+                fileList.emplace_back( pathInfo.m_FileName.c_str(), directoryPath.c_str(), 0, VXFILE_TYPE_DIRECTORY );
+            }
+
+            continue;
+        }
+
+        if( !pathInfo.m_IsReadable || pathInfo.m_FileLength <= 0 )
+        {
+            continue;
+        }
+
+        const uint8_t fileType = VxFileNameToFileType( pathInfo.m_FileName );
+        if( 0 == ( fileType & fileFilterMask ) )
+        {
+            continue;
+        }
+
+        fileList.emplace_back( pathInfo.m_FileName.c_str(), pathInfo.m_FileNameAndPath.c_str(), pathInfo.m_FileLength, fileType );
+
+    }
 
 	return 0;
 #else

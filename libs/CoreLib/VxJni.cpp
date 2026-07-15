@@ -7,6 +7,9 @@
 
 namespace
 {
+static jclass g_QtNativeClass = nullptr;
+static jmethodID g_QtNativeActivityMethod = nullptr;
+
 bool HasAndClearPendingException( JNIEnv* env, const char* funcName )
 {
     if( nullptr == env || !env->ExceptionCheck() )
@@ -19,6 +22,66 @@ bool HasAndClearPendingException( JNIEnv* env, const char* funcName )
     LogMsg( LOG_ERROR, "%s JNI exception", funcName );
     return true;
 }
+
+bool EnsureQtNativeBindings( JNIEnv* env )
+{
+    if( nullptr == env )
+    {
+        return false;
+    }
+
+    if( nullptr != g_QtNativeClass && nullptr != g_QtNativeActivityMethod )
+    {
+        return true;
+    }
+
+    jclass qtNativeLocal = env->FindClass( "org/qtproject/qt/android/QtNative" );
+    if( nullptr == qtNativeLocal || HasAndClearPendingException( env, __func__ ) )
+    {
+        LogMsg( LOG_ERROR, "%s failed to find QtNative", __func__ );
+        return false;
+    }
+
+    jmethodID activityMethod = env->GetStaticMethodID( qtNativeLocal,
+                                                        "activity",
+                                                        "()Landroid/app/Activity;" );
+    if( nullptr == activityMethod || HasAndClearPendingException( env, __func__ ) )
+    {
+        LogMsg( LOG_ERROR, "%s failed to get QtNative.activity", __func__ );
+        env->DeleteLocalRef( qtNativeLocal );
+        return false;
+    }
+
+    jclass qtNativeGlobal = reinterpret_cast<jclass>( env->NewGlobalRef( qtNativeLocal ) );
+    env->DeleteLocalRef( qtNativeLocal );
+    if( nullptr == qtNativeGlobal || HasAndClearPendingException( env, __func__ ) )
+    {
+        LogMsg( LOG_ERROR, "%s failed to create global QtNative ref", __func__ );
+        return false;
+    }
+
+    g_QtNativeClass = qtNativeGlobal;
+    g_QtNativeActivityMethod = activityMethod;
+    return true;
+}
+}
+
+//============================================================================
+bool VxJni::initJavaBindings( JNIEnv* env )
+{
+    return EnsureQtNativeBindings( env );
+}
+
+//============================================================================
+void VxJni::shutdownJavaBindings( JNIEnv* env )
+{
+    if( nullptr != env && nullptr != g_QtNativeClass )
+    {
+        env->DeleteGlobalRef( g_QtNativeClass );
+    }
+
+    g_QtNativeClass = nullptr;
+    g_QtNativeActivityMethod = nullptr;
 }
 
 //============================================================================
@@ -46,25 +109,13 @@ jobject VxJni::getActivity( JNIEnv* env )
         return nullptr;
     }
 
-    jclass qtNativeClass = env->FindClass( "org/qtproject/qt/android/QtNative" );
-    if( nullptr == qtNativeClass || HasAndClearPendingException( env, __func__ ) )
+    if( !EnsureQtNativeBindings( env ) )
     {
-        LogMsg( LOG_ERROR, "%s failed to find QtNative", __func__ );
+        LogMsg( LOG_ERROR, "%s QtNative JNI bindings unavailable", __func__ );
         return nullptr;
     }
 
-    jmethodID activityMethod = env->GetStaticMethodID( qtNativeClass,
-                                                        "activity",
-                                                        "()Landroid/app/Activity;" );
-    if( nullptr == activityMethod || HasAndClearPendingException( env, __func__ ) )
-    {
-        LogMsg( LOG_ERROR, "%s failed to get QtNative.activity", __func__ );
-        env->DeleteLocalRef( qtNativeClass );
-        return nullptr;
-    }
-
-    jobject activity = env->CallStaticObjectMethod( qtNativeClass, activityMethod );
-    env->DeleteLocalRef( qtNativeClass );
+    jobject activity = env->CallStaticObjectMethod( g_QtNativeClass, g_QtNativeActivityMethod );
     if( nullptr == activity || HasAndClearPendingException( env, __func__ ) )
     {
         LogMsg( LOG_ERROR, "%s failed to get Android activity", __func__ );

@@ -315,6 +315,7 @@ protected:
     std::atomic<uint64_t>       m_SpeakerCopiedSamples{0};
     std::atomic<uint64_t>       m_SpeakerQueueHighWatermark{0};
     int                         m_LastSpeakerStatsLogMs{0};
+    bool                        m_SpeakerIssueReported{ false };
 
     bool                        m_SpeakerJitterStatsEnable{ false };
     int64_t                     m_SpeakerOutJitterLowMarkMs{0};

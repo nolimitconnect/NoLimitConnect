@@ -509,6 +509,13 @@ void AppCommon::shutdownAppCommon( void )
 			hasBeenShutdown = true;
 			VxSetAppIsShuttingDown( true );
 
+#if defined(TARGET_OS_ANDROID)
+			// On Android the activity/app context can be torn down before the queued
+			// shutdown slot runs, so stop camera service while the context is still valid.
+			ICamCapture::getICamCapture().shutdownCamCapture();
+            m_AudioMgr.audioIoSystemShutdown();
+#endif // defined(TARGET_OS_ANDROID)
+
 			// queued so does not shutdown while dialog is still open
 			emit signalShutdownApp();
 		}
@@ -519,9 +526,12 @@ void AppCommon::shutdownAppCommon( void )
 void AppCommon::slotShutdownApp( void )
 {
 	VxSetAppIsShuttingDown( true );
+
+#if !defined(TARGET_OS_ANDROID)
 	ICamCapture::getICamCapture().shutdownCamCapture();
+    m_AudioMgr.audioIoSystemShutdown();
+#endif // !defined(TARGET_OS_ANDROID)
 	m_SoundFxMgr.sndFxMgrShutdown();
-	m_AudioMgr.audioIoSystemShutdown();
 
 	fromGuiCloseEvent( eMediaModuleAll );
 	ActivityBase* appPlayer = m_AppletMgr.findAppletDialog( eAppletPlayerNlc );

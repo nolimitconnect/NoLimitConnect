@@ -16,6 +16,9 @@
 class VxJni
 {
 public:
+    static bool                 initJavaBindings( JNIEnv* env );
+    static void                 shutdownJavaBindings( JNIEnv* env );
+
     static JNIEnv*              getJavaEnv( void );
     static jobject              getActivity( JNIEnv* env = nullptr );
     static jobject              getApplicationContext( JNIEnv* env = nullptr );

@@ -450,11 +450,7 @@ list(APPEND nlc_HEADERS
     src/VxPlainTextEdit.h
     src/WaitingSpinnerWidget.h
     src/WebsiteWidget.h
-    src/VirtStream/VirtProviderFile.h
-    src/VirtStream/VirtStorageProvider.h
-    src/VirtStream/VirtStreamCache.h
-    src/VirtStream/VirtStreamFile.h
-    src/VirtStream/VirtStreamMgr.h
+
    )
 
 set(nlc_SOURCES)
@@ -856,13 +852,7 @@ list(APPEND nlc_SOURCES
     src/VxPlainTextEdit.cpp
     src/WaitingSpinnerWidget.cpp
     src/WebsiteWidget.cpp
-    src/VirtStream/VirtProviderFile.cpp
-    src/VirtStream/VirtStorageProvider.cpp
-    src/VirtStream/VirtStreamCache.cpp
-    src/VirtStream/VirtStreamFile.cpp
-    src/VirtStream/VirtStreamMgr.cpp
-    src/VirtStream/VirtStreamMgrFileIo.cpp
-    src/VirtStream/VirtStreamMgrProvider.cpp
+
    )
 
 set(nlc_FORMS)
@@ -1213,6 +1203,7 @@ target_include_directories(nolimitconnect PUBLIC
     ../libs/ffmpeg
     ../libs/libechocancel
     ../libs/GuiInterface
+    ../libs/VirtStream
     ../libs/libptopengine
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -1235,6 +1226,7 @@ target_link_libraries(nolimitconnect
     GuiInterface
     audio-nlc
     player-nlc
+    VirtStream
     avdevice
     avfilter
     avformat
