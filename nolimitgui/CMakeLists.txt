@@ -1316,7 +1316,7 @@ if (DEFINED TARGET_OS_WINDOWS)
         dwmapi      # Fixes DwmIsCompositionEnabled from player-nlc
         cfgmgr32    # Fixes CM_Get_DevNode_Status from player-nlc
         Setupapi    # Fixes SetupDiGetClassDevsA and related functions from player-nlc
-        glew        # Fixes glew32s static linking on Windows used by OverlayRendererQt.cpp from player-nlc
+        glew        # Fixes glew32s static linking on Windows used by OverlayRendererNlc.cpp from player-nlc
     )
 
 endif()

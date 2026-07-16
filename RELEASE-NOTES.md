@@ -10,6 +10,7 @@ Moved resourses to root of project so can be shared with python
 Moved audio code into libaudio-nlc for easy integration into python module
 Moved cam capture code into library CamCapture and removed Qt dependencies for easy integration into python module
 Moved VirtStream into library and removed Qt dependencies for easy integration into python module
+Removed all dependency on Qt from everywhere but the gui in nolimitgui folder
 
 ## Version 1.1.3
 
