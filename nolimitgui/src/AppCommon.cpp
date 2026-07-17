@@ -513,8 +513,9 @@ void AppCommon::shutdownAppCommon( void )
 			// On Android the activity/app context can be torn down before the queued
 			// shutdown slot runs, so stop camera service while the context is still valid.
 			ICamCapture::getICamCapture().shutdownCamCapture();
-            m_AudioMgr.audioIoSystemShutdown();
 #endif // defined(TARGET_OS_ANDROID)
+
+            m_AudioMgr.audioIoSystemShutdown();
 
 			// queued so does not shutdown while dialog is still open
 			emit signalShutdownApp();
@@ -529,7 +530,6 @@ void AppCommon::slotShutdownApp( void )
 
 #if !defined(TARGET_OS_ANDROID)
 	ICamCapture::getICamCapture().shutdownCamCapture();
-    m_AudioMgr.audioIoSystemShutdown();
 #endif // !defined(TARGET_OS_ANDROID)
 	m_SoundFxMgr.sndFxMgrShutdown();
 

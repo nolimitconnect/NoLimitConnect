@@ -52,7 +52,7 @@ public:
     static const int MAX_SPEAKER_OUT_BUFFER_SAMPLES = ECHO_FRAME_SIZE_10MS * 50;
 
     AudioMgr();
-    ~AudioMgr() = default;
+    ~AudioMgr();
 
     static AudioMgr&            getInstance( void )                         { static AudioMgr instance; return instance; }
 

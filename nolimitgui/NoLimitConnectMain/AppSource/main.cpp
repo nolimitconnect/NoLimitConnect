@@ -446,7 +446,9 @@ int main( int argc, char** argv )
 
     QApplication::setAttribute( Qt::AA_ShareOpenGLContexts );
 
+#if !defined(Q_OS_ANDROID)
     QApplication::setAttribute( Qt::AA_DontCheckOpenGLContextThreadAffinity );
+#endif // !defined(Q_OS_ANDROID)
 
     // for some reason QApplication must be newed or does not initialize
     QApplication* myApp = new QApplication( argc, argv );
