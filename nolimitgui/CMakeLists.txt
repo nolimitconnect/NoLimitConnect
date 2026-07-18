@@ -1676,7 +1676,7 @@ else()
 
         elseif(DEFINED TARGET_OS_WINDOWS)
             set(CPACK_GENERATOR "NSIS")
-            set(CPACK_NSIS_MUI_ICON "${PROJECT_SRC_ROOT_DIR}/nolimitgui/src/Resources/NlcP2P.ico")
+            set(CPACK_NSIS_MUI_ICON "${PROJECT_SRC_ROOT_DIR}/resources/Resources/NlcP2P.ico")
 
         endif()
 
