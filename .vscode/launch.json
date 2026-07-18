@@ -161,7 +161,7 @@
             "name": "Android Release nolimitconnect (LLDB)",
             "type": "lldb",
             "request": "custom",
-            "preLaunchTask": "Android: Start app + forward LLDB (5039)",
+            "preLaunchTask": "Run Android Release",
             "postDebugTask": "Android: Force-stop app",
             "initCommands": [
                 "platform select remote-android",

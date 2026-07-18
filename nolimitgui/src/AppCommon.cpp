@@ -305,7 +305,7 @@ bool AppCommon::loadWithThread( void )
     // after user has logged into account
 
 	GuiParams::requestPermission("android.permission.RECORD_AUDIO");
-	// once settings has been loaded the audo can be started
+	// once settings has been loaded then the audio can be started
     m_AudioDevicesThread.startThread( (VX_THREAD_FUNCTION_T)AudioDevicesStartupThreadFunc, this, "AudioDevicesStartupThreadFunc" );
 	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread audio startup thread started at %d ms", GetApplicationAliveMs() );
 
