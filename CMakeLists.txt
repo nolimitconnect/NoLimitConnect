@@ -454,6 +454,11 @@ if(DEFINED FLATPAKBUILD)
     set(CMAKE_DEPFILE_FLAGS_ASM_NASM "-MD <DEP_FILE> -MT <DEP_TARGET>")
     set(CMAKE_ASM_NASM_FLAGS "${CMAKE_ASM_NASM_FLAGS} -DPIC -F dwarf --DARCH_X86_64=1 ")
 
+    # Keep Flatpak Linux builds aligned with non-Flatpak Linux: CamV4L2 uses
+    # TurboJPEG APIs and must link against the bundled jpegturbo target.
+    set(USE_LIBJPEG_TURBO true)
+    add_compile_definitions(USE_LIBJPEG_TURBO=1)
+
     message(STATUS "Adding subdir libs")
     add_subdirectory(libs)
 

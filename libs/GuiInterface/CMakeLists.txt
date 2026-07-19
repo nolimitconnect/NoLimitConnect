@@ -33,6 +33,7 @@ add_library(GuiInterface
 target_include_directories(GuiInterface 
         PRIVATE 
         ../
+    ../libGLU/include
         ../libplayer-nlc/xbmc
         ../libptopengine
 )

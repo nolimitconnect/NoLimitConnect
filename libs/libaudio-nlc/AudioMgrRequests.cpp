@@ -20,6 +20,8 @@
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxJni.h>
 
+#include <algorithm>
+
 #if defined(TARGET_OS_ANDROID)
 extern "C" {
 JNIEXPORT void JNICALL Java_org_nolimitconnect_nolimitconnect_Camera2Service_micPermissionResult(JNIEnv* env, jclass clazz, jboolean granted)
