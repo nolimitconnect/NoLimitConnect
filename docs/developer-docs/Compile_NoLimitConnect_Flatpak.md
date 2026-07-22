@@ -3,7 +3,7 @@
 1. Checkout NoLimitConnect:
 ```bash
 git clone https://github.com/nolimitconnect/NoLimitConnect.git
-cd nolimitconnect
+cd NoLimitConnect
 ```
 
 2. Build and install:
