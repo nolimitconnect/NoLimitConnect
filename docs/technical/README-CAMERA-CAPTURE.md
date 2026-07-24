@@ -38,11 +38,10 @@ QCamera
 
 Code links:
 
-- [nolimitgui/src/CamCapture.cpp](../nolimitgui/src/CamCapture.cpp)
-- [nolimitgui/src/CamProcessor.cpp](../nolimitgui/src/CamProcessor.cpp)
-- [nolimitgui/src/CamFrameProcessor.cpp](../nolimitgui/src/CamFrameProcessor.cpp)
-- [nolimitgui/src/CamV4L2.cpp](../nolimitgui/src/CamV4L2.cpp)
-- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](../libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
+- [libs/CamCapture/CamCapture.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/CamCapture/CamCapture.cpp)
+- [libs/CamCapture/CamProcessor.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/CamCapture/CamProcessor.cpp) (`CamFrameProcessor::slotVideoFrameChanged()` above is now folded into this file)
+- [libs/CamCapture/CamV4L2.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/CamCapture/CamV4L2.cpp)
+- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
 
 ## Linux Capture Note
 
@@ -74,8 +73,8 @@ round-trip at 15 fps. The thread waits on a `std::condition_variable` and exits 
 
 Code links:
 
-- [nolimitgui/src/CamProcessor.cpp](../nolimitgui/src/CamProcessor.cpp)
-- [nolimitgui/src/CamProcessor.h](../nolimitgui/src/CamProcessor.h)
+- [libs/CamCapture/CamProcessor.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/CamCapture/CamProcessor.cpp)
+- [libs/CamCapture/CamProcessor.h](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/CamCapture/CamProcessor.h)
 
 ### Queue
 
@@ -85,8 +84,8 @@ depth exceeds 1, preventing unbounded memory growth on slow hardware.
 
 Code links:
 
-- [nolimitgui/src/CamCapture.cpp](../nolimitgui/src/CamCapture.cpp)
-- [nolimitgui/src/CamProcessor.cpp](../nolimitgui/src/CamProcessor.cpp)
+- [libs/CamCapture/CamCapture.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/CamCapture/CamCapture.cpp)
+- [libs/CamCapture/CamProcessor.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/CamCapture/CamProcessor.cpp)
 
 ### Motion Detection Subsampling
 
@@ -96,7 +95,7 @@ The sensitivity denominator is scaled proportionally: `(dataLen / MOTION_STEP) Ã
 
 Code links:
 
-- [nolimitgui/src/CamProcessor.cpp](../nolimitgui/src/CamProcessor.cpp)
+- [libs/CamCapture/CamProcessor.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/CamCapture/CamProcessor.cpp)
 
 
 

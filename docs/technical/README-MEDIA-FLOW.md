@@ -28,10 +28,10 @@ Use this path to reason about local preview/live local display behavior.
 
 Code links:
 
-- [nolimitgui/src/CamProcessor.cpp](../nolimitgui/src/CamProcessor.cpp)
-- [nolimitgui/src/CamCapture.cpp](../nolimitgui/src/CamCapture.cpp)
-- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](../libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
-- [nolimitgui/src/GuiPlayerMgr.cpp](../nolimitgui/src/GuiPlayerMgr.cpp)
+- [libs/CamCapture/CamProcessor.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/CamCapture/CamProcessor.cpp)
+- [libs/CamCapture/CamCapture.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/CamCapture/CamCapture.cpp)
+- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
+- [nolimitgui/src/GuiPlayerMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/GuiPlayerMgr.cpp)
 
 ## Flow B: Camera Distribution to Remote Viewers
 
@@ -47,9 +47,9 @@ This path is for cam sharing and is separate from local GUI playback.
 
 Code links:
 
-- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](../libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
-- [libs/libptopengine/Plugins/PluginCamServer.cpp](../libs/libptopengine/Plugins/PluginCamServer.cpp)
-- [libs/libptopengine/Plugins/VideoFeedMgr.cpp](../libs/libptopengine/Plugins/VideoFeedMgr.cpp)
+- [libs/libptopengine/MediaProcessor/MediaProcessor.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/libptopengine/MediaProcessor/MediaProcessor.cpp)
+- [libs/libptopengine/Plugins/PluginCamServer.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/libptopengine/Plugins/PluginCamServer.cpp)
+- [libs/libptopengine/Plugins/VideoFeedMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/libptopengine/Plugins/VideoFeedMgr.cpp)
 
 ## Flow C: Non-Camera Sources to GUI
 
@@ -64,10 +64,10 @@ MJPEGReader / plugin playback / friend feed reconstruction
 
 Code links:
 
-- [libs/MediaToolsLib/MJPEGReader_mtools.cpp](../libs/MediaToolsLib/MJPEGReader_mtools.cpp)
-- [libs/libptopengine/Plugins/PluginMgr.cpp](../libs/libptopengine/Plugins/PluginMgr.cpp)
-- [nolimitgui/src/AppCommonMedia.cpp](../nolimitgui/src/AppCommonMedia.cpp)
-- [nolimitgui/src/GuiPlayerMgr.cpp](../nolimitgui/src/GuiPlayerMgr.cpp)
+- [libs/MediaToolsLib/MJPEGReader_mtools.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/MediaToolsLib/MJPEGReader_mtools.cpp)
+- [libs/libptopengine/Plugins/PluginMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/libptopengine/Plugins/PluginMgr.cpp)
+- [nolimitgui/src/AppCommonMedia.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/AppCommonMedia.cpp)
+- [nolimitgui/src/GuiPlayerMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/GuiPlayerMgr.cpp)
 
 ## Debug Checklist
 

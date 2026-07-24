@@ -8,7 +8,7 @@ Camera rotation settings are **NOT** automatically applied when loading photos v
 ## File Locations & Functions
 
 ### 1. **AppletPlayerPhoto.cpp** - Photo Loading Entry Point
-**File:** [nolimitgui/src/AppletPlayerPhoto.cpp](nolimitgui/src/AppletPlayerPhoto.cpp#L91-L110)
+**File:** [nolimitgui/src/AppletPlayerPhoto.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/AppletPlayerPhoto.cpp#L91-L110)
 
 **Function:** `bool AppletPlayerPhoto::playMedia( AssetPlaySession& assetPlaySession, bool useExternalPlayer)`
 ```cpp
@@ -39,7 +39,7 @@ bool AppletPlayerPhoto::playMedia( AssetPlaySession& assetPlaySession, bool useE
 ---
 
 ### 2. **AssetPhotoWidget.cpp** - Photo Asset Display
-**File:** [nolimitgui/src/AssetPhotoWidget.cpp](nolimitgui/src/AssetPhotoWidget.cpp#L55-L75)
+**File:** [nolimitgui/src/AssetPhotoWidget.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/AssetPhotoWidget.cpp#L55-L75)
 
 **Function:** `void AssetPhotoWidget::setAssetInfo( AssetBaseInfo& assetInfo )`
 ```cpp
@@ -59,7 +59,7 @@ void AssetPhotoWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 ### 3. **VidWidget.cpp** - Video Display Widget
 
 #### 3a. `setImageFromFile()` Function
-**File:** [nolimitgui/src/VidWidget.cpp](nolimitgui/src/VidWidget.cpp#L508-L517)
+**File:** [nolimitgui/src/VidWidget.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/VidWidget.cpp#L508-L517)
 
 ```cpp
 bool VidWidget::setImageFromFile( QString fileName )
@@ -78,7 +78,7 @@ bool VidWidget::setImageFromFile( QString fileName )
 - **NO rotation applied**
 
 #### 3b. Rotation Control Functions
-**File:** [nolimitgui/src/VidWidget.cpp](nolimitgui/src/VidWidget.cpp#L347-L351)
+**File:** [nolimitgui/src/VidWidget.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/VidWidget.cpp#L347-L351)
 
 ```cpp
 void VidWidget::setVidImageRotation( int imageRotation )
@@ -88,7 +88,7 @@ void VidWidget::setVidImageRotation( int imageRotation )
 ```
 
 #### 3c. Manual Photo Rotation Handler
-**File:** [nolimitgui/src/VidWidget.cpp](nolimitgui/src/VidWidget.cpp#L420-L447)
+**File:** [nolimitgui/src/VidWidget.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/VidWidget.cpp#L420-L447)
 
 ```cpp
 void VidWidget::slotFeedRotateButtonClicked( void )
@@ -127,7 +127,7 @@ void VidWidget::slotFeedRotateButtonClicked( void )
 - Sets `m_VidImageRotation` and calls `playVideoFrame()` to apply rotation
 
 #### 3d. Camera Rotation Button Handler
-**File:** [nolimitgui/src/VidWidget.cpp](nolimitgui/src/VidWidget.cpp#L489-L495)
+**File:** [nolimitgui/src/VidWidget.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/VidWidget.cpp#L489-L495)
 
 ```cpp
 void VidWidget::slotCamRotateButtonClicked( void )
@@ -155,7 +155,7 @@ void VidWidget::slotCamRotateButtonClicked( void )
 ### 4. **VxLabel.cpp** - Actual Image Rendering
 
 #### 4a. Load Image from File
-**File:** [nolimitgui/src/VxLabel.cpp](nolimitgui/src/VxLabel.cpp#L181-L195)
+**File:** [nolimitgui/src/VxLabel.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/VxLabel.cpp#L181-L195)
 
 ```cpp
 bool VxLabel::setImageFromFile( QString fileName )
@@ -182,7 +182,7 @@ bool VxLabel::loadImageFromFile( QString fileName )
 - Loads the image and calls `playMotionVideoFrame()` with rotation 0
 
 #### 4b. Motion Frame Playing (With Rotation)
-**File:** [nolimitgui/src/VxLabel.cpp](nolimitgui/src/VxLabel.cpp#L205-LC213)
+**File:** [nolimitgui/src/VxLabel.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/VxLabel.cpp#L205-LC213)
 
 ```cpp
 void VxLabel::playMotionVideoFrame( QImage& vidFrame, int motion0To100000 )
@@ -198,7 +198,7 @@ void VxLabel::playVideoFrame( QImage& vidFrame )
 - Uses `m_VidImageRotation` member variable (set via `setVidImageRotation()`)
 
 #### 4c. Rotated Frame Display
-**File:** [nolimitgui/src/VxLabel.cpp](nolimitgui/src/VxLabel.cpp#L215-L254)
+**File:** [nolimitgui/src/VxLabel.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/VxLabel.cpp#L215-L254)
 
 ```cpp
 void VxLabel::playRotatedVideoFrame( QImage& vidFrame, int iRotate )
@@ -256,7 +256,7 @@ void VxLabel::playRotatedVideoFrame( QImage& vidFrame, int iRotate )
 
 ### 5. **InputPhotoWidget.cpp** - Camera Photo Capture
 
-**File:** [nolimitgui/src/InputPhotoWidget.cpp](nolimitgui/src/InputPhotoWidget.cpp#L64-L103)
+**File:** [nolimitgui/src/InputPhotoWidget.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/InputPhotoWidget.cpp#L64-L103)
 
 **Function:** `void InputPhotoWidget::slotSnapShotButtonClicked( void )`
 ```cpp
@@ -281,7 +281,7 @@ void InputPhotoWidget::slotSnapShotButtonClicked( void )
 - **The image is from the live camera feed (which should have rotation applied by backend)**
 - Saves the raw image without applying rotation
 
-**File:** [nolimitgui/src/InputPhotoWidget.cpp](nolimitgui/src/InputPhotoWidget.cpp#L109-L122)
+**File:** [nolimitgui/src/InputPhotoWidget.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/InputPhotoWidget.cpp#L109-L122)
 
 **Function:** `void InputPhotoWidget::slotRotateCamButtonClicked( void )`
 ```cpp
@@ -306,20 +306,20 @@ void InputPhotoWidget::slotRotateCamButtonClicked( void )
 
 ### 6. **AppCommon.h** - Camera Rotation Member
 
-**File:** [nolimitgui/src/AppCommon.h](nolimitgui/src/AppCommon.h#L206-L207)
+**File:** [nolimitgui/src/AppCommon.h](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/AppCommon.h#L206-L207)
 
 ```cpp
 void						setCamCaptureRotation( uint32_t rot )  { m_CamCaptureRotation = rot; }
 int							getCamCaptureRotation( void ) { return m_CamCaptureRotation; }
 ```
 
-**File:** [nolimitgui/src/AppCommon.h](nolimitgui/src/AppCommon.h#L942)
+**File:** [nolimitgui/src/AppCommon.h](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/AppCommon.h#L942)
 
 ```cpp
 uint32_t					m_CamCaptureRotation;
 ```
 
-**File:** [nolimitgui/src/AppCommon.cpp](nolimitgui/src/AppCommon.cpp#L234)
+**File:** [nolimitgui/src/AppCommon.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/AppCommon.cpp#L234)
 
 ```cpp
 , m_CamCaptureRotation( 0 )
@@ -330,7 +330,7 @@ uint32_t					m_CamCaptureRotation;
 
 ### 7. **CamCapture.cpp** - Camera Source Selection
 
-**File:** [nolimitgui/src/CamCapture.cpp](nolimitgui/src/CamCapture.cpp#L278)
+**File:** [libs/CamCapture/CamCapture.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/CamCapture/CamCapture.cpp#L278)
 
 ```cpp
 m_MyApp.setCamCaptureRotation( IGlobalDb::getIGlobalDb().getCamRotation( camId ) );
@@ -342,7 +342,7 @@ m_MyApp.setCamCaptureRotation( IGlobalDb::getIGlobalDb().getCamRotation( camId )
 
 ### 8. **AppSettings.cpp** - Camera Rotation Settings
 
-**File:** [nolimitgui/src/AppSettings.cpp](nolimitgui/src/AppSettings.cpp#L382-L397)
+**File:** [nolimitgui/src/AppSettings.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/AppSettings.cpp#L382-L397)
 
 ```cpp
 void AppSettings::setCamRotation( std::string camId, uint32_t camRotation )

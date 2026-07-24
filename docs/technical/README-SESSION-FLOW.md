@@ -111,31 +111,31 @@ The numeric badge near the camera preview in the title bar is the camera server 
 
 Core offer manager path:
 
-- Offer intake: [nolimitgui/src/GuiOfferMgrBase.cpp](../nolimitgui/src/GuiOfferMgrBase.cpp#L60)
-- Accept action: [nolimitgui/src/GuiOfferMgrBase.cpp](../nolimitgui/src/GuiOfferMgrBase.cpp#L918)
-- Accept launch wrapper: [nolimitgui/src/GuiOfferMgrBase.cpp](../nolimitgui/src/GuiOfferMgrBase.cpp#L1091)
-- Accept launch implementation: [nolimitgui/src/GuiOfferMgrBase.cpp](../nolimitgui/src/GuiOfferMgrBase.cpp#L1107)
-- Session started callback handling: [nolimitgui/src/GuiOfferMgrBase.cpp](../nolimitgui/src/GuiOfferMgrBase.cpp#L272)
-- Session ended callback handling: [nolimitgui/src/GuiOfferMgrBase.cpp](../nolimitgui/src/GuiOfferMgrBase.cpp#L300)
-- Active offer count update: [nolimitgui/src/GuiOfferMgrBase.cpp](../nolimitgui/src/GuiOfferMgrBase.cpp#L840)
+- Offer intake: [nolimitgui/src/GuiOfferMgrBase.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/GuiOfferMgrBase.cpp#L60)
+- Accept action: [nolimitgui/src/GuiOfferMgrBase.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/GuiOfferMgrBase.cpp#L918)
+- Accept launch wrapper: [nolimitgui/src/GuiOfferMgrBase.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/GuiOfferMgrBase.cpp#L1091)
+- Accept launch implementation: [nolimitgui/src/GuiOfferMgrBase.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/GuiOfferMgrBase.cpp#L1107)
+- Session started callback handling: [nolimitgui/src/GuiOfferMgrBase.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/GuiOfferMgrBase.cpp#L272)
+- Session ended callback handling: [nolimitgui/src/GuiOfferMgrBase.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/GuiOfferMgrBase.cpp#L300)
+- Active offer count update: [nolimitgui/src/GuiOfferMgrBase.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/GuiOfferMgrBase.cpp#L840)
 
 Random Connect bridge path:
 
-- Offer update/mirroring entry: [nolimitgui/src/GuiRandConnectMgr.cpp](../nolimitgui/src/GuiRandConnectMgr.cpp#L336)
-- Session-aware accept/reject send: [nolimitgui/src/GuiRandConnectMgr.cpp](../nolimitgui/src/GuiRandConnectMgr.cpp#L165)
-- Accepted-session object creation: [nolimitgui/src/GuiRandConnectMgr.cpp](../nolimitgui/src/GuiRandConnectMgr.cpp#L492)
-- Accepted-session launch and reuse guard: [nolimitgui/src/GuiRandConnectMgr.cpp](../nolimitgui/src/GuiRandConnectMgr.cpp#L527)
+- Offer update/mirroring entry: [nolimitgui/src/GuiRandConnectMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/GuiRandConnectMgr.cpp#L336)
+- Session-aware accept/reject send: [nolimitgui/src/GuiRandConnectMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/GuiRandConnectMgr.cpp#L165)
+- Accepted-session object creation: [nolimitgui/src/GuiRandConnectMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/GuiRandConnectMgr.cpp#L492)
+- Accepted-session launch and reuse guard: [nolimitgui/src/GuiRandConnectMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/GuiRandConnectMgr.cpp#L527)
 
 Applet and session-start path:
 
-- Applet session attach: [nolimitgui/src/AppletPeerBase.cpp](../nolimitgui/src/AppletPeerBase.cpp#L182)
-- Accepted session start trigger: [nolimitgui/src/AppletPeerBase.cpp](../nolimitgui/src/AppletPeerBase.cpp#L197)
-- Offer-to-applet identity match: [nolimitgui/src/AppletPeerBase.cpp](../nolimitgui/src/AppletPeerBase.cpp#L223)
-- OfferSession wiring: [nolimitgui/src/OfferSessionLogic.cpp](../nolimitgui/src/OfferSessionLogic.cpp#L38)
-- Generic session start helper: [nolimitgui/src/OfferSessionLogic.cpp](../nolimitgui/src/OfferSessionLogic.cpp#L374)
+- Applet session attach: [nolimitgui/src/AppletPeerBase.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/AppletPeerBase.cpp#L182)
+- Accepted session start trigger: [nolimitgui/src/AppletPeerBase.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/AppletPeerBase.cpp#L197)
+- Offer-to-applet identity match: [nolimitgui/src/AppletPeerBase.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/AppletPeerBase.cpp#L223)
+- OfferSession wiring: [nolimitgui/src/OfferSessionLogic.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/OfferSessionLogic.cpp#L38)
+- Generic session start helper: [nolimitgui/src/OfferSessionLogic.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/OfferSessionLogic.cpp#L374)
 
 Title bar camera counter path:
 
-- Plugin status callback entry: [nolimitgui/src/TitleBarWidget.cpp](../nolimitgui/src/TitleBarWidget.cpp#L295)
-- Camera server client count update: [nolimitgui/src/TitleBarWidget.cpp](../nolimitgui/src/TitleBarWidget.cpp#L304)
+- Plugin status callback entry: [nolimitgui/src/TitleBarWidget.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/TitleBarWidget.cpp#L295)
+- Camera server client count update: [nolimitgui/src/TitleBarWidget.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/TitleBarWidget.cpp#L304)
 

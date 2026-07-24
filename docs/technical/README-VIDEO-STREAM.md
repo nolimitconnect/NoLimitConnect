@@ -17,8 +17,8 @@ It does not cover camera-live MJPEG broadcast paths.
 
 Code:
 
-- [nolimitgui/src/AppletPlayerNlcBase.cpp](../nolimitgui/src/AppletPlayerNlcBase.cpp)
-- [nolimitgui/src/VirtStream/VirtStreamMgr.cpp](../nolimitgui/src/VirtStream/VirtStreamMgr.cpp)
+- [nolimitgui/src/AppletPlayerNlcBase.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/AppletPlayerNlcBase.cpp)
+- [libs/VirtStream/VirtStreamMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/VirtStream/VirtStreamMgr.cpp)
 
 ## Stream Session Setup
 
@@ -34,9 +34,9 @@ Code:
 
 Code:
 
-- [nolimitgui/src/VirtStream/VirtStreamMgr.cpp](../nolimitgui/src/VirtStream/VirtStreamMgr.cpp)
-- [libs/libptopengine/Plugins/PluginFileShareClient.cpp](../libs/libptopengine/Plugins/PluginFileShareClient.cpp)
-- [libs/libptopengine/Plugins/FileInfoXferMgr.cpp](../libs/libptopengine/Plugins/FileInfoXferMgr.cpp)
+- [libs/VirtStream/VirtStreamMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/VirtStream/VirtStreamMgr.cpp)
+- [libs/libptopengine/Plugins/PluginFileShareClient.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/libptopengine/Plugins/PluginFileShareClient.cpp)
+- [libs/libptopengine/Plugins/FileInfoXferMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/libptopengine/Plugins/FileInfoXferMgr.cpp)
 
 ## Remote Read Path
 
@@ -49,7 +49,7 @@ The player reads via virtual file APIs; the stream manager serves bytes from rem
 
 Code:
 
-- [nolimitgui/src/VirtStream/VirtStreamMgrFileIo.cpp](../nolimitgui/src/VirtStream/VirtStreamMgrFileIo.cpp)
+- [libs/VirtStream/VirtStreamMgrFileIo.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/VirtStream/VirtStreamMgrFileIo.cpp)
 
 ### 2) Virtual read
 
@@ -62,8 +62,8 @@ Code:
 
 Code:
 
-- [nolimitgui/src/VirtStream/VirtStreamMgrFileIo.cpp](../nolimitgui/src/VirtStream/VirtStreamMgrFileIo.cpp)
-- [nolimitgui/src/VirtStream/VirtStreamMgr.cpp](../nolimitgui/src/VirtStream/VirtStreamMgr.cpp)
+- [libs/VirtStream/VirtStreamMgrFileIo.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/VirtStream/VirtStreamMgrFileIo.cpp)
+- [libs/VirtStream/VirtStreamMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/VirtStream/VirtStreamMgr.cpp)
 
 ### 3) How cache gets filled
 
@@ -73,8 +73,8 @@ Code:
 
 Code:
 
-- [nolimitgui/src/VirtStream/VirtStreamMgr.cpp](../nolimitgui/src/VirtStream/VirtStreamMgr.cpp)
-- [libs/libptopengine/Plugins/FileInfoXferMgr.cpp](../libs/libptopengine/Plugins/FileInfoXferMgr.cpp)
+- [libs/VirtStream/VirtStreamMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/VirtStream/VirtStreamMgr.cpp)
+- [libs/libptopengine/Plugins/FileInfoXferMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/libptopengine/Plugins/FileInfoXferMgr.cpp)
 
 ## Remote Seek Path
 
@@ -85,7 +85,7 @@ Code:
 
 Code:
 
-- [nolimitgui/src/AppletPlayerNlcBase.cpp](../nolimitgui/src/AppletPlayerNlcBase.cpp)
+- [nolimitgui/src/AppletPlayerNlcBase.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/AppletPlayerNlcBase.cpp)
 
 ### 2) Virtual stream seek decision
 
@@ -96,8 +96,8 @@ Code:
 
 Code:
 
-- [nolimitgui/src/VirtStream/VirtStreamMgrFileIo.cpp](../nolimitgui/src/VirtStream/VirtStreamMgrFileIo.cpp)
-- [nolimitgui/src/VirtStream/VirtStreamMgr.cpp](../nolimitgui/src/VirtStream/VirtStreamMgr.cpp)
+- [libs/VirtStream/VirtStreamMgrFileIo.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/VirtStream/VirtStreamMgrFileIo.cpp)
+- [libs/VirtStream/VirtStreamMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/VirtStream/VirtStreamMgr.cpp)
 
 ### 3) Server-side seek handling
 
@@ -110,9 +110,9 @@ Code:
 
 Code:
 
-- [libs/libptopengine/P2PEngine/P2PEnginePktHandlers.cpp](../libs/libptopengine/P2PEngine/P2PEnginePktHandlers.cpp)
-- [libs/libptopengine/Plugins/PluginFileShareServer.cpp](../libs/libptopengine/Plugins/PluginFileShareServer.cpp)
-- [libs/libptopengine/Plugins/FileInfoXferMgr.cpp](../libs/libptopengine/Plugins/FileInfoXferMgr.cpp)
+- [libs/libptopengine/P2PEngine/P2PEnginePktHandlers.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/libptopengine/P2PEngine/P2PEnginePktHandlers.cpp)
+- [libs/libptopengine/Plugins/PluginFileShareServer.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/libptopengine/Plugins/PluginFileShareServer.cpp)
+- [libs/libptopengine/Plugins/FileInfoXferMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/libptopengine/Plugins/FileInfoXferMgr.cpp)
 
 ## Stop/End Teardown
 
@@ -123,8 +123,8 @@ When playback stops or ends in Player-NLC:
 
 Code:
 
-- [nolimitgui/src/AppletPlayerNlcBase.cpp](../nolimitgui/src/AppletPlayerNlcBase.cpp)
-- [nolimitgui/src/VirtStream/VirtStreamMgr.cpp](../nolimitgui/src/VirtStream/VirtStreamMgr.cpp)
+- [nolimitgui/src/AppletPlayerNlcBase.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/nolimitgui/src/AppletPlayerNlcBase.cpp)
+- [libs/VirtStream/VirtStreamMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/VirtStream/VirtStreamMgr.cpp)
 
 ## Packet Types In This Path
 
@@ -135,6 +135,6 @@ Code:
 
 Code:
 
-- [nolimitgui/src/VirtStream/VirtStreamMgr.cpp](../nolimitgui/src/VirtStream/VirtStreamMgr.cpp)
-- [libs/libptopengine/Plugins/FileInfoXferMgr.cpp](../libs/libptopengine/Plugins/FileInfoXferMgr.cpp)
-- [libs/libptopengine/P2PEngine/P2PEnginePktHandlers.cpp](../libs/libptopengine/P2PEngine/P2PEnginePktHandlers.cpp)
+- [libs/VirtStream/VirtStreamMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/VirtStream/VirtStreamMgr.cpp)
+- [libs/libptopengine/Plugins/FileInfoXferMgr.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/libptopengine/Plugins/FileInfoXferMgr.cpp)
+- [libs/libptopengine/P2PEngine/P2PEnginePktHandlers.cpp](https://github.com/nolimitconnect/NoLimitConnect/blob/main/libs/libptopengine/P2PEngine/P2PEnginePktHandlers.cpp)
