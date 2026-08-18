@@ -15,4 +15,13 @@ If you want to help in other ways, discussions are available at:
 
 If you care about privacy, anonymous communication, or other NoLimitConnect features like direct unlimited file transfers, please use NoLimitConnect and share it with others.
 
+## Independent Research
+
+Outside of NoLimitConnect, I write up independent personal research on my own time and publish it
+here openly, free for anyone to read, use, or build on:
+
+- [Nevada Maintenance-Free Energy Generator](maintenance-free-solar-generator.md) — a concept brief
+  for continuous, unattended solar power with no wearing parts, combining a solid-state MEMS mirror
+  field with a zero-wear, NASA-heritage free-piston Stirling engine.
+
 ---

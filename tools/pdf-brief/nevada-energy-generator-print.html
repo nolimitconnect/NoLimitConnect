@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nevada Maintenance-Free Energy Generator — print master</title>
+<style>
+  /* ============================================================
+     PRINT MASTER for docs/Nevada-Maintenance-Free-Energy-Generator.pdf
+     Source of truth for the text is docs/maintenance-free-solar-generator.md
+     Keep the two in sync. See README.md in this folder.
+     ============================================================ */
+
+  :root {
+    --navy:       #1f3864;
+    --navy-mid:   #2c5282;
+    --navy-soft:  #5a7ba6;
+    --ink:        #1a1a1a;
+    --ink-soft:   #4a4a4a;
+    --ink-faint:  #6b7280;
+    --rule:       #c9d4e3;
+    --callout-bg: #eef2f7;
+    --band:       #f7f9fb;
+  }
+
+  @page {
+    size: letter;
+    margin: 19mm 17mm 17mm 17mm;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: #fff;
+    color: var(--ink);
+    font-family: Georgia, "Times New Roman", Times, serif;
+    font-size: 10.5pt;
+    line-height: 1.58;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  p { margin: 0 0 .72em; text-align: justify; hyphens: auto; }
+  strong { color: var(--navy); }
+  em { }
+  a { color: var(--navy-mid); text-decoration: none; }
+
+  .sans { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+  /* ---------- screen-only instructions ---------- */
+  .howto {
+    max-width: 46rem; margin: 0 auto 2rem; padding: 1rem 1.15rem;
+    background: #fffbea; border: 1px solid #e6d28a; border-left: 4px solid #c99a00;
+    border-radius: 4px; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: .84rem; line-height: 1.55; color: #4a3c00;
+  }
+  .howto h2 { margin: 0 0 .5rem; font-size: .95rem; color: #6b5200; }
+  .howto ol { margin: .3rem 0 0; padding-left: 1.3rem; }
+  .howto li { margin-bottom: .28rem; }
+  .howto code { background: #fff; padding: .05rem .3rem; border: 1px solid #e6d28a;
+                border-radius: 3px; font-size: .95em; }
+
+  /* ---------- page shell (screen preview mimics paper) ---------- */
+  .sheet {
+    max-width: 46rem; margin: 0 auto; padding: 0 1.25rem 3rem;
+  }
+
+  /* ---------- cover ---------- */
+  .cover {
+    border: 2px solid var(--navy);
+    padding: 26mm 18mm;
+    margin-bottom: 2.2rem;
+  }
+  .eyebrow {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 8.5pt; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--navy-soft); margin-bottom: 1.6rem;
+  }
+  h1 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 27pt; line-height: 1.14; font-weight: 700;
+    color: var(--navy); margin: 0 0 .55rem; letter-spacing: -.01em;
+  }
+  .subtitle {
+    font-size: 12.5pt; font-style: italic; color: var(--ink-soft);
+    line-height: 1.45; margin: 0 0 2rem; text-align: left;
+  }
+  .cover-rule { border: 0; border-top: 1px solid var(--rule); margin: 0 0 1.5rem; }
+  .facts {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.15rem 2rem; margin-bottom: 2.4rem;
+  }
+  .fact-k {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 7.8pt; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--navy-soft); margin-bottom: .2rem;
+  }
+  .fact-v {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 10pt; font-weight: 700; color: var(--navy); line-height: 1.35;
+  }
+  .byline {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 8.8pt; color: var(--ink-faint);
+  }
+  .byline strong { color: var(--navy); }
+
+  /* ---------- section headings ---------- */
+  h2 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14pt; font-weight: 700; color: var(--navy);
+    margin: 1.9rem 0 .85rem; padding-bottom: .32rem;
+    border-bottom: 2px solid var(--navy);
+    break-after: avoid; page-break-after: avoid;
+    display: flex; align-items: center; gap: .55rem;
+  }
+  h2 .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 1.35em; height: 1.35em; flex: none;
+    background: var(--navy); color: #fff;
+    font-size: .82em; font-weight: 700; border-radius: 2px;
+  }
+  h3 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 11pt; font-weight: 700; color: var(--navy-mid);
+    margin: 1.35rem 0 .5rem;
+    break-after: avoid; page-break-after: avoid;
+  }
+
+  /* ---------- callouts ---------- */
+  .callout {
+    background: var(--callout-bg); border-left: 4px solid var(--navy);
+    padding: .85rem 1.05rem .6rem; margin: 1.15rem 0 1.25rem;
+    break-inside: avoid; page-break-inside: avoid;
+  }
+  .callout-title {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 9pt; font-weight: 700; letter-spacing: .05em;
+    text-transform: uppercase; color: var(--navy); margin-bottom: .45rem;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+
+  .pullquote {
+    border-left: 4px solid var(--navy-soft); background: var(--band);
+    padding: .9rem 1.05rem .7rem; margin: 1.3rem 0;
+    font-style: italic; color: var(--ink-soft);
+    break-inside: avoid; page-break-inside: avoid;
+  }
+  .pullquote p:last-child { margin-bottom: 0; }
+  .pullquote .attrib {
+    font-style: normal; text-align: right; font-size: 9pt;
+    color: var(--navy); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin-top: .5rem;
+  }
+
+  /* ---------- stat row ---------- */
+  .stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem;
+    margin: 1.2rem 0 1.3rem;
+    break-inside: avoid; page-break-inside: avoid;
+  }
+  .stat {
+    border: 1px solid var(--rule); border-top: 3px solid var(--navy);
+    padding: .7rem .75rem .75rem; background: #fff;
+  }
+  .stat-n {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17pt; font-weight: 700; color: var(--navy);
+    line-height: 1.05; margin-bottom: .3rem;
+  }
+  .stat-c {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 7.6pt; letter-spacing: .05em; text-transform: uppercase;
+    color: var(--ink-faint); line-height: 1.35;
+  }
+
+  /* ---------- figure ---------- */
+  figure {
+    margin: 1.3rem 0 1.4rem; padding: .8rem;
+    border: 1px solid var(--rule); background: #fcfdfe;
+    break-inside: avoid; page-break-inside: avoid;
+  }
+  figure svg { display: block; width: 100%; height: auto; }
+  figcaption {
+    font-size: 8.6pt; line-height: 1.5; color: var(--ink-soft);
+    margin-top: .7rem; text-align: left;
+  }
+  figcaption strong { color: var(--navy); }
+
+  /* ---------- tables ---------- */
+  table {
+    width: 100%; border-collapse: collapse; margin: 1.1rem 0 1.3rem;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 8.7pt;
+    break-inside: avoid; page-break-inside: avoid;
+  }
+  thead { display: table-header-group; }
+  th {
+    background: var(--navy); color: #fff; text-align: left;
+    padding: .5rem .6rem; font-weight: 700; font-size: 8.4pt;
+    letter-spacing: .02em; vertical-align: bottom;
+  }
+  td {
+    padding: .5rem .6rem; border-bottom: 1px solid var(--rule);
+    vertical-align: top; line-height: 1.45;
+  }
+  tbody tr:nth-child(even) td { background: var(--band); }
+  td.em { font-weight: 700; color: var(--navy); }
+  tr.compare td { font-style: italic; color: var(--ink-soft); }
+
+  /* ---------- references ---------- */
+  .refs { list-style: none; padding: 0; margin: 1rem 0 0; }
+  .refs li {
+    margin-bottom: .8rem; padding-left: 1rem; position: relative;
+    font-size: 9.6pt; line-height: 1.5;
+    break-inside: avoid; page-break-inside: avoid;
+  }
+  .refs li::before {
+    content: ""; position: absolute; left: 0; top: .52em;
+    width: .32rem; height: .32rem; background: var(--navy-soft); border-radius: 50%;
+  }
+  .refs .rt { color: var(--navy); font-weight: 700; }
+  .refs .rn { display: block; color: var(--ink-faint); font-size: 8.8pt;
+              font-style: italic; margin-top: .15rem; }
+  .refs .url { display: block; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+               font-size: 7.9pt; color: var(--navy-soft); word-break: break-all; margin-top: .12rem; }
+
+  /* ---------- about / colophon ---------- */
+  .about { margin-top: 1rem; font-size: 9.4pt; line-height: 1.55; }
+  .about p { margin-bottom: .62em; }
+  .about .lbl { color: var(--navy); font-weight: 700; }
+  .cite {
+    background: var(--band); border: 1px solid var(--rule);
+    padding: .6rem .75rem; font-size: 8.8pt; line-height: 1.5;
+    margin-top: .3rem;
+  }
+
+  hr.sep { border: 0; border-top: 1px solid var(--rule); margin: 1.9rem 0 0; }
+
+  .footnote {
+    font-size: 8.6pt; font-style: italic; color: var(--ink-faint);
+    line-height: 1.5; margin-top: 1.1rem; text-align: left;
+  }
+
+  /* ---------- pagination control ---------- */
+  .page-break { break-before: page; page-break-before: always; }
+
+  @media print {
+    .howto { display: none !important; }
+    .sheet { max-width: none; margin: 0; padding: 0; }
+    .cover {
+      /* fill the first sheet, then break */
+      min-height: 232mm;
+      display: flex; flex-direction: column; justify-content: center;
+      margin-bottom: 0;
+      break-after: page; page-break-after: always;
+    }
+    a { color: var(--navy-mid); }
+    h2, h3 { break-after: avoid; page-break-after: avoid; }
+    p, li { orphans: 3; widows: 3; }
+  }
+
+  @media screen {
+    body { background: #eceff3; padding: 2rem 0; }
+    .sheet > *:not(.cover) { background: #fff; }
+    .sheet { background: #fff; padding: 2.5rem 3rem 3rem; box-shadow: 0 1px 6px rgba(0,0,0,.14); }
+    .howto { background: #fffbea; }
+  }
+</style>
+</head>
+<body>
+
+<div class="howto">
+  <h2>How to regenerate the PDF from this file</h2>
+  <ol>
+    <li>Open this file in Chrome or Edge, then press <code>Ctrl+P</code>.</li>
+    <li>Destination: <strong>Save as PDF</strong>. Paper: <strong>Letter</strong>. Margins: <strong>Default</strong>. Scale: <strong>100%</strong>.</li>
+    <li>Under <em>More settings</em>, turn <strong>Background graphics ON</strong> (required — otherwise the navy headers and callout boxes print blank) and <strong>Headers and footers OFF</strong>.</li>
+    <li>Save over <code>docs/Nevada-Maintenance-Free-Energy-Generator.pdf</code>.</li>
+  </ol>
+  <p style="margin:.6rem 0 0">This banner does not print. The text here is the source of truth's twin &mdash; if you edit
+  <code>docs/maintenance-free-solar-generator.md</code>, mirror the change here so the PDF and the web page never drift apart.</p>
+</div>
+
+<div class="sheet">
+
+  <!-- ============================= COVER ============================= -->
+  <section class="cover">
+    <div class="eyebrow">Concept Brief &nbsp;&middot;&nbsp; Distributed Energy &nbsp;&middot;&nbsp; Nevada</div>
+
+    <h1>Nevada Maintenance-Free<br>Energy Generator</h1>
+    <p class="subtitle">A sun-tracking mirror field and a zero-wear NASA-heritage engine,
+      sited in a pit near Lake Mead</p>
+
+    <hr class="cover-rule">
+
+    <div class="facts">
+      <div>
+        <div class="fact-k">Site</div>
+        <div class="fact-v">Lake Mead vicinity, Clark County, NV</div>
+      </div>
+      <div>
+        <div class="fact-k">Performance reference</div>
+        <div class="fact-v">Matched to Sweden's record dish-Stirling system</div>
+      </div>
+      <div>
+        <div class="fact-k">Continuous output</div>
+        <div class="fact-v">~20&ndash;26 kWe (single array)</div>
+      </div>
+      <div>
+        <div class="fact-k">Engine maintenance interval</div>
+        <div class="fact-v">Zero &mdash; no contacting or wearing parts</div>
+      </div>
+      <div>
+        <div class="fact-k">Longest field-proven run</div>
+        <div class="fact-v">14 years continuous, NASA Glenn Research Center</div>
+      </div>
+      <div>
+        <div class="fact-k">Mirror mechanism</div>
+        <div class="fact-v">Solid-state MEMS, no motors or bearings</div>
+      </div>
+    </div>
+
+    <div class="byline">
+      Concept and research by <strong>Brett R. Jones</strong> &nbsp;&middot;&nbsp;
+      Independent personal research &nbsp;&middot;&nbsp; First published 18 August 2026
+    </div>
+  </section>
+
+  <!-- ===================== WHY PUBLISHED OPENLY ===================== -->
+  <div class="pullquote">
+    <div class="callout-title" style="font-style:normal">Why this is published openly</div>
+    <p>This concept is released free for anyone to read, use, or build on. It is my hope that some
+      person, group, or organization with the means to do so will carry it toward mass production,
+      and that it helps in some small way to ease the world's energy needs. I am not seeking to
+      license, sell, or commercialize it.</p>
+    <div class="attrib">&mdash; Brett R. Jones</div>
+  </div>
+
+  <!-- ============================ SECTION 1 ============================ -->
+  <h2><span class="num">1</span> The idea in one paragraph</h2>
+
+  <p>A field of thumbnail-sized mirrors, each steered by a solid-state chip with no motor and no
+    bearing, concentrates sunlight onto a single fixed point above a pit dug near the shoreline of
+    Lake Mead, Nevada. At that point sits a sealed engine with a piston that never touches anything
+    it moves against &mdash; the same core design NASA has run continuously for fourteen years
+    without a single maintenance visit. Matched to the same optical scale as the Swedish-engineered
+    Ripasso Energy dish system that holds the reported world record for solar-to-electricity
+    conversion, this combination is projected to deliver roughly <strong>20&ndash;26 kWe of
+    continuous, unattended power</strong> &mdash; day after day, for decades, with no crew, no
+    lubrication schedule, and no wear-driven failure mode in either major component.</p>
+
+  <figure>
+    <svg viewBox="0 0 800 380" role="img" aria-labelledby="f1t f1d">
+      <title id="f1t">Cross-section of the maintenance-free solar generator</title>
+      <desc id="f1d">Fixed solid-state mirrors at ground level redirect concentrated sunlight up onto a
+        stationary receiver housing a free-piston Stirling engine, mounted on a mast above an
+        excavated pit, with Lake Mead at left.</desc>
+
+      <rect x="0" y="0" width="800" height="380" fill="#f4f8fc"/>
+
+      <!-- ground -->
+      <rect x="0" y="262" width="800" height="118" fill="#e3d9c6"/>
+      <line x1="0" y1="262" x2="800" y2="262" stroke="#b09b74" stroke-width="1.6"/>
+
+      <!-- pit -->
+      <path d="M 342 262 L 372 356 L 428 356 L 458 262 Z" fill="#cfc0a3" stroke="#a89066" stroke-width="1.4"/>
+
+      <!-- lake -->
+      <path d="M 30 262 Q 110 236 196 262 Z" fill="#9ecfe8"/>
+      <text x="66" y="254" fill="#1b5e7e" font-family="Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700">LAKE MEAD</text>
+
+      <!-- sun -->
+      <circle cx="710" cy="62" r="19" fill="#f0a92c"/>
+      <g stroke="#f0a92c" stroke-width="2.4" stroke-linecap="round">
+        <line x1="710" y1="27" x2="710" y2="16"/>
+        <line x1="710" y1="108" x2="710" y2="97"/>
+        <line x1="675" y1="62" x2="664" y2="62"/>
+        <line x1="756" y1="62" x2="745" y2="62"/>
+        <line x1="684" y1="36" x2="676" y2="28"/>
+        <line x1="744" y1="88" x2="736" y2="96"/>
+      </g>
+      <text x="688" y="138" fill="#b87d13" font-family="Helvetica, Arial, sans-serif" font-size="12.5" font-weight="700">SUN</text>
+
+      <!-- incoming sunlight -->
+      <g stroke="#e5a534" stroke-width="1.5" opacity="0.95">
+        <line x1="694" y1="80" x2="612" y2="250"/>
+        <line x1="676" y1="74" x2="524" y2="250"/>
+        <line x1="662" y1="70" x2="270" y2="250"/>
+        <line x1="654" y1="68" x2="180" y2="250"/>
+      </g>
+
+      <!-- mast -->
+      <rect x="394" y="150" width="12" height="112" fill="#7c8794"/>
+
+      <!-- receiver / engine -->
+      <rect x="330" y="104" width="140" height="48" rx="4" fill="#1f3864" stroke="#12244a" stroke-width="1.2"/>
+      <text x="400" y="124" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle">FREE-PISTON</text>
+      <text x="400" y="140" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" text-anchor="middle">STIRLING ENGINE</text>
+      <text x="486" y="120" fill="#1f3864" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700">Fixed receiver</text>
+      <text x="486" y="136" fill="#6b7280" font-family="Helvetica, Arial, sans-serif" font-size="10" font-style="italic">Sealed, zero-maintenance</text>
+
+      <!-- mirrors -->
+      <g fill="#dfe7ef" stroke="#7f8fa3" stroke-width="1">
+        <rect x="150" y="248" width="34" height="7" rx="2" transform="rotate(-19 167 251)"/>
+        <rect x="204" y="248" width="34" height="7" rx="2" transform="rotate(-16 221 251)"/>
+        <rect x="258" y="248" width="34" height="7" rx="2" transform="rotate(-13 275 251)"/>
+        <rect x="500" y="248" width="34" height="7" rx="2" transform="rotate(13 517 251)"/>
+        <rect x="554" y="248" width="34" height="7" rx="2" transform="rotate(16 571 251)"/>
+        <rect x="608" y="248" width="34" height="7" rx="2" transform="rotate(19 625 251)"/>
+      </g>
+
+      <!-- reflected, concentrated light -->
+      <g stroke="#d99a1f" stroke-width="1.3" stroke-dasharray="6 5">
+        <line x1="167" y1="248" x2="386" y2="146"/>
+        <line x1="221" y1="248" x2="390" y2="146"/>
+        <line x1="275" y1="248" x2="394" y2="146"/>
+        <line x1="517" y1="248" x2="410" y2="146"/>
+        <line x1="571" y1="248" x2="414" y2="146"/>
+        <line x1="625" y1="248" x2="418" y2="146"/>
+      </g>
+
+      <text x="150" y="288" fill="#3f4b5b" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700">MEMS MIRROR FIELD</text>
+      <text x="150" y="302" fill="#7a8494" font-family="Helvetica, Arial, sans-serif" font-size="9.5" font-style="italic">fixed to grade &#8212; no moving structure</text>
+      <text x="498" y="288" fill="#3f4b5b" font-family="Helvetica, Arial, sans-serif" font-size="11.5" font-weight="700">EXCAVATED PIT</text>
+      <line x1="468" y1="292" x2="440" y2="300" stroke="#a89066" stroke-width="1.1"/>
+    </svg>
+    <figcaption><strong>Figure 1.</strong> Cross-section, not to scale. Fixed, solid-state mirrors
+      near grade redirect concentrated sunlight onto a single stationary receiver above the pit; the
+      receiver houses the free-piston Stirling engine described in Section&nbsp;3. The only motion
+      anywhere in the system is the electrostatic tilt of each mirror element and the free-floating
+      piston inside the sealed engine &mdash; nothing rides on a bearing, and nothing physically
+      rotates to track the sun.</figcaption>
+  </figure>
+
+  <div class="callout">
+    <div class="callout-title">Why this matters</div>
+    <p>Every part of this design that could wear out has been replaced with a part that structurally
+      cannot. That converts a normally recurring operations-and-maintenance line item into a one-time
+      capital cost &mdash; which matters most wherever power has to run unattended and a service call
+      is expensive or impractical: telecommunications and microwave relay sites, remote environmental
+      and seismic monitoring stations, pipeline cathodic-protection installations, off-grid research
+      stations, water and irrigation infrastructure, mining and industrial sites far from a road, and
+      island or rural microgrids.</p>
+    <p>The same properties that make it attractive for hard-to-service sites &mdash; no crew, no
+      lubrication schedule, no wear-driven failure mode &mdash; are the properties that would make
+      continuous solar power practical to deploy and forget at scale.</p>
+  </div>
+
+  <!-- ============================ SECTION 2 ============================ -->
+  <h2><span class="num">2</span> Component one &mdash; the mirror field</h2>
+
+  <p>Conventional concentrated-solar installations track the sun by physically rotating a large dish
+    or panel on a motorized two-axis gimbal. That approach has a poor reputation for field
+    reliability &mdash; figures on the order of half of all mechanical trackers drifting out of
+    specification within five to six years circulate widely in the industry, though this brief has no
+    primary source for that particular number and does not rest on it. What is not in dispute is the
+    failure <em>mechanism</em>: motors, bearings, wind loading, and ground settling under a heavy
+    moving structure are the parts that go, and they are exactly the parts one would expect to go.</p>
+
+  <p>This design removes the moving structure entirely. Instead of one large assembly chasing the
+    sun, a field of small mirrors does the steering, using the same underlying technology as a
+    digital projector chip (DLP/DMD) &mdash; a solid-state array of independently tiltable
+    micro-mirrors originally developed for optical switching and projection, and separately patented
+    for solar concentration. Nothing rotates on a bearing; each mirror element repositions
+    electrostatically.</p>
+
+  <h3>How hard is it actually working?</h3>
+
+  <p>Not very. Tracking the sun across a 12-hour day only requires each mirror to reposition a few
+    times a minute. Run that pace for 25 years and the cumulative actuation count lands around
+    <strong>100&ndash;200 million cycles</strong>. Texas Instruments' published reliability work on
+    this same DMD technology reports more than <strong>one trillion mirror cycles</strong> and in
+    excess of <strong>100,000 operating hours</strong> demonstrated in qualification and field
+    testing. The mirrors are not being asked to approach their limits; they are being asked to do a
+    small fraction of what they are already proven to survive.</p>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-n">~100&ndash;200M</div>
+      <div class="stat-c">Actuation cycles over 25 years</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">&gt;1 trillion</div>
+      <div class="stat-c">Mirror cycles demonstrated (TI DLP/DMD)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-n">~5,000&times;</div>
+      <div class="stat-c">Margin below the demonstrated count</div>
+    </div>
+  </div>
+
+  <p>The one open engineering question, stated honestly rather than assumed away: today's DMD chips
+    are built for sealed indoor projectors, and moisture ingress is a known general concern for MEMS
+    structures. Hermetic sealing against it, however, is routine, mature practice in other outdoor
+    MEMS applications (automotive sensors, telecom equipment) &mdash; a one-time sealing design
+    problem, not an ongoing maintenance burden the way a mechanical tracker's wear is.</p>
+
+  <!-- ============================ SECTION 3 ============================ -->
+  <h2><span class="num">3</span> Component two &mdash; the free-piston engine</h2>
+
+  <p>The heat concentrated by the mirror field drives a <strong>free-piston Stirling engine</strong>
+    &mdash; often described as having no moving parts that touch, since its piston floats on a
+    cushion of working gas and magnetically coupled non-contact bearings, with no crankshaft,
+    connecting rod, or lubricated joint anywhere in the power path. It is not literally pistonless;
+    it is a real piston with nothing left for it to wear against.</p>
+
+  <p>This is not an unproven concept. NASA's Glenn Research Center has operated a free-piston
+    Stirling convertor of this type <strong>continuously for over fourteen years with zero
+    maintenance</strong>, and a second unit has logged more than 110,000 cumulative operating hours
+    &mdash; over twelve years &mdash; and remains in service. The technology has since been
+    commercialized: Qnergy's PowerGen line, built on the same free-piston principle originally
+    engineered for NASA, is fielded today for exactly the kind of unattended, remote, multi-year
+    deployment this concept targets (oil and gas remote power, pipeline and cathodic-protection
+    sites, and other installations where a service crew is expensive or impractical to send).</p>
+
+  <div class="callout">
+    <div class="callout-title">The efficiency trade, stated honestly</div>
+    <p>The record-holding Swedish dish system uses a <em>kinematic</em> Stirling engine &mdash;
+      crankshaft-linked, with real seals and wear points &mdash; to reach its reported
+      <strong>32%</strong> conversion efficiency, measured on a 30 kW converter at Upington, South
+      Africa. The free-piston alternative proposed here gives up some of that efficiency &mdash;
+      commonly quoted in the 24&ndash;27% range, though this brief does not pin that range to a
+      specific published measurement &mdash; in exchange for eliminating every wearing part. Given the
+      goal is decades of unattended operation rather than peak efficiency, that is the trade this
+      design makes.</p>
+  </div>
+
+  <h3>One engine, or several?</h3>
+
+  <p>Free-piston Stirling engines do not scale up cleanly &mdash; larger units suffer worse
+    working-gas leakage and tighter manufacturing tolerances, a real physical limitation rather than
+    a simple manufacturing gap. Today's commercial ceiling is Qnergy's 5.6 kW-class unit. Reaching
+    this design's full 20&ndash;26 kWe target output means installing four to five such units side by
+    side rather than one large engine &mdash; which the mirror field accommodates naturally, since it
+    can already split its concentrated light across multiple independent focal points instead of
+    feeding just one.</p>
+
+  <!-- ============================ SECTION 4 ============================ -->
+  <h2><span class="num">4</span> Matched against the Swedish world record</h2>
+
+  <p>Rather than project an untested hypothetical output figure, this design's mirror field was sized
+    to exactly match the optical aperture of the actual dish used by Ripasso Energy, a Swedish
+    company whose system holds the reported world record for solar-to-electricity conversion
+    efficiency, demonstrated at field scale. At that matched aperture, and using Nevada's own real,
+    measured solar resource for the Lake Mead area, the mirror field is projected to deliver
+    essentially the same peak power the record system itself achieves &mdash; a direct validation
+    that a field of small, solid-state mirrors can do optically what one large mechanically-tracked
+    dish does, at the same real scale, before any claim is made about the durability upgrade in
+    Section 3.</p>
+
+  <table>
+    <thead>
+      <tr><th style="width:30%">Parameter</th><th style="width:20%">Value</th><th>Basis</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Ripasso record efficiency (reference point)</td>
+        <td>32%</td>
+        <td><strong>Cited</strong> &mdash; reported world record for a 30 kW converter at Upington, South Africa</td>
+      </tr>
+      <tr>
+        <td>Matched optical aperture</td>
+        <td>110.5 m&sup2;</td>
+        <td><strong>Geometric</strong> &mdash; the area of an 11.86 m circular dish (&pi;r&sup2;), sized to the Ripasso dish diameter</td>
+      </tr>
+      <tr>
+        <td>Site annual solar resource</td>
+        <td>7.62 kWh/m&sup2;/day</td>
+        <td><strong>Cited</strong> &mdash; measured direct-normal irradiance, Las Vegas / Lake Mead region (NREL NSRDB)</td>
+      </tr>
+      <tr>
+        <td>Site peak irradiance (record condition)</td>
+        <td>960 W/m&sup2;</td>
+        <td><strong>Assumption</strong> &mdash; a representative clear-sky DNI value. The Ripasso record is reported at ambient above 28&nbsp;&deg;C with no irradiance stated, so this is not a cited match to its test condition</td>
+      </tr>
+      <tr>
+        <td>Mirror reflectivity</td>
+        <td>92%</td>
+        <td><strong>Assumption</strong> &mdash; typical of solar-grade mirrors; not a cited measurement of a specific product</td>
+      </tr>
+      <tr>
+        <td>Kinematic (record-matching) output</td>
+        <td>~30&ndash;33 kWe</td>
+        <td><strong>Derived</strong> from the rows above &mdash; lands in the same ~30 kW class as the record unit</td>
+      </tr>
+      <tr>
+        <td class="em">Free-piston (adopted, zero-maintenance) output</td>
+        <td class="em">~20&ndash;26 kWe</td>
+        <td><strong>Derived</strong>, using the 24&ndash;27% free-piston range discussed in Section 3</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Read those labels literally. <strong>Cited</strong> means a source in the references supports the
+    figure directly. <strong>Derived</strong> means it follows arithmetically from the rows above it.
+    <strong>Assumption</strong> means it is a reasonable engineering placeholder that this brief does
+    not have a citation for. Both assumptions sit in the optical chain, which compounds them &mdash;
+    so the output figures are best read as an order-of-magnitude match to the record system, not a
+    precise prediction.</p>
+
+  <!-- ============================ SECTION 5 ============================ -->
+  <h2><span class="num">5</span> Expected lifetimes</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:19%">Component</th>
+        <th style="width:22%">Wear mechanism</th>
+        <th style="width:30%">Field-demonstrated basis</th>
+        <th>Real-world read</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Mirror field (MEMS)</td>
+        <td>None &mdash; no bearings, no lubrication, solid-state actuation only</td>
+        <td>&gt;1 trillion mirror cycles and &gt;100,000 operating hours demonstrated (TI DLP/DMD reliability program)</td>
+        <td>This design's full 25-year duty cycle uses roughly 0.02% of the demonstrated cycle count</td>
+      </tr>
+      <tr>
+        <td>Engine (free-piston Stirling)</td>
+        <td>None &mdash; non-contact bearings, no crankshaft, no lubricated joint</td>
+        <td>14 years continuous, zero maintenance (NASA Glenn); a second unit past 12 years / 110,000+ hours, still running</td>
+        <td>Longest continuously-operating example currently exceeds a decade with no service event</td>
+      </tr>
+      <tr class="compare">
+        <td>For comparison &mdash; a conventional mechanical tracker</td>
+        <td>Motors, bearings, gimbal wear, wind and ground-settling load</td>
+        <td>Widely reported to lose specification within 5&ndash;6 years, but no primary source is cited here &mdash; see the note in Section 2</td>
+        <td>The failure mode this design was built specifically to remove</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Put simply: the two components that usually define a solar installation's maintenance calendar
+    &mdash; the tracker and the engine &mdash; have both been replaced here with the mechanism-level
+    equivalent of a part that cannot wear out, each independently field-proven for over a decade
+    before this concept was ever assembled.</p>
+
+  <!-- ============================ SECTION 6 ============================ -->
+  <h2><span class="num">6</span> Why this site</h2>
+
+  <p>Lake Mead, Nevada offers a real, measured, high-quality direct-sunlight resource (NREL/NSRDB
+    data, cited below) directly comparable to the desert site conditions the Swedish record system
+    itself was tested under &mdash; meaning the performance match in Section 4 is not a best-case
+    extrapolation, it is close to an apples-to-apples reproduction. Siting the array in a dug pit
+    keeps the fixed engine and receiver near grade while the surrounding mirror field remains
+    low-profile, and open desert land in the area is well suited to a field-scale installation
+    without competing for higher-value terrain.</p>
+
+  <!-- ============================ REFERENCES ============================ -->
+  <h2><span class="num">R</span> References</h2>
+
+  <ul class="refs">
+    <li>
+      <span class="rt">NASA Glenn Research Center</span> &mdash; &ldquo;Stirling Convertor Sets
+      14-Year Continuous Operation Milestone&rdquo;
+      <span class="rn">Official NASA source for the 14-year continuous, maintenance-free free-piston Stirling operation record.</span>
+      <span class="url">https://www.nasa.gov/centers-and-facilities/glenn/stirling-convertor-sets-14-year-continuous-operation-milestone/</span>
+    </li>
+    <li>
+      <span class="rt">Qnergy</span> &mdash; PowerGen free-piston Stirling generator product documentation
+      <span class="rn">Commercial free-piston Stirling generator, 1.8&ndash;5.6 kW output range &mdash; the real basis for the multi-unit scaling figure in Section 3, and manufacturer confirmation linking the NASA-heritage design to today's commercial units.</span>
+      <span class="url">https://www.qnergy.com/</span>
+    </li>
+    <li>
+      <span class="rt">Reuters Events (CSP Today)</span> &mdash; &ldquo;Ripasso Energy sets new
+      solar-to-electricity world record&rdquo;
+      <span class="rn">Source for the 32% figure used in Sections 3 and 4: a reported world record of 32% for a 30 kW converter at Ripasso Energy's plant in Upington, South Africa, at an ambient temperature above 28 &deg;C.</span>
+      <span class="url">https://www.reutersevents.com/renewables/csp-today/technology/ripasso-energy-sets-new-solar-electricity-world-record</span>
+    </li>
+    <li>
+      <span class="rt">U.S. Department of Energy</span> &mdash; &ldquo;Solar Dish Sets World-Record Efficiency&rdquo;
+      <span class="rn">A <strong>separate</strong> dish-Stirling efficiency record &mdash; 31.25%, achieved by Stirling Energy Systems, not by Ripasso. Included as independent corroboration that this class of machine reaches roughly 31%, and explicitly <em>not</em> as the source for the Ripasso figure. Some secondary coverage reports Ripasso at 34%; this brief uses the lower, better-documented 32% instead.</span>
+      <span class="url">https://www.energy.gov/node/1758401</span>
+    </li>
+    <li>
+      <span class="rt">Douglass, Michael R.</span> &mdash; &ldquo;DMD Reliability: A MEMS Success
+      Story,&rdquo; <em>Proc. SPIE</em> 4980, Texas Instruments (2003)
+      <span class="rn">Source for the multi-billion-to-trillion-cycle and operating-hour DLP/DMD reliability data underlying the mirror-field durability figures in Sections 2 and 5.</span>
+      <span class="url">https://www.ti.com/pdfs/dlpdmd/153_Reliability_paper.pdf</span>
+    </li>
+    <li>
+      <span class="rt">Patent EP2911208A1</span> &mdash; &ldquo;Micro-Concentrator Solar Array Using
+      Micro-Electromechanical Systems (MEMS) Based Reflectors&rdquo;
+      <span class="rn">Real, existing published patent for the MEMS solar-tracking mirror concept described in Section 2 &mdash; not a hypothetical proposal.</span>
+      <span class="url">https://patents.google.com/patent/EP2911208A1/en</span>
+    </li>
+    <li>
+      <span class="rt">National Renewable Energy Laboratory (NREL)</span> &mdash; National Solar
+      Radiation Database (NSRDB)
+      <span class="rn">Source for real, measured direct-normal irradiance data for the Nevada / Lake Mead region used in Section 4.</span>
+      <span class="url">https://nsrdb.nrel.gov/</span>
+    </li>
+  </ul>
+
+  <!-- ========================= ABOUT / COLOPHON ========================= -->
+  <h2><span class="num">&sect;</span> About this publication</h2>
+
+  <div class="about">
+    <p><span class="lbl">Independent personal research.</span> This brief is independent personal
+      research by Brett R. Jones, carried out on personal time using personal equipment and publicly
+      published sources. It is not affiliated with, sponsored by, funded by, reviewed by, or produced
+      for any employer, client, institution, or agency, and it represents no organization's position
+      &mdash; only the author's own.</p>
+
+    <p><span class="lbl">Scope and status.</span> Concept-stage engineering brief. It is not
+      peer-reviewed, not an engineering specification, and not an offer to build, sell, or license
+      anything. The Section 4 table labels each figure as <strong>cited</strong>,
+      <strong>derived</strong>, or <strong>assumption</strong>, and the two assumptions in the optical
+      chain are named as such rather than presented as measurements. The mechanical-tracker failure
+      statistic in Section 2 is likewise flagged as uncited. Where a range is shown it reflects genuine
+      uncertainty rather than false precision. The purpose here is to interest a reader in the concept
+      &mdash; not to assert a validated result, and not to sell anything.</p>
+
+    <p><span class="lbl">Sources.</span> All material derives from publicly published sources &mdash;
+      NASA and U.S. Department of Energy publications, a published patent, manufacturer product
+      documentation, a peer-reviewed conference paper, and public NREL solar-resource data. Each is
+      listed above.</p>
+
+    <p><span class="lbl">Intent.</span> Published as an open disclosure so the concept remains freely
+      available for anyone to read, use, or build on. The author is not seeking to license, sell, or
+      commercialize it.</p>
+
+    <p><span class="lbl">Publication record.</span> First published 18 August 2026 at
+      nolimitconnect.org. Authorship and revision history are recorded in the project's public Git
+      repository at github.com/nolimitconnect/NoLimitConnect.</p>
+
+    <p><span class="lbl">License.</span> &copy; 2026 Brett R. Jones. Text and figures released under
+      Creative Commons Attribution 4.0 International (CC BY 4.0) &mdash; free to share and adapt,
+      with attribution to the author.</p>
+
+    <p><span class="lbl">How to cite.</span></p>
+    <div class="cite">
+      Jones, Brett R. <em>Nevada Maintenance-Free Energy Generator: A Sun-Tracking Mirror Field and a
+      Zero-Wear NASA-Heritage Engine.</em> Concept brief, 18 August 2026.<br>
+      https://nolimitconnect.org/maintenance-free-solar-generator/
+    </div>
+  </div>
+
+  <hr class="sep">
+  <p class="footnote">This is a concept-stage engineering brief. Figures are labeled in Section 4 as
+    cited, derived, or assumption, and the uncited items are flagged where they appear rather than
+    smoothed over. Where a range is shown, it reflects genuine real-world uncertainty rather than
+    false precision.</p>
+
+</div>
+</body>
+</html>

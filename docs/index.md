@@ -112,6 +112,15 @@ NoLimitConnect is built by a privacy-focused community dedicated to open communi
 
 [Visit our GitHub Source Code Repo →](https://github.com/nolimitconnect/NoLimitConnect)
 
+## 🔬 Independent Research
+
+Alongside NoLimitConnect, the author publishes independent personal research openly and free to use.
+
+### :material-solar-power: **Nevada Maintenance-Free Energy Generator**
+A concept brief for continuous, unattended solar power with no wearing parts — a solid-state MEMS
+mirror field and a zero-wear, NASA-heritage free-piston Stirling engine.
+➡️ [Read the concept brief](maintenance-free-solar-generator.md)
+
 ## 🌐 Migration Notes
 
 The website and repository have moved.
