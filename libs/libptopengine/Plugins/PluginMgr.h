@@ -108,6 +108,7 @@ public:
 
 	virtual void				onOncePerSecond( void );
     virtual void				onThreadOncePer15Minutes( void );
+    virtual void				onThreadOncePerMinute( void );
 	virtual void				onAfterUserLogOnThreaded( void );
 
 	virtual void				onContactWentOnline( VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase );

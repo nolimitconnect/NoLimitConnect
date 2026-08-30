@@ -705,6 +705,23 @@ void PluginMgr::onThreadOncePer15Minutes( void )
 }
 
 //============================================================================
+void PluginMgr::onThreadOncePerMinute( void )
+{
+    std::vector<PluginBase* >::iterator iter;
+    for( iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
+    {
+		if( !VxIsAppShuttingDown() )
+		{
+			( *iter )->onThreadOncePerMinute();
+		}
+		else
+		{
+			break;
+		}
+    }
+}
+
+//============================================================================
 void PluginMgr::onAfterUserLogOnThreaded( void )
 {
 	std::vector<PluginBase* >::iterator iter;

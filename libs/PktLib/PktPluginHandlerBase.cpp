@@ -218,6 +218,13 @@ PktPluginHandlerBase::PktPluginHandlerBase()
 	m_aBaseSysPktFuncTable[ PKT_TYPE_FRIEND_REQUEST_REPLY ]				= &PktPluginHandlerBase::onPktFriendRequestReply;
 
 	m_aBaseSysPktFuncTable[PKT_TYPE_ADMIN_AVAIL]						= &PktPluginHandlerBase::onPktAdminAvail;
+
+	m_aBaseSysPktFuncTable[ PKT_TYPE_CALENDAR_EVENT_LIST_REQ ]			= &PktPluginHandlerBase::onPktCalendarEventListReq;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_CALENDAR_EVENT_LIST_REPLY ]		= &PktPluginHandlerBase::onPktCalendarEventListReply;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_CALENDAR_EVENT_UPDATE_REQ ]		= &PktPluginHandlerBase::onPktCalendarEventUpdateReq;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_CALENDAR_EVENT_UPDATE_REPLY ]		= &PktPluginHandlerBase::onPktCalendarEventUpdateReply;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_CALENDAR_EVENT_CANCEL_REQ ]		= &PktPluginHandlerBase::onPktCalendarEventCancelReq;
+	m_aBaseSysPktFuncTable[ PKT_TYPE_CALENDAR_EVENT_CANCEL_REPLY ]		= &PktPluginHandlerBase::onPktCalendarEventCancelReply;
 }
 
 //============================================================================
@@ -1159,6 +1166,42 @@ void PktPluginHandlerBase::onPktFriendRequestReply( std::shared_ptr<VxSktBase>& 
 
 //============================================================================
 void PktPluginHandlerBase::onPktAdminAvail( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktCalendarEventListReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktCalendarEventListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktCalendarEventUpdateReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktCalendarEventUpdateReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktCalendarEventCancelReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+	onPktUnhandled( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PktPluginHandlerBase::onPktCalendarEventCancelReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
 	onPktUnhandled( sktBase, pktHdr, netIdent );
 }

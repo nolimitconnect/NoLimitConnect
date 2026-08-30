@@ -54,6 +54,8 @@ void AssetPhotoWidget::initAssetPhotoWidget( void )
 	connect( ui.m_RightAvatarBar,	SIGNAL(signalShredAsset()),		this, SLOT(slotShredAsset()) );
     connect( ui.m_LeftAvatarBar,	SIGNAL(signalAddLibraryAsset()),        this, SLOT(slotAddLibraryAsset()) );
     connect( ui.m_RightAvatarBar,	SIGNAL(signalAddLibraryAsset()),        this, SLOT(slotAddLibraryAsset()) );
+    connect( ui.m_LeftAvatarBar,	SIGNAL(signalSaveToPersonalRecorder()), this, SLOT(slotSaveToPersonalRecorder()) );
+    connect( ui.m_RightAvatarBar,	SIGNAL(signalSaveToPersonalRecorder()), this, SLOT(slotSaveToPersonalRecorder()) );
 	connect( ui.m_LeftAvatarBar,	SIGNAL(signalResendAsset()),	this, SLOT(slotResendAsset()) );
 	connect( ui.m_RightAvatarBar,	SIGNAL(signalResendAsset()),	this, SLOT(slotResendAsset()) );
     connect( ui.m_FileNameLabel,	SIGNAL(clicked()),	            this, SLOT(slotFileNameClicked()) );
@@ -70,7 +72,10 @@ void AssetPhotoWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 	ui.m_VidWidget->setImageFromFile( assetInfo.getAssetNameAndPath().c_str() );
 	ui.m_LeftAvatarBar->setOnlineId( m_AssetInfo.getOnlineId() );
 	ui.m_RightAvatarBar->setOnlineId( m_AssetInfo.getOnlineId() );
-	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_AssetInfo.getHistoryId() );
+	// creator ( actual sender ), not history id ( whose bucket this is filed under -- for
+	// media saved into the personal recorder from someone else's chat, those differ; see
+	// event-calendar design notes on the Save-to-Personal-Recorder feature )
+	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_AssetInfo.getCreatorId() );
 	if( assetInfo.isMine() )
 	{
 		ui.m_LeftAvatarBar->setTime( m_AssetInfo.getCreationTime(), m_AssetInfo.getIsQueued() );
@@ -95,6 +100,7 @@ void AssetPhotoWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 		ui.m_LeftAvatarBar->setShredButtonIcon( eMyIconShredderNormal );
 		ui.m_RightAvatarBar->setShredButtonIcon( eMyIconShredderNormal );
         showLibraryButton( true );
+        showSaveToRecorderButton( true );
 	}
 	else
 	{
@@ -170,6 +176,19 @@ void AssetPhotoWidget::showLibraryButton( bool show )
 	else
 	{
 		ui.m_RightAvatarBar->showLibraryButton( show );
+	}
+}
+
+//============================================================================
+void AssetPhotoWidget::showSaveToRecorderButton( bool show )
+{
+	if( m_AssetInfo.isMine() )
+	{
+		ui.m_LeftAvatarBar->showSaveToRecorderButton( show );
+	}
+	else
+	{
+		ui.m_RightAvatarBar->showSaveToRecorderButton( show );
 	}
 }
 

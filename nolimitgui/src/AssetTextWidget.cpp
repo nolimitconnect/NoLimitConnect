@@ -56,6 +56,8 @@ void AssetTextWidget::initAssetTextWidget( void )
 	connect( ui.m_RightAvatarBar,	SIGNAL(signalShredAsset()), this, SLOT(slotShredAsset()) );
 	connect( ui.m_LeftAvatarBar,	SIGNAL(signalResendAsset()), this, SLOT(slotResendAsset()) );
 	connect( ui.m_RightAvatarBar,	SIGNAL(signalResendAsset()), this, SLOT(slotResendAsset()) );
+	connect( ui.m_LeftAvatarBar,	SIGNAL(signalSaveToPersonalRecorder()), this, SLOT(slotSaveToPersonalRecorder()) );
+	connect( ui.m_RightAvatarBar,	SIGNAL(signalSaveToPersonalRecorder()), this, SLOT(slotSaveToPersonalRecorder()) );
 	calculateHint();
 }
 
@@ -86,7 +88,10 @@ void AssetTextWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 	ui.m_ChatTextLabel->setText( assetInfo.getAssetName().c_str() );
 	ui.m_LeftAvatarBar->setOnlineId( m_AssetInfo.getOnlineId() );
 	ui.m_RightAvatarBar->setOnlineId( m_AssetInfo.getOnlineId() );
-	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_AssetInfo.getHistoryId() );
+	// creator ( actual sender ), not history id ( whose bucket this is filed under -- for a
+	// message saved into the personal recorder from someone else's chat, those differ; see
+	// event-calendar design notes on the Save-to-Personal-Recorder feature )
+	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_AssetInfo.getCreatorId() );
 	if( assetInfo.isMine() )
 	{
 		ui.m_ChatTextLabel->setStyleSheet( m_MyApp.getAppTheme().getChatTextTxStyleSheet() );
@@ -119,8 +124,23 @@ void AssetTextWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 		ui.m_RightAvatarBar->setShredButtonIcon( eMyIconTrash );
 	}
 
+	showSaveToRecorderButton( true );
+
 	calculateHint();
 	updateFromAssetInfo();
+}
+
+//============================================================================
+void AssetTextWidget::showSaveToRecorderButton( bool show )
+{
+	if( m_AssetInfo.isMine() )
+	{
+		ui.m_LeftAvatarBar->showSaveToRecorderButton( show );
+	}
+	else
+	{
+		ui.m_RightAvatarBar->showSaveToRecorderButton( show );
+	}
 }
 
 //============================================================================

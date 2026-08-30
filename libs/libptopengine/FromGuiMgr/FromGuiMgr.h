@@ -14,6 +14,8 @@
 #include <CoreLib/VxSemaphore.h>
 #include <CoreLib/VxThread.h>
 
+#include <Calendar/CalendarEventInfo.h>
+
 #include <deque>
 
 // class to avoid stalling the gui thread
@@ -50,6 +52,10 @@ public:
 	virtual void				fromGuiUnJoinHost( HostedId& adminId );
 
 	virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable );
+
+	virtual void				fromGuiCalendarEventUpdate( HostedId& adminId, CalendarEventInfo& eventInfo );
+	virtual void				fromGuiCalendarEventCancel( HostedId& adminId, VxGUID& eventId );
+	virtual void				fromGuiCalendarRefresh( HostedId& adminId );
 
 	virtual void				fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, EHostType hostType, VxGUID& hostIdIfNullThenAll, VxGUID& searchSessionId );
 

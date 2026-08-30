@@ -108,6 +108,8 @@ namespace
         "Comm Error Plugin Permission Level ",
         "Comm Error Not Found ",
         "Comm Error Invalid Param ",
+        "Comm Error Schedule Conflict ",
+        "Comm Error Event Start In Past ",
         "Max Comm Error ",
     };
 
@@ -1343,6 +1345,56 @@ const char* DescribeJoinState( enum EJoinState joinState )
     }
 
     return JoinStateEnumStrings[ joinState ];
+}
+
+//============================================================================
+int64_t PurgeEventHistoryTypeToMs( enum EPurgeEventHistoryType purgeType )
+{
+    switch( purgeType )
+    {
+    case ePurgeEventHistoryAfter2Min:
+        return 2LL * 60 * 1000;
+    case ePurgeEventHistoryAfter15Min:
+        return 15LL * 60 * 1000;
+    case ePurgeEventHistoryAfter1Hour:
+        return 60LL * 60 * 1000;
+    case ePurgeEventHistoryAfter1Day:
+        return 24LL * 60 * 60 * 1000;
+    case ePurgeEventHistoryAfter1Week:
+        return 7LL * 24 * 60 * 60 * 1000;
+    case ePurgeEventHistoryAfter1Month:
+        return 30LL * 24 * 60 * 60 * 1000;
+    case ePurgeEventHistoryAfter1Year:
+        return 365LL * 24 * 60 * 60 * 1000;
+    case ePurgeEventHistoryUseHostDefault:
+    default:
+        return 0; // caller falls back to the event's own retention
+    }
+}
+
+//============================================================================
+const char* DescribePurgeEventHistoryType( enum EPurgeEventHistoryType purgeType )
+{
+    switch( purgeType )
+    {
+    case ePurgeEventHistoryAfter2Min:
+        return "After 2 min";
+    case ePurgeEventHistoryAfter15Min:
+        return "After 15 min";
+    case ePurgeEventHistoryAfter1Hour:
+        return "After 1 hour";
+    case ePurgeEventHistoryAfter1Day:
+        return "After 1 day";
+    case ePurgeEventHistoryAfter1Week:
+        return "After 1 week";
+    case ePurgeEventHistoryAfter1Month:
+        return "After 1 month";
+    case ePurgeEventHistoryAfter1Year:
+        return "After 1 year";
+    case ePurgeEventHistoryUseHostDefault:
+    default:
+        return "Use Host Default";
+    }
 }
 
 //============================================================================

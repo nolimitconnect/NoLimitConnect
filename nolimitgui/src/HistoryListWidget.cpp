@@ -27,6 +27,7 @@
 #include <CoreLib/VxGlobals.h>
 
 #include <QTimer>
+#include <QMessageBox>
 
 //============================================================================
 HistoryListWidget::HistoryListWidget(QWidget* parent)
@@ -137,6 +138,7 @@ void HistoryListWidget::toGuiAssetSessionHistory( AssetBaseInfo& assetInfo )
 			{
                 connect( assetWidget, SIGNAL(signalShreddingAsset(AssetBaseWidget*)), this, SLOT(slotShreddingAsset(AssetBaseWidget*)) );
                 connect( assetWidget, SIGNAL(signalAddLibraryAsset(AssetBaseWidget*)), this, SLOT(slotAddAssetToLibrary(AssetBaseWidget*)) );
+                connect( assetWidget, SIGNAL(signalSaveToPersonalRecorder(AssetBaseWidget*)), this, SLOT(slotSaveAssetToPersonalRecorder(AssetBaseWidget*)) );
 				int insertAtIndex = determinInsertIndex( &assetInfo );
 				if( 0 <= insertAtIndex )
 				{
@@ -217,6 +219,49 @@ void HistoryListWidget::slotAddAssetToLibrary( AssetBaseWidget * assetWidget )
 		assetInfo.setIsInLibrary( true );
 		assetWidget->showLibraryButton( false );
 		m_MyApp.playSound( eSndDefButtonClick );
+	}
+}
+
+//============================================================================
+void HistoryListWidget::slotSaveAssetToPersonalRecorder( AssetBaseWidget* assetWidget )
+{
+	if( !assetWidget )
+	{
+		return;
+	}
+
+	// clone rather than mutate in place -- the original stays exactly as-is in this ( possibly
+	// shared, eg event-session ) history; only the SAVED COPY moves into my personal recorder.
+	// CreatorId ( original sender ) and CreationTime ( original timestamp ) are deliberately
+	// left untouched -- that is the "who and when" tag on the saved record. new UniqueId since
+	// this is an independent record in my own asset store; PluginType/IsPersonalRecord/
+	// DestUserId/HistoryId set to match the same self-directed convention
+	// InputClientBaseCallback::fillAssetBaseInfo() already uses when composing directly into
+	// the recorder ( AssetBaseInfo::isHistoryMatch() requires exactly this pattern -- both
+	// HistoryId and DestUserId equal to myOnlineId -- for a ePluginTypePersonalRecorder asset
+	// to actually appear in the recorder's own session view ).
+	AssetBaseInfo clonedInfo = assetWidget->getAssetInfo();
+	clonedInfo.generateNewUniqueId();
+	clonedInfo.setPluginType( ePluginTypePersonalRecorder );
+	clonedInfo.setIsPersonalRecord( true );
+	VxGUID myOnlineId = m_MyApp.getMyOnlineId();
+	clonedInfo.setDestUserId( myOnlineId );
+	clonedInfo.setHistoryId( myOnlineId );
+
+	bool isText = !clonedInfo.isFileAsset();
+
+	if( m_Engine.fromGuiAssetAction( eAssetActionAddToAssetMgr, clonedInfo, 0 ) )
+	{
+		assetWidget->showSaveToRecorderButton( false );
+		m_MyApp.playSound( eSndDefButtonClick );
+
+		if( isText )
+		{
+			// media saves are self-evident from the button disappearing ( matches the existing
+			// library-save convention above ); text has no equivalent visual cue on its own,
+			// so it gets an explicit confirmation per the feature request.
+			QMessageBox::information( this, tr( "Saved" ), tr( "Saved to your personal recorder." ) );
+		}
 	}
 }
 

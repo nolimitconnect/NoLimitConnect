@@ -1632,3 +1632,51 @@ void P2PEngine::onPktAdminAvail( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* 
 		getToGui().toGuiAdminAvail( adminGroupieId, adminAvail );
 	}
 }
+
+//============================================================================
+void P2PEngine::onPktCalendarEventListReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
+
+	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
+}
+
+//============================================================================
+void P2PEngine::onPktCalendarEventListReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
+
+	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
+}
+
+//============================================================================
+void P2PEngine::onPktCalendarEventUpdateReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
+
+	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
+}
+
+//============================================================================
+void P2PEngine::onPktCalendarEventUpdateReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
+
+	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
+}
+
+//============================================================================
+void P2PEngine::onPktCalendarEventCancelReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
+
+	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
+}
+
+//============================================================================
+void P2PEngine::onPktCalendarEventCancelReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr )
+{
+	if(LogEnabled(eLogPkt)) LogModule( eLogPkt, LOG_VERBOSE, "%s", __func__ );
+
+	m_PluginMgr.handleNonSystemPackets( sktBase, pktHdr );
+}

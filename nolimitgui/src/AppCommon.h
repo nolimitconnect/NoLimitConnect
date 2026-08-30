@@ -21,6 +21,7 @@
 
 #include "GuiFileXferMgr.h"
 #include "GuiGroupieListMgr.h"
+#include "GuiCalendarMgr.h"
 #include "GuiHostedListMgr.h"
 #include "GuiHostedByMeJoinMgr.h"
 
@@ -179,6 +180,7 @@ public:
     GuiFriendRequestMgr&        getFriendRequestMgr( void ) { return m_FriendRequestMgr; }
     GuiFavoriteMgr&             getFavoriteMgr( void ) { return m_FavoriteMgr; }
     GuiFileXferMgr&             getFileXferMgr( void ) { return m_FileXferMgr; }
+    GuiCalendarMgr&             getCalendarMgr( void ) { return m_CalendarMgr; }
     GuiGroupieListMgr&          getGroupieListMgr( void ) { return m_GroupieListMgr; }
     GuiHostedListMgr&           getHostedListMgr( void ) { return m_HostedListMgr; }
     GuiHostedByMeJoinMgr&       getHostJoinMgr( void ) { return m_HostJoinMgr; }
@@ -489,6 +491,11 @@ public:
     void				        toGuiGroupieSearchStatus( EHostType hostType, VxGUID& sessionId, EHostSearchStatus searchStatus, ECommErr commErr = eCommErrNone, const char* msg = "" ) override;
     void				        toGuiGroupieSearchResult( EHostType hostType, VxGUID& sessionId, GroupieInfo& hostedInfo ) override;
     void				        toGuiGroupieSearchComplete( EHostType hostType, VxGUID& sessionId ) override;
+
+    void				        toGuiCalendarEventListResult( EHostType hostType, VxGUID& hostOnlineId, CalendarEventInfo& eventInfo ) override;
+    void				        toGuiCalendarEventListComplete( EHostType hostType, VxGUID& hostOnlineId ) override;
+    void				        toGuiCalendarEventUpdateStatus( EHostType hostType, VxGUID& hostOnlineId, VxGUID& eventId, ECommErr commErr ) override;
+    void				        toGuiCalendarEventCancelStatus( EHostType hostType, VxGUID& hostOnlineId, VxGUID& eventId, ECommErr commErr ) override;
 
     void				        toGuiIsPortOpenStatus( EIsPortOpenStatus eIsPortOpenStatus, const char* msg = "" ) override;
     void				        toGuiRunTestStatus( const char* testName, ERunTestStatus eRunTestStatus, const char* msg = "" ) override;
@@ -916,6 +923,7 @@ protected:
     GuiPushToTalkMgr&           m_PushToTalkMgr;
     GuiUserMgr					m_UserMgr;
     GuiGroupieListMgr			m_GroupieListMgr;
+    GuiCalendarMgr			    m_CalendarMgr;
     GuiHostedListMgr			m_HostedListMgr;
     GuiHostedByMeJoinMgr		m_HostJoinMgr;
 

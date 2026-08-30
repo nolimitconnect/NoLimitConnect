@@ -30,6 +30,7 @@ public:
     virtual void				showResendButton( bool show ) override;
     virtual void				showShredder( bool show ) override;
     virtual void				showLibraryButton( bool show ) override;
+    virtual void				showSaveToRecorderButton( bool show ) override;
     virtual void				showXferProgress( bool show ) override;
     virtual void				setXferProgress( int sendProgress ) override;
 

@@ -379,6 +379,7 @@ enum EMyIcons
     eMyIconEditBold,
     eMyIconEditCopy,
     eMyIconEditCut,
+    eMyIconEditField,
     eMyIconEditFileNew,
     eMyIconEditHeader,
     eMyIconEditItalic,

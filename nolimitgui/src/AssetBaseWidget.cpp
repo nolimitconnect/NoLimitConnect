@@ -258,6 +258,12 @@ void AssetBaseWidget::slotAddLibraryAsset( void )
 }
 
 //============================================================================
+void AssetBaseWidget::slotSaveToPersonalRecorder( void )
+{
+	emit signalSaveToPersonalRecorder( this );
+}
+
+//============================================================================
 void AssetBaseWidget::slotResendAsset( void )
 {
 	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_AssetInfo.getDestUserId() );

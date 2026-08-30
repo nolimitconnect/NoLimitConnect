@@ -244,6 +244,10 @@ list(APPEND nlc_HEADERS
     src/AudioOutWaveformWidget.h
 
     src/BottomBarWidget.h
+    src/CalendarEventListItem.h
+    src/CalendarEventListPanel.h
+    src/CalendarEventListWidget.h
+    src/CalendarEventRowWidget.h
     src/CamTitleBarPreview.h
 
     src/ChatEntryWidget.h
@@ -251,6 +255,7 @@ list(APPEND nlc_HEADERS
     src/ClipboardPasteWidget.h
 
     src/DialogAddComment.h
+    src/DialogCalendarEvent.h
     src/DialogConfirmRemoveMessage.h
     src/EventsQtToNlc.h
     src/FileItemInfo.h
@@ -280,6 +285,7 @@ list(APPEND nlc_HEADERS
     src/GuiFriendRequest/GuiFriendRequestListWidget.h
     src/GuiFriendRequest/GuiFriendRequestMgr.h
 
+    src/GuiCalendarMgr.h
     src/GuiGroupie.h
     src/GuiGroupieListCallback.h
     src/GuiGroupieListItem.h
@@ -662,11 +668,16 @@ list(APPEND nlc_SOURCES
     src/AudioInWaveformWidget.cpp
     src/AudioOutWaveformWidget.cpp
 
+    src/CalendarEventListItem.cpp
+    src/CalendarEventListPanel.cpp
+    src/CalendarEventListWidget.cpp
+    src/CalendarEventRowWidget.cpp
     src/CamTitleBarPreview.cpp
     src/ChatEntryWidget.cpp
     src/ClipboardCopyWidget.cpp
     src/ClipboardPasteWidget.cpp
     src/DialogAddComment.cpp
+    src/DialogCalendarEvent.cpp
     src/DialogConfirmRemoveMessage.cpp
     src/EventsQtToNlc.cpp
     src/FileActionBarWidget.cpp
@@ -693,6 +704,8 @@ list(APPEND nlc_SOURCES
     src/GuiFriendRequest/GuiFriendRequestListItem.cpp
     src/GuiFriendRequest/GuiFriendRequestListWidget.cpp
     src/GuiFriendRequest/GuiFriendRequestMgr.cpp
+
+    src/GuiCalendarMgr.cpp
 
     src/GuiGroupie.cpp
     src/GuiGroupieListItem.cpp

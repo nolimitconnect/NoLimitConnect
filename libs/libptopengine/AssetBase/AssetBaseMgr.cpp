@@ -1080,6 +1080,89 @@ bool AssetBaseMgr::fromGuiGetFileIsShared( std::string& fileNameAndPath )
 }
 
 //============================================================================
+void AssetBaseMgr::extendCalendarEventExpiryTime( VxGUID& adminId, int64_t newExpiresTime )
+{
+	lockResources();
+
+	std::vector<AssetBaseInfo*> toExtend;
+	for( auto assetInfo : m_AssetBaseInfoList )
+	{
+		if( !assetInfo->isCalendarEvent() || assetInfo->getAdminId() != adminId )
+		{
+			continue;
+		}
+
+		if( assetInfo->getExpiresTime() < newExpiresTime )
+		{
+			assetInfo->setExpiresTime( newExpiresTime );
+			toExtend.push_back( assetInfo );
+		}
+	}
+
+	if( LogEnabled( eLogCalendar ) && !toExtend.empty() ) LogModule( eLogCalendar, LOG_VERBOSE, "[%d ms] AssetBaseMgr::%s extended %d asset(s) for admin %s to %lld",
+		GetApplicationAliveMs(), __func__, ( int )toExtend.size(), adminId.toHexString().c_str(), newExpiresTime );
+
+	for( auto assetInfo : toExtend )
+	{
+		updateDatabase( assetInfo );
+	}
+
+	unlockResources();
+}
+
+//============================================================================
+void AssetBaseMgr::purgeExpiredCalendarAssets( int64_t nowMs )
+{
+	lockResources();
+
+	std::vector<VxGUID> toShredIds;
+	std::vector<AssetBaseInfo*> toProtect;
+
+	for( auto assetInfo : m_AssetBaseInfoList )
+	{
+		if( !assetInfo->isCalendarEvent() )
+		{
+			continue;
+		}
+
+		int64_t expiresTime = assetInfo->getExpiresTime();
+		if( 0 == expiresTime || expiresTime > nowMs )
+		{
+			continue; // not expired yet ( 0 = never, per the field's own convention )
+		}
+
+		if( assetInfo->isInLibrary() || assetInfo->isPersonalRecord() || assetInfo->isSharedFileAsset() )
+		{
+			// saved by the user -- stop tracking it for calendar purge, but leave the content
+			// ( and its library/personal-recorder/shared status ) otherwise untouched
+			if( LogEnabled( eLogCalendar ) ) LogModule( eLogCalendar, LOG_VERBOSE, "[%d ms] AssetBaseMgr::%s asset %s expired but saved ( library/personal-recorder/shared ) -- protecting instead of purging",
+				GetApplicationAliveMs(), __func__, assetInfo->getAssetUniqueId().toHexString().c_str() );
+			assetInfo->setIsCalendarEvent( false );
+			assetInfo->setExpiresTime( 0 );
+			toProtect.push_back( assetInfo );
+		}
+		else
+		{
+			if( LogEnabled( eLogCalendar ) ) LogModule( eLogCalendar, LOG_VERBOSE, "[%d ms] AssetBaseMgr::%s asset %s expired and not saved -- purging",
+				GetApplicationAliveMs(), __func__, assetInfo->getAssetUniqueId().toHexString().c_str() );
+			toShredIds.push_back( assetInfo->getAssetUniqueId() );
+		}
+	}
+
+	for( auto assetInfo : toProtect )
+	{
+		updateDatabase( assetInfo );
+	}
+
+	unlockResources(); // must unlock before removal or deadlocks -- mirrors fromGuiSetFileIsInLibrary below
+
+	for( auto& assetId : toShredIds )
+	{
+		removeAsset( assetId, true ); // true = actually delete the file -- purged as if it never happened
+	}
+}
+
+//============================================================================
 bool AssetBaseMgr::fromGuiSetFileIsInLibrary( FileInfo& fileInfo, bool isInLibrary )
 {
 	lockResources();

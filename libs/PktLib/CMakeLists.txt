@@ -22,6 +22,7 @@ list(APPEND pktlib_SOURCES
     PktsAssetXfer.cpp
     PktsBaseXfer.cpp
 	PktsBlobXfer.cpp
+    PktsCalendar.cpp
     PktsFileInfo.cpp
     PktsFileList.cpp
     PktsFileShare.cpp

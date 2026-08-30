@@ -113,6 +113,7 @@ nav:
       - AEC2: technical/README-AEC2.md
       - Asset Send: technical/README-ASSET-SEND.md
       - Audio Flow: technical/README-AUDIO-FLOW.md
+      - Calendar: technical/README-CALENDAR.md
       - Cam Video AVI Files: technical/README-CAM-VIDEO-AVI-FILES.md
       - Camera Capture: technical/README-CAMERA-CAPTURE.md
       - ChatRoom: technical/README-CHATROOM.md

@@ -48,6 +48,7 @@ public:
 	virtual void				showResendButton( bool show ) = 0;
 	virtual void				showShredder( bool show ) = 0;
     virtual void				showLibraryButton( bool show ) = 0;
+    virtual void				showSaveToRecorderButton( bool show ) = 0;
 	virtual void				showXferProgress( bool show ) = 0;
 	virtual void				setXferProgress( int xferProgress ) = 0;
 
@@ -61,9 +62,11 @@ public:
 signals:
 	void						signalShreddingAsset( AssetBaseWidget * assetWidget );
 	void						signalAddLibraryAsset( AssetBaseWidget * assetWidget );
+    void						signalSaveToPersonalRecorder( AssetBaseWidget * assetWidget );
 protected slots:
 	virtual void				slotShredAsset( void );
     virtual void				slotAddLibraryAsset( void );
+    virtual void				slotSaveToPersonalRecorder( void );
 	virtual void				slotResendAsset( void );
 	virtual void				slotAssetReadyForCallbacksTimeout( void );
 

@@ -14,6 +14,7 @@
 #include "MyIcons.h"
 #include "GuiParams.h"
 #include "GuiUser.h"
+#include "VxPushButton.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -35,24 +36,37 @@ AvatarBar::AvatarBar( QWidget* parent )
 	ui.m_ProgressSpinner->setSquareButtonSize( eButtonSizeSmall );
 
 	QSize buttonSize( GuiParams::getButtonSize( eButtonSizeSmall ) );
-	
+
     ui.m_ResendButton->setFixedSize( buttonSize );
 	ui.m_Avatar->setFixedSize( buttonSize );
 
-	this->setFixedWidth( buttonSize.width() + 20 );
+	// not part of AvatarBarWidget.ui -- added programmatically into the existing named
+	// horizontalLayout ( shared/widely used .ui, deliberately not hand-edited -- see
+	// event-calendar design notes )
+	m_RecorderButton = new VxPushButton( this );
+	m_RecorderButton->setSquareButtonSize( eButtonSizeTiny );
+	ui.horizontalLayout->insertWidget( ui.horizontalLayout->indexOf( ui.m_LibraryButton ) + 1, m_RecorderButton );
+
+	// widened by one extra tiny-button's worth to make room for m_RecorderButton, which the
+	// original AvatarBarWidget.ui fixed-width calc ( buttonSize + 20 ) predates and didn't
+	// account for
+	this->setFixedWidth( buttonSize.width() + 20 + GuiParams::getButtonSize( eButtonSizeTiny ).width() );
 
 	setShredButtonIcon( eMyIconShredderNormal );
     setLibraryButtonIcon( eMyIconLibraryNormal );
-    
+    setRecorderButtonIcon( eMyIconFileSave );
+
 	ui.m_ProgressSpinner->setVisible( false );
 	ui.m_ShredButton->setVisible( false );
 	ui.m_LibraryButton->setVisible( false );
+	m_RecorderButton->setVisible( false );
 	ui.m_TimeLabel->setVisible( false );
 	ui.m_ResendButton->setVisible( false );
 
 	connect( ui.m_ShredButton, SIGNAL(clicked()),	this, SIGNAL(signalShredAsset()) );
 	connect( ui.m_ResendButton, SIGNAL(clicked()),	this, SIGNAL(signalResendAsset()) );
 	connect( ui.m_LibraryButton, SIGNAL(clicked()),	this, SIGNAL(signalAddLibraryAsset()) );
+	connect( m_RecorderButton, SIGNAL(clicked()),	this, SIGNAL(signalSaveToPersonalRecorder()) );
 }
 
 //============================================================================
@@ -122,6 +136,12 @@ void AvatarBar::setLibraryButtonIcon( EMyIcons iconLibrary )
 }
 
 //============================================================================
+void AvatarBar::setRecorderButtonIcon( EMyIcons iconRecorder )
+{
+	m_RecorderButton->setIcon( iconRecorder );
+}
+
+//============================================================================
 void AvatarBar::setShredFile( QString fileName )
 {
 	//ui.m_ShredButton->setShredFile( fileName );
@@ -173,6 +193,12 @@ void AvatarBar::showShredder( bool show )
 void AvatarBar::showLibraryButton( bool show )
 {
 	ui.m_LibraryButton->setVisible( show );
+}
+
+//============================================================================
+void AvatarBar::showSaveToRecorderButton( bool show )
+{
+	m_RecorderButton->setVisible( show );
 }
 
 //============================================================================

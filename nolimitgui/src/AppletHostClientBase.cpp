@@ -16,6 +16,8 @@
 #include "GuiHelpers.h"
 #include "GuiMemberActiveMgr.h"
 #include "VxProgressBar.h"
+#include "VxPushButton.h"
+#include "CalendarEventListPanel.h"
 
 #include <P2PEngine/P2PEngine.h>
 
@@ -84,6 +86,19 @@ AppletHostClientBase::AppletHostClientBase( const char* objName, AppCommon& app,
 	ui.m_UserListWidget->setSessionsVisible( eyeSessionVisible );
 	ui.m_SessionWidget->setVisible( eyeSessionVisible );
     ui.m_SessionWidget->setCanSendInterface( this );
+
+	// event calendar -- collapsed by default, revealed on demand ( not persisted like the eye
+	// buttons above -- see event-calendar design notes )
+	m_CalendarToggleButton = new VxPushButton( tr( "Show Events" ), getContentItemsFrame() );
+	m_CalendarToggleButton->setCheckable( true );
+	connect( m_CalendarToggleButton, SIGNAL(toggled(bool)), this, SLOT(slotCalendarToggleClicked(bool)) );
+	ui.verticalLayout->addWidget( m_CalendarToggleButton );
+
+	m_CalendarPanel = new CalendarEventListPanel( getContentItemsFrame() );
+	m_CalendarPanel->setVisible( false );
+	ui.verticalLayout->addWidget( m_CalendarPanel );
+
+	connect( &m_MyApp.getCalendarMgr(), SIGNAL(signalCalendarEventListUpdated(EHostType,VxGUID)), this, SLOT(slotCalendarEventListUpdated(EHostType,VxGUID)) );
 
 	m_MyApp.activityStateChange( this, true );
 
@@ -164,11 +179,55 @@ void AppletHostClientBase::setAdminGroupieId( GroupieId& adminGroupieId )
 		{
 			LogMsg( LOG_ERROR, "AppletChatRoomClient::%s admin user is offline", __func__ );
 		}
+
+		// isAdmin mirrors the engine-side check ( CalendarMgr::isHostAdmin,
+		// netIdent->getMyFriendshipToHim() >= eFriendStateAdmin ) -- server re-validates
+		// regardless, this only controls what the client shows.
+		bool isAdmin = adminUser->getMyFriendshipToHim() >= eFriendStateAdmin;
+		m_CalendarPanel->setHostAdminId( m_AdminGroupieId.getHostedId(), isAdmin );
+		updateCalendarUnreadIndicator();
 	}
 	else
 	{
 		LogMsg( LOG_ERROR, "AppletChatRoomClient::%s failed to find admin", __func__ );
 	}
+}
+
+//============================================================================
+void AppletHostClientBase::slotCalendarToggleClicked( bool checked )
+{
+	m_CalendarPanel->setVisible( checked );
+
+	if( checked )
+	{
+		// opening the panel IS "viewing" the events currently in it -- no ack is ever sent to
+		// the host, this is purely local state. see event-calendar design notes, "no
+		// per-identity RSVP record".
+		VxGUID hostOnlineId = m_AdminGroupieId.getHostOnlineId();
+		m_MyApp.getCalendarMgr().markAllEventsViewed( hostOnlineId );
+	}
+
+	updateCalendarUnreadIndicator();
+	m_CalendarToggleButton->setText( checked ? tr( "Hide Events" ) : tr( "Show Events" ) );
+}
+
+//============================================================================
+void AppletHostClientBase::slotCalendarEventListUpdated( EHostType hostType, VxGUID hostOnlineId )
+{
+	if( hostOnlineId != m_AdminGroupieId.getHostOnlineId() )
+	{
+		return;
+	}
+
+	updateCalendarUnreadIndicator();
+}
+
+//============================================================================
+void AppletHostClientBase::updateCalendarUnreadIndicator( void )
+{
+	VxGUID hostOnlineId = m_AdminGroupieId.getHostOnlineId();
+	bool hasUnviewed = !m_CalendarToggleButton->isChecked() && m_MyApp.getCalendarMgr().hasUnviewedEvents( hostOnlineId );
+	m_CalendarToggleButton->setStyleSheet( hasUnviewed ? "color: red; font-weight: bold;" : "" );
 }
 
 //============================================================================

@@ -67,6 +67,15 @@ std::string FromGuiActionBase::describeGuiAction( void )
 	case eFromGuiQueryHostListFromNetworkHost:
 		return "FromGuiType QueryHostListFromNetworkHost";
 
+	case eFromGuiCalendarEventUpdate:
+		return "FromGuiType CalendarEventUpdate";
+
+	case eFromGuiCalendarEventCancel:
+		return "FromGuiType CalendarEventCancel";
+
+	case eFromGuiCalendarRefresh:
+		return "FromGuiType CalendarRefresh";
+
 	case eFromGuiPlayOneFrame:
 		return "FromGuiType PlayOneFrame";
 
@@ -210,7 +219,45 @@ void FromGuiQueryHostListFromNetworkHostAction::executeAction( void )
 	}
 }
 
-//============================================================================	
+//============================================================================
+FromGuiCalendarEventAction::FromGuiCalendarEventAction( P2PEngine& engine, EFromGuiType fromGuiType, HostedId& adminId, CalendarEventInfo& eventInfo )
+	: FromGuiActionBase( engine, fromGuiType )
+	, m_AdminId( adminId )
+	, m_EventInfo( eventInfo )
+{
+}
+
+//============================================================================
+FromGuiCalendarEventAction::FromGuiCalendarEventAction( P2PEngine& engine, EFromGuiType fromGuiType, HostedId& adminId, VxGUID& eventId )
+	: FromGuiActionBase( engine, fromGuiType )
+	, m_AdminId( adminId )
+	, m_EventId( eventId )
+{
+}
+
+//============================================================================
+void FromGuiCalendarEventAction::executeAction( void )
+{
+	switch( m_FromGuiType )
+	{
+	case eFromGuiCalendarEventUpdate:
+		m_Engine.fromGuiCalendarEventUpdate( m_AdminId, m_EventInfo, true );
+		break;
+
+	case eFromGuiCalendarEventCancel:
+		m_Engine.fromGuiCalendarEventCancel( m_AdminId, m_EventId, true );
+		break;
+
+	case eFromGuiCalendarRefresh:
+		m_Engine.fromGuiCalendarRefresh( m_AdminId, true );
+		break;
+
+	default:
+		onGuiActionError();
+	}
+}
+
+//============================================================================
 FromGuiPlayOneFrame::FromGuiPlayOneFrame( P2PEngine& engine, AssetBaseInfo& assetBaseInfo )
 	: FromGuiActionBase( engine, eFromGuiPlayOneFrame )
 	, m_AssetBaseInfo( assetBaseInfo )

@@ -35,6 +35,7 @@
 #include <CoreLib/VirtFileMgr.h>
 #include <CoreLib/VxGlobals.h>
 #include <CoreLib/VxDebug.h>
+#include <CoreLib/VxTime.h>
 #include <CoreLib/AppErr.h>
 #include <CoreLib/VxFileUtil.h>
 
@@ -700,6 +701,7 @@ void AssetBaseXferMgr::onPktAssetBaseSendReq( std::shared_ptr<VxSktBase>& sktBas
         poPkt->fillAssetFromPkt( assetInfo );
         // make history id his id
         assetInfo.setAssetSendState( eAssetSendStateRxSuccess );
+        tagAssetIfDuringCalendarEvent( assetInfo );
         AssetBaseInfo* createdAsset = nullptr;
         if( !m_AssetBaseMgr.addAsset( assetInfo, createdAsset ) )
         {
@@ -722,6 +724,7 @@ void AssetBaseXferMgr::onPktAssetBaseSendReq( std::shared_ptr<VxSktBase>& sktBas
             // make history id his id
             assetInfo.setHistoryId( poPkt->getSrcOnlineId() );
             assetInfo.setAssetSendState( eAssetSendStateRxProgress );
+            tagAssetIfDuringCalendarEvent( assetInfo );
 
             xferSession->setRmtSessionId( poPkt->getLclSessionId() );
             pktReply->setLclSessionId( xferSession->getLclSessionId() );
@@ -1679,6 +1682,25 @@ void AssetBaseXferMgr::onTxFailed( VxGUID& sendToId, VxGUID& assetUniqueId, bool
 void AssetBaseXferMgr::onTxSuccess( VxGUID& sendToId, VxGUID& assetUniqueId, bool pluginIsLocked )
 {
     updateAssetMgrSendState( sendToId, assetUniqueId, eAssetSendStateTxSuccess, 0 );
+}
+
+//============================================================================
+void AssetBaseXferMgr::tagAssetIfDuringCalendarEvent( AssetBaseInfo& assetInfo )
+{
+    VxGUID adminId = assetInfo.getAdminId();
+    if( !adminId.isValid() )
+    {
+        return; // not a hosted asset ( eg 1:1 messenger, personal recorder ) -- no calendar to check
+    }
+
+    int64_t expiresTime = m_XferInterface.getActiveCalendarEventExpiresTime( adminId, GetTimeStampMs() );
+    if( 0 != expiresTime )
+    {
+        if( LogEnabled( eLogCalendar ) ) LogModule( eLogCalendar, LOG_VERBOSE, "[%d ms] AssetBaseXferMgr::%s tagging asset %s as calendar-event content, expires %lld",
+            GetApplicationAliveMs(), __func__, assetInfo.getAssetUniqueId().toHexString().c_str(), expiresTime );
+        assetInfo.setIsCalendarEvent( true );
+        assetInfo.setExpiresTime( expiresTime );
+    }
 }
 
 //============================================================================

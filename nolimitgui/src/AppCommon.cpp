@@ -244,6 +244,7 @@ AppCommon::AppCommon(	QApplication&	myQApp,
 , m_AssetSendMgr( assetSendMgr )
 , m_UserMgr( *this )
 , m_GroupieListMgr( *this )
+, m_CalendarMgr( *this )
 , m_HostedListMgr( *this )
 , m_HostJoinMgr( *this )
 , m_UserJoinMgr( *this )
@@ -334,6 +335,7 @@ bool AppCommon::loadWithThread( void )
 	m_SendQueueMgr.onAppCommonCreated();
 	m_AssetSendMgr.onAppCommonCreated();
 	m_GroupieListMgr.onAppCommonCreated();
+	m_CalendarMgr.onAppCommonCreated();
 	GuiHelpers::processQtEvents( 1 );
 	m_FriendRequestMgr.onAppCommonCreated();
 	LogModule( eLogStartup, LOG_VERBOSE, "AppCommon::loadWithThread manager onAppCommonCreated callbacks done at %d ms", GetApplicationAliveMs() );
@@ -1195,6 +1197,50 @@ void AppCommon::toGuiGroupieSearchComplete( EHostType hostType, VxGUID& sessionI
 	}
 
 	getGroupieListMgr().toGuiGroupieSearchComplete( hostType, sessionId );
+}
+
+//============================================================================
+void AppCommon::toGuiCalendarEventListResult( EHostType hostType, VxGUID& hostOnlineId, CalendarEventInfo& eventInfo )
+{
+	if( VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
+	getCalendarMgr().toGuiCalendarEventListResult( hostType, hostOnlineId, eventInfo );
+}
+
+//============================================================================
+void AppCommon::toGuiCalendarEventListComplete( EHostType hostType, VxGUID& hostOnlineId )
+{
+	if( VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
+	getCalendarMgr().toGuiCalendarEventListComplete( hostType, hostOnlineId );
+}
+
+//============================================================================
+void AppCommon::toGuiCalendarEventUpdateStatus( EHostType hostType, VxGUID& hostOnlineId, VxGUID& eventId, ECommErr commErr )
+{
+	if( VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
+	getCalendarMgr().toGuiCalendarEventUpdateStatus( hostType, hostOnlineId, eventId, commErr );
+}
+
+//============================================================================
+void AppCommon::toGuiCalendarEventCancelStatus( EHostType hostType, VxGUID& hostOnlineId, VxGUID& eventId, ECommErr commErr )
+{
+	if( VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
+	getCalendarMgr().toGuiCalendarEventCancelStatus( hostType, hostOnlineId, eventId, commErr );
 }
 
 //============================================================================

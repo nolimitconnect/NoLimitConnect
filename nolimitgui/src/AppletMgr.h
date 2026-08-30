@@ -60,7 +60,7 @@ protected:
 	QWidget*					getActiveWindow( void );
 
 	bool						viewMyServerAllowed( EApplet applet );
-	bool						launchAppletAllowed( EApplet applet );
+	bool						launchAppletAllowed( EApplet applet, QWidget* parent = nullptr );
 	bool						isServiceEnabled( EPluginType pluginType );
 
 	void						announceAppletState( EApplet applet, bool isOpen );

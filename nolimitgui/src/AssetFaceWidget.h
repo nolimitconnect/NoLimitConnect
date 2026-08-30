@@ -30,6 +30,7 @@ public:
     virtual void				showResendButton( bool show ) override;
     virtual void				showShredder( bool show ) override;
     virtual void				showLibraryButton( bool show ) override{}; // faces cannot be added to library so do nothing
+    virtual void				showSaveToRecorderButton( bool show ) override{}; // ephemeral face-cam snapshots aren't archived, same reasoning as the library button above
     virtual void				showXferProgress( bool show ) override;
     virtual void				setXferProgress( int sendProgress ) override;
 

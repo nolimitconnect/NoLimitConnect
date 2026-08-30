@@ -33,6 +33,7 @@ AppletChatRoomHostAdmin::AppletChatRoomHostAdmin( AppCommon& app, QWidget* paren
 	setPluginType( ePluginTypeHostChatRoom );
 
 	GroupieId hostAdminId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeChatRoom );
+	setCalendarHostedId( hostAdminId.getHostedId() );
 
 	ui.m_SessionWidget->setHostAdminId( hostAdminId );
 	ui.m_SessionWidget->setPluginType( ePluginTypeClientChatRoom );

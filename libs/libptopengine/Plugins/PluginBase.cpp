@@ -306,10 +306,18 @@ bool PluginBase::isAccessAllowed( VxNetIdent* netIdent, bool logAccessError, con
         return true;
     }
 
-	EFriendState curPermission = m_Engine.getMyPktAnnounce().getPluginPermission( m_ePluginType ); 
+    if( netIdent->getMyOnlineId() == m_Engine.getMyOnlineId() )
+    {
+        // always have access to your own hosted service ( eg a host admin's own loopback
+        // requests to their own host -- "myself" has no real friendship record, so the
+        // friendship-state check below would otherwise incorrectly deny access )
+        return true;
+    }
+
+	EFriendState curPermission = m_Engine.getMyPktAnnounce().getPluginPermission( m_ePluginType );
     if( eFriendStateIgnore != curPermission && eFriendStateIgnore != netIdent->getMyFriendshipToHim() )
     {
-        if( netIdent->getMyFriendshipToHim() >= curPermission || netIdent->getMyOnlineId() == m_Engine.getMyOnlineId() )
+        if( netIdent->getMyFriendshipToHim() >= curPermission )
         {
             return true;
         }

@@ -734,6 +734,25 @@ void EngineSettings::getMaxRelaysInUse( uint32_t& userRelays, uint32_t& anonRela
 }
 
 //============================================================================
+void EngineSettings::setPurgeEventHistoryType( enum EPurgeEventHistoryType purgeType )
+{
+    vx_assert( m_Initialized );
+
+    uint32_t purgeTypeValue = ( uint32_t )purgeType;
+    setIniValue( "PurgeEventHistoryType", purgeTypeValue );
+}
+
+//============================================================================
+enum EPurgeEventHistoryType EngineSettings::getPurgeEventHistoryType( void )
+{
+    vx_assert( m_Initialized );
+
+    uint32_t purgeTypeValue = ( uint32_t )ePurgeEventHistoryUseHostDefault;
+    getIniValue( "PurgeEventHistoryType", purgeTypeValue, ( uint32_t )ePurgeEventHistoryUseHostDefault );
+    return ( enum EPurgeEventHistoryType )purgeTypeValue;
+}
+
+//============================================================================
 void EngineSettings::setAllowUserLocation( bool allowUserLocation )
 {
     vx_assert( m_Initialized );

@@ -97,6 +97,14 @@ protected:
 	virtual void				onTxSuccess( VxGUID& sendToId, VxGUID& assetUniqueId, bool pluginIsLocked );
     virtual void                rebroadcastReceivedChatRoomAsset( AssetBaseInfo& assetInfo, const VxGUID& srcOnlineId, bool pluginIsLocked );
 
+    //! tags assetInfo isCalendarEvent()+ExpiresTime if m_XferInterface says assetInfo's
+    //! AdminId ( host ) currently has an active calendar-event occurrence -- called from both
+    //! onPktAssetBaseSendReq branches, right after fillAssetFromPkt() populates AdminId. every
+    //! peer ( host and every member, per BaseXferInterface::getActiveCalendarEventExpiresTime's
+    //! default ) makes this call independently from its own cached calendar data -- see
+    //! event-calendar design notes on the asset purge mechanism.
+    void                        tagAssetIfDuringCalendarEvent( AssetBaseInfo& assetInfo );
+
 	virtual AssetBaseRxSession*		findRxSessionSendToId( bool pluginIsLocked, VxGUID& sendToId );
     virtual AssetBaseRxSession*		findRxSessionSessionId( bool pluginIsLocked, VxGUID& lclSessionId, bool logIfNotFound = true );
 	virtual AssetBaseRxSession*		findOrCreateRxSession( bool pluginIsLocked, VxGUID sendToId, std::shared_ptr<VxSktBase>& sktBase );

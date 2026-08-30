@@ -101,6 +101,8 @@ enum ELogModule : uint64_t
 	eLogRandomConnect	= 0x2000000000ULL, // 38
 
     eLogVideoRender	    = 0x4000000000ULL, // 39
+    eLogCalendar	    = 0x8000000000ULL, // 40
+
 
     eMaxLogModule
 };

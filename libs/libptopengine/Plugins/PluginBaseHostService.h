@@ -12,6 +12,8 @@
 #include "PluginBaseMultimedia.h"
 #include "HostServerMgr.h"
 
+#include <Calendar/CalendarMgr.h>
+
 #include <PktLib/PktsHostInvite.h>
 
 class PluginBaseHostService : public PluginBaseMultimedia
@@ -54,12 +56,27 @@ public:
     virtual void				onPktHostUserListMoreReq        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
     virtual void				onPktHostUserListMoreReply      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 
+    virtual void				onPktCalendarEventListReq       ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    virtual void				onPktCalendarEventUpdateReq     ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    virtual void				onPktCalendarEventCancelReq     ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+
+    //! this host's own admin managing their own calendar directly -- no packet round-trip.
+    //! see event-calendar design notes and CalendarMgr::localEventUpdate et al.
+    virtual void				fromGuiCalendarEventUpdate      ( HostedId& adminId, CalendarEventInfo& eventInfo ) override;
+    virtual void				fromGuiCalendarEventCancel      ( HostedId& adminId, VxGUID& eventId ) override;
+    virtual void				fromGuiCalendarRefresh          ( HostedId& adminId ) override;
+
+    virtual void				onAfterUserLogOnThreaded        ( void ) override;
+
     virtual bool				fromGuiRequestPluginThumb       ( VxNetIdent* netIdent, VxGUID& thumbId ) override;
     virtual bool                ptopEngineRequestPluginThumb    ( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& thumbId, bool tmpThumb = false ) override;
 
     virtual bool                setPluginSetting( PluginSetting& pluginSetting, int64_t lastModifiedTime = 0 ) override;
     virtual	void				onPluginSettingChange( PluginSetting& pluginSetting, int64_t lastModifiedTime = 0 ) override;
     virtual void				onThreadOncePer15Minutes( void ) override;
+    virtual void				onThreadOncePerMinute( void ) override;
+
+    virtual int64_t             getActiveCalendarEventExpiresTime( VxGUID& hostOnlineId, int64_t nowMs ) override;
 
     virtual void                onUserJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent ) override;
     virtual void                onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent ) override;
@@ -83,8 +100,21 @@ protected:
 
     ECommErr                    getCommAccessState( VxNetIdent* netIdent );
 
+public:
+    //! true while the admin currently has this host's admin screen open ( set/cleared from
+    //! fromGuiAdminViewHost() in PluginChatRoomHost/PluginGroupHost/PluginRandomConnectHost,
+    //! which already fires exactly on admin-applet open/close -- this just persists what used
+    //! to be a fire-and-forget broadcast ). consulted by CalendarMgr::extendActiveEventExpiryTimes
+    //! to decide whether a session running past its scheduled end may still be extended -- see
+    //! event-calendar design notes.
+    void                        setAdminIsViewing( bool isViewing )    { m_AdminIsViewing = isViewing; }
+    bool                        isAdminViewing( void )                  { return m_AdminIsViewing; }
+
+protected:
     //=== vars ===//
     HostServerMgr               m_HostServerMgr;
+    CalendarMgr                 m_CalendarMgr;
+    bool                        m_AdminIsViewing{ false };
 
     std::string                 m_HostInviteUrl;
     std::string                 m_HostTitle;

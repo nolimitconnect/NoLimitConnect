@@ -277,6 +277,11 @@ public:
 
     void           				fromGuiSearchHost( enum EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread = false ) override;
 
+    void           				fromGuiCalendarEventUpdate( HostedId& adminId, CalendarEventInfo& eventInfo, bool fromThread = false ) override;
+    void           				fromGuiCalendarEventCancel( HostedId& adminId, VxGUID& eventId, bool fromThread = false ) override;
+    void           				fromGuiCalendarRefresh( HostedId& adminId, bool fromThread = false ) override;
+    uint32_t           			fromGuiGetCalendarAttendingCount( HostedId& adminId ) override;
+
     void				        fromGuiSendAnnouncedList( enum EHostType hostType, VxGUID& sessionId ) override;
 
     void				        fromGuiDisconnectFromUser( VxGUID& onlineId ) override;
@@ -296,6 +301,9 @@ public:
     void           				fromGuiSetNetSettings( NetSettings& netSettings ) override;
     void           				fromGuiGetNetSettings( NetSettings& netSettings ) override;
     void           				fromGuiSetRelaySettings( int userRelayMaxCnt, int systemRelayMaxCnt ) override;
+
+    void                        fromGuiSetPurgeEventHistoryType( enum EPurgeEventHistoryType purgeType ) override;
+    enum EPurgeEventHistoryType fromGuiGetPurgeEventHistoryType( void ) override;
 
     void           				fromGuiGetFileShareSettings( FileShareSettings& fileShareSettings ) override;
     void           				fromGuiSetFileShareSettings( FileShareSettings& fileShareSettings ) override;
@@ -719,6 +727,13 @@ public:
 	void           				onPktFriendRequestReply		( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
     void           				onPktAdminAvail             ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+
+    void           				onPktCalendarEventListReq       ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktCalendarEventListReply     ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktCalendarEventUpdateReq     ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktCalendarEventUpdateReply   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktCalendarEventCancelReq     ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
+    void           				onPktCalendarEventCancelReply   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr ) override;
 
     bool                        validateIdent( VxNetIdent* netIdent ); // extra validatation for at risk connections like multicast
 

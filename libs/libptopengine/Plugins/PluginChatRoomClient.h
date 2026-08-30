@@ -17,9 +17,12 @@
 #include "HostClientMgr.h"
 
 #include <CoreLib/VxGUIDList.h>
+#include <Calendar/CalendarClientMgr.h>
 
 // ideally chat room client would be derived from PluginBaseClient but causes inheritance conflict
-// so mostly contains duplicate code of PluginBaseClient
+// so mostly contains duplicate code of PluginBaseClient. this includes the calendar client wiring
+// PluginBaseClient/PluginBaseHostClient composes ( m_CalendarClientMgr + its overrides below ) --
+// duplicated here rather than inherited for the same reason as m_HostClientMgr.
 
 class ConnectionMgr;
 
@@ -36,6 +39,16 @@ public:
     virtual void				fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::string& ptopUrl ) override;
 
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable ) override;
+
+    virtual void				fromGuiCalendarEventUpdate( HostedId& adminId, CalendarEventInfo& eventInfo ) override;
+    virtual void				fromGuiCalendarEventCancel( HostedId& adminId, VxGUID& eventId ) override;
+    virtual void				fromGuiCalendarRefresh( HostedId& adminId ) override;
+
+    virtual void                onUserLeftHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent ) override;
+    virtual void                onUserUnJoinedHost( GroupieId& groupieId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent ) override;
+
+    virtual int64_t             getActiveCalendarEventExpiresTime( VxGUID& hostOnlineId, int64_t nowMs ) override;
+    virtual void                onThreadOncePerMinute( void ) override;
 
 protected:
 
@@ -55,7 +68,12 @@ protected:
     void				        onPktHostUserInfoReply          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
     void				        onPktHostUserStatusReply        ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 
+    void				        onPktCalendarEventListReply     ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    void				        onPktCalendarEventUpdateReply   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    void				        onPktCalendarEventCancelReply   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+
     //=== vars ===//
     HostClientMgr               m_HostClientMgr;
+    CalendarClientMgr           m_CalendarClientMgr;
 };
 

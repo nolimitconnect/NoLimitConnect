@@ -101,6 +101,11 @@ public:
 	void						setMaxRelaysInUse( uint32_t userRelays, uint32_t systemRelays );
 	void						getMaxRelaysInUse( uint32_t& userRelays, uint32_t& systemRelays );
 
+	//! client-side-only override for how long a JOINING member keeps their own local copy of
+	//! calendar-event content -- never sent to any host. see event-calendar design notes.
+	void						setPurgeEventHistoryType( enum EPurgeEventHistoryType purgeType );
+	enum EPurgeEventHistoryType	getPurgeEventHistoryType( void );
+
 	void						setAllowUserLocation( bool enable )	;
 	bool						getAllowUserLocation( void );
 	void						setAllowMulticastBroadcast( bool enable );

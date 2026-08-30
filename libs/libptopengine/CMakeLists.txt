@@ -54,6 +54,10 @@ list(APPEND ptopengine_SOURCES
     BlobXferMgr/BlobXferDb.cpp
     BlobXferMgr/BlobXferMgr.cpp
     BlobXferMgr/BlobXferSession.cpp
+    Calendar/CalendarEventInfo.cpp
+    Calendar/CalendarDb.cpp
+    Calendar/CalendarMgr.cpp
+    Calendar/CalendarClientMgr.cpp
     ConnectIdListMgr/ConnectIdListMgr.cpp
 	Connections/ConnectedInfo.cpp
 	Connections/ConnectedListAll.cpp

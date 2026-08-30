@@ -23,6 +23,10 @@
 
 #include "ui_AppletUserPreferences.h"
 
+#include <QComboBox>
+#include <QLabel>
+#include <QHBoxLayout>
+
 //============================================================================
 AppletUserPreferences::AppletUserPreferences( AppCommon& app, QWidget* parent )
 : AppletBase( OBJNAME_APPLET_USER_PREFERENCES, app, parent )
@@ -42,6 +46,22 @@ AppletUserPreferences::AppletUserPreferences( AppCommon& app, QWidget* parent )
 
     connect( ui.m_MaxMessageHistoryInfoButton, SIGNAL(clicked()), this, SLOT(slotMaxMsgHistoryInfoButtonClicked()) );
     connect( ui.m_MaxMessageHistorySpinBox, SIGNAL(valueChanged(int)), this, SLOT(slotMaxMsgHistoryValueChanged(int)) );
+
+    // not part of AppletUserPreferences.ui -- see header comment
+    QHBoxLayout* purgeEventHistoryLayout = new QHBoxLayout();
+    m_PurgeEventHistoryLabel = new QLabel( tr( "Purge event history:" ), getContentItemsFrame() );
+    purgeEventHistoryLayout->addWidget( m_PurgeEventHistoryLabel );
+    m_PurgeEventHistoryCombo = new QComboBox( getContentItemsFrame() );
+    m_PurgeEventHistoryCombo->addItem( tr( DescribePurgeEventHistoryType( ePurgeEventHistoryUseHostDefault ) ), ePurgeEventHistoryUseHostDefault );
+    m_PurgeEventHistoryCombo->addItem( tr( DescribePurgeEventHistoryType( ePurgeEventHistoryAfter2Min ) ), ePurgeEventHistoryAfter2Min );
+    m_PurgeEventHistoryCombo->addItem( tr( DescribePurgeEventHistoryType( ePurgeEventHistoryAfter15Min ) ), ePurgeEventHistoryAfter15Min );
+    m_PurgeEventHistoryCombo->addItem( tr( DescribePurgeEventHistoryType( ePurgeEventHistoryAfter1Hour ) ), ePurgeEventHistoryAfter1Hour );
+    m_PurgeEventHistoryCombo->addItem( tr( DescribePurgeEventHistoryType( ePurgeEventHistoryAfter1Day ) ), ePurgeEventHistoryAfter1Day );
+    m_PurgeEventHistoryCombo->addItem( tr( DescribePurgeEventHistoryType( ePurgeEventHistoryAfter1Week ) ), ePurgeEventHistoryAfter1Week );
+    m_PurgeEventHistoryCombo->addItem( tr( DescribePurgeEventHistoryType( ePurgeEventHistoryAfter1Month ) ), ePurgeEventHistoryAfter1Month );
+    m_PurgeEventHistoryCombo->addItem( tr( DescribePurgeEventHistoryType( ePurgeEventHistoryAfter1Year ) ), ePurgeEventHistoryAfter1Year );
+    purgeEventHistoryLayout->addWidget( m_PurgeEventHistoryCombo );
+    ui.verticalLayout->addLayout( purgeEventHistoryLayout );
 
     m_MyApp.activityStateChange( this, true );
 }
@@ -79,6 +99,9 @@ void AppletUserPreferences::updateDlgFromSettings()
     ui.m_SndDisableNotifyCheckBox->setChecked( m_MyApp.getAppSettings().getDisableSndNotify() );
     ui.m_SndDisableMessageRxCheckBox->setChecked( m_MyApp.getAppSettings().getDisableSndMsgRx() );
 
+    EPurgeEventHistoryType purgeType = m_MyApp.getEngine().fromGuiGetPurgeEventHistoryType();
+    int purgeComboIndex = m_PurgeEventHistoryCombo->findData( purgeType );
+    m_PurgeEventHistoryCombo->setCurrentIndex( purgeComboIndex >= 0 ? purgeComboIndex : 0 );
 }
 
 //============================================================================
@@ -106,6 +129,9 @@ void AppletUserPreferences::updateSettingsFromDlg()
         guiUser->setIsAutomatedHost( unattendedHost );
         m_MyApp.getEngine().fromGuiSetIsAutomatedHost( unattendedHost );
     }
+
+    EPurgeEventHistoryType purgeType = ( EPurgeEventHistoryType )m_PurgeEventHistoryCombo->currentData().toInt();
+    m_MyApp.getEngine().fromGuiSetPurgeEventHistoryType( purgeType );
 }
 
 //============================================================================

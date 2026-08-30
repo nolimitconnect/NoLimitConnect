@@ -30,6 +30,7 @@
 #define ASSET_ATTRIB_FLAG_CIRCULAR			    0x0001
 #define ASSET_ATTRIB_TEMPORARY			        0x0002
 #define ASSET_ATTRIB_DELETED			        0x0004
+#define ASSET_ATTRIB_CALENDAR_EVENT		    0x0008
 
 class FileInfo;
 class VxThread;
@@ -111,6 +112,12 @@ public:
     virtual bool				isPermanent( void )                             { return !isTemporary(); }
     virtual void				setIsDeleted( bool isDeleted )                  { if( isDeleted ) m_AttributeFlags |= ASSET_ATTRIB_DELETED; else m_AttributeFlags &= ~ASSET_ATTRIB_DELETED; }
     virtual bool				isDeleted( void )                               { return m_AttributeFlags & ASSET_ATTRIB_DELETED ? true : false; }
+    //! posted during a live calendar event occurrence -- getExpiresTime() ( occurrence end +
+    //! the event's retention length ) is when purgeExpiredCalendarAssets() removes it, unless
+    //! the user saved it first ( isInLibrary()/isPersonalRecord()/isSharedFileAsset() -- see
+    //! AssetBaseMgr::purgeExpiredCalendarAssets ).
+    virtual void				setIsCalendarEvent( bool isCalEvent )           { if( isCalEvent ) m_AttributeFlags |= ASSET_ATTRIB_CALENDAR_EVENT; else m_AttributeFlags &= ~ASSET_ATTRIB_CALENDAR_EVENT; }
+    virtual bool				isCalendarEvent( void )                         { return m_AttributeFlags & ASSET_ATTRIB_CALENDAR_EVENT ? true : false; }
 
     virtual bool 				getIsAssetStreamable( void )                    { return isAudioAsset() || isVideoAsset(); }
     virtual void				setIsStream( bool isStreaming )			        { m_IsStreaming = isStreaming; }

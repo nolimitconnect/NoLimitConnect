@@ -33,6 +33,7 @@ AppletGroupHostAdmin::AppletGroupHostAdmin( AppCommon& app, QWidget* parent )
 	setPluginType( ePluginTypeHostGroup );
 
 	GroupieId hostAdminId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeGroup );
+	setCalendarHostedId( hostAdminId.getHostedId() );
 
 	ui.m_SessionWidget->setPluginType( ePluginTypeClientGroup );
 	ui.m_SessionWidget->setHostAdminId( hostAdminId );

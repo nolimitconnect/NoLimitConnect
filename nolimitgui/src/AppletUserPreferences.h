@@ -18,6 +18,9 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
+class QComboBox;
+class QLabel;
+
 class AppletUserPreferences : public AppletBase
 {
 	Q_OBJECT
@@ -39,6 +42,15 @@ protected:
     void						updateSettingsFromDlg( void );
 
 	Ui::AppletUserPreferencesUi&	ui;
+
+    //! not part of AppletUserPreferences.ui -- added programmatically ( that .ui is shared/
+    //! widely used, deliberately not hand-edited -- see event-calendar design notes ). backed
+    //! directly by IFromGui::fromGuiSetPurgeEventHistoryType/fromGuiGetPurgeEventHistoryType
+    //! ( engine-side-only setting, not AppSettings -- see EngineSettings::
+    //! setPurgeEventHistoryType ), unlike the other .ui-declared controls on this screen which
+    //! go through AppSettings.
+    QLabel*                     m_PurgeEventHistoryLabel{ nullptr };
+    QComboBox*                  m_PurgeEventHistoryCombo{ nullptr };
 };
 
 

@@ -20,6 +20,9 @@
 #include <PktLib/PktsHostJoin.h>
 #include <PktLib/PktsHostSearch.h>
 
+#include <CoreLib/VxDebug.h>
+#include <CoreLib/VxTime.h>
+
 #ifdef _MSC_VER
 # pragma warning(disable: 4355) //'this' : used in base member initializer list
 #endif
@@ -56,6 +59,11 @@ void PluginGroupHost::fromGuiAdminViewHost( EPluginType pluginType, bool adminIs
     {
         return;
     }
+
+    // persist ( not just broadcast ) -- consulted by CalendarMgr::extendActiveEventExpiryTimes,
+    // see event-calendar design notes
+    setAdminIsViewing( adminIsViewing );
+    if( LogEnabled( eLogCalendar ) ) LogModule( eLogCalendar, LOG_VERBOSE, "[%d ms] PluginGroupHost::%s admin %s own hosted group", GetApplicationAliveMs(), __func__, adminIsViewing ? "joined" : "exited" );
 
     GroupieId groupieId( m_Engine.getMyOnlineId(), m_Engine.getMyOnlineId(), eHostTypeGroup );
     PktAdminAvail pktAdminAvail;

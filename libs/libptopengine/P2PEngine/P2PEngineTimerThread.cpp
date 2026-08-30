@@ -173,10 +173,15 @@ void P2PEngine::onOncePerMinute( void )
     if( firstMinute || VxGetFastHostAnnounce() )
     {
         firstMinute = false;
-        // this is so announcement of hosts start in a minute instead of waiting 
+        // this is so announcement of hosts start in a minute instead of waiting
         // the full 15 minute before the first announce
         m_PluginMgr.onThreadOncePer15Minutes();
     }
+
+    // keeps in-progress calendar-event content's expiry sliding forward while a session runs
+    // past its scheduled end and the user is still actually connected -- see CalendarMgr/
+    // CalendarClientMgr::extendActiveEventExpiryTimes and the event-calendar design notes
+    m_PluginMgr.onThreadOncePerMinute();
 }
 
 //============================================================================
@@ -202,7 +207,12 @@ void P2PEngine::onOncePer15Minutes( void )
     if( !VxGetFastHostAnnounce() )
     {
         m_PluginMgr.onThreadOncePer15Minutes();
-    }  
+    }
+
+    // engine-wide, not per-host -- m_AssetMgr's asset list is shared across every host/plugin,
+    // so this must run once here rather than once per CalendarMgr instance ( which would sweep
+    // the same shared list redundantly once per hosted plugin type )
+    getAssetMgr().purgeExpiredCalendarAssets( GetGmtTimeMs() );
 }
 
 //============================================================================

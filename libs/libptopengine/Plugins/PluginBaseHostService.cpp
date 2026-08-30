@@ -51,6 +51,7 @@ ELogModule HostTypeJoinLogModule( EHostType hostType )
 PluginBaseHostService::PluginBaseHostService( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
     : PluginBaseMultimedia( engine, pluginMgr, myIdent, pluginType )
     , m_HostServerMgr(engine, pluginMgr, myIdent, *this)
+    , m_CalendarMgr( engine, myIdent, *this )
 {
 }
 
@@ -118,6 +119,29 @@ void PluginBaseHostService::onThreadOncePer15Minutes( void )
     {
         sendHostAnnounce();
     }
+
+    m_CalendarMgr.onThreadOncePer15Minutes();
+}
+
+//============================================================================
+int64_t PluginBaseHostService::getActiveCalendarEventExpiresTime( VxGUID& hostOnlineId, int64_t nowMs )
+{
+    // a host service instance is always its own admin -- hostOnlineId is accepted for
+    // BaseXferInterface signature symmetry with the client-side override but is not needed
+    // here, since m_CalendarMgr already IS this host's ( and only this host's ) calendar.
+    return m_CalendarMgr.getActiveEventContentExpiresTime( nowMs );
+}
+
+//============================================================================
+void PluginBaseHostService::onThreadOncePerMinute( void )
+{
+    m_CalendarMgr.extendActiveEventExpiryTimes( GetGmtTimeMs() );
+}
+
+//============================================================================
+void PluginBaseHostService::onAfterUserLogOnThreaded( void )
+{
+    m_CalendarMgr.calendarMgrStartup();
 }
 
 //============================================================================
@@ -826,6 +850,42 @@ void PluginBaseHostService::onPktHostUserListMoreReq( std::shared_ptr<VxSktBase>
 void PluginBaseHostService::onPktHostUserListMoreReply( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
 {
     m_HostServerMgr.onPktHostUserListMoreReply( sktBase, pktHdr, netIdent );
+}
+
+//============================================================================
+void PluginBaseHostService::onPktCalendarEventListReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+    m_CalendarMgr.onPktCalendarEventListReq( sktBase, pktHdr, netIdent, getCommAccessState( netIdent ) );
+}
+
+//============================================================================
+void PluginBaseHostService::onPktCalendarEventUpdateReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+    m_CalendarMgr.onPktCalendarEventUpdateReq( sktBase, pktHdr, netIdent, getCommAccessState( netIdent ) );
+}
+
+//============================================================================
+void PluginBaseHostService::onPktCalendarEventCancelReq( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent )
+{
+    m_CalendarMgr.onPktCalendarEventCancelReq( sktBase, pktHdr, netIdent, getCommAccessState( netIdent ) );
+}
+
+//============================================================================
+void PluginBaseHostService::fromGuiCalendarEventUpdate( HostedId& adminId, CalendarEventInfo& eventInfo )
+{
+    m_CalendarMgr.localEventUpdate( eventInfo );
+}
+
+//============================================================================
+void PluginBaseHostService::fromGuiCalendarEventCancel( HostedId& adminId, VxGUID& eventId )
+{
+    m_CalendarMgr.localEventCancel( eventId );
+}
+
+//============================================================================
+void PluginBaseHostService::fromGuiCalendarRefresh( HostedId& adminId )
+{
+    m_CalendarMgr.localEventListFetch();
 }
 
 //============================================================================

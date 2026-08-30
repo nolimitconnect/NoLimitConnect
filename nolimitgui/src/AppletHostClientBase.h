@@ -23,6 +23,9 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
+class CalendarEventListPanel;
+class VxPushButton;
+
 class AppletHostClientBase : public AppletClientBase, public InputClientBaseCallback, public CanSendInterface
 {
     Q_OBJECT
@@ -47,7 +50,14 @@ protected slots:
     void                        slotSendingToMember( VxGUID assetId, VxGUID memberId, QString memberName );
     void                        slotMultiSendComplete( VxGUID assetId, bool allSucceeded, int successCount, int failCount );
 
+    void                        slotCalendarToggleClicked( bool checked );
+    void                        slotCalendarEventListUpdated( EHostType hostType, VxGUID hostOnlineId );
+
 protected:
+    //! restyles m_CalendarToggleButton to flag unviewed events -- see GuiCalendarMgr::
+    //! hasUnviewedEvents. no per-identity "viewed" record leaves this device -- see
+    //! event-calendar design notes, "no per-identity RSVP record".
+    void                        updateCalendarUnreadIndicator( void );
     void                        showEvent( QShowEvent* ev ) override;
 
     GroupieId                   getActiveAdminGroupieId( void ); // original admin groupie id for this applet session
@@ -62,6 +72,11 @@ protected:
     GroupieId                   m_AdminGroupieId;
     GroupieId                   m_SendToGroupieAdminId;
     GuiUser*                    m_SelectedUser{nullptr};
+
+    //! event calendar for this joined host -- collapsed ( hidden ) by default, revealed by
+    //! m_CalendarToggleButton. see event-calendar design notes, "Event session GUI".
+    VxPushButton*               m_CalendarToggleButton{ nullptr };
+    CalendarEventListPanel*     m_CalendarPanel{ nullptr };
 };
 
 

@@ -77,6 +77,9 @@ static QString describeLogModule( ELogModule logModule )
     case eLogGroup: return QObject::tr( "Log Group" );
     case eLogRandomConnect: return QObject::tr( "Log Random Connect" );
 
+    case eLogVideoRender: return QObject::tr( "Log Video Render" );
+    case eLogCalendar: return QObject::tr( "Log Calendar" );
+
     default:
         return QObject::tr( "Unused Log Module" );
     }
@@ -140,6 +143,8 @@ AppletLogSettings::AppletLogSettings( AppCommon& app, QWidget* parent )
     m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_36 );
     m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_37 );
     m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_38 );
+    m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_39 );
+    m_LogModuleList.emplace_back( ui.m_LogModuleCheckBox_40 );
 
 
     uint64_t logModuleMask = 0x01;

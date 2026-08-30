@@ -16,6 +16,7 @@
 
 #include <PktLib/PktsHostInvite.h>
 #include <CoreLib/VxGUIDList.h>
+#include <Calendar/CalendarClientMgr.h>
 
 class VxNetIdent;
 class ConnectionMgr;
@@ -33,6 +34,10 @@ public:
     virtual void				fromGuiLeaveHost( HostedId& adminId ) override;
     virtual void				fromGuiUnJoinHost( HostedId& adminId ) override;
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable ) override;
+
+    virtual void				fromGuiCalendarEventUpdate( HostedId& adminId, CalendarEventInfo& eventInfo ) override;
+    virtual void				fromGuiCalendarEventCancel( HostedId& adminId, VxGUID& eventId ) override;
+    virtual void				fromGuiCalendarRefresh( HostedId& adminId ) override;
 
     virtual bool				fromGuiRequestPluginThumb( VxNetIdent* netIdent, VxGUID& thumbId ) override;
     virtual bool                ptopEngineRequestPluginThumb( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& thumbId, bool tmpThumb = false ) override;
@@ -64,6 +69,16 @@ public:
     void				        onPktHostUserListReply          ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
     void				        onPktHostUserListMoreReply      ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
 
+    void				        onPktCalendarEventListReply     ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    void				        onPktCalendarEventUpdateReply   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+    void				        onPktCalendarEventCancelReply   ( std::shared_ptr<VxSktBase>& sktBase, VxPktHdr* pktHdr, VxNetIdent* netIdent ) override;
+
+    //! cached events for a joined host ( empty if that host's calendar has not been fetched yet )
+    virtual void                getCalendarEventList( VxGUID& hostOnlineId, std::vector<CalendarEventInfo>& retEventList );
+
+    virtual int64_t             getActiveCalendarEventExpiresTime( VxGUID& hostOnlineId, int64_t nowMs ) override;
+    virtual void                onThreadOncePerMinute( void ) override;
+
 protected:
     //=== callback overrides ==//
     bool                        onUrlActionQueryIdSuccess( VxGUID& sessionId, std::string& url, VxGUID& onlineId, EConnectReason connectReason = eConnectReasonUnknown ) override { return true;  };
@@ -93,8 +108,9 @@ protected:
     void				        onContactOnlineStatusChange( ConnectId& connectId, bool isOnline ) override {};
 
     //=== vars ===//
-    ConnectionMgr&              m_ConnectionMgr; 
+    ConnectionMgr&              m_ConnectionMgr;
     HostClientMgr               m_HostClientMgr;
+    CalendarClientMgr           m_CalendarClientMgr;
     VxMutex                     m_ClientMutex;
     VxGUIDList                  m_JoinedHosts;
 

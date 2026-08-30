@@ -45,6 +45,7 @@ public:
 public slots:
 	void						slotShreddingAsset( AssetBaseWidget * assetWidget );
     void						slotAddAssetToLibrary( AssetBaseWidget * assetWidget );
+    void						slotSaveAssetToPersonalRecorder( AssetBaseWidget * assetWidget );
 	void						slotStartupTimeout( void );
 
 protected:

@@ -20,6 +20,9 @@
 #include <PktLib/PktsHostJoin.h>
 #include <PktLib/PktsHostSearch.h>
 
+#include <CoreLib/VxDebug.h>
+#include <CoreLib/VxTime.h>
+
 //============================================================================
 PluginChatRoomHost::PluginChatRoomHost( P2PEngine& engine, PluginMgr& pluginMgr, VxNetIdent* myIdent, EPluginType pluginType )
     : PluginBaseHostService( engine, pluginMgr, myIdent, pluginType )
@@ -51,6 +54,11 @@ void PluginChatRoomHost::fromGuiAdminViewHost( EPluginType pluginType, bool admi
     {
         return;
     }
+
+    // persist ( not just broadcast ) -- consulted by CalendarMgr::extendActiveEventExpiryTimes,
+    // see event-calendar design notes
+    setAdminIsViewing( adminIsViewing );
+    if( LogEnabled( eLogCalendar ) ) LogModule( eLogCalendar, LOG_VERBOSE, "[%d ms] PluginChatRoomHost::%s admin %s own hosted room", GetApplicationAliveMs(), __func__, adminIsViewing ? "joined" : "exited" );
 
     GroupieId groupieId( m_Engine.getMyOnlineId(), m_Engine.getMyOnlineId(), eHostTypeChatRoom );
     PktAdminAvail pktAdminAvail;

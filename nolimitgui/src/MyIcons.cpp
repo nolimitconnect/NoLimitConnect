@@ -773,6 +773,8 @@ QString MyIcons::getIconFile( enum EMyIcons eMyIcon )
         return ":/AppRes/Resources/edit-copy.svg";
     case eMyIconEditCut:
         return ":/AppRes/Resources/edit-cut.svg";
+    case eMyIconEditField:
+        return ":/AppRes/Resources/edit-field.svg";
     case eMyIconEditFileNew:
         return ":/AppRes/Resources/edit-file-new.svg";
     case eMyIconEditHeader:

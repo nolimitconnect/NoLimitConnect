@@ -14,6 +14,8 @@
 #include "AssetSendMgr.h"
 #include "GuiMemberActiveMgr.h"
 #include "GuiUserMultiListWidget.h"
+#include "CalendarEventListPanel.h"
+#include "VxPushButton.h"
 
 #include <CoreLib/ObjectCommonDefs.h>
 #include <CoreLib/VxDebug.h>
@@ -39,6 +41,71 @@ AppletHostAdminBase::AppletHostAdminBase( const char* ObjName, AppCommon& app, Q
 //============================================================================
 AppletHostAdminBase::~AppletHostAdminBase()
 {
+}
+
+//============================================================================
+void AppletHostAdminBase::setCalendarHostedId( HostedId& hostedId )
+{
+    // lazily built here, not in the constructor -- ui.setupUi() has not run yet when
+    // AppletHostAdminBase's own constructor body executes ( each leaf class calls
+    // ui.setupUi( getContentItemsFrame() ) itself, after the base class is already
+    // constructed ), so ui.verticalLayout is not safely usable until the leaf's constructor
+    // has gotten this far and calls this method.
+    if( !m_CalendarPanel )
+    {
+        m_CalendarToggleButton = new VxPushButton( tr( "Show Events" ), getContentItemsFrame() );
+        m_CalendarToggleButton->setCheckable( true );
+        connect( m_CalendarToggleButton, SIGNAL(toggled(bool)), this, SLOT(slotCalendarToggleClicked(bool)) );
+        ui.verticalLayout->addWidget( m_CalendarToggleButton );
+
+        m_CalendarPanel = new CalendarEventListPanel( getContentItemsFrame() );
+        m_CalendarPanel->setVisible( false );
+        ui.verticalLayout->addWidget( m_CalendarPanel );
+
+        connect( &m_MyApp.getCalendarMgr(), SIGNAL(signalCalendarEventListUpdated(EHostType,VxGUID)), this, SLOT(slotCalendarEventListUpdated(EHostType,VxGUID)) );
+    }
+
+    // always true -- this screen only ever exists for administering our own host
+    m_CalendarHostedId = hostedId;
+    m_CalendarPanel->setHostAdminId( hostedId, true );
+    updateCalendarUnreadIndicator();
+}
+
+//============================================================================
+void AppletHostAdminBase::slotCalendarToggleClicked( bool checked )
+{
+    m_CalendarPanel->setVisible( checked );
+
+    if( checked )
+    {
+        // opening the panel IS "viewing" the events currently in it -- no ack is ever sent to
+        // the host, this is purely local state. see event-calendar design notes, "no
+        // per-identity RSVP record".
+        VxGUID hostOnlineId = m_CalendarHostedId.getHostOnlineId();
+        m_MyApp.getCalendarMgr().markAllEventsViewed( hostOnlineId );
+    }
+
+    updateCalendarUnreadIndicator();
+    m_CalendarToggleButton->setText( checked ? tr( "Hide Events" ) : tr( "Show Events" ) );
+}
+
+//============================================================================
+void AppletHostAdminBase::slotCalendarEventListUpdated( EHostType hostType, VxGUID hostOnlineId )
+{
+    if( hostOnlineId != m_CalendarHostedId.getHostOnlineId() )
+    {
+        return;
+    }
+
+    updateCalendarUnreadIndicator();
+}
+
+//============================================================================
+void AppletHostAdminBase::updateCalendarUnreadIndicator( void )
+{
+    VxGUID hostOnlineId = m_CalendarHostedId.getHostOnlineId();
+    bool hasUnviewed = !m_CalendarToggleButton->isChecked() && m_MyApp.getCalendarMgr().hasUnviewedEvents( hostOnlineId );
+    m_CalendarToggleButton->setStyleSheet( hasUnviewed ? "color: red; font-weight: bold;" : "" );
 }
 
 //============================================================================

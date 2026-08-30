@@ -998,6 +998,18 @@ void P2PEngine::fromGuiSetRelaySettings( int userRelayMaxCnt, int systemRelayMax
 }
 
 //============================================================================
+void P2PEngine::fromGuiSetPurgeEventHistoryType( enum EPurgeEventHistoryType purgeType )
+{
+	m_EngineSettings.setPurgeEventHistoryType( purgeType );
+}
+
+//============================================================================
+enum EPurgeEventHistoryType P2PEngine::fromGuiGetPurgeEventHistoryType( void )
+{
+	return m_EngineSettings.getPurgeEventHistoryType();
+}
+
+//============================================================================
 void P2PEngine::fromGuiGetFileShareSettings( FileShareSettings& fileShareSettings )
 {
 	m_PluginMgr.getPlugin(ePluginTypeFileShareServer)->fromGuiGetFileShareSettings( fileShareSettings );
@@ -1141,6 +1153,95 @@ void P2PEngine::fromGuiJoinHost( HostedId& adminId, VxGUID& sessionId, std::stri
 	{
 		m_FromGuiMgr.fromGuiJoinHost( adminId, sessionId, hostUrl );
 	}
+}
+
+//============================================================================
+void P2PEngine::fromGuiCalendarEventUpdate( HostedId& adminId, CalendarEventInfo& eventInfo, bool fromThread )
+{
+	if( fromThread )
+	{
+		// calendar events are created and served by the host -- if this IS my own host, manage
+		// it directly through the host-service plugin ( in-process, no packet ) rather than
+		// round-tripping a request to myself as if I were a remote client. a remote user granted
+		// admin on someone else's host still goes through their host-client plugin below, which
+		// sends a real request over the network. see event-calendar design notes.
+		bool isMyOwnHost = adminId.getHostOnlineId() == getMyOnlineId();
+		PluginBase* plugin = isMyOwnHost ? m_PluginMgr.findHostServicePlugin( adminId.getHostType() )
+		                                  : m_PluginMgr.findHostClientPlugin( adminId.getHostType() );
+		if( plugin )
+		{
+			plugin->fromGuiCalendarEventUpdate( adminId, eventInfo );
+		}
+		else
+		{
+			LogMsg( LOG_ERROR, "Plugin not found for host %d", adminId.getHostType() );
+			vx_assert( false );
+		}
+	}
+	else
+	{
+		m_FromGuiMgr.fromGuiCalendarEventUpdate( adminId, eventInfo );
+	}
+}
+
+//============================================================================
+void P2PEngine::fromGuiCalendarEventCancel( HostedId& adminId, VxGUID& eventId, bool fromThread )
+{
+	if( fromThread )
+	{
+		bool isMyOwnHost = adminId.getHostOnlineId() == getMyOnlineId();
+		PluginBase* plugin = isMyOwnHost ? m_PluginMgr.findHostServicePlugin( adminId.getHostType() )
+		                                  : m_PluginMgr.findHostClientPlugin( adminId.getHostType() );
+		if( plugin )
+		{
+			plugin->fromGuiCalendarEventCancel( adminId, eventId );
+		}
+		else
+		{
+			LogMsg( LOG_ERROR, "Plugin not found for host %d", adminId.getHostType() );
+			vx_assert( false );
+		}
+	}
+	else
+	{
+		m_FromGuiMgr.fromGuiCalendarEventCancel( adminId, eventId );
+	}
+}
+
+//============================================================================
+void P2PEngine::fromGuiCalendarRefresh( HostedId& adminId, bool fromThread )
+{
+	if( fromThread )
+	{
+		bool isMyOwnHost = adminId.getHostOnlineId() == getMyOnlineId();
+		PluginBase* plugin = isMyOwnHost ? m_PluginMgr.findHostServicePlugin( adminId.getHostType() )
+		                                  : m_PluginMgr.findHostClientPlugin( adminId.getHostType() );
+		if( plugin )
+		{
+			if( LogEnabled( eLogCalendar ) ) LogModule( eLogCalendar, LOG_VERBOSE, "[%d ms] P2PEngine::%s dispatching to plugin, isMyOwnHost=%d",
+				GetApplicationAliveMs(), __func__, isMyOwnHost );
+			plugin->fromGuiCalendarRefresh( adminId );
+		}
+		else
+		{
+			LogMsg( LOG_ERROR, "Calendar: Plugin not found for host %d", adminId.getHostType() );
+			vx_assert( false );
+		}
+	}
+	else
+	{
+		if( LogEnabled( eLogCalendar ) ) LogModule( eLogCalendar, LOG_VERBOSE, "[%d ms] P2PEngine::%s queuing from gui thread",
+			GetApplicationAliveMs(), __func__ );
+		m_FromGuiMgr.fromGuiCalendarRefresh( adminId );
+	}
+}
+
+//============================================================================
+uint32_t P2PEngine::fromGuiGetCalendarAttendingCount( HostedId& adminId )
+{
+	std::vector<VxGUID> onlineIdList;
+	m_ConnectIdListMgr.getOnlineMembers( adminId, onlineIdList );
+	return ( uint32_t )onlineIdList.size();
 }
 
 //============================================================================

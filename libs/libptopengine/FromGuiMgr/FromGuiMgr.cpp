@@ -14,6 +14,7 @@
 
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
+#include <CoreLib/VxTime.h>
 
 namespace
 {
@@ -110,6 +111,27 @@ void FromGuiMgr::fromGuiQueryHostListFromNetworkHost( VxPtopUrl& netHostUrl, enu
 void FromGuiMgr::fromGuiSearchHost( enum EHostType hostType, SearchParams& searchParams, bool enable )
 {
 	queFromGuiAction( new FromGuiSearchHostAction( m_Engine, eFromGuiSearchHost, hostType, searchParams, enable ) );
+}
+
+//============================================================================
+void FromGuiMgr::fromGuiCalendarEventUpdate( HostedId& adminId, CalendarEventInfo& eventInfo )
+{
+	queFromGuiAction( new FromGuiCalendarEventAction( m_Engine, eFromGuiCalendarEventUpdate, adminId, eventInfo ) );
+}
+
+//============================================================================
+void FromGuiMgr::fromGuiCalendarEventCancel( HostedId& adminId, VxGUID& eventId )
+{
+	queFromGuiAction( new FromGuiCalendarEventAction( m_Engine, eFromGuiCalendarEventCancel, adminId, eventId ) );
+}
+
+//============================================================================
+void FromGuiMgr::fromGuiCalendarRefresh( HostedId& adminId )
+{
+	if( LogEnabled( eLogCalendar ) ) LogModule( eLogCalendar, LOG_VERBOSE, "[%d ms] FromGuiMgr::%s queuing action for host %s",
+		GetApplicationAliveMs(), __func__, adminId.getHostOnlineId().toHexString().c_str() );
+	VxGUID emptyEventId;
+	queFromGuiAction( new FromGuiCalendarEventAction( m_Engine, eFromGuiCalendarRefresh, adminId, emptyEventId ) );
 }
 //============================================================================
 void FromGuiMgr::fromGuiPlayOneFrame( AssetBaseInfo& assetInfo )

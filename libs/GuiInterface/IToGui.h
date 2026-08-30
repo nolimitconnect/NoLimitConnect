@@ -17,6 +17,8 @@
 #include <CoreLib/VxSha1Hash.h>
 #include <PktLib/VxCommon.h>
 
+#include <Calendar/CalendarEventInfo.h>
+
 class AssetBaseInfo;
 class BlobInfo;
 class CamJpgVideo;
@@ -79,6 +81,16 @@ public:
 	virtual void				toGuiGroupieSearchStatus( EHostType hostType, VxGUID& sessionId, EHostSearchStatus searchStatus, ECommErr commErr = eCommErrNone, const char* msg = "" ) = 0;
 	virtual void				toGuiGroupieSearchResult( EHostType hostType, VxGUID& sessionId, GroupieInfo& groupieInfo ) = 0;
 	virtual void				toGuiGroupieSearchComplete( EHostType hostType, VxGUID& sessionId ) = 0;
+
+    //! one cached event for a joined host, delivered during a list fetch/refresh -- mirrors the
+    //! toGuiGroupieSearchResult/Complete per-item + Complete shape. default no-op bodies since
+    //! the GUI-side ( AppCommon ) implementation is a separate, not-yet-landed slice -- see
+    //! event-calendar design notes, "Event session GUI".
+    virtual void				toGuiCalendarEventListResult( EHostType hostType, VxGUID& hostOnlineId, CalendarEventInfo& eventInfo ) {};
+    virtual void				toGuiCalendarEventListComplete( EHostType hostType, VxGUID& hostOnlineId ) {};
+
+    virtual void				toGuiCalendarEventUpdateStatus( EHostType hostType, VxGUID& hostOnlineId, VxGUID& eventId, ECommErr commErr ) {};
+    virtual void				toGuiCalendarEventCancelStatus( EHostType hostType, VxGUID& hostOnlineId, VxGUID& eventId, ECommErr commErr ) {};
 
     /// Send is port open test state/status to GUI
     virtual void				toGuiIsPortOpenStatus( EIsPortOpenStatus eIsPortOpenStatus, const char* msg = "" ) = 0;

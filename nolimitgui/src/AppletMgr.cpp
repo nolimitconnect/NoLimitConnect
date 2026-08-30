@@ -11,7 +11,9 @@
 #include "AppletMgr.h"
 
 #include "ActivityBase.h"
+#include "ActivityMsgBoxOk.h"
 #include "AppCommon.h"
+#include "AppGlobals.h"
 #include "AppSettings.h"
 
 #include "AppletApplicationInfo.h"
@@ -387,7 +389,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletHelpNetSignalBars:          if( launchAppletAllowed( eAppletHelpNetSignalBars ) ) appletDialog = new AppletHelpNetSignalBars( m_MyApp, parent ); break;
     case eAppletHomePage:                   m_MyApp.errMessageBox(appletMissingTitle, "Home Page Not Implemented"); return nullptr;
 
-    case eAppletRandomConnectHostAdmin:     if( launchAppletAllowed( eAppletRandomConnectHostAdmin ) ) appletDialog = new AppletRandomConnectHostAdmin( m_MyApp, parent ); break;
+    case eAppletRandomConnectHostAdmin:     if( launchAppletAllowed( eAppletRandomConnectHostAdmin, parent ) ) appletDialog = new AppletRandomConnectHostAdmin( m_MyApp, parent ); break;
     case eAppletRandomConnectJoin:          if( launchAppletAllowed( eAppletRandomConnectJoin ) ) appletDialog = new AppletRandomConnectJoin( m_MyApp, parent ); break;
     case eAppletRandomConnectJoinSearch:    if( launchAppletAllowed( eAppletRandomConnectJoinSearch ) ) appletDialog = new AppletRandomConnectJoinSearch( m_MyApp, parent ); break;
     case eAppletRandomConnectListLocalView: if( launchAppletAllowed( eAppletRandomConnectListLocalView ) ) appletDialog = new AppletRandomConnectListLocalView( m_MyApp, parent ); break;
@@ -422,9 +424,9 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
        
     case eAppletGroupListClient:            if( launchAppletAllowed( eAppletGroupListClient ) ) appletDialog = new AppletGroupListClient( m_MyApp, parent ); break;
 
-    case eAppletGroupHostAdmin:             if( launchAppletAllowed( eAppletGroupHostAdmin ) ) appletDialog = new AppletGroupHostAdmin( m_MyApp, parent ); break;
+    case eAppletGroupHostAdmin:             if( launchAppletAllowed( eAppletGroupHostAdmin, parent ) ) appletDialog = new AppletGroupHostAdmin( m_MyApp, parent ); break;
 
-    case eAppletChatRoomHostAdmin:          if( launchAppletAllowed( eAppletChatRoomHostAdmin ) ) appletDialog = new AppletChatRoomHostAdmin( m_MyApp, parent ); break;
+    case eAppletChatRoomHostAdmin:          if( launchAppletAllowed( eAppletChatRoomHostAdmin, parent ) ) appletDialog = new AppletChatRoomHostAdmin( m_MyApp, parent ); break;
 
     case eAppletHostJoinConnect:            if( launchAppletAllowed( eAppletHostJoinConnect ) ) appletDialog = new AppletHostJoinConnect( m_MyApp, parent, launchParam.toUtf8().constData() ); break;
     case eAppletHostJoinChoose:               if( launchAppletAllowed( eAppletHostJoinChoose ) ) appletDialog = new AppletHostJoinChoose( m_MyApp, parent ); break;
@@ -715,7 +717,7 @@ bool AppletMgr::isServiceEnabled( EPluginType pluginType )
 }
 
 //============================================================================
-bool AppletMgr::launchAppletAllowed( EApplet applet )
+bool AppletMgr::launchAppletAllowed( EApplet applet, QWidget* parent )
 {
     bool launchAllowed{ true };
     if( eAppletInviteCreate == applet )
@@ -723,6 +725,26 @@ bool AppletMgr::launchAppletAllowed( EApplet applet )
         if( !m_MyApp.getEngine().getNetStatusAccum().isRxPortOpen() )
         {
             GuiHelpers::showRequiresOpenPort( this );
+            return false;
+        }
+    }
+    else if( eAppletGroupHostAdmin == applet || eAppletChatRoomHostAdmin == applet || eAppletRandomConnectHostAdmin == applet )
+    {
+        // launching the host-admin screen for a host the user has disabled makes no sense --
+        // there is nothing to administer. mirrors PluginBase::isPluginEnabled()'s engine-side
+        // check ( eFriendStateIgnore == permission means disabled ), same pattern already used
+        // by AppletHostChatRoomStatus/AppletHostGroupStatus to display enabled/disabled state.
+        EPluginType pluginType = ( eAppletGroupHostAdmin == applet ) ? ePluginTypeHostGroup
+                                : ( eAppletChatRoomHostAdmin == applet ) ? ePluginTypeHostChatRoom
+                                : ePluginTypeHostRandomConnect;
+        if( eFriendStateIgnore == m_MyApp.getAppGlobals().getMyNetIdent()->getPluginPermission( pluginType ) )
+        {
+            // parent to the page the user launched from ( eg Hosting Services ), not this --
+            // AppletMgr itself is a controller object, not the visible page underneath the popup
+            QWidget* msgBoxParent = parent ? parent : ( QWidget* )this;
+            ActivityMsgBoxOk* msgBox = new ActivityMsgBoxOk( m_MyApp, msgBoxParent, tr( "Host Disabled" ),
+                tr( "This host is currently disabled. Enable it in Settings before administering it." ) );
+            msgBox->show();
             return false;
         }
     }

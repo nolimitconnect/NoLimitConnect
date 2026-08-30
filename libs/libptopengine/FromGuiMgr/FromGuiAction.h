@@ -16,6 +16,8 @@
 #include <CoreLib/GroupieId.h>
 #include <PktLib/SearchParams.h>
 
+#include <Calendar/CalendarEventInfo.h>
+
 enum EFromGuiType
 {
 	eFromGuiTypeNone,
@@ -32,6 +34,10 @@ enum EFromGuiType
 
 	eFromGuiSearchHost,
 	eFromGuiQueryHostListFromNetworkHost,
+
+	eFromGuiCalendarEventUpdate,
+	eFromGuiCalendarEventCancel,
+	eFromGuiCalendarRefresh,
 
 	eFromGuiPlayOneFrame,
 
@@ -126,6 +132,22 @@ public:
 	VxGUID						m_SearchSessionId;
 };
 
+
+//! covers Update ( m_EventInfo used ), Cancel and Refresh ( m_EventInfo left default -- only
+//! m_AdminId / m_EventId matter, and Refresh ignores m_EventId too ).
+class FromGuiCalendarEventAction : public FromGuiActionBase
+{
+public:
+	FromGuiCalendarEventAction( P2PEngine& engine, EFromGuiType fromGuiType, HostedId& adminId, CalendarEventInfo& eventInfo );
+	FromGuiCalendarEventAction( P2PEngine& engine, EFromGuiType fromGuiType, HostedId& adminId, VxGUID& eventId );
+	~FromGuiCalendarEventAction() override = default;
+
+	void						executeAction( void ) override;
+
+	HostedId					m_AdminId;
+	VxGUID						m_EventId;
+	CalendarEventInfo			m_EventInfo;
+};
 
 class FromGuiPlayOneFrame : public FromGuiActionBase
 {

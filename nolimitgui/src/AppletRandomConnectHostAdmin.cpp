@@ -40,6 +40,7 @@ AppletRandomConnectHostAdmin::AppletRandomConnectHostAdmin( AppCommon& app, QWid
     connect( ui.m_UserListWidget, SIGNAL(signalUserSelected(GuiUser*)), this, SLOT(slotUserSelected(GuiUser*)) );
 
     GroupieId hostAdminId( m_MyApp.getMyOnlineId(), m_MyApp.getMyOnlineId(), eHostTypeRandomConnect );
+    setCalendarHostedId( hostAdminId.getHostedId() );
 	ui.m_SessionWidget->setPluginType( getPluginType() );
 	ui.m_SessionWidget->setHostAdminId( hostAdminId );
 	ui.m_SessionWidget->setInputClientCallback( this );

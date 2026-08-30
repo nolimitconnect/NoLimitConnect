@@ -22,6 +22,7 @@ namespace Ui {
 QT_END_NAMESPACE
 
 class AppCommon;
+class VxPushButton;
 
 class AvatarBar : public QWidget
 {
@@ -38,11 +39,13 @@ public:
 	void						setShredFile( QString fileName );
 	void						setShredButtonIcon( EMyIcons iconTrash );
     void						setLibraryButtonIcon( EMyIcons iconLibrary );
+    void						setRecorderButtonIcon( EMyIcons iconRecorder );
 
 	virtual void				showAvatar( bool show );
 	virtual void				showSendFail( bool show, bool permissionErr );
 	virtual void				showShredder( bool show );
     virtual void				showLibraryButton( bool show );
+    virtual void				showSaveToRecorderButton( bool show );
 	virtual void				showResendButton( bool show );
 	virtual void				showXferProgress( bool show );
 	virtual void				setXferProgress( int sendProgress );
@@ -52,6 +55,7 @@ public:
 signals:
 	void						signalShredAsset( void );
     void						signalAddLibraryAsset( void );
+    void						signalSaveToPersonalRecorder( void );
 	void						signalResendAsset( void );
 
 protected:
@@ -60,4 +64,8 @@ protected:
 	AppCommon&					m_MyApp;
 	VxGUID						m_OnlineId;
 	bool						m_ThumbnailQueried{ false };
+
+	//! not part of the .ui ( AvatarBarWidget.ui is shared/widely used -- see event-calendar
+	//! design notes on why this is added programmatically instead of hand-editing that xml )
+	VxPushButton*				m_RecorderButton{ nullptr };
 };

@@ -67,6 +67,8 @@ void AssetVideoWidget::initAssetVideoWidget( void )
 	connect( ui.m_RightAvatarBar,	SIGNAL(signalShredAsset()),				this, SLOT(slotShredAsset()) );
     connect( ui.m_LeftAvatarBar,	SIGNAL(signalAddLibraryAsset()),        this, SLOT(slotAddLibraryAsset()) );
     connect( ui.m_RightAvatarBar,	SIGNAL(signalAddLibraryAsset()),        this, SLOT(slotAddLibraryAsset()) );
+    connect( ui.m_LeftAvatarBar,	SIGNAL(signalSaveToPersonalRecorder()), this, SLOT(slotSaveToPersonalRecorder()) );
+    connect( ui.m_RightAvatarBar,	SIGNAL(signalSaveToPersonalRecorder()), this, SLOT(slotSaveToPersonalRecorder()) );
 	connect( ui.m_RightAvatarBar,	SIGNAL(signalResendAsset()),			this, SLOT(slotResendAsset()) );
 	connect( ui.m_PlayPosSlider,	SIGNAL(sliderPressed()),				this, SLOT(slotSliderPressed()) );
 	connect( ui.m_PlayPosSlider,	SIGNAL(sliderReleased()),				this, SLOT(slotSliderReleased()) );
@@ -96,7 +98,9 @@ void AssetVideoWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 
 	ui.m_LeftAvatarBar->setOnlineId( m_AssetInfo.getOnlineId() );
 	ui.m_RightAvatarBar->setOnlineId( m_AssetInfo.getOnlineId() );
-	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_AssetInfo.getHistoryId() );
+	// creator ( actual sender ), not history id -- see event-calendar design notes on the
+	// Save-to-Personal-Recorder feature
+	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_AssetInfo.getCreatorId() );
 	if( assetInfo.isMine() )
 	{
 		ui.m_LeftAvatarBar->setTime( m_AssetInfo.getCreationTime(), m_AssetInfo.getIsQueued() );
@@ -121,6 +125,7 @@ void AssetVideoWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 		ui.m_LeftAvatarBar->setShredButtonIcon( eMyIconShredderNormal );
 		ui.m_RightAvatarBar->setShredButtonIcon( eMyIconShredderNormal );
         showLibraryButton( true );
+        showSaveToRecorderButton( true );
 	}
 	else
 	{
@@ -374,6 +379,19 @@ void AssetVideoWidget::showLibraryButton( bool show )
 	else
 	{
 		ui.m_RightAvatarBar->showLibraryButton( show );
+	}
+}
+
+//============================================================================
+void AssetVideoWidget::showSaveToRecorderButton( bool show )
+{
+	if( m_AssetInfo.isMine() )
+	{
+		ui.m_LeftAvatarBar->showSaveToRecorderButton( show );
+	}
+	else
+	{
+		ui.m_RightAvatarBar->showSaveToRecorderButton( show );
 	}
 }
 

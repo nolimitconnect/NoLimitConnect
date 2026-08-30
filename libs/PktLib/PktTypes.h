@@ -209,9 +209,16 @@
 #define PKT_TYPE_FRIEND_REQUEST_REPLY				( PKT_TYPE_FRIEND_REQUEST_REQ + 1 )	            // 154 ( 0x9A )
 
 #define PKT_TYPE_ADMIN_AVAIL						( PKT_TYPE_FRIEND_REQUEST_REPLY + 1 )	        // 155 ( 0x9B )
+// 156 ( 0x9C )
+#define PKT_TYPE_CALENDAR_EVENT_LIST_REQ			( PKT_TYPE_ADMIN_AVAIL + 1 )			        // 156 ( 0x9C )
+#define PKT_TYPE_CALENDAR_EVENT_LIST_REPLY			( PKT_TYPE_CALENDAR_EVENT_LIST_REQ + 1 )	    // 157 ( 0x9D )
+#define PKT_TYPE_CALENDAR_EVENT_UPDATE_REQ			( PKT_TYPE_CALENDAR_EVENT_LIST_REPLY + 1 )	    // 158 ( 0x9E )
+#define PKT_TYPE_CALENDAR_EVENT_UPDATE_REPLY		( PKT_TYPE_CALENDAR_EVENT_UPDATE_REQ + 1 )	    // 159 ( 0x9F )
+#define PKT_TYPE_CALENDAR_EVENT_CANCEL_REQ			( PKT_TYPE_CALENDAR_EVENT_UPDATE_REPLY + 1 )	// 160 ( 0xA0 )
+#define PKT_TYPE_CALENDAR_EVENT_CANCEL_REPLY		( PKT_TYPE_CALENDAR_EVENT_CANCEL_REQ + 1 )	    // 161 ( 0xA1 )
 
-																									
-#define MAX_PKT_TYPE_CNT							( PKT_TYPE_ADMIN_AVAIL + 1 ) // 156
+
+#define MAX_PKT_TYPE_CNT							( PKT_TYPE_CALENDAR_EVENT_CANCEL_REPLY + 1 ) // 162
 																									
 #define ROUND_TO_16BYTE_BOUNDRY( a ) (( a + 15 ) & ~15 )	// round up to even 16 byte boundary		
 #define ROUND_TO_4BYTE_BOUNDRY( a ) (( a + 3 ) & ~3 )	    // round up to even 4 byte boundary		

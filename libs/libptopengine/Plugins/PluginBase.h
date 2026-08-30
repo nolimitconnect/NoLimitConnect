@@ -24,6 +24,8 @@
 #include <PktLib/PktPluginHandlerBase.h>
 #include <PktLib/VxCommon.h>
 
+#include <Calendar/CalendarEventInfo.h>
+
 class AssetMgr;
 class AssetBaseInfo;
 class ConnectId;
@@ -205,6 +207,10 @@ public:
 	virtual void				fromGuiUnJoinHost( HostedId& adminId )														{};
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable )            {};
 
+    virtual void				fromGuiCalendarEventUpdate( HostedId& adminId, CalendarEventInfo& eventInfo )                {};
+    virtual void				fromGuiCalendarEventCancel( HostedId& adminId, VxGUID& eventId )                              {};
+    virtual void				fromGuiCalendarRefresh( HostedId& adminId )                                                   {};
+
     virtual void                updateHostSearchList( EHostType hostType, PktHostInviteAnnounceReq* hostAnn, VxNetIdent* netIdent, std::shared_ptr<VxSktBase>& sktBase )  {};
 	virtual void				fromGuiSendAnnouncedList( EHostType hostType, VxGUID& sessionId ) {};
 
@@ -243,6 +249,7 @@ public:
 	virtual void				onSharedFilesUpdated( uint16_t u16FileTypes )									{};
     virtual void				onMyPktAnnounceChange( PktAnnounce& pktAnn )									{};
     virtual void				onThreadOncePer15Minutes( void )												{};
+    virtual void				onThreadOncePerMinute( void )													{};
 	virtual void				onAfterUserLogOnThreaded( void )												{};
     virtual	void				onPluginSettingChange( PluginSetting& pluginSetting, int64_t modifiedTimeMs )   {};
 

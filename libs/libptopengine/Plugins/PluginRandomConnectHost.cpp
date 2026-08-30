@@ -18,6 +18,8 @@
 #include <P2PEngine/P2PEngine.h>
 
 #include <CoreLib/VxFileUtil.h>
+#include <CoreLib/VxDebug.h>
+#include <CoreLib/VxTime.h>
 
 #include <PktLib/PktAdminAvail.h>
 #include <PktLib/PktsRandConnect.h>
@@ -60,6 +62,11 @@ void PluginRandomConnectHost::fromGuiAdminViewHost( EPluginType pluginType, bool
     {
         return;
     }
+
+    // persist ( not just broadcast ) -- consulted by CalendarMgr::extendActiveEventExpiryTimes,
+    // see event-calendar design notes
+    setAdminIsViewing( adminIsViewing );
+    if( LogEnabled( eLogCalendar ) ) LogModule( eLogCalendar, LOG_VERBOSE, "[%d ms] PluginRandomConnectHost::%s admin %s own hosted random connect", GetApplicationAliveMs(), __func__, adminIsViewing ? "joined" : "exited" );
 
     GroupieId groupieId( m_Engine.getMyOnlineId(), m_Engine.getMyOnlineId(), eHostTypeRandomConnect );
     PktAdminAvail pktAdminAvail;

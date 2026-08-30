@@ -23,6 +23,8 @@
 #include <CoreLib/AssetDefs.h>
 #include <CoreLib/MediaCallbackInterface.h>
 
+#include <Calendar/CalendarEventInfo.h>
+
 class AssetBaseInfo;
 class FileShareSettings;
 class InetAddress;
@@ -128,6 +130,12 @@ public:
 	/// Set number of users that can use device as relay
 	virtual void				fromGuiSetRelaySettings( int userRelayMaxCnt, int systemRelayMaxCnt ) = 0;
 
+    //! client-side-only preference override for how long a joining member's own local copy of
+    //! calendar-event content is kept before purge ( see EPurgeEventHistoryType ) -- persisted
+    //! engine-side, never sent to any host. see event-calendar design notes.
+    virtual void				fromGuiSetPurgeEventHistoryType( enum EPurgeEventHistoryType purgeType ) = 0;
+    virtual enum EPurgeEventHistoryType fromGuiGetPurgeEventHistoryType( void ) = 0;
+
 	/// Run test to see if TCP port is open and what the external IP Address is
 	virtual void				fromGuiRunIsPortOpenTest( uint16_t port ) = 0;
     /// Run test on the given url
@@ -139,6 +147,20 @@ public:
 	virtual void				fromGuiUnJoinHost( HostedId& adminId, bool fromThread = false ) = 0;
 
     virtual void				fromGuiSearchHost( EHostType hostType, SearchParams& searchParams, bool enable, bool fromThread = false ) = 0;
+
+    //! host admin only -- create ( event id left invalid ) or edit ( existing event id ) one
+    //! event. host is the sole authority and re-validates admin status server-side regardless.
+    virtual void				fromGuiCalendarEventUpdate( HostedId& adminId, CalendarEventInfo& eventInfo, bool fromThread = false ) = 0;
+    //! host admin only -- cancel/delete the whole event series by id.
+    virtual void				fromGuiCalendarEventCancel( HostedId& adminId, VxGUID& eventId, bool fromThread = false ) = 0;
+    //! re-fetch a joined host's calendar ( eg pull-to-refresh in the GUI ) -- the normal
+    //! on-join fetch already happens automatically, this is for an explicit manual resync.
+    virtual void				fromGuiCalendarRefresh( HostedId& adminId, bool fromThread = false ) = 0;
+    //! live count of users currently connected to this host -- no RSVP/attendance tracking is
+    //! recorded anywhere for this; it is a synchronous read of the same connection list already
+    //! used to route/rebroadcast content to a host's members. see event-calendar design notes,
+    //! "no per-identity RSVP record" decision.
+    virtual uint32_t			fromGuiGetCalendarAttendingCount( HostedId& adminId ) = 0;
 
 	virtual void                fromGuiBlockUser( VxGUID& onlineId, bool fromThread = false ) = 0;
 

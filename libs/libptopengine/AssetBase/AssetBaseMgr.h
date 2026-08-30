@@ -163,6 +163,22 @@ public:
 
     void						updateDatabase( AssetBaseInfo* assetInfo );
 
+    //! sweeps every asset tagged isCalendarEvent() whose getExpiresTime() has elapsed. if the
+    //! user saved it ( isInLibrary()/isPersonalRecord()/isSharedFileAsset() ), the asset survives
+    //! -- just clears the calendar-event tag and expires time so it stops being swept and is
+    //! otherwise untouched. everything else is actually deleted, purged as if it never
+    //! happened -- see event-calendar design notes. called once engine-wide from
+    //! P2PEngine::onOncePer15Minutes(), not per-host, since this manager's asset list is shared
+    //! across every host/plugin.
+    void						purgeExpiredCalendarAssets( int64_t nowMs );
+
+    //! pushes ExpiresTime forward ( never back ) on every isCalendarEvent() asset belonging to
+    //! adminId whose current ExpiresTime is earlier than newExpiresTime -- called once a minute
+    //! by CalendarMgr/CalendarClientMgr while a session is still active past its event's
+    //! scheduled end, so in-progress content never expires out from under still-active use. see
+    //! event-calendar design notes on the purge-override mechanism.
+    void						extendCalendarEventExpiryTime( VxGUID& adminId, int64_t newExpiresTime );
+
 protected:
     virtual AssetBaseInfo*      createAssetInfo( AssetBaseInfo& assetInfo ) = 0;
     virtual AssetBaseInfo*      createAssetInfo( FileInfo& fileInfo ) = 0;

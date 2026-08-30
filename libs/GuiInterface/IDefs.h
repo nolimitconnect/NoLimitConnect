@@ -11,6 +11,8 @@
 
 #include <CoreLib/VxXferDefs.h>
 
+#include <stdint.h>
+
 #define ENABLE_COMPONENT_NEARBY         0 // enable/disable nearby users discovery 
 #define ENABLE_IPV6                     0 // if not zero enable ipv6 listen and usage 
 #define ENABLE_STREAMING                1 // if not zero enable streaming of shared media files 
@@ -117,6 +119,8 @@ enum ECommErr
     eCommErrPluginPermission,
     eCommErrNotFound,
     eCommErrInvalidParam,
+    eCommErrScheduleConflict,
+    eCommErrEventStartInPast,
 
     eMaxCommErr
 };
@@ -1434,6 +1438,29 @@ const char* DescribeHostType( enum EHostType hostType );
 
 //! Internet Status as text
 const char* DescribeInternetStatus( enum EInternetStatus internetStatus );
+//! how long a JOINING member's own local copy of an event's content should be kept before
+//! purge, overriding the host's own retention setting on the event ( eCalendarRetentionUseHostDefault
+//! falls back to CalendarEventInfo::getRetentionMs() ). persisted client-side only ( see
+//! EngineSettings::setPurgeEventHistoryType ) -- never sent to any host. "especially for the
+//! paranoid" -- see event-calendar design notes.
+enum EPurgeEventHistoryType
+{
+    ePurgeEventHistoryUseHostDefault = 0,
+    ePurgeEventHistoryAfter2Min,
+    ePurgeEventHistoryAfter15Min,
+    ePurgeEventHistoryAfter1Hour,
+    ePurgeEventHistoryAfter1Day,
+    ePurgeEventHistoryAfter1Week,
+    ePurgeEventHistoryAfter1Month,
+    ePurgeEventHistoryAfter1Year,
+};
+
+//! ms represented by a fixed EPurgeEventHistoryType option, or 0 for
+//! ePurgeEventHistoryUseHostDefault ( caller falls back to the event's own retention ).
+int64_t PurgeEventHistoryTypeToMs( enum EPurgeEventHistoryType purgeType );
+//! display text for the preferences combo box
+const char* DescribePurgeEventHistoryType( enum EPurgeEventHistoryType purgeType );
+
 const char* DescribeJoinState( enum EJoinState joinState );
 const char* DescribeModuleState( enum EModuleState moduleState );
 const char* DescribeListAction( enum EListAction listAction );

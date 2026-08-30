@@ -380,5 +380,6 @@
         <file alias="translations/nolimitconnect_th_TH.qm">../translations/nolimitconnect_th_TH.qm</file>
         <file alias="translations/nolimitconnect_zh_CN.qm">../translations/nolimitconnect_zh_CN.qm</file>
         <file>Resources/NlcTestAudio.wav</file>
+        <file>Resources/edit-field.svg</file>
     </qresource>
 </RCC>

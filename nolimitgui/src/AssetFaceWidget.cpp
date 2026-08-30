@@ -79,9 +79,11 @@ void AssetFaceWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 	ui.m_FaceLabel->setFixedSize( GuiParams::getButtonSize( eButtonSizeMedium ).width() + 4, GuiParams::getButtonSize( eButtonSizeMedium ).height() + 4 );
 	ui.m_LeftAvatarBar->setOnlineId( m_AssetInfo.getOnlineId() );
 	ui.m_RightAvatarBar->setOnlineId( m_AssetInfo.getOnlineId() );
-	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_AssetInfo.getHistoryId() );
+	// creator ( actual sender ), not history id -- see event-calendar design notes on the
+	// Save-to-Personal-Recorder feature
+	GuiUser* guiUser = m_MyApp.getUserMgr().getUser( m_AssetInfo.getCreatorId() );
 	if( assetInfo.isMine() )
-	{	
+	{
 		ui.m_LeftAvatarBar->setTime( m_AssetInfo.getCreationTime(), m_AssetInfo.getIsQueued() );
 		ui.m_RightAvatarBar->showAvatar( true );
 		if( guiUser )
