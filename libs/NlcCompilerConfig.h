@@ -1844,16 +1844,15 @@ it. */
 # define PACKAGE_SUFFIX						".gnu"
 # define PROJECTSDIR						".nolimitconnect/"
 
-// QT Android does not like user defining __PRETTY_FUNCTION__ when including Qt headers
-// give odd error initializer of 'xxx' is not a constant expression in qmetatype.h in Qt 6.2.0
+// Keep the compiler's native __PRETTY_FUNCTION__ on Linux/Android. Rebinding it to
+// __ROUTINE__ creates a recursive macro cycle and breaks Qt's constexpr metatype name
+// normalization in qmetatype.h.
 #ifndef __PRETTY_FUNCTION__
 # ifdef TARGET_OS_WINDOWS
 #  define __PRETTY_FUNCTION__ __FUNCTION__
-# elif defined(TARGET_OS_LINUX)
-#  define __PRETTY_FUNCTION__ __ROUTINE__
-# else
-// do nothing
-# endif // TARGET_OS_WINDOWS
+# elif defined(TARGET_OS_ANDROID)
+#  define __PRETTY_FUNCTION__ __func__
+# endif
 #endif // __PRETTY_FUNCTION__
 
 #ifndef	VX_MAX_PATH

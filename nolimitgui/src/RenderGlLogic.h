@@ -1,4 +1,5 @@
 #pragma once
+#include <QWidget>
 //============================================================================
 // Copyright (C) 2018 Brett R. Jones
 //
@@ -13,7 +14,6 @@
 #include "WinSock2.h"
 #endif // TARGET_OS_WINDOWS
 
-#include <QWidget> // must be declared first or linux Qt will error in qmetatype.h 2167:23: array subscript value 53 is outside the bounds
 
 #include <GuiInterface/NlcRenderFrame.h>
 
