@@ -172,10 +172,13 @@ bool GuiThumbMgr::loadEmoticonToCache( int emoticonNum )
     const QSize cacheSize( kEmoticonCacheSize, kEmoticonCacheSize );
 
     // Try loading from .nlt file first (fast path)
+    // .nlt is always PNG content under a non-standard extension; without an explicit format hint,
+    // Qt probes every image-format plugin via dlopen() to guess it, which stalls 10+ seconds on
+    // Android's dynamic linker and causes a startup ANR (verified via live LLDB backtrace).
     QString nltPath = getEmoticonNltPath( emoticonNum );
     if( !nltPath.isEmpty() && QFile::exists( nltPath ) )
     {
-        if( pixmap.load( nltPath ) && !pixmap.isNull() )
+        if( pixmap.load( nltPath, "PNG" ) && !pixmap.isNull() )
         {
             // Scale to cache size if needed
             if( pixmap.size() != cacheSize )

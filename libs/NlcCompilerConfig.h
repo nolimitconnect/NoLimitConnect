@@ -1836,8 +1836,6 @@ it. */
 #ifndef __PRETTY_FUNCTION__
 # ifdef TARGET_OS_WINDOWS
 #  define __PRETTY_FUNCTION__ __FUNCTION__
-# elif defined(TARGET_OS_ANDROID)
-#  define __PRETTY_FUNCTION__ __func__
 # endif
 #endif // __PRETTY_FUNCTION__
 
