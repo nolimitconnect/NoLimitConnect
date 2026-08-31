@@ -106,10 +106,7 @@ add_subdirectory(libtwolame)
 add_subdirectory(libvorbis)
 add_subdirectory(libwav-decoder)
 
-#libx265 does not compile for arm7a also kodi does not include in arm builds
-if(NOT DEFINED TARGET_CPU_ARM32)
- add_subdirectory(libx265)
-endif()
+add_subdirectory(libx265)
 
 add_subdirectory(libx264)
 

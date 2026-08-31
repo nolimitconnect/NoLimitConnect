@@ -55,22 +55,17 @@ std::string OsDetect::getOsName( void )
 std::string OsDetect::getCpuName( void )
 {
     std::string cpu;
-#if defined(TARGET_CPU_ARM64) || defined(TARGET_CPU_ARM32)
-	cpu += "ARM ";
-# if defined(TARGET_CPU_ARM64) 
-    cpu += "64 Bit ";
-# else
-    cpu += "32 Bit ";
-# endif 
+#if defined(TARGET_CPU_ARM64)
+	cpu += "ARM 64 Bit ";
 #else
     cpu += "X86 ";
 # if ARCH_32_BITS
     cpu += "32 Bit ";
 # else
     cpu += "64 Bit ";
-# endif 
+# endif
 
-#endif // defined(TARGET_CPU_ARM64) || defined(TARGET_CPU_ARM32)
+#endif // defined(TARGET_CPU_ARM64)
     return cpu;
 }
 

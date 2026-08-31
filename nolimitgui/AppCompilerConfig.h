@@ -441,11 +441,7 @@ n = 1 stands for the first argument, n = 2 for the second argument etc.  */
 
 #if defined(TARGET_OS_WINDOWS) && defined(_MSC_VER) && (_MSC_VER < 1900)
 #define ftime				_ftime // requires include  <sys/types.h> and <sys/timeb.h>
-#if ARCH_64_BITS
-# define timeb				__timeb64
-#else // ARCH_32_BITS
-# define timeb				__timeb32
-#endif // ARCH_64_BITS
+# define timeb				__timeb64 // Windows is always 64-bit
 #endif // defined(TARGET_OS_WINDOWS) && defined(_MSC_VER) && (_MSC_VER < 1900)
 
 #define unlink				_unlink
@@ -511,13 +507,8 @@ n = 1 stands for the first argument, n = 2 for the second argument etc.  */
 //#define volatile		// use the /volatile:iso switch in compiler additional command line options
 
 //#ifndef _CRT_INTERNAL_NONSTDC_NAMES
-# ifdef ARCH_64_BITS
 #  define stat			_stati64
 #  define fstat			_fstati64
-# else
-#  define stat			_stat32	
-#  define fstat			_fstat32
-# endif // ARCH_64_BITS
 //#endif // _CRT_INTERNAL_NONSTDC_NAMES
 
 #include <BaseTsd.h>
@@ -542,12 +533,7 @@ typedef unsigned int sigset_t;
 #define _SSIZE_T
 
 #ifdef _MSC_VER
-    // sigh for python this needs to be __int64 or int if not 64 bit windows
-# if ARCH_64_BITS
    typedef SSIZE_T ssize_t;
-# else 
-   typedef int			ssize_t;
-# endif // ARCH_64_BITS
 #else
   typedef int			ssize_t;
 #endif // _MSC_VER

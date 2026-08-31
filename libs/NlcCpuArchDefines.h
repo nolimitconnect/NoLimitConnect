@@ -30,8 +30,7 @@
 # define ARCH_AARCH64                   0
 # define ARCH_X86						1
 
-#if defined(WIN64) || defined(__x86_64__) || defined(_WIN64)
-// have to check for windows 64 bit first.. WIN32 seems to get defined in unexpected places
+// only 64-bit Windows (MSVC x64) is supported
 # define ARCH_64_BITS                   1
 # define ARCH_32_BITS                   0
 # define ARCH_X86_64_IS_AVAILABLE		1
@@ -42,34 +41,14 @@
 #  define __x86_64__                    1
 # endif // !defined (__x86_64__)
 # if !defined (WIN64)
-#  define WIN64    
+#  define WIN64
 # endif // !defined (WIN64)
 # if !defined (_WIN64)
-#  define _WIN64    
+#  define _WIN64
 # endif // !defined (_WIN64)
-#else
-# define TARGET_CPU_X86					1  // general cpu type
 
-# define ARCH_64_BITS                   0
-# define ARCH_32_BITS                   1
-# define ARCH_AARCH64                   0
-# define ARCH_X86_64_IS_AVAILABLE		0
-# if !defined (__i386__)
-#  define __i386__                       1
-# endif // !defined (__i386__)
-#endif
-
-#if ARCH_32_BITS
-# define ARCH_X86_32 1
-# define ARCH_X86_64 0
-#else
 # define ARCH_X86_32 0
 # define ARCH_X86_64 1
-# ifndef __x86_64__
-#  define __x86_64__ // needed for libgnu
-# endif // __x86_64__
-#endif // ARCH_32_BITS
-//#endif //defined(_M_X64) || defined(__x86_64__)
 // end of TARGET_OS_WINDOWS arch defines
 
 
@@ -87,18 +66,6 @@
 
 #  define ARM_FEATURE_NEON              1
 #  define HAVE_ARM_ARCH_V6				1
-
-# elif defined(TARGET_CPU_ARM32) || defined(ARM32)
-#  define TARGET_CPU_ARM32				1
-#  define ARCH_X86                      0
-#  define ARCH_AARCH64                  0
-#  define ARCH_ARM                      1
-
-#  define ARCH_32_BITS					1
-#  define ARCH_64_BITS					0
-
-#  define ARM_FEATURE_NEON              1
-#  define HAVE_ARM_ARCH_V6				1				1
 
 # else // X64 android
 #  define TARGET_CPU_X64				1
@@ -221,7 +188,7 @@ echo Nlc CPU Arch Defines error no cpu target defined
 
 #endif // !ARCH_X86 && !ARCH_ARM
 
-#if !defined(TARGET_CPU_ARM32) && !defined(TARGET_CPU_ARM64)
+#if !defined(TARGET_CPU_ARM64)
 #if ARCH_32_BITS
 # define ARCH_X86_32 1
 # define ARCH_X86_64 0
@@ -232,13 +199,13 @@ echo Nlc CPU Arch Defines error no cpu target defined
 #  define __x86_64__ // needed for libgnu
 # endif // __x86_64__
 #endif // ARCH_32_BITS
-#endif // !TARGET_CPU_ARM32
+#endif // !TARGET_CPU_ARM64
 
 //============================================================================
 //============================================================================
 //=== cpu features ===//
 #if defined(TARGET_CPU_ARM64)
-# define HAVE_ARM_NEON				1 // both arm68-v8a and armeabi-v7a have neon extensions
+# define HAVE_ARM_NEON				1 // arm64-v8a has neon extensions
 # define HAVE_ARMV7					1
 
 #  define ARCH_32_BITS				0
@@ -308,36 +275,20 @@ echo Nlc CPU Config error mips processors not supported
 //#define HAVE_MIPS64R6				1
 
 #elif defined(TARGET_OS_ANDROID)
-//==== arm architectures ===//
-# if TARGET_CPU_ARM32
-#  define HAVE_SSE           0
-#  define HAVE_SSE2          0
-# else
-#  define HAVE_SSE           1
-#  define HAVE_SSE2          1
-# endif // TARGET_CPU_ARM32
+//==== arm architectures ( only ARM64 is supported ) ===//
+# define HAVE_SSE           1
+# define HAVE_SSE2          1
 
-# define HAVE_ARM_NEON				1 // both arm68-v8a and both armeabi-v7a have neon extensions
+# define HAVE_ARM_NEON				1 // arm64-v8a has neon extensions
 # define HAVE_ARMV7					1
 
-# if defined(TARGET_CPU_ARM64)
-#  define ARCH_32_BITS				0
-#  define ARCH_64_BITS				1
+# define ARCH_32_BITS				0
+# define ARCH_64_BITS				1
 
-#  define HAVE_ARMV8				1
-#  define HAVE_ARMV5TE				0
-#  define HAVE_ARMV6				0
-#  define HAVE_ARMV6T2				0
-
-# else
-#  define ARCH_32_BITS				1
-#  define ARCH_64_BITS				0
-
-#  define HAVE_ARMV8				0
-#  define HAVE_ARMV5TE				1
-#  define HAVE_ARMV6				1
-#  define HAVE_ARMV6T2				1
-# endif // defined(TARGET_CPU_ARM64)
+# define HAVE_ARMV8				1
+# define HAVE_ARMV5TE				0
+# define HAVE_ARMV6				0
+# define HAVE_ARMV6T2				0
 
 #else
 echo Nlc CPU Config error no cpu arc defined.. unknown processors not supported

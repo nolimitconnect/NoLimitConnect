@@ -1178,23 +1178,13 @@ endif()
 
 if(DEFINED TARGET_OS_ANDROID)
     message(STATUS "nolimitconnect cpu ${NLC_CPU}")
-    if(${NLC_CPU} STREQUAL "CPU_ARM32")
-        message(STATUS "nolimitconnect api armeabi-v7a")
-        set_target_properties(nolimitconnect PROPERTIES
-            ANDROID_TARGET_ARCH armeabi-v7a
-            QT_ANDROID_PACKAGE_SOURCE_DIR "${PROJECT_SRC_ROOT_DIR}/nolimitgui/android"
-            QT_ANDROID_ABIS armeabi-v7a
-            CMAKE_ANDROID_ASSETS_DIRECTORIES  "${PROJECT_SRC_ROOT_DIR}/bin-Android/assets"
-            )
-    else()
-        message(STATUS "nolimitconnect api arm64-v8a")
-        set_target_properties(nolimitconnect PROPERTIES
-            ANDROID_TARGET_ARCH arm64-v8a
-            QT_ANDROID_PACKAGE_SOURCE_DIR "${PROJECT_SRC_ROOT_DIR}/nolimitgui/android"
-            QT_ANDROID_ABIS arm64-v8a
-            CMAKE_ANDROID_ASSETS_DIRECTORIES  "${PROJECT_SRC_ROOT_DIR}/bin-Android/assets"
-            )
-    endif()
+    message(STATUS "nolimitconnect api arm64-v8a")
+    set_target_properties(nolimitconnect PROPERTIES
+        ANDROID_TARGET_ARCH arm64-v8a
+        QT_ANDROID_PACKAGE_SOURCE_DIR "${PROJECT_SRC_ROOT_DIR}/nolimitgui/android"
+        QT_ANDROID_ABIS arm64-v8a
+        CMAKE_ANDROID_ASSETS_DIRECTORIES  "${PROJECT_SRC_ROOT_DIR}/bin-Android/assets"
+        )
 else()
     set_target_properties(nolimitconnect PROPERTIES
         WIN32_EXECUTABLE TRUE
@@ -1472,59 +1462,6 @@ elseif (DEFINED TARGET_OS_ANDROID)
             pktlib
 
             fribidi
-            freetype
-
-            tinyxml
-            xml2
-
-            lzma
-            lzo
-            zip
-            CoreLib
-            zlib
-            crossguid
-            miniupnpc
-
-            dl
-            m
-            EGL
-            GLESv2
-            c
-            stdc++
-            jnigraphics
-            android
-        )
-    elseif(DEFINED TARGET_CPU_ARM32)
-        target_link_libraries(nolimitconnect
-            PUBLIC
-            # static nlc libraries
-
-            x264
-            #x265 #cannot compile x265 on arm7a
-            dav1d
-            vpx
-            pcre
-            opencore-amr
-
-            mediatools
-            speex
-            lame
-            vorbis2
-
-            gnu
-            ass
-            fribidi
-            freetype
-
-            iconv
-
-            vxvideolib
-            speex
-            tag
-            theora
-            twolame
-
-
             freetype
 
             tinyxml
