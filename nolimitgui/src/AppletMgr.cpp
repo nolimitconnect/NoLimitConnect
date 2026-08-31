@@ -73,7 +73,6 @@
 #include "AppletIsPortOpenTest.h"
 #include "AppletInviteAccept.h"
 #include "AppletInviteCreate.h"
-#include "AppletInvites.h"
 
 #include "AppletLanguageSelect.h"
 #include "AppletLibrary.h"

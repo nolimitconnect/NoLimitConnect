@@ -1272,44 +1272,6 @@ VxFrame* GuiHelpers::getVxFrame( QWidget* curWidget )
     return vxFrame;
 }
 
-#if 0
-//============================================================================
-QFrame* GuiHelpers::getVxFrameContentItemsFrame( QWidget* curWidget )
-{
-    VxFrame* vxFrame = getVxFrame( curWidget );
-    if( vxFrame )
-    {
-        return vxFrame->getContentItemsFrame();
-    }
-
-    return nullptr;
-}
-
-//============================================================================
-TitleBarWidget* GuiHelpers::getVxFrameTitleBarWidget( QWidget* curWidget )
-{
-    VxFrame* vxFrame = getVxFrame( curWidget );
-    if( vxFrame )
-    {
-        return vxFrame->getTitleBarWidget();
-    }
-
-    return nullptr;
-}
-
-//============================================================================
-BottomBarWidget* GuiHelpers::getVxFrameBottomBarWidget( QWidget* curWidget )
-{
-    VxFrame* vxFrame = getVxFrame( curWidget );
-    if( vxFrame )
-    {
-        return vxFrame->getBottomBarWidget();
-    }
-
-    return nullptr;
-}
-#endif // 0
-
 //============================================================================
 QFrame* GuiHelpers::findContentFrame( QString& contentFrameObjName )
 {
