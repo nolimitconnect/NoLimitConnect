@@ -116,31 +116,56 @@ else()
     endif()
 endif()
 
-# if 6.9.3 is not available then fallback to 6.7.3
-set(QT_PATH_X64_NEW "$ENV{HOME}/Qt/6.9.3/gcc_64")
-set(QT_PATH_X64_OLD "$ENV{HOME}/Qt/6.7.3/gcc_64")
-set(QT_PATH_ARM_NEW "$ENV{HOME}/Qt/6.9.3/gcc_arm64")
-set(QT_PATH_ARM_OLD "$ENV{HOME}/Qt/6.7.3/gcc_arm64")
+# --------------------------
+# Supported Qt versions -- ordered most-preferred first ( the first entry is the default/primary
+# version; every other entry is tried as a fallback, in order, when the default isn't installed ).
+# To add support for a new Qt version, add it to this list -- every version-selection block below
+# reads from it, nothing else needs to change.
+# --------------------------
+set(NLC_SUPPORTED_QT_VERSIONS "6.9.3" "6.7.3")
+list(GET NLC_SUPPORTED_QT_VERSIONS 0 NLC_QT_DEFAULT_VERSION)
+
+# resolves the first existing path of the form "<prefix><version><suffix>" for a supported Qt
+# version, trying NLC_SUPPORTED_QT_VERSIONS in order. sets out_path_var/out_version_var to "" if
+# no candidate exists.
+function(nlc_find_qt_path prefix suffix out_path_var out_version_var)
+    foreach(_ver IN LISTS NLC_SUPPORTED_QT_VERSIONS)
+        set(_candidate "${prefix}${_ver}${suffix}")
+        if(EXISTS "${_candidate}")
+            set(${out_path_var} "${_candidate}" PARENT_SCOPE)
+            set(${out_version_var} "${_ver}" PARENT_SCOPE)
+            return()
+        endif()
+    endforeach()
+    set(${out_path_var} "" PARENT_SCOPE)
+    set(${out_version_var} "" PARENT_SCOPE)
+endfunction()
+
+# sets out_version_var to the first entry of NLC_SUPPORTED_QT_VERSIONS found as a substring of
+# haystack ( eg a CMAKE_PREFIX_PATH already pointing at a specific Qt install ), or "" if none match.
+function(nlc_detect_qt_version_in_string haystack out_version_var)
+    foreach(_ver IN LISTS NLC_SUPPORTED_QT_VERSIONS)
+        string(FIND "${haystack}" "${_ver}" _pos)
+        if(_pos GREATER -1)
+            set(${out_version_var} "${_ver}" PARENT_SCOPE)
+            return()
+        endif()
+    endforeach()
+    set(${out_version_var} "" PARENT_SCOPE)
+endfunction()
+
 # Only override Qt path if not set or invalid
 if(NOT DEFINED CMAKE_PREFIX_PATH OR NOT EXISTS "${CMAKE_PREFIX_PATH}")
     if(NOT DEFINED FLATPAKBUILD AND TARGET_OS_LINUX)
         if(TARGET_CPU_ARM64)
-            if(EXISTS "${QT_PATH_ARM_NEW}")
-                set(CMAKE_PREFIX_PATH "${QT_PATH_ARM_NEW}")
-            elseif(EXISTS "${QT_PATH_ARM_OLD}")
-                set(CMAKE_PREFIX_PATH "${QT_PATH_ARM_OLD}")
-            else()
-                message(FATAL_ERROR "No suitable Qt installation found")
-            endif()
+            nlc_find_qt_path("$ENV{HOME}/Qt/" "/gcc_arm64" _nlc_qt_path _nlc_qt_ver)
         else()
-            if(EXISTS "${QT_PATH_X64_NEW}")
-                set(CMAKE_PREFIX_PATH "${QT_PATH_X64_NEW}")
-            elseif(EXISTS "${QT_PATH_X64_OLD}")
-                set(CMAKE_PREFIX_PATH "${QT_PATH_X64_OLD}")
-            else()
-                message(FATAL_ERROR "No suitable Qt installation found")
-            endif()
+            nlc_find_qt_path("$ENV{HOME}/Qt/" "/gcc_64" _nlc_qt_path _nlc_qt_ver)
         endif()
+        if(_nlc_qt_path STREQUAL "")
+            message(FATAL_ERROR "No suitable Qt installation found ( tried: ${NLC_SUPPORTED_QT_VERSIONS} )")
+        endif()
+        set(CMAKE_PREFIX_PATH "${_nlc_qt_path}")
         message(STATUS "CMAKE_PREFIX_PATH is now ${CMAKE_PREFIX_PATH}")
     endif()
 endif()
@@ -302,29 +327,33 @@ project(nolimitconnect LANGUAGES C CXX)
 # if linux we can use the arch command to determine host cpu and assuming it is not cross compiled then set default
 set(NLC_BUILD_HOST_ARCH "")
 
-# Prefer Qt 6.9.3, but transparently fall back to 6.7.3 when configured
-# paths point to a non-existent 6.9.3 installation.
-set(NLC_QT_PRIMARY_VERSION "6.9.3")
-set(NLC_QT_FALLBACK_VERSION "6.7.3")
-
+# Prefer NLC_QT_DEFAULT_VERSION, but transparently fall back through the rest of
+# NLC_SUPPORTED_QT_VERSIONS ( in order ) when a path points at a non-existent install.
 function(nlc_apply_qt_fallback_for_var var_name)
     if(NOT DEFINED ${var_name})
         return()
     endif()
 
     set(_updated_values "")
-    set(_used_fallback FALSE)
+    set(_resolved_version "")
 
     foreach(_entry IN LISTS ${var_name})
         set(_resolved_entry "${_entry}")
 
-        string(FIND "${_entry}" "${NLC_QT_PRIMARY_VERSION}" _qt_primary_pos)
-        if(_qt_primary_pos GREATER -1 AND NOT EXISTS "${_entry}")
-            string(REPLACE "${NLC_QT_PRIMARY_VERSION}" "${NLC_QT_FALLBACK_VERSION}" _qt_fallback_entry "${_entry}")
-            if(EXISTS "${_qt_fallback_entry}")
-                message(WARNING "Qt ${NLC_QT_PRIMARY_VERSION} path not found for ${var_name}: ${_entry}. Falling back to Qt ${NLC_QT_FALLBACK_VERSION}: ${_qt_fallback_entry}")
-                set(_resolved_entry "${_qt_fallback_entry}")
-                set(_used_fallback TRUE)
+        if(NOT EXISTS "${_entry}")
+            nlc_detect_qt_version_in_string("${_entry}" _entry_version)
+            if(NOT _entry_version STREQUAL "")
+                foreach(_ver IN LISTS NLC_SUPPORTED_QT_VERSIONS)
+                    if(NOT _ver STREQUAL _entry_version)
+                        string(REPLACE "${_entry_version}" "${_ver}" _candidate "${_entry}")
+                        if(EXISTS "${_candidate}")
+                            message(WARNING "Qt ${_entry_version} path not found for ${var_name}: ${_entry}. Falling back to Qt ${_ver}: ${_candidate}")
+                            set(_resolved_entry "${_candidate}")
+                            set(_resolved_version "${_ver}")
+                            break()
+                        endif()
+                    endif()
+                endforeach()
             endif()
         endif()
 
@@ -333,9 +362,9 @@ function(nlc_apply_qt_fallback_for_var var_name)
 
     set(${var_name} "${_updated_values}" PARENT_SCOPE)
 
-    if(_used_fallback)
-        set(NLC_QT_VER "${NLC_QT_FALLBACK_VERSION}" PARENT_SCOPE)
-        string(REPLACE "." "_" _qt_version_underscored "${NLC_QT_FALLBACK_VERSION}")
+    if(NOT _resolved_version STREQUAL "")
+        set(NLC_QT_VER "${_resolved_version}" PARENT_SCOPE)
+        string(REPLACE "." "_" _qt_version_underscored "${_resolved_version}")
         set(QT_VERSION "${_qt_version_underscored}" PARENT_SCOPE)
     endif()
 endfunction()
@@ -381,7 +410,7 @@ set(PROJECT_SRC_ROOT_DIR ${CMAKE_CURRENT_LIST_DIR})
 file(MAKE_DIRECTORY "${PROJECT_SRC_ROOT_DIR}/package")
 set(PROJECT_PACKAGE_ROOT_DIR "${PROJECT_SRC_ROOT_DIR}/package")
 
- set(NLC_QT "${NLC_QT_PRIMARY_VERSION}")
+ set(NLC_QT "${NLC_QT_DEFAULT_VERSION}")
  set(NLC_QT_VER "${NLC_QT}")
  if(DEFINED QT_VERSION)
     #replace qt version like "6_9_3" with path variable like "6.9.3"
@@ -538,24 +567,15 @@ else()
             message(FATAL_ERROR "Unknown Android ABI: ${ANDROID_ABI}")
         endif()
 
-        set(POS1 -1)
+        set(NLC_QT_VER "")
         if(DEFINED CMAKE_PREFIX_PATH)
-            string(FIND "${CMAKE_PREFIX_PATH}" "6.9.3" POS1)
-            if(POS1 GREATER -1)
-                message(STATUS "PREFIX_PATH contains 6.9.3 ")
-                set(NLC_QT_VER "6.9.3")
-                set(QT_VERSION "6_9_3")
-            else()
-                string(FIND "${CMAKE_PREFIX_PATH}" "6.7.3" POS1)
-                if(POS1 GREATER -1)
-                    message(STATUS "PREFIX_PATH contains 6.7.3 ")
-                    set(NLC_QT_VER "6.7.3")
-                    set(QT_VERSION "6_7_3")
-                else()
-                    message(FATAL_ERROR "PREFIX_PATH did not contain a supported Qt version (6.9.3 or 6.7.3)")
-                endif()
-            endif()
+            nlc_detect_qt_version_in_string("${CMAKE_PREFIX_PATH}" NLC_QT_VER)
         endif()
+        if(NLC_QT_VER STREQUAL "")
+            message(FATAL_ERROR "PREFIX_PATH did not contain a supported Qt version ( tried: ${NLC_SUPPORTED_QT_VERSIONS} )")
+        endif()
+        message(STATUS "PREFIX_PATH contains Qt ${NLC_QT_VER}")
+        string(REPLACE "." "_" QT_VERSION "${NLC_QT_VER}")
 
     else()
         set(ANDROID_ABI "x64")
@@ -565,37 +585,46 @@ else()
     message(STATUS "ANDROID ABI " ${ANDROID_ABI})
 
     if("${QT_VERSION}" STREQUAL "")
-        # Default to 6.9.3 when QT_VERSION is not provided. If that Qt path
-        # is unavailable, transparently fall back to 6.7.3.
-        set(_nlc_default_qt_version "6.9.3")
-        set(_nlc_fallback_qt_version "6.7.3")
+        # Default to NLC_QT_DEFAULT_VERSION when QT_VERSION is not provided. If that Qt path is
+        # unavailable, transparently fall back through NLC_SUPPORTED_QT_VERSIONS in order.
+        if(NOT DEFINED CMAKE_PREFIX_PATH)
+            message(FATAL_ERROR "QT_VERSION is not set and CMAKE_PREFIX_PATH is not defined. Cannot locate a supported Qt installation ( tried: ${NLC_SUPPORTED_QT_VERSIONS} ).")
+        endif()
 
-        if(DEFINED CMAKE_PREFIX_PATH)
-            string(FIND "${CMAKE_PREFIX_PATH}" "${_nlc_default_qt_version}" _nlc_default_qt_pos)
-            if(_nlc_default_qt_pos GREATER -1)
-                set(NLC_QT_VER "${_nlc_default_qt_version}")
-                set(QT_VERSION "6_9_3")
+        set(_nlc_resolved_qt_version "")
+        foreach(_ver IN LISTS NLC_SUPPORTED_QT_VERSIONS)
+            if(_ver STREQUAL NLC_QT_DEFAULT_VERSION)
+                string(FIND "${CMAKE_PREFIX_PATH}" "${_ver}" _nlc_qt_pos)
+                if(_nlc_qt_pos GREATER -1)
+                    set(_nlc_resolved_qt_version "${_ver}")
+                    break()
+                endif()
             else()
-                string(REPLACE "${_nlc_default_qt_version}" "${_nlc_fallback_qt_version}" _nlc_fallback_prefix "${CMAKE_PREFIX_PATH}")
+                string(REPLACE "${NLC_QT_DEFAULT_VERSION}" "${_ver}" _nlc_fallback_prefix "${CMAKE_PREFIX_PATH}")
                 if(EXISTS "${_nlc_fallback_prefix}")
-                    message(WARNING "Qt ${_nlc_default_qt_version} path not found in CMAKE_PREFIX_PATH. Falling back to Qt ${_nlc_fallback_qt_version}: ${_nlc_fallback_prefix}")
+                    message(WARNING "Qt ${NLC_QT_DEFAULT_VERSION} path not found in CMAKE_PREFIX_PATH. Falling back to Qt ${_ver}: ${_nlc_fallback_prefix}")
                     set(CMAKE_PREFIX_PATH "${_nlc_fallback_prefix}")
-                    set(NLC_QT_VER "${_nlc_fallback_qt_version}")
-                    set(QT_VERSION "6_7_3")
-                else()
-                    message(FATAL_ERROR "QT_VERSION is not set and no supported Qt installation was found. Tried Qt ${_nlc_default_qt_version} and fallback Qt ${_nlc_fallback_qt_version} using CMAKE_PREFIX_PATH='${CMAKE_PREFIX_PATH}'.")
+                    set(_nlc_resolved_qt_version "${_ver}")
+                    break()
                 endif()
             endif()
-        else()
-            message(FATAL_ERROR "QT_VERSION is not set and CMAKE_PREFIX_PATH is not defined. Cannot locate supported Qt 6.9.3 or 6.7.3.")
+        endforeach()
+
+        if(_nlc_resolved_qt_version STREQUAL "")
+            message(FATAL_ERROR "QT_VERSION is not set and no supported Qt installation was found. Tried: ${NLC_SUPPORTED_QT_VERSIONS} using CMAKE_PREFIX_PATH='${CMAKE_PREFIX_PATH}'.")
         endif()
+
+        set(NLC_QT_VER "${_nlc_resolved_qt_version}")
+        string(REPLACE "." "_" QT_VERSION "${_nlc_resolved_qt_version}")
     endif()
 
-    if("${QT_VERSION}" STREQUAL "6_7_3" OR "${QT_VERSION}" STREQUAL "6_9_3")
-        set(NLC_NDK_VERSION 26.1.10909125)
-    else()
-        message(FATAL_ERROR "Unsupported Qt version: ${QT_VERSION}. Only 6.9.3 and 6.7.3 are supported.")
+    string(REPLACE "_" "." _nlc_qt_version_check "${QT_VERSION}")
+    list(FIND NLC_SUPPORTED_QT_VERSIONS "${_nlc_qt_version_check}" _nlc_qt_version_idx)
+    if(_nlc_qt_version_idx EQUAL -1)
+        message(FATAL_ERROR "Unsupported Qt version: ${QT_VERSION}. Supported: ${NLC_SUPPORTED_QT_VERSIONS}.")
     endif()
+    # both currently-supported Qt versions build against the same NDK version
+    set(NLC_NDK_VERSION 26.1.10909125)
 
     message(STATUS "2 - CMAKE_FIND_ROOT_PATH ${CMAKE_FIND_ROOT_PATH}")
 
@@ -817,7 +846,7 @@ else()
     endif()
 
     # Apply Qt version fallback for preset-provided paths that may still point
-    # at a missing 6.9.3 installation.
+    # at a missing NLC_QT_DEFAULT_VERSION installation.
     nlc_apply_qt_fallback_for_var(CMAKE_PREFIX_PATH)
     nlc_apply_qt_fallback_for_var(CMAKE_FIND_ROOT_PATH)
     nlc_apply_qt_fallback_for_var(QT_QMAKE_EXECUTABLE)
