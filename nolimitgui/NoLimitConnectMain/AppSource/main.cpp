@@ -425,10 +425,6 @@ int runApplication( QApplication* myApp, int argc, char** argv )
 int main( int argc, char** argv )
 {
 #if defined(TARGET_OS_WINDOWS)
-    // unfortunatly this does not fix the issue but since it only happens in debug builds the crash on shutdown can be ignored
-    // QTBUG-118330 
-    qputenv( "QT_FFMPEG_HWACCEL", "none" ); // to stop crash by Qt6Multimediad.dll not releasing d3d11 textures
-
     // Force Qt render backends to OpenGL on Windows.
     // Note: some DirectX-related system DLLs may still load due to OS/driver internals.
     qputenv( "QT_OPENGL", "desktop" );

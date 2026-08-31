@@ -37,7 +37,6 @@
 #include <QTimer>
 #include <QScopedPointer>
 #include <QFileInfo>
-#include <QMediaDevices>
 
 #include "ui_AppletSoundSettings.h"
 

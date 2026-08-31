@@ -21,7 +21,6 @@
 #include <QColor>
 #include <QRect>
 #include <QSize>
-#include <QCamera>
 
 class GuiUser;
 class OfferBaseInfo;

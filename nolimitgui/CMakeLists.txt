@@ -12,7 +12,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui LinguistTools Multimedia OpenGL Svg Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui LinguistTools OpenGL Svg Widgets)
 
 if(COMMAND qt_policy)
     qt_policy(SET QTP0002 NEW)
@@ -1220,7 +1220,6 @@ target_link_libraries(nolimitconnect
     Qt::Core
     Qt::CorePrivate
     Qt::Gui
-    Qt::Multimedia
     Qt::OpenGL
     Qt::Svg
     Qt::Widgets

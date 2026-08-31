@@ -610,7 +610,7 @@ if (DEFINED TARGET_OS_ANDROID)
     )
 endif()
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Multimedia OpenGL OpenGLWidgets Svg Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui OpenGL OpenGLWidgets Svg Widgets)
 
 add_library(player-nlc 
     STATIC

@@ -20,7 +20,6 @@
 
 class PlayControlWidget;
 class RenderGlWidget;
-class QMediaPlayer;
 class QProgressDialog;
 class QPushButton;
 class QSlider;
