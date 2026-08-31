@@ -9,7 +9,7 @@
 //============================================================================
 #pragma once
 
-#include <CoreLib/VirtFile.h>
+#include <CoreLib/VFile.h>
 
 #include <string>
 #include <vector>
