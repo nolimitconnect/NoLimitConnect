@@ -5,6 +5,13 @@ This script avoids re-translating everything:
 - Reuses existing translations from each locale .ts file.
 - Reuses cached translations from per-locale JSON cache.
 - Translates only source strings that are new or changed.
+
+Translation is done via a self-hosted LibreTranslate server rather than any Google API -
+translate.googleapis.com's unofficial free endpoint proved too unreliable (unpredictable
+429s regardless of request volume or VPN use), and a paid cloud translation API is not an
+option for this project. Start the server before running this script; see
+F:/LibreTranslate/README.md (Brett's machine) for setup, or run directly:
+    F:/LibreTranslate/venv/Scripts/libretranslate.exe --load-only en,de,zh,es,fr,ar,hi,pt,ja,ko,ru,th,id --disable-web-ui
 """
 
 from __future__ import annotations
@@ -16,7 +23,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 import xml.etree.ElementTree as ET
 
 import requests
@@ -43,7 +50,7 @@ BASE_TS = OUT_DIR / "nolimitconnect_en_EN.ts"
 
 SUPPORTED = [
     ("de", "de_DE"),
-    ("zh-CN", "zh_CN"),
+    ("zh", "zh_CN"),
     ("es", "es_ES"),
     ("fr", "fr_FR"),
     ("ar", "ar_SA"),
@@ -64,8 +71,12 @@ TOKEN_PATTERNS = [
     re.compile(r"<[^>]+>"),
 ]
 
-SEP = "<<<NLCSEP_4271>>>"
-USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+LIBRETRANSLATE_URL = "http://127.0.0.1:5000/translate"
+
+# The local server has no rate limits, but retry a couple of times in case it's
+# still loading a model or briefly busy.
+REQUEST_MAX_ATTEMPTS = 3
+REQUEST_RETRY_DELAY_SECONDS = 2.0
 
 
 def make_batches(items: List[str], max_items: int = 30, max_chars: int = 2500) -> List[List[str]]:
@@ -73,7 +84,7 @@ def make_batches(items: List[str], max_items: int = 30, max_chars: int = 2500) -
     current: List[str] = []
     chars = 0
     for item in items:
-        add_chars = len(item) + len(SEP) + 2
+        add_chars = len(item) + 1
         if current and (len(current) >= max_items or chars + add_chars > max_chars):
             batches.append(current)
             current = []
@@ -111,34 +122,26 @@ def unmask_tokens(text: str, mapping: Dict[str, str]) -> str:
 
 
 def translate_batch(lines: List[str], target_lang: str) -> List[str]:
-    payload = ("\n" + SEP + "\n").join(lines)
-    params = {
-        "client": "gtx",
-        "sl": "en",
-        "tl": target_lang,
-        "dt": "t",
-        "q": payload,
+    payload = {
+        "q": lines,
+        "source": "en",
+        "target": target_lang,
+        "format": "text",
     }
 
-    last_err = None
-    for attempt in range(4):
+    last_err: Optional[Exception] = None
+    for attempt in range(REQUEST_MAX_ATTEMPTS):
         try:
-            response = requests.get(
-                "https://translate.googleapis.com/translate_a/single",
-                params=params,
-                headers={"User-Agent": USER_AGENT},
-                timeout=40,
-            )
+            response = requests.post(LIBRETRANSLATE_URL, json=payload, timeout=60)
             response.raise_for_status()
-            data = response.json()
-            translated = "".join(part[0] for part in data[0])
-            split = translated.split(SEP)
-            if len(split) != len(lines):
-                raise RuntimeError(f"separator split mismatch: expected {len(lines)}, got {len(split)}")
-            return [s.strip("\n") for s in split]
+            translated = response.json()["translatedText"]
+            if len(translated) != len(lines):
+                raise RuntimeError(f"batch size mismatch: expected {len(lines)}, got {len(translated)}")
+            return translated
         except Exception as exc:  # pylint: disable=broad-except
             last_err = exc
-            time.sleep(1.0 + attempt * 1.5)
+            if attempt + 1 < REQUEST_MAX_ATTEMPTS:
+                time.sleep(REQUEST_RETRY_DELAY_SECONDS)
 
     raise RuntimeError(f"batch translation failed after retries: {last_err}")
 
@@ -321,12 +324,12 @@ def main() -> int:
     total_written = 0
     total_strings_all = 0
 
-    for google_lang, ts_locale in SUPPORTED:
+    for lt_lang, ts_locale in SUPPORTED:
         if selected and ts_locale not in selected:
             continue
 
         out_tree, translated_now, missing_after, pending_before, total_strings = translate_language_incremental(
-            base_root, google_lang, ts_locale
+            base_root, lt_lang, ts_locale
         )
         out_file = OUT_DIR / f"nolimitconnect_{ts_locale}.ts"
         wrote = write_if_changed(out_tree, out_file)
