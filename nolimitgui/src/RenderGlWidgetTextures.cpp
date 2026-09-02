@@ -177,15 +177,6 @@ bool RenderGlWidget::loadToGPU( CTextureNlc * texture )
     {
         GLenum mipmapFilter = ( texture->m_scalingMethod == TEXTURE_SCALING::NEAREST ? GL_LINEAR_MIPMAP_NEAREST : GL_LINEAR_MIPMAP_LINEAR );
         getGlFunctions()->glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mipmapFilter );
-
-//#ifndef HAS_GLES
-//        // Lower LOD bias equals more sharpness, but less smooth animation
-//        glTexParameterf( GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, -0.5f );
-//        if( !texture->m_isOglVersion3orNewer )
-//        {
-//            glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE );
-//        }
-//#endif
     }
     else
     {
@@ -205,59 +196,9 @@ bool RenderGlWidget::loadToGPU( CTextureNlc * texture )
     if( texture->m_textureWidth > maxSize )
     {
         LogMsg( LOG_ERROR, "GL: Image width %d too big to fit into single texture unit, truncating to %u", texture->m_textureWidth, maxSize );
-//#ifndef HAS_GLES
-//         getGlFunctions()->glPixelStorei( GL_UNPACK_ROW_LENGTH, texture->m_textureWidth );
-//#endif
         texture->m_textureWidth = maxSize;
     }
-//
-//#ifndef HAS_GLES
-//    GLenum format = GL_BGRA;
-//    GLint numcomponents = GL_RGBA;
-//
-//    switch( texture->m_format )
-//    {
-//    case XB_FMT_DXT1:
-//        format = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-//        break;
-//    case XB_FMT_DXT3:
-//        format = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
-//        break;
-//    case XB_FMT_DXT5:
-//    case XB_FMT_DXT5_YCoCg:
-//        format = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
-//        break;
-//    case XB_FMT_RGB8:
-//        format = GL_RGB;
-//        numcomponents = GL_RGB;
-//        break;
-//    case XB_FMT_A8R8G8B8:
-//    default:
-//        break;
-//    }
-//
-//    if( ( texture->m_format & XB_FMT_DXT_MASK ) == 0 )
-//    {
-//         getGlFunctions()->glTexImage2D( GL_TEXTURE_2D, 0, numcomponents,
-//                                texture->m_textureWidth, texture->m_textureHeight, 0,
-//                                format, GL_UNSIGNED_BYTE, texture->m_pixels );
-//    }
-//    else
-//    {
-//         getGlFunctions()->glCompressedTexImage2D( GL_TEXTURE_2D, 0, format,
-//                                texture->m_textureWidth, texture->m_textureHeight, 0,
-//                                texture->GetPitch() * texture->GetRows(), texture->m_pixels );
-//    }
-//
-//    if( texture->IsMipmapped() && texture->m_isOglVersion3orNewer )
-//    {
-//         getGlFunctions()->glGenerateMipmap( GL_TEXTURE_2D );
-//    }
-//
-//     getGlFunctions()->glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 );
-//
-//#else	// GLES version
-//
+
     // All incoming textures are BGRA, which GLES does not necessarily support.
     // Some (most?) hardware supports BGRA textures via an extension.
     // If not, we convert to RGBA first to avoid having to swizzle in shaders.

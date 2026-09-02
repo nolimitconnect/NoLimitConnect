@@ -119,8 +119,7 @@ void AppCommon::connectSignals( void )
     connect( this, SIGNAL(signalStatusMsg(QString)), this, SLOT(slotStatusMsg(QString)));
 
     connect( this, SIGNAL(signalAppErr(EAppErr,QString)), this, SLOT(slotAppErr(EAppErr,QString)));
-    connect( this, SIGNAL(signalNetworkStateChanged(ENetworkStateType)), this, SLOT(slotNetworkStateChanged(ENetworkStateType)));
-
+   
     connect( this, SIGNAL(signalToGuiInstMsg(VxGUID,EPluginType,QString)), this, SLOT(slotToGuiInstMsg(VxGUID,EPluginType,QString)), Qt::QueuedConnection );
 
     connect( this, SIGNAL(signalInternalWantMicrophoneRecording(EMediaModule,bool)), this, SLOT(slotInternalWantMicrophoneRecording(EMediaModule,bool)), Qt::QueuedConnection );

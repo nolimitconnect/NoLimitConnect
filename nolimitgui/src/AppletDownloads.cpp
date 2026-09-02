@@ -10,7 +10,6 @@
 
 #include "AppletDownloads.h"
 
-#include "ActivityDownloadItemMenu.h"
 #include "AppCommon.h"
 #include "AppletAboutFile.h"
 #include "AppletMgr.h"

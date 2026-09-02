@@ -48,10 +48,7 @@ GuiOfferListWidget::~GuiOfferListWidget()
 //============================================================================
 void GuiOfferListWidget::callbackMyIdentUpdated( GuiUser* guiUser )
 {
-    //if( guiUser )
-    //{
-    //    callbackUserUpdated( guiUser );
-    //}
+
 }
 
 //============================================================================

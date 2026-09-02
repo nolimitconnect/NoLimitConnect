@@ -79,14 +79,6 @@ void GuiOfferListItem::onIdentAvatarButtonClicked()
     emit signalAvatarButtonClicked( this );
 }
 
-// Allow default behavior
-//============================================================================
-//void GuiOfferListItem::onIdentFriendshipButtonClicked()
-//{
-//    LogMsg( LOG_DEBUG, "GuiOfferListItem::onIdentFrienshipButtonClicked" );
-//    emit signalFriendshipButtonClicked( this );
-//}
-
 //============================================================================
 void GuiOfferListItem::onIdentOfferInfoButtonClicked()
 {

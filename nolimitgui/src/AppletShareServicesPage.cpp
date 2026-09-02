@@ -34,15 +34,7 @@ AppletShareServicesPage::AppletShareServicesPage( AppCommon& app, QWidget* paren
 	setExpandWindowVisibility( true );
 
     slotRepositionToParent();
- //   connectSignals();
-
-    // save original values so can restore them if need be
- //   m_Engine.getEngineSettings().getNetworkHostUrl( m_OrigHostUrl );
-    //m_Engine.getEngineSettings().getNetworkKey( m_OrigNetworkName );
-    //m_Engine.getEngineSettings().getConnectTestUrl( m_OrigConnectionTestUrl );
-
-    //updateDlgFromSettings();
-
+ 
 }
 
 //============================================================================

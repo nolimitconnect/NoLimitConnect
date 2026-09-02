@@ -1047,33 +1047,25 @@ bool P2PEngine::fromGuiTestCmd( enum ETestParam1		eTestParam1,
 	{
 	case eTestParam1FullNetTest1:
 		{
-			//NetSettings netSettings;
-			//m_EngineSettings.getNetSettings( netSettings );
-			//fromGuiTestNetwork( netSettings );
+
 		}
 		break;
 
 	case eTestParam1WhatsMyIp:
 		{
-			//void						queryWhatsMyIp( void );
+
 		}
 		break;
 
 	case eTestParam1IsMyPortOpen:
 		{
-			//m_PluginNetServices.testIsMyPortOpen();
+
 		}
 		break;
 
-	//case eTestParam1AnnounceNow:
-	//	{
-	//		m_NetServicesMgr.announceToHost( m_NetworkStateMachine.getHostIp(), m_NetworkStateMachine.getHostPort() );
-	//	}
-	//	break;
-
 	case eTestParamSoundDelayTest:
 		{
-			// m_MediaProcessor.fromGuiSoundDelayTest();
+
 		}
 		break;
 

@@ -213,8 +213,6 @@ public:
 
     static void                 contentUrlToFileSystemPath( QString& contentUrl );
 
-    static std::string          getRealFileName( QString selectedFile );
-
     static void                 showApplicationNotReadyError( bool appReadyButNetworkNotReady, QWidget* parent = nullptr );
     static void                 showFileNameEmptyError( QWidget* parent = nullptr );
     static void                 showFilePermissionError( QWidget* parent = nullptr );

@@ -401,12 +401,6 @@ void MJPEGWriter::callbackVideoJpg( VxGUID& vidFeedId, std::shared_ptr<CamJpgVid
 	m_PrevFrameJpgLen = lenToWrite;
 	m_TotalJpgDataLen += lenToWrite;
 	m_AviJpgHdr.m_DataLen = lenToWrite;
-	//LogMsg( LOG_INFO, "Avi Rec Jpg Frame %d len %d offset %d\n",	m_FrameOffsetList.size(),
-	//																m_PrevFrameJpgLen,
-	//																dataOffset );
-	//char dumpFileName[256];
-	//sprintf( dumpFileName, "F:/%d.jpg", m_FrameOffsetList.size() );
-	//VxFileUtil::writeWholeFile( dumpFileName, pu8Jpg, u32JpgDataLen );
 
 	// we replace the JIFF after the first 6 bytes in jpg with AVI1
 	memcpy( m_AviJpgHdr.m_First6BytesOfJpg, pu8Jpg, 6 );

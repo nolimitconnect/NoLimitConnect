@@ -103,11 +103,6 @@ void ThumbnailChooseWidget::slotThumbSelected( AppletBase * thumbGallery, Thumbn
                 emit signalThumbnailAssetChanged( thumbAsset );
             }
         }
-
-        /*
-        disconnect( thumbGallery, SIGNAL(signalThumbSelected( AppletBase *, ThumbnailViewWidget * ) ), this, SLOT(slotThumbSelected( AppletBase *, ThumbnailViewWidget * ) ) );
-        thumbGallery->closeApplet();
-        */
     }
 }
 

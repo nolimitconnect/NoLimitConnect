@@ -33,7 +33,6 @@
 #include <QElapsedTimer>
 
 #include "RenderGlShaders.h"
-#include "RenderLogoShaders.h"
 
 // uncomment to render qt logo as test instead of running kodi
 //#define RENDER_LOGO_INSTEAD_OF_KODI

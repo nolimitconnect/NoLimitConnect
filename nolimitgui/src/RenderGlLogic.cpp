@@ -314,10 +314,6 @@ void  RenderGlLogic::VerifyGLStateQtDbg( const char* szfile, const char* szfunct
 #else
     LogModule( eLogVideoRender, LOG_ERROR, "GL ERROR: %d %s", err, gluErrorString( err ) );
 #endif // TARGET_OS_ANDROID
-    //if( szfile && szfunction )
-    //{
-    //    LogMsg( LOG_ERROR, "In file:%s function:%s line:%d", szfile, szfunction, lineno );
-    //}
 }
 #else
 void RenderGlLogic::VerifyGLStateQt()

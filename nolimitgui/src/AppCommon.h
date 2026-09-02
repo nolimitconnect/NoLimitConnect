@@ -852,8 +852,7 @@ protected slots:
 
     void						slotRelayHelpButtonClicked( void );
     void						slotSetRelayHelpButtonVisibility( bool isVisible );
-    void						slotNetworkStateChanged( ENetworkStateType eNetworkState );
-
+ 
     void						onMenuFileSelected( int iMenuId, PopupMenu* popupMenu, ActivityBase* contentFrame );
 
     void						onOncePerSecond( void );

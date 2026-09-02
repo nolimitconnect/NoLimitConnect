@@ -33,7 +33,6 @@ public:
 
     void                        addThumbnail( ThumbnailViewWidget * thumbnail );
     bool                        hasRoomForThumbnail( int idx = 0 );
-    void                        setRowNum( int rowNum );
 
     void                        clearImages( void );
     void                        recalculateSizeHint( int listWidth, float displayScale );

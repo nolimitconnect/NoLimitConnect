@@ -38,11 +38,6 @@ void PluginConnectionTestClient::testIsMyPortOpen( void )
 //============================================================================
 int32_t PluginConnectionTestClient::handlePtopConnection( std::shared_ptr<VxSktBase>& sktBase, NetServiceHdr& netServiceHdr )
 {
-    //if( false == m_NetServiceUtil.isAllHttpContentArrived( sktBase ) )
-    //{
-    //	LogMsg( LOG_ERROR, "PluginNetServices::handlePtopConnection: not all of http content arrived\n" );
-    //	return 0; // don't error.. we should get more later
-    //}
     int32_t rc = 0;
     if( sktBase->isConnected() )
     {

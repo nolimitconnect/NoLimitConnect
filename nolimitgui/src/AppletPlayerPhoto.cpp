@@ -58,16 +58,6 @@ void AppletPlayerPhoto::initAppletPlayerPhoto( void )
         setupBottomMenu( bottomBar->getMenuButton() );
     }
 
-	//ui.m_PlayPosSlider->setRange( 0, 100000 );
-
-	//connect( this, SIGNAL(signalBackButtonClicked()), this, SLOT(closeApplet()) );
-
-	//connect( ui.m_PlayPosSlider, SIGNAL( sliderPressed() ), this, SLOT(slotSliderPressed() ) );
-	//connect( ui.m_PlayPosSlider, SIGNAL( sliderReleased() ), this, SLOT(slotSliderReleased() ) );
-
-	//connect( this, SIGNAL(signalPlayProgress( int ) ), this, SLOT(slotPlayProgress( int ) ) );
-	//connect( this, SIGNAL(signalPlayEnd() ), this, SLOT(slotPlayEnd() ) );
-
 	m_MyApp.activityStateChange( this, true );
 }
 

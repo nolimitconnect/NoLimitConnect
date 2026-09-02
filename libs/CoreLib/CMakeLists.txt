@@ -44,7 +44,6 @@ list(APPEND CoreLib_HEADERS
     VxBuffer.h
     VxChop.h
     VxChopMap.h
-    VxColorUtil.h
     VxCrypto.h
     VxDebug.h
     VxDefs.h
@@ -58,17 +57,14 @@ list(APPEND CoreLib_HEADERS
     VxFileUtil.h
     VxGUID.h
     VxGUIDList.h
-    VxGuidPairList.h
     VxGuidPairTimeList.h
     VxGlobals.h
     VxLinuxOnly.h
     VxMathDef.h
-    VxMathVec3f.h
     VxMemoryUsage.h
     VxMemUtils.h
     VxMutex.h
     VxParse.h
-    VxProfile.h
     VxPtopUrl.h
 
     VxResolveHost.h
@@ -78,13 +74,11 @@ list(APPEND CoreLib_HEADERS
     VxShortcut.h
     VxSktUtil.h
     VxStringUtils.h
-    VxTextStreamReader.h
     VxThread.h
     VxTimedCallback.h
     VxTimeUtil.h
     VxTime.h
     VxElapseTimer.h
-    VxValuePair.h
     VxXferDefs.h
     VxXml.h
     VxUrl.h
@@ -133,7 +127,6 @@ list(APPEND CoreLib_SOURCES
     VxBuffer.cpp
     VxChop.cpp
     VxChopMap.cpp
-    VxColorUtil.cpp
     VxCrypto.cpp
     VxDebug.cpp
     VxElapseTimer.cpp
@@ -151,17 +144,14 @@ list(APPEND CoreLib_SOURCES
     VxFunctionsMissingInWindows.cpp
     VxGUID.cpp
     VxGUIDList.cpp
-    VxGuidPairList.cpp
     VxGuidPairTimeList.cpp
     VxGlobals.cpp
     VxLinuxOnly.cpp
     VxMathDef.cpp
-    VxMathVec3f.cpp
     VxMemoryUsage.cpp
     VxMemUtils.cpp
     VxMutex.cpp
     VxParse.cpp
-    VxProfile.cpp
     VxPtopUrl.cpp
 
     VxResolveHost.cpp
@@ -171,13 +161,11 @@ list(APPEND CoreLib_SOURCES
     VxShortcut.cpp
     VxSktUtil.cpp
     VxStringUtils.cpp
-    VxTextStreamReader.cpp
     VxThread.cpp
     VxTimeUtil.cpp
     VxTime.cpp
     VxTimedCallback.cpp
 
-    VxValuePair.cpp
     VxXferDefs.cpp
     VxXml.cpp
     VxUrl.cpp

@@ -120,8 +120,4 @@ void AppCommon::slotInternalMediaError( EMediaModule mediaModule, EMediaError me
 		// just log instead of show message box if user has not acked the previous message	
 		return;
 	}
-
-	//isBusy = true;
-	//QMessageBox::warning(&getHomeWindow(), QObject::tr("Media Error"), msg);
-	//isBusy = false;
 }

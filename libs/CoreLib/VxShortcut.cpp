@@ -50,10 +50,6 @@ HRESULT VxCreateShortcut(	std::wstring csLinkName, //Full path to link ( link na
 		{
 			csLinkPath += L".lnk";  // Important !!!
 
-			//WORD wsz[VX_MAX_PATH];
-			//MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, csLinkPath.c_str(), -1, (LPWSTR)wsz, VX_MAX_PATH);
-
-			//hres = ppf->Save((LPCOLESTR)wsz, TRUE);
 			hres = ppf->Save((LPCOLESTR)csLinkPath.c_str(), TRUE);
 			if (hres != S_OK )
 				LogMsg( LOG_ERROR, "IPersistFile->Save() Error" );

@@ -68,17 +68,6 @@ void VxSktThrottle::TxedPkt( int iPktLen )
 	vx_assert( iPktLen >= 0 );
 	m_s64BytesTxed += iPktLen;
 	m_s64TxPktCnt++;
-	//m_iTxSamplesBytes += iPktLen;
-	//m_iTxSamplesCnt++;
-	//if( VxSKT_INFO_SAMPLE_CNT == m_iTxSamplesCnt )
-	//{
-	//	// compute speed
-	//	UpdateTxSpeed();
-	//	// reset sample info
-	//	m_iTxSamplesBytes = 0;
-	//	m_iTxSamplesCnt = 0;
-	//	m_TxTimer.startTimer();
-	//}
 }
 
 //============================================================================

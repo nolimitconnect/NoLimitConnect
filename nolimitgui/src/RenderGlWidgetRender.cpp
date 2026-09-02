@@ -123,13 +123,6 @@ bool RenderGlWidget::clearBuffers( NlcColor color )
 	}
 
     VerifyGLStateQt();
-    //float r = GET_R( color ) / 255.0f;
-    //float g = GET_G( color ) / 255.0f;
-    //float b = GET_B( color ) / 255.0f;
-    //float a = GET_A( color ) / 255.0f;
-
-    //getGlFunctions()->glClearColor( r, g, b, a );
-    //glClearColor( 0.1f, 0.1f, 0.2f, 1.0f );
 
     GLbitfield flags = GL_COLOR_BUFFER_BIT;
     getGlFunctions()->glClear( flags );

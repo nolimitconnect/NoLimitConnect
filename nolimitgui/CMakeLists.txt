@@ -63,14 +63,11 @@ list(APPEND nlc_HEADERS
     src/ActionWidget.h
 
     src/ActivityBrowseFiles.h
-    src/ActivityDownloadItemMenu.h
     src/ActivityGenerateHash.h
     src/ActivityMessageBox.h
     src/ActivityMsgBoxOk.h
     src/ActivityMsgBoxYesNo.h
-    src/ActivitySessionOptions.h
     src/ActivityShowHelp.h
-    src/ActivityTimedMessage.h
     src/ActivityBase.h
 
     src/AdminAvailMgr.h
@@ -98,7 +95,6 @@ list(APPEND nlc_HEADERS
     src/AppletChatRoomJoinSearch.h
     src/AppletChatRoomListLocalView.h
     src/AppletChooseThumbnail.h
-    src/AppletClientAvatarImage.h
     src/AppletClientBase.h
     src/AppletCreateAccount.h
 
@@ -208,7 +204,6 @@ list(APPEND nlc_HEADERS
     src/AppletSettingsMessenger.h
     src/AppletSettingsPage.h
     src/AppletSettingsPushToTalk.h
-    src/AppletSettingsRandomConnect.h
     src/AppletSettingsShareFiles.h
     src/AppletSettingsShareWebCam.h
     src/AppletSettingsStoryboard.h
@@ -260,7 +255,6 @@ list(APPEND nlc_HEADERS
     src/EventsQtToNlc.h
     src/FileItemInfo.h
     src/FriendList.h
-    src/FriendListDelegate.h
     src/FileActionBarWidget.h
     src/FileActionMenu.h
     src/FileFilterSelectWidget.h
@@ -301,7 +295,6 @@ list(APPEND nlc_HEADERS
     src/GuiHostedListWidget.h
     src/GuiHostJoin.h
     src/GuiHostJoinCallback.h
-    src/GuiHostJoinList.h
     src/GuiHostedByMeJoinMgr.h
     src/GuiHostJoinSession.h
     src/GuiHostSession.h
@@ -337,9 +330,7 @@ list(APPEND nlc_HEADERS
     src/GuiUserBase.h
     src/GuiUserJoin.h
     src/GuiUserJoinCallback.h
-    src/GuiUserJoinList.h
     src/GuiUserJoinListItem.h
-    src/GuiUserJoinListWidget.h
     src/GuiUserJoinMgr.h
     src/GuiUserJoinSession.h
     src/GuiUserListItem.h
@@ -350,9 +341,7 @@ list(APPEND nlc_HEADERS
     src/GuiUserUpdateCallback.h
     src/GuiWebPageCallback.h
     src/GuiWebPageMgr.h
-    src/HistoryEntryWidget.h
     src/HistoryListWidget.h
-    src/HostedPluginWidget.h
     src/HostJoinRequestListItem.h
     src/HostJoinRequestListWidget.h
     src/HomeWindow.h
@@ -362,7 +351,6 @@ list(APPEND nlc_HEADERS
     src/InviteUrlWidget.h
 
     src/ImageListEntry.h
-    src/ImagePickBar.h
     src/ImageListRow.h
     src/ImageListWidget.h
     src/InformationWidget.h
@@ -378,7 +366,6 @@ list(APPEND nlc_HEADERS
     src/InstMsgWidget.h
     src/ListWidgetBase.h
     src/LogMgr.h
-    src/LogoRenderer.h
     src/LogWidget.h
     src/MessengerPage.h
     src/MyIcons.h
@@ -390,7 +377,6 @@ list(APPEND nlc_HEADERS
     src/OfferSessionLogic.h
     src/PermissionWidget.h
     src/PermissionListItem.h
-    src/PersonOfferListItem.h
     src/PersonOfferListWidget.h
     src/PhoneRinger.h
     src/PlayControlWidget.h
@@ -399,11 +385,9 @@ list(APPEND nlc_HEADERS
     src/RenderGlLogic.h
     src/RenderGlShaders.h
     src/RenderGlWidget.h
-    src/RenderLogoShaders.h
     src/RenderPlayerNlcThread.h
     src/RenderShaderQt.h
     src/RichTextWidget.h
-    src/SearchBarWidget.h
     src/SearchParamsWidget.h
     src/ServiceSettingsWidget.h
     src/SessionWidget.h
@@ -412,8 +396,6 @@ list(APPEND nlc_HEADERS
     src/SoundDefs.h
     src/SoundFxMgr.h
 
-    src/TestWidget.h
-    src/TextChatLogic.h
     src/ThumbnailEditWidget.h
     src/ThumbnailChooseWidget.h
     src/ThumbnailViewWidget.h
@@ -471,14 +453,11 @@ list(APPEND nlc_SOURCES
     src/ActionWidget.cpp
     src/ActivityBase.cpp
     src/ActivityBrowseFiles.cpp
-    src/ActivityDownloadItemMenu.cpp
     src/ActivityGenerateHash.cpp
     src/ActivityMessageBox.cpp
     src/ActivityMsgBoxOk.cpp
     src/ActivityMsgBoxYesNo.cpp
-    src/ActivitySessionOptions.cpp
     src/ActivityShowHelp.cpp
-    src/ActivityTimedMessage.cpp
 
     src/AdminAvailMgr.cpp
     src/AppCommon.cpp
@@ -520,7 +499,6 @@ list(APPEND nlc_SOURCES
     src/AppletChatRoomJoinSearch.cpp
     src/AppletChatRoomListLocalView.cpp
     src/AppletChooseThumbnail.cpp
-    src/AppletClientAvatarImage.cpp
     src/AppletClientBase.cpp
     src/AppletCreateAccount.cpp
     src/AppletRandomConnectClient.cpp
@@ -632,7 +610,6 @@ list(APPEND nlc_SOURCES
     src/AppletSettingsMessenger.cpp
     src/AppletSettingsPage.cpp
     src/AppletSettingsPushToTalk.cpp
-    src/AppletSettingsRandomConnect.cpp
     src/AppletSettingsShareFiles.cpp
     src/AppletSettingsShareWebCam.cpp
     src/AppletSettingsStoryboard.cpp
@@ -687,11 +664,9 @@ list(APPEND nlc_SOURCES
     src/FileListReplySession.cpp
     src/FileMediaSelectWidget.cpp
     src/FileShareItemWidget.cpp
-    #src/FileViewSharedActionBar.cpp
 
     src/FileXferWidget.cpp
     src/FriendList.cpp
-    src/FriendListDelegate.cpp
     src/FriendListWidget.cpp
 
     src/GuiAudioMgr.cpp
@@ -720,7 +695,6 @@ list(APPEND nlc_SOURCES
     src/GuiHostedListSession.cpp
     src/GuiHostedListWidget.cpp
     src/GuiHostJoin.cpp
-    src/GuiHostJoinList.cpp
     src/GuiHostedByMeJoinMgr.cpp
     src/GuiHostJoinSession.cpp
     src/GuiHostSession.cpp
@@ -750,9 +724,7 @@ list(APPEND nlc_SOURCES
     src/GuiUser.cpp
     src/GuiUserBase.cpp
     src/GuiUserJoin.cpp
-    src/GuiUserJoinList.cpp
     src/GuiUserJoinListItem.cpp
-    src/GuiUserJoinListWidget.cpp
     src/GuiUserJoinMgr.cpp
     src/GuiUserJoinSession.cpp
     src/GuiUserListItem.cpp
@@ -761,14 +733,11 @@ list(APPEND nlc_SOURCES
     src/GuiUserMultiListWidget.cpp
     src/GuiUserSessionBase.cpp
     src/GuiWebPageMgr.cpp
-    src/HostedPluginWidget.cpp
     src/HostJoinRequestListItem.cpp
     src/HostJoinRequestListWidget.cpp
     src/HomeWindow.cpp
-    src/HistoryEntryWidget.cpp
     src/HistoryListWidget.cpp
     src/ImageListEntry.cpp
-    src/ImagePickBar.cpp
     src/ImageListRow.cpp
     src/ImageListWidget.cpp
     src/InformationWidget.cpp
@@ -790,7 +759,6 @@ list(APPEND nlc_SOURCES
     src/ListWidgetBase.cpp
     src/LogMgr.cpp
     src/LogWidget.cpp
-    src/LogoRenderer.cpp
 
     src/MessengerPage.cpp
     src/MultiSessionState.cpp
@@ -801,7 +769,6 @@ list(APPEND nlc_SOURCES
     src/OfferSessionLogic.cpp
     src/PermissionWidget.cpp
     src/PermissionListItem.cpp
-    src/PersonOfferListItem.cpp
     src/PersonOfferListWidget.cpp
     src/PhoneRinger.cpp
     src/PlayControlWidget.cpp
@@ -815,20 +782,16 @@ list(APPEND nlc_SOURCES
     src/RenderGlWidgetShaderInterface.cpp
     src/RenderGlWidgetTextures.cpp
     src/RenderGlShaders.cpp
-    src/RenderLogoShaders.cpp
     src/RenderPlayerNlcThread.cpp
     src/RenderShaderDefsGl.cpp
     src/RenderShaderQt.cpp
     src/RichTextWidget.cpp
-    src/SearchBarWidget.cpp
     src/SearchParamsWidget.cpp
     src/SessionWidget.cpp
     src/ServiceSettingsWidget.cpp
     src/SoundFxMgr.cpp
     src/StoryWidget.cpp
 
-    src/TestWidget.cpp
-    src/TextChatLogic.cpp
     src/TitleBarWidget.cpp
     src/TodGameDefs.cpp
     src/TodGameLogic.cpp
@@ -872,14 +835,11 @@ set(nlc_FORMS)
 list(APPEND nlc_FORMS
     ${CMAKE_SOURCE_DIR}/resources/Forms/ActionWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/ActivityBrowseFiles.ui
-    ${CMAKE_SOURCE_DIR}/resources/Forms/ActivityDownloadItemMenu.ui
 
     ${CMAKE_SOURCE_DIR}/resources/Forms/ActivityGenerateHash.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/ActivityMessageBox.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/ActivityNetworkStartupTest.ui
-    ${CMAKE_SOURCE_DIR}/resources/Forms/ActivitySessionOptions.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/ActivityShowHelp.ui
-    ${CMAKE_SOURCE_DIR}/resources/Forms/ActivityTimedMessage.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/ActivityYesNo.ui
 
     ${CMAKE_SOURCE_DIR}/resources/Forms/AcceptCancelWidget.ui
@@ -998,7 +958,6 @@ list(APPEND nlc_FORMS
     ${CMAKE_SOURCE_DIR}/resources/Forms/FileFilterSelectWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/FileMediaSelectWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/FileShareItemWidget.ui
-    #${CMAKE_SOURCE_DIR}/resources/Forms/FileViewSharedActionBar.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/FileXferWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/FriendListDlg.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/GuiFriendRequestWidget.ui
@@ -1006,12 +965,10 @@ list(APPEND nlc_FORMS
     ${CMAKE_SOURCE_DIR}/resources/Forms/GuiHostedListItem.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/GuiUserMultiListWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/HostJoinRequestListItem.ui
-    ${CMAKE_SOURCE_DIR}/resources/Forms/HistoryEntryWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/IdentWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/ImageListEntry.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/ImageListRow.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/ImageListWidget.ui
-    ${CMAKE_SOURCE_DIR}/resources/Forms/ImagePickBar.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/InformationWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/InputAllWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/InputFaceWidget.ui
@@ -1026,15 +983,12 @@ list(APPEND nlc_FORMS
     ${CMAKE_SOURCE_DIR}/resources/Forms/OfferSendWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/PermissionWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/PermissionListItemWidget.ui
-    ${CMAKE_SOURCE_DIR}/resources/Forms/PersonOfferListItem.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/PlayControlWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/PluginSettingsWidget.ui
-    ${CMAKE_SOURCE_DIR}/resources/Forms/SearchBarWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/SearchParamsWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/ServiceSettingsWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/SessionWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/StoryWidget.ui
-    ${CMAKE_SOURCE_DIR}/resources/Forms/TestWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/ThumbnailEditWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/ThumbnailChooseWidget.ui
     ${CMAKE_SOURCE_DIR}/resources/Forms/TitleBarWidget.ui

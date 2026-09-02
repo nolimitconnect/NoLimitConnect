@@ -832,11 +832,6 @@ void HostBaseMgr::onUserOnline( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent*
     if( sktBase && netIdent )
     {
         netIdent->upgradeToGuestFriendship();
-        
-        //GroupieId groupieId( netIdent->getMyOnlineId(), m_Engine.getMyOnlineId(), getHostType() );
-        //HostUserSessionId hostUserSessionId( sktBase->getSocketId(), groupieId, sessionId );
-        //BaseSessionInfo sessionInfo( hostUserSessionId );
-        //m_Engine.getUserOnlineMgr().onUserOnline( sktBase, netIdent, sessionInfo );
     }
     else
     {
@@ -847,9 +842,6 @@ void HostBaseMgr::onUserOnline( std::shared_ptr<VxSktBase>& sktBase, VxNetIdent*
 //============================================================================
 void HostBaseMgr::onUserOffline( VxGUID& onlineId, VxGUID& sessionId )
 {
-    //m_UserListMutex.lock();
-    //m_UserList.removeUser( onlineId, sessionId );
-    //m_UserListMutex.unlock();
 }
 
 //============================================================================

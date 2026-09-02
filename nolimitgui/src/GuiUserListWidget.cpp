@@ -877,14 +877,7 @@ void GuiUserListWidget::onListItemUpdated( GuiUserSessionBase* userSession, GuiU
 //============================================================================
 void GuiUserListWidget::updateThumb( GuiThumb* guiThumb )
 {
-    // commented out.. bad idea without verifing is correct user.. thumb could have been creaed by anyone
-    /*
-    GuiUserListItem* userItem = findListEntryWidgetByOnlineId( guiThumb->getCreatorId() );
-    if( userItem )
-    {
-        userItem->updateThumb( guiThumb );
-    }
-    */
+    // commented out.. bad idea without verifing is correct user.. thumb could have been created by anyone
 }
 
 //============================================================================

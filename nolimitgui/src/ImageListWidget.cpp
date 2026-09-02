@@ -174,7 +174,6 @@ ImageListRow * ImageListWidget::getRowWithRoomForThumbnail( void )
         {
             addItem( lineItem );
             listRow->recalculateSizeHint( width(), GuiParams::getGuiScale() );
-            listRow->setRowNum( count() );
 
             setItemWidget( lineItem, lineWidget );
             connect( listRow, SIGNAL(signalImageClicked( ThumbnailViewWidget* ) ), this, SLOT(slotImageClicked( ThumbnailViewWidget* ) ) );

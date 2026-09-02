@@ -175,14 +175,10 @@ void RenderGlOffScreenSurface::presentRenderGl( bool rendered, bool videoLayer )
             static QImage lastImage;
             if( image == lastImage )
             {
-                //image.fill( Qt::red );
                 return;
             }
             else
             {
-                //static int cnt = 0;
-                //cnt++;
-                //LogMsg( LOG_DEBUG, "new image %d", cnt );
                 lastImage = image;
             }
             
@@ -432,12 +428,6 @@ QImage RenderGlOffScreenSurface::grabFramebufferInternal( QOpenGLFramebufferObje
     // bind framebuffer first
     m_Glf->glBindFramebuffer( GL_READ_FRAMEBUFFER, fbo->handle() );
 
-#if 0 // this causes error in windows
-    if( m_GlfExtra )
-    {
-        m_GlfExtra->glReadBuffer( GL_COLOR_ATTACHMENT0 );
-    }
-#endif // 0
     GLenum internalFormat = fbo->format().internalTextureFormat();
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     // qt no longer supports GL_BGRA

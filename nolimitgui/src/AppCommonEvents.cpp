@@ -40,24 +40,6 @@ void AppCommon::fromGuiMouseMoveEvent( EMediaModule mediaModule, int mouseXPos, 
     //m_Nlc.fromGuiMouseMoveEvent( mediaModule, mouseXPos, mouseYPos );
 }
 
-////============================================================================
-//void AppCommon::fromGuiResizeBegin( EMediaModule mediaModule, int winWidth, int winHeight )
-//{
-//	//m_Nlc.fromGuiResizeBegin( mediaModule, winWidth, winHeight );
-//}
-//
-////============================================================================
-//void AppCommon::fromGuiResizeEvent( EMediaModule mediaModule, int winWidth, int winHeight )
-//{
-//    //m_Nlc.fromGuiResizeEvent( mediaModule, winWidth, winHeight );
-//}
-//
-////============================================================================
-//void AppCommon::fromGuiResizeEnd( EMediaModule mediaModule, int winWidth, int winHeight )
-//{
-//	//m_Nlc.fromGuiResizeEnd( mediaModule, winWidth, winHeight );
-//}
-
 //============================================================================
 void AppCommon::fromGuiCloseEvent( EMediaModule mediaModule )
 {

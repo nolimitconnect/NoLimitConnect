@@ -178,12 +178,6 @@ EMyIcons GetAppletIcon( EApplet applet )
 
     case eAppletUserConnections:	        return eMyIconUserConnections;
 
-    // case eAppletStreamViewerVideo:		return eMyIconVideoStreamViewer;
-    // case eAppletStreamViewerCam:		return eMyIconCamStreamViewer;
-    // case eAppletStreamViewerMusic:		return eMyIconMusicStreamPlayer;
-    // case eAppletRemoteControl:			return eMyIconRemoteControl;
-    // case eAppletPlugins:				return eMyIconPlugins;
-
 	case ePluginAppletCamProvider:		    return eMyIconCamStreamProvider;
 	case ePluginAppletNlcStation:		    return eMyIconNlcStation;
 	case ePluginAppletNlcNetworkHost:	    return eMyIconServiceHostNetwork;

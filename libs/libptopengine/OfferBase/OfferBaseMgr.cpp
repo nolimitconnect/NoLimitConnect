@@ -329,15 +329,6 @@ bool OfferBaseMgr::insertNewInfo( OfferBaseInfo* offerInfo )
 		offerInfo->setCreationTime( GetTimeStampMs() );
 	}
 
-	//if( offerInfo->needsHashGenerated() )
-	//{
-	//	lockResources();
-	//	m_WaitingForHastList.emplace_back( offerInfo );
-	//	unlockResources();
-	//	generateHashForFile( offerInfo->getOfferName() );
-	//	result = true;
-	//}
-	//else
 	{
         updateDatabase( offerInfo );
 		if( !offerInfoExisting )

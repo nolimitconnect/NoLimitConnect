@@ -349,14 +349,6 @@ int InetAddress::getAllAddresses( std::vector<InetAddress>& retAddresses )
             if( ( false == oTestAddr.isValid() ) ||
                 ( oTestAddr.isLoopBack() ) )
             {
-                //if( oTestAddr.isLoopBack() )
-                //{
-                //    LogMsg( LOG_INFO, "InetAddress::getAllAddresses: loopback addr %s\n", strTestIpAddress.c_str() );
-                //}
-                //else
-                //{
-                //    LogMsg( LOG_INFO, "InetAddress::getAllAddresses: invalid addr %s\n", strTestIpAddress.c_str() );
-                //}
                 VxCloseSkt( oSkt );
                 continue;
             }

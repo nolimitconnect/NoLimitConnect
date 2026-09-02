@@ -928,33 +928,12 @@ void VxPushButton::mousePressEvent( QMouseEvent * event )
 		m_InSlideLeftMode = true;
 	}
 
-	//qDebug() << "VxPushButton::mousePressEvent " << event->pos();
-
 	QPushButton::mousePressEvent( event );
 	if( m_IsToggleButton )
 	{
-		//if( m_ToggleStateOn && !m_PressedOnIcon.isNull() )
-		//{
-		//	setIcon( m_PressedOnIcon );
-		//}
-
-		//if( !m_ToggleStateOn && !m_PressedOffIcon.isNull() )
-		//{
-		//	setIcon( m_PressedOffIcon );
-		//}
-
 		m_ToggleStateOn = !m_ToggleStateOn;
 		emit buttonToggleState( m_ToggleStateOn );
 	}
-
-	//if( m_IsToggleButton && m_ToggleStateOn )
-	//{
-	//	setNotifyEnabled( true );
-	//}
-	//else
-	//{
-	//	setNotifyEnabled( false );
-	//}
 
 	m_MyApp.playSound( m_ESndDefPressed );
 

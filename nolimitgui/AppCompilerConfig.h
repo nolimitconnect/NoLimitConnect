@@ -706,9 +706,6 @@ typedef unsigned long		ULONG;
 typedef size_t				SIZE_T;
 typedef void*				PVOID;
 typedef void*				LPVOID;
-//typedef PVOID				HANDLE;
-//#define INVALID_HANDLE_VALUE     ((HANDLE)~0U)
-//typedef HANDLE				HDC;
 typedef void*				HWND;
 typedef BYTE*				LPBYTE;
 typedef DWORD*				LPDWORD;

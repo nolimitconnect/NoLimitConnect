@@ -850,12 +850,6 @@ int32_t VxFileUtil::recursiveCopyDirectory( const char* pSrcDir, const char* pDe
 
         if( !srcDir.empty() && !destDir.empty() )
         {
-            //makeForwardSlashPath( srcDir );
-            //makeForwardSlashPath( destDir );
-
-            //assureTrailingDirectorySlash( srcDir );
-            //assureTrailingDirectorySlash( destDir );
-
             if( directoryExists( srcDir.c_str() ) && directoryExists( destDir.c_str() ) )
             {
                 VxFileCopier dirCopier;

@@ -26,25 +26,6 @@
 #include <CoreLib/VxDebug.h>
 #include <CoreLib/VxGlobals.h>
 
-/*
-//============================================================================
-void AppCommon::slotFileMenuButtonClick( void )
-{
-	PopupMenu oPopupMenu( *this, this );
-	oPopupMenu.setTitle( QObject::tr( "File Menu" ) );
-	oPopupMenu.addMenuItem( 1, getMyIcons().getIcon(eMyIconNotepadNormal),		QObject::tr( "Personal Recorder" ) );
-	oPopupMenu.addMenuItem( 2, getMyIcons().getIcon(eMyIconFileBrowseNormal),		QObject::tr( "Browse Device Files" ) );
-	oPopupMenu.addMenuItem( 3, getMyIcons().getIcon(eMyIconLibraryNormal),		QObject::tr( "View My Library Of Files" ) );
-	oPopupMenu.addMenuItem( 4, getMyIcons().getIcon(eMyIconFileShareAddRemove),	QObject::tr( "View My Shared Files" ) );
-	oPopupMenu.addMenuItem( 5, getMyIcons().getIcon(eMyIconFileDownload),			QObject::tr( "View Downloading Files" ) );
-	oPopupMenu.addMenuItem( 6, getMyIcons().getIcon(eMyIconFileUpload),			QObject::tr( "View Uploading Files" ) );
-	oPopupMenu.addMenuItem( 7, getMyIcons().getIcon(eMyIconFolder),				QObject::tr( "Open Download Folder" ) );
-	//oPopupMenu.addMenuItem( 8, getMyIcons().getIcon(eMyIconFileShareOptions),		QObject::tr( "File Share Options" ) );
-
-	connect( &oPopupMenu, SIGNAL(menuItemClicked(int, PopupMenu *, ActivityBase*)), this, SLOT(onMenuFileSelected(int, PopupMenu *, ActivityBase*)));
-	oPopupMenu.exec();
-}*/
-
 //============================================================================
 void AppCommon::onMenuFileSelected( int iMenuId, PopupMenu * senderPopupMenu, ActivityBase* activityBase )
 {

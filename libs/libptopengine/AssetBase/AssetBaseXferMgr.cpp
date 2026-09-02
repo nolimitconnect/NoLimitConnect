@@ -866,13 +866,7 @@ void AssetBaseXferMgr::onPktAssetBaseSendReply( std::shared_ptr<VxSktBase>& sktB
             if( isFileXfer )
             {
                 // we did txNextAssetBaseChunk in begin file send
-                //int32_t rc = txNextAssetBaseChunk( xferSession );
-                //if( rc )
-                //{
-                //	//sendToGuiUpdateAssetUpload( xferSession->getLclSessionId(), 0, rc );
-                //	LogMsg( LOG_ERROR, "AssetBaseXferMgr::onPktAssetSendReply beginAssetBaseSend returned error %d\n", rc );
-                //	endAssetBaseXferSession( xferSession, true );
-                //}
+                if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "OfferBaseXferMgr::%s isFileXfer ok", __func__ );
             }
             else
             {

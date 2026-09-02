@@ -104,11 +104,6 @@ void VideoFeedMgr::enableVideoCapture( bool enable, VxGUID& onlineId, EMediaModu
 				{
 					m_CamServerEnabled = true;
 					// web cam server.. need to send out video pkts
-					//if( !m_VideoPktsRequested )
-					//{
-					//	m_VideoPktsRequested = true;
-					//	m_PluginMgr.pluginApiWantMediaInput( m_Plugin.getPluginType(), eMediaInputVideoPkts, mediaModule, true, (void *)m_Plugin.getPluginType() );
-					//}
 
 					// always show ourself if web cam server is enabled
 					if( wantCamCapture && !m_VideoJpgRequesed )

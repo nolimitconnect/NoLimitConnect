@@ -681,24 +681,6 @@ bool EventsQtToNlc::fromGuiMouseMoveEvent( int mouseXPos, int mouseyPos )
     return false;
 }
 
-////============================================================================
-//void EventsQtToNlc::fromGuiResizeBegin( int winWidth, int winHeight )
-//{
-//	m_MyApp.fromGuiResizeBegin( eMediaModulePlayerNlc, winWidth, winHeight );
-//}
-//
-////============================================================================
-//void EventsQtToNlc::fromGuiResizeEvent( int winWidth, int winHeight )
-//{
-//    m_MyApp.fromGuiResizeEvent( eMediaModulePlayerNlc, winWidth, winHeight );
-//}
-//
-////============================================================================
-//void EventsQtToNlc::fromGuiResizeEnd( int winWidth, int winHeight )
-//{
-//	m_MyApp.fromGuiResizeEnd( eMediaModulePlayerNlc, winWidth, winHeight );
-//}
-
 //============================================================================
 void EventsQtToNlc::fromGuiCloseEvent( )
 {

@@ -683,12 +683,6 @@ void PluginCamClient::onPktVideoFeedPicChunk( std::shared_ptr<VxSktBase>& sktBas
                 &oPkt );
 
             m_Engine.getMediaProcessor().processFriendVideoFeed( srcOnlineId, poPktCastPic->getDataPayload(), poPktCastPic->getTotalDataLen(), poPktCastPic->getMotionDetect() );
-
-            //std::shared_ptr<uint8_t> jpgData( new uint8_t[poPktCastPic->getTotalDataLen()] );
-            //memcpy( jpgData.get(), poPktCastPic->getDataPayload(), poPktCastPic->getTotalDataLen() );
-            //std::shared_ptr<CamJpgVideo> jpgVideo( new CamJpgVideo( jpgData, poPktCastPic->getTotalDataLen(), poPktCastPic->getMotionDetect() ) );
-
-            //m_PluginMgr.pluginApiPlayJpgVideo( m_ePluginType, netIdent, jpgVideo );
 			
 			delete poSession->getVideoFeedPkt();
 			poSession->setVideoFeedPkt( NULL );

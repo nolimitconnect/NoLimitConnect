@@ -21,18 +21,6 @@ PktImAliveReq::PktImAliveReq()
 	vx_assert( 0 == ( getPktLength() & 0x0f ) );
 }
 
-////============================================================================
-//void PktImAliveReq::setTimestamp( uint64_t timeStamp )
-//{
-//	m_Timestamp = htonU64( timeStamp );
-//}
-//
-////============================================================================
-//uint64_t PktImAliveReq::getTimestamp( void )
-//{
-//	return ntohU64( m_Timestamp );
-//}
-
 //============================================================================
 PktImAliveReply::PktImAliveReply()
 : m_Res(0)
@@ -42,14 +30,3 @@ PktImAliveReply::PktImAliveReply()
 	vx_assert( 0 == ( getPktLength() & 0x0f ) );
 }
 
-////============================================================================
-//void PktImAliveReply::setTimestamp( uint64_t timeStamp )
-//{
-//	m_Timestamp = htonU64( timeStamp );
-//}
-//
-////============================================================================
-//uint64_t PktImAliveReply::getTimestamp( void )
-//{
-//	return ntohU64( m_Timestamp );
-//}

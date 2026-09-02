@@ -1254,11 +1254,6 @@ void * VxSktBaseReceiveVxThreadFunc( void * pvContext )
                     if( poVxThread->isAborted() || ( INVALID_SOCKET == sktBase->m_Socket ) )
                     {
                         // normal close or shutdown
-                        //if( !sktBase->isUdpSocket() && ( 0 != sktBase->getLastActiveTime() ) )
-                        //{
-                        //	LogMsg( LOG_SKT, "VxSktBaseReceiveVxThreadFunc: skt %d 0x%x closed or aborted", sktBase->m_Socket, sktBase );
-                        //}
-
                         sktBase->setLastSktError( 0 );
                         break;
                     }

@@ -211,11 +211,6 @@ void RenderGlWidget::keyReleaseEvent( QKeyEvent * ev )
 void RenderGlWidget::mousePressEvent( QMouseEvent * ev )
 {
     QWidget::mousePressEvent( ev );
-    // takeSnapshot();
-    //if( !m_QtToPlayerNlc.fromGuiMousePressEvent( ev->position().x(), ev->position().y(), ev->button() ) )
-    //{
-    //    QWidget::mousePressEvent( ev );
-    //}
 
     if( ev->button() == Qt::LeftButton )
     {
@@ -227,20 +222,12 @@ void RenderGlWidget::mousePressEvent( QMouseEvent * ev )
 void RenderGlWidget::mouseReleaseEvent( QMouseEvent * ev )
 {
     QWidget::mouseReleaseEvent( ev );
-    //if( !m_QtToPlayerNlc.fromGuiMouseReleaseEvent( ev->position().x(), ev->position().y(), ev->button() ) )
-    //{
-    //    QWidget::mouseReleaseEvent( ev );
-    //}
 }
 
 //============================================================================
 void RenderGlWidget::mouseMoveEvent( QMouseEvent * ev )
 {
     QWidget::mouseMoveEvent( ev );
-    //if( !m_QtToPlayerNlc.fromGuiMouseMoveEvent( ev->position().x(), ev->position().y() ) )
-    //{
-    //    QWidget::mouseMoveEvent( ev );
-    //}
 }
 
 //============================================================================

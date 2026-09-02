@@ -326,12 +326,6 @@ EXferError FileInfoXferMgr::fromGuiFileXferControl( VxGUID& onlineId, EXferActio
 			return eXferErrorAlreadyDownloading;
 		}
 
-		//if( isFileInDownloadFolder( pAction )
-		//	|| m_FileLibraryMgr.isFileInLibrary( fileHashId ) )
-		//{
-		//	return eXferErrorAlreadyDownloaded;
-		//}	
-
 		std::shared_ptr<VxSktBase> sktBase = m_Engine.getConnectIdListMgr().findBestUserOnlineConnection( onlineId );
 		if( sktBase && sktBase->isConnected() )
 		{

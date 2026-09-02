@@ -334,11 +334,6 @@ GuiGroupieListItem* GuiGroupieListWidget::addOrUpdateHostSession( GuiGroupieList
         }
     }
 
-    //if( hostItem )
-    //{
-    //    hostItem->setJoinedState( m_Engine.fromGuiQueryJoinState( groupieSession->getHostType(), groupieSession->getUserIdent()->getNetIdent() ) );
-    //}
-
     return hostItem;
 }
 

@@ -5,18 +5,7 @@ project(mediatools, LANGUAGES C CXX)
 
 set(mediatools_SOURCES)
 
-list(APPEND mediatools_SOURCES 
-    OpusTools/win32/unicode_support_mtools.c
-    OpusTools/audio-in_mtools.c
-    OpusTools/diag_range_mtools.c
-    OpusTools/flac_mtools.c
-    OpusTools/lpc_mtools.c
-    OpusTools/opus_header_mtools.c
-    OpusTools/opusdec_mtools.c
-    OpusTools/opusenc_mtools.c
-    OpusTools/picture_mtools.c
-    OpusTools/wav_io_mtools.c
-    OpusTools/wave_out_mtools.c
+list(APPEND mediatools_SOURCES
     AviDefs_mtools.cpp
     MediaTools_mtools.cpp
     MJPEGReader_mtools.cpp

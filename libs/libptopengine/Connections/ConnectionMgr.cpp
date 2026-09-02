@@ -1099,21 +1099,6 @@ void ConnectionMgr::closeConnection( ESktCloseReason closeReason, VxGUID& online
     ConnectedInfo* poRmtUserConnectInfo = m_AllList.getConnectedInfo( sktBase->getSocketId(), onlineId );
     if( poRmtUserConnectInfo )
     {
-        /*
-        if( poRmtUserConnectInfo->isRelayServer()
-            || poRmtUserConnectInfo->isRelayClient() )
-        {
-            PktRelayUserDisconnect pktRelayDisconnect;
-            pktRelayDisconnect.setSrcOnlineId( m_Engine.getMyPktAnnounce().getMyOnlineId() );
-            pktRelayDisconnect.m_UserId = onlineId;
-            skt->txPacket( onlineId, &pktRelayDisconnect );
-        }
-        else 
-        {
-            skt->closeSkt( 236 );
-        }
-        */
-
         sktBase->closeSkt( closeReason );
     }
     else

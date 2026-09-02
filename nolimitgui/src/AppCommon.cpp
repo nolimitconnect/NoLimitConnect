@@ -985,55 +985,6 @@ void AppCommon::toGuiNetworkState( ENetworkStateType eNetworkState, const char* 
 }
 
 //============================================================================
-void AppCommon::slotNetworkStateChanged( ENetworkStateType eNetworkState )
-{
-	switch( eNetworkState )
-	{
-	case eNetworkStateTypeUnknown:
-	case eNetworkStateTypeLost:
-	case eNetworkStateTypeNoInternetConnection:
-		//ui.notifyButton->setIcon( getMyIcons().getIcon( eMyIconNetworkStateDisconnected ) );
-		//ui.searchButton->setEnabled( false );
-		//ui.searchButton->setIcon( getMyIcons().getIcon( eMyIconSearchDisabled ) );
-		break;
-
-	case eNetworkStateTypeAvail:
-	case eNetworkStateTypeTestConnection:
-	case eNetworkStateTypeWaitForRelay:
-		//ui.notifyButton->setIcon( getMyIcons().getIcon( eMyIconNetworkStateDiscover ) );
-		break;
-
-	case eNetworkStateTypeOnlineDirect:
-		//ui.notifyButton->setIcon( getMyIcons().getIcon( eMyIconNetworkStateDirectConnected ) );
-		//ui.searchButton->setEnabled( true );
-		//ui.searchButton->setIcon( getMyIcons().getIcon( eMyIconSearch ) );
-		break;
-
-	case eNetworkStateTypeOnlineThroughRelay:
-		//ui.notifyButton->setIcon( getMyIcons().getIcon( eMyIconNetworkStateRelayConnected ) );
-		//ui.searchButton->setEnabled( true );
-		//ui.searchButton->setIcon( getMyIcons().getIcon( eMyIconSearch ) );
-		break;
-
-	case eNetworkStateTypeFailedResolveHostNetwork:
-		//ui.notifyButton->setIcon( getMyIcons().getIcon( eMyIconNetworkStateHostFail ) );
-		break;
-    case eNetworkStateTypeFailedResolveHostGroup:
-        //ui.notifyButton->setIcon( getMyIcons().getIcon( eMyIconNetworkStateHostFail ) );
-        break;
-    case eNetworkStateTypeFailedResolveHostGroupList:
-        //ui.notifyButton->setIcon( getMyIcons().getIcon( eMyIconNetworkStateHostFail ) );
-        break;
-    case eMaxNetworkStateType:
-        //ui.notifyButton->setIcon( getMyIcons().getIcon( eMyIconNetworkStateHostFail ) );
-        break;
-    case eNetworkStateTypeIpChange:
-        //ui.notifyButton->setIcon( getMyIcons().getIcon( eMyIconNetworkStateHostFail ) );
-        break;
-	}
-}
-
-//============================================================================
 void AppCommon::toGuiHostAnnounceStatus( EHostType hostType, VxGUID& sessionId, EHostAnnounceStatus annStatus, const char* msg )
 {
     if( VxIsAppShuttingDown() )

@@ -14,14 +14,9 @@ list(APPEND netlib_SOURCES
     VxGetRandomPort.cpp
 	VxHackerMgr.cpp
 	VxHackerRecord.cpp
-    VxHttpParse.cpp
-    VxHttpRequest.cpp
-    VxHttpValuePair.cpp
     VxListenLogic.cpp
-    VxParseUrlComponents.cpp
     VxPeerMgr.cpp
     VxPortForward.cpp
-    VxProxy.cpp
     VxServerMgr.cpp
     VxSktAccept.cpp
     VxSktBase.cpp
@@ -33,7 +28,6 @@ list(APPEND netlib_SOURCES
     VxSktStatRecord.cpp
     VxSktThrottle.cpp
     VxSktUdp.cpp
-    VxSktUdpBroadcast.cpp
     VxSktWaitingList.cpp
 )
 

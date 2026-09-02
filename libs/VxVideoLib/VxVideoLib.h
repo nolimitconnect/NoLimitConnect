@@ -9,5 +9,6 @@
 // https://nolimitconnect.com
 //============================================================================
 
-#include "IVxVidCap.h"
-#include "VxVideoConvert.h"
+#include <NlcDependLibrariesConfig.h>
+
+#include "VxRescaleRgb.h"

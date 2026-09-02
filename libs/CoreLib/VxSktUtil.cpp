@@ -2191,13 +2191,10 @@ int32_t VxSendSktData(	SOCKET			sktHandle,
 				// all sent
 				break;
 			}
+            
 			// not all was sent
 			VxSleep( 10 ); 
-			//if( false == this->isConnected() )
-			//{
-			//	LogMsg( LOG_INFO, "VxSktCode::sendData: attempted send on disconnected socket" );
-			//	return -1;
-			//}
+
 		}while( iDataLen > 0 );
 	}
 	else

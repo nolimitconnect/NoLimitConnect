@@ -395,9 +395,7 @@ int OpusFileDecoder::decodedNextFrame( uint8_t* frameBuffer, int frameBufferLen 
 						/*If we're seeing another BOS OpusHead now it means
 						the stream is chained without an EOS.*/
 						m_HasOpusStream=0;
-						//if(m_AudioDecoder)
-						//	opus_multistream_decoder_destroy(st);
-						//st = NULL;
+
 						LogMsg( LOG_ERROR, "Warning: stream % lld ended without EOS and a new stream began", (long long)m_StreamState.serialno);
 					}
 
@@ -674,110 +672,6 @@ void OpusFileDecoder::finishFileDecode( bool abortedByUser )
 		m_ResourceMutex.unlock();
 	}
 }
-//
-////============================================================================
-//int OpusFileDecoder::opusFloatOutputToPcm(	float *			opusOutput, 
-//											int				channels, 
-//											int				frame_size, 
-//											SpeexResamplerState *resampler,
-//											int *			skip, 
-//											opus_int64		maxout )
-//{
-//	int sampout = 0;
-//	int i,tmp_skip;
-//
-//	uint32_t out_len;
-//	short *out;
-//	float *buf;
-//	float *output;
-//	out = (short *)alloca(sizeof(short)*MAX_FRAME_SIZE*m_Channels);
-//	buf = (float *)alloca(sizeof(float)*MAX_FRAME_SIZE*m_Channels);
-//	do {
-//		if (skip)
-//		{
-//			tmp_skip = (*skip>frame_size) ? (int)frame_size : *skip;
-//			*skip -= tmp_skip;
-//		} 
-//		else 
-//		{
-//			tmp_skip = 0;
-//		}
-//
-//		if (resampler)
-//		{
-//			uint32_t in_len;
-//			output=buf;
-//			in_len = frame_size-tmp_skip;
-//			out_len = (unsigned int)(1024<maxout?1024:maxout);
-//			speex_resampler_process_interleaved_float( resampler, opusOutput+m_Channels*tmp_skip, &in_len, buf, &out_len);
-//			opusOutput += m_Channels*(in_len+tmp_skip);
-//			frame_size -= in_len+tmp_skip;
-//		} 
-//		else 
-//		{
-//			output=opusOutput+m_Channels*tmp_skip;
-//			out_len=frame_size-tmp_skip;
-//			frame_size=0;
-//		}
-//
-//		for (i=0;i<(int)out_len*m_Channels;i++)
-//			out[i]=(short)float2int(fmaxf(-32768,fminf(output[i]*32768.f,32767)));
-//
-//		if( !IsBigEndianCpu() )
-//		{
-//			for (i=0;i<(int)out_len*m_Channels;i++)
-//				out[i]=le_short(out[i]);
-//		}
-//
-//		if( maxout > 0 )
-//		{
-//			int totalLen = (int)(out_len < maxout ? out_len : maxout);
-//			int amountUsed = 0;
-//			char * tempOut = (char *)out;
-//			if( m_FirstDecodedFrame && ( totalLen < OPUS_FRAME_RATE ) )
-//			{
-//				// first frame not enough samples
-//				m_FirstDecodedFrame = false;
-//				char * outPcmOpusFrame = new char[ OPUS_COMPRESSED_BYTES_PER_FRAME ];
-//				int lenToCopy = totalLen * sizeof( int16_t );
-//				memset( outPcmOpusFrame, 0, OPUS_COMPRESSED_BYTES_PER_FRAME - lenToCopy );
-//				memcpy( &outPcmOpusFrame[ OPUS_COMPRESSED_BYTES_PER_FRAME - lenToCopy ], tempOut, lenToCopy );
-//				m_DecodedFrames.push_back( outPcmOpusFrame );
-//				amountUsed = totalLen;
-//			}
-//			else
-//			{
-//				while( totalLen >= OPUS_FRAME_RATE )
-//				{
-//					char * outPcmOpusFrame = new char[ OPUS_COMPRESSED_BYTES_PER_FRAME ];
-//					memcpy( outPcmOpusFrame, tempOut, OPUS_COMPRESSED_BYTES_PER_FRAME );
-//					m_DecodedFrames.push_back( outPcmOpusFrame );
-//					amountUsed += OPUS_FRAME_RATE;
-//					totalLen -= OPUS_FRAME_RATE;
-//					tempOut += OPUS_COMPRESSED_BYTES_PER_FRAME;
-//				}
-//
-//				if( 0 != totalLen )
-//				{
-//					// some left over.. may be tail end
-//					int lenToCopy = totalLen * sizeof( int16_t );
-//					char * outPcmOpusFrame = new char[ OPUS_COMPRESSED_BYTES_PER_FRAME ];
-//					memcpy( outPcmOpusFrame, tempOut, lenToCopy );
-//					memset( &outPcmOpusFrame[ lenToCopy ], 0, OPUS_COMPRESSED_BYTES_PER_FRAME - lenToCopy );
-//					m_DecodedFrames.push_back( outPcmOpusFrame );
-//					amountUsed += totalLen;
-//					totalLen = 0;
-//				}
-//			}
-//
-//			sampout+=amountUsed;
-//			maxout-=amountUsed;
-//		}
-//	} while (frame_size>0 && maxout>0);
-//
-//	return sampout;
-//}
-
 											
 //============================================================================
 int OpusFileDecoder::opusPcmOutputToPcm(	int16_t*		opusOutput, 

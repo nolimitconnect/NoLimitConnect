@@ -291,40 +291,16 @@ void AppletPlayerVideo::slotPlayEnd( void )
 //============================================================================
 void AppletPlayerVideo::showShredder( bool show )
 {
-	//if( m_AssetInfo.isMine() )
-	//{
-	//	ui.m_LeftAvatarBar->showShredder( show );
-	//}
-	//else
-	//{
-	//	ui.m_RightAvatarBar->showShredder( show );
-	//}
 }
 
 //============================================================================
 void AppletPlayerVideo::showXferProgress( bool show )
 {
-	//if( m_AssetInfo.isMine() )
-	//{
-	//	ui.m_LeftAvatarBar->showXferProgress( show );
-	//}
-	//else
-	//{
-	//	ui.m_RightAvatarBar->showXferProgress( show );
-	//}
 }
 
 //============================================================================
 void AppletPlayerVideo::setXferProgress( int xferProgress )
 {
-	//if( m_AssetInfo.isMine() )
-	//{
-	//	ui.m_LeftAvatarBar->setXferProgress( xferProgress );
-	//}
-	//else
-	//{
-	//	ui.m_RightAvatarBar->setXferProgress( xferProgress );
-	//}
 }
 
 //============================================================================

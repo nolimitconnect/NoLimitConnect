@@ -5,12 +5,8 @@ project(vxvideolib, LANGUAGES CXX)
 
 set(vxvideolib_SOURCES)
 
-list(APPEND vxvideolib_SOURCES 
-    GdvBufferUtil.cpp
+list(APPEND vxvideolib_SOURCES
     VxRescaleRgb.cpp
-    VxVidCap.cpp
-    VxVidCapImp.cpp
-    VxVideoConvert.cpp
 )
 
 add_library(vxvideolib STATIC ${vxvideolib_SOURCES})

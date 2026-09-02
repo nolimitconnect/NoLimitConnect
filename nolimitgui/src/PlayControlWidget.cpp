@@ -55,11 +55,6 @@ PlayControlWidget::PlayControlWidget( QWidget* parent )
 	m_UpdateTimer->setInterval( 200 );
 	connect( m_UpdateTimer,		SIGNAL(timeout()),				this, SLOT(slotUpdatePlayerControls()) );
 	m_UpdateTimer->start();
-
-    //ui.m_PlayPosSlider->setVisible( true );
-	//QSize sizeHint( 200, GuiParams::getButtonSize( eButtonSizeLarge ).height() + GuiParams::getButtonSize( eButtonSizeTiny ).height() );
-	//setSizeHint( sizeHint );
-	//setFixedHeight( sizeHint.height() );
 }
 
 //============================================================================

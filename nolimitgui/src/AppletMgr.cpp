@@ -131,7 +131,6 @@
 
 #include "AppletSettingsMessenger.h"
 #include "AppletSettingsPushToTalk.h"
-#include "AppletSettingsRandomConnect.h"
 #include "AppletSettingsShareFiles.h"
 #include "AppletSettingsShareWebCam.h"
 #include "AppletSettingsStoryboard.h"
@@ -475,7 +474,7 @@ ActivityBase* AppletMgr::launchApplet( EApplet applet, QWidget* parent, QString 
     case eAppletSettingsStoryboard:         if( launchAppletAllowed( eAppletSettingsStoryboard ) ) appletDialog = new AppletSettingsStoryboard( m_MyApp, parent ); break;
     case eAppletSettingsTruthOrDare:        if( launchAppletAllowed( eAppletSettingsTruthOrDare ) ) appletDialog = new AppletSettingsTruthOrDare( m_MyApp, parent ); break;
     case eAppletSettingsVideoPhone:         if( launchAppletAllowed( eAppletSettingsVideoPhone ) ) appletDialog = new AppletSettingsVideoPhone( m_MyApp, parent ); break;
-    case eAppletSettingsVoicePhone:         if( launchAppletAllowed( eAppletSettingsVoicePhone ) ) appletDialog = new AppletSettingsTruthOrDare( m_MyApp, parent ); break;
+    case eAppletSettingsVoicePhone:         if( launchAppletAllowed( eAppletSettingsVoicePhone ) ) appletDialog = new AppletSettingsVoicePhone( m_MyApp, parent ); break;
     case eAppletSettingsWebCamServer:       if( launchAppletAllowed( eAppletSettingsWebCamServer ) ) appletDialog = new AppletSettingsShareWebCam( m_MyApp, parent ); break;
     case eAppletOfferList:                  if( launchAppletAllowed( eAppletOfferList ) ) appletDialog = new AppletOfferList( m_MyApp, parent ); break;
     case eAppletSnapshot:                   if( launchAppletAllowed( eAppletSnapshot ) ) appletDialog = new AppletSnapshot( m_MyApp, parent ); break;

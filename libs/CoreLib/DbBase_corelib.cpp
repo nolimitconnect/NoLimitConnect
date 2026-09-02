@@ -688,19 +688,6 @@ int32_t DbBase::sqlExec( const char*		SQL_Statement,
 
 	} while( sqlStep != eSqlExecStepDbClose );
 
-	//if( true == needToFinalize )
-	//{
-	//	sqlite3_exec(m_Db,"END",NULL,NULL,NULL);
-	//}
-
- //   if( retVal )
- //   {
- //       LogMsg( LOG_ERROR, "DbBase::sqlExec returning error %d %s for statement %s",
- //               retVal,
- //               sqlite3_errmsg( m_Db ),
- //               SQL_Statement );
- //   }
-
 	result = dbClose();
 
 	return 0;

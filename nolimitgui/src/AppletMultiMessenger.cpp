@@ -113,56 +113,6 @@ void AppletMultiMessenger::setupMultiSessionActivity( GuiUser* hisIdent )
 
     ui.m_SessionWidget->setGroupieId( groupieId );
 
-	/*
-	m_TodGameLogic.setGuiWidgets( m_HisIdent, m_TodGameWidget );
-
-
-	MultiSessionState * sessionState = new MultiSessionState( m_MyApp, *this, eMSessionTypePhone );
-	sessionState->setGuiWidgets(	hisIdent,
-									m_OffersFrame,
-									m_ResponseFrame,
-									m_HangupSessionFrame,
-									ui.m_VoipButton,
-									ui.m_AcceptOfferButton,
-									ui.m_AcceptLabel,
-									ui.m_RejectOfferButton,
-									ui.m_RejectLabel,
-									ui.m_HangupSessionButton,
-									m_VidChatWidget,
-									&m_TodGameLogic );
-	m_MSessionsList.push_back( sessionState );
-
-	sessionState = new MultiSessionState( m_MyApp, *this, eMSessionTypeVidChat );
-	sessionState->setGuiWidgets(	hisIdent,
-									m_OffersFrame,
-									m_ResponseFrame,
-									m_HangupSessionFrame,
-									ui.m_VideoChatButton,
-									ui.m_AcceptOfferButton,
-									ui.m_AcceptLabel,
-									ui.m_RejectOfferButton,
-									ui.m_RejectLabel,
-									ui.m_HangupSessionButton,
-									m_VidChatWidget,
-									&m_TodGameLogic );
-	m_MSessionsList.push_back( sessionState );
-
-	sessionState = new MultiSessionState( m_MyApp, *this, eMSessionTypeTruthOrDare );
-	sessionState->setGuiWidgets(	hisIdent,
-									m_OffersFrame,
-									m_ResponseFrame,
-									m_HangupSessionFrame,
-									ui.m_TrueOrDareButton,
-									ui.m_AcceptOfferButton,
-									ui.m_AcceptLabel,
-									ui.m_RejectOfferButton,
-									ui.m_RejectLabel,
-									ui.m_HangupSessionButton,
-									m_VidChatWidget,
-									&m_TodGameLogic );
-	m_MSessionsList.push_back( sessionState );
-	*/
-
 	ui.m_SessionWidget->setCanSend( false );
 
 	if( false == checkForSendAccess( false ) )

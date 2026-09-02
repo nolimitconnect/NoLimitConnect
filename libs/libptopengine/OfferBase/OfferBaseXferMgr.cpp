@@ -464,13 +464,7 @@ void OfferBaseXferMgr::onPktOfferSendReply( std::shared_ptr<VxSktBase>& sktBase,
 			if( isFileXfer )
 			{
 				// we did txNextOfferBaseChunk in begin file send
-				//int32_t rc = txNextOfferBaseChunk( xferSession );
-				//if( rc )
-				//{
-				//	//IToGui::getIToGui().toGuiUpdateOfferUpload( xferSession->getLclSessionId(), 0, rc );
-				//	LogMsg( LOG_ERROR, "OfferBaseXferMgr::onPktOfferSendReply beginOfferBaseSend returned error %d", rc );
-				//	endOfferBaseXferSession( xferSession, true );
-				//}
+                if(LogEnabled(eLogOffer))LogModule( eLogOffer, LOG_VERBOSE, "OfferBaseXferMgr::%s isFileXfer ok", __func__ );
 			}
 			else
 			{
@@ -724,11 +718,6 @@ void OfferBaseXferMgr::endOfferBaseXferSession( OfferBaseTxSession * poSessionIn
 		LogMsg( LOG_INFO, "OfferBaseXferMgr::endOfferBaseXferSession pluginMutex.lock done");
 #endif // DEBUG_AUTOPLUGIN_LOCK
 	}
-
-	//if( requeOffer )
-	//{
-	//	queOffer( poSessionIn->getOfferInfo() );
-	//}
 
 	VxFileXferInfo& xferInfo = poSessionIn->getXferInfo();
 	if( xferInfo.m_hFile )

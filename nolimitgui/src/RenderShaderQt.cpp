@@ -62,22 +62,8 @@ RenderShaderQt::RenderShaderQt( ESHADERMETHOD shaderMethod, EShaderType shaderTy
     , m_ShaderName( shaderName )
     , m_RenderLogic( renderLogic )
 {
- //#ifdef GL_RGBA16F_EXT
-#if 0 //  crashes because render system not setup yet
-    if( CServiceBroker::GetRenderSystem()->IsExtSupported( "GL_EXT_color_buffer_float" ) )
-    {
-        m_floattex = true;
-        m_internalformat = GL_RGBA16F_EXT;
-    }
-    else
-    {
-        m_floattex = false;
-        m_internalformat = GL_RGBA;
-    }
-#else
     m_floattex = false;
     m_internalformat = GL_RGBA;
-#endif // GL_RGBA16F_EXT
 }
 
 //============================================================================
@@ -102,11 +88,6 @@ void RenderGlShaders::compileShader( int shaderIdx )
         if( shader->compileAndLink( vertexShaderCode.c_str(), fragmentShaderCode.c_str() ) )
         {
             // success
-//            if( shaderIdx == 10 ) 
-//            {
-//               LogMsg( LOG_INFO, "Success compile shader %s", shaderName.c_str() );
-//            }
-
             m_Shaders[ shaderIdx ] = shader;
         }
         else

@@ -680,11 +680,6 @@ void PluginMgr::onMyOnlineUrlIsValid( bool iValid )
 void PluginMgr::onOncePerSecond( void )
 {
 	//NOTE: TODO ?
-	//std::vector<PluginBase* >::iterator iter;
-	//for( iter = m_aoPlugins.begin(); iter != m_aoPlugins.end(); ++iter )
-	//{
-	//	(*iter)->onOncePerSecond();
-	//}
 }
 
 //============================================================================

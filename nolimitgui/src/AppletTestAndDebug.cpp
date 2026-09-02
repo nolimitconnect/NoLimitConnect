@@ -278,17 +278,6 @@ void AppletTestAndDebug::slotBrowseBrowseAppDataButtonClicked( void )
 void AppletTestAndDebug::onLogEvent( uint32_t u32LogFlags, const char* logMsg )
 {
     // Log is seperate now 
-
-    //m_LogMutex.lock();
-    //if( m_VerboseLog
-    //    || ( u32LogFlags & ~LOG_VERBOSE ) )
-    //{
-    //    QString logStr( logMsg );
-    //    logStr.remove( QRegExp( "[\\n\\r]" ) );
-    //    emit signalLogMsg( logStr );
-    //}
-
-    //m_LogMutex.unlock();
 }
 
 //============================================================================

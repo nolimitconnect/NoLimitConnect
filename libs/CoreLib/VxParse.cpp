@@ -1313,45 +1313,6 @@ int StdStringToInteger( std::string& strValue )
 	}
 	return 0;
 }
-////============================================================================
-////! copy string into buffer.. if string is to long then truncate
-//void			SafeStringCopy(		std::string		&strSrc,		// string to copy from
-//							   char *			pBuf,			// buffer to copy into
-//							   unsigned int	uiMaxBufLen )	// max length of buffer	
-//{
-//	SafeStringCopy(	strSrc.c_str(),		// string to copy from
-//		pBuf,			// buffer to copy into
-//		uiMaxBufLen );	// max length of buffer	
-//}
-//
-////============================================================================
-////! copy string into buffer.. if string is to long then truncate
-//void			SafeStringCopy(		const char*	pSrcString,		// string to copy from
-//							   char *			pBuf,			// buffer to copy into
-//							   unsigned int	uiMaxBufLen )	// max length of buffer	
-//{
-//	vx_assert( pSrcString );
-//	size_t iLen = strlen( pSrcString );
-//	if( 0 == uiMaxBufLen )
-//	{
-//		LogMsg( LOG_INFO, "SafeStringCopy: uiMaxBufLen = 0\n" );
-//		return;
-//	}
-//	if( 0 == iLen )
-//	{
-//		pBuf[0] = 0;
-//		return;
-//	}
-//	if( iLen > uiMaxBufLen )
-//	{
-//		memcpy( pBuf, pSrcString, uiMaxBufLen - 1 );
-//		pBuf[ uiMaxBufLen - 1 ] = 0; 
-//	}
-//	else
-//	{
-//		strcpy( pBuf, pSrcString );
-//	}
-//}
 
 //============================================================================
 //! Safe string copy.. logs error if buffer to short

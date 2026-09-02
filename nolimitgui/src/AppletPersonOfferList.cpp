@@ -19,7 +19,6 @@
 
 #include "FileXferWidget.h"
 #include "GuiFileXferSession.h"
-#include "ActivityDownloadItemMenu.h"
 
 #include <P2PEngine/P2PEngine.h>
 #include <PktLib/VxSearchDefs.h>
@@ -39,26 +38,12 @@ AppletPersonOfferList::AppletPersonOfferList( AppCommon& app,  QWidget* parent )
     ui.setupUi( getContentItemsFrame() );
     setTitleBarText( DescribeApplet( m_EAppletType ) );
 
-    //connectBarWidgets();
-
-    /*
-    connect( ui.m_FileItemList, SIGNAL(itemClicked(QListWidgetItem*)),		                this, SLOT(slotFileXferItemClicked(QListWidgetItem*)));
-    connect( ui.m_FileItemList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),	            this, SLOT(slotFileXferItemClicked(QListWidgetItem*)));
-
-	connect( this, SIGNAL(signalToGuiStartDownload(EPluginType pluginType, GuiFileXferSession*)),					this, SLOT(slotToGuiStartDownload(EPluginType pluginType, GuiFileXferSession*)) );
-	connect( this, SIGNAL(signalToGuiFileXferState(VxGUID,EXferState,int,int)),			    this, SLOT(slotToGuiFileXferState(VxGUID,EXferState,int,int)) );
-	connect( this, SIGNAL(signalToGuiFileDownloadComplete(VxGUID,QString,EXferError)),	    this, SLOT(slotToGuiFileDownloadComplete(VxGUID,QString,EXferError)) );
-
-	m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, this, true );
-	checkDiskSpace();
-    */
     m_MyApp.activityStateChange( this, true );
 }
 
 //============================================================================
 AppletPersonOfferList::~AppletPersonOfferList()
 {
-	//m_MyApp.getFileXferMgr().wantToGuiFileXferCallbacks( this, false );
     m_MyApp.activityStateChange( this, false );
 }
 

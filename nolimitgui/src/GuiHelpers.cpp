@@ -801,10 +801,6 @@ EApplet GuiHelpers::pluginTypeToUserApplet( EPluginType pluginType )
     case ePluginTypeAboutMePageServer:     return eAppletEditAboutMe;
     case ePluginTypeAboutMePageClient:     return eAppletAboutMeClient;
     case ePluginTypeHostPeerUser:          return eAppletEditAvatarImage;
-    //case ePluginTypeCamServer:              return eAppletSettingsWebCamServer;
-    // case ePluginTypeHostConnectTest:     return eAppletSettingsConnectTest;
-    //case ePluginTypeFileShareServer:             return eAppletShareFiles;
-    // case ePluginTypePersonFileXfer:               return eAppletSettingsFileXfer;
 
     case ePluginTypeHostChatRoom:           return eAppletSettingsHostChatRoom;
     case ePluginTypeHostGroup:              return eAppletSettingsHostGroup;
@@ -813,11 +809,6 @@ EApplet GuiHelpers::pluginTypeToUserApplet( EPluginType pluginType )
 
     case ePluginTypeStoryboardServer:       return eAppletEditStoryboard;
     case ePluginTypeStoryboardClient:       return eAppletStoryboardClient;
-
-    //case ePluginTypeMessenger:              return eAppletMultiMessenger;
-    //case ePluginTypeTruthOrDare:            return eAppletPeerTruthOrDare;
-    //case ePluginTypeVideoChat:             return eAppletPeerVideoPhone;
-    //case ePluginTypeVoicePhone:             return eAppletPeerVoicePhone;
 
     default:
         break;
@@ -1359,12 +1350,6 @@ bool GuiHelpers::validateUserName( QWidget* curWidget, QString strUserName )
 //============================================================================
 bool GuiHelpers::validateMoodMessage( QWidget* curWidget, QString strMoodMsg )
 {
-    //if( strMoodMsg.contains( "'" ) )
-    //{
-    //    QMessageBox::warning( curWidget, QObject::tr( "Application" ), QObject::tr( "Mood Message cannot have special character quote." ) );
-    //    return false;
-    //}
-
     int iLen = strMoodMsg.length();
     if( iLen > 31 )
     {

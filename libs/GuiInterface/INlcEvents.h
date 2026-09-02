@@ -21,11 +21,6 @@ public:
     virtual void                fromGuiMouseReleaseEvent( EMediaModule mediaModule, int mouseXPos, int mouseYPos, int mouseButton ) = 0;
     virtual void                fromGuiMouseMoveEvent( EMediaModule mediaModule, int mouseXPos, int mouseYPos ) = 0;
 
-	//virtual void                fromGuiResizeBegin( EMediaModule mediaModule, int winWidth, int winHeight ) = 0;
-	//virtual void                fromGuiResizeEvent( EMediaModule mediaModule, int winWidth, int winHeight ) = 0;
-	//virtual void                fromGuiResizeEnd( EMediaModule mediaModule, int winWidth, int winHeight ) = 0;
-    //virtual void                fromGuiRenderWindowResize( EMediaModule mediaModule, int winWidth, int winHeight ) = 0;
-
     virtual void                fromGuiCloseEvent( EMediaModule mediaModule ) = 0;
     virtual void                fromGuiVisibleEvent( EMediaModule mediaModule, bool isVisible ) = 0;
 

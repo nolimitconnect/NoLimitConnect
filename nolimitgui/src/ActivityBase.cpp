@@ -101,15 +101,7 @@ ActivityBase::ActivityBase( const char* objName, AppCommon& app, QWidget* parent
     {
         // dialog needs to cover parent
 
-        //m_WindowFlags = Qt::Window;
-        //m_WindowFlags = Qt::SubWindow;
-        //m_WindowFlags = Qt::Popup;
         m_WindowFlags = Qt::Dialog | Qt::FramelessWindowHint;
-        //m_WindowFlags = Qt::Sheet;
-        //m_WindowFlags = Qt::Drawer;
-        //m_WindowFlags = Qt::Tool;
-        //m_WindowFlags = Qt::ForeignWindow;
-        //m_WindowFlags = Qt::CoverWindow;
         setWindowFlags( m_WindowFlags );
         m_MyApp.getAppTheme().applyTheme( this );
         if( !m_FullWindowSize )
