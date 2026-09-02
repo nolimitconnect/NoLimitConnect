@@ -146,6 +146,13 @@ void CamCapture::onCamCaptureReady( bool isReady )
 }
 
 //============================================================================
+void CamCapture::onCameraPermissionDenied( void )
+{
+    LogMsg( LOG_WARN, "%s CAMERA permission denied by user", __func__ );
+    IToGui::getIToGui().toGuiCamCapturePermissionDenied();
+}
+
+//============================================================================
 std::string CamCapture::selectLastUsedCamera( void )
 {
     std::string camId = IGlobalDb::getIGlobalDb().getCamSourceId();

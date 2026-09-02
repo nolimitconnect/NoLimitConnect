@@ -524,6 +524,7 @@ public:
     void				        toGuiWantCamCapture( EMediaModule mediaModule, bool wantVidCapture ) override;
     void				        toGuiCamCaptureEnable( bool camCaptureEnabled ) override;
     void				        toGuiCamCaptureRunning( bool camCaptureRunning ) override;
+    void				        toGuiCamCapturePermissionDenied( void ) override;
 
     void				        toGuiPlayJpgVideo( VxGUID& onlineId, std::shared_ptr<CamJpgVideo>& jpgVideo ) override;
 
@@ -685,6 +686,7 @@ signals:
     void						signalInternalWantCamCapture( EMediaModule mediaModule, bool enableCapture );
     void						signalInternalCamCaptureEnable( bool camCaptureEnabled );
     void						signalInternalCamCaptureRunning( bool isRunning );
+    void						signalInternalCamCapturePermissionDenied( void );
 
     void						signalSetRelayHelpButtonVisibility( bool isVisible );
 
@@ -820,6 +822,7 @@ private slots:
     void						slotInternalWantCamCapture( EMediaModule mediaModule, bool enableCapture );
     void						slotInternalCamCaptureRunning( bool isRunning );
     void						slotInternalCamCaptureEnable( bool camCaptureEnabled );
+    void						slotInternalCamCapturePermissionDenied( void );
 
     void                        slotInternalNetworkIsTested( bool requiresRelay, QString ipAddr, uint16_t ipPort );
 

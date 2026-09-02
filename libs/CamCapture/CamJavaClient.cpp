@@ -365,6 +365,7 @@ void CamJavaClient::onCameraPermissionResult( bool granted )
     if( !granted )
     {
         LogMsg( LOG_WARN, "%s camera permission denied", __func__ );
+        m_CamCapture.onCameraPermissionDenied();
         return;
     }
 
@@ -392,10 +393,6 @@ bool CamJavaClient::canProcessCamCapture( void )
     {
         lastTimeMs = timeNow;
     }
-//    else
-//    {
-//        LogMsg( LOG_VERBOSE, "%s CamCapture returned false", __func__ );
-//    }
 
     return result;
 }

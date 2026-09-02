@@ -117,6 +117,30 @@ void AppCommon::slotInternalWantCamCapture( EMediaModule mediaModule, bool wantV
 }
 
 //============================================================================
+void AppCommon::toGuiCamCapturePermissionDenied( void )
+{
+	LogModule( eLogWebCam, LOG_WARN, "AppCommon::%s", __func__ );
+	if( VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
+	emit signalInternalCamCapturePermissionDenied();
+}
+
+//============================================================================
+void AppCommon::slotInternalCamCapturePermissionDenied( void )
+{
+	if( VxIsAppShuttingDown() )
+	{
+		return;
+	}
+
+	QMessageBox::warning( this, QObject::tr( "Camera Permission Denied" ),
+		QObject::tr( "Camera access was denied. Enable the Camera permission in system settings to use the webcam." ) );
+}
+
+//============================================================================
 void AppCommon::toGuiCamCaptureRunning( bool camCaptureRunning )
 {
 	LogModule( eLogWebCam, LOG_INFO, "AppCommon::%s %d", __func__, camCaptureRunning );

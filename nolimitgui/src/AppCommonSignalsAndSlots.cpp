@@ -129,6 +129,7 @@ void AppCommon::connectSignals( void )
 	connect( this, SIGNAL(signalInternalWantCamCapture(EMediaModule,bool)), this, SLOT(slotInternalWantCamCapture(EMediaModule,bool)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalCamCaptureEnable(bool)), this, SLOT(slotInternalCamCaptureEnable(bool)), Qt::QueuedConnection );
     connect( this, SIGNAL(signalInternalCamCaptureRunning(bool)), this, SLOT(slotInternalCamCaptureRunning(bool)), Qt::QueuedConnection );
+    connect( this, SIGNAL(signalInternalCamCapturePermissionDenied()), this, SLOT(slotInternalCamCapturePermissionDenied()), Qt::QueuedConnection );
 
     connect( this, SIGNAL(signalSetRelayHelpButtonVisibility(bool)), this, SLOT(slotSetRelayHelpButtonVisibility(bool)));
     connect( this, SIGNAL(signalInternalPluginMessage(EPluginType,VxGUID,EPluginMsgType,QString)), this, SLOT(slotInternalPluginMessage(EPluginType,VxGUID,EPluginMsgType,QString)), Qt::QueuedConnection );

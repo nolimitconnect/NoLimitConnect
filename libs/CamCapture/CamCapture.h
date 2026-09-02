@@ -79,6 +79,7 @@ public:
     CamProcessor&               getCamProcessor( void ) { return m_CamProcessor; }
 
     void                        onCamCaptureReady( bool isReady );
+    void                        onCameraPermissionDenied( void );
     bool                        canProcessCamCapture( void );
     void                        processCamCapture( std::shared_ptr<CamJpgVideo>& jpgVideo );
 
