@@ -642,29 +642,6 @@
         </message>
     </context>
     <context>
-        <name>AppletGroupHostSettingsUi</name>
-        <message>
-            <location filename="../resources/Forms/AppletGroupHostSettings.ui" line="20" />
-            <source>Host A Group</source>
-            <translation>Héberger un groupe</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletGroupHostSettings.ui" line="53" />
-            <source>View Hosting Requirements</source>
-            <translation>Afficher les exigences d'hébergement</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletGroupHostSettings.ui" line="63" />
-            <source>Other Services Required To Host A Group</source>
-            <translation>Autres services requis pour héberger un groupe</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletGroupHostSettings.ui" line="70" />
-            <source>Recommend Anybody permission level</source>
-            <translation>Niveau d'autorisation Recommander à tout le monde</translation>
-        </message>
-    </context>
-    <context>
         <name>AppletGroupJoinSearchUi</name>
         <message>
             <location filename="../resources/Forms/AppletGroupJoinSearch.ui" line="20" />
@@ -762,19 +739,44 @@
     <context>
         <name>AppletHostAdminBase</name>
         <message>
-            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="106" />
+            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="56" />
+            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="89" />
+            <source>Show Events</source>
+            <translation>Afficher les événements</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="89" />
+            <source>Hide Events</source>
+            <translation>Masquer les événements</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="173" />
             <source>Sending to: %1</source>
             <translation>Envoi à : %1</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="120" />
+            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="187" />
             <source>Sent to %1 member(s)</source>
             <translation>Envoyé à %1 membre(s)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="124" />
+            <location filename="../nolimitgui/src/AppletHostAdminBase.cpp" line="191" />
             <source>Sent: %1 success, %2 failed</source>
             <translation>Envoyé : %1 succès, %2 échec</translation>
+        </message>
+    </context>
+    <context>
+        <name>AppletHostClientBase</name>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="92" />
+            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="211" />
+            <source>Show Events</source>
+            <translation>Afficher les événements</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="211" />
+            <source>Hide Events</source>
+            <translation>Masquer les événements</translation>
         </message>
     </context>
     <context>
@@ -1001,40 +1003,6 @@
         </message>
     </context>
     <context>
-        <name>AppletInvitesUi</name>
-        <message>
-            <location filename="../resources/Forms/AppletInvites.ui" line="32" />
-            <location filename="../resources/Forms/AppletInvites.ui" line="173" />
-            <source>Accept Invite</source>
-            <translation>Accepter l'invitation</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletInvites.ui" line="107" />
-            <source>Paste Invite From Clipboard</source>
-            <translation>Coller l'invitation à partir du presse-papiers</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletInvites.ui" line="121" />
-            <source>Person URL:</source>
-            <translation>URL de la personne :</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletInvites.ui" line="139" />
-            <source>Group  URL:</source>
-            <translation>URL du groupe :</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletInvites.ui" line="193" />
-            <source>Reject Invite</source>
-            <translation>Rejeter l'invitation</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletInvites.ui" line="218" />
-            <source>Invite Text</source>
-            <translation>Inviter un texte</translation>
-        </message>
-    </context>
-    <context>
         <name>AppletIsPortOpenTestUi</name>
         <message>
             <location filename="../resources/Forms/AppletIsPortOpenTest.ui" line="17" />
@@ -1195,6 +1163,19 @@
             <location filename="../resources/Forms/AppletLog.ui" line="98" />
             <source>Show App Info</source>
             <translation>Afficher les informations sur l'application</translation>
+        </message>
+    </context>
+    <context>
+        <name>AppletMgr</name>
+        <message>
+            <location filename="../nolimitgui/src/AppletMgr.cpp" line="743" />
+            <source>Host Disabled</source>
+            <translation>Hôte handicapé</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletMgr.cpp" line="744" />
+            <source>This host is currently disabled. Enable it in Settings before administering it.</source>
+            <translation>Cet hôte est actuellement désactivé. Activez-le dans Paramètres avant de l'administrer.</translation>
         </message>
     </context>
     <context>
@@ -2354,6 +2335,14 @@
         </message>
     </context>
     <context>
+        <name>AppletUserPreferences</name>
+        <message>
+            <location filename="../nolimitgui/src/AppletUserPreferences.cpp" line="52" />
+            <source>Purge event history:</source>
+            <translation>Historique des événements de purge :</translation>
+        </message>
+    </context>
+    <context>
         <name>AppletUserPreferencesUi</name>
         <message>
             <location filename="../resources/Forms/AppletUserPreferences.ui" line="14" />
@@ -2528,21 +2517,45 @@
         </message>
     </context>
     <context>
-        <name>CancelDownloadDialog</name>
+        <name>CalendarEventListPanel</name>
         <message>
-            <location filename="../resources/Forms/ActivityDownloadItemMenu.ui" line="14" />
-            <source>Cancel Download</source>
-            <translation>Annuler le téléchargement</translation>
+            <location filename="../nolimitgui/src/CalendarEventListPanel.cpp" line="54" />
+            <source>Create Event</source>
+            <translation>Créer un événement</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/ActivityDownloadItemMenu.ui" line="133" />
-            <source>Recieve File</source>
-            <translation>Recevoir le fichier</translation>
+            <location filename="../nolimitgui/src/CalendarEventListPanel.cpp" line="60" />
+            <source>View Existing Events</source>
+            <translation>Voir les événements existants</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/ActivityDownloadItemMenu.ui" line="154" />
-            <source>File:</source>
-            <translation>Fichier :</translation>
+            <location filename="../nolimitgui/src/CalendarEventListPanel.cpp" line="95" />
+            <source>%1 attending now</source>
+            <translation> NLC TOKEN 0                                                                                                                                                                                                                                                      </translation>
+        </message>
+    </context>
+    <context>
+        <name>CalendarEventRowWidget</name>
+        <message>
+            <location filename="../nolimitgui/src/CalendarEventRowWidget.cpp" line="65" />
+            <source>Edit</source>
+            <translation>Modifier</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/CalendarEventRowWidget.cpp" line="73" />
+            <location filename="../nolimitgui/src/CalendarEventRowWidget.cpp" line="147" />
+            <source>Cancel Event</source>
+            <translation>Annuler l'événement</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/CalendarEventRowWidget.cpp" line="127" />
+            <source>Event ended</source>
+            <translation>Événement terminé</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/CalendarEventRowWidget.cpp" line="148" />
+            <source>Cancel "%1"? This deletes the whole event series.</source>
+            <translation>Annuler "  NLC TOKEN 0   "? Cela supprime toute la série d'événements.</translation>
         </message>
     </context>
     <context>
@@ -2689,126 +2702,156 @@
         </message>
     </context>
     <context>
-        <name>EchoCancelTestMainWindowUi</name>
+        <name>DialogCalendarEvent</name>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="20" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="20" />
-            <source>MainWindow</source>
-            <translation>Fenêtre principale</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="48" />
+            <source>Create Event</source>
+            <translation>Créer un événement</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="97" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="97" />
-            <source>Sound Input</source>
-            <translation>Entrée sonore</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="61" />
+            <source>Edit Event</source>
+            <translation>Modifier l'événement</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="118" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="118" />
-            <source>Apply Sound In Device As Default</source>
-            <translation>Appliquer le son sur l'appareil par défaut</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="73" />
+            <source>View Existing Events</source>
+            <translation>Voir les événements existants</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="127" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="127" />
-            <source>Sound In Device</source>
-            <translation>Son dans l'appareil</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="80" />
+            <source>Event Name</source>
+            <translation>Nom de l'événement</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="146" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="146" />
-            <source>Want Microphone Input</source>
-            <translation>Vous voulez une entrée microphone</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="84" />
+            <source>Description</source>
+            <translation>Désignation des marchandises</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="153" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="153" />
-            <source>Mute Microphone</source>
-            <translation>Microphone muet</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="89" />
+            <source>Start Date</source>
+            <translation>Date de début</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="160" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="160" />
-            <source>Send Microphone Input To Speakers</source>
-            <translation>Envoyer l'entrée du microphone aux haut-parleurs</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="93" />
+            <source>Start Time</source>
+            <translation>Heure de début</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="169" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="169" />
-            <source>Microphone Input Peak Level</source>
-            <translation>Niveau de crête d’entrée du microphone</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="100" />
+            <source> hr</source>
+            <translation>hr</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="194" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="194" />
-            <source>Sound Output</source>
-            <translation>Sortie sonore</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="103" />
+            <source> min</source>
+            <translation>min</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="215" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="215" />
-            <source>Apply Sound Out Device As Default</source>
-            <translation>Appliquer le périphérique de sortie audio par défaut</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="107" />
+            <source>Duration</source>
+            <translation>Durée</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="224" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="224" />
-            <source>Sound Out Device</source>
-            <translation>Appareil de sortie sonore</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="110" />
+            <source>Never</source>
+            <translation>Jamais</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="243" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="243" />
-            <source>Want Speaker Output</source>
-            <translation>Vous voulez une sortie haut-parleur</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="111" />
+            <source>Every Day</source>
+            <translation>Chaque jour</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="250" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="250" />
-            <source>Mute Speakers</source>
-            <translation>Haut-parleurs muets</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="112" />
+            <source>Every Week</source>
+            <translation>Chaque semaine</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="257" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="257" />
-            <source>Generate 400Hz tone Mono Channel PCM </source>
-            <translation>Générer une tonalité de 400 Hz PCM mono canal </translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="113" />
+            <source>Every Month</source>
+            <translation>Tous les mois</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="266" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="266" />
-            <source>Speaker Output Peak Level</source>
-            <translation>Niveau de crête de sortie du haut-parleur</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="114" />
+            <source>Recurrence</source>
+            <translation>Récurrence</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="282" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="282" />
-            <source> Enable Echo Cancel</source>
-            <translation> Activer l'annulation de l'écho</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="117" />
+            <source>Day of Month</source>
+            <translation>Jour du mois</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="291" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="291" />
-            <source>Test Sound Delay For Echo Cancel</source>
-            <translation>Test du délai sonore pour l'annulation de l'écho</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="124" />
+            <source> hours</source>
+            <translation>heures</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="304" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="304" />
-            <source>Test result ms:</source>
-            <translation>Résultat du test ms :</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="125" />
+            <source>Keep Content For</source>
+            <translation>Conserver le contenu pour</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="331" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="331" />
-            <source>Echo delay ms:</source>
-            <translation>Délai d'écho ms :</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="127" />
+            <source>Allow video/audio postings during this event</source>
+            <translation>Permettre l'affichage vidéo/audio pendant cet événement</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/EchoCancelTestMainWindow.ui" line="348" />
-            <location filename="../resources/Forms/MiniAudioLibTestMainWindow.ui" line="348" />
-            <source>Save Echo Delay To Echo Canceler</source>
-            <translation>Enregistrer le délai d'écho dans l'annuleur d'écho</translation>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="205" />
+            <source>Event name is required</source>
+            <translation>Le nom de l'événement est requis</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="221" />
+            <source>Text Too Long</source>
+            <translation>Texte trop long</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="222" />
+            <source>Event name exceeded %1 bytes and/or description exceeded %2 bytes -- text was truncated.</source>
+            <translation>Nom de l'événement dépassé   NLC TOKEN 0  octets et/ou description dépassé   NLC TOKEN 1  octets -- le texte a été tronqué.</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="243" />
+            <source>Saving...</source>
+            <translation>Sauver...</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="250" />
+            <source>Canceled</source>
+            <translation>Annulé</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="250" />
+            <source>Event not saved.</source>
+            <translation>Événement non enregistré.</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="264" />
+            <source>Saved</source>
+            <translation>Enregistrer</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="264" />
+            <source>Event saved successfully.</source>
+            <translation>Événement enregistré avec succès.</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="270" />
+            <source>Error: %1</source>
+            <translation>Erreur :   NLC TOKEN 0  </translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="271" />
+            <source>Save Failed</source>
+            <translation>L'enregistrement a échoué</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/DialogCalendarEvent.cpp" line="271" />
+            <source>Event was not saved: %1</source>
+            <translation>L'événement n'a pas été enregistré :   NLC TOKEN 0  </translation>
         </message>
     </context>
     <context>
@@ -2932,14 +2975,6 @@
         </message>
     </context>
     <context>
-        <name>FileSearchDialog</name>
-        <message>
-            <location filename="../resources/Forms/ActivityFileSearch.ui" line="17" />
-            <source>Menu</source>
-            <translation>Menus</translation>
-        </message>
-    </context>
-    <context>
         <name>FileShareItemWidget</name>
         <message>
             <location filename="../resources/Forms/FileShareItemWidget.ui" line="26" />
@@ -2981,29 +3016,6 @@
         </message>
     </context>
     <context>
-        <name>FileViewSharedActionBarUi</name>
-        <message>
-            <location filename="../resources/Forms/FileViewSharedActionBar.ui" line="26" />
-            <source>Form</source>
-            <translation>Formulaire</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/FileViewSharedActionBar.ui" line="87" />
-            <source>Stream</source>
-            <translation>Flux</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/FileViewSharedActionBar.ui" line="119" />
-            <source>Download</source>
-            <translation>Télécharger</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/FileViewSharedActionBar.ui" line="151" />
-            <source>About</source>
-            <translation>À propos</translation>
-        </message>
-    </context>
-    <context>
         <name>FileXferWidgetUi</name>
         <message>
             <location filename="../resources/Forms/FileXferWidget.ui" line="26" />
@@ -3019,56 +3031,6 @@
             <location filename="../resources/Forms/FileXferWidget.ui" line="202" />
             <source>Status:</source>
             <translation>Statut :</translation>
-        </message>
-    </context>
-    <context>
-        <name>GroupHostServiceClass</name>
-        <message>
-            <location filename="../resources/Forms/AppletServiceGroupListingHost.ui" line="14" />
-            <source>Group Listing Host Service</source>
-            <translation>Service d'hébergement d'annonces de groupe</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceGroupListingHost.ui" line="54" />
-            <source>Host Group Listing Service</source>
-            <translation>Service de liste de groupes d'hôtes</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceGroupListingHost.ui" line="67" />
-            <source>Start Service When App Is Launched</source>
-            <translation>Démarrer le service au lancement de l'application</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceGroupListingHost.ui" line="74" />
-            <source>Permission Level Required To Use Service</source>
-            <translation>Niveau d'autorisation requis pour utiliser le service</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceGroupListingHost.ui" line="84" />
-            <source>This Service  URL or IP Address</source>
-            <translation>Cette URL de service ou cette adresse IP</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceGroupListingHost.ui" line="94" />
-            <source>Name Service</source>
-            <translation>Service de noms</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceGroupListingHost.ui" line="104" />
-            <source>Description Of Service  
-( maximum 512 characters )</source>
-            <translation>Description du service  
-(maximum 512 caractères)</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceGroupListingHost.ui" line="122" />
-            <source>Start Service</source>
-            <translation>Démarrer le service</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceGroupListingHost.ui" line="141" />
-            <source>Stop Service</source>
-            <translation>Arrêter le service</translation>
         </message>
     </context>
     <context>
@@ -3184,11 +3146,16 @@
         </message>
     </context>
     <context>
-        <name>HistoryEntryWidgetUi</name>
+        <name>HistoryListWidget</name>
         <message>
-            <location filename="../resources/Forms/HistoryEntryWidget.ui" line="32" />
-            <source>Form</source>
-            <translation>Formulaire</translation>
+            <location filename="../nolimitgui/src/HistoryListWidget.cpp" line="263" />
+            <source>Saved</source>
+            <translation>Enregistrer</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/HistoryListWidget.cpp" line="263" />
+            <source>Saved to your personal recorder.</source>
+            <translation>Sauvé sur votre enregistreur personnel.</translation>
         </message>
     </context>
     <context>
@@ -3231,14 +3198,6 @@
             <location filename="../resources/Forms/ImageListWidget.ui" line="14" />
             <source>ImageListWidget</source>
             <translation>ImageListWidget</translation>
-        </message>
-    </context>
-    <context>
-        <name>ImagePickBarClass</name>
-        <message>
-            <location filename="../resources/Forms/ImagePickBar.ui" line="14" />
-            <source>Form</source>
-            <translation>Formulaire</translation>
         </message>
     </context>
     <context>
@@ -3428,152 +3387,64 @@
     <context>
         <name>MultiSessionState</name>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="335" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="334" />
             <source>Waiting Phone Answer</source>
             <translation>En attente d'une réponse téléphonique</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="338" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="337" />
             <source>Waiting Video Chat Offer Response</source>
             <translation>En attente de réponse à l'offre de chat vidéo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="341" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="340" />
             <source>Waiting Truth Or Dare Offer Response</source>
             <translation>En attendant la réponse de l'offre Action ou Vérité</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="357" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="356" />
             <source>Please Answer Phone</source>
             <translation>S'il vous plaît répondre au téléphone</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="360" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="359" />
             <source>Video Chat Offer Available</source>
             <translation>Offre de chat vidéo disponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="363" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="362" />
             <source>Truth Or Dare Offer Available</source>
             <translation>Offre Action ou Vérité disponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="414" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="413" />
             <source>Phone Connected</source>
             <translation>Téléphone connecté</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="420" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="419" />
             <source>In Video Chat Session</source>
             <translation>En session de chat vidéo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="426" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="425" />
             <source>In Truth Or Dare Session</source>
             <translation>En séance Action ou Vérité</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="449" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="448" />
             <source>Phone Offer Rejected</source>
             <translation>Offre téléphonique rejetée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="452" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="451" />
             <source>Video Chat Offer Rejected</source>
             <translation>Offre de chat vidéo rejetée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="455" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="454" />
             <source>Truth Or Dare Offer Rejected</source>
             <translation>Offre Action ou Vérité rejetée</translation>
-        </message>
-    </context>
-    <context>
-        <name>NetworkHostServiceClass</name>
-        <message>
-            <location filename="../resources/Forms/AppletServiceNetworkHost.ui" line="14" />
-            <source>Network Host Service</source>
-            <translation>Service d'hôte réseau</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceNetworkHost.ui" line="54" />
-            <source>Network Host  Service</source>
-            <translation>Service d'hôte réseau</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceNetworkHost.ui" line="67" />
-            <source>Start Service When App Is Launched</source>
-            <translation>Démarrer le service au lancement de l'application</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceNetworkHost.ui" line="74" />
-            <source>Permission Level Required To Use Service</source>
-            <translation>Niveau d'autorisation requis pour utiliser le service</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceNetworkHost.ui" line="84" />
-            <source>This Service  URL or IP Address</source>
-            <translation>Cette URL de service ou cette adresse IP</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceNetworkHost.ui" line="94" />
-            <source>Name Service</source>
-            <translation>Service de noms</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceNetworkHost.ui" line="104" />
-            <source>Description Of Service  
-( maximum 512 characters )</source>
-            <translation>Description du service  
-(maximum 512 caractères)</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceNetworkHost.ui" line="122" />
-            <source>Start Service</source>
-            <translation>Démarrer le service</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceNetworkHost.ui" line="141" />
-            <source>Stop Service</source>
-            <translation>Arrêter le service</translation>
-        </message>
-    </context>
-    <context>
-        <name>NetworkTestDlg</name>
-        <message>
-            <location filename="../resources/Forms/ActivityNetworkTest.ui" line="17" />
-            <source>Connection Test</source>
-            <translation>Test de connexion</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/ActivityNetworkTest.ui" line="110" />
-            <source>Network Test Log:</source>
-            <translation>Journal de test réseau :</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/ActivityNetworkTest.ui" line="117" />
-            <source>Run Full Network Test</source>
-            <translation>Exécuter un test réseau complet</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/ActivityNetworkTest.ui" line="127" />
-            <source>Verbose Test Log</source>
-            <translation>Journal de test détaillé</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/ActivityNetworkTest.ui" line="134" />
-            <source>Network Test</source>
-            <translation>Test de réseau</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/ActivityNetworkTest.ui" line="141" />
-            <source>Is My Port Open</source>
-            <translation>Mon port est-il ouvert</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/ActivityNetworkTest.ui" line="148" />
-            <source>What Is My IP Address</source>
-            <translation>Quelle est mon adresse IP</translation>
         </message>
     </context>
     <context>
@@ -3587,56 +3458,6 @@
             <location filename="../resources/Forms/ActivityNetworkStartupTest.ui" line="93" />
             <source>Network Test Log:</source>
             <translation>Journal de test réseau :</translation>
-        </message>
-    </context>
-    <context>
-        <name>NoLimitConnectNetworkDlgClass</name>
-        <message>
-            <location filename="../resources/Forms/AppletServiceConnectionTest.ui" line="14" />
-            <source>NoLimitConnect Network Host</source>
-            <translation>Hôte réseau NoLimitConnect</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceConnectionTest.ui" line="54" />
-            <source>Host A NoLimitConnect Network ( Global Network Service )</source>
-            <translation>Héberger un réseau NoLimitConnect (service de réseau mondial)</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceConnectionTest.ui" line="67" />
-            <source>Start Service When App Is Launched</source>
-            <translation>Démarrer le service au lancement de l'application</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceConnectionTest.ui" line="74" />
-            <source>Permission Level Required To Use Service</source>
-            <translation>Niveau d'autorisation requis pour utiliser le service</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceConnectionTest.ui" line="84" />
-            <source>This NoLimitConnect Network URL or IP Address</source>
-            <translation>Cette URL ou adresse IP du réseau NoLimitConnect</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceConnectionTest.ui" line="94" />
-            <source>Name Of NoLimitConnect Network</source>
-            <translation>Nom du réseau NoLimitConnect</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceConnectionTest.ui" line="104" />
-            <source>Description Of NoLimitConnect Network 
-( maximum 512 characters )</source>
-            <translation>Description du réseau NoLimitConnect 
-(maximum 512 caractères)</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceConnectionTest.ui" line="122" />
-            <source>Start NoLimitConnect Network Service</source>
-            <translation>Démarrer le service réseau NoLimitConnect</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/AppletServiceConnectionTest.ui" line="141" />
-            <source>Stop NoLimitConnect Network Service</source>
-            <translation>Arrêter le service réseau NoLimitConnect</translation>
         </message>
     </context>
     <context>
@@ -3723,55 +3544,11 @@
         </message>
     </context>
     <context>
-        <name>PersonOfferListItemUi</name>
-        <message>
-            <location filename="../resources/Forms/PersonOfferListItem.ui" line="37" />
-            <source>Form</source>
-            <translation>Formulaire</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/PersonOfferListItem.ui" line="233" />
-            <source>Accept</source>
-            <translation>Accepter</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/PersonOfferListItem.ui" line="271" />
-            <source>Block</source>
-            <translation>Bloquer</translation>
-        </message>
-    </context>
-    <context>
-        <name>PersonalRecorderDialog</name>
-        <message>
-            <location filename="../resources/Forms/ActivityPersonalRecorder.ui" line="26" />
-            <source>Dialog</source>
-            <translation>Boîte de dialogue</translation>
-        </message>
-    </context>
-    <context>
         <name>PersonalRecorderUi</name>
         <message>
             <location filename="../resources/Forms/AppletPersonalRecorder.ui" line="32" />
             <source>Dialog</source>
             <translation>Boîte de dialogue</translation>
-        </message>
-    </context>
-    <context>
-        <name>PhoneShakeDlgClass</name>
-        <message>
-            <location filename="../resources/Forms/ActivityPhoneShake.ui" line="14" />
-            <source>Search</source>
-            <translation>Rechercher</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/ActivityPhoneShake.ui" line="95" />
-            <source>Shake Phone At Same Time As Friend To Get Connected</source>
-            <translation>Secouez le téléphone en même temps qu'un ami pour vous connecter</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/ActivityPhoneShake.ui" line="111" />
-            <source>Simulate Phone Shake</source>
-            <translation>Simuler le tremblement du téléphone</translation>
         </message>
     </context>
     <context>
@@ -3850,7 +3627,7 @@
     <context>
         <name>QObject</name>
         <message>
-            <location filename="../nolimitgui/src/ActivityBase.cpp" line="404" />
+            <location filename="../nolimitgui/src/ActivityBase.cpp" line="396" />
             <source>Session End Message</source>
             <translation>Message de fin de session</translation>
         </message>
@@ -3879,18 +3656,8 @@
             <translation>Espace de stockage disponible : </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/ActivityDownloadItemMenu.cpp" line="32" />
-            <source>Download Item Menu</source>
-            <translation>Télécharger le menu des éléments</translation>
-        </message>
-        <message>
-            <location filename="../nolimitgui/src/ActivityFileSearch.cpp" line="29" />
-            <source>File Search</source>
-            <translation>Recherche de fichiers</translation>
-        </message>
-        <message>
             <location filename="../nolimitgui/src/ActivityGenerateHash.cpp" line="47" />
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="378" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="372" />
             <source>Generate Hash</source>
             <translation>Générer du hachage</translation>
         </message>
@@ -3909,14 +3676,14 @@ Ce message disparaîtra une fois la génération du hachage terminée.</translat
         <message>
             <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="145" />
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="48" />
-            <location filename="../nolimitgui/src/AssetTextWidget.cpp" line="221" />
+            <location filename="../nolimitgui/src/AssetTextWidget.cpp" line="241" />
             <source>Clipboard</source>
             <translation>Presse-papiers</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/ActivityMessageBox.cpp" line="145" />
             <location filename="../nolimitgui/src/AppletInformation.cpp" line="48" />
-            <location filename="../nolimitgui/src/AssetTextWidget.cpp" line="221" />
+            <location filename="../nolimitgui/src/AssetTextWidget.cpp" line="241" />
             <source>Text was copied to clipboard</source>
             <translation>Le texte a été copié dans le presse-papiers</translation>
         </message>
@@ -3960,118 +3727,118 @@ File Type: </source>
             <translation>Connexion sans limite</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="765" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2344" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1388" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="767" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2291" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1387" />
             <source>Unknown Error</source>
             <translation>Erreur inconnue</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="766" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="768" />
             <source>ERROR:
 </source>
             <translation>ERREUR :</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="770" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="772" />
             <source>Failed to connect to Network host</source>
             <translation>Échec de la connexion à l'hôte réseau</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="773" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="775" />
             <source>Failed to connect to Connection Test host</source>
             <translation>Échec de la connexion à l'hôte de test de connexion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="776" />
-            <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="250" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="778" />
+            <location filename="../nolimitgui/src/AssetVideoWidget.cpp" line="255" />
             <source>Video Play Failed</source>
             <translation>Échec de la lecture vidéo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="779" />
-            <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="223" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="781" />
+            <location filename="../nolimitgui/src/AssetVoiceWidget.cpp" line="228" />
             <source>Audio Play Failed</source>
             <translation>Échec de la lecture audio</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="782" />
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="786" />
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="790" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="784" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="788" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="792" />
             <source>Sound In Device Error</source>
             <translation>Erreur de son dans l'appareil</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="783" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="785" />
             <source>No Microphone Devices Available</source>
             <translation>Aucun périphérique de microphone disponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="787" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="789" />
             <source>Microphone Device Out Of Range</source>
             <translation>Appareil microphone hors de portée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="791" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="793" />
             <source>Failed to Initialize Microphone Device</source>
             <translation>Échec de l'initialisation du périphérique microphone</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="794" />
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="798" />
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="802" />
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="806" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="796" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="800" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="804" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="808" />
             <source>Sound Out Device Error</source>
             <translation>Erreur du périphérique de sortie audio</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="795" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="797" />
             <source>No Speaker Devices Available</source>
             <translation>Aucun haut-parleur disponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="799" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="801" />
             <source>Speaker Device Out Of Range</source>
             <translation>Haut-parleur hors de portée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="803" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="805" />
             <source>Failed to Initialize Speaker Device</source>
             <translation>Échec de l'initialisation du périphérique haut-parleur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="807" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="809" />
             <source>Speaker Device Invalid Format</source>
             <translation>Format non valide du périphérique de haut-parleur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="811" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="813" />
             <source>Echo Delay Test Error</source>
             <translation>Erreur de test de délai d'écho</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="812" />
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="818" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="814" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="820" />
             <source>Echo Delay Results (ms) </source>
             <translation>Résultats du délai d'écho (ms) </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="817" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="819" />
             <source>Echo Delay Test Success</source>
             <translation>Réussite du test de délai d'écho</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1294" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1291" />
             <source>Close Application</source>
             <translation>Fermer l'application</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1295" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1292" />
             <source>Are you sure you want to exit?</source>
             <translation>Êtes-vous sûr de vouloir quitter ?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppCommon.cpp" line="1401" />
+            <location filename="../nolimitgui/src/AppCommon.cpp" line="1398" />
             <location filename="../nolimitgui/src/ChatEntryWidget.cpp" line="363" />
             <source>Application Error</source>
             <translation>Erreur d'application</translation>
@@ -4087,710 +3854,720 @@ File Type: </source>
             <translation>Aucun périphérique de capture vidéo trouvé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="205" />
+            <location filename="../nolimitgui/src/AppCommonCamCapture.cpp" line="139" />
+            <source>Camera Permission Denied</source>
+            <translation>Permission de caméra refusée</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppCommonCamCapture.cpp" line="140" />
+            <source>Camera access was denied. Enable the Camera permission in system settings to use the webcam.</source>
+            <translation>L'accès à la caméra a été refusé. Activez la permission de la caméra dans les paramètres du système pour utiliser la webcam.</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="199" />
             <source>Edit My About Me Page</source>
             <translation>Modifier ma page À propos de moi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="206" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="200" />
             <source>Edit My Avatar Image</source>
             <translation>Modifier mon image d'avatar</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="207" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="201" />
             <source>Edit My Story Board (Blog)</source>
             <translation>Modifier mon Story Board (Blog)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="208" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="202" />
             <source>View Story Page (Blog)</source>
             <translation>Voir la page de l'histoire (Blog)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="209" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="203" />
             <source>View My Story Page (Blog)</source>
             <translation>Voir ma page d'histoire (Blog)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="210" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="204" />
             <source>Sound Settings</source>
             <translation>Paramètres sonores</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="211" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="205" />
             <source>About File</source>
             <translation>À propos du fichier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="212" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="459" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1068" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="206" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="458" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1067" />
             <source>View About Me Page</source>
             <translation>Afficher la page À propos de moi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="213" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="207" />
             <source>View My About Me Page</source>
             <translation>Afficher ma page À propos de moi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="214" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="208" />
             <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1111" />
             <source>User Details</source>
             <translation>Détails de l'utilisateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="216" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="210" />
             <location filename="../nolimitgui/src/AppletLaunchPage.cpp" line="32" />
             <source>Home</source>
             <translation>Accueil</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="217" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="211" />
             <source>About No Limit Connect</source>
             <translation>À propos de la connexion sans limite</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="218" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="212" />
             <source>Application Information</source>
             <translation>Informations sur la candidature</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="219" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="213" />
             <source>Browse Files</source>
             <translation>Parcourir les fichiers</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="220" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="214" />
             <source>Offer List</source>
             <translation>Liste des offres</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="222" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="216" />
             <source>Cam Video Player</source>
             <translation>Lecteur vidéo de caméra</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="223" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="217" />
             <source>Photo Viewer</source>
             <translation>Visionneuse de photos</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="224" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="218" />
             <source>Media Player</source>
             <translation>Lecteur multimédia</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="226" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="598" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1202" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="220" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="597" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1201" />
             <source>View Shared Web Cam</source>
             <translation>Afficher la webcam partagée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="227" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="221" />
             <source>View My Shared Web Cam</source>
             <translation>Afficher ma webcam partagée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="228" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="222" />
             <source>Cam Settings</source>
             <translation>Paramètres de la caméra</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="229" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="223" />
             <source>Join Chat Room</source>
             <translation>Rejoindre le salon de discussion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="230" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="224" />
             <location filename="../nolimitgui/src/AppletChatRoomJoinSearch.cpp" line="67" />
             <source>Search For Chat Room To Join</source>
             <translation>Recherchez un salon de discussion à rejoindre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="231" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="225" />
             <source>Chat Room Hosts Announced To Network</source>
             <translation>Les hôtes des salons de discussion annoncés pour réseauter</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="233" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="227" />
             <source>Choose Thumbnail</source>
             <translation>Choisir la vignette</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="235" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="229" />
             <source>Choose Host</source>
             <translation>Choisir l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="236" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="230" />
             <source>Join Host Connect</source>
             <translation>Rejoindre Host Connect</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="237" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="231" />
             <source>Leave Host</source>
             <translation>Quitter l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="239" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="233" />
             <source>Chat Room</source>
             <translation>Salon de discussion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="240" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="234" />
             <source>Random Person Connect</source>
             <translation>Personne aléatoire se connecte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="241" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="235" />
             <source>Get Persons Avatar Image For Contact List</source>
             <translation>Obtenir une image d'avatar de personne pour la liste de contacts</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="242" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="236" />
             <source>Create Account</source>
             <translation>Créer un compte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="243" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="237" />
             <source>Friend List</source>
             <translation>Liste d'amis</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="244" />
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="344" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="238" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="338" />
             <location filename="../nolimitgui/src/AppletFriendRequest.cpp" line="117" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1048" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1047" />
             <source>Friend Request</source>
             <translation>Demande d'ami</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="245" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="239" />
             <source>Friend Request List</source>
             <translation>Liste de demandes d'amis</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="246" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="240" />
             <source>Emoticon Gallery</source>
             <translation>Galerie d'émoticônes</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="247" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="241" />
             <source>Image Gallery</source>
             <translation>Galerie d'images</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="248" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="242" />
             <source>Thumbnail Gallery</source>
             <translation>Galerie de vignettes</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="249" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="243" />
             <source>Get Started</source>
             <translation>Commencer</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="251" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="245" />
             <source>Group Client</source>
             <translation>Client de groupe</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="252" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="246" />
             <source>Group Host Admin</source>
             <translation>Administrateur de l'hôte du groupe</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="253" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="247" />
             <source>Join Group</source>
             <translation>Rejoindre le groupe</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="254" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="248" />
             <source>Search For Group To Join</source>
             <translation>Rechercher un groupe à rejoindre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="255" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="249" />
             <source>Group List</source>
             <translation>Liste des groupes</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="256" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="250" />
             <source>Group Hosts Announced To Network</source>
             <translation>Les hôtes du groupe annoncés pour réseauter</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="258" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="252" />
             <source>Network Signal Bars</source>
             <translation>Barres de signal réseau</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="260" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="254" />
             <source>Chat Room Host Admin</source>
             <translation>Administrateur hôte de la salle de discussion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="261" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="255" />
             <source>Chat Room Host Status</source>
             <translation>Statut d'hôte de salle de discussion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="262" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="256" />
             <source>Group Host Status</source>
             <translation>Statut d'hôte de groupe</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="263" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="257" />
             <source>Network Host Status</source>
             <translation>Statut de l'hôte réseau</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="264" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="258" />
             <source>Random Connect Host Status</source>
             <translation>Statut de l'hôte de connexion aléatoire</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="266" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="260" />
             <source>Ignored Hosts List</source>
             <translation>Liste des hôtes ignorés</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="268" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="262" />
             <source>Accept Invite</source>
             <translation>Accepter l'invitation</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="269" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="263" />
             <source>Create Invite</source>
             <translation>Créer une invitation</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="271" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="265" />
             <source>Select Language</source>
             <translation>Sélectionnez la langue</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="272" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="266" />
             <source>My Library Of Media</source>
             <translation>Ma bibliothèque de médias</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="273" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="267" />
             <source>Application Log</source>
             <translation>Journal des applications</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="274" />
-            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="93" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="268" />
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="96" />
             <source>Log Settings</source>
             <translation>Paramètres du journal</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="276" />
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="277" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="976" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="270" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="271" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="975" />
             <source>Messenger</source>
             <translation>Messager</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="278" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="272" />
             <source>Network Settings</source>
             <translation>Paramètres réseau</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="279" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="273" />
             <source>Join Host Requests</source>
             <translation>Rejoindre les demandes d'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="281" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="275" />
             <source>Persons Offers</source>
             <translation>Offres Personnes</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="282" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="276" />
             <source>Video Player</source>
             <translation>Lecteur vidéo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="283" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="277" />
             <source>Personal Notes And Records</source>
             <translation>Notes et dossiers personnels</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="285" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="279" />
             <source>Random Connect Host Admin</source>
             <translation>Administrateur hôte de connexion aléatoire</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="286" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="280" />
             <source>Join Random Connect</source>
             <translation>Rejoignez Random Connect</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="287" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="281" />
             <location filename="../nolimitgui/src/AppletRandomConnectJoinSearch.cpp" line="67" />
             <source>Search For Random Connect Host To Join</source>
             <translation>Rechercher un hôte de connexion aléatoire à rejoindre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="288" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="282" />
             <source>Random Connect Announced Hosts</source>
             <translation>Hôtes annoncés par Random Connect</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="290" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="284" />
             <source>Take Snapshot</source>
             <translation>Prendre un instantané</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="292" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="286" />
             <source>Test And Debug</source>
             <translation>Test et débogage</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="293" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="287" />
             <source>Test UPNP Port Forward</source>
             <translation>Testez le transfert de port UPNP</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="294" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="288" />
             <source>Theme</source>
             <translation>Thème</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="296" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="290" />
             <source>User Connections</source>
             <translation>Connexions utilisateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="297" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="291" />
             <source>User Identity</source>
             <translation>Identité de l'utilisateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="298" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="292" />
             <source>User Prefernces</source>
             <translation>Préférences utilisateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="300" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="294" />
             <location filename="../nolimitgui/src/ServiceSettingsWidget.cpp" line="69" />
             <source>Settings</source>
             <translation>Paramètres</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="302" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="296" />
             <source>Search</source>
             <translation>Rechercher</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="303" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="297" />
             <source>Search Group For Person Name</source>
             <translation>Groupe de recherche pour le nom de la personne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="304" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="298" />
             <source>Search Group For Mood Message</source>
             <translation>Groupe de recherche pour un message d'humeur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="305" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="299" />
             <source>Search Group For About Me Pictures</source>
             <translation>Rechercher dans le groupe des photos à propos de moi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="306" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="300" />
             <source>Search Group For Story Boards</source>
             <translation>Groupe de recherche pour les story boards</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="307" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="301" />
             <source>Search Group For Shared Files</source>
             <translation>Groupe de recherche de fichiers partagés</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="308" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="302" />
             <source>Search Group For Shared Web Cams</source>
             <translation>Groupe de recherche de webcams partagées</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="310" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="304" />
             <source>Hosting Services</source>
             <translation>Services d'hébergement</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="311" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="305" />
             <source>Share Permission List</source>
             <translation>Partager la liste des autorisations</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="313" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="307" />
             <source>Share With Others Services</source>
             <translation>Partager avec d'autres services</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="314" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="308" />
             <source>Share About Me Page</source>
             <translation>Page Partager à propos de moi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="316" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="310" />
             <source>Service Connection Test</source>
             <translation>Test de connexion aux services</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="317" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="311" />
             <source>Host A NoLimitConnect Network</source>
             <translation>Héberger un réseau NoLimitConnect</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="318" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="312" />
             <source>Share Media Files</source>
             <translation>Partager des fichiers multimédias</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="319" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="313" />
             <source>Share your web cam</source>
             <translation>Partagez votre webcam</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="320" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="314" />
             <source>Share Story Page (Blog)</source>
             <translation>Partager la page d'histoire (Blog)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="322" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="316" />
             <location filename="../nolimitgui/src/AppletServiceBase.cpp" line="195" />
             <location filename="../nolimitgui/src/AppletSettingsBase.cpp" line="91" />
             <source>Service Settings</source>
             <translation>Paramètres des services</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="324" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="318" />
             <source>About Me Page Settings</source>
             <translation>Paramètres de la page À propos de moi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="325" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="319" />
             <source>Avatar Image Settings</source>
             <translation>Paramètres de l'image de l'avatar</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="326" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="320" />
             <source>Shared Web Cam Settings</source>
             <translation>Paramètres de la webcam partagée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="327" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="321" />
             <source>Connection Test Service Settings</source>
             <translation>Paramètres du service de test de connexion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="328" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="322" />
             <source>Shared Files Settings</source>
             <translation>Paramètres des fichiers partagés</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="329" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="323" />
             <source>Person To Person File Xfer Settings</source>
             <translation>Paramètres de transfert de fichiers de personne à personne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="331" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="325" />
             <source>Chat Room Host Settings</source>
             <translation>Paramètres de l'hôte de la salle de discussion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="332" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="326" />
             <source>Group Host Settings</source>
             <translation>Paramètres de l'hôte du groupe</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="333" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="327" />
             <source>Network Host Settings</source>
             <translation>Paramètres de l'hôte réseau</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="334" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="328" />
             <source>Random Connect Host Settings</source>
             <translation>Paramètres de l'hôte de connexion aléatoire</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="336" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="330" />
             <source>Messenger Settings</source>
             <translation>Paramètres de messagerie</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="337" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="331" />
             <source>Push To Talk Settings</source>
             <translation>Paramètres Push-To-Talk</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="338" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="332" />
             <source>Random Connect Service Settings</source>
             <translation>Paramètres du service de connexion aléatoire</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="339" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="333" />
             <source>Shared Story (Blog) Settings</source>
             <translation>Paramètres de l'histoire partagée (blog)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="340" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="334" />
             <source>Truth Or Dare Video Chat Game Settings</source>
             <translation>Paramètres du jeu de chat vidéo Action ou Vérité</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="341" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="335" />
             <source>Video Chat Settings</source>
             <translation>Paramètres de chat vidéo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="342" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="336" />
             <source>Voice Only Phone Call Settings</source>
             <translation>Paramètres d'appel téléphonique vocal uniquement</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="346" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="340" />
             <source>Provide Cam Stream</source>
             <translation>Fournir un flux de caméras</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="347" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="341" />
             <source>Manage Station</source>
             <translation>Gérer la gare</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="348" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="342" />
             <source>Manage Station Network Host</source>
             <translation>Gérer l'hôte du réseau de stations</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="350" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="344" />
             <location filename="../nolimitgui/src/AppletPopupMenu.cpp" line="1055" />
             <source>Change Friendship</source>
             <translation>Changer l'amitié</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="351" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="345" />
             <source>Reply Offer File</source>
             <translation>Fichier d'offre de réponse</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="352" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="346" />
             <source>Truth Or Dare Game</source>
             <translation>Jeu Action ou Vérité</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="353" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="988" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="347" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="987" />
             <source>Video Chat</source>
             <translation>Chat vidéo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="354" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="564" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="348" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="563" />
             <source>View Shared Files</source>
             <translation>Afficher les fichiers partagés</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="355" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="349" />
             <source>Offer File</source>
             <translation>Dossier d'offre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="357" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="351" />
             <source>Offer Information</source>
             <translation>Informations sur l'offre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="358" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="352" />
             <source>Random Connect Session</source>
             <translation>Session de connexion aléatoire</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="359" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="353" />
             <source>Send Offer</source>
             <translation>Envoyer une offre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="360" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="354" />
             <source>Respond To Offer</source>
             <translation>Répondre à l'offre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="361" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="355" />
             <source>Accept Offer Response</source>
             <translation>Accepter la réponse à l'offre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="362" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="356" />
             <source>Offer Details</source>
             <translation>Détails de l'offre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="363" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="357" />
             <source>Voice Phone (VOIP)</source>
             <translation>Téléphone vocal (VOIP)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="365" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="359" />
             <source>File Offer</source>
             <translation>Offre de dossier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="367" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="361" />
             <source>Downloads</source>
             <translation>Téléchargements</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="368" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="362" />
             <source>Uploads</source>
             <translation>Téléchargements</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="370" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="364" />
             <source>View My Shared Files</source>
             <translation>Afficher mes fichiers partagés</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="372" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="366" />
             <source>Menu</source>
             <translation>Menus</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="374" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="368" />
             <source>Blocked Hackers</source>
             <translation>Pirates bloqués</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="375" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="369" />
             <source>Socket Connections</source>
             <translation>Connexions de prise</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="376" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="370" />
             <source>Test Connection</source>
             <translation>Tester la connexion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="379" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="373" />
             <source>Information</source>
             <translation>Informations</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppDefs.cpp" line="384" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="151" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="231" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="254" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="289" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="800" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="869" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1667" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1773" />
+            <location filename="../nolimitgui/src/AppDefs.cpp" line="378" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="150" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="230" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="253" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="288" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="799" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="868" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1666" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1772" />
             <source>Unknown</source>
             <translation>Inconnu</translation>
         </message>
@@ -4906,8 +4683,8 @@ File Type: </source>
         <message>
             <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="258" />
             <location filename="../nolimitgui/src/AppletCamSettings.cpp" line="346" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="271" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="296" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="270" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="295" />
             <source> failed to initialize</source>
             <translation>échec de l'initialisation</translation>
         </message>
@@ -5013,7 +4790,7 @@ File Type: </source>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletCreateAccount.cpp" line="96" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1409" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1356" />
             <source>Application</source>
             <translation>Demande</translation>
         </message>
@@ -5153,8 +4930,8 @@ Voulez-vous quitter l'application ?</translation>
             <location filename="../nolimitgui/src/AppletFileOfferSelect.cpp" line="289" />
             <location filename="../nolimitgui/src/AppletFileOfferSelect.cpp" line="323" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="359" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2355" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1358" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2302" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1357" />
             <source>File Not Found</source>
             <translation>Fichier introuvable</translation>
         </message>
@@ -5284,17 +5061,17 @@ Voulez-vous quitter l'application ?</translation>
             <translation>Les conditions d’hébergement des salons de discussion sont respectées</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="274" />
+            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="333" />
             <source>Sending to: %1</source>
             <translation>Envoi à : %1</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="293" />
+            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="352" />
             <source>Sent to %1 member(s)</source>
             <translation>Envoyé à %1 membre(s)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="297" />
+            <location filename="../nolimitgui/src/AppletHostClientBase.cpp" line="356" />
             <source>Sent: %1 success, %2 failed</source>
             <translation>Envoyé : %1 succès, %2 échec</translation>
         </message>
@@ -5883,14 +5660,12 @@ Si l'utilisateur est un ami avec un port ouvert, une tentative de reconnexion se
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInviteAccept.cpp" line="89" />
-            <location filename="../nolimitgui/src/AppletInvites.cpp" line="92" />
             <location filename="../nolimitgui/src/ClipboardPasteWidget.cpp" line="33" />
             <source>Clipboard Is Empty</source>
             <translation>Le presse-papiers est vide</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletInviteAccept.cpp" line="89" />
-            <location filename="../nolimitgui/src/AppletInvites.cpp" line="92" />
             <source>Cannot Paste Empty Clipboard</source>
             <translation>Impossible de coller le presse-papiers vide</translation>
         </message>
@@ -5923,16 +5698,6 @@ Si l'utilisateur est un ami avec un port ouvert, une tentative de reconnexion se
             <location filename="../nolimitgui/src/AppletInviteCreate.cpp" line="85" />
             <source>Cannot create an Invite if Invite is empty</source>
             <translation>Impossible de créer une invitation si l'invitation est vide</translation>
-        </message>
-        <message>
-            <location filename="../nolimitgui/src/AppletInvites.cpp" line="99" />
-            <source>Clipboard Contained Invalid Invite Text</source>
-            <translation>Le presse-papiers contenait un texte d'invitation non valide</translation>
-        </message>
-        <message>
-            <location filename="../nolimitgui/src/AppletInvites.cpp" line="99" />
-            <source>Clipboard Has Text That Cannot Be Parsed Into An Invite</source>
-            <translation>Le Presse-papiers contient du texte qui ne peut pas être analysé dans une invitation</translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/AppletJoinBase.cpp" line="46" />
@@ -6155,7 +5920,7 @@ Supprimer cet élément de Ma bibliothèque et de la base de données d'actifs 
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="694" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="771" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="807" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2231" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2178" />
             <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="107" />
             <source>Could not get thumbnail file info</source>
             <translation>Impossible d'obtenir les informations sur le fichier miniature</translation>
@@ -6164,8 +5929,8 @@ Supprimer cet élément de Ma bibliothèque et de la base de données d'actifs 
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="695" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="772" />
             <location filename="../nolimitgui/src/AppletLibrary.cpp" line="808" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2226" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2232" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2173" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2179" />
             <location filename="../nolimitgui/src/ThumbnailEditWidget.cpp" line="108" />
             <source>Error occured creating thumbnail asset </source>
             <translation>Une erreur s'est produite lors de la création de la miniature </translation>
@@ -6391,7 +6156,17 @@ Supprimer cet élément de Ma bibliothèque et de la base de données d'actifs 
             <translation>Connexion aléatoire</translation>
         </message>
         <message>
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="80" />
+            <source>Log Video Render</source>
+            <translation>Enregistrer le rendu vidéo</translation>
+        </message>
+        <message>
             <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="81" />
+            <source>Log Calendar</source>
+            <translation>Loger le calendrier</translation>
+        </message>
+        <message>
+            <location filename="../nolimitgui/src/AppletLogSettings.cpp" line="84" />
             <source>Unused Log Module</source>
             <translation>Module de journal inutilisé</translation>
         </message>
@@ -6432,17 +6207,17 @@ Supprimer cet élément de Ma bibliothèque et de la base de données d'actifs 
             <translation> Ne peut pas être consulté lorsque l'autorisation est désactivée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="188" />
+            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="138" />
             <source> with </source>
             <translation> avec </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="201" />
+            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="151" />
             <source> requires user be online </source>
             <translation> nécessite que l'utilisateur soit en ligne </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="254" />
+            <location filename="../nolimitgui/src/AppletMultiMessenger.cpp" line="204" />
             <source>Requested Text Chat Session with </source>
             <translation>Session de discussion textuelle demandée avec </translation>
         </message>
@@ -6657,31 +6432,27 @@ Si la clé réseau est incorrecte, vous serez probablement banni en tant que pir
         <message>
             <location filename="../nolimitgui/src/AppletPeerVideoPhone.cpp" line="135" />
             <location filename="../nolimitgui/src/AppletPeerVoicePhone.cpp" line="146" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1342" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1341" />
             <source>Session Ended</source>
             <translation>Session terminée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2566" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2513" />
             <source>Confirm Shred File</source>
             <translation>Confirmer la destruction du fichier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="466" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2566" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2513" />
             <source>Confirm Delete File</source>
             <translation>Confirmer la suppression du fichier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="470" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2570" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2517" />
             <source>Are You Sure You Want To Write Random Data Into The File Then Delete From The Device?</source>
             <translation>Êtes-vous sûr de vouloir écrire des données aléatoires dans le fichier, puis les supprimer de l'appareil ?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletPeerViewSharedFiles.cpp" line="474" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2574" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2521" />
             <source>Are You Sure To Delete The File From The Device?</source>
             <translation>Êtes-vous sûr de supprimer le fichier de l'appareil ?</translation>
         </message>
@@ -6939,152 +6710,152 @@ Si la clé réseau est incorrecte, vous serez probablement banni en tant que pir
             <translation>Température ?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="115" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="114" />
             <source>Speaker Device Unavailable</source>
             <translation>Périphérique haut-parleur indisponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="115" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="114" />
             <source>No speaker device is available to enable</source>
             <translation>Aucun haut-parleur n'est disponible pour activer</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="121" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="120" />
             <source>Microphone Device Unavailable</source>
             <translation>Appareil microphone indisponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="121" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="120" />
             <source>No microphone device is available to enable</source>
             <translation>Aucun périphérique de microphone n'est disponible pour activer</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="137" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="136" />
             <source>Microphone Permission Denied</source>
             <translation>Autorisation du microphone refusée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="137" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="136" />
             <source>The application does not have permission to access the microphone</source>
             <translation>L'application n'a pas la permission d'accéder au microphone</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="266" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="271" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="277" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="265" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="270" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="276" />
             <source>Sound In Device</source>
             <translation>Son dans l'appareil</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="266" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="265" />
             <source> device is saved as preferred Sound In Device</source>
             <translation> l'appareil est enregistré comme son préféré dans l'appareil</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="277" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="276" />
             <source>No Sound In Device Is Available</source>
             <translation>Aucun son dans l'appareil n'est disponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="291" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="296" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="302" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="290" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="295" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="301" />
             <source>Sound Out Device</source>
             <translation>Appareil de sortie sonore</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="291" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="290" />
             <source> device is saved as preferred Sound Out Device</source>
             <translation> l'appareil est enregistré en tant que périphérique de sortie audio préféré</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="302" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="301" />
             <source>No Sound Out Device Is Available</source>
             <translation>Aucun périphérique de sortie audio n'est disponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="318" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="317" />
             <source>Echo delay test is running</source>
             <translation>Le test de retard d'écho est en cours</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="318" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="317" />
             <source>Echo delay test can not be run until the previous test finishes</source>
             <translation>Le test de retard d'écho ne peut pas être exécuté tant que le test précédent n'est pas terminé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="329" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="328" />
             <source>Echo Delay Value Invalid</source>
             <translation>Valeur du délai d'écho invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="329" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="328" />
             <source>Echo Delay value must be between 40 and 500 milliseconds</source>
             <translation>La valeur du délai d'écho doit être comprise entre 40 et 500 millisecondes</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="335" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="334" />
             <source>Echo Delay Value Save</source>
             <translation>Sauvegarde de la valeur du délai d'écho</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="335" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="334" />
             <source>Echo Delay value has been saved for use by Echo Cancelation</source>
             <translation>La valeur du délai d'écho a été enregistrée pour être utilisée par l'annulation d'écho.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="363" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="362" />
             <source>No test file is selected or test file is invalid</source>
             <translation>Aucun fichier de test n'est sélectionné ou le fichier de test n'est pas valide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="590" />
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="596" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="589" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="595" />
             <source>Delay: %1</source>
             <translation>Délai : %1</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="595" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="594" />
             <source>Sound Delay Test Value Valid </source>
             <translation>Valeur de test de retard sonore valide </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="606" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="605" />
             <source>You can enter the measured delay. Average Delay: %1 ms</source>
             <translation>Vous pouvez saisir le délai mesuré. Délai moyen : %1 ms</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="607" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="606" />
             <source>Audio Delay Test Success</source>
             <translation>Réussite du test de retard audio</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="611" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="610" />
             <source>Try turning up the volume or placing microphone closer to speaker</source>
             <translation>Essayez d'augmenter le volume ou de rapprocher le microphone du haut-parleur.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="612" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="611" />
             <source>Audio Delay Test Failed</source>
             <translation>Échec du test de retard audio</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="363" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="362" />
             <source>Play Test File</source>
             <translation>Lire le fichier de test</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="461" />
+            <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="450" />
             <source>Are you sure?</source>
             <translation>Etes-vous sûr ?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="461" />
+            <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="450" />
             <source>This will delete all thumbnail images not currently in use by your identity or hosts</source>
             <translation>Cela supprimera toutes les images miniatures qui ne sont pas actuellement utilisées par votre identité ou vos hôtes.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="464" />
+            <location filename="../nolimitgui/src/AppletTestAndDebug.cpp" line="453" />
             <source> of disk space freed by deleting cached thumbnails</source>
             <translation> d'espace disque libéré en supprimant les vignettes mises en cache</translation>
         </message>
@@ -7229,22 +7000,22 @@ Si la clé réseau est incorrecte, vous serez probablement banni en tant que pir
             <translation>Impossible de supprimer le dernier compte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="579" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="578" />
             <source>Sound Delay Not Detected. Check speaker volume and that microphone is on </source>
             <translation>Retard sonore non détecté. Vérifiez le volume du haut-parleur et que le microphone est allumé </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="583" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="582" />
             <source>Sound Delay too short.. probably noise </source>
             <translation>Délai sonore trop court... probablement du bruit </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="587" />
+            <location filename="../nolimitgui/src/AppletSoundSettings.cpp" line="586" />
             <source>Sound Delay too long.. probably mic level low </source>
             <translation>Délai sonore trop long. Probablement le niveau du micro est faible. </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/AvatarBar.cpp" line="63" />
+            <location filename="../nolimitgui/src/AvatarBar.cpp" line="77" />
             <source>queued</source>
             <translation>en file d'attente</translation>
         </message>
@@ -7375,165 +7146,165 @@ Si la clé réseau est incorrecte, vous serez probablement banni en tant que pir
             <translation>Impossible de lire le fichier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1354" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1360" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1366" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1372" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1378" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1384" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1390" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1307" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1313" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1319" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1325" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1331" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1337" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1343" />
             <source>Invalid User Name</source>
             <translation>Nom d'utilisateur invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1354" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1307" />
             <source>User Name cannot have NoLimitConnect in name.</source>
             <translation>Le nom d'utilisateur ne peut pas contenir NoLimitConnect dans son nom.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1360" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1313" />
             <source>User Name cannot have special character quote.</source>
             <translation>Le nom d'utilisateur ne peut pas contenir de guillemets spéciaux.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1366" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1319" />
             <source>User Name cannot have comma.</source>
             <translation>Le nom d'utilisateur ne peut pas contenir de virgule.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1372" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1325" />
             <source>User Name cannot have special character parentheses.</source>
             <translation>Le nom d'utilisateur ne peut pas contenir de parenthèses de caractères spéciaux.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1378" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1331" />
             <source>User Name cannot have special character slashes.</source>
             <translation>Le nom d'utilisateur ne peut pas comporter de barres obliques de caractères spéciaux.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1384" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1337" />
             <source>User Name is too long (maximum 31 chars).</source>
             <translation>Le nom d'utilisateur est trop long (31 caractères maximum).</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1390" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1343" />
             <source>User Name is too short (minimum 4 chars).</source>
             <translation>Le nom d'utilisateur est trop court (minimum 4 caractères).</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1409" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1356" />
             <source>Mood Message is too long (maximum 31 chars)</source>
             <translation>Le message d'humeur est trop long (maximum 31 caractères)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1421" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1427" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1368" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1374" />
             <source>Age Verify</source>
             <translation>Vérifier l'âge</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1421" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1368" />
             <source>Invalid Age</source>
             <translation>Âge invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1427" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="1374" />
             <source>Age Connot be greater than 120 years old</source>
             <translation>Âge Ne peut pas être supérieur à 120 ans</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2225" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2172" />
             <source>Could not create thumbnail asset</source>
             <translation>Impossible de créer une miniature</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2284" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2231" />
             <source>User Unavailable</source>
             <translation>Utilisateur indisponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2285" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2232" />
             <source>User </source>
             <translation>Utilisateur </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2285" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2232" />
             <source> Is Unavailable</source>
             <translation> N'est pas disponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2289" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2236" />
             <source>User is offline</source>
             <translation>L'utilisateur est hors ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2290" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2237" />
             <source>User is no longer connected</source>
             <translation>L'utilisateur n'est plus connecté</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2294" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2241" />
             <source>Already In A Session</source>
             <translation>Déjà en session</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2295" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2242" />
             <source>Already in session. Please close existing session and try again</source>
             <translation>Déjà en séance. Veuillez fermer la session existante et réessayer</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2299" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2300" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2246" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2247" />
             <source>Session not found</source>
             <translation>Séance introuvable</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2304" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2251" />
             <source>Sent User An Offer</source>
             <translation>Envoyé une offre à l'utilisateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2305" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2252" />
             <source>Offer Was Sent To  </source>
             <translation>L'offre a été envoyée à  </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2309" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2256" />
             <source>Send Offer Failed</source>
             <translation>Échec de l'envoi de l'offre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2310" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2257" />
             <source>Offer Send Failed  </source>
             <translation>Échec de l'envoi de l'offre  </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2314" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2261" />
             <source>Not Connected</source>
             <translation>Non connecté</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2315" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2262" />
             <source>You are not connected to host </source>
             <translation>Vous n'êtes pas connecté à l'hôte </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2319" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2266" />
             <source>No User Selected</source>
             <translation>Aucun utilisateur sélectionné</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2320" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2267" />
             <source>You must select a user to send to </source>
             <translation>Vous devez sélectionner un utilisateur à qui envoyer </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2324" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2271" />
             <source>Purge Everthing Warning</source>
             <translation>Avertissement de purge de tout</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2325" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2272" />
             <source>This action will delete everything not locked including Identity, Downloaded Files, Storyboard, Message History Etc.
 The action cannot be undone
 Are you very sure you want to proceed?</source>
@@ -7542,227 +7313,226 @@ L'action ne peut pas être annulée
 Êtes-vous vraiment sûr de vouloir continuer ?</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2329" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2276" />
             <source>Voice Message Too Short</source>
             <translation>Message vocal trop court</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2330" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2277" />
             <source>The Voice Message was too short and will not be sent.</source>
             <translation>Le message vocal était trop court et ne sera pas envoyé.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2334" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2281" />
             <source>Video clip Too Short</source>
             <translation>Clip vidéo Trop court</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2335" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2282" />
             <source>The Video Clip was too short and will not be sent.</source>
             <translation>Le clip vidéo était trop court et ne sera pas envoyé.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2339" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2286" />
             <source>Video record failed to start</source>
             <translation>L'enregistrement vidéo n'a pas pu démarrer</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2340" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2287" />
             <source>Video record failed to start.</source>
             <translation>L'enregistrement vidéo n'a pas pu démarrer.</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2345" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2292" />
             <source>Unknown Error </source>
             <translation>Erreur inconnue </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2345" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2292" />
             <source> for user </source>
             <translation> pour l'utilisateur </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2356" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2303" />
             <source>File Name Is Empty</source>
             <translation>Le nom du fichier est vide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2364" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2365" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2311" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2312" />
             <source>Access File Permissions Denied By User</source>
             <translation>Autorisations d'accès aux fichiers refusées par l'utilisateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2373" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2320" />
             <source>Application Not Ready</source>
             <translation>L'application n'est pas prête</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2374" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2321" />
             <source>Cannot launch applet until network is available</source>
             <translation>Impossible de lancer l'applet tant que le réseau n'est pas disponible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2374" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2321" />
             <source>Cannot Launch Applet Until Application Has Initialized</source>
             <translation>Impossible de lancer l'applet tant que l'application n'est pas initialisée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2382" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2329" />
             <source>Requires Open Port</source>
             <translation>Nécessite un port ouvert</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2383" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2330" />
             <source>Action requires a open port</source>
             <translation>L'action nécessite un port ouvert</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2391" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2400" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2338" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2347" />
             <source>Invalid Invite</source>
             <translation>Invitation invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2392" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2339" />
             <source>The invite is invalid</source>
             <translation>L'invitation n'est pas valide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2401" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2348" />
             <source>Cannot accept invite from myself</source>
             <translation>Je ne peux pas accepter d'invitation de ma part</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2409" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2356" />
             <source>Invalid User</source>
             <translation>Utilisateur invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2410" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2357" />
             <source>Could not find the user</source>
             <translation>Impossible de trouver l'utilisateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2418" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2365" />
             <source>User Not Online</source>
             <translation>Utilisateur non en ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2419" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2366" />
             <source>The user is not currently online</source>
             <translation>L'utilisateur n'est pas en ligne actuellement</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2427" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2374" />
             <source>Friendship Level To Low</source>
             <translation>Niveau d'amitié trop bas</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2428" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2375" />
             <source>Requires friendship of friend or higher</source>
             <translation>Nécessite l'amitié d'un ami ou supérieur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2436" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2383" />
             <source>Invalid Host Id</source>
             <translation>ID d'hôte invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2437" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2384" />
             <source>Host Id has not been set</source>
             <translation>L'ID d'hôte n'a pas été défini</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2445" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2392" />
             <source>Invalid URL</source>
             <translation>URL invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2446" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2393" />
             <source>The host url is not valid</source>
             <translation>L'URL de l'hôte n'est pas valide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2454" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2401" />
             <source>Invalid Host Type</source>
             <translation>Type d'hôte invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2455" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2402" />
             <source>The host url does not have a vailid host type</source>
             <translation>L'URL de l'hôte n'a pas de type d'hôte valide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2463" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2410" />
             <source>No Members Online</source>
             <translation>Aucun membre en ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2464" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2411" />
             <source>There are no members online to send to</source>
             <translation>Il n'y a aucun membre en ligne à qui envoyer</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2472" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2526" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2419" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2473" />
             <source>Failed to add asset</source>
             <translation>Échec de l'ajout de l'élément</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2473" />
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2527" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2420" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2474" />
             <source>Failed to add asset. Please check disk space</source>
             <translation>Échec de l'ajout de l'élément. Veuillez vérifier l'espace disque</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2482" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2429" />
             <source>Failed to send </source>
             <translation>Échec de l'envoi </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2483" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2430" />
             <source>Failed to send to </source>
             <translation>Échec de l'envoi à </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2493" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2440" />
             <source>No members to send to</source>
             <translation>Aucun membre à qui envoyer</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2497" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2444" />
             <source>Admin is offline</source>
             <translation>L'administrateur est hors ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2501" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2448" />
             <source>Cannot send to self</source>
             <translation>Impossible de s'envoyer soi-même</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2505" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2452" />
             <source>Invalid host or state</source>
             <translation>Hôte ou état invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2509" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2456" />
             <source>Unknown reason</source>
             <translation>Raison inconnue</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2517" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2464" />
             <source>Cannot send </source>
             <translation>Impossible d'envoyer </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2518" />
+            <location filename="../nolimitgui/src/GuiHelpers.cpp" line="2465" />
             <source>Cannot send reason: </source>
             <translation>Impossible d'envoyer le motif : </translation>
         </message>
         <message>
             <location filename="../nolimitgui/src/GuiHostedListItem.cpp" line="152" />
-            <location filename="../nolimitgui/src/HostedPluginWidget.cpp" line="113" />
             <location filename="../nolimitgui/src/HostJoinRequestListItem.cpp" line="133" />
             <source> Hosted By Me</source>
             <translation> Hébergé par moi</translation>
@@ -7832,2333 +7602,2333 @@ L'action ne peut pas être annulée
             <translation>Utilisateur non initialisé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="145" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="165" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="216" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="241" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="283" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="144" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="164" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="215" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="240" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="282" />
             <source>Any</source>
             <translation>N'importe lequel</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="147" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="146" />
             <source>Under 21</source>
             <translation>Moins de 21 ans</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="149" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="148" />
             <source>21 Or Older</source>
             <translation>21 ans ou plus</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="161" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="160" />
             <source>Old</source>
             <translation>Vieux</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="169" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="168" />
             <source>Young</source>
             <translation>Jeune</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="173" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="172" />
             <source>Middle Age</source>
             <translation>Moyen Âge</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="186" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="185" />
             <source>No Error </source>
             <translation>Aucune erreur </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="188" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="187" />
             <source>Comm Error Invalid Packet </source>
             <translation>Erreur de communication, paquet invalide </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="190" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="189" />
             <source>Comm Error User Offline </source>
             <translation>Erreur de communication Utilisateur hors ligne </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="192" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="191" />
             <source>Comm Error Search Text To Short </source>
             <translation>Texte de recherche d'erreur de communication à court </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="194" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="193" />
             <source>Comm Error Search Text To Long </source>
             <translation>Texte de recherche d'erreur de communication trop long </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="196" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="195" />
             <source>Comm Error Search No Match </source>
             <translation>Recherche d'erreur de communication Aucune correspondance </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="198" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="197" />
             <source>Comm Error Invalid Host Type </source>
             <translation>Erreur de communication Type d'hôte non valide </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="200" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="199" />
             <source>Comm Error Plugin Not Enabled </source>
             <translation>Plugin d'erreur de communication non activé </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="202" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="201" />
             <source>Comm Error Plugin Permission Level </source>
             <translation>Niveau d'autorisation du plug-in d'erreur de communication </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="204" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="203" />
             <source>Comm Error Invalid Param </source>
             <translation>Erreur de communication, paramètre non valide </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="206" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="205" />
             <source>Comm Error Invalid </source>
             <translation>Erreur de communication invalide </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="218" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1642" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="217" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1641" />
             <source>Video</source>
             <translation>Vidéo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="220" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="219" />
             <source>Auidio</source>
             <translation>Audio</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="222" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="221" />
             <source>Image</source>
             <translation>Images</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="224" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="223" />
             <source>Text</source>
             <translation>Texte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="226" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="251" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="225" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="250" />
             <source>Personal</source>
             <translation>Personnel</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="228" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1658" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="227" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1657" />
             <source>Other</source>
             <translation>Autre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="243" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="242" />
             <source>Family</source>
             <translation>Famille</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="245" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="244" />
             <source>Adult</source>
             <translation>Adulte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="247" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="246" />
             <source>XXX</source>
             <translation>XXX</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="249" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="248" />
             <source>DarkWeb</source>
             <translation>Web sombre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="265" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1864" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="264" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1863" />
             <source>Anonymous </source>
             <translation>Anonyme </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="267" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1866" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="266" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1865" />
             <source>Guest </source>
             <translation>Invité </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="269" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1868" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="268" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1867" />
             <source>Friend </source>
             <translation>Ami </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="271" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1870" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="270" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1869" />
             <source>Administrator </source>
             <translation>Administrateur </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="273" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1872" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="272" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1871" />
             <source>Ignore </source>
             <translation>Ignorer </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="285" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="284" />
             <source>Male</source>
             <translation>Mâle</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="287" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="286" />
             <source>Female</source>
             <translation>Femme</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="299" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="298" />
             <source>Group Host </source>
             <translation>Hôte de groupe </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="301" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="300" />
             <source>Chat Room Host </source>
             <translation>Hôte de la salle de discussion </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="303" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="302" />
             <source>Random Connect Host </source>
             <translation>Hôte de connexion aléatoire </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="305" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="304" />
             <source>Peer User </source>
             <translation>Utilisateur homologue </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="307" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="306" />
             <source>Network Host </source>
             <translation>Hôte réseau </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="309" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="308" />
             <source>Connect Test Host </source>
             <translation>Connecter l'hôte de test </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="311" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="310" />
             <source>Unknown Host Type </source>
             <translation>Type d'hôte inconnu </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="353" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1554" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="352" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1553" />
             <source>Host Search Status Unknown </source>
             <translation>Statut de recherche d'hôte inconnu </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="355" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="354" />
             <source>Host Search Invalid Url </source>
             <translation>URL de recherche d'hôte non valide </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="357" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="356" />
             <source>Host Search Querying Id In Progress </source>
             <translation>ID de requête de recherche d'hôte en cours </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="359" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="358" />
             <source>Host Search Querying Id Success </source>
             <translation>Réussite de l'ID de requête de recherche d'hôte </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="361" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="360" />
             <source>Host Search Query Id Failed </source>
             <translation>Échec de la requête de recherche d'hôte </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="363" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="362" />
             <source>Host Search Connecting </source>
             <translation>Connexion de recherche d'hôte </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="365" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="364" />
             <source>Host Search Connect Success </source>
             <translation>Réussite de la connexion à la recherche d'hôte </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="367" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="366" />
             <source>Host Search Connect Failed </source>
             <translation>Échec de la connexion à la recherche d'hôte </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="369" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="368" />
             <source>Host Search Handshaking </source>
             <translation>Établissement de liaison pour la recherche d'hôte </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="371" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="370" />
             <source>Host Search Handshake Timeout </source>
             <translation>Délai d'expiration de la négociation de recherche d'hôte </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="374" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="373" />
             <source>Host Search Sending Request </source>
             <translation>Demande d'envoi de recherche d'hôte </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="376" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="375" />
             <source>Host Search Send Request Failed </source>
             <translation>Échec de la demande d'envoi de la recherche d'hôte </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="378" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="377" />
             <source>Host Search Success </source>
             <translation>Succès de la recherche d'hôte </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="380" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="379" />
             <source>Host Search Failed </source>
             <translation>Échec de la recherche d'hôte </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="383" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="382" />
             <source>Host Search Fail Permission </source>
             <translation>Autorisation d'échec de recherche d'hôte </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="385" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="384" />
             <source>Host Search Fail Connect Dropped </source>
             <translation>Échec de la recherche d'hôte Connexion abandonnée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="387" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="386" />
             <source>Host Search Invalid Param </source>
             <translation>Paramètres de recherche d'hôte non valides </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="389" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="388" />
             <source>Host Search Plugin Disabled </source>
             <translation>Plugin de recherche d'hôte désactivé </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="391" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="390" />
             <source>Host Search No Matches </source>
             <translation>Recherche d'hôte Aucune correspondance </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="393" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="392" />
             <source>Host Search Completed </source>
             <translation>Recherche d'hôte terminée </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="395" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="394" />
             <source>Invalid Host Search Param </source>
             <translation>Paramètre de recherche d'hôte non valide </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="405" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="404" />
             <source>Join Again</source>
             <translation>Rejoignez-nous à nouveau</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="408" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="407" />
             <source>Join Granted</source>
             <translation>Adhésion accordée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="411" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="410" />
             <source>Sending</source>
             <translation>Envoi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="414" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="413" />
             <source>Send FAILED</source>
             <translation>Échec de l'envoi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="417" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="416" />
             <source>Send Acked</source>
             <translation>Envoyer avec accusé de réception</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="420" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="419" />
             <source>Join Requested</source>
             <translation>Adhésion demandée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="423" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="422" />
             <source>Join Denied</source>
             <translation>Rejoindre refusé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="426" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="425" />
             <source>Left Host</source>
             <translation>Hôte gauche</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="429" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="428" />
             <source>Connect And Join</source>
             <translation>Connectez-vous et rejoignez</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="432" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="431" />
             <source>Uknown Join State</source>
             <translation>État de jointure inconnu</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="462" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="461" />
             <source>View About Me Requires </source>
             <translation>Afficher À propos de moi Nécessite </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="464" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="498" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="534" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="569" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="603" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="637" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="671" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="705" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="740" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="463" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="497" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="533" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="568" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="602" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="636" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="670" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="704" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="739" />
             <source> permission</source>
             <translation> autorisation</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="469" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="468" />
             <source>About Me Page is disabled</source>
             <translation>La page À propos de moi est désactivée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="472" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="471" />
             <source>About Me Page is inactive</source>
             <translation>La page À propos de moi est inactive</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="475" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="474" />
             <source>About Me Page unavailable due to ignore status</source>
             <translation>Page À propos de moi indisponible en raison du statut d'ignorance</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="478" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="477" />
             <source>About Me Page unavailable because is busy</source>
             <translation>Page À propos de moi indisponible car occupée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="481" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="480" />
             <source>Contact must have direct connect to provide About Me Page</source>
             <translation>Le contact doit avoir une connexion directe pour fournir la page À propos de moi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="484" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="483" />
             <source>About Me Page unavailable because contact is offline</source>
             <translation>Page À propos de moi indisponible car le contact est hors ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="493" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="492" />
             <source>View Story Board</source>
             <translation>Voir le story-board</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="496" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="495" />
             <source>View Story Board Requires </source>
             <translation>Voir le Story Board requis </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="503" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="502" />
             <source>Story Board is disabled</source>
             <translation>Le Story Board est désactivé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="506" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="505" />
             <source>Story Board is inactive</source>
             <translation>Le Story Board est inactif</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="509" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="508" />
             <source>Story Board unavailable due to ignore status</source>
             <translation>Story Board indisponible en raison du statut ignoré</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="512" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="511" />
             <source>Story Board unavailable because is busy</source>
             <translation>Story Board indisponible car occupé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="515" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="514" />
             <source>Contact must have direct connect to provide Story Board Page</source>
             <translation>Le contact doit avoir une connexion directe pour fournir la page Story Board</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="518" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="517" />
             <source>Story Board unavailable because contact is offline</source>
             <translation>Story Board indisponible car le contact est hors ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="528" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="527" />
             <source>Offer Send A File</source>
             <translation>Offre Envoyer un fichier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="532" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="531" />
             <source>Send A File Requires </source>
             <translation>Envoyer un fichier requis </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="540" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="577" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="539" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="576" />
             <source>Shared Files is disabled</source>
             <translation>Les fichiers partagés sont désactivés</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="543" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="542" />
             <source>Send File unavailable due to ignore status</source>
             <translation>Envoyer le fichier indisponible en raison du statut ignoré</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="546" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="545" />
             <source>Send File unavailable because is inactive</source>
             <translation>Envoyer le fichier indisponible car inactif</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="549" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="548" />
             <source>Send File unavailable because is busy</source>
             <translation>Envoyer le fichier indisponible car occupé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="552" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="551" />
             <source>Contact must have direct connect to receive Send File</source>
             <translation>Le contact doit avoir une connexion directe pour recevoir Envoyer un fichier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="555" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="554" />
             <source>Send File unavailable because contact is offline</source>
             <translation>Envoyer le fichier indisponible car le contact est hors ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="567" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="566" />
             <source>Shared Files Requires </source>
             <translation>Fichiers partagés requis </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="572" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="571" />
             <source>No Shared Files</source>
             <translation>Aucun fichier partagé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="580" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="579" />
             <source>Shared Files unavailable due to ignore status</source>
             <translation>Fichiers partagés indisponibles en raison du statut d'ignorance</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="583" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="582" />
             <source>Shared Files unavailable because is busy</source>
             <translation>Fichiers partagés indisponibles car occupés</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="586" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="585" />
             <source>Contact must have direct connect to Share Files</source>
             <translation>Le contact doit avoir une connexion directe à Partager des fichiers</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="589" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="588" />
             <source>Shared Files unavailable because contact is offline</source>
             <translation>Fichiers partagés indisponibles car le contact est hors ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="601" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="600" />
             <source>Shared Web Cam Requires </source>
             <translation>Web Cam partagée requise </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="608" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="607" />
             <source>Shared Web Cam is disabled</source>
             <translation>La webcam partagée est désactivée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="611" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="610" />
             <source>Shared Web Cam is not active</source>
             <translation>La webcam partagée n'est pas active</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="614" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="613" />
             <source>Shared Web Cam unavailable due to ignore status</source>
             <translation>Web Cam partagée indisponible en raison du statut d'ignorance</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="617" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="616" />
             <source>Shared Web Cam unavailable because is busy</source>
             <translation>Web Cam partagée indisponible car occupée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="620" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="619" />
             <source>Contact must have direct connect to Share Web Cam</source>
             <translation>Le contact doit avoir une connexion directe à Share Web Cam</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="623" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="622" />
             <source>Shared Web Cam unavailable because contact is offline</source>
             <translation>Web Cam partagée indisponible car le contact est hors ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="632" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="631" />
             <source>Offer Voice Call</source>
             <translation>Offrir un appel vocal</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="635" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="634" />
             <source>Voice Call Requires </source>
             <translation>Appel vocal requis </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="642" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="641" />
             <source>Voice Call is disabled</source>
             <translation>L'appel vocal est désactivé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="645" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="644" />
             <source>Voice Call unavailable due to ignore status</source>
             <translation>Appel vocal indisponible en raison du statut d'ignorance</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="648" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="647" />
             <source>Voice Call unavailable because is Inactive</source>
             <translation>Appel vocal indisponible car inactif</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="651" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="650" />
             <source>Voice Call unavailable because is busy</source>
             <translation>Appel vocal indisponible car occupé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="654" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="653" />
             <source>Contact must have direct connect for Voice Call</source>
             <translation>Le contact doit avoir une connexion directe pour l'appel vocal</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="657" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="656" />
             <source>Voice Call unavailable because contact is offline</source>
             <translation>Appel vocal indisponible car le contact est hors ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="666" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="665" />
             <source>Offer Play Truth Or Dare</source>
             <translation>Offrez Jouez à Action ou Vérité</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="669" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="668" />
             <source>Truth Or Dare Requires </source>
             <translation>Action ou Vérité nécessite </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="676" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="675" />
             <source>Truth Or Dare is disabled</source>
             <translation>Action ou Vérité est désactivé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="679" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="678" />
             <source>Truth Or Dare unavailable due to ignore status</source>
             <translation>Action ou Vérité indisponible en raison du statut d'ignorance</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="682" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="681" />
             <source>Truth Or Dare unavailable because is Inactive</source>
             <translation>Action ou Vérité indisponible car inactif</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="685" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="684" />
             <source>Truth Or Dare unavailable because is busy</source>
             <translation>Action ou Vérité indisponible car occupé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="688" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="687" />
             <source>Contact must have direct connect for Truth Or Dare</source>
             <translation>Le contact doit avoir une connexion directe pour Action ou Vérité</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="691" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="690" />
             <source>Truth Or Dare unavailable because contact is offline</source>
             <translation>Action ou Vérité indisponible car le contact est hors ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="700" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="699" />
             <source>Offer Text Chat Session</source>
             <translation>Offrez une session de chat textuel</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="703" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="702" />
             <source>Text Chat Requires </source>
             <translation>Le chat textuel nécessite </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="710" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="709" />
             <source>Text Chat is disabled</source>
             <translation>Le chat textuel est désactivé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="716" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="715" />
             <source>Text Chat unavailable because is Inactive</source>
             <translation>Chat textuel indisponible car inactif</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="719" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="718" />
             <source>Text Chat unavailable because is busy</source>
             <translation>Chat textuel indisponible car occupé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="722" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="721" />
             <source>Contact must have direct connect for Text Chat</source>
             <translation>Le contact doit avoir une connexion directe pour le chat textuel</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="725" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="724" />
             <source>Text Chat unavailable because contact is offline</source>
             <translation>Chat textuel indisponible car le contact est hors ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="735" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="734" />
             <source>Offer Video Chat</source>
             <translation>Proposer un chat vidéo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="738" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="737" />
             <source>Video Chat Requires </source>
             <translation>Le chat vidéo nécessite </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="745" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="744" />
             <source>Video Chat is disabled</source>
             <translation>Le chat vidéo est désactivé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="748" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="747" />
             <source>Video Chat unavailable due to ignore status</source>
             <translation>Chat vidéo indisponible en raison du statut d'ignorance</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="751" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="750" />
             <source>Video Chat unavailable because is Inactive</source>
             <translation>Le chat vidéo n'est pas disponible car il est inactif</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="754" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="753" />
             <source>Video Chat unavailable because is busy</source>
             <translation>Chat vidéo indisponible car occupé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="757" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="756" />
             <source>Contact must have direct connect for Video Chat</source>
             <translation>Le contact doit avoir une connexion directe pour le chat vidéo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="760" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="759" />
             <source>Video Chat unavailable because contact is offline</source>
             <translation>Chat vidéo indisponible car le contact est hors ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="780" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="779" />
             <source>Administrator</source>
             <translation>Administrateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="784" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="783" />
             <source>Friend</source>
             <translation>Ami</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="788" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="865" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="787" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="864" />
             <source>Guest</source>
             <translation>Invité</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="792" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="791" />
             <source>Anybody</source>
             <translation>N'importe qui</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="796" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="795" />
             <source>Disabled or ignored</source>
             <translation>Désactivé ou ignoré</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="813" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="812" />
             <source>Access Unknown</source>
             <translation>Accès inconnu</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="817" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="816" />
             <source>Access Ok</source>
             <translation>Accès OK</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="821" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="820" />
             <source>Insufficient Permission</source>
             <translation>Autorisation insuffisante</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="825" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="824" />
             <source>Plugin Disabled</source>
             <translation>Plugin désactivé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="829" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="828" />
             <source>Contact Ignored</source>
             <translation>Contact ignoré</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="833" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="832" />
             <source>Plugin Inactive</source>
             <translation>Plugin inactif</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="837" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="836" />
             <source>Plugin Busy</source>
             <translation>Plugin occupé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="841" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="840" />
             <source>Requires Direct Connect</source>
             <translation>Nécessite une connexion directe</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="845" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="844" />
             <source>Requires User Be Online</source>
             <translation>Nécessite que l'utilisateur soit en ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="849" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="848" />
             <source>Unknown Plugin Access</source>
             <translation>Accès au plugin inconnu</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="861" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="860" />
             <source>Disabled</source>
             <translation>Désactivé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="863" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="862" />
             <source>Anonymous</source>
             <translation>Anonyme</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="867" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="866" />
             <source>Friends</source>
             <translation>Amis</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="880" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="879" />
             <source>Msg None</source>
             <translation>Message Aucun</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="884" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="883" />
             <source>Connecting</source>
             <translation>Connexion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="888" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="887" />
             <source>Connect Failed</source>
             <translation>Échec de la connexion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="892" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="891" />
             <source>Retrieving Info</source>
             <translation>Récupération d'informations</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="896" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="895" />
             <source>Retrieve Info Complete</source>
             <translation>Récupération des informations terminée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="900" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="899" />
             <source>Retrieve Info Failed</source>
             <translation>Échec de la récupération des informations</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="904" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1422" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="903" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1421" />
             <source>Downloading</source>
             <translation>Téléchargement</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="908" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="907" />
             <source>Downloading Failed</source>
             <translation>Échec du téléchargement</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="912" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="911" />
             <source>Downloading Complete</source>
             <translation>Téléchargement terminé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="916" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1360" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="915" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1359" />
             <source>Canceled</source>
             <translation>Annulé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="920" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1356" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="919" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1355" />
             <source>Permission Error</source>
             <translation>Erreur d'autorisation</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="924" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="923" />
             <source>Low Disk Space</source>
             <translation>Espace disque faible</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="928" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="927" />
             <source>Invalid Parameter</source>
             <translation>Paramètre invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="932" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="931" />
             <source>Unknown Plugin Message</source>
             <translation>Message de plug-in inconnu</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="948" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="947" />
             <source>About Me Page Viewer</source>
             <translation>Visionneuse de pages À propos de moi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="952" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="951" />
             <source>About Me Page Server</source>
             <translation>Serveur de pages À propos de moi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="956" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="955" />
             <source>Client Peer user</source>
             <translation>Utilisateur client homologue</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="960" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="959" />
             <source>Host Peer user</source>
             <translation>Utilisateur homologue hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="964" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="963" />
             <source>Send A File</source>
             <translation>Envoyer un fichier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="968" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1097" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="967" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1096" />
             <source>Shared Files</source>
             <translation>Fichiers partagés</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="972" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1086" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="971" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1085" />
             <source>Shared Web Cam</source>
             <translation>Webcam partagée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="980" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="979" />
             <source>Voice Call</source>
             <translation>Appel vocal</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="984" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="983" />
             <source>Push To Talk</source>
             <translation>Pousser pour parler</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="992" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="991" />
             <source>Truth Or Dare</source>
             <translation>Action ou Vérité</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="996" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="995" />
             <source>Story Board Server</source>
             <translation>Serveur de story-board</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1000" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="999" />
             <source>Story Board Viewer</source>
             <translation>Visionneuse de story-boards</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1004" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1003" />
             <source>Client Group</source>
             <translation>Groupe de clients</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1007" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1006" />
             <source>Client Chat Room</source>
             <translation>Salon de discussion client</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1010" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1009" />
             <source>Client Random Connect</source>
             <translation>Connexion aléatoire du client</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1013" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1012" />
             <source>Client No Limit Network</source>
             <translation>Réseau client sans limite</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1016" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1015" />
             <source>Client Connect Test</source>
             <translation>Test de connexion client</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1020" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1019" />
             <source>Host Group</source>
             <translation>Groupe hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1023" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1022" />
             <source>Host Chat Room</source>
             <translation>Salle de discussion hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1026" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1025" />
             <source>Host Random Connect</source>
             <translation>Connexion aléatoire de l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1029" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1146" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1028" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1145" />
             <source>Host No Limit Network</source>
             <translation>Héberger un réseau sans limite</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1032" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1031" />
             <source>Host Connect Test</source>
             <translation>Test de connexion à l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1036" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1035" />
             <source>Shared Files Client</source>
             <translation>Client de fichiers partagés</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1040" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1039" />
             <source>Web Cam Client</source>
             <translation>Client de webcam</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1044" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1043" />
             <location filename="../nolimitgui/src/VxContextMenu.cpp" line="185" />
             <source>Library</source>
             <translation>Bibliothèque</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1052" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1051" />
             <source>Unknown Plugin</source>
             <translation>Plugin inconnu</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1072" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1071" />
             <source>About Me Page Service</source>
             <translation>Service de pages À propos de moi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1076" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1075" />
             <source>Peer User Client</source>
             <translation>Client utilisateur homologue</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1080" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1079" />
             <source>Peer User Host (me)</source>
             <translation>Hôte utilisateur homologue (moi)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1090" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1089" />
             <source>Web Cam Service</source>
             <translation>Service de webcam</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1101" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1100" />
             <source>Shared Files Service</source>
             <translation>Service de fichiers partagés</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1106" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1105" />
             <source>Person To Person File Transfer</source>
             <translation>Transfert de fichiers de personne à personne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1110" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1109" />
             <source>Connection Test Service</source>
             <translation>Service de test de connexion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1114" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1113" />
             <source>Connection Test Client</source>
             <translation>Client de test de connexion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1121" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1120" />
             <source>Group User</source>
             <translation>Utilisateur du groupe</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1125" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1124" />
             <source>Host Group Service</source>
             <translation>Service de groupe d'hôtes</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1130" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1129" />
             <source>Chat Room User</source>
             <translation>Utilisateur du salon de discussion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1134" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1133" />
             <source>Host Chat Room Service</source>
             <translation>Service de salle de discussion hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1138" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1137" />
             <source>Connect To Random Person</source>
             <translation>Connectez-vous à une personne aléatoire</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1142" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1141" />
             <source>Connect To Random Person Service</source>
             <translation>Connectez-vous au service de personne aléatoire</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1150" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1149" />
             <source>Messanger Service</source>
             <translation>Service de messagerie</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1154" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1153" />
             <source>Story Page (Blog) Service</source>
             <translation>Service de page d'histoire (blog)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1158" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1157" />
             <source>View Story Board Page (Blog)</source>
             <translation>Voir la page du Story Board (Blog)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1162" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1161" />
             <source>Truth Or Dare Video Chat Game</source>
             <translation>Jeu de chat vidéo Action ou Vérité</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1166" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1165" />
             <source>Phone Call With Video Chat</source>
             <translation>Appel téléphonique avec chat vidéo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1170" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1169" />
             <source>Phone Call With Voice Only</source>
             <translation>Appel téléphonique avec voix uniquement</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1174" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1173" />
             <source>MJPEG Movie Reader</source>
             <translation>Lecteur de film MJPEG</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1178" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1177" />
             <source>MJPEG Movie Recorder</source>
             <translation>Enregistreur de film MJPEG</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1182" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1181" />
             <source>Personal Notes And Media Recorder</source>
             <translation>Notes personnelles et enregistreur multimédia</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1186" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1185" />
             <source>Network Services</source>
             <translation>Services réseau</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1190" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1189" />
             <source>Recorded Audio Reader</source>
             <translation>Lecteur audio enregistré</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1194" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1193" />
             <source>Audio Recorder</source>
             <translation>Enregistreur audio</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1198" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1197" />
             <source>Download Shared Files</source>
             <translation>Télécharger des fichiers partagés</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1206" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1205" />
             <source>UNKNOWN PLUGIN</source>
             <translation>PLUGIN INCONNU</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1220" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1219" />
             <source> About Me Page Service </source>
             <translation> Service de pages À propos de moi </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1224" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1223" />
             <source> View About Me Page </source>
             <translation> Afficher la page À propos de moi </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1228" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1227" />
             <source> Receive A File </source>
             <translation> Recevoir un fichier </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1232" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1231" />
             <source> View Shared Files </source>
             <translation> Afficher les fichiers partagés </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1236" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1235" />
             <source> Join Chat Session </source>
             <translation> Rejoindre une session de discussion </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1240" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1239" />
             <source> Voice Phone Call </source>
             <translation> Appel téléphonique vocal </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1244" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1243" />
             <source> Video Chat Offer </source>
             <translation> Offre de chat vidéo </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1248" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1247" />
             <source> Play Truth Or Dare </source>
             <translation> Jouez à Action ou Vérité </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1252" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1251" />
             <source> Story Board Service</source>
             <translation> Service de story-board</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1256" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1255" />
             <source> View Story Board </source>
             <translation> Voir le story-board </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1260" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1259" />
             <source> Shared Files Client </source>
             <translation> Client de fichiers partagés </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1264" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1263" />
             <source> Web Cam Server Service</source>
             <translation> Service de serveur de webcam</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1268" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1267" />
             <source> View Shared Web Cam </source>
             <translation> Afficher la webcam partagée </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1272" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1271" />
             <source>Unknown Plugin Offer</source>
             <translation>Offre de plugin inconnue</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1287" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1286" />
             <source> Invalid </source>
             <translation> Invalide </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1291" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1290" />
             <source> Not Active </source>
             <translation> Pas actif </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1295" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1294" />
             <source> Tx Enabled </source>
             <translation> Émission activée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1299" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1298" />
             <source> Rx Enabled </source>
             <translation>Réception activée </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1303" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1302" />
             <source> Duplex Enabled </source>
             <translation> Recto verso activé </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1307" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1306" />
             <source> No Connection </source>
             <translation> Aucune connexion </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1311" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1310" />
             <source>Unknown PushToTalkStatus</source>
             <translation>Statut PushToTalk inconnu</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1324" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1712" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1323" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1711" />
             <source>Offer Accepted</source>
             <translation>Offre acceptée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1327" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1412" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1714" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1326" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1411" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1713" />
             <source>Offer Rejected</source>
             <translation>Offre rejetée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1330" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1366" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1329" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1365" />
             <source>Busy</source>
             <translation>Occupé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1333" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1332" />
             <source>Session Canceled</source>
             <translation>Séance annulée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1336" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1335" />
             <source>User Ended Session</source>
             <translation>Session terminée par l'utilisateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1339" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1718" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1338" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1717" />
             <source>User Is Offline</source>
             <translation>L'utilisateur est hors ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1352" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1351" />
             <source>No Error</source>
             <translation>Aucune erreur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1354" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1353" />
             <source>Disconnected</source>
             <translation>Déconnecté</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1362" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1361" />
             <source>Bad Param</source>
             <translation>Mauvais paramètre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1364" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1363" />
             <source>Error At Source</source>
             <translation>Erreur à la source</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1368" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1367" />
             <source>Already Downloading</source>
             <translation>Déjà en cours de téléchargement</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1370" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1369" />
             <source>Already Downloaded</source>
             <translation>Déjà téléchargé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1372" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1371" />
             <source>Already Uploading</source>
             <translation>Déjà en train de télécharger</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1374" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1373" />
             <source>File Create Error</source>
             <translation>Erreur de création de fichier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1376" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1375" />
             <source>File Append Error</source>
             <translation>Erreur d'ajout de fichier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1378" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1377" />
             <source>File Open Error</source>
             <translation>Erreur d'ouverture de fichier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1380" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1379" />
             <source>Seek Error</source>
             <translation>Rechercher une erreur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1382" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1381" />
             <source>Read Error</source>
             <translation>Erreur de lecture</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1384" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1383" />
             <source>Write Error</source>
             <translation>Erreur d'écriture</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1386" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1385" />
             <source>Move File Error</source>
             <translation>Erreur de déplacement du fichier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1398" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1397" />
             <source>Upload Not Started</source>
             <translation>Téléchargement non démarré</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1400" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1399" />
             <source>Waiting Response</source>
             <translation>En attente de réponse</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1402" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1401" />
             <source>In Upload Que</source>
             <translation>Dans la file de téléchargement</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1404" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1403" />
             <source>Start Upload</source>
             <translation>Démarrer le téléchargement</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1406" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1405" />
             <source>Uploading</source>
             <translation>Téléchargement</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1408" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1407" />
             <source>Completed Upload</source>
             <translation>Téléchargement terminé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1410" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1409" />
             <source>Upload Canceled</source>
             <translation>Téléchargement annulé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1414" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1428" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1413" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1427" />
             <source>ERROR</source>
             <translation>ERREUR</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1416" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1415" />
             <source>Download Not Started</source>
             <translation>Téléchargement non démarré</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1418" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1417" />
             <source>In Download Que</source>
             <translation>En téléchargement Que</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1420" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1419" />
             <source>Start Download</source>
             <translation>Démarrer le téléchargement</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1424" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1423" />
             <source>Completed Download</source>
             <translation>Téléchargement terminé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1426" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1425" />
             <source>Download Canceled</source>
             <translation>Téléchargement annulé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1431" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1430" />
             <source>Unknown State</source>
             <translation>État inconnu</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1441" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1440" />
             <source>Host Announce Status Unknown</source>
             <translation>Statut d'annonce de l'hôte inconnu</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1443" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1442" />
             <source>Host Announce Invalid Url</source>
             <translation>L'hôte annonce une URL invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1445" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1444" />
             <source>Host Announce Querying Id In Progress</source>
             <translation>L'hôte annonce l'interrogation de l'identifiant en cours</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1447" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1446" />
             <source>Host Announce Querying Id Success</source>
             <translation>L'hôte annonce le succès de l'interrogation de l'identifiant</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1449" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1448" />
             <source>Host Announce Query Id Failed</source>
             <translation>Échec de l'ID de requête d'annonce de l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1451" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1450" />
             <source>Host Announce Connecting</source>
             <translation>L'hôte annonce la connexion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1453" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1566" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1452" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1565" />
             <source>Host Announce Handshaking</source>
             <translation>L'hôte annonce la poignée de main</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1455" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1568" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1454" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1567" />
             <source>Host Announce Handshake Timeout</source>
             <translation>L'hôte annonce l'expiration du délai d'établissement de la liaison</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1457" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1456" />
             <source>Host Announce Connect Success</source>
             <translation>L'hôte annonce le succès de Connect</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1459" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1458" />
             <source>Host Announce Connect Failed</source>
             <translation>L'hôte annonce l'échec de la connexion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1461" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1460" />
             <source>Host Announce Sending Request</source>
             <translation>L'hôte annonce la demande d'envoi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1463" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1462" />
             <source>Host Announce Send Request Failed</source>
             <translation>L'hôte annonce l'échec de la demande d'envoi</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1465" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1464" />
             <source>Host Announce Success</source>
             <translation>L'hôte annonce le succès</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1467" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1466" />
             <source>Host Announce Fail (No Open Port)</source>
             <translation>Échec de l'annonce de l'hôte (pas de port ouvert)</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1469" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1468" />
             <source>Host Announce Fail Permission</source>
             <translation>L'hôte annonce l'autorisation d'échec</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1471" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1470" />
             <source>Host Announce Fail Connect Dropped</source>
             <translation>L'hôte annonce l'abandon de la connexion en cas d'échec</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1473" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1472" />
             <source>Host Announce Invalid Param</source>
             <translation>L'hôte annonce un paramètre invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1475" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1474" />
             <source>Host Announce Done</source>
             <translation>Annonce de l'hôte effectuée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1477" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1544" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1590" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1476" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1543" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1589" />
             <source>Invalid Host Param</source>
             <translation>Paramètre d'hôte invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1487" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1486" />
             <source>Host Join Status Unknown </source>
             <translation>Statut de connexion de l'hôte inconnu </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1489" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1488" />
             <source>Host Join Invalid Url</source>
             <translation>URL de connexion de l'hôte non valide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1491" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1490" />
             <source>Host Join Querying Id In Progress</source>
             <translation>Identifiant de requête de jointure d'hôte en cours</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1493" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1492" />
             <source>Host Join Querying Id Success</source>
             <translation>Réussite de l'interrogation de la jointure de l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1495" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1494" />
             <source>Host Join Query Id Failed</source>
             <translation>Échec de l'ID de requête de jointure de l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1497" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1496" />
             <source>Host Join Connecting</source>
             <translation>Hôte Rejoindre Connexion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1499" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1498" />
             <source>Host Join Handshaking</source>
             <translation>Établissement de liaison entre l'hôte et l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1501" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1500" />
             <source>Host Join Handshake Timeout</source>
             <translation>Délai d'expiration de la prise de contact pour la connexion de l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1503" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1502" />
             <source>Host Join Connect Success</source>
             <translation>Hôte Rejoignez Connect Succès</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1505" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1504" />
             <source>Host Join Connect Failed</source>
             <translation>Échec de la connexion de l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1508" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1507" />
             <source>Host Join Fail Permission</source>
             <translation>Autorisation d’échec de jointure de l’hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1510" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1509" />
             <source>Host Join Fail Connect Dropped</source>
             <translation>Échec de la connexion à l'hôte Connexion abandonnée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1512" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1511" />
             <source>Host Join Invalid Param</source>
             <translation>Paramètre non valide de jointure d'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1514" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1513" />
             <source>Host Join Done</source>
             <translation>Rejoindre l'hôte terminé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1517" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1516" />
             <source>Host Join Sending Request</source>
             <translation>Demande d'envoi de participation à l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1519" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1518" />
             <source>Host Join Send Request Failed</source>
             <translation>Échec de la demande d'envoi de participation à l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1521" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1520" />
             <source>Host Join Success</source>
             <translation>Réussite de l'adhésion de l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1523" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1522" />
             <source>Host Join Failed</source>
             <translation>Échec de la connexion à l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1526" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1525" />
             <source>Host Leave Sending Request</source>
             <translation>Demande d'envoi de congé d'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1528" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1527" />
             <source>Host Leave Send Request Failed</source>
             <translation>Échec de la demande d'envoi de congé de l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1530" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1529" />
             <source>Host Leave Success</source>
             <translation>Succès du congé d'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1532" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1531" />
             <source>Host Leave Failed</source>
             <translation>Échec du congé de l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1535" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1534" />
             <source>Host Sending UnJoin Request</source>
             <translation>Hôte envoyant une demande de désadhésion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1537" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1536" />
             <source>Host Send UnJoin Request Failed</source>
             <translation>Échec de la demande de désassociation de l'envoi par l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1539" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1538" />
             <source>Host UnJoin Success</source>
             <translation>Réussite de la désadhésion de l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1541" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1540" />
             <source>Host UnJoin Fail</source>
             <translation>Échec de la désadhésion de l'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1556" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1555" />
             <source>Host Search Invalid Url</source>
             <translation>URL de recherche d'hôte non valide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1558" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1557" />
             <source>Host Search Querying Id In Progress</source>
             <translation>ID de requête de recherche d'hôte en cours</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1560" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1559" />
             <source>Host Search Querying Id Success</source>
             <translation>Réussite de l'ID de requête de recherche d'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1562" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1561" />
             <source>Host Search Query Id Failed</source>
             <translation>Échec de la requête de recherche d'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1564" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1563" />
             <source>Host Search Connecting</source>
             <translation>Connexion de recherche d'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1570" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1569" />
             <source>Host Search Connect Success</source>
             <translation>Réussite de la connexion à la recherche d'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1572" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1571" />
             <source>Host Search Connect Failed</source>
             <translation>Échec de la connexion à la recherche d'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1574" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1573" />
             <source>Host Search Sending Request</source>
             <translation>Demande d'envoi de recherche d'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1576" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1575" />
             <source>Host Search Send Request Failed</source>
             <translation>Échec de la demande d'envoi de la recherche d'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1578" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1577" />
             <source>Host Search Success</source>
             <translation>Succès de la recherche d'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1580" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1579" />
             <source>Host Search Failed</source>
             <translation>Échec de la recherche d'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1582" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1581" />
             <source>Host Search Fail Permission</source>
             <translation>Autorisation d'échec de recherche d'hôte</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1584" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1583" />
             <source>Host Search Fail Connect Dropped</source>
             <translation>Échec de la recherche d'hôte Connexion abandonnée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1586" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1585" />
             <source>Host Search Invalid Param</source>
             <translation>Paramètres de recherche d'hôte non valides</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1588" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1587" />
             <source>Host Search Done</source>
             <translation>Recherche d'hôte terminée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1601" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1600" />
             <source>TB</source>
             <translation>tuberculose</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1606" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1605" />
             <source>GB</source>
             <translation>FR</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1611" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1610" />
             <source>MB</source>
             <translation>Mo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1616" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1615" />
             <source>KB</source>
             <translation>Ko</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1621" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1620" />
             <source>Bytes</source>
             <translation>Octets</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1634" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1633" />
             <source>Photo</source>
             <translation>Photos</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1638" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1637" />
             <source>Audio</source>
             <translation>Audio</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1646" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1645" />
             <source>Document</source>
             <translation>Documenter</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1650" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1649" />
             <source>Archive Or ISO</source>
             <translation>Archiver ou ISO</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1654" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1653" />
             <source>Executable</source>
             <translation>Exécutable</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1662" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1661" />
             <source>Folder</source>
             <translation>Dossier</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1700" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1699" />
             <source>No Offer</source>
             <translation>Aucune offre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1702" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1701" />
             <source>Sending Offer</source>
             <translation>Envoi de l'offre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1704" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1703" />
             <source>Offer Sent</source>
             <translation>Offre envoyée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1706" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1705" />
             <source>Offer Send Failed</source>
             <translation>Échec de l'envoi de l'offre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1708" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1707" />
             <source>Offer Recieved By User</source>
             <translation>Offre reçue par l'utilisateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1710" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1709" />
             <source>User Is Busy</source>
             <translation>L'utilisateur est occupé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1716" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1715" />
             <source>Offer Canceled</source>
             <translation>Offre annulée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1720" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1719" />
             <source>Offer Is In Session</source>
             <translation>L'offre est en session</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1722" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1721" />
             <source>Offer Session Complete</source>
             <translation>Session d'offre terminée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1724" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1723" />
             <source>Offer Session Failed</source>
             <translation>Échec de la session d'offre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1726" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1725" />
             <source>Offer No Response</source>
             <translation>Offre sans réponse</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1728" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1727" />
             <source>Missed Call</source>
             <translation>Appel manqué</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1730" />
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1765" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1729" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1764" />
             <source>Unknown Offer Type</source>
             <translation>Type d'offre inconnu</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1740" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1739" />
             <source>Unknonn Offer Type</source>
             <translation>Type d'offre inconnu</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1742" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1741" />
             <source>Offer: Join Group</source>
             <translation>Offre : Rejoindre le groupe</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1744" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1743" />
             <source>Offer: Join Chat Room</source>
             <translation>Offre : Rejoignez le salon de discussion</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1746" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1745" />
             <source>Offer: Join Random Connect</source>
             <translation>Offre : Rejoignez Random Connect</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1748" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1747" />
             <source>Offer: Personal File</source>
             <translation>Offre : Dossier Personnel</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1750" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1749" />
             <source>Offer: Friendship</source>
             <translation>Offre : Amitié</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1752" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1751" />
             <source>Offer: Instant Message Session</source>
             <translation>Offre : Session de messagerie instantanée</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1754" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1753" />
             <source>Offer: Truth Or Dare Game</source>
             <translation>Offre : Jeu Action ou Vérité</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1756" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1755" />
             <source>Offer: Video Chat</source>
             <translation>Offre : Chat vidéo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1758" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1757" />
             <source>Offer: Voice Phone Call</source>
             <translation>Offre : Appel téléphonique vocal</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1760" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1759" />
             <source>Offer: Random Connect Session</source>
             <translation>Offre : Session de connexion aléatoire</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1776" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1775" />
             <source>Accepted</source>
             <translation>Accepté</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1780" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1779" />
             <source>Rejected</source>
             <translation>Rejeté</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1784" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1783" />
             <source>User Offline</source>
             <translation>Utilisateur hors ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1788" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1787" />
             <source>Expired</source>
             <translation>Expiré</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1792" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1791" />
             <source>Waiting for response</source>
             <translation>En attente de réponse</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1798" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1797" />
             <source>Expires </source>
             <translation>Expire </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1804" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1803" />
             <source> </source>
             <translation type="unfinished" />
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1816" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1815" />
             <source>Horizontal</source>
             <translation>Horizontale</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1819" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1818" />
             <source>Vertical</source>
             <translation>Verticale</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1829" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1828" />
             <source>Everybody </source>
             <translation>Tout le monde </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1831" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1830" />
             <source>Friends Online </source>
             <translation>Amis en ligne </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1833" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1832" />
             <source>Friends Offline </source>
             <translation>Amis hors ligne </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1836" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1835" />
             <source>Group </source>
             <translation>Groupe </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1838" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1837" />
             <source>Chat Room </source>
             <translation>Salon de discussion </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1840" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1839" />
             <source>Random Connect </source>
             <translation>Connexion aléatoire </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1843" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1842" />
             <source>Ignored </source>
             <translation>Ignoré </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1846" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1845" />
             <source>Online </source>
             <translation>En ligne </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1848" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1847" />
             <source>Direct Connect </source>
             <translation>Connexion directe </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1850" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1849" />
             <source>Offline </source>
             <translation>Hors ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1854" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1853" />
             <source>Unknown </source>
             <translation>Inconnu </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1882" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1881" />
             <source>Sending Join Request </source>
             <translation>Envoi d'une demande d'adhésion </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1884" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1883" />
             <source>Send Join Failed </source>
             <translation>Échec de l'envoi de la jointure </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1886" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1885" />
             <source>Send Join Acked </source>
             <translation>Envoyer Rejoindre avec accusé de réception </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1888" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1887" />
             <source>Join Requested </source>
             <translation>Adhésion demandée </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1890" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1889" />
             <source>Join Was Accepted </source>
             <translation>L'adhésion a été acceptée </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1892" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1891" />
             <source>Join Is Accepted </source>
             <translation>L'adhésion est acceptée </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1894" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1893" />
             <source>Join Denied </source>
             <translation>Rejoindre refusé </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1896" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1895" />
             <source>Disconnected From Host </source>
             <translation>Déconnecté de l'hôte </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1898" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1897" />
             <source>Unknown Join State </source>
             <translation>État de jointure inconnu </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1908" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1907" />
             <source>All Files </source>
             <translation>Tous les fichiers </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1910" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1909" />
             <source>Photo Files </source>
             <translation>Fichiers photos </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1912" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1911" />
             <source>Audio Files </source>
             <translation>Fichiers audio </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1914" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1913" />
             <source>Video Files </source>
             <translation>Fichiers vidéo </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1916" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1915" />
             <source>Document Files </source>
             <translation>Fichiers de documents </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1918" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1917" />
             <source>Archive Files </source>
             <translation>Archiver des fichiers </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1920" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1919" />
             <source>Other Files </source>
             <translation>Autres fichiers </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="1923" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="1922" />
             <source>Unknown File Filter </source>
             <translation>Filtre de fichiers inconnus </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2045" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2044" />
             <source>When Recieve Response</source>
             <translation>Quand recevoir une réponse</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2047" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2046" />
             <source>20 Seconds</source>
             <translation>20 secondes</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2049" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2048" />
             <source>1 Minute</source>
             <translation>1 minute</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2051" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2050" />
             <source>10 Minutes</source>
             <translation>10 minutes</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2053" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2052" />
             <source>1 Hour</source>
             <translation>1 heure</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2055" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2054" />
             <source>24 Hours</source>
             <translation>24 heures</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2057" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2056" />
             <source>1 Week</source>
             <translation>1 semaine</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2059" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2058" />
             <source>1 Month</source>
             <translation>1 mois</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2061" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2060" />
             <source>1 Year</source>
             <translation>1 an</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2064" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2063" />
             <source>Unknown Expire Time </source>
             <translation>Heure d'expiration inconnue </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2103" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2102" />
             <source>Active Offers </source>
             <translation>Offres actives </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2105" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2104" />
             <source>Offer History </source>
             <translation>Historique de l'offre</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2108" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2107" />
             <source>Unknown Offer View Type </source>
             <translation>Type d'affichage de l'offre inconnu </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2118" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2117" />
             <source>Any Connection </source>
             <translation>N'importe quelle connexion </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2120" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2119" />
             <source>Host Connection </source>
             <translation>Connexion hôte </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2122" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2121" />
             <source>Client Connection </source>
             <translation>Connexion client </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2124" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2123" />
             <source>Direct Connection </source>
             <translation>Connexion directe </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2126" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2125" />
             <source>Unknown Connect Type </source>
             <translation>Type de connexion inconnu </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2136" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2135" />
             <source>Connect Status Ready </source>
             <translation>Statut de connexion Prêt </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2138" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2137" />
             <source>Connect Status Bad Param </source>
             <translation>État de connexion mauvais paramètre </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2140" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2139" />
             <source>Connect Status Bad Address </source>
             <translation>Mauvaise adresse de l'état de connexion </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2142" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2141" />
             <source>Connect Status Permission Denied </source>
             <translation>Autorisation d'état de connexion refusée </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2144" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2143" />
             <source>Connect Status Connecting </source>
             <translation>État de connexion Connexion </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2146" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2145" />
             <source>Connect Status Connect Failed </source>
             <translation>État de la connexion Échec de la connexion </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2148" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2147" />
             <source>Connect Status Send PktAnn Failed </source>
             <translation>Statut de connexion Échec de l'envoi de PktAnn </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2150" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2149" />
             <source>Connect Status Handshaking </source>
             <translation>Établissement de liaison avec l'état de connexion </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2152" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2151" />
             <source>Connect Status Handshake Timed Out </source>
             <translation>La poignée de main d'état de connexion a expiré </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2154" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2153" />
             <source>Connect Status Connect Success </source>
             <translation>Statut de connexion Réussite de la connexion </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2156" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2155" />
             <source>Connect Status Dropped </source>
             <translation>Statut de connexion abandonné </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2158" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2157" />
             <source>Connect Status Rx PktAnn Timeout </source>
             <translation>État de connexion Rx PktAnn Timeout </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2160" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2159" />
             <source>Connect Status Unknown </source>
             <translation>État de connexion inconnu </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2200" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2199" />
             <source>Database None</source>
             <translation>Base de données Aucune</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2202" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2201" />
             <source>Database Assets</source>
             <translation>Actifs de base de données</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2204" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2203" />
             <source>Database Blob Assets</source>
             <translation>Actifs blob de base de données</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2206" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2205" />
             <source>Database Connect Mgr</source>
             <translation>Gestionnaire de connexion à la base de données</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2208" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2207" />
             <source>Database Engine Params</source>
             <translation>Paramètres du moteur de base de données</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2210" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2209" />
             <source>Database Engine Settings</source>
             <translation>Paramètres du moteur de base de données</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2212" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2211" />
             <source>Database Host Server Join</source>
             <translation>Rejoindre le serveur hôte de base de données</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2214" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2213" />
             <source>Database Offers</source>
             <translation>Offres de bases de données</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2216" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2215" />
             <source>Database Thumbs</source>
             <translation>Thumbs de base de données</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2218" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2217" />
             <source>Database User Join</source>
             <translation>Rejoindre un utilisateur de base de données</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2220" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2219" />
             <source>Database All Users</source>
             <translation>Base de données Tous les utilisateurs</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2222" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2221" />
             <source>Unkonwn Database Type</source>
             <translation>Type de base de données inconnu</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2229" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2228" />
             <source> is online</source>
             <translation> est en ligne</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiParams.cpp" line="2229" />
+            <location filename="../nolimitgui/src/GuiParams.cpp" line="2228" />
             <source> is offline</source>
             <translation> est hors ligne</translation>
         </message>
@@ -10185,80 +9955,80 @@ L'action ne peut pas être annulée
  L'application va se fermer</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="535" />
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="627" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="538" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="630" />
             <source>Invalid emoticon id</source>
             <translation>Identifiant d'émoticône invalide</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="571" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="574" />
             <source>Error occured creating emoticon file</source>
             <translation>Une erreur s'est produite lors de la création du fichier d'émoticône</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="628" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="631" />
             <source>Invalid emoticon id </source>
             <translation>Identifiant d'émoticône invalide </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="670" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="673" />
             <source>Could not create emoticon asset</source>
             <translation>Impossible de créer l'élément émoticône</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="671" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="674" />
             <source>Error occured creating emoticon asset </source>
             <translation>Une erreur s'est produite lors de la création de l'élément émoticône </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="676" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="679" />
             <source>Could not get file info of emoticon png file</source>
             <translation>Impossible d'obtenir les informations sur le fichier png d'émoticône</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="677" />
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="683" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="680" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="686" />
             <source>Error occured creating emoticon file </source>
             <translation>Une erreur s'est produite lors de la création du fichier d'émoticône </translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="682" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="685" />
             <source>Could not create emoticon png file</source>
             <translation>Impossible de créer le fichier png d'émoticône</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="688" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="691" />
             <source>Could not create emoticon image</source>
             <translation>Impossible de créer une image d'émoticône</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="689" />
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="709" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="692" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="712" />
             <source>Error occured creating emoticon image %1</source>
             <translation>Une erreur s'est produite lors de la création de l'image d'émoticône %1</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="708" />
+            <location filename="../nolimitgui/src/GuiThumbMgr.cpp" line="711" />
             <source>Could create emoticon image</source>
             <translation>Pourrait créer une image d'émoticône</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1014" />
+            <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1007" />
             <source>User was deleted</source>
             <translation>L'utilisateur a été supprimé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1015" />
+            <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1008" />
             <source>User was deleted from database</source>
             <translation>L'utilisateur a été supprimé de la base de données</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1022" />
+            <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1015" />
             <source>User was NOT deleted</source>
             <translation>L'utilisateur n'a PAS été supprimé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1023" />
+            <location filename="../nolimitgui/src/GuiUserMgr.cpp" line="1016" />
             <source>User failed to be deleted from database</source>
             <translation>L'utilisateur n'a pas pu être supprimé de la base de données</translation>
         </message>
@@ -10348,47 +10118,47 @@ Personne ne peut vous contacter directement</translation>
             <translation> a un niveau d'autorisation désactivé</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="378" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="377" />
             <source>Answer Phone</source>
             <translation>Répondre au téléphone</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="379" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="378" />
             <source>Reject Phone Call</source>
             <translation>Rejeter l'appel téléphonique</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="382" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="381" />
             <source>Accept Video Chat</source>
             <translation>Accepter le chat vidéo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="383" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="382" />
             <source>Reject Video Chat</source>
             <translation>Rejeter le chat vidéo</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="386" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="385" />
             <source>Play Truth Or Dare</source>
             <translation>Jouez à Action ou Vérité</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="387" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="386" />
             <source>Reject Truth Or Dare</source>
             <translation>Rejeter Action ou Vérité</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="500" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="499" />
             <source>User Hung Up Phone</source>
             <translation>L'utilisateur a raccroché le téléphone</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="503" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="502" />
             <source>User Ended Video Chat</source>
             <translation>Chat vidéo terminé par l'utilisateur</translation>
         </message>
         <message>
-            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="506" />
+            <location filename="../nolimitgui/src/MultiSessionState.cpp" line="505" />
             <source>User Ended Truth Or Dare</source>
             <translation>L'utilisateur a terminé Action ou Vérité</translation>
         </message>
@@ -10588,28 +10358,25 @@ Personne ne peut vous contacter directement</translation>
             <source>Cancel</source>
             <translation>Annuler</translation>
         </message>
-    </context>
-    <context>
-        <name>ReplyFileOfferDialog</name>
         <message>
-            <location filename="../resources/Forms/ActivityReplyFileOffer.ui" line="26" />
-            <source>Accept File Offer</source>
-            <translation>Accepter l'offre de fichier</translation>
+            <location filename="../nolimitgui/src/CalendarEventListWidget.cpp" line="28" />
+            <source>Existing Events</source>
+            <translation>Événements existants</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/ActivityReplyFileOffer.ui" line="145" />
-            <source>Recieve File</source>
-            <translation>Recevoir le fichier</translation>
+            <location filename="../nolimitgui/src/CalendarEventRowWidget.cpp" line="31" />
+            <source>Repeats daily</source>
+            <translation>Répéte quotidiennement</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/ActivityReplyFileOffer.ui" line="167" />
-            <source>File:</source>
-            <translation>Fichier :</translation>
+            <location filename="../nolimitgui/src/CalendarEventRowWidget.cpp" line="33" />
+            <source>Repeats weekly</source>
+            <translation>Répéte chaque semaine</translation>
         </message>
         <message>
-            <location filename="../resources/Forms/ActivityReplyFileOffer.ui" line="197" />
-            <source>Message:</source>
-            <translation>Message :</translation>
+            <location filename="../nolimitgui/src/CalendarEventRowWidget.cpp" line="35" />
+            <source>Repeats monthly</source>
+            <translation>Répéte chaque mois</translation>
         </message>
     </context>
     <context>
@@ -10660,14 +10427,6 @@ Voulez-vous enregistrer vos modifications ?</translation>
             <location filename="../nolimitgui/src/RichTextWidget.cpp" line="226" />
             <source>Print Document</source>
             <translation>Imprimer le document</translation>
-        </message>
-    </context>
-    <context>
-        <name>SearchBarWidgetUi</name>
-        <message>
-            <location filename="../resources/Forms/SearchBarWidget.ui" line="65" />
-            <source>Search</source>
-            <translation>Rechercher</translation>
         </message>
     </context>
     <context>
@@ -10732,14 +10491,6 @@ Voulez-vous enregistrer vos modifications ?</translation>
         </message>
     </context>
     <context>
-        <name>SessionOptionsDialog</name>
-        <message>
-            <location filename="../resources/Forms/ActivitySessionOptions.ui" line="14" />
-            <source>Dialog</source>
-            <translation>Boîte de dialogue</translation>
-        </message>
-    </context>
-    <context>
         <name>SessionWidgetUi</name>
         <message>
             <location filename="../resources/Forms/SessionWidget.ui" line="20" />
@@ -10750,34 +10501,6 @@ Voulez-vous enregistrer vos modifications ?</translation>
             <location filename="../resources/Forms/SessionWidget.ui" line="84" />
             <source>Create Invite</source>
             <translation>Créer une invitation</translation>
-        </message>
-    </context>
-    <context>
-        <name>ShareFilesDialog</name>
-        <message>
-            <location filename="../resources/Forms/ActivityAddRemoveLibraryFiles.ui" line="17" />
-            <source>Browse Files</source>
-            <translation>Parcourir les fichiers</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/ActivityAddRemoveLibraryFiles.ui" line="112" />
-            <source>Share Your Files</source>
-            <translation>Partagez vos fichiers</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/ActivityAddRemoveLibraryFiles.ui" line="200" />
-            <source>Click A File Lock To Share Or UnShare</source>
-            <translation>Cliquez sur un verrou de fichier pour partager ou annuler le partage</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/ActivityAddRemoveLibraryFiles.ui" line="221" />
-            <source>If Locked then Not Shared.Else If Unlocked then Is Shared</source>
-            <translation>S'il est verrouillé, il n'est pas partagé. Sinon, s'il est déverrouillé, il est partagé.</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/ActivityAddRemoveLibraryFiles.ui" line="325" />
-            <source>Move Up A Directory</source>
-            <translation>Remonter dans un répertoire</translation>
         </message>
     </context>
     <context>
@@ -11000,19 +10723,6 @@ Voulez-vous enregistrer vos modifications ?</translation>
         </message>
     </context>
     <context>
-        <name>TestWidgetUi</name>
-        <message>
-            <location filename="../resources/Forms/TestWidget.ui" line="38" />
-            <source>Form</source>
-            <translation>Formulaire</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/TestWidget.ui" line="84" />
-            <source>Some Text</source>
-            <translation>Un peu de texte</translation>
-        </message>
-    </context>
-    <context>
         <name>ThemeWidgetClass</name>
         <message>
             <location filename="../resources/Forms/AppletTheme.ui" line="20" />
@@ -11129,19 +10839,6 @@ Voulez-vous enregistrer vos modifications ?</translation>
             <location filename="../resources/Forms/ThumbnailEditWidget.ui" line="167" />
             <source>Browse</source>
             <translation>Parcourir</translation>
-        </message>
-    </context>
-    <context>
-        <name>TimedMessageDlg</name>
-        <message>
-            <location filename="../resources/Forms/ActivityTimedMessage.ui" line="17" />
-            <source>Message</source>
-            <translation>Message</translation>
-        </message>
-        <message>
-            <location filename="../resources/Forms/ActivityTimedMessage.ui" line="90" />
-            <source>Message:</source>
-            <translation>Message :</translation>
         </message>
     </context>
     <context>
