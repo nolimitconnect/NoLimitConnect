@@ -4,6 +4,13 @@ Website: https://nolimitconnect.org
 
 Source repository: https://github.com/nolimitconnect/NoLimitConnect.git
 
+## Version 1.1.5
+Add Flash Mob based Calendar Events
+Add README-CALENDAR.md
+Add README-ARCHITECTURE-CONSTRAINTS.md
+Fixed Android Camera permission bug
+Large Code Cleanup effort
+
 ## Version 1.1.4
 
 Moved resourses to root of project so can be shared with python
