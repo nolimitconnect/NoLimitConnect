@@ -40,6 +40,7 @@ storyboard_thumb.png
 /**/*.obj
 /**/*.idx
 /**/*.json
+/**/*.log
 
 # do not check in changes to user-specific CMake presets
 CMakeUserPresets.json
