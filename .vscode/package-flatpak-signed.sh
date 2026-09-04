@@ -43,7 +43,8 @@ mkdir -p "${repo_dir}" "${build_dir}" "${package_dir}" "$(dirname "${public_key_
 
 if [[ ! -d "${gpg_homedir}" ]]; then
     echo "Missing GPG homedir: ${gpg_homedir}" >&2
-    echo "Run ./.vscode/flatpak-gpg-init.sh first." >&2
+    echo "Import the canonical signing key with ./.vscode/flatpak-import-keypair.sh," >&2
+    echo "or run ./.vscode/flatpak-gpg-init.sh --generate-new only if this key has never existed." >&2
     exit 1
 fi
 
@@ -57,7 +58,8 @@ fi
 
 if [[ -z "${key_id}" ]]; then
     echo "No Flatpak signing key found." >&2
-    echo "Run ./.vscode/flatpak-gpg-init.sh first or set NLC_FLATPAK_GPG_KEY_ID/NLC_FLATPAK_GPG_KEY_ID_FILE." >&2
+    echo "Import the canonical signing key with ./.vscode/flatpak-import-keypair.sh," >&2
+    echo "or set NLC_FLATPAK_GPG_KEY_ID/NLC_FLATPAK_GPG_KEY_ID_FILE." >&2
     exit 1
 fi
 

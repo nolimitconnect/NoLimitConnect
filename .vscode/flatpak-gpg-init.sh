@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 # Initialize a dedicated GPG keyring for Flatpak repo signing and export the public key.
 #
+# On a machine that has no signing key yet, this script will NOT silently mint a new
+# one - the canonical NLC signing key must be imported (./.vscode/flatpak-import-keypair.sh)
+# from its backup. Pass --generate-new only when you deliberately intend to create a
+# brand new signing key (e.g. the very first time the key is ever created).
+#
 # Usage:
-#   ./.vscode/flatpak-gpg-init.sh [workspace_root]
+#   ./.vscode/flatpak-gpg-init.sh [workspace_root] [--generate-new]
 #
 # Optional environment variables:
 #   NLC_FLATPAK_GPG_NAME        (default: NoLimitConnect Flatpak Repo)
@@ -14,10 +19,21 @@
 #   NLC_FLATPAK_GPG_HOMEDIR     (default: ~/gpg/flatpak-gnupg)
 #   NLC_FLATPAK_GPG_KEY_ID_FILE (default: ~/gpg/flatpak-gpg-key-id.txt)
 #   NLC_FLATPAK_PUBLIC_KEY_OUT  (default: <workspace>/docs/nlc-flatpak-public.gpg)
+#   NLC_FLATPAK_GPG_GENERATE_NEW (set to 1, same effect as --generate-new)
 
 set -euo pipefail
 
-workspace_root="${1:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
+generate_new="${NLC_FLATPAK_GPG_GENERATE_NEW:-0}"
+positional_args=()
+for arg in "$@"; do
+    if [[ "${arg}" == "--generate-new" ]]; then
+        generate_new=1
+    else
+        positional_args+=("${arg}")
+    fi
+done
+
+workspace_root="${positional_args[0]:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 default_gpg_homedir="${HOME}/gpg/flatpak-gnupg"
 legacy_gpg_homedir="${workspace_root}/build/flatpak-gnupg"
 gpg_homedir="${NLC_FLATPAK_GPG_HOMEDIR:-${default_gpg_homedir}}"
@@ -68,6 +84,19 @@ if [[ -z "${key_id}" ]]; then
     if [[ -n "${normalized_required_fpr}" ]]; then
         echo "Required fingerprint ${normalized_required_fpr} was not found in ${gpg_homedir}." >&2
         echo "Import the canonical keypair first, then re-run this script." >&2
+        exit 1
+    fi
+
+    if [[ "${generate_new}" != "1" ]]; then
+        echo "No Flatpak signing key found in ${gpg_homedir}." >&2
+        echo "Refusing to generate a new one automatically - that would produce a key" >&2
+        echo "different from the canonical NoLimitConnect signing key." >&2
+        echo >&2
+        echo "Import the canonical keypair from its backup instead:" >&2
+        echo "  ./.vscode/flatpak-import-keypair.sh [workspace_root] <public.asc> <private.asc>" >&2
+        echo >&2
+        echo "Only pass --generate-new if you deliberately intend to create a brand new" >&2
+        echo "signing key (e.g. the very first time this key is ever created)." >&2
         exit 1
     fi
 

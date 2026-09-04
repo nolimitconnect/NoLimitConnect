@@ -28,14 +28,7 @@ cleanup:
   - '*.a'
   - '*.o'
 
-modules:
-    ########################
-    # GLU 
-    ########################
-    # built in project instead of as submodule - shared-modules/glu/glu-9.json
-    ########################
-    # No Limit Connect
-    ########################  
+modules: 
   - name: nolimitconnect
     buildsystem: cmake-ninja
     config-opts:
