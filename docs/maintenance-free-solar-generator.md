@@ -1,17 +1,17 @@
 ---
-title: Nevada Maintenance-Free Energy Generator
+title: Maintenance-Free Solar Generator
 description: Concept brief — a solid-state MEMS mirror field and a zero-wear free-piston Stirling engine delivering ~20–26 kWe of unattended, maintenance-free solar power.
 ---
 
-# Nevada Maintenance-Free Energy Generator
+# Maintenance-Free Solar Generator
 
 <p style="font-size:1.25rem;line-height:1.5;font-style:italic;opacity:.85;margin:-.4rem 0 .8rem">
-A sun-tracking mirror field and a zero-wear NASA-heritage engine, sited in a pit near Lake Mead
+A sun-tracking mirror field and a zero-wear NASA-heritage engine, built for any high-DNI desert site
 </p>
 
 <p style="opacity:.75;font-size:.85rem;margin-bottom:1.2rem">
 Concept and research by <strong>Brett R. Jones</strong> &middot; Independent personal research
-&middot; First published 18 August 2026
+&middot; First published 18 August 2026, revised 5 September 2026
 </p>
 
 [:material-file-pdf-box: Download the brief as PDF](Nevada-Maintenance-Free-Energy-Generator.pdf){ .md-button }
@@ -20,7 +20,7 @@ Concept and research by <strong>Brett R. Jones</strong> &middot; Independent per
 
 -   __Site__
 
-    Lake Mead vicinity, Clark County, NV
+    Any high-DNI desert site (illustrated here with U.S. Desert Southwest data)
 
 -   __Performance reference__
 
@@ -53,13 +53,23 @@ Concept and research by <strong>Brett R. Jones</strong> &middot; Independent per
 
     — Brett R. Jones
 
+!!! tip "For research groups"
+
+    Every component here is independently field-proven — see Section 7 — but the two of them have
+    never been run together, and neither MEMS mirror technology nor this exact optical geometry has
+    been validated for outdoor concentrated-solar duty. **Section 6 lays out the open technical
+    questions as bounded, testable research problems** (bench tests, chamber tests, and simulation
+    runs against existing free tools), not open-ended invention. That gap between two TRL-9
+    components and one un-integrated system is the applied-research question this brief is written
+    to hand off.
+
 ---
 
 ## 1. The idea in one paragraph
 
 A field of thumbnail-sized mirrors, each steered by a solid-state chip with no motor and no
-bearing, concentrates sunlight onto a single fixed point above a pit dug near the shoreline of
-Lake Mead, Nevada. At that point sits a sealed engine with a piston that never touches anything it
+bearing, concentrates sunlight onto a single fixed point atop a ground-mounted mast. At that point
+sits a sealed engine with a piston that never touches anything it
 moves against — the same core design NASA has run continuously for fourteen years without a single
 maintenance visit. Matched to the same optical scale as the Swedish-engineered Ripasso Energy dish
 system that holds the reported world record for solar-to-electricity conversion, this combination is
@@ -70,20 +80,13 @@ component.
 <figure>
 <svg viewBox="0 0 800 380" width="100%" role="img" aria-labelledby="fig1-title fig1-desc" style="max-width:100%;height:auto;">
   <title id="fig1-title">Cross-section of the maintenance-free solar generator</title>
-  <desc id="fig1-desc">Fixed solid-state mirrors at ground level redirect concentrated sunlight up onto a stationary receiver housing a free-piston Stirling engine, mounted on a mast above an excavated pit, with Lake Mead at left.</desc>
+  <desc id="fig1-desc">Fixed solid-state mirrors at ground level redirect concentrated sunlight up onto a stationary receiver housing a free-piston Stirling engine, mounted on a ground-level mast.</desc>
 
   <rect x="0" y="0" width="800" height="380" fill="#11141c"/>
 
   <!-- ground -->
   <rect x="0" y="262" width="800" height="118" fill="#3a3226"/>
   <line x1="0" y1="262" x2="800" y2="262" stroke="#8d7355" stroke-width="2"/>
-
-  <!-- pit -->
-  <path d="M 342 262 L 372 356 L 428 356 L 458 262 Z" fill="#241f18" stroke="#8d7355" stroke-width="1.5"/>
-
-  <!-- lake -->
-  <path d="M 30 262 Q 110 236 196 262 Z" fill="#0e7490" opacity="0.85"/>
-  <text x="70" y="254" fill="#67e8f9" font-family="sans-serif" font-size="13" font-weight="600">LAKE MEAD</text>
 
   <!-- sun -->
   <circle cx="710" cy="62" r="20" fill="#fbbf24"/>
@@ -137,10 +140,8 @@ component.
 
   <text x="150" y="288" fill="#cbd5e1" font-family="sans-serif" font-size="12" font-weight="600">MEMS MIRROR FIELD</text>
   <text x="150" y="303" fill="#94a3b8" font-family="sans-serif" font-size="10" font-style="italic">fixed to grade — no moving structure</text>
-  <text x="500" y="288" fill="#cbd5e1" font-family="sans-serif" font-size="12" font-weight="600">EXCAVATED PIT</text>
-  <line x1="470" y1="292" x2="440" y2="300" stroke="#8d7355" stroke-width="1.2"/>
 </svg>
-<figcaption><strong>Figure 1.</strong> Cross-section, not to scale. Fixed, solid-state mirrors near grade redirect concentrated sunlight onto a single stationary receiver above the pit; the receiver houses the free-piston Stirling engine described in Section&nbsp;3. The only motion anywhere in the system is the electrostatic tilt of each mirror element and the free-floating piston inside the sealed engine — nothing rides on a bearing, and nothing physically rotates to track the sun.</figcaption>
+<figcaption><strong>Figure 1.</strong> Cross-section, not to scale. Fixed, solid-state mirrors near grade redirect concentrated sunlight onto a single stationary receiver on a ground-mounted mast; the receiver houses the free-piston Stirling engine described in Section&nbsp;3. The only motion anywhere in the system is the electrostatic tilt of each mirror element and the free-floating piston inside the sealed engine — nothing rides on a bearing, and nothing physically rotates to track the sun.</figcaption>
 </figure>
 
 !!! abstract "Why this matters"
@@ -251,17 +252,19 @@ across multiple independent focal points instead of feeding just one.
 Rather than project an untested hypothetical output figure, this design's mirror field was sized to
 exactly match the optical aperture of the actual dish used by Ripasso Energy, a Swedish company whose
 system holds the reported world record for solar-to-electricity conversion efficiency, demonstrated
-at field scale. At that matched aperture, and using Nevada's own real, measured solar resource for
-the Lake Mead area, the mirror field is projected to deliver essentially the same peak power the
-record system itself achieves — a direct validation that a field of small, solid-state mirrors can do
-optically what one large mechanically-tracked dish does, at the same real scale, before any claim is
-made about the durability upgrade in Section 3.
+at field scale. At that matched aperture, and using a real, measured solar resource representative of
+a high-quality desert siting class, the mirror field is projected to deliver essentially the same peak
+power the record system itself achieves — a direct validation that a field of small, solid-state
+mirrors can do optically what one large mechanically-tracked dish does, at the same real scale, before
+any claim is made about the durability upgrade in Section 3. This design is not tied to any single
+location; the figures below use one real, cited desert site as an illustrative example of the resource
+class the concept targets, not a required site.
 
 | Parameter | Value | Basis |
 | --- | --- | --- |
 | Ripasso record efficiency (reference point) | 32% | **Cited** — reported world record for a 30 kW converter at Upington, South Africa |
 | Matched optical aperture | 110.5 m² | **Geometric** — the area of an 11.86 m circular dish (π r²), sized to the Ripasso dish diameter |
-| Site annual solar resource | 7.62 kWh/m²/day | **Cited** — measured direct-normal irradiance, Las Vegas / Lake Mead region (NREL NSRDB) |
+| Site annual solar resource (illustrative) | 7.62 kWh/m²/day | **Cited** — measured direct-normal irradiance, U.S. Desert Southwest (NREL NSRDB), used as one representative example of a high-DNI desert site rather than a required location |
 | Site peak irradiance (record condition) | 960 W/m² | **Assumption** — a representative clear-sky DNI value. The Ripasso record is reported at ambient above 28 °C with no irradiance stated, so this is not a cited match to its test condition |
 | Mirror reflectivity | 92% | **Assumption** — typical of solar-grade mirrors; not a cited measurement of a specific product |
 | Kinematic (record-matching) output | ~30–33 kWe | **Derived** from the rows above — lands in the same ~30 kW class as the record unit |
@@ -290,14 +293,90 @@ assembled.
 
 ---
 
-## 6. Why this site
+## 6. Open research questions
 
-Lake Mead, Nevada offers a real, measured, high-quality direct-sunlight resource (NREL/NSRDB data,
-cited below) directly comparable to the desert site conditions the Swedish record system itself was
-tested under — meaning the performance match in Section 4 is not a best-case extrapolation, it is
-close to an apples-to-apples reproduction. Siting the array in a dug pit keeps the fixed engine and
-receiver near grade while the surrounding mirror field remains low-profile, and open desert land in
-the area is well suited to a field-scale installation without competing for higher-value terrain.
+Every open item below is a bounded, checkable question — a bench test, a chamber test, or a
+simulation run against tools that already exist — not a request to invent something new. None of it
+requires building the full system to answer.
+
+### 6.1 Outdoor hermetic sealing under concentrated flux
+
+The Texas Instruments reliability data in Section 2 covers sealed **indoor** projector duty. It says
+nothing about how a DMD-class package holds up to decades of outdoor thermal cycling, humidity, and
+back-heating from concentrated sunlight at the receiver end of the optical chain — a materially
+different exposure profile.
+
+- **Open question.** Does a hermetically-sealed DMD-class package survive 25 years of a desert
+  site's diurnal and seasonal thermal cycling without seal fatigue or moisture ingress?
+- **Proposed test.** Accelerated life testing in an environmental chamber, cycled to a representative
+  desert site's measured temperature and humidity extremes, tracking seal integrity — not actuation
+  count, which is already covered by the ~5,000× margin in Section 2.
+
+### 6.2 Optical performance of a segmented mirror field vs. a single dish
+
+Section 4's output figures assume the mirror field performs identically to the single continuous
+parabolic dish it is matched against by aperture area alone.
+
+- **Open question.** Does splitting one 110.5 m² aperture into many small, independently-steered
+  flat elements introduce spillage or aberration losses at the fixed receiver that a continuous
+  parabolic surface does not have?
+- **Proposed test.** Ray-tracing simulation of the proposed field geometry — NREL's own free
+  [SolTrace](https://www.nrel.gov/csp/soltrace.html) tool is built for exactly this — against the same
+  irradiance and reflectivity inputs used in Section 4. This would also let a research group replace
+  the two flagged **assumption** rows in Section 4's table with either a simulated result or a cited
+  product spec, rather than an engineering placeholder.
+
+### 6.3 Multi-engine thermal and control integration
+
+Reaching the full 20–26 kWe target means feeding four to five independent Qnergy-class receivers
+from one mirror field (Section 3), not one.
+
+- **Open question.** What losses and control complexity does splitting concentrated flux across
+  multiple independent focal points introduce, in real time, as the sun moves — versus the
+  single-receiver case every cited reliability figure in this brief is actually based on?
+- **Proposed test.** Control-system simulation, or a small bench demonstration with two receivers,
+  ahead of committing to the full four-to-five-unit array.
+
+### 6.4 Closing the two flagged assumptions
+
+The lowest-effort item on this list: the 92% mirror-reflectivity figure and the 960 W/m² peak
+irradiance figure in Section 4 are engineering placeholders, not citations. A group with institutional
+library and vendor-spec access could likely resolve both — a real product reflectivity spec, and a
+time/location-matched DNI figure for the actual Ripasso record conditions — well inside a week, or
+confirm that no better public figure exists.
+
+## 7. Technology readiness
+
+Every individual component in this design is already at the top of NASA's own [technology readiness
+scale](https://www.nasa.gov/directorates/somd/space-communications-navigation-program/technology-readiness-levels/).
+What has not been done is combining them and validating the combination outdoors — normal,
+boundable applied-research territory, not first invention.
+
+| Element | TRL | Basis |
+| --- | --- | --- |
+| Free-piston Stirling engine (as a component) | **9** — flight/field proven | 14+ years continuous NASA Glenn operation; in commercial production today (Qnergy) |
+| DLP/DMD MEMS mirror actuation (indoor duty) | **9** — flight/field proven | >1 trillion cycles, >100,000 hours demonstrated (TI reliability program, Section 2) |
+| DLP/DMD-class mirror technology, adapted for outdoor concentrated-solar duty | **3–4** — proof-of-concept to lab validation | Same underlying actuation technology, unvalidated in this environment — see 6.1 |
+| Full system integration (mirror field + fixed receiver + multi-engine array, coupled) | **2** — concept formulated | No integrated demonstration yet; this brief is the concept |
+
+The gap sits entirely at the environment-adaptation and integration level — precisely the kind of
+bounded, de-risking question that applied-research funding (NSF, DOE's Solar Energy Technologies
+Office, ARPA-E) exists to close, rather than a request to fund speculative first-of-a-kind invention.
+
+## 8. Site requirements
+
+This design is not tied to any one location. It targets the same class of site any concentrated-solar
+installation needs: open, low-value land with a high-quality direct-normal-irradiance (DNI) resource
+— desert and arid regions generally, such as the U.S. Desert Southwest, North Africa, the Middle East,
+the Atacama, or the Australian Outback. Section 4 illustrates the concept using real, measured
+U.S. Desert Southwest data (NREL/NSRDB, cited below) because it is directly comparable to the desert
+site conditions the Swedish record system itself was tested under — meaning the performance match in
+Section 4 is not a best-case extrapolation, it is close to an apples-to-apples reproduction — not
+because the design requires that specific site. The mirror field and receiver both sit at grade, with no excavation and no water resource required:
+the free-piston Stirling engine (Section 3) uses a sealed working-gas loop with air-cooled heat
+rejection — the same approach Qnergy's commercial units already use in remote, waterless field
+deployments — so unlike an open steam cycle's water-cooled condenser, it has no need for a lake,
+river, or other body of water.
 
 ---
 
@@ -322,7 +401,13 @@ the area is well suited to a field-scale installation without competing for high
   <br>Real, existing published patent for the MEMS solar-tracking mirror concept described in Section 2 — not a hypothetical proposal.
 
 - **National Renewable Energy Laboratory (NREL)** — [National Solar Radiation Database (NSRDB)](https://nsrdb.nrel.gov/)
-  <br>Source for real, measured direct-normal irradiance data for the Nevada / Lake Mead region used in Section 4.
+  <br>Source for real, measured direct-normal irradiance data for the U.S. Desert Southwest, used in Section 4 as one illustrative example of a high-DNI desert site.
+
+- **National Renewable Energy Laboratory (NREL)** — [SolTrace: Optical modeling software for concentrating solar power systems](https://www.nrel.gov/csp/soltrace.html)
+  <br>Free, public ray-tracing tool proposed in Section 6.2 for validating the mirror field's optical performance and replacing the two flagged assumption figures in Section 4.
+
+- **NASA** — [Technology Readiness Levels](https://www.nasa.gov/directorates/somd/space-communications-navigation-program/technology-readiness-levels/)
+  <br>Source for the TRL 1–9 scale used to assess each component in Section 7.
 
 ---
 
@@ -349,25 +434,25 @@ conference paper, and public NREL solar-resource data. Each is listed and linked
 read, use, or build on. The author is not seeking to license, sell, or commercialize it.
 
 **Publication record.** First published 18 August 2026 at
-[nolimitconnect.org](https://nolimitconnect.org). Authorship and revision history are recorded in the
-project's public Git repository at
+[nolimitconnect.org](https://nolimitconnect.org), most recently revised 5 September 2026. Authorship
+and revision history are recorded in the project's public Git repository at
 [github.com/nolimitconnect/NoLimitConnect](https://github.com/nolimitconnect/NoLimitConnect).
 
 **License.** © 2026 Brett R. Jones. Text and figures released under
 [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
 — free to share and adapt, with attribution to the author.
 
-**How to cite.** Jones, Brett R. *Nevada Maintenance-Free Energy Generator: A Sun-Tracking Mirror
-Field and a Zero-Wear NASA-Heritage Engine.* Concept brief, 18 August 2026.
+**How to cite.** Jones, Brett R. *Maintenance-Free Solar Generator: A Sun-Tracking Mirror
+Field and a Zero-Wear NASA-Heritage Engine.* Concept brief, 18 August 2026, revised 5 September 2026.
 <https://nolimitconnect.org/maintenance-free-solar-generator/>
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "TechArticle",
-  "headline": "Nevada Maintenance-Free Energy Generator",
-  "alternativeHeadline": "A sun-tracking mirror field and a zero-wear NASA-heritage engine, sited in a pit near Lake Mead",
-  "description": "Concept brief — a solid-state MEMS mirror field and a zero-wear free-piston Stirling engine delivering ~20–26 kWe of unattended, maintenance-free solar power near Lake Mead, Nevada.",
+  "headline": "Maintenance-Free Solar Generator",
+  "alternativeHeadline": "A sun-tracking mirror field and a zero-wear NASA-heritage engine, built for any high-DNI desert site",
+  "description": "Concept brief — a solid-state MEMS mirror field and a zero-wear free-piston Stirling engine delivering ~20–26 kWe of unattended, maintenance-free solar power at any high-DNI desert site.",
   "author": {
     "@type": "Person",
     "name": "Brett R. Jones",
@@ -378,7 +463,7 @@ Field and a Zero-Wear NASA-Heritage Engine.* Concept brief, 18 August 2026.
     "name": "Brett R. Jones"
   },
   "datePublished": "2026-08-18",
-  "dateModified": "2026-08-18",
+  "dateModified": "2026-09-05",
   "inLanguage": "en",
   "isAccessibleForFree": true,
   "license": "https://creativecommons.org/licenses/by/4.0/",
@@ -387,7 +472,7 @@ Field and a Zero-Wear NASA-Heritage Engine.* Concept brief, 18 August 2026.
     "@type": "Person",
     "name": "Brett R. Jones"
   },
-  "keywords": "maintenance-free solar generator, MEMS solar tracking, DLP DMD micromirror solar concentrator, free-piston Stirling engine, dish-Stirling, concentrated solar power, unattended remote power, Lake Mead Nevada, zero-maintenance power generation",
+  "keywords": "maintenance-free solar generator, MEMS solar tracking, DLP DMD micromirror solar concentrator, free-piston Stirling engine, dish-Stirling, concentrated solar power, unattended remote power, desert solar generation, zero-maintenance power generation, technology readiness level, solar research agenda, ray tracing optical simulation",
   "about": [
     { "@type": "Thing", "name": "Concentrated solar power" },
     { "@type": "Thing", "name": "Free-piston Stirling engine" },

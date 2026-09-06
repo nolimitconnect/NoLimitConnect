@@ -45,6 +45,9 @@ storyboard_thumb.png
 # do not check in changes to user-specific CMake presets
 CMakeUserPresets.json
 
+# local-only outreach drafts for the solar concept brief — never published, never committed
+/solar-outreach/
+
 # keep editor/build configuration JSON files under version control
 !/.vscode/
 !/.vscode/*.json
