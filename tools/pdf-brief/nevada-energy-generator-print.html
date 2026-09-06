@@ -327,7 +327,7 @@
     <div class="byline">
       Concept and research by <strong>Brett R. Jones</strong> &nbsp;&middot;&nbsp;
       Independent personal research &nbsp;&middot;&nbsp; First published 18 August 2026,
-      revised 5 September 2026
+      revised 6 September 2026
     </div>
   </section>
 
@@ -343,13 +343,13 @@
 
   <div class="callout">
     <div class="callout-title">For research groups</div>
-    <p>Every component here is independently field-proven &mdash; see Section 7 &mdash; but the two
-      of them have never been run together, and neither MEMS mirror technology nor this exact optical
-      geometry has been validated for outdoor concentrated-solar duty. <strong>Section 6 lays out the
-      open technical questions as bounded, testable research problems</strong> (bench tests, chamber
-      tests, and simulation runs against existing free tools), not open-ended invention. That gap
-      between two TRL-9 components and one un-integrated system is the applied-research question this
-      brief is written to hand off.</p>
+    <p>The free-piston Stirling engine is independently field-proven &mdash; see Section 7. The mirror
+      field is a harder story: <strong>Section 6.1 identifies a real, unresolved gap</strong> between
+      the reliability data this brief originally borrowed (Texas Instruments' binary-switching
+      cycle-count numbers) and the continuous, wide-angle actuation the design actually needs &mdash;
+      serious enough that it changes the mirror field's technology-readiness assessment, not just its
+      outdoor-qualification status. That gap, stated honestly rather than smoothed over, is the
+      central applied-research question this brief now hands off.</p>
   </div>
 
   <!-- ============================ SECTION 1 ============================ -->
@@ -363,7 +363,9 @@
     Ripasso Energy dish system that holds the reported world record for solar-to-electricity
     conversion, this combination is projected to deliver roughly <strong>20&ndash;26 kWe of
     continuous, unattended power</strong> &mdash; day after day, for decades, with no crew, no
-    lubrication schedule, and no wear-driven failure mode in either major component.</p>
+    lubrication schedule, and no wear-driven failure mode in either major component. That last claim
+    rests on an open question about the mirror field's actuation mechanism, addressed honestly rather
+    than assumed away in Sections 2, 6, and 7.</p>
 
   <figure>
     <svg viewBox="0 0 800 380" role="img" aria-labelledby="f1t f1d">
@@ -464,21 +466,27 @@
     moving structure are the parts that go, and they are exactly the parts one would expect to go.</p>
 
   <p>This design removes the moving structure entirely. Instead of one large assembly chasing the
-    sun, a field of small mirrors does the steering, using the same underlying technology as a
-    digital projector chip (DLP/DMD) &mdash; a solid-state array of independently tiltable
-    micro-mirrors originally developed for optical switching and projection, and separately patented
-    for solar concentration. Nothing rotates on a bearing; each mirror element repositions
-    electrostatically.</p>
+    sun, a field of small mirrors does the steering, using solid-state electrostatic actuation
+    structurally similar to a digital projector chip (DLP/DMD) &mdash; no motor, no bearing, no
+    rotating shaft anywhere in the mirror field.</p>
 
-  <h3>How hard is it actually working?</h3>
+  <p>That similarity is structural, not operational, and the difference matters. A commercial DLP/DMD
+    chip is a <strong>binary switch</strong>: each mirror snaps between two fixed mechanical
+    hard-stops roughly 20&ndash;24&deg; apart (commonly &plusmn;10&deg; to &plusmn;12&deg;, up to
+    &plusmn;17&deg; on some chips) &mdash; it never holds an arbitrary angle in between. This design
+    needs the opposite: <strong>continuous, arbitrary-angle positioning</strong> across a much wider
+    range, to keep redirecting sunlight to a single fixed point as the sun moves across the sky and
+    the seasons change. That distinction &mdash; and what it does to the reliability argument below
+    &mdash; is the design's central open question, addressed directly in Section 6.1.</p>
 
-  <p>Not very. Tracking the sun across a 12-hour day only requires each mirror to reposition a few
-    times a minute. Run that pace for 25 years and the cumulative actuation count lands around
-    <strong>100&ndash;200 million cycles</strong>. Texas Instruments' published reliability work on
-    this same DMD technology reports more than <strong>one trillion mirror cycles</strong> and in
-    excess of <strong>100,000 operating hours</strong> demonstrated in qualification and field
-    testing. The mirrors are not being asked to approach their limits; they are being asked to do a
-    small fraction of what they are already proven to survive.</p>
+  <h3>How hard is it actually working, in terms of cycle count?</h3>
+
+  <p>Not very, if the only question is wear from repositioning. Tracking the sun across a 12-hour day
+    only requires each mirror to reposition a few times a minute. Run that pace for 25 years and the
+    cumulative actuation count lands around <strong>100&ndash;200 million cycles</strong>. Texas
+    Instruments' published reliability work on DMD technology reports more than <strong>one trillion
+    mirror cycles</strong> and in excess of <strong>100,000 operating hours</strong> demonstrated in
+    qualification and field testing.</p>
 
   <div class="stats">
     <div class="stat">
@@ -495,11 +503,19 @@
     </div>
   </div>
 
-  <p>The one open engineering question, stated honestly rather than assumed away: today's DMD chips
-    are built for sealed indoor projectors, and moisture ingress is a known general concern for MEMS
-    structures. Hermetic sealing against it, however, is routine, mature practice in other outdoor
-    MEMS applications (automotive sensors, telecom equipment) &mdash; a one-time sealing design
-    problem, not an ongoing maintenance burden the way a mechanical tracker's wear is.</p>
+  <p>That comparison is real and correctly cited, but it only answers one question: will the actuator
+    wear out reaching that many positions. It says nothing about whether the actuator can reach the
+    <em>angles</em> this design actually needs in the first place &mdash; TI's numbers were established
+    on a binary device switching between two fixed hard-stops, not a continuously-variable positioner
+    sweeping a much wider range. Cycle-count margin and angular-range capability are two separate
+    questions, and only the first one is answered here.</p>
+
+  <p>Sealing is a real concern too, but a secondary one. Today's DMD chips are built for sealed indoor
+    projectors, and moisture ingress is a known general concern for MEMS structures. Hermetic sealing
+    against it is routine, mature practice in other outdoor MEMS applications (automotive sensors,
+    telecom equipment) &mdash; a one-time design problem, not an ongoing maintenance burden. The
+    larger, genuinely open question is angular range and actuation mode, covered honestly in Section
+    6.1 rather than assumed away here.</p>
 
   <!-- ============================ SECTION 3 ============================ -->
   <h2><span class="num">3</span> Component two &mdash; the free-piston engine</h2>
@@ -554,7 +570,9 @@
     mechanically-tracked dish does, at the same real scale, before any claim is made about the
     durability upgrade in Section 3. This design is not tied to any single location; the figures
     below use one real, cited desert site as an illustrative example of the resource class the
-    concept targets, not a required site.</p>
+    concept targets, not a required site. This optical-matching calculation assumes the mirror field
+    can actually reach whatever angle is needed at any given moment &mdash; the open question in
+    Section 6.1 is precisely whether that assumption holds.</p>
 
   <table>
     <thead>
@@ -623,7 +641,7 @@
         <td>Mirror field (MEMS)</td>
         <td>None &mdash; no bearings, no lubrication, solid-state actuation only</td>
         <td>&gt;1 trillion mirror cycles and &gt;100,000 operating hours demonstrated (TI DLP/DMD reliability program)</td>
-        <td>This design's full 25-year duty cycle uses roughly 0.02% of the demonstrated cycle count</td>
+        <td>Cycle-count margin only &mdash; that data is for binary switching at ~12&deg; hard-stops, not the continuous wide-angle positioning this design needs; angular-range capability is unresolved, see Section 6.1</td>
       </tr>
       <tr>
         <td>Engine (free-piston Stirling)</td>
@@ -640,19 +658,57 @@
     </tbody>
   </table>
 
-  <p>Put simply: the two components that usually define a solar installation's maintenance calendar
-    &mdash; the tracker and the engine &mdash; have both been replaced here with the mechanism-level
-    equivalent of a part that cannot wear out, each independently field-proven for over a decade
-    before this concept was ever assembled.</p>
+  <p>Put simply: the engine has both a proven mechanism and a proven reliability record. The mirror
+    field's mechanism is proven reliable only in a mode of operation (binary switching) this design
+    does not actually use &mdash; so unlike the engine, it is not yet fair to call the mirror field
+    &ldquo;field-proven&rdquo; for this application. Section 6.1 states that directly rather than
+    smoothing it over.</p>
 
   <!-- ============================ SECTION 6 ============================ -->
   <h2><span class="num">6</span> Open research questions</h2>
 
-  <p>Every open item below is a bounded, checkable question &mdash; a bench test, a chamber test, or
-    a simulation run against tools that already exist &mdash; not a request to invent something new.
-    None of it requires building the full system to answer.</p>
+  <p>Most of the items below are bounded, checkable questions &mdash; a bench test, a chamber test, or
+    a simulation run against tools that already exist. The first one is different: it is a genuine,
+    unresolved feasibility question that the rest of this brief's mirror-field claims depend on, and
+    it is placed first deliberately rather than buried.</p>
 
-  <h3>6.1 Outdoor hermetic sealing under concentrated flux</h3>
+  <h3>6.1 Angular range and actuation mode of the mirror field &mdash; the central open question</h3>
+
+  <p>Section 2's reliability argument borrows Texas Instruments' DLP/DMD cycle-count data, but that
+    data was established on a <strong>binary, bistable device</strong> &mdash; each mirror snaps
+    between two fixed mechanical hard-stops roughly 20&ndash;24&deg; apart (commonly &plusmn;10&deg;
+    to &plusmn;12&deg;, up to &plusmn;17&deg; on some chips). This design instead needs
+    <strong>continuous, arbitrary-angle positioning</strong> across a much wider range: general
+    solar-tracking literature puts the elevation swing needed for full-day fixed-point tracking at
+    roughly 35&ndash;40&deg;, before accounting for the ~46&deg; seasonal swing in solar declination
+    over a year. The cited concentrator patent (EP2911208A1) itself specifies no maximum achievable
+    tilt angle and provides no reliability data of its own &mdash; it demonstrates only the
+    <em>control concept</em> (a voltage-tilt curve mapping applied voltage to mirror angle) at a
+    single example angle of 15&deg;, and states plainly that the mirror tilt is the <em>only</em>
+    tracking mechanism in its design &mdash; there is no coarse mechanical stage to fall back on if
+    the mirror's own range proves insufficient.</p>
+
+  <p>Continuously-variable analog MEMS mirrors do exist in the research literature &mdash;
+    demonstrated tip/tilt ranges run up to roughly &plusmn;20&ndash;32&deg; in the best published
+    devices &mdash; but none of them carry TI's cycle-count reliability record, and even their best
+    demonstrated range likely still falls short of full-year, fixed-point tracking.</p>
+
+  <p><strong>Open question.</strong> Does a MEMS mirror exist, or can one be built, that combines (a)
+    continuous rather than binary actuation, (b) angular range sufficient for full-day, full-year
+    fixed-point tracking (very likely more than 35&deg;, possibly needing dual-axis correction for
+    seasonal declination), and (c) reliability anywhere approaching TI's binary-switching benchmark
+    &mdash; or is some hybrid architecture (for example, a simple, low-part-count coarse mechanical
+    stage handling seasonal/daily gross adjustment, with MEMS handling only fine correction) the more
+    realistic path?<br>
+    <strong>Proposed research.</strong> A literature and vendor survey of continuously-variable MEMS
+    mirror technology (electrothermal, electrostatic comb-drive, and other actuation types) evaluated
+    against all three requirements together, not individually &mdash; most published work optimizes
+    for one or two of the three, not all three at once. If no existing device satisfies all three,
+    that is itself a useful, publishable negative result, and the honest conclusion is that this
+    design's &ldquo;no moving structure&rdquo; claim needs qualification pending the
+    hybrid-architecture question above.</p>
+
+  <h3>6.2 Outdoor hermetic sealing under concentrated flux</h3>
 
   <p>The Texas Instruments reliability data in Section 2 covers sealed <strong>indoor</strong>
     projector duty. It says nothing about how a DMD-class package holds up to decades of outdoor
@@ -663,9 +719,10 @@
     a desert site's diurnal and seasonal thermal cycling without seal fatigue or moisture ingress?<br>
     <strong>Proposed test.</strong> Accelerated life testing in an environmental chamber, cycled to a
     representative desert site's measured temperature and humidity extremes, tracking seal integrity
-    &mdash; not actuation count, which is already covered by the ~5,000&times; margin in Section 2.</p>
+    &mdash; not actuation count, which is already covered by the ~5,000&times; margin in Section 2
+    &mdash; though again, that margin concerns cycle count, not the angular-range question in 6.1.</p>
 
-  <h3>6.2 Optical performance of a segmented mirror field vs. a single dish</h3>
+  <h3>6.3 Optical performance of a segmented mirror field vs. a single dish</h3>
 
   <p>Section 4's output figures assume the mirror field performs identically to the single continuous
     parabolic dish it is matched against by aperture area alone.</p>
@@ -679,7 +736,7 @@
     flagged <strong>assumption</strong> rows in Section 4's table with either a simulated result or a
     cited product spec, rather than an engineering placeholder.</p>
 
-  <h3>6.3 Multi-engine thermal and control integration</h3>
+  <h3>6.4 Multi-engine thermal and control integration</h3>
 
   <p>Reaching the full 20&ndash;26 kWe target means feeding four to five independent Qnergy-class
     receivers from one mirror field (Section 3), not one.</p>
@@ -691,7 +748,7 @@
     <strong>Proposed test.</strong> Control-system simulation, or a small bench demonstration with two
     receivers, ahead of committing to the full four-to-five-unit array.</p>
 
-  <h3>6.4 Closing the two flagged assumptions</h3>
+  <h3>6.5 Closing the two flagged assumptions</h3>
 
   <p>The lowest-effort item on this list: the 92% mirror-reflectivity figure and the 960 W/m&sup2;
     peak irradiance figure in Section 4 are engineering placeholders, not citations. A group with
@@ -702,9 +759,11 @@
   <!-- ============================ SECTION 7 ============================ -->
   <h2><span class="num">7</span> Technology readiness</h2>
 
-  <p>Every individual component in this design is already at the top of NASA's own technology
-    readiness scale. What has not been done is combining them and validating the combination outdoors
-    &mdash; normal, boundable applied-research territory, not first invention.</p>
+  <p>The free-piston Stirling engine is already at the top of NASA's own technology readiness scale.
+    The mirror field is not &mdash; and the reason is not environmental adaptation, it is the
+    actuation-mode mismatch identified in Section 6.1. The table below separates
+    &ldquo;DMD-as-actually-proven&rdquo; from &ldquo;what-this-design-needs&rdquo; rather than treating
+    them as one technology.</p>
 
   <table>
     <thead>
@@ -717,27 +776,34 @@
         <td>14+ years continuous NASA Glenn operation; in commercial production today (Qnergy)</td>
       </tr>
       <tr>
-        <td>DLP/DMD MEMS mirror actuation (indoor duty)</td>
+        <td>Binary/bistable DMD mirror actuation (indoor duty, ~12&deg; hard-stop switching)</td>
         <td class="em">9 &mdash; flight/field proven</td>
-        <td>&gt;1 trillion cycles, &gt;100,000 hours demonstrated (TI reliability program, Section 2)</td>
+        <td>&gt;1 trillion cycles, &gt;100,000 hours demonstrated (TI reliability program, Section 2) &mdash; but this is switching between two fixed stops, not the mode this design needs</td>
       </tr>
       <tr>
-        <td>DLP/DMD-class mirror technology, adapted for outdoor concentrated-solar duty</td>
+        <td>Continuously-variable analog MEMS mirror tilt (lab-demonstrated, narrow-to-moderate range)</td>
         <td class="em">3&ndash;4 &mdash; proof-of-concept to lab validation</td>
-        <td>Same underlying actuation technology, unvalidated in this environment &mdash; see 6.1</td>
+        <td>Up to roughly &plusmn;20&ndash;32&deg; demonstrated in research/commercial devices; no comparable reliability data exists &mdash; see 6.1</td>
+      </tr>
+      <tr>
+        <td>Continuously-variable, wide-angle (35&deg;+), outdoor-durable mirror actuation at anything near DMD-class reliability</td>
+        <td class="em">1&ndash;2 &mdash; basic principles observed / concept only</td>
+        <td>No device combining all three properties has been identified; this is the design's central unresolved dependency &mdash; see 6.1</td>
       </tr>
       <tr>
         <td>Full system integration (mirror field + fixed receiver + multi-engine array, coupled)</td>
         <td class="em">2 &mdash; concept formulated</td>
-        <td>No integrated demonstration yet; this brief is the concept</td>
+        <td>No integrated demonstration yet; also blocked on the mirror-actuation item above, not just integration</td>
       </tr>
     </tbody>
   </table>
 
-  <p>The gap sits entirely at the environment-adaptation and integration level &mdash; precisely the
-    kind of bounded, de-risking question that applied-research funding (NSF, DOE's Solar Energy
-    Technologies Office, ARPA-E) exists to close, rather than a request to fund speculative
-    first-of-a-kind invention.</p>
+  <p>The gap is no longer only environment-adaptation and integration &mdash; Section 6.1 identifies a
+    more fundamental open question about whether a mirror actuator combining continuous, wide-angle
+    range with anything near DMD's reliability exists at all. That is a bigger, more foundational
+    research question than a bounded engineering task, and applied-research funding (NSF, DOE's Solar
+    Energy Technologies Office, ARPA-E) is exactly the mechanism suited to answering foundational
+    feasibility questions like this one, not only to closing narrower integration gaps.</p>
 
   <!-- ============================ SECTION 8 ============================ -->
   <h2><span class="num">8</span> Site requirements</h2>
@@ -804,7 +870,7 @@
     <li>
       <span class="rt">National Renewable Energy Laboratory (NREL)</span> &mdash; SolTrace: Optical
       modeling software for concentrating solar power systems
-      <span class="rn">Free, public ray-tracing tool proposed in Section 6.2 for validating the mirror field's optical performance and replacing the two flagged assumption figures in Section 4.</span>
+      <span class="rn">Free, public ray-tracing tool proposed in Section 6.3 for validating the mirror field's optical performance and replacing the two flagged assumption figures in Section 4.</span>
       <span class="url">https://www.nrel.gov/csp/soltrace.html</span>
     </li>
     <li>
@@ -843,7 +909,7 @@
       commercialize it.</p>
 
     <p><span class="lbl">Publication record.</span> First published 18 August 2026 at
-      nolimitconnect.org, most recently revised 5 September 2026. Authorship and revision history are
+      nolimitconnect.org, most recently revised 6 September 2026. Authorship and revision history are
       recorded in the project's public Git repository at github.com/nolimitconnect/NoLimitConnect.</p>
 
     <p><span class="lbl">License.</span> &copy; 2026 Brett R. Jones. Text and figures released under
@@ -853,7 +919,7 @@
     <p><span class="lbl">How to cite.</span></p>
     <div class="cite">
       Jones, Brett R. <em>Maintenance-Free Solar Generator: A Sun-Tracking Mirror Field and a
-      Zero-Wear NASA-Heritage Engine.</em> Concept brief, 18 August 2026, revised 5 September 2026.<br>
+      Zero-Wear NASA-Heritage Engine.</em> Concept brief, 18 August 2026, revised 6 September 2026.<br>
       https://nolimitconnect.org/maintenance-free-solar-generator/
     </div>
   </div>
