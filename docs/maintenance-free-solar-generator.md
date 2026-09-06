@@ -349,6 +349,51 @@ full-year, fixed-point tracking.
   publishable negative result, and the honest conclusion is that this design's "no moving structure"
   claim needs qualification pending the hybrid-architecture question above.
 
+#### Two candidate paths toward closing this gap
+
+**Path A — better continuous, wide-angle MEMS actuation.** The direct fix: a MEMS mirror combining
+continuous (not binary) positioning, angular range past 35°, and reliability approaching TI's
+binary-switching benchmark. This is what the open question above is asking for, and it is the more
+elegant fix if such a device exists or can be built.
+
+**Path B — small-range electronic mirrors relayed through fixed intermediate mirrors.** Rather than
+asking the primary electronic mirror to reach the Stirling engine's receiver directly across the full
+daily-and-seasonal sun-angle range, keep it doing exactly what is already demonstrated: continuous
+tracking within its proven, achievable range (the same ~20–32° ceiling discussed above, or narrower).
+Retarget it throughout the day at whichever of several small, permanently *fixed* relay mirrors is
+currently reachable within that range. Each relay mirror sits at a distinct position and is angled
+once, at installation, to redirect whatever it receives during its assigned slice of the day onward to
+the one common, fixed Stirling-engine receiver. As the sun moves past what the current relay mirror
+can accept, the electronic mirror retargets — still within its own proven range, since the next relay
+mirror is positioned specifically to be reachable at that point in the day — to the next relay in the
+sequence, and so on through the day.
+
+This shifts the burden of covering the full day-and-year sun-angle range onto *where the relay mirrors
+are positioned* rather than onto the electronic mirror's own mechanical limits — so it needs no MEMS
+device beyond the continuously-variable, narrow-to-moderate-range class already demonstrated in the
+research literature (TRL 3–4, per Section 7), not a device that also needs the unproven wide angular
+range. The relay mirrors themselves are entirely static — no actuation, no wear mechanism, nothing to
+fail; the same "cannot wear out" logic already applied to the engine. A rough sense of scale: if the
+electronic mirror's own continuous range is on the order of 20–40° and the total swing that needs
+covering is 35–90°+ across the day and year, on the order of a handful to a couple dozen relay mirrors
+are likely needed — far fewer than the dozens-to-hundreds a purely static field with no active
+retargeting would require — though the real count depends on relay geometry and needs the same
+SolTrace ray-tracing modeling proposed in Section 6.3 to pin down.
+
+Two costs are worth stating honestly rather than smoothing over. First, every relay bounce adds a
+reflectivity loss: two reflections at the 92% assumption used in Section 4 compound to roughly 85%
+combined, not 92%, cutting into delivered power the same way the two flagged optical-chain assumptions
+already do. Second, this specific hybrid — an actively-retargeting primary combined with a set of
+discrete fixed relays — does not have the same direct historical precedent that the general concept of
+fixed secondary reflectors does. The closest real-world analogue, General Atomic's 1970s **Fixed
+Mirror Solar Concentrator (FMSC)**, used a continuously fixed primary paired with a small *moving
+receiver*, not an actively-aimed primary paired with multiple discrete fixed relays — it does support
+that fixed relay optics, and a **Winston compound parabolic concentrator (CPC)** secondary at the
+receiver to widen acceptance angle, are mature, real techniques, just not proof that this exact
+combination has been built before. If it holds up under modeling, this path is notable for resolving
+the mirror field's technology-readiness gap without requiring any MEMS hardware more advanced than
+what already exists in the lab today.
+
 ### 6.2 Outdoor hermetic sealing under concentrated flux
 
 The Texas Instruments reliability data in Section 2 covers sealed **indoor** projector duty. It says
@@ -409,15 +454,20 @@ mismatch identified in Section 6.1. The table below separates "DMD-as-actually-p
 | Free-piston Stirling engine (as a component) | **9** — flight/field proven | 14+ years continuous NASA Glenn operation; in commercial production today (Qnergy) |
 | Binary/bistable DMD mirror actuation (indoor duty, ~12° hard-stop switching) | **9** — flight/field proven | >1 trillion cycles, >100,000 hours demonstrated (TI reliability program, Section 2) — but this is switching between two fixed stops, not the mode this design needs |
 | Continuously-variable analog MEMS mirror tilt (lab-demonstrated, narrow-to-moderate range) | **3–4** — proof-of-concept to lab validation | Up to roughly ±20–32° demonstrated in research/commercial devices; no comparable reliability data exists — see 6.1 |
-| Continuously-variable, wide-angle (35°+), outdoor-durable mirror actuation at anything near DMD-class reliability | **1–2** — basic principles observed / concept only | No device combining all three properties has been identified; this is the design's central unresolved dependency — see 6.1 |
-| Full system integration (mirror field + fixed receiver + multi-engine array, coupled) | **2** — concept formulated | No integrated demonstration yet; also blocked on the mirror-actuation item above, not just integration |
+| Continuously-variable, wide-angle (35°+), outdoor-durable mirror actuation at anything near DMD-class reliability | **1–2** — basic principles observed / concept only | No device combining all three properties has been identified; needed only if Section 6.1's Path A is the path taken — see 6.1 |
+| Fixed relay-mirror array + Winston CPC secondary (Path B's static optics) | **9** — mature, off-the-shelf | Precision fixed mirrors and CPC secondaries are routine optical engineering; the open question is system geometry (relay count and placement), not the hardware itself — see 6.1 |
+| Full system integration (mirror field + fixed receiver + multi-engine array, coupled) | **2** — concept formulated | No integrated demonstration yet; blocked on Section 6.1 resolving toward Path A or Path B, not just on integration effort |
 
 The gap is no longer only environment-adaptation and integration — Section 6.1 identifies a more
 fundamental open question about whether a mirror actuator combining continuous, wide-angle range with
-anything near DMD's reliability exists at all. That is a bigger, more foundational research question
-than a bounded engineering task, and applied-research funding (NSF, DOE's Solar Energy Technologies
-Office, ARPA-E) is exactly the mechanism suited to answering foundational feasibility questions like
-this one, not only to closing narrower integration gaps.
+anything near DMD's reliability exists at all (Path A), or whether that requirement can be designed
+around entirely using only the mirror range already demonstrated today, relayed through fixed optics
+(Path B). Notably, Path B — if it survives modeling — would mean the mirror field's technology gap is
+closed with zero new hardware development, only system-level integration of already-mature pieces.
+Either way this is a bigger, more foundational research question than a bounded engineering task, and
+applied-research funding (NSF, DOE's Solar Energy Technologies Office, ARPA-E) is exactly the
+mechanism suited to answering foundational feasibility questions like this one, not only to closing
+narrower integration gaps.
 
 ## 8. Site requirements
 
@@ -464,6 +514,9 @@ river, or other body of water.
 
 - **NASA** — [Technology Readiness Levels](https://www.nasa.gov/directorates/somd/space-communications-navigation-program/technology-readiness-levels/)
   <br>Source for the TRL 1–9 scale used to assess each component in Section 7.
+
+- **Schuster, J. R., Russell, J. L. Jr., Eggers, G. H., Shelton, S. V.** — ["Fixed mirror solar concentrator for power generation"](https://www.osti.gov/biblio/6808304-fixed-mirror-solar-concentrator-power-generation), General Atomic Company / Georgia Institute of Technology (1978)
+  <br>Real, deployed precedent for Path B in Section 6.1: a static primary mirror paired with a small moving receiver, including a 260 m² field built for Sandia Laboratories. Basis for citing the Fixed Mirror Solar Concentrator (FMSC) concept and its Winston CPC secondary concentrator.
 
 ---
 
@@ -528,11 +581,12 @@ Field and a Zero-Wear NASA-Heritage Engine.* Concept brief, 18 August 2026, revi
     "@type": "Person",
     "name": "Brett R. Jones"
   },
-  "keywords": "maintenance-free solar generator, MEMS solar tracking, DLP DMD micromirror solar concentrator, free-piston Stirling engine, dish-Stirling, concentrated solar power, unattended remote power, desert solar generation, zero-maintenance power generation, technology readiness level, solar research agenda, ray tracing optical simulation",
+  "keywords": "maintenance-free solar generator, MEMS solar tracking, DLP DMD micromirror solar concentrator, free-piston Stirling engine, dish-Stirling, concentrated solar power, unattended remote power, desert solar generation, zero-maintenance power generation, technology readiness level, solar research agenda, ray tracing optical simulation, fixed mirror solar concentrator, static heliostat, compound parabolic concentrator",
   "about": [
     { "@type": "Thing", "name": "Concentrated solar power" },
     { "@type": "Thing", "name": "Free-piston Stirling engine" },
-    { "@type": "Thing", "name": "Microelectromechanical systems" }
+    { "@type": "Thing", "name": "Microelectromechanical systems" },
+    { "@type": "Thing", "name": "Fixed mirror solar concentrator" }
   ],
   "mainEntityOfPage": {
     "@type": "WebPage",
@@ -550,7 +604,10 @@ Field and a Zero-Wear NASA-Heritage Engine.* Concept brief, 18 August 2026, revi
     "U.S. Department of Energy, Solar Dish Sets World-Record Efficiency",
     "Douglass, M. R., DMD Reliability: A MEMS Success Story, Proc. SPIE 4980 (2003)",
     "Patent EP2911208A1, Micro-Concentrator Solar Array Using Micro-Electromechanical Systems (MEMS) Based Reflectors",
-    "NREL National Solar Radiation Database (NSRDB)"
+    "NREL National Solar Radiation Database (NSRDB)",
+    "NREL SolTrace: Optical modeling software for concentrating solar power systems",
+    "NASA Technology Readiness Levels",
+    "Schuster, J. R. et al., Fixed mirror solar concentrator for power generation, General Atomic Company / Georgia Institute of Technology (1978)"
   ]
 }
 </script>
