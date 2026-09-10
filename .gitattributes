@@ -1,0 +1,51 @@
+# Line endings: LF everywhere in the repository, on every platform.
+#
+# Without this, behaviour depends on each contributor's local core.autocrlf,
+# so an editor saving CRLF makes files show as modified with an empty diff.
+# text=auto lets git detect text vs binary; eol=lf fixes what text files get
+# in the working tree, so a Windows checkout matches Linux and Android.
+#
+# Vendored libraries under libs/ that ship their own .gitattributes keep it --
+# a subdirectory's rules win over this file for everything beneath it.
+
+* text=auto eol=lf
+
+# Windows batch files are the exception: the interpreter can mis-parse a
+# script whose lines end in LF, so these stay CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary: never normalize, never diff as text.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.icns binary
+*.bmp binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.bz2 binary
+*.xz binary
+*.7z binary
+*.jar binary
+*.apk binary
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.mp3 binary
+*.mp4 binary
+*.wav binary
+*.ogg binary
+*.webm binary
+*.so binary
+*.dll binary
+*.dylib binary
+*.exe binary
+*.a binary
+*.lib binary
+*.gmo binary
+*.mo binary
+*.qm binary
