@@ -1,6 +1,6 @@
 # nolimitapp
 Website: http://nolimitconnect.org
-No Limit Connect Application - A distributed social network
+NoLimitConnect Application - A distributed social network
 Open Sourced mostly C/C++ code can be cloned with 
 git clone https://github.com/nolimitconnect/NoLimitConnect.git
 

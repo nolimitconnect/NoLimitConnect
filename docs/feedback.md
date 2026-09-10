@@ -12,7 +12,7 @@ To help resolve your issue quickly, please include the following in your report:
 
 ### 1. Device Info
 
-Open the **About No Limit Connect** page inside the application and copy the device information displayed there. Paste it into your issue report.
+Open the **About NoLimitConnect** page inside the application and copy the device information displayed there. Paste it into your issue report.
 
 ### 2. Description of the Issue
 

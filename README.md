@@ -1,14 +1,4 @@
-# No Limit Connect (NLC)
-
-# 📢 Notice: Seeking Organizational Maintainer / Adoption
-
-Due to professional environment constraints, the original author is looking to completely step back from management and administrative duties. 
-
-This project is actively seeking an established, digital rights or civic tech organization to fully adopt the NoLimitConnect codebase, manage the GitHub organization, and oversee future development or grant funding.
-
-* **Domain Transfer:** The domain name **nolimitconnect.org** is owned by the author and is available to be transferred to the adopting organization once verifiable development momentum is demonstrated.
-* **Licensing:** The codebase remains fully protected under its open-source licenses (GPL-2.0).
-
+# NoLimitConnect (NLC)
 
 ## Summary
 **Tagline:** Independent, user-hosted social networks — no registration, no ads, no data mining, no limits.  
@@ -65,6 +55,7 @@ Contributions are welcome and currently follow a simple fork + pull request work
 ### ⚖️ License & Legal
 *   **Code by Brett R. Jones:** Dual-licensed (similar to Ruby’s license); see individual source files.
 *   **Third-Party:** Various open-source licenses apply (see `LICENSE` and `LEGAL` files).
+*   **Trademarks:** The **NoLimitConnect** name and logo are trademarks of Brett R. Jones and are **not** covered by the GPL — see [`TRADEMARK.md`](TRADEMARK.md). You may redistribute unmodified builds, and package the project for app stores and distribution repositories, under the mark; branding a functionally modified fork with it requires permission.
 *   **Principles:** No ads. No data mining. No analytics. No tracking.
 
-**Project Status:** Active Development (v1.1.2)
+**Project Status:** Active Development (v1.1.5)
