@@ -6,7 +6,7 @@
 // See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
-// https://nolimitconnect.com
+// https://nolimitconnect.org
 //============================================================================
 // Direct V4L2 camera capture — bypasses Qt Multimedia entirely.
 // Enumerate /dev/videoN devices, open one, stream YUYV frames, convert to

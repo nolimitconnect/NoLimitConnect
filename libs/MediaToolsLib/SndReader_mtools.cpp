@@ -5,7 +5,7 @@
 // See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
-// https://nolimitconnect.com
+// https://nolimitconnect.org
 //============================================================================
 
 #include "SndReader.h"
@@ -64,7 +64,7 @@ bool SndReader::fromGuiIsNoLimitAudioFile( const char* fileName )
 		return false;
 	}
 
-	// at 0x9c ( should be signature nolimitconnect.com v0000000000000000-XXv where the zeros are hex ascii of total snd frames and XX is version number
+	// at 0x9c ( should be signature nolimitconnect.org v0000000000000000-XXv where the zeros are hex ascii of total snd frames and XX is version number
 
 	char junkBuf[ 18 ];
 	if( 18 != VFileRead( junkBuf, 1, 18, fileHandle ) )

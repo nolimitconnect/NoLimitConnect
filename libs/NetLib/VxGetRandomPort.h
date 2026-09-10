@@ -6,7 +6,7 @@
 // See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
-// https://nolimitconnect.com
+// https://nolimitconnect.org
 //============================================================================
 
 //! get a random tcp/ip port that is not in use

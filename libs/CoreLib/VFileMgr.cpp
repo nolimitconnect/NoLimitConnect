@@ -5,7 +5,7 @@
 // See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // bjones.engineer@gmail.com
-// https://nolimitconnect.com
+// https://nolimitconnect.org
 //============================================================================
 
 // DO NOT USE FOR NLC.. for local testing only.. NLC uses VirtStreamMgr with streaming support

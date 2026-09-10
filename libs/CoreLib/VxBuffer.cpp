@@ -5,7 +5,7 @@
 // See file COPYING and LEGAL in root of the No Limit Connect project
 //
 // brett.jones@engineer.com
-// https://nolimitconnect.com
+// https://nolimitconnect.org
 //============================================================================
 
 #include <algorithm>    // std::min

@@ -4,7 +4,7 @@
 // Issued to public domain 2013
 //
 // bjones.engineer@gmail.com
-// https://nolimitconnect.com
+// https://nolimitconnect.org
 //============================================================================
 
 #include "config_corelib.h"
