@@ -498,7 +498,6 @@ list(APPEND avformat_SOURCES
     thp.c
     tiertexseq.c
     tls.c
-    tls_gnutls.c
     tls_libtls.c
     tls_mbedtls.c
     tls_openssl.c

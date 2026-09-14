@@ -1052,7 +1052,7 @@
 #if defined(TARGET_OS_ANDROID) || defined(TARGET_OS_WINDOWS)
 #define CONFIG_GNUTLS 0
 #else
-#define CONFIG_GNUTLS 1
+#define CONFIG_GNUTLS 0 // gnutls headers came from libgnu, which is gone
 #endif // defined(TARGET_OS_ANDROID)
 
 #define CONFIG_JNI 0

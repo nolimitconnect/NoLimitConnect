@@ -575,13 +575,13 @@ uint32_t						getpagesize( void );
 const void *					memmem( const void *l, size_t l_len, const void *s, size_t s_len );
 //size_t							getline( char **lineptr, size_t *n, FILE *stream );
 NLC_INLINE uint32_t				setuid( uint32_t id ) { return id; } // windows does not have user id's so fake it for now
-char *							strchrnul( const char*s, int c_in ); // implemented in libgnu/strchrnul.c
+char *							strchrnul( const char*s, int c_in ); // implemented in CoreLib/VxPosixCompat.cpp
 char *							stpcpy( char *a, const char*b );
-char *							stpncpy( char *dest, const char*src, size_t n ); // implemented in libgnu/stpncpy
+char *							stpncpy( char *dest, const char*src, size_t n ); // NOT IMPLEMENTED -- libgnu is gone; no callers
 char *							strptime( const char*buf, const char*fmt, struct tm *tm ); // implemented in VxFuntionsMissingInWindows.cpp
 int								strverscmp( const char*s1, const char*s2 );
 char *							strcasestr( const char* haystack, const char* needle );	// implemented in VxFuntionsMissingInWindows.cpp
-int								unsetenv( const char* ); // implemented in libgnu/unsetenv.c
+int								unsetenv( const char* ); // NOT IMPLEMENTED -- libgnu is gone; no callers
 int								vasprintf( char **strp, const char*fmt, va_list ap );
 
 struct tm *						gmtime_r( const time_t *timep, struct tm *result );		// implemented in VxFuntionsMissingInWindows.cpp

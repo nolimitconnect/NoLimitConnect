@@ -40,7 +40,7 @@
 
 #if FRIBIDI_USE_GLIB+0
 # ifndef __FRIBIDI_DOC
-#  include <libgnu/glib.h>
+#  include <glib.h>
 # endif	/* !__FRIBIDI_DOC */
 # define FRIBIDI_INT8_LOCAL		gint8
 # define FRIBIDI_INT16_LOCAL		gint16

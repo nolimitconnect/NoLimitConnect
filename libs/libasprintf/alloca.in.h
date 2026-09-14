@@ -44,7 +44,7 @@
 #   define alloca _alloca
 #  else
 #   if HAVE_ALLOCA_H
-#    include <libgnu/alloca_gnu.h>
+#    include <alloca.h>
 #   else
 #    ifdef _AIX
  #pragma alloca

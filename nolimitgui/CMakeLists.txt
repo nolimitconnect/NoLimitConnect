@@ -1237,8 +1237,6 @@ if (DEFINED TARGET_OS_WINDOWS)
         speex
         lame
         vorbis2
-
-        gnu
         ass
         fribidi
         freetype
@@ -1294,8 +1292,6 @@ if (DEFINED TARGET_OS_LINUX)
             lame
             vorbis2
             ogg
-
-            gnu
             ass
             fribidi
             freetype
@@ -1342,8 +1338,6 @@ if (DEFINED TARGET_OS_LINUX)
             lame
             vorbis2
             ogg
-
-            gnu
             ass
             fribidi
             freetype
@@ -1396,8 +1390,6 @@ elseif (DEFINED TARGET_OS_ANDROID)
             speex
             lame
             vorbis2
-
-            gnu
             ass
             fribidi
             freetype

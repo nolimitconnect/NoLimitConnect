@@ -4,6 +4,9 @@ Website: https://nolimitconnect.org
 
 Source repository: https://github.com/nolimitconnect/NoLimitConnect.git
 
+## Version 1.1.6
+Remove libgnu and add CoreLib/VxPosixCompat.cpp with the few functions needed
+
 ## Version 1.1.5
 Add Flash Mob based Calendar Events
 Add README-CALENDAR.md

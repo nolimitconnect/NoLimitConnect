@@ -803,7 +803,7 @@ typedef unsigned short wchar_t;
 #  include <malloc.h>
 #endif
 #if (HAVE_ALLOCA_H)
-#  include <libgnu/alloca_gnu.h>
+#  include <alloca.h>
 #endif
 #if (HAVE_FCNTL_H)
 #  include <fcntl.h>

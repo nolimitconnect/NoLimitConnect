@@ -62,7 +62,7 @@ void *_alloca(size_t size);
 #endif
 
 #ifdef HAVE_ALLOCA_H
-#  include <libgnu/alloca_gnu.h>
+#  include <alloca.h>
 #endif
 
 #ifdef USE_MEMORY_H

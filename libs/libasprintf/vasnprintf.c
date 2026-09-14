@@ -54,10 +54,10 @@
 # include <config_libasprintf.h>
 #endif
 #ifndef IN_LIBINTL
-# include <libgnu/alloca_gnu.h>
+# include <alloca.h>
 #endif
 #ifndef HAVE_LOCALE_CHARSET
-# include <libgnu/localcharset.h>
+# include <localcharset.h>
 #endif
 
 /* Specification.  */
@@ -79,7 +79,7 @@
 #include <limits.h>     /* CHAR_BIT */
 #include <float.h>      /* DBL_MAX_EXP, LDBL_MAX_EXP */
 #if HAVE_NL_LANGINFO
-# include <libgnu/langinfo.h>
+# include <langinfo.h>
 #endif
 #ifndef VASNPRINTF
 # if WIDE_CHAR_VERSION
@@ -89,7 +89,7 @@
 # endif
 #endif
 
-#include <libgnu/iconveh.h>
+#include <iconveh.h>
 
 /* Checked size_t computations.  */
 #include "xsize_asprintf.h"

@@ -141,6 +141,7 @@ list(APPEND CoreLib_SOURCES
     VxFileShredderDb.cpp
     VxFileTypeMasks.cpp
     VxFileUtil.cpp
+    VxPosixCompat.cpp
     VxFunctionsMissingInWindows.cpp
     VxGUID.cpp
     VxGUIDList.cpp

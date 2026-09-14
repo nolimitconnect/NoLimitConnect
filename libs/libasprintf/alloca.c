@@ -23,7 +23,7 @@
 
 #include <libasprintf/config_libasprintf.h>
 
-#include <libgnu/alloca_gnu.h>
+#include <alloca.h>
 
 #include <string.h>
 #include <stdlib.h>

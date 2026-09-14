@@ -53,7 +53,7 @@
 #  define SIZEOF_VOID_P GLIB_SIZEOF_VOID_P
 # endif	/* !SIZEOF_VOID_P */
 # ifndef __FRIBIDI_DOC
-#  include <libgnu/glib.h>
+#  include <glib.h>
 # endif	/* !__FRIBIDI_DOC */
 # ifndef fribidi_malloc
 #  define fribidi_malloc g_try_malloc
@@ -61,12 +61,12 @@
 # endif	/* !fribidi_malloc */
 # ifndef fribidi_assert
 #  ifndef __FRIBIDI_DOC
-#   include <libgnu/glib.h>
+#   include <glib.h>
 #  endif /* !__FRIBIDI_DOC */
 #  define fribidi_assert g_assert
 # endif	/* !fribidi_assert */
 # ifndef __FRIBIDI_DOC
-#  include <libgnu/glib.h>
+#  include <glib.h>
 # endif	/* !__FRIBIDI_DOC */
 # ifndef FRIBIDI_BEGIN_STMT
 #  define FRIBIDI_BEGIN_STMT G_STMT_START {

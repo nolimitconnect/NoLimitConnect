@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 #ifdef ENABLE_NLS
-//#include <libgnu/libintl.h>
+// (was a commented-out gnulib libintl include; libgnu is gone)
 //#define _(X) gettext(X)
 #define _(X) X
 #else

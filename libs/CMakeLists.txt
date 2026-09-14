@@ -64,7 +64,6 @@ add_subdirectory(libdav1d)
 add_subdirectory(libfreetype)
 add_subdirectory(libfribidi)
 
-add_subdirectory(libgnu)
 add_subdirectory(libiconv)
 
 if(USE_LIBJPEG_TURBO)

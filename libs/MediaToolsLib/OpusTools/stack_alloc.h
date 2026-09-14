@@ -42,7 +42,7 @@
 # endif
 #else
 #ifdef HAVE_ALLOCA_H
-#  include <libgnu/alloca_gnu.h>
+#  include <alloca.h>
 # else
 #  include <stdlib.h>
 # endif

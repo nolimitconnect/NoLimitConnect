@@ -58,7 +58,7 @@
 
 #if FRIBIDI_USE_GLIB+0
 # ifndef __FRIBIDI_DOC
-#  include <libgnu/glib.h>
+#  include <glib.h>
 # endif	/* !__FRIBIDI_DOC */
 # define FRIBIDI_BEGIN_DECLS		NLC_BEGIN_CDECLARES
 # define FRIBIDI_END_DECLS		NLC_END_CDECLARES

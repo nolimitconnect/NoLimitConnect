@@ -48,7 +48,7 @@
 #if !defined WIN32_NATIVE
 # include <unistd.h>
 # if HAVE_LANGINFO_CODESET
-#  include <libgnu/langinfo.h>
+#  include <langinfo.h>
 # else
 #  if 0 /* see comment below */
 #   include <locale.h>
