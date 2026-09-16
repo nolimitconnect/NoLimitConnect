@@ -265,10 +265,26 @@ add_library(jpegturbo STATIC ${jpegturbo_SOURCES})
 target_include_directories(jpegturbo 
 	PRIVATE 
 	${CMAKE_CURRENT_SOURCE_DIR} 
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/simd
     ${CMAKE_CURRENT_SOURCE_DIR}/simd/nasm
     )
+
+# src/ holds turbojpeg.h, which is this library's public api -- consumers include it
+# as <turbojpeg.h>, so the directory has to propagate. Everything else above stays
+# private to the build.
+target_include_directories(jpegturbo
+    PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    )
+
+# USE_LIBJPEG_TURBO travels with this target on purpose. It used to be set by
+# add_compile_definitions() in libs/CMakeLists.txt, whose scope is the libs/ directory
+# and its children -- so gui/ , a SIBLING directory, never saw it. Every #if
+# defined(USE_LIBJPEG_TURBO) in the gui therefore compiled its "no turbo" branch and
+# quietly fell back to Qt's jpeg plugin. Declaring it PUBLIC here means anything that
+# links jpegturbo gets the define, and it cannot drift out of step with which jpeg
+# library was actually selected.
+target_compile_definitions(jpegturbo PUBLIC USE_LIBJPEG_TURBO=1)
 
 if(DEFINED TARGET_CPU_X64)
     target_include_directories(jpegturbo

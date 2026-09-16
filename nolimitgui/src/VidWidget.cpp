@@ -461,7 +461,7 @@ void VidWidget::slotFeedRotateButtonClicked( void )
 		}
 		if( curImage.isNull() && !m_StillImageFileName.isEmpty() )
 		{
-			curImage.load( m_StillImageFileName );
+			GuiHelpers::loadImageFile( m_StillImageFileName, curImage );
 		}
 		if( !curImage.isNull() )
 		{
@@ -524,7 +524,7 @@ bool VidWidget::setImageFromFile( QString fileName )
 	if( result )
 	{
 		m_StillImageFileName = fileName;
-		m_StillImage.load( fileName );
+		GuiHelpers::loadImageFile( fileName, m_StillImage );
 	}
 
 	return result;

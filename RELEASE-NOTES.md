@@ -6,6 +6,10 @@ Source repository: https://github.com/nolimitconnect/NoLimitConnect.git
 
 ## Version 1.1.6
 Remove libgnu and add CoreLib/VxPosixCompat.cpp with the few functions needed
+Fixed assert logic in PktHostOfferReq::PktHostOfferReq
+Fixed Android loading emoticon SVGs using plugin issue
+Qt decoding of jpg on android is flacky. use turbo-jpeg instead
+
 
 ## Version 1.1.5
 Add Flash Mob based Calendar Events

@@ -105,7 +105,7 @@ void GuiPlayerMgr::slotInternalPlayCamJpg( VxGUID feedOnlineId, std::shared_ptr<
     }
 
     QImage vidFrame;
-    if( !vidFrame.loadFromData( camJpg->m_VidData.get(), camJpg->m_VidDataLen, "JPG") )
+    if( !GuiHelpers::jpegToQImage( camJpg->m_VidData.get(), camJpg->m_VidDataLen, vidFrame ) )
     {
         LogMsg( LOG_WARNING, "GuiPlayerMgr::%s failed to load JPG", __func__ );
         return;

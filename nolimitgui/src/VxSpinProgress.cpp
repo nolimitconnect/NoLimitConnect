@@ -8,6 +8,7 @@
 // https://nolimitconnect.org
 //============================================================================
 
+#include "GuiHelpers.h"
 #include "VxSpinProgress.h"
 
 #include "GuiParams.h"
@@ -77,7 +78,8 @@ void VxSpinProgress::setValue( int progressPercent )
 //============================================================================
 void VxSpinProgress::setImage( QString resourceUrl )
 {
-	QImage picBitmap( resourceUrl ); 
+	QImage picBitmap;
+	GuiHelpers::loadImageFile( resourceUrl, picBitmap );
 	m_ProgressPixmap = picBitmap.scaled( m_SpinnerSize, Qt::KeepAspectRatio );
 	m_AnimationTimer->start();
 }

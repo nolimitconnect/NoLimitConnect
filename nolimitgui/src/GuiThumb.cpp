@@ -8,6 +8,7 @@
 // https://nolimitconnect.org
 //============================================================================
 
+#include "GuiHelpers.h"
 #include "AppCommon.h"
 #include "GuiThumb.h"
 #include "GuiThumbMgr.h"
@@ -89,7 +90,7 @@ bool GuiThumb::createImage( QImage& retAvatarImage )
     if( !m_ThumbInfo.getAssetNameAndPath().empty() )
     {
         QString filename = m_ThumbInfo.getAssetNameAndPath().c_str();
-        status = retAvatarImage.load( filename ) && !retAvatarImage.isNull();
+        status = GuiHelpers::loadImageFile( filename, retAvatarImage ) && !retAvatarImage.isNull();
     }
 
     return status;

@@ -85,7 +85,7 @@ void ThumbnailViewWidget::updateAssetImage( ThumbInfo* thumbAsset )
 bool ThumbnailViewWidget::loadFromFile( QString fileName )
 {
     QPixmap pixmap;
-    bool result = pixmap.load( fileName );
+    bool result = GuiHelpers::loadImageFile( fileName, pixmap );
     if( result )
     {
         cropAndUpdateImage( pixmap );
@@ -103,7 +103,7 @@ bool ThumbnailViewWidget::loadFromFile( QString fileName )
 void ThumbnailViewWidget::slotJpgSnapshot( uint8_t* pu8JpgData, uint32_t u32DataLen, int iWidth, int iHeight )
 {
     QPixmap bitmap;
-    if( bitmap.loadFromData( pu8JpgData, u32DataLen, "JPG" ) )
+    if( GuiHelpers::jpegToQPixmap( pu8JpgData, u32DataLen, bitmap ) )
     {
         cropAndUpdateImage( bitmap );
         setIsUserPickedImage( true );
@@ -203,7 +203,7 @@ void ThumbnailViewWidget::browseForImage( void )
     if( filename.length() > 0 )
     {
         QPixmap oBitmap;
-        if( false == oBitmap.load( filename ) )
+        if( false == GuiHelpers::loadImageFile( filename, oBitmap ) )
         {
             QString msgText = QObject::tr( "Failed To Read Image File " ) + filename;
             QMessageBox::critical( this, QObject::tr( "Error Reading Image" ), msgText );

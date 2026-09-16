@@ -184,7 +184,7 @@ void ThumbnailEditWidget::slotSnapShotButClick( void )
 void ThumbnailEditWidget::slotJpgSnapshot( uint8_t* pu8JpgData, uint32_t u32DataLen, int iWidth, int iHeight )
 {
     QPixmap bitmap;
-    if( bitmap.loadFromData( pu8JpgData, u32DataLen, "JPG" ) )
+    if( GuiHelpers::jpegToQPixmap( pu8JpgData, u32DataLen, bitmap ) )
     {
         VxGUID nullGUID;
         ui.m_ThumbnailViewWidget->setThumbnailId( nullGUID );

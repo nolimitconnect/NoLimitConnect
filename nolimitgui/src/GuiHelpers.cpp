@@ -10,6 +10,14 @@
 
 #include "GuiHelpers.h"
 
+#include <QPainter>
+#include <QPixmap>
+#include <QSvgRenderer>
+
+#if defined(USE_LIBJPEG_TURBO)
+# include <turbojpeg.h>
+#endif // defined(USE_LIBJPEG_TURBO)
+
 #include "GuiParams.h"
 #include "GuiUser.h"
 
@@ -577,6 +585,248 @@ EApplet GuiHelpers::getAppletThatPlaysFile( AppCommon& myApp, uint8_t fileType, 
     }
 
     return applet;
+}
+
+//============================================================================
+//============================================================================
+bool GuiHelpers::jpegToQImage( const uint8_t* jpgData, uint32_t jpgDataLen, QImage& retImage )
+{
+    // QImage::loadFromData( .., "JPG" ) reaches JPEG support through Qt's qjpeg IMAGE
+    // FORMAT PLUGIN, which has to be dlopen()ed. On Android that dlopen stalls hard
+    // enough to freeze whichever thread asks for the first frame -- the GUI thread in
+    // GuiPlayerMgr's case, which the system then reports as "app isn't responding".
+    //
+    // libjpeg-turbo is already linked into this binary, so decoding here opens nothing.
+    // Windows builds keep Qt's path: they link plain libjpeg rather than turbo (MSVC
+    // cannot build turbo's checked-in config headers -- see libs/CMakeLists.txt), and
+    // LoadLibrary is cheap enough there that this was never the problem.
+    if( !jpgData || !jpgDataLen )
+    {
+        return false;
+    }
+
+#if defined(USE_LIBJPEG_TURBO)
+    tjhandle jpegDecoder = tjInitDecompress();
+    if( !jpegDecoder )
+    {
+        LogMsg( LOG_ERROR, "GuiHelpers::%s tjInitDecompress failed", __func__ );
+        return false;
+    }
+
+    int imgWidth = 0;
+    int imgHeight = 0;
+    int jpegSubsamp = 0;
+    int jpegColorspace = 0;
+    if( 0 != tjDecompressHeader3( jpegDecoder, jpgData, jpgDataLen,
+                                  &imgWidth, &imgHeight, &jpegSubsamp, &jpegColorspace )
+        || imgWidth <= 0 || imgHeight <= 0 )
+    {
+        tjDestroy( jpegDecoder );
+        return false;
+    }
+
+    QImage decodedImage( imgWidth, imgHeight, QImage::Format_RGB888 );
+    if( decodedImage.isNull() )
+    {
+        tjDestroy( jpegDecoder );
+        return false;
+    }
+
+    // QImage pads each scanline to a 4 byte boundary, so hand tjDecompress2 the real
+    // pitch rather than assuming width * 3.
+    int decodeResult = tjDecompress2( jpegDecoder, jpgData, jpgDataLen,
+                                      decodedImage.bits(), imgWidth,
+                                      (int)decodedImage.bytesPerLine(), imgHeight,
+                                      TJPF_RGB, TJFLAG_FASTDCT );
+    tjDestroy( jpegDecoder );
+
+    if( 0 != decodeResult )
+    {
+        return false;
+    }
+
+    retImage = decodedImage;
+    return true;
+#else
+    return retImage.loadFromData( jpgData, jpgDataLen, "JPG" );
+#endif // defined(USE_LIBJPEG_TURBO)
+}
+
+//============================================================================
+bool GuiHelpers::jpegToQPixmap( const uint8_t* jpgData, uint32_t jpgDataLen, QPixmap& retPixmap )
+{
+    QImage decodedImage;
+    if( !jpegToQImage( jpgData, jpgDataLen, decodedImage ) )
+    {
+        return false;
+    }
+
+    retPixmap = QPixmap::fromImage( decodedImage );
+    return !retPixmap.isNull();
+}
+
+//============================================================================
+bool GuiHelpers::loadImageData( const QByteArray& imageData, QImage& retImage )
+{
+#if defined(TARGET_OS_WINDOWS)
+    // Windows keeps Qt's own image loading, deliberately. It links plain libjpeg rather
+    // than libjpeg-turbo -- turbo is only built for Linux and Android here, because MSVC
+    // cannot compile turbo's checked-in config headers -- and Windows' loader makes Qt's
+    // format probe cheap enough that the Android dlopen stall never happens. There is no
+    // reason to run different decode code on the platform that never had the problem.
+    return retImage.loadFromData( imageData );
+#else
+    // Decide the format from the bytes themselves rather than handing the data to Qt and
+    // letting QImageReader work it out. Qt works it out by asking every image-format
+    // plugin in turn, and asking means dlopen() -- which on Android stalls long enough to
+    // freeze the calling thread. Sniffing here costs a handful of byte compares.
+    //
+    // PNG and BMP are compiled into QtGui, so naming them explicitly loads no plugin at
+    // all. JPEG goes to libjpeg-turbo, SVG to libQt6Svg. Both are linked into this
+    // binary already. Only genuinely unusual formats fall through to Qt's own guess.
+    const int dataLen = imageData.size();
+    if( dataLen < 4 )
+    {
+        return false;
+    }
+
+    const uchar* imageBytes = reinterpret_cast<const uchar*>( imageData.constData() );
+
+    if( 0xFF == imageBytes[0] && 0xD8 == imageBytes[1] && 0xFF == imageBytes[2] )
+    {
+        return jpegToQImage( imageBytes, (uint32_t)dataLen, retImage );
+    }
+
+    if( 0x89 == imageBytes[0] && 'P' == imageBytes[1] && 'N' == imageBytes[2] && 'G' == imageBytes[3] )
+    {
+        return retImage.loadFromData( imageData, "PNG" );
+    }
+
+    if( 'B' == imageBytes[0] && 'M' == imageBytes[1] )
+    {
+        return retImage.loadFromData( imageData, "BMP" );
+    }
+
+    // svg is text, so look for the markup rather than a magic number. Leading whitespace
+    // and an xml declaration are both legal before the <svg> element.
+    if( '<' == imageBytes[0] || ( dataLen > 5 && imageData.left( 512 ).contains( "<svg" ) ) )
+    {
+        QSvgRenderer svgRenderer( imageData );
+        if( svgRenderer.isValid() )
+        {
+            QSize svgSize = svgRenderer.defaultSize();
+            if( !svgSize.isValid() || svgSize.isEmpty() )
+            {
+                svgSize = QSize( 256, 256 );
+            }
+
+            QImage svgImage( svgSize, QImage::Format_ARGB32_Premultiplied );
+            svgImage.fill( Qt::transparent );
+            QPainter painter( &svgImage );
+            painter.setRenderHint( QPainter::Antialiasing, true );
+            svgRenderer.render( &painter );
+            painter.end();
+            retImage = svgImage;
+            return !retImage.isNull();
+        }
+    }
+
+    // Unknown -- let Qt decide. Rare enough to be worth the probe, and better than
+    // refusing to open a file the user picked.
+    return retImage.loadFromData( imageData );
+#endif // defined(TARGET_OS_WINDOWS)
+}
+
+//============================================================================
+bool GuiHelpers::loadImageFile( const QString& fileName, QImage& retImage )
+{
+    if( fileName.isEmpty() )
+    {
+        return false;
+    }
+
+#if defined(TARGET_OS_WINDOWS)
+    // The old way -- see loadImageData().
+    return retImage.load( fileName );
+#else
+    QFile imageFile( fileName );
+    if( !imageFile.open( QIODevice::ReadOnly ) )
+    {
+        LogMsg( LOG_ERROR, "GuiHelpers::%s could not open %s", __func__, fileName.toUtf8().constData() );
+        return false;
+    }
+
+    QByteArray imageData = imageFile.readAll();
+    imageFile.close();
+
+    return loadImageData( imageData, retImage );
+#endif // defined(TARGET_OS_WINDOWS)
+}
+
+//============================================================================
+bool GuiHelpers::loadImageFile( const QString& fileName, QPixmap& retPixmap )
+{
+    QImage loadedImage;
+    if( !loadImageFile( fileName, loadedImage ) )
+    {
+        return false;
+    }
+
+    retPixmap = QPixmap::fromImage( loadedImage );
+    return !retPixmap.isNull();
+}
+
+//============================================================================
+QPixmap GuiHelpers::renderSvgToPixmap( const QString& svgPath, QSize pixmapSize )
+{
+    // Deliberately NOT QPixmap::load(). Qt's SVG support for QPixmap lives in the qsvg
+    // IMAGE FORMAT PLUGIN, and reaching it costs a dlopen() of that plugin. On Android's
+    // dynamic linker that call is slow enough during startup to stall the GUI thread
+    // long enough for the system to raise "app isn't responding". Passing an explicit
+    // "SVG" format hint does NOT avoid this -- it only stops Qt probing the other
+    // plugins first; the one dlopen that hangs still happens.
+    //
+    // QSvgRenderer comes from libQt6Svg, which this app links directly, so it is already
+    // loaded before main() runs. Nothing is opened here.
+    //
+    // Rendering straight to the requested size is also sharper than loading at the svg's
+    // natural size and scaling afterwards. It is a vector -- ask it for the size wanted.
+    QPixmap retPixmap;
+    if( svgPath.isEmpty() || pixmapSize.isEmpty() )
+    {
+        return retPixmap;
+    }
+
+    QSvgRenderer svgRenderer( svgPath );
+    if( !svgRenderer.isValid() )
+    {
+        LogMsg( LOG_ERROR, "GuiHelpers::%s invalid svg %s", __func__, svgPath.toUtf8().constData() );
+        return retPixmap;
+    }
+
+    retPixmap = QPixmap( pixmapSize );
+    retPixmap.fill( Qt::transparent );
+
+    QPainter painter( &retPixmap );
+    painter.setRenderHint( QPainter::Antialiasing, true );
+    painter.setRenderHint( QPainter::SmoothPixmapTransform, true );
+
+    // Keep the aspect ratio and centre it, which is what the old scaled( KeepAspectRatio )
+    // calls produced. render() with no rect would stretch to fill instead.
+    QSize svgSize = svgRenderer.defaultSize();
+    if( svgSize.isValid() && !svgSize.isEmpty() )
+    {
+        QSize fitted = svgSize.scaled( pixmapSize, Qt::KeepAspectRatio );
+        svgRenderer.render( &painter, QRectF( ( pixmapSize.width() - fitted.width() ) / 2.0,
+                                              ( pixmapSize.height() - fitted.height() ) / 2.0,
+                                              fitted.width(), fitted.height() ) );
+    }
+    else
+    {
+        svgRenderer.render( &painter );
+    }
+
+    return retPixmap;
 }
 
 //============================================================================

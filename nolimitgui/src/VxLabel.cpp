@@ -9,6 +9,7 @@
 //============================================================================
 
 
+#include "GuiHelpers.h"
 #include "VxLabel.h"
 
 #include <CoreLib/VxDebug.h>
@@ -40,7 +41,7 @@ void VxLabel::resizeEvent(QResizeEvent* resizeEvent)
 	if( false == m_ImageFileName.isEmpty() )
 	{
 		QImage	picBitmap;
-		if( picBitmap.load( m_ImageFileName ) )
+		if( GuiHelpers::loadImageFile( m_ImageFileName, picBitmap ) )
 		{
 			showScaledImage( picBitmap );
 		}
@@ -149,7 +150,8 @@ void VxLabel::setTextBreakAnywhere( QString text, int maxLines )
 void VxLabel::setResourceImage( QString resourceUrl, bool scaleToLabelSize )
 {
 	setAlignment( Qt::AlignHCenter | Qt::AlignVCenter );
-	QImage picBitmap( resourceUrl ); 
+	QImage picBitmap;
+	GuiHelpers::loadImageFile( resourceUrl, picBitmap );
     if( !picBitmap.isNull() )
     {
         if( scaleToLabelSize )
@@ -187,7 +189,7 @@ bool VxLabel::setImageFromFile( QString fileName )
 bool VxLabel::loadImageFromFile( QString fileName )
 {
 	QImage	picBitmap;
-	if( picBitmap.load( fileName ) && !picBitmap.isNull() )
+	if( GuiHelpers::loadImageFile( fileName, picBitmap ) && !picBitmap.isNull() )
 	{
 		playMotionVideoFrame( picBitmap, 0 );
 		return true;

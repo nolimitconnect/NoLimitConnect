@@ -20,6 +20,8 @@
 #include <CoreLib/VxXferDefs.h>
 #include <PktLib/VxCommon.h>
 
+#include <QByteArray>
+#include <QImage>
 #include <QMessageBox>
 #include <QString>
 
@@ -97,6 +99,29 @@ public:
     static QString              fileExtensionToFilter( QString fileExtensions );
 
     static int					calculateTextHeight( QFontMetrics& fontMetrics, QString textStr );
+
+    //! Rasterize an SVG at the size actually wanted, WITHOUT going through Qt's
+    //! image-format plugin. See the implementation for why that distinction matters
+    //! on Android. Returns a null pixmap if the svg cannot be rendered.
+    static QPixmap              renderSvgToPixmap( const QString& svgPath, QSize pixmapSize );
+
+    //! Decode a JPEG into a QImage WITHOUT Qt's qjpeg image-format plugin. See the
+    //! implementation -- loading that plugin costs a dlopen() that hangs on Android.
+    //! Returns false and leaves retImage untouched if the data cannot be decoded.
+    static bool                 jpegToQImage( const uint8_t* jpgData, uint32_t jpgDataLen, QImage& retImage );
+
+    //! Same as jpegToQImage(), for callers that want a QPixmap.
+    static bool                 jpegToQPixmap( const uint8_t* jpgData, uint32_t jpgDataLen, QPixmap& retPixmap );
+
+    //! Load an image file of ANY type without letting Qt guess the format by probing
+    //! its image-format plugins -- the probe is a dlopen() storm that hangs on Android.
+    //! The type is decided from the file's own magic bytes and dispatched to a handler
+    //! that is already linked in. Use these in place of QImage/QPixmap::load().
+    static bool                 loadImageFile( const QString& fileName, QImage& retImage );
+    static bool                 loadImageFile( const QString& fileName, QPixmap& retPixmap );
+
+    //! As loadImageFile(), for image bytes already in memory.
+    static bool                 loadImageData( const QByteArray& imageData, QImage& retImage );
     static bool					copyResourceToOnDiskFile( QString resourcePath, QString fileNameAndPath );
 
     static EApplet              getAppletThatPlaysFile( AppCommon& myApp, uint8_t fileType, QString fullFileName, VxGUID& assetId, bool isStream );

@@ -68,14 +68,17 @@ void AssetFaceWidget::setAssetInfo( AssetBaseInfo& assetInfo )
 	QString faceRes = ":/AppRes/Resources/";
 	faceRes += m_AssetInfo.getAssetName().c_str();
 	faceRes += ".svg";
-	QPixmap faceImage( faceRes );
+	// Rendered via QSvgRenderer rather than QPixmap::load() -- loading an svg through
+	// QPixmap pulls in the qsvg image-format plugin, and that dlopen() is an Android
+	// stall. See GuiHelpers::renderSvgToPixmap().
+	QPixmap faceImage = GuiHelpers::renderSvgToPixmap( faceRes, GuiParams::getButtonSize( eButtonSizeMedium ) );
 	if( faceImage.isNull() )
 	{
 		LogMsg( LOG_ERROR, "FAIL AssetFaceWidget::setAssetInfo null resource %s", faceRes.toUtf8().constData() );
 		return;
 	}
 
-	ui.m_FaceLabel->setPixmap( faceImage.scaled( GuiParams::getButtonSize( eButtonSizeMedium ) ) );
+	ui.m_FaceLabel->setPixmap( faceImage );
 	ui.m_FaceLabel->setFixedSize( GuiParams::getButtonSize( eButtonSizeMedium ).width() + 4, GuiParams::getButtonSize( eButtonSizeMedium ).height() + 4 );
 	ui.m_LeftAvatarBar->setOnlineId( m_AssetInfo.getOnlineId() );
 	ui.m_RightAvatarBar->setOnlineId( m_AssetInfo.getOnlineId() );

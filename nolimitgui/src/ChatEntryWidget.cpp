@@ -193,7 +193,7 @@ void ChatEntryWidget::slotAllGalleryButtonClicked( void )
 	if( filename.length() > 0 )
 	{
 		QPixmap oBitmap;
-		if( false == oBitmap.load(filename) )
+		if( false == GuiHelpers::loadImageFile( filename, oBitmap ) )
 		{
 			QString msgText = QObject::tr("Failed To Read Image File ") + filename;
 			QMessageBox::critical( this, QObject::tr("Error Reading Image"), msgText );

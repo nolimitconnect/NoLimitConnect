@@ -196,15 +196,20 @@ bool GuiThumbMgr::loadEmoticonToCache( int emoticonNum )
     // Fallback: Load from SVG (slow path)
     // Note: Don't save to .nlt here - let generateEmoticon() create full-size gallery thumbnails
     QString svgPath = getEmoticonSvgPath( emoticonNum );
-    QPixmap svgPixmap( svgPath );
-    if( svgPixmap.isNull() )
+
+    // Rendered through QSvgRenderer, NOT QPixmap::load(). QPixmap's svg support needs the
+    // qsvg image-format plugin, and dlopen()ing it stalls the GUI thread on Android hard
+    // enough to trip "app isn't responding". See GuiHelpers::renderSvgToPixmap().
+    //
+    // This is the path every emoticon takes on a fresh install -- no .nlt thumbnails
+    // exist yet -- so all of them came through here, driven by a 50ms timer on the GUI
+    // thread.
+    pixmap = GuiHelpers::renderSvgToPixmap( svgPath, cacheSize );
+    if( pixmap.isNull() )
     {
         LogMsg( LOG_ERROR, "GuiThumbMgr::loadEmoticonToCache failed to load SVG %s", svgPath.toUtf8().constData() );
         return false;
     }
-
-    // Scale to cache size
-    pixmap = svgPixmap.scaled( cacheSize, Qt::KeepAspectRatio, Qt::SmoothTransformation );
 
     QMutexLocker lock( &m_EmoticonCacheMutex );
     m_EmoticonPixmapCache[idx] = pixmap;
@@ -522,7 +527,7 @@ bool GuiThumbMgr::getThumbImage( VxGUID& thumbId, QImage& image )
             std::string thumbFile = m_MyApp.getEngine().getThumbMgr().fromGuiGetThumbFile( thumbId );
             if( !thumbFile.empty() && VxFileUtil::fileExists( thumbFile.c_str() ) )
             {
-                result = image.load( thumbFile.c_str() ) && !image.isNull();
+                result = GuiHelpers::loadImageFile( thumbFile.c_str(), image ) && !image.isNull();
             }
         }
     }
@@ -638,11 +643,8 @@ GuiThumb* GuiThumbMgr::generateEmoticon( VxGUID& thumbId, bool checkIfExists )
     QSize imageSize( GuiParams::getThumbnailSize().width() - emoteMargin * 2, GuiParams::getThumbnailSize().height() - emoteMargin * 2 );
     // Load directly from SVG for high-quality gallery thumbnails (don't use 48x48 cache)
     QString svgPath = getEmoticonSvgPath( emoticonNum );
-    QPixmap svgPixmap( svgPath );
-    if( !svgPixmap.isNull() )
-    {
-        image = svgPixmap.scaled( imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-    }
+    // Rendered directly from the vector at the wanted size -- see loadEmoticonToCache().
+    image = GuiHelpers::renderSvgToPixmap( svgPath, imageSize );
 
     if( !image.isNull() )
     {

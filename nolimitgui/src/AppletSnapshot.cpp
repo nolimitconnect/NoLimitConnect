@@ -115,7 +115,7 @@ void AppletSnapshot::callbackVideoJpg( VxGUID& vidFeedId, std::shared_ptr<CamJpg
     if( jpgData && jpgDataLen && ( vidFeedId == m_MyApp.getMyOnlineId() ) )
     {
         QImage capBitmap;
-        capBitmap.loadFromData( jpgData, jpgDataLen, "JPG" );
+        GuiHelpers::jpegToQImage( jpgData, jpgDataLen, capBitmap );
 
         VxLabel* camScreen = ui.m_ImageScreen;
         if( camScreen )

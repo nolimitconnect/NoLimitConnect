@@ -64,7 +64,7 @@ AppletEditAboutMe::AppletEditAboutMe( AppCommon& app, QWidget* parent )
     {
         QString filename = m_strDefaultPicPath.c_str();
         QPixmap oBitmap;
-        if( false == oBitmap.load( filename ) )
+        if( false == GuiHelpers::loadImageFile( filename, oBitmap ) )
         {
             QString msgText = QObject::tr( "Failed To Read Image File " ) + filename;
             QMessageBox::critical( this, QObject::tr( "Error Reading Image" ), msgText );
@@ -77,7 +77,7 @@ AppletEditAboutMe::AppletEditAboutMe( AppCommon& app, QWidget* parent )
     else
     {
         QPixmap oBitmap;
-        if( false == oBitmap.load( ":/AppRes/Resources/me.png" ) )
+        if( false == GuiHelpers::loadImageFile( ":/AppRes/Resources/me.png", oBitmap ) )
         {
 
             QString msgText = QObject::tr( "Failed To Read Image File " );
@@ -122,7 +122,7 @@ void AppletEditAboutMe::onBrowseButClick( void )
     if( filename.length() > 0 )
     {
         QPixmap oBitmap;
-        if( false == oBitmap.load( filename ) )
+        if( false == GuiHelpers::loadImageFile( filename, oBitmap ) )
         {
             QString msgText = QObject::tr( "Failed To Read Image File " ) + filename;
             QMessageBox::critical( this, QObject::tr( "Error Reading Image" ), msgText );

@@ -8,6 +8,7 @@
 // https://nolimitconnect.org
 //============================================================================
 
+#include "GuiHelpers.h"
 #include "AppletPlayerPhoto.h"
 
 #include "ActivityBrowseFiles.h"
@@ -83,7 +84,7 @@ bool AppletPlayerPhoto::playMedia( AssetPlaySession& assetPlaySession, bool useE
 	std::string fullFileName = assetPlaySession.getFileNameAndPath();
 
 	QPixmap pixmap;
-	pixmap.load( fullFileName.c_str() );
+	GuiHelpers::loadImageFile( fullFileName.c_str(), pixmap );
 	if( pixmap.isNull() )
 	{
 		close();
