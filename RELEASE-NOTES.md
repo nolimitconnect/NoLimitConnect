@@ -9,6 +9,7 @@ Remove libgnu and add CoreLib/VxPosixCompat.cpp with the few functions needed
 Fixed assert logic in PktHostOfferReq::PktHostOfferReq
 Fixed Android loading emoticon SVGs using plugin issue
 Qt decoding of jpg on android is flacky. use turbo-jpeg instead
+Fixed requestMoreGroupiesFromHost wrong packet
 
 
 ## Version 1.1.5

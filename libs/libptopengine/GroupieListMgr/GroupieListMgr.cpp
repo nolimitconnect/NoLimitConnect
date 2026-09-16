@@ -1275,7 +1275,7 @@ void GroupieListMgr::updateFromGroupieSearchBlob( EHostType hostType, VxGUID& se
 //============================================================================
 bool GroupieListMgr::requestMoreGroupiesFromHost( EHostType hostType, VxGUID& searchSessionId, std::shared_ptr<VxSktBase>& sktBase, VxNetIdent* netIdent, VxGUID& nextGroupieOnlineId, PluginBase* plugin )
 {
-    PktHostInviteMoreReq pktReq;
+    PktGroupieMoreReq pktReq;
     pktReq.setHostType( hostType );
     pktReq.setSearchSessionId( searchSessionId );
     pktReq.setNextSearchOnlineId( nextGroupieOnlineId );
