@@ -121,7 +121,7 @@ void AppletCamSettings::setupCamFeed( VxNetIdent* feedNetIdent )
     m_IsMyself = m_CamFeedId == m_MyApp.getMyOnlineId();
 
     ui.m_CamVidWidget->showAllControls( true );
-    ui.m_CamVidWidget->enableCamSourceControls( false );
+    ui.m_CamVidWidget->enableCamSourceControls( true );
     ui.m_CamVidWidget->setRecordFilePath( VxGetDownloadsDirectory().c_str() );
     ui.m_CamVidWidget->setRecordFriendName( m_CamFeedIdent->getOnlineName() );
     ui.m_CamVidWidget->setVideoFeedId( m_CamFeedId, eMediaModuleCamClient );

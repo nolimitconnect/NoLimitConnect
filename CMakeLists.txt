@@ -26,7 +26,7 @@ if(WIN32)
     endif() 
 endif()
 
-project(MainSystem LANGUAGES C CXX)
+
 
 include(CheckCCompilerFlag)
 include(CheckCXXCompilerFlag)
@@ -223,7 +223,7 @@ unset(TARGET_OS_ANDROID)
 unset(TARGET_OS_LINUX)
 
 # # end of abseil.. now on to the build of many types mess
-message(STATUS "**** start nolimitconnect configure ****")
+message(STATUS "**** start standbycomms configure ****")
 message(STATUS "========================================")
 
 set(CMAKE_CXX_STANDARD 17)
@@ -322,7 +322,7 @@ set(BUILD_SYSTEM_FLATPAK false)
 set(BUILD_SYSTEM_QCREATOR false)
 set(BUILD_SYSTEM_VISUAL_CODE false)
 
-project(nolimitconnect LANGUAGES C CXX)
+project(standbycomms LANGUAGES C CXX)
 
 # if linux we can use the arch command to determine host cpu and assuming it is not cross compiled then set default
 set(NLC_BUILD_HOST_ARCH "")
@@ -494,7 +494,7 @@ if(DEFINED FLATPAKBUILD)
     message(STATUS "Adding subdir nolimitgui")
     add_subdirectory(nolimitgui)
     
-    message(STATUS "command line make Flatpak nolimitconnect config done")
+    message(STATUS "command line make Flatpak standbycomms config done")
 else()
     # NOT flatpak build
     if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Windows")
@@ -972,7 +972,7 @@ else()
         set(NLC_INSTALL_RUNTIME_DIR "bin")
     endif()
 
-    install(TARGETS nolimitconnect
+    install(TARGETS standbycomms
         RUNTIME DESTINATION "${NLC_INSTALL_RUNTIME_DIR}"
         BUNDLE DESTINATION "${NLC_INSTALL_RUNTIME_DIR}"
         LIBRARY DESTINATION "lib"
@@ -994,7 +994,7 @@ else()
             # Ensure Qt runtime DLLs/plugins are installed into the package image.
             install(CODE "
                 execute_process(
-                    COMMAND \"${NLC_WINDEPLOYQT_EXECUTABLE}\" --release --no-translations --no-compiler-runtime \"\${CMAKE_INSTALL_PREFIX}/${NLC_INSTALL_RUNTIME_DIR}/nolimitconnect.exe\"
+                    COMMAND \"${NLC_WINDEPLOYQT_EXECUTABLE}\" --release --no-translations --no-compiler-runtime \"\${CMAKE_INSTALL_PREFIX}/${NLC_INSTALL_RUNTIME_DIR}/standbycomms.exe\"
                     RESULT_VARIABLE _nlc_windeployqt_result
                 )
                 if(NOT _nlc_windeployqt_result EQUAL 0)
@@ -1107,26 +1107,26 @@ if(BUILD_SYSTEM_FLATPAK)
         COMMAND ${CMAKE_COMMAND} -E echo "Flatpak package target path: ${PACKAGE_FILEPATH}"
         COMMENT "Preparing flatpak package output path"
     )
-    add_custom_target(package_nolimitconnect DEPENDS package_flatpak)
+    add_custom_target(package_standbycomms DEPENDS package_flatpak)
 
 elseif(TARGET_OS_ANDROID)
     add_custom_target(package_android
         COMMAND ${CMAKE_COMMAND} -E make_directory "${PACKAGE_OUTPUT_DIR}"
         COMMAND ${CMAKE_COMMAND}
-            -DAPK_FILE_PRIMARY="${CMAKE_BINARY_DIR}/nolimitgui/android-build-nolimitconnect/nolimitconnect.apk"
-            -DAPK_OUTPUT_DIR_RELEASE="${CMAKE_BINARY_DIR}/nolimitgui/android-build-nolimitconnect/build/outputs/apk/release"
-            -DAPK_OUTPUT_DIR_DEBUG="${CMAKE_BINARY_DIR}/nolimitgui/android-build-nolimitconnect/build/outputs/apk/debug"
+            -DAPK_FILE_PRIMARY="${CMAKE_BINARY_DIR}/nolimitgui/android-build-standbycomms/standbycomms.apk"
+            -DAPK_OUTPUT_DIR_RELEASE="${CMAKE_BINARY_DIR}/nolimitgui/android-build-standbycomms/build/outputs/apk/release"
+            -DAPK_OUTPUT_DIR_DEBUG="${CMAKE_BINARY_DIR}/nolimitgui/android-build-standbycomms/build/outputs/apk/debug"
             -DPACKAGE_OUTPUT_DIR="${PACKAGE_OUTPUT_DIR}"
             -DPACKAGE_FILENAME="${PACKAGE_FILENAME}"
             -P "${CMAKE_SOURCE_DIR}/cmake/copy_package_apk.cmake"
         COMMENT "Copying Android APK to package/android"
     )
-    add_dependencies(package_android nolimitconnect_make_apk)
-    add_custom_target(package_nolimitconnect DEPENDS package_android)
+    add_dependencies(package_android standbycomms_make_apk)
+    add_custom_target(package_standbycomms DEPENDS package_android)
 
 else()
     set(CPACK_PACKAGE_NAME "${NLC_NAME}")
-    set(CPACK_PACKAGE_VENDOR "No Limit Connect")
+    set(CPACK_PACKAGE_VENDOR "StandbyComms")
     set(CPACK_PACKAGE_VERSION "${NLC_VERSION}")
     set(CPACK_PACKAGE_VERSION_MAJOR "${NLC_VERSION_MAJOR}")
     set(CPACK_PACKAGE_VERSION_MINOR "${NLC_VERSION_MINOR}")
@@ -1141,21 +1141,21 @@ else()
     if(TARGET_OS_WINDOWS)
         set(CPACK_GENERATOR "NSIS")
         set(CPACK_NSIS_INSTALL_ROOT "$PROGRAMFILES64")
-        set(CPACK_NSIS_DISPLAY_NAME "NoLimitConnect")
-        set(CPACK_PACKAGE_EXECUTABLES "nolimitconnect" "No Limit Connect")
+        set(CPACK_NSIS_DISPLAY_NAME "StandbyComms")
+        set(CPACK_PACKAGE_EXECUTABLES "standbycomms" "StandbyComms")
         set(CPACK_NSIS_EXECUTABLES_DIRECTORY ".")
-        set(CPACK_CREATE_DESKTOP_LINKS "nolimitconnect")
-        set(CPACK_NSIS_INSTALLED_ICON_NAME "nolimitconnect.exe")
+        set(CPACK_CREATE_DESKTOP_LINKS "standbycomms")
+        set(CPACK_NSIS_INSTALLED_ICON_NAME "standbycomms.exe")
         set(CPACK_NSIS_MUI_ICON "${PROJECT_SRC_ROOT_DIR}/resources/Resources/favicon.ico")
         set(CPACK_NSIS_MUI_UNIICON "${PROJECT_SRC_ROOT_DIR}/resources/Resources/favicon.ico")
-        set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY "NoLimitConnect")
-        set(CPACK_PACKAGE_VENDOR "NoLimitConnect")
-        set(_NLC_NSIS_EXTRA_INSTALL_COMMANDS [=[WriteRegStr SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\NoLimitConnect DisplayName NoLimitConnect
-    WriteRegStr SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\NoLimitConnect Publisher NoLimitConnect
-    WriteRegStr SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\NoLimitConnect DisplayIcon $INSTDIR\nolimitconnect.exe,0]=])
+        set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY "StandbyComms")
+        set(CPACK_PACKAGE_VENDOR "StandbyComms")
+        set(_NLC_NSIS_EXTRA_INSTALL_COMMANDS [=[WriteRegStr SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\StandbyComms DisplayName StandbyComms
+    WriteRegStr SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\StandbyComms Publisher StandbyComms
+    WriteRegStr SHCTX Software\Microsoft\Windows\CurrentVersion\Uninstall\StandbyComms DisplayIcon $INSTDIR\standbycomms.exe,0]=])
         set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "${_NLC_NSIS_EXTRA_INSTALL_COMMANDS}")
-        set(CPACK_NSIS_URL_INFO_ABOUT "https://nolimitconnect.org")
-        set(CPACK_NSIS_HELP_LINK "https://nolimitconnect.org")
+        set(CPACK_NSIS_URL_INFO_ABOUT "https://standbycomms.com")
+        set(CPACK_NSIS_HELP_LINK "https://standbycomms.com")
     elseif(TARGET_OS_LINUX)
         set(CPACK_GENERATOR "DEB")
         set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${PROJECT_MAINTAINER}")
@@ -1194,7 +1194,7 @@ else()
         COMMAND "${CMAKE_CPACK_COMMAND}" --config "${CMAKE_BINARY_DIR}/CPackConfig.cmake" -B "${PACKAGE_OUTPUT_DIR}"
         COMMENT "Running CPack to generate ${CPACK_GENERATOR} package"
     )
-    add_dependencies(package_cpack nolimitconnect)
+    add_dependencies(package_cpack standbycomms)
 
     if(TARGET_OS_LINUX)
         add_custom_target(package_runtime_check_deb
@@ -1204,10 +1204,10 @@ else()
         add_dependencies(package_runtime_check_deb package_cpack)
 
         # CI-friendly target: build package, then fail if runtime libs are unresolved.
-        add_custom_target(package_nolimitconnect_ci DEPENDS package_runtime_check_deb)
+        add_custom_target(package_standbycomms_ci DEPENDS package_runtime_check_deb)
     endif()
 
-    add_custom_target(package_nolimitconnect DEPENDS package_cpack)
+    add_custom_target(package_standbycomms DEPENDS package_cpack)
 endif()
 
 message(STATUS "**** Root CMakeLists.txt Done ****")

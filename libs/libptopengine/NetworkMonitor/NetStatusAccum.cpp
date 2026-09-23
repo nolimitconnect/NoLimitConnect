@@ -276,7 +276,7 @@ void NetStatusAccum::removeNetStatusCallback( NetAvailStatusCallbackInterface* c
     if( callbackInt )
     {
         m_AccumCallbackMutex.lock();
-        for( auto iter = m_CallbackList.begin(); iter != m_CallbackList.begin(); ++iter )
+        for( auto iter = m_CallbackList.begin(); iter != m_CallbackList.end(); ++iter )
         {
             if( *iter == callbackInt )
             {

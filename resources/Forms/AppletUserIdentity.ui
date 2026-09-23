@@ -131,7 +131,7 @@
               <item>
                <widget class="QLabel" name="m_MoodMessageLabel">
                 <property name="text">
-                 <string>Mood Message: ( Up to 27 characters )</string>
+                 <string>Mood Message: ( Up to 31 characters )</string>
                 </property>
                </widget>
               </item>
@@ -145,6 +145,9 @@
                 </property>
                 <property name="text">
                  <string>Let's Communicate!</string>
+                </property>
+                <property name="maxLength">
+                 <number>31</number>
                 </property>
                </widget>
               </item>

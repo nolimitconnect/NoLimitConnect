@@ -5,12 +5,14 @@ Website: https://nolimitconnect.org
 Source repository: https://github.com/nolimitconnect/NoLimitConnect.git
 
 ## Version 1.1.6
-Remove libgnu and add CoreLib/VxPosixCompat.cpp with the few functions needed
+Remove libgnu and add CoreLib/VxPosixCompat.cpp with the few functions needed from libgnu
 Fixed assert logic in PktHostOfferReq::PktHostOfferReq
-Fixed Android loading emoticon SVGs using plugin issue
-Qt decoding of jpg on android is flacky. use turbo-jpeg instead
-Fixed requestMoreGroupiesFromHost wrong packet
-
+Fixed Android loading emoticon SVGs using plugin issue (was causing exceptions on startup - dl_open timing)
+Qt bug in decoding of jpg on android is flaky. use turbo-jpeg instead
+Fixed requestMoreGroupiesFromHost wrong packet sent
+Fixed cancel download file not finding correct plugin
+Fixed NetStatusAccum callback removal for loop
+Fixed Text for actual length allowed mood message is 31 chars instead of 27 chars
 
 ## Version 1.1.5
 Add Flash Mob based Calendar Events

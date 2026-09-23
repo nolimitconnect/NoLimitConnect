@@ -1766,7 +1766,7 @@ bool P2PEngine::fromGuiDownloadFileListCancel( enum EPluginType pluginType, VxGU
 {
 	bool result{ false };
 
-	PluginBase* plugin = m_PluginMgr.findPlugin( ePluginTypeAboutMePageClient );
+	PluginBase* plugin = m_PluginMgr.findPlugin( pluginType );
 	if( plugin )
 	{
 		result = plugin->fromGuiDownloadFileListCancel( onlineId, sessionId );
